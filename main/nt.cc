@@ -28,7 +28,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.24.1";
+char *VERSION_NAME="WebDownloader for X 1.25";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -36,6 +36,8 @@ static void init_string_variables(){
 		CFG.DEFAULT_NAME=copy_string("index.html");
 	if (CFG.USER_AGENT==NULL)
 		CFG.USER_AGENT=copy_string("%version");
+	if (CFG.ANONYMOUS_PASS==NULL)
+		CFG.ANONYMOUS_PASS=copy_string("-mdem@chat.ru");
 	if (CFG.EXEC_WHEN_QUIT==NULL)
 		CFG.EXEC_WHEN_QUIT=copy_string("");
 	if (!CFG.GLOBAL_SAVE_PATH) {
@@ -114,5 +116,6 @@ int main(int argc,char **argv) {
 	aa.init();
 	aa.run(argc,argv);
 	aa.run_after_quit();
+	var_free(&CFG);
 	return 0;
 };

@@ -29,7 +29,7 @@
 #include "myclist.h"
 
 GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
-tDialogWidget *AskOpening=(tDialogWidget *)NULL;
+tConfirmedDialog *AskOpening=(tConfirmedDialog *)NULL;
 
 GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
 GdkBitmap *list_of_downloads_bitmaps[PIX_UNKNOWN];
@@ -100,7 +100,7 @@ gint n_download_drop_types = sizeof(download_drop_types) / sizeof(download_drop_
 
 void init_columns_info() {
 	for (int i=STATUS_COL;i<=NOTHING_COL;i++) {
-		if (ListColumns[i].name) delete(ListColumns[i].name);
+		if (ListColumns[i].name) delete[] ListColumns[i].name;
 		ListColumns[i].name=copy_string(_(ListTitles[ListColumns[i].type]));
 	};
 };
@@ -158,7 +158,7 @@ void list_of_downloads_change_data(int row,int column,gchar *data) {
 void list_of_downloads_update(tDownload *what) {
 	char *URL=what->info->url();
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
-	delete(URL);
+	delete[] URL;
 	list_of_downloads_set_desc(what);
 	list_of_downloads_set_filename(what);
 };
@@ -174,11 +174,27 @@ void list_of_downloads_get_sizes() {
 };
 
 void list_of_downloads_print_size(tDownload *what){
-	if (what->finfo.size>=0 && what->finfo.type==T_FILE){
-		char data1[MAX_LEN];
+	char data1[MAX_LEN];
+	if (what->finfo.size>0){
 		make_number_nice(data1,what->finfo.size);
 		list_of_downloads_change_data(what->GTKCListRow,
 					      FULL_SIZE_COL,
+					      data1);
+	};
+	if (what->Size.curent>0){
+		make_number_nice(data1,what->Size.curent);
+		list_of_downloads_change_data(what->GTKCListRow,
+					      DOWNLOADED_SIZE_COL,
+					      data1);
+	};
+	if (what->finfo.size>0 && what->Size.curent<=what->finfo.size){
+		float p=(float(what->Size.curent)*float(100))/float(what->finfo.size);
+		list_of_downloads_set_percent(what->GTKCListRow,
+					      PERCENT_COL,
+					      p);
+		make_number_nice(data1,what->finfo.size-what->Size.curent);
+		list_of_downloads_change_data(what->GTKCListRow,
+					      REMAIN_SIZE_COL,
 					      data1);
 	};
 };
@@ -190,10 +206,6 @@ void list_of_downloads_add(tDownload *what) {
 		data[ListColumns[i].enum_index]="";
 	what->GTKCListRow=gtk_clist_append(GTK_CLIST(ListOfDownloads),data);
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
-	if (what->Description.get())
-		list_of_downloads_change_data(what->GTKCListRow,
-					      DESCRIPTION_COL,
-					      what->Description.get());
 	list_of_downloads_set_filename(what);
 	list_of_downloads_print_size(what);
 	list_of_downloads_set_desc(what);
@@ -201,7 +213,7 @@ void list_of_downloads_add(tDownload *what) {
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),what->GTKCListRow,gpointer(what));
 	list_of_downloads_set_pixmap(what->GTKCListRow,PIX_WAIT);
 	if (what->GTKCListRow==0) gtk_clist_select_row(GTK_CLIST(ListOfDownloads),0,-1);
-	delete URL;
+	delete[] URL;
 };
 
 void list_of_downloads_set_run_icon(tDownload *what){
@@ -230,7 +242,7 @@ void list_of_downloads_add(tDownload *what,int row) {
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),row,what);
 	char *URL=what->info->url();
 	list_of_downloads_change_data(row,URL_COL,URL);
-	delete (URL);
+	delete[] URL;
 	switch (what->owner) {
 	case DL_WAIT:{
 		list_of_downloads_set_pixmap(row,PIX_WAIT);
@@ -529,7 +541,7 @@ void list_dnd_drop_internal(GtkWidget *widget,
 			}else{
 				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL,desc);
 			};
-			if (sbd) delete(str);
+			if (sbd) delete[] str;
 		}
 	}
 	}
@@ -797,7 +809,8 @@ void list_of_downloads_swap(tDownload *a,tDownload *b){
  */
 
 
-static void _continue_opening_logs(){
+static void _continue_opening_logs_(GtkWidget *widget,tConfirmedDialog *parent){
+	CFG.CONFIRM_OPENING_MANY=!(GTK_TOGGLE_BUTTON(parent->check)->active);	
 	GList *select=GTK_CLIST(ListOfDownloads)->selection;
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
@@ -821,9 +834,12 @@ void list_of_downloads_open_logs(...) {
 		log_window_init(temp);
 		select=select->next;
 		if (a<0 && select && CFG.CONFIRM_OPENING_MANY){
-			if (!AskOpening) AskOpening=new tDialogWidget;
+			if (!AskOpening) AskOpening=new tConfirmedDialog;
 			if (AskOpening->init(_("Continue open log windows?"),_("Open logs?")))
-				gtk_signal_connect(GTK_OBJECT(AskOpening->ok_button),"clicked",GTK_SIGNAL_FUNC(_continue_opening_logs),NULL);
+				gtk_signal_connect(GTK_OBJECT(AskOpening->ok_button),
+						   "clicked",
+						   GTK_SIGNAL_FUNC(_continue_opening_logs_),
+						   AskOpening);
 			AskOpening->set_modal(MainWindow);
 			break;
 		};

@@ -34,7 +34,7 @@ int tString::size() {
 };
 
 tString::~tString() {
-	if (body) delete(body);
+	if (body) delete[] body;
 };
 
 /*************************************************/

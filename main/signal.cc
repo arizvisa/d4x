@@ -22,7 +22,7 @@ static pthread_once_t THREADS_KEY_ONCE=PTHREAD_ONCE_INIT;
 
 static void my_pthread_key_destroy(void *key) {
 	char *temp=(char *)key;
-	if (temp) delete (temp);
+	if (temp) delete[] temp;
 };
 
 static void my_pthread_key_alloc() {
@@ -95,7 +95,8 @@ int stop_thread(tDownload *what) {
 
 void real_stop_thread(tDownload *what) {
 	int *rc;
-	pthread_join(what->thread_id,(void **)&rc);
+	if (what->thread_id)
+		pthread_join(what->thread_id,(void **)&rc);
 	what->delete_who();
 	what->thread_id=0;
 };

@@ -1,3 +1,24 @@
+Tue Mar 27 15:10:01 2001
+	Implement saving known sizes into list;
+	Added one more command line option;
+	Added ability to specify Referer field manualy;
+	Added ability to change default password for anonymous FTP user;
+	Added Window Maker style pixmap (thanks to El Fabio);
+	File entry in "Add new"/"Edit download" dialog will be filled automaticaly;
+	Polish translation updated (thanks to Grzegorz Kowal);
+	Korean translation updated (thanks to Seung-young Oh);
+	Portuguese Brasillian translation updated (thanks to Mario Sergio Fujikawa Ferreira);
+	Double click on a row with error in main log will bring log with error;
+	Improved working with closed FTP directories;
+	Fixed resuming with some HTTP servers;
+	Fixed filling "Description" entry in "Properties" dialog;
+	Fixed working with filesystems which do not support locking;
+	Fixed two memory leak;
+	Fixed completing and stoping splited downloads;
+	Fixed disabling/enabling DnD basket via prefences dialog;
+	Fixed removing segmentation file if file was not found at the server;
+	Various code and interface cleanups;
+
 Wed Mar 14 15:18:11 2001
 	LICENSE file now contains Artistic licese;
 	Fixed problems with HTTP recursing;

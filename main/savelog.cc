@@ -36,7 +36,7 @@ void remove_old_file(){
 	char *path=new char[strlen(LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
 	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,LIST_FILE);
 	remove(path);
-	delete(path);
+	delete[] path;
 };
 
 void save_list() {
@@ -50,7 +50,7 @@ void save_list() {
 	if (save_list_to_file(path)) {
 		MainLog->add(_("Can't save default list of downloads!!!"),LOG_ERROR);
 	};
-	delete(path);
+	delete[] path;
 };
 
 int save_list_to_file(char *path) {
@@ -85,7 +85,7 @@ void read_list(tStringList *where) {
 	char *path=new char[strlen(LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
 	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,LIST_FILE);
 	read_list_from_file_old(path,where) ;
-	delete(path);
+	delete[] path;
 };
 
 
@@ -100,7 +100,7 @@ void read_list() {
 		else
 			puts(error_msg);
 	};
-	delete(path);
+	delete[] path;
 };
 
 int read_list_from_file(char *path) {

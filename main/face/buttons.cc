@@ -27,7 +27,7 @@ GtkWidget *buttons_array[BUTTON_LAST];
 
 GtkWidget *HandleBox;
 
-tDialogWidget *AskDeleteAll=(tDialogWidget *)NULL;
+tConfirmedDialog *AskDeleteAll=(tConfirmedDialog *)NULL;
 
 
 GtkWidget *new_pixmap(char **xpm) {
@@ -37,16 +37,27 @@ GtkWidget *new_pixmap(char **xpm) {
 	return (gtk_pixmap_new(pixmap,mask));
 };
 
-void del_all_downloads() {
+void del_all_downloads(){
 	aa.del_all();
 	if (AskDeleteAll)
 		AskDeleteAll->done();
 };
 
+static void _ask_delete_all_check_(GtkWidget *widget, tConfirmedDialog *parent){
+	CFG.CONFIRM_DELETE_ALL=!(GTK_TOGGLE_BUTTON(parent->check)->active);
+	del_all_downloads();
+};
+
 void ask_delete_all(...) {
-	if (!AskDeleteAll) AskDeleteAll=new tDialogWidget;
-	if (AskDeleteAll->init(_("Delete ALL downloads?"),_("Delete all?")))
-		gtk_signal_connect(GTK_OBJECT(AskDeleteAll->ok_button),"clicked",GTK_SIGNAL_FUNC(del_all_downloads),NULL);
+	if (!AskDeleteAll) AskDeleteAll=new tConfirmedDialog;
+	if (CFG.CONFIRM_DELETE_ALL){
+		if (AskDeleteAll->init(_("Delete ALL downloads?"),_("Delete all?")))
+			gtk_signal_connect(GTK_OBJECT(AskDeleteAll->ok_button),
+					   "clicked",
+					   GTK_SIGNAL_FUNC(_ask_delete_all_check_),
+					   AskDeleteAll);
+	}else
+		del_all_downloads();
 };
 
 void buttons_speed_set_text(){

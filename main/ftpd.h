@@ -19,10 +19,13 @@ class tFtpDownload:public tDownloader{
     protected:
     tFtpClient *FTP;
     tStringList *DIR,*list;
+    char *TMP_FILEPATH;
     int CWDFlag;
+    int DONT_CWD;
     int change_dir();
     int reconnect();
     int download_dir();
+    int ftp_get_size(tStringList *l);
     void print_error(int error_code);
     public:
     	tFtpDownload();
@@ -31,7 +34,7 @@ class tFtpDownload:public tDownloader{
     	int download(fsize_t len);
     	fsize_t get_size();
     	void done();
-
+	void dont_cwd();
     	fsize_t get_start_size();
     	fsize_t get_readed();
     	int get_child_status();

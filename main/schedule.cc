@@ -553,7 +553,7 @@ void d4xScheduler::save(){
 		save(fd);
 		close(fd);
 	};
-	delete(path);
+	delete[] path;
 };
 
 void d4xScheduler::load(){
@@ -565,5 +565,5 @@ void d4xScheduler::load(){
 		load(fd);
 		close(fd);
 	};
-	delete(path);
+	delete[] path;
 };

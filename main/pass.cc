@@ -135,7 +135,7 @@ tUserPassTree *load_passwords(){
 	if (!HOME_VARIABLE) return tree;
 	char *cfgpath=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",CFG_PASSWORDS,NULL);
 	int fd=open(cfgpath,O_RDONLY);
-	delete(cfgpath);
+	delete[] cfgpath;
 	if (fd>=0){
 		char buf[MAX_LEN];
 		while(f_rstr(fd,buf,MAX_LEN)>0){
@@ -157,7 +157,7 @@ void save_passwords(tUserPassTree *tree){
 	if (!HOME_VARIABLE) return;
 	char *cfgpath=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",CFG_PASSWORDS,NULL);
 	int fd=open(cfgpath,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
-	delete(cfgpath);
+	delete[] cfgpath;
 	if (fd>=0){
 		tree->save(fd);
 		close(fd);

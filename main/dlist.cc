@@ -63,8 +63,14 @@ int d4x_f_lock(int fd){
 	a.l_whence=SEEK_SET;
 	a.l_start=0;
 	a.l_len=1;
-	if (fcntl(fd,F_SETLK,&a)==-1)
+	if (fcntl(fd,F_SETLK,&a)==-1){
+		switch(errno){
+		case EINVAL: //not supported by fs
+		case ENOLCK: //too many locks
+			return(1);
+		};
 		return(-1);
+	};
 	return(0);
 };
 
@@ -176,7 +182,7 @@ char *tDefaultWL::cookie(const char *host, const char *path){
 			request_string=sum_strings(tmp, temp->name.get(),
 						   "=", temp->value.get(),
 						   ";", NULL);
-			delete(tmp);
+			delete[] tmp;
 		};
 		temp=(tCookie *)(temp->next);
 	};
@@ -315,15 +321,15 @@ void tDownload::remove_tmp_files(){
 		};
 		if (info->params.get()){
 			char *tmp=sum_strings(name,"?",info->params.get(),NULL);
-			delete(name);
+			delete[] name;
 			name=tmp;
 		};
-		delete(path);
+		delete[] path;
 		remove(name);
 		char *segname=sum_strings(name,".segments",NULL);
-		delete(name);
+		delete[] name;
 		remove(segname);
-		delete(segname);
+		delete[] segname;
 	};
 };
 
@@ -336,8 +342,8 @@ int tDownload::delete_file() {
 		make_file_names(&name,&guess);
 		if (remove(guess) && remove(name))
 			rvalue=-1;
-		delete name;
-		delete guess;
+		delete[] name;
+		delete[] guess;
 	};
 	return rvalue;
 };
@@ -352,7 +358,7 @@ void tDownload::make_file_names(char **name, char **guess){
 				      name,guess);
 	else
 		who->make_full_pathes(real_path,name,guess);
-	delete(real_path);
+	delete[] real_path;
 };
 
 fsize_t tDownload::init_segmentator(int fdesc,fsize_t cursize,char *name){
@@ -360,16 +366,20 @@ fsize_t tDownload::init_segmentator(int fdesc,fsize_t cursize,char *name){
 	im_first=0;
 	if (segments==NULL){
 		/*trying to lock*/
-		if (d4x_f_lock(fdesc)){
+		switch(d4x_f_lock(fdesc)){
+		case 1:
 			WL->log(LOG_ERROR,_("File is already opened by another download!"));
 			close(fdesc);
 			return(-1);
+		case -1:
+			WL->log(LOG_WARNING,_("Filesystem do not support advisory record locking!"));
+			WL->log(LOG_WARNING,_("Will proceed without it but beware that you might have problems."));
 		};
 		/*end of trying */
 		segments=new tSegmentator;
 		char *segname=sum_strings(name,".segments",NULL);
 		segments->init(segname);
-		delete(segname);
+		delete[] segname;
 		im_first=1;
 		tSegment *first_seg=segments->get_first();
 		if (first_seg && (unsigned long int)rvalue<first_seg->end){
@@ -491,8 +501,8 @@ fsize_t tDownload::create_file() {
 		who->print_error(ERROR_UNKNOWN);
 	};
 	};
-	delete name;
-	delete guess;
+	delete[] name;
+	delete[] guess;
 	return rvalue;
 };
 
@@ -512,8 +522,8 @@ void tDownload::set_date_file() {
 		dates.actime=dates.modtime=D_FILE->date;
 		utime(name,&dates);
 		utime(guess,&dates);
-		delete name;
-		delete guess;
+		delete[] name;
+		delete[] guess;
 	};
 	if (config.permisions)
 		fchmod(((tDefaultWL *)(WL))->get_fd(),D_FILE->perm);
@@ -537,8 +547,8 @@ void tDownload::make_file_visible(){
 			char *oldname,*newname;
 			make_file_names(&oldname,&newname);
 			rename(oldname,newname);
-			delete oldname;
-			delete newname;
+			delete[] oldname;
+			delete[] newname;
 		};
 	};
 };
@@ -577,7 +587,7 @@ char *tDownload::make_path_to_file(){
 	}else{
 		rval=sum_strings(real_path,"/",NULL);
 	};
-	delete(real_path);
+	delete[] real_path;
 	return(rval);
 };
 
@@ -637,7 +647,7 @@ void tDownload::convert_list_to_dir() {
 				addrnew->file.set(info->file.get());
 				char *SavePath=compose_path(savepath,prom->name.get());
 				onenew->config.save_path.set(SavePath);
-				delete(SavePath);
+				delete[] SavePath;
 				addrnew->mask=info->mask;
 			} else {
 				addrnew->path.set(path);
@@ -672,8 +682,8 @@ void tDownload::convert_list_to_dir() {
 		prom->body.set(NULL);
 	};
 	delete (prom);
-	delete (path);
-	delete (savepath);
+	delete[] path;
+	delete[] savepath;
 };
 
 
@@ -743,7 +753,7 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		delete(temp);
 		temp=(tHtmlUrl *)dir->last();
 	};
-	delete(URL);
+	delete[] URL;
 };
 
 void tDownload::save_to_config(int fd){
@@ -757,6 +767,11 @@ void tDownload::save_to_config(int fd){
 	write_named_integer(fd,"State:",owner);
 	if (Description.get())
 		write_named_string(fd,"Description:",Description.get());
+	if (finfo.size>0){
+		write_named_time(fd,"size:",finfo.size);
+		if (Size.curent>0)
+			write_named_time(fd,"loaded:",Size.curent);
+	};
 	f_wstr_lf(fd,"EndDownload:");
 };
 
@@ -770,6 +785,8 @@ int tDownload::load_from_config(int fd){
 		{"SaveName:",	SV_TYPE_PSTR,	&(config.save_name)},
 		{"SplitTo:",	SV_TYPE_SPLIT,	&(split)},
 		{"Description:",SV_TYPE_PSTR,	&(Description)},
+		{"size:",	SV_TYPE_TIME,	&(finfo.size)},
+		{"loaded:",	SV_TYPE_TIME,	&(Size.curent)},
 		{"EndDownload:",SV_TYPE_END,	NULL}
 	};
 	char buf[MAX_LEN];
@@ -817,19 +834,22 @@ void tDownload::download_completed(int type) {
 		download_set_block(1);
 		char *path=make_path_to_file();
 		char *desc=sum_strings(path,"Descript.ion",NULL);
-		delete(path);
+		delete[] path;
 		int fd=open(desc,O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR );
-		delete(desc);
+		delete[] desc;
 		lseek(fd,0,SEEK_END);
 		lockf(fd,F_LOCK,0);
 		f_wstr(fd,info->file.get());
 		f_wstr(fd," - ");
-		if (Description.get())
+		if (Description.get()) {
 			f_wstr(fd,Description.get());
-		else{
+			f_wstr(fd," [");
+			info->save_to_description(fd);
+			f_wchar(fd,']');
+		} else {
 			info->save_to_description(fd);
 		};
-		f_wstr(fd,"\n");
+		f_wchar(fd,'\n');
 		lockf(fd,F_ULOCK,0);
 		close(fd);
 		download_set_block(0);
@@ -875,7 +895,7 @@ void tDownload::recurse_http() {
 					    info->params.get()?info->params.get():NULL,
 					    info->params.get()?".fl":NULL,
 					    NULL);
-			delete(a);
+			delete[] a;
 			html->out_fd=open(tmppath,O_RDWR|O_CREAT|O_TRUNC,S_IRUSR | S_IWUSR );
 			html->leave=config.leave_server;
 			html->parse(WL,dir,info);
@@ -883,19 +903,19 @@ void tDownload::recurse_http() {
 				char *name,*guess;
 				make_file_names(&name,&guess);
 				if (need_to_rename){
-					delete(guess);
+					delete[] guess;
 					remove(name);
 					rename(tmppath,name);
-					delete(name);
+					delete[] name;
 				}else{
-					delete(name);
+					delete[] name;
 					remove(guess);
 					rename(tmppath,guess);
-					delete(guess);
+					delete[] guess;
 				};
 				((tDefaultWL*)(WL))->set_fd(html->out_fd,0);
 			};
-			delete(tmppath);
+			delete[] tmppath;
 		}else{
 			html->out_fd=-1;
 			html->parse(WL,dir,info);
@@ -968,7 +988,7 @@ void tDownload::download_http() {
 			who->done();
 			delete_file();
 		};
-		if (newurl) delete(newurl);
+		if (newurl) delete[] newurl;
 		finfo.type=T_REDIRECT;
 		status=DOWNLOAD_COMPLETE;
 		WL->log(LOG_WARNING,_("Redirect detected..."));
@@ -976,6 +996,7 @@ void tDownload::download_http() {
 	};
 	
 	if (size<0 && split==NULL && CurentSize==0) {
+		if (CurentSize==0 && segments) segments->complete();
 		if (delete_file())
 			WL->log(LOG_WARNING,_("It is strange that we can't delete file which just created..."));
 	};
@@ -1148,16 +1169,22 @@ void tDownload::download_ftp(){
 		return;
 	};
 	who->init_download(info->path.get(),info->file.get());
-	if (finfo.size<0) {
+	if (finfo.size<0 || finfo.type==T_NONE) {
 		status=DOWNLOAD_SIZE_WAIT;
 		int size=who->get_size();
 		if (size<0) {
 			WL->log(LOG_ERROR,_("File not found"));
-			download_failed();
-			return;
+			if (info->mask){
+				download_failed();
+				return;
+			};
+			WL->log(LOG_ERROR,_("Trying to work without CWD"));
+			((tFtpDownload *)(who))->dont_cwd();
+			finfo.type=T_FILE;
+		}else{
+			finfo.size=size;
+			finfo.type=file_type();
 		};
-		finfo.size=size;
-		finfo.type=file_type();
 	} else {
 		who->set_file_info(&(finfo));
 	};

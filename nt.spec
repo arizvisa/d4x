@@ -1,9 +1,9 @@
-%define ver      1.24.1
+%define ver      1.25
 %define prefix   /usr
 
 Name: nt
 Version: %ver
-Release: 2
+Release: 1
 Copyright: free source but restricted to change
 URL: http://www.krasu.ru/soft/chuchelo
 Group: Applications/Internet
@@ -55,6 +55,7 @@ cp -f nt.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.xpm
 cp -f nt-mini.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-mini.xpm
 cp -f nt-gray.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-gray.png
 cp -f nt.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.png
+cp -f nt-wm.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-wm.png
 cp -f nt.1 "${RPM_BUILD_ROOT}"%prefix/man/man1/nt.1
 
 %clean
@@ -71,6 +72,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %prefix/share/pixmaps/nt-mini.xpm
 %prefix/share/pixmaps/nt-gray.png
 %prefix/share/pixmaps/nt.png
+%prefix/share/pixmaps/nt-wm.png
 %{prefix}/share/locale/*/*/*
 
 %changelog

@@ -64,10 +64,10 @@ GtkAdjustment *main_log_adj;
 
 GtkItemFactory *list_menu_itemfact;
 
-tDialogWidget *AskDelete=(tDialogWidget *)NULL;
-tDialogWidget *AskDeleteCompleted=(tDialogWidget *)NULL;
-tDialogWidget *AskDeleteFataled=(tDialogWidget *)NULL;
-tDialogWidget *AskExit=(tDialogWidget *)NULL;
+tConfirmedDialog *AskDelete=(tConfirmedDialog *)NULL;
+tConfirmedDialog *AskDeleteCompleted=(tConfirmedDialog *)NULL;
+tConfirmedDialog *AskDeleteFataled=(tConfirmedDialog *)NULL;
+tConfirmedDialog *AskExit=(tConfirmedDialog *)NULL;
 
 tFaceLimits *FaceForLimits=(tFaceLimits *)NULL;
 tFacePass *FaceForPasswords=(tFacePass *)NULL;
@@ -284,7 +284,7 @@ void init_load_accelerators(){
 		if (LOAD_ACCELERATORS[j]){
 			gtk_item_factory_delete_item(main_menu_item_factory,
 						     LOAD_ACCELERATORS[j]);
-			delete(LOAD_ACCELERATORS[j]);
+			delete[] LOAD_ACCELERATORS[j];
 		};
 	if (sep){
 		*sep=0;
@@ -307,8 +307,8 @@ void init_load_accelerators(){
 			gtk_item_factory_create_item(main_menu_item_factory,
 						     &tmp,
 						     NULL,1);
-			delete(tmp.path);
-			delete(tmp.accelerator);
+			delete[] tmp.path;
+			delete[] tmp.accelerator;
 			/*adding tooltip*/
 			GtkWidget *menu_item=gtk_item_factory_get_widget_by_action(main_menu_item_factory,
 										   tmp.callback_action);
@@ -329,7 +329,7 @@ void init_load_accelerators(){
 			str=ALL_HISTORIES[SAVE_HISTORY]->next();
 		};
 	};
-	delete(path);
+	delete[] path;
 	GtkItemFactoryEntry sep_item={LOAD_ACCELERATORS[4],
 				       (gchar *)NULL,
 				       (GtkItemFactoryCallback)NULL,
@@ -505,9 +505,8 @@ void my_main_quit(...) {
 	save_list();
 	save_limits();
 	save_passwords(PasswordsForHosts);
-	MainScheduler->save();
-	aa.done();
 	save_config();
+	aa.done();
 	if (FaceForLimits)
 		delete (FaceForLimits);
 	if (FaceForPasswords)
@@ -537,6 +536,7 @@ void my_main_quit(...) {
 		gtk_main_quit();
 	else{
 		aa.run_after_quit();
+		var_free(&CFG);
 		exit(0);
 	};
 };
@@ -577,11 +577,18 @@ void stop_downloads(...) {
 	prepare_buttons();
 };
 
+static void _my_main_quit_ask_exit_(GtkWidget *widget,tConfirmedDialog *parent){
+	CFG.CONFIRM_EXIT=!(GTK_TOGGLE_BUTTON(parent->check)->active);
+	my_main_quit();
+};
+
 void ask_exit(...) {
 	if (CFG.CONFIRM_EXIT) {
-		if (!AskExit) AskExit=new tDialogWidget;
+		if (!AskExit) AskExit=new tConfirmedDialog;
 		if (AskExit->init(_("Do you really want to quit?"),_("Quit?")))
-			gtk_signal_connect(GTK_OBJECT(AskExit->ok_button),"clicked",GTK_SIGNAL_FUNC(my_main_quit),NULL);
+			gtk_signal_connect(GTK_OBJECT(AskExit->ok_button),"clicked",
+					   GTK_SIGNAL_FUNC(_my_main_quit_ask_exit_),
+					   AskExit);
 		AskExit->set_modal(MainWindow);
 	} else
 		my_main_quit();
@@ -596,15 +603,17 @@ gint ask_exit2() {
 };
 
 static void a_delete_downloads(GtkWidget *widget, gpointer data){
+	CFG.CONFIRM_DELETE=!(GTK_TOGGLE_BUTTON(AskDelete->check)->active);
 	delete_downloads(GPOINTER_TO_INT(data));
 };
+
 
 void ask_delete_download(...) {
 	GdkModifierType mask;
 	gint x,y;
 	gdk_window_get_pointer(MainWindow->window,&x,&y,&mask);
 	if (CFG.CONFIRM_DELETE) {
-		if (!AskDelete) AskDelete=new tDialogWidget;
+		if (!AskDelete) AskDelete=new tConfirmedDialog;
 		if (AskDelete->init(_("Delete selected downloads?"),_("Delete?")))
 			gtk_signal_connect(GTK_OBJECT(AskDelete->ok_button),
 					   "clicked",
@@ -615,24 +624,40 @@ void ask_delete_download(...) {
 		delete_downloads(mask & GDK_SHIFT_MASK);
 };
 
+static void _ask_delete_completed_check_(GtkWidget *widget, tConfirmedDialog *parent){
+	CFG.CONFIRM_DELETE_COMPLETED=!(GTK_TOGGLE_BUTTON(parent->check)->active);
+	del_completed_downloads();
+};
+
 void ask_delete_completed_downloads(...) {
 	if (CFG.CONFIRM_DELETE_COMPLETED) {
-		if (!AskDeleteCompleted) AskDeleteCompleted=new tDialogWidget;
+		if (!AskDeleteCompleted) AskDeleteCompleted=new tConfirmedDialog;
 		if (AskDeleteCompleted->init(_("Do you wish delete completed downloads?"),_("Delete?")))
-			gtk_signal_connect(GTK_OBJECT(AskDeleteCompleted->ok_button),"clicked",GTK_SIGNAL_FUNC(del_completed_downloads),NULL);
+			gtk_signal_connect(GTK_OBJECT(AskDeleteCompleted->ok_button),
+					   "clicked",
+					   GTK_SIGNAL_FUNC(_ask_delete_completed_check_),
+					   AskDeleteCompleted);
 		AskDeleteCompleted->set_modal(MainWindow);
 	} else
 		del_completed_downloads();
 };
 
+static void _ask_delete_failed_check_(GtkWidget *widget, tConfirmedDialog *parent){
+	CFG.CONFIRM_DELETE_FATALED=!(GTK_TOGGLE_BUTTON(parent->check)->active);
+	del_fataled_downloads();
+};
+
 void ask_delete_fataled_downloads(...) {
 	if (CFG.CONFIRM_DELETE_FATALED) {
-		if (!AskDeleteFataled) AskDeleteFataled=new tDialogWidget;
+		if (!AskDeleteFataled) AskDeleteFataled=new tConfirmedDialog;
 		if (AskDeleteFataled->init(_("Do you wish delete failed downloads?"),_("Delete?")))
-			gtk_signal_connect(GTK_OBJECT(AskDeleteFataled->ok_button),"clicked",GTK_SIGNAL_FUNC(del_fataled_downloads),NULL);
+			gtk_signal_connect(GTK_OBJECT(AskDeleteFataled->ok_button),
+					   "clicked",
+					   GTK_SIGNAL_FUNC(_ask_delete_failed_check_),
+					   AskDeleteFataled);
 		AskDeleteFataled->set_modal(MainWindow);
 	} else
-		del_completed_downloads();
+		del_fataled_downloads();
 };
 
 void delete_downloads(gint flag) {
@@ -950,11 +975,11 @@ int check_for_clipboard_skiping(char *buf){
 		do{
 			temp=extract_string(temp,extension);
 			if (string_ended(extension,buf)==0){
-				delete(extension);
+				delete[] extension;
 				return 1;
 			};
 		}while(temp!=NULL && strlen(temp)>0);
-		delete(extension);
+		delete[] extension;
 		return 0;
 	};
 	extension=new char[strlen(CFG.SKIP_IN_CLIPBOARD)+1];
@@ -962,11 +987,11 @@ int check_for_clipboard_skiping(char *buf){
 	do{
 		temp=extract_string(temp,extension);
 		if (string_ended(extension,buf)==0){
-			delete(extension);
+			delete[] extension;
 			return 0;
 		};
 	}while(temp!=NULL && strlen(temp)>0);
-	delete(extension);
+	delete[] extension;
 	return 1;
 };
 
@@ -1065,7 +1090,7 @@ char *d4x_mw_clipboard_get(){
 };
 
 void d4x_mw_clipboard_set(char *str){
-	if (D4X_CLIPBOARD) delete(D4X_CLIPBOARD);
+	if (D4X_CLIPBOARD) delete[] D4X_CLIPBOARD;
 	D4X_CLIPBOARD=copy_string(str);
 	gtk_selection_owner_set (MainWindow,
 				 GDK_SELECTION_PRIMARY,

@@ -68,7 +68,7 @@ all:
 	-rm -f nt
 	$(MAKE) nt
 	[ -z "$(NLS)" ] || $(MAKE) -C po
-#	$(MAKE) strip
+	$(MAKE) strip
 
 $(FACE):
 	$(MAKE) -C face

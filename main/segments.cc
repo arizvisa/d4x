@@ -106,6 +106,7 @@ void tSegmentator::remove(tSegment *what){
 		what->next->prev=what->prev;
 	else
 		LAST=what->prev;
+	seg_free(what);
 };
 
 void tSegmentator::save_from(tSegment *what){
@@ -251,7 +252,7 @@ void tSegmentator::done(){
 	lock();
 	total=0;
 	if (filename){
-		delete(filename);
+		delete[] filename;
 		filename=NULL;
 	};
 	while(FIRST){
@@ -277,7 +278,7 @@ tSegmentator::~tSegmentator(){
 		delete(HEAP);
 		HEAP=tmp;
 	};
-	if (filename) delete(filename);
+	if (filename) delete[] filename;
 	pthread_mutex_destroy(&lockmutex);
 };
 

@@ -84,7 +84,7 @@ tClient::tClient(){
 };
 
 tClient::~tClient(){
-	if (buffer) delete buffer;
+	if (buffer) delete[] buffer;
 };
 
 void tClient::init(char *host,tWriterLoger *log,int prt,int time_out) {

@@ -45,8 +45,9 @@ void tLogString::print() {
 };
 
 tLogString::~tLogString() {
-	if (body) delete body;
-	body=NULL;
+// this data will freed at tString::~tString();
+//	if (body) delete[] body; 
+//	body=NULL;
 };
 //******************************************//
 tLog::tLog():tStringList(){

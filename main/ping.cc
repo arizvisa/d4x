@@ -118,11 +118,11 @@ void d4xPing::run(tDList *list,tWriterLoger *WL){
 };
 
 d4xPing::~d4xPing(){
-	if (data) delete(data);
+	if (data) delete[] data;
 	if (pf){
 		for (int i=0;i<size;i++)
 			if (pf[i].fd>=0)
 				close(pf[i].fd);
-		delete(pf);
+		delete[] pf;
 	};
 };

@@ -53,7 +53,7 @@ tMsgServer::~tMsgServer(){
     pthread_mutex_destroy(&lock);
     delete(list);
     unlink(file);
-    delete file;
+    delete[] file;
 };
 
 void tMsgServer::init(){
@@ -126,7 +126,7 @@ void tMsgServer::cmd_ls(int len,int type){
 			write(newfd,&packet,sizeof(packet));
 		};
 	};
-	delete temp;
+	delete[] temp;
 };
 
 void tMsgServer::cmd_add(int len,int type){
@@ -141,7 +141,7 @@ void tMsgServer::cmd_add(int len,int type){
 		pthread_mutex_unlock(&lock);
 		cmd_ack();
 	}else
-		delete temp;
+		delete[] temp;
 };
 
 void tMsgServer::run(){
@@ -271,7 +271,7 @@ int tMsgClient::send_command(int cmd,char *data,int len){
 	if (command.type!=PACKET_ACK)
 		return -1;
 	if (buf)
-		delete(buf);
+		delete[] buf;
 	if (command.len){
 		buf=new char[command.len];
 		read(fd,buf,command.len);
@@ -306,5 +306,5 @@ void tMsgClient::done(){
 
 tMsgClient::~tMsgClient(){
 	done();
-	if (buf) delete(buf);
+	if (buf) delete[] buf;
 };

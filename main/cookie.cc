@@ -104,7 +104,7 @@ void tCookiesTree::del(tCookie *what){
 			tCookie *stay=(tCookie *)(what->next);
 			tAbstractSortTree::del(what);
 			if (stay)
-				add(stay);
+				tAbstractSortTree::add(stay);
 		}else{
 			tmp=(tCookie *)(tmp->next);
 			while(tmp){
@@ -145,7 +145,7 @@ void tCookiesTree::load_cookies(){
 					delete(cookie);
 				else
 					add(cookie);
-				delete(data);
+				delete[] data;
 			};
 		};
 		close(fd);
@@ -153,7 +153,7 @@ void tCookiesTree::load_cookies(){
 	}else{
 		MainLog->add(_("Can't open cookies file!"),LOG_ERROR|LOG_DETAILED);
 	};
-	delete(path);
+	delete[] path;
 };
 
 tCookiesTree::~tCookiesTree(){

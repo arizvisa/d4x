@@ -259,14 +259,18 @@ static void get_cell_style (GtkCList     *clist,
 			    gint          column,
 			    GtkStyle    **style,
 			    GdkGC       **fg_gc,
-			    GdkGC       **bg_gc){
+			    GdkGC       **bg_gc,
+			    GdkGC	**pr_gc){
 	gint fg_state;
+	gint pr_state;
 
 	if ((state == GTK_STATE_NORMAL) &&
-	    (GTK_WIDGET (clist)->state == GTK_STATE_INSENSITIVE))
-		fg_state = GTK_STATE_INSENSITIVE;
-	else
+	    (GTK_WIDGET (clist)->state == GTK_STATE_INSENSITIVE)){
+		fg_state = pr_state = GTK_STATE_INSENSITIVE;
+	}else{
 		fg_state = state;
+		pr_state = GTK_STATE_NORMAL;
+	};
 
 	if (clist_row->cell[column].style)    {
 		if (style)
@@ -279,6 +283,8 @@ static void get_cell_style (GtkCList     *clist,
 			else
 				*bg_gc = clist_row->cell[column].style->base_gc[state];
 		}
+		if (pr_gc)
+			*pr_gc=clist_row->cell[column].style->fg_gc[pr_state];
 	}  else if (clist_row->style)    {
 		if (style)
 			*style = clist_row->style;
@@ -290,6 +296,8 @@ static void get_cell_style (GtkCList     *clist,
 			else
 				*bg_gc = clist_row->style->base_gc[state];
 		}
+		if (pr_gc)
+			*pr_gc=clist_row->style->fg_gc[pr_state];
 	}  else    {
 		if (style)
 			*style = GTK_WIDGET (clist)->style;
@@ -301,8 +309,12 @@ static void get_cell_style (GtkCList     *clist,
 			else
 				*bg_gc = GTK_WIDGET (clist)->style->base_gc[state];
 		}
+		if (pr_gc)
+			*pr_gc=GTK_WIDGET (clist)->style->fg_gc[pr_state];
 
 		if (state != GTK_STATE_SELECTED)	{
+			if (pr_gc && clist_row->fg_set)
+				*pr_gc = clist->fg_gc;
 			if (fg_gc && clist_row->fg_set)
 				*fg_gc = clist->fg_gc;
 			if (bg_gc && clist_row->bg_set)
@@ -324,7 +336,7 @@ static void my_cell_size_request (GtkCList       *clist,
 	g_return_if_fail (requisition != NULL);
 
 	get_cell_style (clist, clist_row, GTK_STATE_NORMAL, column, &style,
-			(GdkGC **)NULL, (GdkGC **)NULL);
+			(GdkGC **)NULL, (GdkGC **)NULL, (GdkGC **)NULL);
 
 	switch (clist_row->cell[column].type)   {
 	case GTK_CELL_TEXT:
@@ -530,6 +542,7 @@ static void my_draw_row (GtkCList     *clist,
 		GtkStyle *style;
 		GdkGC *fg_gc;
 		GdkGC *bg_gc;
+		GdkGC *pr_gc;
 
 		gint width;
 		gint height;
@@ -548,7 +561,7 @@ static void my_draw_row (GtkCList     *clist,
 		if (!clist->column[i].visible)
 			continue;
 
-		get_cell_style (clist, clist_row, state, i, &style, &fg_gc, &bg_gc);
+		get_cell_style (clist, clist_row, state, i, &style, &fg_gc, &bg_gc, &pr_gc);
 
 		clip_rectangle.x = clist->column[i].area.x + clist->hoffset;
 		clip_rectangle.width = clist->column[i].area.width;
@@ -683,7 +696,7 @@ static void my_draw_row (GtkCList     *clist,
 					      "bar",
 					      clip_rectangle.x,clip_rectangle.y,
 					      gint(progress_width),clip_rectangle.height);
-			gdk_draw_string (clist->clist_window, style->font, fg_gc,
+			gdk_draw_string (clist->clist_window, style->font, pr_gc,
 					 offset,
 					 row_rectangle.y + row_center_offset + 
 					 clist_row->cell[i].vertical,

@@ -16,6 +16,7 @@
 #include "log.h"
 #include "liststr.h"
 #include "face/about.h"
+#include "addr.h"
 
 class tMLog:public tStringList{
 	protected:
@@ -27,6 +28,8 @@ class tMLog:public tStringList{
 	void add_to_list();
 	int fd;
 	tStringDialog *string;
+	tAddr *last_error;
+	void real_open_row(int row);
 	public:
 		GtkWidget *popup_menu;
 		tMLog();

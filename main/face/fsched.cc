@@ -68,7 +68,7 @@ void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev){
 		if (a->dwn && a->dwn->info){
 			char *url=a->dwn->info->url();
 			g_snprintf(buf2,MAX_LEN,"%s",url);
-			delete(url);
+			delete[] url;
 		};
 		break;
 	};
@@ -80,7 +80,7 @@ void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev){
 		if (a->url){
 			char *url=a->url->url();
 			g_snprintf(buf2,MAX_LEN,"%s",url);
-			delete(url);
+			delete[] url;
 		};
 		break;
 	};
@@ -145,7 +145,7 @@ void d4x_scheduler_edit(){
 	if (select){		
 		d4xSchedAction *act=(d4xSchedAction *)gtk_clist_get_row_data(GTK_CLIST(d4x_scheduler_clist),
 									     GPOINTER_TO_INT(select->data));
-		if (act){
+		if (act && act->lock==0){
 			act->lock=1;
 			GtkWidget *tmp=my_gtk_aeditor_new(act);
 //			MyGtkAEditor *editor=MY_GTK_AEDITOR(tmp);
@@ -154,6 +154,15 @@ void d4x_scheduler_edit(){
 			gtk_window_set_transient_for (GTK_WINDOW (tmp), GTK_WINDOW (d4x_scheduler_window));
 		};
 	};
+};
+
+gint d4x_scheduler_select(GtkWidget *widget, gint row, gint column,
+			  GdkEventButton *event, gpointer data,
+			  gpointer nothing){
+	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1){
+		d4x_scheduler_edit();
+	};
+	return(TRUE);
 };
 
 void d4x_scheduler_init(){
@@ -175,6 +184,9 @@ void d4x_scheduler_init(){
 	gtk_clist_set_column_auto_resize(GTK_CLIST(d4x_scheduler_clist),2,TRUE);
 //	gtk_clist_set_column_width (GTK_CLIST(d4x_scheduler_clist), 1 , 200);
 	gtk_clist_set_selection_mode(GTK_CLIST(d4x_scheduler_clist),GTK_SELECTION_EXTENDED);
+	gtk_signal_connect(GTK_OBJECT(d4x_scheduler_clist), "select_row",
+	                   GTK_SIGNAL_FUNC(d4x_scheduler_select),NULL);
+
 	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
@@ -224,7 +236,7 @@ static void my_gtk_aeditor_edit_ok(GtkWidget *widget,MyGtkAEditor *editor){
 	what->delete_editor();
 	char *url=what->info->url();
 	text_to_combo(editor->url_entry,url);
-	delete(url);
+	delete[] url;
 };
 
 static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor){
@@ -366,7 +378,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 				if (act->url){
 					char *url=act->url->url();
 					text_to_combo(editor->url_entry,url);
-					delete(url);
+					delete[] url;
 				};
 			};
 			break;
@@ -390,7 +402,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 				if (editor->dwn && editor->dwn->info){
 					char *url=editor->dwn->info->url();
 					text_to_combo(editor->url_entry,url);
-					delete(url);
+					delete[] url;
 				};
 			};
 			GtkWidget *button=gtk_button_new_with_label(_("Edit"));

@@ -66,7 +66,7 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 	else
 		LOG->log(LOG_TO_SERVER,data);
 	Status=CtrlSocket.send_string(data,timeout);
-	delete data;
+	delete[] data;
 	if (Status) {
 		if (Status==STATUS_TIMEOUT)
 			LOG->log(LOG_ERROR,_("Timeout while sending through control socket."));
@@ -128,7 +128,7 @@ int tFtpClient::analize_ctrl(int argc,char **argv) {
 		if (!FIRST_REPLY)
 			FIRST_REPLY = CTRL->last()?copy_string(CTRL->last()->body):NULL;
 	} while (!last_answer(FIRST_REPLY));
-	if (FIRST_REPLY) delete(FIRST_REPLY);
+	if (FIRST_REPLY) delete[] FIRST_REPLY;
 	FIRST_REPLY = NULL;
 	if (!analize(FTP_CTRL_TIMEOUT)){
 		Status=STATUS_TIMEOUT;
@@ -479,5 +479,5 @@ void tFtpClient::done() {
 tFtpClient::~tFtpClient() {
 	down();
 	delete(CTRL);
-	if (FIRST_REPLY) delete(FIRST_REPLY);
+	if (FIRST_REPLY) delete[] FIRST_REPLY;
 };

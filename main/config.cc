@@ -56,7 +56,8 @@ tOption downloader_parsed_args[]={
 	{"--without-face",	OPT_WITHOUT_FACE},
 	{"--minimized",		OPT_RUN_MINIMIZED},
 	{"--exit-time",		OPT_EXIT_TIME},
-	{"--ls",		OPT_LS}
+	{"--ls",		OPT_LS},
+	{"--color",		OPT_COLOR}
 };
 
 char *downloader_args_errors[]={
@@ -210,7 +211,8 @@ tConfigVariable config_variables[]={
 	{"search_ping_times",	CV_TYPE_INT,	&(CFG.SEARCH_PING_TIMES)},
 	{"search_host",		CV_TYPE_INT,	&(CFG.SEARCH_HOST)},
 	{"search_entries",	CV_TYPE_INT,	&(CFG.SEARCH_ENTRIES)},
-	{"change_links",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.change_links)}
+	{"change_links",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.change_links)},
+	{"anonymous_pass",	CV_TYPE_STRING,	&(CFG.ANONYMOUS_PASS)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -262,7 +264,7 @@ void set_config(char *line){
 			break;
 		};
 	};
-	delete(temp);
+	delete[] temp;
 };
 
 void read_config() {
@@ -290,7 +292,7 @@ void read_config() {
 		printf(_("Can't open cfg file at '%s'\n"),cfgpath);
 		printf(_("Use default cfg :))...\n"));
 	};
-	delete cfgpath;
+	delete[] cfgpath;
 	load_strlist(ALL_HISTORIES[URL_HISTORY], ".ntrc/history1",0);
 	load_strlist(ALL_HISTORIES[PATH_HISTORY],".ntrc/history2",1);
 	load_strlist(ALL_HISTORIES[LOG_HISTORY],".ntrc/history3",0);
@@ -304,6 +306,7 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12",1);
 	load_strlist(ALL_HISTORIES[LOG_SAVE_HISTORY],".ntrc/history13",1);
 	load_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14",0);
+	load_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15",0);
 	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
@@ -348,7 +351,7 @@ void save_config() {
 		char *cfg_dir=compose_path(HOME_VARIABLE,CFG_DIR);
 		mkdir(cfg_dir,S_IRWXU| S_IXGRP|S_IRGRP);
 		fd=open(cfgpath,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
-		delete cfg_dir;
+		delete[] cfg_dir;
 	};
 	char data[MAX_LEN];
 	if (fd>=0) {
@@ -415,7 +418,8 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12");
 	save_strlist(ALL_HISTORIES[LOG_SAVE_HISTORY],".ntrc/history13");
 	save_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14");
-	delete cfgpath;
+	save_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15");
+	delete[] cfgpath;
 };
 
 void save_strlist(tStringList *what,char *where) {
@@ -431,7 +435,7 @@ void save_strlist(tStringList *what,char *where) {
 		};
 		close(fd);
 	};
-	delete(path);
+	delete[] path;
 };
 
 void load_strlist(tStringList *where,char *what,int normalize) {
@@ -460,7 +464,7 @@ void load_strlist(tStringList *where,char *what,int normalize) {
 		};
 		close(fd);
 	};
-	delete(path);
+	delete[] path;
 };
 
 void read_limits() {
@@ -545,6 +549,10 @@ int parse_command_line_preload(int argc,char **argv){
 			CFG.WITHOUT_FACE=1;
 			break;
 		};
+		case OPT_COLOR:{
+			CFG.COLORIFIED_OUTPUT=1;
+			break;
+		};
 		};
 	};
 	return rvalue;
@@ -557,7 +565,7 @@ static void _remote_set_directory_(tMsgClient *clt,char *param){
 		char *path=sum_strings(temp,"/",param,NULL);
 		normalize_path(path);
 		clt->send_command(PACKET_SET_SAVE_PATH,path,strlen(path));
-		delete(path);
+		delete[] path;
 	}else{
 		clt->send_command(PACKET_SET_SAVE_PATH,param,strlen(param));
 	};
@@ -744,7 +752,7 @@ void parse_command_line_postload(int argv,char **argc){
 			break;
 		case OPT_SET_DIRECTORY:{
 			if (argv>i+1){
-				if (CFG.GLOBAL_SAVE_PATH) delete(CFG.GLOBAL_SAVE_PATH);
+				if (CFG.GLOBAL_SAVE_PATH) delete[] CFG.GLOBAL_SAVE_PATH;
 				i+=1;
 				CFG.GLOBAL_SAVE_PATH=copy_string(argc[i]);
 			}else
@@ -785,5 +793,6 @@ void help_print(){
 	help_print_args(OPT_RERUN_FAILED);printf(_("restart all failed downloads"));printf("\n");
 	help_print_args(OPT_WITHOUT_FACE);printf(_("run program without X interface"));printf("\n");
 	help_print_args(OPT_LS);printf(_("display info about URL in queue of downloads"));printf("\n");
+	help_print_args(OPT_COLOR);printf(_("using colors if run without interface"));printf("\n");
 	printf("\n");
 };

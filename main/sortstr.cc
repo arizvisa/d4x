@@ -46,7 +46,7 @@ tSortString::tSortString(char *what,int len) {
 };
 
 tSortString::~tSortString() {
-	if (body) delete(body);
+	if (body) delete[] body;
 };
 
 int tSortString::cmp(tAbstractSortNode *a){

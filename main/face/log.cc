@@ -134,7 +134,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	data[L_COL_NUM]=row_num;
 
 	int row=gtk_clist_append(GTK_CLIST(temp->clist),data);
-	delete (str_temp);
+	delete[] str_temp;
 	GdkColor color,back_color;
 	switch (str->type) {
 		case LOG_OK:
@@ -429,6 +429,8 @@ GList *log_window_unfreeze(GList *list){
 	what->freezed_flag=0;
 	if (temp){
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
+//		gtk_signal_emit_by_name(GTK_OBJECT(temp->adj),"changed");
+		gtk_widget_queue_draw(temp->clist);
 	};
 	return(next);
 };

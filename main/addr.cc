@@ -126,12 +126,12 @@ static void split_string(char *what,char *delim,tTwoStrings *out) {
 		int len=strlen(where),len1=strlen(delim);
 		out->two=copy_string(where+len1);
 		len1=strlen(what)-len;
-		out->one=copy_string(what,len1);
+		out->one=copy_string2(what,len1);
 	} else {
 		out->two=copy_string(what);
 		out->one=NULL;
 	};
-	delete(what);
+	delete[] what;
 };
 
 static void rsplit_string(char *what,char delim,tTwoStrings *out) {
@@ -141,12 +141,12 @@ static void rsplit_string(char *what,char delim,tTwoStrings *out) {
 		int len=strlen(where),len1=1;
 		out->two=copy_string(where+len1);
 		len1=strlen(what)-len;
-		out->one=copy_string(what,len1);
+		out->one=copy_string2(what,len1);
 	} else {
 		out->two=copy_string(what);
 		out->one=NULL;
 	};
-	delete(what);
+	delete[] what;
 };
 
 /*------------------ end of temporary functions ------------ */
@@ -213,7 +213,7 @@ tAddr::tAddr(char *str){
 		};
 /* parsing %xx -> CHAR and vice verse */
 		char *prom=parse_percents(file1);
-		delete(file1);
+		delete[] file1;
 		file1=prom;
 		prom=rindex(file1,'/');
 		if (prom) {
@@ -221,7 +221,7 @@ tAddr::tAddr(char *str){
 			*prom=0;
 			prom=path1;
 			path1=copy_string(file1);
-			delete file1;
+			delete[] file1;
 			file1=prom;
 		};
 	} else {
@@ -231,7 +231,7 @@ tAddr::tAddr(char *str){
 	split_string(host1,":",&pair);
 	if (pair.one) {
 		sscanf(pair.two,"%i",&port);
-		delete pair.two;
+		delete[] pair.two;
 		host1=pair.one;
 	} else {
 		port=0;
@@ -247,16 +247,16 @@ tAddr::tAddr(char *str){
 			*tmp=0;
 			tmp=file1;
 			file1=copy_string(tmp);
-			delete(tmp);
+			delete[] tmp;
 		};
 	};
 	if (port==0)
 		port=proto_infos[proto].port;
-	host.set(host1);if (host1) delete(host1);
-	username.set(username1);if (username1) delete(username1);
-	pass.set(pass1);if (pass1) delete(pass1);
-	path.set(path1);if (path1) delete(path1);
-	file.set(file1);if (file1) delete(file1);
+	host.set(host1);if (host1) delete[] host1;
+	username.set(username1);if (username1) delete[] username1;
+	pass.set(pass1);if (pass1) delete[] pass1;
+	path.set(path1);if (path1) delete[] path1;
+	file.set(file1);if (file1) delete[] file1;
 };
 
 void tAddr::print() {
@@ -343,7 +343,7 @@ void tAddr::compose_path(char *aa, char *bb){
 		path.set(tmp+1);
 	else
 		path.set(tmp);
-	if (tmp) delete(tmp);
+	if (tmp) delete[] tmp;
 };
 
 void tAddr::file_del_sq(){

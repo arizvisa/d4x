@@ -320,6 +320,7 @@ int tMain::run_new_thread(tDownload *what) {
 		((tDefaultWL *)(what->WL))->set_log(what->LOG);
 	};
 	what->update_trigers();
+	what->config.redirect_count=0;
 	what->Size.old=what->Size.curent; // no need update size
 	what->NanoSpeed=0;
 
@@ -764,22 +765,29 @@ void tMain::redirect(tDownload *what) {
 		newurl = what->who->get_new_url();
 		what->delete_who();
 	};
+	what->config.redirect_count+=1;
+	if (what->config.redirect_count>10){
+		MainLog->myprintf(LOG_ERROR,_("Too many redirections!"),what);
+		DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
+		what->finfo.type=T_NONE;
+		return;
+	};
 	if (newurl) {
 		char *oldurl=what->info->url();
 		tAddr *addr=fix_url_global(newurl,what->info,-1,0);
-		delete(newurl);
+		delete[] newurl;
 		if (addr->cmp(what->info) && equal(what->config.referer.get(),oldurl)){
 			MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to the same location!"),what);
 			DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
 			delete(addr);
-			delete(oldurl);
+			delete[] oldurl;
 			return;
 		};
 		ALL_DOWNLOADS->del(what);
 		if (what->info) delete (what->info);
 		what->info=addr;
 		what->config.referer.set(oldurl);
-		delete(oldurl);
+		delete[] oldurl;
 		if (ALL_DOWNLOADS->find(what)) {
 			list_to_delete=g_list_insert_sorted(list_to_delete,what,_compare_nodes);
 			return;
@@ -796,7 +804,7 @@ void tMain::redirect(tDownload *what) {
 		if (CFG.WITHOUT_FACE==0){
 			char *URL=what->info->url();
 			list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
-			delete (URL);
+			delete [] URL;
 			list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
 			for (int i=FILE_TYPE_COL;i<URL_COL;i++)
 				list_of_downloads_change_data(what->GTKCListRow,i,"");
@@ -814,7 +822,7 @@ void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 	if (what->split==NULL)
 		LimitsForHosts->decrement(what);
 	if (what->editor) what->editor->enable_ok_button();
-	SpeedScheduler->del(what->SpeedLimit);
+	if (what->SpeedLimit) SpeedScheduler->del(what->SpeedLimit);
 	delete (what->SpeedLimit);
 	what->SpeedLimit=NULL;
 	if (list) list->del(what);
@@ -882,6 +890,7 @@ int tMain::get_status_split(tDownload *what){
 	if (tmp && tmp->status==DOWNLOAD_COMPLETE &&
 	    tmp->finfo.type==T_REDIRECT && tmp->split->next_part==NULL)
 		return DOWNLOAD_COMPLETE;
+	int count=tmp->split->NumOfParts;
 	while (tmp){
 		switch(tmp->status){
 		case DOWNLOAD_COMPLETE:{
@@ -909,6 +918,8 @@ int tMain::get_status_split(tDownload *what){
 		default:
 			status[2]+=1;
 		};
+		count-=1;
+		if (count<=0) break;
 		tmp=tmp->split->next_part;
 	};
 	if (status[2]) return DOWNLOAD_GO;
@@ -1057,7 +1068,7 @@ void tMain::check_for_remote_commands(){
 			   pathes here 
 			 */
 			if (addnew->body && addnew->body[0]=='/'){
-				delete(CFG.LOCAL_SAVE_PATH);
+				delete[] CFG.LOCAL_SAVE_PATH;
 				CFG.LOCAL_SAVE_PATH=copy_string(addnew->body);
 			};
 			break;
@@ -1399,6 +1410,10 @@ void tMain::done() {
 	pthread_kill(server_thread_id,SIGUSR2);
 	pthread_join(server_thread_id,(void **)&rc);
 
+	/* removing ftpsearch before removing all queues
+	   to avoid segfault at host-limit checks */
+	if (ftpsearch) delete(ftpsearch);
+
 	tDownload *tmp=DOWNLOAD_QUEUES[DL_RUN]->last();
 	while (tmp) {
 		stop_download(tmp);
@@ -1424,6 +1439,8 @@ void tMain::done() {
 
 	for (int i=DL_ALONE+1;i<DL_TEMP;i++)
 		delete(DOWNLOAD_QUEUES[i]);
+	MainScheduler->save();
+	delete(MainScheduler);
 	delete(GlobalMeter);
 	delete(LocalMeter);
 	delete(ALL_DOWNLOADS);
@@ -1434,6 +1451,7 @@ void tMain::done() {
 	delete(MainLog);
 	delete(LimitsForHosts);
 	delete(SpeedScheduler);
+	delete(PasswordsForHosts);
 
 	close(LOCK_FILE_D);
 	delete (server);
@@ -1441,7 +1459,7 @@ void tMain::done() {
 	/*
 	for (int i=URL_HISTORY;i<LAST_HISTORY;i++)
 		if (ALL_HISTORIES[i]) delete(ALL_HISTORIES[i]);
-		*/
+	*/
 	if (LOCK_FILE) remove(LOCK_FILE);
 };
 
@@ -1467,7 +1485,7 @@ void *download_last(void *nothing) {
 						     _("Can't open '%s' to save log"),
 						     real_path);
 			};
-			delete(real_path);
+			delete[] real_path;
 		}else{
 			what->LOG->init_save(NULL);
 		};

@@ -26,9 +26,12 @@ struct tDialog{
 struct tDialogWidget:public tDialog{
 	GtkWidget *label;
 	GtkWidget *cancel_button;
+	GtkWidget *mainvbox;
 	tDialogWidget();
-	int init(char *ask,char *title);
+	virtual int init(char *ask,char *title);
 	~tDialogWidget();
+	protected:
+	virtual void create(char *ask,char *title);
 };
 
 struct tStringDialog:public tDialog{
@@ -37,6 +40,13 @@ struct tStringDialog:public tDialog{
 	tStringDialog();
 	int init(char *str,char *title);
 	~tStringDialog();
+};
+
+struct tConfirmedDialog:public tDialogWidget{
+	GtkWidget *check;
+	tConfirmedDialog();
+	int init(char *ask,char *title);
+	~tConfirmedDialog();
 };
 
 #endif

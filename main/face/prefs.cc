@@ -21,6 +21,7 @@
 #include "buttons.h"
 #include "edit.h"
 #include "graph.h"
+#include "dndtrash.h"
 #include "../config.h"
 
 const int SEARCH_NUMBER_OF_ENGINES=2;
@@ -33,7 +34,7 @@ tMainCfg TMPCFG={
 	{300,5,100,0,1,0,0,0,
 	 0,0,0,0,0,1,1,1,0,0,0,0,0,
 	 0},
-	100,1,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,0,0,
+	100,1,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,0,0,
 	100,0,0,0,(char*)NULL,0,0, //Log
 	5,0, //List
 	1,0,0,600,0,0, //flags
@@ -46,7 +47,7 @@ tMainCfg TMPCFG={
 	3,1024,10*1024,
 	(char*)NULL,0,
 	1,1,1,1,
-	0,1,
+	0,0,1,
 	1,0,15
 };
 
@@ -73,6 +74,7 @@ struct D4xPrefsWidget{
 	GtkWidget *link_as_file_check;
 	GtkWidget *ftp_dir_in_log;
 	GtkWidget *ftp_recurse_depth_entry;
+	GtkWidget *ftp_anonymous_pass;
 	/* LIMITS */
 	GtkWidget *limits_log;
 	GtkWidget *timeout_entry;
@@ -344,6 +346,19 @@ void d4x_prefs_download_ftp(){
 	GTK_TOGGLE_BUTTON(D4XPWS.ftp_dir_in_log)->active=TMPCFG.FTP_DIR_IN_LOG;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.ftp_dir_in_log,FALSE,FALSE,0);
 
+	GtkWidget *other_box=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(other_box),5);
+	D4XPWS.ftp_anonymous_pass=gtk_entry_new_with_max_length(18);
+	if (TMPCFG.ANONYMOUS_PASS)
+		text_to_combo(D4XPWS.ftp_anonymous_pass,TMPCFG.ANONYMOUS_PASS);
+	else
+		text_to_combo(D4XPWS.ftp_anonymous_pass,"-mdem@chat.ru");
+	other_label=gtk_label_new(_("default anonymous password"));
+	gtk_box_pack_start(GTK_BOX(other_box),D4XPWS.ftp_anonymous_pass,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_box),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(tmpbox),other_box,FALSE,FALSE,0);
+
+
 	gtk_widget_show_all(tmpbox);
 };
 
@@ -515,7 +530,7 @@ void d4x_prefs_main_log(){
 
 	GtkWidget *prefs_limits_mlbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_mlbox),5);
-	D4XPWS.log_length=my_gtk_entry_new_with_max_length(3,TMPCFG.MAX_MAIN_LOG_LENGTH);
+	D4XPWS.log_length=my_gtk_entry_new_with_max_length(4,TMPCFG.MAX_MAIN_LOG_LENGTH);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),D4XPWS.log_length,FALSE,FALSE,0);
 	GtkWidget *prefs_limits_mllabel=gtk_label_new(_("Maximum lines in MAIN log"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),prefs_limits_mllabel,FALSE,FALSE,0);
@@ -1026,7 +1041,7 @@ void d4x_prefs_init(){
 
 static void d4x_prefs_get_field(GtkWidget *widget,char **where,tHistory *history){
 	if (where==NULL) return;
-	if (*where) delete(*where);
+	if (*where) delete[] (*where);
 	*where=copy_string(text_from_combo(widget));
 	if (history!=NULL) history->add(*where);
 };
@@ -1061,6 +1076,9 @@ void d4x_prefs_apply_tmp(){
 		TMPCFG.DEFAULT_CFG.link_as_file=GTK_TOGGLE_BUTTON(D4XPWS.link_as_file_check)->active;
 		TMPCFG.FTP_DIR_IN_LOG=GTK_TOGGLE_BUTTON(D4XPWS.ftp_dir_in_log)->active;
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.ftp_recurse_depth_entry)),"%u",&TMPCFG.DEFAULT_CFG.ftp_recurse_depth);
+		if (TMPCFG.ANONYMOUS_PASS)
+			delete[] TMPCFG.ANONYMOUS_PASS;
+		TMPCFG.ANONYMOUS_PASS=copy_string(text_from_combo(D4XPWS.ftp_anonymous_pass));
 		return;
 	};
 	if (equal(label,_("HTTP"))){
@@ -1198,6 +1216,10 @@ void d4x_prefs_apply(){
  		aa.reinit_main_log();
 	D4XPWS.columns_order.apply_changes();
 	buttons_speed_set_text();
+	if (CFG.DND_TRASH)
+		dnd_trash_init();
+	else
+		dnd_trash_destroy();
 	save_config();
 };
 

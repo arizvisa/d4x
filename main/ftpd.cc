@@ -144,7 +144,7 @@ time_t ftp_date_from_str(char *src) {
 	};	
 	NOW=mktime(date);
 	delete date;
-	delete data;
+	delete[] data;
 	return NOW;
 };
 
@@ -224,8 +224,8 @@ void ftp_cut_string_list(char *src,tFileInfo *dst,int flag) {
 			};
 		};
 	};
-	delete str1;
-	delete name;
+	delete[] str1;
+	delete[] name;
 };
 //****************************************/
 void tFtpDownload::print_error(int error_code){
@@ -247,7 +247,7 @@ void tFtpDownload::print_error(int error_code){
 
 int tFtpDownload::change_dir() {
 	int rvalue=0;
-	if (CWDFlag) return 0;
+	if (DONT_CWD || CWDFlag) return 0;
 	/*
 	if (!equal(ADDR.username.get(),DEFAULT_USER)){
 		if ((rvalue=FTP->change_dir("/"))){
@@ -274,6 +274,12 @@ tFtpDownload::tFtpDownload():tDownloader(){
 	FTP=NULL;
 	DIR=list=NULL;
 	RetrNum=0;
+	DONT_CWD=0;
+	TMP_FILEPATH=NULL;
+};
+
+void tFtpDownload::dont_cwd(){
+	DONT_CWD=1;
 };
 
 int tFtpDownload::reconnect() {
@@ -316,7 +322,7 @@ void tFtpDownload::init_download(char *path,char *file) {
 	if (path && *path!='~' && *path!='/'){
 		path=sum_strings("/",path,NULL);
 		ADDR.path.set(path);
-		delete(path);
+		delete[] path;
 	}else
 		ADDR.path.set(path);
 };
@@ -329,7 +335,7 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	if (ADDR.username.get()==NULL)
 		ADDR.username.set(DEFAULT_USER);
 	if (ADDR.pass.get()==NULL)
-		ADDR.pass.set(DEFAULT_PASS);
+		ADDR.pass.set(CFG.ANONYMOUS_PASS);
 	DIR=NULL;
 	list=NULL;
 
@@ -349,7 +355,7 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 		char *temp=sum_strings(ADDR.username.get(),"@",
 				       ADDR.host.get(),port,NULL);
 		ADDR.username.set(temp);
-		delete(temp);
+		delete[] temp;
 	} else
 		FTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
 	FTP->set_passive(config.passive);
@@ -362,6 +368,19 @@ tStringList *tFtpDownload::dir() {
 	return DIR;
 };
 
+int tFtpDownload::ftp_get_size(tStringList *l){
+	if (ADDR.mask)
+		return(FTP->get_size(NULL,l));
+	if (DONT_CWD){
+		if (TMP_FILEPATH) delete[] TMP_FILEPATH;
+		TMP_FILEPATH=sum_strings("/",ADDR.path.get(),"/",
+					 ADDR.file.get(),NULL);
+		normalize_path(TMP_FILEPATH);
+		return(FTP->get_size(TMP_FILEPATH,l));
+	};
+	return(FTP->get_size(ADDR.file.get(),l));
+};
+
 fsize_t tFtpDownload::get_size() {
 	if (!list) {
 		list=new tStringList;
@@ -370,11 +389,7 @@ fsize_t tFtpDownload::get_size() {
 	while (1) {
 		if (!change_dir()) {
 			if (!FTP->stand_data_connection()) {
-				int a=0;
-				if (ADDR.mask)
-					a=FTP->get_size(NULL,list);
-				else
-					a=FTP->get_size(ADDR.file.get(),list);
+				int a=ftp_get_size(list);
 				if (a==0 && list->count()<=2) {
 					tString *last=list->last();
 					D_FILE.type=T_FILE;
@@ -416,6 +431,12 @@ fsize_t tFtpDownload::get_size() {
 			if (s!=STATUS_TIMEOUT)
 				break;
 */
+		}else{
+			if (FTP->get_status()==STATUS_CMD_ERR ||
+			    FTP->get_status()==STATUS_UNSPEC_ERR){
+				D_FILE.type=T_FILE;
+				break; //can't change dir;
+			};
 		};
 		if (reconnect())
 			break;
@@ -437,10 +458,7 @@ int tFtpDownload::download_dir() {
 						DIR->done();
 					};
 					Status=D_DOWNLOAD;
-					if (ADDR.mask)
-						ind=FTP->get_size(NULL,DIR);
-					else
-						ind=FTP->get_size(ADDR.file.get(),DIR);
+					ind=ftp_get_size(DIR);
 					if (ind==0) {
 						LOG->log(LOG_OK,_("Listing was loaded"));
 						return 0;
@@ -492,7 +510,14 @@ int tFtpDownload::download(fsize_t len) {
 					StartSize=rollback();
 					Status=D_DOWNLOAD;
 					fsize_t to_load=len>0?length_to_load-LOADED:0;
-					ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
+					if (DONT_CWD){
+						if (TMP_FILEPATH) delete[] TMP_FILEPATH;
+						TMP_FILEPATH=sum_strings("/",ADDR.path.get(),"/",
+									 ADDR.file.get(),NULL);
+						normalize_path(TMP_FILEPATH);
+						ind=FTP->get_file_from(TMP_FILEPATH,LOADED,to_load);;
+					}else
+						ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
 					if (!FTP->test_reget()){
 						if (config.retry==0) break;
 						StartSize=LOADED=0;
@@ -559,4 +584,5 @@ tFtpDownload::~tFtpDownload() {
 	if (FTP) delete(FTP);
 	if (DIR) delete(DIR);
 	if (list) delete(list);
+	if (TMP_FILEPATH) delete[] TMP_FILEPATH;
 };

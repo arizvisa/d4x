@@ -26,7 +26,7 @@ tMemoryWL::tMemoryWL(){
 };
 
 tMemoryWL::~tMemoryWL(){
-	if (buf) delete(buf);
+	if (buf) delete[] buf;
 };
 
 void tMemoryWL::grow(){
@@ -34,7 +34,7 @@ void tMemoryWL::grow(){
 		fsize_t newsize=bufsize+MWL_BLOCK_SIZE;
 		char *newbuf=new char[newsize];
 		memcpy(newbuf,buf,bufsize);
-		delete(buf);
+		delete[] buf;
 		buf=newbuf;
 		bufsize=newsize;
 	}else{

@@ -134,7 +134,9 @@ int tSocket::open_port(char *host, int port) {
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
 		return(SOCKET_CANT_ALLOCATE);
 	int a=1;
+//	size_t sl=5000;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
+//	setsockopt(fd,SOL_SOCKET,SO_RCVBUF,(char *)&sl,sizeof(sl));
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
 		return(SOCKET_CANT_CONNECT);
 	return 0;
@@ -293,7 +295,7 @@ int tSocket::readed_bytes() {
 };
 
 tSocket::~tSocket() {
-	if (buffer) delete(buffer);
+	if (buffer) delete[] buffer;
 	down();
 };
 

@@ -50,6 +50,7 @@ struct tMainCfg{
 	char *LOCAL_SAVE_PATH;
 	char *DEFAULT_NAME;
 	char *USER_AGENT;
+	char *ANONYMOUS_PASS;
 	int DEFAULT_HOST_LIMIT;
 	int ALLOW_FORCE_RUN;
 /* Log
@@ -148,6 +149,7 @@ struct tMainCfg{
 /* SPECIAL THINGS
  */
 	int WITHOUT_FACE;
+	int COLORIFIED_OUTPUT;
 	int DND_NEED_POPUP;
 /* FTP SEARCH
 */
@@ -185,6 +187,7 @@ enum HISTORIES_ENUM{
 	SAVE_HISTORY,
 	LOG_SAVE_HISTORY,
 	DESC_HISTORY,
+	REFERER_HISTORY,
 	LAST_HISTORY
 };
 
@@ -213,6 +216,7 @@ extern int GLOBAL_SLEEP_DELAY;
 extern tDB *ALL_DOWNLOADS;
 void var_check_all_limits();
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src);
+void var_free(tMainCfg *dst);
 
 extern const char *CFG_FILE;
 extern const char *CFG_DIR;

@@ -52,16 +52,16 @@ fsize_t tHProxyClient::get_size(char *filename,tStringList *list) {
 	if (username_proxy && userword_proxy) {
 		char *tmp=sum_strings(username_proxy,":",userword_proxy,NULL);
 		char *pass=string_to_base64(tmp);
-		delete tmp;
+		delete[] tmp;
 		send_request("Proxy-Authorization: Basic ",pass,"\r\n");
-		delete pass;
+		delete[] pass;
 	};
 	if (username && userword) {
 		char *tmp=sum_strings(username,":",userword,NULL);
 		char *pass=string_to_base64(tmp);
-		delete tmp;
+		delete[] tmp;
 		send_request("Authorization: Basic ",pass,"\r\n");
-		delete pass;
+		delete[] pass;
 	};
 	if (no_cache)
 		send_request("Pragma: no-cache\r\n");
@@ -76,12 +76,12 @@ void tHProxyClient::proxy_registr(char *user,char *password) {
 };
 
 void tHProxyClient::set_cookie_search(char *what){
-	if (cookie_path) delete(cookie_path);
+	if (cookie_path) delete[] cookie_path;
 	cookie_path=what;
 };
 
 tHProxyClient::~tHProxyClient() {
-	if (cookie_path) delete(cookie_path);
+	if (cookie_path) delete[] cookie_path;
 };
 
 /* ---------------------------------------------
@@ -140,8 +140,8 @@ char *tProxyDownload::make_name(){
 		strcat(rvalue,"?");
 		strcat(rvalue,ADDR.params.get());
 	};
-	delete(parsed_path);
-	delete(parsed_name);
+	delete[] parsed_path;
+	delete[] parsed_name;
 	return rvalue;
 };
 

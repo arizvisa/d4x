@@ -8,14 +8,6 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "mainlog.h"
-#include "var.h"
-#include "face/colors.h"
-#include "face/list.h"
-#include "face/prefs.h"
-#include "locstr.h"
-#include "face/lmenu.h"
-#include "ntlocale.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -25,6 +17,18 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include "mainlog.h"
+#include "var.h"
+#include "face/colors.h"
+#include "face/list.h"
+#include "face/prefs.h"
+#include "locstr.h"
+#include "face/lmenu.h"
+#include "face/log.h"
+#include "ntlocale.h"
+#include "main.h"
+
+extern tMain aa;
 
 static gint list_menu_open_row_main_log(GtkWidget *widget, tMLog *Log) {
 	Log->open_selected_row();
@@ -66,6 +70,10 @@ void tMLog::reinit(int a) {
 	MaxNum=a;
 };
 
+static void _ml_clist_addr_destroy_(tAddr *addr){
+	if (addr) delete(addr);
+};
+
 void tMLog::add_to_list() {
 	current_line+=1;
 	tLogString *str=(tLogString *)Last;
@@ -83,8 +91,17 @@ void tMLog::add_to_list() {
 	data[ML_COL_DATE] = tmpdate;
 	data[ML_COL_STRING] = str->body;
 	int row=0;
-	if (list)
+	if (list){
 		row=gtk_clist_append(list,data);
+		if (str->type==LOG_ERROR && last_error){
+			tAddr *addr=new tAddr;
+			addr->copy(last_error);
+			addr->username.set(NULL); //no need for search
+			addr->pass.set(NULL);  //no need for search
+			gtk_clist_set_row_data_full(list,row,addr,
+						    GtkDestroyNotify(_ml_clist_addr_destroy_));
+		};
+	};
 	GdkColor color;
 	char str_type;
 	switch (str->type & (LOG_DETAILED-1)) {
@@ -121,8 +138,19 @@ void tMLog::add_to_list() {
 		gtk_clist_set_foreground(list,row,&color);
 	};
 	strftime(useful,MAX_LEN,"%T %d %b %Y ",&msgtime);
-	if (CFG.WITHOUT_FACE)
-		printf("%c %s %s\n",str_type,useful,str->body);
+	if (CFG.WITHOUT_FACE){
+		if (str->type==LOG_ERROR){
+			if (CFG.COLORIFIED_OUTPUT) printf("%c[31;40;1m",27); //red
+			printf("%c %s %s\n",str_type,useful,str->body);
+		}else{
+			if (CFG.COLORIFIED_OUTPUT) printf("%c[35;40m",27);   //magenta
+			printf("%c ",str_type);
+			if (CFG.COLORIFIED_OUTPUT) printf("%c[34;40;1m",27); //blue
+			printf("%s ",useful);
+			if (CFG.COLORIFIED_OUTPUT) printf("%c[32;40;1m",27);
+			printf("%s\n",str->body);
+		};
+	};
 	if (fd) {
 		if (CFG.MAIN_LOG_FILE_LIMIT){
 			struct stat finfo;
@@ -215,8 +243,7 @@ int tMLog::popup(GdkEventButton *event) {
 	return FALSE;
 };
 
-void tMLog::open_row(int row) {
-	if (!list) return;
+void tMLog::real_open_row(int row){
 	char data[MAX_LEN];
 	sprintf(data,_("row number %i of main log"),row+1);
 	char *text;
@@ -226,11 +253,22 @@ void tMLog::open_row(int row) {
 	string->init(text,data);
 };
 
+void tMLog::open_row(int row) {
+	if (!list) return;
+	tAddr *addr=(tAddr *)gtk_clist_get_row_data(list,row);
+	tDownload *dwn;
+	if (addr  && (dwn=aa.find_url(addr))){
+		log_window_init(dwn);
+	}else{
+		real_open_row(row);
+	};
+};
+
 void tMLog::open_selected_row() {
 	if (!list) return;
 	GList *select=((GtkCList *)list)->selection;
 	if (select) {
-		open_row(GPOINTER_TO_INT(select->data));
+		real_open_row(GPOINTER_TO_INT(select->data));
 	};
 };
 
@@ -268,6 +306,7 @@ void tMLog::myprintf(int type,char *fmt,...){
 	char *cur=str;
 	va_list ap;
 	va_start(ap,fmt);
+	last_error=NULL;
 	*cur=0;
 	while (*fmt && cur-str<MAX_LEN){
 		if (*fmt=='%'){
@@ -286,7 +325,8 @@ void tMLog::myprintf(int type,char *fmt,...){
 				if (temp && temp->info){
 					char *s=temp->info->url();
 					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
-					delete(s);
+					delete[] s;
+					last_error=temp->info;
 				}else{
 					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");
 				};

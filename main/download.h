@@ -47,7 +47,9 @@ struct tSimplyCfg{
 	int restart_from_begin;
 	int dont_send_quit;
 	int check_time;
-	int split; //temporary flag
+	/* temporary flags */
+	int split; 
+	int redirect_count;
 	void copy_ints(tSimplyCfg *src);
 };
 

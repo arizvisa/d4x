@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
-"POT-Creation-Date: 2001-03-10 09:06+0700\n"
+"POT-Creation-Date: 2001-03-27 16:06+0800\n"
 "PO-Revision-Date: 1999-08-30 6:12+08\n"
 "Last-Translator: Merlin <merlin@turbolinux.com.cn>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,171 +40,176 @@ msgstr "不能分配套接字接口"
 msgid "Can't connect"
 msgstr "无法联接"
 
-#: ../config.cc:71
+#: ../config.cc:72
 msgid "You forgot to specify directory."
 msgstr ""
 
-#: ../config.cc:73
+#: ../config.cc:74
 msgid "You must specify number as second parameter for '-m' option"
 msgstr "您需要使用数字作为 '-m' 选项的第二个参数"
 
-#: ../config.cc:77
+#: ../config.cc:78
 msgid "You must specify number as parameter for '--exit-time' option"
 msgstr "您需要使用数字作为 '--exit-time' 选项的参数"
 
 # config.cc:
-#: ../config.cc:78
+#: ../config.cc:79
 msgid "Expect URL as parameter for '--ls' option"
 msgstr "需要 URL 作为 '--ls' 选项的参数"
 
-#: ../config.cc:290
+#: ../config.cc:292
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "不能从 '%s' 打开配置文件\n"
 
-#: ../config.cc:291
+#: ../config.cc:293
 msgid "Use default cfg :))...\n"
 msgstr "使用默认的配置文件:-))...\n"
 
-#: ../config.cc:486
+#: ../config.cc:490
 msgid "Can't open limits configuration file!\n"
 msgstr "不能打开限制文件！！！\n"
 
-#: ../config.cc:509
+#: ../config.cc:513
 msgid "Can't write limits to file!!!\n"
 msgstr "不能写限制到文件！！！\n"
 
 # config.cc:
-#: ../config.cc:539
+#: ../config.cc:543
 msgid "unknown option:"
 msgstr "未知选项："
 
 # config.cc:
-#: ../config.cc:580
+#: ../config.cc:588
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "运行下载：%d\n"
 
 # config.cc:
-#: ../config.cc:582
+#: ../config.cc:590
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "暂停的下载：%d\n"
 
 # config.cc:
-#: ../config.cc:584
+#: ../config.cc:592
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "失败的下载：%d\n"
 
 # config.cc:
-#: ../config.cc:586
+#: ../config.cc:594
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "完成的下载：%d\n"
 
 # config.cc:
-#: ../config.cc:589
+#: ../config.cc:597
 #, c-format
 msgid "Total: %d\n"
 msgstr "总共：%d\n"
 
-#: ../config.cc:591
+#: ../config.cc:599
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "下载了 %d 字节.\n"
 
 # config.cc:
-#: ../config.cc:593
+#: ../config.cc:601
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "当前速度：%d\n"
 
 # config.cc:
-#: ../config.cc:599
+#: ../config.cc:607
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "当前速度：%d\n"
 
-#: ../config.cc:689
+#: ../config.cc:697
 msgid "is absent in the queue\n"
 msgstr "不在队列中\n"
 
 # config.cc:
-#: ../config.cc:772
+#: ../config.cc:780
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "使用方法：nt [选项]... [URL链接]"
 
 # config.cc:
-#: ../config.cc:773
+#: ../config.cc:781
 msgid "print this page and exit"
 msgstr "列出此页，然后退出。"
 
 # config.cc:
-#: ../config.cc:774
+#: ../config.cc:782
 msgid "show version information and exit"
 msgstr "显示版本信息，然后退出。"
 
 # config.cc:
-#: ../config.cc:775
+#: ../config.cc:783
 msgid "show information if already run"
 msgstr "如果已经运行，显示信息"
 
 # config.cc:
-#: ../config.cc:776
+#: ../config.cc:784
 msgid "show current speed if already run"
 msgstr "如果已经运行，显示当前速度"
 
 # config.cc
-#: ../config.cc:777
+#: ../config.cc:785
 msgid "run in minimized mode"
 msgstr "最小化运行"
 
 # config.cc
-#: ../config.cc:778
+#: ../config.cc:786
 msgid "set timeout for exiting if nothing to do"
 msgstr "设置空闲退出时间"
 
 # config.cc:
-#: ../config.cc:779
+#: ../config.cc:787
 msgid "set directory for saving files"
 msgstr "设置文件存放目录"
 
 # config.cc:
-#: ../config.cc:780
+#: ../config.cc:788
 msgid "set lower speed limitation"
 msgstr "较低的速度"
 
 # config.cc:
-#: ../config.cc:781
+#: ../config.cc:789
 msgid "set medium speed limitation"
 msgstr "中等速度"
 
 # config.cc:
-#: ../config.cc:782
+#: ../config.cc:790
 msgid "set unlimited speed"
 msgstr "不限制速度"
 
-#: ../config.cc:783
+#: ../config.cc:791
 msgid "delete completed if already run"
 msgstr "如果已经运行, 删除已经完成的"
 
-#: ../config.cc:784
+#: ../config.cc:792
 msgid "set maximum active downloads"
 msgstr "设置最大活动下载数目"
 
 # config.cc
-#: ../config.cc:785
+#: ../config.cc:793
 msgid "restart all failed downloads"
 msgstr "重新下载所有失败的连接"
 
-#: ../config.cc:786
+#: ../config.cc:794
 msgid "run program without X interface"
 msgstr "命令行方式运行此程序"
 
-#: ../config.cc:787
+#: ../config.cc:795
 msgid "display info about URL in queue of downloads"
 msgstr "显示下载队列中URL的信息"
+
+#: ../config.cc:796
+#, fuzzy
+msgid "using colors if run without interface"
+msgstr "命令行方式运行此程序"
 
 # cookie.cc
 #: ../cookie.cc:123
@@ -222,122 +227,134 @@ msgstr "加载了 %i 个 cookie"
 msgid "Can't open cookies file!"
 msgstr "不能打开 cookie 文件"
 
-#: ../dlist.cc:105
+#: ../dlist.cc:111
 msgid "Can't write to file"
 msgstr "不能写到文件"
 
-#: ../dlist.cc:283
+#: ../dlist.cc:289
 #, c-format
 msgid "You have no permissions to create file at path %s"
 msgstr "你没有在目录 %s 中创建文件的权限"
 
-#: ../dlist.cc:288
+#: ../dlist.cc:294
 #, c-format
 msgid "You have no space at path %s for creating file"
 msgstr "你没有足够的空间在目录 %s 中创建文件."
 
-#: ../dlist.cc:293
+#: ../dlist.cc:299
 msgid "Directory already created!:))"
 msgstr "目录已经存在！:))"
 
 # dlist.cc
-#: ../dlist.cc:364
+#: ../dlist.cc:371
 msgid "File is already opened by another download!"
 msgstr "文件已经被其他下载打开!"
 
+#: ../dlist.cc:375
+msgid "Filesystem do not support advisory record locking!"
+msgstr ""
+
+#: ../dlist.cc:376
+msgid "Will proceed without it but beware that you might have problems."
+msgstr ""
+
 #. this is a link
-#: ../dlist.cc:408
+#: ../dlist.cc:418
 msgid "Trying to create a link"
 msgstr "试图创建一个连接"
 
-#: ../dlist.cc:413
+#: ../dlist.cc:423
 msgid "Link already created!:))"
 msgstr "链接已经存在！"
 
-#: ../dlist.cc:419
+#: ../dlist.cc:429
 msgid "Can't create link"
 msgstr "不能创建链接"
 
 #. this is a file
-#: ../dlist.cc:428
+#: ../dlist.cc:438
 msgid "Trying to create a file"
 msgstr "尝试创建文件..."
 
-#: ../dlist.cc:449
+#: ../dlist.cc:459
 msgid "Can't create file at the path:"
 msgstr "不能在此目录中创建文件："
 
-#: ../dlist.cc:451
+#: ../dlist.cc:461
 msgid "which has name:"
 msgstr "哪个有名字："
 
-#: ../dlist.cc:462
+#: ../dlist.cc:472
 msgid "File was created!"
 msgstr "文件已创建"
 
 #. this is a directory
-#: ../dlist.cc:467
+#: ../dlist.cc:477
 msgid "Trying to create a dir"
 msgstr "正在创建目录"
 
-#: ../dlist.cc:477
+#: ../dlist.cc:487
 msgid "Can't create directory!"
 msgstr "不能创建目录！"
 
 #. this is device
-#: ../dlist.cc:487
+#: ../dlist.cc:497
 msgid "Downloader can't create devices..."
 msgstr "本程序不能创建设备..."
 
-#: ../dlist.cc:814
+#: ../dlist.cc:831
 msgid "Downloading was successefully completed!"
 msgstr "下载完成!"
 
-#: ../dlist.cc:847
+#: ../dlist.cc:867
 msgid "Downloading was failed..."
 msgstr "下载失败..."
 
-#: ../dlist.cc:952
-msgid "It is strange that we can't delete file which just created..."
-msgstr "奇怪, 我不能删除刚建立的文件..."
-
-#: ../dlist.cc:956 ../dlist.cc:1133
-msgid "File not found"
-msgstr "没有找到文件"
-
-#: ../dlist.cc:964
+#: ../dlist.cc:994
 msgid "Redirect detected..."
 msgstr "检测到重定向..."
 
+#: ../dlist.cc:1001
+msgid "It is strange that we can't delete file which just created..."
+msgstr "奇怪, 我不能删除刚建立的文件..."
+
+#: ../dlist.cc:1005 ../dlist.cc:1176
+msgid "File not found"
+msgstr "没有找到文件"
+
 # dlist.cc
-#: ../dlist.cc:1006
+#: ../dlist.cc:1049
 msgid "Sorting started"
 msgstr "开始排序"
 
-#: ../dlist.cc:1009
+#: ../dlist.cc:1052
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "正在 ping (尝试 %i/%i)"
 
 # dlist.cc
-#: ../dlist.cc:1084
+#: ../dlist.cc:1127
 msgid "Searching failed"
 msgstr "查找失败"
 
 # dlist.cc:
-#: ../dlist.cc:1104
+#: ../dlist.cc:1147
 msgid "Search had been completed!"
 msgstr "查找结束"
 
-#: ../dlist.cc:1110
+#: ../dlist.cc:1153
 msgid "Was Started!"
 msgstr "已经开始!"
 
-#: ../dlist.cc:1114
+#: ../dlist.cc:1157
 msgid "It is a link and we already load it"
 msgstr "这是一个已经装入的链接"
 
-#: ../dlist.cc:1199
+#: ../dlist.cc:1181
+msgid "Trying to work without CWD"
+msgstr ""
+
+#: ../dlist.cc:1248
 msgid "Can't split file to specified number of parts!"
 msgstr "不能将文件分割成指定的份数!"
 
@@ -360,11 +377,16 @@ msgstr "重试 %i ..."
 msgid "File on a server is newer then local one. Restarting from begin\n"
 msgstr "服务器上的文件比本地的新. 从头开始.\n"
 
-#: ../download.cc:227
+#: ../download.cc:228
+#, c-format
+msgid "Error code %i"
+msgstr ""
+
+#: ../download.cc:229
 msgid "Warning! Probably you found the BUG!!!"
 msgstr "警告！您可能发现了本程序的错误！！！"
 
-#: ../download.cc:228
+#: ../download.cc:230
 msgid "If you see this message please report to mdem@chat.ru"
 msgstr "如果您看到了此信息，请您报告到 mdem@chat.ru"
 
@@ -421,40 +443,40 @@ msgstr "不能改变目录"
 msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "服务器拒绝登录，可能有太多的用户正在使用。"
 
-#: ../ftpd.cc:295 ../httpd.cc:100
+#: ../ftpd.cc:301 ../httpd.cc:100
 msgid "Sleeping"
 msgstr "休眠"
 
-#: ../ftpd.cc:396
+#: ../ftpd.cc:411
 #, c-format
 msgid "Length is %i"
 msgstr "长度为 %i"
 
-#: ../ftpd.cc:400
+#: ../ftpd.cc:415
 msgid "This is a directory!"
 msgstr "这是一个目录！"
 
-#: ../ftpd.cc:409
+#: ../ftpd.cc:424
 msgid "Couldn't get size :(("
 msgstr "不能获得长度:(("
 
-#: ../ftpd.cc:428
+#: ../ftpd.cc:449
 msgid "Loading directory..."
 msgstr "加载目录..."
 
-#: ../ftpd.cc:445
+#: ../ftpd.cc:463
 msgid "Listing was loaded"
 msgstr "列表已经打开"
 
-#: ../ftpd.cc:448
+#: ../ftpd.cc:466
 msgid "Listing not loaded completelly"
 msgstr "列表没有全部装入"
 
-#: ../ftpd.cc:475
+#: ../ftpd.cc:493
 msgid "Link was loaded :))"
 msgstr "链接加载成功:))"
 
-#: ../ftpd.cc:502 ../httpd.cc:310
+#: ../ftpd.cc:527 ../httpd.cc:312
 #, c-format
 msgid "%i bytes loaded."
 msgstr "下载了 %i 字节."
@@ -467,7 +489,7 @@ msgstr "通过代理服务器连接到互联网"
 msgid "Sending request to proxy"
 msgstr "发送请求到代理服务器"
 
-#: ../hproxy.cc:164 ../httpd.cc:255
+#: ../hproxy.cc:164 ../httpd.cc:257
 msgid "Answer read ok"
 msgstr "应答成功"
 
@@ -500,245 +522,249 @@ msgstr "服务器返回错误的回答:<"
 msgid "Couldn't get normal answer!"
 msgstr "不能得到正常的应答！"
 
-#: ../httpd.cc:212
+#: ../httpd.cc:214
 #, c-format
 msgid "Size for download is %i bytes"
 msgstr "要下载的长度为 %i 字节"
 
-#: ../httpd.cc:252
+#: ../httpd.cc:254
 msgid "Sending HTTP request..."
 msgstr "发送 HTTP 请求..."
 
-#: ../httpd.cc:292
+#: ../httpd.cc:294
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "断点续传可能不支持! 重新开始下载..."
 
-#: ../httpd.cc:295
+#: ../httpd.cc:297
 msgid "ETag was changed, restarting again..."
 msgstr "ETag 被改变, 再次重新开始..."
 
 # log.cc:
-#: ../log.cc:63
+#: ../log.cc:64
 msgid "Log was started!"
 msgstr "记录已经启动！"
 
 # main.cc:
-#: ../main.cc:130
+#: ../main.cc:131
 msgid "Loading default list of downloads"
 msgstr "加载默认的下载列表"
 
 # main.cc:
-#: ../main.cc:146
+#: ../main.cc:147
 msgid "Append list to current queue of downloads"
 msgstr "添加列表内容到当前的下载队列"
 
 # main.cc
-#: ../main.cc:251 ../main.cc:1096
+#: ../main.cc:252 ../main.cc:1083
 msgid "Delete completed downloads"
 msgstr "清除完成的下载"
 
 # main.cc
-#: ../main.cc:265
+#: ../main.cc:266
 msgid "Delete failed downloads"
 msgstr "清除失败的下载"
 
-#: ../main.cc:285
+#: ../main.cc:286
 msgid "Clear queue of downloads"
 msgstr "清除下载队列"
 
 # main.cc
-#: ../main.cc:338
+#: ../main.cc:340
 msgid "Run new thread for %z"
 msgstr "为 %z 启动新下载线程"
 
 # main.cc:
-#: ../main.cc:344
+#: ../main.cc:346
 msgid "Can't run new thread for downloading!"
 msgstr "不能启动新的下载线程"
 
-#: ../main.cc:346
+#: ../main.cc:348
 #, c-format
 msgid "Maximum active downloads is set to %i"
 msgstr "最大活动下载数设置为 %i"
 
-#: ../main.cc:396
+#: ../main.cc:398
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "下载文件 %s (%s) 被用户终止。"
 
-#: ../main.cc:454
+#: ../main.cc:456
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "从下载队列删除文件项 %s"
 
-#: ../main.cc:532
+#: ../main.cc:534
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "继续下载文件 %s (从%s下载) ..."
 
-#: ../main.cc:622
+#: ../main.cc:624
 msgid "file"
 msgstr "文件"
 
-#: ../main.cc:721
+#: ../main.cc:723
 msgid "dir"
 msgstr "目录 "
 
-#: ../main.cc:725
+#: ../main.cc:727
 msgid "link"
 msgstr "链接"
 
-#: ../main.cc:729
+#: ../main.cc:731
 msgid "device"
 msgstr "设备"
 
+#: ../main.cc:770
+msgid "Too many redirections!"
+msgstr ""
+
 # main.cc:
-#: ../main.cc:796
+#: ../main.cc:780
 msgid "Redirection from [%z] to the same location!"
 msgstr "从 [%z] 重定向到相同的地址"
 
 # main.cc:
-#: ../main.cc:829
+#: ../main.cc:813
 msgid "Redirection from [%z] to nowhere!"
 msgstr "从 [%z] 重定向到空地址"
 
 # main.cc
-#: ../main.cc:837
+#: ../main.cc:821
 msgid "Prepare [%z] for stoping"
 msgstr "准备停止 [%z]"
 
 # main.cc:
-#: ../main.cc:867
+#: ../main.cc:851
 msgid "Redirect from %z"
 msgstr "从 %z 重定向"
 
-#: ../main.cc:871
+#: ../main.cc:855
 msgid "Downloading of directory %z was completed"
 msgstr "目录 %z 下载完成"
 
-#: ../main.cc:875
+#: ../main.cc:859
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr "文件 %z 下载完成, 速度为: %i 字节/秒"
 
 # main.cc
-#: ../main.cc:881
+#: ../main.cc:865
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "删除已完成的下载 %z "
 
-#: ../main.cc:892
+#: ../main.cc:876
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "严重错误导致下载文件 %z 终止"
 
 # main.cc
-#: ../main.cc:895
+#: ../main.cc:879
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "删除失败的下载 %z "
 
-#: ../main.cc:926
+#: ../main.cc:911
 msgid "Splited download [%z] was stopped because one of threads failed"
 msgstr "因为其中一个线程失败, 分割下载 [%z] 被停止."
 
-#: ../main.cc:1056
+#: ../main.cc:1043
 msgid "Restarting failed downloads"
 msgstr "重新下载失败的文件"
 
 # main.cc
-#: ../main.cc:1056 ../main.cc:1076 ../main.cc:1092 ../main.cc:1096
-#: ../main.cc:1101 ../main.cc:1114 ../main.cc:1119
+#: ../main.cc:1043 ../main.cc:1063 ../main.cc:1079 ../main.cc:1083
+#: ../main.cc:1088 ../main.cc:1101 ../main.cc:1106
 msgid "[control socket]"
 msgstr "[控制接口]"
 
 # main.cc
-#: ../main.cc:1067
+#: ../main.cc:1054
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "从控制接口添加下载"
 
 # main.cc
-#: ../main.cc:1074
+#: ../main.cc:1061
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "设置限制速度为 %s %s"
 
 # main.cc
-#: ../main.cc:1092
+#: ../main.cc:1079
 msgid "Setup maximum active downloads to"
 msgstr "设置最大活动下载数目到"
 
-#: ../main.cc:1114
+#: ../main.cc:1101
 msgid "Exiting if nothing to do is switched off"
 msgstr "空闲退出功能被关闭"
 
-#: ../main.cc:1119
+#: ../main.cc:1106
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "如果空闲 %i 分钟 %s, 本程序将退出"
 
-#: ../main.cc:1368
+#: ../main.cc:1355
 msgid "Normally started"
 msgstr "程序启动正常"
 
-#: ../main.cc:1416
+#: ../main.cc:1403
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "添加下载文件 %s 从地址 %s"
 
 # main.cc
-#: ../main.cc:1456
+#: ../main.cc:1449
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "此对话装载了 %lu 字节"
 
 # main.cc:
-#: ../main.cc:1457
+#: ../main.cc:1450
 msgid "Downloader exited normaly"
 msgstr "正常退出"
 
-#: ../main.cc:1491
+#: ../main.cc:1485
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "不能打开 '%s' 记录文件"
 
-#: ../main.cc:1522
+#: ../main.cc:1516
 msgid "Such protocol is not supported!"
 msgstr "不能支持此协议"
 
 # mainlog.cc:
-#: ../mainlog.cc:133
+#: ../mainlog.cc:161
 msgid ""
 "Limitation for size of file of mainlog reached! File have been truncated."
 msgstr "达到主记录文件的长度限制，文件被截断。"
 
-#: ../mainlog.cc:142
+#: ../mainlog.cc:170
 msgid "Can't write to file interrupting write to file"
 msgstr "不能用写文件来终止写文件"
 
-#: ../mainlog.cc:183
+#: ../mainlog.cc:211
 msgid "Open a row"
 msgstr "打开一行"
 
-#: ../mainlog.cc:186
+#: ../mainlog.cc:214
 msgid "Clear log"
 msgstr "清除记录"
 
-#: ../face/fsched.cc:710 ../face/lmenu.cc:139 ../mainlog.cc:189
+#: ../face/fsched.cc:722 ../face/lmenu.cc:139 ../mainlog.cc:217
 msgid "Properties"
 msgstr "属性"
 
-#: ../mainlog.cc:221
+#: ../mainlog.cc:248
 #, c-format
 msgid "row number %i of main log"
 msgstr "主记录文件行号 %i"
 
-#: ../mainlog.cc:249
+#: ../mainlog.cc:287
 msgid "Can't open file for saving log"
 msgstr "不能打开记录文件"
 
-#: ../nt.cc:98
+#: ../nt.cc:100
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr "警告!!!不能找到HOME环境变量!所以不能读设置!"
 
-#: ../nt.cc:111
+#: ../nt.cc:113
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s 可能已经运行\n"
@@ -774,126 +800,130 @@ msgid "Pinging  (it takes 30 seconds maximum)..."
 msgstr "探测主机(ping), 可能需要最多30秒..."
 
 # var.cc
-#: ../var.cc:93
+#: ../var.cc:92
 msgid "low"
 msgstr "低"
 
-#: ../var.cc:94
+#: ../var.cc:93
 msgid "medium"
 msgstr "中"
 
-#: ../var.cc:95
+#: ../var.cc:94
 msgid "unlimited"
 msgstr "高"
 
-#: ../face/about.cc:98
+#: ../face/about.cc:99
 msgid "About"
 msgstr "关于"
 
-#: ../face/about.cc:103
+#: ../face/about.cc:104
 msgid "Author: Koshelev Maxim"
 msgstr "作者: Koshelev Maxim"
 
-#: ../face/about.cc:105
+#: ../face/about.cc:106
 msgid "Translators team"
 msgstr "翻译人员"
 
 # face/about.cc
-#: ../face/about.cc:112
+#: ../face/about.cc:113
 msgid "Special thanks to"
 msgstr "特别感谢:"
 
 # face/
-#: ../face/about.cc:119 ../face/about.cc:191 ../face/about.cc:246
-#: ../face/edit.cc:630 ../face/edit.cc:1487 ../face/fsched.cc:182
-#: ../face/fsched.cc:716 ../face/limface.cc:77 ../face/limface.cc:319
-#: ../face/passface.cc:76 ../face/passface.cc:258 ../face/prefs.cc:994
+#: ../face/about.cc:120 ../face/about.cc:188 ../face/about.cc:269
+#: ../face/edit.cc:706 ../face/edit.cc:1571 ../face/fsched.cc:194
+#: ../face/fsched.cc:728 ../face/limface.cc:77 ../face/limface.cc:319
+#: ../face/passface.cc:76 ../face/passface.cc:258 ../face/prefs.cc:1009
 #: ../face/saveload.cc:137 ../face/saveload.cc:177 ../face/saveload.cc:216
 msgid "Ok"
 msgstr "确定"
 
-#: ../face/about.cc:192 ../face/edit.cc:631 ../face/fsched.cc:717
-#: ../face/limface.cc:78 ../face/passface.cc:77 ../face/prefs.cc:995
+#: ../face/about.cc:189 ../face/edit.cc:707 ../face/fsched.cc:729
+#: ../face/limface.cc:78 ../face/passface.cc:77 ../face/prefs.cc:1010
 #: ../face/saveload.cc:139 ../face/saveload.cc:179 ../face/saveload.cc:218
 msgid "Cancel"
 msgstr "取消"
+
+#: ../face/about.cc:229
+msgid "Don't ask next time"
+msgstr ""
 
 #: ../face/addd.cc:100 ../face/addd.cc:168
 msgid "Add new download"
 msgstr "添加新的下载作业"
 
-#: ../face/buttons.cc:48
+#: ../face/buttons.cc:54
 msgid "Delete ALL downloads?"
 msgstr "删除所有下载作业?"
 
-#: ../face/buttons.cc:48
+#: ../face/buttons.cc:54
 msgid "Delete all?"
 msgstr "全部删除?"
 
-#: ../face/buttons.cc:54 ../face/buttons.cc:197
+#: ../face/buttons.cc:65 ../face/buttons.cc:208
 msgid " Speed level one "
 msgstr " 速度 1 "
 
-#: ../face/buttons.cc:58 ../face/buttons.cc:206
+#: ../face/buttons.cc:69 ../face/buttons.cc:217
 msgid " Speed level two "
 msgstr " 速度 2 "
 
 #.	gtk_container_add (GTK_CONTAINER (HandleBox), ButtonsBar);
-#: ../face/buttons.cc:170
+#: ../face/buttons.cc:181
 msgid " Add new download "
 msgstr "添加新的下载作业 "
 
-#: ../face/buttons.cc:172
+#: ../face/buttons.cc:183
 msgid " Paste from clipboard "
 msgstr " 从粘贴板取得下载链接 "
 
-#: ../face/buttons.cc:174
+#: ../face/buttons.cc:185
 msgid " Del downloads "
 msgstr " 删除下载作业 "
 
-#: ../face/buttons.cc:177
+#: ../face/buttons.cc:188
 msgid " Continue/restart downloads "
 msgstr " 继续/重新下载 "
 
-#: ../face/buttons.cc:179
+#: ../face/buttons.cc:190
 msgid " Stop downloads "
 msgstr " 停止下载 "
 
-#: ../face/buttons.cc:181
+#: ../face/buttons.cc:192
 msgid " Del Completed downloads "
 msgstr " 清除已完成的下载作业 "
 
-#: ../face/buttons.cc:183
+#: ../face/buttons.cc:194
 msgid " Move up "
 msgstr " 向上移 "
 
-#: ../face/buttons.cc:185
+#: ../face/buttons.cc:196
 msgid " Move down "
 msgstr " 向下移 "
 
-#: ../face/buttons.cc:187
+#: ../face/buttons.cc:198
 msgid " View log "
 msgstr " 查看记录 "
 
-#: ../face/buttons.cc:190
+#: ../face/buttons.cc:201
 msgid " Options "
 msgstr " 选项 "
 
-#: ../face/buttons.cc:215
+#: ../face/buttons.cc:226
 msgid " Unlimited speed "
 msgstr " 不限制速度 "
 
-#: ../face/buttons.cc:223
+#: ../face/buttons.cc:234
 msgid " Delete all downloads "
 msgstr " 删除所有下载链接 "
 
 # face/buttons.cc:
-#: ../face/buttons.cc:225
+#: ../face/buttons.cc:236
 msgid " Save list "
 msgstr "保存列表"
 
 # face/buttons.cc:
-#: ../face/buttons.cc:232
+#: ../face/buttons.cc:243
 msgid " DnD basket "
 msgstr "拖放箱"
 
@@ -1005,262 +1035,266 @@ msgid "/Exit"
 msgstr "/退出"
 
 # face/dndtrash.cc:
-#: ../face/dndtrash.cc:243 ../face/list.cc:870 ../face/list.cc:887
+#: ../face/dndtrash.cc:243 ../face/list.cc:895 ../face/list.cc:912
 msgid "Drop link here"
 msgstr "将链接拖放到这里"
 
-#: ../face/edit.cc:56 ../face/edit.cc:343
+#: ../face/edit.cc:58 ../face/edit.cc:407
 msgid "Use password for this site"
 msgstr "对此站点使用口令"
 
-#: ../face/edit.cc:57 ../face/edit.cc:307
+#: ../face/edit.cc:59 ../face/edit.cc:371
 msgid "Save download to folder"
 msgstr "保存下载文件到目录"
 
 # face/edit.cc
-#: ../face/edit.cc:58 ../face/edit.cc:360
+#: ../face/edit.cc:60 ../face/edit.cc:424
 msgid "Restart this download from begining"
 msgstr "从开始重新下载"
 
 # face/edit.cc
-#: ../face/edit.cc:59
+#: ../face/edit.cc:61
 msgid "Timeout for reading from socket"
 msgstr "读取套接字超时"
 
-#: ../face/edit.cc:60
+#: ../face/edit.cc:62
 msgid "Speed limitation"
 msgstr "速度限制"
 
-#: ../face/edit.cc:61
+#: ../face/edit.cc:63
 msgid "Maximum attempts"
 msgstr "最大尝试次数"
 
-#: ../face/edit.cc:62
+#: ../face/edit.cc:64
 msgid "Timeout before reconnection"
 msgstr "重新连接之前的延时"
 
-#: ../face/edit.cc:63
+#: ../face/edit.cc:65
 msgid "Rollback after reconnecting"
 msgstr "重新连接后回退量"
 
-#: ../face/edit.cc:64 ../face/edit.cc:424 ../face/prefs.cc:214
+#: ../face/edit.cc:66 ../face/edit.cc:488 ../face/prefs.cc:216
 msgid "Get date from the server"
 msgstr "从服务器获得时间"
 
-#: ../face/edit.cc:65 ../face/edit.cc:428 ../face/prefs.cc:218
+#: ../face/edit.cc:67 ../face/edit.cc:492 ../face/prefs.cc:220
 msgid "Retry if resuming is not supported"
 msgstr "如果断点续传不支持则重试"
 
 # face/edit.cc:
-#: ../face/edit.cc:66 ../face/edit.cc:419
+#: ../face/edit.cc:68 ../face/edit.cc:483
 msgid "Number of parts for spliting this download"
 msgstr "进行切分下载的数目(0为不切分)"
 
-#: ../face/edit.cc:67 ../face/edit.cc:466 ../face/prefs.cc:319
+#: ../face/edit.cc:69 ../face/edit.cc:530 ../face/prefs.cc:321
 msgid "Use passive mode for FTP"
 msgstr "使用被动模式到FTP"
 
-#: ../face/edit.cc:68 ../face/edit.cc:472 ../face/prefs.cc:327
+#: ../face/edit.cc:70 ../face/edit.cc:536 ../face/prefs.cc:329
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "从服务器获得文件权限(仅限FTP)"
 
 # face/prefs.cc, face/edit.cc
-#: ../face/edit.cc:69 ../face/edit.cc:469 ../face/prefs.cc:323
+#: ../face/edit.cc:71 ../face/edit.cc:533 ../face/prefs.cc:325
 msgid "Don't send QUIT command (FTP)"
 msgstr "不发送 QUIT 命令(FTP)"
 
 # face/edit.cc
-#: ../face/edit.cc:70 ../face/edit.cc:432 ../face/prefs.cc:222
+#: ../face/edit.cc:72 ../face/edit.cc:496 ../face/prefs.cc:224
 msgid "Sleep before completing"
 msgstr "完成之前休眠"
 
 # face/prefs.cc
-#: ../face/edit.cc:71 ../face/edit.cc:436 ../face/prefs.cc:234
+#: ../face/edit.cc:73 ../face/edit.cc:500 ../face/prefs.cc:236
 msgid "Compare date/time of remote file with local one"
 msgstr "比较远程文件和本地文件的日期/时间"
 
 # face/edit.cc:
-#: ../face/edit.cc:72 ../face/edit.cc:475 ../face/prefs.cc:331
+#: ../face/edit.cc:74 ../face/edit.cc:539 ../face/prefs.cc:333
 msgid "Try to load symbolic link as file via FTP"
 msgstr "尝试将文件链接作为文件进行FTP下载"
 
-#: ../face/edit.cc:73
+#: ../face/edit.cc:75
 msgid "Depth of recursing for FTP"
 msgstr "FTP 下载遍历深度"
 
-#: ../face/edit.cc:74
+#: ../face/edit.cc:76
 msgid "Depth of recursing for HTTP"
 msgstr "HTTP 下载遍历深度"
 
 # face/edit.cc:
-#: ../face/edit.cc:75 ../face/edit.cc:505 ../face/prefs.cc:353
+#: ../face/edit.cc:77 ../face/edit.cc:569 ../face/prefs.cc:368
 msgid "Only subdirs"
 msgstr "仅限子目录"
 
 # face/edit.cc
-#: ../face/edit.cc:76 ../face/edit.cc:506 ../face/prefs.cc:354
+#: ../face/edit.cc:78 ../face/edit.cc:570 ../face/prefs.cc:369
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "在通过http遍历时, 允许离开此服务器"
 
-#: ../face/edit.cc:77 ../face/edit.cc:507 ../face/prefs.cc:355
+#: ../face/edit.cc:79 ../face/edit.cc:571 ../face/prefs.cc:370
 msgid "Change links in HTML file to local"
 msgstr "将html文件的链接转换成本地"
 
-#: ../face/edit.cc:78 ../face/edit.cc:515 ../face/prefs.cc:372
+#: ../face/edit.cc:80 ../face/edit.cc:579 ../face/prefs.cc:387
 msgid "User-Agent"
 msgstr "用户代理"
 
-#: ../face/edit.cc:79 ../face/edit.cc:617 ../face/edit.cc:620
-#: ../face/prefs.cc:395 ../face/prefs.cc:913 ../face/prefs.cc:1080
+#: ../face/edit.cc:81 ../face/edit.cc:589
+msgid "Referer"
+msgstr ""
+
+#: ../face/edit.cc:82 ../face/edit.cc:693 ../face/edit.cc:696
+#: ../face/prefs.cc:410 ../face/prefs.cc:928 ../face/prefs.cc:1098
 msgid "Proxy"
 msgstr "代理服务器"
 
 #. Init time
 #.
-#: ../face/edit.cc:80 ../face/edit.cc:536 ../face/edit.cc:579
-#: ../face/fsched.cc:170 ../face/lod.cc:50
+#: ../face/edit.cc:83 ../face/edit.cc:612 ../face/edit.cc:655
+#: ../face/fsched.cc:179 ../face/lod.cc:50
 msgid "Time"
 msgstr "时间"
 
-#: ../face/edit.cc:178 ../face/edit.cc:195
+#: ../face/edit.cc:191 ../face/edit.cc:208
 msgid "Edit download"
 msgstr "编辑下载属性"
 
 # face/lod.cc
-#: ../face/edit.cc:306 ../face/lod.cc:54
+#: ../face/edit.cc:370 ../face/lod.cc:54
 msgid "Description"
 msgstr "描述"
 
-#: ../face/edit.cc:308
+#: ../face/edit.cc:372
 msgid "Save download to file"
 msgstr "保存下载到文件"
 
-#: ../face/edit.cc:309 ../face/edit.cc:1169 ../face/edit.cc:1229
+#: ../face/edit.cc:373 ../face/edit.cc:1253 ../face/edit.cc:1313
 #: ../face/passface.cc:66
 msgid "password"
 msgstr "口令"
 
-#: ../face/edit.cc:310
+#: ../face/edit.cc:374
 msgid "user name"
 msgstr "用户名"
 
 # face/edit.cc:
 #. set as default button
 #.
-#: ../face/edit.cc:313
+#: ../face/edit.cc:377
 msgid "Default"
 msgstr "默认"
 
 # face/edit.cc:
-#: ../face/edit.cc:359 ../face/prefs.cc:230
+#: ../face/edit.cc:423 ../face/prefs.cc:232
 msgid "Pause this just after adding"
 msgstr "暂停刚刚加入的"
 
-#: ../face/edit.cc:365 ../face/prefs.cc:212 ../face/prefs.cc:889
-#: ../face/prefs.cc:1036
+#: ../face/edit.cc:429 ../face/prefs.cc:214 ../face/prefs.cc:904
+#: ../face/prefs.cc:1051
 msgid "Download"
 msgstr "下载"
 
-#: ../face/edit.cc:368 ../face/prefs.cc:683 ../face/prefs.cc:968
-#: ../face/prefs.cc:1153
+#: ../face/edit.cc:432 ../face/prefs.cc:698 ../face/prefs.cc:983
+#: ../face/prefs.cc:1171
 msgid "Main"
 msgstr "主要"
 
-#: ../face/edit.cc:384 ../face/prefs.cc:264
+#: ../face/edit.cc:448 ../face/prefs.cc:266
 msgid "Timeout for reading from socket (in seconds)"
 msgstr " 读套接字接口超时时间(秒) "
 
-#: ../face/edit.cc:391 ../face/prefs.cc:271
+#: ../face/edit.cc:455 ../face/prefs.cc:273
 msgid "Timeout before reconnection (in seconds)"
 msgstr " 重新连接之前的延迟时间(秒)"
 
-#: ../face/edit.cc:398 ../face/prefs.cc:278
+#: ../face/edit.cc:462 ../face/prefs.cc:280
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "重试次数(0为不限制)"
 
 # face/refs.cc:
-#: ../face/edit.cc:405 ../face/prefs.cc:285
+#: ../face/edit.cc:469 ../face/prefs.cc:287
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "重新连接时的退回量（字节）"
 
 # face/edit.cc
-#: ../face/edit.cc:412 ../face/prefs.cc:292
+#: ../face/edit.cc:476 ../face/prefs.cc:294
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "速度限制(字节/秒), 0 为不限制"
 
-#: ../face/edit.cc:440
+#: ../face/edit.cc:504
 msgid "Save log to file"
 msgstr "保存记录到文件"
 
-#: ../face/edit.cc:450
+#: ../face/edit.cc:514
 msgid "Auto"
 msgstr "自动"
 
-#: ../face/edit.cc:457 ../face/edit.cc:460
+#: ../face/edit.cc:521 ../face/edit.cc:524
 msgid "Common"
 msgstr "普通"
 
-#: ../face/edit.cc:483 ../face/edit.cc:500 ../face/prefs.cc:338
-#: ../face/prefs.cc:366
+#: ../face/edit.cc:547 ../face/edit.cc:564 ../face/prefs.cc:340
+#: ../face/prefs.cc:381
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "最大遍历深度(0 - 不限制, 1 - 不遍历)"
 
-#: ../face/edit.cc:551
+#: ../face/edit.cc:627
 msgid "Hours"
 msgstr "时"
 
-#: ../face/edit.cc:559
+#: ../face/edit.cc:635
 msgid "Minutes"
 msgstr "分"
 
-#: ../face/edit.cc:571
+#: ../face/edit.cc:647
 msgid "Start this downloading at:"
 msgstr "开始此下载从: "
 
-#: ../face/edit.cc:1106
+#: ../face/edit.cc:1190
 msgid "FTP proxy type"
 msgstr "FTP代理方式"
 
-#: ../face/edit.cc:1117
+#: ../face/edit.cc:1201
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: ../face/edit.cc:1131
+#: ../face/edit.cc:1215
 msgid "Use this proxy for FTP"
 msgstr "FTP 使用此代理服务器"
 
 #. gtk_entry_new();
-#: ../face/edit.cc:1139 ../face/edit.cc:1201
+#: ../face/edit.cc:1223 ../face/edit.cc:1285
 msgid "port"
 msgstr "端口"
 
-#: ../face/edit.cc:1146 ../face/edit.cc:1207
+#: ../face/edit.cc:1230 ../face/edit.cc:1291
 msgid "need password"
 msgstr "需要口令"
 
-#: ../face/edit.cc:1154 ../face/edit.cc:1215 ../face/passface.cc:65
+#: ../face/edit.cc:1238 ../face/edit.cc:1299 ../face/passface.cc:65
 #: ../face/passface.cc:244
 msgid "username"
 msgstr "用户名"
 
 # face/lod.cc
-#: ../face/edit.cc:1186
+#: ../face/edit.cc:1270
 msgid "Don't get from cache"
 msgstr "不从缓存中读取"
 
-#: ../face/edit.cc:1193
+#: ../face/edit.cc:1277
 msgid "Use this proxy for HTTP"
 msgstr "HTTP 使用此代理服务器"
 
-#: ../face/edit.cc:1469
+#: ../face/edit.cc:1553
 msgid "Select properties"
 msgstr "选择属性"
 
-#: ../face/edit.cc:1493
+#: ../face/edit.cc:1577
 msgid "Unselect all"
 msgstr "清除选择"
 
-#: ../face/edit.cc:1499
+#: ../face/edit.cc:1583
 msgid "Select all"
 msgstr "全部选择"
 
@@ -1474,35 +1508,35 @@ msgstr "/帮助"
 msgid "/_Help/About"
 msgstr "/帮助/关于"
 
-#: ../face/list.cc:583
+#: ../face/list.cc:588
 msgid "Do you really want to quit?"
 msgstr "确定要退出吗？"
 
-#: ../face/list.cc:583
+#: ../face/list.cc:588
 msgid "Quit?"
 msgstr "退出吗?"
 
-#: ../face/list.cc:608
+#: ../face/list.cc:617
 msgid "Delete selected downloads?"
 msgstr "删除被选中的下载作业？"
 
-#: ../face/list.cc:608 ../face/list.cc:621 ../face/list.cc:631
+#: ../face/list.cc:617 ../face/list.cc:635 ../face/list.cc:653
 msgid "Delete?"
 msgstr "删除吗？"
 
-#: ../face/list.cc:621
+#: ../face/list.cc:635
 msgid "Do you wish delete completed downloads?"
 msgstr "是否清除已完成的下载作业？"
 
-#: ../face/list.cc:631
+#: ../face/list.cc:653
 msgid "Do you wish delete failed downloads?"
 msgstr "是否清除失败的下载作业？"
 
-#: ../face/list.cc:688
+#: ../face/list.cc:713
 msgid "Ready to go ????"
 msgstr "准备好了吗？"
 
-#: ../face/list.cc:877
+#: ../face/list.cc:902
 #, c-format
 msgid "%i-running %i-completed %i-total "
 msgstr "%i个正在运行，已经完成 %i个，总共 %i个 "
@@ -1552,8 +1586,8 @@ msgstr "向下移"
 msgid "Set limitation"
 msgstr "设置限制"
 
-#: ../face/lmenu.cc:189 ../face/prefs.cc:746 ../face/prefs.cc:983
-#: ../face/prefs.cc:1141
+#: ../face/lmenu.cc:189 ../face/prefs.cc:761 ../face/prefs.cc:998
+#: ../face/prefs.cc:1159
 msgid "FTP search"
 msgstr "FTP 搜索"
 
@@ -1595,11 +1629,11 @@ msgid "Attempt"
 msgstr "重试次数"
 
 # face/lod.cc
-#: ../face/lod.cc:825
+#: ../face/lod.cc:838
 msgid "Continue open log windows?"
 msgstr "继续打开记录窗口?"
 
-#: ../face/lod.cc:825
+#: ../face/lod.cc:838
 msgid "Open logs?"
 msgstr "打开记录?"
 
@@ -1616,11 +1650,11 @@ msgstr "记录："
 msgid "Select directory"
 msgstr "选择目录"
 
-#: ../face/fsched.cc:277 ../face/mywidget.cc:58
+#: ../face/fsched.cc:289 ../face/mywidget.cc:58
 msgid "Select file"
 msgstr "选择文件"
 
-#: ../face/fsched.cc:414 ../face/mywidget.cc:99
+#: ../face/fsched.cc:426 ../face/mywidget.cc:99
 msgid "Browse"
 msgstr "浏览"
 
@@ -1653,91 +1687,95 @@ msgstr "默认口令和文件名"
 msgid "#"
 msgstr "#"
 
-#: ../face/prefs.cc:226
+#: ../face/prefs.cc:228
 msgid "Optimize recursive downloads"
 msgstr "优化递归下载"
 
-#: ../face/prefs.cc:244
+#: ../face/prefs.cc:246
 msgid "Save downloads to folder"
 msgstr "保存下载文件到目录"
 
-#: ../face/prefs.cc:253 ../face/prefs.cc:898 ../face/prefs.cc:1048
+#: ../face/prefs.cc:255 ../face/prefs.cc:913 ../face/prefs.cc:1063
 msgid "Limits"
 msgstr "限制"
 
-#: ../face/prefs.cc:309
+#: ../face/prefs.cc:311
 msgid "Maximum lines in log"
 msgstr "最大记录行数"
 
-#: ../face/prefs.cc:317 ../face/prefs.cc:903 ../face/prefs.cc:1057
+#: ../face/prefs.cc:319 ../face/prefs.cc:918 ../face/prefs.cc:1072
 msgid "FTP"
 msgstr "FTP"
 
 # face/prefs.cc
-#: ../face/prefs.cc:343
+#: ../face/prefs.cc:345
 msgid "Output FTP dirs in logs"
 msgstr "输出 FTP 目录到日志"
 
-#: ../face/prefs.cc:351 ../face/prefs.cc:908 ../face/prefs.cc:1066
+#: ../face/prefs.cc:356
+msgid "default anonymous password"
+msgstr ""
+
+#: ../face/prefs.cc:366 ../face/prefs.cc:923 ../face/prefs.cc:1084
 msgid "HTTP"
 msgstr "HTTP"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:386
+#: ../face/prefs.cc:401
 msgid "Filename for saving if it is unknown"
 msgstr "文件名未知时保存为"
 
-#: ../face/prefs.cc:410 ../face/prefs.cc:933 ../face/prefs.cc:1097
+#: ../face/prefs.cc:425 ../face/prefs.cc:948 ../face/prefs.cc:1115
 msgid "Main window"
 msgstr "主窗口"
 
-#: ../face/prefs.cc:412
+#: ../face/prefs.cc:427
 msgid "Using title"
 msgstr "使用标题"
 
-#: ../face/prefs.cc:416
+#: ../face/prefs.cc:431
 msgid "Use title of main window for info"
 msgstr "使用主窗口标题显示信息"
 
-#: ../face/prefs.cc:421
+#: ../face/prefs.cc:436
 msgid "Display queue statistics too"
 msgstr "同时显示队列状态"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:422
+#: ../face/prefs.cc:437
 msgid "Scroll title"
 msgstr "滚动标题"
 
-#: ../face/prefs.cc:427
+#: ../face/prefs.cc:442
 msgid "Iconfiy main window instead of closing"
 msgstr "关闭时最小化主窗口"
 
-#: ../face/prefs.cc:439 ../face/prefs.cc:938 ../face/prefs.cc:1104
+#: ../face/prefs.cc:454 ../face/prefs.cc:953 ../face/prefs.cc:1122
 msgid "Confirmation"
 msgstr "确认"
 
-#: ../face/prefs.cc:441
+#: ../face/prefs.cc:456
 msgid "Confirm delete selected downloads"
 msgstr "确认删除选中的下载作业"
 
-#: ../face/prefs.cc:442
+#: ../face/prefs.cc:457
 msgid "Confirm delete all downloads"
 msgstr "确认删除所有下载作业"
 
-#: ../face/prefs.cc:443
+#: ../face/prefs.cc:458
 msgid "Confirm delete completed downloads"
 msgstr "确认删除完成的下载作业"
 
-#: ../face/prefs.cc:444
+#: ../face/prefs.cc:459
 msgid "Confirm delete failed downloads"
 msgstr "确认删除失败的下载作业"
 
 # face/prefs.cc
-#: ../face/prefs.cc:445
+#: ../face/prefs.cc:460
 msgid "Confirm opening large amount of windows"
 msgstr "确认打开大数量的窗口"
 
-#: ../face/prefs.cc:446
+#: ../face/prefs.cc:461
 msgid "Confirm exit from program"
 msgstr "确认退出程序"
 
@@ -1747,196 +1785,196 @@ msgstr "确认退出程序"
 #. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
 #. gtk_widget_show(tmpitem);
 #.
-#: ../face/prefs.cc:471 ../face/prefs.cc:962 ../face/prefs.cc:1130
+#: ../face/prefs.cc:486 ../face/prefs.cc:977 ../face/prefs.cc:1148
 msgid "Clipboard"
 msgstr "粘贴板"
 
 # face/prefs.cc
-#: ../face/prefs.cc:473
+#: ../face/prefs.cc:488
 msgid "Monitor clipboard"
 msgstr "监视粘贴板内容"
 
 # face/prefs.cc
-#: ../face/prefs.cc:483
+#: ../face/prefs.cc:498
 msgid "Skip these extensions in clipboard"
 msgstr "跳过粘贴板中的这些扩展名"
 
-#: ../face/prefs.cc:491
+#: ../face/prefs.cc:506
 msgid "Catch these extensions in clipboard"
 msgstr "从粘贴板捕获这些扩展名"
 
 # prefs.cc:
-#: ../face/prefs.cc:514 ../face/prefs.cc:977 ../face/prefs.cc:1166
+#: ../face/prefs.cc:529 ../face/prefs.cc:992 ../face/prefs.cc:1184
 msgid "Main log"
 msgstr "主记录"
 
-#: ../face/prefs.cc:520
+#: ../face/prefs.cc:535
 msgid "Maximum lines in MAIN log"
 msgstr "主记录的最大记录行数"
 
 # face/prefs.cc
-#: ../face/prefs.cc:524
+#: ../face/prefs.cc:539
 msgid "Output detailed information"
 msgstr "输出详细的信息"
 
-#: ../face/prefs.cc:528
+#: ../face/prefs.cc:543
 msgid "Save main log into file"
 msgstr "保存主记录信息到文件"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:547
+#: ../face/prefs.cc:562
 msgid "Maximum size for file of main log (in KBytes)"
 msgstr "主记录文件的最大长度(KB)"
 
-#: ../face/prefs.cc:553
+#: ../face/prefs.cc:568
 msgid "Append to file"
 msgstr "追加到文件"
 
-#: ../face/prefs.cc:556
+#: ../face/prefs.cc:571
 msgid "Overwrite file"
 msgstr "覆盖文件"
 
-#: ../face/prefs.cc:571 ../face/prefs.cc:949 ../face/prefs.cc:1121
+#: ../face/prefs.cc:586 ../face/prefs.cc:964 ../face/prefs.cc:1139
 msgid "Integration"
 msgstr "整体"
 
 # prefs.cc:
-#: ../face/prefs.cc:573
+#: ../face/prefs.cc:588
 msgid "Exit if nothing to do after"
 msgstr "退出，如果空闲时间超过"
 
-#: ../face/prefs.cc:579 ../face/prefs.cc:699
+#: ../face/prefs.cc:594 ../face/prefs.cc:714
 msgid "minutes"
 msgstr "分钟"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:590
+#: ../face/prefs.cc:605
 msgid "Run this on exit"
 msgstr "退出时运行此程序"
 
-#: ../face/prefs.cc:595
+#: ../face/prefs.cc:610
 msgid "Open dialog for Drag-n-Drop"
 msgstr "打开拖拽对话框"
 
-#: ../face/prefs.cc:603 ../face/prefs.cc:928 ../face/prefs.cc:1089
+#: ../face/prefs.cc:618 ../face/prefs.cc:943 ../face/prefs.cc:1107
 msgid "Columns"
 msgstr "列"
 
-#: ../face/prefs.cc:607
+#: ../face/prefs.cc:622
 msgid "Size format"
 msgstr "文件长度格式"
 
-#: ../face/prefs.cc:608
+#: ../face/prefs.cc:623
 msgid "Time format"
 msgstr "时间格式"
 
-#: ../face/prefs.cc:689
+#: ../face/prefs.cc:704
 msgid "Maximum active downloads"
 msgstr "最大活动下载数"
 
-#: ../face/prefs.cc:693
+#: ../face/prefs.cc:708
 msgid "Save list of downloads every"
 msgstr "保存下载列表每"
 
-#: ../face/prefs.cc:706
+#: ../face/prefs.cc:721
 msgid "Automatically delete completed downloads"
 msgstr "自动删除已经完成的下载作业"
 
-#: ../face/prefs.cc:707
+#: ../face/prefs.cc:722
 msgid "Automatically delete failed downloads"
 msgstr "自动删除失败的下载作业"
 
-#: ../face/prefs.cc:708
+#: ../face/prefs.cc:723
 msgid "Allow to user force run downloads"
 msgstr "允许强制运行下载"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:709
+#: ../face/prefs.cc:724
 msgid "Remember passwords"
 msgstr "保存口令"
 
 # face/prefs.cc
-#: ../face/prefs.cc:710
+#: ../face/prefs.cc:725
 msgid "Write Descript.ion file"
 msgstr "写 Descipt.ion 文件"
 
-#: ../face/prefs.cc:724
+#: ../face/prefs.cc:739
 msgid "bytes/sec speed level one (red button)"
 msgstr "字节/秒 - 速度 1 （红按钮）"
 
-#: ../face/prefs.cc:732
+#: ../face/prefs.cc:747
 msgid "bytes/sec speed level two (yellow button)"
 msgstr "字节/秒 - 速度 2 （黄按钮）"
 
-#: ../face/prefs.cc:752
+#: ../face/prefs.cc:767
 msgid "Number of attempts to ping hosts"
 msgstr "探测主机(ping)尝试次数"
 
-#: ../face/prefs.cc:760
+#: ../face/prefs.cc:775
 msgid "Number of hosts in list"
 msgstr "列表中的主机数目"
 
-#: ../face/prefs.cc:786
+#: ../face/prefs.cc:801
 msgid "search engine to use"
 msgstr "使用的搜索引擎"
 
 # face/prefs.cc
-#: ../face/prefs.cc:795 ../face/prefs.cc:919 ../face/prefs.cc:1084
+#: ../face/prefs.cc:810 ../face/prefs.cc:934 ../face/prefs.cc:1102
 msgid "Interface"
 msgstr "界面"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:797
+#: ../face/prefs.cc:812
 msgid "Show DnD basket"
 msgstr "显示拖放箱"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:798
+#: ../face/prefs.cc:813
 msgid "Use fixed font in logs"
 msgstr "在记录中使用固定字体"
 
-#: ../face/prefs.cc:815 ../face/prefs.cc:943 ../face/prefs.cc:1113
+#: ../face/prefs.cc:830 ../face/prefs.cc:958 ../face/prefs.cc:1131
 msgid "Graph"
 msgstr "图示"
 
-#: ../face/prefs.cc:817
+#: ../face/prefs.cc:832
 msgid "Revert drawing graph of speeds"
 msgstr "反方向绘制速度记录图"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:823
+#: ../face/prefs.cc:838
 msgid "Color for picks"
 msgstr "峰值速度颜色"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:824
+#: ../face/prefs.cc:839
 msgid "Color for total speed"
 msgstr "总速度的颜色"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:825
+#: ../face/prefs.cc:840
 msgid "Color for speed of selected"
 msgstr "被选下载速度的颜色"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:826
+#: ../face/prefs.cc:841
 msgid "Background color"
 msgstr "背景颜色"
 
-#: ../face/prefs.cc:835
+#: ../face/prefs.cc:850
 msgid "Reset to default"
 msgstr "恢复默认值"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:838
+#: ../face/prefs.cc:853
 msgid "Colors for graph"
 msgstr "指示图颜色"
 
-#: ../face/prefs.cc:855
+#: ../face/prefs.cc:870
 msgid "Options"
 msgstr "选项"
 
-#: ../face/prefs.cc:996
+#: ../face/prefs.cc:1011
 msgid "Apply"
 msgstr "应用"
 
@@ -2025,56 +2063,56 @@ msgstr "添加下载"
 msgid "save list"
 msgstr "保存列表"
 
-#: ../face/fsched.cc:166
+#: ../face/fsched.cc:175
 msgid "Scheduler"
 msgstr "作业管理器"
 
-#: ../face/fsched.cc:170 ../face/fsched.cc:702
+#: ../face/fsched.cc:179 ../face/fsched.cc:714
 msgid "Action"
 msgstr "动作"
 
-#: ../face/fsched.cc:170
+#: ../face/fsched.cc:179
 msgid "Info"
 msgstr "信息"
 
 # face/limface.cc:
-#: ../face/fsched.cc:183
+#: ../face/fsched.cc:195
 msgid "New"
 msgstr "新建"
 
 # face/dndtrash.cc
-#: ../face/fsched.cc:184 ../face/fsched.cc:396
+#: ../face/fsched.cc:196 ../face/fsched.cc:408
 msgid "Edit"
 msgstr "编辑"
 
-#: ../face/fsched.cc:185
+#: ../face/fsched.cc:197
 msgid "Remove"
 msgstr "删除"
 
-#: ../face/fsched.cc:410
+#: ../face/fsched.cc:422
 msgid "Path:"
 msgstr "路径:"
 
-#: ../face/fsched.cc:430
+#: ../face/fsched.cc:442
 msgid "This action has no properties"
 msgstr "此动作没有属性"
 
-#: ../face/fsched.cc:643
+#: ../face/fsched.cc:655
 msgid "Start time(hour:min:sec)"
 msgstr "开始时间(时:分:秒)"
 
-#: ../face/fsched.cc:672
+#: ../face/fsched.cc:684
 msgid "Retry this action"
 msgstr "重试此动作"
 
-#: ../face/fsched.cc:681
+#: ../face/fsched.cc:693
 msgid "times to repeat (-1 unlimited)"
 msgstr "重试次数(-1为不限制)"
 
-#: ../face/fsched.cc:685
+#: ../face/fsched.cc:697
 msgid "period (day/hour:min)"
 msgstr "周期(时:分:秒)"
 
-#: ../face/fsched.cc:727
+#: ../face/fsched.cc:739
 msgid "Edit scheduled action"
 msgstr "编辑任务"

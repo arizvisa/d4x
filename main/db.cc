@@ -31,7 +31,7 @@ int tStringHostNode::cmp(tAbstractSortNode *b){
 };
 
 tStringHostNode::~tStringHostNode(){
-	if (body) delete body;
+	if (body) delete[] body;
 };
 /* tHostTree
  */

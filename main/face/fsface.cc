@@ -44,7 +44,7 @@ void fs_list_cumulative_reping(GtkWidget *widget,tDownload *what){
 void fs_list_add_download(GtkWidget *widget,tDownload *what){
 	char *url=what->info->url();
 	init_add_dnd_window(url,what->info->host.get());
-	delete(url);
+	delete[] url;
 };
 
 void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
@@ -112,15 +112,16 @@ gint fs_list_event_callback(GtkWidget *widget,GdkEvent *event){
 		if (gtk_clist_get_selection_info(GTK_CLIST(widget),int(bevent->x),int(bevent->y),&row,(gint *)NULL)) {
 			gtk_clist_unselect_all(GTK_CLIST(widget));
 			gtk_clist_select_row(GTK_CLIST(widget),row,-1);
-		};
-		GList *select=clist->selection;
-		if (select){
-			tDownload *temp=(tDownload *)gtk_clist_get_row_data(clist,
-									    GPOINTER_TO_INT(select->data));
-			if (temp){
-				fs_list_prepare_menu(temp,bevent);
+			GList *select=clist->selection;
+			if (select){
+				tDownload *temp=(tDownload *)gtk_clist_get_row_data(clist,
+										    GPOINTER_TO_INT(select->data));
+				if (temp){
+					fs_list_prepare_menu(temp,bevent);
+				};
 			};
-		};
+		}else
+			gtk_clist_unselect_all(GTK_CLIST(widget));
 		return(TRUE);
 	};
 	

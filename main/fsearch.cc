@@ -132,7 +132,24 @@ void tFtpSearchCtrl::cycle(){
 };
 
 tFtpSearchCtrl::~tFtpSearchCtrl(){
-	/* FIXME: what about current working searches? */
+	tDownload *tmp=queues[DL_FS_STOP]->last();
+	while(tmp){
+		remove(tmp);
+		tmp=queues[DL_FS_STOP]->last();
+	};
+	tmp=queues[DL_FS_WAIT]->last();
+	while(tmp){
+		remove(tmp);
+		tmp=queues[DL_FS_WAIT]->last();
+	};
+	tmp=queues[DL_FS_RUN]->last();
+	while(tmp){
+		remove(tmp);
+		tmp=queues[DL_FS_RUN]->next();
+	};
+	while(queues[DL_FS_RUN]->count()){
+		cycle();
+	};
 	for (int i=0;i<DL_FS_LAST;i++){
 		delete(queues[i]);
 	};

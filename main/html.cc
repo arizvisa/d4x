@@ -225,8 +225,8 @@ void tHtmlTagField::print(){
 };
 
 tHtmlTagField::~tHtmlTagField(){
-	if (name) delete(name);
-	if (value) delete(value);
+	if (name) delete[] name;
+	if (value) delete[] value;
 };
 
 tHtmlTag::tHtmlTag(){
@@ -239,7 +239,7 @@ void tHtmlTag::print(){
 };
 
 tHtmlTag::~tHtmlTag(){
-	if (name) delete(name);
+	if (name) delete[] name;
 	if (fields) delete(fields);
 };
 /********************************************************/
@@ -405,7 +405,7 @@ char *tHtmlParser::extract_from_icommas(char *str){
 	};
 	};
 	if (end)
-		return(copy_string(temp,end-temp));
+		return(copy_string2(temp,end-temp));
 	return(copy_string(temp));
 };
 
@@ -489,7 +489,7 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 			info->path.set(papa->path.get());
 			info->file.set(tmp);
 		};
-		delete(tmp);
+		delete[] tmp;
 		info->file_del_sq();
 		info->copy_host(papa);
 	}else{
@@ -525,7 +525,7 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 			}else{
 				char *url=info->url();
 				f_wstr(out_fd,url);
-				delete(url);
+				delete[] url;
 			};
 		}else{
 			char *a=papa->path.get();
@@ -621,7 +621,7 @@ void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tQueue *list,tAddr 
 					fix_url(url,list,papa);
 				};
 			};
-			delete(tmp);
+			delete[] tmp;
 		};
 		field=(tHtmlTagField *)(field->prev);
 	};
@@ -669,14 +669,14 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
 								look_for_meta_content(field,list,papa);
 							break;
 						case HF_TYPE_BASE:
-							if (base) delete(base);
+							if (base) delete[] base;
 							base=copy_string(tmp);
 							break;
 						default:
 							if (base!=NULL && !global_url(tmp)){
 								char *tmp1=tmp;
 								tmp=compose_path(base,tmp1);
-								delete(tmp1);
+								delete[] tmp1;
 							};
 							if (strlen(tmp)<MAX_LEN){
 								if (out_fd>=0){
@@ -686,11 +686,11 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
 								fix_url(tmp,list,papa);
 							};
 						};
-						delete(tmp);
+						delete[] tmp;
 					}else{
 						if (HTML_TEGS[i].mod==HF_TYPE_BASE_CLOSE){
 							field->saved=1;
-							if (base) delete(base);
+							if (base) delete[] base;
 							base=NULL;
 						};
 					};
@@ -700,5 +700,5 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
 		write_left_fields(temp);
 		delete(temp);
 	};
-	if (base) delete(base);
+	if (base) delete[] base;
 };

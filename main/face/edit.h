@@ -53,6 +53,7 @@ class tDEdit{
 	GtkWidget *calendar,*hour_entry,*minute_entry;
 	GtkWidget *log_save_entry;
 	GtkWidget *desc_entry;
+	GtkWidget *referer_entry;
 	tProxyWidget *proxy;
 	void setup_time(time_t when);
 	void init_main(tDownload *who);
@@ -77,6 +78,8 @@ class tDEdit{
 		void set_description(char *desc);
 		tDownload *get_parent();
 		void set_parent(tDownload *);
+		void file_from_url();
+		void file_check();
 		void select_url();
 		void clear_url();
 		void set_url(char *a);

@@ -23,8 +23,10 @@ class tPStr{
 	~tPStr();
 };
 
+//#define copy_string(var) (var?strncpy(new char[strlen(var)+1],var,strlen(var)+1):NULL)
+
 char *copy_string(const char *dest);
-char *copy_string(const char *dest,int len);
+char *copy_string2(const char *dest,int len);
 int equal(const char *a,const char *b);
 int equal_uncase(const char *a,const char *b);
 int equal_first(const char *a,const char *b);

@@ -220,10 +220,12 @@ void tDownloader::print_error(int error_code){
 			LOG->log_printf(LOG_OK,_("Retry %i ..."),RetrNum);
 		break;
 	};
-	case ERROR_FILE_UPDATED:
+	case ERROR_FILE_UPDATED:{
 		LOG->log(LOG_WARNING,_("File on a server is newer then local one. Restarting from begin\n"));
 		break;
+	};
 	default:{
+		LOG->log_printf(LOG_ERROR,_("Error code %i"),error_code);
 		LOG->log(LOG_ERROR,_("Warning! Probably you found the BUG!!!"));
 		LOG->log(LOG_ERROR,_("If you see this message please report to mdem@chat.ru"));
 		break;
@@ -310,7 +312,7 @@ void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 	temp=sum_strings(".",ADDR.file.get(),NULL);
 	*name=compose_path(path,temp);
 	*guess=compose_path(path,ADDR.file.get());
-	delete temp;
+	delete[] temp;
 };
 
 void tDownloader::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
@@ -322,7 +324,7 @@ void tDownloader::make_full_pathes(const char *path,char *another_name,char **na
 	char *temp=sum_strings(".",another_name,NULL);
 	*name=compose_path(path,temp);
 	*guess=compose_path(path,another_name);
-	delete temp;
+	delete[] temp;
 };
 
 tDownloader::~tDownloader() {

@@ -21,15 +21,16 @@ GtkWidget *AboutWindow=(GtkWidget *)NULL;
 GtkWidget *AboutTLabel,*AboutSLabel;
 
 char *TRANSLATORS[]={
+	"Jerome Couderc",
+	"Mario Sergio Fujikawa Ferreira",
+	"Seung-young Oh",
+	"Grzegorz Kowal",
 	"Vittorio Rebecchi",
 	"Enrico Manfredini",
-	"Seung-young Oh",
 	"Lubosh Holichka",
-	"Jerome Couderc",
 	"Kyritsis Athanasios",
 	"Felix Knecht",
 	"Vicente Aguilar",
-	"Grzegorz Kowal",
 	"Robin Verduijn",
 	"Dirk Moebius",
 	"Legnar WinShadow",
@@ -175,14 +176,10 @@ static void dialog_delete2(GtkWidget *widget,tDialogWidget *parent) {
 	parent->done();
 };
 
-tDialogWidget::tDialogWidget() {
+tDialogWidget::tDialogWidget():tDialog(){
 };
 
-int tDialogWidget::init(char *ask,char *title) {
-	if (window) {
-		gdk_window_show(window->window);
-		return 0;
-	};
+void tDialogWidget::create(char *ask,char *title){
 	window = gtk_window_new(GTK_WINDOW_DIALOG);
 	gtk_window_set_title(GTK_WINDOW (window),title);
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
@@ -192,27 +189,53 @@ int tDialogWidget::init(char *ask,char *title) {
 	cancel_button=gtk_button_new_with_label(_("Cancel"));
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	mainvbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_box_set_spacing(GTK_BOX(mainvbox),5);
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	gtk_box_pack_start(GTK_BOX(vbox),label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(mainvbox),label,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(mainvbox),hbox,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
-	gtk_container_add(GTK_CONTAINER(window),vbox);
+	gtk_container_add(GTK_CONTAINER(window),mainvbox);
 	gtk_window_set_default(GTK_WINDOW(window),cancel_button);
-	gtk_widget_show_all(window);
 	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(dialog_delete2),this);
 	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(dialog_delete), this);
+};
+
+int tDialogWidget::init(char *ask,char *title) {
+	if (window) {
+		gdk_window_show(window->window);
+		return 0;
+	};
+	create(ask,title);
+	gtk_widget_show_all(window);
 	return 1;
 };
 
 
 tDialogWidget::~tDialogWidget() {
 };
-/* -----------------------------------------------
- */
+/* -----------------------------------------------*/
+tConfirmedDialog::tConfirmedDialog():tDialogWidget(){
+};
+
+int tConfirmedDialog::init(char *ask,char *title){
+	if (window) {
+		gdk_window_show(window->window);
+		return 0;
+	};
+	create(ask,title);
+	check=gtk_check_button_new_with_label(_("Don't ask next time"));
+	gtk_box_pack_start(GTK_BOX(mainvbox),check,FALSE,FALSE,0);
+	gtk_widget_show_all(window);
+	return 1;
+};
+
+tConfirmedDialog::~tConfirmedDialog(){
+};
+
+/* -----------------------------------------------*/
 
 static gint string_dialog_delete_event(GtkWidget *widget, GdkEvent *event,tStringDialog *parent) {
 	parent->done();
@@ -223,7 +246,7 @@ static void string_dialog_ok_clicked(GtkWidget *widget,tStringDialog *parent) {
 	parent->done();
 };
 
-tStringDialog::tStringDialog() {
+tStringDialog::tStringDialog():tDialog(){
 };
 
 int tStringDialog::init(char *str,char *title) {

@@ -39,7 +39,7 @@ void copy_download_to_clipboard(){
 		char *url=dwn->info->url();
 		d4x_mw_clipboard_set(url);
 		my_xclipboard_put(url);
-		delete(url);
+		delete[] url;
 	};
 };
 

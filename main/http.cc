@@ -46,7 +46,7 @@ int tHttpClient::send_request(char *begin, char *center,char *end){
 	DBC_RETVAL_IF_FAIL(begin!=NULL,-1);
 	char *tmp=sum_strings(begin,center,end,NULL);
 	int rvalue=send_request(tmp);
-	delete(tmp);
+	delete[] tmp;
 	return(rvalue);
 };
 
@@ -105,8 +105,8 @@ int tHttpClient::read_answer(tStringList *list) {
 		};
 		};
 		list->del(last);
-		delete str1;
-		delete str2;
+		delete[] str1;
+		delete[] str2;
 		delete last;
 		int num_str=32;
 		do{
@@ -125,7 +125,7 @@ void tHttpClient::send_cookies(char *host,char *path){
 	char *request_string=LOG->cookie(host,path);
 	if (request_string){
 		send_request("Cookie: ",request_string,"\r\n");
-		delete(request_string);
+		delete[] request_string;
 	};
 };
 
@@ -154,9 +154,9 @@ fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 	if (username && userword) {
 		char *tmp=sum_strings(username,":",userword,NULL);
 		char *pass=string_to_base64(tmp);
-		delete tmp;
+		delete[] tmp;
 		send_request("Authorization: Basic ",pass,"\r\n");
-		delete pass;
+		delete[] pass;
 	};
 	send_cookies(hostname,filename);
 	send_request("\r\n");

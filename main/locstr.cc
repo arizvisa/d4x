@@ -25,7 +25,7 @@
     return the same string allocated in new area;
  */
 
-char *copy_string(const char *src,int len) {
+char *copy_string2(const char *src,int len) {
 	if (src==NULL) return NULL;
 	char *temp=new char[len+1];
 	if (temp){
@@ -37,8 +37,7 @@ char *copy_string(const char *src,int len) {
 
 char *copy_string(const char *src) {
 	if (src==NULL) return NULL;
-	int len=strlen(src);
-	return copy_string(src,len);
+	return copy_string2(src,strlen(src));
 };
 
 /*  int equal(const char, const char)
@@ -885,7 +884,7 @@ void scroll_string_left(char *str,unsigned int shift){
 	};
 	for (unsigned int i=0;i<len;i++)
 		str[i]=temp[i];
-	delete temp;
+	delete[] temp;
 };
 //void scroll_string_right();
 
@@ -1172,7 +1171,7 @@ char *parse_save_path(const char *str,char *file){
 		a+=1;
 	};
 	delete(tmp_tm);
-	if (ext) delete(ext);
+	if (ext) delete[] ext;
 	*b=0;
 	return(rval);
 };
@@ -1186,11 +1185,11 @@ tPStr::tPStr(){
 };
 
 void tPStr::set(char *b){
-	if (a) delete(a);
+	if (a) delete[] a;
 	a=copy_string(b);
 };
 
 tPStr::~tPStr(){
 	if (a)
-		delete(a);
+		delete[] a;
 };

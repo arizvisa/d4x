@@ -24,8 +24,8 @@ int LOCK_FILE_D=0;
 tMainCfg CFG={
 	{300,5,0,100,0,1,0,0,
 	 0,0,0,0,0,1,1,1,0,0,0,0,1,
-	 0},
-	100,1,NULL,NULL,NULL,NULL,0,0,
+	 0,0},
+	100,1,NULL,NULL,NULL,NULL,NULL,0,0,
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,0,0,600,0,0, //flags
@@ -38,12 +38,11 @@ tMainCfg CFG={
 	3,1024,10*1024,
 	NULL,0,
 	1,1,1,1,
-	0,1,
+	0,0,1,
 	1,0,15
 };
 
 char *DEFAULT_PROTO="ftp";
-char *DEFAULT_PASS="-chuchelo@krasu.ru";
 char *DEFAULT_USER="anonymous";
 char *HOME_PAGE="http://www.krasu.ru/soft/chuchelo";
 
@@ -72,7 +71,7 @@ void var_check_all_limits(){
 	var_check_limits_int(1,999,&CFG.DEFAULT_CFG.time_for_sleep);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.number_of_attempts);
 	var_check_limits_int(30,999,&CFG.DEFAULT_CFG.timeout);
-	var_check_limits_int(100,999,&CFG.MAX_MAIN_LOG_LENGTH);
+	var_check_limits_int(100,9999,&CFG.MAX_MAIN_LOG_LENGTH);
 	var_check_limits_int(0,5000,&CFG.DEFAULT_CFG.rollback);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.ftp_recurse_depth);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.http_recurse_depth);
@@ -93,6 +92,24 @@ char *SPEED_LIMITATIONS_NAMES[]={
 	N_("low"),
 	N_("medium"),
 	N_("unlimited")
+};
+
+void var_free(tMainCfg *dst){
+	if (dst->EXEC_WHEN_QUIT) delete[] dst->EXEC_WHEN_QUIT;
+	if (dst->HTTP_PROXY_PASS) delete[] dst->HTTP_PROXY_PASS;
+	if (dst->HTTP_PROXY_USER) delete[] dst->HTTP_PROXY_USER;
+	if (dst->HTTP_PROXY_HOST) delete[] dst->HTTP_PROXY_HOST;
+	if (dst->FTP_PROXY_PASS) delete[] dst->FTP_PROXY_PASS;
+	if (dst->FTP_PROXY_USER) delete[] dst->FTP_PROXY_USER;
+	if (dst->FTP_PROXY_HOST) delete[] dst->FTP_PROXY_HOST;
+	if (dst->SKIP_IN_CLIPBOARD) delete[] dst->SKIP_IN_CLIPBOARD;
+	if (dst->CATCH_IN_CLIPBOARD) delete[] dst->CATCH_IN_CLIPBOARD;
+	if (dst->SAVE_LOG_PATH) delete[] dst->SAVE_LOG_PATH;
+	if (dst->GLOBAL_SAVE_PATH) delete[] dst->GLOBAL_SAVE_PATH;
+	if (dst->LOCAL_SAVE_PATH) delete[] dst->LOCAL_SAVE_PATH;
+	if (dst->DEFAULT_NAME) delete[] dst->DEFAULT_NAME;
+	if (dst->USER_AGENT) delete[] dst->USER_AGENT;
+	if (dst->ANONYMOUS_PASS) delete[] dst->ANONYMOUS_PASS;
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
@@ -170,20 +187,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SEARCH_HOST=src->SEARCH_HOST;
 	dst->SEARCH_ENTRIES=src->SEARCH_ENTRIES;
 	/* strings */
-	if (dst->EXEC_WHEN_QUIT) delete(dst->EXEC_WHEN_QUIT);
-	if (dst->HTTP_PROXY_PASS) delete(dst->HTTP_PROXY_PASS);
-	if (dst->HTTP_PROXY_USER) delete(dst->HTTP_PROXY_USER);
-	if (dst->HTTP_PROXY_HOST) delete(dst->HTTP_PROXY_HOST);
-	if (dst->FTP_PROXY_PASS) delete(dst->FTP_PROXY_PASS);
-	if (dst->FTP_PROXY_USER) delete(dst->FTP_PROXY_USER);
-	if (dst->FTP_PROXY_HOST) delete(dst->FTP_PROXY_HOST);
-	if (dst->SKIP_IN_CLIPBOARD) delete(dst->SKIP_IN_CLIPBOARD);
-	if (dst->CATCH_IN_CLIPBOARD) delete(dst->CATCH_IN_CLIPBOARD);
-	if (dst->SAVE_LOG_PATH) delete(dst->SAVE_LOG_PATH);
-	if (dst->GLOBAL_SAVE_PATH) delete(dst->GLOBAL_SAVE_PATH);
-	if (dst->LOCAL_SAVE_PATH) delete(dst->LOCAL_SAVE_PATH);
-	if (dst->DEFAULT_NAME) delete(dst->DEFAULT_NAME);
-	if (dst->USER_AGENT) delete(dst->USER_AGENT);
+	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);
 	dst->HTTP_PROXY_PASS=copy_string(src->HTTP_PROXY_PASS);
 	dst->HTTP_PROXY_USER=copy_string(src->HTTP_PROXY_USER);
@@ -198,4 +202,5 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->LOCAL_SAVE_PATH=copy_string(src->LOCAL_SAVE_PATH);
 	dst->DEFAULT_NAME=copy_string(src->DEFAULT_NAME);
 	dst->USER_AGENT=copy_string(src->USER_AGENT);
+	dst->ANONYMOUS_PASS=copy_string(src->ANONYMOUS_PASS);
 };

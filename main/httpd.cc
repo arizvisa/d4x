@@ -151,7 +151,7 @@ fsize_t tHttpDownload::analize_answer() {
 //		printf("i=%i\n",i);
 		switch(i){
 		case H_CONTENT_TYPE:{
-			if (content_type) delete (content_type);
+			if (content_type) delete [] content_type;
 			content_type=extract_from_prefixed_string(temp->body,STR);
 			if (content_type && strstr(content_type,"multipart"))
 				ReGet=1;
@@ -168,12 +168,14 @@ fsize_t tHttpDownload::analize_answer() {
 		};
 		case H_CONTENT_RANGE:{
 			char *a=strstr(temp->body+strlen(STR),"bytes");
-			if (a){
+			if (a)
+				a+=strlen("bytes");
+			else
+				a=temp->body+strlen(STR);
+			int b[3];
+			if (sscanf(a,"%i-%i/%i",&b[0],&b[1],&b[2])==3){
 				ReGet=1;
-				int b[3];
-				if (sscanf(a+strlen("bytes"),"%i-%i/%i",&b[0],&b[1],&b[2])==3){
-					rvalue=b[2]-b[0];
-				};
+				rvalue=b[2]-b[0];
 			};
 			break;
 		};
@@ -213,7 +215,7 @@ fsize_t tHttpDownload::analize_answer() {
 	if (LOADED==0) ReGet=1;
 	if (MustNoReget) ReGet=0;
 	if (OldETag){ /* if etag disappeared */
-		delete(OldETag);
+		delete[] OldETag;
 		OldETag=NULL;
 	};
 	return rvalue;
@@ -236,8 +238,8 @@ char *tHttpDownload::make_name(){
 		strcat(rvalue,"?");
 		strcat(rvalue,ADDR.params.get());
 	};
-	delete(parsed_path);
-	delete(parsed_name);
+	delete[] parsed_path;
+	delete[] parsed_name;
 	return rvalue;
 };
 
@@ -348,7 +350,7 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 		if (config.leave_server){
 			char *tmp=compose_path(path,ADDR.host.get());
 			full_path=compose_path(tmp,ADDR.path.get());
-			delete tmp;
+			delete[] tmp;
 		}else
 			full_path=compose_path(path,ADDR.path.get());
 	}else
@@ -359,7 +361,7 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 			sum_strings(".",ADDR.file.get(),"?",ADDR.params.get(),NULL):
 			sum_strings(".",ADDR.file.get(),NULL);
 		*name=compose_path(full_path,temp);
-		delete(temp);
+		delete[] temp;
 		temp=(config.http_recursing && ADDR.params.get())?
 			sum_strings(ADDR.file.get(),"?",ADDR.params.get(),NULL):
 			sum_strings(ADDR.file.get(),NULL);
@@ -369,14 +371,14 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 			sum_strings(".",CFG.DEFAULT_NAME,"?",ADDR.params.get(),NULL):
 			sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
-		delete(temp);
+		delete[] temp;
 		temp=(config.http_recursing && ADDR.params.get())?
 			sum_strings(CFG.DEFAULT_NAME,"?",ADDR.params.get(),NULL):
 			sum_strings(CFG.DEFAULT_NAME,NULL);
 		*guess=compose_path(full_path,temp);
 	};
-	delete full_path;
-	delete temp;
+	delete[] full_path;
+	delete[] temp;
 };
 
 void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
@@ -394,8 +396,8 @@ void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **
 //	if (question_sign) *question_sign=0;
 	*name=compose_path(full_path,temp);
 	*guess=compose_path(full_path,another_name);
-	delete full_path;
-	delete temp;
+	delete[] full_path;
+	delete[] temp;
 };
 
 void tHttpDownload::done() {
@@ -403,11 +405,11 @@ void tHttpDownload::done() {
 };
 
 tHttpDownload::~tHttpDownload() {
-	if (REQUESTED_URL) delete(REQUESTED_URL);
+	if (REQUESTED_URL) delete[] REQUESTED_URL;
 	if (HTTP) delete HTTP;
-	if (ETag) delete ETag;
-	if (OldETag) delete(OldETag);
-	if (Auth) delete Auth;
+	if (ETag) delete[] ETag;
+	if (OldETag) delete[] OldETag;
+	if (Auth) delete[] Auth;
 	if (answer) delete(answer);
-	if (content_type) delete (content_type);
+	if (content_type) delete[] content_type;
 };

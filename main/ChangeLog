@@ -1,5 +1,77 @@
+Tue Mar 27 15:12:26 2001
+	*nt.cc: releasing 1.25;
+	*face/about.cc: rearrange translators;
+	*config.cc,var.cc[h],face/prefs.cc,ftpd.cc: added ability to specify
+	password for anonymous FTP user;
+
+Sat Mar 24 13:06:14 2001
+	*face/log.cc: fixed auto scrolling with buggy GTK;
+	*[many files]: code cleanups;
+	*face/edit.cc: fixed memory leak at combo creation;
+	*main.cc,nt.cc: continue code cleanups;
+
+Fri Mar 23 17:57:34 2001
+	*[many files]: code cleanups related with memory freeing;
+	*main.cc,fsearch.cc: fixed stoping FTP-search tasks at the exit;
+	*po/ru.po: Russian translation updated;
+	*po/ko.po: Korean translation updated;
+
+Thu Mar 22 19:27:56 2001
+	*main.cc,cookie.cc,fsearch.cc: fixed freeng memory;
+	*lockstr.cc: code cleanups;
+	*segments.cc: fixed memory leak;
+
+Wed Mar 21 18:20:58 2001
+	*mainlog.cc: added ability to output colorified information when run
+	without interface;
+	*main.cc: fixed completing and stoping splited downloads;
+	*signal.cc: code cleanups;
+	*config.cc,var.h,face/edit.cc[h]: ability to edit Referer for download;
+	extra command line option;
+
+Tue Mar 20 13:10:01 2001
+	*face/prefs.cc: fixed DnD basket disabling/enabling via preferences;
+	*face/edit.cc: extra check for "/" in file entry;
+	*face/about.cc[h],list.cc,lod.cc,buttons.cc: all confirmation dialogs
+	have a check button "Don't ask next time"; Fixed delete failed when
+	confirmation disabled; fixed disable confirmation for "Delete all"
+	action;
+	*face/fsched.cc: double click bring "Edit" dialog;
+	*face/fsface.cc: nothing to do if click right mouse button not on the
+	row;
+
+Mon Mar 19 21:58:08 2001
+	*var.cc,face/prefs.cc: extend "Max lines in main log" entry;
+
+Sun Mar 18 17:07:26 2001
+	*face/myclist.cc: always using NORMAL style for progress bars in
+	queue of downloads;
+	*dlist.cc,face/lod.cc: now save size info into file;
+
+Sat Mar 17 16:25:41 2001
+	*po/pl.po: Polish translation updated;
+	*httpd.cc: fixed HTTP 1.0 again :-);
+
+Fri Mar 16 15:31:22 2001
+	*dlist.cc: write URL in Descript.ion;
+	*po/pt_BR.po: removed fuzzy marks;
+	*face/edit.cc: fixed filling description entry;
+
+Thu Mar 15 15:17:20 2001
+	*main.cc,download.h: preventing unlimited rederections;
+	*face/edit.cc[h]: file entry will contain filename of file from
+	url entry;
+	*httpd.cc: fixed working with HTTP 1.0 ContentRange answer;
+	*dlist.cc: fixed opening file when locking does not supported by
+	filesystem; remove segments file when file not found on HTTP server;
+	*po/pt_BR.po: updated Portugues Brasillian translation;
+
 Wed Mar 14 15:17:20 2001
 	*Makefile, signal.cc: fixed compiling under FreeBSD;
+	*ftpd.cc[h],dlist.cc: trying to download a file even if CWD
+	failed;
+	*mainlog.cc[h]: double click on a row with error will bring a log
+	window of a download;
 
 Tue Mar 13 17:20:06 2001
 	*dlist.cc: fixed broken recursion via HTTP when links is not

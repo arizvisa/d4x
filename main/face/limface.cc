@@ -34,14 +34,14 @@ tLimitDialog::tLimitDialog() {
 };
 
 void tLimitDialog::set_old(char *host,int port) {
-	if (oldhost) delete oldhost;
+	if (oldhost) delete[] oldhost;
 	oldhost=copy_string(host);
 	oldport=port;
 };
 
 void tLimitDialog::reset_old() {
 	if (oldhost) {
-		delete oldhost;
+		delete[] oldhost;
 		oldhost=NULL;
 		oldport=0;
 	};
