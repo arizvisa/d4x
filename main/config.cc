@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -28,6 +28,23 @@ void get_size_of_clist();
 
 const char *CFG_FILE=".ntrc/config";
 const char *CFG_DIR=".ntrc";
+tOption downloader_parsed_args[]={
+	{"--help",		OPT_HELP},
+	{"-h",			OPT_HELP},
+	{"--version",		OPT_VERSION},
+	{"-v",			OPT_VERSION},
+	{"--info", 		OPT_INFO},
+	{"-i",	 		OPT_INFO},
+	{"--speed",		OPT_SPEED},
+	{"-s",			OPT_SPEED},
+	{"-t1",			OPT_TRAFFIC_LOW},
+	{"--trafic-low",	OPT_TRAFFIC_LOW},
+	{"-t2",			OPT_TRAFFIC_MIDDLE},
+	{"--trafic-middle",	OPT_TRAFFIC_MIDDLE},
+	{"-t3",			OPT_TRAFFIC_HIGH},
+	{"--trafic-high",	OPT_TRAFFIC_HIGH}
+};
+int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
 
 void set_column_position(int type,int col){
 	if (col>=0 && col<=NOTHING_COL){
@@ -421,6 +438,30 @@ void set_config(char *line) {
 			CFG.USER_AGENT=copy_string(line+strlen("user_agent")+1);
 			return;
 		};
+		if (equal(temp,"graph_back")) {
+			sscanf(line+strlen("graph_back")+1,"%x",&prom);
+			CFG.GRAPH_BACK=prom;
+			return;
+		};
+		if (equal(temp,"graph_fore1")) {
+			sscanf(line+strlen("graph_back1")+1,"%x",&prom);
+			CFG.GRAPH_FORE1=prom;
+			return;
+		};
+		if (equal(temp,"graph_fore2")) {
+			sscanf(line+strlen("graph_back1")+1,"%x",&prom);
+			CFG.GRAPH_FORE2=prom;
+			return;
+		};
+		if (equal(temp,"graph_pick")) {
+			sscanf(line+strlen("graph_pick")+1,"%x",&prom);
+			CFG.GRAPH_PICK=prom;
+			return;
+		};
+		if (equal(temp,"exec_when_quit")) {
+			CFG.EXEC_WHEN_QUIT=copy_string(line+strlen("exec_when_quit")+1);
+			return;
+		};
 	};
 };
 
@@ -453,39 +494,29 @@ void read_config() {
 		printf(_("Use default cfg :))...\n"));
 	};
 	delete cfgpath;
-	if (!UrlHistory)
-		UrlHistory=new tHistory;
-	if (!PathHistory)
-		PathHistory=new tHistory;
-	if (!FileHistory)
-		FileHistory=new tHistory;
-	if (!LogHistory)
-		LogHistory=new tHistory;
-	if (!UserHistory)
-		UserHistory=new tHistory;
-	if (!ProxyHistory)
-		ProxyHistory=new tHistory;
-	if (!LoadSaveHistory)
-		LoadSaveHistory=new tHistory;
-	if (!UserAgentHistory){
-		UserAgentHistory=new tHistory;
-	};
-	load_strlist(UrlHistory, ".ntrc/history1",0);
-	load_strlist(PathHistory,".ntrc/history2",1);
-	load_strlist(LogHistory,".ntrc/history3",0);
-	load_strlist(LoadSaveHistory,".ntrc/history4",0);
-	load_strlist(UserHistory,".ntrc/history5",0);
-	load_strlist(ProxyHistory,".ntrc/history6",0);
-	load_strlist(FileHistory,".ntrc/history7",0);
-	load_strlist(UserAgentHistory,".ntrc/history8",0);
-	UserAgentHistory->add("%version");	
-	UserAgentHistory->add("Mozilla/4.05");	
-	UserAgentHistory->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");	
+	load_strlist(ALL_HISTORIES[URL_HISTORY], ".ntrc/history1",0);
+	load_strlist(ALL_HISTORIES[PATH_HISTORY],".ntrc/history2",1);
+	load_strlist(ALL_HISTORIES[LOG_HISTORY],".ntrc/history3",0);
+	load_strlist(ALL_HISTORIES[LOAD_SAVE_HISTORY],".ntrc/history4",0);
+	load_strlist(ALL_HISTORIES[USER_HISTORY],".ntrc/history5",0);
+	load_strlist(ALL_HISTORIES[PROXY_HISTORY],".ntrc/history6",0);
+	load_strlist(ALL_HISTORIES[FILE_HISTORY],".ntrc/history7",0);
+	load_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8",0);
+	load_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9",0);
+	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");	
+	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.05");	
+	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");	
 };
 
 static void save_integer_to_config(int fd,char *name,int num) {
 	char data[MAX_LEN];
 	sprintf(data,"%s %i\n\n",name,num);
+	write(fd,data,strlen(data));
+};
+
+static void save_hex_integer_to_config(int fd,char *name,int num) {
+	char data[MAX_LEN];
+	sprintf(data,"%s 0x%06x\n\n",name,num);
 	write(fd,data,strlen(data));
 };
 
@@ -609,6 +640,11 @@ void save_config() {
 		save_integer_to_config(fd,"exit_complete_time",CFG.EXIT_COMPLETE_TIME);
 		save_integer_to_config(fd,"main_log_detailed",CFG.MAIN_LOG_DETAILED);
 		save_string_to_config(fd,"user_agent",CFG.USER_AGENT);
+		save_hex_integer_to_config(fd,"graph_back",CFG.GRAPH_BACK);
+		save_hex_integer_to_config(fd,"graph_fore1",CFG.GRAPH_FORE1);
+		save_hex_integer_to_config(fd,"graph_fore2",CFG.GRAPH_FORE2);
+		save_hex_integer_to_config(fd,"graph_pick",CFG.GRAPH_PICK);
+		save_string_to_config(fd,"exec_when_quit",CFG.EXEC_WHEN_QUIT);
 		close(fd);
 	} else {
 		if (MainLog) {
@@ -617,14 +653,15 @@ void save_config() {
 		} else
 			printf("Can't write cfgfile to:%s\n",cfgpath);
 	};
-	save_strlist(UrlHistory,".ntrc/history1");
-	save_strlist(PathHistory,".ntrc/history2");
-	save_strlist(LogHistory,".ntrc/history3");
-	save_strlist(LoadSaveHistory,".ntrc/history4");
-	save_strlist(UserHistory,".ntrc/history5");
-	save_strlist(ProxyHistory,".ntrc/history6");
-	save_strlist(FileHistory,".ntrc/history7");
-	save_strlist(UserAgentHistory,".ntrc/history8");
+	save_strlist(ALL_HISTORIES[URL_HISTORY], ".ntrc/history1");
+	save_strlist(ALL_HISTORIES[PATH_HISTORY],".ntrc/history2");
+	save_strlist(ALL_HISTORIES[LOG_HISTORY],".ntrc/history3");
+	save_strlist(ALL_HISTORIES[LOAD_SAVE_HISTORY],".ntrc/history4");
+	save_strlist(ALL_HISTORIES[USER_HISTORY],".ntrc/history5");
+	save_strlist(ALL_HISTORIES[PROXY_HISTORY],".ntrc/history6");
+	save_strlist(ALL_HISTORIES[FILE_HISTORY],".ntrc/history7");
+	save_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8");
+	save_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9");
 	delete cfgpath;
 };
 
@@ -722,16 +759,34 @@ void save_limits() {
 	};
 };
 
+int downloader_args_type(char *str){
+	for (int i=0;i<downloader_parsed_args_num;i++){
+		if (equal(str,downloader_parsed_args[i].name))
+			return downloader_parsed_args[i].cmd;
+	};
+	return OPT_UNKNOWN;
+};
+
 int parse_command_line_preload(int argv,char **argc){
 	int rvalue=0;
 	for (int i=1;i<argv;i++){
-		if (equal("-v",argc[i])||equal("--version",argc[i])){
+		int option=downloader_args_type(argc[i]);
+		switch(option){
+		case OPT_VERSION:{
 			puts(VERSION_NAME);
 			rvalue=1;
+			break;
 		};
-		if (equal("-h",argc[i])||equal("--help",argc[i])){
-			print_help_page();
+		case OPT_HELP:{
+			help_print();
 			rvalue=1;
+			break;
+		};
+		case OPT_UNKNOWN:{
+			printf(_("unknown option:"));
+			printf(" %s\n",argc[i]);
+			break;
+		};
 		};
 	};
 	return rvalue;
@@ -746,7 +801,9 @@ int parse_command_line_already_run(int argv,char **argc){
 				rvalue=0;
 				if (clt->send_command(PACKET_ADD,argc[i],strlen(argc[i])+1)) break;
 			}else{
-				if (equal("--info",argc[i])){
+				int option=downloader_args_type(argc[i]);
+				switch(option){
+				case OPT_INFO:{
 					rvalue=0;
 					int total=0;
 					clt->send_command(PACKET_ASK_RUN,NULL,0);
@@ -765,11 +822,29 @@ int parse_command_line_already_run(int argv,char **argc){
 					printf(_("Total: %d\n"),total);
 					clt->send_command(PACKET_ASK_SPEED,NULL,0);
 					printf(_("Curent speed: %d\n"),clt->get_answer_int());
+					break;
 				};
-				if (equal("--speed",argc[i])){
+				case OPT_SPEED:{
 					clt->send_command(PACKET_ASK_SPEED,NULL,0);
 					rvalue=0;
 					printf(_("Curent speed: %d\n"),clt->get_answer_int());
+					break;
+				};
+				case OPT_TRAFFIC_LOW:{
+					clt->send_command(PACKET_SET_SPEED_LIMIT,"1",2);
+					rvalue=0;
+					break;
+				};
+				case OPT_TRAFFIC_MIDDLE:{
+					clt->send_command(PACKET_SET_SPEED_LIMIT,"2",2);
+					rvalue=0;
+					break;
+				};
+				case OPT_TRAFFIC_HIGH:{
+					clt->send_command(PACKET_SET_SPEED_LIMIT,"3",2);
+					rvalue=0;
+					break;
+				};
 				};
 			};
 		};		
@@ -779,22 +854,45 @@ int parse_command_line_already_run(int argv,char **argc){
 };
 
 void parse_command_line_postload(int argv,char **argc){
-	for (int i=1;i<argv;i++){
-/*		if (equal("-t1",argc[i]) || equal("--trafic-low",argc[i]))
+	for (int i=1;i<argv;i++){		
+		int option=downloader_args_type(argc[i]);
+		switch (option){
+		case OPT_TRAFFIC_LOW:{
 			CFG.SPEED_LIMIT=1;
-		if (equal("-t2",argc[i]) || equal("--trafic-middle",argc[i]))
+			break;
+		};
+		case OPT_TRAFFIC_MIDDLE:{
 			CFG.SPEED_LIMIT=2;
-		if (equal("-t3",argc[i]) || equal("--trafic-unlimited",argc[i]))
+			break;
+		};
+		case OPT_TRAFFIC_HIGH:{
 			CFG.SPEED_LIMIT=3;
-*/
-		if (*(argc[i])!='-') aa.add_downloading(argc[i],NULL,NULL);
+			break;
+		};
+		};
 	};
 };
 
-void print_help_page(){
+void help_print_args(int type){
+	int num=0;
+	printf("\t");
+	for (int i=0;i<downloader_parsed_args_num;i++){
+		if (downloader_parsed_args[i].cmd==type){
+			if (num) printf(",");
+			printf(downloader_parsed_args[i].name);
+			num+=1;
+		};
+	};
+	printf("\t");
+};
+
+void help_print(){
 	printf(_("Usage: nt [OPTION] ... [URL]"));printf("\n\n");
-	printf("\t-h,--help\t");printf(_("print this page and exit"));printf("\n");
-	printf("\t-v,--version\t");printf(_("show version information and exit"));printf("\n");
-	printf("\t--info\t\t");printf(_("show information if already run"));printf("\n");
-	printf("\t--speed\t\t");printf(_("show curent speed if already run"));printf("\n");
+	help_print_args(OPT_HELP);printf(_("print this page and exit"));printf("\n");
+	help_print_args(OPT_VERSION);printf(_("show version information and exit"));printf("\n");
+	help_print_args(OPT_INFO);printf(_("show information if already run"));printf("\n");
+	help_print_args(OPT_SPEED);printf(_("show curent speed if already run"));printf("\n");
+	help_print_args(OPT_TRAFFIC_LOW);printf(_("set lower speed limitation"));printf("\n");
+	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set middle speed limitation"));printf("\n");
+	help_print_args(OPT_TRAFFIC_HIGH);printf(_("set unlimited speed"));printf("\n");
 };

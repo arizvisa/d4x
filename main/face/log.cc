@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -186,9 +186,17 @@ void log_window_init(tDownload *what) {
 			gdk_window_show(temp->window->window);
 			return;
 		};
+		what->LOG->lock();
 		tLogWindow *temp=new tLogWindow;
 		temp->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-		gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 150);
+		int a[4];
+		what->LOG->get_geometry(a);
+		if (a[3]!=0 && a[2]!=0){
+			gtk_widget_set_usize( GTK_WIDGET (temp->window), a[2], a[3]);
+			gtk_widget_set_uposition( GTK_WIDGET (temp->window), a[0], a[1]);
+		}else
+			gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 200);
+
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
@@ -218,13 +226,11 @@ void log_window_init(tDownload *what) {
 
 		gtk_object_set_user_data(GTK_OBJECT(temp->window),what->LOG);
 		gtk_widget_show_all(temp->window);
-		int a[4];
-		what->LOG->get_geometry(a);
-		if (a[3]!=0 && a[2]!=0)
-			gdk_window_move_resize(temp->window->window,a[0],a[1],a[2],a[3]);
+//		if (a[3]!=0 && a[2]!=0)
+//			gdk_window_move_resize(temp->window->window,a[0],a[1],a[2],a[3]);
 
 		what->LOG->print();
-
+		what->LOG->unlock();
 		gtk_signal_connect (GTK_OBJECT(adj), "changed",GTK_SIGNAL_FUNC(my_gtk_auto_scroll), what->LOG);
 		adj->value=adj->upper-adj->page_size;
 		temp->value=adj->value;

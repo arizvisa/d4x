@@ -167,12 +167,12 @@ msgstr "控制套接字端口发送超时."
 
 
 #: ftp.cc:48
-msgid "Control conection lost"
+msgid "Control connection is lost"
 msgstr "控制连接丢失！"
 
 
 #: ftp.cc:57
-msgid "Data socket lost!"
+msgid "Data socket is lost!"
 msgstr "数据套接字连接丢失！"
 
 
@@ -203,7 +203,7 @@ msgstr "不能写到文件"
 
 
 #: ftpd.cc:138
-msgid "Reget not supported!!!"
+msgid "Reget is not supported!!!"
 msgstr "不支持断点续传！！！"
 
 
@@ -1300,4 +1300,28 @@ msgstr ""
 
 #: face/lod.cc
 msgid "Rest"
+msgstr ""
+
+#: config.cc:
+msgid "set lower speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set middle speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set unlimited speed"
+msgstr ""
+
+#: http.cc
+msgid "Request was sent, waiting for the answer"
+msgstr ""
+
+#: config.cc:
+msgid "unknown option:"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Run this when exit"
 msgstr ""

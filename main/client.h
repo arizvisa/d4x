@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -46,5 +46,11 @@ class tClient{
     	virtual void done()=0;
     	virtual ~tClient();
 };
+
+#define RVALUE_COMPLETED 1
+#define RVALUE_OK 0
+#define RVALUE_TIMEOUT -1
+#define RVALUE_BAD_COMMAND -2
+#define RVALUE_UNSPEC_ERR -3
 
 #endif

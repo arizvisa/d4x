@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -19,7 +19,7 @@ class tMsgServer{
     char *file;
     pthread_mutex_t lock;
     int fd,newfd; /* socket descriptor */
-    void cmd_add(int len);
+    void cmd_add(int len,int type);
     void cmd_ack();
     void cmd_return_int(int what);
     public:
@@ -56,6 +56,7 @@ enum {
     PACKET_ASK_STOP,
     PACKET_ASK_PAUSE,
     PACKET_ASK_COMPLETE,
+	PACKET_SET_SPEED_LIMIT,
     PACKET_UNKNOWN
 };
 

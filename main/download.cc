@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -103,6 +103,7 @@ void tCfg::reset_proxy() {
 
 tCfg::~tCfg() {
 	reset_proxy();
+	if (user_agent) delete(user_agent);
 };
 /* Downloader::
  */
@@ -173,17 +174,18 @@ int tDownloader::get_start_size() {
 };
 
 void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
-	int flag=strlen(D_FILE.name);
+//	int flag=strlen(D_FILE.name);
 	char *temp;
-	if (flag){
+//	if (flag){
 		temp=sum_strings(".",D_FILE.name);
 		*name=compose_path(path,temp);
 		*guess=compose_path(path,D_FILE.name);
+/*
 	}else{
 		temp=sum_strings(".",CFG.DEFAULT_NAME);
 		*name=compose_path(path,temp);
 		*guess=compose_path(path,CFG.DEFAULT_NAME);
-	};
+	};*/
 	delete temp;
 };
 

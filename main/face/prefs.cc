@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -18,6 +18,7 @@
 #include "columns.h"
 #include "buttons.h"
 #include "dndtrash.h"
+#include "graph.h"
 #include "../var.h"
 #include "../main.h"
 #include "../config.h"
@@ -65,6 +66,7 @@ GtkWidget *prefs_other_frame;
 GtkWidget *prefs_other_vbox;
 GtkWidget *prefs_other_table;
 GtkWidget *prefs_other_savepath,*prefs_other_sbox,*prefs_other_slabel;
+GtkWidget *prefs_other_exec,*prefs_other_ebox,*prefs_other_elabel;
 GtkWidget *prefs_other_filename,*prefs_other_fbox,*prefs_other_flabel;
 GtkWidget *prefs_other_user_agent,*prefs_other_ubox,*prefs_other_ulabel;
 GtkWidget *prefs_other_ftp_passive;
@@ -189,7 +191,7 @@ void init_options_window(...) {
 	gtk_window_set_policy (GTK_WINDOW(options_window), FALSE,FALSE,FALSE);
 	//    gtk_widget_set_usize(options_window,460,273);
 	gtk_signal_connect(GTK_OBJECT(options_window),"delete_event",GTK_SIGNAL_FUNC(options_window_cancel), NULL);
-	options_window_vbox=gtk_vbox_new(FALSE,10);
+	options_window_vbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(options_window_vbox),5);
 	gtk_container_border_width(GTK_CONTAINER(options_window),5);
 	gtk_container_add(GTK_CONTAINER(options_window),options_window_vbox);
@@ -406,7 +408,7 @@ void init_options_window(...) {
 	gtk_container_border_width(GTK_CONTAINER(prefs_other_table),5);
 
 	prefs_other_sbox=gtk_vbox_new(FALSE,0);
-	prefs_other_savepath=my_gtk_combo_new(PathHistory);
+	prefs_other_savepath=my_gtk_combo_new(ALL_HISTORIES[PATH_HISTORY]);
 
 	GtkWidget *dir_browser_button=gtk_button_new_with_label(_("Browse"));
 	GtkWidget *hboxtemp=gtk_hbox_new(FALSE,0);
@@ -421,26 +423,34 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(prefs_other_sbox),hboxtemp,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_sbox,0,2,0,1);
 
+	prefs_other_ebox=gtk_vbox_new(FALSE,0);
+	prefs_other_exec=my_gtk_combo_new(ALL_HISTORIES[EXEC_HISTORY]);
+	text_to_combo(prefs_other_exec,CFG.EXEC_WHEN_QUIT);
+	prefs_other_elabel=gtk_label_new(_("Run this when exit"));
+	gtk_box_pack_start(GTK_BOX(prefs_other_ebox),prefs_other_elabel,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_other_ebox),prefs_other_exec,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ebox,0,2,1,2);
+
 	prefs_other_fbox=gtk_vbox_new(FALSE,0);
-	prefs_other_filename=my_gtk_combo_new(FileHistory);
+	prefs_other_filename=my_gtk_combo_new(ALL_HISTORIES[FILE_HISTORY]);
 	text_to_combo(prefs_other_filename,CFG.DEFAULT_NAME);
 	prefs_other_flabel=gtk_label_new(_("Filename for saving if it is unknown"));
 	gtk_box_pack_start(GTK_BOX(prefs_other_fbox),prefs_other_flabel,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_other_fbox),prefs_other_filename,FALSE,FALSE,0);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_fbox,0,2,1,2);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_fbox,0,2,2,3);
 
 	prefs_other_ubox=gtk_vbox_new(FALSE,0);
-	prefs_other_user_agent=my_gtk_combo_new(UserAgentHistory);
+	prefs_other_user_agent=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
 	text_to_combo(prefs_other_user_agent,CFG.USER_AGENT);
 	prefs_other_ulabel=gtk_label_new(_("User-Agent for http requests"));
 	gtk_box_pack_start(GTK_BOX(prefs_other_ubox),prefs_other_ulabel,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_other_ubox),prefs_other_user_agent,FALSE,FALSE,0);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ubox,0,2,2,3);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ubox,0,2,3,4);
 
 
 	prefs_other_ftp_passive=gtk_check_button_new_with_label(_("Use passive mode for ftp"));
 	GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active=CFG.FTP_PASSIVE_MODE;
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ftp_passive,0,1,3,4);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ftp_passive,0,1,5,6);
 
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_other_vbox,gtk_label_new(_("Other")));
@@ -470,7 +480,7 @@ void init_options_window(...) {
 	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_log_save,0,1,2,3);
 	gtk_signal_connect(GTK_OBJECT(prefs_log_save),"clicked",GTK_SIGNAL_FUNC(options_toggle_save_log),NULL);
 
-	prefs_log_save_path=my_gtk_combo_new(LogHistory);
+	prefs_log_save_path=my_gtk_combo_new(ALL_HISTORIES[LOG_HISTORY]);
 	dir_browser_button2=gtk_button_new_with_label(_("Browse"));
 	gtk_signal_connect(GTK_OBJECT(dir_browser_button2),"clicked",GTK_SIGNAL_FUNC(options_browser_open2),NULL);
 	hboxtemp=gtk_hbox_new(FALSE,0);
@@ -625,6 +635,7 @@ void init_options_window(...) {
 	gtk_entry_set_text(GTK_ENTRY(prefs_speed_limit_1),temp);
 	sprintf(temp,"%i",CFG.SPEED_LIMIT_2 / 2);
 	gtk_entry_set_text(GTK_ENTRY(prefs_speed_limit_2),temp);
+
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),frame,gtk_label_new(_("Speed")));
 	/*
 	    Buttons Ok and Cancel
@@ -719,7 +730,11 @@ void options_window_ok() {
 	if (CFG.GLOBAL_SAVE_PATH) delete (CFG.GLOBAL_SAVE_PATH);
 	CFG.GLOBAL_SAVE_PATH=copy_string(text_from_combo(prefs_other_savepath));
 	normalize_path(CFG.GLOBAL_SAVE_PATH);
-	PathHistory->add(CFG.GLOBAL_SAVE_PATH);
+	ALL_HISTORIES[PATH_HISTORY]->add(CFG.GLOBAL_SAVE_PATH);
+	if (CFG.EXEC_WHEN_QUIT)
+		delete (CFG.EXEC_WHEN_QUIT);
+	CFG.EXEC_WHEN_QUIT=copy_string(text_from_combo(prefs_other_exec));
+	ALL_HISTORIES[EXEC_HISTORY]->add(CFG.EXEC_WHEN_QUIT);
 /* Main log settings */
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_log_length)),"%u",&temp);
 	if (temp>=100) CFG.MAX_MAIN_LOG_LENGTH=temp;
@@ -728,7 +743,7 @@ void options_window_ok() {
  	if (CFG.SAVE_LOG_PATH==NULL || strcmp(CFG.SAVE_LOG_PATH,text_from_combo(prefs_log_save_path)) || 
  				CFG.SAVE_MAIN_LOG!=(int)GTK_TOGGLE_BUTTON(prefs_log_save)->active){
 		if (CFG.SAVE_LOG_PATH) delete (CFG.SAVE_LOG_PATH);
-		LogHistory->add(text_from_combo(prefs_log_save_path));
+		ALL_HISTORIES[LOG_HISTORY]->add(text_from_combo(prefs_log_save_path));
 		CFG.SAVE_LOG_PATH=copy_string(text_from_combo(prefs_log_save_path));
 		CFG.SAVE_MAIN_LOG=GTK_TOGGLE_BUTTON(prefs_log_save)->active;
  		aa.reinit_main_log();
@@ -741,7 +756,7 @@ void options_window_ok() {
 	CFG.USER_AGENT=copy_string(text_from_combo(prefs_other_user_agent));
 
 	if (strlen(CFG.DEFAULT_NAME))
-		FileHistory->add(CFG.DEFAULT_NAME);
+		ALL_HISTORIES[FILE_HISTORY]->add(CFG.DEFAULT_NAME);
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_common_save_list_entry)),"%u",&temp);
 	if (temp>0 && temp<1000) CFG.SAVE_LIST_INTERVAL=temp;
 	temp=0;

@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -16,7 +16,8 @@
 #define STATUS_FATAL -3
 #define STATUS_TIMEOUT -2
 #define STATUS_CMD_ERR -4
-#define STATUS_BAD_ANSWER -5
+#define STATUS_UNSPEC_ERR -5
+#define STATUS_BAD_ANSWER -6
 #define MAX_LEN 4048
 enum{
 	DOWNLOAD_STOP,
@@ -123,6 +124,9 @@ struct tMainCfg{
  	int SPEED_LIMIT;
  	int SPEED_LIMIT_1;
  	int SPEED_LIMIT_2;
+/* Session
+ */
+	char *EXEC_WHEN_QUIT;
 };
 
 extern tMLog *MainLog;
@@ -137,30 +141,25 @@ struct tGlobalVars{
 
 extern tGlobalVars GVARS;
 
-extern tHistory *UrlHistory;
-extern tHistory *PathHistory;
-extern tHistory *FileHistory;
-extern tHistory *LogHistory;
-extern tHistory *UserHistory;
-extern tHistory *ProxyHistory;
-extern tHistory *LoadSaveHistory;
-extern tHistory *UserAgentHistory;
+enum HISTORIES_ENUM{
+	URL_HISTORY=0,
+	PATH_HISTORY,
+	FILE_HISTORY,
+	LOG_HISTORY,
+	USER_HISTORY,
+	PROXY_HISTORY,
+	LOAD_SAVE_HISTORY,
+	USER_AGENT_HISTORY,
+	EXEC_HISTORY,
+	LAST_HISTORY
+};
+
+extern tHistory *ALL_HISTORIES[LAST_HISTORY];
 
 extern tHostsLimits *LimitsForHosts;
 
 extern key_t LogsMsgQueue;
 
-extern char *FTP_SERVER_OK;
-extern char *FTP_USER_OK;
-extern char *FTP_PASS_OK;
-extern char *FTP_PASV_OK;
-extern char *FTP_PORT_OK;
-extern char *FTP_CWD_OK;
-extern char *FTP_RETR_OK;
-extern char *FTP_QUIT_OK;
-extern char *FTP_READ_OK;
-extern char *FTP_ABOR_OK;
-extern char *FTP_REST_OK;
 
 extern char *VERSION_NAME;
 extern char *DEFAULT_PASS;

@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -39,6 +39,16 @@ int equal(const char *a,const char *b) {
 	};
 	if (*b==*a) return 1;
 	return 0;
+};
+
+int equal_uncase(const char *a,const char *b) {
+	if (!a) {
+		if (b) return 0;
+		return 1;
+	};
+	if (!b) return 0;
+	if (strcasecmp(a,b)) return 0;
+	return 1;
 };
 
 int equal_first(const char *a,const char *b) {
@@ -225,10 +235,11 @@ void convert_to_hex(char what,char *where) {
 
 char *unparse_percents(char *what) {
 	if (what==NULL) return NULL;
+	char *true_chars=".-+";
 	int len=strlen(what);
 	int unparsed_len=0;
 	for (int i=0;i<len;i++){
-		if ((what[i]<'/' || what[i]>'z') && what[i]!='.')//|| (what[i]>'9' && what[i]<'A')
+		if ((what[i]<'/' || what[i]>'z') && index(true_chars,what[i])==NULL)
 			unparsed_len+=3;
 		else
 			unparsed_len+=1;
@@ -236,7 +247,7 @@ char *unparse_percents(char *what) {
 	char *rvalue=new char[unparsed_len+1];
 	char *cur=rvalue;
 	for (int i=0;i<len;i++){
-		if ((what[i]<'/' || what[i]>'z') && what[i]!='.'){//|| (what[i]>'9' && what[i]<'A')
+		if ((what[i]<'/' || what[i]>'z') && index(true_chars,what[i])==NULL){
 			*cur='%';
 			cur+=1;
 			convert_to_hex(what[i],cur);
@@ -351,40 +362,37 @@ char *extract_from_prefixed_string(char *str,char *begin){
 int convert_month(char *src) {
 	if (!src) return 0;
 	switch(*src) {
-		case 'j':
-		case 'J':
-			{
-				if (src[1]=='a' || src[1]=='A') return 0;
-				if (src[2]=='n' || src[2]=='N') return 5;
-				return 6;
-			};
-		case 'a':
-		case 'A':
-			{
-				if (src[1]=='u' || src[1]=='U') return 7;
-				return 3;
-			};
-		case 'm':
-		case 'M':
-			{
-				if (src[2]=='r' || src[2]=='R') return 2;
-				return 4;
-			};
-		case 'f':
-		case 'F':
-			return 1;
-		case 's':
-		case 'S':
-			return 8;
-		case 'o':
-		case 'O':
-			return 9;
-		case 'n':
-		case 'N':
-			return 10;
-		case 'd':
-		case 'D':
-			return 11;
+	case 'j':
+	case 'J':{
+		if (src[1]=='a' || src[1]=='A') return 0;
+		if (src[2]=='n' || src[2]=='N') return 5;
+		return 6;
+	};
+	case 'a':
+	case 'A':{
+		if (src[1]=='u' || src[1]=='U') return 7;
+		return 3;
+	};
+	case 'm':
+	case 'M':{
+		if (src[2]=='r' || src[2]=='R') return 2;
+		return 4;
+	};
+	case 'f':
+	case 'F':
+		return 1;
+	case 's':
+	case 'S':
+		return 8;
+	case 'o':
+	case 'O':
+		return 9;
+	case 'n':
+	case 'N':
+		return 10;
+	case 'd':
+	case 'D':
+		return 11;
 	};
 	return 0;
 };

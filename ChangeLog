@@ -1,3 +1,21 @@
+Tue Dec 28 10:53:37 1999
+    Added ability to run something when exiting (for example ppp-down script)
+    Added support for DOS style directory listing via ftp;
+    Added ability to move all selected downloads;
+    Added new command line parameters for setting speed limitation;
+    Rewritten parsing command line parameters;
+    Some items in menu is autodisabled now;
+    Colors of the graph now saving in config file;
+    Fixed some memory leaks;
+    Fixed downloading via proxy for ftp URLs;
+    Fixed jumping of log windows after creating;
+    Fixed displaying messages twice in logs of downloadings;
+    Fixed downloading saved list;
+    Fixed creating directories with default name when download via ftp;
+    Various fixes and improvements in ftp realisation;
+    Number of fixes in http realisation;
+    Various fixes for better stability;
+
 Tue Dec 14 10:42:40 1999
     D4X will create log even if downloading does not started yet;
     Ability to add downloading via command line if D4X already run;

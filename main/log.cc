@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -81,13 +81,13 @@ void tLog::send_msg(int type,tLogString *what) {
 
 void tLog::print() {
 	if (!Window) return;
-	lock();
+//	lock();
 	tLogString *prom=(tLogString *)First;
 	while (prom) {
 		log_window_add_string(this,prom);
 		prom=(tLogString *)prom->prev;
 	};
-	unlock();
+//	unlock();
 };
 
 

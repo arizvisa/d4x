@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -45,5 +45,17 @@ class tFtpClient:public tClient{
 		int another_way_get_size();
 		~tFtpClient();
 };
+
+extern char *FTP_SERVER_OK;
+extern char *FTP_USER_OK;
+extern char *FTP_PASS_OK;
+extern char *FTP_PASV_OK;
+extern char *FTP_PORT_OK;
+extern char *FTP_CWD_OK;
+extern char *FTP_RETR_OK;
+extern char *FTP_QUIT_OK;
+extern char *FTP_READ_OK;
+extern char *FTP_ABOR_OK;
+extern char *FTP_REST_OK;
 
 #endif

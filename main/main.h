@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -30,32 +30,33 @@ struct tTwoStrings{
 };
 
 class tMain{
-    unsigned int LastTime;
-    int MsgQueue;
-    tMsgServer *server;
-    pthread_t server_thread_id;
-    tSpeedQueue *SpeedScheduler;
-    int LastReadedBytes;
-    void split_string(char *what,char *delim,tTwoStrings *out);
-    void case_download_completed(tDownload *what);
-    void case_download_failed(tDownload *what);
-    int run_new_thread(tDownload *what);
-    int complete();
-    void add_dir(tDownload *parent);
-    void print_info(tDownload *what);
-    void redirect(tDownload *what);
-    void prepare_for_stoping(tDownload *what,tDList *list);
-    void absolute_delete_download(tDList *where,tDownload *what);
-    unsigned int get_precise_time();
-    void run_msg_server();
-    public:
+	unsigned int LastTime;
+	int MsgQueue;
+	tMsgServer *server;
+	pthread_t server_thread_id;
+	tSpeedQueue *SpeedScheduler;
+	int LastReadedBytes;
+	void split_string(char *what,char *delim,tTwoStrings *out);
+	void case_download_completed(tDownload *what);
+	void case_download_failed(tDownload *what);
+	int run_new_thread(tDownload *what);
+	int complete();
+	void add_dir(tDownload *parent);
+	void print_info(tDownload *what);
+	void redirect(tDownload *what);
+	void prepare_for_stoping(tDownload *what,tDList *list);
+	void absolute_delete_download(tDList *where,tDownload *what);
+	unsigned int get_precise_time();
+	void run_msg_server();
+	void check_for_remote_commands();
+ public:
     	void init();
     	void init_main_log();
     	void speed();
     	tAddr *analize(char *what);
         void main_circle();
         void del_completed();
-	    void del_fataled();
+	void del_fataled();
         void del_all();
         void load_defaults();
         void append_list(tStringList *what);
@@ -67,7 +68,8 @@ class tMain{
     	int add_downloading(char *adr,char *where,char *name);
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
-		void done();
+	void run_after_quit();
+	void done();
 };
 
 void *download_last(void *);

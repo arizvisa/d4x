@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -17,15 +17,27 @@
 #include "var.h"
 #include "ntlocale.h"
 
+char *FTP_SERVER_OK="220";
+char *FTP_USER_OK="331";
+char *FTP_PASS_OK="230";
+char *FTP_PASV_OK="227";
+char *FTP_PORT_OK="200";
+char *FTP_CWD_OK="250";
+char *FTP_RETR_OK="150";
+char *FTP_QUIT_OK="221";
+char *FTP_READ_OK="226";
+char *FTP_ABOR_OK="225";
+char *FTP_REST_OK="350";
+
 int tFtpClient::accepting() {
-	if (passive) return 0;
+	if (passive) return RVALUE_OK;
 	DSFlag=1;
 	if (DataSocket.accepting(hostname)) {
 		Status=STATUS_TRIVIAL;
 		LOG->add(_("Accepting faild"),LOG_ERROR);
-		return -1;
+		return RVALUE_TIMEOUT;
 	};
-	return 0;
+	return RVALUE_OK;
 };
 
 int  tFtpClient::send_command(char * comm,char *argv) {
@@ -46,19 +58,19 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 	if ((Status=CtrlSocket.send_string(data,timeout))) {
 		if (Status==STATUS_TIMEOUT)
 			LOG->add(_("Timeout send through control socket."),LOG_ERROR);
-		LOG->add(_("Control conection lost"),LOG_WARNING);
+		LOG->add(_("Control connection is lost"),LOG_WARNING);
 		delete data;
-		return -1;
+		return RVALUE_TIMEOUT;
 	};
 	delete data;
-	return 0;
+	return RVALUE_OK;
 };
 
 int tFtpClient::read_data(char *where,int len) {
 	int all=DataSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
-		LOG->add(_("Data socket lost!"),LOG_WARNING);
-		return -1;
+		LOG->add(_("Data socket is lost!"),LOG_WARNING);
+		return RVALUE_TIMEOUT;
 	};
 	return all;
 };
@@ -66,9 +78,9 @@ int tFtpClient::read_data(char *where,int len) {
 int tFtpClient::read_control() {
 	if (read_string(&CtrlSocket,LOG,MAX_LEN)<0) {
 		LOG->add(_("Control socket lost!"),LOG_WARNING);
-		return -1;
+		return RVALUE_TIMEOUT;
 	};
-	return 0;
+	return RVALUE_OK;
 };
 
 int tFtpClient::analize(char *how) {
@@ -89,7 +101,7 @@ int tFtpClient::analize_ctrl(int argc,char **argv) {
 	int ok;
 	do {
 		do {
-			if (read_control()) return -1;
+			if (read_control()) return RVALUE_TIMEOUT;
 			ok=1;
 			ok=analize("2");
 			for (int i=0;i<argc;i++) {
@@ -97,12 +109,16 @@ int tFtpClient::analize_ctrl(int argc,char **argv) {
 			};
 			ok=(ok && analize("5") && analize("4"));
 		} while (ok);
-		if (!analize("4") || !analize("5")) {
+		if (!analize("4")){
+			Status=STATUS_UNSPEC_ERR;
+			return RVALUE_UNSPEC_ERR;
+		};
+		if (!analize("5")){
 			Status=STATUS_CMD_ERR;
-			return -2;
+			return RVALUE_BAD_COMMAND;
 		};
 	} while (!last_answer());
-	return 0;
+	return RVALUE_OK;
 };
 
 int tFtpClient::last_answer() {
@@ -117,11 +133,11 @@ int tFtpClient::rest(int offset) {
 		sprintf(data,"%i",offset);
 		send_command("REST",data);
 		int a=analize_ctrl(1,&FTP_REST_OK);
-		if (a==-1) return -1;
-		if (a==-2) ReGet=0;
+		if (a==RVALUE_TIMEOUT || a==RVALUE_UNSPEC_ERR) return(a);
+		if (a==RVALUE_BAD_COMMAND) ReGet=0;
 		else ReGet=1;
 	};
-	return 0;
+	return RVALUE_OK;
 };
 //**************************************************/
 
@@ -140,10 +156,11 @@ void tFtpClient::init(char *host,tLog *log,int prt,int time_out) {
 };
 
 int tFtpClient::reinit() {
-	if (tClient::reinit()==0) {
+	int rvalue=0;
+	if ((rvalue=tClient::reinit())==0) {
 		return analize_ctrl(5,&FTP_SERVER_OK);
 	};
-	return -1;
+	return(rvalue);
 };
 
 
@@ -215,43 +232,44 @@ int tFtpClient::change_dir(char *where) {
 		send_command("CWD",where);
 		return analize_ctrl(1,&FTP_CWD_OK);
 	};
-	return 0;
+	return RVALUE_OK;
 }
 
 
 int tFtpClient::get_size(char *filename,tStringList *list) {
-	if (rest(list->size())) return -1;
+	int rvalue=0;;
+	if ((rvalue=rest(list->size()))) return(rvalue);
 	if (!ReGet) list->done();
 	send_command("LIST -la",filename);
-	if (analize_ctrl(1,&FTP_RETR_OK)) return -1;
-	if (accepting()) return -1;
+	if ((rvalue=analize_ctrl(1,&FTP_RETR_OK))) return(rvalue);
+	if ((rvalue=accepting())) return(rvalue);
 	while (1) {
 		int a=read_string(&DataSocket,list,MAX_LEN);
 		DSize=list->size();
-		if(a<0) return -1;
-		if (a>0){
+		if (a<0) return(a);
+		if (a==RVALUE_COMPLETED){
 			DataSocket.down(); // Added by Terence Haddock
 			break;
 		};
 	};
-	if (analize_ctrl(1,&FTP_READ_OK)) return -1;
-	return 0;
+	return (analize_ctrl(1,&FTP_READ_OK));
 };
 
 int tFtpClient::get_file_from(char *what,unsigned int begin,int fd) {
+	int rvalue=0;;
 	FileLoaded=begin;
 	char data[25];
 	data[0]=0;
 	sprintf(data,"%u",begin);
 	send_command("TYPE","I");
-	if (analize_ctrl(1,&FTP_PORT_OK)) return -1;
-	if (rest(begin)) return -1;
+	if ((rvalue=analize_ctrl(1,&FTP_PORT_OK))) return(rvalue);
+	if ((rvalue=rest(begin))) return rvalue;
 	if (!ReGet) {
 		lseek(fd,0,SEEK_SET);
 		FileLoaded=0;
 	};
 	send_command("RETR",what);
-	if (analize_ctrl(1,&FTP_RETR_OK)) return -1;
+	if ((rvalue=analize_ctrl(1,&FTP_RETR_OK))) return(rvalue);
 	// Trying to determine file size
 	tLogString *log=LOG->last();
 	TEMP_SIZE=0;
@@ -260,8 +278,8 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int fd) {
 		if (str) sscanf(str+1,"%i",&TEMP_SIZE);
 	};
 
-	if (accepting()) return -1;
-	if (Status) return -1;
+	if ((rvalue=accepting())) return(rvalue);
+	if (Status) return RVALUE_TIMEOUT;
 	DSize=0;
 	int complete;
 	do {
@@ -276,7 +294,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int fd) {
 			break;
 		};
 	} while (complete!=0);
-	DataSocket.down(); // to prevent next ideas from wu-ftpd guys
+	DataSocket.down(); // to prevent next ideas from guys of wu-ftpd's team
 	if (Status) return DSize;
 	analize_ctrl(1,&FTP_READ_OK);
 	return DSize;

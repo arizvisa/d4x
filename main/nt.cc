@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.08";
+char *VERSION_NAME="WebDownloader for X 1.09";
 char *LOCK_FILE;
 
 int main(int argc,char **argv) {
@@ -35,13 +35,20 @@ int main(int argc,char **argv) {
 #endif
 	if (parse_command_line_preload(argc,argv)) return 0;
 	HOME_VARIABLE=copy_string(getenv("HOME"));
-	CFG.DEFAULT_NAME=copy_string("index.html");
 	if (!HOME_VARIABLE)
 		puts(_("WARNING!!! Can't find HOME variable! So can't read config!"));
 	LOCK_FILE=sum_strings(g_get_tmp_dir(),"/downloader_for_x_lock_", g_get_user_name());
+/* init histories
+ */
+	for (int i=0;i<LAST_HISTORY;i++)
+		ALL_HISTORIES[i]=new tHistory;
 	read_config();
+	if (CFG.DEFAULT_NAME==NULL)
+		CFG.DEFAULT_NAME=copy_string("index.html");
 	if (CFG.USER_AGENT==NULL)
 		CFG.USER_AGENT=copy_string("%version");
+	if (CFG.EXEC_WHEN_QUIT==NULL)
+		CFG.EXEC_WHEN_QUIT=copy_string("");
 	if (!CFG.GLOBAL_SAVE_PATH) {
 		CFG.GLOBAL_SAVE_PATH=copy_string(HOME_VARIABLE);
 		if (!CFG.GLOBAL_SAVE_PATH) {
@@ -56,5 +63,6 @@ int main(int argc,char **argv) {
 	};
 	aa.init();
 	aa.run(argc,argv);
+	aa.run_after_quit();
 	return 0;
 };

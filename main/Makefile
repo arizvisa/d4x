@@ -127,6 +127,13 @@ db.o: db.cc db.h
 	$(EXECC) -c db.cc -o db.o
 
 clean: 
-	rm -f *.o nt *~ ||test -z ""
+	rm -f *.o nt TAGS *~ || test -z ""
 	cd face && make clean
 	cd po && make clean
+
+tags:
+	etags *.{cc,h} face/*.{cc,h}
+
+uninstall:
+	rm -f $(DEST)/bin/nt || test -z ""
+	cd po && make uninstall

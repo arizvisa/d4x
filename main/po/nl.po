@@ -146,11 +146,11 @@ msgid "Timeout send through control socket."
 msgstr "Timeout bij het zenden door controle socket."
 
 #: ftp.cc:48
-msgid "Control conection lost"
+msgid "Control connection is lost"
 msgstr "Controle verbinding verbroken"
 
 #: ftp.cc:57
-msgid "Data socket lost!"
+msgid "Data socket is lost!"
 msgstr "Data socket is weggevallen!"
 
 #: ftp.cc:65
@@ -175,7 +175,7 @@ msgid "Can't write to file"
 msgstr "Kan niet naar bestand schrijven"
 
 #: ftpd.cc:138
-msgid "Reget not supported!!!"
+msgid "Reget is not supported!!!"
 msgstr "Reget wordt niet ondersteund!!!"
 
 #: ftpd.cc:183
@@ -306,7 +306,7 @@ msgstr "Grootte voor download is %i bytes"
 
 #: httpd.cc:216
 msgid "Sending http request..."
-msgstr "Verzenden http request..."
+msgstr "Verzenden HTTP verzoek..."
 
 #: httpd.cc:242
 msgid "It is seemed REGET not supported! Loading from begin.."
@@ -643,7 +643,7 @@ msgstr "gebruikersnaam"
 
 #: face/edit.cc:666
 msgid "Use this proxy for http"
-msgstr "Gebruik deze proxy voor http"
+msgstr "Gebruik deze proxy voor HTTP"
 
 #: face/limface.cc:55
 msgid "Limitation for the host"
@@ -1056,216 +1056,240 @@ msgstr "Vertalers"
 
 #: face/prefs.cc:
 msgid "Scroll title"
-msgstr ""
+msgstr "Titel scrollen"
 
 #: face/prefs.cc:
 msgid "Default permisions of file"
-msgstr ""
+msgstr "Standaard permissies voor bestand"
 
 #: face/buttons.cc:
 msgid " Save list "
-msgstr ""
+msgstr " Sla lijst op"
 
 #: face/columns.cc:22
 msgid "status"
-msgstr ""
+msgstr "status"
 
 #: face/columns.cc:22
 msgid "file name"
-msgstr ""
+msgstr "bestandsnaam"
 
 #: face/columns.cc:22
 msgid "type of file"
-msgstr ""
+msgstr "bestandstype"
 
 #: face/columns.cc:22
 msgid "size of file"
-msgstr ""
+msgstr "bestandsgrootte"
 
 #: face/columns.cc:22
 msgid "downloaded size"
-msgstr ""
+msgstr "download omvang"
 
 #: face/columns.cc:22
 msgid "percent"
-msgstr ""
+msgstr "procent"
 
 #: face/columns.cc:22
 msgid "speed"
-msgstr ""
+msgstr "snelheid"
 
 #: face/columns.cc:22
 msgid "elapsed time"
-msgstr ""
+msgstr "verstreken tijd"
 
 #: face/columns.cc:22
 msgid "estimated time"
-msgstr ""
+msgstr "geschatte tijd"
 
 #: face/columns.cc:22
 msgid "time of pause"
-msgstr ""
+msgstr "duur van pauze"
 
 #: face/columns.cc:22
 msgid "number of attempts"
-msgstr ""
+msgstr "aantal pogingen"
 
 #: face/columns.cc:22
 msgid "Showed columns"
-msgstr ""
+msgstr "afgebeelde kolommen"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr ""
+msgstr "Rollback na herverbinden (in bytes)"
 
 #: download.cc:
 msgid "Can't do rollback!"
-msgstr ""
+msgstr "Kan geen rollback doen!"
 
 #: main.cc:
 msgid "Redirect from %s"
-msgstr ""
+msgstr "Redirect via %s"
 
 #: face/
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: face/prefs.cc:
 msgid "Show trash for DnD"
-msgstr ""
+msgstr "Laat trash zien voor DnD"
 
 #: face/buttons.cc:
 msgid " DnD trash "
-msgstr ""
+msgstr "DnD trash"
 
 #: main.cc:
 msgid "Downloader exited normaly"
-msgstr ""
+msgstr "Downloader normaal afgesloten"
 
 #: face/dndtrash.cc:
 msgid "Drop link here"
-msgstr ""
+msgstr "Sleep link hierheen"
 
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
-msgstr ""
+msgstr "Snelheidslimiet in bytes/sec (0 is geen limiet)"
 
 #: log.cc:
 msgid "Log was started!"
-msgstr ""
+msgstr "Logbestand geopend!"
 
 #: config.cc:
 msgid "Run downloads: %d\n"
-msgstr ""
+msgstr "Actieve downloads: %d\n"
 
 #: config.cc:
 msgid "Paused downloads: %d\n"
-msgstr ""
+msgstr "Onderbroken downloads: %d\n"
 
 #: config.cc:
 msgid "Failed downloads: %d\n"
-msgstr ""
+msgstr "Mislukte downloads: %d\n"
 
 #: config.cc:
 msgid "Completed downloads: %d\n"
-msgstr ""
+msgstr "Voltooide downloads: %d\n"
 
 #: config.cc:
 msgid "Total: %d\n"
-msgstr ""
+msgstr "Totaal: %d\n"
 
 #: config.cc:
 msgid "Curent speed: %d\n"
-msgstr ""
+msgstr "Huidige snelheid: %d\n"
 
 #: config.cc:
 msgid "Usage: nt [OPTION] ... [URL]"
-msgstr ""
+msgstr "Gebruik: nt [OPTIE] ... [URL]"
 
 #: config.cc:
 msgid "print this page and exit"
-msgstr ""
+msgstr "druk deze pagina af en sluit af"
 
 #: config.cc:
 msgid "show version information and exit"
-msgstr ""
+msgstr "laat versie informatie zien en sluit af"
 
 #: config.cc:
 msgid "show information if already run"
-msgstr ""
+msgstr "laat informatie zien indien al opgestart"
 
 #: config.cc:
 msgid "show curent speed if already run"
-msgstr ""
+msgstr "laat huidige snelheid zien indien al opgestart"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
-msgstr ""
+msgstr "Verlaat na inactiviteit voor"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr""
+msgstr "Hoofd log"
 
 #: face/prefs.cc
 msgid "Output detailed information"
-msgstr ""
+msgstr "Laat gedetailleerde informatie zien"
 
 #: main.cc
 msgid "Prepare [%s] for stoping"
-msgstr ""
+msgstr "Bereid [%s] voor om te stoppen"
 
 #: main.cc
 msgid "Run new thread for %s"
-msgstr ""
+msgstr "Draai %s in een nieuwe thread"
 
 #: main.cc
 msgid "%s was deleteted from queue of downloads as completed download"
-msgstr ""
+msgstr "%s is uit de lijst verwijderd als voltooid"
 
 #: main.cc
 msgid "%s was deleteted from queue of downloads as failed download"
-msgstr ""
+msgstr "%s is uit de lijst verwijderd als mislukt"
 
 #: main.cc
 msgid "Delete completed downloads"
-msgstr ""
+msgstr "Verwijder voltooide downloads"
 
 #: main.cc
 msgid "Delete failed downloads"
-msgstr ""
+msgstr "Verwijder mislukte downloads"
 
 #:main.cc:
 msgid "Loading default list of downloads"
-msgstr ""
+msgstr "Standaard lijst van downloads aan het inladen"
 
 #:main.cc:
 msgid "Append list to curent queue of downloads"
-msgstr ""
+msgstr "Voeg lijst to aan huidige lijst van downloads"
 
 #: face/dndtrash.cc
 msgid "New Download"
-msgstr ""
+msgstr "Nieuwe download"
 
 #: face/dndtrash.cc
 msgid "Paste Download"
-msgstr ""
+msgstr "Plak download"
 
 #: face/dndtrash.cc
 msgid "Common options"
-msgstr ""
+msgstr "Standaard instellingen"
 
 #: face/dndtrash.cc
 msgid "Exit"
-msgstr ""
+msgstr "Sluit af"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
-msgstr ""
+msgstr "Gebruikers-agent voor HTTP verzoeken"
 
 #: face/columns.cc
 msgid "rest"
-msgstr ""
+msgstr "rust"
 
 #: face/lod.cc
 msgid "Rest"
+msgstr "Rust"
+
+#: config.cc:
+msgid "set lower speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set middle speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set unlimited speed"
+msgstr ""
+
+#: http.cc
+msgid "Request was sent, waiting for the answer"
+msgstr ""
+
+#: config.cc:
+msgid "unknown option:"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Run this when exit"
 msgstr ""

@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -50,7 +50,7 @@ void ask_delete_all(...) {
 		gtk_signal_connect(GTK_OBJECT(AskDeleteAll->ok_button),"clicked",GTK_SIGNAL_FUNC(del_all_downloads),NULL);
 };
 
-static void set_speed_buttons() {
+void set_speed_buttons() {
 	switch (CFG.SPEED_LIMIT) {
 		case 1:
 			{
@@ -138,9 +138,9 @@ void init_buttons_bar() {
 	buttons_array[BUTTON_DEL_COMPLETED]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Del Completed downloads "), "", new_pixmap (del_com_xpm),
 	                  GTK_SIGNAL_FUNC (ask_delete_completed_downloads), NULL);
 	buttons_array[BUTTON_UP]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Move up "), "", new_pixmap (up_bar_xpm),
-	                                  GTK_SIGNAL_FUNC (move_download_up), NULL);
+	                                  GTK_SIGNAL_FUNC (list_of_downloads_move_selected_up), NULL);
 	buttons_array[BUTTON_DOWN]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Move down "), "", new_pixmap (down_bar_xpm),
-	                                    GTK_SIGNAL_FUNC (move_download_down), NULL);
+	                                    GTK_SIGNAL_FUNC (list_of_downloads_move_selected_down), NULL);
 	buttons_array[BUTTON_LOG]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" View log "), "", new_pixmap (openlog_xpm),
 	                                   GTK_SIGNAL_FUNC (open_log_for_selected), NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));

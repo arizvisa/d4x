@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -402,6 +402,7 @@ int tHttpDownload::download(unsigned int from,unsigned int len) {
 				if (offset) LOG->add(_("It is seemed REGET not supported! Loading from begin.."),LOG_WARNING);
 				StartSize=data=offset=0;
 				if (ETagChanged) break;
+				lseek(D_FILE.fdesc,0,SEEK_SET);
 			};
 			Status=D_DOWNLOAD;
 			int ind=HTTP->get_file_from(NULL,offset,len,D_FILE.fdesc);

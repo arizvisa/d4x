@@ -9,5 +9,10 @@ install:
 		install -c -m644 $$i $(LOCALEDIR)/`echo $$i | sed -e s/.gmo//`/LC_MESSAGES/nt.mo ; \
 	done
 
+uninstall:
+	for i in `ls *.po` ; do \
+		rm -f $(LOCALEDIR)/`echo $$i | sed -e s/.po//`/LC_MESSAGES/nt.mo || test -z "" ; \
+	done
+
 clean:
 	rm -f *~ *.gmo

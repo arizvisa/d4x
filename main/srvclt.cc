@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -21,6 +21,11 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <signal.h>
+#include <string.h>
+
+#if defined(sun)
+typedef int socklen_t;
+#endif
 
 void *server_thread_run(void *what){
     tMsgServer *srv=(tMsgServer *)what;
@@ -86,12 +91,13 @@ void tMsgServer::cmd_ack(){
 	cmd_return_int(0);
 };
 
-void tMsgServer::cmd_add(int len){
+void tMsgServer::cmd_add(int len,int type){
 	char *temp=new char[len+1];
 	if (read(newfd,temp,len)==len){
 		temp[len]=0;
 		tString *newstr=new tString;
 		newstr->body=temp;
+		newstr->temp=type;
 		pthread_mutex_lock(&lock);
 		list->insert(newstr);
         pthread_mutex_unlock(&lock);
@@ -115,9 +121,10 @@ void tMsgServer::run(){
 			newfd=accept(fd,(sockaddr *)&addr,(socklen_t *)&tmp);
 			if (newfd>0 && read(newfd,&packet,sizeof (packet))>=0){
 				switch (packet.type){
+					case PACKET_SET_SPEED_LIMIT:
 					case PACKET_ADD:{
 						if (packet.len>0){
-							cmd_add(packet.len);
+							cmd_add(packet.len,packet.type);
 							break;
 						};
 					};
@@ -158,7 +165,7 @@ void tMsgServer::run(){
 
 tString *tMsgServer::get_string(){
     pthread_mutex_lock(&lock);
-    tString *temp=list->last();
+    tString *temp=list->first();
     if (temp){
 		list->del(temp);
     };

@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -54,8 +54,8 @@ tTwoStrings::~tTwoStrings() {}
 
 int get_port_by_proto(char *proto) {
 	if (proto) {
-		if (equal(proto,"ftp")) return 21;
-		if (equal(proto,"http")) return 80;
+		if (equal_uncase(proto,"ftp")) return 21;
+		if (equal_uncase(proto,"http")) return 80;
 	};
 	return 21;
 };
@@ -143,6 +143,7 @@ void tMain::append_list(tStringList *what) {
 					download->ScheduleTime=temp3->temp;
 					download->config.set_flags(temp2->temp);
 					switch (temp->temp) {
+						case 0: break; //wait list
 						case 1:
 							{ //completed
 								WaitList->del(download);
@@ -181,6 +182,7 @@ void tMain::append_list(tStringList *what) {
 		};
 		temp=what->next();
 	};
+	main_menu_prepare();
 };
 
 void tMain::init_main_log() {
@@ -339,11 +341,11 @@ tAddr *tMain::analize(char *what) {
 		out->port=0;
 		out->host=pair.two;
 	};
-	if (equal(out->protocol,"ftp") && index(out->file,'*'))
+	if (equal_uncase(out->protocol,"ftp") && index(out->file,'*'))
 		out->mask=1;
 	/* Parse # in http urls
 	 */
-	if (equal(out->protocol,"http") && out->file!=NULL) {
+	if (equal_uncase(out->protocol,"http") && out->file!=NULL) {
 		char *tmp=index(out->file,'#');
 		if (tmp) {
 			*tmp=0;
@@ -747,6 +749,7 @@ void tMain::case_download_completed(tDownload *what){
 			if (what->who) delete(what->who);
 			what->who=NULL;
 			CompleteList->insert(what);
+			main_menu_del_completed_set_state(TRUE);
 		};
 	};
 	delete URL;
@@ -766,6 +769,7 @@ void tMain::case_download_failed(tDownload *what){
 		if (what->who) delete(what->who);
 		what->who=NULL;
 		StopList->insert(what);
+		main_menu_del_failed_set_state(TRUE);
 	};
 	delete URL;
 };
@@ -811,12 +815,7 @@ void tMain::main_circle() {
 		temp=temp1;
 	};
 /* look for added remotely */
-	tString *addnew=server->get_string();
-	while (addnew){
-		add_downloading(addnew->body,NULL,NULL);
-		delete(addnew);
-		addnew=server->get_string();
-	};
+	check_for_remote_commands();
 /* look for run new */
 	temp=WaitList->first();
 	time_t NOW;
@@ -840,7 +839,26 @@ void tMain::main_circle() {
 	CFG.NICE_DEC_DIGITALS.reset();
 };
 
-
+void tMain::check_for_remote_commands(){
+	tString *addnew=server->get_string();
+	while (addnew){
+		switch (addnew->temp){
+			case PACKET_ADD:{
+				add_downloading(addnew->body,NULL,NULL);
+				break;
+			};
+			case PACKET_SET_SPEED_LIMIT:{
+				sscanf(addnew->body,"%i",&CFG.SPEED_LIMIT);
+				if (CFG.SPEED_LIMIT>3) CFG.SPEED_LIMIT=3;
+				if (CFG.SPEED_LIMIT<1) CFG.SPEED_LIMIT=1;
+				set_speed_buttons();
+				break;
+			};
+		};
+		delete(addnew);
+		addnew=server->get_string();
+	};
+};
 //**********************************************/
 
 int tMain::add_downloading(char *adr,char *where,char *name) {
@@ -871,7 +889,7 @@ int tMain::add_downloading(char *adr,char *where,char *name) {
 		whatadd->set_SaveName(name);
 	whatadd->set_default_cfg();
 
-	if (equal(whatadd->info->protocol,"ftp")) {
+	if (equal_uncase(whatadd->info->protocol,"ftp")) {
 		if (CFG.USE_PROXY_FOR_FTP) {
 			whatadd->config.set_proxy_host(CFG.FTP_PROXY_HOST);
 			whatadd->config.proxy_port=CFG.FTP_PROXY_PORT;
@@ -880,6 +898,7 @@ int tMain::add_downloading(char *adr,char *where,char *name) {
 				whatadd->config.set_proxy_pass(CFG.FTP_PROXY_PASS);
 			};
 		};
+		whatadd->config.proxy_type=CFG.FTP_PROXY_TYPE;
 	} else {
 		if (CFG.USE_PROXY_FOR_HTTP) {
 			whatadd->config.set_proxy_host(CFG.HTTP_PROXY_HOST);
@@ -959,6 +978,11 @@ void tMain::run(int argv,char **argc) {
 	run_msg_server();
 	LastTime=get_precise_time();
 	gtk_main();
+};
+
+void tMain::run_after_quit(){
+	if (CFG.EXEC_WHEN_QUIT && strlen(CFG.EXEC_WHEN_QUIT))
+		system(CFG.EXEC_WHEN_QUIT);
 };
 
 void tMain::add_download_message(tDownload *what) {
@@ -1201,12 +1225,12 @@ void *download_last(void *nothing) {
 			pthread_exit(NULL);
 			return NULL;
 		};
-		if (what->config.get_proxy_host() && what->config.proxy_type) {
+		if (what->config.get_proxy_host() && (what->config.proxy_type || equal_uncase(addr->protocol,"http"))) {
 			download_proxy(what);
 			pthread_exit(NULL);
 			return NULL;
 		};
-		if (addr==NULL || equal_first(addr->protocol,"ftp")) {
+		if (addr==NULL || equal_uncase(addr->protocol,"ftp")) {
 			if (!what->who) what->who=new tFtpDownload;
 		} else {
 			download_http(what);

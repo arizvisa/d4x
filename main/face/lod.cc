@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -180,51 +180,81 @@ void list_of_downloads_add(tDownload *what,int row) {
 	};
 };
 
-void move_download_up() {
-	tDownload *what=list_of_downloads_last_selected();
+void move_download_up(int ROW){
+	tDownload *what=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),ROW);
 	if (!what) return;
 	if (what->GTKCListRow<=0) return;
-	list_of_downloads_freeze();
 	int row=what->GTKCListRow;
-	list_of_downloads_add(what,row-1);
 	what->GTKCListRow=row-1;
-	char *text;
-	for (int i=1;i<=ListColumns[NOTHING_COL].enum_index;i++) {
-		text=NULL;
-		gtk_clist_get_text(GTK_CLIST(ListOfDownloads),row+1,i,&text);
-		gtk_clist_set_text(GTK_CLIST(ListOfDownloads),row-1,i,text);
-	};
-	gtk_clist_remove(GTK_CLIST(ListOfDownloads),row+1);
-
-	tDownload *what2=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),row);
+	tDownload *what2=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),row-1);
 	if (what2) what2->GTKCListRow=row;
-	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
+	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row-1);
+//	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
 	if (WaitList->owner(what) && WaitList->owner(what2)) WaitList->forward(what);
-	list_of_downloads_unfreeze();
 };
 
-void move_download_down() {
-	tDownload *what=list_of_downloads_last_selected();
+void move_download_down(int ROW){
+	tDownload *what=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),ROW);
 	if (!what) return;
 	if (what->GTKCListRow>=SizeListOfDownloads-1) return;
-	list_of_downloads_freeze();
 	int row=what->GTKCListRow;
-	list_of_downloads_add(what,row+2);
 	what->GTKCListRow=row+1;
-	char *text;
-	for (int i=1;i<=ListColumns[NOTHING_COL].enum_index;i++) {
-		text=NULL;
-		gtk_clist_get_text(GTK_CLIST(ListOfDownloads),row,i,&text);
-		gtk_clist_set_text(GTK_CLIST(ListOfDownloads),row+2,i,text);
-	};
-	gtk_clist_remove(GTK_CLIST(ListOfDownloads),row);
-
-	tDownload *what2=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),row);
+	tDownload *what2=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),row+1);
 	if (what2) what2->GTKCListRow=row;
-	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
+	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row+1);
+//	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
 	if (WaitList->owner(what) && WaitList->owner(what2)) WaitList->backward(what);
-	list_of_downloads_unfreeze();
 };
+static gint compare_nodes1(gconstpointer a,gconstpointer b){
+    gint aa=GPOINTER_TO_INT(a);
+    gint bb=GPOINTER_TO_INT(b);
+    if (aa>bb) return 1;
+    if (aa==bb) return 0;
+    return -1;
+};
+
+static gint compare_nodes2(gconstpointer a,gconstpointer b){
+    gint aa=GPOINTER_TO_INT(a);
+    gint bb=GPOINTER_TO_INT(b);
+    if (aa>bb) return -1;
+    if (aa==bb) return 0;
+    return 1;
+};
+
+void list_of_downloads_move_selected_up(){
+	GList *select=((GtkCList *)ListOfDownloads)->selection;
+	if (select==NULL) return;
+	select=((GtkCList *)ListOfDownloads)->selection;
+	GList *sorted_select=g_list_copy(select);
+	sorted_select=g_list_sort(sorted_select,compare_nodes1);
+	select=sorted_select;
+	if (GPOINTER_TO_INT(select->data)<=0) return;
+	list_of_downloads_freeze();
+	while (select) {
+		move_download_up(GPOINTER_TO_INT(select->data));
+		select=select->next;
+	};
+	list_of_downloads_unfreeze();
+	g_list_free(sorted_select);
+};
+
+void list_of_downloads_move_selected_down(){
+	GList *select=((GtkCList *)ListOfDownloads)->selection;
+	if (select==NULL) return;
+	select=((GtkCList *)ListOfDownloads)->selection;
+	GList *sorted_select=g_list_copy(select);
+	sorted_select=g_list_sort(sorted_select,compare_nodes2);
+	select=sorted_select;
+	if (GPOINTER_TO_INT(select->data)>=SizeListOfDownloads-1) return;
+	list_of_downloads_freeze();
+	while (select) {
+		move_download_down(GPOINTER_TO_INT(select->data));
+		select=select->next;
+	};
+	list_of_downloads_unfreeze();
+	g_list_free(sorted_select);
+};
+
 
 void list_of_downloads_del(tDownload *what) {
 	gtk_clist_remove(GTK_CLIST(ListOfDownloads),what->GTKCListRow);
@@ -305,13 +335,13 @@ int list_event_callback(GtkWidget *widget,GdkEvent *event) {
 				case GDK_KP_Up:
 				case GDK_Up:
 					{
-						move_download_up();
+						list_of_downloads_move_selected_up();
 						return TRUE;
 					};
 				case GDK_KP_Down:
 				case GDK_Down:
 					{
-						move_download_down();
+						list_of_downloads_move_selected_down();
 						return TRUE;
 					};
 				default:

@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -47,6 +47,10 @@ void ask_exit(...);
 gint ask_exit2();
 /* Other functions
  */
+void main_menu_del_completed_set_state(gint a);
+void main_menu_del_failed_set_state(gint a);
+void main_menu_prepare();
+
 void main_window_popup();
 void update_progress_bar();
 void update_mainwin_title();

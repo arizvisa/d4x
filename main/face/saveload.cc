@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -47,7 +47,7 @@ void load_save_open_browser() {
 };
 
 gint load_save_list_cancel() {
-	gtk_widget_destroy(LoadSaveWindow);
+	if (LoadSaveWindow) gtk_widget_destroy(LoadSaveWindow);
 	if (LoadSaveBrowser) load_save_browser_cancel();
 	LoadSaveWindow=(GtkWidget *)NULL;
 	return TRUE;
@@ -59,13 +59,13 @@ void load_list_ok(GtkWidget *parent,GtkWidget *who) {
 	read_list_from_file(text_from_combo(load_save_entry),temp);
 	aa.append_list(temp);
 	delete(temp);
-	LoadSaveHistory->add(text_from_combo(load_save_entry));
+	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(load_save_entry));
 	load_save_list_cancel();
 };
 
 void save_list_ok(GtkWidget *parent,GtkWidget *who) {
 	save_list_to_file(text_from_combo(load_save_entry));
-	LoadSaveHistory->add(text_from_combo(load_save_entry));
+	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(load_save_entry));
 	load_save_list_cancel();
 };
 
@@ -83,7 +83,7 @@ void init_save_list(...) {
 
 	load_save_entry=gtk_combo_new();
 	gtk_widget_set_usize(GTK_COMBO(load_save_entry)->entry,400,-1);
-	GList *List=make_glist_from_mylist(LoadSaveHistory);
+	GList *List=make_glist_from_mylist(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
 	if (List)
 		gtk_combo_set_popdown_strings (GTK_COMBO (load_save_entry), List);
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
@@ -130,7 +130,7 @@ void init_load_list(...) {
 
 	load_save_entry=gtk_combo_new();
 	gtk_widget_set_usize(GTK_COMBO(load_save_entry)->entry,400,-1);
-	GList *List=make_glist_from_mylist(LoadSaveHistory);
+	GList *List=make_glist_from_mylist(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
 	if (List)
 		gtk_combo_set_popdown_strings (GTK_COMBO (load_save_entry), List);
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);

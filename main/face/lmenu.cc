@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -119,14 +119,14 @@ void init_list_menu() {
 	menu_item=make_menu_item(_("Move up"),"Shift+Up",pixmap,bitmap);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEUP]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(move_download_up),NULL);
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_selected_up),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,downmini_xpm);
 	menu_item=make_menu_item(_("Move down"),"Shift+Down",pixmap,bitmap);
 	gtk_widget_set_usize(menu_item,200,-1);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEDOWN]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(move_download_down),NULL);
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_selected_down),NULL);
 
 	menu_item=make_menu_item(_("Set limitation"),(char *)NULL,NULL,NULL);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);

@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified 
+ *	without agreement with author. You can't distribute modified 
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -104,42 +104,75 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 	char *str1=new char[srclen];
 	char *name=new char[srclen];
 	char *attr=new char[srclen];
+	*attr=0;
+	*str1=0;
+	*name=0;
 	int par1;
 	extract_string(src,str1,5);
-	puts(str1);
-	if (!is_string(str1))
-		sscanf(src,"%s %u %s %s %u %s %u %s %s",
-	       attr,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
-	else
-		sscanf(src,"%s %u %s %u %s %u %s %s",
-	       attr,&par1,str1,&dst->size,str1,&par1,str1,name);
+	if (strlen(str1)){
+// unix style listing
+		if (!is_string(str1))
+			sscanf(src,"%s %u %s %s %u %s %u %s %s",
+	       		attr,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
+		else
+			sscanf(src,"%s %u %s %u %s %u %s %s",
+	       		attr,&par1,str1,&dst->size,str1,&par1,str1,name);
+		dst->type=type_from_str(attr);
+		if (dst->type!=T_DEVICE) {
+			dst->perm=permisions_from_str(attr);
+			dst->date=date_from_str(src);
+		};
+		char *tmp=src;
+		for (int i=0;i<8;i++) {
+			tmp=index(tmp,' ');
+			if (tmp) while (*tmp==' ') tmp++;
+			else break;
+		};
+		if (flag) {
+			if (tmp) dst->name=copy_string(tmp);
+			else dst->name=copy_string(name);
+			del_crlf(dst->name);
+		};
+		if (dst->type==T_LINK) {
+			extract_link(src,name);
+			dst->body=copy_string(name);
+			if (flag) {
+				tmp=strstr(dst->name," -> ");
+				if (tmp) *tmp=0;
+			};
+		} else dst->body=NULL;
+	}else{
+// dos style listing
+		char *new_src=extract_string(src,str1);
+		new_src=extract_string(new_src,attr);
+//		dst->date=dos_date_from_strs(str1,attr);
+		time_t NOW=time(NULL);
+		dst->date=NOW;
+		
+		new_src=extract_string(new_src,attr);
+		if (is_string(attr)){
+			dst->type=T_DIR;
+			dst->perm=0775;
+		}else{
+			sscanf(attr,"%u",&(dst->size));
+			dst->type=T_FILE;
+			dst->perm=0664;
+		};
+		
+		if (flag) {
+			if (new_src){
+				while (*new_src==' ') new_src+=1;
+				dst->name=copy_string(new_src);
+			}else
+				dst->name=copy_string("");
+			del_crlf(dst->name);
+		};
+		dst->body=NULL;
+	};
+
 	/* Next cycle extract name from string of
 	 * directory listing
 	 */
-	dst->type=type_from_str(attr);
-	char *tmp=src;
-	for (int i=0;i<8;i++) {
-		tmp=index(tmp,' ');
-		if (tmp) while (*tmp==' ') tmp++;
-		else break;
-	};
-	if (flag) {
-		if (tmp) dst->name=copy_string(tmp);
-		else dst->name=copy_string(name);
-		del_crlf(dst->name);
-	};
-	if (dst->type==T_LINK) {
-		extract_link(src,name);
-		dst->body=copy_string(name);
-		if (flag) {
-			tmp=strstr(dst->name," -> ");
-			if (tmp) *tmp=0;
-		};
-	} else dst->body=NULL;
-	if (dst->type!=T_DEVICE) {
-		dst->perm=permisions_from_str(attr);
-		dst->date=date_from_str(src);
-	};
 	delete str1;
 	delete name;
 	delete attr;
@@ -147,15 +180,16 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 //****************************************/
 
 int tFtpDownload::change_dir() {
+	int rvalue=0;
 	if (CWDFlag) return 0;
-	if (FTP->change_dir(D_PATH)) return -1;
+	if ((rvalue=FTP->change_dir(D_PATH))) return(rvalue);
 	CWDFlag=1;
-	return 0;
+	return RVALUE_OK;
 };
 
 void tFtpDownload::print_reget(int offset) {
 	if (!FTP->test_reget()) {
-		LOG->add(_("Reget not supported!!!"),LOG_WARNING);
+		LOG->add(_("Reget is not supported!!!"),LOG_WARNING);
 	};
 };
 
@@ -334,10 +368,10 @@ int tFtpDownload::get_size() {
 				LOG->add(_("Can't establish data connection"),LOG_ERROR);
 			};
 		} else {
-			int s=FTP->get_status();
-			if (s!=STATUS_TIMEOUT && s!=STATUS_CMD_ERR)
-				break;
 			LOG->add(_("Can't change dir!"),LOG_ERROR);
+			int s=FTP->get_status();
+			if (s!=STATUS_TIMEOUT && s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)
+				break;
 		};
 		if (reconnect())
 			break;
@@ -377,9 +411,9 @@ int tFtpDownload::download_dir() {
 				};
 			} else {
 				LOG->add(_("Can't change directory"),LOG_ERROR);
-				if (FTP->get_status()==STATUS_FATAL) {
+				int s=FTP->get_status();
+				if (s!=STATUS_TIMEOUT && s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)
 					return -1;
-				};
 			};
 			if (reconnect()) {
 				return -1;
@@ -427,9 +461,9 @@ int tFtpDownload::download(unsigned int from,unsigned int len) {
 			};
 		} else {
 			LOG->add(_("Can't change directory"),LOG_ERROR);
-			if (FTP->get_status()!=STATUS_TIMEOUT) {
+			int s=FTP->get_status();
+			if (s!=STATUS_TIMEOUT && s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)
 				return -1;
-			};
 		};
 		if (reconnect()) {
 			return -1;

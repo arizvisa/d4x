@@ -1,3 +1,60 @@
+Tue Dec 28 09:40:49 1999
+	*main/*.*: code cleanups and optimisations which are related 
+	    with histories;
+
+Mon Dec 27 09:52:45 1999
+	*config.cc[h]: parsing of command line args was fully rewritten;
+	*Makefile: target 'tags' is added;
+	*po/Makefile: targed 'uninstall' is added;
+	*locstr.cc: fixed converting not valid http chars to %xx;
+	*nt.cc,main.cc[h],var.cc[h],config.cc: added ability to run something
+	    when exit;
+	*face/prefs.cc: face for 'exec something when exit';
+	*face/list.cc,face/savelog.cc[h]: closing load/save window when exit;
+
+Sat Dec 25 09:13:13 1999
+	*download.h: fixed creating directories with default name;
+	*http.cc: code cleanups;
+
+Fri Dec 24 19:00:08 1999
+	*httpd.cc: fixed resuming via http when resuming is not supported
+	    by server;
+
+Wed Dec 22 09:10:57 1999
+	*face/log.cc: fixed resizing log window after creating,
+	    fixed dsiplaying messages twice;
+	*meter.cc,sort.cc: fixed getting maximal element when tree is empty;
+
+Tue Dec 21 10:28:17 1999
+	*ftpd.cc,ftp.cc[h],client.cc[h],socket.cc[h]: various fixes and
+	    code cleanups in ftp;
+	*config.cc: saving/reading graph's colors into/from config;
+
+Fri Dec 17 11:44:33 1999
+	*face/list.cc: disabling menu items from menu download on the fly;
+	*srvclt.cc: now D4X will check for remote commads from begin but
+	    not from end as it was early;
+	*download.cc: fixed memory leak which is related with user agent
+	    field;
+	*main.cc: fixed selecting apropriate downloading in download_last(...);
+	*dlist.cc,main.cc: various fixes and code cleanups related with case
+	    sensetivity;
+
+Thu Dec 16 15:39:23 1999
+	*po/: fr.po is updated;
+	*srvclt.cc[h],main.cc[h],config.cc: added new command line
+	    params for setting speed limitation;
+	*face/*.*: code cleanups, added ability to move all selected
+	    downloads;
+
+Wed Dec 15 09:49:42 1999
+	*main/: applyed patch from Tomi Orava;
+	*main.cc: fixed downloading saved list;
+	*po/cs.po: applyed patch from Pavel Janousek;
+	    nl.po file is updated;
+	*ftpd.cc: added support for DOS style ftp directory listing,
+	    date not parsing yet;
+
 Tue Dec 14 10:32:39 1999
 	*po/: Portuguese Brasilian translation is updated, Czech translation
 	    is added;

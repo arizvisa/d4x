@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -181,17 +181,17 @@ void tDEdit::popup() {
 void tDEdit::init_main(tDownload *who) {
 	/* initing entries
 	 */
-	user_entry=my_gtk_combo_new(UserHistory);
+	user_entry=my_gtk_combo_new(ALL_HISTORIES[USER_HISTORY]);
 	pass_entry=gtk_entry_new_with_max_length(MAX_LEN);
-	path_entry=my_gtk_combo_new(PathHistory);
-	file_entry=my_gtk_combo_new(FileHistory);
-	url_entry=my_gtk_combo_new(UrlHistory);
-	user_agent_entry=my_gtk_combo_new(UserAgentHistory);
+	path_entry=my_gtk_combo_new(ALL_HISTORIES[PATH_HISTORY]);
+	file_entry=my_gtk_combo_new(ALL_HISTORIES[FILE_HISTORY]);
+	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
+	user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
 
 	gtk_widget_set_usize(GTK_COMBO(path_entry)->entry,370,-1);
 	gtk_widget_set_usize(GTK_COMBO(file_entry)->entry,370,-1);
 	gtk_widget_set_usize(GTK_COMBO(url_entry)->entry,391,-1);
-	gtk_widget_set_usize(GTK_COMBO(user_agent_entry)->entry,391,-1);
+	gtk_widget_set_usize(GTK_COMBO(user_agent_entry)->entry,370,-1);
 	gtk_widget_set_usize(pass_entry,120,-1);
 	gtk_widget_set_usize(user_entry,120,-1);
 
@@ -465,7 +465,7 @@ void tDEdit::init(tDownload *who) {
 	proxy=new tProxyWidget;
 	proxy->init();
 	proxy->init_state();
-	if (equal("ftp",who->info->protocol))
+	if (equal_uncase("ftp",who->info->protocol))
 		proxy->init_state(&(who->config),1);
 	else
 		proxy->init_state(&(who->config),0);
@@ -583,7 +583,7 @@ int tDEdit::apply_changes() {
 			if (parent->info->pass) delete(parent->info->pass);
 			if (parent->info->username) delete(parent->info->username);
 			parent->info->username=copy_string(text_from_combo(user_entry));
-			UserHistory->add(parent->info->username);
+			ALL_HISTORIES[USER_HISTORY]->add(parent->info->username);
 			parent->info->pass=copy_string(gtk_entry_get_text(GTK_ENTRY(pass_entry)));
 		};
 	};
@@ -592,7 +592,7 @@ int tDEdit::apply_changes() {
 	if (strlen(text_from_combo(file_entry)))
 		parent->set_SaveName(text_from_combo(file_entry));
 	if (parent->get_SaveName())
-		FileHistory->add(parent->get_SaveName());
+		ALL_HISTORIES[FILE_HISTORY]->add(parent->get_SaveName());
 	normalize_path(parent->get_SavePath());
 	parent->status=0;
 	if (strlen(parent->info->file)==0) {
@@ -606,9 +606,9 @@ int tDEdit::apply_changes() {
 	 */
 	char *URL=make_simply_url(parent);
 	parent->config.set_user_agent(text_from_combo(user_agent_entry));
-	PathHistory->add(text_from_combo(path_entry));
-	UrlHistory->add(URL);
-	UserAgentHistory->add(text_from_combo(user_agent_entry));
+	ALL_HISTORIES[PATH_HISTORY]->add(text_from_combo(path_entry));
+	ALL_HISTORIES[URL_HISTORY]->add(URL);
+	ALL_HISTORIES[USER_AGENT_HISTORY]->add(text_from_combo(user_agent_entry));
 	/*change data in list if available
 	 */
 	if (parent->GTKCListRow > 0) {
@@ -776,7 +776,7 @@ void tProxyWidget::init() {
 	ftp_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for ftp"));
 
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_check,FALSE,0,0);
-	ftp_proxy_host=my_gtk_combo_new(ProxyHistory);
+	ftp_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
 	gtk_widget_set_usize(ftp_proxy_host,150,-1);
 
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_host,FALSE,0,0);
@@ -794,7 +794,7 @@ void tProxyWidget::init() {
 	gtk_signal_connect(GTK_OBJECT(ftp_proxy_user_check),"clicked",GTK_SIGNAL_FUNC(proxy_toggle_pass_ftp),this);
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_user_check,FALSE,0,0);
 	//    ftp_proxy_user=gtk_entry_new();
-	ftp_proxy_user=my_gtk_combo_new(UserHistory);
+	ftp_proxy_user=my_gtk_combo_new(ALL_HISTORIES[USER_HISTORY]);
 	gtk_widget_set_usize(ftp_proxy_user,100,-1);
 
 	label=gtk_label_new(_("username"));
@@ -831,7 +831,7 @@ void tProxyWidget::init() {
 	http_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for http"));
 
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_check,FALSE,0,0);
-	http_proxy_host=my_gtk_combo_new(ProxyHistory);
+	http_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
 	gtk_widget_set_usize(http_proxy_host,150,-1);
 
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_host,FALSE,0,0);
@@ -848,7 +848,7 @@ void tProxyWidget::init() {
 	gtk_signal_connect(GTK_OBJECT(http_proxy_user_check),"clicked",GTK_SIGNAL_FUNC(proxy_toggle_pass_http),this);
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_user_check,FALSE,0,0);
 	//    http_proxy_user=gtk_entry_new();
-	http_proxy_user=my_gtk_combo_new(UserHistory);
+	http_proxy_user=my_gtk_combo_new(ALL_HISTORIES[USER_HISTORY]);
 	gtk_widget_set_usize(http_proxy_user,100,-1);
 
 	label=gtk_label_new(_("username"));
@@ -975,18 +975,18 @@ void tProxyWidget::apply_changes() {
 	CFG.HTTP_PROXY_USER=copy_string(text_from_combo(http_proxy_user));
 	if (CFG.HTTP_PROXY_PASS) delete CFG.HTTP_PROXY_PASS;
 	CFG.HTTP_PROXY_PASS=copy_string(gtk_entry_get_text(GTK_ENTRY(http_proxy_pass)));
-	if (strlen(CFG.HTTP_PROXY_USER)) UserHistory->add(CFG.HTTP_PROXY_USER);
-	if (strlen(CFG.FTP_PROXY_USER)) UserHistory->add(CFG.FTP_PROXY_USER);
+	if (strlen(CFG.HTTP_PROXY_USER)) ALL_HISTORIES[USER_HISTORY]->add(CFG.HTTP_PROXY_USER);
+	if (strlen(CFG.FTP_PROXY_USER)) ALL_HISTORIES[USER_HISTORY]->add(CFG.FTP_PROXY_USER);
 	if (GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active) {
 		CFG.FTP_PROXY_TYPE=0;
 	} else
 		CFG.FTP_PROXY_TYPE=1;
-	if (strlen(CFG.FTP_PROXY_HOST)) ProxyHistory->add(CFG.FTP_PROXY_HOST);
-	if (strlen(CFG.HTTP_PROXY_HOST)) ProxyHistory->add(CFG.HTTP_PROXY_HOST);
+	if (strlen(CFG.FTP_PROXY_HOST)) ALL_HISTORIES[PROXY_HISTORY]->add(CFG.FTP_PROXY_HOST);
+	if (strlen(CFG.HTTP_PROXY_HOST)) ALL_HISTORIES[PROXY_HISTORY]->add(CFG.HTTP_PROXY_HOST);
 	if (strlen(text_from_combo(ftp_proxy_host)))
-		ProxyHistory->add(text_from_combo(ftp_proxy_host));
+		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(ftp_proxy_host));
 	if (strlen(text_from_combo(http_proxy_host)))
-		ProxyHistory->add(text_from_combo(http_proxy_host));
+		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(http_proxy_host));
 };
 
 void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
@@ -1014,13 +1014,13 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 		};
 	};
 	if (strlen(text_from_combo(ftp_proxy_user)))
-		UserHistory->add(text_from_combo(ftp_proxy_user));
+		ALL_HISTORIES[USER_HISTORY]->add(text_from_combo(ftp_proxy_user));
 	if (strlen(text_from_combo(http_proxy_user)))
-		UserHistory->add(text_from_combo(http_proxy_user));
+		ALL_HISTORIES[USER_HISTORY]->add(text_from_combo(http_proxy_user));
 	if (strlen(text_from_combo(ftp_proxy_host)))
-		ProxyHistory->add(text_from_combo(ftp_proxy_host));
+		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(ftp_proxy_host));
 	if (strlen(text_from_combo(http_proxy_host)))
-		ProxyHistory->add(text_from_combo(http_proxy_host));
+		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(http_proxy_host));
 	if (GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active)
 		cfg->proxy_type=0;
 	else

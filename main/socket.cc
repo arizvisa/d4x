@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -71,25 +71,26 @@ int tSocket::get_port() {
 
 int tSocket::open_port(char *host, int port) {
 	int len=constr_name(host,port);
-	if (len<0) return -1;
+	if (len<0) return SOCKET_UNKNOWN_HOST;
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
-		return(-2);
+		return(SOCKET_CANT_ALLOCATE);
 	int a=1;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
-		return(-3);
+		return(SOCKET_CANT_CONNECT);
 	return 0;
 }
 
 int tSocket::open_port(int host, int port) {
 	int len=constr_name(NULL,port);
+	if (len<0) return SOCKET_UNKNOWN_HOST;
 	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
-		return(-1);
+		return(SOCKET_CANT_ALLOCATE);
 	int a=1;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
-		return(-3);
+		return(SOCKET_CANT_CONNECT);
 	return 0;
 }
 

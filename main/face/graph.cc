@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -21,11 +21,11 @@ static GdkRgbCmap *cmap;
 GtkWidget *graph_menu;
 
 gint graph_expose_event_handler(GtkWidget *widget,GdkEventExpose *event) {
-	draw_graph();
-	return FALSE;
+	graph_draw();
+	return TRUE;
 };
 
-int draw_graph() {
+int graph_draw() {
 	int XSize=2*(METER_LENGTH);
 	int YSize=16;
 	int WX,WY;
@@ -36,7 +36,7 @@ int draw_graph() {
 	return FALSE;
 };
 
-void recalc_graph() {
+void graph_recalc() {
 	if (!GlobalMeter) return;
 	int XSize=2*(METER_LENGTH);
 	int YSize=16;
@@ -99,7 +99,7 @@ void recalc_graph() {
 };
 
 
-void init_graph() {
+void graph_init() {
 	guint32 colors[4];
 	colors[0]=CFG.GRAPH_PICK;
 	colors[1]=CFG.GRAPH_FORE1;
@@ -118,3 +118,4 @@ void init_graph() {
 	                       GDK_RGB_DITHER_NONE,(guchar *)graph_rgb_data,XSize,cmap);
 	gdk_flush();
 };
+

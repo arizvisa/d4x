@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -47,7 +47,7 @@ int tHttpClient::read_data(char *where,int len) {
 	int all=CtrlSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->add(_("Socket lost!"),LOG_ERROR);
-		return -1;
+		return RVALUE_TIMEOUT;
 	};
 	return all;
 };
@@ -55,9 +55,11 @@ int tHttpClient::read_data(char *where,int len) {
 int tHttpClient::read_answer(tStringList *list) {
 	list->done();
 	int rvalue=0;
+	LOG->add(_("Request was sent, waiting for the answer"),LOG_OK);
 	if (read_string(&CtrlSocket,list,MAX_LEN)!=0) return -1;
 	tString *last=list->last();
 	if (last) {
+		LOG->add(last->body,LOG_FROM_SERVER);
 		char *str1=new char[strlen(last->body)+1];
 		char *str2=new char[strlen(last->body)+1];
 		sscanf(last->body,"%s %s",str1,str2);
@@ -95,11 +97,13 @@ int tHttpClient::read_answer(tStringList *list) {
 					rvalue = -1;
 				};
 		};
-		while (!empty_string(last->body)) {
+		list->del(last);
+		delete last;
+		do{
 			if (read_string(&CtrlSocket,list,MAX_LEN)) return -1;
-			LOG->add(last->body,LOG_FROM_SERVER);
 			last=list->last();
-		};
+			LOG->add(last->body,LOG_FROM_SERVER);
+		}while (!empty_string(last->body));
 		delete str1;
 		delete str2;
 		return rvalue;

@@ -144,11 +144,11 @@ msgid "Timeout send through control socket."
 msgstr "Таймаут передачи через контрольный сокет"
 
 #: ftp.cc:48
-msgid "Control conection lost"
+msgid "Control connection is lost"
 msgstr "Контрольное соединение потреряно"
 
 #: ftp.cc:57
-msgid "Data socket lost!"
+msgid "Data socket is lost!"
 msgstr "Сокет данных потерян!"
 
 #: ftp.cc:65
@@ -173,7 +173,7 @@ msgid "Can't write to file"
 msgstr "Не могу записать в файл"
 
 #: ftpd.cc:138
-msgid "Reget not supported!!!"
+msgid "Reget is not supported!!!"
 msgstr "Докачка не поддерживается!!!"
 
 #: ftpd.cc:183
@@ -1260,3 +1260,27 @@ msgstr "остаток"
 #: face/lod.cc
 msgid "Rest"
 msgstr "Остаток"
+
+#: config.cc:
+msgid "set lower speed limitation"
+msgstr "установить нижний предел скорости"
+
+#: config.cc:
+msgid "set middle speed limitation"
+msgstr "установить средний предел скорости"
+
+#: config.cc:
+msgid "set unlimited speed"
+msgstr "устновить не ограниченную скорость"
+
+#: http.cc
+msgid "Request was sent, waiting for the answer"
+msgstr "Запрос послан, жду ответ"
+
+#: config.cc:
+msgid "unknown option:"
+msgstr "неизвестный параметр:"
+
+#: face/prefs.cc:
+msgid "Run this when exit"
+msgstr "Запустить это по выходу"

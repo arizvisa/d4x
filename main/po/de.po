@@ -143,11 +143,11 @@ msgid "Timeout send through control socket."
 msgstr "Beim senden durch das Control Socket trat ein Timeout-Fehler auf."
 
 #: ftp.cc:48
-msgid "Control conection lost"
+msgid "Control connection is lost"
 msgstr "Control-Verbindung unterbrochen"
 
 #: ftp.cc:57
-msgid "Data socket lost!"
+msgid "Data socket is lost!"
 msgstr "Daten-Socket zusammengebrochen!"
 
 #: ftp.cc:65
@@ -172,7 +172,7 @@ msgid "Can't write to file"
 msgstr "Kann nicht in Datei schreiben."
 
 #: ftpd.cc:138
-msgid "Reget not supported!!!"
+msgid "Reget is not supported!!!"
 msgstr "Reget nicht unterstützt!!!"
 
 #: ftpd.cc:183
@@ -1262,4 +1262,28 @@ msgstr ""
 
 #: face/lod.cc
 msgid "Rest"
+msgstr ""
+
+#: config.cc:
+msgid "set lower speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set middle speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set unlimited speed"
+msgstr ""
+
+#: http.cc
+msgid "Request was sent, waiting for the answer"
+msgstr ""
+
+#: config.cc:
+msgid "unknown option:"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Run this when exit"
 msgstr ""

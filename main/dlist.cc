@@ -1,7 +1,7 @@
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
- *	without agreement with autor. You can't distribute modified
+ *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
  *
  *	This program is distributed in the hope that it will be useful,
@@ -62,8 +62,8 @@ void make_url_from_download(tDownload *what,char *where) {
 		strcat(where,"@");
 	};
 	strcat(where,what->info->host);
-	if ((equal(what->info->protocol,"ftp")  && what->info->port!=21) ||
-	        (equal(what->info->protocol,"http") && what->info->port!=80)) {
+	if ((equal_uncase(what->info->protocol,"ftp")  && what->info->port!=21) ||
+	        (equal_uncase(what->info->protocol,"http") && what->info->port!=80)) {
 		char data[MAX_LEN];
 		sprintf(data,":%i",what->info->port);
 		strcat(where,data);

@@ -147,11 +147,11 @@ msgid "Timeout send through control socket."
 msgstr "Vypr¹el èas pøi zasílání skrz kontrolní schránku."
 
 #: ftp.cc:48
-msgid "Control conection lost"
+msgid "Control connection is lost"
 msgstr "Ovládání spojení ztraceno"
 
 #: ftp.cc:57
-msgid "Data socket lost!"
+msgid "Data socket is lost!"
 msgstr "Datová schránka ztracena!"
 
 #: ftp.cc:65
@@ -176,7 +176,7 @@ msgid "Can't write to file"
 msgstr "Nemohu zapsat do souboru"
 
 #: ftpd.cc:138
-msgid "Reget not supported!!!"
+msgid "Reget is not supported!!!"
 msgstr "Reget není podporován!!!"
 
 #: ftpd.cc:183
@@ -1038,7 +1038,7 @@ msgstr "Stahování selhalo..."
 
 #: face/prefs.cc:218
 msgid "Revert drawing graph of speeds"
-msgstr "Kresli graf rychlosti"
+msgstr "Kresli graf rychlosti obrácenì"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
@@ -1246,15 +1246,15 @@ msgstr "Nové stahování"
 
 #: face/dndtrash.cc
 msgid "Paste Download"
-msgstr "Vlo¾it stahování"
+msgstr "Vlo¾ení stahování"
 
 #: face/dndtrash.cc
 msgid "Common options"
-msgstr "Bì¾né mo¾nosti"
+msgstr "Standardní mo¾nosti"
 
 #: face/dndtrash.cc
 msgid "Exit"
-msgstr "Konec"
+msgstr "Konec programu"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
@@ -1262,8 +1262,32 @@ msgstr "User-Agent pro HTTP dotaz:"
 
 #: face/columns.cc
 msgid "rest"
-msgstr ""
+msgstr "Chybí stáhnout"
 
 #: face/lod.cc
 msgid "Rest"
+msgstr "Chybí"
+
+#: config.cc:
+msgid "set lower speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set middle speed limitation"
+msgstr ""
+
+#: config.cc:
+msgid "set unlimited speed"
+msgstr ""
+
+#: http.cc
+msgid "Request was sent, waiting for the answer"
+msgstr ""
+
+#: config.cc:
+msgid "unknown option:"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Run this when exit"
 msgstr ""
