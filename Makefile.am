@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.33 2002/11/10 12:37:00 zaufi Exp $
+# $Header: /var/cvs/d4x/Makefile.am,v 1.38 2002/12/19 13:16:51 zaufi Exp $
 #
 
 ACLOCAL_AMFLAGS = -I admin
@@ -7,7 +7,13 @@ ACLOCAL_AMFLAGS = -I admin
 SUBDIRS         = admin DOC intl main po share
 
 # Extra files/dirs to be included in distribution
-EXTRA_DIST      = admin/strip.awk po/Makevars PLANS ChangeLog-1.x nt.spec
+EXTRA_DIST      = admin/config.rpath  \
+                  admin/mkinstalldirs \
+                  admin/strip.awk     \
+                  po/Makevars         \
+                  ChangeLog-1.x       \
+                  PLANS               \
+                  nt.spec
 
 # RPMs we can build
 RPM_TARGETS     = rpm src-rpm all-rpms
@@ -55,7 +61,7 @@ maintainer-clean-local:
 # (use copy instead move to allow increment of packet version)
 $(RPM_TARGETS):
 	@if ! test -d $(SPEC_DST) -a -O $(SPEC_DST); then \
-	    echo "Oops! You have no permissions to $(SPEC_DST) to produce .rpm package"; \
+	    echo "make[$(MAKELEVEL)]: You have no permissions to $(SPEC_DST) to produce .rpm package"; \
 	    exit 1; \
 	fi
 	$(MAKE) $(MAKEFLAGS) dist-gzip || exit 1
@@ -65,13 +71,11 @@ $(RPM_TARGETS):
 	    rpm)      rpm_flags="-tb" ;; \
 	    *)        exit 1;; \
 	esac; \
-	$(RPM) $$rpm_flags $(PACKAGE)-$(VERSION).tar.gz | tee $(top_builddir)/rpm-build.log || exit 1; \
-	cp -f `cat $(top_builddir)/rpm-build.log | grep 'Wrote:' | sed 's/Wrote: \(.*\)/\1/'` $(top_builddir)
+	$(RPM) $$rpm_flags $(PACKAGE)-$(VERSION).tar.gz 2>&1 | tee $(top_builddir)/rpm-build.log || exit 1; \
+	cp -f `cat $(top_builddir)/rpm-build.log | grep '^Wrote:' | sed 's/Wrote: \(.*\)/\1/'` $(top_builddir)
 
 #
 # Run doxygen to produce html documentation for source code
 #
 html-docs: $(top_builddir)/Doxyfile
-	if test -f $<; then \
-	    $(DOXYGEN) $<; \
-	fi
+	test -f $< && $(DOXYGEN) $<

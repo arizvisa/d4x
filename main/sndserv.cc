@@ -358,7 +358,7 @@ void d4xOssAudio::set_audio_params(){
 }
 
 int d4xOssAudio::open(int fmt, int rate, int nch){
-	fd = ::open("/dev/dsp", O_WRONLY);
+	fd = ::open("/dev/dsp", O_WRONLY);//|O_NONBLOCK);
 	if (fd == -1){
 //		printf("open_audio(): Failed to open audio device (%s): %s",
 //		       "/dev/dsp", strerror(errno));
@@ -481,13 +481,12 @@ d4xSndServer::~d4xSndServer(){
 
 void d4xSndServer::stop_thread(){
 	void *val;
-	exit_lock.lock();
 	my_mutex.lock();
 	stop_now=1;
 	pthread_cond_signal(&cond);
 	my_mutex.unlock();
-	exit_lock.lock();
-	exit_lock.unlock();
+	sleep(1);
+	pthread_cancel(thread_id);
 	pthread_join(thread_id,&val);
 	thread_id=0;
 };
@@ -546,7 +545,6 @@ void d4xSndServer::run(){
 		my_mutex.unlock();
 		if (stop_now) break;
 	};
-	exit_lock.unlock();
 };
 
 void d4xSndServer::set_sound_file(int event,char *path){

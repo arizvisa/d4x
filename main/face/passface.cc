@@ -317,6 +317,7 @@ void tFacePass::open_dialog() {
 	dwn->editor=new tDEdit;
 	dwn->editor->add_or_edit=1;
 	dwn->editor->limit=1;
+	dwn->editor->not_url_history=1;
 	dwn->editor->init(dwn);
 	gtk_window_set_title(GTK_WINDOW(dwn->editor->window),_("Add new URL to URL-manager"));
 	g_signal_connect(G_OBJECT(dwn->editor->cancel_button),"clicked",G_CALLBACK(add_url_cancel), dwn);

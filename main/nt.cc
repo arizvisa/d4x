@@ -112,6 +112,7 @@ void segv_handler(int signum) {
 int main(int argc,char **argv) {
 #ifdef ENABLE_NLS
 	bindtextdomain("d4x", LOCALEDIR);
+	bind_textdomain_codeset (PACKAGE, "UTF-8");
 	textdomain("d4x");
 	char *a=getenv("LANG");
 	a=a?index(a,'.'):NULL;

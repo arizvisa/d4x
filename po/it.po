@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
-"POT-Creation-Date: 2002-11-24 23:26+0700\n"
+"POT-Creation-Date: 2002-12-22 23:27+0700\n"
 "PO-Revision-Date: 2002-06-06 20:54+0000\n"
 "Last-Translator: Marco Martin <m4rt@libero.it>\n"
 "Language-Team: \n"
@@ -502,7 +502,7 @@ msgstr "Ringraziamenti particolari a"
 #: main/face/filtrgui.cc:187 main/face/fsched.cc:247 main/face/fsched.cc:817
 #: main/face/lod.cc:888 main/face/mywidget.cc:454 main/face/mywidget.cc:781
 #: main/face/mywidget.cc:878 main/face/mywidget.cc:1062
-#: main/face/mywidget.cc:1198 main/face/passface.cc:429
+#: main/face/mywidget.cc:1198 main/face/passface.cc:430
 #: main/face/prefs.cc:1282 main/face/qtree.cc:124 main/face/qtree.cc:667
 #: main/face/saveload.cc:159 main/face/saveload.cc:202
 #: main/face/saveload.cc:244
@@ -522,11 +522,11 @@ msgstr "Cancella"
 msgid "Don't ask next time"
 msgstr "Non mostrare piu' questo avviso"
 
-#: main/face/addd.cc:97 main/face/addd.cc:246
+#: main/face/addd.cc:97 main/face/addd.cc:249
 msgid "Add new download"
 msgstr "Aggiungi nuovo scaricamento"
 
-#: main/face/addd.cc:183
+#: main/face/addd.cc:186
 msgid "Automated adding"
 msgstr "Aggiunta automatica"
 
@@ -1062,7 +1062,7 @@ msgstr "Filtri"
 msgid "filter name"
 msgstr "nome del filtro"
 
-#: main/face/filtrgui.cc:188 main/face/passface.cc:430
+#: main/face/filtrgui.cc:188 main/face/passface.cc:431
 msgid "Add new"
 msgstr "Aggiungi"
 
@@ -1588,7 +1588,7 @@ msgstr "protocollo"
 msgid "path"
 msgstr "percorso:"
 
-#: main/face/mywidget.cc:384 main/face/mywidget.cc:723 main/main.cc:609
+#: main/face/mywidget.cc:384 main/face/mywidget.cc:723 main/main.cc:615
 msgid "file"
 msgstr "file"
 
@@ -1653,27 +1653,27 @@ msgstr ""
 msgid "Add"
 msgstr "Aggiungi"
 
-#: main/face/passface.cc:321
+#: main/face/passface.cc:322
 msgid "Add new URL to URL-manager"
 msgstr "Aggiungi voce alla Gestione URL"
 
-#: main/face/passface.cc:376
+#: main/face/passface.cc:377
 msgid "Edit default preferences"
 msgstr "Configura le impostazioni predefinite"
 
-#: main/face/passface.cc:399
+#: main/face/passface.cc:400
 msgid "URL-manager"
 msgstr "Gestione URL"
 
-#: main/face/passface.cc:403
+#: main/face/passface.cc:404
 msgid "limit"
 msgstr "Limiti"
 
-#: main/face/passface.cc:403
+#: main/face/passface.cc:404
 msgid "con."
 msgstr ""
 
-#: main/face/passface.cc:431
+#: main/face/passface.cc:432
 msgid "Delete"
 msgstr "Rimuovi"
 
@@ -2300,7 +2300,7 @@ msgid "Loading default list of downloads"
 msgstr "Carica lista base di scaricamenti"
 
 # main.cc
-#: main/main.cc:253 main/main.cc:1234
+#: main/main.cc:253 main/main.cc:1240
 msgid "Delete completed downloads"
 msgstr "Cancella scaricamenti completati"
 
@@ -2338,143 +2338,143 @@ msgstr "Cancella file %s dalla lista degli scaricamenti"
 msgid "Continue downloading of file %s from %s..."
 msgstr "Continua lo scaricamento del file %s da %s..."
 
-#: main/main.cc:690
+#: main/main.cc:696
 msgid "dir"
 msgstr "directory"
 
-#: main/main.cc:695
+#: main/main.cc:701
 msgid "link"
 msgstr "collegamento"
 
-#: main/main.cc:700
+#: main/main.cc:706
 msgid "device"
 msgstr "dispositivo"
 
-#: main/main.cc:733
+#: main/main.cc:739
 msgid "Too many redirections!"
 msgstr "Troppi redirect!"
 
 # main.cc:
-#: main/main.cc:751
+#: main/main.cc:757
 msgid "Redirection from [%z] to the same location!"
 msgstr "Redirezione da [%z] verso la stessa locazione!"
 
 # main.cc:
-#: main/main.cc:787
+#: main/main.cc:793
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Redirezione da [%z] verso niente!"
 
 # main.cc
-#: main/main.cc:813
+#: main/main.cc:819
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "Prepara il thread %i di [%z] a fermarsi"
 
 # main.cc:
-#: main/main.cc:839
+#: main/main.cc:845
 msgid "Redirect from %z"
 msgstr "Rediretto da %z"
 
-#: main/main.cc:846
+#: main/main.cc:852
 msgid "Downloading of directory %z was completed"
 msgstr "Completato scaricamento della directory %z"
 
-#: main/main.cc:850
+#: main/main.cc:856
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
 "File %z (%i bytes) scaricato completamente, alla velocita' di %i bytes/"
 "secondo"
 
 # main.cc
-#: main/main.cc:857
+#: main/main.cc:863
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z e' stato cancellato dalla coda degli scaricamenti perche' completo"
 
-#: main/main.cc:868
+#: main/main.cc:874
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Lo scaricamento del file %z e' terminato a causa di un errore fatale"
 
 # main.cc
-#: main/main.cc:870
+#: main/main.cc:876
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z e' stato cancellato dalla coda degli scaricamenti perche' fallito"
 
-#: main/main.cc:1176
+#: main/main.cc:1182
 msgid "Restarting failed downloads"
 msgstr "Riavvio degli scaricamenti non riusciti"
 
 # main.cc
-#: main/main.cc:1176 main/main.cc:1212 main/main.cc:1229 main/main.cc:1234
-#: main/main.cc:1239 main/main.cc:1252 main/main.cc:1257
+#: main/main.cc:1182 main/main.cc:1218 main/main.cc:1235 main/main.cc:1240
+#: main/main.cc:1245 main/main.cc:1258 main/main.cc:1263
 msgid "[control socket]"
 msgstr "[socket di controllo]"
 
 # main.cc
-#: main/main.cc:1194
+#: main/main.cc:1200
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Aggiungi scaricamento via socket di controllo [%s]"
 
 # main.cc
-#: main/main.cc:1202
+#: main/main.cc:1208
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Aggiungi scaricamento via socket di controllo [%s]"
 
 # main.cc
-#: main/main.cc:1210
+#: main/main.cc:1216
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Imposta limite di velocita' a %s %s"
 
 # main.cc
-#: main/main.cc:1229
+#: main/main.cc:1235
 msgid "Setup maximum active downloads to"
 msgstr "Imposta il numero massimo di scaricamenti attivi a"
 
-#: main/main.cc:1252
+#: main/main.cc:1258
 msgid "Exiting if nothing to do is switched off"
 msgstr "Uscita automatica se \"inattivo\" disabilitata"
 
-#: main/main.cc:1257
+#: main/main.cc:1263
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader esce se inattivo per %i minuti %s"
 
-#: main/main.cc:1270
+#: main/main.cc:1276
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Ora la coda predefinita e' '%s'"
 
-#: main/main.cc:1515
+#: main/main.cc:1522
 msgid "Loading FTP-Search engines"
 msgstr ""
 
-#: main/main.cc:1517
+#: main/main.cc:1524
 msgid "Normally started"
 msgstr "Inizio normale"
 
-#: main/main.cc:1573
+#: main/main.cc:1580
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Aggiunto lo scaricamento del file %s da %s [dall'utente]"
 
 # main.cc
-#: main/main.cc:1628
+#: main/main.cc:1634
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu byte scaricati nel corso di questa sessione"
 
 # main.cc:
-#: main/main.cc:1629
+#: main/main.cc:1635
 msgid "Downloader exited normaly"
 msgstr "Downloader terminato normalmente"
 
-#: main/main.cc:1668
+#: main/main.cc:1675
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Non riesco ad aprire il file '%s' per salvare il registro"
 
-#: main/main.cc:1699
+#: main/main.cc:1706
 msgid "Such protocol is not supported!"
 msgstr "Questo protocollo non e' supportato!"
 
@@ -2511,13 +2511,13 @@ msgstr "Non riesco ad aprire il file per salvare il registro"
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "BUG: Metodo di ricerca errato!\n"
 
-#: main/nt.cc:134
+#: main/nt.cc:135
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "ATTENZIONE!!! Non rilevata la variabile HOME! Non posso leggere la "
 "configurazione!"
 
-#: main/nt.cc:147
+#: main/nt.cc:148
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s probabilmente e' gia' in esecuzione\n"

@@ -1,3 +1,13 @@
+2.4rc2
+    Fixed 'make install' if symbolic link 'bin/d4x' has been already created;
+    Fixed freeze at exiting on old sound drivers;
+    Fixed setting username and password for URLs added via 'Automatically adding';
+    Fixed working with non utf locales;
+    Rerun all URLs matched by HTTP-recursion if new recursion depth is greater;
+    Updated Spanish translation;
+    Updated Hungarian translaion;
+    
+
 2.4rc1
     Implemented workarround for new apaches with their error (request is out of range);
     Fixed segfault when LANG enviroment variable does not set;

@@ -1,13 +1,13 @@
 # -*-m4-*-
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.66 $)
+AC_REVISION($Revision: 1.70 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
 # Initialize environment
 # -----------------------------------------------------------------------------
-AC_INIT([d4x],[2.4.0rc1],[chuchelo@krasu.ru])
+AC_INIT([d4x],[2.4.0rc2],[chuchelo@krasu.ru])
 
 AC_CONFIG_SRCDIR([nt.spec.in])
 AC_CONFIG_AUX_DIR([admin])
@@ -148,9 +148,16 @@ AC_PROG_AWK
 #AC_PROG_LIBTOOL
 AC_PROG_RANLIB
 AM_GNU_GETTEXT
+AC_PATH_PROG(AUTOGEN, autogen, [${am_missing_run}autogen], /usr/local/bin:$PATH)
 AC_PATH_PROG(DOXYGEN, doxygen, [${am_missing_run}doxygen], /usr/local/bin:$PATH)
 AC_PATH_PROG(RPM, rpm, [${am_missing_run}rpm], /usr/local/bin:$PATH)
+HAVE_DOT=NO
+AC_PATH_PROG(DOT, dot,, /usr/local/bin:$PATH)
 AC_PROG_LN_S
+
+# Is doxygen can generate graphics diagrams using graphviz's dot?
+test -n "$DOT" && HAVE_DOT=YES && DOT=`dirname "$DOT"`
+AC_SUBST(HAVE_DOT)
 
 # -----------------------------------------------------------------------------
 # Checks for libraries.

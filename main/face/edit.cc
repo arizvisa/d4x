@@ -300,7 +300,7 @@ tDEdit::tDEdit() {
 	proxy=NULL;
 	filter_sel=NULL;
 	parent_in_db=0;
-	add_or_edit=dnd=limit=0;
+	add_or_edit=dnd=limit=not_url_history=0;
 };
 
 void tDEdit::popup() {
@@ -996,7 +996,7 @@ int tDEdit::apply_changes() {
 	 */
 	parent->config->user_agent.set(text_from_combo(user_agent_entry));
 	char *URL=parent->info->url_parsed();
-	if (!limit)
+	if (!not_url_history)
 		ALL_HISTORIES[URL_HISTORY]->add(URL);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add(parent->config->user_agent.get());
 	char *referer=text_from_combo(referer_entry);

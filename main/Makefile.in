@@ -15,7 +15,13 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/main/Makefile.am,v 1.10 2002/11/20 08:10:25 zaufi Exp $
+# $Header: /var/cvs/d4x/main/Makefile.am,v 1.15 2002/12/21 14:05:28 max Exp $
+#
+
+#
+# $Header: /var/cvs/d4x/admin/Makefile.addons,v 1.3 2002/12/10 17:33:52 zaufi Exp $
+#
+# Addon rules here
 #
 SHELL = @SHELL@
 
@@ -72,6 +78,7 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
 AO_CFLAGS = @AO_CFLAGS@
 AO_LIBS = @AO_LIBS@
+AUTOGEN = @AUTOGEN@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATOBJEXT = @CATOBJEXT@
@@ -79,6 +86,7 @@ CC = @CC@
 CXX = @CXX@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
+DOT = @DOT@
 DOXYGEN = @DOXYGEN@
 ESD_CFLAGS = @ESD_CFLAGS@
 ESD_CONFIG = @ESD_CONFIG@
@@ -86,6 +94,7 @@ ESD_LIBS = @ESD_LIBS@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
 GMSGFMT = @GMSGFMT@
+HAVE_DOT = @HAVE_DOT@
 HAVE_LIB = @HAVE_LIB@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
@@ -116,6 +125,8 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 localedir = @localedir@
+
+MKMSG = echo make[$(MAKELEVEL)]:
 
 SUBDIRS = face
 
@@ -245,7 +256,7 @@ all: all-recursive
 
 .SUFFIXES:
 .SUFFIXES: .cc .o .obj
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/admin/Makefile.addons $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  main/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
@@ -537,8 +548,6 @@ info-am:
 install-data-am:
 
 install-exec-am: install-binPROGRAMS
-	@$(NORMAL_INSTALL)
-	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 
 install-info: install-info-recursive
 
@@ -554,7 +563,7 @@ mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am uninstall-local
 
 uninstall-info: uninstall-info-recursive
 
@@ -573,11 +582,69 @@ uninstall-info: uninstall-info-recursive
 	mostlyclean-compile mostlyclean-generic mostlyclean-recursive \
 	tags tags-recursive uninstall uninstall-am \
 	uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-info-recursive uninstall-recursive
+	uninstall-info-recursive uninstall-local uninstall-recursive
 
 
-install-exec-hook:
-	$(LN_S) $(DESTDIR)$(bindir)/$(bin_PROGRAMS) $(DESTDIR)$(bindir)/$(PACKAGE)
+#
+# Rule to autogen new class files from template
+#
+new-class:
+	@if test -n "$(class)"; then \
+	    echo "autogen definitions class.tpl;" > $(class).def || exit 1; \
+	    echo "classname=$(class);" >> $(class).def || exit 1; \
+	    $(AUTOGEN) -L $(top_srcdir)/admin $(class).def || exit 1; \
+	    rm -f $(class).def; \
+	    chmod +w $(class).*; \
+	    test "$(top_builddir)" != "$(top_srcdir)" && mv -f $(class).* $(srcdir); \
+	    $(MKMSG) " Generated files: $(srcdir)/$(class).cc, $(srcdir)/$(class).h"; \
+	else \
+	    $(MKSMG) " Class name is not provided. Use 'make $@ class=ClassName'"; \
+	    exit 1; \
+	fi
+
+#
+# Rule to update $(top_srcdir)/po/POTFILES.in
+#
+update-POTFILES:
+	@srcdir=`cd $(srcdir) && pwd`; top_srcdir=`cd $(top_srcdir) && pwd`; top_builddir=`cd $(top_builddir) && pwd`; \
+	$(MKMSG) " Source directory for scan: $$srcdir"; \
+	scandir=`echo $$srcdir | sed "s,$$top_srcdir/,,"`; \
+	cat $(top_srcdir)/po/POTFILES.in | sed '/^#.*/d' | grep -v "$$scandir" > $(top_builddir)/po/POTFILES.in.raw; \
+	cat $(top_srcdir)/po/POTFILES.in | grep '^#' > $(top_builddir)/po/POTFILES.in.hash; \
+	cd $(top_srcdir); \
+	list=`find $$scandir -name *.cc -o -name *.hh -o -name *.hxx`; \
+	if test -n "$$list"; then \
+	    for i in $$list; do \
+	    echo -n "Checking $$i ... "; \
+	    if `grep -q '_("' $$i`; then \
+	        echo "$$i" | sed "s,$$top_srcdir/,," >> $$top_builddir/po/POTFILES.in.raw; \
+	        echo "Add"; \
+	    else \
+	        echo "Skip"; \
+	    fi \
+	    done; \
+	else \
+	    $(MKMSG) " No source files found here: $$scandir"; \
+	    exit 1; \
+	fi; \
+	mv -f $$top_builddir/po/POTFILES.in.hash $$top_srcdir/po/POTFILES.in; \
+	cat $$top_builddir/po/POTFILES.in.raw | sort >> $$top_srcdir/po/POTFILES.in; \
+	rm -f $$top_builddir/po/POTFILES.in.raw $$top_builddir/po/POTFILES.in.hash
+
+.PHONY: new-class update-POTFILES
+
+#
+# Make symlink (if possible) nt --> d4x on install
+#
+install-local:
+	test -f $(DESTDIR)$(bindir)/$(PACKAGE) && rm -f $(DESTDIR)$(bindir)/$(PACKAGE)
+	$(LN_S) -f $(DESTDIR)$(bindir)/$(bin_PROGRAMS) $(DESTDIR)$(bindir)/$(PACKAGE)
+
+#
+# Remove remaining symlink when unistall
+#
+uninstall-local:
+	test -h $(DESTDIR)$(bindir)/$(PACKAGE) && rm -f $(DESTDIR)$(bindir)/$(PACKAGE)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -77,7 +77,7 @@ public:
 	GtkWidget *ok_button,*cancel_button,*isdefault_check;
 	GtkWidget *window;
 	int parent_in_db;
-	int add_or_edit;
+	int add_or_edit,not_url_history;
 	int dnd;
 	int limit;
 	tDEdit();

@@ -1,4 +1,4 @@
-%define version	2.4.0rc1
+%define version	2.4.0rc2
 %define name	d4x
 %define prefix	/usr
 
@@ -65,7 +65,7 @@ cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
 %files -f %{name}.lang
 %defattr(-, root, root)
 %doc DOC/*
-%{_bindir}/nt
+%{_bindir}
 %{_mandir}/man1/*
 %{_sysconfdir}/X11/applnk/Internet/nt.desktop
 %{_datadir}/pixmaps/nt.xpm
@@ -78,6 +78,9 @@ cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
 %{_datadir}/d4x/ftpsearch.xml
 
 %changelog
+
+* Wed Dec 19 2002 max@krascoal.ru
+- small optimization to include link bin/d4x into rpm
 
 * Sat Mar 9 2002 max@krascoal.ru
 - rewrite to spec.in for autoconf/automake

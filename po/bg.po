@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
-"POT-Creation-Date: 2002-11-24 23:26+0700\n"
+"POT-Creation-Date: 2002-12-22 23:27+0700\n"
 "PO-Revision-Date: 2002-04-03 18:25GMT\n"
 "Last-Translator: Miroslav B. Iordanov <mironcholinux@mail.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -460,7 +460,7 @@ msgstr "Специални благодарности на"
 #: main/face/filtrgui.cc:187 main/face/fsched.cc:247 main/face/fsched.cc:817
 #: main/face/lod.cc:888 main/face/mywidget.cc:454 main/face/mywidget.cc:781
 #: main/face/mywidget.cc:878 main/face/mywidget.cc:1062
-#: main/face/mywidget.cc:1198 main/face/passface.cc:429
+#: main/face/mywidget.cc:1198 main/face/passface.cc:430
 #: main/face/prefs.cc:1282 main/face/qtree.cc:124 main/face/qtree.cc:667
 #: main/face/saveload.cc:159 main/face/saveload.cc:202
 #: main/face/saveload.cc:244
@@ -480,11 +480,11 @@ msgstr "Отказ"
 msgid "Don't ask next time"
 msgstr "Не питай следващия път"
 
-#: main/face/addd.cc:97 main/face/addd.cc:246
+#: main/face/addd.cc:97 main/face/addd.cc:249
 msgid "Add new download"
 msgstr "Прибави ново теглене"
 
-#: main/face/addd.cc:183
+#: main/face/addd.cc:186
 msgid "Automated adding"
 msgstr "Автоматично добавяне"
 
@@ -990,7 +990,7 @@ msgstr "Филтри"
 msgid "filter name"
 msgstr "име на филтъра"
 
-#: main/face/filtrgui.cc:188 main/face/passface.cc:430
+#: main/face/filtrgui.cc:188 main/face/passface.cc:431
 msgid "Add new"
 msgstr "Добави нов"
 
@@ -1494,7 +1494,7 @@ msgstr "протокол"
 msgid "path"
 msgstr "пътека"
 
-#: main/face/mywidget.cc:384 main/face/mywidget.cc:723 main/main.cc:609
+#: main/face/mywidget.cc:384 main/face/mywidget.cc:723 main/main.cc:615
 msgid "file"
 msgstr "файл"
 
@@ -1558,30 +1558,30 @@ msgstr ""
 msgid "Add"
 msgstr "Добави"
 
-#: main/face/passface.cc:321
+#: main/face/passface.cc:322
 msgid "Add new URL to URL-manager"
 msgstr "Добави нов URL в URL мениджъра"
 
-#: main/face/passface.cc:376
+#: main/face/passface.cc:377
 msgid "Edit default preferences"
 msgstr "Редактирай подразбиращите се настройки"
 
-#: main/face/passface.cc:399
+#: main/face/passface.cc:400
 #, fuzzy
 msgid "URL-manager"
 msgstr "/Настройки/URL-мениджър"
 
-#: main/face/passface.cc:403
+#: main/face/passface.cc:404
 #, fuzzy
 msgid "limit"
 msgstr "Ограничения"
 
-#: main/face/passface.cc:403
+#: main/face/passface.cc:404
 #, fuzzy
 msgid "con."
 msgstr "Действие"
 
-#: main/face/passface.cc:431
+#: main/face/passface.cc:432
 msgid "Delete"
 msgstr "Премахни"
 
@@ -2174,7 +2174,7 @@ msgstr "Не мога да инициализирам контролното г�
 msgid "Loading default list of downloads"
 msgstr "Зареждам списък със подразбиращите се тегления"
 
-#: main/main.cc:253 main/main.cc:1234
+#: main/main.cc:253 main/main.cc:1240
 msgid "Delete completed downloads"
 msgstr "Махни завършените тегления"
 
@@ -2209,128 +2209,128 @@ msgstr "Махни файл %s от опашката с тегления"
 msgid "Continue downloading of file %s from %s..."
 msgstr "Продължи тегленето на файл %s от %s..."
 
-#: main/main.cc:690
+#: main/main.cc:696
 msgid "dir"
 msgstr "папка"
 
-#: main/main.cc:695
+#: main/main.cc:701
 msgid "link"
 msgstr "връзка"
 
-#: main/main.cc:700
+#: main/main.cc:706
 msgid "device"
 msgstr "устройство"
 
-#: main/main.cc:733
+#: main/main.cc:739
 msgid "Too many redirections!"
 msgstr "Прекалено много пренасочвания!"
 
-#: main/main.cc:751
+#: main/main.cc:757
 msgid "Redirection from [%z] to the same location!"
 msgstr "Пренасочване от[%z] към същото място!"
 
-#: main/main.cc:787
+#: main/main.cc:793
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Пренасочване от [%z] наникъде!"
 
-#: main/main.cc:813
+#: main/main.cc:819
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "Пригответе нишката %i от [%z] за спиране!"
 
-#: main/main.cc:839
+#: main/main.cc:845
 msgid "Redirect from %z"
 msgstr "Пренасочване от %z"
 
-#: main/main.cc:846
+#: main/main.cc:852
 msgid "Downloading of directory %z was completed"
 msgstr "Тегленето на директория %z е завършено"
 
-#: main/main.cc:850
+#: main/main.cc:856
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr "Тегленето на файл %z(%i байта) завърши при скорост %i байта/сек"
 
-#: main/main.cc:857
+#: main/main.cc:863
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z беше махнат от опашката със тегления като приключено теглене"
 
-#: main/main.cc:868
+#: main/main.cc:874
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Тегленето на файл %z беше ликвидирано от фатална грешка"
 
-#: main/main.cc:870
+#: main/main.cc:876
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z беше махнат от опашката със тегления като провалено теглене"
 
-#: main/main.cc:1176
+#: main/main.cc:1182
 msgid "Restarting failed downloads"
 msgstr "Рестартирам провалените тегления"
 
-#: main/main.cc:1176 main/main.cc:1212 main/main.cc:1229 main/main.cc:1234
-#: main/main.cc:1239 main/main.cc:1252 main/main.cc:1257
+#: main/main.cc:1182 main/main.cc:1218 main/main.cc:1235 main/main.cc:1240
+#: main/main.cc:1245 main/main.cc:1258 main/main.cc:1263
 msgid "[control socket]"
 msgstr "[контролно гнездо]"
 
-#: main/main.cc:1194
+#: main/main.cc:1200
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Премахни тегленето през контролното гнездо [%s]"
 
-#: main/main.cc:1202
+#: main/main.cc:1208
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Добавям теглене през контролното гнездо [%s]"
 
-#: main/main.cc:1210
+#: main/main.cc:1216
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Настрой ограничението на скороста на %s %s"
 
-#: main/main.cc:1229
+#: main/main.cc:1235
 msgid "Setup maximum active downloads to"
 msgstr "Нагласи максималния брой активни тегления на"
 
-#: main/main.cc:1252
+#: main/main.cc:1258
 msgid "Exiting if nothing to do is switched off"
 msgstr "Излизането при липса на работа е изключено"
 
-#: main/main.cc:1257
+#: main/main.cc:1263
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "D4X ще се затвори ако няма работа след %i минути %s"
 
-#: main/main.cc:1270
+#: main/main.cc:1276
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Подразбираща се опашка сега е '%s'."
 
-#: main/main.cc:1515
+#: main/main.cc:1522
 msgid "Loading FTP-Search engines"
 msgstr ""
 
-#: main/main.cc:1517
+#: main/main.cc:1524
 msgid "Normally started"
 msgstr "Нормално стартиран"
 
-#: main/main.cc:1573
+#: main/main.cc:1580
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Файлът %s е прибавен за теглене от %s [от потребител]"
 
-#: main/main.cc:1628
+#: main/main.cc:1634
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu байта заредени по време на сесията"
 
-#: main/main.cc:1629
+#: main/main.cc:1635
 msgid "Downloader exited normaly"
 msgstr "D4X е затворен нормално"
 
-#: main/main.cc:1668
+#: main/main.cc:1675
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Не мога да отворя '%s' за да запазя дневника"
 
-#: main/main.cc:1699
+#: main/main.cc:1706
 msgid "Such protocol is not supported!"
 msgstr "Такъв протокол не се поддържа!"
 
@@ -2365,13 +2365,13 @@ msgstr "Не мога да отворя файл за да запазя днев
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "БЪГ: Грешен режим на lseek\n"
 
-#: main/nt.cc:134
+#: main/nt.cc:135
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "ВНИМАНИЕ!Не мога да намеря НОМЕ променливата!Не мога да прочета "
 "конфигурацията!"
 
-#: main/nt.cc:147
+#: main/nt.cc:148
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "може би %s е вече стартиран\n"

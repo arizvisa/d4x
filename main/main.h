@@ -39,7 +39,7 @@ class tMain{
 	int try_to_run_download(tDownload *what);
 	void absolute_delete_download(tDownload *what);
 
-	void add_dir(tDownload *parent);
+	void add_dir(tDownload *parent,int http=0);
 	void print_info(tDownload *what);
 	void redirect(tDownload *what,d4xDownloadQueue *dq);
 	void del_all_from_list(int list,d4xDownloadQueue *queue=(d4xDownloadQueue *)NULL);
@@ -81,7 +81,7 @@ class tMain{
         int delete_download(tDownload *what,int flag=0);
         void continue_download(tDownload *what);
     	int add_downloading(char *adr,char *where=(char *)NULL,char *name=(char *)NULL,char *desc=(char *)NULL);
-	int add_downloading(tDownload *what,int to_top=0);
+	tDownload *add_downloading(tDownload *what,int to_top=0);
 	tDownload *add_downloading_to(tDownload *what,int to_top=0);
 	void ftp_search(tDownload *what,int type=0);
     	void add_download_message(tDownload *what);

@@ -139,6 +139,8 @@ void d4x_automated_ok(GtkWidget *widget, tDownload *what) {
 	while(tmp){
 		tDownload *dwn=new tDownload;
 		dwn->info=new tAddr(tmp);
+		dwn->info->username.set(what->info->username.get());
+		dwn->info->pass.set(what->info->pass.get());
 		if (what->config->isdefault==0){
 			dwn->config=new tCfg;
 			dwn->config->copy(what->config);
@@ -179,6 +181,7 @@ void d4x_automated_add(){
 
 	what->editor=new tDEdit;
 	what->editor->add_or_edit=1;
+	what->editor->not_url_history=1;
 	what->editor->init(what);
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Automated adding"));
 	g_signal_connect(G_OBJECT(what->editor->cancel_button),"clicked",G_CALLBACK(add_window_cancel), what);

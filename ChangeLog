@@ -1,3 +1,143 @@
+2002-12-19 20:16  zaufi
+
+	* Makefile.am: Redir stderr to stdout when build rpms
+
+2002-12-19 17:08  max
+
+	* main/: main.cc, main.h: implemeted rerun all URLs in queue
+	matched by http-recursing if new recursion depth is greater
+
+2002-12-19 11:16  max
+
+	* nt.spec.in: update changelog
+
+2002-12-19 11:09  max
+
+	* nt.spec.in: update for including symlink bin/d4x into rpm
+
+2002-12-18 07:53  max
+
+	* main/main.cc: some cleanups
+
+2002-12-18 07:44  max
+
+	* main/sndserv.cc: pthread_cancel
+
+2002-12-18 07:43  max
+
+	* main/sndserv.cc: added pthread_cancel()
+
+2002-12-17 09:55  max
+
+	* main/sndserv.cc: open /dev/dsp with O_NONBLOCK (I'll test it at
+	home today);
+
+2002-12-17 09:49  max
+
+	* main/face/: addd.cc, edit.cc, edit.h, passface.cc: fixed setting
+	username/password for URLs added automatically; do not ad automated
+	URL in history;
+
+2002-12-16 23:12  max
+
+	* main/sndserv.cc: code cleanups
+
+2002-12-16 22:55  max
+
+	* main/nt.cc, po/hu.po: fixed working with non utf locales (thanks
+	to Aleksandr Blokhin); update hungarian translation (thanks to
+	Pinter Sandor);
+
+2002-12-11 00:44  zaufi
+
+	* main/Makefile.am: Remove symlink when uninstall
+
+2002-12-11 00:34  zaufi
+
+	* admin/cvs.sh: Cleanups after gettextize
+
+2002-12-11 00:33  zaufi
+
+	* admin/Makefile.addons, README.maint: new make target added
+
+2002-12-01 02:57  zaufi
+
+	* Makefile.am: Remove 2nd 'intl' added by gettextize
+
+2002-12-01 02:48  zaufi
+
+	* main/Makefile.am: Fix error when symlink already exist (simplify
+	code :)
+
+2002-12-01 02:47  zaufi
+
+	* main/Makefile.am: Fix error when symlink already exist
+
+2002-12-01 02:37  zaufi
+
+	* Makefile.am: gettext 0.11.5 oriented support added
+
+2002-11-29 01:32  zaufi
+
+	* configure.in: dot detection fixed
+
+2002-11-29 01:05  zaufi
+
+	* Makefile.am: Fix doxygen start
+
+2002-11-29 00:53  zaufi
+
+	* configure.in: AC_PATH_PROG rollback (I have an old docs :)
+
+2002-11-28 19:56  zaufi
+
+	* Makefile.am: Error message fixed to be compatible with make
+	format
+
+2002-11-28 19:36  zaufi
+
+	* Makefile.cvs, admin/cvs.sh: code-stats goal added to maintainers
+	Makefile.cvs
+
+2002-11-28 08:59  zaufi
+
+	* README.maint: Forget to add autogen req
+
+2002-11-28 08:57  zaufi
+
+	* admin/cvs.sh: Fix english format release timestamps
+
+2002-11-28 08:51  zaufi
+
+	* admin/Makefile.addons: Make errors detection more correctness +
+	fix case when  !=
+
+2002-11-28 08:27  zaufi
+
+	* Doxyfile.in, README.maint, configure.in, admin/Makefile.addons,
+	admin/class.tpl, admin/cvs.sh, main/Makefile.am,
+	main/face/Makefile.am: * fix programs detection * added graphviz
+	dot tool detection * doxygen config fixed * set locale to 'en' when
+	add release date to README.maint * added files generation for new
+	class (as make new-class target)
+
+2002-11-24 23:38  max
+
+	* nt.spec.in: just pointing to links does not work :-(
+
+2002-11-24 23:30  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po:
+	after update-po (fixed hu.po);
+
+2002-11-24 23:22  max
+
+	* po/hu.po: Updated hungarian translation;
+
+2002-11-24 23:20  max
+
+	* ChangeLog, NEWS, nt.spec.in: prepare to release rc1
+
 2002-11-24 23:09  max
 
 	* Makefile.cvs, README.maint, configure.in: Release 2.4.0-rc1

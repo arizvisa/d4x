@@ -538,7 +538,7 @@ void tMain::continue_download(tDownload *what) {
 	what->finfo.size=-1;
 };
 
-void tMain::add_dir(tDownload *parent) {
+void tMain::add_dir(tDownload *parent,int http) {
 	if (parent==NULL || parent->DIR==NULL) return;
 	tDownload *temp=parent->DIR->last();
 	d4xDownloadQueue *q=D4X_QUEUE;
@@ -546,7 +546,13 @@ void tMain::add_dir(tDownload *parent) {
 	while(temp) {
 		parent->DIR->del(temp);
 		int totop=parent->config->ftp_dirontop && temp->finfo.type==T_DIR;
-		if (add_downloading(temp,totop)) {
+		tDownload *ex=add_downloading(temp,totop);
+		if (ex) {
+			if (ex->config && ex->config->http_recurse_depth<temp->config->http_recurse_depth &&
+			    ex->myowner==parent->myowner){
+				ex->config->http_recurse_depth=temp->config->http_recurse_depth;
+				continue_download(ex);
+			};
 			delete temp;
 		};
 		temp=parent->DIR->last();
@@ -849,7 +855,7 @@ void tMain::case_download_completed(tDownload *what){
 			int bytes = what->finfo.size==0 ? what->who->get_readed():what->finfo.size;
 			MainLog->myprintf(LOG_OK,_("Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"),what,bytes,what->Speed.curent);
 			if (what->config->http_recurse_depth!=1 && what->DIR)
-				add_dir(what);
+				add_dir(what,1);
 		};
 		real_stop_thread(what);
 		post_stopping(what);
@@ -1328,16 +1334,17 @@ void tMain::schedule_download(tDownload *what){
 	MainScheduler->add_scheduled(what);
 };
 
-int tMain::add_downloading(tDownload *what,int to_top) {
+tDownload *tMain::add_downloading(tDownload *what,int to_top) {
 	tDownload *tdwn=NULL;
 	if ((tdwn=ALL_DOWNLOADS->find(what)) || !what->info->is_valid()) {
-		if (TO_WAIT_IF_HERE && tdwn && tdwn->owner()!=DL_RUN)
+		if (TO_WAIT_IF_HERE && tdwn && tdwn->owner()!=DL_RUN){
 			continue_download(tdwn);
-		return 1;
+		};
+		return(tdwn);
 	};
 	if (what->ScheduleTime){
 		MainScheduler->add_scheduled(what);
-		return(0);
+		return(NULL);
 	};
 	if (what->config==NULL)
 		FaceForPasswords->set_cfg(what);
@@ -1352,7 +1359,7 @@ int tMain::add_downloading(tDownload *what,int to_top) {
 	else
 		D4X_QUEUE->qv.add(what);
 	try_to_run_wait(D4X_QUEUE);
-	return 0;
+	return(NULL);
 };
 
 tDownload *tMain::add_downloading_to(tDownload *what,int to_top) {
@@ -1607,7 +1614,6 @@ void tMain::done() {
 	/* removing ftpsearch before removing all queues
 	   to avoid segfault at host-limit checks */
 	if (ftpsearch) delete(ftpsearch);
-	SOUND_SERVER->stop_thread();
 	FaceForPasswords->save();
 	if (FaceForPasswords)
 		delete (FaceForPasswords);
@@ -1639,6 +1645,7 @@ void tMain::done() {
 	for (int i=URL_HISTORY;i<LAST_HISTORY;i++)
 		if (ALL_HISTORIES[i]) delete(ALL_HISTORIES[i]);
 	*/
+	SOUND_SERVER->stop_thread();
 	delete(SOUND_SERVER);
 	delete(GVARS.SOCKETS);
 	if (D4X_THEME_DATA) delete(D4X_THEME_DATA);
