@@ -14,21 +14,25 @@
 #include "queue.h"
 
 class tMeter:public tQueue{
-	protected:
+protected:
 	tSortTree *sort;
 	int MAX,NUM;
-	public:
-		tMeter();
-		void add(int speed);
-		void dispose();
-		tSortNode *first();
-		tSortNode *last();
-		tSortNode *next();
-		int max();
-		int first_value();
-		int last_value();
-		int next_value();
-		~tMeter();
+	int counter,mode;
+	int lastval;
+public:
+	tMeter();
+	void add(int speed);
+	void dispose();
+	tSortNode *first();
+	tSortNode *last();
+	tSortNode *next();
+	int max();
+	int last_speed();
+	int first_value();
+	int last_value();
+	int next_value();
+	void set_mode(int mode);
+	~tMeter();
 };
 
 #endif

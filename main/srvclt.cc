@@ -57,13 +57,11 @@ tMsgServer::tMsgServer(){
 	list->init(0);
 	file=NULL;
 	fd=newfd=0;
-	my_pthreads_mutex_init(&lock);
 };
 
 tMsgServer::~tMsgServer(){
     if (fd>0) close(fd);
     if (newfd>0) close(newfd);
-    pthread_mutex_destroy(&lock);
     delete(list);
     unlink(file);
     delete[] file;
@@ -122,7 +120,7 @@ void tMsgServer::write_dwn_status(tDownload *dwn,int full=0){
 		status.Speed=dwn->Speed.curent;
 		status.Status=dwn->owner(); /* FIXME: possible race condition */
 		status.Attempt=dwn->Attempt.curent;
-		status.MaxAttempt=dwn->config.number_of_attempts;
+		status.MaxAttempt=dwn->config?dwn->config->number_of_attempts:CFG.DEFAULT_CFG.number_of_attempts;
 	};
 	
 	ALL_DOWNLOADS->unlock();
@@ -158,7 +156,8 @@ void tMsgServer::cmd_ls(int len,int type){
 		delete[] temp;
 	}else{ // output whole list
 		ALL_DOWNLOADS->lock();
-		d4xWFNode *node=(d4xWFNode *)(ListOfDownloadsWF->first());
+		/* FIXME: when implement many queues */
+		d4xWFNode *node=(d4xWFNode *)(D4X_QUEUE->qv.ListOfDownloadsWF.first());
 		while (node) {
 			d4xWFNode *next=(d4xWFNode *)(node->prev);
 			if (node->dwn){
@@ -181,9 +180,9 @@ void tMsgServer::cmd_add(int len,int type){
 		tString *newstr=new tString;
 		newstr->body=temp;
 		newstr->temp=type;
-		pthread_mutex_lock(&lock);
+		lock.lock();
 		list->insert(newstr);
-		pthread_mutex_unlock(&lock);
+		lock.unlock();
 		cmd_ack();
 	}else
 		delete[] temp;
@@ -269,12 +268,12 @@ void tMsgServer::run(){
 };
 
 tString *tMsgServer::get_string(){
-    pthread_mutex_lock(&lock);
+    lock.lock();
     tString *temp=list->first();
     if (temp){
 		list->del(temp);
     };
-    pthread_mutex_unlock(&lock);
+    lock.unlock();
     return temp;
 };
 /* tMsgClient, send command if Downloader already run

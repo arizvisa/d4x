@@ -26,5 +26,6 @@ void my_xclipboard_free(char *buf);
 GtkWidget *my_gtk_entry_new_with_max_length(gint length,int val);
 void wm_skip_window(GtkWidget *widget);
 void d4x_percent_str(float percent, char *buf, int bufsize);
+void d4x_eschandler_init(GtkWidget *widget,gpointer data);
 
 #endif

@@ -15,7 +15,7 @@
 #include "queue.h"
 #include "addr.h"
 #include "sort.h"
-#include <pthread.h>
+#include "mutex.h"
 
 struct d4xRule:public tNode{
 	tPStr path,file,host,params,tag;
@@ -32,9 +32,7 @@ struct d4xRule:public tNode{
 struct d4xFilterEdit;
 
 class d4xFilter:public tQueue{
-	pthread_mutex_t my_mutex;
-	void lock();
-	void unlock();
+	d4xMutex my_mutex;
  public:
 	int refcount;
 	int default_inc;
@@ -64,9 +62,7 @@ struct d4xFilterSel;
 
 class d4xFiltersTree:public tAbstractSortTree{
  protected:
-	pthread_mutex_t my_mutex;
-	void lock();
-	void unlock();
+	d4xMutex my_mutex;
 	void save_recurse(int fd,d4xFNode *what);
 	void print_recurse(d4xFNode *what);
 	void print_recurse(d4xFilterSel *sel,d4xFNode *what);

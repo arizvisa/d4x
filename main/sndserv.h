@@ -12,6 +12,7 @@
 #define _D4X_SOUND_HEADER_
 
 #include "queue.h"
+#include "mutex.h"
 #include <pthread.h>
 
 enum SOUND_EVENTS{
@@ -32,7 +33,7 @@ struct d4xSndEvent:public tNode{
 
 class d4xSndServer{
 	tQueue *queue;
-	pthread_mutex_t my_mutex,exit_lock;
+	d4xMutex my_mutex,exit_lock;
 	pthread_t thread_id;
 	char *snd_table[SND_LAST];
 	void play_sound(int event);

@@ -14,7 +14,7 @@
 #include "queue.h"
 #include "addr.h"
 #include "socket.h"
-#include <pthread.h>
+#include "mutex.h"
 #include <time.h>
 
 struct d4xOldSocket:public tNode{
@@ -28,7 +28,7 @@ struct d4xOldSocket:public tNode{
 };
 
 class d4xSocketsHistory:public tQueue{
-	pthread_mutex_t my_lock;
+	d4xMutex my_lock;
  public:
 	d4xSocketsHistory();
 	void insert(d4xOldSocket *what);

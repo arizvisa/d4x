@@ -17,8 +17,6 @@ void read_config();
 void save_config();
 void save_strlist(tStringList *what,char *where);
 void load_strlist(tStringList *where,char *what,int normalize);
-void save_limits();
-void read_limits();
 int parse_command_line_preload(int argv,char **argc);
 void parse_command_line_postload(int argv,char **argc);
 int parse_command_line_already_run(int argv,char **argc);

@@ -1,0 +1,2355 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2002-02-13 22:08+0700\n"
+"PO-Revision-Date: 2001-10-18 15:20+0800\n"
+"Last-Translator: Ryan <ryan@chinese2000.sniic.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=Big_5\n"
+"Content-Transfer-Encoding: ENCODING\n"
+
+#: ../client.cc:410
+msgid "Timeout while reading from socket!"
+msgstr "讀接口超時"
+
+#: ../client.cc:415
+msgid "Error while reading from socket!"
+msgstr "讀接口錯誤"
+
+#: ../client.cc:424
+msgid "Trying to connect..."
+msgstr "正在連接..."
+
+#: ../client.cc:426
+msgid "Socket was opened!"
+msgstr "接口已經打開！"
+
+#: ../client.cc:431
+msgid "Host not found!"
+msgstr "找不到主機"
+
+#: ../client.cc:436
+msgid "Can't allocate socket"
+msgstr "不能分配接口"
+
+#: ../client.cc:441
+msgid "Can't connect"
+msgstr "不能連接"
+
+#: ../config.cc:74
+msgid "You forgot to specify directory."
+msgstr "你忘記指定目錄"
+
+#: ../config.cc:76
+msgid "You must specify number as second parameter for '-m' option"
+msgstr "您需要使用數字作為 '-m' 選項的第二個參數"
+
+#: ../config.cc:80
+msgid "You must specify number as parameter for '--exit-time' option"
+msgstr "您需要使用數字作為 '--exit-time' 選項的參數"
+
+#: ../config.cc:81
+msgid "Expect URL as parameter for '--ls' option"
+msgstr "需要 URL 作為 '--ls' 選項的參數"
+
+#: ../config.cc:83
+msgid "Expect URL as parameter for '--del' option"
+msgstr "需要 URL 作為 '--del' 選項的參數"
+
+#: ../config.cc:84
+msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
+msgstr ""
+
+#: ../config.cc:85
+#, fuzzy
+msgid "Expect URL as parameter for '--stop' option"
+msgstr "需要 URL 作為 '--ls' 選項的參數"
+
+#: ../config.cc:270
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr "不能從 '%s' 打開配置檔案\n"
+
+#: ../config.cc:271
+msgid "Use default cfg :))...\n"
+msgstr "使用預定的配置檔案:-))...\n"
+
+#: ../config.cc:481
+msgid "unknown option:"
+msgstr "不知名選項"
+
+#: ../config.cc:528
+#, c-format
+msgid "Run downloads: %d\n"
+msgstr "運行下載:%d\n"
+
+#: ../config.cc:530
+#, c-format
+msgid "Paused downloads: %d\n"
+msgstr "暫停的下載:%d\n"
+
+#: ../config.cc:532
+#, c-format
+msgid "Failed downloads: %d\n"
+msgstr "失敗的下載:%d\n"
+
+#: ../config.cc:534
+#, c-format
+msgid "Completed downloads: %d\n"
+msgstr "完成的下載︰%d\n"
+
+#: ../config.cc:537
+#, c-format
+msgid "Total: %d\n"
+msgstr "總共︰%d\n"
+
+#: ../config.cc:539
+#, c-format
+msgid "Total bytes loaded: %d\n"
+msgstr "下載了 %d bytes.\n"
+
+#: ../config.cc:541
+#, c-format
+msgid "Current speed: %d\n"
+msgstr "現在速度:%d\n"
+
+#: ../config.cc:547
+#, c-format
+msgid "Curent speed: %d\n"
+msgstr "現在速度:%d\n"
+
+#: ../config.cc:761
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr "使用方法:nt [選項]... [URL]"
+
+#: ../config.cc:762
+msgid "print this page and exit"
+msgstr "列印此頁，然後退出"
+
+#: ../config.cc:763
+msgid "show version information and exit"
+msgstr "顯示版本信息，然後退出"
+
+#: ../config.cc:764
+msgid "show information if already run"
+msgstr "如果已經運行，顯示信息"
+
+#: ../config.cc:765
+msgid "show current speed if already run"
+msgstr "如果已經運行，顯示現在速度"
+
+#: ../config.cc:766
+msgid "run in minimized mode"
+msgstr "最小化運行"
+
+#: ../config.cc:767
+msgid "set timeout for exiting if nothing to do"
+msgstr "設置空閑退出時間"
+
+#: ../config.cc:768
+msgid "set directory for saving files"
+msgstr "設置檔案存放目錄"
+
+#: ../config.cc:769
+msgid "set lower speed limitation"
+msgstr "較低的速度"
+
+#: ../config.cc:770
+msgid "set medium speed limitation"
+msgstr "中等速度"
+
+#: ../config.cc:771
+msgid "set unlimited speed"
+msgstr "不限制速度"
+
+#: ../config.cc:772
+msgid "delete completed if already run"
+msgstr "如果已經運行, 刪除已經完成的"
+
+#: ../config.cc:773
+msgid "set maximum active downloads"
+msgstr "設置最大下載數目"
+
+#: ../config.cc:774
+msgid "restart all failed downloads"
+msgstr "重新下載所有失敗的連接"
+
+#: ../config.cc:775
+msgid "run program without X interface"
+msgstr "命令行方式運行此程序"
+
+#: ../config.cc:776
+msgid "display info about URL in queue of downloads"
+msgstr "顯示下載隊列中URL的信息"
+
+#: ../config.cc:777
+msgid "remove a download from queue"
+msgstr "清除已完成的作業"
+
+#: ../config.cc:778
+#, fuzzy
+msgid "stop a download"
+msgstr "停止下載"
+
+#: ../config.cc:779
+msgid "using colors if run without interface"
+msgstr "使用命令行運行此程序"
+
+#: ../config.cc:780
+msgid "specifies preferred size and position of main window"
+msgstr ""
+
+#: ../cookie.cc:316
+msgid "Loading cookies"
+msgstr "正在加載 cookies"
+
+#: ../cookie.cc:322
+#, fuzzy, c-format
+msgid "%i cookies loaded from browsers' files"
+msgstr "載入了 %i 個 cookies"
+
+#: ../cookie.cc:324
+#, fuzzy, c-format
+msgid "Can't open cookies file %s!"
+msgstr "不能打開 cookies 檔案"
+
+#: ../cookie.cc:334
+#, c-format
+msgid "%i cookies loaded"
+msgstr "載入了 %i 個 cookies"
+
+#: ../dlist.cc:112
+msgid "Can't write to file"
+msgstr "不能寫到檔案"
+
+#: ../dlist.cc:137
+msgid "File is already opened by another download!"
+msgstr "檔案已經被其他下載打開"
+
+#: ../dlist.cc:140
+msgid "Filesystem do not support advisory record locking!"
+msgstr ""
+
+#: ../dlist.cc:141
+msgid "Will proceed without it but beware that you might have problems."
+msgstr ""
+
+#: ../dlist.cc:390
+#, c-format
+msgid "You have no permissions to create file at path %s"
+msgstr "你沒有在目錄 %s 中建立檔案的權限"
+
+#: ../dlist.cc:395
+#, c-format
+msgid "You have no space at path %s for creating file"
+msgstr "你沒有足夠的空間在目錄 %s 中建立檔案"
+
+#: ../dlist.cc:400
+msgid "Directory already created!:))"
+msgstr "目錄已經存在!:))"
+
+#. this is a link
+#: ../dlist.cc:520
+msgid "Trying to create a link"
+msgstr "試圖建立一個連結"
+
+#: ../dlist.cc:525
+msgid "Link already created!:))"
+msgstr "連結已經存在!"
+
+#: ../dlist.cc:531
+msgid "Can't create link"
+msgstr "不能建立連結"
+
+#. this is a file
+#: ../dlist.cc:540
+msgid "Trying to create a file"
+msgstr "嘗試建立檔案..."
+
+#: ../dlist.cc:561
+msgid "Can't create file at the path:"
+msgstr "不能在此目錄中建立檔案檔案︰"
+
+#: ../dlist.cc:563
+msgid "which has name:"
+msgstr "哪個有名字︰"
+
+#: ../dlist.cc:574
+msgid "File was created!"
+msgstr "檔案已建立"
+
+#. this is a directory
+#: ../dlist.cc:579
+msgid "Trying to create a dir"
+msgstr "正在建立目錄"
+
+#: ../dlist.cc:589
+msgid "Can't create directory!"
+msgstr "不能建立目錄！"
+
+#. this is device
+#: ../dlist.cc:599
+msgid "Downloader can't create devices..."
+msgstr "本程式不能建立設備..."
+
+#: ../dlist.cc:1028
+#, c-format
+msgid "Trying to copy %s to %s due 'Content-Disposition'"
+msgstr ""
+
+#: ../dlist.cc:1031
+msgid "Error during copying!"
+msgstr ""
+
+#: ../dlist.cc:1062
+msgid "Downloading was successefully completed!"
+msgstr "下載完成!"
+
+#: ../dlist.cc:1104
+msgid "Downloading was failed..."
+msgstr "下載失敗..."
+
+#: ../dlist.cc:1221
+msgid "Redirection blocked by filter"
+msgstr ""
+
+#: ../dlist.cc:1227
+msgid "Redirect detected..."
+msgstr "檢測到重定向..."
+
+#: ../dlist.cc:1285
+msgid "It is strange that we can't delete file which just created..."
+msgstr "奇怪, 我不能刪除剛建立的檔案..."
+
+#: ../dlist.cc:1289 ../dlist.cc:1508
+msgid "File not found"
+msgstr "找不到檔案"
+
+#: ../dlist.cc:1347
+msgid "Sorting started"
+msgstr "開始排序"
+
+#: ../dlist.cc:1350
+#, c-format
+msgid "Pinging (atempt %i of %i)"
+msgstr "正在 ping (嘗試 %i/%i)"
+
+#: ../dlist.cc:1378
+msgid "Trying to determine filesizes"
+msgstr "嘗試建立檔案..."
+
+#: ../dlist.cc:1454
+msgid "Searching failed"
+msgstr "尋找失敗"
+
+#: ../dlist.cc:1476
+msgid "Search had been completed!"
+msgstr "尋找完成"
+
+#: ../dlist.cc:1482
+msgid "Was Started!"
+msgstr "已經開始!"
+
+#: ../dlist.cc:1486
+msgid "It is a link and we already load it"
+msgstr "這是一個已經裝入的連結"
+
+#: ../dlist.cc:1513
+msgid "Trying to work without CWD"
+msgstr "嘗試在沒有CWD時進行"
+
+#: ../dlist.cc:1584
+msgid "Can't split file to specified number of parts!"
+msgstr "不能將檔案分割成指定的份數!"
+
+#: ../download.cc:33
+msgid "Maximum number of retries reached!"
+msgstr "已經達到最大重試次數！"
+
+#: ../download.cc:38
+#, c-format
+msgid "Retry %i of %i...."
+msgstr "重試 %i / %i...."
+
+#: ../download.cc:40
+#, c-format
+msgid "Retry %i ..."
+msgstr "重試 %i ..."
+
+#: ../download.cc:44
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr "伺服器上的檔案比本地的新. 從頭開始.\n"
+
+#: ../download.cc:48
+#, c-format
+msgid "Error code %i"
+msgstr "錯誤碼 %i"
+
+#: ../download.cc:49
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "警告！您可能發現了本程序的錯誤！！！"
+
+#: ../download.cc:50
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr "如果您看到了此信息，請您報告到 mdem@chat.ru"
+
+#: ../ftp.cc:50
+msgid "Accepting faild"
+msgstr "接受失敗"
+
+#: ../ftp.cc:73
+msgid "Timeout while sending through control socket."
+msgstr "控制接口發送超時"
+
+#: ../ftp.cc:74
+msgid "Control connection lost"
+msgstr "遺失控制信息連接!"
+
+#: ../ftp.cc:85
+msgid "Data connection lost!"
+msgstr "遺失數據連接！"
+
+#: ../ftp.cc:95
+msgid "Control connection lost!"
+msgstr "遺失控制連接！"
+
+#: ../ftp.cc:185
+msgid "Reget is not supported!!!"
+msgstr "不支持斷點續傳！！！"
+
+#.
+#. if (index(log->body,'(')!=NULL)
+#. sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
+#.
+#: ../ftp.cc:293
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr "嘗試連接到 %i,%i,%i,%i,%i,%i"
+
+#: ../ftp.cc:418
+msgid "Probably file was changed on server!"
+msgstr ""
+
+#: ../ftp.cc:435 ../http.cc:213
+msgid "Data connection closed."
+msgstr "數據連接已關閉"
+
+#: ../ftp.cc:447 ../http.cc:225
+msgid "Requested size was loaded"
+msgstr "已經載入需求的大小"
+
+#: ../ftpd.cc:234
+msgid "Can't establish data connection"
+msgstr "不能建立數據連接"
+
+#: ../ftpd.cc:237
+msgid "Can't change directory"
+msgstr "不能改變目錄"
+
+#: ../ftpd.cc:240
+msgid "Server refused login, perhaps there are too many users of your class"
+msgstr "伺服器拒絕登錄，可能有太多的用戶正在使用"
+
+#: ../ftpd.cc:309 ../httpd.cc:223
+msgid "Sleeping"
+msgstr "休眠"
+
+#: ../ftpd.cc:414
+msgid "Empty answer. Trying to change directory to determine file type."
+msgstr "沒有回應.嘗試改變目錄以決定檔案類型"
+
+#: ../ftpd.cc:439 ../ftpd.cc:461
+#, c-format
+msgid "Length is %i"
+msgstr "長度為 %i"
+
+#: ../ftpd.cc:451
+msgid "This is a directory!"
+msgstr "這是一個目錄！"
+
+#: ../ftpd.cc:488
+msgid "Couldn't get size :(("
+msgstr "不能獲得長度:(("
+
+#: ../ftpd.cc:503
+msgid "Loading directory..."
+msgstr "載入目錄..."
+
+#: ../ftpd.cc:517
+msgid "Listing was loaded"
+msgstr "列表已經打開"
+
+#: ../ftpd.cc:520
+msgid "Listing not loaded completelly"
+msgstr "列表沒有全部載入"
+
+#: ../ftpd.cc:547
+msgid "Link was loaded :))"
+msgstr "連結已載入"
+
+#: ../ftpd.cc:581 ../httpd.cc:477
+#, c-format
+msgid "%i bytes loaded."
+msgstr "下載了 %i 字節"
+
+#: ../hproxy.cc:190
+#, fuzzy, c-format
+msgid "Sending request to proxy (%s:%i)"
+msgstr "發送請求到代理服務器"
+
+#. all ok
+#: ../hproxy.cc:194 ../httpd.cc:419
+msgid "Answer read ok"
+msgstr "可以辨認回答"
+
+#: ../hproxy.cc:205
+#, fuzzy
+msgid "File not found on the server"
+msgstr "找不到檔案"
+
+#: ../hproxy.cc:208
+msgid "Probably it's problem of proxy server, retrying"
+msgstr "這可能是代理服務器發生問題,重試中"
+
+#: ../http.cc:62
+msgid "Socket lost!"
+msgstr "失去接口"
+
+#: ../http.cc:72
+msgid "Request was sent, waiting for the answer"
+msgstr "請求已被發送，等待回應"
+
+#: ../http.cc:87
+msgid "It is not HTTP server!!!"
+msgstr "不是 HTTP 伺服器!!!"
+
+#: ../http.cc:95
+msgid "All ok, reading file"
+msgstr "全部正確，正讀取檔案"
+
+#: ../http.cc:106
+msgid "It seems to me that you need a password :)"
+msgstr "您可能需要輸入密碼:)"
+
+#: ../http.cc:112
+msgid "Server return bad answer:(("
+msgstr "伺服器返回錯誤的回應:<"
+
+#: ../http.cc:191
+msgid "Wrong chunk size!"
+msgstr ""
+
+#: ../http.cc:194
+#, c-format
+msgid "Chunk size %i"
+msgstr ""
+
+#: ../http.cc:196
+msgid "It's last chunk!"
+msgstr ""
+
+#: ../httpd.cc:175
+msgid "Couldn't get normal answer!"
+msgstr "不能得到正常的回應！"
+
+#: ../httpd.cc:375
+#, c-format
+msgid "Size for download is %i bytes"
+msgstr "要下載的長度為 %i 字節"
+
+#: ../httpd.cc:415
+msgid "Sending HTTP request..."
+msgstr "發送 HTTP 請求..."
+
+#: ../httpd.cc:459
+msgid "It is seemed REGET not supported! Loading from begin.."
+msgstr "斷點續傳可能不支持! 重新開始下載..."
+
+#: ../httpd.cc:462
+msgid "ETag was changed, restarting again..."
+msgstr "ETag 被改變, 再次重新開始..."
+
+#: ../log.cc:64
+msgid "Log was started!"
+msgstr "記錄已經啟動！"
+
+#: ../main.cc:119
+msgid "Can't init control socket!\n"
+msgstr "[控制接口]\n"
+
+#: ../main.cc:162
+msgid "Loading default list of downloads"
+msgstr "載入預設的下載列表"
+
+#: ../main.cc:229 ../main.cc:1178
+msgid "Delete completed downloads"
+msgstr "清除完成的下載"
+
+#: ../main.cc:242
+msgid "Delete failed downloads"
+msgstr "清除失敗的下載"
+
+#: ../main.cc:259
+msgid "Clear queue of downloads"
+msgstr "清除下載隊列"
+
+#: ../main.cc:316
+msgid "Run new thread for %z"
+msgstr "為 %z 啟動新下載線程"
+
+#: ../main.cc:322
+msgid "Can't run new thread for downloading!"
+msgstr "不能啟動新的下載線程"
+
+#: ../main.cc:377
+#, c-format
+msgid "Downloading of file %s from %s was terminated [by user]"
+msgstr "下載檔案 %s (%s) 被用戶終止"
+
+#: ../main.cc:407
+#, c-format
+msgid "Delete file %s from queue of downloads"
+msgstr "從下載隊列刪除檔案項 %s"
+
+#: ../main.cc:491
+#, c-format
+msgid "Continue downloading of file %s from %s..."
+msgstr "繼續下載檔案 %s (從%s下載) ..."
+
+#: ../face/mywidget.cc:389 ../face/mywidget.cc:695 ../main.cc:581
+msgid "file"
+msgstr "檔案"
+
+#: ../main.cc:679
+msgid "dir"
+msgstr "目錄"
+
+#: ../main.cc:684
+msgid "link"
+msgstr "連結"
+
+#: ../main.cc:689
+msgid "device"
+msgstr "設備"
+
+#: ../main.cc:725
+msgid "Too many redirections!"
+msgstr "太多定向更改"
+
+#: ../main.cc:743
+msgid "Redirection from [%z] to the same location!"
+msgstr "從 [%z] 重定向到相同的地址"
+
+#: ../main.cc:779
+msgid "Redirection from [%z] to nowhere!"
+msgstr "從 [%z] 重定向到空地址"
+
+#: ../main.cc:805
+#, fuzzy
+msgid "Prepare thread %i of [%z] for stoping"
+msgstr "準備停止 [%z]"
+
+#: ../main.cc:823
+msgid "Redirect from %z"
+msgstr "從 %z 重定向"
+
+#: ../main.cc:830
+msgid "Downloading of directory %z was completed"
+msgstr "目錄 %z 下載完成"
+
+#: ../main.cc:834
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+msgstr "檔案 %z 下載完成, 速度為: %i 字節/秒"
+
+#: ../main.cc:841
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "刪除已完成的下載 %z"
+
+#: ../main.cc:852
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "嚴重錯誤導致下載檔案 %z 終止"
+
+#: ../main.cc:854
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "刪除失敗的下載 %z"
+
+#: ../main.cc:1122
+msgid "Restarting failed downloads"
+msgstr "重新下載失敗的檔案"
+
+#: ../main.cc:1122 ../main.cc:1158 ../main.cc:1174 ../main.cc:1178
+#: ../main.cc:1183 ../main.cc:1196 ../main.cc:1201
+msgid "[control socket]"
+msgstr "[控制接口]"
+
+#: ../main.cc:1140
+#, c-format
+msgid "Remove the download via control socket [%s]"
+msgstr "從控制接口添加下載"
+
+#: ../main.cc:1148
+#, c-format
+msgid "Adding downloading via control socket [%s]"
+msgstr "從控制接口添加下載"
+
+#: ../main.cc:1156
+#, c-format
+msgid "Set speed limitation to %s %s"
+msgstr "設置限制速度為 %s %s"
+
+#: ../main.cc:1174
+msgid "Setup maximum active downloads to"
+msgstr "設置最大活動下載數目到"
+
+#: ../main.cc:1196
+msgid "Exiting if nothing to do is switched off"
+msgstr ""
+
+#: ../main.cc:1201
+#, c-format
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "如果空閒 %i 分鐘 %s, 本程序將退出"
+
+#: ../main.cc:1443
+msgid "Normally started"
+msgstr "程序啟動正常"
+
+#: ../main.cc:1492
+#, c-format
+msgid "Added downloading of file %s from %s [by user]"
+msgstr "從地址 %s,添加下載檔案 %s "
+
+#: ../main.cc:1545
+#, c-format
+msgid "%lu bytes loaded during the session"
+msgstr "此對話裝載了 %lu 字節"
+
+#: ../main.cc:1546
+msgid "Downloader exited normaly"
+msgstr "正常退出"
+
+#: ../main.cc:1584
+#, c-format
+msgid "Can't open '%s' to save log"
+msgstr "不能打開 '%s' 記錄檔案"
+
+#: ../main.cc:1615
+msgid "Such protocol is not supported!"
+msgstr "不能支持此協定"
+
+#: ../mainlog.cc:162
+msgid ""
+"Limitation for size of file of mainlog reached! File have been truncated."
+msgstr "達到主記錄檔案的長度限制，檔案被截斷"
+
+#: ../mainlog.cc:171
+msgid "Can't write to file interrupting write to file"
+msgstr "不能用寫檔案來終止寫檔案"
+
+#: ../mainlog.cc:213
+msgid "Open a row"
+msgstr "打開一行"
+
+#: ../mainlog.cc:216
+msgid "Clear log"
+msgstr "清除記錄"
+
+#: ../face/fsched.cc:771 ../face/lmenu.cc:173 ../mainlog.cc:219
+msgid "Properties"
+msgstr "屬性"
+
+#: ../mainlog.cc:250
+#, c-format
+msgid "row number %i of main log"
+msgstr "主記錄檔案行號 %i"
+
+#: ../mainlog.cc:290
+msgid "Can't open file for saving log"
+msgstr "不能打開記錄檔案"
+
+#: ../nt.cc:121
+msgid "WARNING!!! Can't find HOME variable! So can't read config!"
+msgstr "警告!!!不能找到HOME環境的變數!所以不能讀設置"
+
+#: ../nt.cc:134
+#, c-format
+msgid "%s probably is already running\n"
+msgstr "%s 可能已經運行\n"
+
+#: ../savelog.cc:43
+msgid ""
+"Can't save default list of downloads!!! Becouse can't find HOME variable"
+msgstr "不能存入預設的下載列表! 因不能找到 HOME 環境變數"
+
+#: ../savelog.cc:49
+msgid "Can't save default list of downloads!!!"
+msgstr "不能存入預設下載列表!"
+
+#: ../savelog.cc:84
+msgid "Can't load default list of downloads!!!"
+msgstr "不能載入預設下載列表!"
+
+#: ../signal.cc:53 ../signal.cc:72
+msgid "Download  was stopped by user"
+msgstr "下載被用戶停止"
+
+#: ../memwl.cc:73
+msgid "BUG: Wrong mode of lseek!\n"
+msgstr "BUG: 錯誤的 lseek 模式!\n"
+
+#: ../ping.cc:49
+msgid "Resolving hosts..."
+msgstr "解析主機地址..."
+
+#: ../ping.cc:78
+msgid "Pinging  (it takes 30 seconds maximum)..."
+msgstr "探測主機(ping), 可能需要最多30秒..."
+
+#: ../var.cc:97
+msgid "low"
+msgstr "低"
+
+#: ../var.cc:98
+msgid "medium"
+msgstr "中"
+
+#: ../var.cc:99
+msgid "unlimited"
+msgstr "高"
+
+#: ../face/about.cc:109
+msgid "About"
+msgstr "關於"
+
+#: ../face/about.cc:119
+msgid "Author: Koshelev Maxim"
+msgstr "作者: Koshelev Maxim"
+
+#: ../face/about.cc:121
+msgid "Translators team"
+msgstr "翻譯人員"
+
+#: ../face/about.cc:128
+msgid "Special thanks to"
+msgstr "特別感謝:"
+
+#: ../face/about.cc:135 ../face/about.cc:204 ../face/about.cc:287
+#: ../face/buttons.cc:168 ../face/edit.cc:801 ../face/edit.cc:2048
+#: ../face/filtrgui.cc:167 ../face/fsched.cc:201 ../face/fsched.cc:777
+#: ../face/lod.cc:581 ../face/mywidget.cc:459 ../face/mywidget.cc:738
+#: ../face/mywidget.cc:826 ../face/mywidget.cc:925 ../face/mywidget.cc:1023
+#: ../face/passface.cc:79 ../face/passface.cc:264 ../face/prefs.cc:1218
+#: ../face/qtree.cc:104 ../face/qtree.cc:551 ../face/saveload.cc:161
+#: ../face/saveload.cc:204 ../face/saveload.cc:246
+msgid "Ok"
+msgstr "確定"
+
+#: ../face/about.cc:205 ../face/buttons.cc:170 ../face/edit.cc:802
+#: ../face/fsched.cc:778 ../face/lod.cc:582 ../face/mywidget.cc:460
+#: ../face/mywidget.cc:827 ../face/mywidget.cc:927 ../face/mywidget.cc:1024
+#: ../face/passface.cc:80 ../face/prefs.cc:1219 ../face/qtree.cc:105
+#: ../face/qtree.cc:552 ../face/saveload.cc:163 ../face/saveload.cc:206
+#: ../face/saveload.cc:248
+msgid "Cancel"
+msgstr "取消"
+
+#: ../face/about.cc:246
+msgid "Don't ask next time"
+msgstr "下次不要再問"
+
+#: ../face/addd.cc:87 ../face/addd.cc:233
+msgid "Add new download"
+msgstr "添加新的下載作業"
+
+#: ../face/addd.cc:172
+msgid "Automated adding"
+msgstr "自動加入"
+
+#: ../face/buttons.cc:50
+msgid " Add new download "
+msgstr "添加新的下載作業"
+
+#: ../face/buttons.cc:51
+msgid " Paste from clipboard "
+msgstr "從剪貼簿取得下載連結"
+
+#: ../face/buttons.cc:52
+msgid " Del downloads "
+msgstr "刪除下載作業"
+
+#: ../face/buttons.cc:53
+msgid " Stop downloads "
+msgstr "停止下載"
+
+#: ../face/buttons.cc:54
+msgid " Continue/restart downloads "
+msgstr "繼續/重新下載 "
+
+#: ../face/buttons.cc:55
+msgid " Del Completed downloads "
+msgstr "清除已完成的下載作業"
+
+#: ../face/buttons.cc:56
+msgid " Move up "
+msgstr "向上移"
+
+#: ../face/buttons.cc:57
+msgid " Move down "
+msgstr "向下移 "
+
+#: ../face/buttons.cc:58
+msgid " View log "
+msgstr "查看記錄"
+
+#: ../face/buttons.cc:59 ../face/buttons.cc:248
+msgid " Speed level one "
+msgstr "速度 1"
+
+#: ../face/buttons.cc:60 ../face/buttons.cc:252
+msgid " Speed level two "
+msgstr "速度 2"
+
+#: ../face/buttons.cc:61
+msgid " Unlimited speed "
+msgstr "不限制速度"
+
+#: ../face/buttons.cc:62
+msgid " Options "
+msgstr "選項"
+
+#: ../face/buttons.cc:63
+msgid " Delete all downloads "
+msgstr "刪除所有下載連結"
+
+#: ../face/buttons.cc:64
+msgid " Save list "
+msgstr "儲存名單"
+
+#: ../face/buttons.cc:65
+msgid " Load list "
+msgstr "載入名單"
+
+#: ../face/buttons.cc:66
+msgid " DnD basket "
+msgstr "拖放箱"
+
+#: ../face/buttons.cc:67
+msgid " Switch percentage mode to"
+msgstr ""
+
+#: ../face/buttons.cc:68
+msgid " Configure buttons "
+msgstr "鈕扣配置"
+
+#: ../face/buttons.cc:169 ../face/prefs.cc:1220
+msgid "Apply"
+msgstr "套用"
+
+#: ../face/buttons.cc:237
+msgid "Delete ALL downloads?"
+msgstr "刪除所有下載作業?"
+
+#: ../face/buttons.cc:237
+msgid "Delete all?"
+msgstr "全部刪除?"
+
+#: ../face/columns.cc:20
+msgid "status"
+msgstr "狀態"
+
+#: ../face/columns.cc:21
+msgid "file name"
+msgstr "檔案名"
+
+#: ../face/columns.cc:22
+msgid "type of file"
+msgstr "檔案類型"
+
+#: ../face/columns.cc:23
+msgid "size of file"
+msgstr "檔案長度"
+
+#: ../face/columns.cc:24
+msgid "downloaded size"
+msgstr "已下載長度"
+
+#: ../face/columns.cc:25
+msgid "rest"
+msgstr "剩餘"
+
+#: ../face/columns.cc:26
+msgid "percent"
+msgstr "百分比"
+
+#: ../face/columns.cc:27
+msgid "speed"
+msgstr "速度"
+
+#: ../face/columns.cc:28
+msgid "elapsed time"
+msgstr "已用時間"
+
+#: ../face/columns.cc:29
+msgid "estimated time"
+msgstr "剩除時間"
+
+#: ../face/columns.cc:30
+msgid "time of pause"
+msgstr "暫停次數"
+
+#: ../face/columns.cc:31
+msgid "number of attempts"
+msgstr "重試次數"
+
+#: ../face/columns.cc:32
+msgid "description"
+msgstr "描述"
+
+#: ../face/columns.cc:33 ../face/lod.cc:55 ../face/mywidget.cc:915
+msgid "URL"
+msgstr ""
+
+#: ../face/columns.cc:71
+msgid "Showed columns"
+msgstr "列表顯示內容"
+
+#: ../face/dndtrash.cc:44
+msgid "/New Download"
+msgstr "/新的下載"
+
+#: ../face/dndtrash.cc:45
+msgid "/Paste Download"
+msgstr "/貼上下載"
+
+#: ../face/dndtrash.cc:46
+msgid "/Automated adding"
+msgstr "/自動加入"
+
+#: ../face/dndtrash.cc:47
+msgid "/Delete completed"
+msgstr "/已刪除"
+
+#: ../face/dndtrash.cc:48
+msgid "/General options"
+msgstr ""
+
+# msgid "/General options"
+# msgstr "一般設定"
+#: ../face/dndtrash.cc:49
+msgid "/Speed"
+msgstr "/速度"
+
+#: ../face/dndtrash.cc:50
+msgid "/Speed/Low"
+msgstr "/速度/慢"
+
+#: ../face/dndtrash.cc:51
+msgid "/Speed/Medium"
+msgstr "/速度/中"
+
+#: ../face/dndtrash.cc:52
+msgid "/Speed/Unlimited"
+msgstr "/速度/無限制"
+
+#: ../face/dndtrash.cc:53
+msgid "/Exit"
+msgstr "/離開"
+
+#: ../face/dndtrash.cc:266
+#, fuzzy
+msgid "DnD basket"
+msgstr "拖放箱"
+
+#: ../face/dndtrash.cc:399
+msgid "Drop link here"
+msgstr "將連接拖放到這裡"
+
+#: ../face/edit.cc:62 ../face/edit.cc:449
+msgid "Use password for this site"
+msgstr "對此站使用密碼"
+
+#: ../face/edit.cc:63 ../face/edit.cc:413
+msgid "Save download to folder"
+msgstr "保存下載檔案到目錄"
+
+#: ../face/edit.cc:64 ../face/edit.cc:466
+msgid "Restart this download from begining"
+msgstr "從開始重新下載"
+
+#: ../face/edit.cc:65
+msgid "Timeout for reading from socket"
+msgstr "讀取接口超時"
+
+#: ../face/edit.cc:66
+msgid "Speed limitation"
+msgstr "速度限制"
+
+#: ../face/edit.cc:67
+msgid "Maximum attempts"
+msgstr "最大嘗試次數"
+
+#: ../face/edit.cc:68
+msgid "Timeout before reconnection"
+msgstr "重新連接之前的延時"
+
+#: ../face/edit.cc:69
+msgid "Rollback after reconnecting"
+msgstr "重新連接後回退量"
+
+#: ../face/edit.cc:70 ../face/edit.cc:543 ../face/prefs.cc:233
+msgid "Get date from the server"
+msgstr "從伺服器獲得時間"
+
+#: ../face/edit.cc:71 ../face/edit.cc:547 ../face/prefs.cc:237
+msgid "Retry if resuming is not supported"
+msgstr "如果斷點續傳不支持則重試"
+
+#: ../face/edit.cc:72 ../face/edit.cc:538
+msgid "Number of parts for spliting this download"
+msgstr "進行切分下載的數目(0為不切分)"
+
+#: ../face/edit.cc:73 ../face/edit.cc:585 ../face/prefs.cc:347
+msgid "Use passive mode for FTP"
+msgstr "使用被動模式到FTP"
+
+#: ../face/edit.cc:74 ../face/edit.cc:591 ../face/prefs.cc:355
+msgid "Get permissions of the file from server (FTP only)"
+msgstr "從服務器獲得檔案權限(僅限FTP)"
+
+#: ../face/edit.cc:75 ../face/edit.cc:588 ../face/prefs.cc:351
+msgid "Don't send QUIT command (FTP)"
+msgstr "不發送 QUIT 命令(FTP)"
+
+#: ../face/edit.cc:76 ../face/edit.cc:597 ../face/prefs.cc:363
+msgid "Put directories on the top of queue during recursion"
+msgstr ""
+
+#: ../face/edit.cc:77 ../face/edit.cc:555 ../face/prefs.cc:253
+msgid "Compare date/time of remote file with local one"
+msgstr "比較遠程檔案和本地檔案的日期/時間"
+
+#: ../face/edit.cc:78 ../face/edit.cc:551 ../face/prefs.cc:241
+msgid "Sleep before completing"
+msgstr "完成之前休眠"
+
+#: ../face/edit.cc:79 ../face/edit.cc:594 ../face/prefs.cc:359
+msgid "Follow symbolic links"
+msgstr ""
+
+#: ../face/edit.cc:80
+msgid "Depth of recursing for FTP"
+msgstr "FTP 下載遍歷深度"
+
+#: ../face/edit.cc:81
+msgid "Depth of recursing for HTTP"
+msgstr "HTTP 下載遍歷深度"
+
+#: ../face/edit.cc:82 ../face/edit.cc:626 ../face/prefs.cc:450
+msgid "Only subdirs"
+msgstr "僅限子目錄"
+
+#: ../face/edit.cc:83 ../face/edit.cc:627 ../face/prefs.cc:451
+msgid "Allow leave this server while recursing via HTTP"
+msgstr ""
+
+#: ../face/edit.cc:84 ../face/edit.cc:628 ../face/prefs.cc:452
+msgid "Change links in HTML file to local"
+msgstr "將html檔案的連接轉換成本地"
+
+#: ../face/edit.cc:85 ../face/edit.cc:629 ../face/prefs.cc:453
+msgid "Ignore ETag field in reply"
+msgstr ""
+
+#: ../face/edit.cc:86 ../face/edit.cc:654 ../face/prefs.cc:472
+msgid "User-Agent"
+msgstr "用戶代理"
+
+#: ../face/edit.cc:87 ../face/edit.cc:664
+msgid "Referer"
+msgstr ""
+
+#: ../face/edit.cc:88 ../face/edit.cc:676
+msgid "Cookie"
+msgstr ""
+
+#: ../face/edit.cc:89 ../face/edit.cc:783 ../face/edit.cc:786
+#: ../face/prefs.cc:510 ../face/prefs.cc:1132 ../face/prefs.cc:1319
+msgid "Proxy"
+msgstr "代理服務器"
+
+#. Init time
+#.
+#: ../face/edit.cc:90 ../face/edit.cc:700 ../face/edit.cc:743
+#: ../face/fsched.cc:186 ../face/lod.cc:50
+msgid "Time"
+msgstr "時間"
+
+#: ../face/edit.cc:191 ../face/edit.cc:209
+msgid "Edit download"
+msgstr "編輯下載屬性"
+
+#: ../face/edit.cc:412 ../face/lod.cc:54
+msgid "Description"
+msgstr "描述"
+
+#: ../face/edit.cc:414
+msgid "Save download to file"
+msgstr "保存下載到檔案"
+
+#: ../face/edit.cc:415 ../face/edit.cc:1555 ../face/edit.cc:1622
+#: ../face/edit.cc:1663 ../face/passface.cc:69
+msgid "password"
+msgstr "密碼"
+
+#: ../face/edit.cc:416
+msgid "user name"
+msgstr "用戶名稱"
+
+#. set as default button
+#.
+#: ../face/edit.cc:419
+msgid "Default"
+msgstr "預設"
+
+#: ../face/edit.cc:465 ../face/prefs.cc:249
+msgid "Pause this just after adding"
+msgstr "暫停剛剛加入的"
+
+#: ../face/edit.cc:471
+msgid "Add to top of queue"
+msgstr "加入隊列頭"
+
+#: ../face/edit.cc:484 ../face/prefs.cc:231 ../face/prefs.cc:1108
+#: ../face/prefs.cc:1266
+msgid "Download"
+msgstr "下載"
+
+#: ../face/edit.cc:487 ../face/prefs.cc:725 ../face/prefs.cc:1192
+#: ../face/prefs.cc:1410
+msgid "Main"
+msgstr "主要"
+
+#: ../face/edit.cc:503 ../face/prefs.cc:292
+msgid "Timeout for reading from socket (in seconds)"
+msgstr "讀套接字接口超時時間(秒)"
+
+#: ../face/edit.cc:510 ../face/prefs.cc:299
+msgid "Timeout before reconnection (in seconds)"
+msgstr "新連接之前的延遲時間(秒)"
+
+#: ../face/edit.cc:517 ../face/prefs.cc:306
+msgid "Maximum attempts (0 for unlimited)"
+msgstr "重試次數(0為不限制)"
+
+#: ../face/edit.cc:524 ../face/prefs.cc:313
+msgid "Rollback after reconnecting (in bytes)"
+msgstr "重新連接時的退回量（字節）"
+
+#: ../face/edit.cc:531 ../face/prefs.cc:320
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "速度限制(字節/秒), 0 為不限制"
+
+#: ../face/edit.cc:559
+msgid "Save log to file"
+msgstr "保存記錄到檔案"
+
+#: ../face/edit.cc:569
+msgid "Auto"
+msgstr "自動"
+
+#: ../face/edit.cc:576 ../face/edit.cc:579
+msgid "Common"
+msgstr "一般"
+
+#: ../face/edit.cc:604 ../face/edit.cc:621 ../face/prefs.cc:370
+#: ../face/prefs.cc:466
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr "最大遍歷深度(0 - 不限制, 1 - 不遍歷)"
+
+#: ../face/edit.cc:645 ../face/prefs.cc:497
+msgid "Filter"
+msgstr "過濾器"
+
+#: ../face/edit.cc:646 ../face/lod.cc:601 ../face/mywidget.cc:238
+#: ../face/prefs.cc:498
+msgid "Select"
+msgstr "選擇"
+
+#: ../face/edit.cc:715
+msgid "Hours"
+msgstr "時"
+
+#: ../face/edit.cc:723
+msgid "Minutes"
+msgstr "分"
+
+#: ../face/edit.cc:735
+msgid "Start this downloading at:"
+msgstr "開始此下載從:"
+
+#: ../face/edit.cc:796
+#, fuzzy
+msgid "Use default settings"
+msgstr "使用預定的配置檔案:-))...\n"
+
+#: ../face/edit.cc:1485
+msgid "FTP proxy type"
+msgstr "FTP代理方式"
+
+#: ../face/edit.cc:1496
+msgid "FTP (wingate)"
+msgstr ""
+
+#: ../face/edit.cc:1510
+msgid "Use this proxy for FTP"
+msgstr "FTP 使用此代理服務器"
+
+#: ../face/edit.cc:1525 ../face/edit.cc:1594 ../face/edit.cc:1644
+msgid "port"
+msgstr "埠"
+
+#: ../face/edit.cc:1532 ../face/edit.cc:1600
+msgid "need password"
+msgstr "密碼"
+
+#: ../face/edit.cc:1540 ../face/edit.cc:1608 ../face/edit.cc:1656
+#: ../face/passface.cc:68 ../face/passface.cc:250
+msgid "username"
+msgstr "用戶名"
+
+#: ../face/edit.cc:1572
+msgid "Don't get from cache"
+msgstr "不從緩沖中存取"
+
+#: ../face/edit.cc:1579
+msgid "Use this proxy for HTTP"
+msgstr "使用HTTP的proxy"
+
+#. SOCKS settings
+#: ../face/edit.cc:1630
+msgid "Use SOCKS5 proxy"
+msgstr "使用SOCKS5 proxy"
+
+#: ../face/edit.cc:1637 ../face/mywidget.cc:375 ../face/mywidget.cc:695
+msgid "host"
+msgstr "主機名"
+
+#: ../face/edit.cc:2029
+msgid "Select properties"
+msgstr "選擇屬性"
+
+#: ../face/edit.cc:2054
+msgid "Unselect all"
+msgstr "清除選擇"
+
+#: ../face/edit.cc:2060
+msgid "Select all"
+msgstr "全部選擇"
+
+#: ../face/list.cc:104
+msgid "/_File"
+msgstr "檔案"
+
+#: ../face/list.cc:105
+msgid "/File/_Save List"
+msgstr "/檔案/儲存名單"
+
+#: ../face/list.cc:106
+msgid "/File/_Load List"
+msgstr "/檔案/載入名單"
+
+#: ../face/list.cc:107
+msgid "/File/Find links in file"
+msgstr "/檔案/尋找檔案連結"
+
+#: ../face/list.cc:108
+msgid "/File/_New Download"
+msgstr "/檔案/新增下載檔"
+
+#: ../face/list.cc:109
+msgid "/File/_Paste Download"
+msgstr "/檔案/貼上下載檔"
+
+#: ../face/list.cc:110
+msgid "/File/_Automated adding"
+msgstr "/檔案/自動加入"
+
+#: ../face/list.cc:111
+msgid "/File/Exit"
+msgstr "/檔案/離開"
+
+#: ../face/list.cc:112
+msgid "/File/sep1"
+msgstr "/檔案/sep1"
+
+#: ../face/list.cc:113
+msgid "/_Download"
+msgstr "/下載"
+
+#: ../face/list.cc:114
+msgid "/Download/View _Log"
+msgstr "/下載/查看記錄"
+
+#: ../face/list.cc:115
+msgid "/Download/_Stop downloads"
+msgstr "/下載/停止下載"
+
+#: ../face/list.cc:116
+msgid "/Download/Edit download"
+msgstr "/下載/編輯下載"
+
+#: ../face/list.cc:117
+msgid "/Download/_Delete downloads"
+msgstr "/下載/刪除下載作業"
+
+#: ../face/list.cc:118
+msgid "/Download/Continue downloads"
+msgstr "/下載/繼續下載"
+
+#: ../face/list.cc:119
+msgid "/Download/Delete completed"
+msgstr "/下載/已完成清除"
+
+#: ../face/list.cc:120
+msgid "/Download/Delete failed"
+msgstr "/下載/清除失敗"
+
+#: ../face/list.cc:121
+msgid "/Download/Rerun failed"
+msgstr "/下載/重新運行失敗"
+
+#: ../face/list.cc:122
+msgid "/Download/(Un)Protect"
+msgstr "/下載/清除選擇"
+
+#: ../face/list.cc:123
+msgid "/Download/Unselect all"
+msgstr "/下載/清除選擇"
+
+#: ../face/list.cc:124
+msgid "/Download/Select all"
+msgstr "/下載/選擇全部"
+
+#: ../face/list.cc:125
+msgid "/Download/Invert selection"
+msgstr "/下載/反向選擇"
+
+#: ../face/list.cc:126
+msgid "/Download/-"
+msgstr "/下載/-"
+
+#: ../face/list.cc:127
+msgid "/_Options"
+msgstr "/選項"
+
+#: ../face/list.cc:128
+msgid "/Options/Scheduler"
+msgstr "/選項/任務管理器"
+
+#: ../face/list.cc:129
+msgid "/Options/Passwords"
+msgstr "/選項/密碼"
+
+#: ../face/list.cc:130
+msgid "/Options/General"
+msgstr "/選項/選項"
+
+#: ../face/list.cc:131
+msgid "/Options/Filters"
+msgstr "/選項/過濾器"
+
+#: ../face/list.cc:132
+msgid "/Options/Speed"
+msgstr "/選項/速度"
+
+#: ../face/list.cc:133
+msgid "/Options/Speed/Low"
+msgstr "/選項/速度/低速"
+
+#: ../face/list.cc:134
+msgid "/Options/Speed/Medium"
+msgstr "/選項/速度/中速"
+
+#: ../face/list.cc:135
+msgid "/Options/Speed/Unlimited"
+msgstr "/選項/速度/無限速"
+
+#: ../face/list.cc:136
+msgid "/Options/Buttons"
+msgstr "/選項/按鈕"
+
+#: ../face/list.cc:137
+msgid "/Options/Buttons/Add buttons"
+msgstr "/選項/按鈕/添加按鈕"
+
+#: ../face/list.cc:138
+msgid "/Options/Buttons/Manipulating"
+msgstr "/選項/按鈕/控制按鈕"
+
+#: ../face/list.cc:139
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/選項/按鈕/速度按鈕"
+
+#: ../face/list.cc:140
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/選項/按鈕/其它按鈕"
+
+#: ../face/list.cc:141
+msgid "/_Help"
+msgstr "/幫助"
+
+#: ../face/list.cc:142
+msgid "/_Help/About"
+msgstr "/幫助/關於"
+
+#: ../face/list.cc:564
+msgid "Do you really want to quit?"
+msgstr "確定要退出嗎?"
+
+#: ../face/list.cc:564
+msgid "Quit?"
+msgstr "退出嗎?"
+
+#: ../face/list.cc:593
+msgid "Delete selected downloads?"
+msgstr "刪除被選中的下載作業？"
+
+#: ../face/list.cc:593 ../face/list.cc:611 ../face/list.cc:629
+msgid "Delete?"
+msgstr "刪除嗎？"
+
+#: ../face/list.cc:611
+msgid "Do you wish delete completed downloads?"
+msgstr "是否清除已完成的下載作業？"
+
+#: ../face/list.cc:629
+msgid "Do you wish delete failed downloads?"
+msgstr "是否清除失敗的下載作業？"
+
+#: ../face/list.cc:674
+msgid "Ready to go ????"
+msgstr "準備好了嗎？"
+
+#: ../face/list.cc:992
+#, fuzzy, c-format
+msgid "[%s] %i-running %i-completed %i-total "
+msgstr "%i個正在運行，已經完成 %i個，總共 %i個"
+
+#: ../face/lmenu.cc:140
+msgid "View log"
+msgstr "查看記錄"
+
+#: ../face/lmenu.cc:146
+msgid "Stop"
+msgstr "停止"
+
+#: ../face/lmenu.cc:153
+msgid "Continue downloads"
+msgstr "繼續下載"
+
+#. 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
+#: ../face/lmenu.cc:159
+msgid "Copy"
+msgstr "復制"
+
+#: ../face/lmenu.cc:164
+msgid "(Un)Protect"
+msgstr ""
+
+#: ../face/lmenu.cc:178
+msgid "Common properties"
+msgstr "公共屬性"
+
+#: ../face/lmenu.cc:184
+msgid "Delete downloads"
+msgstr "刪除下載"
+
+#: ../face/lmenu.cc:190
+msgid "Delete completed"
+msgstr "清除已完成"
+
+#: ../face/lmenu.cc:196
+msgid "Delete failed"
+msgstr "清除作業失敗"
+
+#: ../face/lmenu.cc:206
+msgid "Move up"
+msgstr "向上移"
+
+#: ../face/lmenu.cc:212
+msgid "Move down"
+msgstr "向下移"
+
+#: ../face/lmenu.cc:218
+#, fuzzy
+msgid "Alternates"
+msgstr "過濾名稱"
+
+#: ../face/lmenu.cc:223 ../face/prefs.cc:777 ../face/prefs.cc:1207
+#: ../face/prefs.cc:1398
+msgid "FTP search"
+msgstr "FTP 搜索"
+
+#: ../face/lod.cc:43
+msgid "File"
+msgstr "檔案"
+
+#: ../face/lod.cc:44
+msgid "Type"
+msgstr "類型"
+
+#: ../face/lod.cc:45
+msgid "Full Size"
+msgstr "檔案長度"
+
+#: ../face/lod.cc:46
+msgid "Downloaded"
+msgstr "已下載"
+
+#: ../face/lod.cc:47
+msgid "Rest"
+msgstr "餘下"
+
+#: ../face/lod.cc:49
+msgid "Speed"
+msgstr "速度"
+
+#: ../face/lod.cc:51
+msgid "Remaining"
+msgstr "剩餘"
+
+#: ../face/lod.cc:52
+msgid "Pause"
+msgstr "暫停"
+
+#: ../face/lod.cc:53
+msgid "Attempt"
+msgstr "重試次數"
+
+#: ../face/lod.cc:571
+msgid "Enter wildcard"
+msgstr "輸入通配字元"
+
+#: ../face/lod.cc:599
+msgid "Unselect"
+msgstr "清除選擇"
+
+#: ../face/lod.cc:1170
+msgid "Continue open log windows?"
+msgstr "繼續打開記錄視窗?"
+
+#: ../face/lod.cc:1170
+msgid "Open logs?"
+msgstr "打開記錄?"
+
+#: ../face/log.cc:193
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr "行號 %i [記錄]"
+
+#: ../face/log.cc:371
+msgid "Log: "
+msgstr "記錄︰"
+
+#: ../face/mywidget.cc:61
+msgid "Select directory"
+msgstr "選擇目錄"
+
+#: ../face/fsched.cc:291 ../face/mywidget.cc:64
+msgid "Select file"
+msgstr "選擇檔案"
+
+#: ../face/fsched.cc:432 ../face/fsched.cc:455 ../face/mywidget.cc:108
+msgid "Browse"
+msgstr "瀏覽"
+
+#: ../face/mywidget.cc:198
+msgid "Select color"
+msgstr "選擇顏色"
+
+#: ../face/mywidget.cc:354
+msgid "Edit properties of Rule"
+msgstr "選擇屬性"
+
+#: ../face/mywidget.cc:357 ../face/mywidget.cc:695 ../face/passface.cc:57
+msgid "protocol"
+msgstr "協定"
+
+#: ../face/mywidget.cc:382 ../face/mywidget.cc:695
+msgid "path"
+msgstr "路徑"
+
+#: ../face/mywidget.cc:396
+msgid "?"
+msgstr ""
+
+#: ../face/mywidget.cc:403 ../face/mywidget.cc:695
+msgid "tag"
+msgstr "標記"
+
+#: ../face/mywidget.cc:452
+msgid "include"
+msgstr "包含"
+
+#: ../face/mywidget.cc:454
+msgid "exclude"
+msgstr "排除"
+
+#: ../face/mywidget.cc:691
+msgid "Modify filter"
+msgstr "修改過濾器"
+
+#: ../face/mywidget.cc:714
+msgid "include by default"
+msgstr "預設包含"
+
+#: ../face/mywidget.cc:716
+msgid "exclude by default"
+msgstr "預設排除"
+
+#: ../face/mywidget.cc:722
+msgid "Name of filter"
+msgstr "過濾器名稱"
+
+#: ../face/mywidget.cc:728
+msgid "Up"
+msgstr "上"
+
+#: ../face/mywidget.cc:729
+msgid "Add rule"
+msgstr "加入規則"
+
+#: ../face/mywidget.cc:730
+msgid "Down"
+msgstr "下"
+
+#: ../face/filtrgui.cc:170 ../face/fsched.cc:204 ../face/mywidget.cc:739
+#: ../face/mywidget.cc:926
+msgid "Remove"
+msgstr "刪除"
+
+#: ../face/filtrgui.cc:169 ../face/fsched.cc:203 ../face/fsched.cc:413
+#: ../face/mywidget.cc:740
+msgid "Edit"
+msgstr "編輯"
+
+#: ../face/mywidget.cc:815
+msgid "Select filter"
+msgstr "選擇過濾"
+
+#: ../face/filtrgui.cc:154 ../face/mywidget.cc:817
+msgid "filter name"
+msgstr "過濾名稱"
+
+#: ../face/mywidget.cc:913
+msgid "List of links"
+msgstr ""
+
+#: ../face/mywidget.cc:974
+#, fuzzy
+msgid "Add"
+msgstr "添加"
+
+#: ../face/passface.cc:42
+msgid "Password and username"
+msgstr "密碼和用戶名"
+
+#: ../face/passface.cc:58 ../face/passface.cc:250
+msgid "Host"
+msgstr "主機名"
+
+#: ../face/passface.cc:246
+msgid "Default passwords and usernames"
+msgstr "預設密碼和用戶名"
+
+#: ../face/passface.cc:250
+msgid "#"
+msgstr ""
+
+#: ../face/filtrgui.cc:168 ../face/passface.cc:265
+msgid "Add new"
+msgstr "添加"
+
+#: ../face/passface.cc:266
+msgid "Delete"
+msgstr "刪除"
+
+#: ../face/prefs.cc:245
+msgid "Optimize recursive downloads"
+msgstr "優化遞歸下載"
+
+#: ../face/prefs.cc:261
+msgid "Default permissions of local file"
+msgstr "預設檔案權限"
+
+#: ../face/prefs.cc:272
+msgid "Save downloads to folder"
+msgstr "保存下載檔案到目錄"
+
+#: ../face/prefs.cc:281 ../face/prefs.cc:1117 ../face/prefs.cc:1279
+msgid "Limits"
+msgstr "限制"
+
+#: ../face/prefs.cc:337
+msgid "Maximum lines in log"
+msgstr "最大記錄行數"
+
+#: ../face/prefs.cc:345 ../face/prefs.cc:1122 ../face/prefs.cc:1288
+msgid "FTP"
+msgstr ""
+
+#: ../face/prefs.cc:375
+msgid "Output FTP dirs in logs"
+msgstr "輸出 FTP 目錄到記錄"
+
+#: ../face/prefs.cc:386
+msgid "default anonymous password"
+msgstr "預設密碼"
+
+#: ../face/prefs.cc:448 ../face/prefs.cc:1127 ../face/prefs.cc:1301
+msgid "HTTP"
+msgstr ""
+
+#: ../face/prefs.cc:486
+msgid "Filename for saving if it is unknown"
+msgstr "當檔案名未知時儲存為"
+
+#: ../face/prefs.cc:525 ../face/prefs.cc:1147 ../face/prefs.cc:1328
+msgid "Main window"
+msgstr "主視窗"
+
+#: ../face/prefs.cc:527
+msgid "Using title"
+msgstr "使用標"
+
+#: ../face/prefs.cc:531
+msgid "Use title of main window for info"
+msgstr "使用主視窗標題顯示信息"
+
+#: ../face/prefs.cc:536
+msgid "Display queue statistics too"
+msgstr "同時顯示隊列狀態"
+
+#: ../face/prefs.cc:537
+msgid "Scroll title"
+msgstr "滾動標題"
+
+#: ../face/prefs.cc:542
+msgid "Iconfiy main window instead of closing"
+msgstr "關閉時最小化主視窗"
+
+#: ../face/prefs.cc:544
+msgid "Do not remember position of the main window"
+msgstr ""
+
+#: ../face/prefs.cc:557 ../face/prefs.cc:1152 ../face/prefs.cc:1336
+msgid "Confirmation"
+msgstr "確認"
+
+#: ../face/prefs.cc:559
+msgid "Confirm delete selected downloads"
+msgstr "確認刪除選中的下載作業"
+
+#: ../face/prefs.cc:560
+msgid "Confirm delete all downloads"
+msgstr "確認刪除所有下載作業"
+
+#: ../face/prefs.cc:561
+msgid "Confirm delete completed downloads"
+msgstr "確認刪除完成的下載作業"
+
+#: ../face/prefs.cc:562
+msgid "Confirm delete failed downloads"
+msgstr "確認刪除失敗的下載作業"
+
+#: ../face/prefs.cc:563
+msgid "Confirm opening large amount of windows"
+msgstr "確認打開大數量的視窗"
+
+#: ../face/prefs.cc:564
+msgid "Confirm exit from program"
+msgstr "確認退出程序"
+
+#.
+#. tmpitem=gtk_tree_item_new_with_label(_("DnD"));
+#. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
+#. gtk_widget_show(tmpitem);
+#.
+#: ../face/prefs.cc:589 ../face/prefs.cc:1186 ../face/prefs.cc:1387
+msgid "Clipboard"
+msgstr "剪貼簿"
+
+#: ../face/prefs.cc:591
+msgid "Monitor clipboard"
+msgstr "監視剪貼簿"
+
+#: ../face/prefs.cc:601
+msgid "Skip these extensions in clipboard"
+msgstr "跳過剪貼簿中的這些擴展名"
+
+#: ../face/prefs.cc:609
+msgid "Catch these extensions in clipboard"
+msgstr "從剪貼簿獲這些擴展名"
+
+#: ../face/prefs.cc:632 ../face/prefs.cc:1201 ../face/prefs.cc:1420
+msgid "Main log"
+msgstr "主記錄"
+
+#: ../face/prefs.cc:638
+msgid "Maximum lines in MAIN log"
+msgstr "主記錄的最大記錄行數"
+
+#: ../face/prefs.cc:642
+msgid "Output detailed information"
+msgstr "輸出詳細的信息"
+
+#: ../face/prefs.cc:646
+msgid "Save main log into file"
+msgstr "保存主記錄信息到檔案"
+
+#: ../face/prefs.cc:665
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "主記錄檔案的最大長度(KB)"
+
+#: ../face/prefs.cc:671
+msgid "Append to file"
+msgstr "追加到檔案"
+
+#: ../face/prefs.cc:674
+msgid "Overwrite file"
+msgstr "追加到檔案"
+
+#: ../face/prefs.cc:689 ../face/prefs.cc:1173 ../face/prefs.cc:1378
+msgid "Integration"
+msgstr "整體"
+
+#: ../face/prefs.cc:691
+msgid "Exit if nothing to do after"
+msgstr "退出，如果空閑時間超過"
+
+#: ../face/prefs.cc:697 ../face/prefs.cc:736
+msgid "minutes"
+msgstr "分鐘"
+
+#: ../face/prefs.cc:708
+msgid "Run this on exit"
+msgstr "退出時運行此程序"
+
+#: ../face/prefs.cc:713
+msgid "Open dialog for Drag-n-Drop"
+msgstr "打開拖拽對話框"
+
+#: ../face/prefs.cc:730
+msgid "Save list of downloads every"
+msgstr "保存下載列表每"
+
+#: ../face/prefs.cc:743
+msgid "Allow to user force run downloads"
+msgstr "時間格式"
+
+#: ../face/prefs.cc:744
+msgid "Remember passwords"
+msgstr "儲存密碼"
+
+#: ../face/prefs.cc:745
+msgid "Write Descript.ion file"
+msgstr "寫入描述檔案"
+
+#: ../face/prefs.cc:755
+msgid "bytes/sec speed level one (red button)"
+msgstr "字節/秒 - 速度 1 （紅按鈕）"
+
+#: ../face/prefs.cc:763
+msgid "bytes/sec speed level two (yellow button)"
+msgstr "字節/秒 - 速度 2 （黃按鈕）"
+
+#: ../face/prefs.cc:783
+msgid "Number of attempts to ping hosts"
+msgstr "探測主機(ping)嘗試次數"
+
+#: ../face/prefs.cc:791
+msgid "Number of hosts in list"
+msgstr "列表中的主機數目"
+
+#: ../face/prefs.cc:817
+msgid "search engine to use"
+msgstr "使用的搜索引擎"
+
+#: ../face/prefs.cc:826 ../face/prefs.cc:1138 ../face/prefs.cc:1323
+msgid "Interface"
+msgstr "界面"
+
+#: ../face/prefs.cc:828
+msgid "Show DnD basket"
+msgstr "顯示拖放箱"
+
+#: ../face/prefs.cc:829
+msgid "Use fixed font in logs"
+msgstr "在記錄中使用固定字體"
+
+#: ../face/prefs.cc:846 ../face/prefs.cc:1157 ../face/prefs.cc:1345
+msgid "Graph"
+msgstr "圖示"
+
+#: ../face/prefs.cc:848
+msgid "Revert drawing graph of speeds"
+msgstr "反方向繪制速度記錄圖"
+
+#: ../face/prefs.cc:851
+msgid "Compressed mode"
+msgstr ""
+
+#: ../face/prefs.cc:857
+msgid "Color for picks"
+msgstr "挑選速度顏色"
+
+#: ../face/prefs.cc:858
+msgid "Color for total speed"
+msgstr "總速度的顏色"
+
+#: ../face/prefs.cc:859
+msgid "Color for speed of selected"
+msgstr "已選的下載速度顏色"
+
+#: ../face/prefs.cc:860
+msgid "Background color"
+msgstr "背景顏色"
+
+#: ../face/prefs.cc:869
+msgid "Reset to default"
+msgstr "恢復預設值"
+
+#: ../face/prefs.cc:872
+msgid "Colors for graph"
+msgstr "指示圖顏色"
+
+#: ../face/prefs.cc:898 ../face/prefs.cc:1162 ../face/prefs.cc:1354
+msgid "Sounds"
+msgstr "音效"
+
+#: ../face/prefs.cc:901
+msgid "enable sounds"
+msgstr "開啟音效"
+
+#: ../face/prefs.cc:906
+msgid "output via ESD"
+msgstr ""
+
+#: ../face/prefs.cc:913
+msgid "Startup"
+msgstr "狀態"
+
+#: ../face/prefs.cc:915
+msgid "Adding a download"
+msgstr "新增下載"
+
+#: ../face/prefs.cc:917
+msgid "Downloading completed"
+msgstr "下載完成"
+
+#: ../face/prefs.cc:919
+msgid "Downloading failed"
+msgstr "下載失敗"
+
+#: ../face/prefs.cc:921
+msgid "Downloading of queue is completed"
+msgstr "排程已下載完成"
+
+#: ../face/prefs.cc:923
+msgid "Drag'n'Drop event"
+msgstr "目錄 %z 下載完成"
+
+#: ../face/prefs.cc:953 ../face/prefs.cc:954
+msgid "No info about this theme."
+msgstr ""
+
+#: ../face/prefs.cc:963 ../face/prefs.cc:1167
+#, fuzzy
+msgid "Themes"
+msgstr "時間"
+
+#: ../face/prefs.cc:966
+#, fuzzy
+msgid "Default theme"
+msgstr "預設"
+
+#: ../face/prefs.cc:1067
+msgid "Options"
+msgstr "選項"
+
+#: ../face/saveload.cc:89
+msgid "Loading"
+msgstr "載入"
+
+#: ../face/saveload.cc:142
+msgid "Save list"
+msgstr "儲存名單"
+
+#: ../face/saveload.cc:185
+msgid "Load list"
+msgstr "載入名單"
+
+#: ../face/saveload.cc:227
+msgid "Find links in txt file"
+msgstr "在文本中尋找連結"
+
+#: ../face/fsface.cc:70
+msgid "bytes"
+msgstr "字節"
+
+#: ../face/fsface.cc:82
+msgid "nothing found"
+msgstr "找不到"
+
+#: ../face/fsface.cc:86
+msgid "searching"
+msgstr "正在搜索"
+
+#: ../face/fsface.cc:95
+msgid "reping"
+msgstr "再ping"
+
+#: ../face/fsface.cc:99
+msgid "cumulative reping"
+msgstr "持續ping"
+
+#: ../face/fsface.cc:105
+msgid "remove"
+msgstr "刪除"
+
+#: ../face/fsched.cc:30
+msgid "limit speed"
+msgstr "限制速度"
+
+#: ../face/fsched.cc:31
+msgid "popup main window"
+msgstr "彈出主窗口"
+
+#: ../face/fsched.cc:32
+msgid "exit"
+msgstr "退出"
+
+#: ../face/fsched.cc:33
+msgid "remove completed"
+msgstr "清除完成"
+
+#: ../face/fsched.cc:34
+msgid "remove failed"
+msgstr "清除失敗"
+
+#: ../face/fsched.cc:35
+msgid "restart download"
+msgstr "重新下載"
+
+#: ../face/fsched.cc:36
+msgid "stop download"
+msgstr "停止下載"
+
+#: ../face/fsched.cc:37
+msgid "remove download"
+msgstr "刪除下載作業"
+
+#: ../face/fsched.cc:38
+msgid "remove download if completed"
+msgstr "清除已完成的作業"
+
+#: ../face/fsched.cc:39
+msgid "add download"
+msgstr "新增下載"
+
+#: ../face/fsched.cc:40
+msgid "save list"
+msgstr "儲存名單"
+
+#: ../face/fsched.cc:41
+msgid "execute command"
+msgstr "執行指令"
+
+#: ../face/fsched.cc:180
+msgid "Scheduler"
+msgstr "工作排程"
+
+#: ../face/fsched.cc:186 ../face/fsched.cc:763
+msgid "Action"
+msgstr "動作"
+
+#: ../face/fsched.cc:186
+msgid "Info"
+msgstr "信息"
+
+#: ../face/fsched.cc:202
+msgid "New"
+msgstr "新增"
+
+#: ../face/fsched.cc:428
+msgid "Command:"
+msgstr "指令"
+
+#: ../face/fsched.cc:451
+msgid "Path:"
+msgstr "路徑"
+
+#: ../face/fsched.cc:470
+msgid "This action has no properties"
+msgstr "此動作沒有屬性"
+
+#: ../face/fsched.cc:704
+msgid "Start time(hour:min:sec)"
+msgstr "開始時間(時:分:秒)"
+
+#: ../face/fsched.cc:733
+msgid "Retry this action"
+msgstr "重試此動作"
+
+#: ../face/fsched.cc:742
+msgid "times to repeat (-1 unlimited)"
+msgstr "重試次數(-1為不限制)"
+
+#: ../face/fsched.cc:746
+msgid "period (day/hour:min)"
+msgstr "周期(時:分:秒)"
+
+#: ../face/fsched.cc:791
+msgid "Edit scheduled action"
+msgstr "編輯任務"
+
+#: ../face/filtrgui.cc:148
+msgid "Filters"
+msgstr "過濾器"
+
+#: ../face/qtree.cc:94
+msgid "Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:245
+msgid "Name"
+msgstr ""
+
+#: ../face/qtree.cc:246
+#, fuzzy
+msgid "Total"
+msgstr "總共︰%d\n"
+
+#: ../face/qtree.cc:247
+msgid "Wait"
+msgstr ""
+
+#: ../face/qtree.cc:248
+msgid "Run"
+msgstr ""
+
+#: ../face/qtree.cc:346 ../face/qtree.cc:352
+msgid "/Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:347
+msgid "/Create new subqueue"
+msgstr ""
+
+#: ../face/qtree.cc:348
+#, fuzzy
+msgid "/Delete queue"
+msgstr "/已刪除"
+
+#: ../face/qtree.cc:349
+#, fuzzy
+msgid "/Properties"
+msgstr "屬性"
+
+#: ../face/qtree.cc:442
+#, fuzzy
+msgid "Queue properties"
+msgstr "選擇屬性"
+
+#: ../face/qtree.cc:451
+msgid "Maximum active downloads"
+msgstr "最大活動下載數"
+
+#: ../face/qtree.cc:455
+msgid "Automatically delete completed downloads"
+msgstr "自動刪除已經完成的下載作業"
+
+#: ../face/qtree.cc:456
+msgid "Automatically delete failed downloads"
+msgstr "自動刪除失敗的下載作業"
+
+#: ../face/qtree.cc:466
+#, fuzzy
+msgid "Default folder to save downloaded files"
+msgstr "清除完成的下載"
+
+#: ../face/qtree.cc:474
+msgid "Size format"
+msgstr "檔案長度格式"
+
+#: ../face/qtree.cc:475
+msgid "Time format"
+msgstr "時間格式"
+
+#: ../face/qtree.cc:544
+#, fuzzy
+msgid "Name of the queue"
+msgstr "過濾器名稱"
+
+#~ msgid "Can't open limits configuration file!\n"
+#~ msgstr "不能打開限制檔案!\n"
+
+#~ msgid "Can't write limits to file!!!\n"
+#~ msgstr "不能寫入限制的檔案!\n"
+
+#~ msgid "Maximum active downloads is set to %i"
+#~ msgstr "最大活動下載數設置為 %i"
+
+#~ msgid "Splited download [%z] was stopped because one of threads failed"
+#~ msgstr "因為其中一個線程失敗, 分割下載 [%z] 被停止"
+
+#~ msgid " Mode of percentage "
+#~ msgstr "百份比模式"
+
+#~ msgid "Try to load symbolic link as file via FTP"
+#~ msgstr "嘗試將檔案連接作為檔案進行FTP下載"
+
+#~ msgid "Limitation for the host"
+#~ msgstr "此站的限制"
+
+#~ msgid "Host:"
+#~ msgstr "主機名"
+
+#~ msgid "Port:"
+#~ msgstr "埠"
+
+#~ msgid "Maximum connections:"
+#~ msgstr "最大連接數:"
+
+#~ msgid "Limitations for the hosts"
+#~ msgstr "此站的限制"
+
+#~ msgid "N"
+#~ msgstr "數目"
+
+#~ msgid "Now"
+#~ msgstr "現在"
+
+#~ msgid "Default limitation for all hosts (0 without limits)"
+#~ msgstr "預設的速度限制(用于所有站點, 0 為不限制)"
+
+#~ msgid "/Options/Limitations"
+#~ msgstr "/選項/限制"
+
+#~ msgid "Set limitation"
+#~ msgstr "設置限制"
+
+#~ msgid "Columns"
+#~ msgstr "列"
+
+#~ msgid "Connection to the internet via proxy"
+#~ msgstr "經由代理服務器連接到互聯網"
+
+#~ msgid "Append list to current queue of downloads"
+#~ msgstr "添加列表內容到當前的下載隊列"

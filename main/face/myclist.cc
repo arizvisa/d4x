@@ -55,10 +55,12 @@ static void my_set_cell_contents(GtkCList      *clist,
 static void my_gtk_clist_class_init(MyGtkCListClass *klass){
 //	GtkObjectClass *object_class=(GtkObjectClass *)klass;	
 	GtkCListClass *clist_klass=(GtkCListClass *)klass;
+//	GtkWidgetClass *widget_class = (GtkWidgetClass *) klass;
 	clist_klass->draw_row = my_draw_row;
 	clist_klass->cell_size_request = my_cell_size_request;
 	clist_klass->set_cell_contents = my_set_cell_contents;
-	parent_class=(GtkWidgetClass *)gtk_type_class(gtk_box_get_type());
+//	widget_class->drag_begin=NULL;//FIXME?
+	parent_class=(GtkWidgetClass *)gtk_type_class(GTK_TYPE_CONTAINER);
 };
 
 static void my_gtk_clist_init(MyGtkCList *filesel){

@@ -19,7 +19,6 @@ class tFtpClient:public tClient{
 	fsize_t TEMP_SIZE,OLD_SIZE;
 	int log_flag;
 	int DONT_SEND_QUIT;
-	int METHOD_TO_LIST;
 	int RETRY_IF_NO_REGET;
 	/* to avoid memory leaks next variable is global */
 	char *FIRST_REPLY;
@@ -36,6 +35,7 @@ class tFtpClient:public tClient{
 	int rest(int offset);
 	void vdisconnect();
  public:
+	int METHOD_TO_LIST;
 	tFtpClient();
 	tFtpClient(tCfg *cfg,tSocket *ctrl=NULL);
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
@@ -53,6 +53,7 @@ class tFtpClient:public tClient{
 	void quit();
 	void down();
     	void done();
+	int force_reget();
 	int another_way_get_size();
 	~tFtpClient();
 };

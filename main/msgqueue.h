@@ -14,6 +14,7 @@
 #include "queue.h"
 #include <pthread.h>
 #include "log.h"
+#include "mutex.h"
 
 struct tLogMsg:public tNode{
 	long type;
@@ -23,7 +24,7 @@ struct tLogMsg:public tNode{
 };
 
 class tMsgQueue:public tQueue{
-	pthread_mutex_t mylock;
+	d4xMutex mylock;
  public:
 	tMsgQueue();
 	void insert(tNode *what);

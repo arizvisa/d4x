@@ -1,4 +1,4 @@
-%define ver      1.30
+%define ver      2.0beta1
 
 Name: nt
 Version: %ver
@@ -50,6 +50,8 @@ for i in main/sounds/*.wav; do
     mkdir -p $RPM_BUILD_ROOT%{_datadir}/d4x/sounds
     cp -f $i $RPM_BUILD_ROOT%{_datadir}/d4x/sounds/
 done
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/d4x
+cp -fr main/themes $RPM_BUILD_ROOT%{_datadir}/d4x/
 cp -f main/nt $RPM_BUILD_ROOT%{_bindir}/
 cp -f nt.desktop $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet/nt.desktop
 cp -f nt.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.xpm
@@ -57,17 +59,17 @@ cp -f nt-mini.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-mini.xpm
 cp -f nt-gray.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-gray.png
 cp -f nt.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.png
 cp -f nt-wm.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-wm.png
-cp -f nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
+cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
 
 %find_lang %{name}
 
 %clean
-rm -rf ${RPM_BUILD_ROOT}
+rm -rf $RPM_BUILD_ROOT
 rm -rf nt-%{ver}
 
 %files -f %{name}.lang
 %defattr(-, root, root)
-%doc ChangeLog FAQ FAQ.* INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.* INSTALL.*
+%doc DOC/*
 %{_bindir}/nt
 %{_mandir}/man1/*1.gz
 %{_sysconfdir}/X11/applnk/Internet/nt.desktop
@@ -77,6 +79,7 @@ rm -rf nt-%{ver}
 %{_datadir}/pixmaps/nt.png
 %{_datadir}/pixmaps/nt-wm.png
 %{_datadir}/d4x/sounds/*
+%{_datadir}/d4x/themes/*
 
 %changelog
 

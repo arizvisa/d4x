@@ -187,6 +187,11 @@ int tFtpClient::rest(int offset) {
 	};
 	return RVALUE_OK;
 };
+
+int tFtpClient::force_reget(){
+	return(rest(100));
+};
+
 //**************************************************/
 
 tFtpClient::tFtpClient():tClient(){
@@ -426,7 +431,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 	int complete;
 	int llen=len;
 	do {
-		if ((complete=tClient::read_data())<0) {
+		if ((complete=tClient::read_data(BLOCK_READ))<0) {
 			LOG->log(LOG_WARNING,_("Data connection closed."));
 			break;
 		};

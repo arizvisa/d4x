@@ -28,14 +28,11 @@
 
 extern tMain aa;
 
-tDownload *get_download_from_clist(int row);
-
 const char *LIST_FILE="list";
 const char *NEW_LIST_FILE="Default.dl";
 
 void remove_old_file(){
-	char *path=new char[strlen(LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
-	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,LIST_FILE);
+	char *path=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",LIST_FILE,NULL);
 	remove(path);
 	delete[] path;
 };
@@ -54,26 +51,25 @@ void save_list() {
 	delete[] path;
 };
 
+int save_list_to_file_current(char *path) {
+	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
+	if (D4X_QUEUE==NULL) return(0);
+	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
+	if (fd<0) return(-1);
+	D4X_QUEUE->save_to_config_list(fd);
+	close(fd);
+	return(0);
+};
+
 int save_list_to_file(char *path) {
 	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
 	remove(path);
 	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (fd<0) return -1;
-	int i=0;
-	if (CFG.WITHOUT_FACE){
-		d4xWFNode *node=(d4xWFNode *)(ListOfDownloadsWF->first());
-		while (node) {
-			if (node->dwn)
-				node->dwn->save_to_config(fd);
-			node=(d4xWFNode *)(node->prev);
-		};
-	}else{
-		tDownload *temp=get_download_from_clist(i);
-		while (temp) {
-			i++;
-			temp->save_to_config(fd);
-			temp=get_download_from_clist(i);
-		};
+	d4xDownloadQueue *q=(d4xDownloadQueue *)(D4X_QTREE.first());
+	while(q){
+		q->save_to_config(fd);
+		q=(d4xDownloadQueue *)(q->prev);
 	};
 	close(fd);
 	return 0;
@@ -100,13 +96,13 @@ int read_list_from_file(char *path) {
 	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
 	if (fd>=0) {
 		while(f_rstr(fd,buf,MAX_LEN)>0){
-			if (equal(buf,"Download:")){
-				tDownload *temp=new tDownload;
+			if (equal(buf,"Queue:")){
+				d4xDownloadQueue *temp=new d4xDownloadQueue;
 				if (temp->load_from_config(fd)<0){
 					delete(temp);
 					break;
 				}else
-					aa.add_downloading_to(temp);
+					D4X_QTREE.insert(temp);
 			};
 		};
 		close(fd);
@@ -115,3 +111,13 @@ int read_list_from_file(char *path) {
 	return 0;
 };
 
+
+int read_list_from_file_current(char *path) {
+	if (D4X_QUEUE==NULL) return(0);
+	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
+	if (fd<0) return(-1);
+	int r=D4X_QUEUE->load_from_config_list(fd);
+	close(fd);
+	aa.try_to_run_wait(D4X_QUEUE);
+	return(r);
+};

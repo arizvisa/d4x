@@ -14,6 +14,7 @@
 #include "dbc.h"
 #include "locstr.h"
 #include "ntlocale.h"
+#include "signal.h"
 
 tGlobalVars GVARS;
 
@@ -23,15 +24,15 @@ int LOCK_FILE_D=0;
 
 tMainCfg CFG={
 	{300,5,0,100,0,1,0,0,
-	 0,0,0,0,0,1,1,1,0,0,0,0,1,0,
+	 0,0,0,0,0,1,1,1,0,0,0,0,1,0,0,
 	 0,0},
-	100,5,NULL,NULL,NULL,NULL,NULL,NULL,0,0,
+	100,NULL,NULL,NULL,NULL,NULL,NULL,0,
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
-	1,0,0,600,0,0, //flags
-	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,1,0,0,//interface
+	1,600,0,0, //flags
+	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,//interface
 	0,1,NULL,NULL, //clipboard
-	0xFFFFFF,0x555555,0xAAAAAA,0,
+	0xFFFFFF,0x555555,0xAAAAAA,0,0,
 	/* Proxy */
 	NULL,0,NULL,NULL,1,NULL,0,NULL,NULL,0,0,0,0,0,
 	/* SOCKS */
@@ -42,7 +43,8 @@ tMainCfg CFG={
 	0x0FFFFFFF,
 	0,0,1,
 	1,0,15,
-	1,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL
+	1,0,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,
+	0,(char*)NULL
 };
 
 char *DEFAULT_PROTO="ftp";
@@ -51,12 +53,13 @@ char *HOME_PAGE="http://www.krasu.ru/soft/chuchelo";
 
 tHistory *ALL_HISTORIES[LAST_HISTORY];
 tCookiesTree *COOKIES=NULL;
+tQueue *D4X_THEME_DATA=(tQueue *)NULL;
 
-tHostsLimits *LimitsForHosts=NULL;
 tUserPassTree *PasswordsForHosts=NULL;
 tDB *ALL_DOWNLOADS;
 char *HOME_VARIABLE=NULL;
 int GLOBAL_SLEEP_DELAY=2;
+d4xDUpdate D4X_UPDATE;
 
 void var_check_limits_int(int lower_value,int upper_value,int *value){
 	if (*value>upper_value) *value=upper_value;
@@ -69,7 +72,6 @@ void var_check_limits_long(long int lower_value,long int upper_value,long int *v
 };
 
 void var_check_all_limits(){
-	var_check_limits_int(1,50,&CFG.MAX_THREADS);
 	var_check_limits_int(100,999,&CFG.MAX_LOG_LENGTH);
 	var_check_limits_int(1,999,&CFG.DEFAULT_CFG.time_for_sleep);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.number_of_attempts);
@@ -123,13 +125,12 @@ void var_free(tMainCfg *dst){
 	if (dst->SOUND_QUEUE_FINISH) delete[] dst->SOUND_QUEUE_FINISH;
 	if (dst->SOUND_STARTUP) delete[] dst->SOUND_STARTUP;
 	if (dst->DEFAULT_FILTER) delete[] dst->DEFAULT_FILTER;
+	if (dst->THEME_FILE) delete[] dst->THEME_FILE;
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->DEFAULT_CFG.copy_ints(&(src->DEFAULT_CFG));
 	dst->MAX_LOG_LENGTH=src->MAX_LOG_LENGTH;
-	dst->MAX_THREADS=src->MAX_THREADS;
-	dst->DEFAULT_HOST_LIMIT=src->DEFAULT_HOST_LIMIT;
 	dst->ALLOW_FORCE_RUN=src->ALLOW_FORCE_RUN;
 	dst->MAX_MAIN_LOG_LENGTH=src->MAX_MAIN_LOG_LENGTH;
 	dst->MAIN_LOG_DETAILED=src->MAIN_LOG_DETAILED;
@@ -140,13 +141,9 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SAVE_LIST_INTERVAL=src->SAVE_LIST_INTERVAL;
 	dst->SAVE_LIST=src->SAVE_LIST;
 	dst->RECURSIVE_OPTIMIZE=src->RECURSIVE_OPTIMIZE;
-	dst->DELETE_FATAL=src->DELETE_FATAL;
-	dst->DELETE_COMPLETED=src->DELETE_COMPLETED;
 	dst->DEFAULT_PERMISIONS=src->DEFAULT_PERMISIONS;
 	dst->FTP_DIR_IN_LOG=src->FTP_DIR_IN_LOG;
 	dst->PAUSE_AFTER_ADDING=src->PAUSE_AFTER_ADDING;
-	dst->NICE_DEC_DIGITALS.curent=src->NICE_DEC_DIGITALS.curent;
-	dst->TIME_FORMAT=src->TIME_FORMAT;
 	dst->USE_MAINWIN_TITLE=src->USE_MAINWIN_TITLE;
 	dst->USE_MAINWIN_TITLE2=src->USE_MAINWIN_TITLE2;
 	dst->SCROLL_MAINWIN_TITLE=src->SCROLL_MAINWIN_TITLE;
@@ -157,7 +154,6 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->WINDOW_CLIST_HEIGHT=src->WINDOW_CLIST_HEIGHT;
 	dst->WINDOW_CLIST_WIDTH=src->WINDOW_CLIST_WIDTH;
 	dst->NEED_DIALOG_FOR_DND=src->NEED_DIALOG_FOR_DND;
-	dst->FACE_LIMITS_SIZE1=src->FACE_LIMITS_SIZE1;
 	dst->WINDOW_LOWER=src->WINDOW_LOWER;
 	dst->GRAPH_ORDER=src->GRAPH_ORDER;
 	dst->DND_TRASH=src->DND_TRASH;
@@ -172,6 +168,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->GRAPH_FORE1=src->GRAPH_FORE1;
 	dst->GRAPH_FORE2=src->GRAPH_FORE2;
 	dst->GRAPH_PICK=src->GRAPH_PICK;
+	dst->GRAPH_MODE=src->GRAPH_MODE;
 	dst->FTP_PROXY_PORT=src->FTP_PROXY_PORT;
 	dst->FTP_PROXY_TYPE=src->FTP_PROXY_TYPE;
 	dst->HTTP_PROXY_PORT=src->HTTP_PROXY_PORT;
@@ -199,7 +196,9 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->BUTTONS_FLAGS=src->BUTTONS_FLAGS;
 	dst->PROGRESS_MODE=src->PROGRESS_MODE;
 	dst->ENABLE_SOUNDS=src->ENABLE_SOUNDS;
+	dst->ESD_SOUND=src->ESD_SOUND;
 	dst->DONOTSET_WINPOS=src->DONOTSET_WINPOS;
+	dst->USE_THEME=src->USE_THEME;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);
@@ -227,4 +226,5 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SOUND_DND_DROP=copy_string(src->SOUND_DND_DROP);
 	dst->SOUND_QUEUE_FINISH=copy_string(src->SOUND_QUEUE_FINISH);
 	dst->DEFAULT_FILTER=copy_string(src->DEFAULT_FILTER);
+	dst->THEME_FILE=copy_string(src->THEME_FILE);
 };

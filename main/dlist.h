@@ -21,6 +21,7 @@
 #include <pthread.h>
 #include "addr.h"
 #include "segments.h"
+#include "alt.h"
 
 #define MINIMUM_SIZE_TO_SPLIT 102400
 
@@ -35,6 +36,8 @@ struct tTriger{
 	int change();
 };
 
+
+
 class tDefaultWL:public tWriterLoger{
 	int fd;
 	int fdlock;
@@ -43,6 +46,8 @@ class tDefaultWL:public tWriterLoger{
 	void fd_close();
  public:
 	tDefaultWL();
+	int lock_fd();
+	void unlock_fd();
 	void set_fd(int newfd,int lockstate=0);
 	void set_segments(tSegmentator *newseg);
 	int get_fd();
@@ -52,6 +57,7 @@ class tDefaultWL:public tWriterLoger{
 	fsize_t shift(fsize_t shift,int mode);
 	void truncate();
 	char *cookie(const char *host, const char *path);
+	void cookie_set(tCookie *cookie);
 	void log(int type, const char *str);
 	~tDefaultWL();
 };
@@ -71,25 +77,31 @@ struct d4xCondition{
 };
 
 struct tSplitInfo{
-	int NumOfParts;
+	int NumOfParts,thread_num;
 	fsize_t FirstByte,LastByte;
-	int status,stopped;
+	char failed,prepared,run;
+	int stopcount,runcount;
+	int alt;
 	d4xCondition *cond;
-	tDownload *next_part,*parent;
+	tDownload *next_part,*parent,*grandparent;
 	tSplitInfo();
+	void reset();
 	~tSplitInfo();
 };
 
 struct tDownload:public tAbstractSortNode{
-	tCfg config;
+	tCfg *config;
+	tPStr Name2Save;
 	tFileInfo finfo;
 	tAddr *info;
 	tDownloader *who;
+	d4xAltList *ALTS;
 	tLog *LOG,*CurrentLog;// CurrentLog is used for splited downloads
 	tWriterLoger *WL;
 	tDEdit *editor;
 	tNode *WFP; // used when run without interface
 	tSegmentator *segments;
+	tPStr Description;
 	//------Split information-------------
 	tSplitInfo *split;
 	//------------------------------------
@@ -97,15 +109,15 @@ struct tDownload:public tAbstractSortNode{
 	pthread_t thread_id;
 	tDList *myowner;
 	int status,action,status_cp;
-	int NanoSpeed;
 	int BLOCKED;
 	int protect;
 	float Percent;
 	tTriger Size,Attempt,Status,Speed,Remain;
 	fsize_t StartSize;
 	int GTKCListRow;
+	// to realise stack of items which is needed to be updated
+	tDownload *next2update,*next2stop;
 	//------------------------------------
-//	tQueue *conditions;
 	private:
 	int need_to_rename,im_first,im_last;
 	char *create_new_file_path();
@@ -119,6 +131,7 @@ struct tDownload:public tAbstractSortNode{
 	void sort_links();
 	void http_check_redirect();
 	void ftp_search_sizes();
+	int try_to_lock_fdesc();
 	fsize_t init_segmentator(int fdesc,fsize_t cursize,char *name);
 	void export_socket(tDownloader *what);
 	public:
@@ -129,7 +142,6 @@ struct tDownload:public tAbstractSortNode{
 	//------------------------------------
 	tDownload();
 	int cmp(tAbstractSortNode *b);
-	void clear();
 	void delete_editor();
 	void set_default_cfg();
 	void copy(tDownload *what);
@@ -155,6 +167,7 @@ struct tDownload:public tAbstractSortNode{
 	int file_type();
 	fsize_t get_loaded();
 	fsize_t start_size();
+	fsize_t filesize();
 	
 	void save_to_config(int fd);
 	int load_from_config(int fd);
@@ -164,12 +177,16 @@ struct tDownload:public tAbstractSortNode{
 	~tDownload();
 };
 
+
+class d4xDownloadQueue;
+
 class tDList:public tQueue{
 	int OwnerKey;
 	int Pixmap;
 	void (*empty)();
 	void (*non_empty)();
 public:
+	d4xDownloadQueue *PAPA;
 	tDList();
 	tDList(int key);
 	int get_key();
@@ -187,6 +204,8 @@ public:
 	tDownload *first();
 	~tDList();
 };
+
+#define DQV(arg) arg->myowner->PAPA->qv
 
 void make_dir_hier(char *path);
 void make_dir_hier_without_last(char *path);

@@ -1,0 +1,2972 @@
+addr.cc:/*	WebDownloader for X-Window
+addr.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+addr.cc:		out->two=copy_string(where+len1);
+addr.cc:		len1=strlen(what)-len;
+addr.cc:		out->one=copy_string2(what,len1);
+addr.cc:		out->two=copy_string(what);
+addr.cc:		out->one=NULL;
+addr.cc:		out->two=copy_string(where+len1);
+addr.cc:		len1=strlen(what)-len;
+addr.cc:		out->one=copy_string2(what,len1);
+addr.cc:		out->two=copy_string(what);
+addr.cc:		out->one=NULL;
+addr.cc:/*------------------ end of temporary functions ------------ */
+addr.cc:/* parsing %xx -> CHAR and vice verse */
+addr.cc:		if (len && a[len-1]==b) return 1;
+addr.cc:	if (!equal_uncase(host.get(),b->host.get()) ||
+addr.cc:	    !equal(path.get(),b->path.get()) ||
+addr.cc:	    !equal(file.get(),b->file.get()) ||
+addr.cc:	    !equal(params.get(),b->params.get()) ||
+addr.cc:	    proto!=b->proto)
+addr.cc:	if (proto==D_PROTO_FTP && !equal(username.get(),b->username.get()))
+addr.cc:	host.set(what->host.get());
+addr.cc:	pass.set(what->pass.get());
+addr.cc:	username.set(what->username.get());
+addr.cc:	proto=what->proto;
+addr.cc:	port=what->port;
+addr.cc:	file.set(what->file.get());
+addr.cc:	path.set(what->path.get());
+addr.cc:	params.set(what->params.get());
+addr.cc:	mask=what->mask;
+alt.cc:	if (alt->prev)
+alt.cc:		alt->prev->next=alt->next;
+alt.cc:		FIRST=alt->next;
+alt.cc:	if (alt->next)
+alt.cc:		alt->next->prev=alt->prev;
+alt.cc:		END=alt->prev;
+alt.cc:	alt->prev=NULL;
+alt.cc:	if ((alt->next=FIRST))
+alt.cc:		FIRST->prev=alt;
+alt.cc:		char *url=alt->info.url();
+alt.cc:		FIRST=FIRST->next;
+alt.cc:		gtk_clist_clear(edit->clist);
+alt.cc:	tDownload *tmp=fs->DIR->first();
+alt.cc:		alt->info.copy(tmp->info);
+alt.cc:		tmp=fs->DIR->prev();
+alt.cc:	alt->edit_remove();
+alt.cc:	alt->init_add();
+alt.cc:	alt->edit_destroy();
+alt.cc:	alt->edit_destroy();
+alt.cc:	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1) {
+alt.cc:		alt->init_edit_mod(row);
+alt.cc:		gdk_window_show(GTK_WIDGET(edit)->window);
+alt.cc:	gtk_signal_connect(GTK_OBJECT(edit->ok),"clicked",
+alt.cc:	gtk_signal_connect(GTK_OBJECT(edit->cancel),"clicked",
+alt.cc:	gtk_signal_connect(GTK_OBJECT(edit->remove),"clicked",
+alt.cc:	gtk_signal_connect(GTK_OBJECT(edit->clist),"select_row",
+alt.cc:	GList *select=edit->clist->selection;
+alt.cc:		GList *next=select->next;
+alt.cc:		gint row=GPOINTER_TO_INT(select->data);
+alt.cc:		gtk_clist_unselect_row(edit->clist,row,-1);
+alt.cc:		d4xAlt *alt=(d4xAlt *)gtk_clist_get_row_data(edit->clist,row);
+alt.cc:		gtk_clist_remove(edit->clist,row);
+alt.cc:	gtk_clist_unselect_all(edit->clist);
+alt.cc:		char *url=alt->info.url();
+alt.cc:		alt=alt->next;
+alt.cc:	alt->add_edit_ok();
+alt.cc:	alt->add_edit_destroy();
+alt.cc:	alt->add_edit_destroy();
+alt.cc:	alt->add_edit_destroy();
+alt.cc:		gdk_window_show(GTK_WIDGET(add_edit)->window);
+alt.cc:	gtk_signal_connect(GTK_OBJECT(add_edit->ok),"clicked",
+alt.cc:	gtk_signal_connect(GTK_OBJECT(add_edit->cancel),"clicked",
+alt.cc:	alt->info.from_string(text_from_combo(GTK_WIDGET(add_edit->entry)));
+alt.cc:		char *url=alt->info.url();
+alt.cc:		alt=alt->prev;
+alt.cc:		alt->info.from_string(url);
+alt.cc:	return -1;
+alt.cc:	alt->edit_mod_destroy();
+alt.cc:	alt->edit_mod_destroy();
+alt.cc:	alt->edit_mod_ok();
+alt.cc:	alt->edit_mod_destroy();
+alt.cc:	d4xAlt *alt=(d4xAlt*)gtk_clist_get_row_data (edit->clist,str2mod);
+alt.cc:		alt->info.from_string(text_from_combo(GTK_WIDGET(mod_edit->entry)));
+alt.cc:		char *url=alt->info.url();
+alt.cc:		gtk_clist_set_text (edit->clist,str2mod,0,url);
+alt.cc:	d4xAlt *alt=(d4xAlt*)gtk_clist_get_row_data (edit->clist,str);
+alt.cc:	char *url=alt->info.url();
+alt.cc:		gdk_window_show(GTK_WIDGET(mod_edit)->window);
+alt.cc:		text_to_combo(GTK_WIDGET(mod_edit->entry),url);
+alt.cc:	gtk_signal_connect(GTK_OBJECT(mod_edit->ok),"clicked",
+alt.cc:	gtk_signal_connect(GTK_OBJECT(mod_edit->cancel),"clicked",
+alt.cc:	text_to_combo(GTK_WIDGET(mod_edit->entry),url);
+autoadd.cc:/*	WebDownloader for X-Window
+autoadd.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+autoadd.cc:		printf("%i - %i",left_int,right_int);
+autoadd.cc:		printf("%s - %s",left_str,right_str);
+autoadd.cc:		int len=cur-str;
+autoadd.cc:		if (end==NULL || end-cur==1 || *cur==',')
+autoadd.cc:		str_len=end-cur;
+autoadd.cc:	if (sscanf(cur,"%u-%u",&left_int,&right_int)==2){
+autoadd.cc:		sprintf(a,"%i-%i",left_int,right_int);
+autoadd.cc:			char *b=index(cur,'-');
+autoadd.cc:				int_len=b-cur;
+autoadd.cc:		cur=str_skip_digits_or_(cur,'-');
+autoadd.cc:			if (*tmp=='-') break;
+autoadd.cc:		if (*tmp!='-') return(str);
+autoadd.cc:		if (tmp-cur!=end-tmp-1) return(str);
+autoadd.cc:		str_len=tmp-cur;
+autoadd.cc:				cur_str[i]+=cur_str[i]>right_str[i]?-1:1;
+autoadd.cc:				cur_int+=right_int<cur_int?-1:1;
+autoadd.cc:		char *a=tmp->scan(cur);
+autoadd.cc:	char *rval=tmp->first();
+autoadd.cc:	tmp=(d4xAASubStr *)(tmp->prev);
+autoadd.cc:		char *a=tmp->first();
+autoadd.cc:		tmp=(d4xAASubStr *)(tmp->prev);
+autoadd.cc:	char *rval=tmp->next();
+autoadd.cc:	int end_flag=tmp->end_flag;
+autoadd.cc:	tmp=(d4xAASubStr *)(tmp->prev);
+autoadd.cc:		char *a=tmp->next();
+autoadd.cc:		if (tmp->end_flag==0) end_flag=0;
+autoadd.cc:		tmp=(d4xAASubStr *)(tmp->prev);
+autoadd.cc:		tmp->print();
+autoadd.cc:		tmp=(d4xAASubStr *)(tmp->prev);
+base64.cc:/*	WebDownloader for X-Window
+base64.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+base64.cc:		len-=3;
+base64.cc:		for (i=3-(len==1);i<4;i++)
+client.cc:/*	WebDownloader for X-Window
+client.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+client.cc:	while (*fmt && cur-str<MAX_LEN){
+client.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+client.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");
+client.cc:				g_snprintf(cur,MAX_LEN-(cur-str),"%i",va_arg(ap,int));
+client.cc:	//do nothing :-)
+client.cc:	http_recursing=src->http_recursing;
+client.cc:	change_links=src->change_links;
+client.cc:	speed=src->speed;
+client.cc:	ftp_recurse_depth=src->ftp_recurse_depth;
+client.cc:	http_recurse_depth=src->http_recurse_depth;
+client.cc:	timeout = src->timeout;
+client.cc:	time_for_sleep = src->time_for_sleep;
+client.cc:	number_of_attempts = src->number_of_attempts;
+client.cc:	passive = src->passive;
+client.cc:	dont_send_quit = src->dont_send_quit;
+client.cc:	permisions = src->permisions;
+client.cc:	get_date = src->get_date;
+client.cc:	retry = src->retry;
+client.cc:	full_server_loading=src->full_server_loading;
+client.cc:	dont_leave_dir=src->dont_leave_dir;
+client.cc:	ftp_dirontop=src->ftp_dirontop;
+client.cc:	rollback = src->rollback;
+client.cc:	follow_link = src->follow_link;
+client.cc:	leave_server = src->leave_server;
+client.cc:	sleep_before_complete = src->sleep_before_complete;
+client.cc:	check_time = src->check_time;
+client.cc:	ihate_etag = src->ihate_etag;
+client.cc:/* ---------------------------------------- */
+client.cc:	socks_port = src->socks_port;
+client.cc:	socks_host.set(src->socks_host.get());
+client.cc:	socks_user.set(src->socks_user.get());
+client.cc:	socks_pass.set(src->socks_pass.get());
+client.cc:	proxy_type = src->proxy_type;
+client.cc:	proxy_no_cache = src->proxy_no_cache;
+client.cc:	hproxy_port = src->hproxy_port;
+client.cc:	hproxy_host.set(src->hproxy_host.get());
+client.cc:	hproxy_user.set(src->hproxy_user.get());
+client.cc:	hproxy_pass.set(src->hproxy_pass.get());
+client.cc:	fproxy_port = src->fproxy_port;
+client.cc:	fproxy_host.set(src->fproxy_host.get());
+client.cc:	fproxy_user.set(src->fproxy_user.get());
+client.cc:	fproxy_pass.set(src->fproxy_pass.get());
+client.cc:	user_agent.set(src->user_agent.get());
+client.cc:	cookie.set(src->cookie.get());
+client.cc:	Filter.set(src->Filter.get());
+client.cc:						return(-1);
+client.cc:	return -1;
+client.cc:		if (cfg->socks_host.get() && cfg->socks_port){
+client.cc:			CtrlSocket=new tSocksSocket(cfg->socks_host.get(),
+client.cc:						    cfg->socks_port,
+client.cc:						    cfg->socks_user.get(),
+client.cc:						    cfg->socks_pass.get());
+client.cc:		int err=sock->rec_string(cur,1,timeout);
+client.cc:	} while(cur-temp<maxlen && *(cur++)!='\n');
+client.cc:	list->add(temp);
+client.cc:		int err=sock->rec_string(cur,1,timeout);
+client.cc:	} while(cur-temp<maxlen && *(cur++)!='\n');
+client.cc:		LOG->log(LOG_ERROR,_("Timeout while reading from socket!"));
+client.cc:		LOG->log(LOG_ERROR,_("Error while reading from socket!"));
+client.cc:	int err=-1;
+client.cc:	LOG->log(LOG_OK,_("Trying to connect..."));
+client.cc:	if (hostname && (err=CtrlSocket->open_port(hostname,port))==0) {
+client.cc:		LOG->log(LOG_WARNING,_("Socket was opened!"));
+client.cc:		LOG->log(LOG_ERROR,_("Host not found!"));
+client.cc:		LOG->log(LOG_ERROR,_("Can't allocate socket"));
+client.cc:		LOG->log(LOG_ERROR,_("Can't connect"));
+client.cc:	return (FillSize-LOG->write(buffer,FillSize));
+cond.cc:	if (parent) parent->conditions->del(this);
+cond.cc:	parent->conditions->insert(this);
+cond.cc:	if (parent) parent->conditions->del(this);
+cond.cc:	tAbstractCondition *cond=(tAbstractCondition *)where->conditions->last();
+cond.cc:		if (cond->type()==COND_TIME){
+cond.cc:		cond=(tAbstractCondition *)where->conditions->next();
+cond.cc:			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+config.cc:/*	WebDownloader for X-Window
+config.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+config.cc:	{"--help",		OPT_HELP},
+config.cc:	{"-h",			OPT_HELP},
+config.cc:	{"--version",		OPT_VERSION},
+config.cc:	{"-v",			OPT_VERSION},
+config.cc:	{"--info", 		OPT_INFO},
+config.cc:	{"-i",	 		OPT_INFO},
+config.cc:	{"--speed",		OPT_SPEED},
+config.cc:	{"-s",			OPT_SPEED},
+config.cc:	{"-t1",			OPT_TRAFFIC_LOW},
+config.cc:	{"--traffic-low",	OPT_TRAFFIC_LOW},
+config.cc:	{"-t2",			OPT_TRAFFIC_MIDDLE},
+config.cc:	{"--traffic-medium",	OPT_TRAFFIC_MIDDLE},
+config.cc:	{"-t3",			OPT_TRAFFIC_HIGH},
+config.cc:	{"--traffic-high",	OPT_TRAFFIC_HIGH},
+config.cc:	{"-d",			OPT_SET_DIRECTORY},
+config.cc:	{"--directory",		OPT_SET_DIRECTORY},
+config.cc:	{"-c",			OPT_DEL_COMPLETED},
+config.cc:	{"--delete-completed",	OPT_DEL_COMPLETED},
+config.cc:	{"-m",			OPT_SET_MAX_THREADS},
+config.cc:	{"--max-running",	OPT_SET_MAX_THREADS},
+config.cc:	{"-r",			OPT_RERUN_FAILED},
+config.cc:	{"--rerun-failed",	OPT_RERUN_FAILED},
+config.cc:	{"-w",			OPT_WITHOUT_FACE},
+config.cc:	{"--without-face",	OPT_WITHOUT_FACE},
+config.cc:	{"--minimized",		OPT_RUN_MINIMIZED},
+config.cc:	{"--exit-time",		OPT_EXIT_TIME},
+config.cc:	{"--ls",		OPT_LS},
+config.cc:	{"--del",		OPT_DEL},
+config.cc:	{"--stop",		OPT_STOP},
+config.cc:	{"--color",		OPT_COLOR},
+config.cc:	{"-geometry",		OPT_GEOMETRY}
+config.cc:	(char *)N_("You must specify number as second parameter for '-m' option"),
+config.cc:	(char *)N_("You must specify number as parameter for '--exit-time' option"),
+config.cc:	(char *)N_("Expect URL as parameter for '--ls' option"),
+config.cc:	(char *)N_("Expect URL as parameter for '--del' option"),
+config.cc:	(char *)N_("Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"),
+config.cc:	(char *)N_("Expect URL as parameter for '--stop' option"),
+config.cc:	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
+config.cc:	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.05");
+config.cc:	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");
+config.cc:			MainLog->add(data,LOG_ERROR);
+config.cc:		tString *tmp=what->first();
+config.cc:			f_wstr_lf(fd,tmp->body);
+config.cc:			tmp=what->prev();
+config.cc:	where->done();
+config.cc:			while(*cur!='\n' && len<(MAX_LEN-1)) {
+config.cc:				where->add(temp);
+config.cc:			if (argv[i] && *argv[i]=='-') {
+config.cc:		clt->send_command(PACKET_SET_SAVE_PATH,path,strlen(path));
+config.cc:		clt->send_command(PACKET_SET_SAVE_PATH,param,strlen(param));
+config.cc:			if (*(argc[i])!='-'){
+config.cc:				if (clt->send_command(PACKET_ADD,argc[i],strlen(argc[i])+1)) break;
+config.cc:					clt->send_command(PACKET_ASK_RUN,NULL,0);
+config.cc:					printf(_("Run downloads: %d\n"),clt->get_answer_int());
+config.cc:					clt->send_command(PACKET_ASK_PAUSE,NULL,0);
+config.cc:					printf(_("Paused downloads: %d\n"),clt->get_answer_int());
+config.cc:					clt->send_command(PACKET_ASK_STOP,NULL,0);
+config.cc:					printf(_("Failed downloads: %d\n"),clt->get_answer_int());
+config.cc:					clt->send_command(PACKET_ASK_COMPLETE,NULL,0);
+config.cc:					printf(_("Completed downloads: %d\n"),clt->get_answer_int());
+config.cc:					printf("-------------------------------\n");
+config.cc:					clt->send_command(PACKET_ASK_FULLAMOUNT,NULL,0);
+config.cc:					printf(_("Total: %d\n"),clt->get_answer_int());
+config.cc:					clt->send_command(PACKET_ASK_READED_BYTES,NULL,0);
+config.cc:					printf(_("Total bytes loaded: %d\n"),clt->get_answer_int());
+config.cc:					clt->send_command(PACKET_ASK_SPEED,NULL,0);
+config.cc:					printf(_("Current speed: %d\n"),clt->get_answer_int());
+config.cc:					clt->send_command(PACKET_ASK_SPEED,NULL,0);
+config.cc:					printf(_("Curent speed: %d\n"),clt->get_answer_int());
+config.cc:					clt->send_command(PACKET_SET_SPEED_LIMIT,"1",2);
+config.cc:					clt->send_command(PACKET_SET_SPEED_LIMIT,"2",2);
+config.cc:					clt->send_command(PACKET_SET_SPEED_LIMIT,"3",2);
+config.cc:					clt->send_command(PACKET_DEL_COMPLETED,NULL,0);
+config.cc:						clt->send_command(PACKET_SET_MAX_THREADS,argc[i],strlen(argc[i]));
+config.cc:					clt->send_command(PACKET_RERUN_FAILED,NULL,0);
+config.cc:						clt->send_command(PACKET_EXIT_TIME,argc[i],strlen(argc[i]));
+config.cc:						clt->send_command(PACKET_STOP,argc[i],strlen(argc[i]));
+config.cc:						clt->send_command(PACKET_DEL,argc[i],strlen(argc[i]));
+config.cc:					clt->send_command_short(PACKET_LS,which,strlen(which));
+config.cc:					while(clt->get_answer_status(&status)){
+config.cc:							printf("-");
+config.cc:		if (*(argc[i])!='-'){
+cookie.cc:/*	WebDownloader for X-Window
+cookie.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+cookie.cc:			if (de->d_name && !equal(de->d_name,"..") &&
+cookie.cc:			    !equal(de->d_name,".")){
+cookie.cc:				char *tmppath=sum_strings(path,"/",de->d_name,NULL);
+cookie.cc:			if (de->d_name && !equal(de->d_name,"..") &&
+cookie.cc:			    !equal(de->d_name,".")){
+cookie.cc:				tmppath=sum_strings(HOME_VARIABLE,"/.mozilla/",de->d_name,NULL);
+cookie.cc:			char *b=a+strlen(a)-1;
+cookie.cc:				b--;
+cookie.cc:			b=c+strlen(c)-1;
+cookie.cc:				b--;
+cookie.cc:	const char *bb=b+strlen(b)-1;
+cookie.cc:	const char *aa=a+strlen(a)-1;
+cookie.cc:		if (*bb!=*aa) return(*bb-*aa);
+cookie.cc:		bb--;aa--;
+cookie.cc:	if (bb>b) return(-1);
+cookie.cc://	printf("%s %s %i\n",((tCookie *)b)->host.get(),host.get(),cmp_back(((tCookie *)b)->host.get(),host.get()));
+cookie.cc:	return(cmp_back(((tCookie *)b)->host.get(),host.get()));
+cookie.cc:	tCookie *temp=find(cookie->host.get());
+cookie.cc:		if (equal(cookie->path.get(),temp->path.get()) &&
+cookie.cc:		    equal(cookie->name.get(),temp->name.get())){
+cookie.cc:		temp=find(temp,cookie->host.get());
+cookie.cc:	if (Top && string_ended(((tCookie*)Top)->host.get(),what)==0)
+cookie.cc://	if (Top) printf("--- find from %s ---\n",((tCookie *)Top)->host.get());
+cookie.cc://		printf("%s %s ",temp->host.get(),what);
+cookie.cc:		int a=cmp_back(what,temp->host.get());
+cookie.cc:			temp=(tCookie *)(temp->more);
+cookie.cc:			temp=(tCookie *)(temp->less);
+cookie.cc:		if (temp && string_ended(temp->host.get(),what)==0){
+cookie.cc:			cookie->host.set(data);
+cookie.cc:			cookie->path.set(data);
+cookie.cc:			cookie->set_time(data);
+cookie.cc:			cookie->name.set(data);
+cookie.cc:			cookie->value.set(data);
+cookie.cc:			cookie->myown=myown;
+cookie.cc:			if (cookie->path.get()==NULL || cookie->path.get()[0]!='/' ||
+cookie.cc:	if (what->myown){
+cookie.cc:		f_wstr(fd,what->host.get());
+cookie.cc:		char *path=unparse_percents(what->path.get());
+cookie.cc:		sprintf(str,"%ld",(long int)(what->get_time()));
+cookie.cc:		path=unparse_percents(what->name.get());
+cookie.cc:		path=unparse_percents(what->value.get());
+cookie.cc:	if (what->less) save_cookie(fd,(tCookie *)(what->less));
+cookie.cc:	if (what->more) save_cookie(fd,(tCookie *)(what->more));
+cookie.cc:	MainLog->add(_("Loading cookies"),LOG_WARNING | LOG_DETAILED);
+cookie.cc:			MainLog->myprintf(LOG_OK|LOG_DETAILED,_("%i cookies loaded from browsers' files"),NUM);
+cookie.cc:			MainLog->myprintf(LOG_ERROR|LOG_DETAILED,_("Can't open cookies file %s!"),path);
+cookie.cc:		MainLog->myprintf(LOG_OK|LOG_DETAILED,_("%i cookies loaded"),NUM);
+db.cc:/*	WebDownloader for X-Window
+db.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+db.cc:	int a=strcmp(body,((tStringHostNode*)b)->body);
+db.cc:	return(a?a:((tStringHostNode*)b)->port-port);
+db.cc:	return tree->empty();
+db.cc:	unsigned char *b=(unsigned char *)(what->info->file.get());
+db.cc:	return(&(temp->nodes[*b]));
+db.cc:	unsigned char *b=(unsigned char *)(what->info->path.get());
+db.cc:	return(&(temp->nodes[a]));
+db.cc:	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
+db.cc:		temp->body=copy_string(what->info->host.get());
+db.cc:		temp->port=what->info->port;
+db.cc:		tree->add(temp);
+db.cc:		temp->filled_num+=1;
+db.cc:	(*point)->add(what);
+db.cc:	tmp->info=addr;
+db.cc:	tmp->info=NULL;
+db.cc:	DBC_RETVAL_IF_FAIL(what->info!=NULL,NULL);
+db.cc:	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
+db.cc:			return(tDownload*)((*point)->find(what));
+db.cc:	DBC_RETURN_IF_FAIL(what->info!=NULL);
+db.cc:	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
+db.cc:			(*point)->del(what);
+db.cc:			if ((*point)->empty()){
+db.cc:				temp->filled_num-=1;
+db.cc:				if (temp->filled_num==0){
+db.cc:					tree->del(temp);
+dlist.cc:/*	WebDownloader for X-Window
+dlist.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+dlist.cc:	old=-1;
+dlist.cc:	old=curent-1;
+dlist.cc:	if (fcntl(fd,F_SETLK,&a)==-1){
+dlist.cc:			return(-1);
+dlist.cc:/*-------------------------------------------------------------
+dlist.cc: --------------------------------------------------------------*/
+dlist.cc:	fd=-1;
+dlist.cc:			segments->insert(cur,cur+saved_size);
+dlist.cc:		return(-1);
+dlist.cc:	case -1:
+dlist.cc:			segments->truncate(a);
+dlist.cc:		LOG->add(str,type);
+dlist.cc:	COOKIES->lock.lock();
+dlist.cc:	tCookie *temp=COOKIES->find_exact(cookie);
+dlist.cc:		if (cookie->get_time()<time(NULL)){
+dlist.cc:			COOKIES->del(temp);
+dlist.cc:			temp->value.set(cookie->value.get());
+dlist.cc:			temp->set_time(cookie->get_time());
+dlist.cc:			temp->myown=1;
+dlist.cc:		COOKIES->lock.unlock();
+dlist.cc:	cookie->myown=1;
+dlist.cc:	COOKIES->add(cookie);
+dlist.cc:	COOKIES->lock.unlock();
+dlist.cc:	COOKIES->lock.lock();
+dlist.cc:	tCookie *temp=COOKIES->find(host);
+dlist.cc:	if (dwn && *dwn && (*dwn)->config->cookie.get()){
+dlist.cc:		COOKIES->lock.unlock();
+dlist.cc:		return(copy_string((*dwn)->config->cookie.get()));
+dlist.cc://		temp->print();
+dlist.cc:		if (begin_string(path,temp->path.get())){
+dlist.cc:			request_string=sum_strings(tmp, temp->name.get(),
+dlist.cc:						   "=", temp->value.get(),
+dlist.cc:		if (temp->get_time()<time(NULL)){
+dlist.cc:			COOKIES->del(temp);
+dlist.cc:			temp=COOKIES->find(host);
+dlist.cc:			temp=COOKIES->find(temp,host);
+dlist.cc:	COOKIES->lock.unlock();
+dlist.cc:	value-=1;
+dlist.cc:	FirstByte=LastByte=-1;
+dlist.cc://	config->ftp_recurse_depth=config->http_recurse_depth=1;
+dlist.cc:	finfo.size=-1;
+dlist.cc:		finfo.size=who->another_way_get_size();
+dlist.cc:		return(segments->get_total());
+dlist.cc:	if (who) return(who->get_start_size());
+dlist.cc:	int r=strcmp(info->file.get(),bb->info->file.get());
+dlist.cc:	r=strcmp(info->path.get(),bb->info->path.get());
+dlist.cc:	if (info->params.get()==NULL){
+dlist.cc:		if (bb->info->params.get())
+dlist.cc:	if (bb->info->params.get()==NULL)
+dlist.cc:		return -1;
+dlist.cc:	return strcmp(info->params.get(),bb->info->params.get());
+dlist.cc:		WL->log_printf(LOG_ERROR,
+dlist.cc:			      config->save_path.get());
+dlist.cc:		WL->log_printf(LOG_ERROR,
+dlist.cc:			      config->save_path.get());
+dlist.cc:		WL->log(LOG_ERROR,_("Directory already created!:))"));
+dlist.cc:		return(myowner->get_key());
+dlist.cc:		if (config && config->save_name.get()){
+dlist.cc:			name=sum_strings(path,config->save_name.get(),NULL);
+dlist.cc:			if (info->file.get() && *(info->file.get())){
+dlist.cc:				name=sum_strings(path,".",info->file.get(),NULL);
+dlist.cc:		if (info->params.get()){
+dlist.cc:			char *tmp=sum_strings(name,"?",info->params.get(),NULL);
+dlist.cc:	tFileInfo *D_FILE=who->get_file_info();
+dlist.cc:	if (D_FILE->type==T_FILE) {
+dlist.cc:			rvalue=-1;
+dlist.cc:	char *real_path=parse_save_path(config->save_path.get(),info->file.get());
+dlist.cc:	if (config->save_name.get() && strlen(config->save_name.get()))
+dlist.cc:		who->make_full_pathes(real_path,
+dlist.cc:				      config->save_name.get(),
+dlist.cc:		who->make_full_pathes(real_path,name,guess);
+dlist.cc:	if (im_first) return(((tDefaultWL*)(WL))->lock_fd());
+dlist.cc:	((tDefaultWL*)(WL))->set_fd(fdesc);
+dlist.cc:		if (try_to_lock_fdesc()) return(-1);
+dlist.cc:		segments->init(segname);
+dlist.cc:		tSegment *first_seg=segments->get_first();
+dlist.cc:		if (first_seg && first_seg->next!=NULL &&
+dlist.cc:		    (unsigned long int)rvalue<first_seg->end){
+dlist.cc:			WL->log(LOG_WARNING,"Segmentation info is wrong!");
+dlist.cc:			segments->truncate(0);
+dlist.cc:			if ((first_seg==NULL || first_seg->next==NULL)){
+dlist.cc:					segments->insert(0,(unsigned long int)rvalue);
+dlist.cc:				segments->truncate(rvalue);
+dlist.cc:		first_seg=segments->get_first();
+dlist.cc:		rvalue=first_seg?first_seg->end:0;
+dlist.cc:		StartSize=segments->get_total();
+dlist.cc:	((tDefaultWL*)(WL))->set_segments(segments);
+dlist.cc:	if (!who) return -1;
+dlist.cc:	tFileInfo *D_FILE=who->get_file_info();
+dlist.cc:	int fdesc=-1;
+dlist.cc:	switch (D_FILE->type) {
+dlist.cc:		WL->log(LOG_WARNING,_("Trying to create a link"));
+dlist.cc:		int err=symlink(D_FILE->body.get(),guess);
+dlist.cc:				WL->log(LOG_ERROR,_("Link already created!:))"));
+dlist.cc:				WL->log(LOG_ERROR,_("Can't create link"));
+dlist.cc:				rvalue=-1;
+dlist.cc:		chmod(guess,D_FILE->perm  | S_IWUSR);
+dlist.cc:		WL->log(LOG_WARNING,_("Trying to create a file"));
+dlist.cc:		if (config->restart_from_begin){
+dlist.cc:			if (config->restart_from_begin){
+dlist.cc:					rvalue=-1;
+dlist.cc:					rvalue=-1;
+dlist.cc:					WL->log(LOG_ERROR,_("Can't create file at the path:"));
+dlist.cc:					WL->log(LOG_ERROR,config->save_path.get());
+dlist.cc:					WL->log(LOG_ERROR,_("which has name:"));
+dlist.cc:					WL->log(LOG_ERROR,name);
+dlist.cc:					rvalue=-1;
+dlist.cc:		config->restart_from_begin=0;
+dlist.cc:		WL->log(LOG_OK,_("File was created!"));
+dlist.cc:		WL->log(LOG_WARNING,_("Trying to create a dir"));
+dlist.cc:		if (strlen(info->file.get())==0){
+dlist.cc:				WL->log(LOG_ERROR,_("Can't create directory!"));
+dlist.cc:				rvalue=-1;
+dlist.cc:		chmod(guess,D_FILE->perm | S_IWUSR |S_IXUSR);
+dlist.cc:		WL->log(LOG_WARNING,_("Downloader can't create devices..."));
+dlist.cc:		who->print_error(ERROR_UNKNOWN);
+dlist.cc:	tFileInfo *D_FILE=who->get_file_info();
+dlist.cc:	return (D_FILE->type);
+dlist.cc:	tFileInfo *D_FILE=who->get_file_info();
+dlist.cc:	if (config->get_date) {
+dlist.cc:		dates.actime=dates.modtime=D_FILE->date;
+dlist.cc:	if (config->permisions)
+dlist.cc:		fchmod(((tDefaultWL *)(WL))->get_fd(),D_FILE->perm);
+dlist.cc:		fchmod(((tDefaultWL *)(WL))->get_fd(),get_permisions_from_int(CFG.DEFAULT_PERMISIONS));
+dlist.cc:	finfo.oldtype=finfo.type-1;
+dlist.cc:		tFileInfo *D_FILE=who->get_file_info();
+dlist.cc:		if (D_FILE->type==T_FILE) {
+dlist.cc:	config->copy_ints(&(CFG.DEFAULT_CFG));
+dlist.cc:	config->http_recursing=config->http_recurse_depth==1?0:1;
+dlist.cc:	config->user_agent.set(CFG.USER_AGENT);
+dlist.cc:	config->Filter.set(CFG.DEFAULT_FILTER);
+dlist.cc:	if (myowner && myowner->PAPA)
+dlist.cc:		config->save_path.set(myowner->PAPA->save_path.get());
+dlist.cc:		config->save_path.set(CFG.GLOBAL_SAVE_PATH);
+dlist.cc:		config->socks_host.set(CFG.SOCKS_HOST);
+dlist.cc:		config->socks_port=CFG.SOCKS_PORT;
+dlist.cc:			config->socks_user.set(CFG.SOCKS_USER);
+dlist.cc:			config->socks_pass.set(CFG.SOCKS_PASS);
+dlist.cc:	config->proxy_type=CFG.FTP_PROXY_TYPE;
+dlist.cc:	config->proxy_no_cache=CFG.PROXY_NO_CACHE;
+dlist.cc:		config->fproxy_host.set(CFG.FTP_PROXY_HOST);
+dlist.cc:		config->fproxy_port=CFG.FTP_PROXY_PORT;
+dlist.cc:			config->fproxy_user.set(CFG.FTP_PROXY_USER);
+dlist.cc:			config->fproxy_pass.set(CFG.FTP_PROXY_PASS);
+dlist.cc:		config->hproxy_host.set(CFG.HTTP_PROXY_HOST);
+dlist.cc:		config->hproxy_port=CFG.HTTP_PROXY_PORT;
+dlist.cc:			config->hproxy_user.set(CFG.HTTP_PROXY_USER);
+dlist.cc:			config->hproxy_pass.set(CFG.HTTP_PROXY_PASS);
+dlist.cc:	if (dwn->info)
+dlist.cc:		info->copy(dwn->info);
+dlist.cc:	Description.set(dwn->Description.get());
+dlist.cc:	if (dwn->config){
+dlist.cc:		config->copy(dwn->config);
+dlist.cc:		config->restart_from_begin=dwn->config->restart_from_begin;
+dlist.cc:		config->referer.set(dwn->config->referer.get());
+dlist.cc:		config->save_name.set(dwn->config->save_name.get());
+dlist.cc:		config->save_path.set(dwn->config->save_path.get());
+dlist.cc:		config->log_save_path.set(dwn->config->log_save_path.get());
+dlist.cc:	if (dwn->split==NULL && split)
+dlist.cc:	if (dwn->split){
+dlist.cc:		split->NumOfParts=dwn->split->NumOfParts;
+dlist.cc:	char *real_path=parse_save_path(config->save_path.get(),info->file.get());
+dlist.cc:	if (info && info->proto==D_PROTO_HTTP && config->http_recursing){
+dlist.cc:		if (config->leave_server){
+dlist.cc:					 info->host.get(),"/",
+dlist.cc:					 info->path.get(),"/",NULL);
+dlist.cc:					 info->path.get(),"/",NULL);
+dlist.cc:	if (info->mask==0) 
+dlist.cc:		return (compose_path(info->path.get(),info->file.get()));
+dlist.cc:	return(copy_string(info->path.get()));
+dlist.cc:	if (info->mask==0) {
+dlist.cc:		char *SaveName=config->save_name.get();
+dlist.cc:		if (config->save_path.get()) {
+dlist.cc:				return(compose_path(config->save_path.get(),SaveName));
+dlist.cc:				return(compose_path(config->save_path.get(),info->file.get()));
+dlist.cc:				return(copy_string(info->file.get()));
+dlist.cc:	return(copy_string(config->save_path.get()));
+dlist.cc:	tStringList *dir=tmp->dir();
+dlist.cc:		DIR->done();
+dlist.cc:		DIR->init(0);
+dlist.cc:	if (dir==NULL || dir->first()==NULL) {
+dlist.cc:	tString *temp=dir->last();
+dlist.cc:		ftp_cut_string_list(temp->body,prom,1);
+dlist.cc:		if (prom->name.get() && !equal(prom->name.get(),".")
+dlist.cc:		    && !equal(prom->name.get(),"..")
+dlist.cc:		    && (prom->type!=T_DIR || config->ftp_recurse_depth!=2)
+dlist.cc:		    && (prom->type==T_DIR || info->mask==0 || check_mask(prom->name.get(),info->file.get()))) {
+dlist.cc:			onenew->config=new tCfg;
+dlist.cc:			onenew->config->isdefault=0;
+dlist.cc:			if (prom->type==T_DIR && info->mask) {
+dlist.cc:				addrnew->compose_path(path,prom->name.get());
+dlist.cc:				addrnew->file.set(info->file.get());
+dlist.cc:				char *SavePath=compose_path(savepath,prom->name.get());
+dlist.cc:				onenew->config->save_path.set(SavePath);
+dlist.cc:				addrnew->mask=info->mask;
+dlist.cc:				addrnew->path.set(path);
+dlist.cc:				addrnew->file.set(prom->name.get());
+dlist.cc:				onenew->config->save_path.set(savepath);
+dlist.cc:			addrnew->copy_host(info);
+dlist.cc:			onenew->info=addrnew;
+dlist.cc:			onenew->config->copy(config);
+dlist.cc:			onenew->config->ftp_recurse_depth = config->ftp_recurse_depth ? config->ftp_recurse_depth-1 : 0;
+dlist.cc:			onenew->config->http_recurse_depth = config->http_recurse_depth;
+dlist.cc:				onenew->finfo.type=prom->type;
+dlist.cc:				onenew->finfo.size=prom->size;
+dlist.cc:				onenew->finfo.date=prom->date;
+dlist.cc:				if (config->permisions) onenew->finfo.perm=prom->perm;
+dlist.cc:				if (onenew->finfo.type==T_LINK) {
+dlist.cc:					onenew->finfo.body.set(prom->body.get());
+dlist.cc:			if (addrnew->is_valid()){
+dlist.cc:				DIR->insert(onenew);
+dlist.cc:		dir->del(temp);
+dlist.cc:		temp=dir->last();
+dlist.cc:		prom->name.set(NULL);
+dlist.cc:		prom->body.set(NULL);
+dlist.cc:	if (!equal(what->host.get(),info->host.get())){
+dlist.cc:		return (config->leave_server);
+dlist.cc:	if (config->dont_leave_dir==0 || begin_string(what->path.get(),info->path.get()))
+dlist.cc:		DIR->done();
+dlist.cc:		DIR->init(0);
+dlist.cc:		DIR->init(0);
+dlist.cc:	tHtmlUrl *temp=(tHtmlUrl *)dir->last();
+dlist.cc:	char *URL=info->url();
+dlist.cc:	d4xFilter *filter=config->Filter.get()?FILTERS_DB->find(config->Filter.get()):NULL;
+dlist.cc:		onenew->config=new tCfg;
+dlist.cc:		onenew->config->isdefault=0;
+dlist.cc:		onenew->config->save_path.set(config->save_path.get());
+dlist.cc:		if (onenew->config->save_path.get())
+dlist.cc:			normalize_path(onenew->config->save_path.get());
+dlist.cc:		onenew->config->http_recursing=1;
+dlist.cc:		onenew->config->copy(config);
+dlist.cc:		onenew->config->http_recurse_depth = config->http_recurse_depth ? config->http_recurse_depth-1 : 0;
+dlist.cc:		onenew->config->ftp_recurse_depth = config->ftp_recurse_depth;
+dlist.cc:		onenew->config->referer.set(URL);
+dlist.cc:		if (temp->info->is_valid() && http_check_settings(temp->info)){
+dlist.cc:			onenew->info=temp->info;
+dlist.cc:			temp->info=NULL;
+dlist.cc:				if (filter->match(onenew->info)){
+dlist.cc:					onenew->info->tag.set(NULL); //this info is not needed any more
+dlist.cc:					DIR->insert(onenew);
+dlist.cc:				DIR->insert(onenew);
+dlist.cc:		dir->del(temp);
+dlist.cc:		temp=(tHtmlUrl *)dir->last();
+dlist.cc:	if (filter) filter->unref();
+dlist.cc:	if (info) info->save_to_config(fd);
+dlist.cc:		write_named_integer(fd,"SplitTo:",split->NumOfParts);
+dlist.cc:	if (config && config->isdefault==0)
+dlist.cc:		config->save_to_config(fd);
+dlist.cc:		ALTS->save_to_config(fd);
+dlist.cc:		{"SavePath:",	SV_TYPE_PSTR,	&(config->save_path)},
+dlist.cc:		{"SaveName:",	SV_TYPE_PSTR,	&(config->save_name)},
+dlist.cc:						return(-1);
+dlist.cc:	return -1;
+dlist.cc:		fstat(((tDefaultWL *)WL)->get_fd(),&tmpstat);
+dlist.cc:		who->set_local_filetime(tmpstat.st_mtime);
+dlist.cc:	d4xContentDisposition *cd=((tHttpDownload *)who)->get_content_disp();
+dlist.cc:		if (cd->filename.get()){
+dlist.cc:				tmp=sum_strings(newname,"/",cd->filename.get(),NULL);
+dlist.cc:				tmp=copy_string(cd->filename.get());
+dlist.cc:			WL->log_printf(LOG_WARNING,_("Trying to copy %s to %s due 'Content-Disposition'"),
+dlist.cc:				WL->log(LOG_ERROR,_("Error during copying!"));
+dlist.cc:	who->done();
+dlist.cc:	if (split && split->cond && split->cond->dec()!=0)
+dlist.cc:		WL->truncate();
+dlist.cc:		if (finfo.type==T_DIR && config->ftp_recurse_depth!=1)
+dlist.cc:	WL->log(LOG_OK,_("Downloading was successefully completed!"));
+dlist.cc:	if (im_last && CFG.WRITE_DESCRIPTION && info->proto!=D_PROTO_SEARCH){
+dlist.cc:		if (config->save_name.get())
+dlist.cc:			f_wstr(fd,config->save_name.get());
+dlist.cc:			f_wstr(fd,info->file.get());
+dlist.cc:		f_wstr(fd," - ");
+dlist.cc:			info->save_to_description(fd);
+dlist.cc:			info->save_to_description(fd);
+dlist.cc:	if (config->sleep_before_complete)
+dlist.cc:		sleep(config->time_for_sleep);
+dlist.cc:		who->done();
+dlist.cc:	WL->log(LOG_ERROR,_("Downloading was failed..."));
+dlist.cc:	char *type=httpd->get_content_type();
+dlist.cc:	if ((config->change_links ||  config->http_recurse_depth!=1)
+dlist.cc:		dir->init(0);
+dlist.cc:		if (config->change_links){
+dlist.cc:			char *tmppath=sum_strings(a,"/",info->file.get(),
+dlist.cc:					    info->params.get()?"?":".fl",
+dlist.cc:					    info->params.get()?info->params.get():NULL,
+dlist.cc:					    info->params.get()?".fl":NULL,
+dlist.cc:			html->out_fd=open(tmppath,O_RDWR|O_CREAT|O_TRUNC,S_IRUSR | S_IWUSR );
+dlist.cc:			html->leave=config->leave_server;
+dlist.cc:			html->parse(WL,dir,info);
+dlist.cc:			if (html->out_fd){
+dlist.cc:				((tDefaultWL*)(WL))->set_fd(html->out_fd,0);
+dlist.cc:			html->out_fd=-1;
+dlist.cc:			html->parse(WL,dir,info);
+dlist.cc:		if (config->http_recurse_depth!=1){
+dlist.cc:	tSocket *sock=what->export_ctrl_socket();
+dlist.cc:		adr->copy_host(info);
+dlist.cc:		GVARS.SOCKETS->insert(tmp);
+dlist.cc:	char *newurl=newurl=who->get_new_url();
+dlist.cc:	if (config->change_links && (config->http_recurse_depth!=1 ||
+dlist.cc:	    config->http_recursing)){
+dlist.cc:		WL->shift(0);
+dlist.cc:			"D4X Redirect page</TITLE><META http-equiv=\"Refresh\" "
+dlist.cc:		WL->write(redirect_html,strlen(redirect_html));
+dlist.cc:					     ((tDefaultWL *)(WL))->get_fd(),
+dlist.cc:					     config->leave_server);
+dlist.cc:		WL->write(redirect_html_end,strlen(redirect_html_end));
+dlist.cc:		who->done();
+dlist.cc:		who->done();
+dlist.cc:		if (config->http_recursing ||config->http_recurse_depth!=1){
+dlist.cc:			if (equal_uncase(addr->host.get(),info->host.get()) ||
+dlist.cc:			    config->leave_server){
+dlist.cc:		d4xFilter *filter=config->Filter.get()?FILTERS_DB->find(config->Filter.get()):NULL;
+dlist.cc:			if (filter->match(addr))
+dlist.cc:				WL->log(LOG_WARNING,_("Redirection blocked by filter"));
+dlist.cc:			filter->unref();
+dlist.cc:	WL->log(LOG_WARNING,_("Redirect detected..."));
+dlist.cc:	config->split=split?1:0;
+dlist.cc:	tSocket *s=GVARS.SOCKETS->find(info);
+dlist.cc:	if (who->init(info,config,s)) {
+dlist.cc:	who->init_download(info->path.get(),info->file.get());
+dlist.cc:	((tDefaultWL*)(WL))->unlock_fd();
+dlist.cc:		CurentSize=split->FirstByte;
+dlist.cc:	who->set_loaded(CurentSize);
+dlist.cc:	who->rollback();
+dlist.cc:	int size=who->get_size();
+dlist.cc:	if (size==CurentSize && size>0 && config->rollback==0) {
+dlist.cc:		if (!who->remote_file_changed()){
+dlist.cc:	if (size==-1) {
+dlist.cc:	if (im_first && ((tDefaultWL*)(WL))->lock_fd()){
+dlist.cc:		if (CurentSize==0 && segments) segments->complete();
+dlist.cc:			WL->log(LOG_WARNING,_("It is strange that we can't delete file which just created..."));
+dlist.cc:	if (size<-1) {
+dlist.cc:		WL->log(LOG_WARNING,_("File not found"));
+dlist.cc:	if (split && im_first && who->reget()){
+dlist.cc:		split->LastByte=size;
+dlist.cc:	int SIZE_FOR_DOWNLOAD=who->reget()?size-CurentSize:size;
+dlist.cc:	SIZE_FOR_DOWNLOAD=(split && split->LastByte>0)?split->LastByte-split->FirstByte:SIZE_FOR_DOWNLOAD;
+dlist.cc:	if (who->download(SIZE_FOR_DOWNLOAD)) {
+dlist.cc:	if (!split && ((tHttpDownload*)who)->persistent())
+dlist.cc:	tDownload *tmp=DIR->last();
+dlist.cc:		tDownload *nexttmp=DIR->next();
+dlist.cc:		if (equal(tmp->info->file.get(),info->file.get())==0 ||
+dlist.cc:		    tmp->info->proto!=D_PROTO_FTP){
+dlist.cc:			DIR->del(tmp);
+dlist.cc:	float rval=(aa->Percent/aa->Attempt.curent)-(bb->Percent/bb->Attempt.curent);
+dlist.cc:	return(rval>0?1:-1);
+dlist.cc:	if (DIR->count()==0) return;
+dlist.cc:	WL->log(LOG_OK,_("Sorting started"));
+dlist.cc:		WL->log_printf(LOG_OK,_("Pinging (atempt %i of %i)"),i+1,CFG.SEARCH_PING_TIMES);
+dlist.cc:			tDownload *a=DIR->last();
+dlist.cc:				a->Percent=0;
+dlist.cc:				a->Attempt.curent=0;
+dlist.cc:				a=DIR->next();
+dlist.cc:		tmp->run(DIR,WL);
+dlist.cc:		DIR->sort(_cmp_pinged_hosts_);
+dlist.cc:	WL->log(LOG_WARNING,_("Trying to determine filesizes"));
+dlist.cc:	tDownload *tmp=DIR->last();
+dlist.cc:	config->number_of_attempts=5;
+dlist.cc:		tDownload *nexttmp=DIR->next();
+dlist.cc:		if (who->init(tmp->info,config)){
+dlist.cc:			WL->log(LOG_ERROR,"Can't determine filesize");
+dlist.cc:			tmp->finfo.size=-1;
+dlist.cc:			who->init_download(tmp->info->path.get(),
+dlist.cc:					   tmp->info->file.get());
+dlist.cc:			tmp->finfo.size=who->get_size();
+dlist.cc:		who->done();
+dlist.cc:		tmpinfo->proto=D_PROTO_HTTP;
+dlist.cc:		tmpinfo->port=get_port_by_proto(tmpinfo->proto);
+dlist.cc:		config->change_links=0;
+dlist.cc:			tmpinfo->host.set("www.filesearch.ru");
+dlist.cc:			tmpinfo->path.set("cgi-bin");
+dlist.cc:			tmpinfo->file.set("s");
+dlist.cc:					info->file.get(),
+dlist.cc:					info->file.get(),
+dlist.cc:			tmpinfo->params.set(data);
+dlist.cc:			tmpinfo->host.set("download.lycos.com");
+dlist.cc:			tmpinfo->path.set("swadv");
+dlist.cc:			tmpinfo->file.set("AdvResults.asp");
+dlist.cc:					info->file.get(),
+dlist.cc:					info->file.get(),
+dlist.cc:			tmpinfo->params.set(data);
+dlist.cc:		if (who->init(tmpinfo,config)) {
+dlist.cc:		who->init_download(tmpinfo->path.get(),tmpinfo->file.get());
+dlist.cc:		who->set_loaded(0);
+dlist.cc:		int size=who->get_size();
+dlist.cc:		if (size<=-1) {
+dlist.cc:			WL->log(LOG_WARNING,_("Searching failed"));
+dlist.cc:		if (who->download(0)) {
+dlist.cc:		config->http_recurse_depth=2;
+dlist.cc:		config->leave_server=1;
+dlist.cc:		who->done();
+dlist.cc:	if (finfo.size<0 && DIR->count()>0)
+dlist.cc:	WL->log(LOG_OK,_("Search had been completed!"));
+dlist.cc:	WL->log(LOG_WARNING,_("Was Started!"));
+dlist.cc:		WL->log(LOG_WARNING,_("It is a link and we already load it"));
+dlist.cc:		who->init_download(NULL,info->file.get());
+dlist.cc:		who->set_file_info(&finfo);
+dlist.cc:	config->split=split?1:0;
+dlist.cc:	tSocket *s=GVARS.SOCKETS->find(info);
+dlist.cc:	if (who->init(info,config,s)) {
+dlist.cc:	who->init_download(info->path.get(),info->file.get());
+dlist.cc:		int size=who->get_size();
+dlist.cc:			WL->log(LOG_ERROR,_("File not found"));
+dlist.cc:			if (info->mask){
+dlist.cc:			WL->log(LOG_ERROR,_("Trying to work without CWD"));
+dlist.cc:			((tFtpDownload *)(who))->dont_cwd();
+dlist.cc:		who->set_file_info(&(finfo));
+dlist.cc:	if (info->mask==0){
+dlist.cc:	if (split && im_first && who->reget()){
+dlist.cc:		CurentSize=split->FirstByte;
+dlist.cc:		split->LastByte=size;
+dlist.cc:	who->set_loaded(CurentSize);
+dlist.cc:	if (split) WL->shift(CurentSize);
+dlist.cc:	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
+dlist.cc:	if (who->download(SIZE_FOR_DOWNLOAD)) {
+dlist.cc:	if (config->dont_send_quit) export_socket(who);
+dlist.cc:	if (config->follow_link && finfo.type==T_LINK)
+dlist.cc:	tSegment *holes=segments->to_holes(finfo.size);
+dlist.cc://	printf("split to %i parts\n",split->NumOfParts);
+dlist.cc:	while(split->NumOfParts>holes->offset_in_file){
+dlist.cc:		tmp=holes->next;
+dlist.cc:			if ((tmp->end-tmp->begin)>(largest->end-largest->begin))
+dlist.cc:			tmp=tmp->next;
+dlist.cc:		if (largest->end-largest->begin<SPLIT_MINIMUM_PART){
+dlist.cc:			WL->log(LOG_WARNING,_("Can't split file to specified number of parts!"));
+dlist.cc:		tmp->end=largest->end;
+dlist.cc:		tmp->begin=largest->begin+(largest->end-largest->begin)/(split->NumOfParts-holes->offset_in_file+1);
+dlist.cc:		largest->end=tmp->begin;
+dlist.cc:		tmp->next=largest->next;
+dlist.cc:		largest->next=tmp;
+dlist.cc:		holes->offset_in_file+=1;
+dlist.cc:	split->cond=new d4xCondition;
+dlist.cc://	if (split->NumOfParts<holes->offset_in_file)
+dlist.cc:		split->NumOfParts=holes->offset_in_file;
+dlist.cc:	split->cond->set_value(split->NumOfParts);
+dlist.cc:	split->FirstByte=holes->begin;
+dlist.cc:	split->LastByte=holes->end;
+dlist.cc:	split->thread_num=1;
+dlist.cc://	printf("%li %li\n",split->FirstByte,split->LastByte);
+dlist.cc:	tmp=holes->next;
+dlist.cc:		ALTS->lock_by_download();
+dlist.cc:		alt=ALTS->FIRST;
+dlist.cc:	split->alt=0;
+dlist.cc:		tmp=holes->next;
+dlist.cc:		if (newsplit->next_part==NULL)
+dlist.cc:			newsplit->next_part=new tDownload;
+dlist.cc:		newsplit->cond=split->cond;
+dlist.cc:		tDownload *temp=newsplit->next_part;
+dlist.cc:		temp->status=DOWNLOAD_REAL_STOP;
+dlist.cc:		if (temp->split==NULL)
+dlist.cc:			temp->split=new tSplitInfo;
+dlist.cc:			temp->split->reset();
+dlist.cc:		newsplit=temp->split;
+dlist.cc:		newsplit->NumOfParts=split->NumOfParts;
+dlist.cc:		temp->split->grandparent=this;
+dlist.cc:		temp->split->parent=parent;
+dlist.cc:		temp->split->thread_num=parent->split->thread_num+1;
+dlist.cc:		temp->split->FirstByte=holes->begin;
+dlist.cc:		temp->split->LastByte=holes->end;
+dlist.cc://		printf("%li %li\n",newsplit->FirstByte,newsplit->LastByte);
+dlist.cc:		temp->segments=segments;
+dlist.cc:		if (temp->config==NULL) temp->config=new tCfg;
+dlist.cc:		temp->config->copy(config);
+dlist.cc:		if (config->log_save_path.get()){
+dlist.cc:			char *tmppath=sum_strings(config->log_save_path.get(),"_ ",
+dlist.cc:			tmppath[strlen(tmppath)-1]=i;
+dlist.cc:			temp->config->log_save_path.set(tmppath);
+dlist.cc:		temp->config->speed=(config->speed/split->NumOfParts)*temp->split->NumOfParts;
+dlist.cc:		temp->config->user_agent.set(config->user_agent.get());
+dlist.cc:		temp->config->referer.set(config->referer.get());
+dlist.cc:		temp->config->save_name.set(config->save_name.get());
+dlist.cc:		temp->config->save_path.set(config->save_path.get());
+dlist.cc:		temp->finfo.size=finfo.size;
+dlist.cc:		temp->finfo.type=finfo.type;
+dlist.cc:		temp->finfo.perm=finfo.perm;
+dlist.cc:		temp->finfo.date=finfo.date;
+dlist.cc:		if (temp->info==NULL)
+dlist.cc:			temp->info=new tAddr();
+dlist.cc:			temp->split->alt=alt_num;
+dlist.cc:			temp->info->copy(&(alt->info));
+dlist.cc:			temp->split->alt=0;
+dlist.cc:			temp->info->copy(info);
+dlist.cc:			if (alt->next){
+dlist.cc:				alt=alt->next;
+dlist.cc:				alt=ALTS->FIRST;
+dlist.cc:		ALTS->unlock_by_download();
+dlist.cc:	split->prepared=1;
+dlist.cc:		newurl=who->get_new_url();
+dlist.cc:		tAddr *addr=fix_url_global(newurl,info,-1,0);
+dlist.cc:	if (myowner) myowner->del(this);
+dlist.cc:	if (LOG) LOG->ref_dec();
+dlist.cc:	what->myowner=this;
+dlist.cc:		PAPA->qv.set_pixmap(what,Pixmap);
+dlist.cc:	DBC_RETURN_IF_FAIL(where->myowner==this);
+dlist.cc:	what->myowner=this;
+dlist.cc:		PAPA->qv.set_pixmap(what,Pixmap);
+dlist.cc:	DBC_RETURN_IF_FAIL(what->myowner==this);
+dlist.cc:	what->myowner=NULL;
+dlist.cc:	if (what->next) {
+dlist.cc:		tDownload *temp=(tDownload *)(what->next);
+dlist.cc:		if ((temp->prev=what->prev))
+dlist.cc:			what->prev->next=temp;
+dlist.cc:			Last=what->next;
+dlist.cc:		what->prev=temp;
+dlist.cc:		if ((what->next=temp->next))
+dlist.cc:			temp->next->prev=what;
+dlist.cc:		what->prev->next=what;
+dlist.cc:	if (what->prev) {
+dlist.cc:		tDownload *temp=(tDownload *)(what->prev);
+dlist.cc:		if ((temp->next=what->next))
+dlist.cc:			what->next->prev=temp;
+dlist.cc:			First=what->prev;
+dlist.cc:		what->next=temp;
+dlist.cc:		if ((what->prev=temp->prev))
+dlist.cc:			temp->prev->next=what;
+dlist.cc:		what->next->prev=what;
+dlist.cc://	ALL_DOWNLOADS->del((tDownload *)First);
+download.cc:/*	WebDownloader for X-Window
+download.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+download.cc:		LOG->log(LOG_ERROR,_("Maximum number of retries reached!"));
+download.cc:			LOG->log_printf(LOG_OK,_("Retry %i of %i...."),RetrNum,config.number_of_attempts);
+download.cc:			LOG->log_printf(LOG_OK,_("Retry %i ..."),RetrNum);
+download.cc:		LOG->log(LOG_WARNING,_("File on a server is newer then local one. Restarting from begin\n"));
+download.cc:		LOG->log_printf(LOG_ERROR,_("Error code %i"),error_code);
+download.cc:		LOG->log(LOG_ERROR,_("Warning! Probably you found the BUG!!!"));
+download.cc:		LOG->log(LOG_ERROR,_("If you see this message please report to mdem@chat.ru"));
+download.cc:	StartSize=-1;
+download.cc:	StartSize=-1;
+download.cc:	D_FILE.type=what->type;
+download.cc:		D_FILE.body.set(what->body.get());
+download.cc:	D_FILE.perm=what->perm;
+download.cc:	D_FILE.date=what->date;
+download.cc:	LOADED = LOADED<config.rollback ? 0 : LOADED-config.rollback;
+download.cc:	LOG->shift(LOADED);
+download.cc:		LOG->truncate();
+dqueue.cc:		queues[i]->init(0);
+dqueue.cc:		queues[i]->PAPA=this;
+dqueue.cc:		queues[i]->done();
+dqueue.cc:		return(queues[q]->count());
+dqueue.cc:		num+=queues[i]->count();
+dqueue.cc:	queues[DL_COMPLETE]->set_empty_func(NULL,NULL);
+dqueue.cc:	queues[DL_STOP]->set_empty_func(NULL,NULL);
+dqueue.cc:	queues[DL_COMPLETE]->set_empty_func(main_menu_completed_empty,main_menu_completed_nonempty);
+dqueue.cc:	queues[DL_STOP]->set_empty_func(main_menu_failed_empty,main_menu_failed_nonempty);
+dqueue.cc:	queues[DL_COMPLETE]->init_pixmap(PIX_COMPLETE);
+dqueue.cc:	queues[DL_RUN]->init_pixmap(PIX_RUN_PART);
+dqueue.cc:	queues[DL_WAIT]->init_pixmap(PIX_WAIT);
+dqueue.cc:	queues[DL_PAUSE]->init_pixmap(PIX_PAUSE);
+dqueue.cc:	queues[DL_STOP]->init_pixmap(PIX_STOP);
+dqueue.cc:	queues[DL_STOPWAIT]->init_pixmap(PIX_STOP_WAIT);
+dqueue.cc:	tDownload *temp=queues[DL_RUN]->last();
+dqueue.cc:		if (strcasecmp(host,temp->info->host.get())==0 &&
+dqueue.cc:		    port==temp->info->port){
+dqueue.cc:		if (temp->split){
+dqueue.cc:				tDownload *temp1=temp->split->next_part;
+dqueue.cc:					temp1=temp1->split->next_part;
+dqueue.cc:		temp=queues[DL_RUN]->next();
+dqueue.cc:	return(queues[q]->first());
+dqueue.cc:	return(queues[q]->last());
+dqueue.cc:	if (what->myowner)
+dqueue.cc:		what->myowner->forward(what);
+dqueue.cc:	if (what->myowner)
+dqueue.cc:		what->myowner->backward(what);
+dqueue.cc:	if (where->myowner){
+dqueue.cc:		where->myowner->insert_before(what,where);
+dqueue.cc:	queues[where]->insert(what);
+dqueue.cc:	if (what->myowner)
+dqueue.cc:		what->myowner->del(what);
+dqueue.cc:	what->parent=this;
+dqueue.cc:	what->parent=NULL;
+dqueue.cc:		D4X_QVT->update(this);
+dqueue.cc:			if (node->dwn)
+dqueue.cc:				node->dwn->save_to_config(fd);
+dqueue.cc:			node=(d4xWFNode *)(node->prev);
+dqueue.cc:			temp->save_to_config(fd);
+dqueue.cc:		q->save_to_config(fd);
+dqueue.cc:		q=(d4xDownloadQueue *)(q->prev);
+dqueue.cc:						return(-1);
+dqueue.cc:	return -1;
+dqueue.cc:	MAX_ACTIVE=papa->MAX_ACTIVE;
+dqueue.cc:	TIME_FORMAT=papa->TIME_FORMAT;
+dqueue.cc:	NICE_DEC_DIGITALS=papa->NICE_DEC_DIGITALS;
+dqueue.cc:	AUTODEL_COMPLETED=papa->AUTODEL_COMPLETED;
+dqueue.cc:	AUTODEL_FAILED=papa->AUTODEL_FAILED;
+dqueue.cc:	save_path.set(papa->save_path.get());
+dqueue.cc:	qv.inherit_settings(&(papa->qv));
+dqueue.cc:	if (dwn->split && dwn->split->grandparent)
+dqueue.cc:		dwn=dwn->split->grandparent;
+dqueue.cc:	if (dwn->next2update==NULL){
+dqueue.cc:			last->next2update=dwn;
+dqueue.cc:	if (dwn->next2stop==NULL){
+dqueue.cc:			last_s->next2stop=dwn;
+dqueue.cc:	dwn->status=status;
+dqueue.cc:		if ((first=first->next2update)==NULL)
+dqueue.cc:		a->next2update=NULL;
+dqueue.cc:		if ((first_s=first_s->next2stop)==NULL)
+dqueue.cc:		a->next2stop=NULL;
+dqueue.cc:	tDownload *dwn=dl->first();
+dqueue.cc:		dwn=(tDownload *)(dwn->prev);
+eff.cc:/*	WebDownloader for X-Window
+eff.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+eff.cc:	if (a->body==NULL){
+eff.cc:	if (body==NULL) return(-1);
+eff.cc:	return(strcmp(body,a->body));
+eff.cc:			if (tree->find(str)==NULL)
+eff.cc:				tree->add(str);
+eff.cc:		parser->parse();
+eff.cc:		return(float(LOAD_PARSER->current)/float(LOAD_PARSER->full));
+eff.cc:		tAbstractSortTree *tree=LOAD_PARSER->get_list();
+eff.cc:		if (tree && tree->count()>0) return(1);
+eff.cc:	d4x_links_sel_add(sel,str->body,NULL);
+eff.cc:	tree->del(node);
+eff.cc:		tAbstractSortTree *tree=LOAD_PARSER->get_list();
+eff.cc:			tree->foreach(tread_for_parse_foreach,sel);
+filter.cc:/*	WebDownloader for X-Window
+filter.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+filter.cc:	if (proto && addr->proto!=proto)
+filter.cc:	    addr->file.get() &&
+filter.cc:	    !check_mask2_uncase(addr->file.get(),file.get()))
+filter.cc:	    addr->host.get() &&
+filter.cc:	    !check_mask2(addr->host.get(),host.get()))
+filter.cc:	    addr->path.get() &&
+filter.cc:	    !check_mask2(addr->path.get(),path.get()))
+filter.cc:	if (tag.get() && addr->tag.get()  &&
+filter.cc:	    equal_uncase(addr->tag.get(),tag.get())==0){
+filter.cc:	    (addr->params.get()==NULL ||
+filter.cc:	     !check_mask2(addr->params.get(),params.get())))
+filter.cc:						return(-1);
+filter.cc:	return -1;	
+filter.cc:	refcount-=1;
+filter.cc:		if (rule->match(addr)){
+filter.cc:			return(rule->include);
+filter.cc:		rule=(d4xRule *)(rule->prev);
+filter.cc:		rule=(d4xRule *)(rule->prev);
+filter.cc:		rule->save(fd);
+filter.cc:		rule=(d4xRule *)(rule->prev);
+filter.cc:						return(-1);
+filter.cc:	return -1;	
+filter.cc:		filter->unref();
+filter.cc:	char *a=node->filter->name.get();
+filter.cc:	char *b=filter->name.get();
+filter.cc:	tmp->filter=new d4xFilter;
+filter.cc:	tmp->filter->name.set(name);
+filter.cc:		result->filter->ref();
+filter.cc:		return(result->filter);
+filter.cc:		print_recurse(sel,(d4xFNode *)(node->less));
+filter.cc:		print_recurse(sel,(d4xFNode *)(node->more));
+filter.cc:		print_recurse((d4xFNode *)(node->less));
+filter.cc:		print_recurse((d4xFNode *)(node->more));
+filter.cc:		what->filter->save(fd);
+filter.cc:		save_recurse(fd,(d4xFNode*)(what->less));
+filter.cc:		save_recurse(fd,(d4xFNode*)(what->more));
+filter.cc:void d4xFiltersTree::save(int fd=-1){
+filter.cc:						return(-1);
+filter.cc:	return -1;	
+fsearch.cc:/*	WebDownloader for X-Window
+fsearch.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+fsearch.cc:		queues[i]->init(0);
+fsearch.cc:	what->info->proto=D_PROTO_SEARCH;
+fsearch.cc:	what->action=ACTION_NONE; //reping only flag
+fsearch.cc:	what->Status.curent=0; //cumulative reping flag
+fsearch.cc:	queues[DL_FS_WAIT]->insert(what);
+fsearch.cc:	what->action=ACTION_REPING;
+fsearch.cc:	what->myowner->del(what);
+fsearch.cc:	queues[DL_FS_WAIT]->insert(what);
+fsearch.cc:	switch(what->owner()){
+fsearch.cc:		what->action=ACTION_DELETE;
+fsearch.cc:		what->myowner->del(what);
+fsearch.cc:		if (queues[DL_FS_WAIT]->count()+
+fsearch.cc:		    queues[DL_FS_STOP]->count()+
+fsearch.cc:		    queues[DL_FS_RUN]->count()==0)
+fsearch.cc:	tDownload *tmp=queues[DL_FS_RUN]->last();
+fsearch.cc:		tDownload *tmpnext=queues[DL_FS_RUN]->next();
+fsearch.cc:		if (tmp->status==DOWNLOAD_REAL_STOP ||
+fsearch.cc:		    tmp->status==DOWNLOAD_COMPLETE  ||
+fsearch.cc:		    tmp->status==DOWNLOAD_FATAL) {
+fsearch.cc:			queues[DL_FS_RUN]->del(tmp);
+fsearch.cc:			parent->prepare_for_stoping(tmp);
+fsearch.cc:			parent->post_stopping(tmp);
+fsearch.cc:			switch(tmp->action){
+fsearch.cc:					switch (tmp->status){
+fsearch.cc:						tDownload *a=ALL_DOWNLOADS->find(tmp);
+fsearch.cc:							if (a->ALTS==NULL) a->ALTS=new d4xAltList;
+fsearch.cc:							a->ALTS->fill_from_ftpsearch(tmp);
+fsearch.cc:				if (tmp) queues[DL_FS_STOP]->insert(tmp);
+fsearch.cc:	tmp=queues[DL_FS_WAIT]->last();
+fsearch.cc:	while (tmp!=NULL && queues[DL_FS_RUN]->count()<5){
+fsearch.cc:		tDownload *tmpnext=queues[DL_FS_WAIT]->next();
+fsearch.cc:		if (parent->run_new_thread(tmp))
+fsearch.cc:		queues[DL_FS_WAIT]->del(tmp);
+fsearch.cc:		queues[DL_FS_RUN]->insert(tmp);
+fsearch.cc:	tDownload *tmp=queues[DL_FS_STOP]->last();
+fsearch.cc:		tmp=queues[DL_FS_STOP]->last();
+fsearch.cc:	tmp=queues[DL_FS_WAIT]->last();
+fsearch.cc:		tmp=queues[DL_FS_WAIT]->last();
+fsearch.cc:	tmp=queues[DL_FS_RUN]->last();
+fsearch.cc:		tmp=queues[DL_FS_RUN]->next();
+fsearch.cc:	while(queues[DL_FS_RUN]->count()){
+ftp.cc:/*	WebDownloader for X-Window
+ftp.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+ftp.cc:	if (DataSocket->accepting(hostname)) {
+ftp.cc:		LOG->log(LOG_ERROR,_("Accepting faild"));
+ftp.cc:		LOG->log(LOG_TO_SERVER,"PASS ***");
+ftp.cc:		LOG->log(LOG_TO_SERVER,data);
+ftp.cc:	Status=CtrlSocket->send_string(data,timeout);
+ftp.cc:			LOG->log(LOG_ERROR,_("Timeout while sending through control socket."));
+ftp.cc:		LOG->log(LOG_ERROR,_("Control connection lost"));
+ftp.cc:	int all=DataSocket->rec_string(where,len,timeout);
+ftp.cc:		LOG->log(LOG_WARNING,_("Data connection lost!"));
+ftp.cc:	CTRL->done();
+ftp.cc:		LOG->log(LOG_WARNING,_("Control connection lost!"));
+ftp.cc:	tString *log=CTRL->last();
+ftp.cc:		LOG->log(LOG_FROM_SERVER,log->body);
+ftp.cc:	tString *log=CTRL->last();
+ftp.cc:			if(how[ind]!=log->body[ind])
+ftp.cc:			FIRST_REPLY = CTRL->last()?copy_string(CTRL->last()->body):NULL;
+ftp.cc:	tString *test=CTRL->last();
+ftp.cc:	if (test && test->body && strlen(test->body)>=3 && first &&
+ftp.cc:	    isspace(test->body[3]) && is_valid_answer(test->body)){
+ftp.cc:		if (first[0] == test->body[0] &&
+ftp.cc:		    first[1] == test->body[1] &&
+ftp.cc:		    first[2] == test->body[2])
+ftp.cc:			LOG->log(LOG_WARNING,_("Reget is not supported!!!"));
+ftp.cc:	CTRL->init(2);
+ftp.cc:	passive=cfg->passive;
+ftp.cc:	CTRL->init(2);
+ftp.cc:	if (cfg->socks_host.get() && cfg->socks_port){
+ftp.cc:		DataSocket=new tSocksSocket(cfg->socks_host.get(),
+ftp.cc:					    cfg->socks_port,
+ftp.cc:					    cfg->socks_user.get(),
+ftp.cc:					    cfg->socks_pass.get());
+ftp.cc:	if (analize_ctrl(sizeof(FTP_LOGIN_OK)/sizeof(char *),FTP_LOGIN_OK)) return -1;
+ftp.cc:		if (analize_ctrl(1,&FTP_PASS_OK)) return -2;
+ftp.cc:	if (DSFlag) DataSocket->down();
+ftp.cc:			return -1;
+ftp.cc:		tString *log=CTRL->last();
+ftp.cc:		if (log == NULL) return -1;
+ftp.cc:		d4x_ftp_parse_pasv(log->body,PASSIVE_ADDR);
+ftp.cc:		if (index(log->body,'(')!=NULL)
+ftp.cc:			sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
+ftp.cc:		LOG->log_printf(LOG_OK,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
+ftp.cc:		if (DataSocket->open_port(PASSIVE_ADDR)) {
+ftp.cc:			return -1;
+ftp.cc:		unsigned int addr=CtrlSocket->get_addr();
+ftp.cc:		int ac=DataSocket->open_any(addr);
+ftp.cc:		addr=DataSocket->get_addr();
+ftp.cc:		unsigned short int port=DataSocket->get_port();
+ftp.cc:		addr=DataSocket->get_addr();
+ftp.cc:			return -1;
+ftp.cc:	if ((rvalue=rest(list->size()))) return(rvalue);
+ftp.cc:	if (!ReGet) list->done();
+ftp.cc:		send_command("LIST -la",filename);
+ftp.cc:		DSize=list->size();
+ftp.cc:			DataSocket->down(); // Added by Terence Haddock
+ftp.cc:			LOG->log(LOG_FROM_SERVER,(list->last())->body);
+ftp.cc:	     list->count()==0) && METHOD_TO_LIST==0){
+ftp.cc:		DataSocket->down();
+ftp.cc:		if (!RETRY_IF_NO_REGET) return(-1);
+ftp.cc:		LOG->shift(0);
+ftp.cc:		LOG->truncate(); //to avoid displaing wrong size
+ftp.cc:	tString *log=CTRL->last();
+ftp.cc:		char *str=rindex(log->body,'(');
+ftp.cc:		LOG->log(LOG_WARNING,_("Probably file was changed on server!"));
+ftp.cc:		if (!RETRY_IF_NO_REGET) return(-1);
+ftp.cc:		LOG->shift(0);
+ftp.cc:		LOG->truncate();
+ftp.cc:			LOG->log(LOG_WARNING,_("Data connection closed."));
+ftp.cc:			llen -=FillSize;
+ftp.cc:				LOG->log(LOG_OK,_("Requested size was loaded"));
+ftp.cc:				DataSocket->flush(); /*read data in socket
+ftp.cc:				DataSocket->down();
+ftp.cc:	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team
+ftp.cc:	if (CtrlSocket) CtrlSocket->down();
+ftp.cc:	if (DataSocket) DataSocket->down();
+ftp.cc:	if (CtrlSocket->connected() && log_flag){
+ftpd.cc:/*	WebDownloader for X-Window
+ftpd.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+ftpd.cc:	char *delim=" -> ";
+ftpd.cc:	date->tm_sec=0;
+ftpd.cc:	date->tm_isdst=-1;
+ftpd.cc:	/* day-month-year min:hour[aa]*/
+ftpd.cc:	sscanf_int(tmp,&(date->tm_mday));
+ftpd.cc:	sscanf_int(tmp,&(date->tm_mon));
+ftpd.cc:	int year=date->tm_year;
+ftpd.cc:	if (year+100<=date->tm_year)
+ftpd.cc:		date->tm_year=year+100;
+ftpd.cc:		date->tm_year=year;
+ftpd.cc:	if (date->tm_mon>12){
+ftpd.cc:		year=date->tm_mon;
+ftpd.cc:		date->tm_mon=date->tm_mday;
+ftpd.cc:		date->tm_mday=year;
+ftpd.cc:	date->tm_mon-=1;
+ftpd.cc:		sscanf_int(tmp,&(date->tm_hour));
+ftpd.cc:		sscanf_int(tmp,&(date->tm_min));
+ftpd.cc:			date->tm_hour+=12;
+ftpd.cc:	date->tm_sec=0;
+ftpd.cc:	date->tm_min=0;
+ftpd.cc:	date->tm_hour=0;
+ftpd.cc:	date->tm_isdst=-1;
+ftpd.cc:	month=date->tm_mon;
+ftpd.cc:	day=date->tm_mday;
+ftpd.cc:		date->tm_mon=convert_month(data);
+ftpd.cc:		sscanf(data,"%i",&(date->tm_mday));
+ftpd.cc:			sscanf_int(tmpdata,&(date->tm_hour));
+ftpd.cc:			sscanf_int(tmpdata,&(date->tm_min));
+ftpd.cc:			if (month<date->tm_mon ||
+ftpd.cc:			    (month==date->tm_mon && day<date->tm_mday))
+ftpd.cc:				date->tm_year-=1;
+ftpd.cc:			sscanf(data,"%i",&(date->tm_year));
+ftpd.cc:			date->tm_year-=1900;
+ftpd.cc:/* parsing string of LIST -la command
+ftpd.cc:   char *src - string for parsing
+ftpd.cc:   tFileInfo *dst - where put result
+ftpd.cc:   int flag - need put strings (name and name of link) to result or not
+ftpd.cc:	       		str1,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
+ftpd.cc:	       		str1,&par1,str1,&dst->size,str1,&par1,str1,name);
+ftpd.cc:		dst->type=ftp_type_from_str(rsrc);
+ftpd.cc:		if (dst->type!=T_DEVICE) {
+ftpd.cc:			dst->perm=ftp_permisions_from_str(rsrc);
+ftpd.cc:			dst->date=ftp_date_from_str(rsrc);
+ftpd.cc:			if (tmp) dst->name.set(tmp);
+ftpd.cc:			else dst->name.set(name);
+ftpd.cc:		if (dst->type==T_LINK) {
+ftpd.cc:			dst->body.set(name);
+ftpd.cc:				tmp=strstr(dst->name.get()," -> ");
+ftpd.cc:		}else dst->body.set(NULL);
+ftpd.cc:			dst->date=ftp_date_from_dos(src);
+ftpd.cc:				dst->type=T_DIR;
+ftpd.cc:				dst->perm=0775;
+ftpd.cc:				sscanf(str1,"%li",&(dst->size));
+ftpd.cc:				dst->type=T_FILE;
+ftpd.cc:				dst->perm=0664;
+ftpd.cc:				dst->name.set(new_src);
+ftpd.cc:				dst->body.set(NULL);
+ftpd.cc:		LOG->log(LOG_ERROR,_("Can't establish data connection"));
+ftpd.cc:		LOG->log(LOG_ERROR,_("Can't change directory"));
+ftpd.cc:		LOG->log(LOG_WARNING,_("Server refused login, perhaps there are too many users of your class"));
+ftpd.cc:		if ((rvalue=FTP->change_dir("/"))){
+ftpd.cc:	if ((rvalue=FTP->change_dir(ADDR.path.get()))){
+ftpd.cc:	if ((rvalue=FTP->change_dir(ADDR.path.get()))){
+ftpd.cc:		if (FTP->get_status()!=STATUS_TIMEOUT && FTP->get_status()!=0) {
+ftpd.cc:		FTP->done();
+ftpd.cc:			return -1;
+ftpd.cc:			LOG->log(LOG_OK,_("Sleeping"));
+ftpd.cc:		if (FTP->reinit()==0){
+ftpd.cc:				FTP->registr(config.fproxy_user.get(), config.fproxy_pass.get());
+ftpd.cc:				success=FTP->connect();
+ftpd.cc:				FTP->registr(ADDR.username.get(),ADDR.pass.get());
+ftpd.cc:				success=FTP->connect();
+ftpd.cc:	if (cfg->split){
+ftpd.cc:		FTP->init(config.fproxy_host.get(),LOG,config.fproxy_port,config.timeout);
+ftpd.cc:		FTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
+ftpd.cc:	FTP->set_passive(config.passive);
+ftpd.cc:	FTP->set_retry(config.retry);
+ftpd.cc:	FTP->set_dont_set_quit(config.dont_send_quit);
+ftpd.cc:		FTP->import_ctrl_socket(s);
+ftpd.cc:	if (FTP->stand_data_connection()){
+ftpd.cc:		return(-1);
+ftpd.cc:		return(FTP->get_size(NULL,l));
+ftpd.cc:		return(FTP->get_size(TMP_FILEPATH,l));
+ftpd.cc:	return(FTP->get_size(ADDR.file.get(),l));
+ftpd.cc:	if (FTP->change_dir(ADDR.file.get())==0)
+ftpd.cc:	tString *last=list->last();
+ftpd.cc:		LOG->log(LOG_WARNING,_("Empty answer. Trying to change directory to determine file type."));
+ftpd.cc:	if (equal_first(last->body,"total")) {
+ftpd.cc:	ftp_cut_string_list(last->body,&D_FILE,1);
+ftpd.cc:	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
+ftpd.cc:	tString *last=list->last();
+ftpd.cc:		if (strstr(last->body,ADDR.file.get()))
+ftpd.cc:		last=(tString*)(last->next);
+ftpd.cc:		LOG->log(LOG_WARNING,_("This is a directory!"));
+ftpd.cc:	ftp_cut_string_list(last->body,&D_FILE,0);
+ftpd.cc:	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
+ftpd.cc:		list->init(0);
+ftpd.cc:	} else list->done();
+ftpd.cc:			if (a==0 && list->count()<=2){
+ftpd.cc:				    FTP->METHOD_TO_LIST==1)
+ftpd.cc:				FTP->METHOD_TO_LIST=1;
+ftpd.cc:				list->done();
+ftpd.cc:				if (a==0 && list->count()<=2)
+ftpd.cc:			if (a==0 && list->count()>2) {
+ftpd.cc:			LOG->log(LOG_WARNING,_("Couldn't get size :(("));
+ftpd.cc:		if (FTP->get_status()==STATUS_CMD_ERR ||
+ftpd.cc:		    FTP->get_status()==STATUS_UNSPEC_ERR){
+ftpd.cc:	return -1;
+ftpd.cc:	LOG->log(LOG_OK,_("Loading directory..."));
+ftpd.cc:		DIR->init(0);
+ftpd.cc:				if (!FTP->stand_data_connection()) {
+ftpd.cc:					if (!FTP->test_reget()) {
+ftpd.cc:						DIR->done();
+ftpd.cc:						LOG->log(LOG_OK,_("Listing was loaded"));
+ftpd.cc:					LOG->log(LOG_WARNING,_("Listing not loaded completelly"));
+ftpd.cc:				int s=FTP->get_status();
+ftpd.cc:					return -1;
+ftpd.cc:				return -1;
+ftpd.cc:		LOG->log(LOG_OK,_("Link was loaded :))"));
+ftpd.cc:			if (config.retry==0) return(-1);
+ftpd.cc:			LOG->shift(0);
+ftpd.cc:			LOG->truncate();
+ftpd.cc:				if (!FTP->stand_data_connection()) {
+ftpd.cc:					fsize_t to_load=len>0?length_to_load-LOADED:0;
+ftpd.cc:						ind=FTP->get_file_from(TMP_FILEPATH,LOADED,to_load);;
+ftpd.cc:						ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
+ftpd.cc:					if (!FTP->test_reget()){
+ftpd.cc:						LOG->log_printf(LOG_OK,_("%i bytes loaded."),ind);
+ftpd.cc:					if (!FTP->get_status()) {
+ftpd.cc:				int s=FTP->get_status();
+ftpd.cc:					rvalue=-1;
+ftpd.cc:				rvalue=-1;
+ftpd.cc:	if (D_FILE.type==T_FILE) return (FTP->get_readed());
+ftpd.cc:	if (DIR) return DIR->size();
+ftpd.cc:	if (list) return list->size();
+ftpd.cc:	return FTP->another_way_get_size();
+ftpd.cc:	return(FTP->get_status());
+ftpd.cc:	if (FTP && !FTP->test_reget())
+ftpd.cc:	if (FTP) return FTP->test_reget();
+ftpd.cc:	if (FTP) FTP->done();
+ftpd.cc:	if (FTP) return(FTP->export_ctrl_socket());
+history.cc:/*	WebDownloader for X-Window
+history.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+history.cc:		if (equal(tmp->body,((tString *)what)->body)) {
+hproxy.cc:/*	WebDownloader for X-Window
+hproxy.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+hproxy.cc:	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+hproxy.cc:		send_request("Range: bytes=",data,"-\r\n");
+hproxy.cc:			send_request("User-Agent: ",VERSION_NAME,"\r\n");
+hproxy.cc:			send_request("User-Agent: ",user_agent,"\r\n");
+hproxy.cc:		send_request("Proxy-Authorization: Basic ",pass,"\r\n");
+hproxy.cc:		send_request("Pragma: no-cache\r\n");
+hproxy.cc:/* ---------------------------------------------
+hproxy.cc:	DBC_RETVAL_IF_FAIL(hostinfo!=NULL,-1);
+hproxy.cc:	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
+hproxy.cc:	config.socks_port = cfg->socks_port;
+hproxy.cc:	config.socks_host.set(cfg->socks_host.get());
+hproxy.cc:	config.socks_user.set(cfg->socks_user.get());
+hproxy.cc:	config.socks_pass.set(cfg->socks_pass.get());
+hproxy.cc:	config.proxy_no_cache = cfg->proxy_no_cache;
+hproxy.cc:	if (hostinfo->proto==D_PROTO_FTP){
+hproxy.cc:		config.hproxy_port = cfg->fproxy_port;
+hproxy.cc:		config.hproxy_host.set(cfg->fproxy_host.get());
+hproxy.cc:		config.hproxy_user.set(cfg->fproxy_user.get());
+hproxy.cc:		config.hproxy_pass.set(cfg->fproxy_pass.get());
+hproxy.cc:		config.hproxy_port = cfg->hproxy_port;
+hproxy.cc:		config.hproxy_host.set(cfg->hproxy_host.get());
+hproxy.cc:		config.hproxy_user.set(cfg->hproxy_user.get());
+hproxy.cc:		config.hproxy_pass.set(cfg->hproxy_pass.get());
+hproxy.cc:	D_PROTO=hostinfo->proto;
+hproxy.cc:	HTTP->init(config.hproxy_host.get(),LOG,config.hproxy_port,config.timeout);
+hproxy.cc:	config.user_agent.set(cfg->user_agent.get());
+hproxy.cc:	config.referer.set(cfg->referer.get());
+hproxy.cc:	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
+hproxy.cc:		HTTP->registr(NULL,NULL);
+hproxy.cc:		HTTP->registr(ADDR.username.get(),ADDR.pass.get());
+hproxy.cc:	((tHProxyClient *)(HTTP))->proxy_registr(config.hproxy_user.get(),config.hproxy_pass.get());
+hproxy.cc:	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.get(),cfg->proxy_no_cache);
+hproxy.cc:	if (*D_PATH && D_PATH[strlen(D_PATH)-1]!='/')
+hproxy.cc:	((tHProxyClient *)HTTP)->set_cookie_search(ADDR.pathfile());
+hproxy.cc:		answer->init(0);
+hproxy.cc:		answer->done();
+hproxy.cc:		HTTP->set_offset(LOADED);
+hproxy.cc:		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.hproxy_host.get(),config.hproxy_port);
+hproxy.cc:		fsize_t temp=HTTP->get_size(REQUESTED_URL,answer);
+hproxy.cc:			LOG->log(LOG_OK,_("Answer read ok"));
+hproxy.cc:			return -1;
+hproxy.cc:		case -2: // bad answer
+hproxy.cc:			if (HTTP->ERROR_CODE==404){
+hproxy.cc:				LOG->log(LOG_ERROR,_("File not found on the server"));
+hproxy.cc:				return -2;
+hproxy.cc:			LOG->log(LOG_OK,_("Probably it's problem of proxy server, retrying"));
+hproxy.cc:		case -1: // timout
+hproxy.cc:	return -2;
+html.cc:/*	WebDownloader for X-Window
+html.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+html.cc:	"http-equiv"
+html.cc:	WL->shift(-(len+shift),SEEK_CUR);
+html.cc:	WL->read(temp,len);
+html.cc:	while(WL->read(&p,sizeof(p))>0){
+html.cc:	while(WL->read(&p,sizeof(p))>0){
+html.cc:	while(WL->read(&p,sizeof(p))>0){
+html.cc:	while(WL->read(&p,sizeof(p))>0){
+html.cc:	while(WL->read(&p,sizeof(p))>0){
+html.cc:	tag->fields=new tQueue;
+html.cc:	tag->fields->init(0);
+html.cc:	while(WL->read(&p,sizeof(p)>0)){
+html.cc:			field->name=get_word(1);
+html.cc:			tag->fields->insert(field);
+html.cc:			while(WL->read(&p,sizeof(p)>0)){
+html.cc:						WL->shift(-1,SEEK_CUR);
+html.cc:						field->value=get_word_icommas();
+html.cc:						field->value=get_word_icommas2();
+html.cc:						field->value=get_word_o(1);
+html.cc:					if (field->value)
+html.cc:						compact_string(field->value);
+html.cc:		return(copy_string2(temp,end-temp));
+html.cc:	while(WL->read(&p,sizeof(p))>0){
+html.cc:				if (name && equal(name,"!--")){
+html.cc:						f_wstr(out_fd,"<!--");
+html.cc:					while(WL->read(&p,sizeof(p))>0){
+html.cc:					rvalue->name=name;
+html.cc:			info->params.set(quest+1);
+html.cc:		if (papa->proto==D_PROTO_FTP){
+html.cc:		/* %xx -> CHAR */
+html.cc:			info->file.set(quest+1);
+html.cc:				info->path.set(tmp+1);
+html.cc:					info->path.set("");
+html.cc:					info->compose_path(papa->path.get(),tmp);
+html.cc:			info->path.set(papa->path.get());
+html.cc:			info->file.set(tmp);
+html.cc:		info->file_del_sq();
+html.cc:		info->copy_host(papa);
+html.cc:			if (papa->proto==D_PROTO_FTP && info->proto==D_PROTO_FTP){
+html.cc:				char *quest=index(info->file.get(),';');
+html.cc:		if (!equal(info->host.get(),papa->host.get())){
+html.cc:				write_up_dirs(out_fd,papa->path.get());
+html.cc:				f_wstr(out_fd,info->host.get());
+html.cc:				f_wstr(out_fd,info->path.get());
+html.cc:				f_wstr(out_fd,info->file.get());
+html.cc:				if (info->params.get()){
+html.cc:					f_wstr(out_fd,info->params.get());
+html.cc:				char *url=info->url();
+html.cc:			char *a=papa->path.get();
+html.cc:			char *b=info->path.get();
+html.cc:			f_wstr(out_fd,info->file.get());
+html.cc:			if (info->params.get()){
+html.cc:				f_wstr(out_fd,info->params.get());
+html.cc:		info->tag.set(tag);
+html.cc:		node->info=info;
+html.cc:		list->insert(node);
+html.cc:	if (tag->fields){
+html.cc:		tHtmlTagField *field=(tHtmlTagField *)(tag->fields->first());
+html.cc:			if (field->saved==0 && field->name){
+html.cc:				f_wstr(out_fd,field->name);
+html.cc:				if (field->value){
+html.cc:					f_wstr(out_fd,field->value);
+html.cc:			field=(tHtmlTagField *)(tag->fields->prev());
+html.cc:	tHtmlTagField *field=(tHtmlTagField *)(where->prev);
+html.cc:		if (field->name && field->value &&
+html.cc:		    equal_uncase(field->name,HTML_FIELDS_NAMES[HF_CONTENT]))
+html.cc:			tmp=extract_from_icommas(field->value);
+html.cc:		field=(tHtmlTagField *)(field->prev);
+html.cc:	list->done();
+html.cc:	list->init(0);
+html.cc:	WL->shift(0);
+html.cc:		temp->print();
+html.cc:		if (temp->fields){
+html.cc:			tHtmlTagField *field=(tHtmlTagField *)(temp->fields->first());
+html.cc:				field->print();
+html.cc:				field=(tHtmlTagField *)(temp->fields->prev());
+html.cc:			f_wstr(out_fd,temp->name);
+html.cc:			if(equal_uncase(HTML_TEGS[i].tag,temp->name) &&
+html.cc:			   temp->fields){
+html.cc:				tHtmlTagField *field=(tHtmlTagField *)(temp->fields->first());
+html.cc:					if (field->value && equal_uncase(field->name,HTML_TEGS[i].field)){
+html.cc:						field->saved=1;
+html.cc:						char *tmp=extract_from_icommas(field->value);
+html.cc:								look_for_meta_content(field,list,papa,temp->name);
+html.cc:									f_wstr(out_fd,field->name);
+html.cc:								fix_url(tmp,list,papa,temp->name);
+html.cc:							field->saved=1;
+html.cc:					field=(tHtmlTagField *)(temp->fields->prev());
+http.cc:/*	WebDownloader for X-Window
+http.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+http.cc:	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
+http.cc:	LOG->log(LOG_TO_SERVER,what);
+http.cc:	return CtrlSocket->send_string(what,timeout);
+http.cc:	DBC_RETVAL_IF_FAIL(begin!=NULL,-1);
+http.cc:	int all=CtrlSocket->rec_string(where,len,timeout);
+http.cc:		LOG->log(LOG_ERROR,_("Socket lost!"));
+http.cc:	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
+http.cc:	list->done();
+http.cc:	LOG->log(LOG_OK,_("Request was sent, waiting for the answer"));
+http.cc:		return -1;
+http.cc:	tString *last=list->last();
+http.cc:		LOG->log(LOG_FROM_SERVER,last->body);
+http.cc:		char *str1=new char[strlen(last->body)+1];
+http.cc:		char *str2=new char[strlen(last->body)+1];
+http.cc:		sscanf(last->body,"%s %s",str1,str2);
+http.cc:			LOG->log(LOG_WARNING,_("It is not HTTP server!!!"));
+http.cc:			LOG->log(LOG_OK,_("All ok, reading file"));
+http.cc:			if (begin_string(last->body,"401") ||
+http.cc:			    begin_string(last->body,"403"))
+http.cc:				LOG->log(LOG_WARNING,_("It seems to me that you need a password :)"));
+http.cc:			rvalue = -2;
+http.cc:			LOG->log(LOG_ERROR,_("Server return bad answer:(("));
+http.cc:			rvalue = -2;
+http.cc:		list->del(last);
+http.cc:			num_str-=1;
+http.cc:			if (read_string(CtrlSocket,list,MAX_LEN)) return -1;
+http.cc:			last=list->last();
+http.cc:			LOG->log(LOG_FROM_SERVER,last->body);
+http.cc:		}while (!empty_string(last->body) && num_str>0);
+http.cc:	return -1;
+http.cc:	char *request_string=LOG->cookie(host,path);
+http.cc:	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+http.cc:	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
+http.cc:		send_request("Range: bytes=",data,"-\r\n");
+http.cc:			send_request("User-Agent: ",VERSION_NAME,"\r\n");
+http.cc:			send_request("User-Agent: ",user_agent,"\r\n");
+http.cc://				LOG->log(LOG_FROM_SERVER,str);
+http.cc:				LOG->log(LOG_ERROR,_("Wrong chunk size!"));
+http.cc:			LOG->log_printf(LOG_OK,_("Chunk size %i"),llen);
+http.cc:				LOG->log(LOG_OK,_("It's last chunk!"));
+http.cc://				if (str) LOG->log(LOG_FROM_SERVER,str);
+http.cc:				LOG->log(LOG_WARNING,_("Data connection closed."));
+http.cc:				llen -=FillSize;
+http.cc:					LOG->log(LOG_OK,_("Requested size was loaded"));
+http.cc:	if (CtrlSocket) CtrlSocket->down();
+httpd.cc:/*	WebDownloader for X-Window
+httpd.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+httpd.cc:	"content-length:",
+httpd.cc:	"content-range:",
+httpd.cc:	"content-type:",
+httpd.cc:	"content-disposition:",
+httpd.cc:	"accept-ranges:",
+httpd.cc:	"www-authenticate:",
+httpd.cc:	"last-modified:",
+httpd.cc:	"set-cookie:",
+httpd.cc:	"transfer-encoding:",
+httpd.cc:	size=-1;
+httpd.cc:		"modification-date",
+httpd.cc:		"read-date",
+httpd.cc:		"creation-date",
+httpd.cc:	if (sqs==NULL) sqs=tmp+strlen(tmp)-1;
+httpd.cc:	else sqs-=1;
+httpd.cc:	int len=sqs-tmp;
+httpd.cc:	for (int i=len-1;i>=0;i++){
+httpd.cc:	int len=eqs-tmp;
+httpd.cc:	for (int i=len-1;i>=0;i++){
+httpd.cc:		LOG->log(LOG_ERROR,_("Couldn't get normal answer!"));
+httpd.cc:	if (cfg->split){
+httpd.cc:	HTTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
+httpd.cc:	config.user_agent.set(cfg->user_agent.get());
+httpd.cc:	config.referer.set(cfg->referer.get());
+httpd.cc:	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
+httpd.cc:	HTTP->registr(ADDR.username.get(),ADDR.pass.get());
+httpd.cc:		HTTP->import_ctrl_socket(s);
+httpd.cc:			return -1;
+httpd.cc:		HTTP->down();
+httpd.cc:			LOG->log(LOG_WARNING,_("Sleeping"));
+httpd.cc:		if (HTTP->reinit()==0)
+httpd.cc:	tString *temp=answer->last();
+httpd.cc:		string_to_low(temp->body,':');
+httpd.cc:		if (begin_string(temp->body,LOCATION)) {
+httpd.cc:			char *str=extract_from_prefixed_string(temp->body,LOCATION);
+httpd.cc:		temp=answer->next();
+httpd.cc:	 *	Content-Length: (int)
+httpd.cc:	 *	Content-Range: bytes (int)-(int)/(int)
+httpd.cc:	 *	Last-Modified: 
+httpd.cc:	if (HTTP->HTTP_SUBVER==1 || HTTP->HTTP_VER>1)
+httpd.cc:	tString *temp=answer->last();
+httpd.cc:	if (!temp) return -1;
+httpd.cc:	HTTP->CHUNKED=0;
+httpd.cc:			if (begin_string_uncase(temp->body,STR))
+httpd.cc:			content_type=extract_from_prefixed_string(temp->body,STR);
+httpd.cc:			if (strstr(temp->body+strlen(STR),"bytes"))
+httpd.cc:			sscanf(temp->body+strlen(STR),"%li",&rvalue);
+httpd.cc:			char *a=strstr(temp->body+strlen(STR),"bytes");
+httpd.cc:				a=temp->body+strlen(STR);
+httpd.cc:			if (sscanf(a,"%i-%i/%i",&b[0],&b[1],&b[2])==3){
+httpd.cc:				rvalue=b[2]-b[0];
+httpd.cc:			char *tmp=temp->body+strlen(STR);
+httpd.cc:			ETag=extract_from_prefixed_string(temp->body,STR);
+httpd.cc:			content_disp=new d4xContentDisposition(temp->body+strlen(STR));
+httpd.cc:				Auth=extract_from_prefixed_string(temp->body,STR);
+httpd.cc:// Set-Cookie: zzzplayuniq=free3-chi-48-2001-Dec-28_04:57:07; expires=Sat, 31 Dec 2005 00:00:00 GMT; path=/; domain=.playboy.com;
+httpd.cc:			if (cookie->parse(temp->body+strlen(STR),ADDR.host.get(),ADDR.path.get())==0){
+httpd.cc:				LOG->cookie_set(cookie);
+httpd.cc:			if (strstr(temp->body,"chunked")){
+httpd.cc:				HTTP->CHUNKED=1;
+httpd.cc:			if (strstr(temp->body,"close")){
+httpd.cc:		temp=answer->next();
+httpd.cc:		LOG->log_printf(LOG_OK,_("Size for download is %i bytes"),rvalue);
+httpd.cc:	if (*parsed_path!=0 && len && parsed_path[len-1]!='/')
+httpd.cc:		answer->init(0);
+httpd.cc:		answer->done();
+httpd.cc:		HTTP->set_offset(LOADED);
+httpd.cc:		LOG->log(LOG_OK,_("Sending HTTP request..."));
+httpd.cc:		int temp=HTTP->get_size(REQUESTED_URL,answer);
+httpd.cc:			LOG->log(LOG_OK,_("Answer read ok"));
+httpd.cc:		case -2: // bad error code
+httpd.cc:			return -2;
+httpd.cc:		case -1: // timeout
+httpd.cc:			return -1;
+httpd.cc:	return -2;
+httpd.cc:		HTTP->set_offset(LOADED);
+httpd.cc:			if (config.retry==0) return(-1);
+httpd.cc:			LOG->shift(0);
+httpd.cc:			LOG->truncate();
+httpd.cc:					LOG->log(LOG_WARNING,_("It is seemed REGET not supported! Loading from begin.."));
+httpd.cc:					LOG->log(LOG_WARNING,_("ETag was changed, restarting again..."));
+httpd.cc:					LOG->shift(0);
+httpd.cc:				LOG->shift(0);
+httpd.cc:				LOG->truncate(); //to avoid displaing wron size
+httpd.cc:			fsize_t to_load=len>0?length_to_load-LOADED:0;
+httpd.cc:			fsize_t ind=HTTP->get_file_from(NULL,LOADED,to_load);
+httpd.cc:				LOG->log_printf(LOG_OK,_("%i bytes loaded."),ind);
+httpd.cc://		if (HTTP->get_status()==STATUS_FATAL) return -1;
+httpd.cc:		if (HTTP->get_status()==0 && D_FILE.size==0) break;
+httpd.cc:		if (reconnect()) return -1;
+httpd.cc:	return HTTP->get_status();
+httpd.cc:	return (HTTP->get_readed());
+httpd.cc:	HTTP->done();
+httpd.cc:	if (HTTP) return(HTTP->export_ctrl_socket());
+liststr.cc:/*	WebDownloader for X-Window
+liststr.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+liststr.cc:	while(len--) {
+liststr.cc:	return(length-1);
+liststr.cc:		prom->print();
+liststr.cc:		prom=prom->prev;
+liststr.cc:	Size-=temp->size();
+locstr.cc:/*	WebDownloader for X-Window
+locstr.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+locstr.cc:			*what+='a'-'A';
+locstr.cc:			*what+='a'-'A';
+locstr.cc:		return(what-'0');
+locstr.cc:		return (10+what-'a');
+locstr.cc:		return (10+what-'A');
+locstr.cc:	return -1;
+locstr.cc:    action: coverts character to hexademal string (e.g. ' ' -> "20")
+locstr.cc:	const char *true_chars=".-+%";
+locstr.cc:			if (tmp-where)
+locstr.cc:				memcpy(r,where,tmp-where);
+locstr.cc:			r+=tmp-where;
+locstr.cc:				for (int i=len-3;i>0;i-=3,len++) {
+locstr.cc:					for (int a=len-1;a>=i;a--)
+locstr.cc:					int bytes=((num-kils*1024)*10)/1024;
+locstr.cc:					int bytes=((num-megs*1024*1024)*10)/(1024*1024);
+locstr.cc:				for (int i=len-3;i>0;i-=3,len++) {
+locstr.cc:					for (int a=len-1;a>=i;a--)
+locstr.cc:					int bytes=((num-kils*1024)*10)/1024;
+locstr.cc:					int bytes=((num-megs*1024*1024)*10)/(1024*1024);
+locstr.cc:	date.tm_isdst=-1;
+locstr.cc:		date.tm_year-=1900;
+locstr.cc:						if (b>src) b-=1;
+locstr.cc:						while (b>src && *b!='/') b-=1;
+locstr.cc:			char *path=sum_strings(p->pw_dir,cur,NULL);
+locstr.cc:	if (*right!='/' && (len==0 || left[len-1]!='/'))
+locstr.cc:		while (up>newpath && *(up-1)=='/') up-=1;
+locstr.cc:			while (tmp>newpath && *(tmp-1)=='/') tmp-=1;
+locstr.cc:			memmove(newpath,up+len-1,strlen(up+len)+2);
+locstr.cc:		char *tmp=newpath+strlen(newpath)-3;
+locstr.cc:		while (tmp>newpath && *(tmp-1)=='/') tmp-=1;
+locstr.cc://	printf("%s + %s -> %s\n",left,right,newpath);
+locstr.cc:		if (ll && left[ll-1]=='/'){
+locstr.cc:	if (ll && left[ll-1]!='/' && rl && *right!='/')
+locstr.cc:	i-=1;
+locstr.cc:		i-=1;
+locstr.cc:		unsigned int realshift=shift+i>=len?shift+i-len:shift+i;
+locstr.cc:	int a2=(a-a1*100)/(int)10;
+locstr.cc:	int a3=(a-a1*100-a2*10);
+locstr.cc:	char *aa=(char *)(ended+a-min);
+locstr.cc:	char *bb=(char *)(what+b-min);
+locstr.cc:	char *aa=(char *)(ended+a-min);
+locstr.cc:	char *bb=(char *)(what+b-min);
+locstr.cc:	max-=1;
+locstr.cc:			i-=1;
+locstr.cc:		return max-i;
+locstr.cc:	if (f_wstr_lf(fd,name)<0) return(-1);
+locstr.cc:	if (f_wstr_lf(fd,str)<0) return(-1);
+locstr.cc:	if (f_wstr_lf(fd,name)<0) return(-1);
+locstr.cc:	if (f_wstr_lf(fd,str)<0) return(-1);
+locstr.cc:	if (f_wstr_lf(fd,name)<0) return(-1);
+locstr.cc:	if (f_wstr_lf(fd,str)<0) return(-1);
+locstr.cc:	char *a=name+strlen(name)-1;
+locstr.cc:		a-=1;
+locstr.cc:	tmp_tm->tm_year+=1900;
+locstr.cc:	tmp_tm->tm_mon+=1;
+locstr.cc:				len+=6+int_to_strin_len(tmp_tm->tm_year);
+locstr.cc:				len+=int_to_strin_len(tmp_tm->tm_year);
+locstr.cc:				sprintf(b,"%02i",tmp_tm->tm_mday);
+locstr.cc:				sprintf(b,"%02i",tmp_tm->tm_mon);
+locstr.cc:				sprintf(b,"%02i",tmp_tm->tm_hour);
+locstr.cc:				sprintf(b,"%02i",tmp_tm->tm_min);
+locstr.cc:				sprintf(b,"%02i",tmp_tm->tm_sec);
+locstr.cc:					tmp_tm->tm_hour,tmp_tm->tm_min);
+locstr.cc:					tmp_tm->tm_mday,tmp_tm->tm_mon,
+locstr.cc:					tmp_tm->tm_year);
+locstr.cc:				b+=6+int_to_strin_len(tmp_tm->tm_year);
+locstr.cc:				sprintf(b,"%i",tmp_tm->tm_year);
+locstr.cc:				b+=int_to_strin_len(tmp_tm->tm_year);
+locstr.cc:		return(-1);
+locstr.cc:		return(-1);
+locstr.cc:			rval=-1;
+log.cc:/*	WebDownloader for X-Window
+log.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+log.cc:	fd=-1;
+log.cc:	temp->time=time(NULL);
+log.cc:	ref_count-=1;
+log.cc://	if (what) printf("%s\n", what->body);
+log.cc:		Msg->type=type;
+log.cc:		Msg->what=what;
+log.cc:		Msg->which=this;
+log.cc:		MsgQueue->insert(Msg);
+log.cc:		if (MsgQueue->count()>=100){
+log.cc:		prom=(tLogString *)prom->prev;
+log.cc:			return(-1);
+log.cc:		fd=-1;
+log.cc:		localtime_r(&(temp->time),&msgtime);
+log.cc:		int len=strlen(temp->body);
+log.cc:		    write(fd,temp->body,len)<0){
+log.cc:			fd=-1;
+log.cc:		if (len && temp->body[len-1]!='\n'){
+log.cc:	((tLogString *)what)->temp=current_row;
+log.cc:	temp->time=time(NULL);
+main.cc:/*	WebDownloader for X-Window
+main.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+main.cc:	return (D4X_QUEUE->current_run(host,port));
+main.cc:	GlobalMeter->init(METER_LENGTH);
+main.cc:	LocalMeter->init(METER_LENGTH);
+main.cc:	FILTERS_DB->load_from_ntrc();
+main.cc:	SpeedScheduler->init(0);
+main.cc:	MainScheduler->load();
+main.cc:	MsgQueue->init(0);
+main.cc:	SOUND_SERVER->init_sounds();
+main.cc:	if (server->init()){
+main.cc:		return(-1);
+main.cc:	q->name.set(name);
+main.cc:		q->inherit_settings(papa);
+main.cc:		papa->subq_add(q);
+main.cc:		q->qv.init();
+main.cc:		q->init_pixmaps();
+main.cc:		D4X_QVT->add(q,papa);
+main.cc:		if (!D4X_QUEUE) D4X_QVT->switch_to(q);
+main.cc:	d4xDownloadQueue *q=(d4xDownloadQueue *)(list->first());
+main.cc:		q->parent=papa;
+main.cc:			D4X_QVT->add(q,papa);
+main.cc:			if (q->IamDefault){
+main.cc:				D4X_QVT->switch_to(q);
+main.cc:			if (q->IamDefault)
+main.cc:		init_qtree(&(q->child),q);
+main.cc:		q=(d4xDownloadQueue *)(q->prev);
+main.cc:			D4X_QVT->switch_to(first);
+main.cc:	MainLog->add(_("Loading default list of downloads"),LOG_OK|LOG_DETAILED);
+main.cc:		D4X_QUEUE->qv.set_shift(CFG.CLIST_SHIFT);
+main.cc:	MainLog->init(CFG.MAX_MAIN_LOG_LENGTH);
+main.cc:		MainLog->init_list(GTK_CLIST(MainLogList));
+main.cc:	MainLog->reinit_file();
+main.cc:	MainLog->add("----------------------------------------",LOG_FROM_SERVER);
+main.cc:		limit--;
+main.cc:		tLogMsg *Msg=(tLogMsg*)MsgQueue->first();
+main.cc:			if (Msg->what){
+main.cc:				if (Msg->which->freezed_flag==0){
+main.cc:					tmplist=log_window_freeze(tmplist,Msg->which);
+main.cc:				log_window_add_string(Msg->which,Msg->what);
+main.cc:				del_first_from_log(Msg->which);
+main.cc:			Msg->which->unlock();
+main.cc:			Msg->which->ref_dec();
+main.cc:			MsgQueue->del(Msg);
+main.cc:	d4xDownloadQueue *q=what->myowner->PAPA;
+main.cc:	q->del(what);
+main.cc:	ALL_DOWNLOADS->del(what);
+main.cc:	MainLog->add(_("Delete completed downloads"),LOG_OK|LOG_DETAILED);
+main.cc:	tDownload *temp=D4X_QUEUE->first(DL_STOP);
+main.cc:		temp=D4X_QUEUE->first(DL_STOP);
+main.cc:	MainLog->add(_("Delete failed downloads"),LOG_OK|LOG_DETAILED);
+main.cc:	tDownload *temp=D4X_QUEUE->first(list);
+main.cc:		tDownload *next=(tDownload *)(temp->prev);
+main.cc:		if (!temp->protect){
+main.cc:	if (D4X_QUEUE->count())
+main.cc:		MainLog->add(_("Clear queue of downloads"),LOG_ERROR);
+main.cc:	tDownload *temp=D4X_QUEUE->first(DL_RUN);
+main.cc:		temp=D4X_QUEUE->first(DL_RUN);
+main.cc:	temp=D4X_QUEUE->first(DL_STOPWAIT);
+main.cc:		if (!temp->protect)
+main.cc:			temp->action=ACTION_DELETE;
+main.cc:		temp=(tDownload *)(temp->prev);
+main.cc:	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
+main.cc:	what->status=READY_TO_RUN;
+main.cc:	what->BLOCKED=0;
+main.cc:	if (!what->LOG) {
+main.cc:		what->LOG=new tLog;
+main.cc:		what->LOG->ref_inc();
+main.cc:			what->LOG->init(2); // two strings in log if run without interface
+main.cc:			what->LOG->init(CFG.MAX_LOG_LENGTH);
+main.cc:	if (what->info->proto==D_PROTO_SEARCH){
+main.cc:		what->WL=new tMemoryWL;
+main.cc:		((tMemoryWL *)(what->WL))->set_log(what->LOG);
+main.cc:		what->WL=new tDefaultWL;
+main.cc:		((tDefaultWL *)(what->WL))->set_log(what->LOG);
+main.cc:	what->update_trigers();
+main.cc:	what->config->redirect_count=0;
+main.cc:	what->Size.old=what->Size.curent; // no need update size
+main.cc:	what->SpeedLimit=new tSpeed;
+main.cc:	what->StartSize=0;
+main.cc:	if (what->split && what->split->NumOfParts){
+main.cc:		what->SpeedLimit->base = what->config->speed/what->split->NumOfParts;
+main.cc:		what->SpeedLimit->base = what->config->speed;
+main.cc:		what->SpeedLimit->set(((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2) * GLOBAL_SLEEP_DELAY)/ (D4X_QUEUE->count(DL_RUN)+1));
+main.cc:	SpeedScheduler->insert(what->SpeedLimit);
+main.cc:	if (what->editor) what->editor->disable_ok_button();
+main.cc:	MainLog->myprintf(LOG_OK|LOG_DETAILED,_("Run new thread for %z"),what);
+main.cc:	if (pthread_create(&what->thread_id,&attr_p,download_last,(void *)what)){
+main.cc:		MainLog->add(_("Can't run new thread for downloading!"),LOG_ERROR);
+main.cc:		return(-1);
+main.cc:	tDownload *tmp=what->split->next_part;
+main.cc:		if (tmp->split->run)
+main.cc:			what->split->stopcount+=1;
+main.cc:		tmp=tmp->split?tmp->split->next_part:NULL;
+main.cc:	what->split->stopcount+=what->split->NumOfParts-a;
+main.cc:	tDownload *a=ALL_DOWNLOADS->find(&tmp);
+main.cc:	int owner=what->owner();
+main.cc:	if (owner==DL_STOPWAIT && what->action!=ACTION_DELETE) {
+main.cc:		what->action=ACTION_STOP;
+main.cc:	d4xDownloadQueue *papa=what->myowner->PAPA;
+main.cc:		papa->del(what);
+main.cc:		MainLog->myprintf(LOG_WARNING,_("Downloading of file %s from %s was terminated [by user]"),
+main.cc:				  what->info->file.get(),
+main.cc:				  what->info->host.get());
+main.cc:		if (what->split)
+main.cc:		papa->add(what,DL_STOPWAIT);
+main.cc:		what->Status.clear();
+main.cc:			papa->del(what);
+main.cc:			papa->add(what,DL_PAUSE);
+main.cc:			what->Status.clear();
+main.cc:	if (what->protect) return 0;
+main.cc:	if (what->owner()==DL_RUN)
+main.cc:	if (what->owner()==DL_STOPWAIT){
+main.cc:			what->action=ACTION_REAL_DELETE;
+main.cc:			what->action=ACTION_DELETE;
+main.cc:	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info->file.get());
+main.cc:		what->remove_tmp_files();
+main.cc:	if (what->split->runcount>=what->split->NumOfParts) return;
+main.cc:	if (what->status==DOWNLOAD_GO || what->status==DOWNLOAD_COMPLETE){
+main.cc:		tDownload *dwn=what->split->next_part;
+main.cc:			if (dwn->split->run==0 && run_new_thread(dwn)){
+main.cc:			dwn->split->run=1;
+main.cc:			dwn=dwn->split->next_part;
+main.cc:	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
+main.cc:	d4xDownloadQueue *papa=what->myowner->PAPA;
+main.cc:	if (papa->count(DL_RUN)<50) {
+main.cc:		if (what->config==NULL){
+main.cc:			what->config=new tCfg;
+main.cc:			what->set_default_cfg();
+main.cc:		if (what->split){
+main.cc:			what->finfo.size=-1;
+main.cc:			what->split->FirstByte=0;
+main.cc:			what->split->LastByte=-1;
+main.cc:			what->split->reset();
+main.cc:			what->config->rollback=0;
+main.cc:			what->config->ftp_recurse_depth = 1;
+main.cc:			what->split->grandparent=what;
+main.cc:			//what->config->http_recurse_depth = 1;
+main.cc:		if (run_new_thread(what)) return -1;
+main.cc:		if (what->split){
+main.cc:			what->split->runcount=1;
+main.cc:			what->split->run=1;
+main.cc:	tDownload *temp=dq->last(DL_WAIT);
+main.cc:	if (!temp || dq->qv.get_row(temp) < dq->qv.get_row(what))
+main.cc:		dq->add(what);
+main.cc:		temp=dq->first(DL_WAIT);
+main.cc:		while (temp && dq->qv.get_row(temp) < dq->qv.get_row(what))
+main.cc:			temp=(tDownload*)(temp->prev);
+main.cc:		dq->insert_before(what,temp);
+main.cc:	switch (what->owner()) {
+main.cc:		if (what->action!=ACTION_DELETE &&
+main.cc:		    what->action!=ACTION_REAL_DELETE)
+main.cc:			what->action=ACTION_CONTINUE;
+main.cc:		if (what->owner()==DL_STOPWAIT){
+main.cc:			what->action=ACTION_CONTINUE;
+main.cc:		MainLog->myprintf(LOG_OK,_("Continue downloading of file %s from %s..."),
+main.cc:				  what->info->file.get(),
+main.cc:				  what->info->host.get());
+main.cc:		d4xDownloadQueue *papa=what->myowner->PAPA;
+main.cc:			papa->del(what);
+main.cc:			papa->add(what,DL_RUN);
+main.cc:			papa->del(what);
+main.cc:	what->Attempt.clear();
+main.cc:	what->finfo.size=-1;
+main.cc:	return((D4X_QUEUE->count(DL_WAIT)+D4X_QUEUE->count(DL_RUN)+D4X_QUEUE->count(DL_STOPWAIT))>0?0:1);
+main.cc:	if (parent==NULL || parent->DIR==NULL) return;
+main.cc:	tDownload *temp=parent->DIR->last();
+main.cc:	D4X_QUEUE=parent->myowner->PAPA;
+main.cc:		parent->DIR->del(temp);
+main.cc:		int totop=parent->config->ftp_dirontop && temp->finfo.type==T_DIR;
+main.cc:		temp=parent->DIR->last();
+main.cc:	switch(what->finfo.type) {
+main.cc:		time_t newdiff=NOWTMP-what->Start;
+main.cc:		time_t difdif=what->Difference-newdiff;
+main.cc:		if (difdif<-1800)
+main.cc:			what->Start+=difdif;
+main.cc:			what->Start-=difdif;
+main.cc:		what->Difference=NOWTMP-what->Start;
+main.cc:		int REAL_SIZE=what->finfo.size;
+main.cc:		if (REAL_SIZE==0 && what->who!=NULL)
+main.cc:			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
+main.cc:		if (what->who) what->Size.set(what->who->get_readed());
+main.cc:		what->Remain.set(REAL_SIZE-what->Size.curent);
+main.cc:		if (what->Difference!=0 && what->who) {
+main.cc:			float tmp=float(what->Size.curent-what->start_size());
+main.cc:				what->Speed.set(int(tmp/what->Difference));
+main.cc:	d4xDownloadQueue *PAPA=what->myowner->PAPA;
+main.cc:	if (what->who) {
+main.cc:		what->Status.set(what->who->get_status());
+main.cc:		if (what->Status.curent==D_DOWNLOAD ||
+main.cc:		    what->status==DOWNLOAD_COMPLETE ||
+main.cc:		    what->status==DOWNLOAD_FATAL){
+main.cc:			if (!what->who->reget())
+main.cc:				what->Status.set(D_DOWNLOAD_BAD);
+main.cc:		if (what->Status.change()) {
+main.cc:			what->Status.reset();
+main.cc:	switch(what->finfo.type) {
+main.cc:		if (what->finfo.type!=what->finfo.oldtype)
+main.cc:		fsize_t REAL_SIZE=what->filesize();
+main.cc:		make_number_nice(data,REAL_SIZE,PAPA->NICE_DEC_DIGITALS);
+main.cc:		what->Size.set(what->get_loaded());
+main.cc:		what->Remain.set(REAL_SIZE-what->Size.curent);
+main.cc:		if (what->Remain.change() && what->Remain.curent>=0){
+main.cc:			make_number_nice(data,what->Remain.curent,PAPA->NICE_DEC_DIGITALS);
+main.cc:		if (what->Start>0) {
+main.cc:			time_t newdiff=NOWTMP-what->Start;
+main.cc:			time_t difdif=what->Difference-newdiff;
+main.cc:			if (difdif<-1800)
+main.cc:				what->Start+=difdif;
+main.cc:				what->Start-=difdif;
+main.cc:			convert_time(newdiff,data,PAPA->TIME_FORMAT);
+main.cc:			what->Difference=NOWTMP-what->Start;
+main.cc:		if (what->Size.change()) {
+main.cc:			make_number_nice(data,what->Size.curent,PAPA->NICE_DEC_DIGITALS);
+main.cc:			if (Pause - what->Pause > 4)
+main.cc:			what->Pause = Pause;
+main.cc:			if (what->Size.old<=0 && what->who) what->Size.old=what->start_size();
+main.cc:			if (what->status_cp==DOWNLOAD_GO) {
+main.cc:				int Pause=NOWTMP-what->Pause;
+main.cc:					convert_time(Pause,data,PAPA->TIME_FORMAT);
+main.cc:		what->Percent=100;
+main.cc:			what->Percent=(float(what->Size.curent)*float(100))/float(REAL_SIZE);
+main.cc:			sprintf(title,"%2.0f%% %li/%li %s",what->Percent,what->Size.curent,REAL_SIZE,what->info->file.get());
+main.cc:		if (what->Size.change()) {
+main.cc:					      what->Percent);
+main.cc:		what->Size.reset();
+main.cc:		if (what->Difference!=0 && what->who && what->start_size()>=0) {
+main.cc:			float tmp=float(what->Size.curent-what->start_size());
+main.cc:				what->Speed.set(int(tmp/what->Difference));
+main.cc:				if (what->Speed.change()) {
+main.cc:					sprintf(data,"%li",what->Speed.curent);
+main.cc:					what->Speed.reset();
+main.cc:				where AP - Aproximate Pause
+main.cc:				AV - Aproximate Speed
+main.cc:				where P - time of pause, TO=timeout
+main.cc:				AV=((V-LV)*DS)/FS+LV
+main.cc:				V  - current speed
+main.cc:				DS - downloaded size
+main.cc:				FS - full size
+main.cc:				MV - speed for last tic
+main.cc:			if (what->finfo.size>0){
+main.cc:				tmp=(float(REAL_SIZE-what->Size.curent)*float(what->Difference))/tmp;
+main.cc:					convert_time(int(tmp),data,PAPA->TIME_FORMAT);
+main.cc:		if (what->finfo.type!=what->finfo.oldtype)
+main.cc:		if (what->finfo.type!=what->finfo.oldtype)
+main.cc:		if (what->finfo.type!=what->finfo.oldtype)
+main.cc:		if (what->finfo.type!=what->finfo.oldtype)
+main.cc:	if (what->finfo.type==T_DIR || what->finfo.type==T_NONE){
+main.cc:		if (what->who) what->Size.set(what->who->get_readed());
+main.cc:		if (what->Size.change()) {
+main.cc:			make_number_nice(data,what->Size.curent,PAPA->NICE_DEC_DIGITALS);
+main.cc:			what->Size.reset();
+main.cc:	if (what->who && what->split==NULL) {
+main.cc:		what->Attempt.set(what->who->treat());
+main.cc:	if (what->Attempt.change()) {
+main.cc:		what->Attempt.reset();
+main.cc:		if (what->config->number_of_attempts > 0)
+main.cc:			sprintf(data,"%li/%i",what->Attempt.curent, what->config->number_of_attempts);
+main.cc:			sprintf(data,"%li",what->Attempt.curent);
+main.cc:	what->finfo.oldtype=what->finfo.type;
+main.cc:	what->config->redirect_count+=1;
+main.cc:	if (what->config->redirect_count>10){
+main.cc:		what->delete_who();
+main.cc:		MainLog->myprintf(LOG_ERROR,_("Too many redirections!"),what);
+main.cc:		dq->add(what,DL_COMPLETE);
+main.cc:		what->finfo.type=T_NONE;
+main.cc:	tAddr *addr=what->redirect_url();
+main.cc:		if (what->config->leave_server==0 && equal_uncase(addr->host.get(),what->info->host.get())==0){
+main.cc:			MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to the different host forbidden by download's preferences!"),what);
+main.cc:			D4X_QUEUE->add(what,DL_COMPLETE);
+main.cc:		char *oldurl=what->info->url();
+main.cc:		if (addr->cmp(what->info) &&
+main.cc:		    equal(what->config->referer.get(),oldurl)){
+main.cc:			MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to the same location!"),what);
+main.cc:			dq->add(what,DL_COMPLETE);
+main.cc:		if (ALL_DOWNLOADS->find(addr)) {
+main.cc:			dq->add(what,DL_COMPLETE);
+main.cc:		ALL_DOWNLOADS->del(what);
+main.cc:		delete(what->info);
+main.cc:		what->info=addr;
+main.cc:		what->config->referer.set(oldurl);
+main.cc:		ALL_DOWNLOADS->insert(what);
+main.cc:		tDownload *temp=dq->first(DL_WAIT);
+main.cc:			dq->insert_before(what,temp);
+main.cc:			dq->add(what,DL_WAIT);
+main.cc://		normalize_path(what->get_SavePath());
+main.cc:		what->finfo.type=what->status=0;
+main.cc:		what->finfo.size=-1;
+main.cc:			char *URL=what->info->url();
+main.cc:			gint row=dq->qv.get_row(what);
+main.cc:			dq->qv.change_data(row,URL_COL,URL);
+main.cc:			dq->qv.change_data(row,FILE_COL,what->info->file.get());
+main.cc:		MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to nowhere!"),what);
+main.cc:		dq->add(what,DL_COMPLETE);
+main.cc:		what->finfo.type=T_NONE;
+main.cc:	what->delete_who();
+main.cc:	if (what->segments){
+main.cc:		delete(what->segments);
+main.cc:		what->segments=NULL;
+main.cc:	if (what->split && what->split->cond){
+main.cc:		delete(what->split->cond);
+main.cc:		what->split->cond=NULL;
+main.cc:	if (what->config->isdefault && what->editor==NULL){
+main.cc:		delete(what->config);
+main.cc:		what->config=NULL;
+main.cc:	MainLog->myprintf(LOG_OK|LOG_DETAILED,_("Prepare thread %i of [%z] for stoping"),what->split?what->split->thread_num:1,what);
+main.cc:	if (what->editor) what->editor->enable_ok_button();
+main.cc:	if (what->SpeedLimit) SpeedScheduler->del(what->SpeedLimit);
+main.cc:	delete (what->SpeedLimit);
+main.cc:	what->SpeedLimit=NULL;
+main.cc:	if (what->WL){
+main.cc:		delete(what->WL);
+main.cc:		what->WL=NULL;
+main.cc:	if (what->split){
+main.cc:		what->split->grandparent->split->stopcount+=1;
+main.cc:	d4xDownloadQueue *papa=what->myowner->PAPA;
+main.cc:	papa->del(what);
+main.cc:	if (what->finfo.type==T_REDIRECT) {
+main.cc:		MainLog->myprintf(LOG_OK,_("Redirect from %z"),what);
+main.cc:		papa->add(what,DL_COMPLETE);
+main.cc:		if (what->file_type()==T_DIR) {
+main.cc:			MainLog->myprintf(LOG_OK,_("Downloading of directory %z was completed"),what);
+main.cc:			if (what->config->ftp_recurse_depth!=1) add_dir(what);
+main.cc:			int bytes = what->finfo.size==0 ? what->who->get_readed():what->finfo.size;
+main.cc:			MainLog->myprintf(LOG_OK,_("Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"),what,bytes,what->Speed.curent);
+main.cc:			if (what->config->http_recurse_depth!=1 && what->DIR)
+main.cc:		if (papa->AUTODEL_COMPLETED && what->protect==0) {
+main.cc:			MainLog->myprintf(LOG_WARNING|LOG_DETAILED,_("%z was deleted from queue of downloads as completed download"),what);
+main.cc:	d4xDownloadQueue *papa=what->myowner->PAPA;
+main.cc:	papa->del(what);
+main.cc:	papa->add(what,DL_STOP);
+main.cc:	MainLog->myprintf(LOG_ERROR,_("Downloading of file %z was terminated by fatal error"),what);
+main.cc:	if (papa->AUTODEL_FAILED && what->protect==0) {
+main.cc:		MainLog->myprintf(LOG_WARNING|LOG_DETAILED,_("%z was deleted from queue of downloads as failed download"),what);
+main.cc:	if (dwn->split){
+main.cc:		grandpapa=dwn->split->grandparent;
+main.cc:		if (grandpapa->split->stopcount!=grandpapa->split->NumOfParts &&
+main.cc:		    grandpapa->split->prepared)
+main.cc:	int status=grandpapa->status;
+main.cc:	d4xDownloadQueue *papa=grandpapa->myowner->PAPA;
+main.cc:		papa->del(grandpapa);
+main.cc:		papa->add(grandpapa,DL_PAUSE);
+main.cc:		switch(grandpapa->action){
+main.cc:			dwn->action=ACTION_NONE;
+main.cc:			dwn->action=ACTION_NONE;
+main.cc:			dwn->action=ACTION_NONE;
+main.cc:			papa->del(grandpapa);
+main.cc:			papa->add(grandpapa,DL_STOP);
+main.cc:	tDownload *grandparent=dwn->split->grandparent;
+main.cc:	if (dwn->status==DOWNLOAD_FATAL){
+main.cc://		printf("alt_num %i\n",dwn->split->alt);
+main.cc:		grandparent->action=ACTION_FAILED;
+main.cc:	if (grandparent->split->prepared){
+main.cc:		if (grandparent->split->NumOfParts==grandparent->split->stopcount)
+main.cc:	d4xDownloadQueue *papa=dwn->myowner->PAPA;
+main.cc:	dwn->status_cp=dwn->status;
+main.cc:	switch(dwn->status) {
+main.cc:		if (dwn->segments)
+main.cc:			dwn->segments->complete();
+main.cc:		if (papa->count(DL_RUN)==0 &&
+main.cc:		    papa->count(DL_WAIT)==0)
+main.cc:			SOUND_SERVER->add_event(SND_QUEUE_FINISH);
+main.cc:			SOUND_SERVER->add_event(SND_COMPLETE);
+main.cc:		SOUND_SERVER->add_event(SND_FAIL);
+main.cc:		if (dwn->owner()==DL_RUN){
+main.cc:			if (dwn->split)
+main.cc:			if (dwn->myowner->PAPA==D4X_QUEUE){
+main.cc:		if (gp->split)
+main.cc:			gp=gp->split->grandparent;
+main.cc:		switch(gp->owner()){
+main.cc:			if (gp->split){
+main.cc:	tDownload *temp=papa->first(DL_RUN);
+main.cc:		tDownload *temp_next=(tDownload *)(temp->prev);
+main.cc:			papa->del(temp);
+main.cc:			papa->add(temp,DL_WAIT);
+main.cc:	tDownload *temp=papa->first(DL_WAIT);
+main.cc:	while(temp && papa->count(DL_RUN)<papa->MAX_ACTIVE) {
+main.cc:		tDownload *temp_next=(tDownload *)(temp->prev);
+main.cc:			papa->del(temp);
+main.cc:			papa->add(temp,DL_RUN);
+main.cc:	if (ftpsearch) ftpsearch->cycle();
+main.cc:	MainScheduler->run(this);
+main.cc:		D4X_UPDATE.update(D4X_QUEUE->get_queue(DL_RUN));
+main.cc:	GVARS.SOCKETS->kill_old();
+main.cc:	tString *addnew=server->get_string();
+main.cc:		switch (addnew->temp){
+main.cc:			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,"%s %s",_("Restarting failed downloads"),_("[control socket]"));
+main.cc:				init_add_dnd_window(addnew->body,NULL);
+main.cc://			MainLog->myprintf(LOG_FROM_SERVER,_("Stop the download via control socket [%s]"),addnew->body);
+main.cc:			tAddr *addr=new tAddr(addnew->body);
+main.cc:			MainLog->myprintf(LOG_FROM_SERVER,_("Remove the download via control socket [%s]"),addnew->body);
+main.cc:			tAddr *addr=new tAddr(addnew->body);
+main.cc:			MainLog->myprintf(LOG_FROM_SERVER,_("Adding downloading via control socket [%s]"),addnew->body);
+main.cc:			add_downloading(addnew->body,CFG.LOCAL_SAVE_PATH);
+main.cc:			sscanf(addnew->body,"%i",&CFG.SPEED_LIMIT);
+main.cc:			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,_("Set speed limitation to %s %s"),
+main.cc:			if (addnew->body && addnew->body[0]=='/'){
+main.cc:				CFG.LOCAL_SAVE_PATH=copy_string(addnew->body);
+main.cc:			sscanf(addnew->body,"%i",&(D4X_QUEUE->MAX_ACTIVE));
+main.cc:			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,"%s %i %s",_("Setup maximum active downloads to"),D4X_QUEUE->MAX_ACTIVE,_("[control socket]"));
+main.cc:			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,"%s %s",_("Delete completed downloads"),_("[control socket]"));
+main.cc:			MainLog->myprintf(LOG_FROM_SERVER,"%s %s",addnew->body,_("[control socket]"));
+main.cc:			if (addnew->body && sscanf(addnew->body,"%d",&tmp)){
+main.cc:					MainLog->myprintf(LOG_FROM_SERVER,_("Exiting if nothing to do is switched off"),_("[control socket]"));
+main.cc:					MainLog->myprintf(LOG_FROM_SERVER,_("Downloader will exit if nothing to do after %i minutes %s"),tmp,_("[control socket]"));
+main.cc:		addnew=server->get_string();
+main.cc:	if (what->info->file.get()){
+main.cc:		tmp->info=new tAddr;
+main.cc:		tmp->config=new tCfg;
+main.cc:		tmp->set_default_cfg();
+main.cc:		tmp->info->copy(what->info);
+main.cc:		tmp->finfo.size=what->finfo.size;
+main.cc:		tmp->info->proto=D_PROTO_SEARCH;
+main.cc:		ftpsearch->add(tmp);
+main.cc:		ftpsearch->reping(what);
+main.cc:		ftpsearch->remove(what);
+main.cc:	if (what->owner()==DL_RUN || what->owner()==DL_STOPWAIT)
+main.cc:	ALL_DOWNLOADS->del(what);
+main.cc:	what->myowner->PAPA->del(what);
+main.cc:	if (what->LOG){
+main.cc:		delete(what->LOG);
+main.cc:		what->LOG=NULL;
+main.cc:	if (what->split){
+main.cc:		delete(what->split);
+main.cc:		what->split=NULL;
+main.cc:	MainScheduler->add_scheduled(what);
+main.cc:	if ((tdwn=ALL_DOWNLOADS->find(what)) || !what->info->is_valid()) {
+main.cc:		if (TO_WAIT_IF_HERE && tdwn && tdwn->owner()!=DL_RUN)
+main.cc:	if (what->ScheduleTime){
+main.cc:		MainScheduler->add_scheduled(what);
+main.cc:	if (what->info->username.get()==NULL){
+main.cc:		tUserPass *tmp=PasswordsForHosts->find(what->info->proto,
+main.cc:						       what->info->host.get());
+main.cc:			what->info->username.set(tmp->user.get());
+main.cc:			what->info->pass.set(tmp->pass.get());
+main.cc:	ALL_DOWNLOADS->insert(what);
+main.cc:	tDownload *f=D4X_QUEUE->first(DL_WAIT);
+main.cc:		D4X_QUEUE->insert_before(what,f);
+main.cc:		D4X_QUEUE->add(what);
+main.cc:		D4X_QUEUE->qv.add(what,0);
+main.cc:		D4X_QUEUE->qv.add(what);
+main.cc:	int owner=what->status;
+main.cc:	if (what->ScheduleTime){
+main.cc:		MainScheduler->add_scheduled(what);
+main.cc:			tDownload *dwn=ALL_DOWNLOADS->find(what);
+main.cc:				D4X_QVT->move_to(dwn);
+main.cc:				D4X_QUEUE->del(what);
+main.cc:				D4X_QUEUE->add(what,DL_RUN);
+main.cc:			D4X_QUEUE->del(what);
+main.cc:			D4X_QUEUE->add(what,DL_STOP);
+main.cc:			D4X_QUEUE->del(what);
+main.cc:			D4X_QUEUE->add(what,DL_COMPLETE);
+main.cc:			D4X_QUEUE->del(what);
+main.cc:			D4X_QUEUE->add(what,DL_PAUSE);
+main.cc:	if (adr==NULL) return -1;
+main.cc://	if (!addr->is_valid()) return -1;
+main.cc:	whatadd->info=addr;
+main.cc:		whatadd->config=new tCfg;
+main.cc:		whatadd->set_default_cfg();
+main.cc:		whatadd->config->save_path.set(where);
+main.cc:	if (strlen(addr->file.get())==0) {
+main.cc:		whatadd->finfo.type=T_DIR;
+main.cc:		whatadd->finfo.size=0;
+main.cc://	normalize_path(whatadd->get_SavePath());
+main.cc:	if (name && strlen(name) && whatadd->config){
+main.cc:		whatadd->config->save_name.set(name);
+main.cc:	whatadd->Description.set(desc);
+main.cc:		return -1;
+main.cc:	unsigned int TimeLeft=curent_time-LastTime;
+main.cc:	int bytes=readed_bytes-LastReadedBytes;
+main.cc:		GlobalMeter->add(Speed);
+main.cc://		SPEED_LIMIT+=(prev_speed_limit-bytes)/2;
+main.cc:			SpeedScheduler->schedule(SPEED_LIMIT,1);
+main.cc:		SpeedScheduler->schedule(TimeLeft);
+main.cc:	SOUND_SERVER->run_thread();
+main.cc:		ftpsearch->init(FSearchCList,this,MainLog);
+main.cc:	MainLog->add(VERSION_NAME,LOG_WARNING);
+main.cc:	COOKIES->load_cookies();
+main.cc:	server->run_thread();
+main.cc:	MainLog->add(_("Normally started"),LOG_WARNING);
+main.cc:	GlobalMeter->set_mode(CFG.GRAPH_MODE);
+main.cc:		SOUND_SERVER->add_event(SND_STARTUP);
+main.cc:		TIME_FOR_SAVING-=1;
+main.cc:			COMPLETE_INTERVAL-=1;
+main.cc:	MainLog->myprintf(LOG_OK,_("Added downloading of file %s from %s [by user]"),what->info->file.get(),what->info->host.get());
+main.cc:	d4xDownloadQueue *dq=(d4xDownloadQueue *)q->first();
+main.cc:		if (dq->count(DL_STOPWAIT))
+main.cc:		if (not_all_stopped(&(dq->child)))
+main.cc:		dq=(d4xDownloadQueue *)(dq->prev);
+main.cc:	d4xDownloadQueue *dq=(d4xDownloadQueue *)q->first();
+main.cc:		stop_all(&(dq->child));
+main.cc:		tDownload *d=dq->first(DL_RUN);
+main.cc:			d=dq->first(DL_RUN);
+main.cc:		dq=(d4xDownloadQueue *)(dq->prev);
+main.cc:	server->stop_thread();
+main.cc:	   to avoid segfault at host-limit checks */
+main.cc:	SOUND_SERVER->stop_thread();
+main.cc:	D4X_QUEUE->qv.freeze();
+main.cc:	D4X_QUEUE->qv.unfreeze();
+main.cc:	D4X_QUEUE->done();
+main.cc:	MainScheduler->save();
+main.cc:	delete(ALL_DOWNLOADS); // delete or not delete that is the question :-)
+main.cc:	COOKIES->save_cookies();
+main.cc:	MainLog->init_list(NULL);
+main.cc:	MainLog->myprintf(LOG_OK,_("%lu bytes loaded during the session"),GVARS.READED_BYTES);
+main.cc:	MainLog->add(_("Downloader exited normaly"),LOG_OK);
+main.cc:	FILTERS_DB->save_to_ntrc();
+main.cc:	MainLog->reinit(CFG.MAX_MAIN_LOG_LENGTH);
+main.cc:	MainLog->reinit_file();
+main.cc://-----------------------------------------------------------------
+main.cc:		tAddr *addr=what->info;
+main.cc:		what->LOG->MsgQueue=LogsMsgQueue;
+main.cc:		if (what->config->log_save_path.get()){
+main.cc:			char *real_path=parse_save_path(what->config->log_save_path.get(),what->info->file.get());
+main.cc:			if (what->LOG->init_save(real_path)){
+main.cc:				what->WL->log_printf(LOG_ERROR,
+main.cc:			what->LOG->init_save(NULL);
+main.cc:		if ((what->config->hproxy_host.get() && addr->proto==D_PROTO_HTTP) ||
+main.cc:		     (what->config->fproxy_host.get() && addr->proto==D_PROTO_FTP && what->config->proxy_type)) {
+main.cc:			what->who=new tProxyDownload(what->WL);
+main.cc:			what->download_http();
+main.cc:		switch(addr->proto){
+main.cc:			if (what->who==NULL){
+main.cc:				if (what->config->hproxy_host.get())
+main.cc:					what->who=new tProxyDownload(what->WL);
+main.cc:					what->who=new tHttpDownload(what->WL);
+main.cc:			what->ftp_search();
+main.cc:			what->download_http();
+main.cc:			what->download_ftp();
+main.cc:			what->WL->log(LOG_ERROR,_("Such protocol is not supported!"));
+main.cc:			what->download_failed();
+main.cc://------------------------------------------------------------------------
+mainlog.cc:/*	WebDownloader for X-Window
+mainlog.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+mainlog.cc:	Log->open_selected_row();
+mainlog.cc:	Log->done();
+mainlog.cc:		if (event->type==GDK_2BUTTON_PRESS && event->button==1) {
+mainlog.cc:			parent->open_row(row);
+mainlog.cc:	return log->popup(event);
+mainlog.cc:	localtime_r(&(str->time),&msgtime);
+mainlog.cc:	data[ML_COL_STRING] = str->body;
+mainlog.cc:		if (str->type==LOG_ERROR && last_error){
+mainlog.cc:			addr->copy(last_error);
+mainlog.cc:			addr->username.set(NULL); //no need for search
+mainlog.cc:			addr->pass.set(NULL);  //no need for search
+mainlog.cc:	switch (str->type & (LOG_DETAILED-1)) {
+mainlog.cc:				str_type='-';
+mainlog.cc:		if (str->type==LOG_ERROR){
+mainlog.cc:			printf("%c %s %s\n",str_type,useful,str->body);
+mainlog.cc:			printf("%s\n",str->body);
+mainlog.cc:		    write(fd,str->body,strlen(str->body))<0 ||
+mainlog.cc:		prom=(tLogString *)prom->prev;
+mainlog.cc:	temp->time=time(NULL);
+mainlog.cc:	if (event && event->type==GDK_BUTTON_PRESS && event->button==3) {
+mainlog.cc:		if (gtk_clist_get_selection_info(list,int(event->x),int(event->y),&row,NULL)) {
+mainlog.cc:			gtk_clist_select_row(list,row,-1);
+mainlog.cc:		GList *select=((GtkCList *)list)->selection;
+mainlog.cc:		gtk_menu_popup(GTK_MENU(popup_menu),NULL,NULL,NULL,NULL,event->button,event->time);
+mainlog.cc:	string->init(text,data);
+mainlog.cc:		D4X_QVT->move_to(dwn);
+mainlog.cc:	GList *select=((GtkCList *)list)->selection;
+mainlog.cc:		real_open_row(GPOINTER_TO_INT(select->data));
+mainlog.cc:	while (*fmt && cur-str<MAX_LEN){
+mainlog.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+mainlog.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");
+mainlog.cc:				if (temp && temp->info){
+mainlog.cc:					char *s=temp->info->url();
+mainlog.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+mainlog.cc:					last_error=temp->info;
+mainlog.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");
+mainlog.cc:				g_snprintf(cur,MAX_LEN-(cur-str),"%i",va_arg(ap,int));
+mainlog.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%lu",va_arg(ap,unsigned long));
+mainlog.cc:					g_snprintf(cur,MAX_LEN-(cur-str),"%li",va_arg(ap,long));
+memwl.cc:/*	WebDownloader for X-Window
+memwl.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+memwl.cc:	DBC_RETVAL_IF_FAIL(src!=NULL,-1);
+memwl.cc:			return(-1);
+memwl.cc:		if (len>filesize || len<0) return(-1);
+memwl.cc:			return(-1);
+memwl.cc:	DBC_RETVAL_IF_FAIL(buf!=NULL,-1);
+memwl.cc:	DBC_RETVAL_IF_FAIL(dst!=NULL,-1);
+memwl.cc:	fsize_t real_len=cur+len>filesize?filesize-cur:len;
+memwl.cc:	filesize=cur; //and nothing more :-)
+memwl.cc:		LOG->add(str,type);
+meter.cc:/*	WebDownloader for X-Window
+meter.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+meter.cc:			sort->del(temp);
+meter.cc:			temp->key+=speed;
+meter.cc:			sort->add(temp);
+meter.cc:	temp->key=speed;
+meter.cc:	sort->add(temp);
+meter.cc:	sort->del((tSortNode *)First);
+meter.cc:	tSortNode *temp=(tSortNode *)(sort->max());
+meter.cc:	if (temp) return(temp->key);
+meter.cc:	if (temp) return temp->key;
+meter.cc:	if (temp) return temp->key;
+meter.cc:	if (temp)  return temp->key;
+msgqueue.cc:/*	WebDownloader for X-Window
+msgqueue.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+nt.cc:/*	WebDownloader for X-Window
+nt.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+nt.cc://-------------------------------------------------
+nt.cc:		CFG.ANONYMOUS_PASS=copy_string("-mdem@chat.ru");
+nt.cc:	clt->send_command(PACKET_POPUP,NULL,0);
+nt.cc:			execlp("xterm", "xterm", "-e", "gdb", prog_name, pid_str, NULL);
+pass.cc:/*	WebDownloader for X-Window
+pass.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+pass.cc:	int r=strcmp(host.get(),((tUserPass*)b)->host.get());
+pass.cc:	return(proto - ((tUserPass*)b)->proto);	
+pass.cc:			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+pass.cc:			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+pass.cc:			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+pass.cc:			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+pass.cc:	if (node->less) save_node((tUserPass *)(node->less),fd);
+pass.cc:	if (node->more) save_node((tUserPass *)(node->more),fd);
+pass.cc:	node->save(fd);
+pass.cc:	if (node->less) fill_face_node((tUserPass *)(node->less),a);
+pass.cc:	if (node->more) fill_face_node((tUserPass *)(node->more),a);
+pass.cc:	a->add(node);
+pass.cc:	tmp->host.set(host);
+pass.cc:	tmp->proto=proto;
+pass.cc:				if (tmp->load(fd))
+pass.cc:					tree->add(tmp);
+pass.cc:		tree->save(fd);
+ping.cc:/*	WebDownloader for X-Window
+ping.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+ping.cc:	size=list->count();
+ping.cc:		pf[i].fd=-1;
+ping.cc:	tDownload *tmp=list->last();
+ping.cc:	WL->log(LOG_OK,_("Resolving hosts..."));
+ping.cc:		tmp->status=0;
+ping.cc:		tmp->action=0;
+ping.cc:		tmp->Attempt.curent+=1; // Used for calculation number of attempts
+ping.cc:		int len=my_get_host_by_name(tmp->info->host.get(),tmp->info->port,
+ping.cc://				printf("Connected to %s\n",tmp->info->host.get());
+ping.cc:		tmp=list->next();
+ping.cc:	WL->log(LOG_OK,_("Pinging  (it takes 30 seconds maximum)..."));
+ping.cc:				data[i].ref->status+=300-step;
+ping.cc:				if (data[i].ref->action==0){
+ping.cc:					data[i].ref->action=1;
+ping.cc:					data[i].ref->status+=(301-step)*150;
+ping.cc:		data[i].ref->status+=((300-step)*(300-step+1))/2;
+ping.cc:		data[i].ref->Percent+=(float(data[i].ref->status)*float(100))/float(90300);
+queue.cc:/*	WebDownloader for X-Window
+queue.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+queue.cc:		tmp=tmp->prev;
+queue.cc:	what->prev=NULL;
+queue.cc:	if ((what->next=Last)) {
+queue.cc:		Last->prev=what;
+queue.cc:	if ((what->next=where->next))
+queue.cc:		what->next->prev=what;
+queue.cc:	what->prev=where;
+queue.cc:	where->next=what;
+queue.cc:	if (Curent) Curent=Curent->next;
+queue.cc:	if (Curent) Curent=Curent->prev;
+queue.cc:	Num-=1;
+queue.cc:	if (what->prev)
+queue.cc:		what->prev->next=what->next;
+queue.cc:		Last=what->next;
+queue.cc:	if (what->next)
+queue.cc:		what->next->prev=what->prev;
+queue.cc:		First=what->prev;
+queue.cc:		First = First->prev;
+queue.cc:		if (First) First->next = NULL;
+queue.cc:		Num -= 1;
+queue.cc:	while (a && a->prev){
+queue.cc:		tNode *prev=a->prev;
+savedvar.cc:/*	WebDownloader for X-Window
+savedvar.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+savedvar.cc:/* -1 on error */
+savedvar.cc:	switch(var->type){
+savedvar.cc:		if (f_rstr(fd,buf,bufsize)<0) return -1;
+savedvar.cc:		sscanf(buf,"%d",(int *)(var->where));
+savedvar.cc:		if (f_rstr(fd,buf,bufsize)<0) return -1;
+savedvar.cc:		((tPStr *)(var->where))->set(buf);
+savedvar.cc:		tAddr **info=(tAddr **)(var->where);
+savedvar.cc:		if (f_rstr(fd,buf,bufsize)<0) return -1;
+savedvar.cc:		if (f_rstr(fd,buf,bufsize)<0) return -1;
+savedvar.cc:		sscanf(buf,"%ld",(time_t *)(var->where));
+savedvar.cc:		tCfg **config=(tCfg **)(var->where);
+savedvar.cc:		(*config)->isdefault=0;
+savedvar.cc:		if ((*config)->load_from_config(fd)<0) return -1;
+savedvar.cc:		if (f_rstr(fd,buf,bufsize)<0) return -1;
+savedvar.cc:		tSplitInfo **split=(tSplitInfo **)(var->where);
+savedvar.cc:			(*split)->NumOfParts=tmp;
+savedvar.cc:		tDownload **dwn=(tDownload **)(var->where);
+savedvar.cc:		return((*dwn)->load_from_config(fd));
+savedvar.cc:		d4xFilter *filter=(d4xFilter *)(var->where);
+savedvar.cc:		if (rule->load(fd)==0 && filter!=NULL)
+savedvar.cc:			filter->insert(rule);
+savedvar.cc:			return(-1);
+savedvar.cc:		d4xFiltersTree *tree=(d4xFiltersTree *)(var->where);
+savedvar.cc:		node->filter=new d4xFilter;
+savedvar.cc:		node->filter->ref();
+savedvar.cc:		if (node->filter->load(fd)==0 && tree!=NULL)
+savedvar.cc:			tree->add(node);
+savedvar.cc:			return(-1);
+savedvar.cc:		d4xDownloadQueue *q=(d4xDownloadQueue *)(var->where);
+savedvar.cc:		if (dwn->load_from_config(fd)==0){
+savedvar.cc:			if (CFG.WITHOUT_FACE==0 && q->qv.ListOfDownloads==NULL){
+savedvar.cc:				q->qv.init();
+savedvar.cc:				q->init_pixmaps();
+savedvar.cc:			int s=dwn->status;
+savedvar.cc:			if (ALL_DOWNLOADS->find(dwn)==NULL){
+savedvar.cc:				ALL_DOWNLOADS->insert(dwn);
+savedvar.cc:				q->add(dwn,s);
+savedvar.cc:				q->qv.add(dwn);
+savedvar.cc:		return(-1);
+savedvar.cc:		tQueue *papa=(tQueue *)(var->where);
+savedvar.cc:		q->load_from_config(fd);
+savedvar.cc:		if (q->name.get()){
+savedvar.cc:			papa->insert(q);
+savedvar.cc:		return(-1);
+savedvar.cc:		d4xQueueView *qv=(d4xQueueView *)(var->where);
+savedvar.cc:		return(qv->load_from_config(fd));
+savedvar.cc:		d4xAltList **alts=(d4xAltList **)(var->where);
+savedvar.cc:		return((*alts)->load_from_config(fd));
+savedvar.cc:	default: return(-1);
+savelog.cc:/*	WebDownloader for X-Window
+savelog.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+savelog.cc:		MainLog->add(_("Can't save default list of downloads!!! Becouse can't find HOME variable"),LOG_ERROR);
+savelog.cc:		MainLog->add(_("Can't save default list of downloads!!!"),LOG_ERROR);
+savelog.cc:	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
+savelog.cc:	if (fd<0) return(-1);
+savelog.cc:	D4X_QUEUE->save_to_config_list(fd);
+savelog.cc:	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
+savelog.cc:	if (fd<0) return -1;
+savelog.cc:		q->save_to_config(fd);
+savelog.cc:		q=(d4xDownloadQueue *)(q->prev);
+savelog.cc:			MainLog->add(error_msg,LOG_ERROR);
+savelog.cc:	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
+savelog.cc:				if (temp->load_from_config(fd)<0){
+savelog.cc:		return -1;
+savelog.cc:	if (fd<0) return(-1);
+savelog.cc:	int r=D4X_QUEUE->load_from_config_list(fd);
+schedule.cc:/*	WebDownloader for X-Window
+schedule.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+schedule.cc:						return(-1);
+schedule.cc:	return(-1);
+schedule.cc:		return(-1);
+schedule.cc:		return(-1);
+schedule.cc:		return(-1);
+schedule.cc:		return(-1);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:						return(-1);
+schedule.cc:	return(-1);
+schedule.cc:		return(-1);
+schedule.cc:		return(-1);	
+schedule.cc:	papa->set_speed(speed);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:		return(-1);
+schedule.cc:/*-----------------------------------------------------------*/
+schedule.cc:		return(-1);
+schedule.cc:	//hehe nothing to do here :-)
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:		return(-1);
+schedule.cc:        papa->del_completed();
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:		return(-1);
+schedule.cc:	papa->del_fataled();
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:						return(-1);
+schedule.cc:	return(-1);
+schedule.cc:		return(-1);
+schedule.cc:	if (dwn) dwn->save_to_config(fd);
+schedule.cc:		dwn_copy->copy(dwn);
+schedule.cc:		if (papa->add_downloading(dwn_copy)) delete(dwn_copy);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:						return(-1);
+schedule.cc:	return(-1);
+schedule.cc:	if (url) url->save_to_config(fd);
+schedule.cc:		return(-1);
+schedule.cc:	if (url) papa->delete_download_url(url);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:		return(-1);
+schedule.cc:		tDownload *tmp=papa->find_url(url);
+schedule.cc:		if (tmp && tmp->owner()==DL_COMPLETE)
+schedule.cc:			papa->delete_download(tmp);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:		return(-1);
+schedule.cc:	if (url) papa->continue_download_url(url);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:		return(-1);
+schedule.cc:	if (url) papa->stop_download_url(url);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:						return(-1);
+schedule.cc:	return(-1);
+schedule.cc:		return(-1);
+schedule.cc:/*------------------------------------------------------------*/
+schedule.cc:						return(-1);
+schedule.cc:	return(-1);
+schedule.cc:		return(-1);
+schedule.cc:	system(act->command.get());
+schedule.cc:	act->dwn=what;
+schedule.cc:	act->start_time=what->ScheduleTime;
+schedule.cc:	act->period=0;
+schedule.cc:	act->retries=0;
+schedule.cc:	act->lock=0;
+schedule.cc:		while (tmp->next){
+schedule.cc:			if (tmp->start_time>act->start_time)
+schedule.cc:			tmp=tmp->next;
+schedule.cc:		if (tmp->start_time>act->start_time){
+schedule.cc:			act->next=tmp;
+schedule.cc:			if ((act->prev=tmp->prev))
+schedule.cc:				act->prev->next=act;
+schedule.cc:			tmp->prev=act;
+schedule.cc:			act->prev=tmp;
+schedule.cc:			tmp->next=act;
+schedule.cc:			act->next=NULL;
+schedule.cc:		d4x_scheduler_insert(act,act->prev);
+schedule.cc:		act->next=act->prev=NULL;
+schedule.cc:	if (act->prev)
+schedule.cc:		act->prev->next=act->next;
+schedule.cc:		FIRST=act->next;
+schedule.cc:	if (act->next)
+schedule.cc:		act->next->prev=act->prev;
+schedule.cc:		d4x_scheduler_insert(tmp,tmp->prev);
+schedule.cc:		tmp=tmp->next;
+schedule.cc:		if (tmp->save(fd))
+schedule.cc:			return(-1);
+schedule.cc:		tmp=tmp->next;
+schedule.cc:		if (now>tmp->start_time){
+schedule.cc:			d4xSchedAction *next=tmp->next;
+schedule.cc:			if (tmp->lock==0){ //if no editors opened
+schedule.cc:				tmp->run(papa);
+schedule.cc:				while (tmp->start_time<now && tmp->retries!=0){
+schedule.cc:					tmp->start_time+=tmp->period;
+schedule.cc:					if (tmp->retries>0)
+schedule.cc:						tmp->retries-=1;
+schedule.cc:				if (tmp->type()==SACT_EXIT)
+schedule.cc:				if (tmp->retries==0)
+schedule.cc:			if (action->load(fd)==0)
+segments.cc:/*	WebDownloader for X-Window
+segments.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+segments.cc:	offset_in_file=-1;
+segments.cc:	DBC_RETVAL_IF_FAIL(fd>=0,-1);
+segments.cc:	DBC_RETVAL_IF_FAIL(offset_in_file>=0,-1);
+segments.cc:		return(-1);
+segments.cc:	fd=-1;
+segments.cc:	fd=-1;
+segments.cc:		HEAP=HEAP->next;
+segments.cc:	seg->next=HEAP;
+segments.cc:		tmp->print();
+segments.cc:		tmp=tmp->next;
+segments.cc:	printf("-----------------\n");
+segments.cc:	if (what->prev)
+segments.cc:		what->prev->next=what->next;
+segments.cc:		FIRST=what->next;
+segments.cc:	if (what->next)
+segments.cc:		what->next->prev=what->prev;
+segments.cc:		LAST=what->prev;
+segments.cc:	lseek(fd,what->offset_in_file,SEEK_SET);
+segments.cc:	what->save(fd);
+segments.cc:	tSegment *tmp=what->next;
+segments.cc:	unsigned long int offset_in_file=what->offset_in_file+2*sizeof(unsigned long int);
+segments.cc:		tmp->offset_in_file=offset_in_file;
+segments.cc:		if (tmp->save(fd))
+segments.cc:   		tmp=tmp->next;
+segments.cc:	tSegment *next=what->next;
+segments.cc:	tSegment *prev=what->prev;
+segments.cc:		if (what->end+1>=next->begin){
+segments.cc:			total-=what->end-what->begin;
+segments.cc:			total-=next->end-next->begin;
+segments.cc:			if(what->end<next->end)
+segments.cc:				what->end=next->end;
+segments.cc:			total+=what->end-what->begin;
+segments.cc:		if (prev->end+1>=what->begin){
+segments.cc:			total-=what->end-what->begin;
+segments.cc:			total-=prev->end-prev->begin;
+segments.cc:			if (prev->end<what->end)
+segments.cc:				prev->end=what->end;
+segments.cc:			total+=prev->end-prev->begin;
+segments.cc:	total+=end-begin;
+segments.cc:			if (begin<tmp->begin){
+segments.cc:				a->begin=begin;
+segments.cc:				a->end=end;
+segments.cc:				a->next=tmp;
+segments.cc:				if ((a->prev=tmp->prev)){
+segments.cc:					tmp->prev->next=a;
+segments.cc:					a->offset_in_file=tmp->offset_in_file;
+segments.cc:					a->offset_in_file=0;
+segments.cc:				tmp->prev=a;
+segments.cc:			tmp=tmp->next;
+segments.cc:		tmp->prev=prev;
+segments.cc:		prev->next=tmp;
+segments.cc:		tmp->next=NULL;
+segments.cc:		tmp->begin=begin;
+segments.cc:		tmp->end=end;
+segments.cc:		tmp->offset_in_file=prev->offset_in_file
+segments.cc:				    +sizeof(prev->begin)+sizeof(prev->end);
+segments.cc:		FIRST->next=FIRST->prev=NULL;
+segments.cc:		FIRST->begin=begin;
+segments.cc:		FIRST->end=end;
+segments.cc:		tSegment *next=tmp->next;
+segments.cc:		if (tmp->begin>=shift){
+segments.cc:			if (tmp->prev)
+segments.cc:				tmp->prev->next=NULL;
+segments.cc:			if (tmp->end>=shift)
+segments.cc:				tmp->end=shift;
+segments.cc:			total+=tmp->end-tmp->begin;
+segments.cc:		tSegment *tmp=(tSegment*)FIRST->next;
+segments.cc:	fd=-1;
+segments.cc:		a->begin=FIRST->begin;
+segments.cc:		a->end=LAST->end;
+segments.cc:		a->next=a->prev=NULL;
+segments.cc:		total=a->end-a->begin;
+segments.cc:		tSegment *tmp=HEAP->next;
+segments.cc:	DBC_RETVAL_IF_FAIL(fd>=0,-1);
+segments.cc:	    	tmp->begin=begin;
+segments.cc:	        tmp->end=end;
+segments.cc:	        tmp->prev=tmp;
+segments.cc:			tmp->prev=LAST;
+segments.cc:			LAST->next=tmp;
+segments.cc:			tmp->next=NULL;
+segments.cc:			tmp->prev=tmp->next=NULL;
+segments.cc:	        tmp->offset_in_file=offset_in_file;
+segments.cc:		tmp=tmp->next;
+segments.cc:	DBC_RETVAL_IF_FAIL(fd>=0,-1);
+segments.cc:		total+=tmp->end-tmp->begin;
+segments.cc:		tmp->offset_in_file=offset_in_file;
+segments.cc:		if (tmp->save(fd)) return(-1);
+segments.cc:		tmp=tmp->next;
+segments.cc:	while(tmp && tmp->end<size){
+segments.cc:		tmp1->begin=tmp->end;
+segments.cc:		if (tmp->next){
+segments.cc:			tmp1->end=tmp->next->begin;
+segments.cc:			tmp1->end=size;
+segments.cc:		tmp1->next=NULL;
+segments.cc:			last->next=tmp1;
+segments.cc:		tmp=tmp->next;
+segments.cc:		rvalue->begin=0;
+segments.cc:		rvalue->end=size;
+segments.cc:		rvalue->offset_in_file=1;
+segments.cc:		rvalue->next=NULL;
+segments.cc:		rvalue->offset_in_file=i;
+signal.cc:/*	WebDownloader for X-Window
+signal.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+signal.cc:		if ((*temp)->BLOCKED==2){
+signal.cc:			(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
+signal.cc:		(*temp)->BLOCKED=a;
+signal.cc:		if ((*temp)->BLOCKED){
+signal.cc:			(*temp)->BLOCKED=2;
+signal.cc:		(*temp)->LOG->unlock();
+signal.cc:		(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
+signal.cc:		//	temp->who->done();
+signal.cc:	if (what->thread_id==0)  return 1;
+signal.cc:	return(pthread_kill(what->thread_id,SIGUSR1));
+signal.cc:	if (what->thread_id)
+signal.cc:		pthread_join(what->thread_id,(void **)&rc);
+signal.cc:	what->delete_who();
+signal.cc:	what->thread_id=0;
+sm.cc:/*	WebDownloader for X-Window
+sm.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+sm.cc:	what->birth=time(NULL);
+sm.cc:		if (equal(s->info->host.get(),info->host.get()) &&
+sm.cc:		    s->info->port==info->port &&
+sm.cc:		    s->info->proto==info->proto &&
+sm.cc:		    equal(s->info->username.get(),info->username.get())){
+sm.cc:			tSocket *rval=s->sock;
+sm.cc:			s->sock=NULL;
+sm.cc:		s=(d4xOldSocket *)(s->prev);
+sm.cc:		time_t diff=s->birth-now;
+sm.cc:		if (diff<-50 || diff>50){
+sndserv.cc:/*	WebDownloader for X-Window
+sndserv.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+sndserv.cc:	fd=-1;
+sndserv.cc:		len -= 16;
+sndserv.cc:		if (audio->open((bits == 16) ? FMT_S16_LE : FMT_U8, samples_per_sec, channels) == 0){
+sndserv.cc:		if (length - position < bytes)
+sndserv.cc:			bytes = length - position;
+sndserv.cc:			if (actual_read == -1){
+sndserv.cc:			        audio->write(data, bytes);
+sndserv.cc:	fragsize--;
+sndserv.cc:	int stereo = channels - 1;
+sndserv.cc:	if(ioctl(fd, SNDCTL_DSP_GETBLKSIZE, &blk_size) == -1)
+sndserv.cc:	if (fd == -1){
+sndserv.cc:	fd=-1;
+sndserv.cc:	server->run();
+sndserv.cc:	snd->event=event;
+sndserv.cc:	snd->birth=time(NULL);
+sndserv.cc:	queue->insert(snd);
+sndserv.cc:		wav->play();
+sndserv.cc:		while(queue->first()){
+sndserv.cc:			d4xSndEvent *snd=(d4xSndEvent *)(queue->first());
+sndserv.cc:			queue->del(snd);
+sndserv.cc:			if (snd->birth-now<4 && snd->birth-now>-4){
+sndserv.cc:				play_sound(snd->event);
+socket.cc:/*	WebDownloader for X-Window
+socket.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+socket.cc:#define INADDR_NONE ((unsigned long) -1)
+socket.cc:	info->sin_family=AF_INET;
+socket.cc:		info->sin_addr.s_addr = inet_addr(host);
+socket.cc:		if (info->sin_addr.s_addr == INADDR_NONE){
+socket.cc:			if (*rvalbuf) return -1;
+socket.cc:			memcpy((char *)&(info->sin_addr),hpr->h_addr_list[0],
+socket.cc:			       (size_t) hpr->h_length);
+socket.cc:			if (!hpa) return -1;
+socket.cc:			memcpy((char *)&(info->sin_addr),hpa->h_addr_list[0],
+socket.cc:			       (size_t) hpa->h_length);
+socket.cc:	} else info->sin_addr.s_addr=INADDR_ANY;
+socket.cc:	info->sin_port=htons(port);
+socket.cc:	fd=-1;
+socket.cc:			if (temp_variable) return -1;
+socket.cc:			memcpy((char *)&info.sin_addr,hpr->h_addr_list[0],(size_t) hpr->h_length);
+socket.cc:			if (!hpa) return -1;
+socket.cc:			memcpy((char *)&info.sin_addr,hpa->h_addr_list[0],(size_t) hpa->h_length);
+socket.cc:	if (getsockname(fd, (struct sockaddr* )&info,&len) == -1)
+socket.cc:		return(-1);
+socket.cc:	if (len<0) return -2;
+socket.cc:		return(-3);
+socket.cc:	if (listen(fd,1)) return(-4);
+socket.cc:		return(-1);
+socket.cc:		return(-2);
+socket.cc:		return(-3);
+socket.cc:	return -1;
+socket.cc:	return -1;
+socket.cc:	DBC_RETVAL_IF_FAIL(host!=NULL,-1);
+socket.cc:		return -1;
+socket.cc:	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
+socket.cc:	if (b<0) return -1;
+socket.cc:	SBytes+=a-b;
+socket.cc:	return a-b;
+socket.cc:	DBC_RETVAL_IF_FAIL(where!=NULL,-1);
+socket.cc:	if (download!=NULL && *download!=NULL && (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0))
+socket.cc:		bytes=(*download)->SpeedLimit->bytes >= len ? len: (*download)->SpeedLimit->bytes+1;
+socket.cc:			if (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0)
+socket.cc:				(*download)->SpeedLimit->decrement(temp);
+socket.cc:	fd=-1;
+socks.cc:/*	WebDownloader for X-Window
+socks.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+socks.cc:	DBC_RETVAL_IF_FAIL(host!=NULL,-1);
+socks.cc:		return(-1);
+socks.cc:		return(-1);
+sort.cc:/*	WebDownloader for X-Window
+sort.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+sort.cc:	return(key - ((tSortNode *)what)->key);
+sort.cc:		if ((*temp)->cmp(what)<0)
+sort.cc:			temp=&((*temp)->more);
+sort.cc:			temp=&((*temp)->less);
+sort.cc:	what->less=what->more=NULL;
+sort.cc:		int a=(*temp)->cmp(what);
+sort.cc:			temp=&((*temp)->more);
+sort.cc:			temp=&((*temp)->less);
+sort.cc:	NUM-=1;
+sort.cc:		if ((*temp)->cmp(what)<0)
+sort.cc:			temp=&((*temp)->more);
+sort.cc:			temp=&((*temp)->less);
+sort.cc:	*temp=what->less;
+sort.cc:	if (what->more) simple_add(temp,what->more);
+sort.cc:	while (temp->more) {
+sort.cc:		temp=temp->more;
+sort.cc:	if (node->less)
+sort.cc:		foreach_rec(node->less,doit,data);
+sort.cc:	if (node->more)
+sort.cc:		foreach_rec(node->more,doit,data);
+speed.cc:/*	WebDownloader for X-Window
+speed.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+speed.cc:	fsize_t temp=(last_gived>0?last_gived:a)-bytes;
+speed.cc:	fsize_t rvalue=a-bytes;
+speed.cc:	bytes-=a;
+speed.cc:/*------------------------------------------------------------
+speed.cc:		temp->set((temp->base*period)/1000);
+speed.cc:			if (temp->bytes<0 && flag){
+speed.cc:				temp->next=tmpbeg;
+speed.cc:				Full+=temp->init(part);
+speed.cc:		if (size-Num>0)
+speed.cc:			part+=Full/(size-Num);
+speed.cc://			part+=int(((float(Full)*float(0.7)))/(size-Num));
+speed.cc:			tSpeed *tmpnext=(tSpeed *)(tmpbeg->next);
+speed.cc:			tmpbeg->init(part);
+srvclt.cc:/*	WebDownloader for X-Window
+srvclt.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+srvclt.cc:	srv->run();
+srvclt.cc:	list->init(0);
+srvclt.cc:	if (fd == -1)
+srvclt.cc:		return(-1);
+srvclt.cc:	if (bind(fd,(struct sockaddr *)&saddr,sizeof(saddr)) == -1)
+srvclt.cc:		return(-1);
+srvclt.cc:		if (full) status.url=dwn->info->url();
+srvclt.cc:		status.Size=dwn->finfo.size;
+srvclt.cc:		status.Download=dwn->Size.curent;
+srvclt.cc:		status.Time=dwn->Start;
+srvclt.cc:		status.Speed=dwn->Speed.curent;
+srvclt.cc:		status.Status=dwn->owner(); /* FIXME: possible race condition */
+srvclt.cc:		status.Attempt=dwn->Attempt.curent;
+srvclt.cc:		status.MaxAttempt=dwn->config?dwn->config->number_of_attempts:CFG.DEFAULT_CFG.number_of_attempts;
+srvclt.cc:	ALL_DOWNLOADS->unlock();
+srvclt.cc:		packet.len=sizeof(tPacketStatus)-sizeof(char*);
+srvclt.cc:		write(newfd,&status,sizeof(status)-sizeof(char*));
+srvclt.cc:			dl->info=new tAddr(temp);
+srvclt.cc:			ALL_DOWNLOADS->lock();
+srvclt.cc:			tDownload *answer=ALL_DOWNLOADS->find(dl);
+srvclt.cc:		ALL_DOWNLOADS->lock();
+srvclt.cc:		d4xWFNode *node=(d4xWFNode *)(D4X_QUEUE->qv.ListOfDownloadsWF.first());
+srvclt.cc:			d4xWFNode *next=(d4xWFNode *)(node->prev);
+srvclt.cc:			if (node->dwn){
+srvclt.cc:				write_dwn_status(node->dwn,1);
+srvclt.cc:				ALL_DOWNLOADS->lock();
+srvclt.cc:			if (next==NULL || next->next==node)
+srvclt.cc:		ALL_DOWNLOADS->unlock();
+srvclt.cc:		newstr->body=temp;
+srvclt.cc:		newstr->temp=type;
+srvclt.cc:		list->insert(newstr);
+srvclt.cc:					cmd_return_int(GlobalMeter->last_value());
+srvclt.cc:					cmd_return_int(D4X_QUEUE->count(DL_RUN));
+srvclt.cc:					cmd_return_int(D4X_QUEUE->count(DL_STOP));
+srvclt.cc:					cmd_return_int(D4X_QUEUE->count(DL_PAUSE)+D4X_QUEUE->count(DL_STOPWAIT));
+srvclt.cc:					cmd_return_int(D4X_QUEUE->count(DL_COMPLETE));
+srvclt.cc:					int a=D4X_QUEUE->count();
+srvclt.cc:    tString *temp=list->first();
+srvclt.cc:		list->del(temp);
+srvclt.cc:	    	return -1;
+srvclt.cc:    return -1;
+srvclt.cc:	if (init()) return -1;
+srvclt.cc:		return -1;
+srvclt.cc:		return -1;
+srvclt.cc:	if (init()) return -1;
+srvclt.cc:	int size=sizeof(tPacketStatus)-sizeof(char *);
+srvclt.cc:			int len=bufsize-size;
+srvclt.cc:			status->url=new char[len+1];
+srvclt.cc:			memcpy(status->url,buf+size,len);
+srvclt.cc:			status->url[len]=0;
+var.cc:/*	WebDownloader for X-Window
+var.cc: *	Copyright (C) 1999-2001 Koshelev Maxim
+var.cc:	if (dst->EXEC_WHEN_QUIT) delete[] dst->EXEC_WHEN_QUIT;
+var.cc:	if (dst->HTTP_PROXY_PASS) delete[] dst->HTTP_PROXY_PASS;
+var.cc:	if (dst->HTTP_PROXY_USER) delete[] dst->HTTP_PROXY_USER;
+var.cc:	if (dst->HTTP_PROXY_HOST) delete[] dst->HTTP_PROXY_HOST;
+var.cc:	if (dst->FTP_PROXY_PASS) delete[] dst->FTP_PROXY_PASS;
+var.cc:	if (dst->FTP_PROXY_USER) delete[] dst->FTP_PROXY_USER;
+var.cc:	if (dst->FTP_PROXY_HOST) delete[] dst->FTP_PROXY_HOST;
+var.cc:	if (dst->SKIP_IN_CLIPBOARD) delete[] dst->SKIP_IN_CLIPBOARD;
+var.cc:	if (dst->CATCH_IN_CLIPBOARD) delete[] dst->CATCH_IN_CLIPBOARD;
+var.cc:	if (dst->SAVE_LOG_PATH) delete[] dst->SAVE_LOG_PATH;
+var.cc:	if (dst->GLOBAL_SAVE_PATH) delete[] dst->GLOBAL_SAVE_PATH;
+var.cc:	if (dst->LOCAL_SAVE_PATH) delete[] dst->LOCAL_SAVE_PATH;
+var.cc:	if (dst->DEFAULT_NAME) delete[] dst->DEFAULT_NAME;
+var.cc:	if (dst->USER_AGENT) delete[] dst->USER_AGENT;
+var.cc:	if (dst->ANONYMOUS_PASS) delete[] dst->ANONYMOUS_PASS;
+var.cc:	if (dst->SOCKS_PASS) delete[] dst->SOCKS_PASS;
+var.cc:	if (dst->SOCKS_USER) delete[] dst->SOCKS_USER;
+var.cc:	if (dst->SOCKS_HOST) delete[] dst->SOCKS_HOST;
+var.cc:	if (dst->SOUND_ADD) delete[] dst->SOUND_ADD;
+var.cc:	if (dst->SOUND_COMPLETE) delete[] dst->SOUND_COMPLETE;
+var.cc:	if (dst->SOUND_FAIL) delete[] dst->SOUND_FAIL;
+var.cc:	if (dst->SOUND_DND_DROP) delete[] dst->SOUND_DND_DROP;
+var.cc:	if (dst->SOUND_QUEUE_FINISH) delete[] dst->SOUND_QUEUE_FINISH;
+var.cc:	if (dst->SOUND_STARTUP) delete[] dst->SOUND_STARTUP;
+var.cc:	if (dst->DEFAULT_FILTER) delete[] dst->DEFAULT_FILTER;
+var.cc:	if (dst->THEME_FILE) delete[] dst->THEME_FILE;
+var.cc:	dst->DEFAULT_CFG.copy_ints(&(src->DEFAULT_CFG));
+var.cc:	dst->MAX_LOG_LENGTH=src->MAX_LOG_LENGTH;
+var.cc:	dst->ALLOW_FORCE_RUN=src->ALLOW_FORCE_RUN;
+var.cc:	dst->MAX_MAIN_LOG_LENGTH=src->MAX_MAIN_LOG_LENGTH;
+var.cc:	dst->MAIN_LOG_DETAILED=src->MAIN_LOG_DETAILED;
+var.cc:	dst->SAVE_MAIN_LOG=src->SAVE_MAIN_LOG;
+var.cc:	dst->APPEND_REWRITE_LOG=src->APPEND_REWRITE_LOG;
+var.cc:	dst->MAIN_LOG_FILE_LIMIT=src->MAIN_LOG_FILE_LIMIT;
+var.cc:	dst->WRITE_DESCRIPTION=src->WRITE_DESCRIPTION;
+var.cc:	dst->SAVE_LIST_INTERVAL=src->SAVE_LIST_INTERVAL;
+var.cc:	dst->SAVE_LIST=src->SAVE_LIST;
+var.cc:	dst->RECURSIVE_OPTIMIZE=src->RECURSIVE_OPTIMIZE;
+var.cc:	dst->DEFAULT_PERMISIONS=src->DEFAULT_PERMISIONS;
+var.cc:	dst->FTP_DIR_IN_LOG=src->FTP_DIR_IN_LOG;
+var.cc:	dst->PAUSE_AFTER_ADDING=src->PAUSE_AFTER_ADDING;
+var.cc:	dst->USE_MAINWIN_TITLE=src->USE_MAINWIN_TITLE;
+var.cc:	dst->USE_MAINWIN_TITLE2=src->USE_MAINWIN_TITLE2;
+var.cc:	dst->SCROLL_MAINWIN_TITLE=src->SCROLL_MAINWIN_TITLE;
+var.cc:	dst->WINDOW_X_POSITION=src->WINDOW_X_POSITION;
+var.cc:	dst->WINDOW_Y_POSITION=src->WINDOW_Y_POSITION;
+var.cc:	dst->WINDOW_WIDTH=src->WINDOW_WIDTH;
+var.cc:	dst->WINDOW_HEIGHT=src->WINDOW_HEIGHT;
+var.cc:	dst->WINDOW_CLIST_HEIGHT=src->WINDOW_CLIST_HEIGHT;
+var.cc:	dst->WINDOW_CLIST_WIDTH=src->WINDOW_CLIST_WIDTH;
+var.cc:	dst->NEED_DIALOG_FOR_DND=src->NEED_DIALOG_FOR_DND;
+var.cc:	dst->WINDOW_LOWER=src->WINDOW_LOWER;
+var.cc:	dst->GRAPH_ORDER=src->GRAPH_ORDER;
+var.cc:	dst->DND_TRASH=src->DND_TRASH;
+var.cc:	dst->DND_TRASH_X=src->DND_TRASH_X;
+var.cc:	dst->DND_TRASH_Y=src->DND_TRASH_Y;
+var.cc:	dst->EXIT_COMPLETE=src->EXIT_COMPLETE;
+var.cc:	dst->EXIT_COMPLETE_TIME=src->EXIT_COMPLETE_TIME;
+var.cc:	dst->FIXED_LOG_FONT=src->FIXED_LOG_FONT;
+var.cc:	dst->CLIPBOARD_MONITOR=src->CLIPBOARD_MONITOR;
+var.cc:	dst->CLIPBOARD_SKIP_OR_CATCH=src->CLIPBOARD_SKIP_OR_CATCH;
+var.cc:	dst->GRAPH_BACK=src->GRAPH_BACK;
+var.cc:	dst->GRAPH_FORE1=src->GRAPH_FORE1;
+var.cc:	dst->GRAPH_FORE2=src->GRAPH_FORE2;
+var.cc:	dst->GRAPH_PICK=src->GRAPH_PICK;
+var.cc:	dst->GRAPH_MODE=src->GRAPH_MODE;
+var.cc:	dst->FTP_PROXY_PORT=src->FTP_PROXY_PORT;
+var.cc:	dst->FTP_PROXY_TYPE=src->FTP_PROXY_TYPE;
+var.cc:	dst->HTTP_PROXY_PORT=src->HTTP_PROXY_PORT;
+var.cc:	dst->USE_PROXY_FOR_FTP=src->USE_PROXY_FOR_FTP;
+var.cc:	dst->USE_PROXY_FOR_HTTP=src->USE_PROXY_FOR_HTTP;
+var.cc:	dst->NEED_PASS_HTTP_PROXY=src->NEED_PASS_HTTP_PROXY;
+var.cc:	dst->NEED_PASS_FTP_PROXY=src->NEED_PASS_FTP_PROXY;
+var.cc:	dst->PROXY_NO_CACHE=src->PROXY_NO_CACHE;
+var.cc:	dst->CONFIRM_DELETE=src->CONFIRM_DELETE;
+var.cc:	dst->CONFIRM_EXIT=src->CONFIRM_EXIT;
+var.cc:	dst->CONFIRM_DELETE_ALL=src->CONFIRM_DELETE_ALL;
+var.cc:	dst->CONFIRM_DELETE_COMPLETED=src->CONFIRM_DELETE_COMPLETED;
+var.cc:	dst->CONFIRM_DELETE_FATALED=src->CONFIRM_DELETE_FATALED;
+var.cc:	dst->CONFIRM_OPENING_MANY=src->CONFIRM_OPENING_MANY;
+var.cc:	dst->SPEED_LIMIT=src->SPEED_LIMIT;
+var.cc:	dst->SPEED_LIMIT_1=src->SPEED_LIMIT_1;
+var.cc:	dst->SPEED_LIMIT_2=src->SPEED_LIMIT_2;
+var.cc:	dst->REMEMBER_PASS=src->REMEMBER_PASS;
+var.cc:	dst->WITHOUT_FACE=src->WITHOUT_FACE;
+var.cc:	dst->DND_NEED_POPUP=src->DND_NEED_POPUP;
+var.cc:	dst->SEARCH_PING_TIMES=src->SEARCH_PING_TIMES;
+var.cc:	dst->SEARCH_HOST=src->SEARCH_HOST;
+var.cc:	dst->SEARCH_ENTRIES=src->SEARCH_ENTRIES;
+var.cc:	dst->SOCKS_PORT=src->SOCKS_PORT;
+var.cc:	dst->BUTTONS_FLAGS=src->BUTTONS_FLAGS;
+var.cc:	dst->PROGRESS_MODE=src->PROGRESS_MODE;
+var.cc:	dst->ENABLE_SOUNDS=src->ENABLE_SOUNDS;
+var.cc:	dst->ESD_SOUND=src->ESD_SOUND;
+var.cc:	dst->DONOTSET_WINPOS=src->DONOTSET_WINPOS;
+var.cc:	dst->USE_THEME=src->USE_THEME;
+var.cc:	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);
+var.cc:	dst->HTTP_PROXY_PASS=copy_string(src->HTTP_PROXY_PASS);
+var.cc:	dst->HTTP_PROXY_USER=copy_string(src->HTTP_PROXY_USER);
+var.cc:	dst->HTTP_PROXY_HOST=copy_string(src->HTTP_PROXY_HOST);
+var.cc:	dst->FTP_PROXY_PASS=copy_string(src->FTP_PROXY_PASS);
+var.cc:	dst->FTP_PROXY_USER=copy_string(src->FTP_PROXY_USER);
+var.cc:	dst->FTP_PROXY_HOST=copy_string(src->FTP_PROXY_HOST);
+var.cc:	dst->SKIP_IN_CLIPBOARD=copy_string(src->SKIP_IN_CLIPBOARD);
+var.cc:	dst->CATCH_IN_CLIPBOARD=copy_string(src->CATCH_IN_CLIPBOARD);
+var.cc:	dst->SAVE_LOG_PATH=copy_string(src->SAVE_LOG_PATH);
+var.cc:	dst->GLOBAL_SAVE_PATH=copy_string(src->GLOBAL_SAVE_PATH);
+var.cc:	dst->LOCAL_SAVE_PATH=copy_string(src->LOCAL_SAVE_PATH);
+var.cc:	dst->DEFAULT_NAME=copy_string(src->DEFAULT_NAME);
+var.cc:	dst->USER_AGENT=copy_string(src->USER_AGENT);
+var.cc:	dst->ANONYMOUS_PASS=copy_string(src->ANONYMOUS_PASS);
+var.cc:	dst->SOCKS_PASS=copy_string(src->SOCKS_PASS);
+var.cc:	dst->SOCKS_HOST=copy_string(src->SOCKS_HOST);
+var.cc:	dst->SOCKS_USER=copy_string(src->SOCKS_USER);
+var.cc:	dst->SOUND_FAIL=copy_string(src->SOUND_FAIL);
+var.cc:	dst->SOUND_COMPLETE=copy_string(src->SOUND_COMPLETE);
+var.cc:	dst->SOUND_STARTUP=copy_string(src->SOUND_STARTUP);
+var.cc:	dst->SOUND_ADD=copy_string(src->SOUND_ADD);
+var.cc:	dst->SOUND_DND_DROP=copy_string(src->SOUND_DND_DROP);
+var.cc:	dst->SOUND_QUEUE_FINISH=copy_string(src->SOUND_QUEUE_FINISH);
+var.cc:	dst->DEFAULT_FILTER=copy_string(src->DEFAULT_FILTER);
+var.cc:	dst->THEME_FILE=copy_string(src->THEME_FILE);
+xml.cc:		fld->print();
+xml.cc:		fld=(d4xXmlField *)(fld->prev);
+xml.cc:		fld->print();
+xml.cc:		fld=(d4xXmlField *)(fld->prev);
+xml.cc:		obj->print_rec(depth+1);
+xml.cc:		obj=(d4xXmlObject *)(obj->prev);
+xml.cc:		if (equal_uncase(name,fld->name.get()))
+xml.cc:		fld=(d4xXmlField *)(fld->prev);
+xml.cc:			cur=sum_strings(str->get(),buf,NULL);
+xml.cc:			str->set(cur);
+xml.cc:		if (cur-buf>=100){
+xml.cc:			cur=sum_strings(str->get(),buf,NULL);
+xml.cc:			str->set(cur);
+xml.cc:	if (fld->get()==NULL)
+xml.cc:		fld->set("");
+xml.cc:		if (*cur<' ') return(-1);
+xml.cc:				return(-1);
+xml.cc:			cur=(unsigned char *)sum_strings(fld->get(),b,NULL);
+xml.cc:			fld->set((char*)cur);
+xml.cc:		if (cur-b>=100){
+xml.cc:			cur=(unsigned char*)sum_strings(fld->get(),b,NULL);
+xml.cc:			fld->set((char*)cur);
+xml.cc:	return(-1);
+xml.cc://	printf("d4x_xml_read_fields <%s>!\n",obj->name.get());
+xml.cc:				return(-1);
+xml.cc:			fld->name.set(b);
+xml.cc:			d4x_xml_read_grow(fd,&(fld->name),b," \n\t\r<>=");
+xml.cc:				return(-1);
+xml.cc:					return(-1);
+xml.cc:				return(-1);
+xml.cc:					return(-1);
+xml.cc:			if (*b!='\"' || d4x_xml_read_value(fd,&(fld->value))){
+xml.cc:				return(-1);
+xml.cc:			obj->fields.insert(fld);
+xml.cc:	return(-1);
+xml.cc://	printf("d4x_xml_read_body! <%s>\n",obj->name.get());
+xml.cc:	obj->value.set("");
+xml.cc:		d4x_xml_read_grow(fd,&(obj->value),b,"<>");
+xml.cc:			if (chld && *(chld->name.get())=='/'){
+xml.cc:			if (chld==NULL) return(-1);
+xml.cc:			obj->objects.insert(chld);
+xml.cc:	return(-1);
+xml.cc:		memmove(buf,buf+1,len-1);
+xml.cc:		if (read(fd,buf+len-1,1)!=1) return;
+xml.cc:	obj->name.set(b);
+xml.cc:	d4x_xml_read_grow(fd,&(obj->name),b," \n\t\r<>/");
+xml.cc:	if (begin_string(obj->name.get(),"!--")){
+xml.cc:		if (*b!='>' || string_ended("--",obj->name.get()))
+xml.cc:			d4x_xml_skip_for_str(fd,"-->");
+xml.cc:		case -1:
+xml.cc:	if (*(obj->name.get())=='/'){
+xml.cc:		rval->insert(obj);
+xml.cc:	d4xXmlObject *obj=(d4xXmlObject *)q->first();
+xml.cc:		obj->print_rec(0);
+xml.cc:		obj=(d4xXmlObject *)(obj->prev);
+xml.cc:	d4xXmlObject *obj=(d4xXmlObject *)q->first();
+xml.cc:		if (equal_uncase(name,obj->name.get()))
+xml.cc:		obj=(d4xXmlObject *)(obj->prev);

@@ -41,10 +41,11 @@ struct d4xFilterSel;
 class tDEdit{
 	tDownload *parent;
 	GtkWidget *notebook;
+	GtkWidget *common_frame,*ftp_frame,*http_frame;
 	GtkWidget *pass_entry,*user_entry,*path_entry,*url_entry,*file_entry,*user_agent_entry;
 	GtkWidget *timeout_entry,*attempts_entry,*sleep_entry,*rollback_entry;
 	GtkWidget *use_pass_check,*ftp_passive_check,*permisions_check,*get_date_check,*retry_check;
-	GtkWidget *link_as_file_check,*leave_server_check,*leave_dir_check;
+	GtkWidget *follow_link_check,*leave_server_check,*leave_dir_check,*ihate_etag_check;
 	GtkWidget *ftp_recurse_depth_entry,*http_recurse_depth_entry;
 	GtkWidget *ftp_dirontop_check;
 	GtkWidget *dont_send_quit_check;
@@ -70,7 +71,7 @@ class tDEdit{
 	void init_http(tDownload *who);
 	void init_time(tDownload *who);
 public:
-	GtkWidget *ok_button,*cancel_button;
+	GtkWidget *ok_button,*cancel_button,*isdefault_check;
 	GtkWidget *window;
 	int parent_in_db;
 	int add_or_edit;
@@ -84,6 +85,7 @@ public:
 	void enable_ok_button();
 	void setup_entries();
 	void toggle_time();
+	void toggle_isdefault();
 	void set_path_as_default();
 	void paste_url();
 	void set_description(char *desc);

@@ -158,7 +158,7 @@ tAddr::tAddr() {
 	mask=0;
 };
 
-tAddr::tAddr(char *str){
+void tAddr::from_string(char *str){
 	char *host1=NULL,*username1=NULL,*pass1=NULL,*path1=NULL,*file1=NULL;
 	char *proto_name=NULL;
 	proto=D_PROTO_UNKNOWN;
@@ -256,6 +256,10 @@ tAddr::tAddr(char *str){
 	pass.set(pass1);if (pass1) delete[] pass1;
 	path.set(path1);if (path1) delete[] path1;
 	file.set(file1);if (file1) delete[] file1;
+};
+
+tAddr::tAddr(char *str){
+	from_string(str);
 };
 
 void tAddr::print() {

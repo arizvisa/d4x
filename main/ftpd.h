@@ -44,6 +44,7 @@ public:
     	int get_child_status();
     	int reget();
      	fsize_t another_way_get_size();
+     	char *get_new_url();
 	tSocket *export_ctrl_socket();
     	tStringList *dir();
     	~tFtpDownload();

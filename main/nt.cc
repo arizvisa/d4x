@@ -29,7 +29,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.30";
+char *VERSION_NAME="WebDownloader for X 2.0beta1";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -100,6 +100,8 @@ void segv_handler(int signum) {
 	}
 }
 #endif
+
+#include "xml.h"
 
 int main(int argc,char **argv) {
 //	free(malloc(10)); //hack for electricFence which does not work with threads :(

@@ -14,8 +14,6 @@
 #include "signal.h"
 
 tSpeed::tSpeed() {
-	my_pthreads_mutex_init(&lock);
-	my_pthreads_mutex_init(&lock1);
 	last_gived=base=bytes=0;
 };
 
@@ -24,11 +22,11 @@ void tSpeed::print() {
 };
 
 fsize_t tSpeed::init(fsize_t a) {
-	pthread_mutex_lock(&lock);
+	lock.lock();
 	if (bytes<0) {
 		last_gived=bytes=a;
-		pthread_mutex_unlock(&lock);
-		pthread_mutex_unlock(&lock1);
+		lock.unlock();
+		lock1.unlock();
 		return 0;
 	};
 	fsize_t temp=(last_gived>0?last_gived:a)-bytes;
@@ -36,38 +34,36 @@ fsize_t tSpeed::init(fsize_t a) {
 		bytes=1;
 	last_gived=bytes;
 	fsize_t rvalue=a-bytes;
-	pthread_mutex_unlock(&lock);
+	lock.unlock();
 	return(rvalue);
 };
 
 void tSpeed::set(fsize_t a){
-	pthread_mutex_lock(&lock);
+	lock.lock();
 	if (bytes<0) {
 		last_gived=bytes=a;
-		pthread_mutex_unlock(&lock);
-		pthread_mutex_unlock(&lock1);
+		lock.unlock();
+		lock1.unlock();
 	}else{
-		last_gived=bytes=a;		
-		pthread_mutex_unlock(&lock);
+		last_gived=bytes=a;
+		lock.unlock();
 	};
 };
 
 void tSpeed::decrement(fsize_t a) {
-	pthread_mutex_lock(&lock);
+	lock.lock();
 	bytes-=a;
 	if (bytes<0) {
-		pthread_mutex_lock(&lock1);
-		pthread_mutex_unlock(&lock);
-		pthread_mutex_lock(&lock1);
-		pthread_mutex_unlock(&lock1);
+		lock1.lock();
+		lock.unlock();
+		lock1.lock();
+		lock1.unlock();
 	} else {
-		pthread_mutex_unlock(&lock);
+		lock.unlock();
 	};
 };
 
 tSpeed::~tSpeed() {
-	pthread_mutex_destroy(&lock);
-	pthread_mutex_destroy(&lock1);
 };
 
 /*------------------------------------------------------------

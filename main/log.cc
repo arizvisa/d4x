@@ -51,7 +51,6 @@ tLogString::~tLogString() {
 };
 //******************************************//
 tLog::tLog():tStringList(){
-	my_pthreads_mutex_init(&mutex);
 	freezed_flag=0;
 	fd=-1;
 	start=time(NULL);
@@ -195,11 +194,11 @@ void tLog::dispose() {
 };
 
 void tLog::unlock() {
-    pthread_mutex_unlock(&mutex);
+	mutex.unlock();
 };
 
 void tLog::lock() {
-    pthread_mutex_lock(&mutex);
+	mutex.lock();
 };
 
 tLogString *tLog::last() {
@@ -217,6 +216,5 @@ tLogString *tLog::first() {
 tLog::~tLog() {
 	log_window_destroy_by_log(this);
 	done();// will be used by tStringList::~tStringList();
-	pthread_mutex_destroy(&mutex);
 	if (fd>=0) close(fd);
 };

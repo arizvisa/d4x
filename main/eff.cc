@@ -194,7 +194,7 @@ static void tread_for_parse_foreach(tAbstractSortNode *node,
 				    void *data){
 	d4xEffString *str=(d4xEffString *)node;
 	d4xLinksSel *sel=(d4xLinksSel *)data;
-	d4x_links_sel_add(sel,str->body);
+	d4x_links_sel_add(sel,str->body,NULL);
 	tree->del(node);
 	delete(node);
 };

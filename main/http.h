@@ -23,6 +23,8 @@ class tHttpClient:public tClient{
 	char *user_agent,*referer;
 	void send_cookies(char *host,char *path);
  public:
+	int CHUNKED,HTTP_VER,HTTP_SUBVER;
+	int ERROR_CODE;
 	tHttpClient();
 	tHttpClient(tCfg *cfg,tSocket *ctrl=NULL);
 	void init(char *host,tWriterLoger *log,int prt,int time_out);

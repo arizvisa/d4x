@@ -14,28 +14,35 @@
 #include "sort.h"
 #include <time.h>
 #include "locstr.h"
+#include "mutex.h"
 
 struct tCookie:public tAbstractSortNode{
 	protected:
 	time_t time_of_life;
 	public:
+	int myown;
 	tPStr host,path,name,value;
 	tCookie();
 	void set_time(char *what);
+	void set_time(time_t t);
 	void init(char *a,char *b,char *c,char *d);
 	time_t get_time();
 	int cmp(tAbstractSortNode *a);
+	int parse(char *str,char *srchost,char *srcpath);
 	void print();
 	~tCookie();
 };
 
 class tCookiesTree:public tAbstractSortTree{
+	void load_from_file(int fd,int myown=0);
+	void save_cookie(int fd,tCookie *what);
  public:
+	d4xMutex lock;
 	tCookie *find(const char *path);
-	tCookie *find(tCookie **begin,const char *path);
-	void add(tCookie *what);
-	void del(tCookie *what);
+	tCookie *find(tCookie *begin,const char *path);
+	tCookie *find_exact(tCookie *cookie);
 	void load_cookies();
+	void save_cookies();
 	~tCookiesTree();
 };
 #endif

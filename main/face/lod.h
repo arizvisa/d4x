@@ -14,9 +14,6 @@
 #include <gtk/gtk.h>
 #include "../dlist.h"
 
-extern GtkWidget *ListOfDownloads;
-extern tQueue *ListOfDownloadsWF;
-
 struct d4xWFNode:public tNode{
 	tDownload *dwn;
 	void print(){};
@@ -25,7 +22,6 @@ struct d4xWFNode:public tNode{
 struct tColumn{
 	int type;
 	int enum_index; // it is an index in array of tColumn of strings
-	char *name;
 	int size;
 };
 
@@ -47,6 +43,13 @@ enum {
 	NOTHING_COL
 };
 
+struct d4xQVPrefs{
+	tTriger dformat;
+	int tformat;
+	tColumn cols[NOTHING_COL+1];
+	d4xQVPrefs();
+};
+
 enum {
 	TARGET_URL,
 	TARGET_DND_TEXT
@@ -57,8 +60,32 @@ enum STATUS_PIXMAPS_ENUM{
 	PIX_STOP,
 	PIX_STOP_WAIT,
 	PIX_RUN,
+	PIX_RUN1,
+	PIX_RUN2,
+	PIX_RUN3,
+	PIX_RUN4,
+	PIX_RUN5,
+	PIX_RUN6,
+	PIX_RUN7,
+	PIX_RUN8,
 	PIX_RUN_BAD,
+	PIX_RUN_BAD1,
+	PIX_RUN_BAD2,
+	PIX_RUN_BAD3,
+	PIX_RUN_BAD4,
+	PIX_RUN_BAD5,
+	PIX_RUN_BAD6,
+	PIX_RUN_BAD7,
+	PIX_RUN_BAD8,
 	PIX_RUN_PART,
+	PIX_RUN_PART1,
+	PIX_RUN_PART2,
+	PIX_RUN_PART3,
+	PIX_RUN_PART4,
+	PIX_RUN_PART5,
+	PIX_RUN_PART6,
+	PIX_RUN_PART7,
+	PIX_RUN_PART8,
 	PIX_COMPLETE,
 	PIX_PAUSE,
 	PIX_UNKNOWN
@@ -67,46 +94,86 @@ enum STATUS_PIXMAPS_ENUM{
 extern GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
 extern GdkBitmap *list_of_downloads_bitmaps[PIX_UNKNOWN];
 
-extern tColumn ListColumns[NOTHING_COL+1];
+struct d4xQueueView{
+private:
+	void remove_wf(tDownload *what);
+	void add_wf(tDownload *what);
+	void init_sort_buttons();
+	void set_column_justification (int col, GtkJustification justify);
+	GtkWidget *d4xQueueView::get_column_widget(int col);
+public:
+	GtkWidget *ListOfDownloads;
+	tQueue ListOfDownloadsWF;
+	d4xQVPrefs prefs;
+	int LoDSortFlag;
+	d4xQueueView();
+	~d4xQueueView();
+	void get_sizes();
+	void init();
+	void add(tDownload *what);
+	void add(tDownload *what,int row);
+	void remove(tDownload *what);
+	void update(tDownload *what);
+	void change_data(int row,int column,gchar *data);
+	void set_percent(int row,int col,float percent);
+	void set_desc(gint row,tDownload *what);
+	void set_color(tDownload *what,int row);
+	void set_filename(gint row,tDownload *what);
 
-void list_dnd_drop_internal(GtkWidget *widget,GdkDragContext *context,gint x, gint y,GtkSelectionData *selection_data,guint info, guint time);
+	void freeze();
+	void unfreeze();
+	gint get_height();
+	void set_height();
+	void print_size(gint row,tDownload *what);
 
-void list_of_downloads_get_sizes();
-void list_of_downloads_init();
-void list_of_downloads_init_pixmaps();
-void list_of_downloads_add(tDownload *what);
-void list_of_downloads_add(tDownload *what,int row);
-void list_of_downloads_change_data(int row,int column,gchar *data);
-void list_of_downloads_update(tDownload *what);
-void list_of_downloads_set_percent(int row,int col,float percent);
-void list_of_downloads_remove(tDownload *what);
-void list_of_downloads_set_color(tDownload *what,int row);
+	void set_pixmap(tDownload *what,int type);
+	void set_pixmap(gint row,int type);
+	void set_pixmap(gint row, tDownload *what);
 
-void list_of_downloads_freeze();
-void list_of_downloads_unfreeze();
-gint list_of_downloads_get_height();
-void list_of_downloads_set_height();
-void init_columns_info();
+	void set_run_icon(tDownload *what);
+	int sel();
+	int rows();
 
-void list_of_downloads_set_pixmap(tDownload *what,int type);
-void list_of_downloads_set_pixmap(gint row,int type);
-void list_of_downloads_set_run_icon(tDownload *what);
-int list_of_downloads_sel();
+	void swap(tDownload *a,tDownload *b);
+	void move_up();
+	void move_down();
+	void move_download_up(int row);
+	void move_download_down(int row);
+	int move_selected_up();
+	int move_selected_down();
+	void move_selected_home();
+	void move_selected_end();
+	void unselect_all();
+	void select_all();
+	void invert_selection();
+	void select(tDownload *dwn);
+	void real_select(int type,char *wildcard);
 
-void list_of_downloads_swap(tDownload *a,tDownload *b);
-void list_of_downloads_move_up();
-void list_of_downloads_move_down();
-void list_of_downloads_unselect_all();
-void list_of_downloads_select_all();
-void list_of_downloads_invert_selection();
-void list_of_downloads_select(tDownload *dwn);
+	void init_select_window(int type=0);
+	void rebuild_wait();
+	void sort(int how);
 
-tDownload *get_download_from_clist(int row);
-gint list_of_downloads_row(tDownload *what);
-tDownload *list_of_downloads_last_selected();
+	tDownload *get_download(int row);
+	gint get_row(tDownload *what);
+	tDownload *last_selected();
 
-void list_of_downloads_open_logs(...);
-void list_of_downloads_set_shift(float shift);
-void list_of_downloads_move_to(tDownload *dwn);
+	void open_logs();
+	void continue_opening_logs();
+	void set_shift(float shift);
+	void get_adj();
+	void move_to(tDownload *dwn);
+
+	void stop_downloads();
+	void delete_downloads(int flag=0);
+	void continue_downloads();
+	void inv_protect_flag();
+	void save_to_config(int fd);
+	int load_from_config(int fd);
+	void inherit_settings(d4xQueueView *papa);
+};
+
+void lod_init_pixmaps();
+gint lod_get_height();
+void lod_set_height();
 
 #endif

@@ -19,6 +19,7 @@ struct tAddr{
 	int mask;
 	tAddr();
 	tAddr(char *str);
+	void from_string(char *str);
 	void print();
 	void compose_path(char *aa,char *bb);
 	void file_del_sq();

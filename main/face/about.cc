@@ -13,8 +13,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <stdio.h>
 #include "list.h"
-#include "../var.h"
 #include "about.h"
+#include "misc.h"
+#include "../var.h"
 #include "../ntlocale.h"
 
 GtkWidget *AboutWindow=(GtkWidget *)NULL;
@@ -109,7 +110,12 @@ void init_about_window(...) {
 	gtk_container_border_width(GTK_CONTAINER(AboutWindow),5);
 	GtkWidget *box=gtk_vbox_new(FALSE,0);
 	GtkWidget *label1=gtk_label_new(VERSION_NAME);
-	GtkWidget *label2=gtk_label_new(HOME_PAGE);
+	GtkWidget *label2=gtk_entry_new();
+	GtkStyle *style = gtk_widget_get_style(label2);
+	gint real_size=gdk_string_width(style->font,HOME_PAGE);
+	gtk_widget_set_usize(label2,real_size+10,-1);
+	gtk_entry_set_editable(GTK_ENTRY(label2),FALSE);
+	gtk_entry_set_text(GTK_ENTRY(label2),HOME_PAGE);
 	GtkWidget *label3=gtk_label_new(_("Author: Koshelev Maxim"));
 	GtkWidget *label4=gtk_label_new("e-mail: mdem@chat.ru");
 	GtkWidget *frame=gtk_frame_new(_("Translators team"));
@@ -141,6 +147,7 @@ void init_about_window(...) {
 			   (GtkSignalFunc)about_window_esc_handler, NULL);
 	gtk_signal_connect(GTK_OBJECT(AboutWindow), "delete_event",
 	                   (GtkSignalFunc)destroy_about_window,NULL);
+	d4x_eschandler_init(AboutWindow,NULL);
 	GTK_WIDGET_SET_FLAGS(Button,GTK_CAN_DEFAULT);
 	gtk_window_set_default(GTK_WINDOW(AboutWindow),Button);
 	gtk_widget_show_all(AboutWindow);
@@ -210,6 +217,7 @@ void tDialogWidget::create(char *ask,char *title){
 	gtk_window_set_default(GTK_WINDOW(window),cancel_button);
 	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(dialog_delete2),this);
 	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(dialog_delete), this);
+	d4x_eschandler_init(window,this);
 };
 
 int tDialogWidget::init(char *ask,char *title) {
@@ -268,6 +276,7 @@ int tStringDialog::init(char *str,char *title) {
 	};
 	window=gtk_window_new(GTK_WINDOW_DIALOG);
 	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(string_dialog_delete_event), this);
+	d4x_eschandler_init(window,this);
 	gtk_window_set_title(GTK_WINDOW (window), title);
 	gtk_container_border_width(GTK_CONTAINER(window),1);
 	gtk_window_set_policy (GTK_WINDOW(window), FALSE,FALSE,FALSE);

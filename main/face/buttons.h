@@ -15,7 +15,7 @@ extern GtkWidget *ButtonsBar;
 extern GtkWidget *HandleBox;
 extern GtkWidget *buttons_array[];
 
-GtkWidget *new_pixmap(char **xpm);
+GtkWidget *new_pixmap(char **xpm,char *themename);
 void init_buttons_bar();
 void prepare_buttons();
 void set_dndtrash_button();
@@ -24,6 +24,7 @@ void buttons_speed_set_text();
 void buttons_cfg_init();
 void buttons_configure();
 void buttons_configure_close();
+void bb_theme_changed();
 
 enum {
 	BUTTON_ADD=0,

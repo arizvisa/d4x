@@ -1,23 +1,28 @@
------------------ to 1.30 ----------------------------------------
-[????] fix displaying info for split-ed download when first thread in 'reconnect' state
-[DONE] -geometry WxH+X+Y command line parameter support
-[DONE] when add manually download which is already in queue point to it for user
-[DONE] when redirected to the file with the same filename may be better rewrite it?
-[DONE] check segments.* code
-[DONE] --ls without parameters show full list
-[DONE] support 'Content-Disposition'
-[DONE] different window managers need different coords for created window
-[DONE] fix saving order of queue when run without interface
-[DONE] search links in file must bring "list of found URLs" dialog;
-[DONE] another way to calc remaining time
-[DONE] add tooltips to traffic selection menu items in DnDbasket's menu
-[DONE] scroll queue and select download when dblclicked on error in main log
------------------------------------------------------------------
+------------ to Version 2.0 --------------------------
+Keybinds:
+[???]   Shift+PgDwn/PgUp replace by Shift+End/Home
+	Store keybinds
+[PARTIALY] Change icons
+Menuitem 'File/Create new queue for download'
+[DONE] Filename to save must not to be default option
+[DONE] Alternative links
+    [DONE] calc alternates by ftpsearch
+    [DONE] use alternates for splited downloads
+    [DONE] managing alternates
+    [DONE] storing alternates
+    [DONE] switch between alternates
+[DONE] Skins for DnDBasket
+[DONE] Persistent connections over HTTP
+[DONE] ability to create new queue
+[DONE] what about accepting cookies?
+[DONE] rewrite split-ed downloading
+[DONE] rewrite face/lod.cc[h] in OO style
+------------------------------------------------------
+[????] Scale DnDBasket for different resolutions [code implemented but scaled dnd-basket looks bad :(]
 add mask for MIME type in a rule of a filter
 ability to do FTP-search in case insensitive mode
-what about accepting cookies?
+automated FTP-search
 all config files in xml-like format
-rewrite split-ed downloading
 graph on DnD basket
 graph of speeds for separated download
 scale DnD-basket icon according screen resolution
@@ -28,10 +33,8 @@ searching in queue (by Ctrl-S like MC)
 check free space on disk to prevent empty it
 uploading files to server
 Auto detection of best proxy.
-automated FTP-search
-ability to create new queue
-rewrite face/lod.cc[h] in OO style
 move to GTK-2.0
+[????] fix displaying info for split-ed download when first thread in 'reconnect' state
 [????] do not use .segments file for downloading in one thread
 [????] option for configuring percentage in queue of downloads
 [????] stand_data_connection() should try another way to set it up
@@ -173,4 +176,18 @@ move to GTK-2.0
 [DONE] add shortcut for "Un/Protect"
 [DONE] fix working "automated add" with paramters like '{01-99}'
 [DONE] add back "default permissions" to "common options"
+-----------------------------------------------------------------
+----------------- to 1.30 ----------------------------------------
+[DONE] -geometry WxH+X+Y command line parameter support
+[DONE] when add manually download which is already in queue point to it for user
+[DONE] when redirected to the file with the same filename may be better rewrite it?
+[DONE] check segments.* code
+[DONE] --ls without parameters show full list
+[DONE] support 'Content-Disposition'
+[DONE] different window managers need different coords for created window
+[DONE] fix saving order of queue when run without interface
+[DONE] search links in file must bring "list of found URLs" dialog;
+[DONE] another way to calc remaining time
+[DONE] add tooltips to traffic selection menu items in DnDbasket's menu
+[DONE] scroll queue and select download when dblclicked on error in main log
 -----------------------------------------------------------------

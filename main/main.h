@@ -29,34 +29,39 @@ class tMain{
 	tFtpSearchCtrl *ftpsearch;
 	tSpeedQueue *SpeedScheduler;
 	int LastReadedBytes;
-	int TO_WAIT_IF_HERE;
+	int TO_WAIT_IF_HERE,DONTRY2RUN;
 	void case_download_completed(tDownload *what);
 	void case_download_failed(tDownload *what);
 
 	void try_to_run_split(tDownload *what);
 	void stop_split(tDownload *what);
-	int get_status_split(tDownload *what);
-	int get_split_loaded(tDownload *what);
+	void check_split(tDownload *dwn);
 	int try_to_run_download(tDownload *what);
 	void absolute_delete_download(tDownload *what);
 
 	void add_dir(tDownload *parent);
 	void print_info(tDownload *what);
-	void redirect(tDownload *what);
+	void redirect(tDownload *what,d4xDownloadQueue *dq);
 	void del_all_from_list(int list);
 	unsigned int get_precise_time();
 	void run_msg_server();
 	void speed_calculation(tDownload *what);
 	void run_without_face();
-	void main_circle_first();
-	void main_circle_second();
-	void insert_into_wait_list(tDownload *what);
+	void main_circle_first(tDownload *dw);
+	void main_circle_second(tDownload *dwn);
+	void insert_into_wait_list(tDownload *what,d4xDownloadQueue *dq);
+	void init_qtree(tQueue *list,d4xDownloadQueue *papa=NULL);
+	void stop_all(tQueue *q);
+	int try_to_switch_split(tDownload *dwn,tDownload *gp);
+	int try_to_switch(tDownload *dwn);
  public:
     	int init();
     	void init_main_log();
     	void speed();
 	int complete();
         void main_circle();
+	void main_circle_nano1();
+	void main_circle_nano2();
         void del_completed();
 	void del_fataled();
         void del_all();
@@ -82,9 +87,13 @@ class tMain{
 	void add_downloading_to(tDownload *what,int to_top=0);
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
+	int set_auto_run(int a);
+	void try_to_run_wait(d4xDownloadQueue *papa);
+	void try_to_run_run(d4xDownloadQueue *papa);
 	void run_after_quit();
 	void done();
 	/* next methods are public especialy for tFtpSearchCtrl */
+	void post_stopping(tDownload *what);
 	void prepare_for_stoping(tDownload *what);
 	int run_new_thread(tDownload *what);
 	void ftp_search_remove(tDownload *what);
@@ -95,12 +104,14 @@ class tMain{
 void *download_last(void *);
 int get_port_by_proto(char *proto);
 int calc_curent_run(char *host,int port);
+void create_new_queue(char *name,d4xDownloadQueue *papa=NULL);
 
 extern tMLog *MainLog;
 extern tMeter *GlobalMeter;
 extern tMeter *LocalMeter;
 
 extern d4xDownloadQueue *D4X_QUEUE;
+extern tQueue D4X_QTREE;
 
 //************************************************/
 #endif

@@ -105,10 +105,25 @@ int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 	Auth=NULL;
 	D_FILE.type=T_FILE; //we don't know any other when download via http
 	config.copy_ints(cfg);
-	config.copy_proxy(cfg);
+	config.socks_port = cfg->socks_port;
+	config.socks_host.set(cfg->socks_host.get());
+	config.socks_user.set(cfg->socks_user.get());
+	config.socks_pass.set(cfg->socks_pass.get());
+	config.proxy_no_cache = cfg->proxy_no_cache;
+	if (hostinfo->proto==D_PROTO_FTP){
+		config.hproxy_port = cfg->fproxy_port;
+		config.hproxy_host.set(cfg->fproxy_host.get());
+		config.hproxy_user.set(cfg->fproxy_user.get());
+		config.hproxy_pass.set(cfg->fproxy_pass.get());
+	}else{
+		config.hproxy_port = cfg->hproxy_port;
+		config.hproxy_host.set(cfg->hproxy_host.get());
+		config.hproxy_user.set(cfg->hproxy_user.get());
+		config.hproxy_pass.set(cfg->hproxy_pass.get());
+	};
 
 	D_PROTO=hostinfo->proto;
-	HTTP->init(config.proxy_host.get(),LOG,config.proxy_port,config.timeout);
+	HTTP->init(config.hproxy_host.get(),LOG,config.hproxy_port,config.timeout);
 	config.user_agent.set(cfg->user_agent.get());
 	config.referer.set(cfg->referer.get());
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
@@ -116,7 +131,7 @@ int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 		HTTP->registr(NULL,NULL);
 	else
 		HTTP->registr(ADDR.username.get(),ADDR.pass.get());
-	((tHProxyClient *)(HTTP))->proxy_registr(config.proxy_user.get(),config.proxy_pass.get());
+	((tHProxyClient *)(HTTP))->proxy_registr(config.hproxy_user.get(),config.hproxy_pass.get());
 	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.get(),cfg->proxy_no_cache);
 	REQUESTED_URL=make_name();
 	return reconnect();
@@ -172,7 +187,7 @@ fsize_t tProxyDownload::get_size() {
 	while (1) {
 		answer->done();
 		HTTP->set_offset(LOADED);
-		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.proxy_host.get(),config.proxy_port);
+		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.hproxy_host.get(),config.hproxy_port);
 		fsize_t temp=HTTP->get_size(REQUESTED_URL,answer);
 		switch (temp){
 		case 0:{
@@ -183,8 +198,13 @@ fsize_t tProxyDownload::get_size() {
 			return D_FILE.size;
 		};
 		case 1: // redirection
+			analize_answer(); // to avoid lost cookies;
 			return -1;
 		case -2: // bad answer
+			if (HTTP->ERROR_CODE==404){
+				LOG->log(LOG_ERROR,_("File not found on the server"));
+				return -2;
+			};
 			LOG->log(LOG_OK,_("Probably it's problem of proxy server, retrying"));
 			break;
 		case -1: // timout

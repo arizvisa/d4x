@@ -65,7 +65,7 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 					sprintf(a,"%s%% %s",b,tmp->info->host.get());
 				}else{
 					char size[100];
-					make_number_nice(size,tmp->finfo.size);
+					make_number_nice(size,tmp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
 					sprintf(a,"%s%% %s [%s %s]",b,tmp->info->host.get(),
 						tmp->finfo.size>0?size:"???",_("bytes"));
 				};
@@ -156,6 +156,7 @@ gint fs_list_select_callback(GtkWidget *widget, gint row, gint column,
 
 GtkCList *fs_list_init(){
 	GtkCList *clist=(GtkCList *)gtk_clist_new(FS_COL_LAST);
+	gtk_clist_set_row_height(clist,16);
 	gtk_clist_set_column_width (clist,FS_COL_ICON,20);
 	gtk_clist_set_column_width (clist,FS_COL_NAME,180);
 	gtk_clist_set_column_width (clist,FS_COL_SIZE,100);

@@ -20,6 +20,7 @@
 #include <string.h>
 #include <strings.h>
 #include <ctype.h>
+#include "signal.h"
 
 enum HTTP_ANSWERS_ENUM{
 	H_CONTENT_LENGTH,
@@ -29,7 +30,10 @@ enum HTTP_ANSWERS_ENUM{
 	H_ACCEPT_RANGE,
 	H_ETAG,
 	H_WWW_AUTHENTICATE,
-	H_LAST_MODIFIED
+	H_LAST_MODIFIED,
+	H_SET_COOKIE,
+	H_TRANSFER_ENCODING,
+	H_CONNECTION
 };
 
 char *http_answers[]={
@@ -40,7 +44,10 @@ char *http_answers[]={
 	"accept-ranges:",
 	"etag:",
 	"www-authenticate:",
-	"last-modified:"
+	"last-modified:",
+	"set-cookie:",
+	"transfer-encoding:",
+	"connection:"
 };
 
 
@@ -173,6 +180,7 @@ void tHttpDownload::print_error(int error_code){
 };
 
 int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
+	Persistent=0;
 	HTTP=new tHttpClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);
@@ -191,6 +199,11 @@ int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
 	HTTP->registr(ADDR.username.get(),ADDR.pass.get());
 	REQUESTED_URL=make_name();
+	if (s){
+		HTTP->import_ctrl_socket(s);
+		RetrNum=1;
+		return(0);
+	};
 	return reconnect();
 };
 
@@ -235,6 +248,14 @@ tStringList *tHttpDownload::dir() {
 	return answer;
 };
 
+int tHttpDownload::persistent(){
+	return(Persistent);
+};
+
+fsize_t tHttpDownload::another_way_get_size() {
+	return 0;
+};
+
 fsize_t tHttpDownload::analize_answer() {
 	/*  Here we need few analisation of http answer
 	 *	AcceptRanges: bytes
@@ -242,6 +263,8 @@ fsize_t tHttpDownload::analize_answer() {
 	 *	Content-Range: bytes (int)-(int)/(int)
 	 *	Last-Modified: 
 	 */
+	if (HTTP->HTTP_SUBVER==1 || HTTP->HTTP_VER>1)
+		Persistent=1;
 	ETagChanged=0;
 	OldETag=ETag;
 	ETag=NULL;
@@ -250,6 +273,7 @@ fsize_t tHttpDownload::analize_answer() {
 	fsize_t rvalue=0;
 	ReGet=0;
 	MustNoReget=0;
+	HTTP->CHUNKED=0;
 	while(temp) {
 		char *STR=NULL;
 		unsigned int i;
@@ -303,7 +327,7 @@ fsize_t tHttpDownload::analize_answer() {
 			ETag=extract_from_prefixed_string(temp->body,STR);
 			char *tmp=index(ETag,':');
 			if (tmp) *tmp=0;
-			if (OldETag) {
+			if (OldETag && config.ihate_etag==0) {
 				if (!equal(OldETag,ETag)) {
 					MustNoReget=ETagChanged=1;
 				};
@@ -318,6 +342,29 @@ fsize_t tHttpDownload::analize_answer() {
 		case  H_WWW_AUTHENTICATE:{
 			if (!Auth) {
 				Auth=extract_from_prefixed_string(temp->body,STR);
+			};
+			break;
+		};
+		case H_SET_COOKIE:{
+// Set-Cookie: zzzplayuniq=free3-chi-48-2001-Dec-28_04:57:07; expires=Sat, 31 Dec 2005 00:00:00 GMT; path=/; domain=.playboy.com;
+			/* FIXME: to avoid lost cookies, parse answer before redirection */
+			tCookie *cookie=new tCookie;
+			if (cookie->parse(temp->body+strlen(STR),ADDR.host.get(),ADDR.path.get())==0){
+				download_set_block(1);
+				LOG->cookie_set(cookie);
+				download_set_block(0);
+			};
+			break;
+		};
+		case H_TRANSFER_ENCODING:{
+			if (strstr(temp->body,"chunked")){
+				HTTP->CHUNKED=1;
+			};
+			break;
+		};
+		case H_CONNECTION:{
+			if (strstr(temp->body,"close")){
+				Persistent=0;
 			};
 			break;
 		};
@@ -381,6 +428,7 @@ fsize_t tHttpDownload::get_size() {
 		case -1: // timeout
 			break;
 		case 1: // redirection
+			analize_answer(); // to avoid lost cookies;
 			return -1;
 		};
 		if (reconnect()) break;

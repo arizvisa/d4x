@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <time.h>
+#include <ctype.h>
 
 /* determine which cookies file is newer Netscape or Mozilla's one
    It's allowed to use non reentrant variance of readdir() cos here's first
@@ -96,6 +97,11 @@ char *d4x_get_best_cookies(){
 
 tCookie::tCookie(){
 	time_of_life=time_t(0);
+	myown=0;
+};
+
+void tCookie::set_time(time_t t){
+	time_of_life=t;
 };
 
 void tCookie::set_time(char *what){
@@ -118,15 +124,79 @@ void tCookie::print(){
 	if (value.get()) puts(value.get());
 };
 
+int tCookie::parse(char *str,char *srchost,char *srcpath){
+	char *cur=str;
+	while(cur && *cur){
+		cur=skip_spaces(cur);
+		char *n=index(cur,';');
+		if (n) *n=0;
+		char *eq=index(cur,'=');
+		if (eq){
+			*eq=0;
+			char *a=copy_string(cur);
+			char *b=a+strlen(a)-1;
+			while (isspace(*b) && b>a){
+				*b=0;
+				b--;
+			};
+			b=skip_spaces(eq+1);
+			char *c=copy_string(b);
+			b=c+strlen(c)-1;
+			while (isspace(*b) && b>c){
+				*b=0;
+				b--;
+			};
+			if (name.get()==NULL){
+				name.set(a);
+				value.set(c);
+			};
+			if (equal_uncase(a,"expires")){
+				time_of_life=ctime_to_time(c);
+			};
+			if (equal_uncase(a,"path")){
+				path.set(c);
+			};
+			if (equal_uncase(a,"domain")){
+				host.set(c);
+			};
+			delete(a);
+			delete(c);
+			*eq='=';
+		};
+		if (n){
+			*n=';';
+			n+=1;
+		};
+		cur=n;
+	};
+	if (time_of_life==0) time_of_life=time(NULL)+30*3600;
+	if (srchost && host.get()==NULL) host.set(srchost);
+	if (srcpath && path.get()==NULL){
+		char *p=sum_strings("/",srcpath,NULL);
+		path.set(p);
+		delete[] p;
+	};
+	if (name.get() && value.get() && path.get() && host.get())
+		return(0);
+	return(1);
+};
+
+int cmp_back(const char *a,const char *b){
+	const char *bb=b+strlen(b)-1;
+	const char *aa=a+strlen(a)-1;
+	while(bb>b && aa>a){
+		if (*bb!=*aa) return(*bb-*aa);
+		bb--;aa--;
+	};
+	if (bb>b) return(-1);
+	if (aa>a) return(1);
+	return(0);
+};
+
 int tCookie::cmp(tAbstractSortNode *b){
 	DBC_RETVAL_IF_FAIL(b!=NULL,0);
-	return(strcmp(((tCookie *)b)->host.get(),host.get()));
-/*
-	if (r) return(r);
-	r=strcmp(((tCookie *)b)->path.get(),path.get());
-	if (r) return(r);
-	return(strcmp(((tCookie *)b)->name.get(),name.get()));
-*/
+//	printf("%s %s %i\n",((tCookie *)b)->host.get(),host.get(),cmp_back(((tCookie *)b)->host.get(),host.get()));
+	return(cmp_back(((tCookie *)b)->host.get(),host.get()));
 };
 
 tCookie::~tCookie(){
@@ -135,101 +205,134 @@ tCookie::~tCookie(){
 /*
  */
 
+tCookie *tCookiesTree::find_exact(tCookie *cookie){
+	tCookie *temp=find(cookie->host.get());
+	while (temp){
+		if (equal(cookie->path.get(),temp->path.get()) &&
+		    equal(cookie->name.get(),temp->name.get())){
+			return temp;
+		};
+		temp=find(temp,cookie->host.get());
+	};
+	return(NULL);
+};
+
 tCookie *tCookiesTree::find(const char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	if (Top && string_ended(((tCookie*)Top)->host.get(),what)==0)
 		return((tCookie*)Top);
-	return find((tCookie **)(&Top),what);
+//	if (Top) printf("--- find from %s ---\n",((tCookie *)Top)->host.get());
+	return find((tCookie *)Top,what);
 };
-	
-tCookie *tCookiesTree::find(tCookie **begin,const char *what) {
-	tCookie **temp=begin;
-	while (*temp) {
-//		(*temp)->print();
-		int a=strcmp(what,(*temp)->host.get());
-		if (a<0)
-			temp=(tCookie **)&((*temp)->more);
-		else {
-			temp=(tCookie **)&((*temp)->less);
+
+tCookie *tCookiesTree::find(tCookie *begin,const char *what) {
+	tCookie *temp=begin;
+	while (temp) {
+//		printf("%s %s ",temp->host.get(),what);
+		int a=cmp_back(what,temp->host.get());
+		if (a<0){
+			temp=(tCookie *)(temp->more);
+		}else {
+			temp=(tCookie *)(temp->less);
 		};
-		if (*temp && string_ended((*temp)->host.get(),what)==0){
-			return *temp;
+		if (temp && string_ended(temp->host.get(),what)==0){
+			return temp;
 		};
 	};
 	return NULL;
 };
 
-void tCookiesTree::add(tCookie *what){
-	tCookie *tmp=find(what->host.get());
-	if (tmp){
-		if ((what->next=tmp->next))
-			what->next->prev=what;
-		what->prev=tmp;
-		tmp->next=what;
-	}else{
-		tAbstractSortTree::add(what);
-		what->next=what->prev=NULL;
-	};
-};
+char *D4X_COOKIES_FILE="cookies.txt";
 
-void tCookiesTree::del(tCookie *what){
-	tCookie *tmp=find(what->host.get());
-	if (tmp){
-		if (tmp==what){
-			tCookie *stay=(tCookie *)(what->next);
-			tAbstractSortTree::del(what);
-			if (stay)
-				tAbstractSortTree::add(stay);
-		}else{
-			tmp=(tCookie *)(tmp->next);
-			while(tmp){
-				if (tmp==what){
-					if ((tmp->prev->next=tmp->next))
-						tmp->next->prev=tmp->prev;
-					break;
-				};
-				tmp=(tCookie *)(tmp->next);
+void tCookiesTree::load_from_file(int fd,int myown=0){
+	char temp[MAX_LEN];
+	while (f_rstr(fd,temp,MAX_LEN)){
+		if (*temp!='#'){
+			tCookie *cookie=new tCookie;
+			char *data=new char[strlen(temp)+1];
+			char *next_for_parse=extract_string(temp,data); //host
+			cookie->host.set(data);
+			next_for_parse=extract_string(next_for_parse,data);//path
+			next_for_parse=extract_string(next_for_parse,data);
+			cookie->path.set(data);
+			next_for_parse=extract_string(next_for_parse,data);
+			next_for_parse=extract_string(next_for_parse,data);
+			cookie->set_time(data);
+			next_for_parse=extract_string(next_for_parse,data);//name
+			cookie->name.set(data);
+			next_for_parse=extract_string(next_for_parse,data);//value
+			cookie->value.set(data);
+			cookie->myown=myown;
+			if (cookie->path.get()==NULL || cookie->path.get()[0]!='/' ||
+			    find_exact(cookie)!=NULL)
+				delete(cookie);
+			else{
+				add(cookie);
 			};
+			delete[] data;
 		};
 	};
 };
+
+
+void tCookiesTree::save_cookie(int fd,tCookie *what){
+	if (what->myown){
+		f_wstr(fd,what->host.get());
+		f_wstr(fd,"\tFALSE\t");
+		char *path=unparse_percents(what->path.get());
+		f_wstr(fd,path);
+		delete[] path;
+		f_wstr(fd,"\tFALSE\t");
+		static char str[MAX_LEN];
+		sprintf(str,"%ld",(long int)(what->get_time()));
+		f_wstr(fd,str);
+		f_wchar(fd,'\t');
+		path=unparse_percents(what->name.get());
+		f_wstr(fd,path);
+		delete[] path;
+		f_wchar(fd,'\t');
+		path=unparse_percents(what->value.get());
+		f_wstr(fd,path);
+		delete[] path;
+		f_wchar(fd,'\n');
+	};
+	if (what->less) save_cookie(fd,(tCookie *)(what->less));
+	if (what->more) save_cookie(fd,(tCookie *)(what->more));
+};
+
+void tCookiesTree::save_cookies(){
+	char *path=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",D4X_COOKIES_FILE,NULL);
+	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
+	delete[] path;
+	if (fd>=0){
+		if (Top) save_cookie(fd,(tCookie*)Top);
+		close(fd);
+	};
+};
+
 
 void tCookiesTree::load_cookies(){
 	char *path=d4x_get_best_cookies();
-	if (path==NULL) return;
 	MainLog->add(_("Loading cookies"),LOG_WARNING | LOG_DETAILED);
-	int fd=open(path,O_RDONLY);
-	if (fd>=0){
-		char temp[MAX_LEN];
-		while (f_rstr(fd,temp,MAX_LEN)){
-			if (*temp!='#'){
-				tCookie *cookie=new tCookie;
-				char *data=new char[strlen(temp)+1];
-				char *next_for_parse=extract_string(temp,data); //host
-				cookie->host.set(data);
-				next_for_parse=extract_string(next_for_parse,data);//path
-				next_for_parse=extract_string(next_for_parse,data);
-				cookie->path.set(data);
-				next_for_parse=extract_string(next_for_parse,data);
-				next_for_parse=extract_string(next_for_parse,data);
-				cookie->set_time(data);
-				next_for_parse=extract_string(next_for_parse,data);//name
-				cookie->name.set(data);
-				next_for_parse=extract_string(next_for_parse,data);//value
-				cookie->value.set(data);
-				if (cookie->path.get() && cookie->path.get()[0]!='/')
-					delete(cookie);
-				else
-					add(cookie);
-				delete[] data;
-			};
+	if (path!=NULL){
+		int fd=open(path,O_RDONLY);
+		if (fd>=0){
+			load_from_file(fd);
+			close(fd);
+			MainLog->myprintf(LOG_OK|LOG_DETAILED,_("%i cookies loaded from browsers' files"),NUM);
+		}else{
+			MainLog->myprintf(LOG_ERROR|LOG_DETAILED,_("Can't open cookies file %s!"),path);
 		};
+		delete[] path;
+	};
+	path=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",D4X_COOKIES_FILE,NULL);
+	int fd=open(path,O_RDONLY);
+	delete[] path;
+	if (fd>=0){
+		load_from_file(fd,1);
 		close(fd);
 		MainLog->myprintf(LOG_OK|LOG_DETAILED,_("%i cookies loaded"),NUM);
-	}else{
-		MainLog->add(_("Can't open cookies file!"),LOG_ERROR|LOG_DETAILED);
 	};
-	delete[] path;
 };
 
 tCookiesTree::~tCookiesTree(){

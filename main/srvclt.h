@@ -12,14 +12,14 @@
 #ifndef MY_SERVER_CLIENT
 #define MY_SERVER_CLIENT
 #include "liststr.h"
-#include <pthread.h>
+#include "mutex.h"
 
 struct tDownload;
 
 class tMsgServer{
 	tStringList *list;
 	char *file;
-	pthread_mutex_t lock;
+	d4xMutex lock;
 	pthread_t thread_id;
 	int fd,newfd; /* socket descriptors */
 	void cmd_add(int len,int type);

@@ -1,0 +1,2651 @@
+# Slovak translation for downloader for X
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: nt\n"
+"POT-Creation-Date: 2002-02-13 22:08+0700\n"
+"PO-Revision-Date: Sa Jan 27 2001 21:41:36+0200\n"
+"Last-Translator: Lubo¹ Holièka  <kamasko@ba.telecom.sk>\n"
+"Language-Team: LANGUAGE <ll@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso8859-2\n"
+
+#: ../client.cc:410
+msgid "Timeout while reading from socket!"
+msgstr "Èasový limit pri èítaní soketu skonèil!"
+
+#: ../client.cc:415
+msgid "Error while reading from socket!"
+msgstr "Nastala chyba pri èítaní zo soketu!"
+
+#: ../client.cc:424
+msgid "Trying to connect..."
+msgstr "Pokú¹am sa spoji»..."
+
+#: ../client.cc:426
+msgid "Socket was opened!"
+msgstr "Soket bol otvorený!"
+
+#: ../client.cc:431
+msgid "Host not found!"
+msgstr "Hostiteµ nebol nájdený!"
+
+#: ../client.cc:436
+msgid "Can't allocate socket"
+msgstr "Nemô¾em si necha» prideli» soket"
+
+#: ../client.cc:441
+msgid "Can't connect"
+msgstr "Nemô¾em sa pripoji»"
+
+#: ../config.cc:74
+msgid "You forgot to specify directory."
+msgstr ""
+
+#: ../config.cc:76
+#, fuzzy
+msgid "You must specify number as second parameter for '-m' option"
+msgstr "Mali by ste urèi» èíslo ako parameter pre voµbu '--exit-time'"
+
+#: ../config.cc:80
+#, fuzzy
+msgid "You must specify number as parameter for '--exit-time' option"
+msgstr "Mali by ste urèi» èíslo ako parameter pre voµbu '--exit-time'"
+
+# config.cc:
+#: ../config.cc:81
+msgid "Expect URL as parameter for '--ls' option"
+msgstr "Oèakáva» URL ako parameter pre voµbu '--ls'"
+
+# config.cc:
+#: ../config.cc:83
+#, fuzzy
+msgid "Expect URL as parameter for '--del' option"
+msgstr "Oèakáva» URL ako parameter pre voµbu '--ls'"
+
+#: ../config.cc:84
+msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:85
+#, fuzzy
+msgid "Expect URL as parameter for '--stop' option"
+msgstr "Oèakáva» URL ako parameter pre voµbu '--ls'"
+
+#: ../config.cc:270
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr "Nemô¾em otvori» konfiguraèný súbor na '%s'\n"
+
+#: ../config.cc:271
+msgid "Use default cfg :))...\n"
+msgstr "Pou¾ijem prednastavenú konfiguráciu :))...\n"
+
+# config.cc:
+#: ../config.cc:481
+msgid "unknown option:"
+msgstr "neznáma voµba"
+
+# config.cc:
+#: ../config.cc:528
+#, c-format
+msgid "Run downloads: %d\n"
+msgstr "Probiehajúcich s»ahovaní: %d\n"
+
+# config.cc:
+#: ../config.cc:530
+#, c-format
+msgid "Paused downloads: %d\n"
+msgstr "Pozastavených s»ahovaní: %d\n"
+
+# config.cc:
+#: ../config.cc:532
+#, c-format
+msgid "Failed downloads: %d\n"
+msgstr "Neúspe¹ných s»ahovaní: %d\n"
+
+# config.cc:
+#: ../config.cc:534
+#, c-format
+msgid "Completed downloads: %d\n"
+msgstr "Ukonèených s»ahovaní: %d\n"
+
+# config.cc:
+#: ../config.cc:537
+#, c-format
+msgid "Total: %d\n"
+msgstr "Celkom: %d\n"
+
+#: ../config.cc:539
+#, fuzzy, c-format
+msgid "Total bytes loaded: %d\n"
+msgstr "%i bytov bolo naèítaných."
+
+# config.cc:
+#: ../config.cc:541
+#, c-format
+msgid "Current speed: %d\n"
+msgstr "Aktuálna rýchlos»: %d\n"
+
+# config.cc:
+#: ../config.cc:547
+#, fuzzy, c-format
+msgid "Curent speed: %d\n"
+msgstr "Aktuálna rýchlos»: %d\n"
+
+# config.cc:
+#: ../config.cc:761
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr "Pou¾itie: nt [VO¥BY] ... [URL]"
+
+# config.cc:
+#: ../config.cc:762
+msgid "print this page and exit"
+msgstr "výpis tejto stránky a ukonèenie"
+
+# config.cc:
+#: ../config.cc:763
+msgid "show version information and exit"
+msgstr "zobrazenie informácií o verzii programu a ukonèenie"
+
+# config.cc:
+#: ../config.cc:764
+msgid "show information if already run"
+msgstr "zobrazenie informácie, èi program práve be¾í"
+
+# config.cc:
+#: ../config.cc:765
+msgid "show current speed if already run"
+msgstr "zobrazenie aktuálnej rýchlosti, ak program práve be¾í"
+
+# config.cc
+#: ../config.cc:766
+msgid "run in minimized mode"
+msgstr "Spusti» v minimalizovanom móde"
+
+# config.cc
+#: ../config.cc:767
+msgid "set timeout for exiting if nothing to do"
+msgstr "Nastavi» èasový limit pre ukonèenie pri neèinnosti"
+
+# config.cc:
+#: ../config.cc:768
+msgid "set directory for saving files"
+msgstr "Nastavi» adresár pre ukladanie súborov"
+
+# config.cc:
+#: ../config.cc:769
+msgid "set lower speed limitation"
+msgstr "nastavi» dolnú limitáciu rýchlosti"
+
+# config.cc:
+#: ../config.cc:770
+#, fuzzy
+msgid "set medium speed limitation"
+msgstr "nastavi» strednú limitáciu rýchlosti"
+
+# config.cc:
+#: ../config.cc:771
+msgid "set unlimited speed"
+msgstr "nastavi» neobmedzenú rýchlos»"
+
+#: ../config.cc:772
+msgid "delete completed if already run"
+msgstr "Zmaza» ukonèené ak práve be¾í"
+
+#: ../config.cc:773
+msgid "set maximum active downloads"
+msgstr "Nastavi» maximum aktívnych s»ahovaní"
+
+# config.cc
+#: ../config.cc:774
+msgid "restart all failed downloads"
+msgstr "Re¹tartuj v¹etky neúspe¹né s»ahovania"
+
+#: ../config.cc:775
+msgid "run program without X interface"
+msgstr "Spusti program bez grafického rozhrania"
+
+#: ../config.cc:776
+msgid "display info about URL in queue of downloads"
+msgstr "zobraz info o URL vo fronte s»ahovaní"
+
+#: ../config.cc:777
+#, fuzzy
+msgid "remove a download from queue"
+msgstr "Zmazanie dokonèených"
+
+#: ../config.cc:778
+#, fuzzy
+msgid "stop a download"
+msgstr " Zastavi» s»ahovania "
+
+#: ../config.cc:779
+#, fuzzy
+msgid "using colors if run without interface"
+msgstr "Spusti program bez grafického rozhrania"
+
+#: ../config.cc:780
+msgid "specifies preferred size and position of main window"
+msgstr ""
+
+# cookie.cc
+#: ../cookie.cc:316
+msgid "Loading cookies"
+msgstr "Naèítávam cookies"
+
+# cookie.cc
+#: ../cookie.cc:322
+#, fuzzy, c-format
+msgid "%i cookies loaded from browsers' files"
+msgstr "%i cookies naèítaných"
+
+# cookie.cc
+#: ../cookie.cc:324
+#, fuzzy, c-format
+msgid "Can't open cookies file %s!"
+msgstr "Nemô¾em otvori» súbor s cookies"
+
+# cookie.cc
+#: ../cookie.cc:334
+#, c-format
+msgid "%i cookies loaded"
+msgstr "%i cookies naèítaných"
+
+#: ../dlist.cc:112
+msgid "Can't write to file"
+msgstr "Nemô¾em zapísa» do súboru"
+
+# dlist.cc
+#: ../dlist.cc:137
+msgid "File is already opened by another download!"
+msgstr ""
+
+#: ../dlist.cc:140
+msgid "Filesystem do not support advisory record locking!"
+msgstr ""
+
+#: ../dlist.cc:141
+msgid "Will proceed without it but beware that you might have problems."
+msgstr ""
+
+#: ../dlist.cc:390
+#, c-format
+msgid "You have no permissions to create file at path %s"
+msgstr "Nemáte prístupové práva na vytvorenie súboru na %s"
+
+#: ../dlist.cc:395
+#, c-format
+msgid "You have no space at path %s for creating file"
+msgstr "Nemáte dostatok miesta na vytvorenie súboru na %s"
+
+#: ../dlist.cc:400
+msgid "Directory already created!:))"
+msgstr "Adresár bol u¾ vytvorený!:))"
+
+#. this is a link
+#: ../dlist.cc:520
+msgid "Trying to create a link"
+msgstr "Pokú¹am sa vytvori» odkaz"
+
+#: ../dlist.cc:525
+msgid "Link already created!:))"
+msgstr "Odkaz u¾ bol vytvorený!:))"
+
+#: ../dlist.cc:531
+msgid "Can't create link"
+msgstr "Nemô¾em vytvori» odkaz"
+
+#. this is a file
+#: ../dlist.cc:540
+msgid "Trying to create a file"
+msgstr "Pokú¹am sa vytvori» súbor..."
+
+#: ../dlist.cc:561
+msgid "Can't create file at the path:"
+msgstr "Nemô¾em vytvori» súbor s touto cestou"
+
+#: ../dlist.cc:563
+msgid "which has name:"
+msgstr "ktorý má meno:"
+
+#: ../dlist.cc:574
+msgid "File was created!"
+msgstr "Súbor bol vytvorený!"
+
+#. this is a directory
+#: ../dlist.cc:579
+msgid "Trying to create a dir"
+msgstr "Pokú¹am sa vytvori» adresár"
+
+#: ../dlist.cc:589
+msgid "Can't create directory!"
+msgstr "Nemô¾em vytvori» adresár!"
+
+#. this is device
+#: ../dlist.cc:599
+msgid "Downloader can't create devices..."
+msgstr "Downloader nemô¾e vytvori» zariadenie..."
+
+#: ../dlist.cc:1028
+#, c-format
+msgid "Trying to copy %s to %s due 'Content-Disposition'"
+msgstr ""
+
+#: ../dlist.cc:1031
+msgid "Error during copying!"
+msgstr ""
+
+#: ../dlist.cc:1062
+msgid "Downloading was successefully completed!"
+msgstr "S»ahovanie bolo úspe¹ne dokonèené!"
+
+#: ../dlist.cc:1104
+msgid "Downloading was failed..."
+msgstr "S»ahovanie zlyhalo..."
+
+#: ../dlist.cc:1221
+msgid "Redirection blocked by filter"
+msgstr ""
+
+#: ../dlist.cc:1227
+msgid "Redirect detected..."
+msgstr "Zistené presmerovanie..."
+
+#: ../dlist.cc:1285
+msgid "It is strange that we can't delete file which just created..."
+msgstr "Je zvlá¹tne, ¾e nemô¾em zmaza» súbor, ktorý bol práve vytvorený..."
+
+#: ../dlist.cc:1289 ../dlist.cc:1508
+msgid "File not found"
+msgstr "Súbor nenájdený"
+
+# dlist.cc
+#: ../dlist.cc:1347
+msgid "Sorting started"
+msgstr ""
+
+#: ../dlist.cc:1350
+#, c-format
+msgid "Pinging (atempt %i of %i)"
+msgstr ""
+
+#: ../dlist.cc:1378
+#, fuzzy
+msgid "Trying to determine filesizes"
+msgstr "Pokú¹am sa vytvori» súbor..."
+
+# dlist.cc
+#: ../dlist.cc:1454
+msgid "Searching failed"
+msgstr ""
+
+# dlist.cc:
+#: ../dlist.cc:1476
+msgid "Search had been completed!"
+msgstr "Vyhµadávanie bolo ukonèené"
+
+#: ../dlist.cc:1482
+msgid "Was Started!"
+msgstr "Operácia zahájená!"
+
+#: ../dlist.cc:1486
+msgid "It is a link and we already load it"
+msgstr "To je odkaz a bol u¾ nahratý"
+
+#: ../dlist.cc:1513
+msgid "Trying to work without CWD"
+msgstr ""
+
+#: ../dlist.cc:1584
+msgid "Can't split file to specified number of parts!"
+msgstr ""
+
+#: ../download.cc:33
+msgid "Maximum number of retries reached!"
+msgstr "Bol dosiahnutý maximálny poèet pokusov!"
+
+#: ../download.cc:38
+#, c-format
+msgid "Retry %i of %i...."
+msgstr "Skú¹am %i. pokus z %i...."
+
+#: ../download.cc:40
+#, c-format
+msgid "Retry %i ..."
+msgstr "Skú¹am %i ..."
+
+# download.cc
+#: ../download.cc:44
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr "Súbor na serveri je nov¹í ako ten miestny. Re¹tarujem od zaèiatku\n"
+
+#: ../download.cc:48
+#, c-format
+msgid "Error code %i"
+msgstr ""
+
+#: ../download.cc:49
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "Upozornenie! Mo¾no ste na¹li chybu!"
+
+#: ../download.cc:50
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr "Ak vidíte túto správu, oznámte to prosím na adresu mdem@chat.ru"
+
+#: ../ftp.cc:50
+#, fuzzy
+msgid "Accepting faild"
+msgstr "Akceptovanie zlyhalo"
+
+#: ../ftp.cc:73
+msgid "Timeout while sending through control socket."
+msgstr "Vypr¹al èasovy limit pri posielaní cez kontrolný soket."
+
+#: ../ftp.cc:74
+#, fuzzy
+msgid "Control connection lost"
+msgstr "Kontrola spojenia je stratená"
+
+#: ../ftp.cc:85
+msgid "Data connection lost!"
+msgstr "Dátovy soket je stratený!"
+
+#: ../ftp.cc:95
+msgid "Control connection lost!"
+msgstr "Kontrola spojenia je stratená"
+
+#: ../ftp.cc:185
+msgid "Reget is not supported!!!"
+msgstr "Reget nie je podporovaný!!!"
+
+#.
+#. if (index(log->body,'(')!=NULL)
+#. sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
+#.
+#: ../ftp.cc:293
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr "Pokú¹am sa pripoji» k %i,%i,%i,%i,%i,%i..."
+
+#: ../ftp.cc:418
+msgid "Probably file was changed on server!"
+msgstr ""
+
+#: ../ftp.cc:435 ../http.cc:213
+msgid "Data connection closed."
+msgstr "Dátové spojenie zatvorené."
+
+#: ../ftp.cc:447 ../http.cc:225
+#, fuzzy
+msgid "Requested size was loaded"
+msgstr "Zoznam bol nahratý"
+
+#: ../ftpd.cc:234
+msgid "Can't establish data connection"
+msgstr "Nemô¾em zriadi» dátové spojenie!"
+
+#: ../ftpd.cc:237
+msgid "Can't change directory"
+msgstr "Nemô¾em zmeni» adresár"
+
+#: ../ftpd.cc:240
+msgid "Server refused login, perhaps there are too many users of your class"
+msgstr "Server odmietol pripojenie, asi je tam veµa u¾ívateµov..."
+
+#: ../ftpd.cc:309 ../httpd.cc:223
+msgid "Sleeping"
+msgstr "Spím..."
+
+#: ../ftpd.cc:414
+msgid "Empty answer. Trying to change directory to determine file type."
+msgstr ""
+
+#: ../ftpd.cc:439 ../ftpd.cc:461
+#, c-format
+msgid "Length is %i"
+msgstr "Då¾ka je %i"
+
+#: ../ftpd.cc:451
+msgid "This is a directory!"
+msgstr "Toto je adresár!"
+
+#: ../ftpd.cc:488
+msgid "Couldn't get size :(("
+msgstr "Nemohol som získa» veµkos» :(("
+
+#: ../ftpd.cc:503
+msgid "Loading directory..."
+msgstr "Nahrávam adresár..."
+
+#: ../ftpd.cc:517
+msgid "Listing was loaded"
+msgstr "Zoznam bol nahratý"
+
+#: ../ftpd.cc:520
+msgid "Listing not loaded completelly"
+msgstr "Zoznam nebol kompletne nahratý"
+
+#: ../ftpd.cc:547
+msgid "Link was loaded :))"
+msgstr "Odkaz bol nahratý :))"
+
+#: ../ftpd.cc:581 ../httpd.cc:477
+#, c-format
+msgid "%i bytes loaded."
+msgstr "%i bytov bolo naèítaných."
+
+#: ../hproxy.cc:190
+#, fuzzy, c-format
+msgid "Sending request to proxy (%s:%i)"
+msgstr "Posielam ¾iados» na proxy"
+
+#. all ok
+#: ../hproxy.cc:194 ../httpd.cc:419
+msgid "Answer read ok"
+msgstr "Odpoveï preèítaná v poriadku..."
+
+#: ../hproxy.cc:205
+#, fuzzy
+msgid "File not found on the server"
+msgstr "Súbor nenájdený"
+
+#: ../hproxy.cc:208
+msgid "Probably it's problem of proxy server, retrying"
+msgstr ""
+
+#: ../http.cc:62
+msgid "Socket lost!"
+msgstr "Soket stratený!"
+
+# http.cc
+#: ../http.cc:72
+msgid "Request was sent, waiting for the answer"
+msgstr "Po¾iadavka bola poslaná, èakám na odpoveï"
+
+#: ../http.cc:87
+msgid "It is not HTTP server!!!"
+msgstr "To nie je HTTP server!"
+
+#: ../http.cc:95
+msgid "All ok, reading file"
+msgstr "V¹etko v poriadku, naèítam súbor..."
+
+#: ../http.cc:106
+msgid "It seems to me that you need a password :)"
+msgstr "Zdá sa mi, ¾e potrebujete heslo :)"
+
+#: ../http.cc:112
+msgid "Server return bad answer:(("
+msgstr "Server vrátil chybnú odpoveï:(("
+
+#: ../http.cc:191
+msgid "Wrong chunk size!"
+msgstr ""
+
+#: ../http.cc:194
+#, c-format
+msgid "Chunk size %i"
+msgstr ""
+
+#: ../http.cc:196
+msgid "It's last chunk!"
+msgstr ""
+
+#: ../httpd.cc:175
+msgid "Couldn't get normal answer!"
+msgstr "Nemô¾em získa» ¹tandardnú odpoveï!"
+
+#: ../httpd.cc:375
+#, c-format
+msgid "Size for download is %i bytes"
+msgstr "Veµkos» s»ahovaného súboru je %i bajtov"
+
+#: ../httpd.cc:415
+#, fuzzy
+msgid "Sending HTTP request..."
+msgstr "Posielam HTTP ¾iados»..."
+
+#: ../httpd.cc:459
+msgid "It is seemed REGET not supported! Loading from begin.."
+msgstr "Vyzerá to ¾e REGET nie je podporovány! Naèítavam od zaèiatku."
+
+#: ../httpd.cc:462
+msgid "ETag was changed, restarting again..."
+msgstr ""
+
+# log.cc:
+#: ../log.cc:64
+msgid "Log was started!"
+msgstr "Zaznamenávanie do protokolu zahájené!"
+
+# main.cc
+#: ../main.cc:119
+#, fuzzy
+msgid "Can't init control socket!\n"
+msgstr "[riadiaci soket]"
+
+# main.cc:
+#: ../main.cc:162
+msgid "Loading default list of downloads"
+msgstr "Otváram predvolený s»ahovací zoznam"
+
+# main.cc
+#: ../main.cc:229 ../main.cc:1178
+msgid "Delete completed downloads"
+msgstr "Zmaza» ukonèené s»ahovania"
+
+# main.cc
+#: ../main.cc:242
+msgid "Delete failed downloads"
+msgstr "Zmaza» neúspe¹né s»ahovania"
+
+#: ../main.cc:259
+msgid "Clear queue of downloads"
+msgstr "Vymazal som s»ahovaciu frontu"
+
+# main.cc
+#: ../main.cc:316
+msgid "Run new thread for %z"
+msgstr "Spú¹»am nový thread pre %z"
+
+# main.cc:
+#: ../main.cc:322
+msgid "Can't run new thread for downloading!"
+msgstr "Nemô¾em spusti» nový thread pre s»ahovanie"
+
+#: ../main.cc:377
+#, c-format
+msgid "Downloading of file %s from %s was terminated [by user]"
+msgstr "S»ahovanie súboru %s zo %s bolo preru¹ené [u¾ívateµom]"
+
+#: ../main.cc:407
+#, c-format
+msgid "Delete file %s from queue of downloads"
+msgstr "Zmazaný súbor %s zo s»ahovacej fronty"
+
+#: ../main.cc:491
+#, c-format
+msgid "Continue downloading of file %s from %s..."
+msgstr "Pokraèujem s»ahovaním súboru %s z %s..."
+
+#: ../face/mywidget.cc:389 ../face/mywidget.cc:695 ../main.cc:581
+msgid "file"
+msgstr "súbor"
+
+#: ../main.cc:679
+msgid "dir"
+msgstr "adresár"
+
+#: ../main.cc:684
+msgid "link"
+msgstr "odkaz"
+
+#: ../main.cc:689
+msgid "device"
+msgstr "zariadenie"
+
+#: ../main.cc:725
+msgid "Too many redirections!"
+msgstr ""
+
+# main.cc:
+#: ../main.cc:743
+#, fuzzy
+msgid "Redirection from [%z] to the same location!"
+msgstr "Presmerovanie z [%z] nikam!"
+
+# main.cc:
+#: ../main.cc:779
+msgid "Redirection from [%z] to nowhere!"
+msgstr "Presmerovanie z [%z] nikam!"
+
+# main.cc
+#: ../main.cc:805
+#, fuzzy
+msgid "Prepare thread %i of [%z] for stoping"
+msgstr "Pripravujem [%z] k preru¹eniu"
+
+# main.cc:
+#: ../main.cc:823
+msgid "Redirect from %z"
+msgstr "Presmerovánie z %z"
+
+#: ../main.cc:830
+msgid "Downloading of directory %z was completed"
+msgstr "Stiahnutie adresára %z je ukonèené"
+
+#: ../main.cc:834
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+msgstr ""
+"S»ahovanie súboru %z (%i bajtov) bolo dokonèené rýchlos»ou %i bajtov za "
+"sekundu."
+
+# main.cc
+#: ../main.cc:841
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%z bol zmazaný zo s»ahovacej fronty lebo s»ahovanie bolo dokonèené"
+
+#: ../main.cc:852
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "S»ahovanie súboru %z bolo preru¹ené kvôli záva¾nej chybe"
+
+# main.cc
+#: ../main.cc:854
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%z bol smazaný zo s»ahovacej fronty lebo s»ahovanie bolo neúspe¹né"
+
+#: ../main.cc:1122
+msgid "Restarting failed downloads"
+msgstr "Re¹tartova» neúspe¹né s»ahovania"
+
+# main.cc
+#: ../main.cc:1122 ../main.cc:1158 ../main.cc:1174 ../main.cc:1178
+#: ../main.cc:1183 ../main.cc:1196 ../main.cc:1201
+msgid "[control socket]"
+msgstr "[riadiaci soket]"
+
+# main.cc
+#: ../main.cc:1140
+#, fuzzy, c-format
+msgid "Remove the download via control socket [%s]"
+msgstr "Pridávam s»ahovanie cez riadiaci soket [%s]"
+
+# main.cc
+#: ../main.cc:1148
+#, c-format
+msgid "Adding downloading via control socket [%s]"
+msgstr "Pridávam s»ahovanie cez riadiaci soket [%s]"
+
+# main.cc
+#: ../main.cc:1156
+#, c-format
+msgid "Set speed limitation to %s %s"
+msgstr "Nastav obmedzenia rýchlosti na %s %s"
+
+# main.cc
+#: ../main.cc:1174
+msgid "Setup maximum active downloads to"
+msgstr "Nastavi» maximum aktívnych s»ahovaní na"
+
+#: ../main.cc:1196
+msgid "Exiting if nothing to do is switched off"
+msgstr "Ukonèenie pri neèinnosti je vypnuté"
+
+#: ../main.cc:1201
+#, c-format
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "Downloader chce skonèi» ak je neèinný po %i min. %s"
+
+#: ../main.cc:1443
+msgid "Normally started"
+msgstr "Normálny ¹tart"
+
+#: ../main.cc:1492
+#, c-format
+msgid "Added downloading of file %s from %s [by user]"
+msgstr "Pridaný súbor %s z %s pre s»ahovanie [u¾ívateµom]"
+
+# main.cc
+#: ../main.cc:1545
+#, c-format
+msgid "%lu bytes loaded during the session"
+msgstr "%lu bajtov nahratých poèas sedenia"
+
+# main.cc:
+#: ../main.cc:1546
+msgid "Downloader exited normaly"
+msgstr "Downloader bol normálne ukonèený"
+
+#: ../main.cc:1584
+#, fuzzy, c-format
+msgid "Can't open '%s' to save log"
+msgstr "Nemô¾em otvori» súbor pre ulo¾enie záznamu"
+
+#: ../main.cc:1615
+#, fuzzy
+msgid "Such protocol is not supported!"
+msgstr "Reget nie je podporovaný!!!"
+
+# mainlog.cc:
+#: ../mainlog.cc:162
+msgid ""
+"Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ""
+"Obmedzenie pre veµkos» súboru hlavného protokolu dosiahnuté. Súbor bude "
+"skrátený!"
+
+#: ../mainlog.cc:171
+msgid "Can't write to file interrupting write to file"
+msgstr "Nemô¾em zapísa» do súboru, preru¹ujem zapisovanie do súboru."
+
+#: ../mainlog.cc:213
+msgid "Open a row"
+msgstr "Otvorenie riadku"
+
+#: ../mainlog.cc:216
+msgid "Clear log"
+msgstr "Vymazanie protokola"
+
+#: ../face/fsched.cc:771 ../face/lmenu.cc:173 ../mainlog.cc:219
+msgid "Properties"
+msgstr "Vlastnosti"
+
+#: ../mainlog.cc:250
+#, c-format
+msgid "row number %i of main log"
+msgstr "riadok èíslo %i hlavného záznamu"
+
+#: ../mainlog.cc:290
+msgid "Can't open file for saving log"
+msgstr "Nemô¾em otvori» súbor pre ulo¾enie záznamu"
+
+#: ../nt.cc:121
+msgid "WARNING!!! Can't find HOME variable! So can't read config!"
+msgstr ""
+"Upozornenie! Nemô¾em nájs» premennú HOME! Preto nemô¾em preèíta» "
+"konfiguraèný súbor."
+
+#: ../nt.cc:134
+#, c-format
+msgid "%s probably is already running\n"
+msgstr "%s u¾ je pravdepodobne spustený...\n"
+
+#: ../savelog.cc:43
+msgid ""
+"Can't save default list of downloads!!! Becouse can't find HOME variable"
+msgstr ""
+"Nemô¾em ulo¾i» predvolený zoznam pre s»ahovanie, preto¾e nemô¾em nájs» "
+"premennú HOME!!!"
+
+#: ../savelog.cc:49
+msgid "Can't save default list of downloads!!!"
+msgstr "Nemô¾em ulo¾i» predvolený zoznam pre s»ahovanie!!!"
+
+#: ../savelog.cc:84
+msgid "Can't load default list of downloads!!!"
+msgstr "Nemô¾em naèíta» predvolený zoznam pre s»ahovanie!!!"
+
+#: ../signal.cc:53 ../signal.cc:72
+msgid "Download  was stopped by user"
+msgstr "S»ahovanie bolo zastavené u¾ívateµom"
+
+#: ../memwl.cc:73
+msgid "BUG: Wrong mode of lseek!\n"
+msgstr ""
+
+# ping.cc
+#: ../ping.cc:49
+msgid "Resolving hosts..."
+msgstr ""
+
+#: ../ping.cc:78
+msgid "Pinging  (it takes 30 seconds maximum)..."
+msgstr ""
+
+# var.cc
+#: ../var.cc:97
+msgid "low"
+msgstr "nízka"
+
+#: ../var.cc:98
+msgid "medium"
+msgstr "stredná"
+
+#: ../var.cc:99
+msgid "unlimited"
+msgstr "neobmedzene"
+
+#: ../face/about.cc:109
+msgid "About"
+msgstr "O programe"
+
+#: ../face/about.cc:119
+msgid "Author: Koshelev Maxim"
+msgstr "Autor: Koshelev Maxim"
+
+#: ../face/about.cc:121
+msgid "Translators team"
+msgstr "Prekladateµský tím"
+
+# face/about.cc
+#: ../face/about.cc:128
+msgid "Special thanks to"
+msgstr "Extra dik pre:"
+
+# face/
+#: ../face/about.cc:135 ../face/about.cc:204 ../face/about.cc:287
+#: ../face/buttons.cc:168 ../face/edit.cc:801 ../face/edit.cc:2048
+#: ../face/filtrgui.cc:167 ../face/fsched.cc:201 ../face/fsched.cc:777
+#: ../face/lod.cc:581 ../face/mywidget.cc:459 ../face/mywidget.cc:738
+#: ../face/mywidget.cc:826 ../face/mywidget.cc:925 ../face/mywidget.cc:1023
+#: ../face/passface.cc:79 ../face/passface.cc:264 ../face/prefs.cc:1218
+#: ../face/qtree.cc:104 ../face/qtree.cc:551 ../face/saveload.cc:161
+#: ../face/saveload.cc:204 ../face/saveload.cc:246
+msgid "Ok"
+msgstr "Ok"
+
+#: ../face/about.cc:205 ../face/buttons.cc:170 ../face/edit.cc:802
+#: ../face/fsched.cc:778 ../face/lod.cc:582 ../face/mywidget.cc:460
+#: ../face/mywidget.cc:827 ../face/mywidget.cc:927 ../face/mywidget.cc:1024
+#: ../face/passface.cc:80 ../face/prefs.cc:1219 ../face/qtree.cc:105
+#: ../face/qtree.cc:552 ../face/saveload.cc:163 ../face/saveload.cc:206
+#: ../face/saveload.cc:248
+msgid "Cancel"
+msgstr "Zru¹i»"
+
+#: ../face/about.cc:246
+msgid "Don't ask next time"
+msgstr ""
+
+#: ../face/addd.cc:87 ../face/addd.cc:233
+msgid "Add new download"
+msgstr "Prida» nové s»ahovanie súboru"
+
+#: ../face/addd.cc:172
+#, fuzzy
+msgid "Automated adding"
+msgstr "/Súbor/N_aèítanie zoznamu"
+
+#: ../face/buttons.cc:50
+msgid " Add new download "
+msgstr " Prida» nové s»ahovanie "
+
+#: ../face/buttons.cc:51
+msgid " Paste from clipboard "
+msgstr " Vlo¾i» s»ahovanie zo schránky "
+
+#: ../face/buttons.cc:52
+msgid " Del downloads "
+msgstr " Zmaza» s»ahovania "
+
+#: ../face/buttons.cc:53
+msgid " Stop downloads "
+msgstr " Zastavi» s»ahovania "
+
+#: ../face/buttons.cc:54
+msgid " Continue/restart downloads "
+msgstr " Pokraèova»/re¹tarova» s»ahovanie "
+
+#: ../face/buttons.cc:55
+msgid " Del Completed downloads "
+msgstr " Smaza» ukonèené s»ahovania "
+
+#: ../face/buttons.cc:56
+msgid " Move up "
+msgstr " Posunú» hore "
+
+#: ../face/buttons.cc:57
+msgid " Move down "
+msgstr " Posunú» dole "
+
+#: ../face/buttons.cc:58
+msgid " View log "
+msgstr " Zobrazi» protokol "
+
+#: ../face/buttons.cc:59 ../face/buttons.cc:248
+msgid " Speed level one "
+msgstr " Rýchlostná úroveò 1 "
+
+#: ../face/buttons.cc:60 ../face/buttons.cc:252
+msgid " Speed level two "
+msgstr " Rýchlostná úroveò 2 "
+
+#: ../face/buttons.cc:61
+msgid " Unlimited speed "
+msgstr " Neobmedzená rýchlos» "
+
+#: ../face/buttons.cc:62
+msgid " Options "
+msgstr " Voµby "
+
+#: ../face/buttons.cc:63
+msgid " Delete all downloads "
+msgstr " Zmaza» v¹etko s»ahované "
+
+# face/buttons.cc:
+#: ../face/buttons.cc:64
+msgid " Save list "
+msgstr "Ulo¾i» zoznam"
+
+#: ../face/buttons.cc:65
+#, fuzzy
+msgid " Load list "
+msgstr "Otvorenie zoznamu"
+
+# face/buttons.cc:
+#: ../face/buttons.cc:66
+#, fuzzy
+msgid " DnD basket "
+msgstr " Zobraz/skry Tahaj-a-pus» ko¹ "
+
+#: ../face/buttons.cc:67
+msgid " Switch percentage mode to"
+msgstr ""
+
+#: ../face/buttons.cc:68
+msgid " Configure buttons "
+msgstr ""
+
+#: ../face/buttons.cc:169 ../face/prefs.cc:1220
+msgid "Apply"
+msgstr ""
+
+#: ../face/buttons.cc:237
+msgid "Delete ALL downloads?"
+msgstr "Zmazat v¹etko s»ahovanie?"
+
+#: ../face/buttons.cc:237
+msgid "Delete all?"
+msgstr "Zmaza» v¹etko?"
+
+#: ../face/columns.cc:20
+msgid "status"
+msgstr "stav"
+
+#: ../face/columns.cc:21
+msgid "file name"
+msgstr "meno súboru"
+
+#: ../face/columns.cc:22
+msgid "type of file"
+msgstr "typ súboru"
+
+#: ../face/columns.cc:23
+msgid "size of file"
+msgstr "veµkos» súboru"
+
+#: ../face/columns.cc:24
+msgid "downloaded size"
+msgstr "stiahnutá veµkos»"
+
+# face/columns.cc
+#: ../face/columns.cc:25
+msgid "rest"
+msgstr "zostáva stiahnu»"
+
+#: ../face/columns.cc:26
+msgid "percent"
+msgstr "percent"
+
+#: ../face/columns.cc:27
+msgid "speed"
+msgstr "rýchlos» s»ahovania"
+
+#: ../face/columns.cc:28
+msgid "elapsed time"
+msgstr "uplynutý èas"
+
+#: ../face/columns.cc:29
+msgid "estimated time"
+msgstr "odhadovaný èas"
+
+#: ../face/columns.cc:30
+msgid "time of pause"
+msgstr "doba pauzy"
+
+#: ../face/columns.cc:31
+msgid "number of attempts"
+msgstr "poèet pokusov"
+
+# face/columns.cc
+#: ../face/columns.cc:32
+msgid "description"
+msgstr "popis"
+
+#: ../face/columns.cc:33 ../face/lod.cc:55 ../face/mywidget.cc:915
+msgid "URL"
+msgstr "URL"
+
+#: ../face/columns.cc:71
+msgid "Showed columns"
+msgstr "zobrazované ståpce"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:44
+msgid "/New Download"
+msgstr "/Nové s»ahovanie"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:45
+msgid "/Paste Download"
+msgstr "/Vlo¾enie s»ahovania"
+
+#: ../face/dndtrash.cc:46
+#, fuzzy
+msgid "/Automated adding"
+msgstr "/Súbor/N_aèítanie zoznamu"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:47
+msgid "/Delete completed"
+msgstr "/Zmazanie ukonèené"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:48
+msgid "/General options"
+msgstr "/V¹eobecné voµby"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:49
+msgid "/Speed"
+msgstr "/Rýchlos»"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:50
+msgid "/Speed/Low"
+msgstr "/Rýchlos»/Najni¾¹ia"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:51
+msgid "/Speed/Medium"
+msgstr "/Rýchlos»/Stredná"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:52
+msgid "/Speed/Unlimited"
+msgstr "/Rýchlos»/Neobmedzená"
+
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:53
+msgid "/Exit"
+msgstr "/Skonèi»"
+
+# face/buttons.cc:
+#: ../face/dndtrash.cc:266
+#, fuzzy
+msgid "DnD basket"
+msgstr " Zobraz/skry Tahaj-a-pus» ko¹ "
+
+# face/dndtrash.cc:
+#: ../face/dndtrash.cc:399
+msgid "Drop link here"
+msgstr "Polo¾ linku tu"
+
+#: ../face/edit.cc:62 ../face/edit.cc:449
+msgid "Use password for this site"
+msgstr "Pou¾i heslo pre túto sie»"
+
+#: ../face/edit.cc:63 ../face/edit.cc:413
+msgid "Save download to folder"
+msgstr "Ulo¾ s»ahovanie do adresára:"
+
+# face/edit.cc
+#: ../face/edit.cc:64 ../face/edit.cc:466
+msgid "Restart this download from begining"
+msgstr "Re¹tartuj toto s»ahovanie od zaèiatku"
+
+# face/edit.cc
+#: ../face/edit.cc:65
+msgid "Timeout for reading from socket"
+msgstr "Èasový limit pre èítanie zo soketu"
+
+#: ../face/edit.cc:66
+msgid "Speed limitation"
+msgstr "Obmedzenia rýchlosti"
+
+#: ../face/edit.cc:67
+msgid "Maximum attempts"
+msgstr "Maximum pokusov"
+
+#: ../face/edit.cc:68
+msgid "Timeout before reconnection"
+msgstr "Èasový limit pred znovapripojením"
+
+#: ../face/edit.cc:69
+msgid "Rollback after reconnecting"
+msgstr "Návrat programu po znovupripojení"
+
+#: ../face/edit.cc:70 ../face/edit.cc:543 ../face/prefs.cc:233
+msgid "Get date from the server"
+msgstr "Vezmi dátum zo servera"
+
+#: ../face/edit.cc:71 ../face/edit.cc:547 ../face/prefs.cc:237
+msgid "Retry if resuming is not supported"
+msgstr "Stiahni znova, ak pokraèovanie nie je podporované"
+
+# face/edit.cc:
+#: ../face/edit.cc:72 ../face/edit.cc:538
+msgid "Number of parts for spliting this download"
+msgstr "Poèet èastí pre delenie tohoto s»ahovania"
+
+#: ../face/edit.cc:73 ../face/edit.cc:585 ../face/prefs.cc:347
+#, fuzzy
+msgid "Use passive mode for FTP"
+msgstr "Pou¾i pasívny re¾im pre ftp"
+
+#: ../face/edit.cc:74 ../face/edit.cc:591 ../face/prefs.cc:355
+msgid "Get permissions of the file from server (FTP only)"
+msgstr "Vezmi práva pre súbor zo servera (iba FTP)"
+
+# face/prefs.cc, face/edit.cc
+#: ../face/edit.cc:75 ../face/edit.cc:588 ../face/prefs.cc:351
+#, fuzzy
+msgid "Don't send QUIT command (FTP)"
+msgstr "Neposiela» príkaz QUIT (ftp)"
+
+#: ../face/edit.cc:76 ../face/edit.cc:597 ../face/prefs.cc:363
+msgid "Put directories on the top of queue during recursion"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/edit.cc:77 ../face/edit.cc:555 ../face/prefs.cc:253
+msgid "Compare date/time of remote file with local one"
+msgstr ""
+
+# face/edit.cc
+#: ../face/edit.cc:78 ../face/edit.cc:551 ../face/prefs.cc:241
+msgid "Sleep before completing"
+msgstr "Spa» pred dokonèením"
+
+#: ../face/edit.cc:79 ../face/edit.cc:594 ../face/prefs.cc:359
+msgid "Follow symbolic links"
+msgstr ""
+
+#: ../face/edit.cc:80
+msgid "Depth of recursing for FTP"
+msgstr "Håbka rekurzie pre FTP"
+
+#: ../face/edit.cc:81
+msgid "Depth of recursing for HTTP"
+msgstr "Håbka rekurzie pre HTTP"
+
+# face/edit.cc:
+#: ../face/edit.cc:82 ../face/edit.cc:626 ../face/prefs.cc:450
+msgid "Only subdirs"
+msgstr "Iba podadresáre"
+
+# face/edit.cc
+#: ../face/edit.cc:83 ../face/edit.cc:627 ../face/prefs.cc:451
+#, fuzzy
+msgid "Allow leave this server while recursing via HTTP"
+msgstr "Povoli» opustenie tohoto servera ak sa vráti cez http"
+
+#: ../face/edit.cc:84 ../face/edit.cc:628 ../face/prefs.cc:452
+msgid "Change links in HTML file to local"
+msgstr ""
+
+#: ../face/edit.cc:85 ../face/edit.cc:629 ../face/prefs.cc:453
+msgid "Ignore ETag field in reply"
+msgstr ""
+
+#: ../face/edit.cc:86 ../face/edit.cc:654 ../face/prefs.cc:472
+msgid "User-Agent"
+msgstr ""
+
+#: ../face/edit.cc:87 ../face/edit.cc:664
+msgid "Referer"
+msgstr ""
+
+#: ../face/edit.cc:88 ../face/edit.cc:676
+msgid "Cookie"
+msgstr ""
+
+#: ../face/edit.cc:89 ../face/edit.cc:783 ../face/edit.cc:786
+#: ../face/prefs.cc:510 ../face/prefs.cc:1132 ../face/prefs.cc:1319
+msgid "Proxy"
+msgstr "Proxy"
+
+#. Init time
+#.
+#: ../face/edit.cc:90 ../face/edit.cc:700 ../face/edit.cc:743
+#: ../face/fsched.cc:186 ../face/lod.cc:50
+msgid "Time"
+msgstr "Èas"
+
+#: ../face/edit.cc:191 ../face/edit.cc:209
+msgid "Edit download"
+msgstr "Editovanie s»ahovania"
+
+# face/lod.cc
+#: ../face/edit.cc:412 ../face/lod.cc:54
+msgid "Description"
+msgstr "Popis"
+
+#: ../face/edit.cc:414
+msgid "Save download to file"
+msgstr "Ulo¾ s»ahovanie do súboru:"
+
+#: ../face/edit.cc:415 ../face/edit.cc:1555 ../face/edit.cc:1622
+#: ../face/edit.cc:1663 ../face/passface.cc:69
+msgid "password"
+msgstr "heslo"
+
+#: ../face/edit.cc:416
+msgid "user name"
+msgstr "meno u¾ívateµa"
+
+# face/edit.cc:
+#. set as default button
+#.
+#: ../face/edit.cc:419
+msgid "Default"
+msgstr "Predvolené"
+
+# face/edit.cc:
+#: ../face/edit.cc:465 ../face/prefs.cc:249
+msgid "Pause this just after adding"
+msgstr "Pozastav toto práve po pripojení"
+
+#: ../face/edit.cc:471
+msgid "Add to top of queue"
+msgstr ""
+
+#: ../face/edit.cc:484 ../face/prefs.cc:231 ../face/prefs.cc:1108
+#: ../face/prefs.cc:1266
+msgid "Download"
+msgstr "S»ahovanie"
+
+#: ../face/edit.cc:487 ../face/prefs.cc:725 ../face/prefs.cc:1192
+#: ../face/prefs.cc:1410
+msgid "Main"
+msgstr "Hlavný"
+
+#: ../face/edit.cc:503 ../face/prefs.cc:292
+msgid "Timeout for reading from socket (in seconds)"
+msgstr " Doba pre vypr¹anie èasového limitu naèítavania schránky (v sekundách)"
+
+#: ../face/edit.cc:510 ../face/prefs.cc:299
+msgid "Timeout before reconnection (in seconds)"
+msgstr " Doba spania pred obnovením spojenia (v sekundách)"
+
+#: ../face/edit.cc:517 ../face/prefs.cc:306
+msgid "Maximum attempts (0 for unlimited)"
+msgstr " Maximálny poèet pokusov (0 = bez obmedzenia)"
+
+# face/refs.cc:
+#: ../face/edit.cc:524 ../face/prefs.cc:313
+msgid "Rollback after reconnecting (in bytes)"
+msgstr "Návrat spä» po obnove spojenia (v bajtoch)"
+
+# face/edit.cc
+#: ../face/edit.cc:531 ../face/prefs.cc:320
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "Rýchlostné obmedzenie v bajtoch za sekundu (0 = neobmedzene)"
+
+#: ../face/edit.cc:559
+#, fuzzy
+msgid "Save log to file"
+msgstr "Ukladaj hlavný záznam do súboru:"
+
+#: ../face/edit.cc:569
+#, fuzzy
+msgid "Auto"
+msgstr "O programe"
+
+#: ../face/edit.cc:576 ../face/edit.cc:579
+msgid "Common"
+msgstr "Be¾né"
+
+#: ../face/edit.cc:604 ../face/edit.cc:621 ../face/prefs.cc:370
+#: ../face/prefs.cc:466
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr "Håbka rekurzie (0 neobmedzene, 1 bez rekurzie)"
+
+#: ../face/edit.cc:645 ../face/prefs.cc:497
+#, fuzzy
+msgid "Filter"
+msgstr "Súbor"
+
+# face/mywidget.cc:
+#: ../face/edit.cc:646 ../face/lod.cc:601 ../face/mywidget.cc:238
+#: ../face/prefs.cc:498
+msgid "Select"
+msgstr "Výber"
+
+#: ../face/edit.cc:715
+msgid "Hours"
+msgstr "Hodina"
+
+#: ../face/edit.cc:723
+msgid "Minutes"
+msgstr "Minúta"
+
+#: ../face/edit.cc:735
+msgid "Start this downloading at:"
+msgstr "Zaèni s»ahova» od:"
+
+#: ../face/edit.cc:796
+#, fuzzy
+msgid "Use default settings"
+msgstr "Pou¾ijem prednastavenú konfiguráciu :))...\n"
+
+#: ../face/edit.cc:1485
+#, fuzzy
+msgid "FTP proxy type"
+msgstr "Typ FTP proxy"
+
+#: ../face/edit.cc:1496
+msgid "FTP (wingate)"
+msgstr ""
+
+#: ../face/edit.cc:1510
+#, fuzzy
+msgid "Use this proxy for FTP"
+msgstr "Pou¾i tento proxy pre FTP"
+
+#: ../face/edit.cc:1525 ../face/edit.cc:1594 ../face/edit.cc:1644
+msgid "port"
+msgstr "port"
+
+#: ../face/edit.cc:1532 ../face/edit.cc:1600
+msgid "need password"
+msgstr "potrebné heslo"
+
+#: ../face/edit.cc:1540 ../face/edit.cc:1608 ../face/edit.cc:1656
+#: ../face/passface.cc:68 ../face/passface.cc:250
+msgid "username"
+msgstr "meno u¾ívateµa"
+
+# face/lod.cc
+#: ../face/edit.cc:1572
+msgid "Don't get from cache"
+msgstr "Neprená¹a» z cache"
+
+#: ../face/edit.cc:1579
+#, fuzzy
+msgid "Use this proxy for HTTP"
+msgstr "Pou¾i tento proxy pre FTP"
+
+#. SOCKS settings
+#: ../face/edit.cc:1630
+msgid "Use SOCKS5 proxy"
+msgstr ""
+
+#: ../face/edit.cc:1637 ../face/mywidget.cc:375 ../face/mywidget.cc:695
+#, fuzzy
+msgid "host"
+msgstr "Host"
+
+#: ../face/edit.cc:2029
+msgid "Select properties"
+msgstr "Zvoli» vlastnosti"
+
+#: ../face/edit.cc:2054
+msgid "Unselect all"
+msgstr "Zru¹i» výber v¹etkého"
+
+#: ../face/edit.cc:2060
+msgid "Select all"
+msgstr "Vybra» v¹etko"
+
+#: ../face/list.cc:104
+msgid "/_File"
+msgstr "/_Súbor"
+
+#: ../face/list.cc:105
+msgid "/File/_Save List"
+msgstr "/Súbor/Ulo¾enie _zoznamu"
+
+#: ../face/list.cc:106
+msgid "/File/_Load List"
+msgstr "/Súbor/N_aèítanie zoznamu"
+
+# face/list.cc:
+#: ../face/list.cc:107
+msgid "/File/Find links in file"
+msgstr "/Súbor/Nájs» odkazy v súbore"
+
+#: ../face/list.cc:108
+msgid "/File/_New Download"
+msgstr "/Súbor/_Nové s»ahovanie"
+
+#: ../face/list.cc:109
+msgid "/File/_Paste Download"
+msgstr "/Súbor/_Vlo¾enie s»ahovania"
+
+#: ../face/list.cc:110
+#, fuzzy
+msgid "/File/_Automated adding"
+msgstr "/Súbor/N_aèítanie zoznamu"
+
+#: ../face/list.cc:111
+msgid "/File/Exit"
+msgstr "/Súbor/_Koniec"
+
+#: ../face/list.cc:112
+msgid "/File/sep1"
+msgstr "/Súbor/sep1"
+
+#: ../face/list.cc:113
+msgid "/_Download"
+msgstr "/S_»ahovanie"
+
+#: ../face/list.cc:114
+msgid "/Download/View _Log"
+msgstr "/S»ahovanie/Zobrazenie _záznamu"
+
+#: ../face/list.cc:115
+msgid "/Download/_Stop downloads"
+msgstr "/S»ahovanie/_Zastavenie s»ahovania"
+
+#: ../face/list.cc:116
+msgid "/Download/Edit download"
+msgstr "/S»ahovanie/_Editácia s»ahovania"
+
+#: ../face/list.cc:117
+msgid "/Download/_Delete downloads"
+msgstr "/S»ahovanie/_Zmazanie s»ahovania"
+
+#: ../face/list.cc:118
+msgid "/Download/Continue downloads"
+msgstr "/S»ahovanie/Pokr_aèovanie v s»ahovaní"
+
+#: ../face/list.cc:119
+msgid "/Download/Delete completed"
+msgstr "/S»ahovanie/Zmazanie celého s»ahovania"
+
+#: ../face/list.cc:120
+msgid "/Download/Delete failed"
+msgstr "/S»ahovanie/Zmazanie neúspe¹ného s»ahovania"
+
+#: ../face/list.cc:121
+msgid "/Download/Rerun failed"
+msgstr "/S»ahovanie/opakovaný beh zlyhal"
+
+# face/list.cc
+#: ../face/list.cc:122
+#, fuzzy
+msgid "/Download/(Un)Protect"
+msgstr "/S»ahovanie/Odznaèi» v¹etko"
+
+# face/list.cc
+#: ../face/list.cc:123
+msgid "/Download/Unselect all"
+msgstr "/S»ahovanie/Odznaèi» v¹etko"
+
+# face/list.cc:
+#: ../face/list.cc:124
+msgid "/Download/Select all"
+msgstr "/S»ahovanie/Vybra» v¹etko"
+
+# face/list.cc
+#: ../face/list.cc:125
+msgid "/Download/Invert selection"
+msgstr "/S»ahovanie/Obráti» výber"
+
+# face/list.cc
+#: ../face/list.cc:126
+msgid "/Download/-"
+msgstr "/S»ahovanie/-"
+
+#: ../face/list.cc:127
+msgid "/_Options"
+msgstr "/_Voµby"
+
+# face/list.cc
+#: ../face/list.cc:128
+msgid "/Options/Scheduler"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:129
+msgid "/Options/Passwords"
+msgstr "/Voµby/Heslá"
+
+# face/list.cc
+#: ../face/list.cc:130
+#, fuzzy
+msgid "/Options/General"
+msgstr "/Voµby/Rýchlos»"
+
+# face/list.cc
+#: ../face/list.cc:131
+#, fuzzy
+msgid "/Options/Filters"
+msgstr "/Voµby/Rýchlos»"
+
+# face/list.cc
+#: ../face/list.cc:132
+msgid "/Options/Speed"
+msgstr "/Voµby/Rýchlos»"
+
+# face/list.cc
+#: ../face/list.cc:133
+msgid "/Options/Speed/Low"
+msgstr "/Voµby/Rýchlos»/Najni¾¹ia"
+
+# face/list.cc
+#: ../face/list.cc:134
+msgid "/Options/Speed/Medium"
+msgstr "/Voµby/Rýchlos»/Stredná"
+
+# face/list.cc
+#: ../face/list.cc:135
+msgid "/Options/Speed/Unlimited"
+msgstr "/Voµby/Rýchlos»/Neobmedzená"
+
+# face/list.cc
+#: ../face/list.cc:136
+msgid "/Options/Buttons"
+msgstr "/Voµby/Tlaèítka"
+
+# face/list.cc
+#: ../face/list.cc:137
+msgid "/Options/Buttons/Add buttons"
+msgstr "/Voµby/Tlaèítka/Prida» tlaèítka"
+
+# face/list.cc
+#: ../face/list.cc:138
+msgid "/Options/Buttons/Manipulating"
+msgstr "/Voµby/Tlaèítka/Manipulovanie"
+
+# face/list.cc
+#: ../face/list.cc:139
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/Voµby/Tlaèítka/Tlaèítka rýchlosti"
+
+# face/list.cc
+#: ../face/list.cc:140
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/Voµby/Tlaèítka/Rozlièné"
+
+#: ../face/list.cc:141
+msgid "/_Help"
+msgstr "/_Nápoveda"
+
+#: ../face/list.cc:142
+msgid "/_Help/About"
+msgstr "/_Nápoveda/_O programe"
+
+#: ../face/list.cc:564
+msgid "Do you really want to quit?"
+msgstr "Naozaj chcete ukonèit program?"
+
+#: ../face/list.cc:564
+msgid "Quit?"
+msgstr "Koniec?"
+
+#: ../face/list.cc:593
+msgid "Delete selected downloads?"
+msgstr "Zmaza» vybrané s»ahovanie?"
+
+#: ../face/list.cc:593 ../face/list.cc:611 ../face/list.cc:629
+msgid "Delete?"
+msgstr "Zmaza»?"
+
+#: ../face/list.cc:611
+msgid "Do you wish delete completed downloads?"
+msgstr "Prajete si smaza» celý zoznam s»ahovaní?"
+
+#: ../face/list.cc:629
+msgid "Do you wish delete failed downloads?"
+msgstr "Prejete si zmaza» neúspe¹né s»ahovanie?"
+
+#: ../face/list.cc:674
+msgid "Ready to go ????"
+msgstr "Pripravený?"
+
+#: ../face/list.cc:992
+#, fuzzy, c-format
+msgid "[%s] %i-running %i-completed %i-total "
+msgstr "S»ahuje sa %i,  dokonèené: %i, celkom: %i"
+
+#: ../face/lmenu.cc:140
+msgid "View log"
+msgstr "Zobrazenie protokola"
+
+#: ../face/lmenu.cc:146
+msgid "Stop"
+msgstr "Zastavenie"
+
+#: ../face/lmenu.cc:153
+msgid "Continue downloads"
+msgstr "Pokraèovanie v s»ahovaní"
+
+#. 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
+#: ../face/lmenu.cc:159
+msgid "Copy"
+msgstr ""
+
+#: ../face/lmenu.cc:164
+msgid "(Un)Protect"
+msgstr ""
+
+# face/lmenu.cc
+#: ../face/lmenu.cc:178
+msgid "Common properties"
+msgstr "Spoloèné vlastnosti"
+
+#: ../face/lmenu.cc:184
+msgid "Delete downloads"
+msgstr "Zmazanie s»ahovania"
+
+#: ../face/lmenu.cc:190
+msgid "Delete completed"
+msgstr "Zmazanie dokonèených"
+
+#: ../face/lmenu.cc:196
+msgid "Delete failed"
+msgstr "Zmazanie neúspe¹ných"
+
+#: ../face/lmenu.cc:206
+msgid "Move up"
+msgstr "Presun hore"
+
+#: ../face/lmenu.cc:212
+msgid "Move down"
+msgstr "Presun dole"
+
+#: ../face/lmenu.cc:218
+#, fuzzy
+msgid "Alternates"
+msgstr "meno súboru"
+
+#: ../face/lmenu.cc:223 ../face/prefs.cc:777 ../face/prefs.cc:1207
+#: ../face/prefs.cc:1398
+#, fuzzy
+msgid "FTP search"
+msgstr "vyhµadávanie"
+
+#: ../face/lod.cc:43
+msgid "File"
+msgstr "Súbor"
+
+#: ../face/lod.cc:44
+msgid "Type"
+msgstr "Typ"
+
+#: ../face/lod.cc:45
+msgid "Full Size"
+msgstr "Plná veµkos»"
+
+#: ../face/lod.cc:46
+msgid "Downloaded"
+msgstr "Stiahnuté"
+
+# face/lod.cc
+#: ../face/lod.cc:47
+msgid "Rest"
+msgstr "Zostáva"
+
+#: ../face/lod.cc:49
+msgid "Speed"
+msgstr "Rýchlos»"
+
+#: ../face/lod.cc:51
+msgid "Remaining"
+msgstr "Zostáva"
+
+#: ../face/lod.cc:52
+msgid "Pause"
+msgstr "Pauza"
+
+#: ../face/lod.cc:53
+msgid "Attempt"
+msgstr "Pokus"
+
+#: ../face/lod.cc:571
+msgid "Enter wildcard"
+msgstr ""
+
+#: ../face/lod.cc:599
+#, fuzzy
+msgid "Unselect"
+msgstr "Zru¹i» výber v¹etkého"
+
+# face/lod.cc
+#: ../face/lod.cc:1170
+msgid "Continue open log windows?"
+msgstr "Pokraèova» v otváraní okien s protokolmi?"
+
+#: ../face/lod.cc:1170
+#, fuzzy
+msgid "Open logs?"
+msgstr "Otvorenie riadku"
+
+#: ../face/log.cc:193
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr "Riadok èíslo %i [protokola %s]"
+
+#: ../face/log.cc:371
+msgid "Log: "
+msgstr "Protokol:"
+
+#: ../face/mywidget.cc:61
+msgid "Select directory"
+msgstr "Vyberte adresár"
+
+#: ../face/fsched.cc:291 ../face/mywidget.cc:64
+msgid "Select file"
+msgstr "Vyberte súbor"
+
+#: ../face/fsched.cc:432 ../face/fsched.cc:455 ../face/mywidget.cc:108
+msgid "Browse"
+msgstr "Prehµadáva»"
+
+# face/mywidget.cc:
+#: ../face/mywidget.cc:198
+msgid "Select color"
+msgstr "Vybra» farbu"
+
+#: ../face/mywidget.cc:354
+#, fuzzy
+msgid "Edit properties of Rule"
+msgstr "Zvoli» vlastnosti"
+
+# face/passwords.cc
+#: ../face/mywidget.cc:357 ../face/mywidget.cc:695 ../face/passface.cc:57
+msgid "protocol"
+msgstr "protokol"
+
+#: ../face/mywidget.cc:382 ../face/mywidget.cc:695
+#, fuzzy
+msgid "path"
+msgstr "Port:"
+
+#: ../face/mywidget.cc:396
+msgid "?"
+msgstr ""
+
+#: ../face/mywidget.cc:403 ../face/mywidget.cc:695
+msgid "tag"
+msgstr ""
+
+#: ../face/mywidget.cc:452
+msgid "include"
+msgstr ""
+
+#: ../face/mywidget.cc:454
+msgid "exclude"
+msgstr ""
+
+#: ../face/mywidget.cc:691
+msgid "Modify filter"
+msgstr ""
+
+#: ../face/mywidget.cc:714
+msgid "include by default"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/mywidget.cc:716
+#, fuzzy
+msgid "exclude by default"
+msgstr "Nastavi» predvolené (reset)"
+
+#: ../face/mywidget.cc:722
+#, fuzzy
+msgid "Name of filter"
+msgstr "typ súboru"
+
+#: ../face/mywidget.cc:728
+msgid "Up"
+msgstr ""
+
+#: ../face/mywidget.cc:729
+#, fuzzy
+msgid "Add rule"
+msgstr "Pridanie nového"
+
+#: ../face/mywidget.cc:730
+#, fuzzy
+msgid "Down"
+msgstr "S»ahovanie"
+
+#: ../face/filtrgui.cc:170 ../face/fsched.cc:204 ../face/mywidget.cc:739
+#: ../face/mywidget.cc:926
+#, fuzzy
+msgid "Remove"
+msgstr "odstráni»"
+
+# face/dndtrash.cc
+#: ../face/filtrgui.cc:169 ../face/fsched.cc:203 ../face/fsched.cc:413
+#: ../face/mywidget.cc:740
+#, fuzzy
+msgid "Edit"
+msgstr "/Skonèi»"
+
+#: ../face/mywidget.cc:815
+#, fuzzy
+msgid "Select filter"
+msgstr "Vyberte súbor"
+
+#: ../face/filtrgui.cc:154 ../face/mywidget.cc:817
+#, fuzzy
+msgid "filter name"
+msgstr "meno súboru"
+
+#: ../face/mywidget.cc:913
+msgid "List of links"
+msgstr ""
+
+#: ../face/mywidget.cc:974
+#, fuzzy
+msgid "Add"
+msgstr "Pridanie nového"
+
+# face/passface.cc:
+#: ../face/passface.cc:42
+#, fuzzy
+msgid "Password and username"
+msgstr "Predvolené heslá a mená u¾ívateµov"
+
+#: ../face/passface.cc:58 ../face/passface.cc:250
+msgid "Host"
+msgstr "Host"
+
+# face/passface.cc:
+#: ../face/passface.cc:246
+msgid "Default passwords and usernames"
+msgstr "Predvolené heslá a mená u¾ívateµov"
+
+#: ../face/passface.cc:250
+msgid "#"
+msgstr ""
+
+#: ../face/filtrgui.cc:168 ../face/passface.cc:265
+msgid "Add new"
+msgstr "Pridanie nového"
+
+#: ../face/passface.cc:266
+msgid "Delete"
+msgstr "Zmazanie"
+
+#: ../face/prefs.cc:245
+msgid "Optimize recursive downloads"
+msgstr "Optimalizuj rekurzívne s»ahovanie"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:261
+#, fuzzy
+msgid "Default permissions of local file"
+msgstr " Implicitné práva súboru"
+
+#: ../face/prefs.cc:272
+msgid "Save downloads to folder"
+msgstr "Ukladaj s»ahované súbory do adresára:"
+
+#: ../face/prefs.cc:281 ../face/prefs.cc:1117 ../face/prefs.cc:1279
+msgid "Limits"
+msgstr "Limity"
+
+#: ../face/prefs.cc:337
+msgid "Maximum lines in log"
+msgstr " Maximálny poèet riadkov v zázname"
+
+#: ../face/prefs.cc:345 ../face/prefs.cc:1122 ../face/prefs.cc:1288
+msgid "FTP"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/prefs.cc:375
+#, fuzzy
+msgid "Output FTP dirs in logs"
+msgstr "Výstup ftp adresárov v protokoloch"
+
+#: ../face/prefs.cc:386
+msgid "default anonymous password"
+msgstr ""
+
+#: ../face/prefs.cc:448 ../face/prefs.cc:1127 ../face/prefs.cc:1301
+msgid "HTTP"
+msgstr ""
+
+# face/prefs.cc:
+#: ../face/prefs.cc:486
+msgid "Filename for saving if it is unknown"
+msgstr "Názov súboru ktorý chcete ulo¾i», ak je názov neznámy:"
+
+#: ../face/prefs.cc:525 ../face/prefs.cc:1147 ../face/prefs.cc:1328
+msgid "Main window"
+msgstr ""
+
+#: ../face/prefs.cc:527
+msgid "Using title"
+msgstr "Pou¾i» titulok"
+
+#: ../face/prefs.cc:531
+msgid "Use title of main window for info"
+msgstr "Pou¾i titulok hlavného okna pre informácie"
+
+#: ../face/prefs.cc:536
+msgid "Display queue statistics too"
+msgstr "Zobraz ¹tatistiku zoradených úloh"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:537
+msgid "Scroll title"
+msgstr "Roluj titulok"
+
+#: ../face/prefs.cc:542
+msgid "Iconfiy main window instead of closing"
+msgstr "Ikonizuj hlavné okno pri zatvorení"
+
+#: ../face/prefs.cc:544
+msgid "Do not remember position of the main window"
+msgstr ""
+
+#: ../face/prefs.cc:557 ../face/prefs.cc:1152 ../face/prefs.cc:1336
+msgid "Confirmation"
+msgstr "Potvrdzovanie"
+
+#: ../face/prefs.cc:559
+msgid "Confirm delete selected downloads"
+msgstr "Potvrdzova» zmazanie vybraných s»ahovaní"
+
+#: ../face/prefs.cc:560
+msgid "Confirm delete all downloads"
+msgstr "Potvrdzova» zmazanie v¹etkých s»ahovaní"
+
+#: ../face/prefs.cc:561
+msgid "Confirm delete completed downloads"
+msgstr "Potvrdzova» zmazanie hotových s»ahovaní"
+
+#: ../face/prefs.cc:562
+msgid "Confirm delete failed downloads"
+msgstr "Potvrdzova» zmazanie neúspe¹ných s»ahovaní"
+
+# face/prefs.cc
+#: ../face/prefs.cc:563
+msgid "Confirm opening large amount of windows"
+msgstr "Potvrdzova» otváranie veµkého poètu okien"
+
+#: ../face/prefs.cc:564
+msgid "Confirm exit from program"
+msgstr "Potvrdzova» ukonèenie programu"
+
+# face/prefs.cc
+#.
+#. tmpitem=gtk_tree_item_new_with_label(_("DnD"));
+#. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
+#. gtk_widget_show(tmpitem);
+#.
+#: ../face/prefs.cc:589 ../face/prefs.cc:1186 ../face/prefs.cc:1387
+msgid "Clipboard"
+msgstr "Schránka"
+
+# face/prefs.cc
+#: ../face/prefs.cc:591
+msgid "Monitor clipboard"
+msgstr "Monitorovanie schránky"
+
+# face/prefs.cc
+#: ../face/prefs.cc:601
+msgid "Skip these extensions in clipboard"
+msgstr "Vynechaj tieto roz¹írenia v schránke"
+
+#: ../face/prefs.cc:609
+msgid "Catch these extensions in clipboard"
+msgstr "Zachyti» tieto roz¹írenia v schránke"
+
+# prefs.cc:
+#: ../face/prefs.cc:632 ../face/prefs.cc:1201 ../face/prefs.cc:1420
+msgid "Main log"
+msgstr "Hlavný záznam"
+
+#: ../face/prefs.cc:638
+msgid "Maximum lines in MAIN log"
+msgstr " Maximálny poèet riadkov v hlavnom zázname"
+
+# face/prefs.cc
+#: ../face/prefs.cc:642
+msgid "Output detailed information"
+msgstr "Zobrazuj detailné informácie"
+
+#: ../face/prefs.cc:646
+msgid "Save main log into file"
+msgstr "Ukladaj hlavný záznam do súboru:"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:665
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "Maximálna veµkos» súboru hlavného protokolu (kB)"
+
+#: ../face/prefs.cc:671
+msgid "Append to file"
+msgstr "Pripoj k súboru"
+
+#: ../face/prefs.cc:674
+msgid "Overwrite file"
+msgstr "Prepí¹ súbor"
+
+#: ../face/prefs.cc:689 ../face/prefs.cc:1173 ../face/prefs.cc:1378
+msgid "Integration"
+msgstr ""
+
+# prefs.cc:
+#: ../face/prefs.cc:691
+msgid "Exit if nothing to do after"
+msgstr "Ukonèi program ak je v¹etko hotové do:"
+
+#: ../face/prefs.cc:697 ../face/prefs.cc:736
+msgid "minutes"
+msgstr "minút"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:708
+msgid "Run this on exit"
+msgstr "Spusti» pri ukonèení:"
+
+#: ../face/prefs.cc:713
+msgid "Open dialog for Drag-n-Drop"
+msgstr "Otvori» dialóg pre «ahaj-a-pus»"
+
+#: ../face/prefs.cc:730
+msgid "Save list of downloads every"
+msgstr "Ulo¾ zoznam s»ahovaní ka¾dých"
+
+#: ../face/prefs.cc:743
+msgid "Allow to user force run downloads"
+msgstr "Povoli» u¾ívateµovi zasahova» poèas s»ahovania"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:744
+msgid "Remember passwords"
+msgstr "Ulo¾i» heslo"
+
+# face/prefs.cc
+#: ../face/prefs.cc:745
+msgid "Write Descript.ion file"
+msgstr "Zapísa» súbor Descript.ion"
+
+#: ../face/prefs.cc:755
+msgid "bytes/sec speed level one (red button)"
+msgstr " bajtov/sek - rýchlostný stupeò 1 (èervené tlaèidlo)"
+
+#: ../face/prefs.cc:763
+msgid "bytes/sec speed level two (yellow button)"
+msgstr " bajtov/sek - rýchlostný stupeò 2 (¾lté tlaèidlo)"
+
+#: ../face/prefs.cc:783
+#, fuzzy
+msgid "Number of attempts to ping hosts"
+msgstr "poèet pokusov"
+
+#: ../face/prefs.cc:791
+msgid "Number of hosts in list"
+msgstr ""
+
+#: ../face/prefs.cc:817
+msgid "search engine to use"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/prefs.cc:826 ../face/prefs.cc:1138 ../face/prefs.cc:1323
+msgid "Interface"
+msgstr ""
+
+#: ../face/prefs.cc:828
+msgid "Show DnD basket"
+msgstr ""
+
+# face/prefs.cc:
+#: ../face/prefs.cc:829
+msgid "Use fixed font in logs"
+msgstr "Pou¾i» fixed font v protokoloch"
+
+#: ../face/prefs.cc:846 ../face/prefs.cc:1157 ../face/prefs.cc:1345
+msgid "Graph"
+msgstr ""
+
+#: ../face/prefs.cc:848
+msgid "Revert drawing graph of speeds"
+msgstr "Kresli graf rýchlosti obrátene"
+
+#: ../face/prefs.cc:851
+msgid "Compressed mode"
+msgstr ""
+
+# face/prefs.cc:
+#: ../face/prefs.cc:857
+msgid "Color for picks"
+msgstr "Farba pre ¹pièkové hodnoty"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:858
+msgid "Color for total speed"
+msgstr "Farba pre ceµkovú rýchlos»"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:859
+msgid "Color for speed of selected"
+msgstr "Farba pre rýchlos» vybraných"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:860
+msgid "Background color"
+msgstr "Farba pozadia"
+
+# face/prefs.cc
+#: ../face/prefs.cc:869
+msgid "Reset to default"
+msgstr "Nastavi» predvolené (reset)"
+
+#: ../face/prefs.cc:872
+msgid "Colors for graph"
+msgstr "Farby pre graf"
+
+#: ../face/prefs.cc:898 ../face/prefs.cc:1162 ../face/prefs.cc:1354
+#, fuzzy
+msgid "Sounds"
+msgstr "Ståpce"
+
+#: ../face/prefs.cc:901
+msgid "enable sounds"
+msgstr ""
+
+#: ../face/prefs.cc:906
+msgid "output via ESD"
+msgstr ""
+
+#: ../face/prefs.cc:913
+#, fuzzy
+msgid "Startup"
+msgstr "stav"
+
+#: ../face/prefs.cc:915
+#, fuzzy
+msgid "Adding a download"
+msgstr "Editovanie s»ahovania"
+
+#: ../face/prefs.cc:917
+#, fuzzy
+msgid "Downloading completed"
+msgstr "/S»ahovanie/Zmazanie celého s»ahovania"
+
+#: ../face/prefs.cc:919
+#, fuzzy
+msgid "Downloading failed"
+msgstr "/S»ahovanie/opakovaný beh zlyhal"
+
+#: ../face/prefs.cc:921
+#, fuzzy
+msgid "Downloading of queue is completed"
+msgstr "Stiahnutie adresára %z je ukonèené"
+
+#: ../face/prefs.cc:923
+msgid "Drag'n'Drop event"
+msgstr ""
+
+#: ../face/prefs.cc:953 ../face/prefs.cc:954
+msgid "No info about this theme."
+msgstr ""
+
+#: ../face/prefs.cc:963 ../face/prefs.cc:1167
+#, fuzzy
+msgid "Themes"
+msgstr "Èas"
+
+# face/edit.cc:
+#: ../face/prefs.cc:966
+#, fuzzy
+msgid "Default theme"
+msgstr "Predvolené"
+
+#: ../face/prefs.cc:1067
+msgid "Options"
+msgstr "Voµby"
+
+# face/saveload.cc
+#: ../face/saveload.cc:89
+msgid "Loading"
+msgstr "Nahrávam"
+
+#: ../face/saveload.cc:142
+msgid "Save list"
+msgstr "Ulo¾enie zoznamu"
+
+#: ../face/saveload.cc:185
+msgid "Load list"
+msgstr "Otvorenie zoznamu"
+
+# face/saveload.cc
+#: ../face/saveload.cc:227
+msgid "Find links in txt file"
+msgstr "Nájdi odkazy v súbore txt"
+
+#: ../face/fsface.cc:70
+msgid "bytes"
+msgstr ""
+
+# face/fsface.cc
+#: ../face/fsface.cc:82
+msgid "nothing found"
+msgstr "niè nebolo nájdené"
+
+#: ../face/fsface.cc:86
+msgid "searching"
+msgstr "vyhµadávanie"
+
+# face/fsface.cc
+#: ../face/fsface.cc:95
+msgid "reping"
+msgstr ""
+
+#: ../face/fsface.cc:99
+msgid "cumulative reping"
+msgstr ""
+
+#: ../face/fsface.cc:105
+msgid "remove"
+msgstr "odstráni»"
+
+#: ../face/fsched.cc:30
+#, fuzzy
+msgid "limit speed"
+msgstr " Neobmedzená rýchlos» "
+
+#: ../face/fsched.cc:31
+msgid "popup main window"
+msgstr ""
+
+# face/dndtrash.cc
+#: ../face/fsched.cc:32
+#, fuzzy
+msgid "exit"
+msgstr "/Skonèi»"
+
+#: ../face/fsched.cc:33
+#, fuzzy
+msgid "remove completed"
+msgstr "Zmazanie dokonèených"
+
+#: ../face/fsched.cc:34
+#, fuzzy
+msgid "remove failed"
+msgstr "Zmazanie neúspe¹ných"
+
+#: ../face/fsched.cc:35
+#, fuzzy
+msgid "restart download"
+msgstr " Pokraèova»/re¹tarova» s»ahovanie "
+
+#: ../face/fsched.cc:36
+#, fuzzy
+msgid "stop download"
+msgstr " Zastavi» s»ahovania "
+
+#: ../face/fsched.cc:37
+#, fuzzy
+msgid "remove download"
+msgstr "Zmazanie s»ahovania"
+
+#: ../face/fsched.cc:38
+#, fuzzy
+msgid "remove download if completed"
+msgstr "Zmazanie dokonèených"
+
+#: ../face/fsched.cc:39
+#, fuzzy
+msgid "add download"
+msgstr "Editovanie s»ahovania"
+
+#: ../face/fsched.cc:40
+#, fuzzy
+msgid "save list"
+msgstr "Ulo¾enie zoznamu"
+
+#: ../face/fsched.cc:41
+msgid "execute command"
+msgstr ""
+
+#: ../face/fsched.cc:180
+msgid "Scheduler"
+msgstr ""
+
+#: ../face/fsched.cc:186 ../face/fsched.cc:763
+#, fuzzy
+msgid "Action"
+msgstr "Voµby"
+
+#: ../face/fsched.cc:186
+msgid "Info"
+msgstr ""
+
+# face/limface.cc:
+#: ../face/fsched.cc:202
+#, fuzzy
+msgid "New"
+msgstr "Teraz"
+
+#: ../face/fsched.cc:428
+#, fuzzy
+msgid "Command:"
+msgstr "Be¾né"
+
+#: ../face/fsched.cc:451
+#, fuzzy
+msgid "Path:"
+msgstr "Port:"
+
+#: ../face/fsched.cc:470
+msgid "This action has no properties"
+msgstr ""
+
+#: ../face/fsched.cc:704
+msgid "Start time(hour:min:sec)"
+msgstr ""
+
+#: ../face/fsched.cc:733
+msgid "Retry this action"
+msgstr ""
+
+#: ../face/fsched.cc:742
+#, fuzzy
+msgid "times to repeat (-1 unlimited)"
+msgstr " Maximálny poèet pokusov (0 = bez obmedzenia)"
+
+#: ../face/fsched.cc:746
+msgid "period (day/hour:min)"
+msgstr ""
+
+#: ../face/fsched.cc:791
+msgid "Edit scheduled action"
+msgstr ""
+
+#: ../face/filtrgui.cc:148
+#, fuzzy
+msgid "Filters"
+msgstr "Súbor"
+
+#: ../face/qtree.cc:94
+msgid "Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:245
+msgid "Name"
+msgstr ""
+
+# config.cc:
+#: ../face/qtree.cc:246
+#, fuzzy
+msgid "Total"
+msgstr "Celkom: %d\n"
+
+#: ../face/qtree.cc:247
+msgid "Wait"
+msgstr ""
+
+#: ../face/qtree.cc:248
+msgid "Run"
+msgstr ""
+
+#: ../face/qtree.cc:346 ../face/qtree.cc:352
+msgid "/Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:347
+msgid "/Create new subqueue"
+msgstr ""
+
+# face/dndtrash.cc
+#: ../face/qtree.cc:348
+#, fuzzy
+msgid "/Delete queue"
+msgstr "/Zmazanie ukonèené"
+
+#: ../face/qtree.cc:349
+#, fuzzy
+msgid "/Properties"
+msgstr "Vlastnosti"
+
+#: ../face/qtree.cc:442
+#, fuzzy
+msgid "Queue properties"
+msgstr "Zvoli» vlastnosti"
+
+#: ../face/qtree.cc:451
+msgid "Maximum active downloads"
+msgstr "Maximálny poèet aktívnych s»ahovaní"
+
+#: ../face/qtree.cc:455
+msgid "Automatically delete completed downloads"
+msgstr "Automaticky zma¾ ukonèené s»ahovanie"
+
+#: ../face/qtree.cc:456
+msgid "Automatically delete failed downloads"
+msgstr "Automaticky zma¾ neúspe¹né s»ahovanie"
+
+# main.cc
+#: ../face/qtree.cc:466
+#, fuzzy
+msgid "Default folder to save downloaded files"
+msgstr "Zmaza» ukonèené s»ahovania"
+
+#: ../face/qtree.cc:474
+msgid "Size format"
+msgstr "Formát veµkosti"
+
+#: ../face/qtree.cc:475
+msgid "Time format"
+msgstr "Formát èasu"
+
+#: ../face/qtree.cc:544
+#, fuzzy
+msgid "Name of the queue"
+msgstr "typ súboru"
+
+#~ msgid "Can't open limits configuration file!\n"
+#~ msgstr "Nemô¾em otvori» súbor z limitmi!!!\n"
+
+#~ msgid "Can't write limits to file!!!\n"
+#~ msgstr "Nemô¾em zapísa» limity do súboru!!!\n"
+
+#, fuzzy
+#~ msgid "Maximum active downloads is set to %i"
+#~ msgstr "Maximálny poèet aktívnych s»ahovaní"
+
+# face/edit.cc:
+#, fuzzy
+#~ msgid "Try to load symbolic link as file via FTP"
+#~ msgstr "Skú¹am naèíta» symbolický odkaz ako súbor cez ftp"
+
+#~ msgid "Limitation for the host"
+#~ msgstr "Obmedzenie pre host"
+
+#~ msgid "Host:"
+#~ msgstr "Host:"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#~ msgid "Maximum connections:"
+#~ msgstr "Maximálny poèet spojení:"
+
+#~ msgid "Limitations for the hosts"
+#~ msgstr "Obmedzenie pre host"
+
+#~ msgid "N"
+#~ msgstr "Poèet spojení"
+
+# face/limface.cc:
+#~ msgid "Now"
+#~ msgstr "Teraz"
+
+# face/limface.cc
+#~ msgid "Default limitation for all hosts (0 without limits)"
+#~ msgstr "Prednastavené obmedzenia pre v¹etkých hostiteµov (0 = bez limitov)"
+
+#~ msgid "/Options/Limitations"
+#~ msgstr "/Voµby/_Obmedzenia"
+
+#~ msgid "Set limitation"
+#~ msgstr "Nastavenie obmedzení"
+
+#~ msgid "Columns"
+#~ msgstr "Ståpce"
+
+#~ msgid "Connection to the internet via proxy"
+#~ msgstr "Spojenie na internet cez proxy"
+
+# main.cc:
+#~ msgid "Append list to current queue of downloads"
+#~ msgstr "Pripájam zoznam k aktuálnej s»ahovacej fronte"
+
+#, fuzzy
+#~ msgid "Queue complete"
+#~ msgstr "Zmazanie dokonèených"
+
+#~ msgid "WARNING!!! Can't find HOME variable! So can't write config!"
+#~ msgstr ""
+#~ "Upozornenie! Nemô¾em nájs» premennú HOME! Preto nemô¾em zapísa» "
+#~ "konfiguraèný súbor."
+
+#~ msgid "bad read\n"
+#~ msgstr "chybne èítané\n"
+
+#~ msgid ""
+#~ "***WARN***!!!Attempt to delete download from list which does'nt contain "
+#~ "it!"
+#~ msgstr ""
+#~ "***VAROVANIE*** Pokus zmaza» úlohu zo zoznamu v ktorom nie je uvedená!"
+
+#~ msgid "Can't stand data connection"
+#~ msgstr "Nemô¾em udr¾a» dátové spojenie"
+
+#~ msgid "Can't change dir!"
+#~ msgstr "Nemô¾em zmeni» adresár!"
+
+#~ msgid "Problems with lseek()"
+#~ msgstr "Problém s lseek()"
+
+#~ msgid "Connection closed."
+#~ msgstr "Spojenie preru¹ené."
+
+#~ msgid "Retry %i"
+#~ msgstr "Skú¹am %i pokus"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "We can redirect from proxy!"
+#~ msgstr "Mô¾em presmerova» z proxy!"
+
+#~ msgid "Can't open messages queue!"
+#~ msgstr "Nemô¾em otvori» frontu zo správami!"
+
+#~ msgid "Other"
+#~ msgstr "Rôzne"
+
+#~ msgid "Year"
+#~ msgstr "Rok"
+
+#~ msgid "Month"
+#~ msgstr "Mesiac"
+
+#~ msgid "Day"
+#~ msgstr "Deò"
+
+#~ msgid "Use this proxy for http"
+#~ msgstr "Pou¾i toto proxy pre HTTP"
+
+#~ msgid "/Options/Common"
+#~ msgstr "/Voµby/_Nastavenie"
+
+# download.cc:
+#~ msgid "Can't do rollback!"
+#~ msgstr "Nemô¾em sa vráti» spä»!"
+
+# face/prefs.cc:
+#~ msgid "Show trash for DnD"
+#~ msgstr "Zobraz ko¹ pre Tahaj-a-pus»"
+
+# face/prefs.cc:
+#~ msgid "User-Agent for http requests"
+#~ msgstr "User-Agent pre http po¾iadavky"

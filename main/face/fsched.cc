@@ -226,6 +226,7 @@ void d4x_scheduler_init(){
 	gtk_signal_connect(GTK_OBJECT(del_button),"clicked",GTK_SIGNAL_FUNC(d4x_scheduler_remove_selected),NULL);
 	gtk_signal_connect(GTK_OBJECT(edit_button),"clicked",GTK_SIGNAL_FUNC(d4x_scheduler_edit),NULL);
 	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(d4x_scheduler_close),NULL);
+	d4x_eschandler_init(d4x_scheduler_window,NULL);
 /*
 	gtk_signal_connect(GTK_OBJECT(d4x_scheduler_clist),"select_row",GTK_SIGNAL_FUNC(d4x_scheduler_select),NULL);
 	gtk_signal_connect(GTK_OBJECT(d4x_scheduler_clist),"event",GTK_SIGNAL_FUNC(face_limits_list_event_callback),this);
@@ -251,19 +252,11 @@ static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor)
 	int flag=0;
 	if (editor->dwn==NULL){
 		editor->dwn=new tDownload;
+		editor->dwn->config=new tCfg;
 		editor->dwn->set_default_cfg();
-		editor->dwn->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+		editor->dwn->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
 		char *url_entry_cont=text_from_combo(editor->url_entry);
 		editor->dwn->info=new tAddr(url_entry_cont);
-		if (CFG.USE_PROXY_FOR_FTP) {
-			editor->dwn->config.proxy_host.set(CFG.FTP_PROXY_HOST);
-			editor->dwn->config.proxy_port=CFG.FTP_PROXY_PORT;
-			if (CFG.NEED_PASS_FTP_PROXY) {
-				editor->dwn->config.proxy_user.set(CFG.FTP_PROXY_USER);
-				editor->dwn->config.proxy_pass.set(CFG.FTP_PROXY_PASS);
-			};
-		};
-		editor->dwn->config.proxy_type=CFG.FTP_PROXY_TYPE;
 		if (url_entry_cont==NULL || *url_entry_cont==0)
 			flag=1;
 	};
@@ -306,6 +299,7 @@ static void my_gtk_aeditor_browse(GtkWidget *widget,MyGtkAEditor *editor){
 			   "clicked",GTK_SIGNAL_FUNC(my_gtk_aeditor_browse_cancel),editor);
 	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(browser)->window)),
 			   "delete_event",GTK_SIGNAL_FUNC(my_gtk_aeditor_browse_delete),editor);
+	d4x_eschandler_init(GTK_WIDGET(&(GTK_FILE_SELECTION(browser)->window)),editor);
 	editor->browser=browser;
 	gtk_widget_show(browser);
 	gtk_window_set_modal (GTK_WINDOW(browser),TRUE);
@@ -647,8 +641,9 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 			delete(act->dwn);
 		if (editor->dwn==NULL){
 			editor->dwn=new tDownload;
+			editor->dwn->config=new tCfg;
 			editor->dwn->set_default_cfg();
-			editor->dwn->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+			editor->dwn->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
 		};
 		if (editor->dwn->info)
 			delete(editor->dwn->info);
@@ -675,6 +670,10 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 };
 
 static void my_gtk_aeditor_cancel(GtkWidget *widget,GtkWidget *editor){
+	gtk_widget_destroy(editor);
+};
+
+static void my_gtk_aeditor_close(GtkWidget *widget,GdkEvent *event,GtkWidget *editor){
 	gtk_widget_destroy(editor);
 };
 
@@ -783,6 +782,9 @@ static void my_gtk_aeditor_init(MyGtkAEditor *editor){
 			   GTK_SIGNAL_FUNC(my_gtk_aeditor_ok),editor);
 	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",
 			   GTK_SIGNAL_FUNC(my_gtk_aeditor_cancel),editor);
+	gtk_signal_connect(GTK_OBJECT(editor),"delete_event",
+			   GTK_SIGNAL_FUNC(my_gtk_aeditor_close), editor);
+	d4x_eschandler_init(GTK_WIDGET(editor),editor);
 	gtk_box_pack_start (GTK_BOX (vbox),hbox,
 			    FALSE, TRUE, 0);
 

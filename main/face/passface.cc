@@ -96,6 +96,7 @@ int tPassDialog::init(){
 	gtk_widget_show_all(window);
 	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(dialog_delete2),this);
 	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(dialog_delete), this);
+	d4x_eschandler_init(window,this);
 	return 1;
 };
 
@@ -284,6 +285,7 @@ void tFacePass::init(){
 	gtk_signal_connect(GTK_OBJECT(del_button),"clicked",GTK_SIGNAL_FUNC(face_pass_del),this);
 	gtk_signal_connect(GTK_OBJECT(add_button),"clicked",GTK_SIGNAL_FUNC(face_pass_add),this);
 	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(face_pass_delete), this);
+	d4x_eschandler_init(window,this);
 };
 
 void tFacePass::close() {

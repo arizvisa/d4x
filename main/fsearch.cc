@@ -89,9 +89,10 @@ void tFtpSearchCtrl::cycle(){
 		if (tmp->status==DOWNLOAD_REAL_STOP ||
 		    tmp->status==DOWNLOAD_COMPLETE  ||
 		    tmp->status==DOWNLOAD_FATAL) {
-			real_stop_thread(tmp);
 			queues[DL_FS_RUN]->del(tmp);
 			parent->prepare_for_stoping(tmp);
+			real_stop_thread(tmp);
+			parent->post_stopping(tmp);
 			switch(tmp->action){
 			case ACTION_DELETE:{
 				remove_from_clist(tmp);
@@ -101,9 +102,18 @@ void tFtpSearchCtrl::cycle(){
 			default:{
 				if (clist){
 					switch (tmp->status){
-					case DOWNLOAD_COMPLETE:
+					case DOWNLOAD_COMPLETE:{
 						fs_list_set_icon(clist,tmp,PIX_COMPLETE);
+						tDownload *a=ALL_DOWNLOADS->find(tmp);
+						if (a){
+							if (a->ALTS==NULL) a->ALTS=new d4xAltList;
+							a->ALTS->fill_from_ftpsearch(tmp);
+							remove_from_clist(tmp);
+							delete(tmp);
+							tmp=NULL;
+						};
 						break;
+					};
 					case DOWNLOAD_REAL_STOP:
 						fs_list_set_icon(clist,tmp,PIX_PAUSE);
 						break;
@@ -111,7 +121,7 @@ void tFtpSearchCtrl::cycle(){
 						fs_list_set_icon(clist,tmp,PIX_STOP);
 					};
 				};
-				queues[DL_FS_STOP]->insert(tmp);
+				if (tmp) queues[DL_FS_STOP]->insert(tmp);
 				break;
 			};
 			};

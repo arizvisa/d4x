@@ -268,20 +268,22 @@ int tSocket::rec_string(char * where,fsize_t len,int timeout) {
 	if (wait_for_read(timeout))
 		return STATUS_TIMEOUT;
 	tDownload **download=my_pthread_key_get();
-	int speed_limit=CFG.SPEED_LIMIT;
 	int bytes;
-	if (download!=NULL && *download!=NULL && (speed_limit!=3 || (*download)->SpeedLimit->base>0))
+	if (download!=NULL && *download!=NULL && (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0))
 		bytes=(*download)->SpeedLimit->bytes >= len ? len: (*download)->SpeedLimit->bytes+1;
 	else
 		bytes=len;
 	int temp=recv(fd,where,bytes,0);
 	if (temp>0) {
 		RBytes+=temp;
-		pthread_mutex_lock(&GVARS.READED_BYTES_MUTEX);
+		GVARS.MUTEX.lock();
 		GVARS.READED_BYTES+=temp;
-		pthread_mutex_unlock(&GVARS.READED_BYTES_MUTEX);
-		if (download!=NULL && *download!=NULL && (speed_limit!=3 || (*download)->SpeedLimit->base>0))
-			(*download)->SpeedLimit->decrement(temp);
+		GVARS.MUTEX.unlock();
+		if (download!=NULL && *download!=NULL){
+			if (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0)
+				(*download)->SpeedLimit->decrement(temp);
+			D4X_UPDATE.add(*download);
+		};
 	};
 	return temp;
 };

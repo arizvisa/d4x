@@ -1,0 +1,2330 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Görkem Çetin <gorkem@gelecek.com.tr>, 2001
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nt\n"
+"POT-Creation-Date: 2002-02-13 22:08+0700\n"
+"PO-Revision-Date: 2001-04-17 16:54+0800\n"
+"Last-Translator: Görkem Çetin <gorkem@gelecek.com.tr>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-9\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: ../client.cc:410
+msgid "Timeout while reading from socket!"
+msgstr ""
+
+#: ../client.cc:415
+msgid "Error while reading from socket!"
+msgstr ""
+
+#: ../client.cc:424
+msgid "Trying to connect..."
+msgstr ""
+
+#: ../client.cc:426
+msgid "Socket was opened!"
+msgstr ""
+
+#: ../client.cc:431
+msgid "Host not found!"
+msgstr ""
+
+#: ../client.cc:436
+msgid "Can't allocate socket"
+msgstr ""
+
+#: ../client.cc:441
+msgid "Can't connect"
+msgstr ""
+
+#: ../config.cc:74
+msgid "You forgot to specify directory."
+msgstr ""
+
+#: ../config.cc:76
+msgid "You must specify number as second parameter for '-m' option"
+msgstr ""
+
+#: ../config.cc:80
+msgid "You must specify number as parameter for '--exit-time' option"
+msgstr ""
+
+#: ../config.cc:81
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+#: ../config.cc:83
+msgid "Expect URL as parameter for '--del' option"
+msgstr ""
+
+#: ../config.cc:84
+msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
+msgstr ""
+
+#: ../config.cc:85
+msgid "Expect URL as parameter for '--stop' option"
+msgstr ""
+
+#: ../config.cc:270
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr ""
+
+#: ../config.cc:271
+msgid "Use default cfg :))...\n"
+msgstr ""
+
+#: ../config.cc:481
+msgid "unknown option:"
+msgstr ""
+
+#: ../config.cc:528
+#, c-format
+msgid "Run downloads: %d\n"
+msgstr ""
+
+#: ../config.cc:530
+#, c-format
+msgid "Paused downloads: %d\n"
+msgstr ""
+
+#: ../config.cc:532
+#, c-format
+msgid "Failed downloads: %d\n"
+msgstr ""
+
+#: ../config.cc:534
+#, c-format
+msgid "Completed downloads: %d\n"
+msgstr ""
+
+#: ../config.cc:537
+#, c-format
+msgid "Total: %d\n"
+msgstr ""
+
+#: ../config.cc:539
+#, c-format
+msgid "Total bytes loaded: %d\n"
+msgstr ""
+
+#: ../config.cc:541
+#, c-format
+msgid "Current speed: %d\n"
+msgstr ""
+
+#: ../config.cc:547
+#, c-format
+msgid "Curent speed: %d\n"
+msgstr ""
+
+#: ../config.cc:761
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr ""
+
+#: ../config.cc:762
+msgid "print this page and exit"
+msgstr "bu sayfayý göster ve çýk"
+
+#: ../config.cc:763
+msgid "show version information and exit"
+msgstr "sürüm bilgisini göster ve çýk"
+
+#: ../config.cc:764
+msgid "show information if already run"
+msgstr ""
+
+#: ../config.cc:765
+msgid "show current speed if already run"
+msgstr ""
+
+#: ../config.cc:766
+msgid "run in minimized mode"
+msgstr ""
+
+#: ../config.cc:767
+msgid "set timeout for exiting if nothing to do"
+msgstr ""
+
+#: ../config.cc:768
+msgid "set directory for saving files"
+msgstr ""
+
+#: ../config.cc:769
+msgid "set lower speed limitation"
+msgstr ""
+
+#: ../config.cc:770
+msgid "set medium speed limitation"
+msgstr ""
+
+#: ../config.cc:771
+msgid "set unlimited speed"
+msgstr ""
+
+#: ../config.cc:772
+msgid "delete completed if already run"
+msgstr ""
+
+#: ../config.cc:773
+msgid "set maximum active downloads"
+msgstr ""
+
+#: ../config.cc:774
+msgid "restart all failed downloads"
+msgstr ""
+
+#: ../config.cc:775
+msgid "run program without X interface"
+msgstr ""
+
+#: ../config.cc:776
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+#: ../config.cc:777
+#, fuzzy
+msgid "remove a download from queue"
+msgstr "biterse indirileni sil"
+
+#: ../config.cc:778
+#, fuzzy
+msgid "stop a download"
+msgstr "indirmeyi durdur"
+
+#: ../config.cc:779
+msgid "using colors if run without interface"
+msgstr ""
+
+#: ../config.cc:780
+msgid "specifies preferred size and position of main window"
+msgstr ""
+
+#: ../cookie.cc:316
+msgid "Loading cookies"
+msgstr ""
+
+#: ../cookie.cc:322
+#, c-format
+msgid "%i cookies loaded from browsers' files"
+msgstr ""
+
+#: ../cookie.cc:324
+#, c-format
+msgid "Can't open cookies file %s!"
+msgstr ""
+
+#: ../cookie.cc:334
+#, c-format
+msgid "%i cookies loaded"
+msgstr ""
+
+#: ../dlist.cc:112
+msgid "Can't write to file"
+msgstr ""
+
+#: ../dlist.cc:137
+msgid "File is already opened by another download!"
+msgstr ""
+
+#: ../dlist.cc:140
+msgid "Filesystem do not support advisory record locking!"
+msgstr ""
+
+#: ../dlist.cc:141
+msgid "Will proceed without it but beware that you might have problems."
+msgstr ""
+
+#: ../dlist.cc:390
+#, c-format
+msgid "You have no permissions to create file at path %s"
+msgstr ""
+
+#: ../dlist.cc:395
+#, c-format
+msgid "You have no space at path %s for creating file"
+msgstr ""
+
+#: ../dlist.cc:400
+msgid "Directory already created!:))"
+msgstr "Dizin çoktan oluþturulmuþ!:))"
+
+#. this is a link
+#: ../dlist.cc:520
+msgid "Trying to create a link"
+msgstr ""
+
+#: ../dlist.cc:525
+msgid "Link already created!:))"
+msgstr ""
+
+#: ../dlist.cc:531
+msgid "Can't create link"
+msgstr "Baðlantý yaratýlamadý"
+
+#. this is a file
+#: ../dlist.cc:540
+msgid "Trying to create a file"
+msgstr ""
+
+#: ../dlist.cc:561
+msgid "Can't create file at the path:"
+msgstr ""
+
+#: ../dlist.cc:563
+msgid "which has name:"
+msgstr ""
+
+#: ../dlist.cc:574
+msgid "File was created!"
+msgstr "Dosya yaratýlmýþ!"
+
+#. this is a directory
+#: ../dlist.cc:579
+msgid "Trying to create a dir"
+msgstr ""
+
+#: ../dlist.cc:589
+msgid "Can't create directory!"
+msgstr "Dizin oluþturulamýyor!"
+
+#. this is device
+#: ../dlist.cc:599
+msgid "Downloader can't create devices..."
+msgstr ""
+
+#: ../dlist.cc:1028
+#, c-format
+msgid "Trying to copy %s to %s due 'Content-Disposition'"
+msgstr ""
+
+#: ../dlist.cc:1031
+msgid "Error during copying!"
+msgstr ""
+
+#: ../dlist.cc:1062
+msgid "Downloading was successefully completed!"
+msgstr "Ýndirme baþarýyla tamamlandý!"
+
+#: ../dlist.cc:1104
+msgid "Downloading was failed..."
+msgstr "Ýndirme iþlemi baþarýsýz..."
+
+#: ../dlist.cc:1221
+msgid "Redirection blocked by filter"
+msgstr ""
+
+#: ../dlist.cc:1227
+msgid "Redirect detected..."
+msgstr ""
+
+#: ../dlist.cc:1285
+msgid "It is strange that we can't delete file which just created..."
+msgstr ""
+
+#: ../dlist.cc:1289 ../dlist.cc:1508
+msgid "File not found"
+msgstr "Dosya bulunamadý"
+
+#: ../dlist.cc:1347
+msgid "Sorting started"
+msgstr "Sýralama baþlatýldý"
+
+#: ../dlist.cc:1350
+#, c-format
+msgid "Pinging (atempt %i of %i)"
+msgstr ""
+
+#: ../dlist.cc:1378
+msgid "Trying to determine filesizes"
+msgstr ""
+
+#: ../dlist.cc:1454
+msgid "Searching failed"
+msgstr "Arama sýrasýnda hata oluþtu"
+
+#: ../dlist.cc:1476
+msgid "Search had been completed!"
+msgstr "Arama iþlemi tamamlandý!"
+
+#: ../dlist.cc:1482
+msgid "Was Started!"
+msgstr "Baþlatýldý!"
+
+#: ../dlist.cc:1486
+msgid "It is a link and we already load it"
+msgstr ""
+
+#: ../dlist.cc:1513
+msgid "Trying to work without CWD"
+msgstr ""
+
+#: ../dlist.cc:1584
+msgid "Can't split file to specified number of parts!"
+msgstr ""
+
+#: ../download.cc:33
+msgid "Maximum number of retries reached!"
+msgstr ""
+
+#: ../download.cc:38
+#, c-format
+msgid "Retry %i of %i...."
+msgstr ""
+
+#: ../download.cc:40
+#, c-format
+msgid "Retry %i ..."
+msgstr "%i yeniden deneniyor ..."
+
+#: ../download.cc:44
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
+
+#: ../download.cc:48
+#, c-format
+msgid "Error code %i"
+msgstr "Hata kodu %i"
+
+#: ../download.cc:49
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "Uyarý! Bir hata buldunuz!"
+
+#: ../download.cc:50
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr ""
+
+#: ../ftp.cc:50
+msgid "Accepting faild"
+msgstr ""
+
+#: ../ftp.cc:73
+msgid "Timeout while sending through control socket."
+msgstr ""
+
+#: ../ftp.cc:74
+msgid "Control connection lost"
+msgstr "Kontrol baðlantýsý kayboldu"
+
+#: ../ftp.cc:85
+msgid "Data connection lost!"
+msgstr "Veri iletiþimi kesildi!"
+
+#: ../ftp.cc:95
+msgid "Control connection lost!"
+msgstr "Kontrol baðlantýsý kayboldu!"
+
+#: ../ftp.cc:185
+msgid "Reget is not supported!!!"
+msgstr ""
+
+#.
+#. if (index(log->body,'(')!=NULL)
+#. sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
+#.
+#: ../ftp.cc:293
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr ""
+
+#: ../ftp.cc:418
+msgid "Probably file was changed on server!"
+msgstr ""
+
+#: ../ftp.cc:435 ../http.cc:213
+msgid "Data connection closed."
+msgstr "Veri baðlantýsý kapatýldý."
+
+#: ../ftp.cc:447 ../http.cc:225
+msgid "Requested size was loaded"
+msgstr ""
+
+#: ../ftpd.cc:234
+msgid "Can't establish data connection"
+msgstr "Veri baðlantýsý saðlanamýyor!"
+
+#: ../ftpd.cc:237
+msgid "Can't change directory"
+msgstr "Dizine geçilemedi"
+
+#: ../ftpd.cc:240
+msgid "Server refused login, perhaps there are too many users of your class"
+msgstr "Sunucu baðlantý isteðini kabul etmiyor."
+
+#: ../ftpd.cc:309 ../httpd.cc:223
+msgid "Sleeping"
+msgstr "Uyuyor"
+
+#: ../ftpd.cc:414
+msgid "Empty answer. Trying to change directory to determine file type."
+msgstr ""
+
+#: ../ftpd.cc:439 ../ftpd.cc:461
+#, c-format
+msgid "Length is %i"
+msgstr "Büyüklük: %i"
+
+#: ../ftpd.cc:451
+msgid "This is a directory!"
+msgstr "Bu bir dizin!"
+
+#: ../ftpd.cc:488
+msgid "Couldn't get size :(("
+msgstr ""
+
+#: ../ftpd.cc:503
+msgid "Loading directory..."
+msgstr "Dizin yükleniyor..."
+
+#: ../ftpd.cc:517
+msgid "Listing was loaded"
+msgstr "Dosya listesi alýndý"
+
+#: ../ftpd.cc:520
+msgid "Listing not loaded completelly"
+msgstr "Dosya listesi tam olarak alýnamadý"
+
+#: ../ftpd.cc:547
+msgid "Link was loaded :))"
+msgstr ""
+
+#: ../ftpd.cc:581 ../httpd.cc:477
+#, c-format
+msgid "%i bytes loaded."
+msgstr ""
+
+#: ../hproxy.cc:190
+#, c-format
+msgid "Sending request to proxy (%s:%i)"
+msgstr ""
+
+#. all ok
+#: ../hproxy.cc:194 ../httpd.cc:419
+msgid "Answer read ok"
+msgstr ""
+
+#: ../hproxy.cc:205
+#, fuzzy
+msgid "File not found on the server"
+msgstr "Dosya bulunamadý"
+
+#: ../hproxy.cc:208
+msgid "Probably it's problem of proxy server, retrying"
+msgstr ""
+
+#: ../http.cc:62
+msgid "Socket lost!"
+msgstr ""
+
+#: ../http.cc:72
+msgid "Request was sent, waiting for the answer"
+msgstr ""
+
+#: ../http.cc:87
+msgid "It is not HTTP server!!!"
+msgstr ""
+
+#: ../http.cc:95
+msgid "All ok, reading file"
+msgstr ""
+
+#: ../http.cc:106
+msgid "It seems to me that you need a password :)"
+msgstr ""
+
+#: ../http.cc:112
+msgid "Server return bad answer:(("
+msgstr ""
+
+#: ../http.cc:191
+msgid "Wrong chunk size!"
+msgstr ""
+
+#: ../http.cc:194
+#, c-format
+msgid "Chunk size %i"
+msgstr ""
+
+#: ../http.cc:196
+msgid "It's last chunk!"
+msgstr ""
+
+#: ../httpd.cc:175
+msgid "Couldn't get normal answer!"
+msgstr ""
+
+#: ../httpd.cc:375
+#, c-format
+msgid "Size for download is %i bytes"
+msgstr ""
+
+#: ../httpd.cc:415
+msgid "Sending HTTP request..."
+msgstr ""
+
+#: ../httpd.cc:459
+msgid "It is seemed REGET not supported! Loading from begin.."
+msgstr ""
+
+#: ../httpd.cc:462
+msgid "ETag was changed, restarting again..."
+msgstr ""
+
+#: ../log.cc:64
+msgid "Log was started!"
+msgstr "Kayýt baþlatýldý"
+
+#: ../main.cc:119
+msgid "Can't init control socket!\n"
+msgstr ""
+
+#: ../main.cc:162
+msgid "Loading default list of downloads"
+msgstr ""
+
+#: ../main.cc:229 ../main.cc:1178
+msgid "Delete completed downloads"
+msgstr ""
+
+#: ../main.cc:242
+msgid "Delete failed downloads"
+msgstr ""
+
+#: ../main.cc:259
+msgid "Clear queue of downloads"
+msgstr ""
+
+#: ../main.cc:316
+msgid "Run new thread for %z"
+msgstr ""
+
+#: ../main.cc:322
+msgid "Can't run new thread for downloading!"
+msgstr ""
+
+#: ../main.cc:377
+#, c-format
+msgid "Downloading of file %s from %s was terminated [by user]"
+msgstr "%s dosyasýnýn aktarýlmasý (%s) durduruldu"
+
+#: ../main.cc:407
+#, c-format
+msgid "Delete file %s from queue of downloads"
+msgstr "%s dosyasý indirme listesinden silindi"
+
+#: ../main.cc:491
+#, c-format
+msgid "Continue downloading of file %s from %s..."
+msgstr "%s dosyasýnýn indirilmesine (%s) devam ediliyor..."
+
+#: ../face/mywidget.cc:389 ../face/mywidget.cc:695 ../main.cc:581
+msgid "file"
+msgstr "dosya"
+
+#: ../main.cc:679
+msgid "dir"
+msgstr "dizin"
+
+#: ../main.cc:684
+msgid "link"
+msgstr "baðlantý"
+
+#: ../main.cc:689
+msgid "device"
+msgstr "aygýt"
+
+#: ../main.cc:725
+msgid "Too many redirections!"
+msgstr ""
+
+#: ../main.cc:743
+msgid "Redirection from [%z] to the same location!"
+msgstr ""
+
+#: ../main.cc:779
+msgid "Redirection from [%z] to nowhere!"
+msgstr ""
+
+#: ../main.cc:805
+msgid "Prepare thread %i of [%z] for stoping"
+msgstr ""
+
+#: ../main.cc:823
+msgid "Redirect from %z"
+msgstr ""
+
+#: ../main.cc:830
+msgid "Downloading of directory %z was completed"
+msgstr "%z dizini aktarýmý tamamlandý"
+
+#: ../main.cc:834
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+msgstr "%z dosyasýnýn (%i bayt) aktarýmý tamamlandý (%i bayt/saniye)"
+
+#: ../main.cc:841
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr ""
+
+#: ../main.cc:852
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "%z dosyasýnýn aktarýmý bir hata nedeniyle iptal edildi"
+
+#: ../main.cc:854
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr ""
+
+#: ../main.cc:1122
+msgid "Restarting failed downloads"
+msgstr ""
+
+#: ../main.cc:1122 ../main.cc:1158 ../main.cc:1174 ../main.cc:1178
+#: ../main.cc:1183 ../main.cc:1196 ../main.cc:1201
+msgid "[control socket]"
+msgstr ""
+
+#: ../main.cc:1140
+#, fuzzy, c-format
+msgid "Remove the download via control socket [%s]"
+msgstr "biterse indirileni sil"
+
+#: ../main.cc:1148
+#, c-format
+msgid "Adding downloading via control socket [%s]"
+msgstr ""
+
+#: ../main.cc:1156
+#, c-format
+msgid "Set speed limitation to %s %s"
+msgstr "Hýz sýnýrýný %s %s olarak belirle"
+
+#: ../main.cc:1174
+msgid "Setup maximum active downloads to"
+msgstr ""
+
+#: ../main.cc:1196
+msgid "Exiting if nothing to do is switched off"
+msgstr ""
+
+#: ../main.cc:1201
+#, c-format
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr ""
+
+#: ../main.cc:1443
+msgid "Normally started"
+msgstr "Normal baþlangýç"
+
+#: ../main.cc:1492
+#, c-format
+msgid "Added downloading of file %s from %s [by user]"
+msgstr "%s dosyasý (%s) eklendi"
+
+#: ../main.cc:1545
+#, c-format
+msgid "%lu bytes loaded during the session"
+msgstr "Oturum boyunca %lu bayt yüklendi"
+
+#: ../main.cc:1546
+msgid "Downloader exited normaly"
+msgstr "Program normal bir þekilde sonlandýrýldý"
+
+#: ../main.cc:1584
+#, c-format
+msgid "Can't open '%s' to save log"
+msgstr ""
+
+#: ../main.cc:1615
+msgid "Such protocol is not supported!"
+msgstr "Bu protokol desteklenmiyor!"
+
+#: ../mainlog.cc:162
+msgid ""
+"Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ""
+
+#: ../mainlog.cc:171
+msgid "Can't write to file interrupting write to file"
+msgstr ""
+
+#: ../mainlog.cc:213
+msgid "Open a row"
+msgstr "Bir satýr aç"
+
+#: ../mainlog.cc:216
+msgid "Clear log"
+msgstr "Kaydý sil"
+
+#: ../face/fsched.cc:771 ../face/lmenu.cc:173 ../mainlog.cc:219
+msgid "Properties"
+msgstr "Özellikler"
+
+#: ../mainlog.cc:250
+#, c-format
+msgid "row number %i of main log"
+msgstr ""
+
+#: ../mainlog.cc:290
+msgid "Can't open file for saving log"
+msgstr ""
+
+#: ../nt.cc:121
+msgid "WARNING!!! Can't find HOME variable! So can't read config!"
+msgstr ""
+
+#: ../nt.cc:134
+#, c-format
+msgid "%s probably is already running\n"
+msgstr "%s hala çalýþýyor olabilir\n"
+
+#: ../savelog.cc:43
+msgid ""
+"Can't save default list of downloads!!! Becouse can't find HOME variable"
+msgstr ""
+
+#: ../savelog.cc:49
+msgid "Can't save default list of downloads!!!"
+msgstr ""
+
+#: ../savelog.cc:84
+msgid "Can't load default list of downloads!!!"
+msgstr ""
+
+#: ../signal.cc:53 ../signal.cc:72
+msgid "Download  was stopped by user"
+msgstr "Ýndirme iþlemi kullanýcý tarafýndan durduruldu"
+
+#: ../memwl.cc:73
+msgid "BUG: Wrong mode of lseek!\n"
+msgstr ""
+
+#: ../ping.cc:49
+msgid "Resolving hosts..."
+msgstr "Makine adý alýnýyor..."
+
+#: ../ping.cc:78
+msgid "Pinging  (it takes 30 seconds maximum)..."
+msgstr "Ping gönderiliyor (en çok 30 saniye sürecek)..."
+
+#: ../var.cc:97
+msgid "low"
+msgstr "düþük"
+
+#: ../var.cc:98
+msgid "medium"
+msgstr "orta"
+
+#: ../var.cc:99
+msgid "unlimited"
+msgstr "sýnýrsýz"
+
+#: ../face/about.cc:109
+msgid "About"
+msgstr "Hakkýnda"
+
+#: ../face/about.cc:119
+msgid "Author: Koshelev Maxim"
+msgstr "Yazar: Koshelev Maxim"
+
+#: ../face/about.cc:121
+msgid "Translators team"
+msgstr "Çeviri takýmý"
+
+#: ../face/about.cc:128
+msgid "Special thanks to"
+msgstr "Teþekkürler"
+
+#: ../face/about.cc:135 ../face/about.cc:204 ../face/about.cc:287
+#: ../face/buttons.cc:168 ../face/edit.cc:801 ../face/edit.cc:2048
+#: ../face/filtrgui.cc:167 ../face/fsched.cc:201 ../face/fsched.cc:777
+#: ../face/lod.cc:581 ../face/mywidget.cc:459 ../face/mywidget.cc:738
+#: ../face/mywidget.cc:826 ../face/mywidget.cc:925 ../face/mywidget.cc:1023
+#: ../face/passface.cc:79 ../face/passface.cc:264 ../face/prefs.cc:1218
+#: ../face/qtree.cc:104 ../face/qtree.cc:551 ../face/saveload.cc:161
+#: ../face/saveload.cc:204 ../face/saveload.cc:246
+msgid "Ok"
+msgstr "Tamam"
+
+#: ../face/about.cc:205 ../face/buttons.cc:170 ../face/edit.cc:802
+#: ../face/fsched.cc:778 ../face/lod.cc:582 ../face/mywidget.cc:460
+#: ../face/mywidget.cc:827 ../face/mywidget.cc:927 ../face/mywidget.cc:1024
+#: ../face/passface.cc:80 ../face/prefs.cc:1219 ../face/qtree.cc:105
+#: ../face/qtree.cc:552 ../face/saveload.cc:163 ../face/saveload.cc:206
+#: ../face/saveload.cc:248
+msgid "Cancel"
+msgstr "Ýptal"
+
+#: ../face/about.cc:246
+msgid "Don't ask next time"
+msgstr ""
+
+#: ../face/addd.cc:87 ../face/addd.cc:233
+msgid "Add new download"
+msgstr "Yeni dosya ekle"
+
+#: ../face/addd.cc:172
+#, fuzzy
+msgid "Automated adding"
+msgstr "/Dosya/Listeyi _Yükle"
+
+#: ../face/buttons.cc:50
+msgid " Add new download "
+msgstr " Yeni dosya ekle "
+
+#: ../face/buttons.cc:51
+msgid " Paste from clipboard "
+msgstr " Panodan al "
+
+#: ../face/buttons.cc:52
+msgid " Del downloads "
+msgstr " Ýndirmeyi sil "
+
+#: ../face/buttons.cc:53
+msgid " Stop downloads "
+msgstr " Ýndirmeyi durdur "
+
+#: ../face/buttons.cc:54
+msgid " Continue/restart downloads "
+msgstr ""
+
+#: ../face/buttons.cc:55
+msgid " Del Completed downloads "
+msgstr ""
+
+#: ../face/buttons.cc:56
+msgid " Move up "
+msgstr " Yukarý "
+
+#: ../face/buttons.cc:57
+msgid " Move down "
+msgstr " Aþaðý "
+
+#: ../face/buttons.cc:58
+msgid " View log "
+msgstr " Kaydý incele "
+
+#: ../face/buttons.cc:59 ../face/buttons.cc:248
+msgid " Speed level one "
+msgstr " 1. hýz seviyesi "
+
+#: ../face/buttons.cc:60 ../face/buttons.cc:252
+msgid " Speed level two "
+msgstr " 2. hýz seviyesi "
+
+#: ../face/buttons.cc:61
+msgid " Unlimited speed "
+msgstr " Sýnýrsýz hýz "
+
+#: ../face/buttons.cc:62
+msgid " Options "
+msgstr " Seçenekler "
+
+#: ../face/buttons.cc:63
+msgid " Delete all downloads "
+msgstr " Tüm indirilenleri sil "
+
+#: ../face/buttons.cc:64
+msgid " Save list "
+msgstr " Kaydetme listesi "
+
+#: ../face/buttons.cc:65
+msgid " Load list "
+msgstr " Yükleme listesi "
+
+#: ../face/buttons.cc:66
+msgid " DnD basket "
+msgstr ""
+
+#: ../face/buttons.cc:67
+msgid " Switch percentage mode to"
+msgstr ""
+
+#: ../face/buttons.cc:68
+msgid " Configure buttons "
+msgstr ""
+
+#: ../face/buttons.cc:169 ../face/prefs.cc:1220
+msgid "Apply"
+msgstr "Uygula"
+
+#: ../face/buttons.cc:237
+msgid "Delete ALL downloads?"
+msgstr "TÜM indirilenler silinsin mi?"
+
+#: ../face/buttons.cc:237
+msgid "Delete all?"
+msgstr "Hepsi silinsin mi?"
+
+#: ../face/columns.cc:20
+msgid "status"
+msgstr "durum"
+
+#: ../face/columns.cc:21
+msgid "file name"
+msgstr "dosya adý"
+
+#: ../face/columns.cc:22
+msgid "type of file"
+msgstr "dosya türü"
+
+#: ../face/columns.cc:23
+msgid "size of file"
+msgstr "dosya büyüklüðü"
+
+#: ../face/columns.cc:24
+msgid "downloaded size"
+msgstr "alýnan büyüklük"
+
+#: ../face/columns.cc:25
+msgid "rest"
+msgstr "kalan"
+
+#: ../face/columns.cc:26
+msgid "percent"
+msgstr "yüzde"
+
+#: ../face/columns.cc:27
+msgid "speed"
+msgstr "hýz"
+
+#: ../face/columns.cc:28
+msgid "elapsed time"
+msgstr "kalan zaman"
+
+#: ../face/columns.cc:29
+msgid "estimated time"
+msgstr "tahmini zaman"
+
+#: ../face/columns.cc:30
+msgid "time of pause"
+msgstr "bekleme süresi"
+
+#: ../face/columns.cc:31
+msgid "number of attempts"
+msgstr "deneme sayýsý"
+
+#: ../face/columns.cc:32
+msgid "description"
+msgstr "açýklama"
+
+#: ../face/columns.cc:33 ../face/lod.cc:55 ../face/mywidget.cc:915
+msgid "URL"
+msgstr "URL"
+
+#: ../face/columns.cc:71
+msgid "Showed columns"
+msgstr "Gösterilen sütunlar"
+
+#: ../face/dndtrash.cc:44
+msgid "/New Download"
+msgstr "/Yeni Dosya Ýndir"
+
+#: ../face/dndtrash.cc:45
+msgid "/Paste Download"
+msgstr "/Yapýþtýr"
+
+#: ../face/dndtrash.cc:46
+#, fuzzy
+msgid "/Automated adding"
+msgstr "/Dosya/Listeyi _Yükle"
+
+#: ../face/dndtrash.cc:47
+msgid "/Delete completed"
+msgstr "/Bitenleri sil"
+
+#: ../face/dndtrash.cc:48
+msgid "/General options"
+msgstr "/Genel seçenekler"
+
+#: ../face/dndtrash.cc:49
+msgid "/Speed"
+msgstr "/Hýz"
+
+#: ../face/dndtrash.cc:50
+msgid "/Speed/Low"
+msgstr "/Hýz/Düþük"
+
+#: ../face/dndtrash.cc:51
+msgid "/Speed/Medium"
+msgstr "/Hýz/Orta"
+
+#: ../face/dndtrash.cc:52
+msgid "/Speed/Unlimited"
+msgstr "/Hýz/Sýnýrsýz"
+
+#: ../face/dndtrash.cc:53
+msgid "/Exit"
+msgstr "/Çýk"
+
+#: ../face/dndtrash.cc:266
+#, fuzzy
+msgid "DnD basket"
+msgstr "DnD kutucuðunu göster"
+
+#: ../face/dndtrash.cc:399
+msgid "Drop link here"
+msgstr "Baðlantýyý buraya býrak"
+
+#: ../face/edit.cc:62 ../face/edit.cc:449
+msgid "Use password for this site"
+msgstr "Bu site için parola kullan"
+
+#: ../face/edit.cc:63 ../face/edit.cc:413
+msgid "Save download to folder"
+msgstr ""
+
+#: ../face/edit.cc:64 ../face/edit.cc:466
+msgid "Restart this download from begining"
+msgstr "Bu dosyayý yeniden indir"
+
+#: ../face/edit.cc:65
+msgid "Timeout for reading from socket"
+msgstr ""
+
+#: ../face/edit.cc:66
+msgid "Speed limitation"
+msgstr "Hýz sýnýrlamasý"
+
+#: ../face/edit.cc:67
+msgid "Maximum attempts"
+msgstr ""
+
+#: ../face/edit.cc:68
+msgid "Timeout before reconnection"
+msgstr ""
+
+#: ../face/edit.cc:69
+msgid "Rollback after reconnecting"
+msgstr ""
+
+#: ../face/edit.cc:70 ../face/edit.cc:543 ../face/prefs.cc:233
+msgid "Get date from the server"
+msgstr "Tarih bilgisini sunucudan al"
+
+#: ../face/edit.cc:71 ../face/edit.cc:547 ../face/prefs.cc:237
+msgid "Retry if resuming is not supported"
+msgstr "Yeniden alma (resume) desteklenmiyorsa yeniden dene"
+
+#: ../face/edit.cc:72 ../face/edit.cc:538
+msgid "Number of parts for spliting this download"
+msgstr ""
+
+#: ../face/edit.cc:73 ../face/edit.cc:585 ../face/prefs.cc:347
+msgid "Use passive mode for FTP"
+msgstr "FTP için pasif kip kullan"
+
+#: ../face/edit.cc:74 ../face/edit.cc:591 ../face/prefs.cc:355
+msgid "Get permissions of the file from server (FTP only)"
+msgstr "Dosya izinlerini sunucudan al (sadece FTP)"
+
+#: ../face/edit.cc:75 ../face/edit.cc:588 ../face/prefs.cc:351
+msgid "Don't send QUIT command (FTP)"
+msgstr "QUIT komutunu gönderme (FTP)"
+
+#: ../face/edit.cc:76 ../face/edit.cc:597 ../face/prefs.cc:363
+msgid "Put directories on the top of queue during recursion"
+msgstr ""
+
+#: ../face/edit.cc:77 ../face/edit.cc:555 ../face/prefs.cc:253
+msgid "Compare date/time of remote file with local one"
+msgstr ""
+
+#: ../face/edit.cc:78 ../face/edit.cc:551 ../face/prefs.cc:241
+msgid "Sleep before completing"
+msgstr "Bitmeden önce uykuya geç"
+
+#: ../face/edit.cc:79 ../face/edit.cc:594 ../face/prefs.cc:359
+msgid "Follow symbolic links"
+msgstr ""
+
+#: ../face/edit.cc:80
+msgid "Depth of recursing for FTP"
+msgstr "FTP için dizin derinliði"
+
+#: ../face/edit.cc:81
+msgid "Depth of recursing for HTTP"
+msgstr "HTTP için dizin derinliði"
+
+#: ../face/edit.cc:82 ../face/edit.cc:626 ../face/prefs.cc:450
+msgid "Only subdirs"
+msgstr "Sadece alt dizinler"
+
+#: ../face/edit.cc:83 ../face/edit.cc:627 ../face/prefs.cc:451
+msgid "Allow leave this server while recursing via HTTP"
+msgstr ""
+
+#: ../face/edit.cc:84 ../face/edit.cc:628 ../face/prefs.cc:452
+msgid "Change links in HTML file to local"
+msgstr ""
+
+#: ../face/edit.cc:85 ../face/edit.cc:629 ../face/prefs.cc:453
+msgid "Ignore ETag field in reply"
+msgstr ""
+
+#: ../face/edit.cc:86 ../face/edit.cc:654 ../face/prefs.cc:472
+msgid "User-Agent"
+msgstr "Kullanýcý programý"
+
+#: ../face/edit.cc:87 ../face/edit.cc:664
+msgid "Referer"
+msgstr ""
+
+#: ../face/edit.cc:88 ../face/edit.cc:676
+msgid "Cookie"
+msgstr "Çerez"
+
+#: ../face/edit.cc:89 ../face/edit.cc:783 ../face/edit.cc:786
+#: ../face/prefs.cc:510 ../face/prefs.cc:1132 ../face/prefs.cc:1319
+msgid "Proxy"
+msgstr "Vekil sunucu"
+
+#. Init time
+#.
+#: ../face/edit.cc:90 ../face/edit.cc:700 ../face/edit.cc:743
+#: ../face/fsched.cc:186 ../face/lod.cc:50
+msgid "Time"
+msgstr "Zaman"
+
+#: ../face/edit.cc:191 ../face/edit.cc:209
+msgid "Edit download"
+msgstr "Ýndirileni düzenle"
+
+#: ../face/edit.cc:412 ../face/lod.cc:54
+msgid "Description"
+msgstr "Açýklama"
+
+#: ../face/edit.cc:414
+msgid "Save download to file"
+msgstr "Ýndirileni dosyaya yaz"
+
+#: ../face/edit.cc:415 ../face/edit.cc:1555 ../face/edit.cc:1622
+#: ../face/edit.cc:1663 ../face/passface.cc:69
+msgid "password"
+msgstr "parola"
+
+#: ../face/edit.cc:416
+msgid "user name"
+msgstr "kullanýcý adý"
+
+#. set as default button
+#.
+#: ../face/edit.cc:419
+msgid "Default"
+msgstr "Öntaýmlý"
+
+#: ../face/edit.cc:465 ../face/prefs.cc:249
+msgid "Pause this just after adding"
+msgstr ""
+
+#: ../face/edit.cc:471
+msgid "Add to top of queue"
+msgstr ""
+
+#: ../face/edit.cc:484 ../face/prefs.cc:231 ../face/prefs.cc:1108
+#: ../face/prefs.cc:1266
+msgid "Download"
+msgstr "Ýndir"
+
+#: ../face/edit.cc:487 ../face/prefs.cc:725 ../face/prefs.cc:1192
+#: ../face/prefs.cc:1410
+msgid "Main"
+msgstr "Ana"
+
+#: ../face/edit.cc:503 ../face/prefs.cc:292
+msgid "Timeout for reading from socket (in seconds)"
+msgstr ""
+
+#: ../face/edit.cc:510 ../face/prefs.cc:299
+msgid "Timeout before reconnection (in seconds)"
+msgstr ""
+
+#: ../face/edit.cc:517 ../face/prefs.cc:306
+msgid "Maximum attempts (0 for unlimited)"
+msgstr ""
+
+#: ../face/edit.cc:524 ../face/prefs.cc:313
+msgid "Rollback after reconnecting (in bytes)"
+msgstr ""
+
+#: ../face/edit.cc:531 ../face/prefs.cc:320
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr ""
+
+#: ../face/edit.cc:559
+msgid "Save log to file"
+msgstr "Kaydý dosyaya yaz"
+
+#: ../face/edit.cc:569
+msgid "Auto"
+msgstr "Otomatik"
+
+#: ../face/edit.cc:576 ../face/edit.cc:579
+msgid "Common"
+msgstr "Ortak"
+
+#: ../face/edit.cc:604 ../face/edit.cc:621 ../face/prefs.cc:370
+#: ../face/prefs.cc:466
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr "Derinlik (0=sýnýrsýz, 1=alt dizinlere geçme)"
+
+#: ../face/edit.cc:645 ../face/prefs.cc:497
+msgid "Filter"
+msgstr "Filtre"
+
+#: ../face/edit.cc:646 ../face/lod.cc:601 ../face/mywidget.cc:238
+#: ../face/prefs.cc:498
+msgid "Select"
+msgstr "Seç"
+
+#: ../face/edit.cc:715
+msgid "Hours"
+msgstr "Saat"
+
+#: ../face/edit.cc:723
+msgid "Minutes"
+msgstr "Dakika"
+
+#: ../face/edit.cc:735
+msgid "Start this downloading at:"
+msgstr "Bu indirmeyi aþaðýdaki tarihte baþlat:"
+
+#: ../face/edit.cc:796
+msgid "Use default settings"
+msgstr ""
+
+#: ../face/edit.cc:1485
+msgid "FTP proxy type"
+msgstr "FTP vekil türü"
+
+#: ../face/edit.cc:1496
+msgid "FTP (wingate)"
+msgstr "FTP (wingate)"
+
+#: ../face/edit.cc:1510
+msgid "Use this proxy for FTP"
+msgstr "FTP için bu vekil sunucuyu kullan"
+
+#: ../face/edit.cc:1525 ../face/edit.cc:1594 ../face/edit.cc:1644
+msgid "port"
+msgstr "port"
+
+#: ../face/edit.cc:1532 ../face/edit.cc:1600
+msgid "need password"
+msgstr "parola gerekiyor"
+
+#: ../face/edit.cc:1540 ../face/edit.cc:1608 ../face/edit.cc:1656
+#: ../face/passface.cc:68 ../face/passface.cc:250
+msgid "username"
+msgstr "kullanýcý adý"
+
+#: ../face/edit.cc:1572
+msgid "Don't get from cache"
+msgstr "Önbellekten okuma"
+
+#: ../face/edit.cc:1579
+msgid "Use this proxy for HTTP"
+msgstr "HTTP için bu vekil sunucuyu kullan"
+
+#. SOCKS settings
+#: ../face/edit.cc:1630
+msgid "Use SOCKS5 proxy"
+msgstr "SOCKS5 proxy kullan"
+
+#: ../face/edit.cc:1637 ../face/mywidget.cc:375 ../face/mywidget.cc:695
+msgid "host"
+msgstr "makine"
+
+#: ../face/edit.cc:2029
+msgid "Select properties"
+msgstr "Özellikleri seç"
+
+#: ../face/edit.cc:2054
+msgid "Unselect all"
+msgstr "Hiçbirisini seçme"
+
+#: ../face/edit.cc:2060
+msgid "Select all"
+msgstr "Hepsini seç"
+
+#: ../face/list.cc:104
+msgid "/_File"
+msgstr "/_Dosya"
+
+#: ../face/list.cc:105
+msgid "/File/_Save List"
+msgstr "/Dosya/_Listeyi Kaydet"
+
+#: ../face/list.cc:106
+msgid "/File/_Load List"
+msgstr "/Dosya/Listeyi _Yükle"
+
+#: ../face/list.cc:107
+msgid "/File/Find links in file"
+msgstr "/Dosya/"
+
+#: ../face/list.cc:108
+msgid "/File/_New Download"
+msgstr "/Dosya/_Yeni Dosya Ýndir"
+
+#: ../face/list.cc:109
+msgid "/File/_Paste Download"
+msgstr "/Dosya/_Yapýþtýr"
+
+#: ../face/list.cc:110
+#, fuzzy
+msgid "/File/_Automated adding"
+msgstr "/Dosya/Listeyi _Yükle"
+
+#: ../face/list.cc:111
+msgid "/File/Exit"
+msgstr "/Dosya/Çýk"
+
+#: ../face/list.cc:112
+msgid "/File/sep1"
+msgstr "/Dosya/sep1"
+
+#: ../face/list.cc:113
+msgid "/_Download"
+msgstr "/Ý_ndir"
+
+#: ../face/list.cc:114
+msgid "/Download/View _Log"
+msgstr "/Ýndir/_Kaydý Ýncele"
+
+#: ../face/list.cc:115
+msgid "/Download/_Stop downloads"
+msgstr "/Ýndir/Ýndirmeleri _durdur"
+
+#: ../face/list.cc:116
+msgid "/Download/Edit download"
+msgstr "/Ýndir/Ýndirmeleri düzenle"
+
+#: ../face/list.cc:117
+msgid "/Download/_Delete downloads"
+msgstr "/Ýndir/Ýndirilenleri _sil"
+
+#: ../face/list.cc:118
+msgid "/Download/Continue downloads"
+msgstr "/Ýndir/Ýndirmeye devam et"
+
+#: ../face/list.cc:119
+msgid "/Download/Delete completed"
+msgstr "/Ýndir/Bitenleri sil"
+
+#: ../face/list.cc:120
+msgid "/Download/Delete failed"
+msgstr "/Ýndir/Hatalý olanlarý sil"
+
+#: ../face/list.cc:121
+msgid "/Download/Rerun failed"
+msgstr "/Ýndir/Hatalý olanlarý yeniden indir"
+
+#: ../face/list.cc:122
+#, fuzzy
+msgid "/Download/(Un)Protect"
+msgstr "/Ýndir/Hiçbirisini seçme"
+
+#: ../face/list.cc:123
+msgid "/Download/Unselect all"
+msgstr "/Ýndir/Hiçbirisini seçme"
+
+#: ../face/list.cc:124
+msgid "/Download/Select all"
+msgstr "/Ýndir/Hepsini seç"
+
+#: ../face/list.cc:125
+msgid "/Download/Invert selection"
+msgstr "/Ýndir/Seçimi tersine çevir"
+
+#: ../face/list.cc:126
+msgid "/Download/-"
+msgstr "/Ýndir/-"
+
+#: ../face/list.cc:127
+msgid "/_Options"
+msgstr "/_Seçenekler"
+
+#: ../face/list.cc:128
+msgid "/Options/Scheduler"
+msgstr "/Seçenekler/Zamanlayýcý"
+
+#: ../face/list.cc:129
+msgid "/Options/Passwords"
+msgstr "/Seçenekler/Parolalar"
+
+#: ../face/list.cc:130
+msgid "/Options/General"
+msgstr "/Seçenekler/Genel"
+
+#: ../face/list.cc:131
+msgid "/Options/Filters"
+msgstr "/Seçenekler/Filtreler"
+
+#: ../face/list.cc:132
+msgid "/Options/Speed"
+msgstr "/Seçenekler/Hýz"
+
+#: ../face/list.cc:133
+msgid "/Options/Speed/Low"
+msgstr "/Seçenekler/Hýz/Düþük"
+
+#: ../face/list.cc:134
+msgid "/Options/Speed/Medium"
+msgstr "/Seçenekler/Hýz/Orta"
+
+#: ../face/list.cc:135
+msgid "/Options/Speed/Unlimited"
+msgstr "/Seçenekler/Hýz/Sýnýrsýz"
+
+#: ../face/list.cc:136
+msgid "/Options/Buttons"
+msgstr "/Seçenekler/Düðmeler"
+
+#: ../face/list.cc:137
+msgid "/Options/Buttons/Add buttons"
+msgstr "/Seçenekler/Düðmeler/Düðme ekle"
+
+#: ../face/list.cc:138
+msgid "/Options/Buttons/Manipulating"
+msgstr "/Seçenekler/Düðmeler/Ayarlama"
+
+#: ../face/list.cc:139
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/Seçenekler/Düðmeler/Hýzlandýrma düðmeleri"
+
+#: ../face/list.cc:140
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/Seçenekler/Düðmeler/Çeþitli düðmeler"
+
+#: ../face/list.cc:141
+msgid "/_Help"
+msgstr "/_Yardým"
+
+#: ../face/list.cc:142
+msgid "/_Help/About"
+msgstr "/_Yardým/Hakkýnda"
+
+#: ../face/list.cc:564
+msgid "Do you really want to quit?"
+msgstr "Gerçekten çýkmak istiyor musunuz?"
+
+#: ../face/list.cc:564
+msgid "Quit?"
+msgstr "Çýk?"
+
+#: ../face/list.cc:593
+msgid "Delete selected downloads?"
+msgstr "Seçilen dosyalar silinsin mi?"
+
+#: ../face/list.cc:593 ../face/list.cc:611 ../face/list.cc:629
+msgid "Delete?"
+msgstr "Sil?"
+
+#: ../face/list.cc:611
+msgid "Do you wish delete completed downloads?"
+msgstr "Tamamlanan dosyalarý silmek istiyor musunuz?"
+
+#: ../face/list.cc:629
+msgid "Do you wish delete failed downloads?"
+msgstr "Hatalý olan dosyalarý silmek istiyor musunuz?"
+
+#: ../face/list.cc:674
+msgid "Ready to go ????"
+msgstr "Hýzlanmaya hazýr mýsýnýz ?"
+
+#: ../face/list.cc:992
+#, c-format
+msgid "[%s] %i-running %i-completed %i-total "
+msgstr ""
+
+#: ../face/lmenu.cc:140
+msgid "View log"
+msgstr "Kaydý incele"
+
+#: ../face/lmenu.cc:146
+msgid "Stop"
+msgstr "Dur"
+
+#: ../face/lmenu.cc:153
+msgid "Continue downloads"
+msgstr "Ýndirmeye devam et"
+
+#. 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
+#: ../face/lmenu.cc:159
+msgid "Copy"
+msgstr "Kopyala"
+
+#: ../face/lmenu.cc:164
+msgid "(Un)Protect"
+msgstr ""
+
+#: ../face/lmenu.cc:178
+msgid "Common properties"
+msgstr "Ortak özellikler"
+
+#: ../face/lmenu.cc:184
+msgid "Delete downloads"
+msgstr "Ýndirilenleri sil"
+
+#: ../face/lmenu.cc:190
+msgid "Delete completed"
+msgstr "Bitenleri sil"
+
+#: ../face/lmenu.cc:196
+msgid "Delete failed"
+msgstr "Hatalý olanlarý sil"
+
+#: ../face/lmenu.cc:206
+msgid "Move up"
+msgstr "Yukarý"
+
+#: ../face/lmenu.cc:212
+msgid "Move down"
+msgstr "Aþaðý"
+
+#: ../face/lmenu.cc:218
+#, fuzzy
+msgid "Alternates"
+msgstr "filtre adý"
+
+#: ../face/lmenu.cc:223 ../face/prefs.cc:777 ../face/prefs.cc:1207
+#: ../face/prefs.cc:1398
+msgid "FTP search"
+msgstr "FTP aramasý"
+
+#: ../face/lod.cc:43
+msgid "File"
+msgstr "Dosya"
+
+#: ../face/lod.cc:44
+msgid "Type"
+msgstr "Tür"
+
+#: ../face/lod.cc:45
+msgid "Full Size"
+msgstr "Büyüklük"
+
+#: ../face/lod.cc:46
+msgid "Downloaded"
+msgstr "Alýnan"
+
+#: ../face/lod.cc:47
+msgid "Rest"
+msgstr "Kalan"
+
+#: ../face/lod.cc:49
+msgid "Speed"
+msgstr "Hýz"
+
+#: ../face/lod.cc:51
+msgid "Remaining"
+msgstr "Kalan"
+
+#: ../face/lod.cc:52
+msgid "Pause"
+msgstr "Beklet"
+
+#: ../face/lod.cc:53
+msgid "Attempt"
+msgstr "Sayý"
+
+#: ../face/lod.cc:571
+msgid "Enter wildcard"
+msgstr ""
+
+#: ../face/lod.cc:599
+#, fuzzy
+msgid "Unselect"
+msgstr "Hiçbirisini seçme"
+
+#: ../face/lod.cc:1170
+msgid "Continue open log windows?"
+msgstr ""
+
+#: ../face/lod.cc:1170
+msgid "Open logs?"
+msgstr ""
+
+#: ../face/log.cc:193
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr ""
+
+#: ../face/log.cc:371
+msgid "Log: "
+msgstr ""
+
+#: ../face/mywidget.cc:61
+msgid "Select directory"
+msgstr ""
+
+#: ../face/fsched.cc:291 ../face/mywidget.cc:64
+msgid "Select file"
+msgstr ""
+
+#: ../face/fsched.cc:432 ../face/fsched.cc:455 ../face/mywidget.cc:108
+msgid "Browse"
+msgstr "Gözat"
+
+#: ../face/mywidget.cc:198
+msgid "Select color"
+msgstr "Rengi seç"
+
+#: ../face/mywidget.cc:354
+msgid "Edit properties of Rule"
+msgstr ""
+
+#: ../face/mywidget.cc:357 ../face/mywidget.cc:695 ../face/passface.cc:57
+msgid "protocol"
+msgstr "protokol"
+
+#: ../face/mywidget.cc:382 ../face/mywidget.cc:695
+msgid "path"
+msgstr "yol"
+
+#: ../face/mywidget.cc:396
+msgid "?"
+msgstr ""
+
+#: ../face/mywidget.cc:403 ../face/mywidget.cc:695
+msgid "tag"
+msgstr ""
+
+#: ../face/mywidget.cc:452
+msgid "include"
+msgstr "dahil"
+
+#: ../face/mywidget.cc:454
+msgid "exclude"
+msgstr "hariç"
+
+#: ../face/mywidget.cc:691
+msgid "Modify filter"
+msgstr "Filtreyi düzenle"
+
+#: ../face/mywidget.cc:714
+msgid "include by default"
+msgstr ""
+
+#: ../face/mywidget.cc:716
+msgid "exclude by default"
+msgstr ""
+
+#: ../face/mywidget.cc:722
+msgid "Name of filter"
+msgstr "Filtre adý"
+
+#: ../face/mywidget.cc:728
+msgid "Up"
+msgstr "Yukarý"
+
+#: ../face/mywidget.cc:729
+msgid "Add rule"
+msgstr "Kural ekle"
+
+#: ../face/mywidget.cc:730
+msgid "Down"
+msgstr "Aþaðý"
+
+#: ../face/filtrgui.cc:170 ../face/fsched.cc:204 ../face/mywidget.cc:739
+#: ../face/mywidget.cc:926
+msgid "Remove"
+msgstr "Sil"
+
+#: ../face/filtrgui.cc:169 ../face/fsched.cc:203 ../face/fsched.cc:413
+#: ../face/mywidget.cc:740
+msgid "Edit"
+msgstr "Düzenle"
+
+#: ../face/mywidget.cc:815
+msgid "Select filter"
+msgstr "Filtreyi seç"
+
+#: ../face/filtrgui.cc:154 ../face/mywidget.cc:817
+msgid "filter name"
+msgstr "filtre adý"
+
+#: ../face/mywidget.cc:913
+msgid "List of links"
+msgstr ""
+
+#: ../face/mywidget.cc:974
+#, fuzzy
+msgid "Add"
+msgstr "Yeni ekle"
+
+#: ../face/passface.cc:42
+msgid "Password and username"
+msgstr "Parola ve kullanýcý adý"
+
+#: ../face/passface.cc:58 ../face/passface.cc:250
+msgid "Host"
+msgstr "Makine"
+
+#: ../face/passface.cc:246
+msgid "Default passwords and usernames"
+msgstr "Öntanýmlý kullanýcý adý ve parola"
+
+#: ../face/passface.cc:250
+msgid "#"
+msgstr "#"
+
+#: ../face/filtrgui.cc:168 ../face/passface.cc:265
+msgid "Add new"
+msgstr "Yeni ekle"
+
+#: ../face/passface.cc:266
+msgid "Delete"
+msgstr "Sil"
+
+#: ../face/prefs.cc:245
+msgid "Optimize recursive downloads"
+msgstr ""
+
+#: ../face/prefs.cc:261
+msgid "Default permissions of local file"
+msgstr ""
+
+#: ../face/prefs.cc:272
+msgid "Save downloads to folder"
+msgstr "Ýndirilen dosyalarý bu dizine kaydet"
+
+#: ../face/prefs.cc:281 ../face/prefs.cc:1117 ../face/prefs.cc:1279
+msgid "Limits"
+msgstr "Sýnýrlar"
+
+#: ../face/prefs.cc:337
+msgid "Maximum lines in log"
+msgstr "Kayýt dosyasýndaki azami satýr"
+
+#: ../face/prefs.cc:345 ../face/prefs.cc:1122 ../face/prefs.cc:1288
+msgid "FTP"
+msgstr "FTP"
+
+#: ../face/prefs.cc:375
+msgid "Output FTP dirs in logs"
+msgstr ""
+
+#: ../face/prefs.cc:386
+msgid "default anonymous password"
+msgstr "öntanýmlý anonim kullanýcý parolasý"
+
+#: ../face/prefs.cc:448 ../face/prefs.cc:1127 ../face/prefs.cc:1301
+msgid "HTTP"
+msgstr "HTTP"
+
+#: ../face/prefs.cc:486
+msgid "Filename for saving if it is unknown"
+msgstr ""
+
+#: ../face/prefs.cc:525 ../face/prefs.cc:1147 ../face/prefs.cc:1328
+msgid "Main window"
+msgstr "Ana pencere"
+
+#: ../face/prefs.cc:527
+msgid "Using title"
+msgstr "Baþlýk kullanýmý"
+
+#: ../face/prefs.cc:531
+msgid "Use title of main window for info"
+msgstr "Bilgi için ana pencere baþlýðýný kullan"
+
+#: ../face/prefs.cc:536
+msgid "Display queue statistics too"
+msgstr "Kuyruk istatistiklerini de göster"
+
+#: ../face/prefs.cc:537
+msgid "Scroll title"
+msgstr "Baþlýk çubuðunu kaydýr"
+
+#: ../face/prefs.cc:542
+msgid "Iconfiy main window instead of closing"
+msgstr "Ana pencereyi kapatma yerine simgeleþtir"
+
+#: ../face/prefs.cc:544
+msgid "Do not remember position of the main window"
+msgstr ""
+
+#: ../face/prefs.cc:557 ../face/prefs.cc:1152 ../face/prefs.cc:1336
+msgid "Confirmation"
+msgstr "Onaylama"
+
+#: ../face/prefs.cc:559
+msgid "Confirm delete selected downloads"
+msgstr "Seçilen dosyalarýn silinmesini onayla"
+
+#: ../face/prefs.cc:560
+msgid "Confirm delete all downloads"
+msgstr "Tüm indirilen dosyalarýn silinmesini onayla"
+
+#: ../face/prefs.cc:561
+msgid "Confirm delete completed downloads"
+msgstr "Biten dosyalarýn silinmesini onayla"
+
+#: ../face/prefs.cc:562
+msgid "Confirm delete failed downloads"
+msgstr "Hatalý dosyalarýn silinmesini onayla"
+
+#: ../face/prefs.cc:563
+msgid "Confirm opening large amount of windows"
+msgstr "Fazla sayýda pencere açýlmasýný onayla"
+
+#: ../face/prefs.cc:564
+msgid "Confirm exit from program"
+msgstr "Programdan çýkýþý onayla"
+
+#.
+#. tmpitem=gtk_tree_item_new_with_label(_("DnD"));
+#. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
+#. gtk_widget_show(tmpitem);
+#.
+#: ../face/prefs.cc:589 ../face/prefs.cc:1186 ../face/prefs.cc:1387
+msgid "Clipboard"
+msgstr "Pano"
+
+#: ../face/prefs.cc:591
+msgid "Monitor clipboard"
+msgstr "Panoyu izle"
+
+#: ../face/prefs.cc:601
+msgid "Skip these extensions in clipboard"
+msgstr "Panoda bu eklentilere sahip dosyalarý atla"
+
+#: ../face/prefs.cc:609
+msgid "Catch these extensions in clipboard"
+msgstr "Panoda bu eklentilere sahip dosyalarý getir"
+
+#: ../face/prefs.cc:632 ../face/prefs.cc:1201 ../face/prefs.cc:1420
+msgid "Main log"
+msgstr "Ana kayýt"
+
+#: ../face/prefs.cc:638
+msgid "Maximum lines in MAIN log"
+msgstr "ANA kayýt dosyasýndaki azami satýr sayýsý"
+
+#: ../face/prefs.cc:642
+msgid "Output detailed information"
+msgstr "Detaylý çýktý ver"
+
+#: ../face/prefs.cc:646
+msgid "Save main log into file"
+msgstr "Ana kaydý dosyaya kaydet"
+
+#: ../face/prefs.cc:665
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "Ana kayýt dosyasýnýn azami büyüklüðü (Kbayt)"
+
+#: ../face/prefs.cc:671
+msgid "Append to file"
+msgstr "Dosya sonuna yaz"
+
+#: ../face/prefs.cc:674
+msgid "Overwrite file"
+msgstr "Dosyanýn üzerine yaz"
+
+#: ../face/prefs.cc:689 ../face/prefs.cc:1173 ../face/prefs.cc:1378
+msgid "Integration"
+msgstr "Entegrasyon"
+
+#: ../face/prefs.cc:691
+msgid "Exit if nothing to do after"
+msgstr ""
+
+#: ../face/prefs.cc:697 ../face/prefs.cc:736
+msgid "minutes"
+msgstr "dakikada bir indirme listesini kaydet"
+
+#: ../face/prefs.cc:708
+msgid "Run this on exit"
+msgstr "Çýkýþta bunu çalýþtýr"
+
+#: ../face/prefs.cc:713
+msgid "Open dialog for Drag-n-Drop"
+msgstr "Sürükle-býrak için pencere aç"
+
+#: ../face/prefs.cc:730
+msgid "Save list of downloads every"
+msgstr "Her"
+
+#: ../face/prefs.cc:743
+msgid "Allow to user force run downloads"
+msgstr ""
+
+#: ../face/prefs.cc:744
+msgid "Remember passwords"
+msgstr "Parolalarý hatýrla"
+
+#: ../face/prefs.cc:745
+msgid "Write Descript.ion file"
+msgstr "Açýklama dosyasýný kaydet"
+
+#: ../face/prefs.cc:755
+msgid "bytes/sec speed level one (red button)"
+msgstr "bayt/saniye (kýrmýzý düðme, birinci hýz seviyesi)"
+
+#: ../face/prefs.cc:763
+msgid "bytes/sec speed level two (yellow button)"
+msgstr "bayt/saniye (sarý düðme, ikinci hýz seviyesi)"
+
+#: ../face/prefs.cc:783
+msgid "Number of attempts to ping hosts"
+msgstr "Makineye gönderilecek azami ping sayýsý"
+
+#: ../face/prefs.cc:791
+msgid "Number of hosts in list"
+msgstr "Listedeki makine sayýsý"
+
+#: ../face/prefs.cc:817
+msgid "search engine to use"
+msgstr "kullanýlacak arama motoru"
+
+#: ../face/prefs.cc:826 ../face/prefs.cc:1138 ../face/prefs.cc:1323
+msgid "Interface"
+msgstr "Arayüz"
+
+#: ../face/prefs.cc:828
+msgid "Show DnD basket"
+msgstr "DnD kutucuðunu göster"
+
+#: ../face/prefs.cc:829
+msgid "Use fixed font in logs"
+msgstr "Kayýt dosyasýnda eþaralýklý yazýtipi kullan"
+
+#: ../face/prefs.cc:846 ../face/prefs.cc:1157 ../face/prefs.cc:1345
+msgid "Graph"
+msgstr "Grafik"
+
+#: ../face/prefs.cc:848
+msgid "Revert drawing graph of speeds"
+msgstr ""
+
+#: ../face/prefs.cc:851
+msgid "Compressed mode"
+msgstr ""
+
+#: ../face/prefs.cc:857
+msgid "Color for picks"
+msgstr "Alýnan hýz rengi"
+
+#: ../face/prefs.cc:858
+msgid "Color for total speed"
+msgstr "Toplam hýz rengi"
+
+#: ../face/prefs.cc:859
+msgid "Color for speed of selected"
+msgstr "Seçilenlerin hýz rengi"
+
+#: ../face/prefs.cc:860
+msgid "Background color"
+msgstr "Arkaplan rengi"
+
+#: ../face/prefs.cc:869
+msgid "Reset to default"
+msgstr "Öntanýmlý deðerlere geri dön"
+
+#: ../face/prefs.cc:872
+msgid "Colors for graph"
+msgstr "Grafik renkleri"
+
+#: ../face/prefs.cc:898 ../face/prefs.cc:1162 ../face/prefs.cc:1354
+#, fuzzy
+msgid "Sounds"
+msgstr "Sütunlar"
+
+#: ../face/prefs.cc:901
+msgid "enable sounds"
+msgstr ""
+
+#: ../face/prefs.cc:906
+msgid "output via ESD"
+msgstr ""
+
+#: ../face/prefs.cc:913
+#, fuzzy
+msgid "Startup"
+msgstr "durum"
+
+#: ../face/prefs.cc:915
+#, fuzzy
+msgid "Adding a download"
+msgstr "yeni dosya ekle"
+
+#: ../face/prefs.cc:917
+#, fuzzy
+msgid "Downloading completed"
+msgstr "/Ýndir/Bitenleri sil"
+
+#: ../face/prefs.cc:919
+#, fuzzy
+msgid "Downloading failed"
+msgstr "/Ýndir/Hatalý olanlarý yeniden indir"
+
+#: ../face/prefs.cc:921
+#, fuzzy
+msgid "Downloading of queue is completed"
+msgstr "%z dizini aktarýmý tamamlandý"
+
+#: ../face/prefs.cc:923
+msgid "Drag'n'Drop event"
+msgstr ""
+
+#: ../face/prefs.cc:953 ../face/prefs.cc:954
+msgid "No info about this theme."
+msgstr ""
+
+#: ../face/prefs.cc:963 ../face/prefs.cc:1167
+#, fuzzy
+msgid "Themes"
+msgstr "Zaman"
+
+#: ../face/prefs.cc:966
+#, fuzzy
+msgid "Default theme"
+msgstr "Öntaýmlý"
+
+#: ../face/prefs.cc:1067
+msgid "Options"
+msgstr "Seçenekler"
+
+#: ../face/saveload.cc:89
+msgid "Loading"
+msgstr "Yükleniyor"
+
+#: ../face/saveload.cc:142
+msgid "Save list"
+msgstr "Listeyi kaydet"
+
+#: ../face/saveload.cc:185
+msgid "Load list"
+msgstr "Listeyi yükle"
+
+#: ../face/saveload.cc:227
+msgid "Find links in txt file"
+msgstr "Metin dosyadaki baðlantýlarý bul"
+
+#: ../face/fsface.cc:70
+msgid "bytes"
+msgstr ""
+
+#: ../face/fsface.cc:82
+msgid "nothing found"
+msgstr "hiç bir þey bulunamadý"
+
+#: ../face/fsface.cc:86
+msgid "searching"
+msgstr "aranýyor"
+
+#: ../face/fsface.cc:95
+msgid "reping"
+msgstr ""
+
+#: ../face/fsface.cc:99
+msgid "cumulative reping"
+msgstr ""
+
+#: ../face/fsface.cc:105
+msgid "remove"
+msgstr "sil"
+
+#: ../face/fsched.cc:30
+msgid "limit speed"
+msgstr "hýzý sýnýrla"
+
+#: ../face/fsched.cc:31
+msgid "popup main window"
+msgstr "ana pencereyi göster"
+
+#: ../face/fsched.cc:32
+msgid "exit"
+msgstr "çýk"
+
+#: ../face/fsched.cc:33
+msgid "remove completed"
+msgstr "bitenleri sil"
+
+#: ../face/fsched.cc:34
+msgid "remove failed"
+msgstr "hatalý olanlarý sil"
+
+#: ../face/fsched.cc:35
+msgid "restart download"
+msgstr "indirmeye yeniden baþla"
+
+#: ../face/fsched.cc:36
+msgid "stop download"
+msgstr "indirmeyi durdur"
+
+#: ../face/fsched.cc:37
+msgid "remove download"
+msgstr "indirileni sil"
+
+#: ../face/fsched.cc:38
+msgid "remove download if completed"
+msgstr "biterse indirileni sil"
+
+#: ../face/fsched.cc:39
+msgid "add download"
+msgstr "yeni dosya ekle"
+
+#: ../face/fsched.cc:40
+msgid "save list"
+msgstr "listeyi kaydet"
+
+#: ../face/fsched.cc:41
+msgid "execute command"
+msgstr "komut çalýþtýr"
+
+#: ../face/fsched.cc:180
+msgid "Scheduler"
+msgstr "Zamanlayýcý"
+
+#: ../face/fsched.cc:186 ../face/fsched.cc:763
+msgid "Action"
+msgstr "Eylem"
+
+#: ../face/fsched.cc:186
+msgid "Info"
+msgstr "Bilgi"
+
+#: ../face/fsched.cc:202
+msgid "New"
+msgstr "Yeni"
+
+#: ../face/fsched.cc:428
+msgid "Command:"
+msgstr "Komut:"
+
+#: ../face/fsched.cc:451
+msgid "Path:"
+msgstr "Yol:"
+
+#: ../face/fsched.cc:470
+msgid "This action has no properties"
+msgstr "Bu eylemin özelliði bulunmuyor"
+
+#: ../face/fsched.cc:704
+msgid "Start time(hour:min:sec)"
+msgstr "Baþlangýç zamaný(saat:dakika:saniye)"
+
+#: ../face/fsched.cc:733
+msgid "Retry this action"
+msgstr "Bu eylemi yeniden dene"
+
+#: ../face/fsched.cc:742
+msgid "times to repeat (-1 unlimited)"
+msgstr ""
+
+#: ../face/fsched.cc:746
+msgid "period (day/hour:min)"
+msgstr "periyod (gün/saat:dakika)"
+
+#: ../face/fsched.cc:791
+msgid "Edit scheduled action"
+msgstr ""
+
+#: ../face/filtrgui.cc:148
+msgid "Filters"
+msgstr "Filtreler"
+
+#: ../face/qtree.cc:94
+msgid "Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:245
+msgid "Name"
+msgstr ""
+
+#: ../face/qtree.cc:246
+msgid "Total"
+msgstr ""
+
+#: ../face/qtree.cc:247
+msgid "Wait"
+msgstr ""
+
+#: ../face/qtree.cc:248
+msgid "Run"
+msgstr ""
+
+#: ../face/qtree.cc:346 ../face/qtree.cc:352
+msgid "/Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:347
+msgid "/Create new subqueue"
+msgstr ""
+
+#: ../face/qtree.cc:348
+#, fuzzy
+msgid "/Delete queue"
+msgstr "/Bitenleri sil"
+
+#: ../face/qtree.cc:349
+#, fuzzy
+msgid "/Properties"
+msgstr "Özellikler"
+
+#: ../face/qtree.cc:442
+#, fuzzy
+msgid "Queue properties"
+msgstr "Özellikleri seç"
+
+#: ../face/qtree.cc:451
+msgid "Maximum active downloads"
+msgstr "Azami etkin indirme sayýsý"
+
+#: ../face/qtree.cc:455
+msgid "Automatically delete completed downloads"
+msgstr "Biten dosyalarý otomatik sil"
+
+#: ../face/qtree.cc:456
+msgid "Automatically delete failed downloads"
+msgstr "Hatalý indirilen dosyalarý otomatik sil"
+
+#: ../face/qtree.cc:466
+msgid "Default folder to save downloaded files"
+msgstr ""
+
+#: ../face/qtree.cc:474
+msgid "Size format"
+msgstr "Büyüklük biçimi"
+
+#: ../face/qtree.cc:475
+msgid "Time format"
+msgstr "Zaman biçimi"
+
+#: ../face/qtree.cc:544
+#, fuzzy
+msgid "Name of the queue"
+msgstr "Filtre adý"
+
+#~ msgid "Host:"
+#~ msgstr "Makine:"
+
+#~ msgid "Port:"
+#~ msgstr "Port:"
+
+#~ msgid "Maximum connections:"
+#~ msgstr "Azami baðlantý:"
+
+#~ msgid "Now"
+#~ msgstr "Þimdi"
+
+#~ msgid "Default limitation for all hosts (0 without limits)"
+#~ msgstr "Tüm makineler için öntanýmlý sýnýr (0=sýnýrsýz)"
+
+#~ msgid "/Options/Limitations"
+#~ msgstr "/Seçenekler/Sýnýrlar"
+
+#~ msgid "Set limitation"
+#~ msgstr "Limit belirle"
+
+#~ msgid "Columns"
+#~ msgstr "Sütunlar"
+
+#, fuzzy
+#~ msgid "Queue complete"
+#~ msgstr "Bitenleri sil"

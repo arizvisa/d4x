@@ -14,6 +14,7 @@
 #include "queue.h"
 #include "dlist.h"
 #include "sort.h"
+#include "mutex.h"
 
 class tDownloadTree:public tAbstractSortTree{
 	protected:
@@ -39,17 +40,17 @@ class tHostTree:public tAbstractSortTree{
 class tDB{
 	tHostTree *tree;
 	tDownloadTree **hash(tStringHostNode *temp,tDownload *what);
-	pthread_mutex_t mylock;
-	public:
-		tDB();
-		void lock();
-		void unlock();
-		void insert(tDownload *what);
-		void del(tDownload *what);
-		int empty();
-		tDownload *find(tDownload *what);
-		tDownload *find(tAddr *addr);
-		~tDB();
+public:
+	d4xMutex mylock;
+	tDB();
+	void insert(tDownload *what);
+	void del(tDownload *what);
+	int empty();
+	void lock(){mylock.lock();};
+	void unlock(){mylock.unlock();};
+	tDownload *find(tDownload *what);
+	tDownload *find(tAddr *addr);
+	~tDB();
 };
 
 #endif

@@ -13,6 +13,7 @@
 
 #include "queue.h"
 #include <pthread.h>
+#include "mutex.h"
 
 typedef long int fsize_t;
 
@@ -20,7 +21,7 @@ struct tSpeed: public tNode{
 	private:
 int last_gived;
 	public:
-	pthread_mutex_t lock,lock1;
+	d4xMutex lock,lock1;
 	fsize_t bytes,base;
 	tSpeed();
 	virtual void print();

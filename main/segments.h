@@ -12,7 +12,7 @@
 #ifndef __DOWNLOADER_SEGMENTS_HEADER__
 #define __DOWNLOADER_SEGMENTS_HEADER__
 
-#include <pthread.h>
+#include "mutex.h"
 #include "queue.h"
 
 struct tSegment{
@@ -28,7 +28,7 @@ struct tSegment{
 class tSegmentator{
 	tSegment *FIRST,*LAST;
 	tSegment *HEAP;
-	pthread_mutex_t lockmutex;
+	d4xMutex lockmutex;
 	int fd;
 	char *filename;
 	unsigned long int total;

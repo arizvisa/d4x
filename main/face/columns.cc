@@ -51,7 +51,8 @@ void tColumnsPrefs::reset(){
 	tmp_apply_flag=0;
 };
 
-void tColumnsPrefs::init(){
+void tColumnsPrefs::init(d4xQueueView *qva){
+	qv=qva;
 	int vsize=(NOTHING_COL+1)/2;
 	box=gtk_table_new(vsize,2,FALSE);
 	for (int i=0;i<NOTHING_COL;i++){
@@ -61,7 +62,7 @@ void tColumnsPrefs::init(){
 		if (tmp_apply_flag){
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),tmp_apply[i]);
 		}else{
-			if (ListColumns[i].enum_index<ListColumns[NOTHING_COL].enum_index)
+			if (qv->prefs.cols[i].enum_index<qv->prefs.cols[NOTHING_COL].enum_index)
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),TRUE);
 			else
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),FALSE);
@@ -87,7 +88,7 @@ void tColumnsPrefs::add_to_sort(tDownload *what){
 	sort_list=g_list_insert_sorted(sort_list,what,compare_nodes);
 	while(sort_list && ((tDownload *)(sort_list->data))->GTKCListRow==first){
 		tDownload *tmp=(tDownload *)(sort_list->data);
-		list_of_downloads_add(tmp,tmp->GTKCListRow);
+		qv->add(tmp,tmp->GTKCListRow);
 		sort_list=g_list_remove(sort_list,tmp);
 		first+=1;
 	};
@@ -108,8 +109,8 @@ void tColumnsPrefs::apply_changes_tmp(){
 	};
 };
 
-void tColumnsPrefs::apply_changes(){
-	if (tmp_apply_flag==0) return;
+int tColumnsPrefs::apply_changes(){
+	if (tmp_apply_flag==0) return(0);
 	tColumn temp[NOTHING_COL+1];
 	temp[NOTHING_COL].type=temp[NOTHING_COL].enum_index=NOTHING_COL;
 	int a=0;
@@ -128,40 +129,41 @@ void tColumnsPrefs::apply_changes(){
 		};
 	};
 //copy columns sizes from old layer
-	list_of_downloads_get_sizes();
+	qv->get_sizes();
 	for (int i=0;i<=NOTHING_COL;i++){
-		temp[temp[i].enum_index].size=ListColumns[ListColumns[i].enum_index].size;
+		temp[temp[i].enum_index].size=qv->prefs.cols[qv->prefs.cols[i].enum_index].size;
 	};
 //copy new layer to old
 	int need_reinit=0;
-	if (ListColumns[NOTHING_COL].enum_index!=temp[NOTHING_COL].enum_index)
+	if (qv->prefs.cols[NOTHING_COL].enum_index!=temp[NOTHING_COL].enum_index)
 		need_reinit=1;
 	for (int i=0;i<=NOTHING_COL;i++){
-		ListColumns[i].enum_index=temp[i].enum_index;
-		ListColumns[i].size=temp[i].size;
-		if (ListColumns[i].type!=temp[i].type)
+		qv->prefs.cols[i].enum_index=temp[i].enum_index;
+		qv->prefs.cols[i].size=temp[i].size;
+		if (qv->prefs.cols[i].type!=temp[i].type)
 			need_reinit=1;
-		ListColumns[i].type=temp[i].type;
+		qv->prefs.cols[i].type=temp[i].type;
 	};
 //delete old list and create new
 	if (need_reinit){
 		for (gint row=0;;row+=1){
-			tDownload *dwn=get_download_from_clist(row);
+			tDownload *dwn=qv->get_download(row);
 			if (dwn==NULL) break;
 			dwn->GTKCListRow=row;
 		};
-		list_of_downloads_get_height();
-		gtk_signal_handlers_destroy(GTK_OBJECT(ListOfDownloads));
-		gtk_widget_destroy(ListOfDownloads);
-		init_columns_info();
-		list_of_downloads_init();
+		lod_get_height();
+		gtk_signal_handlers_destroy(GTK_OBJECT(qv->ListOfDownloads));
+		// FIXME: bad style of accessing to class' members
+		gtk_widget_destroy(qv->ListOfDownloads);
+		qv->init();
 		first=0;
 		sort_list=NULL;
 		for(int i=DL_ALONE+1;i<DL_TEMP;i++)
 			add_to_list(i);
-		list_of_downloads_set_height();
+		lod_set_height();
 	};
 	tmp_apply_flag=0;
+	return(need_reinit);
 };
 
 GtkWidget *tColumnsPrefs::body(){

@@ -28,8 +28,6 @@
 
 void get_size_of_clist();
 
-int TEMP_COLUMN_SIZES[NOTHING_COL+1];
-int TEMP_COLUMN_POS[NOTHING_COL+1];
 tOption downloader_parsed_args[]={
 	{"--help",		OPT_HELP},
 	{"-h",			OPT_HELP},
@@ -90,21 +88,17 @@ char *downloader_args_errors[]={
 
 
 tConfigVariable config_variables[]={
-	{"max_threads",		CV_TYPE_INT,	&(CFG.MAX_THREADS)},
 	{"max_log",		CV_TYPE_INT,	&(CFG.MAX_LOG_LENGTH)},
 	{"max_main_log",	CV_TYPE_INT,	&(CFG.MAX_MAIN_LOG_LENGTH)},
 	{"max_retries",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.number_of_attempts)},
 	{"timeout",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.timeout)},
 	{"break_timeout",	CV_TYPE_INT,	&(CFG.DEFAULT_CFG.time_for_sleep)},
 	{"optimize",		CV_TYPE_BOOL,	&(CFG.RECURSIVE_OPTIMIZE)},
-	{"del_completed",	CV_TYPE_BOOL,	&(CFG.DELETE_COMPLETED)},
-	{"del_fataled",		CV_TYPE_BOOL,	&(CFG.DELETE_FATAL)},
-	{"nice_decs",		CV_TYPE_INT,	&(CFG.NICE_DEC_DIGITALS.curent)},
-	{"time_format",		CV_TYPE_INT,	&(CFG.TIME_FORMAT)},
 	{"ftp_passive_mode",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.passive)},
 	{"retry_if_noreget",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.retry)},
 	{"ftp_dirontop",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.ftp_dirontop)},
 	{"sleeptime",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.time_for_sleep)},
+	{"ihate_etag",		CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.ihate_etag)},
 	{"savepath",		CV_TYPE_STRING,	&(CFG.GLOBAL_SAVE_PATH)},
 	{"xposition",		CV_TYPE_INT,	&(CFG.WINDOW_X_POSITION)},
 	{"yposition",		CV_TYPE_INT,	&(CFG.WINDOW_Y_POSITION)},
@@ -112,6 +106,7 @@ tConfigVariable config_variables[]={
 	{"windowheight",	CV_TYPE_INT,	&(CFG.WINDOW_HEIGHT)},
 	{"clist_height",	CV_TYPE_INT,	&(CFG.WINDOW_CLIST_HEIGHT)},
 	{"clist_width",		CV_TYPE_INT,	&(CFG.WINDOW_CLIST_WIDTH)},
+	{"tree_width",		CV_TYPE_INT,	&(CFG.WINDOW_TREE_WIDTH)},
 	{"ftp_proxy_host",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_HOST)},
 	{"ftp_proxy_user",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_USER)},
 	{"ftp_proxy_pass",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_PASS)},
@@ -136,21 +131,6 @@ tConfigVariable config_variables[]={
 	{"use_mainwin_titleII",	CV_TYPE_BOOL,	&(CFG.USE_MAINWIN_TITLE2)},
 	{"get_date_from_server",CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.get_date)},
 	{"need_dialog_for_dnd",	CV_TYPE_BOOL,	&(CFG.NEED_DIALOG_FOR_DND)},
-	{"dl_status_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[STATUS_COL])},
-	{"dl_file_col",		CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[FILE_COL])},
-	{"dl_file_type_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[FILE_TYPE_COL])},
-	{"dl_full_size_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[FULL_SIZE_COL])},
-	{"dl_downloaded_size_col",CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[DOWNLOADED_SIZE_COL])},
-	{"dl_remain_size_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[REMAIN_SIZE_COL])},
-	{"dl_percent_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[PERCENT_COL])},
-	{"dl_speed_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[SPEED_COL])},
-	{"dl_time_col",		CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[TIME_COL])},
-	{"dl_elapsed_time_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[ELAPSED_TIME_COL])},
-	{"dl_pause_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[PAUSE_COL])},
-	{"dl_treat_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[TREAT_COL])},
-	{"dl_desc_col",		CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[DESCRIPTION_COL])},
-	{"fl_host_col",		CV_TYPE_INT,	&(CFG.FACE_LIMITS_SIZE1)},
-	{"fl_limit_col",	CV_TYPE_INT,	&(CFG.FACE_LIMITS_SIZE2)},
 	{"window_lower",	CV_TYPE_BOOL,	&(CFG.WINDOW_LOWER)},
 	{"confirm_exit",	CV_TYPE_BOOL,	&(CFG.CONFIRM_EXIT)},
 	{"confirm_delete",	CV_TYPE_BOOL,	&(CFG.CONFIRM_DELETE)},
@@ -167,21 +147,6 @@ tConfigVariable config_variables[]={
 	{"default_name",	CV_TYPE_STRING,	&(CFG.DEFAULT_NAME)},
 	{"scroll_mainwin_title",CV_TYPE_BOOL,	&(CFG.SCROLL_MAINWIN_TITLE)},
 	{"default_permisions",	CV_TYPE_INT,	&(CFG.DEFAULT_PERMISIONS)},
-	{"dl_status_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[STATUS_COL])},
-	{"dl_file_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[FILE_COL])},
-	{"dl_file_type_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[FILE_TYPE_COL])},
-	{"dl_full_size_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[FULL_SIZE_COL])},
-	{"dl_downloaded_size_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[DOWNLOADED_SIZE_COL])},
-	{"dl_remain_size_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[REMAIN_SIZE_COL])},
-	{"dl_percent_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[PERCENT_COL])},
-	{"dl_speed_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[SPEED_COL])},
-	{"dl_time_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[TIME_COL])},
-	{"dl_elapsed_time_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[ELAPSED_TIME_COL])},
-	{"dl_pause_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[PAUSE_COL])},
-	{"dl_treat_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[TREAT_COL])},
-	{"dl_desc_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[DESCRIPTION_COL])},
-	{"dl_url_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[URL_COL])},
-	{"dl_nothing_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[NOTHING_COL])},
 	{"rollback",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.rollback)},
 	{"dnd_trash",		CV_TYPE_BOOL,	&(CFG.DND_TRASH)},
 	{"dnd_trash_x",		CV_TYPE_INT,	&(CFG.DND_TRASH_X)},
@@ -194,6 +159,7 @@ tConfigVariable config_variables[]={
 	{"graph_fore1",		CV_TYPE_HEX,	&(CFG.GRAPH_FORE1)},
 	{"graph_fore2",		CV_TYPE_HEX,	&(CFG.GRAPH_FORE2)},
 	{"graph_pick",		CV_TYPE_HEX,	&(CFG.GRAPH_PICK)},
+	{"graph_mode",		CV_TYPE_INT,	&(CFG.GRAPH_MODE)},
 	{"exec_when_quit",	CV_TYPE_STRING,	&(CFG.EXEC_WHEN_QUIT)},
 	{"remember_pass",	CV_TYPE_BOOL,	&(CFG.REMEMBER_PASS)},
 	{"clipboard_monitor",	CV_TYPE_BOOL,	&(CFG.CLIPBOARD_MONITOR)},
@@ -203,11 +169,10 @@ tConfigVariable config_variables[]={
 	{"buttons_flags",	CV_TYPE_HEX,	&(CFG.BUTTONS_FLAGS)},
 	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)},
 	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)},
-	{"default_host_limit",	CV_TYPE_INT,	&(CFG.DEFAULT_HOST_LIMIT)},
 	{"allow_force_run",	CV_TYPE_BOOL,	&(CFG.ALLOW_FORCE_RUN)},
 	{"ftp_dir_in_log",	CV_TYPE_BOOL,	&(CFG.FTP_DIR_IN_LOG)},
 	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_send_quit)},
-	{"link_as_file",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.link_as_file)},
+	{"follow_link",		CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.follow_link)},
 	{"http_leave_server",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.leave_server)},
 	{"http_leave_dir",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_leave_dir)},
 	{"sleep_before_complete",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.sleep_before_complete)},
@@ -225,6 +190,7 @@ tConfigVariable config_variables[]={
 	{"socks_port",		CV_TYPE_INT,	&(CFG.SOCKS_PORT)},
 	{"progress_mode",	CV_TYPE_INT,	&(CFG.PROGRESS_MODE)},
 	{"enable_sounds",	CV_TYPE_BOOL,	&(CFG.ENABLE_SOUNDS)},
+	{"esd_sound",		CV_TYPE_BOOL,	&(CFG.ESD_SOUND)},
 	{"sound_complete",	CV_TYPE_STRING,	&(CFG.SOUND_COMPLETE)},
 	{"sound_fail",		CV_TYPE_STRING,	&(CFG.SOUND_FAIL)},
 	{"sound_add",		CV_TYPE_STRING,	&(CFG.SOUND_ADD)},
@@ -233,17 +199,13 @@ tConfigVariable config_variables[]={
 	{"sound_startup",	CV_TYPE_STRING,	&(CFG.SOUND_STARTUP)},
 	{"clist_shift",		CV_TYPE_FLOAT,	&(CFG.CLIST_SHIFT)},
 	{"default_filter",	CV_TYPE_STRING,	&(CFG.DEFAULT_FILTER)},
-	{"donotset_winpos",	CV_TYPE_BOOL,	&(CFG.DONOTSET_WINPOS)}
+	{"donotset_winpos",	CV_TYPE_BOOL,	&(CFG.DONOTSET_WINPOS)},
+	{"hide_main_window",	CV_TYPE_BOOL,	&(CFG.HIDE_MAIN_WINDOW)},
+	{"theme_file",		CV_TYPE_STRING,	&(CFG.THEME_FILE)},
+	{"use_theme",		CV_TYPE_BOOL,	&(CFG.USE_THEME)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
-
-void set_column_position(int type,int col){
-	if (col>=0 && col<=NOTHING_COL){
-		ListColumns[col].type=type;
-		ListColumns[type].enum_index=col;
-	};
-};
 
 void set_config(char *line){
 	DBC_RETURN_IF_FAIL(line!=NULL);
@@ -298,21 +260,11 @@ void read_config() {
 	char *cfgpath=compose_path(HOME_VARIABLE,CFG_FILE);
 	int fd=open(cfgpath,O_RDONLY);
 	if (fd>=0) {
-		for(int i=0;i<=NOTHING_COL;i++){
-			TEMP_COLUMN_POS[i]=i;
-			TEMP_COLUMN_SIZES[i]=ListColumns[ListColumns[i].enum_index].size;
-		};
 		char temp[MAX_LEN];
-		init_columns_info();
 		while(f_rstr(fd,temp,MAX_LEN)) {
 			set_config(temp);
 		};
 		close(fd);
-		for(int i=0;i<=NOTHING_COL;i++){
-			set_column_position(i,TEMP_COLUMN_POS[i]);
-		}
-		for(int i=0;i<NOTHING_COL;i++)
-			ListColumns[ListColumns[i].enum_index].size=TEMP_COLUMN_SIZES[i];
 	} else {
 		save_config();
 		printf(_("Can't open cfg file at '%s'\n"),cfgpath);
@@ -390,17 +342,8 @@ void save_config() {
 	};
 	char data[MAX_LEN];
 	if (fd>=0) {
-		list_of_downloads_get_height();
-		list_of_downloads_get_sizes();
+		lod_get_height();
 		fs_list_get_size();
-		CFG.DEFAULT_HOST_LIMIT=LimitsForHosts==NULL?0:LimitsForHosts->get_default_limit();
-		if (FaceForLimits) {
-			FaceForLimits->get_sizes();
-		};
-		for(int i=0;i<=NOTHING_COL;i++){
-			TEMP_COLUMN_POS[i]=ListColumns[i].enum_index;
-			TEMP_COLUMN_SIZES[i]=ListColumns[ListColumns[i].enum_index].size;
-		};
 		int cv_list_len=sizeof(config_variables)/sizeof(struct tConfigVariable);
 		for (int i=0;i<cv_list_len;i++){
 			switch(config_variables[i].type){
@@ -507,53 +450,6 @@ void load_strlist(tStringList *where,char *what,int normalize) {
 		close(fd);
 	};
 	delete[] path;
-};
-
-void read_limits() {
-	if (!HOME_VARIABLE) return;
-	char *path=compose_path(HOME_VARIABLE,".ntrc/limits");
-	int fd=open(path,O_RDONLY);
-	if (fd>=0) {
-		char temp[MAX_LEN];
-		while (f_rstr(fd,temp,MAX_LEN)) {
-			char temp1[MAX_LEN];
-			char temp2[MAX_LEN];
-			if (f_rstr(fd,temp1,MAX_LEN) && f_rstr(fd,temp2,MAX_LEN)) {
-				int port,upper;
-				sscanf(temp1,"%i",&port);
-				sscanf(temp2,"%i",&upper);
-				LimitsForHosts->add(temp,port,0,upper);
-			} else {
-				printf("bad read\n");
-			};
-		};
-		close(fd);
-	} else {
-		printf(_("Can't open limits configuration file!\n"));
-	};
-};
-
-void save_limits() {
-	if (!HOME_VARIABLE) return;
-	char *path=compose_path(HOME_VARIABLE,".ntrc/limits");
-	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
-	if (fd>=0) {
-		tSortString *tmp=LimitsForHosts->first();
-		while (tmp) {
-			if (tmp->flag==0){
-				char data[MAX_LEN];
-				f_wstr_lf(fd,tmp->body);
-				sprintf(data,"%i",tmp->key);
-				f_wstr_lf(fd,data);
-				sprintf(data,"%i",tmp->upper);
-				f_wstr_lf(fd,data);
-			};
-			tmp=LimitsForHosts->prev();
-		};
-		close(fd);
-	} else {
-		printf(_("Can't write limits to file!!!\n"));
-	};
 };
 
 int downloader_args_type(char *str){
@@ -798,13 +694,6 @@ void parse_command_line_postload(int argv,char **argc){
 		case OPT_TRAFFIC_HIGH:{
 			CFG.SPEED_LIMIT=3;
 			set_speed_buttons();
-			break;
-		};
-		case OPT_SET_MAX_THREADS:{
-			if (argv<=i+1 || sscanf(argc[i+1],"%d",&CFG.MAX_THREADS)<1){
-				printf("%s\n",_(downloader_args_errors[OPT_SET_MAX_THREADS]));
-				i+=1;
-			};
 			break;
 		};
 		case OPT_EXIT_TIME:

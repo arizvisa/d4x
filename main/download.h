@@ -51,7 +51,7 @@ class tDownloader{
 	virtual int remote_file_changed();
     	virtual tFileInfo *get_file_info();
      	virtual char *get_new_url();
-     	virtual fsize_t another_way_get_size();
+     	virtual fsize_t another_way_get_size()=0;
 
 	int rollback();
 	virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);

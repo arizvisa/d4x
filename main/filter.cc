@@ -115,16 +115,8 @@ d4xRule::~d4xRule(){
 d4xFilter::d4xFilter():tQueue(){
 	default_inc=1;
 	refcount=0;
-	pthread_mutex_init(&my_mutex,NULL);
 };
 
-void d4xFilter::lock(){
-	pthread_mutex_lock(&my_mutex);
-};
-
-void d4xFilter::unlock(){
-	pthread_mutex_unlock(&my_mutex);
-};
 
 void d4xFilter::ref(){
 	refcount+=1;
@@ -136,37 +128,37 @@ void d4xFilter::unref(){
 };
 
 void d4xFilter::insert_before(tNode *node,tNode *where){
-	lock();
+	my_mutex.lock();
 	tQueue::insert_before(node,where);
-	unlock();
+	my_mutex.unlock();
 };
 
 void d4xFilter::insert(tNode *node){
-	lock();
+	my_mutex.lock();
 	tQueue::insert(node);
-	unlock();
+	my_mutex.unlock();
 };
 
 void d4xFilter::del(tNode *node){
-	lock();
+	my_mutex.lock();
 	tQueue::del(node);
-	unlock();
+	my_mutex.unlock();
 };
 
 int d4xFilter::match(tAddr *addr){
 	DBC_RETVAL_IF_FAIL(addr!=NULL,0);
 	download_set_block(1);
-	lock();
+	my_mutex.lock();
 	d4xRule *rule=(d4xRule *)First;
 	while(rule){
 		if (rule->match(addr)){
-			unlock();
+			my_mutex.unlock();
 			download_set_block(0);
 			return(rule->include);
 		};
 		rule=(d4xRule *)(rule->prev);
 	};
-	unlock();
+	my_mutex.unlock();
 	download_set_block(0);
 	return(default_inc);
 };
@@ -220,7 +212,6 @@ int d4xFilter::load(int fd){
 };
 
 d4xFilter::~d4xFilter(){
-	pthread_mutex_destroy(&my_mutex);
 };
 
 /*********************************************************/
@@ -243,31 +234,22 @@ int d4xFNode::cmp(tAbstractSortNode *what){
 };
 
 d4xFiltersTree::d4xFiltersTree():tAbstractSortTree(){
-	pthread_mutex_init(&my_mutex,NULL);
-};
-
-void d4xFiltersTree::lock(){
-	pthread_mutex_lock(&my_mutex);
-};
-
-void d4xFiltersTree::unlock(){
-	pthread_mutex_unlock(&my_mutex);
 };
 
 void d4xFiltersTree::add(tAbstractSortNode *what){
-	lock();
+	my_mutex.lock();
 	tAbstractSortTree::add(what);
-	unlock();
+	my_mutex.unlock();
 };
 
 void d4xFiltersTree::del(tAbstractSortNode *what){
-	lock();
+	my_mutex.lock();
 	tAbstractSortTree::del(what);
-	unlock();
+	my_mutex.unlock();
 };
 
 d4xFilter *d4xFiltersTree::find(char *name){
-	lock();
+	my_mutex.lock();
 	d4xFNode *tmp=new d4xFNode;
 	tmp->filter=new d4xFilter;
 	tmp->filter->name.set(name);
@@ -275,17 +257,17 @@ d4xFilter *d4xFiltersTree::find(char *name){
 	delete(tmp);
 	if (result){
 		result->filter->ref();
-		unlock();
+		my_mutex.unlock();
 		return(result->filter);
 	};
-	unlock();
+	my_mutex.unlock();
 	return(NULL);
 };
 
 tAbstractSortNode *d4xFiltersTree::max(){
-	lock();
+	my_mutex.lock();
 	tAbstractSortNode *tmp=tAbstractSortTree::max();
-	unlock();
+	my_mutex.unlock();
 	return(tmp);
 };
 
@@ -295,7 +277,6 @@ d4xFiltersTree::~d4xFiltersTree(){
 		del(Top);
 		delete(node);
 	};
-	pthread_mutex_destroy(&my_mutex);
 };
 
 void d4xFiltersTree::print_recurse(d4xFilterSel *sel,d4xFNode *node){

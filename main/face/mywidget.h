@@ -109,7 +109,8 @@ void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node);
 struct d4xLinksSel{
 	GtkWindow window;
 	GtkCList *clist;
-	GtkWidget *ok,*cancel,*remove;
+	GtkWidget *hbbox;
+	GtkWidget *ok,*cancel,*remove,*add;
 };
 
 struct d4xLinksSelClass{
@@ -117,5 +118,19 @@ struct d4xLinksSelClass{
 };
 
 GtkWidget *d4x_links_sel_new();
-void d4x_links_sel_add(d4xLinksSel *sel,char *url);
+void d4x_links_sel_add(d4xLinksSel *sel,char *url,gpointer data);
+GtkWidget *d4x_links_sel_new_with_add();
+
+struct d4xStringEdit{
+	GtkWindow window;
+	GtkEntry *entry;
+	GtkWidget *ok,*cancel;
+};
+
+struct d4xStringEditClass{
+	GtkWindowClass parent_class;
+};
+
+GtkWidget *d4x_string_edit_new();
+
 #endif

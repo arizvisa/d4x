@@ -51,7 +51,7 @@ void download_set_block(int a){
 	if (temp && *temp){
 		if ((*temp)->BLOCKED==2){
 			(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
-			(*temp)->status=DOWNLOAD_REAL_STOP;
+			D4X_UPDATE.add(*temp,DOWNLOAD_REAL_STOP);
 			pthread_exit(NULL);
 		};
 		(*temp)->BLOCKED=a;
@@ -71,7 +71,7 @@ void signal_handler(int num) {
 		(*temp)->LOG->unlock();
 		(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
 		//	temp->who->done();
-		(*temp)->status=DOWNLOAD_REAL_STOP;
+		D4X_UPDATE.add(*temp,DOWNLOAD_REAL_STOP);
 	};
 	pthread_exit(NULL);
 };

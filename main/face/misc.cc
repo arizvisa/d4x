@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
+#include <gdk/gdkkeysyms.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xmd.h>
@@ -189,3 +190,26 @@ void d4x_percent_str(float percent, char *buf, int bufsize) {
 		g_snprintf(buf, bufsize, "%2.0f", percent);
 	}
 }
+
+
+static gint _esc_handler_(GtkWidget *widget,GdkEvent *event,gpointer pointer){
+	if (event && event->type == GDK_KEY_PRESS) {
+		GdkEventKey *kevent=(GdkEventKey *)event;
+		switch(kevent->keyval) {
+		case GDK_Escape:{
+			gtk_signal_emit_by_name(GTK_OBJECT(widget),
+						"delete_event",
+						widget,event,pointer);
+			return TRUE;
+			break;
+		};
+		};
+	};
+	return FALSE;
+};
+
+void d4x_eschandler_init(GtkWidget *widget,gpointer data){
+	gtk_signal_connect(GTK_OBJECT(widget),
+			   "key_press_event",
+			   (GtkSignalFunc)_esc_handler_, data);
+};

@@ -120,8 +120,8 @@ void tStringList::print() {
 };
 
 void tStringList::done() {
-	Size=0;
 	tQueue::done();
+	Size=0;
 };
 
 void tStringList::dispose() {

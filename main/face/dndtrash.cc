@@ -21,6 +21,8 @@
 #include "../main.h"
 #include "../var.h"
 #include "../ntlocale.h"
+#include "../xml.h"
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 
 extern tMain aa;
@@ -57,14 +59,14 @@ GtkWidget *dnd_trash_window=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_menu=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_gtk_pixmap; //used for animation/blinking
 static GdkPixmap *dnd_trash_pixmap1=(GdkPixmap *)NULL,*dnd_trash_pixmap2=(GdkPixmap *)NULL;
-static GdkBitmap *dnd_trash_mask1,*dnd_trash_mask2;
+static GdkBitmap *dnd_trash_mask1=(GdkBitmap *)NULL,*dnd_trash_mask2=(GdkBitmap *)NULL;
 static int dnd_trash_raise_count=0;
 static time_t dnd_trash_last_raise=0;
 GtkTooltips *dnd_trash_tooltips=(GtkTooltips *)NULL;
 static gint dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
 static GtkTooltips *dnd_trash_speed_tooltips[2];
 static GtkWidget *dnd_trash_speed_menu[2];
-
+char *dnd_trash_tooltip_text=NULL;
 
 void dnd_trash_set_speed_text(){
 	char text[MAX_LEN];
@@ -205,6 +207,46 @@ static int dnd_trash_configure(GtkWidget *window){
 	return(FALSE);
 };
 
+/*
+static GdkPixbuf *dnd_trash_scale(GdkPixbuf *pixbuf){
+	int temp,w,h;
+	gdk_window_get_geometry((GdkWindow *)NULL,&temp,&temp,&w,&h,&temp);
+	if (w<2048){
+		float ratio=float(w)/2048.0;
+		w=gdk_pixbuf_get_width(pixbuf);
+		h=gdk_pixbuf_get_height(pixbuf);
+		GdkPixbuf *rval=gdk_pixbuf_scale_simple(pixbuf,gint(float(w)*ratio),gint(float(h)*ratio),GDK_INTERP_HYPER);
+		gdk_pixbuf_unref(pixbuf);
+		return(rval);
+	};
+	return(pixbuf);
+};
+*/
+
+void dnd_trash_destroy_theme(){
+	if (dnd_trash_pixmap1){
+		gdk_pixmap_unref(dnd_trash_pixmap1);
+		dnd_trash_pixmap1=NULL;
+	};
+	if (dnd_trash_mask1){
+		gdk_bitmap_unref(dnd_trash_mask1);
+		dnd_trash_mask1=NULL;
+	};
+	if (dnd_trash_pixmap2){
+		gdk_pixmap_unref(dnd_trash_pixmap2);
+		dnd_trash_pixmap2=NULL;
+	};
+	if (dnd_trash_mask2){
+		gdk_bitmap_unref(dnd_trash_mask2);
+		dnd_trash_mask2=NULL;
+	};
+	dnd_trash_tooltip_text=NULL;
+	if (dnd_trash_tooltips){
+		gtk_object_destroy(GTK_OBJECT(dnd_trash_tooltips));
+		dnd_trash_tooltips=NULL;
+	};
+};
+
 void dnd_trash_init(){
 	CFG.DND_TRASH=1;
 	CFG.DND_NEED_POPUP=1;
@@ -216,6 +258,7 @@ void dnd_trash_init(){
 	GtkWidget *pixmap, *fixed;
 	GtkStyle *style;
 	GdkGC *gc;
+	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"dndbasket");
     
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
 	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -241,18 +284,40 @@ void dnd_trash_init(){
 	gc = style->black_gc;
 	gtk_widget_realize(dnd_trash_window);
 	if (dnd_trash_pixmap1==NULL){
-		dnd_trash_pixmap1 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask1,
-								  &style->bg[GTK_STATE_NORMAL],
-								  dndtrash_xpm);
-		dnd_trash_pixmap2 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask2,
-								  &style->bg[GTK_STATE_NORMAL],
-								  dndtrashi_xpm);
-		/* we will use it sometimes */
-		gdk_pixmap_ref(dnd_trash_pixmap1);
-		gdk_bitmap_ref(dnd_trash_mask1);
-		gdk_pixmap_ref(dnd_trash_pixmap2);
-		gdk_bitmap_ref(dnd_trash_mask2);
-
+		char *iconfile1=NULL;
+		char *iconfile2=NULL;
+		d4xXmlObject *themeicon=NULL;
+		if (xmlobj){
+			d4xXmlField *fld=NULL;
+			themeicon=xmlobj->find_obj("icon");
+			if (themeicon)
+				fld=themeicon->get_attr("file");
+			if (fld)
+				iconfile1=sum_strings(D4X_SHARE_PATH,"/themes/",fld->value.get(),NULL);
+			fld=NULL;
+			themeicon=xmlobj->find_obj("dropicon");
+			if (themeicon)
+				fld=themeicon->get_attr("file");
+			if (fld)
+				iconfile2=sum_strings(D4X_SHARE_PATH,"/themes/",fld->value.get(),NULL);
+		};
+		GdkPixbuf *pixbuf=NULL;
+		if (iconfile1 && (pixbuf=gdk_pixbuf_new_from_file(iconfile1))){
+			gdk_pixbuf_render_pixmap_and_mask(pixbuf,&dnd_trash_pixmap1,&dnd_trash_mask1,1);
+			gdk_pixbuf_unref(pixbuf);
+		}else
+			dnd_trash_pixmap1 = gdk_pixmap_create_from_xpm_d(dnd_trash_window->window, &dnd_trash_mask1,
+									 &style->bg[GTK_STATE_NORMAL],
+									 dndtrash_xpm);
+		if (iconfile2 && (pixbuf=gdk_pixbuf_new_from_file(iconfile2))){
+			gdk_pixbuf_render_pixmap_and_mask(pixbuf,&dnd_trash_pixmap2,&dnd_trash_mask2,1);
+			gdk_pixbuf_unref(pixbuf);
+		}else
+			dnd_trash_pixmap2 = gdk_pixmap_create_from_xpm_d(dnd_trash_window->window, &dnd_trash_mask2,
+									 &style->bg[GTK_STATE_NORMAL],
+									 dndtrashi_xpm);
+		if (iconfile1) delete[] iconfile1;
+		if (iconfile2) delete[] iconfile2;
 	};
 	gdk_window_get_size((GdkWindow*)dnd_trash_pixmap1,
 			    &width,&height);
@@ -304,17 +369,38 @@ void dnd_trash_init(){
 	gtk_container_add( GTK_CONTAINER(dnd_trash_window), fixed );
 	gtk_widget_show_all( fixed );
 
+	d4xXmlObject *xmltip=xmlobj?xmlobj->find_obj("tooltip"):NULL;
 	if (dnd_trash_tooltips==NULL){
 		dnd_trash_tooltips=gtk_tooltips_new();
 		gtk_tooltips_force_window(dnd_trash_tooltips);
 		GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(dnd_trash_tooltips->tip_window));
-		current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+		char *bgcolor=NULL,*fgcolor=NULL;
+		if (xmltip){
+			d4xXmlField *fld=NULL;
+			fld=xmltip->get_attr("bgcolor");
+			bgcolor=fld?fld->value.get():NULL;
+			fld=xmltip->get_attr("fgcolor");
+			fgcolor=fld?fld->value.get():NULL;
+		};
+		if (bgcolor){
+			gdk_color_parse(bgcolor,&(current_style->bg[GTK_STATE_NORMAL]));
+		}else
+			current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+		if (fgcolor)
+			gdk_color_parse(fgcolor,&(current_style->fg[GTK_STATE_NORMAL]));
 		gdk_font_unref(current_style->font);
 		current_style->font = MainWindow->style->font;
 		gdk_font_ref(MainWindow->style->font);
 		gtk_widget_set_style(dnd_trash_tooltips->tip_window, current_style);
 	};
-	gtk_tooltips_set_tip(dnd_trash_tooltips,dnd_trash_window,_("Drop link here"),(const gchar *)NULL);
+	if (xmltip){
+		dnd_trash_tooltip_text=xmltip->value.get();
+	}else
+		dnd_trash_tooltip_text=_("Drop link here");
+	gtk_tooltips_set_tip(dnd_trash_tooltips,
+			     dnd_trash_window,
+			     dnd_trash_tooltip_text,
+			     (const gchar *)NULL);
 	gtk_tooltips_enable(dnd_trash_tooltips);
 	/* This masks out everything except for the image itself */
 	gtk_widget_shape_combine_mask( dnd_trash_window, dnd_trash_mask1, 0, 0 );
@@ -436,6 +522,8 @@ void dnd_trash_animation(){
 };
 
 void dnd_trash_set_tooltip(char *str){
+	if (str==NULL)
+		str=dnd_trash_tooltip_text;
 	if (str==NULL || dnd_trash_window==NULL) return;
 	if (dnd_trash_tooltips->tip_window){
 		GtkTooltipsData *data=dnd_trash_tooltips->active_tips_data;

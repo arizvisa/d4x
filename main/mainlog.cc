@@ -193,6 +193,7 @@ void tMLog::add(char *str,int len,int type) {
 
 void tMLog::add(char *str,int type) {
 	DBC_RETURN_IF_FAIL(str!=NULL);
+	last_error=NULL;
 	if ((type & LOG_DETAILED)  && !CFG.MAIN_LOG_DETAILED) return;	
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,type);
@@ -260,8 +261,7 @@ void tMLog::open_row(int row) {
 	tDownload *dwn;
 	if (addr  && (dwn=aa.find_url(addr))){
 		log_window_init(dwn);
-		list_of_downloads_move_to(dwn);
-		list_of_downloads_select(dwn);
+		D4X_QVT->move_to(dwn);
 	}else{
 		real_open_row(row);
 	};

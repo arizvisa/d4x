@@ -18,6 +18,7 @@
 #include <glib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <pwd.h>
 #include "var.h"
 #include "dbc.h"
 
@@ -199,7 +200,7 @@ void convert_int_to_2(int what,char *where) {
     action: convert number of seconds to nice string HH:MM:SS
  */
 
-void convert_time(int what,char *where) {
+void convert_time(int what,char *where,int TIME_FORMAT) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
 	int hours=what/int(3600);
 	int mins=(what%3600)/int(60);
@@ -218,7 +219,7 @@ void convert_time(int what,char *where) {
 		strcat(where,tmp);
 //		sprintf(where,"%i",mins);
 	};
-	if (!CFG.TIME_FORMAT) {
+	if (!TIME_FORMAT) {
 		strcat(where,":");
 		convert_int_to_2(secs,tmp);
 		strcat(where,tmp);
@@ -448,9 +449,9 @@ void del_crlf(char *what) {
     action: fill buffer by formated integer;
  */
 
-void make_number_nice(char *where,fsize_t num) {
+void make_number_nice(char *where,fsize_t num,int NICE_DEC_DIGITALS) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
-	switch (CFG.NICE_DEC_DIGITALS.curent) {
+	switch (NICE_DEC_DIGITALS) {
 		case 1:
 		case 3:{
 				sprintf(where,"%li",num);
@@ -459,7 +460,7 @@ void make_number_nice(char *where,fsize_t num) {
 				for (int i=len-3;i>0;i-=3,len++) {
 					for (int a=len-1;a>=i;a--)
 						where[a+1]=where[a];
-					if (CFG.NICE_DEC_DIGITALS.curent==1) where[i]=' ';
+					if (NICE_DEC_DIGITALS==1) where[i]=' ';
 					else where[i]='\'';
 				};
 				where[len]=0;
@@ -489,9 +490,9 @@ void make_number_nice(char *where,fsize_t num) {
 /* the same as previos but for long
  */
 
-void make_number_nicel(char *where,unsigned long num) {
+void make_number_nicel(char *where,unsigned long num,int NICE_DEC_DIGITALS) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
-	switch (CFG.NICE_DEC_DIGITALS.curent) {
+	switch (NICE_DEC_DIGITALS) {
 		case 1:
 		case 3:{
 				sprintf(where,"%lu",num);
@@ -500,7 +501,7 @@ void make_number_nicel(char *where,unsigned long num) {
 				for (int i=len-3;i>0;i-=3,len++) {
 					for (int a=len-1;a>=i;a--)
 						where[a+1]=where[a];
-					if (CFG.NICE_DEC_DIGITALS.curent==1) where[i]=' ';
+					if (NICE_DEC_DIGITALS==1) where[i]=' ';
 					else where[i]='\'';
 				};
 				where[len]=0;
@@ -705,7 +706,7 @@ int ctime_to_time(char *src) {
 			sscanf_int(tmpdata,&(date.tm_sec));
 		};
 	};
-	return mktime(&date);
+	return(mktime(&date)+timezone);
 };
 
 /* check_mask();
@@ -836,6 +837,29 @@ void normalize_path(char *src) {
 		a+=1;
 	};
 	*b=0;
+};
+
+char *normalize_path_full(char *src){
+	DBC_RETVAL_IF_FAIL(src!=NULL,NULL);
+	if (*src=='~'){
+		struct passwd *p;
+		char *cur=index(src,'/');
+		if (src[1]=='/'){
+			p=getpwuid(getuid());
+		}else{
+			if (cur) *cur=0;
+			p=getpwnam(src+1);
+			if (cur) *cur='/';
+		};
+		if (p){
+			char *path=sum_strings(p->pw_dir,cur,NULL);
+			normalize_path(path);
+			return(path);
+		};
+	};
+	char *rval=copy_string(src);
+	normalize_path(rval);
+	return(rval);
 };
 
 /* FIXME: compose_path() should be rewritten!!!

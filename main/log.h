@@ -11,7 +11,7 @@
 #ifndef T_LOG_STRING
 #define T_LOG_STRING
 #include "liststr.h"
-#include <pthread.h>
+#include "mutex.h"
 #include <time.h>
 
 struct tLogString:public tString{
@@ -31,7 +31,7 @@ class tLog:public tStringList{
 	protected:
 	char timebuf[LOG_TIME_STR_LEN]; //for outputing time into file
 	time_t start;
-	pthread_mutex_t mutex;
+	d4xMutex mutex;
 	int key;
 	int current_row;
 	void send_msg(int type,tLogString *what);

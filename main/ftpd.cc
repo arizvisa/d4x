@@ -311,8 +311,8 @@ int tFtpDownload::reconnect() {
 		};
 		if (FTP->reinit()==0){
 			success=0;
-			if (config.proxy_user.get() && config.proxy_pass.get()){
-				FTP->registr(config.proxy_user.get(), config.proxy_pass.get());
+			if (config.fproxy_user.get() && config.fproxy_pass.get()){
+				FTP->registr(config.fproxy_user.get(), config.fproxy_pass.get());
 				success=FTP->connect();
 			};
 			if (success==0){
@@ -353,8 +353,8 @@ int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 	};
 	config.copy_proxy(cfg);
 
-	if (config.proxy_host.get() && config.proxy_port) {
-		FTP->init(config.proxy_host.get(),LOG,config.proxy_port,config.timeout);
+	if (config.proxy_type==0 && config.fproxy_host.get() && config.fproxy_port) {
+		FTP->init(config.fproxy_host.get(),LOG,config.fproxy_port,config.timeout);
 		char port[MAX_LEN];
 		port[0]=0;
 		if (ADDR.port!=get_port_by_proto(D_PROTO_FTP))
@@ -374,7 +374,11 @@ int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 		RetrNum=1;
 		return(0);
 	};
-	return reconnect();
+	while(reconnect()==0){
+		if (cfg->split==0 || FTP->force_reget()==0)
+			return(0);
+	};
+	return(-1);
 };
 
 tStringList *tFtpDownload::dir() {
@@ -382,6 +386,10 @@ tStringList *tFtpDownload::dir() {
 };
 
 int tFtpDownload::ftp_get_size(tStringList *l){
+	if (FTP->stand_data_connection()){
+		print_error(ERROR_DATA_CONNECT);
+		return(-1);
+	};
 	if (ADDR.mask)
 		return(FTP->get_size(NULL,l));
 	if (DONT_CWD){
@@ -427,7 +435,7 @@ fsize_t tFtpDownload::ls_answer_short(){
 		D_FILE.perm=S_IRUSR|S_IWUSR|S_IXUSR;
 		return 0;
 	};
-	ftp_cut_string_list(last->body,&D_FILE,0);
+	ftp_cut_string_list(last->body,&D_FILE,1);
 	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
 	return D_FILE.size;
 };
@@ -462,17 +470,22 @@ fsize_t tFtpDownload::get_size() {
 	} else list->done();
 	while (1) {
 		if (!change_dir()) {
-			if (!FTP->stand_data_connection()) {
-				int a=ftp_get_size(list);
+			int a=ftp_get_size(list);
+			if (a==0 && list->count()<=2){
+				fsize_t sz=ls_answer_short();
+				if (equal(D_FILE.name.get(),ADDR.file.get()) ||
+				    FTP->METHOD_TO_LIST==1)
+					return(sz);
+				FTP->METHOD_TO_LIST=1;
+				list->done();
+				a=ftp_get_size(list);
 				if (a==0 && list->count()<=2)
 					return(ls_answer_short());
-				if (a==0 && list->count()>2) {
-					return(ls_answer_long());
-				};
-				LOG->log(LOG_WARNING,_("Couldn't get size :(("));
-			} else {
-				print_error(ERROR_DATA_CONNECT);
 			};
+			if (a==0 && list->count()>2) {
+				return(ls_answer_long());
+			};
+			LOG->log(LOG_WARNING,_("Couldn't get size :(("));
 		};
 		if (FTP->get_status()==STATUS_CMD_ERR ||
 		    FTP->get_status()==STATUS_UNSPEC_ERR){
@@ -613,8 +626,13 @@ fsize_t tFtpDownload::get_start_size() {
 	return(StartSize);
 };
 
+char *tFtpDownload::get_new_url() {
+	return(copy_string(D_FILE.body.get()));
+};
+
 int tFtpDownload::reget() {
-	return FTP->test_reget();
+	if (FTP) return FTP->test_reget();
+	return(1);
 };
 
 void tFtpDownload::done() {

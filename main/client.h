@@ -14,6 +14,7 @@
 #include "socket.h"
 #include "liststr.h"
 #include "locstr.h"
+#include "cookie.h"
 
 struct tSimplyCfg{
 	int timeout;
@@ -33,11 +34,12 @@ struct tSimplyCfg{
 	int permisions;
 	int get_date;
 	int full_server_loading;
-	int link_as_file;
+	int follow_link; //ftp only
 	int restart_from_begin;
 	int dont_send_quit;
 	int check_time;
 	int ftp_dirontop;
+	int ihate_etag;
 	/* temporary flags */
 	int split; 
 	int redirect_count;
@@ -48,17 +50,21 @@ struct tCfg:public tSimplyCfg{
 	int socks_port;
 	tPStr socks_host;
 	tPStr socks_user,socks_pass;
-	int proxy_port;
 	int proxy_type;
 	int proxy_no_cache;
-	tPStr proxy_host;
-	tPStr proxy_user;
-	tPStr proxy_pass;
+	tPStr hproxy_host;
+	tPStr hproxy_user;
+	tPStr hproxy_pass;
+	int hproxy_port;
+	tPStr fproxy_host;
+	tPStr fproxy_user;
+	tPStr fproxy_pass;
+	int fproxy_port;
 	tPStr user_agent,referer,cookie; /* HTTP items */
-	tPStr save_name,save_path;
+	tPStr save_path;
 	tPStr log_save_path;
-	tPStr Description;
 	tPStr Filter;
+	int isdefault;
 	tCfg();
 	int get_flags();
 	void set_flags(int what);
@@ -80,6 +86,7 @@ class tWriterLoger{
 	virtual void log(int type,const char *str)=0;
 	virtual void log_printf(int type, const char *format,...);
 	virtual char *cookie(const char *host, const char *path);
+	virtual void cookie_set(tCookie *cookie);
 	virtual void truncate();
 	virtual ~tWriterLoger();
 };
@@ -97,12 +104,13 @@ class tClient{
     char *buffer;
     tWriterLoger *LOG;
 //-----------------------------------------------
-    int read_string(tSocket *sock,tStringList *list,int maxlen);
-    int socket_err_handler(int err);
-    virtual int read_data();
-    virtual int read_data(char *dst,fsize_t len)=0;
-    int write_buffer();
-    public:
+	char *read_string(tSocket *sock,int maxlen);
+	int read_string(tSocket *sock,tStringList *list,int maxlen);
+	int socket_err_handler(int err);
+	virtual int read_data(fsize_t len);
+	virtual int read_data(char *dst,fsize_t len)=0;
+	int write_buffer();
+public:
     	tClient();
     	tClient(tCfg *cfg,tSocket *ctrl=(tSocket*)NULL);
     	int get_readed();

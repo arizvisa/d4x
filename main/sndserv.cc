@@ -68,9 +68,17 @@ public:
 	int open(int fmt, int rate, int nch);
 };
 
-#endif
+#endif //D4X_WITH_OSS
 
-class d4xWaveFile{
+class d4xSndFile{
+public:
+	d4xSndFile(){};
+	d4xSndFile(char *filename);
+	virtual void play()=0;
+	virtual ~d4xSndFile(){};
+};
+
+class d4xWaveFile:public d4xSndFile{
 	FILE *file;
 	short format,channels,align,bits,eof;
 	long samples_per_sec, avg_bytes_per_sec;
@@ -85,6 +93,36 @@ public:
 	void play();
 	~d4xWaveFile();
 };
+
+#ifdef D4X_WITH_ESD
+#include <esd.h>
+class d4xEsdFile:public d4xSndFile{
+	int fd;
+	char *file;
+public:
+	d4xEsdFile(char *filename);
+	void play();
+	~d4xEsdFile();
+};
+
+/***********************************************************/
+
+d4xEsdFile::d4xEsdFile(char *filename){
+	file=copy_string(filename);
+	fd=-1;
+};
+
+void d4xEsdFile::play(){
+	if (fd<0)
+		fd=esd_open_sound(NULL);//"localhost");
+	if (fd>=0)
+		esd_play_file(NULL,file,0); // ???
+};
+
+d4xEsdFile::~d4xEsdFile(){
+	if (fd>=0) esd_close(fd);
+};
+#endif //D4X_WITH_ESD
 
 /***********************************************************/
 
@@ -343,28 +381,25 @@ d4xSndServer::d4xSndServer(){
 		snd_table[i]=NULL;
 	queue=new tQueue;
 	thread_id=0;
-	pthread_mutex_init(&my_mutex,NULL);
-	pthread_mutex_init(&exit_lock,NULL);
 	pthread_cond_init(&cond,NULL);
 };
 
 d4xSndServer::~d4xSndServer(){
 	delete(queue);
 	pthread_cond_destroy(&cond);
-	pthread_mutex_destroy(&my_mutex);
 	for (int i=0;i<SND_LAST;i++)
 		if (snd_table[i]) delete[] snd_table[i];
 };
 
 void d4xSndServer::stop_thread(){
 	void *val;
-	pthread_mutex_lock(&exit_lock);
-	pthread_mutex_lock(&my_mutex);
+	exit_lock.lock();
+	my_mutex.lock();
 	stop_now=1;
 	pthread_cond_signal(&cond);
-	pthread_mutex_unlock(&my_mutex);
-	pthread_mutex_lock(&exit_lock);
-	pthread_mutex_unlock(&exit_lock);
+	my_mutex.unlock();
+	exit_lock.lock();
+	exit_lock.unlock();
 	pthread_join(thread_id,&val);
 	thread_id=0;
 };
@@ -383,16 +418,22 @@ void d4xSndServer::add_event(int event){
 	d4xSndEvent *snd=new d4xSndEvent;
 	snd->event=event;
 	snd->birth=time(NULL);
-	pthread_mutex_lock(&my_mutex);
+	my_mutex.lock();
 	queue->insert(snd);
 	pthread_cond_signal(&cond);
-	pthread_mutex_unlock(&my_mutex);
+	my_mutex.unlock();
 };
 
 void d4xSndServer::play_sound(int event){
 	if (event>=0 && event<SND_LAST &&
 	    snd_table[event]!=NULL){
-		d4xWaveFile *wav=new d4xWaveFile(snd_table[event]);
+		d4xSndFile *wav=NULL;
+#ifdef D4X_WITH_ESD		
+		if (CFG.ESD_SOUND)
+			wav=new d4xEsdFile(snd_table[event]);
+		else
+#endif// D4X_WITH_ESD
+			wav=new d4xWaveFile(snd_table[event]);
 		wav->play();
 		delete(wav);
 	};
@@ -400,35 +441,28 @@ void d4xSndServer::play_sound(int event){
 
 void d4xSndServer::run(){
 	while(1){
-		pthread_mutex_lock(&my_mutex);
-		pthread_cond_wait(&cond,&my_mutex);
-/*
-		if (stop_now){
-			pthread_mutex_unlock(&my_mutex);
-			break
-		};
-*/
+		my_mutex.lock();
+		pthread_cond_wait(&cond,&(my_mutex.m));
 		while(queue->first()){
 			d4xSndEvent *snd=(d4xSndEvent *)(queue->first());
 			queue->del(snd);
-			pthread_mutex_unlock(&my_mutex);
+			my_mutex.unlock();
 			time_t now=time(NULL);
 			if (snd->birth-now<4 && snd->birth-now>-4){
 				/* playing */
 				play_sound(snd->event);
 			};
 			delete(snd);
-			pthread_mutex_lock(&my_mutex);
-//			if (stop_now) break;
+			my_mutex.lock();
 		};
-		pthread_mutex_unlock(&my_mutex);
+		my_mutex.unlock();
 		if (stop_now) break;
 	};
-	pthread_mutex_unlock(&exit_lock);
+	exit_lock.unlock();
 };
 
 void d4xSndServer::set_sound_file(int event,char *path){
-	pthread_mutex_lock(&my_mutex);
+	my_mutex.lock();
 	if (event>=0 && event<SND_LAST){
 		if (snd_table[event]) delete[] snd_table[event];
 		if (path && *path)
@@ -436,7 +470,7 @@ void d4xSndServer::set_sound_file(int event,char *path){
 		else
 			snd_table[event]=NULL;
 	};
-	pthread_mutex_unlock(&my_mutex);
+	my_mutex.unlock();
 };
 
 char *d4xSndServer::get_sound_file(int event){

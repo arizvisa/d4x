@@ -432,6 +432,7 @@ tHtmlTag *tHtmlParser::get_tag(){
 						if (p=='>') break;
 					};
 					rvalue=get_tag();
+					delete[] name;
 				}else{
 					rvalue=new tHtmlTag;
 					rvalue->name=name;

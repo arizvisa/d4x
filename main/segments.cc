@@ -47,14 +47,12 @@ tSegment::~tSegment(){
 
 tSegmentator::tSegmentator(){
 	FIRST=LAST=HEAP=NULL;
-	my_pthreads_mutex_init(&lockmutex);
 	fd=-1;
 	filename=NULL;
 };
 
 tSegmentator::tSegmentator(char *path){
 	FIRST=LAST=HEAP=NULL;
-	my_pthreads_mutex_init(&lockmutex);
 	filename=NULL;
 	fd=-1;
 	total=0;
@@ -268,7 +266,17 @@ void tSegmentator::done(){
 void tSegmentator::complete(){
 	if (filename)
 		::remove(filename);
-	done();
+	if (FIRST){
+		lock();
+		tSegment *a=seg_alloc();
+		a->begin=FIRST->begin;
+		a->end=LAST->end;
+		a->next=a->prev=NULL;
+		unlock();
+		done();
+		FIRST=LAST=a;
+		total=a->end-a->begin;
+	};
 };
 
 tSegmentator::~tSegmentator(){
@@ -279,7 +287,6 @@ tSegmentator::~tSegmentator(){
 		HEAP=tmp;
 	};
 	if (filename) delete[] filename;
-	pthread_mutex_destroy(&lockmutex);
 };
 
 /* private methods */
@@ -368,20 +375,20 @@ tSegment *tSegmentator::to_holes(unsigned long int size){
 };
 
 void tSegmentator::lock_public(){
-	pthread_mutex_lock(&lockmutex);
+	lockmutex.lock();
 };
 
 void tSegmentator::unlock_public(){
-	pthread_mutex_unlock(&lockmutex);
+	lockmutex.unlock();
 };
 
 
 void tSegmentator::lock(){
 	download_set_block(1);
-	pthread_mutex_lock(&lockmutex);
+	lockmutex.lock();
 };
 
 void tSegmentator::unlock(){
-	pthread_mutex_unlock(&lockmutex);
+	lockmutex.unlock();
 	download_set_block(0);
 };

@@ -59,6 +59,7 @@ void d4x_filters_window_edit(){
 				   GTK_SIGNAL_FUNC(d4x_filters_window_edit_ok),edit);
 		gtk_signal_connect(GTK_OBJECT(edit),"delete_event",
 				   GTK_SIGNAL_FUNC(d4x_filters_window_edit_delete), edit);
+		d4x_eschandler_init(GTK_WIDGET(edit),edit);
 		gtk_widget_show_all(GTK_WIDGET(edit));
 		gtk_window_set_modal (GTK_WINDOW(edit),TRUE);
 		gtk_window_set_transient_for (GTK_WINDOW (edit), GTK_WINDOW(d4x_filters_window));
@@ -94,6 +95,7 @@ void d4x_filters_window_add_new(){
 			   GTK_SIGNAL_FUNC(d4x_filters_window_add_ok),edit);
 	gtk_signal_connect(GTK_OBJECT(edit),"delete_event",
 			   GTK_SIGNAL_FUNC(d4x_filters_window_add_delete), edit);
+	d4x_eschandler_init(GTK_WIDGET(edit),edit);
 	gtk_widget_show_all(GTK_WIDGET(edit));
 	gtk_window_set_modal (GTK_WINDOW(edit),TRUE);
 	gtk_window_set_transient_for (GTK_WINDOW (edit), GTK_WINDOW(d4x_filters_window));
@@ -190,4 +192,5 @@ void d4x_filters_window_init(){
 	gtk_signal_connect(GTK_OBJECT(add_button),"clicked",GTK_SIGNAL_FUNC(d4x_filters_window_add_new),NULL);
 	gtk_signal_connect(GTK_OBJECT(edit_button),"clicked",GTK_SIGNAL_FUNC(d4x_filters_window_edit),NULL);
 	gtk_signal_connect(GTK_OBJECT(d4x_filters_window),"delete_event",GTK_SIGNAL_FUNC(d4x_filters_window_delete),NULL);
+	d4x_eschandler_init(d4x_filters_window,NULL);
 };

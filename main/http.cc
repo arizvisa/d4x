@@ -16,6 +16,7 @@
 #include "stdio.h"
 #include "base64.h"
 #include "ntlocale.h"
+#include "signal.h"
 
 tHttpClient::tHttpClient():tClient(){
 	user_agent=NULL;
@@ -74,16 +75,20 @@ int tHttpClient::read_answer(tStringList *list) {
 		return -1;
 	};
 	tString *last=list->last();
+	HTTP_VER=1;
+	HTTP_SUBVER=0;
 	if (last) {
 		LOG->log(LOG_FROM_SERVER,last->body);
 		char *str1=new char[strlen(last->body)+1];
 		char *str2=new char[strlen(last->body)+1];
 		sscanf(last->body,"%s %s",str1,str2);
+		sscanf(str2,"%i",&ERROR_CODE);
 		if (!equal_first("HTTP",str1)) {
 			LOG->log(LOG_WARNING,_("It is not HTTP server!!!"));
-/*			delete str1;
-			delete str2;
-			return -1;*/
+		}else{
+			char *tmp=index(str1,'/');
+			if (tmp)
+				sscanf(tmp+1,"%i.%i",&HTTP_VER,&HTTP_SUBVER);
 		};
 		switch (*str2) {
 		case '2':{
@@ -126,7 +131,9 @@ int tHttpClient::read_answer(tStringList *list) {
 };
 
 void tHttpClient::send_cookies(char *host,char *path){
+	download_set_block(1);
 	char *request_string=LOG->cookie(host,path);
+	download_set_block(0);
 	if (request_string){
 		send_request("Cookie: ",request_string,"\r\n");
 		delete[] request_string;
@@ -136,7 +143,7 @@ void tHttpClient::send_cookies(char *host,char *path){
 fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
-	send_request("GET ",filename," HTTP/1.0\r\n");
+	send_request("GET ",filename," HTTP/1.1\r\n");
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
@@ -170,28 +177,58 @@ fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 
 int tHttpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 	DSize=0;
-	int complete=1;
-	FileLoaded=begin;
 	fsize_t llen=len;
-	do {
-		if ((complete=tClient::read_data())<0) {
-			LOG->log(LOG_WARNING,_("Data connection closed."));
-			break;
-		};
-		if (len && FillSize>llen) FillSize=llen;
-		FileLoaded+=FillSize;
-		if (write_buffer()) {
-			Status=STATUS_FATAL;
-			break;
-		};
-		if (len){
-			llen -=FillSize;
-			if (llen==0){
-				LOG->log(LOG_OK,_("Requested size was loaded"));
+	do{
+		if (CHUNKED){
+			char *str=read_string(CtrlSocket,MAX_LEN);
+			if (str){
+//				LOG->log(LOG_FROM_SERVER,str);
+				long int l=0;
+				sscanf(str,"%lx",&l);
+				llen=l;
+				delete[] str;
+			}else{
+				LOG->log(LOG_ERROR,_("Wrong chunk size!"));
+				return(0);
+			};
+			LOG->log_printf(LOG_OK,_("Chunk size %i"),llen);
+			if (!llen){
+				LOG->log(LOG_OK,_("It's last chunk!"));
+				/*skip for last string*/
+				str=read_string(CtrlSocket,MAX_LEN);
+//				if (str) LOG->log(LOG_FROM_SERVER,str);
+				while(str!=NULL && !empty_string(str)){
+					delete[] str;
+					str=read_string(CtrlSocket,MAX_LEN);
+				};
+				if (str) delete[] str;
 				break;
 			};
+			len=llen;
 		};
-	} while (complete!=0);
+		int complete=1;
+		FileLoaded=begin;
+		do {
+			if ((complete=tClient::read_data((BLOCK_READ>llen && llen>0)?llen:BLOCK_READ))<0) {
+				LOG->log(LOG_WARNING,_("Data connection closed."));
+				break;
+			};
+			if (len && FillSize>llen) FillSize=llen;
+			FileLoaded+=FillSize;
+			if (write_buffer()) {
+				Status=STATUS_FATAL;
+				break;
+			};
+			if (len){
+				llen -=FillSize;
+				if (llen==0){
+					LOG->log(LOG_OK,_("Requested size was loaded"));
+					break;
+				};
+			};
+		} while (complete!=0);
+		if (CHUNKED) tClient::read_data(2);
+	}while(CHUNKED);
 	return DSize;
 };
 

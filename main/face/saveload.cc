@@ -32,7 +32,7 @@ gint load_save_list_cancel() {
 };
 
 void load_list_ok(GtkWidget *parent,GtkWidget *who) {
-	read_list_from_file(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
+	read_list_from_file_current(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
 	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
 	load_save_list_cancel();
 };
@@ -119,7 +119,7 @@ void load_txt_list_ok(GtkWidget *parent,GtkWidget *who) {
 
 
 void save_list_ok(GtkWidget *parent,GtkWidget *who) {
-	save_list_to_file(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
+	save_list_to_file_current(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
 	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
 	ALL_HISTORIES[SAVE_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
 	load_save_list_cancel();
@@ -144,6 +144,7 @@ void init_save_list(...) {
 	gtk_window_set_policy (GTK_WINDOW(LoadSaveWindow), FALSE,FALSE,FALSE);
 	gtk_container_border_width(GTK_CONTAINER(LoadSaveWindow),5);
 	gtk_signal_connect(GTK_OBJECT(LoadSaveWindow),"delete_event",GTK_SIGNAL_FUNC(load_save_list_cancel), NULL);
+	d4x_eschandler_init(LoadSaveWindow,NULL);
 
 	load_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
 	gtk_widget_set_usize(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);
@@ -186,6 +187,7 @@ void init_load_list(...) {
 	gtk_window_set_policy (GTK_WINDOW(LoadSaveWindow), FALSE,FALSE,FALSE);
 	gtk_container_border_width(GTK_CONTAINER(LoadSaveWindow),5);
 	gtk_signal_connect(GTK_OBJECT(LoadSaveWindow),"delete_event",GTK_SIGNAL_FUNC(load_save_list_cancel), NULL);
+	d4x_eschandler_init(LoadSaveWindow,NULL);
 
 	load_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
 	gtk_widget_set_usize(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);
@@ -227,6 +229,7 @@ void init_load_txt_list(...) {
 	gtk_window_set_policy (GTK_WINDOW(LoadSaveWindow), FALSE,FALSE,FALSE);
 	gtk_container_border_width(GTK_CONTAINER(LoadSaveWindow),5);
 	gtk_signal_connect(GTK_OBJECT(LoadSaveWindow),"delete_event",GTK_SIGNAL_FUNC(load_save_list_cancel), NULL);
+	d4x_eschandler_init(LoadSaveWindow,NULL);
 
 	load_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
 	gtk_widget_set_usize(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);

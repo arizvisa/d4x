@@ -74,7 +74,6 @@ tDownloadTree **tDB::hash(tStringHostNode *temp,tDownload *what){
 tDownloadTree **tDB::hash(tStringHostNode *temp,tDownload *what){
 	unsigned char *b=(unsigned char *)(what->info->path.get());
 	unsigned char a=0;
-	pthread_mutex_init(&mylock,NULL);
 	for (int i=0;i<5;i++,b++){
 		if (*b==0) break;
 		a+=*b;
@@ -84,7 +83,7 @@ tDownloadTree **tDB::hash(tStringHostNode *temp,tDownload *what){
 
 void tDB::insert(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	lock();
+	mylock.lock();
 	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
 	if (!temp){
 		temp=new tStringHostNode;
@@ -98,7 +97,7 @@ void tDB::insert(tDownload *what) {
 		temp->filled_num+=1;
 	};
 	(*point)->add(what);
-	unlock();
+	mylock.unlock();
 };
 
 tDownload *tDB::find(tAddr *addr){
@@ -127,7 +126,7 @@ tDownload *tDB::find(tDownload *what) {
 void tDB::del(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	DBC_RETURN_IF_FAIL(what->info!=NULL);
-	lock();
+	mylock.lock();
 	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
 	if (temp){
 		tDownloadTree **point=hash(temp,what);
@@ -144,18 +143,9 @@ void tDB::del(tDownload *what) {
 			};
 		};
 	};
-	unlock();
-};
-
-void tDB::lock(){
-	pthread_mutex_lock(&mylock);
-};
-
-void tDB::unlock(){
-	pthread_mutex_unlock(&mylock);
+	mylock.unlock();
 };
 
 tDB::~tDB() {
-	pthread_mutex_destroy(&mylock);
 	delete tree;
 };

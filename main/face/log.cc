@@ -41,6 +41,7 @@ struct tLogWindow {
 	GtkWidget *clist;
 	GtkAdjustment *adj;
 	GtkWidget *button;
+	GtkWidget *toolbar;
 	tDownload *papa; // :))
 	float value;
 	tStringDialog *string;
@@ -182,20 +183,6 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	gtk_clist_set_background(GTK_CLIST(temp->clist),row,&back_color);
 };
 
-static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log){
-	if (event && event->type == GDK_KEY_PRESS) {
-		GdkEventKey *kevent=(GdkEventKey *)event;
-		switch(kevent->keyval) {
-		case GDK_Escape:{
-//			gtk_signal_emit_by_name(GTK_OBJECT(window),"delete_event");
-			log_window_destroy_by_log(log);
-			return TRUE;
-			break;
-		};
-		};
-	};
-	return FALSE;
-};
 
 static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
                                       GdkEventButton *event,tLogWindow *temp) {
@@ -221,6 +208,68 @@ static void my_gtk_auto_scroll( GtkAdjustment *get,tLogWindow *temp){
 	} else
 		temp->value=get->value;
 }
+
+gint log_window_button(GtkWidget *button,int a);
+
+static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log){
+	if (event && event->type == GDK_KEY_PRESS) {
+		GdkEventKey *kevent=(GdkEventKey *)event;
+		tLogWindow *wnd=(tLogWindow *)log->Window;
+		int num=0;
+		if (kevent->state & GDK_CONTROL_MASK){
+			switch(kevent->keyval) {
+			case GDK_1:
+				num=1;
+				break;
+			case GDK_2:
+				num=2;
+				break;
+			case GDK_3:
+				num=3;
+				break;
+			case GDK_4:
+				num=4;
+				break;
+			case GDK_5:
+				num=5;
+				break;
+			case GDK_6:
+				num=6;
+				break;
+			case GDK_7:
+				num=7;
+				break;
+			case GDK_8:
+				num=8;
+				break;
+			case GDK_9:
+				num=9;
+				break;
+			case GDK_0:
+				num=10;
+				break;
+			};
+		};
+		if (num){
+			GList *list=GTK_TOOLBAR(wnd->toolbar)->children;
+			int a=1;
+			while (list && num>a){
+				list=list->next;
+				a++;
+			};
+			if (list){
+				GtkToolbarChild *chld=(GtkToolbarChild*)list->data;
+				gtk_signal_emit_by_name(GTK_OBJECT(chld->widget),"clicked",num);
+			};
+		};
+		if (kevent->keyval==GDK_Escape){
+//			gtk_signal_emit_by_name(GTK_OBJECT(window),"delete_event");
+			log_window_destroy_by_log(log);
+			return TRUE;
+		};
+	};
+	return FALSE;
+};
 
 gint log_window_button(GtkWidget *button,int a){
 	tDownload *what=(tDownload *)gtk_object_get_user_data(GTK_OBJECT(button));
@@ -257,6 +306,8 @@ gint log_window_button(GtkWidget *button,int a){
 		what->LOG->last_log=b;
 		what->CurrentLog=forlog->LOG;
 		/* FIXME: signal_connect again???? */
+		gtk_signal_disconnect_by_data(GTK_OBJECT(temp->window),
+					      withlog->LOG);
 		gtk_signal_connect(GTK_OBJECT(temp->window),
 				   "delete_event",
 		                   (GtkSignalFunc)log_window_destroy,
@@ -273,6 +324,7 @@ gint log_window_button(GtkWidget *button,int a){
 	};
 	return TRUE;
 };
+
 
 void log_window_init(tDownload *what) {
 	gchar *titles[L_COL_LAST];
@@ -342,17 +394,19 @@ void log_window_init(tDownload *what) {
 		                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 		gtk_container_add(GTK_CONTAINER(swindow),temp->clist);
 		if (what->split){
-			GtkWidget *buttonsbar=gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_TEXT);
+			GtkWidget *buttonsbar=temp->toolbar=gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_TEXT);
 			GtkWidget *tmpbutton=NULL;
 			for (int i=1;i<=what->split->NumOfParts;i++){
 				char data[MAX_LEN];
+				char tip[MAX_LEN];
 				g_snprintf(data,MAX_LEN," %i ",i);
+				g_snprintf(tip,MAX_LEN,"Ctrl+%i",i);
 				tmpbutton=gtk_toolbar_append_element (GTK_TOOLBAR (buttonsbar),
 								      GTK_TOOLBAR_CHILD_RADIOBUTTON,
 								      (GtkWidget *)tmpbutton,
-								      data,NULL,"",NULL,
+								      data,tip,"",NULL,
 								      GTK_SIGNAL_FUNC (log_window_button),
-								      (GtkWidget *)GINT_TO_POINTER(i));
+								      GINT_TO_POINTER(i));
 				if (what->LOG->last_log==i){
 					temp->button=tmpbutton;
 				};

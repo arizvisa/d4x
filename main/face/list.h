@@ -15,23 +15,23 @@
 #include <pthread.h>
 #include "../dlist.h"
 #include "../main.h"
-#include "limface.h"
 #include "lod.h"
 #include "graph.h"
+#include "qtree.h"
 
 extern tMain aa;
 
 extern GtkWidget *MainMenu;
-extern GtkWidget *MainLogList,*MAIN_PANED,*MAIN_PANED2;
+extern GtkWidget *MainLogList,*MAIN_PANED,*MAIN_PANED2,*MAIN_PANED1;
 extern GtkAdjustment *ProgressBarValues;
 extern GtkWidget *ProgressOfDownload;
 extern GtkWidget *MainStatusBar;
 extern GtkWidget *MainWindow;
 extern GdkGC *MainWindowGC;
-extern tFaceLimits *FaceForLimits;
 extern GtkWidget *ContainerForCList;
 extern gint StatusBarContext;
 extern GtkCList *FSearchCList;
+extern d4xQsTree *D4X_QVT;
 
 void main_menu_speed_prepare();
 void main_menu_completed_empty();
@@ -77,4 +77,12 @@ char *old_clipboard_content();
 void d4x_mw_clipboard_set(char *str);
 char *d4x_mw_clipboard_get();
 void d4x_normalize_coords(gint *x,gint *y);
+
+void list_dnd_drop_internal(GtkWidget *widget,
+			    GdkDragContext *context,
+			    gint x, gint y,
+			    GtkSelectionData *selection_data,
+			    guint info,
+			    guint time);
+
 #endif

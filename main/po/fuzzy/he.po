@@ -1,0 +1,4177 @@
+# Hebrew Translation for Downloader for X
+# Made by Oren Held <mar_garina@opinionz.cjb.net>
+# Remarks are welcome!
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: nt-1.24\n"
+"POT-Creation-Date: 2002-02-13 22:08+0700\n"
+"PO-Revision-Date: 2000-08-05 21:34+0200\n"
+"Last-Translator: Oren Held <mar_garina@opinionz.cjb.net>\n"
+"Language-Team: Hebrew\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-8\n"
+
+# ../client.cc:139
+# ../client.cc:359
+# ../client.cc:363
+#: ../client.cc:410
+msgid "Timeout while reading from socket!"
+msgstr "!טקוסה תאירקב טואא-םייט"
+
+# ../client.cc:144
+# ../client.cc:364
+# ../client.cc:368
+#: ../client.cc:415
+msgid "Error while reading from socket!"
+msgstr "!טקוסהמ האירקב הלקת"
+
+# ../client.cc:153
+# ../client.cc:373
+# ../client.cc:377
+#: ../client.cc:424
+msgid "Trying to connect..."
+msgstr "...רבחתהל הסנמ"
+
+# ../client.cc:155
+# ../client.cc:375
+# ../client.cc:379
+#: ../client.cc:426
+msgid "Socket was opened!"
+msgstr "!חתפנ טקוס"
+
+# ../client.cc:160
+# ../client.cc:380
+# ../client.cc:384
+#: ../client.cc:431
+msgid "Host not found!"
+msgstr "!אצמנ אל תרשה"
+
+# ../client.cc:165
+# ../client.cc:385
+# ../client.cc:389
+#: ../client.cc:436
+msgid "Can't allocate socket"
+msgstr "טקוס ףוסאל לוכי אל"
+
+# ../client.cc:170
+# ../client.cc:390
+# ../client.cc:394
+#: ../client.cc:441
+msgid "Can't connect"
+msgstr "רבחהתהל לוכי אל"
+
+# ../config.cc:71
+# ../config.cc:72
+# ../config.cc:73
+#: ../config.cc:74
+msgid "You forgot to specify directory."
+msgstr ""
+
+# ../config.cc:73
+# ../config.cc:74
+# ../config.cc:75
+#: ../config.cc:76
+msgid "You must specify number as second parameter for '-m' option"
+msgstr ""
+
+# ../config.cc:77
+# ../config.cc:78
+# ../config.cc:79
+#: ../config.cc:80
+msgid "You must specify number as parameter for '--exit-time' option"
+msgstr ""
+
+# config.cc:
+# ../config.cc:78
+# ../config.cc:79
+# ../config.cc:80
+#: ../config.cc:81
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+# ../config.cc:81
+#: ../config.cc:83
+msgid "Expect URL as parameter for '--del' option"
+msgstr ""
+
+#: ../config.cc:84
+msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
+msgstr ""
+
+#: ../config.cc:85
+msgid "Expect URL as parameter for '--stop' option"
+msgstr ""
+
+# ../config.cc:290
+# ../config.cc:294
+# ../config.cc:303
+#: ../config.cc:270
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr "'%s' -ב תורדגהה ץבוק תא אוצמל לוכי אל\n"
+
+# ../config.cc:291
+# ../config.cc:295
+# ../config.cc:304
+#: ../config.cc:271
+msgid "Use default cfg :))...\n"
+msgstr "...((: לדחמה-תרירב תורדגהב שמתשמ\n"
+
+# config.cc:
+# ../config.cc:539
+# ../config.cc:547
+# ../config.cc:558
+#: ../config.cc:481
+msgid "unknown option:"
+msgstr ":העודי אל תורשפא"
+
+# config.cc:
+# ../config.cc:580
+# ../config.cc:592
+# ../config.cc:605
+#: ../config.cc:528
+#, c-format
+msgid "Run downloads: %d\n"
+msgstr "%d :תוליעפ תודרוה\n"
+
+# config.cc:
+# ../config.cc:582
+# ../config.cc:594
+# ../config.cc:607
+#: ../config.cc:530
+#, c-format
+msgid "Paused downloads: %d\n"
+msgstr "%d :תוהשומ תודרוה\n"
+
+# config.cc:
+# ../config.cc:584
+# ../config.cc:596
+# ../config.cc:609
+#: ../config.cc:532
+#, c-format
+msgid "Failed downloads: %d\n"
+msgstr "%d :ולשכנש תודרוה\n"
+
+# config.cc:
+# ../config.cc:586
+# ../config.cc:598
+# ../config.cc:611
+#: ../config.cc:534
+#, c-format
+msgid "Completed downloads: %d\n"
+msgstr "%d :ומלשוהש תודרוה\n"
+
+# config.cc:
+# ../config.cc:589
+# ../config.cc:601
+# ../config.cc:614
+#: ../config.cc:537
+#, c-format
+msgid "Total: %d\n"
+msgstr "%d :כ\"הס\n"
+
+# ../config.cc:591
+# ../config.cc:603
+# ../config.cc:616
+#: ../config.cc:539
+#, c-format
+msgid "Total bytes loaded: %d\n"
+msgstr ".ונעטנ םיתב %d\n"
+
+# config.cc:
+# ../config.cc:593
+# ../config.cc:605
+# ../config.cc:618
+#: ../config.cc:541
+#, c-format
+msgid "Current speed: %d\n"
+msgstr "%d :תיחכונ תוריהמ\n"
+
+# ../config.cc:599
+# ../config.cc:611
+# ../config.cc:624
+#: ../config.cc:547
+#, c-format
+msgid "Curent speed: %d\n"
+msgstr "%d :תיחכונ תוריהמ\n"
+
+# config.cc:
+# ../config.cc:772
+# ../config.cc:784
+# ../config.cc:807
+#: ../config.cc:761
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr ""
+
+# config.cc:
+# ../config.cc:773
+# ../config.cc:785
+# ../config.cc:808
+#: ../config.cc:762
+msgid "print this page and exit"
+msgstr ""
+
+# config.cc:
+# ../config.cc:774
+# ../config.cc:786
+# ../config.cc:809
+#: ../config.cc:763
+msgid "show version information and exit"
+msgstr ""
+
+# config.cc:
+# ../config.cc:775
+# ../config.cc:787
+# ../config.cc:810
+#: ../config.cc:764
+msgid "show information if already run"
+msgstr ""
+
+# config.cc:
+# ../config.cc:776
+# ../config.cc:788
+# ../config.cc:811
+#: ../config.cc:765
+msgid "show current speed if already run"
+msgstr ""
+
+# config.cc
+# ../config.cc:777
+# ../config.cc:789
+# ../config.cc:812
+#: ../config.cc:766
+msgid "run in minimized mode"
+msgstr ""
+
+# config.cc
+# ../config.cc:778
+# ../config.cc:790
+# ../config.cc:813
+#: ../config.cc:767
+msgid "set timeout for exiting if nothing to do"
+msgstr ""
+
+# config.cc:
+# ../config.cc:779
+# ../config.cc:791
+# ../config.cc:814
+#: ../config.cc:768
+msgid "set directory for saving files"
+msgstr ""
+
+# config.cc:
+# ../config.cc:780
+# ../config.cc:792
+# ../config.cc:815
+#: ../config.cc:769
+msgid "set lower speed limitation"
+msgstr "הכומנ תוריהמ עבק"
+
+# ../config.cc:781
+# ../config.cc:793
+# ../config.cc:816
+#: ../config.cc:770
+msgid "set medium speed limitation"
+msgstr "תינוניב תוריהמ עבק"
+
+# config.cc:
+# ../config.cc:782
+# ../config.cc:794
+# ../config.cc:817
+#: ../config.cc:771
+msgid "set unlimited speed"
+msgstr "תלבגומ יתלב תוריהמ עבק"
+
+# ../config.cc:783
+# ../config.cc:795
+# ../config.cc:818
+#: ../config.cc:772
+msgid "delete completed if already run"
+msgstr ""
+
+# ../config.cc:784
+# ../config.cc:796
+# ../config.cc:819
+#: ../config.cc:773
+msgid "set maximum active downloads"
+msgstr ""
+
+# config.cc
+# ../config.cc:785
+# ../config.cc:797
+# ../config.cc:820
+#: ../config.cc:774
+msgid "restart all failed downloads"
+msgstr ""
+
+# ../config.cc:786
+# ../config.cc:798
+# ../config.cc:821
+#: ../config.cc:775
+msgid "run program without X interface"
+msgstr ""
+
+# ../config.cc:787
+# ../config.cc:799
+# ../config.cc:822
+#: ../config.cc:776
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+# ../face/fsched.cc:38
+# ../face/fsched.cc:38
+# ../config.cc:823
+#: ../config.cc:777
+msgid "remove a download from queue"
+msgstr "ומלשוהש תודרוה הקנ"
+
+# ../face/fsched.cc:36
+# ../face/fsched.cc:36
+# ../face/fsched.cc:36
+#: ../config.cc:778
+#, fuzzy
+msgid "stop a download"
+msgstr "דירוהל קספה"
+
+# ../config.cc:800
+# ../config.cc:824
+#: ../config.cc:779
+msgid "using colors if run without interface"
+msgstr ""
+
+#: ../config.cc:780
+msgid "specifies preferred size and position of main window"
+msgstr ""
+
+# cookie.cc
+# ../cookie.cc:123
+# ../cookie.cc:123
+# ../cookie.cc:122
+#: ../cookie.cc:316
+msgid "Loading cookies"
+msgstr "...זיזוק ןעוט"
+
+# cookie.cc
+# ../cookie.cc:152
+# ../cookie.cc:152
+# ../cookie.cc:151
+#: ../cookie.cc:322
+#, fuzzy, c-format
+msgid "%i cookies loaded from browsers' files"
+msgstr "ונעטנ זיקוק %i"
+
+# cookie.cc
+# ../cookie.cc:154
+# ../cookie.cc:154
+# ../cookie.cc:153
+#: ../cookie.cc:324
+#, fuzzy, c-format
+msgid "Can't open cookies file %s!"
+msgstr "!זיקוקה ץבוק תא חותפל לוכי אל"
+
+# cookie.cc
+# ../cookie.cc:152
+# ../cookie.cc:152
+# ../cookie.cc:151
+#: ../cookie.cc:334
+#, c-format
+msgid "%i cookies loaded"
+msgstr "ונעטנ זיקוק %i"
+
+# ../dlist.cc:105
+# ../dlist.cc:112
+# ../dlist.cc:112
+#: ../dlist.cc:112
+msgid "Can't write to file"
+msgstr "ץבוקל בותכל לוכי אל"
+
+# dlist.cc
+# ../dlist.cc:364
+# ../dlist.cc:376
+# ../dlist.cc:415
+#: ../dlist.cc:137
+msgid "File is already opened by another download!"
+msgstr "!תרחא הדרוהב שומישב רבכ ץבוקה"
+
+# ../dlist.cc:380
+# ../dlist.cc:419
+#: ../dlist.cc:140
+msgid "Filesystem do not support advisory record locking!"
+msgstr ""
+
+# ../dlist.cc:381
+# ../dlist.cc:420
+#: ../dlist.cc:141
+msgid "Will proceed without it but beware that you might have problems."
+msgstr ""
+
+# ../dlist.cc:283
+# ../dlist.cc:294
+# ../dlist.cc:333
+#: ../dlist.cc:390
+#, c-format
+msgid "You have no permissions to create file at path %s"
+msgstr "%s םוקימב ץבוק רוציל האשרה ךל ןיא"
+
+# ../dlist.cc:288
+# ../dlist.cc:299
+# ../dlist.cc:338
+#: ../dlist.cc:395
+#, c-format
+msgid "You have no space at path %s for creating file"
+msgstr "ץבוק תריציל %s םוקימב םוקמ ןיא"
+
+# ../dlist.cc:293
+# ../dlist.cc:304
+# ../dlist.cc:343
+#: ../dlist.cc:400
+msgid "Directory already created!:))"
+msgstr "((: הרצונ רבכ הירפסה"
+
+# ../dlist.cc:408
+# ../dlist.cc:423
+# ../dlist.cc:462
+#. this is a link
+#: ../dlist.cc:520
+msgid "Trying to create a link"
+msgstr "קניל רוציל הסנמ"
+
+# ../dlist.cc:413
+# ../dlist.cc:428
+# ../dlist.cc:467
+#: ../dlist.cc:525
+msgid "Link already created!:))"
+msgstr "((: ! רצונ רבכ קנילה"
+
+# ../dlist.cc:419
+# ../dlist.cc:434
+# ../dlist.cc:473
+#: ../dlist.cc:531
+msgid "Can't create link"
+msgstr "קניל רוציל לוכי אל"
+
+# ../dlist.cc:428
+# ../dlist.cc:443
+# ../dlist.cc:482
+#. this is a file
+#: ../dlist.cc:540
+msgid "Trying to create a file"
+msgstr "ץבוק רוציל הסנמ"
+
+# ../dlist.cc:449
+# ../dlist.cc:464
+# ../dlist.cc:503
+#: ../dlist.cc:561
+msgid "Can't create file at the path:"
+msgstr ":םוקימב ץבוק רוציל לוכי אל"
+
+# ../dlist.cc:451
+# ../dlist.cc:466
+# ../dlist.cc:505
+#: ../dlist.cc:563
+msgid "which has name:"
+msgstr ":אוה ומשש"
+
+# ../dlist.cc:462
+# ../dlist.cc:477
+# ../dlist.cc:516
+#: ../dlist.cc:574
+msgid "File was created!"
+msgstr "!רצונ ץבוק"
+
+# ../dlist.cc:467
+# ../dlist.cc:482
+# ../dlist.cc:521
+#. this is a directory
+#: ../dlist.cc:579
+msgid "Trying to create a dir"
+msgstr "הירפס רוציל הסנמ"
+
+# ../dlist.cc:477
+# ../dlist.cc:492
+# ../dlist.cc:531
+#: ../dlist.cc:589
+msgid "Can't create directory!"
+msgstr "!הירפס לוכי אל"
+
+# ../dlist.cc:487
+# ../dlist.cc:502
+# ../dlist.cc:541
+#. this is device
+#: ../dlist.cc:599
+msgid "Downloader can't create devices..."
+msgstr ""
+
+#: ../dlist.cc:1028
+#, c-format
+msgid "Trying to copy %s to %s due 'Content-Disposition'"
+msgstr ""
+
+#: ../dlist.cc:1031
+msgid "Error during copying!"
+msgstr ""
+
+# ../dlist.cc:814
+# ../dlist.cc:856
+# ../dlist.cc:904
+#: ../dlist.cc:1062
+msgid "Downloading was successefully completed!"
+msgstr "!החלצהב המלשוה הדרוהה"
+
+# ../dlist.cc:847
+# ../dlist.cc:892
+# ../dlist.cc:946
+#: ../dlist.cc:1104
+msgid "Downloading was failed..."
+msgstr "...הלשכנ הדרוהה"
+
+#: ../dlist.cc:1221
+msgid "Redirection blocked by filter"
+msgstr ""
+
+# ../dlist.cc:964
+# ../dlist.cc:1019
+# ../dlist.cc:1084
+#: ../dlist.cc:1227
+msgid "Redirect detected..."
+msgstr "...ההוז Redirect"
+
+# ../dlist.cc:952
+# ../dlist.cc:1026
+# ../dlist.cc:1091
+#: ../dlist.cc:1285
+msgid "It is strange that we can't delete file which just created..."
+msgstr "...ונרצי התע הזש ץבוק קוחמל רשפא יאש רזומ"
+
+# ../dlist.cc:956 ../dlist.cc:1133
+# ../dlist.cc:1030 ../dlist.cc:1201
+# ../dlist.cc:1095 ../dlist.cc:1267
+#: ../dlist.cc:1289 ../dlist.cc:1508
+msgid "File not found"
+msgstr "אצמנ אל ץבוק"
+
+# dlist.cc
+# ../dlist.cc:1006
+# ../dlist.cc:1074
+# ../dlist.cc:1147
+#: ../dlist.cc:1347
+msgid "Sorting started"
+msgstr "לחה ןוימ"
+
+# ../dlist.cc:1009
+# ../dlist.cc:1077
+# ../dlist.cc:1150
+#: ../dlist.cc:1350
+#, c-format
+msgid "Pinging (atempt %i of %i)"
+msgstr "(%i ןויסנ ,%i ךותמ) גניפ עצבמ"
+
+# ../dlist.cc:428
+# ../dlist.cc:443
+# ../dlist.cc:482
+#: ../dlist.cc:1378
+msgid "Trying to determine filesizes"
+msgstr "ץבוק רוציל הסנמ"
+
+# dlist.cc
+# ../dlist.cc:1084
+# ../dlist.cc:1152
+# ../dlist.cc:1215
+#: ../dlist.cc:1454
+msgid "Searching failed"
+msgstr "לשכנ שופיח"
+
+# dlist.cc:
+# ../dlist.cc:1104
+# ../dlist.cc:1172
+# ../dlist.cc:1235
+#: ../dlist.cc:1476
+msgid "Search had been completed!"
+msgstr "!םלשוה שופיחה"
+
+# ../dlist.cc:1110
+# ../dlist.cc:1178
+# ../dlist.cc:1241
+#: ../dlist.cc:1482
+msgid "Was Started!"
+msgstr "!ליחתה"
+
+# ../dlist.cc:1114
+# ../dlist.cc:1182
+# ../dlist.cc:1245
+#: ../dlist.cc:1486
+msgid "It is a link and we already load it"
+msgstr "ותוא וננעט רבכו קניל והז"
+
+# ../dlist.cc:1206
+# ../dlist.cc:1272
+#: ../dlist.cc:1513
+msgid "Trying to work without CWD"
+msgstr ""
+
+# ../dlist.cc:1199
+# ../dlist.cc:1273
+# ../dlist.cc:1340
+#: ../dlist.cc:1584
+msgid "Can't split file to specified number of parts!"
+msgstr "!ןייוצש םיקלחה רפסמל ץבוקה תא לצפל לוכי אל"
+
+# ../download.cc:213
+# ../download.cc:33
+# ../download.cc:33
+#: ../download.cc:33
+msgid "Maximum number of retries reached!"
+msgstr "!ילמיסקמה תונויסנה רפסמל ונעגה"
+
+# ../download.cc:218
+# ../download.cc:38
+# ../download.cc:38
+#: ../download.cc:38
+#, c-format
+msgid "Retry %i of %i...."
+msgstr "....%i רפסמ ןויסנ ,%i ךותמ"
+
+# ../download.cc:220
+# ../download.cc:40
+# ../download.cc:40
+#: ../download.cc:40
+#, c-format
+msgid "Retry %i ..."
+msgstr "... %i הסנמ"
+
+# ../download.cc:224
+# ../download.cc:44
+# ../download.cc:44
+#: ../download.cc:44
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr "שדחמ ליחתמ .ימוקמהמ רתוי שדח תרשה לע ץבוקה\n"
+
+# ../download.cc:48
+# ../download.cc:48
+#: ../download.cc:48
+#, c-format
+msgid "Error code %i"
+msgstr ""
+
+# ../download.cc:227
+# ../download.cc:49
+# ../download.cc:49
+#: ../download.cc:49
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "!!!גאב תאצמש הארנכ !הרהזא"
+
+# ../download.cc:228
+# ../download.cc:50
+# ../download.cc:50
+#: ../download.cc:50
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr "mdem@char.ru -ל י/חווד אנא ,וז העדוה האור ה/תא םא"
+
+# ../ftp.cc:49
+# ../ftp.cc:50
+# ../ftp.cc:50
+#: ../ftp.cc:50
+msgid "Accepting faild"
+msgstr "הלשכנ הלבק"
+
+# ../ftp.cc:72
+# ../ftp.cc:73
+# ../ftp.cc:73
+#: ../ftp.cc:73
+msgid "Timeout while sending through control socket."
+msgstr ".הרקבה טקוס ךרד החילשב טואא-םייט"
+
+# ../ftp.cc:73
+# ../ftp.cc:74
+# ../ftp.cc:74
+#: ../ftp.cc:74
+msgid "Control connection lost"
+msgstr ""
+
+# ../ftp.cc:84
+# ../ftp.cc:85
+# ../ftp.cc:85
+#: ../ftp.cc:85
+msgid "Data connection lost!"
+msgstr "!דבא עדימה טקוס"
+
+# ../ftp.cc:94
+# ../ftp.cc:95
+# ../ftp.cc:95
+#: ../ftp.cc:95
+msgid "Control connection lost!"
+msgstr "דבא הרקבה רוביח"
+
+# ../ftp.cc:183
+# ../ftp.cc:184
+# ../ftp.cc:185
+#: ../ftp.cc:185
+msgid "Reget is not supported!!!"
+msgstr "!!!ץבוק תדרוה ךשמהב הכימת ןיא"
+
+# ../ftp.cc:270
+# ../ftp.cc:288
+# ../ftp.cc:288
+#.
+#. if (index(log->body,'(')!=NULL)
+#. sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
+#.
+#: ../ftp.cc:293
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr "%i,%i,%i,%i,%i,%i -ל רבחתהל הסנמ"
+
+#: ../ftp.cc:418
+msgid "Probably file was changed on server!"
+msgstr ""
+
+# ../ftp.cc:408 ../http.cc:174
+# ../ftp.cc:426 ../http.cc:178
+# ../ftp.cc:432 ../http.cc:178
+#: ../ftp.cc:435 ../http.cc:213
+msgid "Data connection closed."
+msgstr ".רגסנ עדימה רוביח"
+
+# ../ftp.cc:420 ../http.cc:186
+# ../ftp.cc:438 ../http.cc:190
+# ../ftp.cc:444 ../http.cc:190
+#: ../ftp.cc:447 ../http.cc:225
+msgid "Requested size was loaded"
+msgstr "ןעטנ שקובמה לדוגה"
+
+# ../ftpd.cc:234
+# ../ftpd.cc:234
+# ../ftpd.cc:234
+#: ../ftpd.cc:234
+msgid "Can't establish data connection"
+msgstr "DATA תורבחתה רוציל לוכי אל"
+
+# ../ftpd.cc:237
+# ../ftpd.cc:237
+# ../ftpd.cc:237
+#: ../ftpd.cc:237
+msgid "Can't change directory"
+msgstr "הירפס תונשל לוכי אל"
+
+# ../ftpd.cc:240
+# ../ftpd.cc:240
+# ../ftpd.cc:240
+#: ../ftpd.cc:240
+msgid "Server refused login, perhaps there are too many users of your class"
+msgstr "םישמתשמ ידמ רתוי שיש הארנכ ,רוביח רשפאמ אל תרשה"
+
+# ../ftpd.cc:295 ../httpd.cc:100
+# ../ftpd.cc:301 ../httpd.cc:100
+# ../ftpd.cc:301 ../httpd.cc:100
+#: ../ftpd.cc:309 ../httpd.cc:223
+msgid "Sleeping"
+msgstr "ןיתממ"
+
+# ../ftpd.cc:393
+#: ../ftpd.cc:414
+msgid "Empty answer. Trying to change directory to determine file type."
+msgstr ""
+
+# ../ftpd.cc:396
+# ../ftpd.cc:411
+# ../ftpd.cc:418
+#: ../ftpd.cc:439 ../ftpd.cc:461
+#, c-format
+msgid "Length is %i"
+msgstr "%i אוה ץבוקה לדוג"
+
+# ../ftpd.cc:400
+# ../ftpd.cc:415
+# ../ftpd.cc:434
+#: ../ftpd.cc:451
+msgid "This is a directory!"
+msgstr "!הירפס יהוז"
+
+# ../ftpd.cc:409
+# ../ftpd.cc:424
+# ../ftpd.cc:443
+#: ../ftpd.cc:488
+msgid "Couldn't get size :(("
+msgstr ")): ץבוקה לדוג תא לבקל לוכי אל"
+
+# ../ftpd.cc:428
+# ../ftpd.cc:449
+# ../ftpd.cc:468
+#: ../ftpd.cc:503
+msgid "Loading directory..."
+msgstr "...הירפס ןעוט"
+
+# ../ftpd.cc:445
+# ../ftpd.cc:463
+# ../ftpd.cc:482
+#: ../ftpd.cc:517
+msgid "Listing was loaded"
+msgstr "הנעטנ המישר"
+
+# ../ftpd.cc:448
+# ../ftpd.cc:466
+# ../ftpd.cc:485
+#: ../ftpd.cc:520
+msgid "Listing not loaded completelly"
+msgstr "האולמב הנעטנ אל המישר"
+
+# ../ftpd.cc:475
+# ../ftpd.cc:493
+# ../ftpd.cc:512
+#: ../ftpd.cc:547
+msgid "Link was loaded :))"
+msgstr "((: ןעטנ קניל"
+
+# ../ftpd.cc:502 ../httpd.cc:310
+# ../ftpd.cc:527 ../httpd.cc:314
+# ../ftpd.cc:546 ../httpd.cc:317
+#: ../ftpd.cc:581 ../httpd.cc:477
+#, c-format
+msgid "%i bytes loaded."
+msgstr ".ונעטנ םיתב %i"
+
+# ../hproxy.cc:161
+# ../hproxy.cc:166
+# ../hproxy.cc:176
+#: ../hproxy.cc:190
+#, fuzzy, c-format
+msgid "Sending request to proxy (%s:%i)"
+msgstr "יסקורפל השקב חלוש"
+
+# ../hproxy.cc:164 ../httpd.cc:255
+# ../hproxy.cc:169 ../httpd.cc:259
+# ../hproxy.cc:180 ../httpd.cc:260
+#. all ok
+#: ../hproxy.cc:194 ../httpd.cc:419
+msgid "Answer read ok"
+msgstr "החלצהב הלבקתה הבושת"
+
+# ../dlist.cc:956 ../dlist.cc:1133
+# ../dlist.cc:1030 ../dlist.cc:1201
+# ../dlist.cc:1095 ../dlist.cc:1267
+#: ../hproxy.cc:205
+#, fuzzy
+msgid "File not found on the server"
+msgstr "אצמנ אל ץבוק"
+
+# ../hproxy.cc:189
+#: ../hproxy.cc:208
+msgid "Probably it's problem of proxy server, retrying"
+msgstr ""
+
+# ../http.cc:57
+# ../http.cc:61
+# ../http.cc:61
+#: ../http.cc:62
+msgid "Socket lost!"
+msgstr "!דבא טקוס"
+
+# http.cc
+# ../http.cc:67
+# ../http.cc:71
+# ../http.cc:71
+#: ../http.cc:72
+msgid "Request was sent, waiting for the answer"
+msgstr "הבושתל הכחמ ,החלשנ השקב"
+
+# ../http.cc:79
+# ../http.cc:83
+# ../http.cc:83
+#: ../http.cc:87
+msgid "It is not HTTP server!!!"
+msgstr "!!!HTTP רתא אל והז"
+
+# ../http.cc:86
+# ../http.cc:90
+# ../http.cc:90
+#: ../http.cc:95
+msgid "All ok, reading file"
+msgstr "ץבוק ארוק ,רדסב לכה"
+
+# ../http.cc:97
+# ../http.cc:101
+# ../http.cc:101
+#: ../http.cc:106
+msgid "It seems to me that you need a password :)"
+msgstr "(: המסיס ךירצ התאש יל הארנ"
+
+# ../http.cc:103
+# ../http.cc:107
+# ../http.cc:107
+#: ../http.cc:112
+msgid "Server return bad answer:(("
+msgstr ")): הניקת אל הבושת ריזחה תרשה"
+
+#: ../http.cc:191
+msgid "Wrong chunk size!"
+msgstr ""
+
+#: ../http.cc:194
+#, c-format
+msgid "Chunk size %i"
+msgstr ""
+
+#: ../http.cc:196
+msgid "It's last chunk!"
+msgstr ""
+
+# ../httpd.cc:57
+# ../httpd.cc:57
+# ../httpd.cc:57
+#: ../httpd.cc:175
+msgid "Couldn't get normal answer!"
+msgstr "!תילמרונ הבושת לבקל לוכי אל"
+
+# ../httpd.cc:212
+# ../httpd.cc:216
+# ../httpd.cc:216
+#: ../httpd.cc:375
+#, c-format
+msgid "Size for download is %i bytes"
+msgstr "םיתב %i אוה הדרוהל לדוגה"
+
+# ../httpd.cc:252
+# ../httpd.cc:256
+# ../httpd.cc:256
+#: ../httpd.cc:415
+msgid "Sending HTTP request..."
+msgstr "...HTTP תשקב חלוש"
+
+# ../httpd.cc:292
+# ../httpd.cc:296
+# ../httpd.cc:299
+#: ../httpd.cc:459
+msgid "It is seemed REGET not supported! Loading from begin.."
+msgstr "..הלחתההמ ליחתמ !ךמתנ אל הדרוה ךשמהש הארנכ"
+
+# ../httpd.cc:295
+# ../httpd.cc:299
+# ../httpd.cc:302
+#: ../httpd.cc:462
+msgid "ETag was changed, restarting again..."
+msgstr ""
+
+# log.cc:
+# ../log.cc:63
+# ../log.cc:64
+# ../log.cc:65
+#: ../log.cc:64
+msgid "Log was started!"
+msgstr "לחה גולב םושיר"
+
+# ../client.cc:165
+# ../client.cc:385
+# ../main.cc:145
+#: ../main.cc:119
+msgid "Can't init control socket!\n"
+msgstr "הרקב טקוס חותפל לוכי אל\n"
+
+# main.cc:
+# ../main.cc:130
+# ../main.cc:140
+# ../main.cc:153
+#: ../main.cc:162
+msgid "Loading default list of downloads"
+msgstr "תודרוה תמישר ןעוט"
+
+# main.cc
+# ../main.cc:251 ../main.cc:1096
+# ../main.cc:261 ../main.cc:1087
+# ../main.cc:259 ../main.cc:1122
+#: ../main.cc:229 ../main.cc:1178
+msgid "Delete completed downloads"
+msgstr "ומלשוהש תודרוה קחמ"
+
+# main.cc
+# ../main.cc:265
+# ../main.cc:275
+# ../main.cc:272
+#: ../main.cc:242
+msgid "Delete failed downloads"
+msgstr "ולשכנש תודרוה קחמ"
+
+# ../main.cc:285
+# ../main.cc:295
+# ../main.cc:293
+#: ../main.cc:259
+msgid "Clear queue of downloads"
+msgstr "תודרוה תמישר הקנ"
+
+# main.cc
+# ../main.cc:338
+# ../main.cc:349
+# ../main.cc:347
+#: ../main.cc:316
+msgid "Run new thread for %z"
+msgstr ""
+
+# main.cc:
+# ../main.cc:344
+# ../main.cc:355
+# ../main.cc:353
+#: ../main.cc:322
+msgid "Can't run new thread for downloading!"
+msgstr ""
+
+# ../main.cc:396
+# ../main.cc:407
+# ../main.cc:405
+#: ../main.cc:377
+#, c-format
+msgid "Downloading of file %s from %s was terminated [by user]"
+msgstr "[שמתשמ י\"ע] הקספוה %s ץבוקה לש %s -מ הדרוהה"
+
+# ../main.cc:454
+# ../main.cc:460
+# ../main.cc:459
+#: ../main.cc:407
+#, c-format
+msgid "Delete file %s from queue of downloads"
+msgstr "תודרוה תמישרמ %s ץבוק הקנ"
+
+# ../main.cc:532
+# ../main.cc:538
+# ../main.cc:537
+#: ../main.cc:491
+#, c-format
+msgid "Continue downloading of file %s from %s..."
+msgstr "...%s תא %s -מ תא דירוהל ךישממ"
+
+# ../main.cc:622
+# ../face/mywidget.cc:369 ../face/mywidget.cc:611 ../main.cc:628
+# ../face/mywidget.cc:371 ../face/mywidget.cc:613 ../main.cc:628
+#: ../face/mywidget.cc:389 ../face/mywidget.cc:695 ../main.cc:581
+msgid "file"
+msgstr "ץבוק"
+
+# ../main.cc:721
+# ../main.cc:727
+# ../main.cc:727
+#: ../main.cc:679
+msgid "dir"
+msgstr "הירפס"
+
+# ../main.cc:725
+# ../main.cc:731
+# ../main.cc:731
+#: ../main.cc:684
+msgid "link"
+msgstr "קניל"
+
+# ../main.cc:729
+# ../main.cc:735
+# ../main.cc:735
+#: ../main.cc:689
+msgid "device"
+msgstr ""
+
+# ../main.cc:774
+# ../main.cc:774
+#: ../main.cc:725
+msgid "Too many redirections!"
+msgstr ""
+
+# main.cc:
+# ../main.cc:796
+# ../main.cc:784
+# ../main.cc:789
+#: ../main.cc:743
+msgid "Redirection from [%z] to the same location!"
+msgstr ""
+
+# main.cc:
+# ../main.cc:829
+# ../main.cc:817
+# ../main.cc:825
+#: ../main.cc:779
+msgid "Redirection from [%z] to nowhere!"
+msgstr ""
+
+#: ../main.cc:805
+msgid "Prepare thread %i of [%z] for stoping"
+msgstr ""
+
+# main.cc:
+# ../main.cc:867
+# ../main.cc:855
+# ../main.cc:872
+#: ../main.cc:823
+msgid "Redirect from %z"
+msgstr ""
+
+# ../main.cc:871
+# ../main.cc:859
+# ../main.cc:876
+#: ../main.cc:830
+msgid "Downloading of directory %z was completed"
+msgstr "המלשוה %z הירפסה תדרוה"
+
+# ../main.cc:875
+# ../main.cc:863
+# ../main.cc:880
+#: ../main.cc:834
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+msgstr "(%z ץבוקה) (םיתב %i) %i תוריהמב המלשוה הדרוהה"
+
+# main.cc
+# ../main.cc:881
+# ../main.cc:869
+# ../main.cc:886
+#: ../main.cc:841
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "המייתסהש הדרוהכ ,תודרוה תמישרמ קחמנ %z"
+
+# ../main.cc:892
+# ../main.cc:880
+# ../main.cc:897
+#: ../main.cc:852
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "הלקת ללגב הקספוה %z ץבוקה תדרוה"
+
+# main.cc
+# ../main.cc:895
+# ../main.cc:883
+# ../main.cc:900
+#: ../main.cc:854
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "הלשכנש הדרוהכ ,תודרוה תמישרמ קחמנ %z"
+
+# ../main.cc:1056
+# ../main.cc:1047
+# ../main.cc:1075
+#: ../main.cc:1122
+msgid "Restarting failed downloads"
+msgstr "ולשכנש תודרוה שדחמ ליחתמ"
+
+# main.cc
+# ../main.cc:1056 ../main.cc:1076 ../main.cc:1092 ../main.cc:1096
+# ../main.cc:1101 ../main.cc:1114 ../main.cc:1119
+# ../main.cc:1047 ../main.cc:1067 ../main.cc:1083 ../main.cc:1087
+# ../main.cc:1092 ../main.cc:1105 ../main.cc:1110
+# ../main.cc:1075 ../main.cc:1102 ../main.cc:1118 ../main.cc:1122
+# ../main.cc:1127 ../main.cc:1140 ../main.cc:1145
+#: ../main.cc:1122 ../main.cc:1158 ../main.cc:1174 ../main.cc:1178
+#: ../main.cc:1183 ../main.cc:1196 ../main.cc:1201
+msgid "[control socket]"
+msgstr ""
+
+# ../face/fsched.cc:38
+# ../face/fsched.cc:38
+# ../main.cc:1086
+#: ../main.cc:1140
+#, c-format
+msgid "Remove the download via control socket [%s]"
+msgstr "[%s] הרקבה טקוס ךרד ומלשוהש תודרוה הקנ"
+
+# main.cc
+# ../main.cc:1067
+# ../main.cc:1058
+# ../main.cc:1093
+#: ../main.cc:1148
+#, c-format
+msgid "Adding downloading via control socket [%s]"
+msgstr ""
+
+# main.cc
+# ../main.cc:1074
+# ../main.cc:1065
+# ../main.cc:1100
+#: ../main.cc:1156
+#, c-format
+msgid "Set speed limitation to %s %s"
+msgstr "%s %s -ל תוריהמ תלבגה עבק"
+
+# main.cc
+# ../main.cc:1092
+# ../main.cc:1083
+# ../main.cc:1118
+#: ../main.cc:1174
+msgid "Setup maximum active downloads to"
+msgstr "-ל ילמיסקמ תודרוה רפסמ רדגה"
+
+# ../main.cc:1114
+# ../main.cc:1105
+# ../main.cc:1140
+#: ../main.cc:1196
+msgid "Exiting if nothing to do is switched off"
+msgstr "תלטובמ תושעל המ ןיא םא האיצי"
+
+# ../main.cc:1119
+# ../main.cc:1110
+# ../main.cc:1145
+#: ../main.cc:1201
+#, c-format
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "תוקד %i ירחא תושעל המ ןיא םא אציי Downloader %s"
+
+# ../main.cc:1368
+# ../main.cc:1359
+# ../main.cc:1412
+#: ../main.cc:1443
+msgid "Normally started"
+msgstr "החלצהב לעפוה"
+
+# ../main.cc:1416
+# ../main.cc:1407
+# ../main.cc:1460
+#: ../main.cc:1492
+#, c-format
+msgid "Added downloading of file %s from %s [by user]"
+msgstr "[שמתשמ י\"ע] %s ץבוקה לש %s -מ תדרוהה הפסונ"
+
+# main.cc
+# ../main.cc:1456
+# ../main.cc:1453
+# ../main.cc:1504
+#: ../main.cc:1545
+#, c-format
+msgid "%lu bytes loaded during the session"
+msgstr "יחכונה ןשסה ךשמב ונעטנ םיתב %lu"
+
+# main.cc:
+# ../main.cc:1457
+# ../main.cc:1454
+# ../main.cc:1505
+#: ../main.cc:1546
+msgid "Downloader exited normaly"
+msgstr "החלצהב רגסנ"
+
+# ../main.cc:1491
+# ../main.cc:1491
+# ../main.cc:1544
+#: ../main.cc:1584
+#, c-format
+msgid "Can't open '%s' to save log"
+msgstr "גול תרימשל '%s' ץבוקה תא חותפל לוכי אל"
+
+# ../main.cc:1522
+# ../main.cc:1522
+# ../main.cc:1575
+#: ../main.cc:1615
+msgid "Such protocol is not supported!"
+msgstr "!ךמתנ אל הז לוקוטורפ"
+
+# mainlog.cc:
+# ../mainlog.cc:133
+# ../mainlog.cc:162
+# ../mainlog.cc:162
+#: ../mainlog.cc:162
+msgid ""
+"Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ".עטקנ ץבוקה !םומיסקמל עיגה ישארה גולה ץבוק לדוג"
+
+# ../mainlog.cc:142
+# ../mainlog.cc:171
+# ../mainlog.cc:171
+#: ../mainlog.cc:171
+msgid "Can't write to file interrupting write to file"
+msgstr "ץבוקל הביתכ קיספמ - ץבוקל בותכל לוכי אל"
+
+# ../mainlog.cc:183
+# ../mainlog.cc:212
+# ../mainlog.cc:212
+#: ../mainlog.cc:213
+msgid "Open a row"
+msgstr "הרוש חתפ"
+
+# ../mainlog.cc:186
+# ../mainlog.cc:215
+# ../mainlog.cc:215
+#: ../mainlog.cc:216
+msgid "Clear log"
+msgstr "גול ץבוק הקנ"
+
+# ../face/fsched.cc:710 ../face/lmenu.cc:139 ../mainlog.cc:189
+# ../face/fsched.cc:771 ../face/lmenu.cc:139 ../mainlog.cc:218
+# ../face/fsched.cc:772 ../face/lmenu.cc:159 ../mainlog.cc:218
+#: ../face/fsched.cc:771 ../face/lmenu.cc:173 ../mainlog.cc:219
+msgid "Properties"
+msgstr "םינייפאמ"
+
+# ../mainlog.cc:221
+# ../mainlog.cc:249
+# ../mainlog.cc:249
+#: ../mainlog.cc:250
+#, c-format
+msgid "row number %i of main log"
+msgstr "ישארה גולב %i רפסמ הרוש"
+
+# ../mainlog.cc:249
+# ../mainlog.cc:288
+# ../mainlog.cc:288
+#: ../mainlog.cc:290
+msgid "Can't open file for saving log"
+msgstr "גול תרימשל ץבוק חותפל לוכי אל"
+
+# ../nt.cc:98
+# ../nt.cc:100
+# ../nt.cc:118
+#: ../nt.cc:121
+msgid "WARNING!!! Can't find HOME variable! So can't read config!"
+msgstr ""
+"!תורדגהה תא ןועטל רשפא יאש ךכ ,HOME תכרעמה הנתשמ תא אוצמל לוכי אל !!!הרהזא"
+
+# ../nt.cc:111
+# ../nt.cc:113
+# ../nt.cc:131
+#: ../nt.cc:134
+#, c-format
+msgid "%s probably is already running\n"
+msgstr "דבוע רבכ %s -ש הארנכ\n"
+
+# ../savelog.cc:45
+# ../savelog.cc:45
+# ../savelog.cc:45
+#: ../savelog.cc:43
+msgid ""
+"Can't save default list of downloads!!! Becouse can't find HOME variable"
+msgstr ""
+"!!!HOME תכרעמה הנשתמ תא אוצמל לוכי אל יכ ,תודרוהה תמישר תא רומשל לוכי אל"
+
+# ../savelog.cc:51
+# ../savelog.cc:51
+# ../savelog.cc:51
+#: ../savelog.cc:49
+msgid "Can't save default list of downloads!!!"
+msgstr "!!!תודרוהה תמישר תא רומשל לוכי אל"
+
+# ../savelog.cc:97
+# ../savelog.cc:97
+# ../savelog.cc:97
+#: ../savelog.cc:84
+msgid "Can't load default list of downloads!!!"
+msgstr "!!!תודרוה תמישר ןועטל לוכי אל"
+
+# ../signal.cc:52 ../signal.cc:71
+# ../signal.cc:52 ../signal.cc:71
+# ../signal.cc:52 ../signal.cc:71
+#: ../signal.cc:53 ../signal.cc:72
+msgid "Download  was stopped by user"
+msgstr "שמתשמ ידי-לע הקספוה הדרוה"
+
+# ../memwl.cc:73
+# ../memwl.cc:73
+# ../memwl.cc:73
+#: ../memwl.cc:73
+msgid "BUG: Wrong mode of lseek!\n"
+msgstr ""
+
+# ping.cc
+# ../ping.cc:49
+# ../ping.cc:49
+# ../ping.cc:49
+#: ../ping.cc:49
+msgid "Resolving hosts..."
+msgstr ""
+
+# ../ping.cc:78
+# ../ping.cc:78
+# ../ping.cc:78
+#: ../ping.cc:78
+msgid "Pinging  (it takes 30 seconds maximum)..."
+msgstr ""
+
+# var.cc
+# ../var.cc:93
+# ../var.cc:94
+# ../var.cc:95
+#: ../var.cc:97
+msgid "low"
+msgstr "יטיא"
+
+# ../var.cc:94
+# ../var.cc:95
+# ../var.cc:96
+#: ../var.cc:98
+msgid "medium"
+msgstr "ינוניב"
+
+# ../var.cc:95
+# ../var.cc:96
+# ../var.cc:97
+#: ../var.cc:99
+msgid "unlimited"
+msgstr "ריהמ"
+
+# ../face/about.cc:98
+# ../face/about.cc:99
+# ../face/about.cc:104
+#: ../face/about.cc:109
+msgid "About"
+msgstr "תודוא"
+
+# ../face/about.cc:103
+# ../face/about.cc:104
+# ../face/about.cc:109
+#: ../face/about.cc:119
+msgid "Author: Koshelev Maxim"
+msgstr "Koshelev Maxim :תנכתמ"
+
+# ../face/about.cc:105
+# ../face/about.cc:106
+# ../face/about.cc:111
+#: ../face/about.cc:121
+msgid "Translators team"
+msgstr ":םימגרתמה תווצ"
+
+# face/about.cc
+# ../face/about.cc:112
+# ../face/about.cc:113
+# ../face/about.cc:118
+#: ../face/about.cc:128
+msgid "Special thanks to"
+msgstr ":ל תדחוימ הדות"
+
+# face/
+# ../face/about.cc:119 ../face/about.cc:191 ../face/about.cc:246
+# ../face/edit.cc:630 ../face/edit.cc:1493 ../face/fsched.cc:182
+# ../face/fsched.cc:716 ../face/limface.cc:77 ../face/limface.cc:319
+# ../face/passface.cc:76 ../face/passface.cc:258 ../face/prefs.cc:994
+# ../face/saveload.cc:137 ../face/saveload.cc:177 ../face/saveload.cc:216
+# ../face/about.cc:120 ../face/about.cc:188 ../face/about.cc:269
+# ../face/buttons.cc:155 ../face/edit.cc:760 ../face/edit.cc:796
+# ../face/edit.cc:1879 ../face/filtrgui.cc:143 ../face/fsched.cc:200
+# ../face/fsched.cc:777 ../face/limface.cc:77 ../face/limface.cc:319
+# ../face/mywidget.cc:384 ../face/mywidget.cc:656 ../face/passface.cc:77
+# ../face/passface.cc:259 ../face/prefs.cc:1011 ../face/saveload.cc:137
+# ../face/saveload.cc:177 ../face/saveload.cc:216
+# ../face/about.cc:125 ../face/about.cc:193 ../face/about.cc:274
+# ../face/buttons.cc:160 ../face/edit.cc:783 ../face/edit.cc:821
+# ../face/edit.cc:2003 ../face/filtrgui.cc:165 ../face/fsched.cc:201
+# ../face/fsched.cc:778 ../face/limface.cc:79 ../face/limface.cc:323
+# ../face/list.cc:209 ../face/lod.cc:478 ../face/mywidget.cc:386
+# ../face/mywidget.cc:658 ../face/passface.cc:79 ../face/passface.cc:263
+# ../face/prefs.cc:1068 ../face/saveload.cc:141 ../face/saveload.cc:183
+# ../face/saveload.cc:224
+#: ../face/about.cc:135 ../face/about.cc:204 ../face/about.cc:287
+#: ../face/buttons.cc:168 ../face/edit.cc:801 ../face/edit.cc:2048
+#: ../face/filtrgui.cc:167 ../face/fsched.cc:201 ../face/fsched.cc:777
+#: ../face/lod.cc:581 ../face/mywidget.cc:459 ../face/mywidget.cc:738
+#: ../face/mywidget.cc:826 ../face/mywidget.cc:925 ../face/mywidget.cc:1023
+#: ../face/passface.cc:79 ../face/passface.cc:264 ../face/prefs.cc:1218
+#: ../face/qtree.cc:104 ../face/qtree.cc:551 ../face/saveload.cc:161
+#: ../face/saveload.cc:204 ../face/saveload.cc:246
+msgid "Ok"
+msgstr "רושיא"
+
+# ../face/about.cc:192 ../face/edit.cc:631 ../face/fsched.cc:717
+# ../face/limface.cc:78 ../face/passface.cc:77 ../face/prefs.cc:995
+# ../face/saveload.cc:139 ../face/saveload.cc:179 ../face/saveload.cc:218
+# ../face/about.cc:189 ../face/buttons.cc:157 ../face/edit.cc:761
+# ../face/edit.cc:797 ../face/fsched.cc:778 ../face/limface.cc:78
+# ../face/mywidget.cc:385 ../face/passface.cc:78 ../face/prefs.cc:1012
+# ../face/saveload.cc:139 ../face/saveload.cc:179 ../face/saveload.cc:218
+# ../face/about.cc:194 ../face/buttons.cc:162 ../face/edit.cc:784
+# ../face/edit.cc:822 ../face/fsched.cc:779 ../face/limface.cc:80
+# ../face/list.cc:210 ../face/lod.cc:479 ../face/mywidget.cc:387
+# ../face/passface.cc:80 ../face/prefs.cc:1069 ../face/saveload.cc:143
+# ../face/saveload.cc:185 ../face/saveload.cc:226
+#: ../face/about.cc:205 ../face/buttons.cc:170 ../face/edit.cc:802
+#: ../face/fsched.cc:778 ../face/lod.cc:582 ../face/mywidget.cc:460
+#: ../face/mywidget.cc:827 ../face/mywidget.cc:927 ../face/mywidget.cc:1024
+#: ../face/passface.cc:80 ../face/prefs.cc:1219 ../face/qtree.cc:105
+#: ../face/qtree.cc:552 ../face/saveload.cc:163 ../face/saveload.cc:206
+#: ../face/saveload.cc:248
+msgid "Cancel"
+msgstr "לוטיב"
+
+# ../face/about.cc:229
+# ../face/about.cc:234
+#: ../face/about.cc:246
+msgid "Don't ask next time"
+msgstr "האבה םעפב לאשת לא"
+
+# ../face/addd.cc:100 ../face/addd.cc:168
+# ../face/addd.cc:100 ../face/addd.cc:168
+# ../face/addd.cc:105 ../face/addd.cc:173
+#: ../face/addd.cc:87 ../face/addd.cc:233
+msgid "Add new download"
+msgstr "תושדח תודרוה ףסוה"
+
+# ../face/list.cc:104
+# ../face/list.cc:105
+# ../face/list.cc:110
+#: ../face/addd.cc:172
+msgid "Automated adding"
+msgstr "תיטמוטוא הפסו_ה"
+
+# ../face/buttons.cc:170
+# ../face/buttons.cc:48
+# ../face/buttons.cc:48
+#: ../face/buttons.cc:50
+msgid " Add new download "
+msgstr " השדח הדרוה ףסוה "
+
+# ../face/buttons.cc:172
+# ../face/buttons.cc:49
+# ../face/buttons.cc:49
+#: ../face/buttons.cc:51
+msgid " Paste from clipboard "
+msgstr " חולהמ קבדה "
+
+# ../face/buttons.cc:174
+# ../face/buttons.cc:50
+# ../face/buttons.cc:50
+#: ../face/buttons.cc:52
+msgid " Del downloads "
+msgstr " חולהמ קחמ "
+
+# ../face/buttons.cc:179
+# ../face/buttons.cc:51
+# ../face/buttons.cc:51
+#: ../face/buttons.cc:53
+msgid " Stop downloads "
+msgstr " תודרוה רוצע "
+
+# ../face/buttons.cc:177
+# ../face/buttons.cc:52
+# ../face/buttons.cc:52
+#: ../face/buttons.cc:54
+msgid " Continue/restart downloads "
+msgstr " תודרוה שדחמ לחתה/ךשמה "
+
+# ../face/buttons.cc:181
+# ../face/buttons.cc:53
+# ../face/buttons.cc:53
+#: ../face/buttons.cc:55
+msgid " Del Completed downloads "
+msgstr " ומלשוהש תודרוה הקנ "
+
+# ../face/buttons.cc:183
+# ../face/buttons.cc:54
+# ../face/buttons.cc:54
+#: ../face/buttons.cc:56
+msgid " Move up "
+msgstr " הלעמל הלעה "
+
+# ../face/buttons.cc:185
+# ../face/buttons.cc:55
+# ../face/buttons.cc:55
+#: ../face/buttons.cc:57
+msgid " Move down "
+msgstr " הטמל דרוה "
+
+# ../face/buttons.cc:187
+# ../face/buttons.cc:56
+# ../face/buttons.cc:56
+#: ../face/buttons.cc:58
+msgid " View log "
+msgstr " גול ץבוקב הפצ "
+
+# ../face/buttons.cc:54 ../face/buttons.cc:197
+# ../face/buttons.cc:57 ../face/buttons.cc:215
+# ../face/buttons.cc:57 ../face/buttons.cc:220
+#: ../face/buttons.cc:59 ../face/buttons.cc:248
+msgid " Speed level one "
+msgstr " 1 המר תוריהמ "
+
+# ../face/buttons.cc:58 ../face/buttons.cc:206
+# ../face/buttons.cc:58 ../face/buttons.cc:219
+# ../face/buttons.cc:58 ../face/buttons.cc:224
+#: ../face/buttons.cc:60 ../face/buttons.cc:252
+msgid " Speed level two "
+msgstr " 2 המר תוריהמ "
+
+# ../face/buttons.cc:215
+# ../face/buttons.cc:59
+# ../face/buttons.cc:59
+#: ../face/buttons.cc:61
+msgid " Unlimited speed "
+msgstr " תלבגומ יתלב תוריהמ "
+
+# ../face/buttons.cc:190
+# ../face/buttons.cc:60
+# ../face/buttons.cc:60
+#: ../face/buttons.cc:62
+msgid " Options "
+msgstr " תויורשפא "
+
+# ../face/buttons.cc:223
+# ../face/buttons.cc:61
+# ../face/buttons.cc:61
+#: ../face/buttons.cc:63
+msgid " Delete all downloads "
+msgstr " תודרוהה לכ תא קחמ "
+
+# face/buttons.cc:
+# ../face/buttons.cc:225
+# ../face/buttons.cc:62
+# ../face/buttons.cc:62
+#: ../face/buttons.cc:64
+msgid " Save list "
+msgstr " המישר רומש "
+
+# ../face/saveload.cc:159
+# ../face/buttons.cc:63
+# ../face/buttons.cc:63
+#: ../face/buttons.cc:65
+msgid " Load list "
+msgstr "המישר ןעט"
+
+# face/buttons.cc:
+# ../face/buttons.cc:232
+# ../face/buttons.cc:64
+# ../face/buttons.cc:64
+#: ../face/buttons.cc:66
+msgid " DnD basket "
+msgstr " Drag&Drop תבית "
+
+#: ../face/buttons.cc:67
+msgid " Switch percentage mode to"
+msgstr ""
+
+# ../face/buttons.cc:66
+# ../face/buttons.cc:66
+#: ../face/buttons.cc:68
+msgid " Configure buttons "
+msgstr " םירותפכ תרדגה "
+
+# ../face/prefs.cc:996
+# ../face/buttons.cc:156 ../face/prefs.cc:1013
+# ../face/buttons.cc:161 ../face/prefs.cc:1070
+#: ../face/buttons.cc:169 ../face/prefs.cc:1220
+msgid "Apply"
+msgstr "לחה"
+
+# ../face/buttons.cc:48
+# ../face/buttons.cc:204
+# ../face/buttons.cc:209
+#: ../face/buttons.cc:237
+msgid "Delete ALL downloads?"
+msgstr "?תודרוהה _לכ_ תא קחמ"
+
+# ../face/buttons.cc:48
+# ../face/buttons.cc:204
+# ../face/buttons.cc:209
+#: ../face/buttons.cc:237
+msgid "Delete all?"
+msgstr "?לכה קחמ"
+
+# ../face/columns.cc:20
+# ../face/columns.cc:20
+# ../face/columns.cc:20
+#: ../face/columns.cc:20
+msgid "status"
+msgstr "בצמ"
+
+# ../face/columns.cc:21
+# ../face/columns.cc:21
+# ../face/columns.cc:21
+#: ../face/columns.cc:21
+msgid "file name"
+msgstr "ץבוק םש"
+
+# ../face/columns.cc:22
+# ../face/columns.cc:22
+# ../face/columns.cc:22
+#: ../face/columns.cc:22
+msgid "type of file"
+msgstr "ץבוק גוס"
+
+# ../face/columns.cc:23
+# ../face/columns.cc:23
+# ../face/columns.cc:23
+#: ../face/columns.cc:23
+msgid "size of file"
+msgstr "ץבוק לדוג"
+
+# ../face/columns.cc:24
+# ../face/columns.cc:24
+# ../face/columns.cc:24
+#: ../face/columns.cc:24
+msgid "downloaded size"
+msgstr "דרי לדוג"
+
+# face/columns.cc
+# ../face/columns.cc:25
+# ../face/columns.cc:25
+# ../face/columns.cc:25
+#: ../face/columns.cc:25
+msgid "rest"
+msgstr "רתונ"
+
+# ../face/columns.cc:26
+# ../face/columns.cc:26
+# ../face/columns.cc:26
+#: ../face/columns.cc:26
+msgid "percent"
+msgstr "זוחא"
+
+# ../face/columns.cc:27
+# ../face/columns.cc:27
+# ../face/columns.cc:27
+#: ../face/columns.cc:27
+msgid "speed"
+msgstr "תוריהמ"
+
+# ../face/columns.cc:28
+# ../face/columns.cc:28
+# ../face/columns.cc:28
+#: ../face/columns.cc:28
+msgid "elapsed time"
+msgstr "רבע ןמז"
+
+# ../face/columns.cc:29
+# ../face/columns.cc:29
+# ../face/columns.cc:29
+#: ../face/columns.cc:29
+msgid "estimated time"
+msgstr "רעושמ ןמז"
+
+# ../face/columns.cc:30
+# ../face/columns.cc:30
+# ../face/columns.cc:30
+#: ../face/columns.cc:30
+msgid "time of pause"
+msgstr "היהשה ךשמ"
+
+# ../face/columns.cc:31
+# ../face/columns.cc:31
+# ../face/columns.cc:31
+#: ../face/columns.cc:31
+msgid "number of attempts"
+msgstr "תונויסנ רפסמ"
+
+# face/columns.cc
+# ../face/columns.cc:32
+# ../face/columns.cc:32
+# ../face/columns.cc:32
+#: ../face/columns.cc:32
+msgid "description"
+msgstr "רואת"
+
+# ../face/columns.cc:33 ../face/lod.cc:55
+# ../face/columns.cc:33 ../face/lod.cc:55
+# ../face/columns.cc:33 ../face/lod.cc:57
+#: ../face/columns.cc:33 ../face/lod.cc:55 ../face/mywidget.cc:915
+msgid "URL"
+msgstr "URL"
+
+# ../face/columns.cc:70
+# ../face/columns.cc:70
+# ../face/columns.cc:70
+#: ../face/columns.cc:71
+msgid "Showed columns"
+msgstr "תוגצומ תודומע"
+
+# face/dndtrash.cc
+# ../face/dndtrash.cc:40
+# ../face/dndtrash.cc:41
+# ../face/dndtrash.cc:41
+#: ../face/dndtrash.cc:44
+msgid "/New Download"
+msgstr "/הדרוהל שדח ץבוק"
+
+# face/dndtrash.cc
+# ../face/dndtrash.cc:41
+# ../face/dndtrash.cc:42
+# ../face/dndtrash.cc:42
+#: ../face/dndtrash.cc:45
+msgid "/Paste Download"
+msgstr "/הדרוהל ץבוק קבדה"
+
+# ../face/list.cc:104
+# ../face/list.cc:105
+# ../face/list.cc:110
+#: ../face/dndtrash.cc:46
+msgid "/Automated adding"
+msgstr "/תיטמוטוא הפסו_ה"
+
+# ../face/dndtrash.cc:42
+# ../face/dndtrash.cc:43
+# ../face/dndtrash.cc:43
+#: ../face/dndtrash.cc:47
+msgid "/Delete completed"
+msgstr "ומלשוהש תודרוה קחמ"
+
+# face/dndtrash.cc
+# ../face/dndtrash.cc:43
+# ../face/dndtrash.cc:44
+# ../face/dndtrash.cc:44
+#: ../face/dndtrash.cc:48
+msgid "/General options"
+msgstr "/תויללכ תויורשפא"
+
+# face/dndtrash.cc
+# ../face/dndtrash.cc:44
+# ../face/dndtrash.cc:45
+# ../face/dndtrash.cc:45
+#: ../face/dndtrash.cc:49
+msgid "/Speed"
+msgstr "/תוריהמ"
+
+# face/dndtrash.cc
+# ../face/dndtrash.cc:45
+# ../face/dndtrash.cc:46
+# ../face/dndtrash.cc:46
+#: ../face/dndtrash.cc:50
+msgid "/Speed/Low"
+msgstr "/תוריהמ/יטיא"
+
+# face/dndtrash.cc
+# ../face/dndtrash.cc:46
+# ../face/dndtrash.cc:47
+# ../face/dndtrash.cc:47
+#: ../face/dndtrash.cc:51
+msgid "/Speed/Medium"
+msgstr "/תוריהמ/ינוניב"
+
+# face/dndtrash..cc
+# ../face/dndtrash.cc:47
+# ../face/dndtrash.cc:48
+# ../face/dndtrash.cc:48
+#: ../face/dndtrash.cc:52
+msgid "/Speed/Unlimited"
+msgstr "/תוריהמ/לבגומ יתלב"
+
+# face/dndtrash.cc
+# ../face/dndtrash.cc:48
+# ../face/dndtrash.cc:49
+# ../face/dndtrash.cc:49
+#: ../face/dndtrash.cc:53
+msgid "/Exit"
+msgstr "/האיצי"
+
+# face/buttons.cc:
+# ../face/buttons.cc:232
+# ../face/buttons.cc:64
+# ../face/buttons.cc:64
+#: ../face/dndtrash.cc:266
+#, fuzzy
+msgid "DnD basket"
+msgstr " Drag&Drop תבית "
+
+# face/dndtrash.cc:
+# ../face/dndtrash.cc:243 ../face/list.cc:870 ../face/list.cc:887
+# ../face/dndtrash.cc:256 ../face/list.cc:856 ../face/list.cc:873
+# ../face/dndtrash.cc:263 ../face/list.cc:930 ../face/list.cc:947
+#: ../face/dndtrash.cc:399
+msgid "Drop link here"
+msgstr "ןאכל קנילה תא רורג"
+
+# ../face/edit.cc:56 ../face/edit.cc:343
+# ../face/edit.cc:60 ../face/edit.cc:433
+# ../face/edit.cc:60 ../face/edit.cc:444
+#: ../face/edit.cc:62 ../face/edit.cc:449
+msgid "Use password for this site"
+msgstr "הז רתא רובע המסיסב שמשתשה"
+
+# ../face/edit.cc:57 ../face/edit.cc:307
+# ../face/edit.cc:61 ../face/edit.cc:397
+# ../face/edit.cc:61 ../face/edit.cc:408
+#: ../face/edit.cc:63 ../face/edit.cc:413
+msgid "Save download to folder"
+msgstr "הירפסב ץבוק רומש"
+
+# face/edit.cc
+# ../face/edit.cc:58 ../face/edit.cc:360
+# ../face/edit.cc:62 ../face/edit.cc:450
+# ../face/edit.cc:62 ../face/edit.cc:461
+#: ../face/edit.cc:64 ../face/edit.cc:466
+msgid "Restart this download from begining"
+msgstr "שדחמ דירוהל לחתה"
+
+# face/edit.cc
+# ../face/edit.cc:59
+# ../face/edit.cc:63
+# ../face/edit.cc:63
+#: ../face/edit.cc:65
+msgid "Timeout for reading from socket"
+msgstr "טקוסהמ האירקל טואא-םייט"
+
+# ../face/edit.cc:60
+# ../face/edit.cc:64
+# ../face/edit.cc:64
+#: ../face/edit.cc:66
+msgid "Speed limitation"
+msgstr "תוריהמ תלבגה"
+
+# ../face/edit.cc:61
+# ../face/edit.cc:65
+# ../face/edit.cc:65
+#: ../face/edit.cc:67
+msgid "Maximum attempts"
+msgstr "תונויסנ םומיסקמ"
+
+# ../face/edit.cc:62
+# ../face/edit.cc:66
+# ../face/edit.cc:66
+#: ../face/edit.cc:68
+msgid "Timeout before reconnection"
+msgstr "שדחמ תורבחתה ינפל טואא-םייט"
+
+# ../face/edit.cc:63
+# ../face/edit.cc:67
+# ../face/edit.cc:67
+#: ../face/edit.cc:69
+msgid "Rollback after reconnecting"
+msgstr "שדחמ רוביח רחאל RollBack"
+
+# ../face/edit.cc:64 ../face/edit.cc:424 ../face/prefs.cc:214
+# ../face/edit.cc:68 ../face/edit.cc:514 ../face/prefs.cc:218
+# ../face/edit.cc:68 ../face/edit.cc:535 ../face/prefs.cc:228
+#: ../face/edit.cc:70 ../face/edit.cc:543 ../face/prefs.cc:233
+msgid "Get date from the server"
+msgstr "תרשהמ ךיראת לבק"
+
+# ../face/edit.cc:65 ../face/edit.cc:428 ../face/prefs.cc:218
+# ../face/edit.cc:69 ../face/edit.cc:518 ../face/prefs.cc:222
+# ../face/edit.cc:69 ../face/edit.cc:539 ../face/prefs.cc:232
+#: ../face/edit.cc:71 ../face/edit.cc:547 ../face/prefs.cc:237
+msgid "Retry if resuming is not supported"
+msgstr "(RESUME) הדרוה-ךשמהב ךמות אל תרשה םא בוש הסנ"
+
+# face/edit.cc:
+# ../face/edit.cc:66 ../face/edit.cc:419
+# ../face/edit.cc:70 ../face/edit.cc:509
+# ../face/edit.cc:70 ../face/edit.cc:530
+#: ../face/edit.cc:72 ../face/edit.cc:538
+msgid "Number of parts for spliting this download"
+msgstr "הדרוהה לוציפל םיקלח רפסמ"
+
+# ../face/edit.cc:67 ../face/edit.cc:466 ../face/prefs.cc:319
+# ../face/edit.cc:71 ../face/edit.cc:556 ../face/prefs.cc:323
+# ../face/edit.cc:71 ../face/edit.cc:577 ../face/prefs.cc:333
+#: ../face/edit.cc:73 ../face/edit.cc:585 ../face/prefs.cc:347
+msgid "Use passive mode for FTP"
+msgstr "FTP רובע יביספ בצמב שמתשה"
+
+# ../face/edit.cc:68 ../face/edit.cc:472 ../face/prefs.cc:327
+# ../face/edit.cc:72 ../face/edit.cc:562 ../face/prefs.cc:331
+# ../face/edit.cc:72 ../face/edit.cc:583 ../face/prefs.cc:341
+#: ../face/edit.cc:74 ../face/edit.cc:591 ../face/prefs.cc:355
+msgid "Get permissions of the file from server (FTP only)"
+msgstr "(דבלב FTP) תרשהמ םיצבק תואשרה לבק"
+
+# ../face/edit.cc:69 ../face/edit.cc:469 ../face/prefs.cc:323
+# ../face/edit.cc:73 ../face/edit.cc:559 ../face/prefs.cc:327
+# ../face/edit.cc:73 ../face/edit.cc:580 ../face/prefs.cc:337
+#: ../face/edit.cc:75 ../face/edit.cc:588 ../face/prefs.cc:351
+msgid "Don't send QUIT command (FTP)"
+msgstr "(FTP) QUIT תדוקפ חלשת לא"
+
+#: ../face/edit.cc:76 ../face/edit.cc:597 ../face/prefs.cc:363
+msgid "Put directories on the top of queue during recursion"
+msgstr ""
+
+# face/prefs.cc
+# ../face/edit.cc:71 ../face/edit.cc:436 ../face/prefs.cc:234
+# ../face/edit.cc:75 ../face/edit.cc:526 ../face/prefs.cc:238
+# ../face/edit.cc:74 ../face/edit.cc:547 ../face/prefs.cc:248
+#: ../face/edit.cc:77 ../face/edit.cc:555 ../face/prefs.cc:253
+msgid "Compare date/time of remote file with local one"
+msgstr "ילש בשחמב ץבוקה םע תרשב ץבוקה תריצי ןמז תא הוושה"
+
+# face/edit.cc
+# ../face/edit.cc:70 ../face/edit.cc:432 ../face/prefs.cc:222
+# ../face/edit.cc:74 ../face/edit.cc:522 ../face/prefs.cc:226
+# ../face/edit.cc:75 ../face/edit.cc:543 ../face/prefs.cc:236
+#: ../face/edit.cc:78 ../face/edit.cc:551 ../face/prefs.cc:241
+msgid "Sleep before completing"
+msgstr ""
+
+#: ../face/edit.cc:79 ../face/edit.cc:594 ../face/prefs.cc:359
+msgid "Follow symbolic links"
+msgstr ""
+
+# ../face/edit.cc:73
+# ../face/edit.cc:77
+# ../face/edit.cc:77
+#: ../face/edit.cc:80
+msgid "Depth of recursing for FTP"
+msgstr "FTP רובע היסרוקיר קמוע"
+
+# ../face/edit.cc:74
+# ../face/edit.cc:78
+# ../face/edit.cc:78
+#: ../face/edit.cc:81
+msgid "Depth of recursing for HTTP"
+msgstr "HTTP רובע היסרוקיר קמוע"
+
+# face/edit.cc:
+# ../face/edit.cc:75 ../face/edit.cc:505 ../face/prefs.cc:353
+# ../face/edit.cc:79 ../face/edit.cc:595 ../face/prefs.cc:370
+# ../face/edit.cc:79 ../face/edit.cc:616 ../face/prefs.cc:380
+#: ../face/edit.cc:82 ../face/edit.cc:626 ../face/prefs.cc:450
+msgid "Only subdirs"
+msgstr "דבלב תוירפס-תת"
+
+# ../face/edit.cc:76 ../face/edit.cc:506 ../face/prefs.cc:354
+# ../face/edit.cc:80 ../face/edit.cc:596 ../face/prefs.cc:371
+# ../face/edit.cc:80 ../face/edit.cc:617 ../face/prefs.cc:381
+#: ../face/edit.cc:83 ../face/edit.cc:627 ../face/prefs.cc:451
+msgid "Allow leave this server while recursing via HTTP"
+msgstr ""
+
+# ../face/edit.cc:77 ../face/edit.cc:507 ../face/prefs.cc:355
+# ../face/edit.cc:81 ../face/edit.cc:597 ../face/prefs.cc:372
+# ../face/edit.cc:81 ../face/edit.cc:618 ../face/prefs.cc:382
+#: ../face/edit.cc:84 ../face/edit.cc:628 ../face/prefs.cc:452
+msgid "Change links in HTML file to local"
+msgstr ""
+
+#: ../face/edit.cc:85 ../face/edit.cc:629 ../face/prefs.cc:453
+msgid "Ignore ETag field in reply"
+msgstr ""
+
+# ../face/edit.cc:78 ../face/edit.cc:515 ../face/prefs.cc:372
+# ../face/edit.cc:82 ../face/edit.cc:620 ../face/prefs.cc:389
+# ../face/edit.cc:82 ../face/edit.cc:641 ../face/prefs.cc:399
+#: ../face/edit.cc:86 ../face/edit.cc:654 ../face/prefs.cc:472
+msgid "User-Agent"
+msgstr ""
+
+# ../face/edit.cc:83 ../face/edit.cc:630
+# ../face/edit.cc:83 ../face/edit.cc:651
+#: ../face/edit.cc:87 ../face/edit.cc:664
+msgid "Referer"
+msgstr ""
+
+# ../face/edit.cc:84 ../face/edit.cc:642
+# ../face/edit.cc:84 ../face/edit.cc:663
+#: ../face/edit.cc:88 ../face/edit.cc:676
+msgid "Cookie"
+msgstr ""
+
+# ../face/edit.cc:79 ../face/edit.cc:617 ../face/edit.cc:620
+# ../face/prefs.cc:395 ../face/prefs.cc:913 ../face/prefs.cc:1080
+# ../face/edit.cc:85 ../face/edit.cc:747 ../face/edit.cc:750
+# ../face/prefs.cc:412 ../face/prefs.cc:930 ../face/prefs.cc:1100
+# ../face/edit.cc:85 ../face/edit.cc:770 ../face/edit.cc:773
+# ../face/prefs.cc:422 ../face/prefs.cc:982 ../face/prefs.cc:1157
+#: ../face/edit.cc:89 ../face/edit.cc:783 ../face/edit.cc:786
+#: ../face/prefs.cc:510 ../face/prefs.cc:1132 ../face/prefs.cc:1319
+msgid "Proxy"
+msgstr "יסקורפ"
+
+# ../face/edit.cc:80 ../face/edit.cc:536 ../face/edit.cc:579
+# ../face/fsched.cc:170 ../face/lod.cc:50
+# ../face/edit.cc:86 ../face/edit.cc:666 ../face/edit.cc:709
+# ../face/fsched.cc:185 ../face/lod.cc:50
+# ../face/edit.cc:86 ../face/edit.cc:687 ../face/edit.cc:730
+# ../face/fsched.cc:186 ../face/lod.cc:52
+#. Init time
+#.
+#: ../face/edit.cc:90 ../face/edit.cc:700 ../face/edit.cc:743
+#: ../face/fsched.cc:186 ../face/lod.cc:50
+msgid "Time"
+msgstr "םינמז חול"
+
+# ../face/edit.cc:178 ../face/edit.cc:195
+# ../face/edit.cc:194 ../face/edit.cc:211
+# ../face/edit.cc:195 ../face/edit.cc:212
+#: ../face/edit.cc:191 ../face/edit.cc:209
+msgid "Edit download"
+msgstr "הדרוה ךורע"
+
+# face/lod.cc
+# ../face/edit.cc:306 ../face/lod.cc:54
+# ../face/edit.cc:396 ../face/lod.cc:54
+# ../face/edit.cc:407 ../face/lod.cc:56
+#: ../face/edit.cc:412 ../face/lod.cc:54
+msgid "Description"
+msgstr "רואת"
+
+# ../face/edit.cc:308
+# ../face/edit.cc:398
+# ../face/edit.cc:409
+#: ../face/edit.cc:414
+msgid "Save download to file"
+msgstr "ץבוקכ הדרוה רומש"
+
+# ../face/edit.cc:309 ../face/edit.cc:1175 ../face/edit.cc:1235
+# ../face/passface.cc:66
+# ../face/edit.cc:399 ../face/edit.cc:1428 ../face/edit.cc:1488
+# ../face/edit.cc:1522 ../face/passface.cc:67
+# ../face/edit.cc:410 ../face/edit.cc:1514 ../face/edit.cc:1577
+# ../face/edit.cc:1614 ../face/passface.cc:69
+#: ../face/edit.cc:415 ../face/edit.cc:1555 ../face/edit.cc:1622
+#: ../face/edit.cc:1663 ../face/passface.cc:69
+msgid "password"
+msgstr "המסיס"
+
+# ../face/edit.cc:310
+# ../face/edit.cc:400
+# ../face/edit.cc:411
+#: ../face/edit.cc:416
+msgid "user name"
+msgstr "שמתשמ םש"
+
+# face/edit.cc:
+# ../face/edit.cc:313
+# ../face/edit.cc:403
+# ../face/edit.cc:414
+#. set as default button
+#.
+#: ../face/edit.cc:419
+msgid "Default"
+msgstr "לדחמ תרירב"
+
+# face/edit.cc:
+# ../face/edit.cc:359 ../face/prefs.cc:230
+# ../face/edit.cc:449 ../face/prefs.cc:234
+# ../face/edit.cc:460 ../face/prefs.cc:244
+#: ../face/edit.cc:465 ../face/prefs.cc:249
+msgid "Pause this just after adding"
+msgstr "הפסוה רחאל הדרוה ההשה"
+
+# ../face/edit.cc:466
+#: ../face/edit.cc:471
+msgid "Add to top of queue"
+msgstr ""
+
+# ../face/edit.cc:365 ../face/prefs.cc:212 ../face/prefs.cc:889
+# ../face/prefs.cc:1036
+# ../face/edit.cc:455 ../face/prefs.cc:216 ../face/prefs.cc:906
+# ../face/prefs.cc:1053
+# ../face/edit.cc:476 ../face/prefs.cc:226 ../face/prefs.cc:958
+# ../face/prefs.cc:1110
+#: ../face/edit.cc:484 ../face/prefs.cc:231 ../face/prefs.cc:1108
+#: ../face/prefs.cc:1266
+msgid "Download"
+msgstr "הדרוה"
+
+# ../face/edit.cc:368 ../face/prefs.cc:683 ../face/prefs.cc:968
+# ../face/prefs.cc:1153
+# ../face/edit.cc:458 ../face/prefs.cc:700 ../face/prefs.cc:985
+# ../face/prefs.cc:1173
+# ../face/edit.cc:479 ../face/prefs.cc:710 ../face/prefs.cc:1042
+# ../face/prefs.cc:1251
+#: ../face/edit.cc:487 ../face/prefs.cc:725 ../face/prefs.cc:1192
+#: ../face/prefs.cc:1410
+msgid "Main"
+msgstr "ישאר"
+
+# ../face/edit.cc:384 ../face/prefs.cc:264
+# ../face/edit.cc:474 ../face/prefs.cc:268
+# ../face/edit.cc:495 ../face/prefs.cc:278
+#: ../face/edit.cc:503 ../face/prefs.cc:292
+msgid "Timeout for reading from socket (in seconds)"
+msgstr "(תוינשב) טקוסהמ האירקל טואא-םייט"
+
+# ../face/edit.cc:391 ../face/prefs.cc:271
+# ../face/edit.cc:481 ../face/prefs.cc:275
+# ../face/edit.cc:502 ../face/prefs.cc:285
+#: ../face/edit.cc:510 ../face/prefs.cc:299
+msgid "Timeout before reconnection (in seconds)"
+msgstr "(תוינשב) שדחמ תורבחתה ינפל טואא-םייט"
+
+# ../face/edit.cc:398 ../face/prefs.cc:278
+# ../face/edit.cc:488 ../face/prefs.cc:282
+# ../face/edit.cc:509 ../face/prefs.cc:292
+#: ../face/edit.cc:517 ../face/prefs.cc:306
+msgid "Maximum attempts (0 for unlimited)"
+msgstr "(לבגומ יתלב=0) תונויסנ םומיסקמ"
+
+# face/refs.cc:
+# ../face/edit.cc:405 ../face/prefs.cc:285
+# ../face/edit.cc:495 ../face/prefs.cc:289
+# ../face/edit.cc:516 ../face/prefs.cc:299
+#: ../face/edit.cc:524 ../face/prefs.cc:313
+msgid "Rollback after reconnecting (in bytes)"
+msgstr "(םיתבב) שדחמ תורבחתה רחאל Rollback"
+
+# face/edit.cc
+# ../face/edit.cc:412 ../face/prefs.cc:292
+# ../face/edit.cc:502 ../face/prefs.cc:296
+# ../face/edit.cc:523 ../face/prefs.cc:306
+#: ../face/edit.cc:531 ../face/prefs.cc:320
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "(לבגומ יתלב=0) הינשל םיתבב תוריהמ תלבגה"
+
+# ../face/edit.cc:440
+# ../face/edit.cc:530
+# ../face/edit.cc:551
+#: ../face/edit.cc:559
+msgid "Save log to file"
+msgstr "ץבוקב גול רומש"
+
+# ../face/edit.cc:450
+# ../face/edit.cc:540
+# ../face/edit.cc:561
+#: ../face/edit.cc:569
+msgid "Auto"
+msgstr "יטמוטוא"
+
+# ../face/edit.cc:457 ../face/edit.cc:460
+# ../face/edit.cc:547 ../face/edit.cc:550
+# ../face/edit.cc:568 ../face/edit.cc:571
+#: ../face/edit.cc:576 ../face/edit.cc:579
+msgid "Common"
+msgstr "יללכ"
+
+# ../face/edit.cc:483 ../face/edit.cc:500 ../face/prefs.cc:338
+# ../face/prefs.cc:366
+# ../face/edit.cc:573 ../face/edit.cc:590 ../face/prefs.cc:342
+# ../face/prefs.cc:383
+# ../face/edit.cc:594 ../face/edit.cc:611 ../face/prefs.cc:352
+# ../face/prefs.cc:393
+#: ../face/edit.cc:604 ../face/edit.cc:621 ../face/prefs.cc:370
+#: ../face/prefs.cc:466
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr "(היסרוקיר ילב=1 ,לבגומ יתלב=0) היסרוקירל קמוע"
+
+# ../face/lod.cc:43
+# ../face/edit.cc:611
+# ../face/edit.cc:632
+#: ../face/edit.cc:645 ../face/prefs.cc:497
+msgid "Filter"
+msgstr "רטליפ"
+
+# face/mywidget.cc:
+# ../face/mywidget.cc:226
+# ../face/edit.cc:612 ../face/mywidget.cc:231
+# ../face/edit.cc:633 ../face/lod.cc:497 ../face/mywidget.cc:233
+#: ../face/edit.cc:646 ../face/lod.cc:601 ../face/mywidget.cc:238
+#: ../face/prefs.cc:498
+msgid "Select"
+msgstr "י/רחב"
+
+# ../face/edit.cc:551
+# ../face/edit.cc:681
+# ../face/edit.cc:702
+#: ../face/edit.cc:715
+msgid "Hours"
+msgstr "תועש"
+
+# ../face/edit.cc:559
+# ../face/edit.cc:689
+# ../face/edit.cc:710
+#: ../face/edit.cc:723
+msgid "Minutes"
+msgstr "תוקד"
+
+# ../face/edit.cc:571
+# ../face/edit.cc:701
+# ../face/edit.cc:722
+#: ../face/edit.cc:735
+msgid "Start this downloading at:"
+msgstr ":ב וז הדרוה לחתה"
+
+# ../config.cc:291
+# ../config.cc:295
+# ../config.cc:304
+#: ../face/edit.cc:796
+#, fuzzy
+msgid "Use default settings"
+msgstr "...((: לדחמה-תרירב תורדגהב שמתשמ\n"
+
+# ../face/edit.cc:1112
+# ../face/edit.cc:1365
+# ../face/edit.cc:1448
+#: ../face/edit.cc:1485
+msgid "FTP proxy type"
+msgstr "FTP יסקורפ גוס"
+
+# ../face/edit.cc:1123
+# ../face/edit.cc:1376
+# ../face/edit.cc:1459
+#: ../face/edit.cc:1496
+msgid "FTP (wingate)"
+msgstr ""
+
+# ../face/edit.cc:1137
+# ../face/edit.cc:1390
+# ../face/edit.cc:1473
+#: ../face/edit.cc:1510
+msgid "Use this proxy for FTP"
+msgstr "FTP רובע הז יסקורפב שמתשה"
+
+# ../face/edit.cc:1145 ../face/edit.cc:1207
+# ../face/edit.cc:1398 ../face/edit.cc:1460 ../face/edit.cc:1507
+# ../face/edit.cc:1484 ../face/edit.cc:1549 ../face/edit.cc:1599
+#: ../face/edit.cc:1525 ../face/edit.cc:1594 ../face/edit.cc:1644
+msgid "port"
+msgstr "טרופ"
+
+# ../face/edit.cc:1152 ../face/edit.cc:1213
+# ../face/edit.cc:1405 ../face/edit.cc:1466
+# ../face/edit.cc:1491 ../face/edit.cc:1555
+#: ../face/edit.cc:1532 ../face/edit.cc:1600
+msgid "need password"
+msgstr "המסיס ךירצ"
+
+# ../face/edit.cc:1160 ../face/edit.cc:1221 ../face/passface.cc:65
+# ../face/passface.cc:244
+# ../face/edit.cc:1413 ../face/edit.cc:1474 ../face/edit.cc:1515
+# ../face/passface.cc:66 ../face/passface.cc:245
+# ../face/edit.cc:1499 ../face/edit.cc:1563 ../face/edit.cc:1607
+# ../face/passface.cc:68 ../face/passface.cc:249
+#: ../face/edit.cc:1540 ../face/edit.cc:1608 ../face/edit.cc:1656
+#: ../face/passface.cc:68 ../face/passface.cc:250
+msgid "username"
+msgstr "שמתשמ םש"
+
+# face/lod.cc
+# ../face/edit.cc:1192
+# ../face/edit.cc:1445
+# ../face/edit.cc:1531
+#: ../face/edit.cc:1572
+msgid "Don't get from cache"
+msgstr "cache -ב שמתשת לא"
+
+# ../face/edit.cc:1199
+# ../face/edit.cc:1452
+# ../face/edit.cc:1538
+#: ../face/edit.cc:1579
+msgid "Use this proxy for HTTP"
+msgstr "HTTP רובע הז יסקורפב שמתשה"
+
+# ../face/edit.cc:1496
+# ../face/edit.cc:1585
+#. SOCKS settings
+#: ../face/edit.cc:1630
+msgid "Use SOCKS5 proxy"
+msgstr ""
+
+# ../face/limface.cc:307 ../face/passface.cc:55 ../face/passface.cc:244
+# ../face/edit.cc:1503 ../face/mywidget.cc:355 ../face/mywidget.cc:611
+# ../face/edit.cc:1592 ../face/mywidget.cc:357 ../face/mywidget.cc:613
+#: ../face/edit.cc:1637 ../face/mywidget.cc:375 ../face/mywidget.cc:695
+msgid "host"
+msgstr "תרש"
+
+# ../face/edit.cc:1475
+# ../face/edit.cc:1861
+# ../face/edit.cc:1985
+#: ../face/edit.cc:2029
+msgid "Select properties"
+msgstr "םינייפאמ רחב"
+
+# ../face/edit.cc:1499
+# ../face/edit.cc:1885
+# ../face/edit.cc:2009
+#: ../face/edit.cc:2054
+msgid "Unselect all"
+msgstr "הריחב לטב"
+
+# ../face/edit.cc:1505
+# ../face/edit.cc:1891
+# ../face/edit.cc:2015
+#: ../face/edit.cc:2060
+msgid "Select all"
+msgstr "לכה רחב"
+
+# ../face/list.cc:102
+# ../face/list.cc:103
+# ../face/list.cc:104
+#: ../face/list.cc:104
+msgid "/_File"
+msgstr "/ץבו_ק"
+
+# ../face/list.cc:103
+# ../face/list.cc:104
+# ../face/list.cc:105
+#: ../face/list.cc:105
+msgid "/File/_Save List"
+msgstr "/ץבוק/המישר רומ_ש"
+
+# ../face/list.cc:104
+# ../face/list.cc:105
+# ../face/list.cc:106
+#: ../face/list.cc:106
+msgid "/File/_Load List"
+msgstr "/ץבוק/המישר ןע_ט"
+
+# face/list.cc:
+# ../face/list.cc:105
+# ../face/list.cc:106
+# ../face/list.cc:107
+#: ../face/list.cc:107
+msgid "/File/Find links in file"
+msgstr "/ץבוק/ץבוקב םיקניל שפח"
+
+# ../face/list.cc:106
+# ../face/list.cc:107
+# ../face/list.cc:108
+#: ../face/list.cc:108
+msgid "/File/_New Download"
+msgstr "/ץבוק/הדרוה ףס_וה"
+
+# ../face/list.cc:107
+# ../face/list.cc:108
+# ../face/list.cc:109
+#: ../face/list.cc:109
+msgid "/File/_Paste Download"
+msgstr "/ץבוק/הדרוה קבד_ה"
+
+# ../face/list.cc:104
+# ../face/list.cc:105
+# ../face/list.cc:110
+#: ../face/list.cc:110
+msgid "/File/_Automated adding"
+msgstr "/ץבוק/תיטמוטוא הפסו_ה"
+
+# ../face/list.cc:108
+# ../face/list.cc:109
+# ../face/list.cc:111
+#: ../face/list.cc:111
+msgid "/File/Exit"
+msgstr "/ץבוק/האיצ_י"
+
+# ../face/list.cc:109
+# ../face/list.cc:110
+# ../face/list.cc:112
+#: ../face/list.cc:112
+msgid "/File/sep1"
+msgstr "/ץבוק/sep1"
+
+# ../face/list.cc:110
+# ../face/list.cc:111
+# ../face/list.cc:113
+#: ../face/list.cc:113
+msgid "/_Download"
+msgstr "/הדרו_ה"
+
+# ../face/list.cc:111
+# ../face/list.cc:112
+# ../face/list.cc:114
+#: ../face/list.cc:114
+msgid "/Download/View _Log"
+msgstr "/הדרוה/גולב הפ_צ"
+
+# ../face/list.cc:112
+# ../face/list.cc:113
+# ../face/list.cc:115
+#: ../face/list.cc:115
+msgid "/Download/_Stop downloads"
+msgstr "/הדרוה/תודרוה קספ_ה"
+
+# ../face/list.cc:113
+# ../face/list.cc:114
+# ../face/list.cc:116
+#: ../face/list.cc:116
+msgid "/Download/Edit download"
+msgstr "/הדרוה/תודרוה ךור_ע"
+
+# ../face/list.cc:114
+# ../face/list.cc:115
+# ../face/list.cc:117
+#: ../face/list.cc:117
+msgid "/Download/_Delete downloads"
+msgstr "/הדרוה/תודרוה קח_מ"
+
+# ../face/list.cc:115
+# ../face/list.cc:116
+# ../face/list.cc:118
+#: ../face/list.cc:118
+msgid "/Download/Continue downloads"
+msgstr "/הדרוה/תודרוה ךש_מה"
+
+# ../face/list.cc:116
+# ../face/list.cc:117
+# ../face/list.cc:119
+#: ../face/list.cc:119
+msgid "/Download/Delete completed"
+msgstr "/הדרוה/ומלשוהש תודרוה תקיחמ"
+
+# ../face/list.cc:117
+# ../face/list.cc:118
+# ../face/list.cc:120
+#: ../face/list.cc:120
+msgid "/Download/Delete failed"
+msgstr "/הדרוה/ולשכנש תודרוה קחמ"
+
+# ../face/list.cc:118
+# ../face/list.cc:119
+# ../face/list.cc:121
+#: ../face/list.cc:121
+msgid "/Download/Rerun failed"
+msgstr "/הדרוה/ולשכנש תודרוה בוש הסנ"
+
+# face/list.cc
+# ../face/list.cc:119
+# ../face/list.cc:120
+# ../face/list.cc:122
+#: ../face/list.cc:122
+msgid "/Download/(Un)Protect"
+msgstr "/הדרוה/(Un)Protect"
+
+# face/list.cc
+# ../face/list.cc:119
+# ../face/list.cc:120
+# ../face/list.cc:122
+#: ../face/list.cc:123
+msgid "/Download/Unselect all"
+msgstr "/הדרוה/םלוכ ןומיס לטב"
+
+# face/list.cc:
+# ../face/list.cc:120
+# ../face/list.cc:121
+# ../face/list.cc:123
+#: ../face/list.cc:124
+msgid "/Download/Select all"
+msgstr "/הדרוה/לכה ןמס"
+
+# face/list.cc
+# ../face/list.cc:121
+# ../face/list.cc:122
+# ../face/list.cc:124
+#: ../face/list.cc:125
+msgid "/Download/Invert selection"
+msgstr "/הדרוה/ןומיס ךופה"
+
+# face/list.cc
+# ../face/list.cc:122
+# ../face/list.cc:123
+# ../face/list.cc:125
+#: ../face/list.cc:126
+msgid "/Download/-"
+msgstr "/הדרוה/-"
+
+# ../face/list.cc:123
+# ../face/list.cc:124
+# ../face/list.cc:126
+#: ../face/list.cc:127
+msgid "/_Options"
+msgstr "/_תויורשפא"
+
+# face/list.cc
+# ../face/list.cc:124
+# ../face/list.cc:125
+# ../face/list.cc:127
+#: ../face/list.cc:128
+msgid "/Options/Scheduler"
+msgstr "/תויורשפא/םינמז-חול להנמ"
+
+# face/list.cc
+# ../face/list.cc:126
+# ../face/list.cc:12
+# ../face/list.cc:129
+#: ../face/list.cc:129
+msgid "/Options/Passwords"
+msgstr "/תויורשפא/תואמסיס"
+
+# ../face/list.cc:127
+# ../face/list.cc:128
+# ../face/list.cc:130
+#: ../face/list.cc:130
+msgid "/Options/General"
+msgstr "/תויורשפא/יללכ"
+
+# face/list.cc
+# ../face/list.cc:124
+# ../face/list.cc:129
+# ../face/list.cc:131
+#: ../face/list.cc:131
+msgid "/Options/Filters"
+msgstr "/תויורשפא/םירטליפ"
+
+# face/list.cc
+# ../face/list.cc:128
+# ../face/list.cc:130
+# ../face/list.cc:132
+#: ../face/list.cc:132
+msgid "/Options/Speed"
+msgstr "/תויורשפא/תוריהמ"
+
+# face/list.cc
+# ../face/list.cc:129
+# ../face/list.cc:131
+# ../face/list.cc:133
+#: ../face/list.cc:133
+msgid "/Options/Speed/Low"
+msgstr "/תויורשפא/תוריהמ/יטיא"
+
+# face/list.cc
+# ../face/list.cc:130
+# ../face/list.cc:132
+# ../face/list.cc:134
+#: ../face/list.cc:134
+msgid "/Options/Speed/Medium"
+msgstr "/תויורשפא/תוריהמ/ינוניב"
+
+# face/list.cc
+# ../face/list.cc:131
+# ../face/list.cc:133
+# ../face/list.cc:135
+#: ../face/list.cc:135
+msgid "/Options/Speed/Unlimited"
+msgstr "/תויורשפא/תוריהמ/לבגומ יתלב"
+
+# face/list.cc
+# ../face/list.cc:132
+# ../face/list.cc:134
+# ../face/list.cc:136
+#: ../face/list.cc:136
+msgid "/Options/Buttons"
+msgstr "/תויורשפא/םינצחל"
+
+# face/list.cc
+# ../face/list.cc:133
+# ../face/list.cc:135
+# ../face/list.cc:137
+#: ../face/list.cc:137
+msgid "/Options/Buttons/Add buttons"
+msgstr "/תויורשפא/םינצחל/הפסוה ינצחל"
+
+# face/list.cc
+# ../face/list.cc:134
+# ../face/list.cc:136
+# ../face/list.cc:138
+#: ../face/list.cc:138
+msgid "/Options/Buttons/Manipulating"
+msgstr "/תויורשפא/םינצחל/תולועפ"
+
+# face/list.cc
+# ../face/list.cc:135
+# ../face/list.cc:137
+# ../face/list.cc:139
+#: ../face/list.cc:139
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/תויורשפא/םינצחל/תויוריהמ"
+
+# face/list.cc
+# ../face/list.cc:136
+# ../face/list.cc:138
+# ../face/list.cc:140
+#: ../face/list.cc:140
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/תויורשפא/םינצחל/םירחא םינצחל"
+
+# ../face/list.cc:137
+# ../face/list.cc:139
+# ../face/list.cc:141
+#: ../face/list.cc:141
+msgid "/_Help"
+msgstr "/הרז_ע"
+
+# ../face/list.cc:138
+# ../face/list.cc:140
+# ../face/list.cc:142
+#: ../face/list.cc:142
+msgid "/_Help/About"
+msgstr "/הרז_ע/תודוא"
+
+# ../face/list.cc:583
+# ../face/list.cc:549
+# ../face/list.cc:620
+#: ../face/list.cc:564
+msgid "Do you really want to quit?"
+msgstr "?תאצל ךנוצרבש ה/חוטב ה/תא"
+
+# ../face/list.cc:583
+# ../face/list.cc:549
+# ../face/list.cc:620
+#: ../face/list.cc:564
+msgid "Quit?"
+msgstr "?תאצל"
+
+# ../face/list.cc:608
+# ../face/list.cc:578
+# ../face/list.cc:649
+#: ../face/list.cc:593
+msgid "Delete selected downloads?"
+msgstr "?תונמוסמה תודרוהה תא קוחמל"
+
+# ../face/list.cc:608 ../face/list.cc:621 ../face/list.cc:631
+# ../face/list.cc:578 ../face/list.cc:596 ../face/list.cc:614
+# ../face/list.cc:649 ../face/list.cc:667 ../face/list.cc:685
+#: ../face/list.cc:593 ../face/list.cc:611 ../face/list.cc:629
+msgid "Delete?"
+msgstr "?קוחמל םאה"
+
+# ../face/list.cc:621
+# ../face/list.cc:596
+# ../face/list.cc:667
+#: ../face/list.cc:611
+msgid "Do you wish delete completed downloads?"
+msgstr "?ומייתסהש תודרוה לכ תא קוחמל ךנוצרב םאה"
+
+# ../face/list.cc:631
+# ../face/list.cc:614
+# ../face/list.cc:685
+#: ../face/list.cc:629
+msgid "Do you wish delete failed downloads?"
+msgstr "?ולשכנש תודרוה לכ תא קוחמל ךנוצרב םאה"
+
+# ../face/list.cc:688
+# ../face/list.cc:674
+# ../face/list.cc:748
+#: ../face/list.cc:674
+msgid "Ready to go ????"
+msgstr "? ליחתהל ה/ןכומ"
+
+# ../face/list.cc:877
+# ../face/list.cc:863
+# ../face/list.cc:937
+#: ../face/list.cc:992
+#, fuzzy, c-format
+msgid "[%s] %i-running %i-completed %i-total "
+msgstr "םיצר %i ,ומלשוה %i :כ\"הס %i"
+
+# ../face/lmenu.cc:111
+# ../face/lmenu.cc:111
+# ../face/lmenu.cc:126
+#: ../face/lmenu.cc:140
+msgid "View log"
+msgstr "גול ץבוקב הפצ"
+
+# ../face/lmenu.cc:117
+# ../face/lmenu.cc:117
+# ../face/lmenu.cc:132
+#: ../face/lmenu.cc:146
+msgid "Stop"
+msgstr "רוצע"
+
+# ../face/lmenu.cc:124
+# ../face/lmenu.cc:124
+# ../face/lmenu.cc:139
+#: ../face/lmenu.cc:153
+msgid "Continue downloads"
+msgstr "תודרוה ךשמה"
+
+# ../face/lmenu.cc:130
+# ../face/lmenu.cc:130
+# ../face/lmenu.cc:145
+#. 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
+#: ../face/lmenu.cc:159
+msgid "Copy"
+msgstr "חולל קתעה"
+
+# ../face/lmenu.cc:150
+#: ../face/lmenu.cc:164
+msgid "(Un)Protect"
+msgstr "(Un)Protect"
+
+# face/lmenu.cc
+# ../face/lmenu.cc:144
+# ../face/lmenu.cc:144
+# ../face/lmenu.cc:164
+#: ../face/lmenu.cc:178
+msgid "Common properties"
+msgstr "םייללכ םינייפאמ"
+
+# ../face/lmenu.cc:150
+# ../face/lmenu.cc:150
+# ../face/lmenu.cc:170
+#: ../face/lmenu.cc:184
+msgid "Delete downloads"
+msgstr "תודרוה הקנ"
+
+# ../face/lmenu.cc:156
+# ../face/lmenu.cc:156
+# ../face/lmenu.cc:176
+#: ../face/lmenu.cc:190
+msgid "Delete completed"
+msgstr "ומלשוהש תודרוה הקנ"
+
+# ../face/lmenu.cc:162
+# ../face/lmenu.cc:162
+# ../face/lmenu.cc:182
+#: ../face/lmenu.cc:196
+msgid "Delete failed"
+msgstr "ולשכנש תודרוה יוקינ"
+
+# ../face/lmenu.cc:172
+# ../face/lmenu.cc:172
+# ../face/lmenu.cc:192
+#: ../face/lmenu.cc:206
+msgid "Move up"
+msgstr "הלעמל הלעה"
+
+# ../face/lmenu.cc:178
+# ../face/lmenu.cc:178
+# ../face/lmenu.cc:198
+#: ../face/lmenu.cc:212
+msgid "Move down"
+msgstr "הטמל דרוה"
+
+# ../face/columns.cc:21
+# ../face/edit.cc:783 ../face/filtrgui.cc:130
+# ../face/edit.cc:808 ../face/filtrgui.cc:152
+#: ../face/lmenu.cc:218
+#, fuzzy
+msgid "Alternates"
+msgstr "רטליפה םש"
+
+# ../face/lmenu.cc:189 ../face/prefs.cc:746 ../face/prefs.cc:983
+# ../face/prefs.cc:1141
+# ../face/lmenu.cc:189 ../face/prefs.cc:763 ../face/prefs.cc:1000
+# ../face/prefs.cc:1161
+# ../face/lmenu.cc:209 ../face/prefs.cc:773 ../face/prefs.cc:1057
+# ../face/prefs.cc:1239
+#: ../face/lmenu.cc:223 ../face/prefs.cc:777 ../face/prefs.cc:1207
+#: ../face/prefs.cc:1398
+msgid "FTP search"
+msgstr ""
+
+# ../face/lod.cc:43
+# ../face/lod.cc:43
+# ../face/lod.cc:45
+#: ../face/lod.cc:43
+msgid "File"
+msgstr "ץבוק"
+
+# ../face/lod.cc:44
+# ../face/lod.cc:44
+# ../face/lod.cc:46
+#: ../face/lod.cc:44
+msgid "Type"
+msgstr "גוס"
+
+# ../face/lod.cc:45
+# ../face/lod.cc:45
+# ../face/lod.cc:47
+#: ../face/lod.cc:45
+msgid "Full Size"
+msgstr "לדוג"
+
+# ../face/lod.cc:46
+# ../face/lod.cc:46
+# ../face/lod.cc:48
+#: ../face/lod.cc:46
+msgid "Downloaded"
+msgstr "דרוה"
+
+# face/lod.cc
+# ../face/lod.cc:47
+# ../face/lod.cc:47
+# ../face/lod.cc:49
+#: ../face/lod.cc:47
+msgid "Rest"
+msgstr "רתונ"
+
+# ../face/lod.cc:49
+# ../face/lod.cc:49
+# ../face/lod.cc:51
+#: ../face/lod.cc:49
+msgid "Speed"
+msgstr "תוריהמ"
+
+# ../face/lod.cc:51
+# ../face/lod.cc:51
+# ../face/lod.cc:53
+#: ../face/lod.cc:51
+msgid "Remaining"
+msgstr "רתונ"
+
+# ../face/lod.cc:52
+# ../face/lod.cc:52
+# ../face/lod.cc:54
+#: ../face/lod.cc:52
+msgid "Pause"
+msgstr "הייהשה"
+
+# ../face/lod.cc:53
+# ../face/lod.cc:53
+# ../face/lod.cc:55
+#: ../face/lod.cc:53
+msgid "Attempt"
+msgstr "ןויסנ"
+
+# ../face/lod.cc:468
+#: ../face/lod.cc:571
+msgid "Enter wildcard"
+msgstr ""
+
+# ../face/edit.cc:1499
+# ../face/edit.cc:1885
+# ../face/lod.cc:495
+#: ../face/lod.cc:599
+msgid "Unselect"
+msgstr "הריחב לטב"
+
+# face/lod.cc
+# ../face/lod.cc:813
+# ../face/lod.cc:838
+# ../face/lod.cc:1115
+#: ../face/lod.cc:1170
+msgid "Continue open log windows?"
+msgstr "?םיחותפה גולה תונולח תא ךשמה"
+
+# ../face/lod.cc:813
+# ../face/lod.cc:838
+# ../face/lod.cc:1115
+#: ../face/lod.cc:1170
+msgid "Open logs?"
+msgstr "? גול חתפ"
+
+# ../face/log.cc:211
+# ../face/log.cc:211
+# ../face/log.cc:206
+#: ../face/log.cc:193
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr "%i רפסמ הרוש [%s לש גול]"
+
+# ../face/log.cc:316
+# ../face/log.cc:316
+# ../face/log.cc:317
+#: ../face/log.cc:371
+msgid "Log: "
+msgstr " :גול"
+
+# ../face/mywidget.cc:55
+# ../face/mywidget.cc:58
+# ../face/mywidget.cc:58
+#: ../face/mywidget.cc:61
+msgid "Select directory"
+msgstr "הירפס רחב"
+
+# ../face/fsched.cc:277 ../face/mywidget.cc:58
+# ../face/fsched.cc:297 ../face/mywidget.cc:61
+# ../face/fsched.cc:298 ../face/mywidget.cc:61
+#: ../face/fsched.cc:291 ../face/mywidget.cc:64
+msgid "Select file"
+msgstr "ץבוק רחב"
+
+# ../face/fsched.cc:414 ../face/mywidget.cc:99
+# ../face/fsched.cc:437 ../face/fsched.cc:460 ../face/mywidget.cc:102
+# ../face/fsched.cc:438 ../face/fsched.cc:461 ../face/mywidget.cc:104
+#: ../face/fsched.cc:432 ../face/fsched.cc:455 ../face/mywidget.cc:108
+msgid "Browse"
+msgstr "ןויע"
+
+# face/mywidget.cc:
+# ../face/mywidget.cc:187
+# ../face/mywidget.cc:192
+# ../face/mywidget.cc:194
+#: ../face/mywidget.cc:198
+msgid "Select color"
+msgstr "עבצ י/רחב"
+
+# ../face/edit.cc:1475
+# ../face/mywidget.cc:334
+# ../face/mywidget.cc:336
+#: ../face/mywidget.cc:354
+msgid "Edit properties of Rule"
+msgstr "םינייפאמ רחב"
+
+# face/passwords.cc
+# ../face/passface.cc:54
+# ../face/mywidget.cc:337 ../face/mywidget.cc:611 ../face/passface.cc:55
+# ../face/mywidget.cc:339 ../face/mywidget.cc:613 ../face/passface.cc:57
+#: ../face/mywidget.cc:357 ../face/mywidget.cc:695 ../face/passface.cc:57
+msgid "protocol"
+msgstr "לוקוטורפ"
+
+# ../face/fsched.cc:410
+# ../face/mywidget.cc:362 ../face/mywidget.cc:611
+# ../face/mywidget.cc:364 ../face/mywidget.cc:613
+#: ../face/mywidget.cc:382 ../face/mywidget.cc:695
+msgid "path"
+msgstr "םוקימ"
+
+#: ../face/mywidget.cc:396
+msgid "?"
+msgstr ""
+
+#: ../face/mywidget.cc:403 ../face/mywidget.cc:695
+msgid "tag"
+msgstr ""
+
+# ../face/mywidget.cc:377
+# ../face/mywidget.cc:379
+#: ../face/mywidget.cc:452
+msgid "include"
+msgstr "דרוה"
+
+# ../face/mywidget.cc:379
+# ../face/mywidget.cc:381
+#: ../face/mywidget.cc:454
+msgid "exclude"
+msgstr "דירות לא"
+
+# ../face/mywidget.cc:607
+# ../face/mywidget.cc:609
+#: ../face/mywidget.cc:691
+msgid "Modify filter"
+msgstr "רטליפ הנש"
+
+# ../face/mywidget.cc:632
+# ../face/mywidget.cc:634
+#: ../face/mywidget.cc:714
+msgid "include by default"
+msgstr "דרוה - לדחמ תרירב"
+
+# face/prefs.cc
+# ../face/prefs.cc:835
+# ../face/mywidget.cc:634
+# ../face/mywidget.cc:636
+#: ../face/mywidget.cc:716
+msgid "exclude by default"
+msgstr "דירות לא - לדחמ תרירב"
+
+# ../face/columns.cc:22
+# ../face/mywidget.cc:640
+# ../face/mywidget.cc:642
+#: ../face/mywidget.cc:722
+msgid "Name of filter"
+msgstr "רטליפה םש"
+
+# ../face/mywidget.cc:646
+# ../face/mywidget.cc:648
+#: ../face/mywidget.cc:728
+msgid "Up"
+msgstr "הלעמל"
+
+# ../face/limface.cc:320 ../face/passface.cc:259
+# ../face/mywidget.cc:647
+# ../face/mywidget.cc:649
+#: ../face/mywidget.cc:729
+msgid "Add rule"
+msgstr "קוח ףסוה"
+
+# ../face/edit.cc:365 ../face/prefs.cc:212 ../face/prefs.cc:889
+# ../face/prefs.cc:1036
+# ../face/mywidget.cc:648
+# ../face/mywidget.cc:650
+#: ../face/mywidget.cc:730
+msgid "Down"
+msgstr "הטמל"
+
+# ../face/fsched.cc:185
+# ../face/filtrgui.cc:146 ../face/fsched.cc:203 ../face/mywidget.cc:657
+# ../face/filtrgui.cc:168 ../face/fsched.cc:204 ../face/mywidget.cc:659
+#: ../face/filtrgui.cc:170 ../face/fsched.cc:204 ../face/mywidget.cc:739
+#: ../face/mywidget.cc:926
+msgid "Remove"
+msgstr "הקנ"
+
+# face/dndtrash.cc
+# ../face/fsched.cc:184 ../face/fsched.cc:396
+# ../face/filtrgui.cc:145 ../face/fsched.cc:202 ../face/fsched.cc:418
+# ../face/mywidget.cc:658
+# ../face/filtrgui.cc:167 ../face/fsched.cc:203 ../face/fsched.cc:419
+# ../face/mywidget.cc:660
+#: ../face/filtrgui.cc:169 ../face/fsched.cc:203 ../face/fsched.cc:413
+#: ../face/mywidget.cc:740
+msgid "Edit"
+msgstr "הכירע"
+
+# ../face/fsched.cc:277 ../face/mywidget.cc:58
+# ../face/edit.cc:781
+# ../face/edit.cc:806
+#: ../face/mywidget.cc:815
+msgid "Select filter"
+msgstr "רטליפ רחב"
+
+# ../face/columns.cc:21
+# ../face/edit.cc:783 ../face/filtrgui.cc:130
+# ../face/edit.cc:808 ../face/filtrgui.cc:152
+#: ../face/filtrgui.cc:154 ../face/mywidget.cc:817
+msgid "filter name"
+msgstr "רטליפה םש"
+
+#: ../face/mywidget.cc:913
+msgid "List of links"
+msgstr ""
+
+# ../face/limface.cc:320 ../face/passface.cc:259
+# ../face/filtrgui.cc:144 ../face/limface.cc:320 ../face/passface.cc:260
+# ../face/filtrgui.cc:166 ../face/limface.cc:324 ../face/passface.cc:264
+#: ../face/mywidget.cc:974
+#, fuzzy
+msgid "Add"
+msgstr "שדח ףסוה"
+
+# face/passface.cc:
+# ../face/passface.cc:40
+# ../face/passface.cc:40
+# ../face/passface.cc:42
+#: ../face/passface.cc:42
+msgid "Password and username"
+msgstr "שמתשמ םשו המסיס"
+
+# ../face/limface.cc:307 ../face/passface.cc:55 ../face/passface.cc:244
+# ../face/limface.cc:307 ../face/passface.cc:56 ../face/passface.cc:245
+# ../face/limface.cc:311 ../face/passface.cc:58 ../face/passface.cc:249
+#: ../face/passface.cc:58 ../face/passface.cc:250
+msgid "Host"
+msgstr "תרש"
+
+# face/passface.cc:
+# ../face/passface.cc:240
+# ../face/passface.cc:241
+# ../face/passface.cc:245
+#: ../face/passface.cc:246
+msgid "Default passwords and usernames"
+msgstr "לדחמ תרירב תואמסיסו תומש"
+
+# ../face/passface.cc:244
+# ../face/passface.cc:245
+# ../face/passface.cc:249
+#: ../face/passface.cc:250
+msgid "#"
+msgstr ""
+
+# ../face/limface.cc:320 ../face/passface.cc:259
+# ../face/filtrgui.cc:144 ../face/limface.cc:320 ../face/passface.cc:260
+# ../face/filtrgui.cc:166 ../face/limface.cc:324 ../face/passface.cc:264
+#: ../face/filtrgui.cc:168 ../face/passface.cc:265
+msgid "Add new"
+msgstr "שדח ףסוה"
+
+# ../face/limface.cc:321 ../face/passface.cc:260
+# ../face/limface.cc:321 ../face/passface.cc:261
+# ../face/limface.cc:325 ../face/passface.cc:265
+#: ../face/passface.cc:266
+msgid "Delete"
+msgstr "קחמ"
+
+# ../face/prefs.cc:226
+# ../face/prefs.cc:230
+# ../face/prefs.cc:240
+#: ../face/prefs.cc:245
+msgid "Optimize recursive downloads"
+msgstr ""
+
+# face/prefs.cc:
+#: ../face/prefs.cc:261
+msgid "Default permissions of local file"
+msgstr "ץבוקל לדחמ תרירב תאשרה"
+
+# ../face/prefs.cc:244
+# ../face/prefs.cc:248
+# ../face/prefs.cc:258
+#: ../face/prefs.cc:272
+msgid "Save downloads to folder"
+msgstr "הירפסב תודרוה רומש"
+
+# ../face/prefs.cc:253 ../face/prefs.cc:898 ../face/prefs.cc:1048
+# ../face/prefs.cc:257 ../face/prefs.cc:915 ../face/prefs.cc:1065
+# ../face/prefs.cc:267 ../face/prefs.cc:967 ../face/prefs.cc:1122
+#: ../face/prefs.cc:281 ../face/prefs.cc:1117 ../face/prefs.cc:1279
+msgid "Limits"
+msgstr "תולבגה"
+
+# ../face/prefs.cc:309
+# ../face/prefs.cc:313
+# ../face/prefs.cc:323
+#: ../face/prefs.cc:337
+msgid "Maximum lines in log"
+msgstr "גול ץבוקב תורוש םומיסקמ"
+
+# ../face/prefs.cc:317 ../face/prefs.cc:903 ../face/prefs.cc:1057
+# ../face/prefs.cc:321 ../face/prefs.cc:920 ../face/prefs.cc:1074
+# ../face/prefs.cc:331 ../face/prefs.cc:972 ../face/prefs.cc:1131
+#: ../face/prefs.cc:345 ../face/prefs.cc:1122 ../face/prefs.cc:1288
+msgid "FTP"
+msgstr "FTP"
+
+# face/prefs.cc
+# ../face/prefs.cc:343
+# ../face/prefs.cc:347
+# ../face/prefs.cc:357
+#: ../face/prefs.cc:375
+msgid "Output FTP dirs in logs"
+msgstr "םיגולב FTP תוירפס בותכ"
+
+# ../face/prefs.cc:358
+# ../face/prefs.cc:368
+#: ../face/prefs.cc:386
+msgid "default anonymous password"
+msgstr ""
+
+# ../face/prefs.cc:351 ../face/prefs.cc:908 ../face/prefs.cc:1066
+# ../face/prefs.cc:368 ../face/prefs.cc:925 ../face/prefs.cc:1086
+# ../face/prefs.cc:378 ../face/prefs.cc:977 ../face/prefs.cc:1143
+#: ../face/prefs.cc:448 ../face/prefs.cc:1127 ../face/prefs.cc:1301
+msgid "HTTP"
+msgstr "HTTP"
+
+# face/prefs.cc:
+# ../face/prefs.cc:386
+# ../face/prefs.cc:403
+# ../face/prefs.cc:413
+#: ../face/prefs.cc:486
+msgid "Filename for saving if it is unknown"
+msgstr "עודי אל ץבוקה םש םא הרימשל ץבוק םש"
+
+# Unknown
+# ../face/prefs.cc:410 ../face/prefs.cc:933 ../face/prefs.cc:1097
+# ../face/prefs.cc:427 ../face/prefs.cc:950 ../face/prefs.cc:1117
+# ../face/prefs.cc:437 ../face/prefs.cc:1002 ../face/prefs.cc:1174
+#: ../face/prefs.cc:525 ../face/prefs.cc:1147 ../face/prefs.cc:1328
+msgid "Main window"
+msgstr "ישאר ןולח"
+
+# ../face/prefs.cc:412
+# ../face/prefs.cc:429
+# ../face/prefs.cc:439
+#: ../face/prefs.cc:527
+msgid "Using title"
+msgstr "תרתוכב שמתשה"
+
+# ../face/prefs.cc:416
+# ../face/prefs.cc:433
+# ../face/prefs.cc:443
+#: ../face/prefs.cc:531
+msgid "Use title of main window for info"
+msgstr "ןולחה תרתוכב עדימ גצה"
+
+# ../face/prefs.cc:421
+# ../face/prefs.cc:438
+# ../face/prefs.cc:448
+#: ../face/prefs.cc:536
+msgid "Display queue statistics too"
+msgstr "תוקיטסיטטס גצה ףסונב"
+
+# face/prefs.cc:
+# ../face/prefs.cc:422
+# ../face/prefs.cc:439
+# ../face/prefs.cc:449
+#: ../face/prefs.cc:537
+msgid "Scroll title"
+msgstr "תרתוכ תלילג"
+
+# ../face/prefs.cc:427
+# ../face/prefs.cc:444
+# ../face/prefs.cc:454
+#: ../face/prefs.cc:542
+msgid "Iconfiy main window instead of closing"
+msgstr "רוגסל םוקמב ישאר ןולח רעזמ"
+
+#: ../face/prefs.cc:544
+msgid "Do not remember position of the main window"
+msgstr ""
+
+# ../face/prefs.cc:439 ../face/prefs.cc:938 ../face/prefs.cc:1104
+# ../face/prefs.cc:456 ../face/prefs.cc:955 ../face/prefs.cc:1124
+# ../face/prefs.cc:466 ../face/prefs.cc:1007 ../face/prefs.cc:1181
+#: ../face/prefs.cc:557 ../face/prefs.cc:1152 ../face/prefs.cc:1336
+msgid "Confirmation"
+msgstr "רושיא תשקב"
+
+# ../face/prefs.cc:441
+# ../face/prefs.cc:458
+# ../face/prefs.cc:468
+#: ../face/prefs.cc:559
+msgid "Confirm delete selected downloads"
+msgstr "תונמוסמ תודרוהה יוקינב רושיא שקב"
+
+# ../face/prefs.cc:442
+# ../face/prefs.cc:459
+# ../face/prefs.cc:469
+#: ../face/prefs.cc:560
+msgid "Confirm delete all downloads"
+msgstr "תודרוהה לכ יוקינב רושיא שקב"
+
+# ../face/prefs.cc:443
+# ../face/prefs.cc:460
+# ../face/prefs.cc:470
+#: ../face/prefs.cc:561
+msgid "Confirm delete completed downloads"
+msgstr "ומלשוהש תודרוה יוקינב רושיא שקב"
+
+# ../face/prefs.cc:444
+# ../face/prefs.cc:461
+# ../face/prefs.cc:471
+#: ../face/prefs.cc:562
+msgid "Confirm delete failed downloads"
+msgstr "ולשכנש תודרוה יוקינב רושיא שקב"
+
+# face/prefs.cc
+# ../face/prefs.cc:445
+# ../face/prefs.cc:462
+# ../face/prefs.cc:472
+#: ../face/prefs.cc:563
+msgid "Confirm opening large amount of windows"
+msgstr "תונולח לש הלודג תומכ תחיתפב רושיא שקב"
+
+# ../face/prefs.cc:446
+# ../face/prefs.cc:463
+# ../face/prefs.cc:473
+#: ../face/prefs.cc:564
+msgid "Confirm exit from program"
+msgstr "תינכותמ האיציב רושיא שקב"
+
+# face/prefs.cc
+# ../face/prefs.cc:471 ../face/prefs.cc:962 ../face/prefs.cc:1130
+# ../face/prefs.cc:488 ../face/prefs.cc:979 ../face/prefs.cc:1150
+# ../face/prefs.cc:498 ../face/prefs.cc:1036 ../face/prefs.cc:1228
+#.
+#. tmpitem=gtk_tree_item_new_with_label(_("DnD"));
+#. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
+#. gtk_widget_show(tmpitem);
+#.
+#: ../face/prefs.cc:589 ../face/prefs.cc:1186 ../face/prefs.cc:1387
+msgid "Clipboard"
+msgstr "חול"
+
+# face/prefs.cc
+# ../face/prefs.cc:473
+# ../face/prefs.cc:490
+# ../face/prefs.cc:500
+#: ../face/prefs.cc:591
+msgid "Monitor clipboard"
+msgstr "חולב שמתשה"
+
+# face/prefs.cc
+# ../face/prefs.cc:483
+# ../face/prefs.cc:500
+# ../face/prefs.cc:510
+#: ../face/prefs.cc:601
+msgid "Skip these extensions in clipboard"
+msgstr "חולהמ תואבה תומויסהמ םלעתה"
+
+# ../face/prefs.cc:491
+# ../face/prefs.cc:508
+# ../face/prefs.cc:518
+#: ../face/prefs.cc:609
+msgid "Catch these extensions in clipboard"
+msgstr "חולהמ תואבה תומויסה תא סופת"
+
+# prefs.cc:
+# ../face/prefs.cc:514 ../face/prefs.cc:977 ../face/prefs.cc:1166
+# ../face/prefs.cc:531 ../face/prefs.cc:994 ../face/prefs.cc:1186
+# ../face/prefs.cc:541 ../face/prefs.cc:1051 ../face/prefs.cc:1264
+#: ../face/prefs.cc:632 ../face/prefs.cc:1201 ../face/prefs.cc:1420
+msgid "Main log"
+msgstr "ישאר גול"
+
+# ../face/prefs.cc:520
+# ../face/prefs.cc:537
+# ../face/prefs.cc:547
+#: ../face/prefs.cc:638
+msgid "Maximum lines in MAIN log"
+msgstr "_ישארה_ גולב תורוש םומסיסקמ"
+
+# face/prefs.cc
+# ../face/prefs.cc:524
+# ../face/prefs.cc:541
+# ../face/prefs.cc:551
+#: ../face/prefs.cc:642
+msgid "Output detailed information"
+msgstr "טרופמ עדימ גצה"
+
+# ../face/prefs.cc:528
+# ../face/prefs.cc:545
+# ../face/prefs.cc:555
+#: ../face/prefs.cc:646
+msgid "Save main log into file"
+msgstr "ץבוקב ישאר גול רומש"
+
+# face/prefs.cc:
+# ../face/prefs.cc:547
+# ../face/prefs.cc:564
+# ../face/prefs.cc:574
+#: ../face/prefs.cc:665
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "(םיתב וליקב) ישארה גול ץבוקל ילמסיסקמ לדוג"
+
+# ../face/prefs.cc:553
+# ../face/prefs.cc:570
+# ../face/prefs.cc:580
+#: ../face/prefs.cc:671
+msgid "Append to file"
+msgstr "ץבוקל ףסוה"
+
+# ../face/prefs.cc:556
+# ../face/prefs.cc:573
+# ../face/prefs.cc:583
+#: ../face/prefs.cc:674
+msgid "Overwrite file"
+msgstr "ץבוק שדחמ רוצ"
+
+# face/prefs.cc
+# ../face/prefs.cc:571 ../face/prefs.cc:949 ../face/prefs.cc:1121
+# ../face/prefs.cc:588 ../face/prefs.cc:966 ../face/prefs.cc:1141
+# ../face/prefs.cc:598 ../face/prefs.cc:1023 ../face/prefs.cc:1219
+#: ../face/prefs.cc:689 ../face/prefs.cc:1173 ../face/prefs.cc:1378
+msgid "Integration"
+msgstr "היצרגטניא"
+
+# prefs.cc:
+# ../face/prefs.cc:573
+# ../face/prefs.cc:590
+# ../face/prefs.cc:600
+#: ../face/prefs.cc:691
+msgid "Exit if nothing to do after"
+msgstr "דירוהל המ רתוי ןיא םא אצ תוקד"
+
+# ../face/prefs.cc:579 ../face/prefs.cc:699
+# ../face/prefs.cc:596 ../face/prefs.cc:716
+# ../face/prefs.cc:606 ../face/prefs.cc:726
+#: ../face/prefs.cc:697 ../face/prefs.cc:736
+msgid "minutes"
+msgstr "רחאל"
+
+# face/prefs.cc:
+# ../face/prefs.cc:590
+# ../face/prefs.cc:607
+# ../face/prefs.cc:617
+#: ../face/prefs.cc:708
+msgid "Run this on exit"
+msgstr ":ץרה האיציה ירחא"
+
+# ../face/prefs.cc:595
+# ../face/prefs.cc:612
+# ../face/prefs.cc:622
+#: ../face/prefs.cc:713
+msgid "Open dialog for Drag-n-Drop"
+msgstr "Drag&Drop -ל גולאיד חתפ"
+
+# ../face/prefs.cc:693
+# ../face/prefs.cc:710
+# ../face/prefs.cc:720
+#: ../face/prefs.cc:730
+msgid "Save list of downloads every"
+msgstr "תודרוה תמישר תיטמוטוא רומש תוקד"
+
+# ../face/prefs.cc:708
+# ../face/prefs.cc:725
+# ../face/prefs.cc:735
+#: ../face/prefs.cc:743
+msgid "Allow to user force run downloads"
+msgstr "תודרוה 'חירכהל' שמתשמל רשפא"
+
+# face/prefs.cc:
+# ../face/prefs.cc:709
+# ../face/prefs.cc:726
+# ../face/prefs.cc:736
+#: ../face/prefs.cc:744
+msgid "Remember passwords"
+msgstr "תואמסיס רוכז"
+
+# face/prefs.cc
+# ../face/prefs.cc:710
+# ../face/prefs.cc:727
+# ../face/prefs.cc:737
+#: ../face/prefs.cc:745
+msgid "Write Descript.ion file"
+msgstr "Descript.ion ץבוקל בותכ"
+
+# ../face/prefs.cc:724
+# ../face/prefs.cc:741
+# ../face/prefs.cc:751
+#: ../face/prefs.cc:755
+msgid "bytes/sec speed level one (red button)"
+msgstr "(םודא רותפכ) תיטיא תוריהמב הינשל םיתב"
+
+# ../face/prefs.cc:732
+# ../face/prefs.cc:749
+# ../face/prefs.cc:759
+#: ../face/prefs.cc:763
+msgid "bytes/sec speed level two (yellow button)"
+msgstr "(בוהצ רותפכ) תינוניב תוריהמב הינשל םיתב"
+
+# ../face/prefs.cc:752
+# ../face/prefs.cc:769
+# ../face/prefs.cc:779
+#: ../face/prefs.cc:783
+msgid "Number of attempts to ping hosts"
+msgstr "תרשל גניפ תושעל תונויסנ רפסמ"
+
+# ../face/prefs.cc:760
+# ../face/prefs.cc:777
+# ../face/prefs.cc:787
+#: ../face/prefs.cc:791
+msgid "Number of hosts in list"
+msgstr "המישרב םיתרש רפסמ"
+
+# ../face/prefs.cc:786
+# ../face/prefs.cc:803
+# ../face/prefs.cc:813
+#: ../face/prefs.cc:817
+msgid "search engine to use"
+msgstr "שופיח עונמב שמתשה"
+
+# Unknown
+# ../face/prefs.cc:795 ../face/prefs.cc:919 ../face/prefs.cc:1084
+# ../face/prefs.cc:812 ../face/prefs.cc:936 ../face/prefs.cc:1104
+# ../face/prefs.cc:822 ../face/prefs.cc:988 ../face/prefs.cc:1161
+#: ../face/prefs.cc:826 ../face/prefs.cc:1138 ../face/prefs.cc:1323
+msgid "Interface"
+msgstr "קשממ"
+
+# ../face/prefs.cc:797
+# ../face/prefs.cc:814
+# ../face/prefs.cc:824
+#: ../face/prefs.cc:828
+msgid "Show DnD basket"
+msgstr "Drag&Drop תבית גצה"
+
+# face/prefs.cc:
+# ../face/prefs.cc:798
+# ../face/prefs.cc:815
+# ../face/prefs.cc:825
+#: ../face/prefs.cc:829
+msgid "Use fixed font in logs"
+msgstr "םיגולב fixed גוסמ טנופב שמתשה"
+
+# Unknown
+# ../face/prefs.cc:815 ../face/prefs.cc:943 ../face/prefs.cc:1113
+# ../face/prefs.cc:832 ../face/prefs.cc:960 ../face/prefs.cc:1133
+# ../face/prefs.cc:842 ../face/prefs.cc:1012 ../face/prefs.cc:1190
+#: ../face/prefs.cc:846 ../face/prefs.cc:1157 ../face/prefs.cc:1345
+msgid "Graph"
+msgstr "ףרג"
+
+# ../face/prefs.cc:817
+# ../face/prefs.cc:834
+# ../face/prefs.cc:844
+#: ../face/prefs.cc:848
+msgid "Revert drawing graph of speeds"
+msgstr "תויוריהמה ףרג לש טוטרשה ןוויכ תא ךופה"
+
+#: ../face/prefs.cc:851
+msgid "Compressed mode"
+msgstr ""
+
+# face/prefs.cc:
+# ../face/prefs.cc:823
+# ../face/prefs.cc:840
+# ../face/prefs.cc:850
+#: ../face/prefs.cc:857
+msgid "Color for picks"
+msgstr "ףרגה תוגספל עבצ"
+
+# face/prefs.cc:
+# ../face/prefs.cc:824
+# ../face/prefs.cc:841
+# ../face/prefs.cc:851
+#: ../face/prefs.cc:858
+msgid "Color for total speed"
+msgstr "הדרוהה תוריהמל עבצ"
+
+# face/prefs.cc:
+# ../face/prefs.cc:825
+# ../face/prefs.cc:842
+# ../face/prefs.cc:852
+#: ../face/prefs.cc:859
+msgid "Color for speed of selected"
+msgstr "ןמוסמה טירפה תדרוה תוריהמ עבצ"
+
+# face/prefs.cc:
+# ../face/prefs.cc:826
+# ../face/prefs.cc:843
+# ../face/prefs.cc:853
+#: ../face/prefs.cc:860
+msgid "Background color"
+msgstr "עקר עבצ"
+
+# face/prefs.cc
+# ../face/prefs.cc:835
+# ../face/prefs.cc:852
+# ../face/prefs.cc:862
+#: ../face/prefs.cc:869
+msgid "Reset to default"
+msgstr "לדחמה תרירבל רזחה"
+
+# ../face/prefs.cc:838
+# ../face/prefs.cc:855
+# ../face/prefs.cc:865
+#: ../face/prefs.cc:872
+msgid "Colors for graph"
+msgstr "ףרגה יעבצ"
+
+# ../face/prefs.cc:603 ../face/prefs.cc:928 ../face/prefs.cc:1089
+# ../face/prefs.cc:620 ../face/prefs.cc:945 ../face/prefs.cc:1109
+# ../face/prefs.cc:891 ../face/prefs.cc:1017 ../face/prefs.cc:1198
+#: ../face/prefs.cc:898 ../face/prefs.cc:1162 ../face/prefs.cc:1354
+msgid "Sounds"
+msgstr "םילילצ"
+
+# ../face/prefs.cc:893
+#: ../face/prefs.cc:901
+msgid "enable sounds"
+msgstr "םילילצב שומיש רשפא"
+
+#: ../face/prefs.cc:906
+msgid "output via ESD"
+msgstr ""
+
+# ../face/columns.cc:20
+# ../face/columns.cc:20
+# ../face/prefs.cc:898
+#: ../face/prefs.cc:913
+msgid "Startup"
+msgstr "הלעפה"
+
+# ../face/fsched.cc:39
+# ../face/fsched.cc:39
+# ../face/prefs.cc:900
+#: ../face/prefs.cc:915
+msgid "Adding a download"
+msgstr "הדרוהל ץבוק תפסוה"
+
+# ../face/list.cc:116
+# ../face/list.cc:117
+# ../face/prefs.cc:902
+#: ../face/prefs.cc:917
+msgid "Downloading completed"
+msgstr "המלשוה הדרוהה"
+
+# ../face/list.cc:118
+# ../face/list.cc:119
+# ../face/prefs.cc:904
+#: ../face/prefs.cc:919
+msgid "Downloading failed"
+msgstr "הלשכנ הדרוהה"
+
+# ../main.cc:871
+# ../main.cc:859
+# ../face/prefs.cc:906
+#: ../face/prefs.cc:921
+msgid "Downloading of queue is completed"
+msgstr "ומלשוה תודרוהה לכ"
+
+# ../face/prefs.cc:908
+#: ../face/prefs.cc:923
+msgid "Drag'n'Drop event"
+msgstr "(Drag&Drop) הרירג עוריא"
+
+#: ../face/prefs.cc:953 ../face/prefs.cc:954
+msgid "No info about this theme."
+msgstr ""
+
+# ../face/edit.cc:80 ../face/edit.cc:536 ../face/edit.cc:579
+# ../face/fsched.cc:170 ../face/lod.cc:50
+# ../face/edit.cc:86 ../face/edit.cc:666 ../face/edit.cc:709
+# ../face/fsched.cc:185 ../face/lod.cc:50
+# ../face/edit.cc:86 ../face/edit.cc:687 ../face/edit.cc:730
+# ../face/fsched.cc:186 ../face/lod.cc:52
+#: ../face/prefs.cc:963 ../face/prefs.cc:1167
+#, fuzzy
+msgid "Themes"
+msgstr "םינמז חול"
+
+# face/edit.cc:
+# ../face/edit.cc:313
+# ../face/edit.cc:403
+# ../face/edit.cc:414
+#: ../face/prefs.cc:966
+#, fuzzy
+msgid "Default theme"
+msgstr "לדחמ תרירב"
+
+# ../face/prefs.cc:855
+# ../face/prefs.cc:872
+# ../face/prefs.cc:924
+#: ../face/prefs.cc:1067
+msgid "Options"
+msgstr "תויורשפא"
+
+# face/saveload.cc
+# ../face/saveload.cc:68
+# ../face/saveload.cc:68
+# ../face/saveload.cc:70
+#: ../face/saveload.cc:89
+msgid "Loading"
+msgstr "ןעוט"
+
+# ../face/saveload.cc:119
+# ../face/saveload.cc:119
+# ../face/saveload.cc:123
+#: ../face/saveload.cc:142
+msgid "Save list"
+msgstr "המישר רומש"
+
+# ../face/saveload.cc:159
+# ../face/saveload.cc:159
+# ../face/saveload.cc:165
+#: ../face/saveload.cc:185
+msgid "Load list"
+msgstr "המישר ןעט"
+
+# face/saveload.cc
+# ../face/saveload.cc:198
+# ../face/saveload.cc:198
+# ../face/saveload.cc:206
+#: ../face/saveload.cc:227
+msgid "Find links in txt file"
+msgstr "טסקט ץבוקב םיקניל אצמ"
+
+#: ../face/fsface.cc:70
+msgid "bytes"
+msgstr ""
+
+# face/fsface.cc
+# ../face/fsface.cc:72
+# ../face/fsface.cc:72
+# ../face/fsface.cc:72
+#: ../face/fsface.cc:82
+msgid "nothing found"
+msgstr "רבד אצמנ אל"
+
+# ../face/fsface.cc:76
+# ../face/fsface.cc:76
+# ../face/fsface.cc:76
+#: ../face/fsface.cc:86
+msgid "searching"
+msgstr "שפחמ"
+
+# face/fsface.cc
+# ../face/fsface.cc:85
+# ../face/fsface.cc:85
+# ../face/fsface.cc:85
+#: ../face/fsface.cc:95
+msgid "reping"
+msgstr "שדחמ PING עצב"
+
+# ../face/fsface.cc:89
+# ../face/fsface.cc:89
+# ../face/fsface.cc:89
+#: ../face/fsface.cc:99
+msgid "cumulative reping"
+msgstr "שדחמ רבטצמ PING עצב"
+
+# ../face/fsface.cc:95
+# ../face/fsface.cc:95
+# ../face/fsface.cc:95
+#: ../face/fsface.cc:105
+msgid "remove"
+msgstr "רסה"
+
+# ../face/fsched.cc:30
+# ../face/fsched.cc:30
+# ../face/fsched.cc:30
+#: ../face/fsched.cc:30
+msgid "limit speed"
+msgstr "תוריהמ תלבגה"
+
+# Unknown
+# ../face/fsched.cc:31
+# ../face/fsched.cc:31
+# ../face/fsched.cc:31
+#: ../face/fsched.cc:31
+msgid "popup main window"
+msgstr "ישאר ןולח"
+
+# face/dndtrash.cc
+# ../face/fsched.cc:32
+# ../face/fsched.cc:32
+# ../face/fsched.cc:32
+#: ../face/fsched.cc:32
+msgid "exit"
+msgstr "האיצי"
+
+# ../face/fsched.cc:33
+# ../face/fsched.cc:33
+# ../face/fsched.cc:33
+#: ../face/fsched.cc:33
+msgid "remove completed"
+msgstr "ומלשוהש תודרוה הקנ"
+
+# ../face/fsched.cc:34
+# ../face/fsched.cc:34
+# ../face/fsched.cc:34
+#: ../face/fsched.cc:34
+msgid "remove failed"
+msgstr "ולשכנש תודרוה יוקינ"
+
+# ../face/fsched.cc:35
+# ../face/fsched.cc:35
+# ../face/fsched.cc:35
+#: ../face/fsched.cc:35
+msgid "restart download"
+msgstr "שדחמ דירוהל לחתה"
+
+# ../face/fsched.cc:36
+# ../face/fsched.cc:36
+# ../face/fsched.cc:36
+#: ../face/fsched.cc:36
+msgid "stop download"
+msgstr "דירוהל קספה"
+
+# ../face/fsched.cc:37
+# ../face/fsched.cc:37
+# ../face/fsched.cc:37
+#: ../face/fsched.cc:37
+msgid "remove download"
+msgstr "תודרוה הקנ"
+
+# ../face/fsched.cc:38
+# ../face/fsched.cc:38
+# ../face/fsched.cc:38
+#: ../face/fsched.cc:38
+msgid "remove download if completed"
+msgstr "ומלשוהש תודרוה הקנ"
+
+# ../face/fsched.cc:39
+# ../face/fsched.cc:39
+# ../face/fsched.cc:39
+#: ../face/fsched.cc:39
+msgid "add download"
+msgstr "הדרוהל ץבוק ףסוה"
+
+# ../face/fsched.cc:40
+# ../face/fsched.cc:40
+# ../face/fsched.cc:40
+#: ../face/fsched.cc:40
+msgid "save list"
+msgstr "המישר רומש"
+
+# ../face/fsched.cc:41
+# ../face/fsched.cc:41
+#: ../face/fsched.cc:41
+msgid "execute command"
+msgstr "הדוקפ ץרה"
+
+# ../face/fsched.cc:166
+# ../face/fsched.cc:181
+# ../face/fsched.cc:180
+#: ../face/fsched.cc:180
+msgid "Scheduler"
+msgstr "םינמז-חול"
+
+# ../face/fsched.cc:170 ../face/fsched.cc:702
+# ../face/fsched.cc:185 ../face/fsched.cc:763
+# ../face/fsched.cc:186 ../face/fsched.cc:764
+#: ../face/fsched.cc:186 ../face/fsched.cc:763
+msgid "Action"
+msgstr "תולועפ"
+
+# ../face/fsched.cc:170
+# ../face/fsched.cc:185
+# ../face/fsched.cc:186
+#: ../face/fsched.cc:186
+msgid "Info"
+msgstr "עדימ"
+
+# face/limface.cc:
+# ../face/fsched.cc:183
+# ../face/fsched.cc:201
+# ../face/fsched.cc:202
+#: ../face/fsched.cc:202
+msgid "New"
+msgstr "שדח"
+
+# ../face/edit.cc:457 ../face/edit.cc:460
+# ../face/fsched.cc:433
+# ../face/fsched.cc:434
+#: ../face/fsched.cc:428
+msgid "Command:"
+msgstr ":הדוקפ"
+
+# ../face/fsched.cc:410
+# ../face/fsched.cc:456
+# ../face/fsched.cc:457
+#: ../face/fsched.cc:451
+msgid "Path:"
+msgstr ":םוקימ"
+
+# ../face/fsched.cc:430
+# ../face/fsched.cc:475
+# ../face/fsched.cc:476
+#: ../face/fsched.cc:470
+msgid "This action has no properties"
+msgstr "םינייפאמ ןיא וז הלועפל"
+
+# ../face/fsched.cc:643
+# ../face/fsched.cc:704
+# ../face/fsched.cc:705
+#: ../face/fsched.cc:704
+msgid "Start time(hour:min:sec)"
+msgstr "(הינש:הקד:העש) הלחתה ןמז"
+
+# ../face/fsched.cc:672
+# ../face/fsched.cc:733
+# ../face/fsched.cc:734
+#: ../face/fsched.cc:733
+msgid "Retry this action"
+msgstr "בוש הסנ"
+
+# ../face/fsched.cc:681
+# ../face/fsched.cc:742
+# ../face/fsched.cc:743
+#: ../face/fsched.cc:742
+msgid "times to repeat (-1 unlimited)"
+msgstr "(לבגומ יתלב=-1) תונויסנ םומיסקמ"
+
+# ../face/fsched.cc:685
+# ../face/fsched.cc:746
+# ../face/fsched.cc:747
+#: ../face/fsched.cc:746
+msgid "period (day/hour:min)"
+msgstr ""
+
+# ../face/fsched.cc:727
+# ../face/fsched.cc:788
+# ../face/fsched.cc:789
+#: ../face/fsched.cc:791
+msgid "Edit scheduled action"
+msgstr ""
+
+# ../face/lod.cc:43
+# ../face/filtrgui.cc:126
+# ../face/filtrgui.cc:146
+#: ../face/filtrgui.cc:148
+msgid "Filters"
+msgstr "םירטליפ"
+
+#: ../face/qtree.cc:94
+msgid "Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:245
+msgid "Name"
+msgstr ""
+
+# config.cc:
+# ../config.cc:589
+# ../config.cc:601
+# ../config.cc:614
+#: ../face/qtree.cc:246
+#, fuzzy
+msgid "Total"
+msgstr "%d :כ\"הס\n"
+
+#: ../face/qtree.cc:247
+msgid "Wait"
+msgstr ""
+
+#: ../face/qtree.cc:248
+msgid "Run"
+msgstr ""
+
+#: ../face/qtree.cc:346 ../face/qtree.cc:352
+msgid "/Create new queue"
+msgstr ""
+
+#: ../face/qtree.cc:347
+msgid "/Create new subqueue"
+msgstr ""
+
+# ../face/dndtrash.cc:42
+# ../face/dndtrash.cc:43
+# ../face/dndtrash.cc:43
+#: ../face/qtree.cc:348
+#, fuzzy
+msgid "/Delete queue"
+msgstr "ומלשוהש תודרוה קחמ"
+
+# ../face/fsched.cc:710 ../face/lmenu.cc:139 ../mainlog.cc:189
+# ../face/fsched.cc:771 ../face/lmenu.cc:139 ../mainlog.cc:218
+# ../face/fsched.cc:772 ../face/lmenu.cc:159 ../mainlog.cc:218
+#: ../face/qtree.cc:349
+#, fuzzy
+msgid "/Properties"
+msgstr "םינייפאמ"
+
+# ../face/edit.cc:1475
+# ../face/edit.cc:1861
+# ../face/edit.cc:1985
+#: ../face/qtree.cc:442
+#, fuzzy
+msgid "Queue properties"
+msgstr "םינייפאמ רחב"
+
+# ../face/prefs.cc:689
+# ../face/prefs.cc:706
+# ../face/prefs.cc:716
+#: ../face/qtree.cc:451
+msgid "Maximum active downloads"
+msgstr "תוליעפ תודרוה םומיסקמ"
+
+# ../face/prefs.cc:706
+# ../face/prefs.cc:723
+# ../face/prefs.cc:733
+#: ../face/qtree.cc:455
+msgid "Automatically delete completed downloads"
+msgstr "תיטמוטוא ומלשוהש תודרוה הקנ"
+
+# ../face/prefs.cc:707
+# ../face/prefs.cc:724
+# ../face/prefs.cc:734
+#: ../face/qtree.cc:456
+msgid "Automatically delete failed downloads"
+msgstr "תימטוטוא ולשכנש תודרוה הקנ"
+
+# main.cc
+# ../main.cc:251 ../main.cc:1096
+# ../main.cc:261 ../main.cc:1087
+# ../main.cc:259 ../main.cc:1122
+#: ../face/qtree.cc:466
+#, fuzzy
+msgid "Default folder to save downloaded files"
+msgstr "ומלשוהש תודרוה קחמ"
+
+# ../face/prefs.cc:607
+# ../face/prefs.cc:624
+# ../face/prefs.cc:634
+#: ../face/qtree.cc:474
+msgid "Size format"
+msgstr "לדוגה טמרופ"
+
+# ../face/prefs.cc:608
+# ../face/prefs.cc:625
+# ../face/prefs.cc:635
+#: ../face/qtree.cc:475
+msgid "Time format"
+msgstr "ןמזה טמרופ"
+
+# ../face/columns.cc:22
+# ../face/mywidget.cc:640
+# ../face/mywidget.cc:642
+#: ../face/qtree.cc:544
+#, fuzzy
+msgid "Name of the queue"
+msgstr "רטליפה םש"
+
+# ../config.cc:486
+# ../config.cc:494
+# ../config.cc:505
+#~ msgid "Can't open limits configuration file!\n"
+#~ msgstr "!!!תולבגהה ץבוק תא חותפל לוכי אל\n"
+
+# ../config.cc:509
+# ../config.cc:517
+# ../config.cc:528
+#~ msgid "Can't write limits to file!!!\n"
+#~ msgstr "!!!ץבוקל תולבגה בותכל לוכי אל\n"
+
+# ../main.cc:346
+# ../main.cc:357
+# ../main.cc:355
+#~ msgid "Maximum active downloads is set to %i"
+#~ msgstr "%i אוה ילמיסקמה תוליעפה תודרוהה רפסמ"
+
+# ../face/buttons.cc:65
+# ../face/buttons.cc:65
+#~ msgid " Mode of percentage "
+#~ msgstr " םיזוחאה תגוצת "
+
+# face/edit.cc:
+# ../face/edit.cc:72 ../face/edit.cc:475 ../face/prefs.cc:331
+# ../face/edit.cc:76 ../face/edit.cc:565 ../face/prefs.cc:335
+# ../face/edit.cc:76 ../face/edit.cc:586 ../face/prefs.cc:345
+#~ msgid "Try to load symbolic link as file via FTP"
+#~ msgstr "FTP ךרד םיילובמיס םיקניל ןועטל הסנ"
+
+# ../face/limface.cc:56
+# ../face/limface.cc:56
+# ../face/limface.cc:58
+#~ msgid "Limitation for the host"
+#~ msgstr "תרשה רובע תולבגה"
+
+# ../face/limface.cc:62
+# ../face/limface.cc:62
+# ../face/limface.cc:64
+#~ msgid "Host:"
+#~ msgstr "שרת:"
+
+# ../face/limface.cc:63
+# ../face/limface.cc:63
+# ../face/limface.cc:65
+#~ msgid "Port:"
+#~ msgstr "טרופ:"
+
+# ../face/limface.cc:64
+# ../face/limface.cc:64
+# ../face/limface.cc:66
+#~ msgid "Maximum connections:"
+#~ msgstr "תויורבחתה םומיסקמ:"
+
+# ../face/limface.cc:303
+# ../face/limface.cc:303
+# ../face/limface.cc:307
+#~ msgid "Limitations for the hosts"
+#~ msgstr "םיתרשה רובע תולבגה"
+
+# ../face/limface.cc:307
+# ../face/limface.cc:307
+# ../face/limface.cc:311
+#~ msgid "N"
+#~ msgstr "תויורבחתה םומיסקמ"
+
+# face/limface.cc:
+# ../face/limface.cc:307
+# ../face/limface.cc:307
+# ../face/limface.cc:311
+#~ msgid "Now"
+#~ msgstr "וישכע"
+
+# face/limface.cc
+# ../face/limface.cc:331
+# ../face/limface.cc:331
+# ../face/limface.cc:335
+#~ msgid "Default limitation for all hosts (0 without limits)"
+#~ msgstr "(תולבגה אלל=0) םיתרשה לכל לדחמ תרירב תלבגה"
+
+# ../face/list.cc:125
+# ../face/list.cc:126
+# ../face/list.cc:128
+#~ msgid "/Options/Limitations"
+#~ msgstr "/תויורשפא/תולבגה"
+
+# ../face/lmenu.cc:184
+# ../face/lmenu.cc:184
+# ../face/lmenu.cc:204
+#~ msgid "Set limitation"
+#~ msgstr "הלבגה עבק"
+
+# ../face/prefs.cc:603 ../face/prefs.cc:928 ../face/prefs.cc:1089
+# ../face/prefs.cc:620 ../face/prefs.cc:945 ../face/prefs.cc:1109
+# ../face/prefs.cc:630 ../face/prefs.cc:997 ../face/prefs.cc:1166
+#~ msgid "Columns"
+#~ msgstr "תודומע"
+
+# ../hproxy.cc:159
+# ../hproxy.cc:164
+# ../hproxy.cc:174
+#~ msgid "Connection to the internet via proxy"
+#~ msgstr "יסקורפ ךרד טנרטניאל תורבחתה"
+
+# main.cc:
+# ../main.cc:146
+# ../main.cc:156
+# ../main.cc:169
+#~ msgid "Append list to current queue of downloads"
+#~ msgstr "תיחכונה תודרוהה תמישרל המישר הפסונ"
+
+# ../face/lmenu.cc:156
+# ../face/lmenu.cc:156
+#, fuzzy
+#~ msgid "Queue complete"
+#~ msgstr "ומלשוהש תודרוה הקנ"
+
+#~ msgid "WARNING!!! Can't find HOME variable! So can't write config!"
+#~ msgstr ""
+#~ "!תורדגהה תא רומשל רשפא יאש ךכ ,HOME תכרעמה הנתשמ תא אוצמל לוכי אל !!!הרהזא"
+
+#~ msgid "bad read\n"
+#~ msgstr "היוגש האירק\n"
+
+#~ msgid ""
+#~ "***WARN***!!!Attempt to delete download from list which does'nt contain "
+#~ "it!"
+#~ msgstr "!ותוא הליכמ אלש המישרמ הדרוה ץבוק קוחמל ןויסנ עצבתה ***הרהזא***"
+
+#~ msgid "Cant stand data connection"
+#~ msgstr "עדימה רוביחב דומעל לוכי אל"
+
+#~ msgid "Can't change dir!"
+#~ msgstr "!הירפס תונשל לוכי אל"
+
+#~ msgid "Problems with lseek()"
+#~ msgstr "lseek() םע תויעב"
+
+#~ msgid "Connection closed."
+#~ msgstr ".הרגסנ תורבחתה"
+
+#~ msgid "Retry %i"
+#~ msgstr "%i הסנמ"
+
+#~ msgid "..."
+#~ msgstr "..."
+
+#~ msgid "Can't open messages queue!"
+#~ msgstr "!תועדוהה תמישר תא חותפל לוכי אל"
+
+#~ msgid "Other"
+#~ msgstr "רחא"
+
+#~ msgid "Year"
+#~ msgstr "הנש"
+
+#~ msgid "Month"
+#~ msgstr "שדוח"
+
+#~ msgid "Day"
+#~ msgstr "םוי"
+
+# download.cc:
+#~ msgid "Can't do rollback!"
+#~ msgstr "Impossible de rיaliser le RollBack"
+
+# face/prefs.cc:
+#~ msgid "Show trash for DnD"
+#~ msgstr "Drag&Drop ןולח הארה"
+
+# face/prefs.cc:
+#~ msgid "User-Agent for http requests"
+#~ msgstr "HTTP תושקבל User-Agent"

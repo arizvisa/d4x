@@ -77,6 +77,11 @@ char * tWriterLoger::cookie(const char *host, const char *path){
 	return NULL;
 };
 
+void tWriterLoger::cookie_set(tCookie *cookie){
+	//do nothing :-)
+};
+
+
 /**************************************************************/
 
 void tSimplyCfg::copy_ints(tSimplyCfg *src){
@@ -100,11 +105,12 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	ftp_dirontop=src->ftp_dirontop;
 
 	rollback = src->rollback;
-	link_as_file = src->link_as_file;
+	follow_link = src->follow_link;
 	leave_server = src->leave_server;
 	sleep_before_complete = src->sleep_before_complete;
 	
 	check_time = src->check_time;
+	ihate_etag = src->ihate_etag;
 };
 
 /* ---------------------------------------- */
@@ -112,12 +118,13 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 tCfg::tCfg() {
 	speed=0;
 	proxy_no_cache=proxy_type=0;
-	link_as_file=leave_server=0;
+	follow_link=leave_server=0;
 	dont_leave_dir=0;
 	restart_from_begin=0;
 	sleep_before_complete=0;
 	socks_port=0;
 	ftp_dirontop=0;
+	isdefault=1;
 };
 
 int tCfg::get_flags(){
@@ -144,11 +151,15 @@ void tCfg::copy_proxy(tCfg *src){
 	socks_user.set(src->socks_user.get());
 	socks_pass.set(src->socks_pass.get());
 	proxy_type = src->proxy_type;
-	proxy_port = src->proxy_port;
 	proxy_no_cache = src->proxy_no_cache;
-	proxy_host.set(src->proxy_host.get());
-	proxy_user.set(src->proxy_user.get());
-	proxy_pass.set(src->proxy_pass.get());
+	hproxy_port = src->hproxy_port;
+	hproxy_host.set(src->hproxy_host.get());
+	hproxy_user.set(src->hproxy_user.get());
+	hproxy_pass.set(src->hproxy_pass.get());
+	fproxy_port = src->fproxy_port;
+	fproxy_host.set(src->fproxy_host.get());
+	fproxy_user.set(src->fproxy_user.get());
+	fproxy_pass.set(src->fproxy_pass.get());
 };
 
 void tCfg::copy(tCfg *src) {
@@ -156,27 +167,37 @@ void tCfg::copy(tCfg *src) {
 	copy_proxy(src);
 	user_agent.set(src->user_agent.get());
 	cookie.set(src->cookie.get());
-	Description.set(src->Description.get());
 	Filter.set(src->Filter.get());
 };
 
 void tCfg::reset_proxy() {
 	socks_host.set(NULL);
-	proxy_user.set(NULL);
-	proxy_pass.set(NULL);
-	proxy_host.set(NULL);
+	hproxy_user.set(NULL);
+	hproxy_pass.set(NULL);
+	hproxy_host.set(NULL);
+	fproxy_user.set(NULL);
+	fproxy_pass.set(NULL);
+	fproxy_host.set(NULL);
 };
 
 void tCfg::save_to_config(int fd){
 	f_wstr_lf(fd,"Cfg:");
-	if (proxy_host.get()){
-		write_named_string(fd,"Proxy:",proxy_host.get());
-		write_named_integer(fd,"proxy_port:",proxy_port);
-		write_named_integer(fd,"proxy_type:",proxy_type);
-		if(proxy_pass.get()!=NULL && proxy_user.get()!=NULL){
-			write_named_string(fd,"Proxy_pass:",proxy_pass.get());
-			write_named_string(fd,"Proxy_user:",proxy_user.get());
+	if (hproxy_host.get()){
+		write_named_string(fd,"Hproxy:",hproxy_host.get());
+		write_named_integer(fd,"Hproxy_port:",hproxy_port);
+		if(fproxy_pass.get()!=NULL && fproxy_user.get()!=NULL){
+			write_named_string(fd,"Hproxy_pass:",hproxy_pass.get());
+			write_named_string(fd,"Hproxy_user:",hproxy_user.get());
 		};
+	};
+	if (fproxy_host.get()){
+		write_named_string(fd,"Fproxy:",fproxy_host.get());
+		write_named_integer(fd,"Fproxy_port:",fproxy_port);
+		if(fproxy_pass.get()!=NULL && fproxy_user.get()!=NULL){
+			write_named_string(fd,"Fproxy_pass:",fproxy_pass.get());
+			write_named_string(fd,"Fproxy_user:",fproxy_user.get());
+		};
+		write_named_integer(fd,"proxy_type:",proxy_type);
 	};
 	if (socks_host.get()){
 		write_named_string(fd,"socks:",socks_host.get());
@@ -204,16 +225,15 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"permisions:",permisions);
 	write_named_integer(fd,"get_date:",get_date);
 	write_named_integer(fd,"http_recursing:",http_recursing);
-	write_named_integer(fd,"link_as_file:",link_as_file);
+	write_named_integer(fd,"follow_link:",follow_link);
 	write_named_integer(fd,"leave_server:",leave_server);
 	write_named_integer(fd,"dont_leave_dir:",dont_leave_dir);
 	write_named_integer(fd,"check_time:",check_time);
 	write_named_integer(fd,"change_links:",change_links);
 	write_named_integer(fd,"ftp_dirontop:",ftp_dirontop);
+	write_named_integer(fd,"ihate_etag:",ihate_etag);
 	if (restart_from_begin)
 		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
-	if (save_name.get() && *(save_name.get()))
-		write_named_string(fd,"save_name:",save_name.get());
 	if (save_path.get() && *(save_path.get()))
 		write_named_string(fd,"save_path:",save_path.get());
 	if (referer.get())
@@ -222,8 +242,6 @@ void tCfg::save_to_config(int fd){
 		write_named_string(fd,"cookie:",cookie.get());
 	if (log_save_path.get())
 		write_named_string(fd,"log_save_path:",log_save_path.get());
-	if (Description.get())
-		write_named_string(fd,"Description:",Description.get());
 	if (Filter.get())
 		write_named_string(fd,"Filter:",Filter.get());
 	f_wstr_lf(fd,"EndCfg:");
@@ -232,11 +250,15 @@ void tCfg::save_to_config(int fd){
 int tCfg::load_from_config(int fd){
 	tSavedVar table_of_fields[]={
 		{"User_agent:", SV_TYPE_PSTR,	&user_agent}, 
-		{"Proxy:",	SV_TYPE_PSTR,	&proxy_host},
-		{"proxy_pass:",	SV_TYPE_PSTR,	&proxy_pass},
-		{"proxy_user:",	SV_TYPE_PSTR,	&proxy_user},
-		{"proxy_port:",	SV_TYPE_INT,	&proxy_port},
+		{"Hproxy:",	SV_TYPE_PSTR,	&hproxy_host},
+		{"Hproxy_pass:",	SV_TYPE_PSTR,	&hproxy_pass},
+		{"Hproxy_user:",	SV_TYPE_PSTR,	&hproxy_user},
+		{"Hproxy_port:",	SV_TYPE_INT,	&hproxy_port},
 		{"proxy_type:",	SV_TYPE_INT,	&proxy_type},
+		{"Fproxy:",	SV_TYPE_PSTR,	&fproxy_host},
+		{"Fproxy_pass:",	SV_TYPE_PSTR,	&fproxy_pass},
+		{"Fproxy_user:",	SV_TYPE_PSTR,	&fproxy_user},
+		{"Fproxy_port:",	SV_TYPE_INT,	&fproxy_port},
 		{"socks:",	SV_TYPE_PSTR,	&socks_host},
 		{"socks_pass:",	SV_TYPE_PSTR,	&socks_pass},
 		{"socks_user:",	SV_TYPE_PSTR,	&socks_user},
@@ -255,9 +277,9 @@ int tCfg::load_from_config(int fd){
 		{"permisions:",	SV_TYPE_INT,	&permisions},
 		{"get_date:",	SV_TYPE_INT,	&get_date},
 		{"http_recursing:",SV_TYPE_INT,	&http_recursing},
-		{"link_as_file:",SV_TYPE_INT,	&link_as_file},
+		{"follow_link:",SV_TYPE_INT,	&follow_link},
 		{"leave_server:",SV_TYPE_INT,	&leave_server},
-		{"save_name:",	SV_TYPE_PSTR,	&save_name},
+		{"ihate_etag:",	SV_TYPE_INT,	&ihate_etag},
 		{"save_path:",	SV_TYPE_PSTR,	&save_path},
 		{"dont_leave_dir:",SV_TYPE_INT,	&dont_leave_dir},
 		{"referer:",	SV_TYPE_PSTR,	&referer},
@@ -269,8 +291,7 @@ int tCfg::load_from_config(int fd){
 		{"change_links:",SV_TYPE_INT,&change_links},
 		{"ftp_dirontop:",SV_TYPE_INT,&ftp_dirontop},
 		{"log_save_path:",SV_TYPE_PSTR,	&log_save_path},
-		{"Filter:",	SV_TYPE_PSTR,	&(Filter)},
-		{"Description:",SV_TYPE_PSTR,	&(Description)}
+		{"Filter:",	SV_TYPE_PSTR,	&(Filter)}
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){
@@ -335,8 +356,8 @@ void tClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	timeout=time_out;
 };
 
-int tClient::read_data() {
-	FillSize=read_data(buffer,BLOCK_READ);
+int tClient::read_data(fsize_t len) {
+	FillSize=read_data(buffer,len);
 	if (FillSize<0) return RVALUE_TIMEOUT;
 	DSize+=FillSize;
 	return FillSize;
@@ -367,6 +388,20 @@ int tClient::read_string(tSocket *sock,tStringList *list,int maxlen) {
 	*cur=0;
 	list->add(temp);
 	return RVALUE_OK;
+};
+
+char *tClient::read_string(tSocket *sock,int maxlen) {
+	DBC_RETVAL_IF_FAIL(sock!=NULL,0);
+	char temp[maxlen+1];
+	char *cur=temp;
+	do {
+		*cur=0;
+		int err=sock->rec_string(cur,1,timeout);
+		if (socket_err_handler(err)) return(NULL);
+		if (err==0 && temp==cur) return NULL;
+	} while(cur-temp<maxlen && *(cur++)!='\n');
+	*cur=0;
+	return copy_string(temp);
 };
 
 int tClient::socket_err_handler(int err) {

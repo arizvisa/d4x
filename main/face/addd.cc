@@ -20,6 +20,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "../sndserv.h"
 #include "../autoadd.h"
+#include "misc.h"
 
 extern tMain aa;
 
@@ -47,6 +48,10 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 	int tmp=what->editor->get_pause_check();
 	int to_top=what->editor->get_to_top_check();
 	what->delete_editor();
+	if (what->config->isdefault){
+		delete(what->config);
+		what->config=NULL;
+	};
 	if (tmp){
 		what->status=DL_PAUSE;
 		aa.add_downloading_to(what,to_top);
@@ -55,33 +60,13 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 		if (aa.add_downloading(what,to_top)){
 			tDownload *dwn=ALL_DOWNLOADS->find(what);
 			delete(what);
-			if (dwn){
-				list_of_downloads_move_to(dwn);
-				list_of_downloads_select(dwn);
-			};
+			if (dwn)
+				D4X_QVT->move_to(dwn);
 		}else{
 			aa.add_download_message(what);
 			SOUND_SERVER->add_event(SND_ADD);
 		};
 	};
-};
-
-
-static gint _add_window_event_handler(GtkWidget *window,GdkEvent *event,tDownload *what){
-	if (event && event->type == GDK_KEY_PRESS) {
-		GdkEventKey *kevent=(GdkEventKey *)event;
-		switch(kevent->keyval) {
-		case GDK_Escape:{
-			if (what){
-				list_for_adding->del(what);
-				delete(what);
-			};
-			return TRUE;
-			break;
-		};
-		};
-	};
-	return FALSE;
 };
 
 void init_add_window(...) {
@@ -92,18 +77,9 @@ void init_add_window(...) {
 	tDownload *what=new tDownload;
 	tAddr *info=new tAddr("ftp://somesite.org");
 	what->info=info;
-	what->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+	what->config=new tCfg;
 	what->set_default_cfg();
-
-	if (CFG.USE_PROXY_FOR_FTP) {
-		what->config.proxy_host.set(CFG.FTP_PROXY_HOST);
-		what->config.proxy_port=CFG.FTP_PROXY_PORT;
-		if (CFG.NEED_PASS_FTP_PROXY) {
-			what->config.proxy_user.set(CFG.FTP_PROXY_USER);
-			what->config.proxy_pass.set(CFG.FTP_PROXY_PASS);
-		};
-	};
-	what->config.proxy_type=CFG.FTP_PROXY_TYPE;
+	what->config->save_path.set(D4X_QUEUE->save_path.get());
 
 	what->editor=new tDEdit;
 	what->editor->add_or_edit=1;
@@ -112,8 +88,7 @@ void init_add_window(...) {
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
 	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(add_window_ok),what);
 	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
-			   (GtkSignalFunc)_add_window_event_handler, what);
+	d4x_eschandler_init(what->editor->window,what);
 	what->editor->clear_url();
 	list_for_adding->insert(what);
 };
@@ -153,12 +128,15 @@ void d4x_automated_ok(GtkWidget *widget, tDownload *what) {
 	while(tmp){
 		tDownload *dwn=new tDownload;
 		dwn->info=new tAddr(tmp);
-		dwn->config.copy(&(what->config));
-		dwn->config.restart_from_begin=what->config.restart_from_begin;
-		dwn->config.referer.set(what->config.referer.get());
-		dwn->config.save_name.set(what->config.save_name.get());
-		dwn->config.save_path.set(what->config.save_path.get());
-		dwn->config.log_save_path.set(what->config.log_save_path.get());
+		if (what->config->isdefault==0){
+			dwn->config=new tCfg;
+			dwn->config->copy(what->config);
+			dwn->config->restart_from_begin=what->config->restart_from_begin;
+			dwn->config->referer.set(what->config->referer.get());
+			dwn->Name2Save.set(what->Name2Save.get());
+			dwn->config->save_path.set(what->config->save_path.get());
+			dwn->config->log_save_path.set(what->config->log_save_path.get());
+		};
 		if (to_pause){
 			dwn->status=DL_PAUSE;
 			aa.add_downloading_to(dwn,to_top);
@@ -184,18 +162,9 @@ void d4x_automated_add(){
 	tDownload *what=new tDownload;
 	tAddr *info=new tAddr("ftp://somesite.org");
 	what->info=info;
-	what->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+	what->config=new tCfg;
 	what->set_default_cfg();
-
-	if (CFG.USE_PROXY_FOR_FTP) {
-		what->config.proxy_host.set(CFG.FTP_PROXY_HOST);
-		what->config.proxy_port=CFG.FTP_PROXY_PORT;
-		if (CFG.NEED_PASS_FTP_PROXY) {
-			what->config.proxy_user.set(CFG.FTP_PROXY_USER);
-			what->config.proxy_pass.set(CFG.FTP_PROXY_PASS);
-		};
-	};
-	what->config.proxy_type=CFG.FTP_PROXY_TYPE;
+	what->config->save_path.set(D4X_QUEUE->save_path.get());
 
 	what->editor=new tDEdit;
 	what->editor->add_or_edit=1;
@@ -204,8 +173,7 @@ void d4x_automated_add(){
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
 	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(d4x_automated_ok),what);
 	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
-			   (GtkSignalFunc)_add_window_event_handler, what);
+	d4x_eschandler_init(what->editor->window,what);
 	what->editor->clear_url();
 	what->editor->paste_url();
 	list_for_adding->insert(what);
@@ -219,13 +187,19 @@ static gint _tmp_compare_(gconstpointer a,gconstpointer b){
 };
 
 void edit_common_properties_ok(GtkWidget *widget, tDownload *what){
-	GList *selection=g_list_copy(GTK_CLIST(ListOfDownloads)->selection);
+	/* FIXME: too deep access via 'D4X_QUEUE->qv.' */
+	GList *selection=g_list_copy(GTK_CLIST(D4X_QUEUE->qv.ListOfDownloads)->selection);
 	selection=g_list_sort(selection,_tmp_compare_);
 	GList *sel=selection;
 	while(selection){
 		int row=GPOINTER_TO_INT(selection->data);
-		tDownload *tmp=get_download_from_clist(row);
+		tDownload *tmp=D4X_QUEUE->qv.get_download(row);
 		if (tmp && tmp->owner()!=DL_RUN && tmp->owner()!=DL_STOPWAIT){
+			if (tmp->config==NULL){
+				tmp->config=new tCfg;
+				tmp->set_default_cfg();
+				tmp->config->isdefault=0;
+			};
 			what->editor->set_parent(tmp);
 			tmp->editor->apply_enabled_changes();
 			tmp->editor->set_parent(what);
@@ -247,28 +221,20 @@ void init_edit_common_properties_window(int *array) {
 	tDownload *what=new tDownload;
 	tAddr *info=new tAddr("ftp://somesite.org");
 	what->info=info;
-	what->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+	what->config=new tCfg;
+	what->config->isdefault=0;
+	what->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
 	what->set_default_cfg();
-
-	if (CFG.USE_PROXY_FOR_FTP) {
-		what->config.proxy_host.set(CFG.FTP_PROXY_HOST);
-		what->config.proxy_port=CFG.FTP_PROXY_PORT;
-		if (CFG.NEED_PASS_FTP_PROXY) {
-			what->config.proxy_user.set(CFG.FTP_PROXY_USER);
-			what->config.proxy_pass.set(CFG.FTP_PROXY_PASS);
-		};
-	};
-	what->config.proxy_type=CFG.FTP_PROXY_TYPE;
 
 	what->editor=new tDEdit;
 	what->editor->init(what);
+	gtk_widget_hide(what->editor->isdefault_check);
 	what->editor->disable_items(array);
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Add new download"));
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
 	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_common_properties_ok),what);
 	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
-			   (GtkSignalFunc)_add_window_event_handler, what);
+	d4x_eschandler_init(what->editor->window,what);
 	what->editor->clear_url();
 	list_for_adding->insert(what);
 	

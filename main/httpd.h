@@ -32,7 +32,7 @@ class tHttpDownload:public tDownloader{
 	protected:
 	tHttpClient *HTTP;
 	tStringList *answer;
-	int ReGet,MustNoReget,ETagChanged;
+	int ReGet,MustNoReget,ETagChanged,Persistent;
 	d4xContentDisposition *content_disp;
 	char *content_type;
 	char *REQUESTED_URL;
@@ -47,6 +47,7 @@ public:
 	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL);
 	fsize_t get_size();
 	fsize_t get_readed();
+	fsize_t another_way_get_size();
 	int get_child_status();
 	char *get_new_url();
 	int reget();
@@ -57,6 +58,7 @@ public:
 	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
 	void make_full_pathes(const char *path,char **name,char **guess);
 	void done();
+	int persistent();
 	tSocket *export_ctrl_socket();
 	~tHttpDownload();
 };

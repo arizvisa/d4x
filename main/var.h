@@ -8,6 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 #ifndef T_VARIABLE
 #define T_VARIABLE
 
@@ -36,24 +37,23 @@ enum{
 #include "history.h"
 #include "mainlog.h"
 #include "dlist.h"
-#include "sortstr.h"
 #include "pass.h"
 #include "db.h"
 #include "cookie.h"
 #include "dbc.h"
 #include "sm.h"
+#include "dqueue.h"
+#include "mutex.h"
 
 struct tMainCfg{
 	tSimplyCfg DEFAULT_CFG;
 	int MAX_LOG_LENGTH;
-	int MAX_THREADS;
 	char *GLOBAL_SAVE_PATH;
 	char *LOCAL_SAVE_PATH;
 	char *DEFAULT_NAME;
 	char *USER_AGENT;
 	char *ANONYMOUS_PASS;
 	char *DEFAULT_FILTER;
-	int DEFAULT_HOST_LIMIT;
 	int ALLOW_FORCE_RUN;
 /* Log
  */
@@ -71,15 +71,11 @@ struct tMainCfg{
 /* Flags
  */
 	int RECURSIVE_OPTIMIZE;
-	int DELETE_FATAL;
-	int DELETE_COMPLETED;
 	int DEFAULT_PERMISIONS;
 	int FTP_DIR_IN_LOG;
 	int PAUSE_AFTER_ADDING;
 /* Interface
  */
-	tTriger NICE_DEC_DIGITALS;
-	int TIME_FORMAT;
 	int USE_MAINWIN_TITLE;
 	int USE_MAINWIN_TITLE2;
 	int SCROLL_MAINWIN_TITLE;
@@ -90,8 +86,6 @@ struct tMainCfg{
 	int WINDOW_CLIST_HEIGHT;
 	int WINDOW_CLIST_WIDTH;
 	int NEED_DIALOG_FOR_DND;
-	int FACE_LIMITS_SIZE1;
-	int FACE_LIMITS_SIZE2;
 	int WINDOW_LOWER;
 	int GRAPH_ORDER;
 	int DND_TRASH,DND_TRASH_X,DND_TRASH_Y;
@@ -100,6 +94,8 @@ struct tMainCfg{
 	int PROGRESS_MODE;
 	float CLIST_SHIFT;
 	int DONOTSET_WINPOS;
+	int WINDOW_TREE_WIDTH;
+	int HIDE_MAIN_WINDOW;
 /* Clipboard
  */
 	int CLIPBOARD_MONITOR;
@@ -112,6 +108,7 @@ struct tMainCfg{
 	int GRAPH_FORE1;
 	int GRAPH_FORE2;
 	int GRAPH_PICK;
+	int GRAPH_MODE;
 /* Proxies....
  */
 	char *FTP_PROXY_HOST;
@@ -166,12 +163,17 @@ struct tMainCfg{
 /* SOUNDS
  */
 	int ENABLE_SOUNDS;
+	int ESD_SOUND;
 	char *SOUND_STARTUP;
 	char *SOUND_COMPLETE;
 	char *SOUND_FAIL;
 	char *SOUND_DND_DROP;
 	char *SOUND_ADD;
 	char *SOUND_QUEUE_FINISH;
+/* THEMES
+ */
+	int USE_THEME;
+	char *THEME_FILE;
 };
 
 extern tMLog *MainLog;
@@ -182,7 +184,7 @@ extern int METER_LENGTH;
 extern tMainCfg CFG;
 
 struct tGlobalVars{
-	pthread_mutex_t READED_BYTES_MUTEX;
+	d4xMutex MUTEX;
 	unsigned long int READED_BYTES;
 	d4xSocketsHistory *SOCKETS;
 };
@@ -213,7 +215,6 @@ enum HISTORIES_ENUM{
 extern tHistory *ALL_HISTORIES[LAST_HISTORY];
 
 extern tUserPassTree *PasswordsForHosts;
-extern tHostsLimits *LimitsForHosts;
 
 extern char *VERSION_NAME;
 extern char *DEFAULT_PASS;
@@ -241,4 +242,7 @@ extern const char *CFG_FILE;
 extern const char *CFG_DIR;
 
 extern char *SPEED_LIMITATIONS_NAMES[];
+extern d4xDUpdate D4X_UPDATE;
+
+extern tQueue *D4X_THEME_DATA;
 #endif

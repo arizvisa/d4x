@@ -16,9 +16,28 @@
 
 tMeter::tMeter() {
 	sort=new tSortTree;
+	counter=0;
+	mode=0;
+	lastval=0;
+};
+
+void tMeter::set_mode(int m){
+	mode=m;
 };
 
 void tMeter::add(int speed) {
+	lastval=speed;
+	if (mode && counter<10){
+		counter+=1;
+		tSortNode *temp=last();
+		if (temp){
+			sort->del(temp);
+			temp->key+=speed;
+			sort->add(temp);
+			return;
+		};
+	};
+	counter=0;
 	tSortNode *temp=new tSortNode;
 	temp->key=speed;
 	insert(temp);
@@ -64,6 +83,10 @@ int tMeter::next_value() {
 	tSortNode *temp=next();
 	if (temp)  return temp->key;
 	return 0;
+};
+
+int tMeter::last_speed(){
+	return(lastval);
 };
 
 tMeter::~tMeter() {

@@ -27,10 +27,11 @@ class tColumnsPrefs{
 	GList *find_by_data(GList *where, char *what);	
 	void add_to_list(int list);
 	void add_to_sort(tDownload *what);
+	d4xQueueView *qv;
 	public:
 		tColumnsPrefs();
-		void init();
-		void apply_changes();
+		void init(d4xQueueView *qv);
+		int apply_changes();
 		void apply_changes_tmp();
 		void reset();
 		GtkWidget *body();

@@ -121,10 +121,6 @@ int tDownloader::treat() {
 	return RetrNum;
 };
 
-fsize_t tDownloader::another_way_get_size() {
-	return 0;
-};
-
 int tDownloader::get_status() {
 	return(Status);
 };

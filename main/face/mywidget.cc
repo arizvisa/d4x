@@ -20,6 +20,7 @@ static GtkWidgetClass *rule_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *filter_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *filtersel_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *linkssel_parent_class = (GtkWidgetClass *)NULL;
+static GtkWidgetClass *stringedit_parent_class = (GtkWidgetClass *)NULL;
 
 static void my_gtk_filesel_destroy_browser(MyGtkFilesel *filesel){
 	if (filesel->browser){
@@ -73,6 +74,7 @@ static gint my_gtk_filesel_init_browser(GtkButton *button, MyGtkFilesel *filesel
 		gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(filesel->browser)->window)),
 				   "delete_event",GTK_SIGNAL_FUNC(my_gtk_filesel_delete),filesel);
 		gtk_widget_show(filesel->browser);
+		d4x_eschandler_init(filesel->browser,filesel);
 		if (filesel->modal){
 			gtk_window_set_modal (GTK_WINDOW(filesel->browser),TRUE);
 			gtk_window_set_transient_for (GTK_WINDOW (filesel->browser), filesel->modal);
@@ -202,6 +204,7 @@ static gint my_gtk_colorsel_init_browser(GtkButton *button, MyGtkColorsel *colse
 				   "clicked",GTK_SIGNAL_FUNC(my_gtk_colorsel_cancel),colsel);
 		gtk_signal_connect(GTK_OBJECT(&(GTK_COLOR_SELECTION_DIALOG(colsel->browser)->window)),
 				   "delete_event",GTK_SIGNAL_FUNC(my_gtk_colorsel_delete),colsel);
+		d4x_eschandler_init(GTK_WIDGET(&(GTK_COLOR_SELECTION_DIALOG(colsel->browser)->window)),colsel);
 		gtk_widget_destroy(GTK_COLOR_SELECTION_DIALOG(colsel->browser)->help_button);
 		gtk_widget_show(colsel->browser);
 		if (colsel->modal){
@@ -406,6 +409,7 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 		      "area",
 		      "bgsound",
 		      "blockqute",
+		      "body",
 		      "col",
 		      "del",
 		      "div",
@@ -520,6 +524,7 @@ GtkWidget *d4x_rule_edit_new_full(d4xRule *rule){
 			   GTK_SIGNAL_FUNC(d4x_rule_edit_cancel),edit);
 	gtk_signal_connect(GTK_OBJECT(edit),"delete_event",
 			   GTK_SIGNAL_FUNC(d4x_rule_edit_delete), edit);
+	d4x_eschandler_init(GTK_WIDGET(edit),edit);
 
 	return GTK_WIDGET(edit);
 };
@@ -583,6 +588,7 @@ void d4x_filter_edit_add(GtkWidget *widget,d4xFilterEdit *edit){
 	gtk_signal_connect(GTK_OBJECT(ruleedit),"delete_event",
 			   GTK_SIGNAL_FUNC(d4x_filter_edit_add_delete),
 			   ruleedit);
+	d4x_eschandler_init(GTK_WIDGET(ruleedit),ruleedit);
 };
 
 static void d4x_filter_edit_edit_ok(GtkWidget *widget,d4xRuleEdit *edit){
@@ -620,6 +626,7 @@ static void d4x_filter_edit_edit(GtkWidget *widget,d4xFilterEdit *edit){
 		gtk_signal_connect(GTK_OBJECT(ruleedit),"delete_event",
 				   GTK_SIGNAL_FUNC(d4x_rule_edit_delete),
 				   ruleedit);
+		d4x_eschandler_init(GTK_WIDGET(ruleedit),ruleedit);
 		gtk_widget_show_all(GTK_WIDGET(ruleedit));
 		gtk_window_set_modal (GTK_WINDOW(ruleedit),TRUE);
 		gtk_window_set_transient_for (GTK_WINDOW (ruleedit),
@@ -901,8 +908,7 @@ static void d4x_links_sel_delete(GtkWindow *window,
 static void d4x_links_sel_init(d4xLinksSel *sel){
 	gtk_window_set_wmclass(GTK_WINDOW(sel),
 			       "D4X_LinksSel","D4X");
-	gtk_signal_connect(GTK_OBJECT(sel),"delete_event",
-			   GTK_SIGNAL_FUNC(d4x_links_sel_delete), sel);
+	d4x_eschandler_init(GTK_WIDGET(sel),sel);
 	gtk_widget_set_usize(GTK_WIDGET(sel),-1,300);
 	gtk_window_set_title(GTK_WINDOW(sel),_("List of links"));
 
@@ -919,24 +925,18 @@ static void d4x_links_sel_init(d4xLinksSel *sel){
 	sel->ok=gtk_button_new_with_label(_("Ok"));
 	sel->remove=gtk_button_new_with_label(_("Remove"));
 	sel->cancel=gtk_button_new_with_label(_("Cancel"));
-	gtk_signal_connect(GTK_OBJECT(sel->remove),"clicked",
-			   GTK_SIGNAL_FUNC(d4x_links_sel_remove),
-			   sel);
-	gtk_signal_connect(GTK_OBJECT(sel->cancel),"clicked",
-			   GTK_SIGNAL_FUNC(d4x_links_sel_cancel),
-			   sel);
 	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->remove,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
 	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *hbox=gtk_hbutton_box_new();
+	sel->hbbox=gtk_hbutton_box_new();
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	gtk_box_set_spacing(GTK_BOX(sel->hbbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),sel->ok,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),sel->remove,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),sel->cancel,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),sel->hbbox,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->ok,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->remove,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->cancel,FALSE,FALSE,0);
 	gtk_container_add(GTK_CONTAINER(sel),vbox);
 	gtk_window_set_default(GTK_WINDOW(sel),sel->ok);
 };
@@ -967,17 +967,97 @@ guint d4x_links_sel_get_type(){
 	return d4x_links_sel_type;
 };
 
-GtkWidget *d4x_links_sel_new(){
+GtkWidget *d4x_links_sel_new_with_add(){
 	d4xLinksSel *sel=(d4xLinksSel *)gtk_type_new(d4x_links_sel_get_type());
+	GList *c=gtk_container_children(GTK_CONTAINER(sel->cancel));
+	GtkLabel *label=(GtkLabel *)(c->data);
+	gtk_label_set_text(label,_("Add"));
+	g_list_free(c);
 	gtk_widget_show_all(GTK_WIDGET(sel));
 	return GTK_WIDGET(sel);
 };
 
-void d4x_links_sel_add(d4xLinksSel *sel,char *url){
-	gchar *data[1];
-	data[0]=url;
-	gtk_clist_append(sel->clist,data);
+GtkWidget *d4x_links_sel_new(){
+	d4xLinksSel *sel=(d4xLinksSel *)gtk_type_new(d4x_links_sel_get_type());
+	gtk_signal_connect(GTK_OBJECT(sel),"delete_event",
+			   GTK_SIGNAL_FUNC(d4x_links_sel_delete), sel);
+	gtk_signal_connect(GTK_OBJECT(sel->remove),"clicked",
+			   GTK_SIGNAL_FUNC(d4x_links_sel_remove),
+			   sel);
+	gtk_signal_connect(GTK_OBJECT(sel->cancel),"clicked",
+			   GTK_SIGNAL_FUNC(d4x_links_sel_cancel),
+			   sel);
+	gtk_widget_show_all(GTK_WIDGET(sel));
+	return GTK_WIDGET(sel);
 };
 
+void d4x_links_sel_add(d4xLinksSel *sel,char *url,gpointer p){
+	gchar *data[1];
+	data[0]=url;
+	gint row=gtk_clist_append(sel->clist,data);
+	gtk_clist_set_row_data(sel->clist,row,p);
+};
 
+/********************************************************/
+static void d4x_string_edit_destroy(GtkObject *widget){
+	g_return_if_fail(widget!=NULL);
 
+	if (GTK_OBJECT_CLASS (stringedit_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (stringedit_parent_class)->destroy) (widget);
+};
+static void d4x_string_edit_class_init(d4xStringEditClass *klass){
+	GtkObjectClass *object_class=(GtkObjectClass *)klass;
+	
+	object_class->destroy=d4x_string_edit_destroy;
+	stringedit_parent_class=(GtkWidgetClass *)gtk_type_class(gtk_window_get_type());
+};
+
+static void d4x_string_edit_init(d4xStringEdit *sel){
+	gtk_window_set_wmclass(GTK_WINDOW(sel),
+			       "D4X_EditString","D4X");
+	d4x_eschandler_init(GTK_WIDGET(sel),sel);
+	gtk_widget_set_usize(GTK_WIDGET(sel),400,-1);
+
+	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *hbbox=gtk_hbutton_box_new();
+	sel->ok=gtk_button_new_with_label(_("Ok"));
+	sel->cancel=gtk_button_new_with_label(_("Cancel"));
+	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
+	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_box_set_spacing(GTK_BOX(hbbox),5);
+	sel->entry=(GtkEntry*)gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX(vbox),GTK_WIDGET(sel->entry),TRUE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbbox,TRUE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbbox),sel->ok,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbbox),sel->cancel,FALSE,FALSE,0);
+	gtk_container_add(GTK_CONTAINER(sel),vbox);
+	gtk_window_set_default(GTK_WINDOW(sel),sel->cancel);
+};
+
+guint d4x_string_edit_get_type(){
+	static guint d4x_string_edit_type=0;
+	if (!d4x_string_edit_type){
+		GtkTypeInfo info={
+			"d4xStringEdit",
+			sizeof(d4xStringEdit),
+			sizeof(d4xStringEditClass),
+			(GtkClassInitFunc) d4x_string_edit_class_init,
+			(GtkObjectInitFunc) d4x_string_edit_init,
+			NULL,NULL
+//			(GtkArgSetFunc) NULL,
+//			(GtkArgGetFunc) NULL
+		};
+		d4x_string_edit_type = gtk_type_unique (gtk_window_get_type (),
+							&info);
+	};
+	return d4x_string_edit_type;
+};
+
+GtkWidget *d4x_string_edit_new(){
+	d4xStringEdit *edit=(d4xStringEdit *)gtk_type_new(d4x_string_edit_get_type());
+	gtk_widget_show_all(GTK_WIDGET(edit));
+	return GTK_WIDGET(edit);
+};
+
+/********************************************************/

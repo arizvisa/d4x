@@ -11,27 +11,25 @@
 #include "msgqueue.h"
 
 tMsgQueue::tMsgQueue():tQueue(){
-	pthread_mutex_init(&mylock,NULL);
 };
 
 void tMsgQueue::insert(tNode *what){
-	pthread_mutex_lock(&mylock);
+	mylock.lock();
 	tQueue::insert(what);
-	pthread_mutex_unlock(&mylock);
+	mylock.unlock();
 };
 
 void tMsgQueue::insert_before(tNode *what,tNode *where){
-	pthread_mutex_lock(&mylock);
+	mylock.lock();
 	tQueue::insert_before(what,where);
-	pthread_mutex_unlock(&mylock);
+	mylock.unlock();
 };
 
 void tMsgQueue::del(tNode *what){
-	pthread_mutex_lock(&mylock);
+	mylock.lock();
 	tQueue::del(what);
-	pthread_mutex_unlock(&mylock);
+	mylock.unlock();
 };
 
 tMsgQueue::~tMsgQueue(){
-	pthread_mutex_destroy(&mylock);
 };

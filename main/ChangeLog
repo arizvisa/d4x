@@ -1,3 +1,274 @@
+Tue Feb 12 14:59:18  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: fixed selecting default queue in the tree; fixed segfault
+	when starting splited download during initing stage;
+
+Mon Feb 11 13:46:46  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: implemented switching between alternates;
+	* dlist.cc: fixed renaming filename when download is not completed for
+	splited downloads;
+	* manyfiles: some interface cleanups;
+
+Sun Feb 10 13:58:19  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: try to implement switching beetween alternates for splited
+	downloads;
+
+Fri Feb 08 12:22:42  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: fixed enabling ok button for splited downloads when it stopped;
+	* face/edit.cc: fixed setting path as default when it begins from ~;
+	* alt.*: clear alternates if URL changed;
+	* face/qtree.cc: support ~ in begining of default path of queue;
+
+Thu Feb 07 12:57:01  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: fixed loading in one thread (was broken yesterday);
+
+Wed Feb 06 11:19:25  Maxim Koshelev  <mdem@chat.ru>
+
+	* locstr.*, face/edit.cc: implement support '~' in pathes;
+	* dlist.cc: some changes in splited loading code; fixed 'only subdirs'
+	behavior for HTTP recurse;
+	* ftpd.cc, ftp.*: solved some problems with splited loading
+	when server does not support resuming;
+	* xml.cc: fixed bug which caused to appear random chars;
+	* face/about.cc: url to home page is selectable now;
+
+Tue Feb 05 10:46:37  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/prefs.cc, face/buttons.*: buttons bar is themable now;
+	* themes/: old_theme updated;
+
+Mon Feb 04 11:01:23  Maxim Koshelev  <mdem@chat.ru>
+
+	* themes/: added 'glass' theme;
+	* main.cc: fixed segfault when trying to run download if it's in
+	diffrent list than default, some interface cleanups;
+	* hproxy.cc: fixed "404 not found" behavior;
+	* face/pixmaps/: two more icons replaced;
+	* xml.cc: it's allowed to close tag in the tag, eg <tag attr="val" />;
+
+Sat Feb 02 18:08:24  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/prefs.cc, face/dndtrash.cc: implemented theme selecting;
+
+Fri Feb 01 10:55:30  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/log.cc: tip for Ctrl+Num in the log of splited download;
+	* face/pixmaps: continue working under new icons;
+	* xml.*: write tiny xml parser :-);
+	* face/dndtrash.cc: begin to implement themable DnD-basket;
+
+Thu Jan 31  9:47:46  Maxim Koshelev  <mdem@chat.ru>
+
+	* fsearch.cc: remove completed ftp-search task if parent URL
+	in queue;
+	* face/pixmaps: some icons replaced;
+	* face/list.cc, var.*, config.cc: storing visibility of main window;
+	* face/lod.cc: hacking with DnD icon;
+	* face/log.cc: switch beetween logs for splited download by Ctr+[1-0];
+
+Wed Jan 30 11:06:09  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, dqueue.*, face/qtree.cc: restore displayed queue
+	after restarting program;
+	* face/buttons.cc: differnet pixmaps for diffrent progress bar's modes;
+
+Tue Jan 29  9:55:20  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: fixed writing redirection page if "change links"
+	is set, fixed splited download over http;
+	* face/pixmaps/: changed some icons in buttons bar;
+	* face/qtree.cc: code cleanups;
+	* sndsrv.cc, face/prefs.cc, var.*, config.cc: added support
+	for ESD;
+	* alt.cc: fixed destroying windows which are related with alternates
+	after removing the download;
+
+Mon Jan 28 13:14:46  Maxim Koshelev  <mdem@chat.ru>
+
+	* sndserv.cc, Makefile: begin to implement supporting of esd;
+	* face/qtree.cc: fixed closing "create new queue" by esc;
+	* alt.cc: added modifying alternate by double click;
+
+Sun Jan 27 18:45:08  Maxim Koshelev  <mdem@chat.ru>
+
+	* alt.*, face/mywidget.*, savedvar.*, dlist.cc: improved support
+	alternates links (managing and storing are implemented);
+
+Sat Jan 26 14:23:50  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, face/fsface.cc: interface cleanups;
+
+Sun Jan 20 13:29:28  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: tMain::print_info() removed randomly typed '!';
+
+Sat Jan 19 19:39:49  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: fixed add downloading from scheduler;
+	* main.cc: code cleanups;
+
+Fri Jan 18 11:14:28  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: fixed segfault when delete downloads with Shift,
+	code cleanups for future implementations;
+	* main.cc: fixed adding from command line, fixed pressing 'ok'
+	in 'properties of the download' dialog when it was opened before
+	stopping the download;
+	* face/lod.cc: different icons for 'connecting' state;
+	* face/addd.cc: do not show 'use default cfg' check button when
+	editing 'common' properties;
+	* config.cc, face/edit.*, var.*, face/prefs.*, httpd.cc: added option
+	to ignore ETag changes;
+
+Thu Jan 17 11:41:53  Maxim Koshelev  <mdem@chat.ru>
+
+	* many_files: added ability to setup 'defaults' settings for the downloads;
+	* dqueue.*, face/qtree.*: every queue has own 'default' path to save downloads;
+	* face/pixmaps: cleanups some icons;
+	* face/list.cc: fixed run new downloads after stoping;
+
+Wed Jan 16  9:45:31  Maxim Koshelev  <mdem@chat.ru>
+
+	* many_files: properties of the downloads store settings for both proxies;
+	* face/fsched.cc: close scheduler window by ESC;
+	* face/filtrgui.cc: close filters window by ESC;
+	* face/mywidgets.cc: close misc dialogs by ESC;
+	* face/lod.*: 9 gradations of the run icons;
+	* face/pixmaps: new icons for queues of downloads;
+	* dlist.cc: fixed tDdownload::prepare_splits() after implementing
+	alternates;
+
+Tue Jan 15 10:40:06  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: fixed determine filesizes when searching through the proxy;
+	* fsearch.cc, alt.*, dlist.cc: added basic support for alternative links;
+	* http.cc: fixed loading "Chunked" encoded data;
+
+Mon Jan 14 21:42:37  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/qtree.cc: another way to hilight rows when DnD from queue to queue;
+
+Sun Jan 13 11:57:26  Maxim Koshelev  <mdem@chat.ru>
+
+	* cookie.*, locstr.cc, http.cc: work with cookies as described
+	in netscape's specifications;
+
+Sat Jan 12 16:39:02  Maxim Koshelev  <mdem@chat.ru>
+
+	* httpd.cc, client.*, http.*: begin to implement persistent connection
+	over HTTP, first stage of 'chunked' data types;
+	* dlist.cc: implemented persistent connections;
+
+Fri Jan 11 10:19:25  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/qtree.cc: it's allowed to limit number of active
+	downloads in queue to zero;
+	* po/nl.po: Dutch translation updated;
+	* many_files: replaced "Download link as file" by "Follow symbolic links";
+
+Thu Jan 10  9:50:48  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/edit.cc: allow enter empty password;
+	* main.cc: code cleanups;
+	* segments.cc: fixed displaying 0% after completing;
+	* cookies.*: storing own cookies to file;
+
+Wed Jan 09 12:39:39  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc, cookie.*: rewritten cookies coode;
+	* httpd.cc, hproxy.cc: D4X accepts cookies now;
+
+Fri Dec 28 12:08:12  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: remove cookie if it's too old;
+
+Thu Dec 27 11:17:45  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/qtree.cc: fixed revert color of row back after canceling DnD;
+	* many_files: code cleanups;
+
+Mon Dec 17 11:28:30  Maxim Koshelev  <mdem@chat.ru>
+
+	* ftpd.cc, ftp.*: improved getting filesize, code cleanups;
+
+Sun Dec 16 18:04:13  Maxim Koshelev  <mdem@chat.ru>
+
+	* sndserv.cc: fixed memory leak;
+
+Fri Dec 14 14:38:40  Maxim Koshelev  <mdem@chat.ru>
+
+	* segments.*: code cleanups;
+	* face/misc.*: added d4x_eschandler_init() routine;
+
+Thu Dec 13 11:30:20  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, config.cc, var.*, face/prefs.cc: added option for changing mode
+	of traffic graph, Common preferences window is more beautyful now;
+
+Wed Dec 12 13:13:26  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/qtree.*: colorify row during "drag_motion";
+	* main.cc, dqueue.*, face/lod.*: inherite settings when create
+	subqueue;
+	* meter.*, face/list.cc: added new mode for traffic graph;
+
+Tue Dec 11 11:48:49  Maxim Koshelev  <mdem@chat.ru>
+
+	* savelog.*, face/list.*, face/lod.*: implemented saving list to file
+	and loading from file;
+	* config.cc, var.*: saving interface to config;
+	* face/qtree.*, face/lod.*: first implementation from DnD from one queue
+	to another;
+
+Mon Dec 10 23:11:26  Maxim Koshelev  <mdem@chat.ru>
+
+	* many_files: completely implemented basic "Multiqueueing";
+
+Sun Dec 09 16:47:57  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, dqueue.*, face/qtree.*: implementing function to manage queues;
+
+Thu Dec 06 17:17:28  Maxim Koshelev  <mdem@chat.ru>
+
+	* manyfiles: begining to implement tree of queues;: 
+
+Tue Dec 04 17:17:28  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: fixed redirection :-);
+
+Sun Dec 02 14:09:52  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.*, dlist.*: continue to cleanups code;
+	* dqueue.cc: fixed initing mutex;
+
+Sat Dec 01 23:12:25  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.*, fsearch.cc: continue to butify splited downloads;
+
+Fri Nov 30 16:30:03  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.*, dlist.*: splited download was rewritten!;
+	* html.cc: fixed memory leak if '<!--' is found in
+	HTML file;
+
+Thu Nov 29 17:13:18  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.*, dlist.*, dqueue.*, var.*, face/list.cc: partialy implemented
+	asynchronus run/IO;
+
+Wed Nov 28 10:44:07  Maxim Koshelev  <mdem@chat.ru>
+
+	* manyfiles: begining to transform all routines and structs
+	related with Queue of Downloads to separate class;
+
+Mon Nov 26 12:15:02  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, dlist.cc: code cleanups;
+
 Fri Nov 23 14:09:46  Maxim Koshelev  <mdem@chat.ru>
 
 	* face/edit.cc: interface cleanups;
