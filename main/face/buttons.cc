@@ -19,6 +19,7 @@
 #include "colors.h"
 #include "dndtrash.h"
 #include "../var.h"
+#include "../savelog.h"
 #include "../ntlocale.h"
 
 GtkWidget *ButtonsBar;
@@ -100,6 +101,14 @@ void set_dndtrash_button(){
 			gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_DND_TRASH]), "clicked");
 		};
 	};
+};
+
+gint buttons_save_press(GtkWidget *widget,GdkEventButton *event){
+	if (event->button==3){
+		save_list();
+		return TRUE;
+	};
+	return FALSE;
 };
 
 void init_buttons_bar() {
@@ -190,6 +199,8 @@ void init_buttons_bar() {
 	             new_pixmap (dndtrash_bar_xpm),
 	             GTK_SIGNAL_FUNC (dnd_trash_toggle),
 	             (GtkWidget *)NULL);
+	gtk_signal_connect (GTK_OBJECT (buttons_array[BUTTON_SAVE]), "button_press_event",
+			    GTK_SIGNAL_FUNC (buttons_save_press), NULL);
 	set_speed_buttons();
 	set_dndtrash_button();
 	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;

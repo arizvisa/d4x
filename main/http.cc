@@ -81,7 +81,6 @@ int tHttpClient::read_answer(tStringList *list) {
 					break;
 				};
 			case '3':{
-					LOG->add(_("Redirect detected..."),LOG_WARNING);
 					rvalue=1;
 					break;
 				};

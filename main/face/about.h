@@ -19,6 +19,7 @@ struct tDialog{
 	GtkWidget *ok_button;
 	tDialog();
 	virtual void done();
+	void set_modal(GtkWidget *window);
 	virtual ~tDialog();
 };
 

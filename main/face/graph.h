@@ -11,6 +11,8 @@
 #ifndef MY_GTK_GRAPH
 #define MY_GTK_GRAPH
 
+/*extern GtkWidget *graph_widget;*/
+
 gint graph_expose_event_handler(GtkWidget *widget,GdkEventExpose *event);
 int graph_draw();
 void graph_recalc();

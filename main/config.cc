@@ -26,8 +26,6 @@
 
 void get_size_of_clist();
 
-const char *CFG_FILE=".ntrc/config";
-const char *CFG_DIR=".ntrc";
 int TEMP_COLUMN_SIZES[NOTHING_COL+1];
 int TEMP_COLUMN_POS[NOTHING_COL+1];
 tOption downloader_parsed_args[]={
@@ -223,23 +221,6 @@ void set_config(char *line){
 	delete(temp);
 };
 
-int read_string(int fd,char *where,int max) {
-	char *cur=where;
-	max-=1;
-	if (max>0){
-		int i=max;
-		while(read(fd,cur,1)>0 && i>0) {
-			i-=1;
-			if (*cur=='\n') break;
-			cur+=1;
-		};
-		*cur=0;
-		return max-i;
-	};
-	*where=0;
-	return 0;
-};
-
 void read_config() {
 	if (!HOME_VARIABLE)	return;
 	char *cfgpath=compose_path(HOME_VARIABLE,CFG_FILE);
@@ -251,7 +232,7 @@ void read_config() {
 		};
 		char temp[MAX_LEN];
 		init_columns_info();
-		while(read_string(fd,temp,MAX_LEN)) {
+		while(f_rstr(fd,temp,MAX_LEN)) {
 			set_config(temp);
 		};
 		close(fd);
@@ -286,20 +267,20 @@ void read_config() {
 static void save_integer_to_config(int fd,char *name,int num) {
 	char data[MAX_LEN];
 	sprintf(data,"%s %i\n\n",name,num);
-	write(fd,data,strlen(data));
+	f_wstr(fd,data);
 };
 
 static void save_hex_integer_to_config(int fd,char *name,int num) {
 	char data[MAX_LEN];
 	sprintf(data,"%s 0x%06x\n\n",name,num);
-	write(fd,data,strlen(data));
+	f_wstr(fd,data);
 };
 
 static void save_string_to_config(int fd,char *name,char *str) {
 	if (!str) return;
 	char data[MAX_LEN];
 	sprintf(data,"%s %s\n\n",name,str);
-	write(fd,data,strlen(data));
+	f_wstr(fd,data);
 };
 
 void save_config() {
@@ -378,8 +359,7 @@ void save_strlist(tStringList *what,char *where) {
 	if (fd>0) {
 		tString *tmp=what->first();
 		while(tmp) {
-			write(fd,tmp->body,strlen(tmp->body));
-			write(fd,"\n",strlen("\n"));
+			f_wstr_lf(fd,tmp->body);
 			tmp=what->prev();
 		};
 		close(fd);
@@ -422,10 +402,10 @@ void read_limits() {
 	int fd=open(path,O_RDONLY);
 	if (fd>=0) {
 		char temp[MAX_LEN];
-		while (read_string(fd,temp,MAX_LEN)) {
+		while (f_rstr(fd,temp,MAX_LEN)) {
 			char temp1[MAX_LEN];
 			char temp2[MAX_LEN];
-			if (read_string(fd,temp1,MAX_LEN) && read_string(fd,temp2,MAX_LEN)) {
+			if (f_rstr(fd,temp1,MAX_LEN) && f_rstr(fd,temp2,MAX_LEN)) {
 				int port,upper;
 				sscanf(temp1,"%i",&port);
 				sscanf(temp2,"%i",&upper);
@@ -448,14 +428,11 @@ void save_limits() {
 		tSortString *tmp=LimitsForHosts->last();
 		while (tmp) {
 			char data[MAX_LEN];
-			write(fd,tmp->body,strlen(tmp->body));
-			write(fd,"\n",strlen("\n"));
+			f_wstr_lf(fd,tmp->body);
 			sprintf(data,"%i",tmp->key);
-			write(fd,data,strlen(data));
-			write(fd,"\n",strlen("\n"));
+			f_wstr_lf(fd,data);
 			sprintf(data,"%i",tmp->upper);
-			write(fd,data,strlen(data));
-			write(fd,"\n",strlen("\n"));
+			f_wstr_lf(fd,data);
 			tmp=LimitsForHosts->next();
 		};
 		close(fd);
@@ -512,21 +489,17 @@ int parse_command_line_already_run(int argv,char **argc){
 				switch(option){
 				case OPT_INFO:{
 					rvalue=0;
-					int total=0;
 					clt->send_command(PACKET_ASK_RUN,NULL,0);
 					printf(_("Run downloads: %d\n"),clt->get_answer_int());
-					total+=clt->get_answer_int();
 					clt->send_command(PACKET_ASK_PAUSE,NULL,0);
 					printf(_("Paused downloads: %d\n"),clt->get_answer_int());
-					total+=clt->get_answer_int();
 					clt->send_command(PACKET_ASK_STOP,NULL,0);
 					printf(_("Failed downloads: %d\n"),clt->get_answer_int());
-					total+=clt->get_answer_int();
 					clt->send_command(PACKET_ASK_COMPLETE,NULL,0);
 					printf(_("Completed downloads: %d\n"),clt->get_answer_int());
-					total+=clt->get_answer_int();
 					printf("-------------------------------\n");
-					printf(_("Total: %d\n"),total);
+					clt->send_command(PACKET_ASK_FULLAMOUNT,NULL,0);
+					printf(_("Total: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_READED_BYTES,NULL,0);
 					printf(_("Total bytes loaded: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_SPEED,NULL,0);

@@ -41,6 +41,7 @@ tHistory *ALL_HISTORIES[LAST_HISTORY];
 tCookiesTree *COOKIES=NULL;
 
 tHostsLimits *LimitsForHosts=NULL;
+tUserPassTree *PasswordsForHosts=NULL;
 tDB *ALL_DOWNLOADS;
 char *HOME_VARIABLE=NULL;
 int GLOBAL_SLEEP_DELAY=2;
@@ -65,3 +66,6 @@ void var_check_all_limits(){
 	var_check_limits_int(1,999,&CFG.SAVE_LIST_INTERVAL);
 	var_check_limits_int(1,999,&CFG.EXIT_COMPLETE_TIME);
 };
+
+const char *CFG_FILE=".ntrc/config";
+const char *CFG_DIR=".ntrc";

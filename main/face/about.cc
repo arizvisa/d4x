@@ -20,8 +20,9 @@
 GtkWidget *AboutWindow=(GtkWidget *)NULL;
 char *TRANSLATORS[]={
 	"Jerome Couderc",
-	"Dirk Moebius",
+	"Kyritsis Athanasios",
 	"Robin Verduijn",
+	"Dirk Moebius",
 	"Legnar WinShadow",
 	"Vicente Aguilar",
 	"Paulo Henrique",
@@ -118,6 +119,13 @@ void tDialog::done() {
 	if (!window) return;
 	gtk_widget_destroy(window);
 	window=(GtkWidget *)NULL;
+};
+
+void tDialog::set_modal(GtkWidget *widget){
+	if (window && widget){
+		gtk_window_set_modal (GTK_WINDOW(window),TRUE);
+		gtk_window_set_transient_for (GTK_WINDOW (window), GTK_WINDOW (widget));
+	};
 };
 
 tDialog::~tDialog() {

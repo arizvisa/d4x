@@ -76,18 +76,20 @@ void tDB::insert(tDownload *what) {
 		temp->body=copy_string(what->info->get_host());
 		tree->add(temp);
 	};
-	if (temp->nodes[*(what->info->get_file())]==NULL){
-		temp->nodes[*(what->info->get_file())]=new tDownloadTree;
+	unsigned char *a=(unsigned char *)(what->info->get_file());
+	if (temp->nodes[*a]==NULL){
+		temp->nodes[*a]=new tDownloadTree;
 		temp->filled_num+=1;
 	};
-	temp->nodes[*(what->info->get_file())]->add(what);
+	temp->nodes[*a]->add(what);
 };
 
 tDownload *tDB::find(tDownload *what) {
 	tStringHostNode *temp=tree->find(what->info->get_host());
 	if (temp){
-		if (temp->nodes[*(what->info->get_file())]){
-			return (tDownload*)(temp->nodes[*(what->info->get_file())]->find(what));
+		unsigned char *a=(unsigned char *)(what->info->get_file());
+		if (temp->nodes[*a]){
+			return (tDownload*)(temp->nodes[*a]->find(what));
 		};
 	};
 	return NULL;
@@ -96,7 +98,7 @@ tDownload *tDB::find(tDownload *what) {
 void tDB::del(tDownload *what) {
 	tStringHostNode *temp=tree->find(what->info->get_host());
 	if (temp){
-		char *file=what->info->get_file();
+		unsigned char *file=(unsigned char *)(what->info->get_file());
 		if (temp->nodes[file[0]]){
 			temp->nodes[file[0]]->del(what);
 			if (temp->nodes[file[0]]->empty()){

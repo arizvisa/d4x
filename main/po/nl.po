@@ -390,7 +390,7 @@ msgstr "Bestand niet gevonden"
 
 #: main.cc:964
 msgid "We can redirect from proxy!"
-msgstr "Proxy staat omleiding toe!"
+msgstr "Proxy staat redirect toe!"
 
 #: main.cc:999
 msgid "Can't open messages queue!"
@@ -1409,4 +1409,36 @@ msgstr "/Download/Selecteer inverse"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via ftp"
-msgstr ""
+msgstr "Probeer symbolische link te downloaden als een file"
+
+
+# face/list.cc
+msgid "/Options/Passwords"
+msgstr "/Opties/Wachtwoorden"
+
+# face/passwords.cc
+msgid "protocol"
+msgstr "protocol"
+
+
+#face/passface.cc:
+msgid "Default passwords and usernames"
+msgstr "Standaard wachtwoorden en gebruikersnamen"
+
+#main.cc:
+msgid "Redirection from [%z] to nowhere!"
+msgstr "Redirect van [%z] naar nergens!"
+
+# config.cc:
+msgid "set directory for saving files"
+msgstr "zet directory voor opgeslagen bestanden"
+
+msgid "delete completed if already run"
+msgstr "verwijder voltooide downloads die klaar zijn"
+
+msgid "set maximum active downloads"
+msgstr "zet maximum aantal simultane downloads"
+
+#face/edit.cc
+msgid "Allow leave this server while recursing via http"
+msgstr "Sta switchen van server toe tijdens http recursie"

@@ -21,6 +21,28 @@
 #include <string.h>
 #include <ctype.h>
 
+enum HTTP_ANSWERS_ENUM{
+	H_CONTENT_LENGTH,
+	H_CONTENT_RANGE,
+	H_CONTENT_TYPE,
+	H_CONTENT_DISPOSITION,
+	H_ACCEPT_RANGE,
+	H_ETAG,
+	H_WWW_AUTHENTICATE,
+	H_LAST_MODIFIED,
+};
+
+char *http_answers[]={
+	"content-length:",
+	"content-range:",
+	"content-type:",
+	"content-disposition:",
+	"accept-ranges:",
+	"etag:",
+	"www-authenticate:",
+	"last-modified:"
+};
+
 tHttpDownload::tHttpDownload() {
 	LOG=NULL;
 	HOST=USER=PASS=D_PATH=NULL;
@@ -31,8 +53,6 @@ tHttpDownload::tHttpDownload() {
 	answer=NULL;
 	HTTP=NULL;
 	ETag=Auth=NULL;
-	RealName=NULL;
-	NewRealName=NULL;
 	content_type=NULL;
 	FULL_NAME_TEMP=NULL;
 };
@@ -59,12 +79,14 @@ int tHttpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	ETag=NULL;
 	Auth=NULL;
 	D_FILE.fdesc=0;
-	RealName=NewRealName=NULL;
+	D_FILE.type=T_FILE; //we don't know any other when download via http
 	data=0;
 	first=1;
 	config.copy_ints(cfg);
 	HTTP->init(HOST,LOG,D_PORT,config.timeout);
 	config.set_user_agent(cfg->get_user_agent());
+	config.set_save_path(cfg->get_save_path());
+	config.set_save_name(cfg->get_save_name());
 	HTTP->set_user_agent(config.get_user_agent());
 	HTTP->registr(USER,PASS);
 	return reconnect();
@@ -72,10 +94,11 @@ int tHttpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 
 void tHttpDownload::init_download(char *path,char *file) {
 	tDownloader::init_download(path,file);
-	NewRealName=NULL;
-	if (RealName) delete RealName;
-	RealName=NULL;
-	RealName=parse_percents(D_FILE.get_name());
+	char *tmp=parse_percents(D_FILE.get_name());
+	if (config.get_save_name()==NULL && tmp &&
+	    !equal(tmp,D_FILE.get_name()))
+		config.set_save_name(tmp);
+	if (tmp) delete(tmp);
 };
 
 int tHttpDownload::reconnect() {
@@ -136,51 +159,58 @@ int tHttpDownload::analize_answer() {
 	ETagChanged=0;
 	tString *temp=answer->last();
 	if (!temp) return -1;
-	char *CL="content-length:";
-	char *AR="accept-range:";
-	char *CR="content-range:";
-	char *CD="content-disposition:";
-	char *ET="etag:";
-	char *WA="www-authenticate:";
-	char *LM="last-modified:";
-	char *CT="content-type:";
 	int rvalue=0;
 	ReGet=0;
 	MustNoReget=0;
 	while(temp) {
-		string_to_low(temp->body,':');
-		if (begin_string(temp->body,CT)) {
+		char *STR;
+		unsigned int i;
+		for (i=0;i<sizeof(http_answers)/sizeof(char*);i++){
+			STR=http_answers[i];
+			if (begin_string_uncase(temp->body,STR))
+				break;
+		};
+		switch(i){
+		case H_CONTENT_TYPE:{
 			if (content_type) delete (content_type);
-			content_type=extract_from_prefixed_string(temp->body,CT);
-			string_to_low(content_type);
+			content_type=extract_from_prefixed_string(temp->body,STR);
+			break;
 		};
-		if (begin_string(temp->body,AR)) {
-			if (strstr(temp->body+strlen(AR),"bytes"))
+		case H_ACCEPT_RANGE:{
+			if (strstr(temp->body+strlen(STR),"bytes"))
 				Status=0;
+			break;
 		};
-		if (begin_string(temp->body,CL)) {
-			sscanf(temp->body+strlen(CL),"%i",&rvalue);
-			LOG->myprintf(LOG_OK,_("Size for download is %i bytes"),rvalue);
+		case H_CONTENT_LENGTH:{
+			sscanf(temp->body+strlen(STR),"%i",&rvalue);
+			break;
 		};
-		if (begin_string(temp->body,CR)) {
-			if (strstr(temp->body+strlen(CR),"bytes"))
+		case H_CONTENT_RANGE:{
+			char *a=strstr(temp->body+strlen(STR),"bytes");
+			if (a){
 				ReGet=1;
+				int b[3];
+				if (sscanf(a+strlen("bytes"),"%d-%d/%d",&b[0],&b[1],&b[2])==3){
+					rvalue=b[2]-b[0];
+				};
+			};
+			break;
 		};
-		if (begin_string(temp->body,LM)) {
+		case H_LAST_MODIFIED:{
 			/* Need to extract date
 			 */
-			char *tmp=temp->body+strlen(LM);
+			char *tmp=temp->body+strlen(STR);
 			while (*tmp==' ') tmp++;
 			D_FILE.date=ctime_to_time(tmp);
+			break;
 		};
-		if (begin_string(temp->body,ET)) {
-			char *ETag1=extract_from_prefixed_string(temp->body,ET);
+		case H_ETAG:{
+			char *ETag1=extract_from_prefixed_string(temp->body,STR);
 			char *tmp=index(ETag1,':');
 			if (tmp) *tmp=0;
 			if (ETag) {
 				if (!equal(ETag,ETag1)) {
-					MustNoReget=1;
-					ETagChanged=1;
+					MustNoReget=ETagChanged=1;
 					delete ETag;
 					ETag=ETag1;
 				} else delete(ETag1);
@@ -188,32 +218,40 @@ int tHttpDownload::analize_answer() {
 				ETag=ETag1;
 			};
 		};
-		if (begin_string(temp->body,CD)) {
+		case H_CONTENT_DISPOSITION:{
 			char *point=strstr(temp->body,"filename");
 			if (point) {
 				point+=strlen("filename");
 				point=index(point,'=');
 				if (point) {
 					point++;
-					NewRealName=copy_string(point);
-					int len=strlen(NewRealName);
-					NewRealName[len-2]=0;
-					point=rindex(NewRealName,'/');
-					if (point) {
-						char *tmp=copy_string(point+1);
-						delete(NewRealName);
-						NewRealName=tmp;
+					if (config.get_save_name()==NULL){
+						char *N=copy_string(point);
+						int len=strlen(N);
+						N[len-2]=0;
+						point=rindex(N,'/');
+						if (point) {
+							char *tmp=copy_string(point+1);
+							delete(N);
+							N=tmp;
+						};
+						config.set_save_name(N);
+						delete(N);
 					};
 				};
 			};
 		};
-		if (begin_string(temp->body,WA)) {
+		case  H_WWW_AUTHENTICATE:{
 			if (!Auth) {
-				Auth=extract_from_prefixed_string(temp->body,WA);
+				Auth=extract_from_prefixed_string(temp->body,STR);
 			};
+		};
 		};
 		temp=answer->next();
 	};
+	if (rvalue>0)
+		LOG->myprintf(LOG_OK,_("Size for download is %i bytes"),rvalue);
+	if (StartSize==0) ReGet=1;
 	if (MustNoReget) ReGet=0;
 	return rvalue;
 };
@@ -302,8 +340,7 @@ int tHttpDownload::get_readed() {
 };
 
 char *tHttpDownload::get_real_name() {
-	if (NewRealName) return NewRealName;
-	if (RealName)   return RealName;
+	if (config.get_save_name()) return config.get_save_name();
 	return D_FILE.get_name();
 };
 
@@ -319,9 +356,14 @@ int tHttpDownload::reget() {
 void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) {
 	int flag=strlen(D_FILE.get_name());
 	char *full_path;
-	if (config.http_recursing)
-		full_path=compose_path(path,D_PATH);
-	else
+	if (config.http_recursing){
+		if (config.leave_server){
+			char *tmp=compose_path(path,HOST);
+			full_path=compose_path(tmp,D_PATH);
+			delete tmp;
+		}else
+			full_path=compose_path(path,D_PATH);
+	}else
 		full_path=copy_string(path);
 	char *temp;
 	char *question_sign=index(full_path,'?');
@@ -356,42 +398,6 @@ void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **
 	delete temp;
 };
 
-int tHttpDownload::create_file(char *data,char *another_name) {
-	if (NewRealName) {
-		if (RealName) delete RealName;
-		RealName=NewRealName;
-		NewRealName=NULL;
-	};
-	char *temp=NULL;
-	if (RealName){
-		temp=copy_string(D_FILE.get_name());
-		D_FILE.set_name(RealName);
-	};
-	D_FILE.type=T_FILE;
-	int rvalue=tDownloader::create_file(data,another_name);
-	if (RealName){
-		D_FILE.set_name(temp);
-		delete(temp);
-	};
-	return rvalue;
-};
-
-
-int tHttpDownload::delete_file(char *data) {
-	char *temp=NULL;
-	if (RealName){
-		temp=copy_string(D_FILE.get_name());
-		D_FILE.set_name(RealName);
-	};
-	int rvalue=tDownloader::delete_file(data);
-	if (RealName){
-		D_FILE.set_name(temp);
-		delete(temp);
-	};
-	return rvalue;
-};
-
-
 void tHttpDownload::done() {
 	HTTP->done();
 	if (D_FILE.fdesc) {
@@ -402,8 +408,6 @@ void tHttpDownload::done() {
 
 tHttpDownload::~tHttpDownload() {
 	if (FULL_NAME_TEMP) delete(FULL_NAME_TEMP);
-	if (RealName) delete RealName;
-	if (NewRealName) delete NewRealName;
 	if (HTTP) delete HTTP;
 	if (ETag) delete ETag;
 	if (Auth) delete Auth;

@@ -16,6 +16,17 @@
 #include <stdio.h>
 #include <unistd.h>
 
+struct tProtoInfo{
+	char *name;
+	int port;
+};
+
+tProtoInfo proto_infos[]={
+	{"?",0},
+	{"ftp",21},
+	{"http",80}
+};
+
 /* parsing url */
 struct tTwoStrings{
     char *one;
@@ -35,12 +46,25 @@ void tTwoStrings::zero() {
 
 tTwoStrings::~tTwoStrings() {};
 
-int get_port_by_proto(char *proto) {
-	if (proto) {
-		if (equal_uncase(proto,"ftp")) return 21;
-		if (equal_uncase(proto,"http")) return 80;
-	};
-	return 21;
+int get_proto_by_name(char *str){
+	if (str==NULL) return D_PROTO_UNKNOWN;
+	for (int i=D_PROTO_FTP;i<D_PROTO_LAST;i++)
+		if (equal_uncase(str,proto_infos[i].name))
+			return i;
+	return D_PROTO_UNKNOWN;
+};
+
+char *get_name_by_proto(int proto){
+	if (proto>=D_PROTO_LAST || proto<D_PROTO_UNKNOWN)
+		return(proto_infos[D_PROTO_UNKNOWN].name);
+	return(proto_infos[proto].name);
+};
+
+static int get_proto_by_string(char *str){
+	if (str==NULL) return D_PROTO_UNKNOWN;
+	if (begin_string_uncase(str,"www")) return D_PROTO_HTTP;
+	if (begin_string_uncase(str,"ftp")) return D_PROTO_FTP;
+	return D_PROTO_FTP;
 };
 
 static void split_string(char *what,char *delim,tTwoStrings *out) {
@@ -76,13 +100,15 @@ static void rsplit_string(char *what,char delim,tTwoStrings *out) {
 /*------------------ end of temporary functions ------------ */
 
 tAddr::tAddr() {
-	protocol=host=username=pass=path=file=NULL;
+	host=username=pass=path=file=NULL;
+	proto=D_PROTO_UNKNOWN;
 	port=0;
 	mask=0;
 };
 
 tAddr::tAddr(char *str){
-	protocol=host=username=pass=path=file=NULL;
+	host=username=pass=path=file=NULL;
+	proto=D_PROTO_UNKNOWN;
 	port=0;
 	mask=0;
 	if (str==NULL) return;
@@ -90,9 +116,10 @@ tAddr::tAddr(char *str){
 	tTwoStrings pair;
 	split_string(what,"://",&pair);
 	if (pair.one) {
-		protocol=pair.one;
+		proto=get_proto_by_name(pair.one);
+		delete (pair.one);
 	} else {
-		protocol=copy_string(DEFAULT_PROTO);
+		proto=get_proto_by_string(pair.two);
 	};
 	host=pair.two;
 	if (!host) {
@@ -146,11 +173,11 @@ tAddr::tAddr(char *str){
 		port=0;
 		host=pair.two;
 	};
-	if (equal_uncase(protocol,"ftp") && index(file,'*'))
+	if (proto==D_PROTO_FTP  && index(file,'*'))
 		mask=1;
 	/* Parse # in http urls
 	 */
-	if (equal_uncase(protocol,"http") && file!=NULL) {
+	if (proto==D_PROTO_HTTP && file!=NULL) {
 		char *tmp=index(file,'#');
 		if (tmp) {
 			*tmp=0;
@@ -160,11 +187,11 @@ tAddr::tAddr(char *str){
 		};
 	};
 	if (port==0)
-		port=get_port_by_proto(protocol);
+		port=proto_infos[proto].port;
 };
 
 void tAddr::print() {
-	if (protocol) printf("protocol: %s\n",protocol);
+        printf("protocol: %s\n",proto_infos[proto].name);
 	if (host) printf("host: %s\n",host);
 	if (path) printf("path: %s\n",path);
 	if (file) printf("file: %s\n",file);
@@ -174,37 +201,32 @@ void tAddr::print() {
 };
 
 void tAddr::save_to_config(int fd){
-	write(fd,"URL:\n",strlen("URL:\n"));
-	write(fd,protocol,strlen(protocol));
-	write(fd,"://",strlen("://"));
+	f_wstr_lf(fd,"URL:");
+	f_wstr(fd,proto_infos[proto].name);
+	f_wstr(fd,"://");
 	if (username && !equal(username,DEFAULT_USER)){
-		write(fd,username,strlen(username));
-		write(fd,":",strlen(":"));
-		write(fd,pass,strlen(pass));
-		write(fd,"@",strlen("@"));
+		f_wstr(fd,username);
+		f_wstr(fd,":");
+		f_wstr(fd,pass);
+		f_wstr(fd,"@");
 	};
-	write(fd,host,strlen(host));
+	f_wstr(fd,host);
 	char port_str[MAX_LEN];
 	g_snprintf(port_str,MAX_LEN,"%d",port);
-	write(fd,":",strlen(":"));
-	write(fd,port_str,strlen(port_str));
+	f_wstr(fd,":");
+	f_wstr(fd,port_str);
 	if (path && *path!='/')
-		write(fd,"/",strlen("/"));
+		f_wstr(fd,"/");
 	int temp=path==NULL ? 0:strlen(path);
 	write(fd,path,temp);
 	if (path && temp && path[temp-1]!='/')
-		write(fd,"/",strlen("/"));
-	write(fd,file,strlen(file));
-	write(fd,"\n",strlen("\n"));
+		f_wstr(fd,"/");
+	f_wstr_lf(fd,file);
 };
 
 void tAddr::set_host(char *what){
 	if (host) delete(host);
 	host=copy_string(what);
-};
-void tAddr::set_proto(char *what){	
-	if (protocol) delete(protocol);
-	protocol=copy_string(what);
 };
 void tAddr::set_username(char *what){	
 	if (username) delete(username);
@@ -240,7 +262,7 @@ void tAddr::file_del_sq(){
 
 void tAddr::make_url(char *where){
 	*where=0;
-	strcat(where,protocol);
+	strcat(where,proto_infos[proto].name);
 	strcat(where,"://");
 	if (username && !equal(username,"anonymous")) {
 		strcat(where,username);
@@ -249,8 +271,7 @@ void tAddr::make_url(char *where){
 		strcat(where,"@");
 	};
 	strcat(where,host);
-	if ((equal_uncase(protocol,"ftp")  && port!=21) ||
-	        (equal_uncase(protocol,"http") && port!=80)) {
+	if (port!=proto_infos[proto].port){
 		char data[MAX_LEN];
 		sprintf(data,":%i",port);
 		strcat(where,data);
@@ -262,12 +283,12 @@ void tAddr::make_url(char *where){
 };
 
 char *tAddr::url() {
-	char *URL=new char[strlen(protocol)+strlen(host)+
+	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host)+
 	                   strlen(path)+strlen(file)+7];
 	*URL=0;
 	/* Easy way to make URL from info  field
 	 */
-	if (protocol) strcat(URL,protocol);
+	strcat(URL,proto_infos[proto].name);
 	strcat(URL,"://");
 	if (host) strcat(URL,host);
 	if (path){
@@ -282,15 +303,14 @@ char *tAddr::url() {
 };
 
 void tAddr::copy_host(tAddr *what){
-	set_proto(what->protocol);
 	set_host(what->host);
 	set_pass(what->pass);
 	set_username(what->username);
+	proto=what->proto;
 	port=what->port;
 };
 
 tAddr::~tAddr() {
-	if (protocol) delete(protocol);
 	if (path) delete(path);
 	if (pass) delete(pass);
 	if (username) delete(username);

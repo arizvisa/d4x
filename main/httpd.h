@@ -20,7 +20,7 @@ class tHttpDownload:public tDownloader{
 	tHttpClient *HTTP;
 	tStringList *answer;
 	int ReGet,MustNoReget,first,ETagChanged;
-	char *RealName,*NewRealName,*content_type,*FULL_NAME_TEMP;
+	char *content_type,*FULL_NAME_TEMP;
 	char *ETag,*Auth;
 	int analize_answer();
 	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
@@ -31,15 +31,13 @@ class tHttpDownload:public tDownloader{
 		void init_download(char *path,char *file);
 		void analize_html();
 		int reconnect();
-		int create_file(char *where,char *another_name);
-		int delete_file(char *where);
 		int init(tAddr *hostinfo,tLog *log,tCfg *cfg);
 		int get_size();
+		char *get_real_name();
 		int get_readed();
 		int get_child_status();
 		char *get_new_url();
 		int reget();
-		char *get_real_name();
 		void rollback_before();
 		char *get_content_type();
 		tStringList *dir();

@@ -17,6 +17,8 @@
 #include "../ntlocale.h"
 #include "../main.h"
 
+extern GtkWidget *MainWindow;
+
 static gint dialog_delete(GtkWidget *widget, GdkEvent *event,tLimitDialog *parent) {
 	parent->done();
 	return TRUE;
@@ -198,8 +200,13 @@ void tFaceLimits::apply_dialog() {
 
 void tFaceLimits::open_dialog() {
 	if (!dialog) dialog=new tLimitDialog;
-	if (dialog->init())
+	if (dialog->init()){
 		gtk_signal_connect(GTK_OBJECT(dialog->ok_button),"clicked",GTK_SIGNAL_FUNC(face_limits_dialog_ok),this);
+		if (window)
+			dialog->set_modal(window);
+		else
+			dialog->set_modal(MainWindow);
+	};
 };
 //tFaceLimits::
 void tFaceLimits::add(char *host,int port) {

@@ -18,7 +18,8 @@
 #include "graph.h"
 guchar graph_rgb_data[100*16*4];
 static GdkRgbCmap *cmap;
-GtkWidget *graph_menu;
+
+/*GtkWidget *graph_widget;*/
 
 gint graph_expose_event_handler(GtkWidget *widget,GdkEventExpose *event) {
 	graph_draw();
@@ -35,6 +36,7 @@ int graph_draw() {
 	gdk_flush();
 	return FALSE;
 };
+
 
 void graph_recalc() {
 	if (!GlobalMeter) return;
@@ -98,6 +100,21 @@ void graph_recalc() {
 	};
 };
 
+/*
+void graph_init(){
+	graph_widget=gtk_preview_new(GTK_PREVIEW_COLOR);
+	gtk_preview_size(GTK_PREVIEW(graph_widget),100,16);
+	guchar buf[100*3];
+	for (int i=0;i<16;i++){
+		for (int j=0;j<100;j++){
+			buf[j]=CFG.COLOR_BACK & 0xff;
+			buf[j+1]=(CFG.COLOR_BACK>>8) & 0xff;
+			buf[j+2]=(CFG.COLOR_BACK>>16) & 0xff;
+		};
+		gtk_preview_draw_row(GTK_PREVIEW(graph_widget),0,i,100);
+	};
+};
+*/
 
 void graph_init() {
 	guint32 colors[4];
@@ -118,4 +135,3 @@ void graph_init() {
 	                       GDK_RGB_DITHER_NONE,(guchar *)graph_rgb_data,XSize,cmap);
 	gdk_flush();
 };
-

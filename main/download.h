@@ -43,6 +43,7 @@ struct tCfg{
 /* flags
  */
 	int http_recursing; //temporary flag
+	int leave_server;
 	int passive;
 	int retry;
 	int permisions;
@@ -58,16 +59,21 @@ private:
 	char *proxy_user;
 	char *proxy_pass;
 	char *user_agent;
+	char *save_name,*save_path;
 public:
 	tCfg();
 	void set_proxy_user(char *what);
 	void set_proxy_host(char *what);
 	void set_proxy_pass(char *what);
 	void set_user_agent(char *what);
+	void set_save_name(char *what);
+	void set_save_path(char *what);
 	char *get_proxy_user(){return(proxy_user);};
 	char *get_proxy_host(){return(proxy_host);};
 	char *get_proxy_pass(){return(proxy_pass);};
 	char *get_user_agent(){return(user_agent);};
+	char *get_save_name(){return(save_name);};
+	char *get_save_path(){return(save_path);};
 	int get_flags();
 	void set_flags(int what);
 	void reset_proxy();
@@ -103,13 +109,13 @@ class tDownloader{
      	virtual int get_start_size();
      	virtual void init_download(char *file,char *path);
      	void set_data(int a);
-     	void short_init(tLog *log);
+     	void short_init(tLog *log,tCfg *cfg);
      	virtual int reconnect()=0;
     	virtual int init(tAddr *hostinfo,tLog *log,tCfg *cfg)=0;
-    	void make_file_visible(char *where,char *another_name);
-    	virtual int create_file(char *where,char *another_name);
-    	virtual int delete_file(char *where);
-    	virtual void set_date_file(char *where,char *another_name);
+    	void make_file_visible();
+    	virtual int create_file();
+    	virtual int delete_file();
+    	virtual void set_date_file();
     	virtual int get_readed()=0;
     	virtual int file_type();
     	virtual void set_file_info(tFileInfo *what);
@@ -154,6 +160,7 @@ enum ERROR_CODES{
 	ERROR_BAD_ANSWER,
 	ERROR_ATTEMPT,
 	ERROR_REGET,
-	ERROR_TOO_MANY_USERS
+	ERROR_TOO_MANY_USERS,
+	ERROR_DIRECTORY
 };
 #endif

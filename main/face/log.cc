@@ -9,9 +9,9 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <stdio.h>
 #include <pthread.h>
 #include <string.h>
 

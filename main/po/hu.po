@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "POT-Creation-Date: 1999-08-24 15:06+0800\n"
-"PO-Revision-Date: 2000-01-29 10:46+01\n"
+"PO-Revision-Date: 2000-03-21 21:30+01\n"
 "Last-Translator: Gergely Nagy <algeron@madhouse.lonyay.edu.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "Kapcsolódás sikertelen"
 
 #: config.cc:317
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
-msgstr "FIGYELEM''' A HOME változó nem található! Így a konfigurációt nem lehet beolvasni!"
+msgstr "FIGYELEM!!! A HOME változó nem található! Így a konfigurációt nem lehet beolvasni!"
 
 #: config.cc:334
 #, c-format
@@ -64,7 +64,7 @@ msgstr "Alapbeállítások használata :))...\n"
 
 #: config.cc:367
 msgid "WARNING!!! Can't find HOME variable! So can't write config!"
-msgstr "FIGYELEM''' A HOME változó nem található! Így a konfigurációt nem lehet elmenteni!"
+msgstr "FIGYELEM!!! A HOME változó nem található! Így a konfigurációt nem lehet elmenteni!"
 
 #: config.cc:562
 msgid "bad read\n"
@@ -767,7 +767,7 @@ msgstr "/Letöltés/Letöltések törlése"
 
 #: face/list.cc:140
 msgid ""
-msgstr "/úÁËÁÞËÁ/ðÒÏÄÏÌÖÉÔØ"
+msgstr ""
 
 #: face/list.cc:141
 msgid "/Download/Delete completed"
@@ -1061,7 +1061,7 @@ msgstr "Állomány alapértelmezett hozzáférési jogai"
 
 #: face/buttons.cc:
 msgid " Save list "
-msgstr " List mentése "
+msgstr " Lista mentése "
 
 #: face/columns.cc:22
 msgid "status"
@@ -1237,7 +1237,7 @@ msgstr "Alap letöltési lista betöltése"
 
 #:main.cc:
 msgid "Append list to curent queue of downloads"
-msgstr "List hozzáfûzése az aktuális listához"
+msgstr "Lista hozzáfûzése az aktuális listához"
 
 #: face/dndtrash.cc
 msgid "/New Download"
@@ -1293,74 +1293,76 @@ msgstr "Futtatás, majd kilépés"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
-msgstr ""
+msgstr "Emlékezés a jelszóra"
 
 #: face/limface.cc:
 msgid "Now"
-msgstr ""
+msgstr "Most"
 
 
 #: face/edit.cc:
 msgid "Default"
-msgstr ""
+msgstr "Alapbeállítás"
 
 #main.cc
 msgid "Adding downloading via control socket [%s]"
-msgstr ""
+msgstr "Letöltés hozzáadása vezérlõ SOCKET-em keresztül [%s]"
 
 #cookie.cc
 msgid "Can't open cookies file!"
-msgstr ""
+msgstr "Nem tudom megnyitni a cookie állományt!"
 
 #cookie.cc
 msgid "%i cookies loaded"
-msgstr ""
+msgstr "%i cookie betöltve"
 
 #cookie.cc
 msgid "Loading cookies"
-msgstr ""
+msgstr "Cookie-k betöltése"
 
 #face/prefs.cc
 msgid "Monitor clipboard"
-msgstr ""
+msgstr "Vágólap figyelés"
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr ""
+msgstr "Ezeket a kiterjesztéseket figyelmen kívül hagyni a vágólapon"
+
 #: face/dndtrash.cc
 msgid "/Speed"
-msgstr ""
+msgstr "/Sebesség"
 
 #: face/dndtrash.cc
 msgid "/Speed/Lowest"
-msgstr ""
+msgstr "/Sebesség/Legalacsonyabb"
 
 #: face/dndtrash.cc
 msgid "/Speed/Middle"
-msgstr ""
+msgstr "/Sepesség/Közepes"
 
 #: face/dndtrash.cc
 msgid "/Speed/Unlimited"
-msgstr ""
+msgstr "/Sebesség/Korlátlan"
 
 #: face/list.cc
 msgid "/Options/Speed"
-msgstr ""
+msgstr "/Beállítások/Sebesség"
 
 #: face/list.cc
 msgid "/Options/Speed/Lowest"
-msgstr ""
+msgstr "/Beállítások/Sebesség/Legalacsonyabb"
 
 #: face/list.cc
 msgid "/Options/Speed/Middle"
-msgstr ""
+msgstr "/Beállítások/Sebesség/Közepes"
 
 #: face/list.cc
 msgid "/Options/Speed/Unlimited"
-msgstr ""
+msgstr "/Beállítások/Sebesség/Korlátlan"
+
 #: face/list.cc
 msgid "/Options/Buttons"
-msgstr ""
+msgstr "/Beállítások/Gombok"
 
 #: face/list.cc
 msgid "/Options/Buttons/Manipulating"
@@ -1368,40 +1370,70 @@ msgstr ""
 
 #: face/list.cc
 msgid "/Options/Buttons/Speed buttons"
-msgstr ""
+msgstr "/Beállítások/Gombok/Sebesség gombok"
 
 #: face/list.cc
 msgid "/Options/Buttons/Misc buttons"
-msgstr ""
+msgstr "/Beállítások/Gombok/Egyéb gombok"
 
 #: face/list.cc
 msgid "/Options/Buttons/Add buttons"
-msgstr ""
+msgstr "/Beállítások/Gombok/Hozzáadó gombok"
 
 #:main.cc
 msgid "[control socket]"
-msgstr ""
+msgstr "[irányító SOCKET]"
 
 # face/list.cc
 msgid "/Download/Unselect all"
-msgstr ""
+msgstr "/Letöltés/Kiválasztás törlése"
 
 # face/list.cc
 msgid "/Download/-"
-msgstr ""
+msgstr "/Letöltés/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
-msgstr ""
+msgstr "Szüneteltetés rögtön a hozzáadás után"
 
 #face/list.cc:
 msgid "/Download/Select all"
-msgstr ""
+msgstr "/Letöltés/Minden kiválasztása"
 
 # face/list.cc
 msgid "/Download/Invert selection"
-msgstr ""
+msgstr "/Letöltés/Kiválasztás megfordítása"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via ftp"
+msgstr ""
+
+# face/list.cc
+msgid "/Options/Passwords"
+msgstr ""
+
+# face/passwords.cc
+msgid "protocol"
+msgstr ""
+
+#face/passface.cc:
+msgid "Default passwords and usernames"
+msgstr ""
+
+#main.cc:
+msgid "Redirection from [%z] to nowhere!"
+msgstr ""
+
+# config.cc:
+msgid "set directory for saving files"
+msgstr ""
+
+msgid "delete completed if already run"
+msgstr ""
+
+msgid "set maximum active downloads"
+msgstr ""
+
+#face/edit.cc
+msgid "Allow leave this server while recursing via http"
 msgstr ""

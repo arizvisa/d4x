@@ -8,11 +8,19 @@ LOCALEDIR=$(DEST)/share/locale
 PTHREAD=-lpthread
 GTKCONFIG=gtk-config
 GLIBCONFIG=glib-config
+MAKE=make
 
 #next strings were added for BSD support
 ifeq ($(OSTYPE),BSD)
 PTHREAD=-pthread
 GTKCONFIG=gtk12-config
+MAKE=gmake
+endif
+
+ifeq ($(OSTYPE),FreeBSD)
+PTHREAD=-pthread
+GTKCONFIG=gtk12-config
+MAKE=gmake
 endif
 
 CFLAGS=-Wall -O2 -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS
@@ -23,12 +31,12 @@ LIBS=$(PTHREAD) $(GTKLIBS)
 EXECC=$(CXX) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
 
 MODULES=base64.o addr.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o srvclt.o html.o
-MODULES2=client.o ftp.o http.o download.o ftpd.o httpd.o signal.o main.o config.o savelog.o mainlog.o var.o sortstr.o db.o cookie.o
+MODULES2=client.o ftp.o http.o download.o ftpd.o httpd.o signal.o main.o config.o savelog.o mainlog.o \
+var.o sortstr.o db.o cookie.o pass.o
 FACE=face/lmenu.o face/list.o face/addd.o face/graph.o face/log.o face/prefs.o face/buttons.o \
 face/about.o face/edit.o face/colors.o face/saveload.o face/limface.o face/misc.o face/lod.o \
-face/columns.o face/dndtrash.o
+face/columns.o face/dndtrash.o face/passface.o
 
-MAKE=make
 
 all:
 	rm -f nt || test -z ""
@@ -143,6 +151,12 @@ cookie.o: cookie.cc cookie.h
 
 html.o: html.cc html.h
 	$(EXECC) -c html.cc -o html.o
+
+pass.o: pass.cc pass.h
+	$(EXECC) -c pass.cc -o pass.o
+
+cond.o: cond.cc cond.h
+	$(EXECC) -c cond.cc -o cond.o
 
 clean: 
 	rm -f *.o nt TAGS *~ || test -z ""

@@ -1,6 +1,93 @@
+Thu Mar 30 11:42:20 2000
+	*download.cc: continuing code cleanups;
+	*po/: Dutch and Greek translations updated;
+
+Wed Mar 29 10:40:23 2000
+	*download.cc,hproxy.cc: continue code cleanups;
+
+Tue Mar 28 10:40:23 2000
+	*[many of files]: f_wstr_lf(in,char *) was added, related cleanups;
+	*[again many files]: global code cleanups;
+	*main.cc: fixed segfaulting when redirected;
+	*config.cc,srvclt.cc[h]: added command for asking amount of downloads
+	in queue;
+
+Mon Mar 27 14:06:48 2000
+	*[many of files]: f_wstr(int,char *) was added, related code cleanups;
+	*main.cc: fixed displaing info when downloading link as file;
+
+Sun Mar 26 16:53:56 2000
+	*main.cc: code cleanups; fixed speed scheduling at download starting;
+	*addr.cc: code cleanups;
+
+Sat Mar 25 11:11:03 2000
+	*[many of files]: changes for normal compilation under BSD;
+	*httpd.cc,download.cc,face/edit.cc: added ability to leave server
+	while recursing via http;
+	*speed.cc: setting pthread attributes;
+
+Fri Mar 24 12:55:28 2000
+	*face/list.cc,main.cc: main menu now is context hilighted;
+	*face/buttons.cc: added ability to save queue into default list by
+	right mouse click on button "Save" in buttons bar;
+	*face/limface.cc: interface fixes;
+	*face/edit.cc, face/prefs.cc: code cleanups and fixes;
+	*main.cc,httpd.cc: some http fixes and code cleanups;
+
+Wed Mar 22 15:32:05 2000
+	*http.cc,main.cc,lod.cc: some cleanups;
+	*face/dndtrash.cc: opening "add new" dialog by middlemouseclick
+	on dnd trash;
+
+Tue Mar 21 15:32:05 2000
+	*face/limface.cc: now dialog for editing new element is modal
+	for limits dialog;
+	*main.cc,face/list.cc,var.cc[h]: implemented passwords system;
+	*face/passface.cc[h]: face for passwords system;
+	*config.cc[h],var.cc[h]: CFG_DIR,CFG_FILE variables was moved;
+	*addr.cc[h],httpd.cc: some cleanups;
+	*pass.cc[h]: began implement passwords system;
+	*main.cc: fixed deleting all due yesterday changes;
+
+Mon Mar 20 18:36:30 2000
+	*face/lod.cc[h],face/list.cc,main.cc[h]: new method for deleting
+	downloads from the queue [speed improvements];
+	*speed.cc: probably fixed setting mutex's attributes for traffic
+	limitations;
+
+Sun Mar 19 18:36:30 2000
+	*httpd.cc: rewrote parsing http answers;
+	*addr.cc: finish something;
+	*lod.cc: YES!, now size of list of downloads stored corectly;
+
+Sat Mar 18 17:56:44 2000
+	*many of files: rewrote protocols handling;
+
+Thu Mar 16 11:26:58 2000
+	stop to rest begin to work :)
+	*locstr.cc: parse_precents() rewritten;
+	*db.h: fixed bug of adding to db and searching with chars > 127;
+
+Sat Mar 11 10:04:28 2000
+	*face/list.cc,main.cc: saving config after clear list of downloads
+	to avoid seting bad size;
+
+Thu Mar  9 11:33:24 2000
+	*face/list.cc,face/about.cc[h]: all confiramtions now is modal;
+
+Tue Mar  7 10:19:42 2000
+	*cond.cc[h]: almost completing writing skeleton of conditions;
+
+Mon Mar  6 20:15:21 2000
+	*cond.cc[h]: continuing writing "conditions";
+
+Sat Mar  4 16:45:01 2000
+	*cond.cc[h]: added some code for new "conditions" system;
+
 Fri Mar  3 09:29:43 2000
 	*po/ru.po: some spell fixes;
 	*socket.cc: some compilation fixes;
+	*face/dndtrash.cc: some type castings;
 
 Thu Mar  2 12:32:50 2000
 	*po/: added new message;

@@ -156,6 +156,13 @@ void tMsgServer::run(){
 					cmd_return_int(GVARS.READED_BYTES);
 					break;
 				};
+				case PACKET_ASK_FULLAMOUNT:{
+					int a=0;
+					for (int i=DL_RUN;i<DL_TEMP;i++)
+						a+=DOWNLOAD_QUEUES[i]->count();
+					cmd_return_int(a);
+					break;
+				};
 				case PACKET_ACK:{
 					cmd_ack();
 					break;

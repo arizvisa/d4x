@@ -8,13 +8,13 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <stdio.h>
+#include <string.h>
 #include "columns.h"
 #include "misc.h"
 #include "../ntlocale.h"
 #include "../main.h"
 #include "../var.h"
-#include <string.h>
-#include <stdio.h>
 
 char *columns_names[]={	"status","file name","type of file","size of file","downloaded size","rest","percent","speed",
 						"elapsed time","estimated time","time of pause","number of attempts","URL","[NONE]"};

@@ -9,9 +9,9 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <stdio.h>
 #include <pthread.h>
 #include <string.h>
 #include "../dlist.h"
@@ -34,6 +34,7 @@
 #include "limface.h"
 #include "misc.h"
 #include "dndtrash.h"
+#include "passface.h"
 
 
 GtkWidget *MainMenu;
@@ -61,6 +62,7 @@ tDialogWidget *AskDeleteFataled=(tDialogWidget *)NULL;
 tDialogWidget *AskExit=(tDialogWidget *)NULL;
 
 tFaceLimits *FaceForLimits=(tFaceLimits *)NULL;
+tFacePass *FaceForPasswords=(tFacePass *)NULL;
 
 gint StatusBarContext,RBStatusBarContext;
 int MainTimer,LogsTimer,GraphTimer,ListTimer;
@@ -80,7 +82,7 @@ enum MAIN_MENU_ENUM{
 	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
 	MM_DOWNLOAD_DEL_F, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
-	MM_OPTIONS, MM_OPTIONS_LIMITS, MM_OPTIONS_COMMON,
+	MM_OPTIONS, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON,
 	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
 	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
 	MM_HELP, MM_HELP_ABOUT
@@ -108,6 +110,7 @@ char *main_menu_inames[]={
 	"/Download/-",
 	"/_Options",
 	"/Options/Limitations",
+	"/Options/Passwords",
 	"/Options/Common",
 	"/Options/Speed",
 	"/Options/Speed/Lowest",
@@ -122,6 +125,10 @@ char *main_menu_inames[]={
 	"/_Help/About"
 };
 
+
+static void open_passwords_window(...) {
+	FaceForPasswords->init();
+};
 
 static void open_limits_window(...) {
 	FaceForLimits->init();
@@ -217,19 +224,21 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_FILE_EXIT]),	"<alt>X",	ask_exit,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD]),     	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	(gchar *)NULL,	list_of_downloads_open_logs,		0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	"<alt>S",	stop_downloads,			0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	"<alt>E",	open_edit_for_selected,		0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	"<alt>C",	ask_delete_download,		0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	"<alt>A",	continue_downloads,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	(gchar *)NULL,	list_of_downloads_open_logs,	100+MM_DOWNLOAD_LOG, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	"<alt>S",	stop_downloads,		        100+MM_DOWNLOAD_STOP, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	"<alt>E",	open_edit_for_selected,		100+MM_DOWNLOAD_EDIT, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	"<alt>C",	ask_delete_download,		100+MM_DOWNLOAD_DEL, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	"<alt>A",	continue_downloads,		100+MM_DOWNLOAD_RUN, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_C]),(gchar *)NULL,	ask_delete_completed_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),(gchar *)NULL,	ask_delete_fataled_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_unselect_all,	0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_select_all,	0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_invert_selection,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_unselect_all,	100+MM_DOWNLOAD_UNSELECT_ALL, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_select_all,	100+MM_DOWNLOAD_SELECT_ALL, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_invert_selection,	100+MM_DOWNLOAD_INVERT, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
 		{_(main_menu_inames[MM_OPTIONS_LIMITS]),(gchar *)NULL,	open_limits_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_PASSWORDS]),(gchar *)NULL,	open_passwords_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_COMMON]),"<control>C",	init_options_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_SPEED]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
 		{_(main_menu_inames[MM_OPTIONS_SPEED_1]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	1, "<RadioItem>"},
@@ -251,24 +260,15 @@ void init_main_menu() {
 	gtk_item_factory_create_items(main_menu_item_factory, nmenu_items, menu_items, NULL);
 	MainMenu= gtk_item_factory_get_widget(main_menu_item_factory, "<main>");
 	gtk_accel_group_attach(accel_group,GTK_OBJECT(MainWindow));
+	gtk_signal_connect (GTK_OBJECT (MainMenu),
+			    "button_press_event",
+			    GTK_SIGNAL_FUNC (main_menu_prepare),
+			    NULL);
+	main_menu_speed_prepare();
 	main_menu_buttons_prepare();
 };
 
-void main_menu_del_completed_set_state(gint a){
-	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_("/Download/Delete completed"));
-	if (menu_item){
-		gtk_widget_set_sensitive(menu_item,a);
-	};
-};
-
-void main_menu_del_failed_set_state(gint a){
-	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_("/Download/Delete failed"));
-	if (menu_item){
-		gtk_widget_set_sensitive(menu_item,a);
-	};
-};
-
-void main_menu_prepare(){
+gint main_menu_prepare(){
 	GtkWidget *menu_item;
 	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_DEL_C]));
 	if (menu_item){
@@ -284,6 +284,33 @@ void main_menu_prepare(){
 		else
 			gtk_widget_set_sensitive(menu_item,FALSE);
 	};
+	if (GTK_CLIST(ListOfDownloads)->selection){
+		for (int i=MM_DOWNLOAD_LOG;i<=MM_DOWNLOAD_RUN;i++){
+			menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+								      i+100);
+			if (menu_item) gtk_widget_set_sensitive(menu_item,TRUE);
+		};
+	}else{
+		for (int i=MM_DOWNLOAD_LOG;i<=MM_DOWNLOAD_RUN;i++){
+			menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+								      i+100);
+			if (menu_item) gtk_widget_set_sensitive(menu_item,FALSE);
+		};
+	};
+	if (GTK_CLIST(ListOfDownloads)->rows==0){
+		for (int i=MM_DOWNLOAD_UNSELECT_ALL;i<=MM_DOWNLOAD_INVERT;i++){
+			menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+								      i+100);
+			if (menu_item) gtk_widget_set_sensitive(menu_item,FALSE);
+		};
+	}else{
+		for (int i=MM_DOWNLOAD_UNSELECT_ALL;i<=MM_DOWNLOAD_INVERT;i++){
+			menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+								      i+100);
+			if (menu_item) gtk_widget_set_sensitive(menu_item,TRUE);
+		};
+	};
+	return FALSE;
 };
 
 void my_main_quit(...) {
@@ -291,11 +318,14 @@ void my_main_quit(...) {
 	gtk_timeout_remove(LogsTimer);
 	gtk_timeout_remove(GraphTimer);
 	save_list();
-	save_config();
 	save_limits();
+	save_passwords(PasswordsForHosts);
 	aa.done();
+	save_config();
 	if (FaceForLimits)
 		delete (FaceForLimits);
+	if (FaceForPasswords)
+		delete (FaceForPasswords);
 	add_window_cancel();
 	options_window_cancel();
 	destroy_about_window();
@@ -326,7 +356,6 @@ void del_completed_downloads(...) {
 	list_of_downloads_freeze();
 	aa.del_completed();
 	list_of_downloads_unfreeze();
-	main_menu_del_completed_set_state(FALSE);
 	if (AskDeleteCompleted) AskDeleteCompleted->done();
 };
 
@@ -334,7 +363,6 @@ void del_fataled_downloads(...) {
 	list_of_downloads_freeze();
 	aa.del_fataled();
 	list_of_downloads_unfreeze();
-	main_menu_del_failed_set_state(FALSE);
 	if (AskDeleteFataled) AskDeleteFataled->done();
 };
 
@@ -354,6 +382,7 @@ void ask_exit(...) {
 		if (!AskExit) AskExit=new tDialogWidget;
 		if (AskExit->init(_("Do you realy want to quit?"),_("Quit?")))
 			gtk_signal_connect(GTK_OBJECT(AskExit->ok_button),"clicked",GTK_SIGNAL_FUNC(my_main_quit),NULL);
+		AskExit->set_modal(MainWindow);
 	} else
 		my_main_quit();
 };
@@ -372,6 +401,7 @@ void ask_delete_download(...) {
 		if (!AskDelete) AskDelete=new tDialogWidget;
 		if (AskDelete->init(_("Delete selected downloads?"),_("Delete?")))
 			gtk_signal_connect(GTK_OBJECT(AskDelete->ok_button),"clicked",GTK_SIGNAL_FUNC(delete_downloads),NULL);
+		AskDelete->set_modal(MainWindow);
 	} else
 		delete_downloads();
 };
@@ -381,6 +411,7 @@ void ask_delete_completed_downloads(...) {
 		if (!AskDeleteCompleted) AskDeleteCompleted=new tDialogWidget;
 		if (AskDeleteCompleted->init(_("Do you wish delete completed downloads?"),_("Delete?")))
 			gtk_signal_connect(GTK_OBJECT(AskDeleteCompleted->ok_button),"clicked",GTK_SIGNAL_FUNC(del_completed_downloads),NULL);
+		AskDeleteCompleted->set_modal(MainWindow);
 	} else
 		del_completed_downloads();
 };
@@ -390,25 +421,23 @@ void ask_delete_fataled_downloads(...) {
 		if (!AskDeleteFataled) AskDeleteFataled=new tDialogWidget;
 		if (AskDeleteFataled->init(_("Do you wish delete failed downloads?"),_("Delete?")))
 			gtk_signal_connect(GTK_OBJECT(AskDeleteFataled->ok_button),"clicked",GTK_SIGNAL_FUNC(del_fataled_downloads),NULL);
+		AskDeleteFataled->set_modal(MainWindow);
 	} else
 		del_completed_downloads();
 };
 
 void delete_downloads(...) {
-	list_of_downloads_freeze();
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
-		if (aa.delete_download(temp))
-			select=((GtkCList *)ListOfDownloads)->selection;
-		else
-			select=select->next;
+		aa.delete_download(temp);
+		select=select->next;
 	};
+	list_of_downloads_freeze();
+	aa.go_to_delete(); //real deleting from the list
 	gtk_clist_unselect_all(GTK_CLIST(ListOfDownloads));
 	list_of_downloads_unfreeze();
-	prepare_buttons();
-	main_menu_prepare();
 	if (AskDelete) AskDelete->done();
 };
 
@@ -421,7 +450,6 @@ void continue_downloads(...) {
 		select=select->next;
 	};
 	prepare_buttons();
-	main_menu_prepare();
 };
 
 /* ******************************************************************** */
@@ -774,6 +802,7 @@ void init_face(int argc, char *argv[]) {
 		ScrollShift[i]=0;
 	prepare_buttons();
 	FaceForLimits=new tFaceLimits;
+	FaceForPasswords=new tFacePass;
 #include "pixmaps/dndtrash.xpm"
 	GdkBitmap *bitmap;
 	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,dndtrash_xpm);

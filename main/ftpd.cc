@@ -294,6 +294,8 @@ int tFtpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 
 	config.copy_ints(cfg);
 	config.set_proxy_host(cfg->get_proxy_host());
+	config.set_save_path(cfg->get_save_path());
+	config.set_save_name(cfg->get_save_name());
 
 	if (config.get_proxy_host() && config.proxy_port) {
 		FTP->init(config.get_proxy_host(),LOG,config.proxy_port,config.timeout);

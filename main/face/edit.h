@@ -33,10 +33,10 @@ class tDEdit{
 	GtkWidget *pass_entry,*user_entry,*path_entry,*url_entry,*file_entry,*user_agent_entry;
 	GtkWidget *timeout_entry,*attempts_entry,*sleep_entry,*rollback_entry;
 	GtkWidget *use_pass_check,*ftp_passive_check,*permisions_check,*get_date_check,*retry_check;
-	GtkWidget *link_as_file_check;
+	GtkWidget *link_as_file_check,*leave_server_check;
 	GtkWidget *ftp_recurse_depth_entry,*http_recurse_depth_entry;
 	GtkWidget *speed_entry;
-	GtkWidget *dir_browser,*dir_browser2;
+	GtkWidget *dir_browser;
 	GtkWidget *button;
 	GtkWidget *time_check;
 	GtkWidget *pause_check;
@@ -55,7 +55,6 @@ class tDEdit{
 		void done_browser();
 		void browser_ok();
 		void init_browser2();
-		void done_browser2();
 		void browser_ok2();
 		int apply_changes();
 		int get_pause_check();

@@ -13,21 +13,19 @@
 
 struct tAddr{
 	private:
-	char *protocol,*host,*username,*pass,*path,*file;
+	char *host,*username,*pass,*path,*file;
 	public:
-	int port;
+	int proto,port;
 	int mask;
 	tAddr();
 	tAddr(char *str);
 	void print();
-	void set_proto(char *what);
 	void set_host(char *what);
 	void set_username(char *what);
 	void set_pass(char *what);
 	void set_path(char *what);
 	void set_file(char *what);
 	void compose_path(char *aa,char *bb);
-	char *get_proto(){return protocol;};
 	char *get_host(){return host;};
 	char *get_pass(){return pass;};
 	char *get_username(){return username;};
@@ -40,5 +38,13 @@ struct tAddr{
 	void save_to_config(int fd);
 	~tAddr();
 };
+enum D_PROTOS{
+	D_PROTO_UNKNOWN,
+	D_PROTO_FTP,
+	D_PROTO_HTTP,
+	D_PROTO_LAST
+};
 
+int get_proto_by_name(char *str);
+char *get_name_by_proto(int proto);
 #endif

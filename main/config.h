@@ -23,10 +23,6 @@ int parse_command_line_preload(int argv,char **argc);
 void parse_command_line_postload(int argv,char **argc);
 int parse_command_line_already_run(int argv,char **argc);
 void help_print();
-int read_string(int fd,char *where,int max);
-
-extern const char *CFG_FILE;
-extern const char *CFG_DIR;
 
 struct tOption{
 	char *name;

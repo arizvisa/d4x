@@ -155,16 +155,6 @@ static void edit_browser_ok2(GtkWidget *parent,tDEdit *where) {
 	where->browser_ok2();
 };
 
-static void edit_browser_cancel2(GtkWidget *parent,tDEdit *where) {
-	where->done_browser2();
-};
-
-static int edit_browser_delete2(GtkObject *parent,GdkEvent *event,tDEdit *where) {
-	where->done_browser2();
-	return TRUE;
-};
-
-
 static void edit_window_password(GtkWidget *parent,tDEdit *where) {
 	where->setup_entries();
 };
@@ -177,7 +167,7 @@ static void edit_time_check_clicked(GtkWidget *parent,tDEdit *where) {
 tDEdit::tDEdit() {
 	parent=NULL;
 	window=NULL;
-	dir_browser=dir_browser2=NULL;
+	dir_browser=NULL;
 	proxy=NULL;
 };
 
@@ -218,8 +208,9 @@ void tDEdit::init_main(tDownload *who) {
 	text_to_combo(url_entry,URL);
 	delete URL;
 
-	text_to_combo(path_entry,who->get_SavePath());
-	if (who->get_SaveName()) text_to_combo(file_entry,who->get_SaveName());
+	text_to_combo(path_entry,who->config.get_save_path());
+	if (who->config.get_save_name())
+		text_to_combo(file_entry,who->config.get_save_name());
 	else text_to_combo(file_entry,"");
 	if (who->info->get_pass())
 		text_to_combo(pass_entry,who->info->get_pass());
@@ -407,6 +398,9 @@ void tDEdit::init_other(tDownload *who) {
 	link_as_file_check=gtk_check_button_new_with_label(_("Try to load simbolyc link as file via ftp"));
 	GTK_TOGGLE_BUTTON(link_as_file_check)->active=who->config.link_as_file;
 	gtk_box_pack_start(GTK_BOX(other_vbox),link_as_file_check,FALSE,FALSE,0);
+	leave_server_check=gtk_check_button_new_with_label(_("Allow leave this server while recursing via http"));
+	GTK_TOGGLE_BUTTON(leave_server_check)->active=who->config.leave_server;
+	gtk_box_pack_start(GTK_BOX(other_vbox),leave_server_check,FALSE,FALSE,0);
 	GtkWidget *other_frame=gtk_frame_new(_("Other"));
 	gtk_container_border_width(GTK_CONTAINER(other_frame),5);
 	gtk_container_add(GTK_CONTAINER(other_frame),other_vbox);
@@ -493,10 +487,16 @@ void tDEdit::init(tDownload *who) {
 	proxy=new tProxyWidget;
 	proxy->init();
 	proxy->init_state();
-	if (equal_uncase("ftp",who->info->get_proto()))
+	switch(who->info->proto){
+	case D_PROTO_FTP:{
 		proxy->init_state(&(who->config),1);
-	else
+		break;
+	};
+	case D_PROTO_HTTP:{
 		proxy->init_state(&(who->config),0);
+		break;
+	};
+	};
 	/* initing window
 	 */
 	GtkWidget *vbox2=gtk_vbox_new(FALSE,0);
@@ -551,22 +551,26 @@ void tDEdit::init_browser() {
 	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser)->window)),
 	                   "delete_event",GTK_SIGNAL_FUNC(edit_browser_delete),this);
 	gtk_widget_show(dir_browser);
+	gtk_window_set_modal (GTK_WINDOW(dir_browser),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (dir_browser), GTK_WINDOW (window));
 };
 
 void tDEdit::init_browser2() {
-	if (dir_browser2) return;
-	dir_browser2=gtk_file_selection_new(_("Select file"));
+	if (dir_browser) return;
+	dir_browser=gtk_file_selection_new(_("Select file"));
 	char *tmp=sum_strings(text_from_combo(path_entry),"/",NULL);
 	if (tmp && *tmp)
-		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser2),tmp);
+		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser),tmp);
 	delete tmp;
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser2)->ok_button),
+	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->ok_button),
 	                   "clicked",GTK_SIGNAL_FUNC(edit_browser_ok2),this);
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser2)->cancel_button),
-	                   "clicked",GTK_SIGNAL_FUNC(edit_browser_cancel2),this);
-	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser2)->window)),
-	                   "delete_event",GTK_SIGNAL_FUNC(edit_browser_delete2),this);
-	gtk_widget_show(dir_browser2);
+	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->cancel_button),
+	                   "clicked",GTK_SIGNAL_FUNC(edit_browser_cancel),this);
+	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser)->window)),
+	                   "delete_event",GTK_SIGNAL_FUNC(edit_browser_delete),this);
+	gtk_widget_show(dir_browser);
+	gtk_window_set_modal (GTK_WINDOW(dir_browser),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (dir_browser), GTK_WINDOW (window));
 };
 
 
@@ -580,23 +584,17 @@ void tDEdit::browser_ok() {
 };
 
 void tDEdit::browser_ok2() {
-	if (!dir_browser2) return;
-	char *tmp=gtk_entry_get_text(GTK_ENTRY(((GtkFileSelection *)dir_browser2)->selection_entry));
+	if (!dir_browser) return;
+	char *tmp=gtk_entry_get_text(GTK_ENTRY(((GtkFileSelection *)dir_browser)->selection_entry));
 	gtk_entry_set_text(GTK_ENTRY(GTK_ENTRY(GTK_COMBO(file_entry)->entry)),tmp);
-	gtk_widget_destroy(dir_browser2);
-	dir_browser2=NULL;
+	gtk_widget_destroy(dir_browser);
+	dir_browser=NULL;
 };
 
 void tDEdit::done_browser() {
 	if (!dir_browser) return;
 	gtk_widget_destroy(dir_browser);
 	dir_browser=NULL;
-};
-
-void tDEdit::done_browser2() {
-	if (!dir_browser2) return;
-	gtk_widget_destroy(dir_browser2);
-	dir_browser2=NULL;
 };
 
 int tDEdit::apply_changes() {
@@ -607,10 +605,16 @@ int tDEdit::apply_changes() {
 	if (!addr) return 1;
 	delete (parent->info);
 	parent->info=addr;
-	if (equal(parent->info->get_proto(),"ftp"))
+	switch(parent->info->proto){
+	case D_PROTO_FTP:{
 		proxy->apply_changes(&(parent->config),1);
-	else
+		break;
+	};
+	case D_PROTO_HTTP:{
 		proxy->apply_changes(&(parent->config),0);
+		break;
+	};
+	};
 	char *pass_string=text_from_combo(pass_entry);
 	if (GTK_TOGGLE_BUTTON(button)->active) {
 		if (strlen(text_from_combo(user_entry)) && strlen(pass_string)) {
@@ -621,13 +625,13 @@ int tDEdit::apply_changes() {
 				ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
 		};
 	};
-	parent->set_SavePath(text_from_combo(path_entry));
-	parent->set_SaveName(NULL);
+	parent->config.set_save_path(text_from_combo(path_entry));
+	parent->config.set_save_name(NULL);
 	if (strlen(text_from_combo(file_entry)))
-		parent->set_SaveName(text_from_combo(file_entry));
-	if (parent->get_SaveName())
-		ALL_HISTORIES[FILE_HISTORY]->add(parent->get_SaveName());
-	normalize_path(parent->get_SavePath());
+		parent->config.set_save_name(text_from_combo(file_entry));
+	if (parent->config.get_save_name())
+		ALL_HISTORIES[FILE_HISTORY]->add(parent->config.get_save_name());
+	normalize_path(parent->config.get_save_path());
 	parent->status=0;
 	if (strlen(parent->info->get_file())==0) {
 		parent->finfo.type=T_DIR;
@@ -674,6 +678,7 @@ int tDEdit::apply_changes() {
 	parent->config.get_date=GTK_TOGGLE_BUTTON(get_date_check)->active;
 	parent->config.retry=GTK_TOGGLE_BUTTON(retry_check)->active;
 	parent->config.link_as_file=GTK_TOGGLE_BUTTON(link_as_file_check)->active;
+	parent->config.leave_server=GTK_TOGGLE_BUTTON(leave_server_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
 
 	if (GTK_TOGGLE_BUTTON(time_check)->active) {

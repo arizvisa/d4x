@@ -38,6 +38,7 @@ enum{
 #include "mainlog.h"
 #include "dlist.h"
 #include "sortstr.h"
+#include "pass.h"
 #include "db.h"
 #include "cookie.h"
 
@@ -172,6 +173,7 @@ enum HISTORIES_ENUM{
 
 extern tHistory *ALL_HISTORIES[LAST_HISTORY];
 
+extern tUserPassTree *PasswordsForHosts;
 extern tHostsLimits *LimitsForHosts;
 
 extern key_t LogsMsgQueue;
@@ -196,5 +198,8 @@ extern int GLOBAL_SLEEP_DELAY;
 
 extern tDB *ALL_DOWNLOADS;
 void var_check_all_limits();
+
+extern const char *CFG_FILE;
+extern const char *CFG_DIR;
 
 #endif

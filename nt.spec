@@ -1,4 +1,4 @@
-%define ver      1.13
+%define ver      1.14
 %define prefix   /usr
 
 Name: nt
@@ -53,7 +53,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(-, root, root)
-%doc ChangeLog FAQ FAQ.es FAQ.fr INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.ru
+%doc ChangeLog FAQ FAQ.es FAQ.fr FAQ.gr INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.ru README.gr INSTALL.gr
 %prefix/bin/nt
 /etc/X11/wmconfig/nt
 %prefix/share/gnome/apps/Internet/nt.desktop

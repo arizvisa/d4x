@@ -14,7 +14,19 @@
 
 tSpeed::tSpeed() {
 	pthread_mutex_init(&lock,NULL);
+#if defined(__linux__)
+/* manual page for mutexes said that mutexes in linux is fast by
+   default...
+ */
+//	pthread_mutexattr_setkind_np(&ma,PTHREAD_MUTEX_FAST_NP);
 	pthread_mutex_init(&lock1,NULL);
+#else
+	pthread_mutexattr_t ma;
+	pthread_mutexattr_init(&ma);
+	pthread_mutexattr_settype(&ma,MUTEX_TYPE_FAST);
+	pthread_mutex_init(&lock1,&ma);
+	pthread_mutexattr_destroy(&ma);
+#endif
 	base=bytes=0;
 };
 

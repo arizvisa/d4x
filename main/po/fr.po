@@ -13,9 +13,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: nt-1.11.5\n"
+"Project-Id-Version: nt-1.13.6\n"
 "POT-Creation-Date: 1999-08-24 15:06+0800\n"
-"PO-Revision-Date: 2000-02-09 19:20+0100\n"
+"PO-Revision-Date: 2000-03-5 13:20+0100\n"
 "Last-Translator: Jerome COUDERC <j.couderc@ifrance.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -1187,11 +1187,34 @@ msgstr "afficher la version et quitter"
 
 #: config.cc:
 msgid "show information if already run"
-msgstr "afficher les informations s'il est déjà lancé"
+msgstr "afficher les informations (si le programme est lancé)"
 
 #: config.cc:
 msgid "show curent speed if already run"
-msgstr "afficher la vitesse courante s'il est déjà lancé"
+msgstr "afficher la vitesse courante (si prog. lancé)"
+
+#: config.cc:
+msgid "set lower speed limitation"
+msgstr "vitesse basse activée"
+
+#: config.cc:
+msgid "set middle speed limitation"
+msgstr "vitesse moyenne activée"
+
+#: config.cc:
+msgid "set unlimited speed"
+msgstr "vitesse illimitée activée"
+
+# config.cc:
+msgid "set directory for saving files"
+msgstr "\trépertoire de sauvegarde des fichiers"
+# Rajout de \t pour une meilleure mise en forme
+
+msgid "delete completed if already run"
+msgstr "effacer les downloads terminés (si prog. lancé)"
+
+msgid "set maximum active downloads"
+msgstr "nombre maximum de downloads actifs"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
@@ -1264,18 +1287,6 @@ msgstr "Taille restante"
 #: face/lod.cc
 msgid "Rest"
 msgstr "Reste"
-
-#: config.cc:
-msgid "set lower speed limitation"
-msgstr "vitesse basse activée"
-
-#: config.cc:
-msgid "set middle speed limitation"
-msgstr "vitesse moyenne activée"
-
-#: config.cc:
-msgid "set unlimited speed"
-msgstr "vitesse illimitée activée"
 
 #: http.cc
 msgid "Request was sent, waiting for the answer"
@@ -1406,4 +1417,24 @@ msgstr "Ne pas lancer le download après l'avoir ajouté à la liste"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via ftp"
-msgstr ""
+msgstr "Essayer de charger les liens symboliques comme des fichiers en ftp"
+
+# face/list.cc
+msgid "/Options/Passwords"
+msgstr "/Options/Mots de Passe"
+
+# face/passwords.cc
+msgid "protocol"
+msgstr "Protocole"
+
+#face/passface.cc:
+msgid "Default passwords and usernames"
+msgstr "Mots de Passe et Noms d'Utilisateurs par défaut"
+
+#main.cc:
+msgid "Redirection from [%z] to nowhere!"
+msgstr "Redirection de [%z] vers nulle part!"
+
+#face/edit.cc
+msgid "Allow leave this server while recursing via http"
+msgstr "Autoriser à quitter ce serveur lors d'un parcours récursif en http"

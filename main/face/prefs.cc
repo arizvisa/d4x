@@ -94,7 +94,6 @@ GtkWidget *prefs_speed_limit_1,*prefs_speed_limit_2;
 tProxyWidget *prefs_proxy=(tProxyWidget *)NULL;
 
 GtkWidget *dir_browser=(GtkWidget *)NULL;
-GtkWidget *dir_browser2=(GtkWidget *)NULL;
 GtkWidget *ok_button,*cancel_button;
 GtkWidget *buttons_hbox;
 
@@ -129,38 +128,36 @@ static void options_browser_open() {
 	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser)->window)),
 	                   "delete_event",GTK_SIGNAL_FUNC(options_browser_cancel),dir_browser);
 	gtk_widget_show(dir_browser);
+	gtk_window_set_modal (GTK_WINDOW(dir_browser),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (dir_browser), GTK_WINDOW (options_window));
 };
 
 static void options_browser_ok2(...) {
 	char *tmp;
-	tmp=gtk_file_selection_get_filename(GTK_FILE_SELECTION(dir_browser2));
+	tmp=gtk_file_selection_get_filename(GTK_FILE_SELECTION(dir_browser));
 	text_to_combo(prefs_log_save_path,tmp);
-	gtk_widget_destroy(dir_browser2);
-	dir_browser2=(GtkWidget *)NULL;
-};
-
-static gint options_browser_cancel2(...) {
-	gtk_widget_destroy(dir_browser2);
-	dir_browser2=(GtkWidget *)NULL;
-	return TRUE;
+	gtk_widget_destroy(dir_browser);
+	dir_browser=(GtkWidget *)NULL;
 };
 
 static void options_browser_open2() {
-	if (dir_browser2) {
-		gdk_window_show(dir_browser2->window);
+	if (dir_browser) {
+		gdk_window_show(dir_browser->window);
 		return;
 	};
-	dir_browser2=gtk_file_selection_new(_("Select file"));
+	dir_browser=gtk_file_selection_new(_("Select file"));
 	char *tmp=text_from_combo(prefs_log_save_path);
 	if (tmp && *tmp)
-		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser2),tmp);
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser2)->ok_button),
+		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser),tmp);
+	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->ok_button),
 	                   "clicked",GTK_SIGNAL_FUNC(options_browser_ok2),prefs_other_savepath);
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser2)->cancel_button),
-	                   "clicked",GTK_SIGNAL_FUNC(options_browser_cancel2),dir_browser2);
-	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser2)->window)),
-	                   "delete_event",GTK_SIGNAL_FUNC(options_browser_cancel2),dir_browser2);
-	gtk_widget_show(dir_browser2);
+	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->cancel_button),
+	                   "clicked",GTK_SIGNAL_FUNC(options_browser_cancel),dir_browser);
+	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser)->window)),
+	                   "delete_event",GTK_SIGNAL_FUNC(options_browser_cancel),dir_browser);
+	gtk_widget_show(dir_browser);
+	gtk_window_set_modal (GTK_WINDOW(dir_browser),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (dir_browser), GTK_WINDOW (options_window));
 };
 
 static void options_toggle_save_log(GtkWidget *parent) {
@@ -693,7 +690,6 @@ void init_options_window(...) {
 
 gint options_window_cancel() {
 	if (dir_browser) options_browser_cancel();
-	if (dir_browser2) options_browser_cancel2();
 	if (options_window) gtk_widget_destroy(options_window);
 	options_window=(GtkWidget *)NULL;
 	return TRUE;

@@ -57,10 +57,9 @@ tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
 // drop handler
 // define a target entry listing the mime-types we'll acknowledge
 GtkTargetEntry download_drop_types[] = {
-    { "x-url/http",    0, TARGET_URL
-    },
-    { "x-url/ftp",     0, TARGET_URL},
-    { "_NETSCAPE_URL", 0, TARGET_URL}
+	{ "x-url/http",		0, TARGET_URL},
+	{ "x-url/ftp",		0, TARGET_URL},
+	{ "_NETSCAPE_URL",	0, TARGET_URL}
 };
 
 // calculate the number of mime-types listed
@@ -77,7 +76,9 @@ void init_columns_info() {
 void select_download(GtkWidget *clist, gint row, gint column,
                      GdkEventButton *event, gpointer data,gpointer nothing) {
 	update_progress_bar();
-	update_mainwin_title();
+	/* commented to avoid wm hangs (e.g. enl-nt)
+	 */
+//	update_mainwin_title();
 	prepare_buttons();
 	gtk_statusbar_pop(GTK_STATUSBAR(MainStatusBar),StatusBarContext);
 	tDownload *temp=list_of_downloads_last_selected();
@@ -300,12 +301,20 @@ void list_of_downloads_move_selected_end(){
 	list_of_downloads_unfreeze();
 };
 
-void list_of_downloads_del(tDownload *what) {
-	gtk_clist_remove(GTK_CLIST(ListOfDownloads),what->GTKCListRow);
-	for (int i=what->GTKCListRow;i<GTK_CLIST(ListOfDownloads)->rows;i++) {
+void list_of_downloads_del_list(GList *list){
+	if (list==NULL) return;
+	int row=((tDownload *)(list->data))->GTKCListRow;
+	while(row<GTK_CLIST(ListOfDownloads)->rows){
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
-		                    GTK_CLIST(ListOfDownloads),i);
-		if (temp) temp->GTKCListRow=i;
+			GTK_CLIST(ListOfDownloads),row);
+		if (temp) temp->GTKCListRow=row;
+		if (list && row==((tDownload *)(list->data))->GTKCListRow){
+			gtk_clist_remove(GTK_CLIST(ListOfDownloads),row);
+			list=g_list_remove_link(list,list);
+			delete(temp);
+		}else{
+			row+=1;
+		};
 	};
 	prepare_buttons();
 	update_mainwin_title();
@@ -511,6 +520,18 @@ void list_of_downloads_get_height() {
 	gint y=0;
 	gdk_window_get_size(ListOfDownloads->window,&x,&y);
 	CFG.WINDOW_CLIST_HEIGHT=int(y);
+	if (ContainerForCList){
+		/*
+		gdk_window_get_size(ContainerForCList->window,&x,&y);
+		CFG.WINDOW_CLIST_HEIGHT=int(y);
+		*/
+		y=0;
+		if (GTK_SCROLLED_WINDOW(ContainerForCList)->hscrollbar &&
+		    GTK_SCROLLED_WINDOW(ContainerForCList)->hscrollbar->window){
+			gdk_window_get_size(GTK_SCROLLED_WINDOW(ContainerForCList)->hscrollbar->window,&x,&y);
+		};
+		CFG.WINDOW_CLIST_HEIGHT+=int(y)+3;
+	};
 };
 
 void list_of_downloads_set_height() {

@@ -10,7 +10,6 @@
  */
 #include "cookie.h"
 #include "locstr.h"
-#include "config.h"
 #include "var.h"
 #include "ntlocale.h"
 #include <stdio.h>
@@ -107,7 +106,7 @@ void tCookiesTree::load_cookies(){
 	int fd=open(path,O_RDONLY);
 	if (fd>=0){
 		char temp[MAX_LEN];
-		while (read_string(fd,temp,MAX_LEN)){
+		while (f_rstr(fd,temp,MAX_LEN)){
 			if (*temp!='#'){
 				tCookie *cookie=new tCookie;
 				char *data=new char[strlen(temp)+1];

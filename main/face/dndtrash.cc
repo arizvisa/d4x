@@ -8,6 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <stdio.h>
 #include "dndtrash.h"
 #include "misc.h"
 #include "prefs.h"
@@ -19,7 +20,6 @@
 #include "../main.h"
 #include "../var.h"
 #include "../ntlocale.h"
-#include <stdio.h>
 
 
 extern tMain aa;
@@ -80,14 +80,17 @@ void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 };
 
 int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
-	if (event->button==3) {
-		gtk_menu_popup(GTK_MENU(dnd_trash_menu),
-			       (GtkWidget *)NULL,
-			       (GtkWidget *)NULL,
-			       (GtkMenuPositionFunc)NULL,
-			       (gpointer)NULL,
-			       event->button,event->time);
-	}else{
+	switch (event->button){
+	case 3:{
+			gtk_menu_popup(GTK_MENU(dnd_trash_menu),
+				       (GtkWidget *)NULL,
+				       (GtkWidget *)NULL,
+				       (GtkMenuPositionFunc)NULL,
+				       (gpointer)NULL,
+				       event->button,event->time);
+			break;
+	};
+	case 1:{
 		if (event->type==GDK_2BUTTON_PRESS)
 			main_window_popup();
 		else{
@@ -96,11 +99,17 @@ int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 			gdk_window_get_pointer((GdkWindow *)NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
 			gtk_grab_add (widget);
 			gdk_pointer_grab (widget->window,TRUE,
-					  GDK_BUTTON_RELEASE_MASK |
-					  GDK_BUTTON_MOTION_MASK |
-					  GDK_POINTER_MOTION_HINT_MASK,
+					  GdkEventMask(GDK_BUTTON_RELEASE_MASK |
+						       GDK_BUTTON_MOTION_MASK |
+						       GDK_POINTER_MOTION_HINT_MASK),
 					  NULL, NULL, 0);
 		};
+		break;
+	};
+	case 2:{
+		init_add_window();
+		break;
+	};
 	};
 	return 1;
 }; 
@@ -113,28 +122,7 @@ int dnd_trash_button_release(GtkWidget *widget,GdkEventButton *event){
 	gdk_pointer_ungrab (0);
 	return 1;
 }; 
-/*
-int dnd_trash_refresh(){
-	gint mx,my,newx,newy;
-	GdkModifierType modmask;
-	gdk_window_get_pointer((GdkWindow *)NULL, &mx, &my, &modmask);
-	if (!(modmask&(GDK_BUTTON1_MASK | GDK_BUTTON2_MASK| GDK_BUTTON3_MASK)))
-		dnd_trash_moveable=0;
-	if (dnd_trash_moveable && dnd_trash_window){
-		newx=CFG.DND_TRASH_X+mx-dnd_trash_x;
-		newy=CFG.DND_TRASH_Y+my-dnd_trash_y;
-		if (newx!=CFG.DND_TRASH_X ||newy!=CFG.DND_TRASH_Y){
-			CFG.DND_TRASH_X=newx;
-			CFG.DND_TRASH_Y=newy;
-			gdk_window_move(dnd_trash_window->window,CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
-			dnd_trash_x=mx;
-			dnd_trash_y=my;
-			gdk_flush();
-		};
-	};
-	return 1;
-};
-*/
+
 void dnd_trash_init(){
 	CFG.DND_TRASH=1;
 	if (dnd_trash_window) return;

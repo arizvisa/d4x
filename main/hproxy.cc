@@ -96,14 +96,16 @@ int tProxyDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	Auth=NULL;
 	D_PATH=NULL;
 	D_FILE.fdesc=0;
-	RealName=NewRealName=NULL;
+	D_FILE.type=T_FILE; //we don't know any other when download via http
 	data=0;
 	first=1;
 	config.copy_ints(cfg);
 	config.set_proxy_host(cfg->get_proxy_host());
 	config.set_proxy_user(cfg->get_proxy_user());
 	config.set_proxy_pass(cfg->get_proxy_pass());
-	D_PROTO=copy_string(hostinfo->get_proto());
+	config.set_save_path(cfg->get_save_path());
+	config.set_save_name(cfg->get_save_name());
+	D_PROTO=copy_string(get_name_by_proto(hostinfo->proto));
 	HTTP->init(config.get_proxy_host(),LOG,config.proxy_port,config.timeout);
 	config.set_user_agent(cfg->get_user_agent());
 	HTTP->set_user_agent(config.get_user_agent());

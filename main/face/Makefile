@@ -1,5 +1,5 @@
 all:list.o colors.o addd.o graph.o edit.o log.o prefs.o lmenu.o buttons.o about.o saveload.o \
-limface.o misc.o lod.o columns.o dndtrash.o
+limface.o misc.o lod.o columns.o dndtrash.o passface.o
 
 list.o: list.cc list.h
 	$(EXECC) $(GTKFLAGS) -c list.cc -o list.o
@@ -46,8 +46,12 @@ saveload.o: saveload.cc saveload.h
 limface.o: limface.cc limface.h
 	$(EXECC) $(GTKFLAGS) -c limface.cc -o limface.o
 
+passface.o: passface.cc passface.h
+	$(EXECC) $(GTKFLAGS) -c passface.cc -o passface.o
+
 dndtrash.o: dndtrash.cc dndtrash.h
 	$(EXECC) $(GTKFLAGS) -c dndtrash.cc -o dndtrash.o
+
 
 clean:
 	rm -f *.o *~ ||test -z ""

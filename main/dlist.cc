@@ -23,7 +23,6 @@
 #include "var.h"
 #include "ntlocale.h"
 #include "main.h"
-#include "config.h"
 
 extern tMain aa;
 
@@ -56,7 +55,6 @@ tDownload::tDownload() {
 	info=NULL;
 	LOG=NULL;
 	editor=NULL;
-	SaveName=SavePath=NULL;
 	config.ftp_recurse_depth=config.http_recurse_depth=1;
 	SpeedLimit=NULL;
 	finfo.size=-1;
@@ -95,24 +93,15 @@ void tDownload::print() {
 	//do nothing
 };
 
-void tDownload::set_SavePath(char *what) {
-	if (SavePath) delete(SavePath);
-	SavePath=copy_string(what);
-};
-
-void tDownload::set_SaveName(char *what) {
-	if (SaveName) delete SaveName;
-	SaveName=copy_string(what);
-};
 
 int tDownload::create_file() {
 	if (!who) return -1;
-	return (who->create_file(SavePath,SaveName));
+	return (who->create_file());
 };
 
 void tDownload::set_date_file() {
 	if (!who) return;
-	who->set_date_file(SavePath,SaveName);
+	who->set_date_file();
 };
 
 void tDownload::update_trigers() {
@@ -127,7 +116,7 @@ void tDownload::update_trigers() {
 
 void tDownload::make_file_visible(){
 	if (who)
-		who->make_file_visible(SavePath,SaveName);
+		who->make_file_visible();
 };
 
 void tDownload::set_default_cfg(){
@@ -153,19 +142,20 @@ char *tDownload::create_new_file_path(){
 
 char *tDownload::create_new_save_path(){
 	if (info->mask==0) {
-		if (SavePath) {
-			if (SaveName && strlen(SaveName))
-				return(compose_path(SavePath,SaveName));
+		char *SaveName=config.get_save_name();
+		if (config.get_save_path()) {
+			if (SaveName && *SaveName)
+				return(compose_path(config.get_save_path(),SaveName));
 			else 
-				return(compose_path(SavePath,info->get_file()));
+				return(compose_path(config.get_save_path(),info->get_file()));
 		} else {
-			if (SaveName && strlen(SaveName))
+			if (SaveName && *SaveName)
 				return(copy_string(SaveName));
 			else
 				return(copy_string(info->get_file()));
 		};
 	};
-	return(copy_string(SavePath));
+	return(copy_string(config.get_save_path()));
 };
 
 void tDownload::convert_list_to_dir() {
@@ -198,13 +188,14 @@ void tDownload::convert_list_to_dir() {
 			if (prom->type==T_DIR && info->mask) {
 				addrnew->compose_path(path,prom->get_name());
 				addrnew->set_file(info->get_file());
-				onenew->SavePath=compose_path(savepath,prom->get_name());
-//				mkdir(onenew->SavePath,prom->perm);
+				char *SavePath=compose_path(savepath,prom->get_name());
+				onenew->config.set_save_path(SavePath);
+				delete(SavePath);
 				addrnew->mask=info->mask;
 			} else {
 				addrnew->set_path(path);
 				addrnew->set_file(prom->get_name());
-				onenew->SavePath=copy_string(savepath);
+				onenew->config.set_save_path(savepath);
 			};
 			addrnew->copy_host(info);
 
@@ -267,7 +258,7 @@ void tDownload::convert_list_to_dir2() {
 			tAddr *addrnew=new tAddr;
 			tDownload *onenew=new tDownload;
 			char *tmp=rindex(temp->body,'/');
-			onenew->SavePath=copy_string(SavePath);
+			onenew->config.set_save_path(config.get_save_path());
 			if (tmp) {
 				addrnew->set_file(tmp+1);
 				*tmp=0;
@@ -289,7 +280,7 @@ void tDownload::convert_list_to_dir2() {
 			};
  */
 			addrnew->file_del_sq();
-			normalize_path(onenew->SavePath);
+			normalize_path(onenew->config.get_save_path());
 			addrnew->copy_host(info);
 
 			onenew->config.http_recursing=1;
@@ -303,9 +294,10 @@ void tDownload::convert_list_to_dir2() {
 		}else{
 			if (begin_string_uncase(temp->body,"http://")){
 					tAddr *addrnew=new tAddr(temp->body);
-					if (equal(addrnew->get_host(),info->get_host()) && addrnew->port==info->port){
+					if ((equal(addrnew->get_host(),info->get_host()) &&
+					    addrnew->port==info->port) || config.leave_server){
 						tDownload *onenew=new tDownload;
-						onenew->SavePath=copy_string(SavePath);
+						onenew->config.set_save_path(config.get_save_path());
 						onenew->config.http_recursing=1;
 						onenew->info=addrnew;
 
@@ -324,66 +316,60 @@ void tDownload::convert_list_to_dir2() {
 };
 
 void tDownload::save_to_config(int fd){
-	write(fd,"Download:\n",strlen("Download:\n"));
+	f_wstr_lf(fd,"Download:");
 	if (info) info->save_to_config(fd);
-	if (SaveName){
-		write_named_string(fd,"SaveName:",SaveName);
-	};
-	if (SavePath){
-		write_named_string(fd,"SavePath:",SavePath);
-	};
 	config.save_to_config(fd);
 	if (ScheduleTime)
 		write_named_time(fd,"Time:",ScheduleTime);
 	write_named_integer(fd,"State:",owner);
-	write(fd,"EndDownload:\n",strlen("EndDownload:\n"));
+	f_wstr_lf(fd,"EndDownload:");
 };
 
 int tDownload::load_from_config(int fd){
 	char *table_of_fields[]={
 		"Url:",
-		"SaveName:",
-		"SavePath:",
 		"State:",
 		"Time:",
 		"Cfg:",
+		"SavePath:",
+		"SaveName:",
 		"EndDownload:"
 	};
 	char buf[MAX_LEN];
-	while(read_string(fd,buf,MAX_LEN)>0){
+	while(f_rstr(fd,buf,MAX_LEN)>0){
 		unsigned int i;
 		for (i=0;i<sizeof(table_of_fields)/sizeof(char *);i++){
 			if (equal_uncase(buf,table_of_fields[i])) break;
 		};
 		switch(i){
 		case 0:{
-			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
 			if (info) delete(info);
 			info=new tAddr(buf);
 			break;
 		};
 		case 1:{
-			if (read_string(fd,buf,MAX_LEN)<0) return -1;
-			set_SaveName(buf);
-			break;
-		};
-		case 2:{
-			if (read_string(fd,buf,MAX_LEN)<0) return -1;
-			set_SavePath(buf);
-			break;
-		};
-		case 3:{
-			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
 			sscanf(buf,"%d",&owner);
 			break;
 		};		
-		case 4:{
-			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+		case 2:{
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
 			sscanf(buf,"%ld",&ScheduleTime);
 			break;
 		};
-		case 5:{
+		case 3:{
 			if (config.load_from_config(fd)<0) return -1;
+			break;
+		};
+		case 4:{
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+			config.set_save_path(buf);
+			break;
+		};
+		case 5:{
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+			config.set_save_name(buf);
 			break;
 		};
 		case 6: return info==NULL?-1:0;
@@ -396,8 +382,6 @@ int tDownload::load_from_config(int fd){
 tDownload::~tDownload() {
 	if (who) delete who;
 	if (info) delete info;
-	if (SavePath) delete SavePath;
-	if (SaveName) delete SaveName;
 	if (editor) delete editor;
 	if (LOG) delete LOG;
 	if (DIR) delete DIR;

@@ -96,7 +96,7 @@ int read_list_from_file(char *path) {
 	char buf[MAX_LEN];
 	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
 	if (fd>=0) {
-		while(read_string(fd,buf,MAX_LEN)>0){
+		while(f_rstr(fd,buf,MAX_LEN)>0){
 			if (equal(buf,"Download:")){
 				tDownload *temp=new tDownload;
 				if (temp->load_from_config(fd)<0){

@@ -35,10 +35,11 @@ void add_window_ok() {
 		OneDownload->owner=DL_PAUSE;
 		aa.add_downloading_to(OneDownload);
 	}else{
-		if (aa.add_downloading(OneDownload))
+		if (aa.add_downloading(OneDownload)){
 			delete(OneDownload);
-		else 
+		}else{
 			aa.add_download_message(OneDownload);
+		};
 	};
 	OneDownload->delete_editor();
 	OneDownload=(tDownload *)NULL;
@@ -53,7 +54,7 @@ void init_add_window(...) {
 	tDownload *what=OneDownload=new tDownload;
 	tAddr *info=new tAddr("ftp://somesite.org");
 	what->info=info;
-	what->set_SavePath(CFG.GLOBAL_SAVE_PATH);
+	what->config.set_save_path(CFG.GLOBAL_SAVE_PATH);
 	what->set_default_cfg();
 
 	if (CFG.USE_PROXY_FOR_FTP) {

@@ -69,7 +69,7 @@ void list_of_downloads_add(tDownload *what,int row);
 void list_of_downloads_change_data(int row,int column,gchar *data);
 void list_of_downloads_update(tDownload *what);
 
-void list_of_downloads_del(tDownload *what);
+void list_of_downloads_del_list(GList *list);
 void list_of_downloads_freeze();
 void list_of_downloads_unfreeze();
 void list_of_downloads_get_height();

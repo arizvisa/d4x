@@ -48,14 +48,14 @@ struct tPacket{
 };
 
 enum {
-	PACKET_NOP=0,
-	PACKET_ACK,
+	PACKET_NOP=0,	//nothing to do
+	PACKET_ACK,	//just return ACK
 	PACKET_ADD,
 	PACKET_ASK_SPEED,
-	PACKET_ASK_RUN,
-	PACKET_ASK_STOP,
-	PACKET_ASK_PAUSE,
-	PACKET_ASK_COMPLETE,
+	PACKET_ASK_RUN,		// amount of downloads in RUN state
+	PACKET_ASK_STOP,	// amount of downloads in FAIL state
+	PACKET_ASK_PAUSE,	// amount of paused downloads 
+	PACKET_ASK_COMPLETE,	// amount of completed downloads
 	PACKET_ASK_READED_BYTES,
 	PACKET_SET_SPEED_LIMIT,
 	PACKET_SET_SAVE_PATH,
@@ -65,6 +65,7 @@ enum {
 	PACKET_POPUP,
 	PACKET_MSG,
 	PACKET_ADD_OPEN,
+	PACKET_ASK_FULLAMOUNT,	// amount of all downloads
 	PACKET_UNKNOWN
 };
 

@@ -193,36 +193,36 @@ int convert_from_hex(char what) {
 		return (10+what-'a');
 	if (what>='A' && what<='F')
 		return (10+what-'A');
-	return 0;
+	return -1;
 };
 
 char *parse_percents(char *what) {
 	g_return_val_if_fail(what!=NULL,NULL);
-	/* In the case if string not needed to correct
-	 */
-	if (index(what,'%')==NULL) return NULL;
 	/* Next string is too ugly because I use "new" in separate threads;
 	 */
 	char *temp=new char[strlen(what)+1];
-	char *percent,*where=temp,*old=what;
-	while ((percent=index(old,'%'))) {
-		strncpy(where,old,percent-old);
-		where+=percent-old;
-		old=percent+1;
-		int num=0;
-		if (*old) {
+	char *where=temp,*old=what;
+	while (*old) {
+		switch (*old){
+		case '%':{
+			int num=-1;
 			num=convert_from_hex(*old);
 			old++;
-			if (*old) {
+			if (num>=0 && *old) {
 				num=num *16 + convert_from_hex(*old);
 				old++;
+				*where=char(num);
+				break;
 			};
 		};
-		*where=char(num);
+		default:{
+			*where=*old;
+		};
+		};
 		where+=1;
+		old+=1;		      
 	};
-	strncpy(where,old,strlen(old));
-	where[strlen(old)]=0;
+	*where=0;
 	return temp;
 };
 
@@ -614,34 +614,60 @@ int string_ended(char *ended, char *what){
 	return 0;
 };
 
+/* primitive file operations
+ */
+
+int f_wstr(int fd,char *str){
+	return(write(fd,str,strlen(str)));
+};
+
+int f_wstr_lf(int fd,char *str){
+	int a=f_wstr(fd,str);
+	if (a<0) return a;
+	int b=f_wstr(fd,"\n");
+	if (b<0) return b;
+	return(a+b);
+};
+
+int f_rstr(int fd,char *where,int max) {
+	char *cur=where;
+	max-=1;
+	if (max>0){
+		int i=max;
+		while(read(fd,cur,1)>0 && i>0) {
+			i-=1;
+			if (*cur=='\n') break;
+			cur+=1;
+		};
+		*cur=0;
+		return max-i;
+	};
+	*where=0;
+	return 0;
+};
 
 int write_named_string(int fd,char *name,char *str){
 	if (name==NULL || str==NULL) return(0);
-	if (write(fd,name,strlen(name))<0) return(-1);
-	if (write(fd,"\n",strlen("\n"))<0) return(-1);
-	if (write(fd,str,strlen(str))<0) return(-1);
-	if (write(fd,"\n",strlen("\n"))<0) return(-1);
+	if (f_wstr_lf(fd,name)<0) return(-1);
+	if (f_wstr_lf(fd,str)<0) return(-1);
 	return 0;
 };
 
 int write_named_integer(int fd,char *name,int num){
 	if (name==NULL) return(0);
-	if (write(fd,name,strlen(name))<0) return(-1);
-	if (write(fd,"\n",strlen("\n"))<0) return(-1);
+	if (f_wstr_lf(fd,name)<0) return(-1);
 	char str[MAX_LEN];
 	g_snprintf(str,MAX_LEN,"%d",num);
-	if (write(fd,str,strlen(str))<0) return(-1);
-	if (write(fd,"\n",strlen("\n"))<0) return(-1);
+	if (f_wstr_lf(fd,str)<0) return(-1);
 	return 0;
 };
 
 int write_named_time(int fd,char *name,time_t when){
 	if (name==NULL) return(0);
-	if (write(fd,name,strlen(name))<0) return(-1);
-	if (write(fd,"\n",strlen("\n"))<0) return(-1);
+	if (f_wstr_lf(fd,name)<0) return(-1);
 	char str[MAX_LEN];
 	g_snprintf(str,MAX_LEN,"%ld",when);
-	if (write(fd,str,strlen(str))<0) return(-1);
-	if (write(fd,"\n",strlen("\n"))<0) return(-1);
+	if (f_wstr_lf(fd,str)<0) return(-1);
 	return 0;
 };
+

@@ -23,6 +23,7 @@
 
 class tMain{
 	unsigned int LastTime;
+	GList *list_to_delete;
 	int MsgQueue;
 	tMsgServer *server;
 	pthread_t server_thread_id;
@@ -63,6 +64,7 @@ class tMain{
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	void run_after_quit();
+	void go_to_delete();
 	void done();
 };
 

@@ -49,16 +49,11 @@ struct tDownload:public tAbstractSortNode{
     int GTKCListRow;
     tTriger Percent,Size,Attempt,Status,Speed,Remain;
 	//------------------------------------
+//	tQueue *conditions;
 private:
-    char *SavePath;
-    char *SaveName;
 	char *create_new_file_path();
 	char *create_new_save_path();
 public:
-	char *get_SavePath(){return SavePath;};
-	char *get_SaveName(){return SaveName;};
-	void set_SavePath(char *what);
-	void set_SaveName(char *what);
     //------------------------------------
 	tDList *DIR;
 	tSpeed *SpeedLimit;
