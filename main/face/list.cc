@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -40,6 +40,7 @@
 #include "colors.h"
 #include "fsface.h"
 #include "fsched.h"
+#include "filtrgui.h"
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -92,7 +93,7 @@ enum MAIN_MENU_ENUM{
 	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_TXT, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
 	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
-	MM_OPTIONS, MM_OPTIONS_SCHEDULER, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON,
+	MM_OPTIONS, MM_OPTIONS_SCHEDULER, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON, MM_OPTIONS_FILTERS,
 	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
 	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
 	MM_HELP, MM_HELP_ABOUT
@@ -125,6 +126,7 @@ char *main_menu_inames[]={
 	N_("/Options/Limitations"),
 	N_("/Options/Passwords"),
 	N_("/Options/General"),
+	N_("/Options/Filters"),
 	N_("/Options/Speed"),
 	N_("/Options/Speed/Low"),
 	N_("/Options/Speed/Medium"),
@@ -187,43 +189,6 @@ void main_menu_speed_calback(gpointer data,guint action,GtkWidget *widget){
 		CFG.SPEED_LIMIT=action;
 		set_speed_buttons();
 	};
-};
-
-void main_menu_buttons_calback(gpointer data,guint action,GtkWidget *widget){
-	GtkWidget *menu_item=NULL;
-	switch (action){
-	case 1:
-		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_ADD]));
-		CFG.BUTTONS_ADD=GTK_CHECK_MENU_ITEM(menu_item)->active;
-		break;
-	case 2:
-		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MAN]));
-		CFG.BUTTONS_MAN=GTK_CHECK_MENU_ITEM(menu_item)->active;
-		break;
-	case 3:
-		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_SPEED]));
-		CFG.BUTTONS_SPEED=GTK_CHECK_MENU_ITEM(menu_item)->active;
-		break;
-	case 4:
-		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MISC]));
-		CFG.BUTTONS_MISC=GTK_CHECK_MENU_ITEM(menu_item)->active;
-		break;
-	};
-	buttons_cfg_init();
-};
-
-void main_menu_buttons_prepare(){
-	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_ADD]));
-	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_ADD?TRUE:FALSE;
-	if (menu_item)
-		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_SPEED]));
-	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_SPEED?TRUE:FALSE;
-	if (menu_item)
-		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MISC]));
-	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_MISC?TRUE:FALSE;
-	if (menu_item)
-		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MAN]));
-	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_MAN?TRUE:FALSE;
 };
 
 void main_menu_speed_prepare(){
@@ -391,15 +356,12 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_OPTIONS_LIMITS]),(gchar *)NULL,	(GtkItemFactoryCallback)open_limits_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_PASSWORDS]),(gchar *)NULL,	(GtkItemFactoryCallback)open_passwords_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_COMMON]),"<control>C",	(GtkItemFactoryCallback)d4x_prefs_init,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_FILTERS]),"<control>F",	(GtkItemFactoryCallback)d4x_filters_window_init,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_SPEED]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
 		{_(main_menu_inames[MM_OPTIONS_SPEED_1]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	1, "<RadioItem>"},
 		{_(main_menu_inames[MM_OPTIONS_SPEED_2]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	2, _(main_menu_inames[MM_OPTIONS_SPEED_1])},
 		{_(main_menu_inames[MM_OPTIONS_SPEED_3]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	3, _(main_menu_inames[MM_OPTIONS_SPEED_2])},
-		{_(main_menu_inames[MM_OPTIONS_BUTTONS]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_OPTIONS_BUTTONS_ADD]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	1, "<ToggleItem>"},
-		{_(main_menu_inames[MM_OPTIONS_BUTTONS_MAN]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	2, "<ToggleItem>"},
-		{_(main_menu_inames[MM_OPTIONS_BUTTONS_SPEED]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	3, "<ToggleItem>"},
-		{_(main_menu_inames[MM_OPTIONS_BUTTONS_MISC]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	4, "<ToggleItem>"},
+		{_(main_menu_inames[MM_OPTIONS_BUTTONS]),(gchar *)NULL, (GtkItemFactoryCallback)buttons_configure,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_HELP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<LastBranch>"},
 		{_(main_menu_inames[MM_HELP_ABOUT]),	(gchar *)NULL,	(GtkItemFactoryCallback)init_about_window,		0, (gchar *)NULL},
 	};
@@ -420,7 +382,6 @@ void init_main_menu() {
 			    GTK_SIGNAL_FUNC (main_menu_enable_all),
 			    NULL);
 	main_menu_speed_prepare();
-	main_menu_buttons_prepare();
 };
 
 void main_menu_completed_empty(){
@@ -524,6 +485,9 @@ void my_main_quit(...) {
 		d4x_prefs_cancel();
 		destroy_about_window();
 		gtk_widget_destroy(MainWindow);
+		buttons_configure_close();
+		d4x_scheduler_close();
+		d4x_filters_window_destroy();
 		if (AskDelete) delete(AskDelete);
 		if (AskDeleteCompleted) delete(AskDeleteCompleted);
 		if (AskDeleteFataled) delete(AskDeleteFataled);
@@ -662,14 +626,15 @@ void ask_delete_fataled_downloads(...) {
 
 void delete_downloads(gint flag) {
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
-	while (select) {
-		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
-		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
-		aa.delete_download(temp,flag);
-		select=select->next;
-	};
 	list_of_downloads_freeze();
-	aa.go_to_delete(); //real deleting from the list
+	while (select) {
+		gint row=GPOINTER_TO_INT(select->data);
+		gtk_clist_unselect_row(GTK_CLIST(ListOfDownloads),row,-1);
+		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
+			GTK_CLIST(ListOfDownloads),row);
+		aa.delete_download(temp,flag);
+		select=((GtkCList *)ListOfDownloads)->selection;
+	};
 	gtk_clist_unselect_all(GTK_CLIST(ListOfDownloads));
 	list_of_downloads_unfreeze();
 	if (AskDelete) AskDelete->done();
@@ -935,11 +900,9 @@ int time_for_logs_refresh(void *a) {
 	aa.redraw_logs();
 	aa.check_for_remote_commands();
 	MainTimer-=1;
-//	dnd_trash_refresh();
 	if (MainTimer==0) {
 		time_for_refresh(NULL);
 		MainTimer=(GLOBAL_SLEEP_DELAY*1000)/100;
-//		get_mainwin_sizes(MainWindow);
 	};
 	return 1;
 };
@@ -952,7 +915,8 @@ int get_mainwin_sizes(GtkWidget *window) {
 	if (window!=NULL && window->window!=NULL &&
 	    gdk_window_is_visible(window->window)) {
 		gint x,y,w,h;
-		gdk_window_get_position(window->window,&x,&y);
+//		gdk_window_get_position(window->window,&x,&y);
+		gdk_window_get_root_origin (window->window, &x, &y);
 		gdk_window_get_size(window->window,&w,&h);
 		/*
 		if (CFG.WINDOW_HEIGHT != int(h)){
@@ -1151,6 +1115,7 @@ static void d4x_mw_set_targets(){
 				   targets, n_targets);
 };
 
+
 void init_face(int argc, char *argv[]) {
 	gtk_set_locale();
 	gtk_init(&argc, &argv);
@@ -1158,6 +1123,7 @@ void init_face(int argc, char *argv[]) {
 	init_columns_info();
 	main_window_normalize_coords();
 	MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+//	gtk_window_set_wmclass(GTK_WINDOW(MainWindow),"D4X_Main", "D4X");
 	d4x_mw_set_targets();
 	gtk_widget_set_uposition(MainWindow,gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION));
 	gtk_window_set_default_size(GTK_WINDOW(MainWindow),gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));

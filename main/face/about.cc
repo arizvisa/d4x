@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -21,6 +21,8 @@ GtkWidget *AboutWindow=(GtkWidget *)NULL;
 GtkWidget *AboutTLabel,*AboutSLabel;
 
 char *TRANSLATORS[]={
+	"Felix Knecht",
+	"DJ Art",
 	"Jerome Couderc",
 	"Mario Sergio Fujikawa Ferreira",
 	"Seung-young Oh",
@@ -29,7 +31,6 @@ char *TRANSLATORS[]={
 	"Enrico Manfredini",
 	"Lubosh Holichka",
 	"Kyritsis Athanasios",
-	"Felix Knecht",
 	"Vicente Aguilar",
 	"Robin Verduijn",
 	"Dirk Moebius",

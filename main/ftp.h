@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -24,7 +24,7 @@ class tFtpClient:public tClient{
 	/* to avoid memory leaks next variable is global */
 	char *FIRST_REPLY;
 	tStringList *CTRL;
-	tSocket DataSocket;
+	tSocket *DataSocket;
 	int send_command(char *comm,char *argv);
 	int read_data(char *where,fsize_t len);
 	int read_control();
@@ -37,6 +37,7 @@ class tFtpClient:public tClient{
 	void vdisconnect();
  public:
 	tFtpClient();
+	tFtpClient(tCfg *cfg);
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_passive(int a);
 	void set_retry(int a);

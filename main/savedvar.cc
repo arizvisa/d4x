@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -11,6 +11,7 @@
 #include "savedvar.h"
 #include "locstr.h"
 #include "dlist.h"
+#include "filter.h"
 
 /* -1 on error */
 
@@ -60,6 +61,31 @@ int sv_parse_file(int fd,tSavedVar *var,char *buf,int bufsize){
 		tDownload **dwn=(tDownload **)(var->where);
 		if (*dwn==NULL) *dwn=new tDownload;
 		return((*dwn)->load_from_config(fd));
+		break;
+	};
+	case SV_TYPE_RULE:{
+		d4xFilter *filter=(d4xFilter *)(var->where);
+		d4xRule *rule=new d4xRule;
+		if (rule->load(fd)==0 && filter!=NULL)
+			filter->insert(rule);
+		else{
+			delete(rule);
+			return(-1);
+		};
+		break;
+	};
+	case SV_TYPE_FILTER:{
+		d4xFiltersTree *tree=(d4xFiltersTree *)(var->where);
+		d4xFNode *node=new d4xFNode;
+		node->filter=new d4xFilter;
+		node->filter->ref();
+		if (node->filter->load(fd)==0 && tree!=NULL)
+			tree->add(node);
+		else{
+			delete(node);
+			return(-1);
+		};
+		break;
 	};
 	default: return(-1);
 	};

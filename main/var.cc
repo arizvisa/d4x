@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -29,15 +29,17 @@ tMainCfg CFG={
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,0,0,600,0,0, //flags
-	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,//interface
+	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,1,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,
 	/* Proxy */
 	NULL,0,NULL,NULL,1,NULL,0,NULL,NULL,0,0,0,0,0,
+	/* SOCKS */
+	NULL,0,NULL,NULL,
 	1,1,1,1,1,1,
 	3,1024,10*1024,
 	NULL,0,
-	1,1,1,1,
+	0x0FFFFFFF,
 	0,0,1,
 	1,0,15
 };
@@ -110,6 +112,9 @@ void var_free(tMainCfg *dst){
 	if (dst->DEFAULT_NAME) delete[] dst->DEFAULT_NAME;
 	if (dst->USER_AGENT) delete[] dst->USER_AGENT;
 	if (dst->ANONYMOUS_PASS) delete[] dst->ANONYMOUS_PASS;
+	if (dst->SOCKS_PASS) delete[] dst->SOCKS_PASS;
+	if (dst->SOCKS_USER) delete[] dst->SOCKS_USER;
+	if (dst->SOCKS_HOST) delete[] dst->SOCKS_HOST;
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
@@ -177,15 +182,14 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SPEED_LIMIT_1=src->SPEED_LIMIT_1;
 	dst->SPEED_LIMIT_2=src->SPEED_LIMIT_2;
 	dst->REMEMBER_PASS=src->REMEMBER_PASS;
-	dst->BUTTONS_ADD=src->BUTTONS_ADD;
-	dst->BUTTONS_MAN=src->BUTTONS_MAN;
-	dst->BUTTONS_SPEED=src->BUTTONS_SPEED;
-	dst->BUTTONS_MISC=src->BUTTONS_MISC;
 	dst->WITHOUT_FACE=src->WITHOUT_FACE;
 	dst->DND_NEED_POPUP=src->DND_NEED_POPUP;
 	dst->SEARCH_PING_TIMES=src->SEARCH_PING_TIMES;
 	dst->SEARCH_HOST=src->SEARCH_HOST;
 	dst->SEARCH_ENTRIES=src->SEARCH_ENTRIES;
+	dst->SOCKS_PORT=src->SOCKS_PORT;
+	dst->BUTTONS_FLAGS=src->BUTTONS_FLAGS;
+	dst->PROGRESS_MODE=src->PROGRESS_MODE;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);
@@ -203,4 +207,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->DEFAULT_NAME=copy_string(src->DEFAULT_NAME);
 	dst->USER_AGENT=copy_string(src->USER_AGENT);
 	dst->ANONYMOUS_PASS=copy_string(src->ANONYMOUS_PASS);
+	dst->SOCKS_PASS=copy_string(src->SOCKS_PASS);
+	dst->SOCKS_HOST=copy_string(src->SOCKS_HOST);
+	dst->SOCKS_USER=copy_string(src->SOCKS_USER);
 };

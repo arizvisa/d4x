@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified 
  *	program but you can distribute unmodified program.
@@ -329,7 +329,7 @@ void tFtpDownload::init_download(char *path,char *file) {
 
 int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	LOG=log;
-	FTP=new tFtpClient;
+	FTP=new tFtpClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);
 	if (ADDR.username.get()==NULL)

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -53,6 +53,8 @@ class tSegmentator{
 	unsigned long int get_total();
 	void done();
 	void complete();
+	void lock_public();
+	void unlock_public();
 	~tSegmentator();
 };
 

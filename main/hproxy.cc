@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -19,6 +19,11 @@ tHProxyClient::tHProxyClient():tHttpClient(){
 	cookie_path=NULL;
 };
 
+tHProxyClient::tHProxyClient(tCfg *cfg):tHttpClient(cfg){
+	real_host=NULL;
+	cookie_path=NULL;
+};
+
 void tHProxyClient::setup_data(char *host,int cache) {
 	real_host=host;
 	no_cache=cache;
@@ -29,11 +34,8 @@ fsize_t tHProxyClient::get_size(char *filename,tStringList *list) {
 	send_request("GET ",filename," HTTP/1.0\r\n");
 
 //	send_request("Referer: ",HOME_PAGE,"\r\n");
-	if (referer)
+	if (referer && *referer)
 		send_request("Referer: ",referer,"\r\n");
-	else
-		send_request("Referer: ",filename,"\r\n");
-
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
@@ -94,7 +96,7 @@ int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	DBC_RETVAL_IF_FAIL(log!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
 	LOG=log;
-	HTTP=new tHProxyClient;
+	HTTP=new tHProxyClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);
 	answer=NULL;

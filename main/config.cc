@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -191,10 +191,7 @@ tConfigVariable config_variables[]={
 	{"clipboard_skip_or_catch",	CV_TYPE_BOOL,	&(CFG.CLIPBOARD_SKIP_OR_CATCH)},
 	{"skip_in_clipboard",	CV_TYPE_STRING,	&(CFG.SKIP_IN_CLIPBOARD)},
 	{"catch_in_clipboard",	CV_TYPE_STRING,	&(CFG.CATCH_IN_CLIPBOARD)},
-	{"buttons_add",		CV_TYPE_BOOL,	&(CFG.BUTTONS_ADD)},
-	{"buttons_man",		CV_TYPE_BOOL,	&(CFG.BUTTONS_MAN)},
-	{"buttons_speed",	CV_TYPE_BOOL,	&(CFG.BUTTONS_SPEED)},
-	{"buttons_misc",	CV_TYPE_BOOL,	&(CFG.BUTTONS_MISC)},
+	{"buttons_flags",	CV_TYPE_HEX,	&(CFG.BUTTONS_FLAGS)},
 	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)},
 	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)},
 	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)},
@@ -212,7 +209,12 @@ tConfigVariable config_variables[]={
 	{"search_host",		CV_TYPE_INT,	&(CFG.SEARCH_HOST)},
 	{"search_entries",	CV_TYPE_INT,	&(CFG.SEARCH_ENTRIES)},
 	{"change_links",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.change_links)},
-	{"anonymous_pass",	CV_TYPE_STRING,	&(CFG.ANONYMOUS_PASS)}
+	{"anonymous_pass",	CV_TYPE_STRING,	&(CFG.ANONYMOUS_PASS)},
+	{"socks_user",		CV_TYPE_STRING,	&(CFG.SOCKS_USER)},
+	{"socks_pass",		CV_TYPE_STRING,	&(CFG.SOCKS_PASS)},
+	{"socks_host",		CV_TYPE_STRING,	&(CFG.SOCKS_HOST)},
+	{"socks_port",		CV_TYPE_INT,	&(CFG.SOCKS_PORT)},
+	{"progress_mode",	CV_TYPE_INT,	&(CFG.PROGRESS_MODE)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -307,6 +309,7 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[LOG_SAVE_HISTORY],".ntrc/history13",1);
 	load_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14",0);
 	load_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15",0);
+	load_strlist(ALL_HISTORIES[COOKIE_HISTORY],".ntrc/history16",0);
 	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
@@ -419,6 +422,7 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[LOG_SAVE_HISTORY],".ntrc/history13");
 	save_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14");
 	save_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15");
+	save_strlist(ALL_HISTORIES[COOKIE_HISTORY],".ntrc/history16");
 	delete[] cfgpath;
 };
 

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -95,6 +95,7 @@ struct tMainCfg{
 	int DND_TRASH,DND_TRASH_X,DND_TRASH_Y;
 	int EXIT_COMPLETE,EXIT_COMPLETE_TIME;
 	int FIXED_LOG_FONT;
+	int PROGRESS_MODE;
 /* Clipboard
  */
 	int CLIPBOARD_MONITOR;
@@ -123,6 +124,11 @@ struct tMainCfg{
 	int NEED_PASS_HTTP_PROXY;
 	int NEED_PASS_FTP_PROXY;
 	int PROXY_NO_CACHE;
+/* SOCKS */
+	char *SOCKS_HOST;
+	int SOCKS_PORT;
+	char *SOCKS_USER;
+	char *SOCKS_PASS;
 /*  Confirmation
  */
 	int CONFIRM_DELETE;
@@ -142,10 +148,7 @@ struct tMainCfg{
 	int REMEMBER_PASS;
 /* Buttons
  */
-	int BUTTONS_ADD;
-	int BUTTONS_MAN;
-	int BUTTONS_SPEED;
-	int BUTTONS_MISC;
+	int BUTTONS_FLAGS;
 /* SPECIAL THINGS
  */
 	int WITHOUT_FACE;
@@ -188,6 +191,7 @@ enum HISTORIES_ENUM{
 	LOG_SAVE_HISTORY,
 	DESC_HISTORY,
 	REFERER_HISTORY,
+	COOKIE_HISTORY,
 	LAST_HISTORY
 };
 

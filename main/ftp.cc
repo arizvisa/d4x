@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -18,6 +18,7 @@
 #include "locstr.h"
 #include "var.h"
 #include "ntlocale.h"
+#include "socks.h"
 
 char *FTP_CTRL_TIMEOUT="421";
 char *FTP_SERVER_OK="220";
@@ -44,7 +45,7 @@ char *FTP_EXIST_DATA[]={
 int tFtpClient::accepting() {
 	if (passive) return RVALUE_OK;
 	DSFlag=1;
-	if (DataSocket.accepting(hostname)) {
+	if (DataSocket->accepting(hostname)) {
 		Status=STATUS_TRIVIAL;
 		LOG->log(LOG_ERROR,_("Accepting faild"));
 		return RVALUE_TIMEOUT;
@@ -65,7 +66,7 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 		LOG->log(LOG_TO_SERVER,"PASS ***");
 	else
 		LOG->log(LOG_TO_SERVER,data);
-	Status=CtrlSocket.send_string(data,timeout);
+	Status=CtrlSocket->send_string(data,timeout);
 	delete[] data;
 	if (Status) {
 		if (Status==STATUS_TIMEOUT)
@@ -79,7 +80,7 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 
 int tFtpClient::read_data(char *where,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
-	int all=DataSocket.rec_string(where,len,timeout);
+	int all=DataSocket->rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->log(LOG_WARNING,_("Data connection lost!"));
 		vdisconnect();
@@ -90,7 +91,7 @@ int tFtpClient::read_data(char *where,fsize_t len) {
 
 int tFtpClient::read_control() {
 	CTRL->done();
-	if (read_string(&CtrlSocket,CTRL,MAX_LEN)<0) {
+	if (read_string(CtrlSocket,CTRL,MAX_LEN)<0) {
 		LOG->log(LOG_WARNING,_("Control connection lost!"));
 		vdisconnect();
 		return RVALUE_TIMEOUT;
@@ -195,6 +196,23 @@ tFtpClient::tFtpClient():tClient(){
 	CTRL->init(2);
 	FIRST_REPLY = NULL;
 	METHOD_TO_LIST=0;
+	DataSocket=new tSocket;
+};
+
+tFtpClient::tFtpClient(tCfg *cfg):tClient(cfg){
+	passive=cfg->passive;
+	TEMP_SIZE=OLD_SIZE=0;
+	CTRL=new tStringList;
+	CTRL->init(2);
+	FIRST_REPLY = NULL;
+	METHOD_TO_LIST=0;
+	if (cfg->socks_host.get() && cfg->socks_port){
+		DataSocket=new tSocksSocket(cfg->socks_host.get(),
+					    cfg->socks_port,
+					    cfg->socks_user.get(),
+					    cfg->socks_pass.get());
+	}else
+		DataSocket=new tSocket;
 };
 
 void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
@@ -252,7 +270,7 @@ static void d4x_ftp_parse_pasv(const char *str,int args[]){
 };
 
 int tFtpClient::stand_data_connection() {
-	if (DSFlag) DataSocket.down();
+	if (DSFlag) DataSocket->down();
 	if (passive) {
 		send_command("PASV",NULL);
 		if (analize_ctrl(1,&FTP_PASV_OK)) {
@@ -268,18 +286,18 @@ int tFtpClient::stand_data_connection() {
 			sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
 		*/
 		LOG->log_printf(LOG_OK,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
-		if (DataSocket.open_port(PASSIVE_ADDR)) {
+		if (DataSocket->open_port(PASSIVE_ADDR)) {
 			Status=STATUS_TRIVIAL;
 			passive=0;
 			return -1;
 		};
 	} else {
-		unsigned int addr=CtrlSocket.get_addr();
-		int ac=DataSocket.open_any(addr);
+		unsigned int addr=CtrlSocket->get_addr();
+		int ac=DataSocket->open_any(addr);
 		if (ac) return ac;
-		addr=DataSocket.get_addr();
-		unsigned short int port=DataSocket.get_port();
-		addr=DataSocket.get_addr();
+		addr=DataSocket->get_addr();
+		unsigned short int port=DataSocket->get_port();
+		addr=DataSocket->get_addr();
 		char data[MAX_LEN];
 /*		unsigned char *a=(unsigned char*)(&addr);
 		unsigned char *b=(unsigned char*)(&port);
@@ -339,11 +357,11 @@ fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 	};
 	if ((rvalue=accepting())) return(rvalue);
 	while (1) {
-		int a=read_string(&DataSocket,list,MAX_LEN);
+		int a=read_string(DataSocket,list,MAX_LEN);
 		DSize=list->size();
 		if (a<0) return(a);
 		if (a==RVALUE_COMPLETED){
-			DataSocket.down(); // Added by Terence Haddock
+			DataSocket->down(); // Added by Terence Haddock
 			break;
 		};
 		if (CFG.FTP_DIR_IN_LOG)
@@ -351,7 +369,7 @@ fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 	};
 	if ((rvalue=analize_ctrl(1,&FTP_READ_OK)) && METHOD_TO_LIST==0){
 		METHOD_TO_LIST=1;
-		DataSocket.down();
+		DataSocket->down();
 		if ((rvalue=stand_data_connection()))
 			return(rvalue);
 		return(get_size(filename,list));
@@ -418,17 +436,17 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 			llen -=FillSize;
 			if (llen==0){
 				LOG->log(LOG_OK,_("Requested size was loaded"));
-				DataSocket.flush(); /*read data in socket
+				DataSocket->flush(); /*read data in socket
 						      to avoid "brocken pipe"
 						      on linux;*/
-				DataSocket.down();
+				DataSocket->down();
 				analize_ctrl(1,&FTP_READ_OK);
 				Status=0;
 				return DSize;
 			};
 		};
 	} while (complete!=0);
-	DataSocket.down(); // to prevent next ideas from guys of wu-ftpd's team
+	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team
 	if (Status) return DSize;
 	if (analize_ctrl(1,&FTP_READ_OK)){
 		if (len && llen==0) return DSize;
@@ -454,8 +472,8 @@ void tFtpClient::set_dont_set_quit(int a){
 };
 
 void tFtpClient::down() {
-	CtrlSocket.down();
-	DataSocket.down();
+	CtrlSocket->down();
+	DataSocket->down();
 	vdisconnect();
 };
 
@@ -480,4 +498,5 @@ tFtpClient::~tFtpClient() {
 	down();
 	delete(CTRL);
 	if (FIRST_REPLY) delete[] FIRST_REPLY;
+	if (DataSocket) delete(DataSocket);
 };

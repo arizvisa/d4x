@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -135,7 +135,7 @@ int d4xSAExit::save(int fd){
 };
 
 void d4xSAExit::run(tMain *papa){
-	my_main_quit();
+	//hehe nothing to do here :-)
 };
 /*------------------------------------------------------------*/
 int d4xSADelCompleted::type(){
@@ -367,6 +367,61 @@ void d4xSASaveList::run(tMain *papa){
 		save_list_to_file(path.get());
 };
 /*------------------------------------------------------------*/
+int d4xSAExecute::type(){
+	return(SACT_EXECUTE);
+};
+
+int d4xSAExecute::load(int fd){
+	tSavedVar table_of_fields[]={
+		{"start_time",	SV_TYPE_TIME,	&start_time},
+		{"period",	SV_TYPE_TIME,	&period},
+		{"retries",	SV_TYPE_INT,	&retries},
+		{"command",	SV_TYPE_PSTR,	&command},
+		{"end.",	SV_TYPE_END,	NULL}
+	};
+	char buf[MAX_LEN];
+	while(f_rstr(fd,buf,MAX_LEN)>0){
+		unsigned int i;
+		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
+			if (equal_uncase(buf,table_of_fields[i].name)){
+				if (table_of_fields[i].type==SV_TYPE_END)
+					return(0);
+				else{
+					if (sv_parse_file(fd,&(table_of_fields[i]),buf,MAX_LEN))
+						return(-1);
+				};
+					
+			};
+		};
+	};
+	return(-1);
+};
+
+int d4xSAExecute::save(int fd){
+	if (f_wstr_lf(fd,"d4x_sa_execute:")<=0)
+		return(-1);
+	if (command.get())
+		write_named_string(fd,"command",command.get());
+	return(d4xSchedAction::save(fd));
+};
+
+static void *_sa_exec_run_(void *what){
+	d4xSAExecute *act=(d4xSAExecute *)what;
+	system(act->command.get());
+	pthread_exit(NULL);
+};
+
+void d4xSAExecute::run(tMain *papa){
+	if (command.get()){
+		pthread_attr_t attr_p;
+		pthread_t thread_id;
+		pthread_attr_init(&attr_p);
+		pthread_attr_setdetachstate(&attr_p,PTHREAD_CREATE_DETACHED);
+		pthread_attr_setscope(&attr_p,PTHREAD_SCOPE_SYSTEM);
+		pthread_create(&thread_id,&attr_p,
+			       _sa_exec_run_,(void *)this);
+	};
+};
 /**************************************************************/
 
 d4xScheduler::d4xScheduler(){
@@ -453,6 +508,7 @@ void d4xScheduler::run(tMain *papa){
 	time_t now=time(NULL);
 	int a=0; //counter
 	d4xSchedAction *tmp=FIRST;
+	int exit_flag=0;
 	while (tmp){
 		if (now>tmp->start_time){
 			d4xSchedAction *next=tmp->next;
@@ -464,6 +520,8 @@ void d4xScheduler::run(tMain *papa){
 					if (tmp->retries>0)
 						tmp->retries-=1;
 				};
+				if (tmp->type()==SACT_EXIT)
+					exit_flag=1;
 				if (tmp->retries==0)
 					delete(tmp);
 				else
@@ -473,6 +531,13 @@ void d4xScheduler::run(tMain *papa){
 			if (a++>10) break;
 		}else
 			break;
+		if (exit_flag)
+			break;
+	};
+	if (exit_flag){
+		my_main_quit();
+//		aa.run_after_quit();		
+		exit(0);
 	};
 };
 
@@ -488,7 +553,8 @@ int d4xScheduler::load(int fd){
 		"d4x_sa_del_download:",
 		"d4x_sa_del_if_completed:",
 		"d4x_sa_add_download:",
-		"d4x_sa_save_list:"
+		"d4x_sa_save_list:",
+		"d4x_sa_execute:"
 	};
 	char buf[MAX_LEN];
 	d4xSchedAction *action=(d4xSchedAction *)NULL;
@@ -529,6 +595,9 @@ int d4xScheduler::load(int fd){
 					break;
 				case SACT_SAVE_LIST:
 					action=new d4xSASaveList;
+					break;
+				case SACT_EXECUTE:
+					action=new d4xSAExecute;
 					break;
 				};
 			};

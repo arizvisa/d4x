@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -46,9 +46,10 @@ int tPassDialog::init(){
 	gtk_entry_set_visibility(GTK_ENTRY(pass_entry),FALSE);
 	proto_select=gtk_combo_new();
 	GList *list=NULL;
-	for (int i=D_PROTO_FTP;i<D_PROTO_LAST;i++)
-		list = g_list_append (list, get_name_by_proto(i));
+	list = g_list_append (list, get_name_by_proto(D_PROTO_FTP));
+	list = g_list_append (list, get_name_by_proto(D_PROTO_HTTP));
 	gtk_combo_set_popdown_strings (GTK_COMBO (proto_select), list);
+	g_list_free(list);
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(proto_select)->entry),FALSE);
 
 	GtkWidget *proto_label=gtk_label_new(_("protocol"));

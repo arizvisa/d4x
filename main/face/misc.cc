@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -110,6 +110,65 @@ GtkWidget *my_gtk_entry_new_with_max_length(gint length, int val){
 	real_size=(real_size*(length+1))/2+3;
 	gtk_widget_set_usize(entry,real_size,-1);
 	return(entry);
+};
+
+static Atom _XA_WIN_HINTS;
+static Atom _XA_WIN_LAYER;
+static Atom _XA_WIN_STATE;
+static int _xa_win_hints_allocated_=0;
+
+enum WIN_HINTS_ENUM{
+	WIN_HINTS_SKIP_FOCUS      = 1<<0,
+	WIN_HINTS_SKIP_WINLIST    = 1<<1,
+	WIN_HINTS_SKIP_TASKBAR    = 1<<2,
+	WIN_HINTS_GROUP_TRANSIENT = 1<<3,
+	WIN_HINTS_FOCUS_ON_CLICK  = 1<<4,
+	WIN_HINTS_DO_NOT_COVER    = 1<<5
+};
+
+#define WIN_STATE_STICKY        1
+#define WIN_LAYER_ONTOP		6
+
+void wm_skip_window(GtkWidget *widget){
+	if (!_xa_win_hints_allocated_){
+		_XA_WIN_HINTS = XInternAtom(GDK_DISPLAY(), "_WIN_HINTS", False);
+		_XA_WIN_LAYER = XInternAtom(GDK_DISPLAY(), "_WIN_LAYER", False);
+		_XA_WIN_STATE = XInternAtom(GDK_DISPLAY(), "_WIN_STATE", False);
+		_xa_win_hints_allocated_=1;
+	};
+	/* set always on top flag (GNOME) */
+	XEvent xev;
+	gint prev_error;
+	prev_error = gdk_error_warnings;
+	gdk_error_warnings = 0;
+	xev.type = ClientMessage;
+	xev.xclient.type = ClientMessage;
+	xev.xclient.window = GDK_WINDOW_XWINDOW(widget->window);
+	xev.xclient.message_type = _XA_WIN_LAYER;
+	xev.xclient.format = 32;
+	xev.xclient.data.l[0] = (CARD32) WIN_LAYER_ONTOP;
+	XSendEvent(GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
+		   SubstructureNotifyMask, (XEvent *) & xev);
+	gdk_error_warnings = prev_error;
+	/* set sticky */
+	xev.type = ClientMessage;
+	xev.xclient.type = ClientMessage;
+	xev.xclient.window = GDK_WINDOW_XWINDOW(widget->window);
+	xev.xclient.message_type = _XA_WIN_STATE;
+	xev.xclient.format = 32;
+	xev.xclient.data.l[0] = WIN_STATE_STICKY;
+	xev.xclient.data.l[1] = WIN_STATE_STICKY;
+	XSendEvent(GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
+	    	   SubstructureNotifyMask, (XEvent *) & xev);
+	/* set skip flags (GNOME) */ 
+	long data[1];
+	data[0] = WIN_HINTS_SKIP_FOCUS |
+		WIN_HINTS_SKIP_WINLIST |
+		WIN_HINTS_SKIP_TASKBAR;
+	XChangeProperty(GDK_DISPLAY(), GDK_WINDOW_XWINDOW(widget->window), _XA_WIN_HINTS,
+			XA_CARDINAL, 32, PropModeReplace,
+			(unsigned char *) data,
+			1);
 };
 
 

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -48,6 +48,7 @@ guint my_gtk_aeditor_get_type();
 void d4x_scheduler_init();
 void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev);
 void d4x_scheduler_remove(d4xSchedAction *act);
+gint d4x_scheduler_close();
 
 #endif
 

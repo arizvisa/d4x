@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -84,13 +84,14 @@ struct tDownload:public tAbstractSortNode{
 	pthread_t thread_id;
 	int status,owner,action;
 	int NanoSpeed;
-	int GTKCListRow;
 	int BLOCKED;
 	float Percent;
 	tTriger Size,Attempt,Status,Speed,Remain;
 	fsize_t StartSize;
+	int GTKCListRow;
 	//------------------------------------
 	tPStr Description;
+	tPStr Filter;
 //	tQueue *conditions;
 	private:
 	int need_to_rename,im_first;

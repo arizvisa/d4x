@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -63,7 +63,7 @@ void tHttpDownload::print_error(int error_code){
 
 int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	LOG=log;
-	HTTP=new tHttpClient;
+	HTTP=new tHttpClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);
 	answer=NULL;
@@ -168,9 +168,11 @@ fsize_t tHttpDownload::analize_answer() {
 		};
 		case H_CONTENT_RANGE:{
 			char *a=strstr(temp->body+strlen(STR),"bytes");
-			if (a)
+			if (a){
 				a+=strlen("bytes");
-			else
+				while (*a && !isdigit(*a))
+					a+=1;
+			}else
 				a=temp->body+strlen(STR);
 			int b[3];
 			if (sscanf(a,"%i-%i/%i",&b[0],&b[1],&b[2])==3){

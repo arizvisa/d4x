@@ -1,3 +1,92 @@
+Fri Apr 20 16:40:33 2001
+	*nt.cc: release version 1.26;
+	*face/filtrgui.cc: fixed duplicate rule names;
+
+Thu Apr 19 18:57:15 2001
+	*[many files]: fixed date of copyrights;
+	*schedule.cc: fixed 'exit' action;
+	*face/edit.cc: fixed loosing URLs in DB after changing properties of
+	downloads, fixed scheduling download after changing start time;
+	*main.cc: do not remove URL after redirection if new location already
+	in queue;
+	*po/el_GR.po: Greek translation is uptodate;
+
+Wed Apr 18 21:49:39 2001
+	*face/edit.cc: fixed editing "common properties";
+	*main.cc[h],face/lod.cc[h],face/list.cc,face/columnst.cc: totaly
+	changed method of working with CList of queue of downloads;
+	*po/de.po: German translation is uptodated;
+	*http.cc,hproxy.cc: do not send Referer if it's not set;
+	*dlist.cc: fixed recurse when no filter set;
+
+Mon Apr 16 14:53:21 2001
+	*face/dndtrash.cc: fixed problems with screensavers and DnD basket :-);
+	*face/edit.cc: double click in filter selection dialog will select
+	filter;
+	*schedule.cc[h],face/fsched.cc: added 'execute command' action
+	in scheduler, fixed editing 'save list' action, fixed editing
+	'add download' action;
+	*dlist.cc: fixed speed limitation for seaprate splited download;
+
+Sun Apr 15 14:18:26 2001
+	*face/filtrgui.cc: save filters if they changed;
+	*face/buttons.cc: save config if buttons bar relayered;
+	*face/mywidget.cc: fixed memory leak in my file selector;
+
+Sun Apr 15 04:45:25 2001
+	*[many files]: completed filters system!;
+	*buttons.cc[h]: added "Load" button on buttons bar;
+	*httpd.cc: fixed parsing Content Range field of HTTP answer;
+
+Fri Apr 13 23:37:06 2001
+	*face/passface.cc: fixed displaing unused protos, fixed memory
+	leak;
+	*face/filtrgui.cc[h],face/mywidget.cc[h]: begin to implement GUI for filters;
+	*filter.cc[h]: continue to implement filters;
+	*mainlog.cc: fixed segfaulting at startup in some
+
+Wed Apr 11 19:42:30 2001
+	*socks.cc[h]: copyrights has been added;
+	*filter.cc[h]: begin to implement filters;
+
+Tue Apr 10 14:15:00 2001
+	*face/misc.cc: DnD basket is sticky now;
+
+Sat Apr  7 16:07:30 2001
+	*face/buttons.cc: added "apply" button in buttons bar configure
+	dialog, added scroller;
+	*face/dndtrash.cc,face/misc.cc: fixed dragging from opera to DnD-basket,
+	fixed memory leak on disabling DnD basket;
+
+Fri Apr  6 18:38:22 2001
+	*main.cc: fixed completing splited downloads;
+	*face/buttons.cc[h],var.cc[h],config.cc,face/myclist.cc: added button
+	for changing progress bars mode, added three different progress	bar
+	modes;
+
+Thu Apr  5 18:40:09 2001
+	*face/buttons.cc,face/pixmaps/cfgbt.xpm: added ability to hide/show
+	any button on buttons bar, code cleanups;
+	*[many files]: SOCKS5 now works, remove old abilities to configure
+	buttons bar;
+
+Wed Apr  4 20:39:55 2001
+	*main.cc: added handler ofr SIGPIPE signal;
+	*socket.cc[h]: code cleanups;
+	*socks.cc[h]: completed SOCKS5 protocol;
+
+Tue Apr  3 19:17:48 2001
+	*socks.cc[h]: begin to implement SOCKS5 proxying protocol;
+
+Mon Apr  2 20:59:15 2001
+	*main.cc: fixed counting number of connections to host with splited
+	downloads;
+	*dlist.cc: fixed stoping splited downloads when not all thread was run;
+
+Thu Mar 29 21:55:23 2001
+	*dlist.cc,download.cc[h],face/edit.cc,config.cc,var.h: added ability
+	to set up cookie string for a site;
+
 Tue Mar 27 15:12:26 2001
 	*nt.cc: releasing 1.25;
 	*face/about.cc: rearrange translators;

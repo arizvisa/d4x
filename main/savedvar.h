@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -26,6 +26,8 @@ enum SV_TYPES{
 	SV_TYPE_URL,
 	SV_TYPE_TIME,
 	SV_TYPE_DOWNLOAD,
+	SV_TYPE_RULE,
+	SV_TYPE_FILTER,
 	SV_TYPE_END
 };
 

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -20,6 +20,7 @@ class tHProxyClient:public tHttpClient{
 	int no_cache;
 	public:
 		tHProxyClient();
+		tHProxyClient(tCfg *cfg);
 		void setup_data(char *host,int cache);
 		void set_cookie_search(char *what);
 		fsize_t get_size(char *filename,tStringList *list);

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -21,6 +21,10 @@ tHttpClient::tHttpClient():tClient(){
 	user_agent=NULL;
 };
 
+tHttpClient::tHttpClient(tCfg *cfg):tClient(cfg){
+	user_agent=NULL;
+};
+
 void tHttpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
 	BuffSize=BLOCK_READ;
@@ -39,7 +43,7 @@ void tHttpClient::set_offset(fsize_t a) {
 int tHttpClient::send_request(char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	LOG->log(LOG_TO_SERVER,what);
-	return CtrlSocket.send_string(what,timeout);
+	return CtrlSocket->send_string(what,timeout);
 };
 
 int tHttpClient::send_request(char *begin, char *center,char *end){
@@ -52,7 +56,7 @@ int tHttpClient::send_request(char *begin, char *center,char *end){
 
 int tHttpClient::read_data(char *where,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
-	int all=CtrlSocket.rec_string(where,len,timeout);
+	int all=CtrlSocket->rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->log(LOG_ERROR,_("Socket lost!"));
 		return RVALUE_TIMEOUT;
@@ -65,7 +69,7 @@ int tHttpClient::read_answer(tStringList *list) {
 	list->done();
 	int rvalue=0;
 	LOG->log(LOG_OK,_("Request was sent, waiting for the answer"));
-	if (read_string(&CtrlSocket,list,MAX_LEN)!=0){
+	if (read_string(CtrlSocket,list,MAX_LEN)!=0){
 		Status=STATUS_TIMEOUT;
 		return -1;
 	};
@@ -111,7 +115,7 @@ int tHttpClient::read_answer(tStringList *list) {
 		int num_str=32;
 		do{
 			num_str-=1;
-			if (read_string(&CtrlSocket,list,MAX_LEN)) return -1;
+			if (read_string(CtrlSocket,list,MAX_LEN)) return -1;
 			last=list->last();
 			LOG->log(LOG_FROM_SERVER,last->body);
 			/*limit strings in answer to 32*/
@@ -139,10 +143,10 @@ fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 		sprintf(data,"%li",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
-	if (referer==NULL){
-		referer=sum_strings("http://",hostname,filename,NULL);
+	if (referer && *referer){
+//		referer=sum_strings("http://",hostname,filename,NULL);
+		send_request("Referer: ",referer,"\r\n");
 	};
-	send_request("Referer: ",referer,"\r\n");
 	if (user_agent && strlen(user_agent)){
 		if (equal(user_agent,"%version"))
 			send_request("User-Agent: ",VERSION_NAME,"\r\n");
@@ -198,7 +202,7 @@ int tHttpClient::registr(char *user,char *password) {
 };
 
 void tHttpClient::down() {
-	CtrlSocket.down();
+	CtrlSocket->down();
 };
 
 void tHttpClient::done() {

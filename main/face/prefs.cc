@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -38,15 +38,17 @@ tMainCfg TMPCFG={
 	100,0,0,0,(char*)NULL,0,0, //Log
 	5,0, //List
 	1,0,0,600,0,0, //flags
-	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,//interface
+	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,1,//interface
 	0,1,(char*)NULL,(char*)NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,
 	/* Proxy */
 	(char*)NULL,0,(char*)NULL,(char*)NULL,1,(char*)NULL,0,(char*)NULL,(char*)NULL,0,0,0,0,0,
+	/* SOCKS */
+	(char *)NULL,0,(char*)NULL,(char*)NULL,
 	1,1,1,1,1,1,
 	3,1024,10*1024,
 	(char*)NULL,0,
-	1,1,1,1,
+	0x0FFFFFFF,
 	0,0,1,
 	1,0,15
 };

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -26,6 +26,7 @@ enum D4X_SCHEDULED_ACTION{
 	SACT_DEL_IF_COMPLETED,
 	SACT_ADD_DOWNLOAD,
 	SACT_SAVE_LIST,
+	SACT_EXECUTE,
 	SACT_LAST
 };
 
@@ -127,6 +128,14 @@ struct d4xSAAddDownload:public d4xSchedAction{
 
 struct d4xSASaveList:public d4xSchedAction{
 	tPStr path;
+	int type();
+	int load(int fd);
+	int save(int fd);
+	void run(tMain *papa);
+};
+
+struct d4xSAExecute:public d4xSchedAction{
+	tPStr command;
 	int type();
 	int load(int fd);
 	int save(int fd);

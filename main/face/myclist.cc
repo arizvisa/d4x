@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -11,6 +11,8 @@
 #include "myclist.h"
 #include "gdk/gdk.h"
 #include <stdio.h>
+#include "../var.h"
+#include "../dlist.h"
 
 #ifdef FLT_ROUNDS
 #undef FLT_ROUNDS
@@ -676,33 +678,83 @@ static void my_draw_row (GtkCList     *clist,
 			else
 				row_center_offset = clist->row_center_offset;
 			
-			gdk_gc_set_clip_rectangle (fg_gc, &clip_rectangle);
-			gtk_paint_box(style,clist->clist_window,
-				      GTK_STATE_NORMAL,GTK_SHADOW_NONE,
-				      &clip_rectangle,
-				      (GtkWidget *)clist,
-				      "trough",
-				      clip_rectangle.x,clip_rectangle.y,
-				      clip_rectangle.width,clip_rectangle.height);
-			float progress_width= GTK_CELL_PROGRESS(clist_row->cell[i])->value > 100 ? 100:GTK_CELL_PROGRESS(clist_row->cell[i])->value;
-			if (progress_width<0)
-				progress_width=0;
-			progress_width=(progress_width*float(clip_rectangle.width))/float(100);
-			if (progress_width>=2)
+			switch(CFG.PROGRESS_MODE){
+			case 2:{
+				tDownload *temp=(tDownload *)gtk_clist_get_row_data(clist,row);
+				if (temp && temp->segments && temp->finfo.size>0){
+					gdk_gc_set_clip_rectangle (pr_gc, &clip_rectangle);
+					gtk_paint_box(style,clist->clist_window,
+						      GTK_STATE_NORMAL,GTK_SHADOW_NONE,
+						      &clip_rectangle,
+						      (GtkWidget *)clist,
+						      "trough",
+						      clip_rectangle.x,clip_rectangle.y,
+						      clip_rectangle.width,clip_rectangle.height);
+					temp->segments->lock_public();
+					tSegment *tmp=temp->segments->get_first();
+					while(tmp){
+						gint start=int(float(tmp->begin)*float(clip_rectangle.width)/float(temp->finfo.size));
+						gint end=int(float(tmp->end)*float(clip_rectangle.width)/float(temp->finfo.size));
+						if (end-start>=2)
+							gtk_paint_box(style,clist->clist_window,
+								      GTK_STATE_PRELIGHT,GTK_SHADOW_OUT,
+								      &clip_rectangle,
+								      (GtkWidget *)clist,
+								      "bar",
+								      clip_rectangle.x+start,clip_rectangle.y,
+								      end-start,clip_rectangle.height);
+						tmp=tmp->next;
+					};
+					temp->segments->unlock_public();
+					gdk_draw_string (clist->clist_window, style->font, pr_gc,
+							 offset,
+							 row_rectangle.y + row_center_offset + 
+							 clist_row->cell[i].vertical,
+							 tmptext);
+					gdk_gc_set_clip_rectangle (pr_gc, (GdkRectangle *)NULL);
+					break;
+				};
+			};
+			case 1:{
+				gdk_gc_set_clip_rectangle (pr_gc, &clip_rectangle);
 				gtk_paint_box(style,clist->clist_window,
-					      GTK_STATE_PRELIGHT,GTK_SHADOW_OUT,
+					      GTK_STATE_NORMAL,GTK_SHADOW_NONE,
 					      &clip_rectangle,
 					      (GtkWidget *)clist,
-					      "bar",
+					      "trough",
 					      clip_rectangle.x,clip_rectangle.y,
-					      gint(progress_width),clip_rectangle.height);
-			gdk_draw_string (clist->clist_window, style->font, pr_gc,
-					 offset,
-					 row_rectangle.y + row_center_offset + 
-					 clist_row->cell[i].vertical,
-					 tmptext);
-			gdk_gc_set_clip_rectangle (fg_gc, (GdkRectangle *)NULL);
-			break;
+					      clip_rectangle.width,clip_rectangle.height);
+				float progress_width= GTK_CELL_PROGRESS(clist_row->cell[i])->value > 100 ? 100:GTK_CELL_PROGRESS(clist_row->cell[i])->value;
+				if (progress_width<0)
+					progress_width=0;
+				progress_width=(progress_width*float(clip_rectangle.width))/float(100);
+				if (progress_width>=2)
+					gtk_paint_box(style,clist->clist_window,
+						      GTK_STATE_PRELIGHT,GTK_SHADOW_OUT,
+						      &clip_rectangle,
+						      (GtkWidget *)clist,
+						      "bar",
+						      clip_rectangle.x,clip_rectangle.y,
+						      gint(progress_width),clip_rectangle.height);
+				gdk_draw_string (clist->clist_window, style->font, pr_gc,
+						 offset,
+						 row_rectangle.y + row_center_offset + 
+						 clist_row->cell[i].vertical,
+						 tmptext);
+				gdk_gc_set_clip_rectangle (pr_gc, (GdkRectangle *)NULL);
+				break;
+			};
+			default:
+				gdk_gc_set_clip_rectangle (fg_gc, &clip_rectangle);
+				gdk_draw_string (clist->clist_window, style->font, fg_gc,
+						 offset,
+						 row_rectangle.y + row_center_offset + 
+						 clist_row->cell[i].vertical,
+						 tmptext);
+				
+				gdk_gc_set_clip_rectangle (fg_gc, (GdkRectangle *)NULL);
+				break;
+			};
 		};
 		default:
 			break;

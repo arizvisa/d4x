@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -25,54 +25,6 @@ class tFileInfo{
 	time_t date;
 };
 
-struct tSimplyCfg{
-	int timeout;
-	int time_for_sleep;
-	int sleep_before_complete;
-	int number_of_attempts;
-	int ftp_recurse_depth,http_recurse_depth;
-	int rollback;
-	int speed;
-/* flags
- */
-	int http_recursing; //temporary flag
-	int leave_server,dont_leave_dir;
-	int change_links;
-	int passive;
-	int retry;
-	int permisions;
-	int get_date;
-	int full_server_loading;
-	int link_as_file;
-	int restart_from_begin;
-	int dont_send_quit;
-	int check_time;
-	/* temporary flags */
-	int split; 
-	int redirect_count;
-	void copy_ints(tSimplyCfg *src);
-};
-
-struct tCfg:public tSimplyCfg{
-	int proxy_port;
-	int proxy_type;
-	int proxy_no_cache;
-	tPStr proxy_host;
-	tPStr proxy_user;
-	tPStr proxy_pass;
-	tPStr user_agent,referer;
-	tPStr save_name,save_path;
-	tPStr log_save_path;
-	tCfg();
-	int get_flags();
-	void set_flags(int what);
-	void reset_proxy();
-	void copy_proxy(tCfg *src);
-	void copy(tCfg *src);
-	void save_to_config(int fd);
-	int load_from_config(int fd);
-	~tCfg();
-};
 
 #include "addr.h"
 

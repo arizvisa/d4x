@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -31,6 +31,7 @@
 #include <strings.h>
 #include "signal.h"
 #include "ping.h"
+#include "filter.h"
 
 extern tMain aa;
 
@@ -175,6 +176,9 @@ char *tDefaultWL::cookie(const char *host, const char *path){
 	DBC_RETVAL_IF_FAIL(path!=NULL,NULL);
 	tCookie *temp=COOKIES->find(host);
 	char *request_string=NULL;
+	tDownload **dwn=my_pthread_key_get();
+	if (dwn && *dwn && (*dwn)->config.cookie.get())
+		return(copy_string((*dwn)->config.cookie.get()));
 	while (temp){
 //		temp->print();
 		if (begin_string(path,temp->path.get())){
@@ -199,6 +203,7 @@ tDefaultWL::~tDefaultWL(){
 tSplitInfo::tSplitInfo(){
 	FirstByte=LastByte=-1;
 	next_part=parent=NULL;
+	status=0;
 };
 
 tSplitInfo::~tSplitInfo(){
@@ -229,7 +234,6 @@ tDownload::tDownload() {
 	Remain.clear();
 	owner=DL_ALONE;
 	thread_id=0;
-	GTKCListRow=-1;
 	NanoSpeed=0;
 	DIR=NULL;
 	action=ACTION_NONE;
@@ -557,6 +561,14 @@ void tDownload::set_default_cfg(){
 	config.copy_ints(&(CFG.DEFAULT_CFG));
 	config.http_recursing=config.http_recurse_depth==1?0:1;
 	config.user_agent.set(CFG.USER_AGENT);
+	if (CFG.SOCKS_HOST){
+		config.socks_host.set(CFG.SOCKS_HOST);
+		config.socks_port=CFG.SOCKS_PORT;
+		if (CFG.SOCKS_USER && CFG.SOCKS_PASS){
+			config.socks_user.set(CFG.SOCKS_USER);
+			config.socks_pass.set(CFG.SOCKS_PASS);
+		};
+	};
 };
 
 void tDownload::copy(tDownload *dwn){
@@ -670,9 +682,9 @@ void tDownload::convert_list_to_dir() {
 					onenew->finfo.body.set(prom->body.get());
 				};
 			};
-			if (addrnew->is_valid())
+			if (addrnew->is_valid()){
 				DIR->insert(onenew);
-			else
+			}else
 				delete(onenew);
 		};
 		dir->del(temp);
@@ -741,11 +753,20 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		onenew->config.http_recurse_depth = config.http_recurse_depth ? config.http_recurse_depth-1 : 0;
 		onenew->config.ftp_recurse_depth = config.ftp_recurse_depth;
 		onenew->config.referer.set(URL);
-		
+		onenew->Filter.set(Filter.get());
 		if (temp->info->is_valid() && http_check_settings(temp->info)){
 			onenew->info=temp->info;
-			DIR->insert(onenew);
 			temp->info=NULL;
+			d4xFilter *filter=Filter.get()?FILTERS_DB->find(Filter.get()):NULL;
+			if (filter){
+				if (filter->match(onenew->info))
+					DIR->insert(onenew);
+				else
+					delete(onenew);
+				filter->unref();
+			}else{
+				DIR->insert(onenew);
+			};
 		}else{
 			delete(onenew);
 		};
@@ -767,6 +788,8 @@ void tDownload::save_to_config(int fd){
 	write_named_integer(fd,"State:",owner);
 	if (Description.get())
 		write_named_string(fd,"Description:",Description.get());
+	if (Filter.get())
+		write_named_string(fd,"Filter:",Filter.get());
 	if (finfo.size>0){
 		write_named_time(fd,"size:",finfo.size);
 		if (Size.curent>0)
@@ -785,6 +808,7 @@ int tDownload::load_from_config(int fd){
 		{"SaveName:",	SV_TYPE_PSTR,	&(config.save_name)},
 		{"SplitTo:",	SV_TYPE_SPLIT,	&(split)},
 		{"Description:",SV_TYPE_PSTR,	&(Description)},
+		{"Filter:",	SV_TYPE_PSTR,	&(Filter)},
 		{"size:",	SV_TYPE_TIME,	&(finfo.size)},
 		{"loaded:",	SV_TYPE_TIME,	&(Size.curent)},
 		{"EndDownload:",SV_TYPE_END,	NULL}
@@ -1279,9 +1303,11 @@ void tDownload::prepare_splits(){
 		if (newsplit->next_part==NULL)
 			newsplit->next_part=new tDownload;
 		tDownload *temp=newsplit->next_part;
+		temp->status=DOWNLOAD_REAL_STOP;
 		if (temp->split==NULL)
 			temp->split=new tSplitInfo;
 		newsplit=temp->split;
+		newsplit->NumOfParts=split->NumOfParts;
 		temp->split->parent=parent;
 		parent=temp;
 		temp->split->status=0;
@@ -1374,7 +1400,7 @@ void tDList::insert(tDownload *what) {
 	tQueue::insert(what);
 	what->owner=OwnerKey;
 	if (Pixmap!=PIX_UNKNOWN)
-		list_of_downloads_set_pixmap(what->GTKCListRow,Pixmap);
+		list_of_downloads_set_pixmap(what,Pixmap);
 };
 
 void tDList::insert_before(tDownload *what,tDownload *where) {
@@ -1383,7 +1409,7 @@ void tDList::insert_before(tDownload *what,tDownload *where) {
 	tQueue::insert_before(what,where);
 	what->owner=OwnerKey;
 	if (Pixmap!=PIX_UNKNOWN)
-		list_of_downloads_set_pixmap(what->GTKCListRow,Pixmap);
+		list_of_downloads_set_pixmap(what,Pixmap);
 };
 
 void tDList::del(tDownload *what) {

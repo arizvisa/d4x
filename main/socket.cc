@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -69,13 +69,13 @@ int my_get_host_by_name(char *host,int port,
 
 /******************************************************************/
 tSocket::tSocket() {
-	fd=0;
+	fd=-1;
 	RBytes=0;
 	SBytes=0;
 	buffer=NULL;
 };
 
-int tSocket::constr_name(char *host,int port) {
+int tSocket::constr_name(char *host,u_int16_t port) {
 	info.sin_family=AF_INET;
 	if (host) {
 		info.sin_addr.s_addr = inet_addr(host);
@@ -127,7 +127,7 @@ unsigned short int tSocket::get_port() {
 	return htons(info.sin_port);
 };
 
-int tSocket::open_port(char *host, int port) {
+int tSocket::open_port(char *host, u_int16_t port) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	int len=constr_name(host,port);
 	if (len<0) return SOCKET_UNKNOWN_HOST;
@@ -152,7 +152,7 @@ int tSocket::open_port(int *ftp_addr) {
 	return(open_port(host,port));
 }
 
-int tSocket::open_port(unsigned long int host,unsigned short int port) {
+int tSocket::open_port(u_int32_t host,u_int16_t port) {
 	port=htons(port);
 //	host=htonl(host);
 	int len=constr_name(NULL,port);
@@ -182,7 +182,7 @@ int tSocket::open_any(char *host) {
 	return 0;
 };
 
-int tSocket::open_any(unsigned int host) {
+int tSocket::open_any(u_int32_t host) {
 	constr_name(NULL,0);
 	host=htonl(host);
 	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));
@@ -282,11 +282,11 @@ int tSocket::rec_string(char * where,fsize_t len,int timeout) {
 };
 
 void tSocket::down() {
-	if (fd>0) {
+	if (fd>=0) {
 		shutdown(fd,2);
 		close(fd);
 	};
-	fd=0;
+	fd=-1;
 	RBytes=SBytes=0;
 };
 

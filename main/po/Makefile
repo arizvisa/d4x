@@ -3,6 +3,14 @@ XGETTEXT = xgettext
 MSGFMT   = msgfmt
 MSGMERGE = msgmerge
 
+INSTALL_DATA=install -c -m644
+
+ifeq ($(OSTYPE),FreeBSD)
+ifdef BSD_INSTALL_DATA
+INSTALL_DATA=$(BSD_INSTALL_DATA)
+endif
+endif
+
 all:
 	for i in `ls *.po`; do \
 		$(MSGFMT) $$i -o `echo $$i | sed -e s/.po//`.gmo ; \
@@ -28,7 +36,7 @@ update-po:
 install:
 	for i in `ls *.gmo` ; do \
 		mkdir -p $(LOCALEDIR)/`echo $$i|sed -e s/.gmo//`/LC_MESSAGES;\
-		install -c -m644 $$i $(LOCALEDIR)/`echo $$i | sed -e s/.gmo//`/LC_MESSAGES/$(PACKAGE).mo ; \
+		$(INSTALL_DATA) $$i $(LOCALEDIR)/`echo $$i | sed -e s/.gmo//`/LC_MESSAGES/$(PACKAGE).mo ; \
 	done
 
 uninstall:

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -132,15 +132,20 @@ tDownload *list_of_downloads_last_selected() {
 	return((tDownload *)NULL);
 };
 
-void list_of_downloads_set_desc(tDownload *what){
-	if (what->Description.get())
-		list_of_downloads_change_data(what->GTKCListRow,
-					      DESCRIPTION_COL,
-					      what->Description.get());
+gint list_of_downloads_row(tDownload *what){
+	return(gtk_clist_find_row_from_data (GTK_CLIST (ListOfDownloads),what));
 };
 
-void list_of_downloads_set_filename(tDownload *what){
-	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
+void list_of_downloads_set_desc(gint row,tDownload *what){
+	if (what->Description.get()){
+		list_of_downloads_change_data(row,
+					      DESCRIPTION_COL,
+					      what->Description.get());
+	};
+};
+
+void list_of_downloads_set_filename(gint row,tDownload *what){
+	list_of_downloads_change_data(row,FILE_COL,what->info->file.get());
 };
 
 void list_of_downloads_set_percent(int row,int column,float percent){
@@ -157,10 +162,11 @@ void list_of_downloads_change_data(int row,int column,gchar *data) {
 
 void list_of_downloads_update(tDownload *what) {
 	char *URL=what->info->url();
-	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
+	gint row=list_of_downloads_row(what);
+	list_of_downloads_change_data(row,URL_COL,URL);
 	delete[] URL;
-	list_of_downloads_set_desc(what);
-	list_of_downloads_set_filename(what);
+	list_of_downloads_set_desc(row,what);
+	list_of_downloads_set_filename(row,what);
 };
 
 
@@ -173,27 +179,27 @@ void list_of_downloads_get_sizes() {
 	};
 };
 
-void list_of_downloads_print_size(tDownload *what){
+void list_of_downloads_print_size(gint row,tDownload *what){
 	char data1[MAX_LEN];
 	if (what->finfo.size>0){
 		make_number_nice(data1,what->finfo.size);
-		list_of_downloads_change_data(what->GTKCListRow,
+		list_of_downloads_change_data(row,
 					      FULL_SIZE_COL,
 					      data1);
 	};
 	if (what->Size.curent>0){
 		make_number_nice(data1,what->Size.curent);
-		list_of_downloads_change_data(what->GTKCListRow,
+		list_of_downloads_change_data(row,
 					      DOWNLOADED_SIZE_COL,
 					      data1);
 	};
 	if (what->finfo.size>0 && what->Size.curent<=what->finfo.size){
 		float p=(float(what->Size.curent)*float(100))/float(what->finfo.size);
-		list_of_downloads_set_percent(what->GTKCListRow,
+		list_of_downloads_set_percent(row,
 					      PERCENT_COL,
 					      p);
 		make_number_nice(data1,what->finfo.size-what->Size.curent);
-		list_of_downloads_change_data(what->GTKCListRow,
+		list_of_downloads_change_data(row,
 					      REMAIN_SIZE_COL,
 					      data1);
 	};
@@ -204,31 +210,36 @@ void list_of_downloads_add(tDownload *what) {
 	char *URL=what->info->url();
 	for (int i=STATUS_COL;i<=NOTHING_COL;i++)
 		data[ListColumns[i].enum_index]="";
-	what->GTKCListRow=gtk_clist_append(GTK_CLIST(ListOfDownloads),data);
-	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
-	list_of_downloads_set_filename(what);
-	list_of_downloads_print_size(what);
-	list_of_downloads_set_desc(what);
+	gint row=gtk_clist_append(GTK_CLIST(ListOfDownloads),data);
+	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),row,gpointer(what));
+	list_of_downloads_change_data(row,URL_COL,URL);
+	list_of_downloads_set_filename(row,what);
+	list_of_downloads_print_size(row,what);
+	list_of_downloads_set_desc(row,what);
 
-	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),what->GTKCListRow,gpointer(what));
-	list_of_downloads_set_pixmap(what->GTKCListRow,PIX_WAIT);
-	if (what->GTKCListRow==0) gtk_clist_select_row(GTK_CLIST(ListOfDownloads),0,-1);
+	list_of_downloads_set_pixmap(row,PIX_WAIT);
+	if (row==0) gtk_clist_select_row(GTK_CLIST(ListOfDownloads),0,-1);
 	delete[] URL;
+};
+
+void list_of_downloads_remove(tDownload *what){
+	gint row=list_of_downloads_row(what);
+	gtk_clist_remove(GTK_CLIST(ListOfDownloads),row);
 };
 
 void list_of_downloads_set_run_icon(tDownload *what){
 	switch (what->Status.curent) {
 	case D_QUERYING:{
-		list_of_downloads_set_pixmap(what->GTKCListRow,PIX_RUN_PART);
+		list_of_downloads_set_pixmap(what,PIX_RUN_PART);
 		break;
 	};
 	default:
 	case D_DOWNLOAD:{
-		list_of_downloads_set_pixmap(what->GTKCListRow,PIX_RUN);
+		list_of_downloads_set_pixmap(what,PIX_RUN);
 		break;
 	};
 	case D_DOWNLOAD_BAD:{
-		list_of_downloads_set_pixmap(what->GTKCListRow,PIX_RUN_BAD);
+		list_of_downloads_set_pixmap(what,PIX_RUN_BAD);
 		break;
 	};
 	};
@@ -265,35 +276,23 @@ void list_of_downloads_add(tDownload *what,int row) {
 		list_of_downloads_set_pixmap(row,PIX_COMPLETE);
 	};
 	};
-	list_of_downloads_print_size(what);
-	list_of_downloads_set_filename(what);
-	list_of_downloads_set_desc(what);
+	list_of_downloads_print_size(row,what);
+	list_of_downloads_set_filename(row,what);
+	list_of_downloads_set_desc(row,what);
 };
 
-void move_download_up(int ROW){
-	tDownload *what=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),ROW);
-	if (!what) return;
-	if (what->GTKCListRow<=0) return;
-	int row=what->GTKCListRow;
-	what->GTKCListRow=row-1;
-	tDownload *what2=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),row-1);
-	if (what2) what2->GTKCListRow=row;
+void move_download_up(int row){
 	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row-1);
-//	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
+	tDownload *what=get_download_from_clist(row-1);
+	tDownload *what2=get_download_from_clist(row);
 	if (DOWNLOAD_QUEUES[DL_WAIT]->owner(what) && DOWNLOAD_QUEUES[DL_WAIT]->owner(what2))
 		DOWNLOAD_QUEUES[DL_WAIT]->forward(what);
 };
 
-void move_download_down(int ROW){
-	tDownload *what=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),ROW);
-	if (!what) return;
-	if (what->GTKCListRow>=GTK_CLIST(ListOfDownloads)->rows-1) return;
-	int row=what->GTKCListRow;
-	what->GTKCListRow=row+1;
-	tDownload *what2=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),row+1);
-	if (what2) what2->GTKCListRow=row;
+void move_download_down(int row){
 	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row+1);
-//	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
+	tDownload *what=get_download_from_clist(row+1);
+	tDownload *what2=get_download_from_clist(row);
 	if (DOWNLOAD_QUEUES[DL_WAIT]->owner(what) && DOWNLOAD_QUEUES[DL_WAIT]->owner(what2))
 		DOWNLOAD_QUEUES[DL_WAIT]->backward(what);
 };
@@ -368,25 +367,6 @@ void list_of_downloads_move_selected_end(){
 	list_of_downloads_freeze();
 	while (list_of_downloads_move_selected_down());
 	list_of_downloads_unfreeze();
-};
-
-void list_of_downloads_del_list(GList *list){
-	if (list==NULL) return;
-	int row=((tDownload *)(list->data))->GTKCListRow;
-	while(row<GTK_CLIST(ListOfDownloads)->rows){
-		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
-			GTK_CLIST(ListOfDownloads),row);
-		if (temp) temp->GTKCListRow=row;
-		if (list && row==((tDownload *)(list->data))->GTKCListRow){
-			gtk_clist_remove(GTK_CLIST(ListOfDownloads),row);
-			list=g_list_remove_link(list,list);
-			delete(temp);
-		}else{
-			row+=1;
-		};
-	};
-	prepare_buttons();
-	update_mainwin_title();
 };
 
 tDownload *get_download_from_clist(int row) {
@@ -599,10 +579,13 @@ static void list_of_downloads_sort(GtkWidget *widget,int how){
 	int changed;
 	do{
 		changed=0;
+		gint row1=list_of_downloads_row(tmp);
 		while (cur){
-			if ((cur->GTKCListRow<tmp->GTKCListRow && cmp_func(cur,tmp)<0) ||
-			    (cur->GTKCListRow>tmp->GTKCListRow && cmp_func(cur,tmp)>0)){
+			gint row=list_of_downloads_row(cur);
+			if ((row<row1 && cmp_func(cur,tmp)<0) ||
+			    (row>row1 && cmp_func(cur,tmp)>0)){
 				list_of_downloads_swap(tmp,cur);
+				row1=row;
 				changed=1;
 			};
 			cur=(tDownload*)(cur->next);
@@ -765,11 +748,16 @@ void list_of_downloads_init_pixmaps(){
 		};
 };
 
-void list_of_downloads_set_pixmap(int row,int type){
+void list_of_downloads_set_pixmap(gint row,int type){
 	if (type>=PIX_UNKNOWN) return;
 	if (ListColumns[STATUS_COL].enum_index<ListColumns[NOTHING_COL].enum_index)
 		gtk_clist_set_pixmap (GTK_CLIST (ListOfDownloads), row,
 	                      ListColumns[STATUS_COL].enum_index, list_of_downloads_pixmaps[type], list_of_downloads_bitmaps[type]);
+};
+
+void list_of_downloads_set_pixmap(tDownload *dwn,int type){
+	if (type>=PIX_UNKNOWN) return;
+	list_of_downloads_set_pixmap(list_of_downloads_row(dwn),type);
 };
 
 void list_of_downloads_unselect_all(){
@@ -799,10 +787,9 @@ int list_of_downloads_sel(){
 };
 
 void list_of_downloads_swap(tDownload *a,tDownload *b){
-	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),a->GTKCListRow,b->GTKCListRow);
-	gint row=a->GTKCListRow;
-	a->GTKCListRow=b->GTKCListRow;
-	b->GTKCListRow=row;
+	gint rowa=list_of_downloads_row(a);
+	gint rowb=list_of_downloads_row(b);
+	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),rowa,rowb);
 };
 
 /* Various additional functions

@@ -1,3 +1,5 @@
+INSTALL_PROGRAM=install -c -m755
+
 # Solaris Openwin 2.6 headers are not properly casted to for
 # compilation with C++/g++. Three files Xlib.h, Xresource.h, Xutil.h
 # need to be fixed to compile this. Or add a path to the X11R6 headers
@@ -33,10 +35,34 @@ MAKE=gmake
 endif
 
 ifeq ($(OSTYPE),FreeBSD)
+ifdef PTHREAD_LIBS
+PTHREAD=$(PTHREAD_LIBS)
+else
 PTHREAD=-pthread
+endif
+ifdef GLIB_CONFIG
+GLIBCONFIG=$(GLIB_CONFIG)
+else
+GLIBCONFIG=glib12-config
+endif
+ifdef GTK_CONFIG
+GTKCONFIG=$(GTK_CONFIG)
+else
 GTKCONFIG=gtk12-config
+endif
+ifdef GMAKE
+MAKE=$(GMAKE)
+else
 MAKE=gmake
+endif
+ifdef PTHREAD_CFLAGS
+CXXFLAGS+=$(PTHREAD_CFLAGS)
+else
 CXXFLAGS+=-D_THREAD_SAFE
+endif
+ifdef BSD_INSTALL_PROGRAM
+INSTALL_PROGRAM=$(BSD_INSTALL_PROGRAM)
+endif
 endif
 
 GTKLIBS=$(shell $(GTKCONFIG) --libs) $(shell $(GLIBCONFIG) --libs)
@@ -55,20 +81,21 @@ FACE=face/lmenu.o face/list.o face/addd.o face/graph.o face/log.o \
 	face/prefs.o face/buttons.o face/about.o face/edit.o \
 	face/colors.o face/saveload.o face/limface.o face/misc.o \
 	face/lod.o face/columns.o face/dndtrash.o face/passface.o \
-	face/mywidget.o face/myclist.o face/fsface.o face/fsched.o
+	face/mywidget.o face/myclist.o face/fsface.o face/fsched.o \
+	face/filtrgui.o
 MODULES1=base64.o addr.o queue.o liststr.o dlist.o mdlist.o locstr.o \
 	log.o  sort.o meter.o socket.o history.o  speed.o srvclt.o html.o \
 	client.o ftp.o http.o download.o ftpd.o httpd.o hproxy.o signal.o \
 	main.o config.o savelog.o mainlog.o var.o sortstr.o db.o cookie.o \
 	pass.o eff.o segments.o memwl.o fsearch.o msgqueue.o ping.o \
-	savedvar.o schedule.o
+	savedvar.o schedule.o socks.o filter.o
 MODULES = $(FACE) $(MODULES1)
 
 all:
 	-rm -f nt
 	$(MAKE) nt
 	[ -z "$(NLS)" ] || $(MAKE) -C po
-	$(MAKE) strip
+#	$(MAKE) strip
 
 $(FACE):
 	$(MAKE) -C face
@@ -82,7 +109,7 @@ strip: nt
 
 
 install: all
-	install -c -m755 nt $(DEST)/bin
+	$(INSTALL_PROGRAM) nt $(DEST)/bin
 	[ -z "$(NLS)" ] || $(MAKE) install -C po
 
 clean: 

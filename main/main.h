@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -66,6 +66,7 @@ class tMain{
 	void check_for_remote_commands();
         void redraw_logs();
         void reinit_main_log();
+	void schedule_download(tDownload *what);
 	/* manipulation by url */
 	tDownload *find_url(tAddr *adr);
 	void stop_download_url(tAddr *adr);
@@ -82,13 +83,13 @@ class tMain{
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	void run_after_quit();
-	void go_to_delete();
 	void done();
 	/* next methods are public especialy for tFtpSearchCtrl */
 	void prepare_for_stoping(tDownload *what,tDList *list);
 	int run_new_thread(tDownload *what);
 	void ftp_search_remove(tDownload *what);
 	void ftp_search_reping(tDownload *what);
+	void quit();
 };
 
 void *download_last(void *);

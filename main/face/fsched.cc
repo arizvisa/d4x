@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -38,6 +38,7 @@ static char *action_names[]={
 	N_("remove download if completed"),
 	N_("add download"),
 	N_("save list"),
+	N_("execute command")
 };
 
 void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev){
@@ -53,6 +54,11 @@ void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev){
 	text[1]=_(action_names[act->type()]);
 	text[2]=buf2;
 	switch(act->type()){
+	case SACT_EXECUTE:{
+		d4xSAExecute *a=(d4xSAExecute *)act;
+		g_snprintf(buf2,MAX_LEN,"%s",a->command.get());
+		break;
+	};
 	case SACT_SAVE_LIST:{
 		d4xSASaveList *a=(d4xSASaveList *)act;
 		g_snprintf(buf2,MAX_LEN,"%s",a->path.get());
@@ -122,8 +128,7 @@ void d4x_scheduler_remove_selected(){
 	g_list_free(select);
 };
 
-gint d4x_scheduler_close(GtkWidget *widget,
-			 GdkEvent *event) {
+gint d4x_scheduler_close() {
 	if (!d4x_scheduler_window) return(FALSE);
 	gtk_widget_destroy(d4x_scheduler_window);
 	d4x_scheduler_window=(GtkWidget *)NULL;
@@ -246,7 +251,8 @@ static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor)
 		editor->dwn=new tDownload;
 		editor->dwn->set_default_cfg();
 		editor->dwn->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
-		editor->dwn->info=new tAddr("ftp://somesite.org");
+		char *url_entry_cont=text_from_combo(editor->url_entry);
+		editor->dwn->info=new tAddr(url_entry_cont);
 		if (CFG.USE_PROXY_FOR_FTP) {
 			editor->dwn->config.proxy_host.set(CFG.FTP_PROXY_HOST);
 			editor->dwn->config.proxy_port=CFG.FTP_PROXY_PORT;
@@ -256,7 +262,8 @@ static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor)
 			};
 		};
 		editor->dwn->config.proxy_type=CFG.FTP_PROXY_TYPE;
-		flag=1;
+		if (url_entry_cont==NULL || *url_entry_cont==0)
+			flag=1;
 	};
 	what=editor->dwn;
 	init_edit_window_without_ok(what);
@@ -403,14 +410,40 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 					char *url=editor->dwn->info->url();
 					text_to_combo(editor->url_entry,url);
 					delete[] url;
-				};
-			};
+				}else
+				text_to_combo(editor->url_entry,"");
+			}else
+				text_to_combo(editor->url_entry,"");
 			GtkWidget *button=gtk_button_new_with_label(_("Edit"));
 			gtk_signal_connect(GTK_OBJECT(button),"clicked",
-					   GTK_SIGNAL_FUNC(my_gtk_aeditor_edit_download),editor);
+					   GTK_SIGNAL_FUNC(my_gtk_aeditor_edit_download),
+					   editor);
 			gtk_box_pack_start(GTK_BOX(hbox),button,
 					   FALSE,FALSE,0);
 			gtk_container_add(GTK_CONTAINER(editor->frame),hbox);
+			break;
+		};
+		case SACT_EXECUTE:{
+			editor->path_entry=gtk_entry_new();
+			GtkWidget *hbox=gtk_hbox_new(FALSE,0);
+			gtk_box_set_spacing(GTK_BOX(hbox),5);
+			editor->frame_child=hbox;
+			gtk_box_pack_start(GTK_BOX(hbox),
+					   gtk_label_new(_("Command:")),
+					   FALSE,FALSE,0);
+			gtk_box_pack_start(GTK_BOX(hbox),editor->path_entry,
+					   TRUE,TRUE,0);
+			GtkWidget *button=gtk_button_new_with_label(_("Browse"));
+			gtk_signal_connect(GTK_OBJECT(button),"clicked",
+					   GTK_SIGNAL_FUNC(my_gtk_aeditor_browse),editor);
+			gtk_box_pack_start(GTK_BOX(hbox),button,
+					   FALSE,FALSE,0);
+			gtk_container_add(GTK_CONTAINER(editor->frame),hbox);
+			if (editor->action && editor->action->type()==SACT_EXECUTE){
+				d4xSAExecute *a=(d4xSAExecute *)editor->action;
+				text_to_combo(editor->path_entry,a->command.get());
+			}else
+				text_to_combo(editor->path_entry,"");
 			break;
 		};
 		case SACT_SAVE_LIST:{
@@ -429,8 +462,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 			gtk_box_pack_start(GTK_BOX(hbox),button,
 					   FALSE,FALSE,0);
 			gtk_container_add(GTK_CONTAINER(editor->frame),hbox);
-			break;
-			gtk_container_add(GTK_CONTAINER(editor->frame),editor->path_entry);
+//			gtk_container_add(GTK_CONTAINER(editor->frame),editor->path_entry);
 			if (editor->action && editor->action->type()==SACT_SAVE_LIST){
 				d4xSASaveList *a=(d4xSASaveList *)editor->action;
 				text_to_combo(editor->path_entry,a->path.get());
@@ -601,8 +633,24 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 		action=act;
 		break;
 	};
+	case SACT_EXECUTE:{
+		d4xSAExecute *act=new d4xSAExecute;
+		act->command.set(text_from_combo(editor->path_entry));
+		action=act;
+		break;
+	};
 	case SACT_ADD_DOWNLOAD:{
 		d4xSAAddDownload *act=new d4xSAAddDownload;
+		if (act->dwn)
+			delete(act->dwn);
+		if (editor->dwn==NULL){
+			editor->dwn=new tDownload;
+			editor->dwn->set_default_cfg();
+			editor->dwn->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+		};
+		if (editor->dwn->info)
+			delete(editor->dwn->info);
+		editor->dwn->info=new tAddr(text_from_combo(editor->url_entry));
 		act->dwn=editor->dwn;
 		editor->dwn=NULL;
 		action=act;

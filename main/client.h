@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -13,6 +13,59 @@
 
 #include "socket.h"
 #include "liststr.h"
+#include "locstr.h"
+
+struct tSimplyCfg{
+	int timeout;
+	int time_for_sleep;
+	int sleep_before_complete;
+	int number_of_attempts;
+	int ftp_recurse_depth,http_recurse_depth;
+	int rollback;
+	int speed;
+/* flags
+ */
+	int http_recursing; //temporary flag
+	int leave_server,dont_leave_dir;
+	int change_links;
+	int passive;
+	int retry;
+	int permisions;
+	int get_date;
+	int full_server_loading;
+	int link_as_file;
+	int restart_from_begin;
+	int dont_send_quit;
+	int check_time;
+	/* temporary flags */
+	int split; 
+	int redirect_count;
+	void copy_ints(tSimplyCfg *src);
+};
+
+struct tCfg:public tSimplyCfg{
+	int socks_port;
+	tPStr socks_host;
+	tPStr socks_user,socks_pass;
+	int proxy_port;
+	int proxy_type;
+	int proxy_no_cache;
+	tPStr proxy_host;
+	tPStr proxy_user;
+	tPStr proxy_pass;
+	tPStr user_agent,referer,cookie; /* HTTP items */
+	tPStr save_name,save_path;
+	tPStr log_save_path;
+	tCfg();
+	int get_flags();
+	void set_flags(int what);
+	void reset_proxy();
+	void copy_proxy(tCfg *src);
+	void copy(tCfg *src);
+	void save_to_config(int fd);
+	int load_from_config(int fd);
+	~tCfg();
+};
 
 class tWriterLoger{
  public:
@@ -36,7 +89,7 @@ class tClient{
     fsize_t FillSize,FileLoaded;
     unsigned int DSize;
     int ReGet,Status;
-    tSocket CtrlSocket;
+    tSocket *CtrlSocket;
     unsigned int BuffSize;
     char *buffer;
     tWriterLoger *LOG;
@@ -48,6 +101,7 @@ class tClient{
     int write_buffer();
     public:
     	tClient();
+    	tClient(tCfg *cfg);
     	int get_readed();
     	virtual void init(char *host,tWriterLoger *log,int prt,int time_out);
         virtual int reinit();

@@ -1,4 +1,4 @@
-%define ver      1.25
+%define ver      1.26
 %define prefix   /usr
 
 Name: nt
@@ -23,6 +23,7 @@ Main features:
     * recursive FTP and HTTP downloading
     * ability to change links in HTML file for offline browsing
     * wildcards support for FTP recursing
+    * filters support for HTTP recursing
     * proxy support (FTP and HTTP)
     * supports for traffic limitation
     * mass downloading function

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -22,6 +22,8 @@ void set_dndtrash_button();
 void set_speed_buttons();
 void buttons_speed_set_text();
 void buttons_cfg_init();
+void buttons_configure();
+void buttons_configure_close();
 
 enum {
 	BUTTON_ADD=0,
@@ -39,7 +41,10 @@ enum {
 	BUTTON_OPTIONS,
 	BUTTON_DEL_ALL,
 	BUTTON_SAVE,
+	BUTTON_LOAD,
 	BUTTON_DND_TRASH,
+	BUTTON_PROGRESS,
+	BUTTON_CONFIGURE,
 	BUTTON_LAST
 };
 #endif

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -49,6 +49,7 @@
 #include "memwl.h"
 #include "schedule.h"
 #include "html.h"
+#include "filter.h"
 
 tMLog *MainLog=NULL;
 
@@ -89,6 +90,9 @@ int calc_curent_run(char *host,int port) {
 
 typedef void (*SigactionHandler)(int);
 
+void _sig_pipe_handler_(){
+};
+
 void tMain::init() {
 	ftpsearch=NULL;
 	prev_speed_limit=0;
@@ -104,6 +108,8 @@ void tMain::init() {
 	
 	LimitsForHosts=new tHostsLimits;
 	LimitsForHosts->set_default_limit(CFG.DEFAULT_HOST_LIMIT);
+	FILTERS_DB=new d4xFiltersTree;
+	FILTERS_DB->load_from_ntrc();
 	PasswordsForHosts=load_passwords();
 	read_limits();
 	SpeedScheduler=new tSpeedQueue;
@@ -124,6 +130,9 @@ void tMain::init() {
 	action.sa_flags=0;//SA_NOCLDSTOP;
 	sigaction(SIGINT,&action,&old_action);
 	sigaction(SIGTERM,&action,&old_action);
+	action.sa_flags=0;
+	action.sa_handler=SigactionHandler(_sig_pipe_handler_);
+	sigaction(SIGPIPE,&action,&old_action);
 //	signal(SIGTERM,my_main_quit);
 };
 
@@ -222,36 +231,19 @@ void tMain::redraw_logs() {
 	};
 };
 
-static gint _compare_nodes(gconstpointer a,gconstpointer b){
-	gint aa=((tDownload *)(a))->GTKCListRow;
-	gint bb=((tDownload *)(b))->GTKCListRow;
-	return aa-bb;
-};
 
 void tMain::absolute_delete_download(tDList *where,tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	list_to_delete=g_list_insert_sorted(list_to_delete,what,_compare_nodes);
+	list_of_downloads_remove(what);
 	if (where) where->del(what);
 	ALL_DOWNLOADS->del(what);
+	delete(what);
 };
 
-void tMain::go_to_delete(){
-	if (CFG.WITHOUT_FACE==0){
-		list_of_downloads_del_list(list_to_delete);
-	}else{
-		while(list_to_delete){
-			tDownload *tmp=(tDownload *)(list_to_delete->data);
-			delete(tmp);
-			list_to_delete=g_list_remove_link(list_to_delete,list_to_delete);
-		};
-	};
-	list_to_delete=NULL;
-};
 
 void tMain::del_completed() {
 	MainLog->add(_("Delete completed downloads"),LOG_OK|LOG_DETAILED);
 	del_all_from_list(DOWNLOAD_QUEUES[DL_COMPLETE]);
-	go_to_delete();
 };
 
 void tMain::rerun_failed(){
@@ -265,7 +257,6 @@ void tMain::rerun_failed(){
 void tMain::del_fataled() {
 	MainLog->add(_("Delete failed downloads"),LOG_OK|LOG_DETAILED);
 	del_all_from_list(DOWNLOAD_QUEUES[DL_STOP]);
-	go_to_delete();
 };
 
 void tMain::del_all_from_list(tDList *list){
@@ -298,7 +289,6 @@ void tMain::del_all() {
 	del_all_from_list(DOWNLOAD_QUEUES[DL_WAIT]);
 	del_all_from_list(DOWNLOAD_QUEUES[DL_STOP]);
 	del_all_from_list(DOWNLOAD_QUEUES[DL_COMPLETE]);
-	go_to_delete();
 };
 
 
@@ -398,15 +388,10 @@ void tMain::stop_download(tDownload *what) {
 		MainLog->myprintf(LOG_WARNING,_("Downloading of file %s from %s was terminated [by user]"),
 				  what->info->file.get(),
 				  what->info->host.get());
+		stop_thread(what);
 		if (what->split)
 			stop_split(what);
-		if (!stop_thread(what) || what->split) {
-			DOWNLOAD_QUEUES[DL_STOPWAIT]->insert(what);
-		} else {
-			real_stop_thread(what);
-			LimitsForHosts->decrement(what);
-			DOWNLOAD_QUEUES[DL_PAUSE]->insert(what);
-		};
+		DOWNLOAD_QUEUES[DL_STOPWAIT]->insert(what);
 		what->Status.clear();
 	} else {
 		if (DOWNLOAD_QUEUES[DL_WAIT]->owner(what)) {
@@ -468,15 +453,15 @@ void tMain::try_to_run_split(tDownload *what){
 		while (dwn){
 			if (tmp && tmp->curent>=tmp->upper)
 				return;
-			if (dwn->split->status==0 &&
-			    run_new_thread(dwn)){
-				return;
+			if (dwn->split->status==0){
+				if (run_new_thread(dwn)){
+					return;
+				};
+				if (tmp) tmp->increment();
 			};
-			if (tmp) tmp->increment();
 			dwn->split->status=1;
 			dwn=dwn->split->next_part;
 		};
-		what->split->status=1;
 	};
 };
 
@@ -489,7 +474,7 @@ int tMain::try_to_run_download(tDownload *what){
 	    (tmp==NULL || tmp->curent<tmp->upper)) {
 		// to avoid old info in columns
 		if (CFG.WITHOUT_FACE==0)
-			list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
+			list_of_downloads_change_data(list_of_downloads_row(what),PAUSE_COL,"");
 		if (what->split){
 			what->finfo.size=-1;
 			what->split->FirstByte=0;
@@ -507,11 +492,11 @@ int tMain::try_to_run_download(tDownload *what){
 
 void tMain::insert_into_wait_list(tDownload *what){
 	tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->last();
-	if (!temp || temp->GTKCListRow < what->GTKCListRow)
+	if (!temp || list_of_downloads_row(temp) < list_of_downloads_row(what))
 		DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
 	else {
 		temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
-		while (temp && temp->GTKCListRow < what->GTKCListRow)
+		while (temp && list_of_downloads_row(temp) < list_of_downloads_row(what))
 			temp=DOWNLOAD_QUEUES[DL_WAIT]->prev();
 		DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,temp);
 	};
@@ -619,16 +604,17 @@ void tMain::print_info(tDownload *what) {
 			list_of_downloads_set_run_icon(what);
 		};
 	};
+	gint row=list_of_downloads_row(what);
 	switch(what->finfo.type) {
 	case T_FILE:{
-		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,_("file"));
+		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(row,FILE_TYPE_COL,_("file"));
 		fsize_t REAL_SIZE=what->finfo.size;
 		if (REAL_SIZE==0 && what->who!=NULL)
 			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
 		if (REAL_SIZE<0) REAL_SIZE=0;
 		make_number_nice(data,REAL_SIZE);
 		if (downloading_started){
-			list_of_downloads_change_data(what->GTKCListRow,FULL_SIZE_COL,data);
+			list_of_downloads_change_data(row,FULL_SIZE_COL,data);
 			if (what->who){
 					what->Size.set(what->get_loaded());
 			};
@@ -637,7 +623,7 @@ void tMain::print_info(tDownload *what) {
 		
 		if (what->Remain.change() && what->Remain.curent>=0){
 			make_number_nice(data,what->Remain.curent);
-			list_of_downloads_change_data(what->GTKCListRow,REMAIN_SIZE_COL,data);
+			list_of_downloads_change_data(row,REMAIN_SIZE_COL,data);
 		};
 		time_t NOWTMP;
 		time(&NOWTMP);
@@ -651,14 +637,14 @@ void tMain::print_info(tDownload *what) {
 				what->Start-=difdif;
 			convert_time(newdiff,data);
 			what->Difference=NOWTMP-what->Start;
-			list_of_downloads_change_data(what->GTKCListRow,TIME_COL,data);
+			list_of_downloads_change_data(row,TIME_COL,data);
 		};
 		if (what->Size.change() || CFG.NICE_DEC_DIGITALS.change()) {
 			make_number_nice(data,what->Size.curent);
-			list_of_downloads_change_data(what->GTKCListRow,DOWNLOADED_SIZE_COL,data);
+			list_of_downloads_change_data(row,DOWNLOADED_SIZE_COL,data);
 			time_t Pause=NOWTMP;
 			if (Pause - what->Pause > 4)
-				list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
+				list_of_downloads_change_data(row,PAUSE_COL,"");
 			what->Pause = Pause;
 			// calculating speed for graph
 			unsigned int TimeLeft=get_precise_time()-LastTime;
@@ -673,7 +659,7 @@ void tMain::print_info(tDownload *what) {
 				int Pause=NOWTMP-what->Pause;
 				if (Pause>=30) {
 					convert_time(Pause,data);
-					list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,data);
+					list_of_downloads_change_data(row,PAUSE_COL,data);
 				};
 			};
 		};
@@ -688,7 +674,7 @@ void tMain::print_info(tDownload *what) {
 		};
 
 		if (what->Size.change()) {
-			list_of_downloads_set_percent(what->GTKCListRow,
+			list_of_downloads_set_percent(row,
 						      PERCENT_COL,
 						      what->Percent);
 		};
@@ -701,7 +687,7 @@ void tMain::print_info(tDownload *what) {
 				what->Speed.set(int(tmp/what->Difference));
 				if (what->Speed.change()) {
 					sprintf(data,"%li",what->Speed.curent);
-					list_of_downloads_change_data(what->GTKCListRow,SPEED_COL,data);
+					list_of_downloads_change_data(row,SPEED_COL,data);
 					what->Speed.reset();
 				};
 			};
@@ -711,35 +697,35 @@ void tMain::print_info(tDownload *what) {
 				tmp=(float(REAL_SIZE-what->Size.curent)*float(what->Difference))/tmp;
 				if (tmp>=0 && tmp<24*3660) {
 					convert_time(int(tmp),data);
-					list_of_downloads_change_data(what->GTKCListRow,ELAPSED_TIME_COL,data);
+					list_of_downloads_change_data(row,ELAPSED_TIME_COL,data);
 				} else
-					list_of_downloads_change_data(what->GTKCListRow,ELAPSED_TIME_COL,"...");
+					list_of_downloads_change_data(row,ELAPSED_TIME_COL,"...");
 			} else
-				list_of_downloads_change_data(what->GTKCListRow,ELAPSED_TIME_COL,"...");
+				list_of_downloads_change_data(row,ELAPSED_TIME_COL,"...");
 		};
 		break;
 	};
 	case T_DIR:{
-		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,_("dir"));
+		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(row,FILE_TYPE_COL,_("dir"));
 		break;
 	};
 	case T_LINK:{
-		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,_("link"));
+		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(row,FILE_TYPE_COL,_("link"));
 		break;
 	};
 	case T_DEVICE:{
-		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,_("device"));
+		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(row,FILE_TYPE_COL,_("device"));
 		break;
 	};
 	default:
-		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,"???");
+		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(row,FILE_TYPE_COL,"???");
 	};
 	if (what->finfo.type==T_DIR || what->finfo.type==T_NONE){
 		if (what->who) what->Size.set(what->who->get_readed());
 		if (what->Size.change() || CFG.NICE_DEC_DIGITALS.change()) {
 			char data[MAX_LEN];
 			make_number_nice(data,what->Size.curent);
-			list_of_downloads_change_data(what->GTKCListRow,DOWNLOADED_SIZE_COL,data);
+			list_of_downloads_change_data(row,DOWNLOADED_SIZE_COL,data);
 			what->Size.reset();
 		};				
 	};
@@ -751,7 +737,7 @@ void tMain::print_info(tDownload *what) {
 				sprintf(data,"%li/%i",what->Attempt.curent, what->config.number_of_attempts);
 			else
 				sprintf(data,"%li",what->Attempt.curent);
-			list_of_downloads_change_data(what->GTKCListRow,TREAT_COL,data);
+			list_of_downloads_change_data(row,TREAT_COL,data);
 		};
 	};
 	what->finfo.oldtype=what->finfo.type;
@@ -783,15 +769,21 @@ void tMain::redirect(tDownload *what) {
 			delete[] oldurl;
 			return;
 		};
+		tAddr *oldinfo=what->info;
+		what->info=addr;
+		if (ALL_DOWNLOADS->find(what)) {
+			what->info=oldinfo;
+			DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
+			delete(addr);
+			delete[] oldurl;
+			return;
+		};
+		what->info=oldinfo;
 		ALL_DOWNLOADS->del(what);
-		if (what->info) delete (what->info);
+		delete(oldinfo);
 		what->info=addr;
 		what->config.referer.set(oldurl);
 		delete[] oldurl;
-		if (ALL_DOWNLOADS->find(what)) {
-			list_to_delete=g_list_insert_sorted(list_to_delete,what,_compare_nodes);
-			return;
-		};
 		ALL_DOWNLOADS->insert(what);
 		tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
 		if (temp)
@@ -803,11 +795,12 @@ void tMain::redirect(tDownload *what) {
 		what->finfo.size=-1;
 		if (CFG.WITHOUT_FACE==0){
 			char *URL=what->info->url();
-			list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
+			gint row=list_of_downloads_row(what);
+			list_of_downloads_change_data(row,URL_COL,URL);
 			delete [] URL;
-			list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
+			list_of_downloads_change_data(row,FILE_COL,what->info->file.get());
 			for (int i=FILE_TYPE_COL;i<URL_COL;i++)
-				list_of_downloads_change_data(what->GTKCListRow,i,"");
+				list_of_downloads_change_data(row,i,"");
 		};
 	} else {
 		MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to nowhere!"),what);
@@ -819,7 +812,8 @@ void tMain::redirect(tDownload *what) {
 void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	MainLog->myprintf(LOG_OK|LOG_DETAILED,_("Prepare [%z] for stoping"),what);
-	if (what->split==NULL)
+	if (what->thread_id &&
+	    (what->split==NULL || what->split->stopped==0))
 		LimitsForHosts->decrement(what);
 	if (what->editor) what->editor->enable_ok_button();
 	if (what->SpeedLimit) SpeedScheduler->del(what->SpeedLimit);
@@ -836,7 +830,6 @@ void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 		what->segments=NULL;
 	};
 	if (what->split && what->split->next_part){
-		if (what->split->stopped==0) LimitsForHosts->decrement(what);
 		prepare_for_stoping(what->split->next_part,NULL);
 		real_stop_thread(what->split->next_part);
 //		delete(what->split->next_part);
@@ -924,9 +917,9 @@ int tMain::get_status_split(tDownload *what){
 	};
 	if (status[2]) return DOWNLOAD_GO;
 	if (status[1]==0){
-		if (what->split->status)
-			return DOWNLOAD_COMPLETE;
-		return DOWNLOAD_GO;
+//		if (what->split->status)
+		return DOWNLOAD_COMPLETE;
+//		return DOWNLOAD_GO;
 	};
 	return DOWNLOAD_REAL_STOP;
 };
@@ -940,8 +933,8 @@ void tMain::main_circle_first(){
 		if (temp->status==DOWNLOAD_REAL_STOP ||
 		        temp->status==DOWNLOAD_COMPLETE  ||
 		        temp->status==DOWNLOAD_FATAL) {
-			real_stop_thread(temp);
 			prepare_for_stoping(temp,DOWNLOAD_QUEUES[DL_STOPWAIT]);
+			real_stop_thread(temp);
 			DOWNLOAD_QUEUES[DL_PAUSE]->insert(temp);
 			switch(temp->action){
 			case ACTION_REAL_DELETE:
@@ -1019,7 +1012,6 @@ void tMain::main_circle() {
 		temp=temp_next;
 	};
 /* various stuff */
-	go_to_delete();
 	speed();
 	MainScheduler->run(this);
 	if (CFG.WITHOUT_FACE==0)
@@ -1121,10 +1113,10 @@ void tMain::ftp_search(tDownload *what){
 	if (what->info->file.get() && what->finfo.size>0){
 		tDownload *tmp=new tDownload;
 		tmp->info=new tAddr;
+		tmp->set_default_cfg();
 		tmp->info->copy(what->info);
 		tmp->finfo.size=what->finfo.size;
 		tmp->info->proto=D_PROTO_SEARCH;
-		tmp->config.copy_ints(&(CFG.DEFAULT_CFG));
 		if (CFG.USE_PROXY_FOR_HTTP) {
 			tmp->config.proxy_host.set(CFG.HTTP_PROXY_HOST);
 			tmp->config.proxy_port=CFG.HTTP_PROXY_PORT;
@@ -1145,6 +1137,23 @@ void tMain::ftp_search_reping(tDownload *what){
 void tMain::ftp_search_remove(tDownload *what){
 	if (ftpsearch)
 		ftpsearch->remove(what);
+};
+
+void tMain::schedule_download(tDownload *what){
+	if (DOWNLOAD_QUEUES[DL_RUN]->owner(what)
+	    || DOWNLOAD_QUEUES[DL_STOPWAIT]->owner(what)) return;
+	DOWNLOAD_QUEUES[what->owner]->del(what);
+	list_of_downloads_remove(what);
+	ALL_DOWNLOADS->del(what);
+	if (what->LOG){
+		delete(what->LOG);
+		what->LOG=NULL;
+	};
+	if (what->split){
+		delete(what->split);
+		what->split=NULL;
+	};
+	MainScheduler->add_scheduled(what);
 };
 
 int tMain::add_downloading(tDownload *what) {
@@ -1426,8 +1435,8 @@ void tMain::done() {
 			if (temp->status==DOWNLOAD_REAL_STOP ||
 			        temp->status==DOWNLOAD_COMPLETE  ||
 			        temp->status==DOWNLOAD_FATAL) {
-				real_stop_thread(temp);
 				prepare_for_stoping(temp,DOWNLOAD_QUEUES[DL_STOPWAIT]);
+				real_stop_thread(temp);
 				DOWNLOAD_QUEUES[DL_PAUSE]->insert(temp);
 			};
 			temp=temp1;
@@ -1443,7 +1452,7 @@ void tMain::done() {
 	delete(MainScheduler);
 	delete(GlobalMeter);
 	delete(LocalMeter);
-	delete(ALL_DOWNLOADS);
+	delete(ALL_DOWNLOADS); // delete or not delete that is the question :-)
 	delete(COOKIES);
 
 	MainLog->myprintf(LOG_OK,_("%lu bytes loaded during the session"),GVARS.READED_BYTES);
@@ -1456,6 +1465,8 @@ void tMain::done() {
 	close(LOCK_FILE_D);
 	delete (server);
 	delete (MsgQueue);
+	FILTERS_DB->save_to_ntrc();
+	delete(FILTERS_DB);
 	/*
 	for (int i=URL_HISTORY;i<LAST_HISTORY;i++)
 		if (ALL_HISTORIES[i]) delete(ALL_HISTORIES[i]);

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -26,6 +26,7 @@
 
 
 class tSocket{
+ protected:
 	fd_set set;
 	int fd;
 	sockaddr_in info;
@@ -33,25 +34,25 @@ class tSocket{
 	int temp_variable;
 	char *buffer;
 	int RBytes,SBytes;
-	int constr_name(char *host,int port);
+	int constr_name(char *host,u_int16_t port);
 	int wait_for_read(int len);
 	int wait_for_write(int len); 
  public:
 	tSocket();
-	unsigned int get_addr();
-	unsigned short int get_port();
+	virtual unsigned int get_addr();
+	virtual unsigned short int get_port();
 	int readed_bytes();
-	int open_any(char * host);
-	int open_any(unsigned int host);
-	int accepting(char * host);
-	int open_port(char * host,int port);
-	int open_port(unsigned long int host,unsigned short int port);
+	virtual int open_any(char * host);
+	virtual int open_any(u_int32_t host);
+	virtual int accepting(char * host);
+	virtual int open_port(char * host,u_int16_t port);
+	virtual int open_port(u_int32_t host,u_int16_t port);
 	int open_port(int *ftp_addr);
 	int send_string(char *what,int timeout);
 	int rec_string(char * where,fsize_t len,int timeout);
 	void flush();
-	void down();
-	~tSocket(); 
+	virtual void down();
+	virtual ~tSocket(); 
 };
 
 #define SOCKET_UNKNOWN_HOST -1

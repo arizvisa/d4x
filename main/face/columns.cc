@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -145,6 +145,11 @@ void tColumnsPrefs::apply_changes(){
 	};
 //delete old list and create new
 	if (need_reinit){
+		for (gint row=0;;row+=1){
+			tDownload *dwn=get_download_from_clist(row);
+			if (dwn==NULL) break;
+			dwn->GTKCListRow=row;
+		};
 		list_of_downloads_get_height();
 		gtk_signal_handlers_destroy(GTK_OBJECT(ListOfDownloads));
 		gtk_widget_destroy(ListOfDownloads);

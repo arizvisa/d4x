@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -46,5 +46,43 @@ GtkWidget *my_gtk_colorsel_new(gint color,gchar *title);
 gint my_gtk_colorsel_get_color(MyGtkColorsel *colsel);
 void my_gtk_colorsel_set_color(MyGtkColorsel *colsel, gint color);
 
+struct d4xRule;
+
+struct d4xRuleEdit{
+	GtkWindow window;
+	GtkWidget *host,*proto,*path,*file;
+	GtkWidget *include,*exclude;
+	GtkWidget *vbox;
+	GtkWidget *ok_button,*cancel_button;
+	GtkWidget *filter_edit;
+	d4xRule *rule;
+};
+
+struct d4xRuleEditClass{
+	GtkWindowClass parent_class;
+};
+
+void d4x_rule_edit_apply(d4xRuleEdit *rule);
+GtkWidget *d4x_rule_edit_new(d4xRule *rule);
+GtkWidget *d4x_rule_edit_new_full(d4xRule *rule);
+
+struct d4xFNode;
+
+struct d4xFilterEdit{
+	GtkWindow window;
+	GtkWidget *vbox;
+	GtkWidget *clist;  //list of rules
+	GtkWidget *include,*exclude; //default action
+	GtkWidget *name;   //name entry
+	GtkWidget *ok,*edit;   //buttons
+	d4xFNode *node;
+};
+
+struct d4xFilterEditClass{
+	GtkWindowClass parent_class;
+};
+
+GtkWidget *d4x_filter_edit_new(d4xFNode *node);
+void d4x_filter_edit_add_rule(d4xFilterEdit *edit,d4xRule *rule);
 
 #endif

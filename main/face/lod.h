@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	Copyright (C) 1999-2001 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -73,15 +73,16 @@ void list_of_downloads_add(tDownload *what,int row);
 void list_of_downloads_change_data(int row,int column,gchar *data);
 void list_of_downloads_update(tDownload *what);
 void list_of_downloads_set_percent(int row,int col,float percent);
+void list_of_downloads_remove(tDownload *what);
 
-void list_of_downloads_del_list(GList *list);
 void list_of_downloads_freeze();
 void list_of_downloads_unfreeze();
 gint list_of_downloads_get_height();
 void list_of_downloads_set_height();
 void init_columns_info();
 
-void list_of_downloads_set_pixmap(int row,int type);
+void list_of_downloads_set_pixmap(tDownload *what,int type);
+void list_of_downloads_set_pixmap(gint row,int type);
 void list_of_downloads_set_run_icon(tDownload *what);
 int list_of_downloads_sel();
 
@@ -93,6 +94,7 @@ void list_of_downloads_select_all();
 void list_of_downloads_invert_selection();
 
 tDownload *get_download_from_clist(int row);
+gint list_of_downloads_row(tDownload *what);
 tDownload *list_of_downloads_last_selected();
 
 void list_of_downloads_open_logs(...);
