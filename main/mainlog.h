@@ -45,6 +45,7 @@ class tMLog:public tStringList{
 		tLogString *last();
 		tLogString *next();
 		tLogString *first();
+		void done();
 		~tMLog();
 };
 

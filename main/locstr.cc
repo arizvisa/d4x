@@ -242,7 +242,7 @@ void convert_to_hex(char what,char *where) {
 
 char *unparse_percents(char *what) {
 	g_return_val_if_fail(what!=NULL,NULL);
-	const char *true_chars=".-+";
+	const char *true_chars=".-+%";
 	char *temp=what;
 	int unparsed_len=0;
 
@@ -718,6 +718,16 @@ int write_named_time(int fd,char *name,time_t when){
 	return 0;
 };
 
+/* length of string with specified integer;
+ */
+int int_to_strin_len(int num){
+	int len=num<0?2:1;
+	while (num){
+		num/=10;
+		len+=1;
+	};
+	return len;
+};
 
 /* tPStr
    Protected String

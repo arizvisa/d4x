@@ -8,14 +8,21 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef GTK_PREFS_WINDOW
-#define GTK_PREFS_WINDOW
-#include "../history.h"
+#ifndef _DOWNLOADER_FILE_PARSER_
+#define _DOWNLOADER_FILE_PARSER_
 
-void options_window_ok();
-gint options_window_cancel();
-void init_options_window(...);
-void toggle_button_set_state(GtkToggleButton *tb,gboolean state);
-GtkWidget *my_gtk_combo_new(tHistory *history);
+#include "liststr.h"
+#include "var.h"
+
+class tUrlParser{
+	int fd;
+	unsigned char buf[MAX_LEN];
+	int sequence(unsigned char *where, char *str);
+	int read_url(unsigned char *where, tStringList *list);
+ public:
+	tUrlParser(const char *filename);
+	tStringList *parse();
+	~tUrlParser();
+};
 
 #endif

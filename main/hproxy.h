@@ -25,7 +25,8 @@ class tHProxyClient:public tHttpClient{
 };
 
 class tProxyDownload:public tHttpDownload{
-	char *D_PROTO;
+	int D_PROTO;
+	char *make_name();
 	public:
 		tProxyDownload();
 		int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);

@@ -29,6 +29,12 @@ class tMain{
 	void case_download_failed(tDownload *what);
 	int run_new_thread(tDownload *what);
 	int try_to_run_download(tDownload *what);
+
+	void try_to_run_split(tDownload *what);
+	void stop_split(tDownload *what);
+	int get_status_split(tDownload *what);
+	int get_split_loaded(tDownload *what);
+
 	void add_dir(tDownload *parent);
 	void print_info(tDownload *what);
 	void redirect(tDownload *what);

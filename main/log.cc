@@ -81,7 +81,7 @@ void tLog::get_geometry(int *a) {
 
 void tLog::send_msg(int type,tLogString *what) {
 	MaxNum=CFG.MAX_LOG_LENGTH;
-//	if (what) printf("%s", what->body);
+//	if (what) printf("%s\n", what->body);
 	if (Window) {
 		mbuf Msg;
 		Msg.mtype=type;

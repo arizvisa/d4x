@@ -31,7 +31,7 @@ int graph_draw() {
 	int YSize=16;
 	int WX,WY;
 	gdk_window_get_size(MainWindow->window,&WX,&WY);
-	gdk_draw_indexed_image(MainWindow->window,MainWindowGC,WX-3-XSize,WY-2-YSize,XSize,YSize,
+	gdk_draw_indexed_image(MainWindow->window,MainWindowGC,WX-2-XSize,WY-2-YSize,XSize,YSize,
 	                       GDK_RGB_DITHER_NONE,(guchar *)graph_rgb_data,XSize,cmap);
 	gdk_flush();
 	return FALSE;
@@ -130,8 +130,15 @@ void graph_init() {
 
 	cmap=gdk_rgb_cmap_new(colors,4);
 	memset(graph_rgb_data,3,XSize*YSize);
-	gdk_window_clear_area(MainWindow->window,WX-3-XSize,WY-3-YSize,XSize,YSize);
+	gdk_window_clear_area(MainWindow->window,WX-3-XSize,WY-2-YSize,XSize,YSize);
 	gdk_draw_indexed_image(MainWindow->window,MainWindowGC,WX-3-XSize,WY-2-YSize,XSize,YSize,
 	                       GDK_RGB_DITHER_NONE,(guchar *)graph_rgb_data,XSize,cmap);
 	gdk_flush();
+};
+
+void graph_reinit(){
+	gdk_rgb_cmap_free(cmap);
+	graph_init();
+	graph_recalc();
+	graph_draw();
 };

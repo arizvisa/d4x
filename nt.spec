@@ -1,4 +1,4 @@
-%define ver      1.15
+%define ver      1.16
 %define prefix   /usr
 
 Name: nt
@@ -24,6 +24,7 @@ Main features:
     * mask support for ftp recursing
     * proxy support (ftp and http)
     * support for traffic limitation
+    * mass downloading function
     * and other ...
 
 %prep
@@ -55,7 +56,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(-, root, root)
-%doc ChangeLog FAQ FAQ.es FAQ.de FAQ.fr FAQ.gr INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.ru README.gr README.es INSTALL.gr INSTALL.es 
+%doc ChangeLog FAQ FAQ.* INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.* INSTALL.*
 %prefix/bin/nt
 %prefix/man/man1/nt.1
 /etc/X11/wmconfig/nt

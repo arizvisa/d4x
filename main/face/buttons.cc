@@ -105,7 +105,21 @@ void set_dndtrash_button(){
 
 gint buttons_save_press(GtkWidget *widget,GdkEventButton *event){
 	if (event->button==3){
+		gtk_signal_emit_by_name(GTK_OBJECT(widget),"pressed",NULL);
 		save_list();
+		return TRUE;
+	};
+	return FALSE;
+};
+
+gint buttons_save_release(GtkButton *button,GdkEventButton *event){
+	if (event->button==3){
+		button->button_down=FALSE;		
+		GtkStateType new_state = (button->in_button ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL);
+		if (GTK_WIDGET_STATE(button)!=new_state){
+			gtk_widget_set_state(GTK_WIDGET(button),new_state);
+			gtk_widget_queue_draw(GTK_WIDGET(button));
+		};
 		return TRUE;
 	};
 	return FALSE;
@@ -201,6 +215,8 @@ void init_buttons_bar() {
 	             (GtkWidget *)NULL);
 	gtk_signal_connect (GTK_OBJECT (buttons_array[BUTTON_SAVE]), "button_press_event",
 			    GTK_SIGNAL_FUNC (buttons_save_press), NULL);
+	gtk_signal_connect (GTK_OBJECT (buttons_array[BUTTON_SAVE]), "button_release_event",
+			    GTK_SIGNAL_FUNC (buttons_save_release), NULL);
 	set_speed_buttons();
 	set_dndtrash_button();
 	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;

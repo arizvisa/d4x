@@ -177,7 +177,8 @@ tConfigVariable config_variables[]={
 	{"buttons_man",		CV_TYPE_BOOL,	&(CFG.BUTTONS_MAN)},
 	{"buttons_speed",	CV_TYPE_BOOL,	&(CFG.BUTTONS_SPEED)},
 	{"buttons_misc",	CV_TYPE_BOOL,	&(CFG.BUTTONS_MISC)},
-	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)}
+	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)},
+	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);

@@ -133,6 +133,12 @@ void list_of_downloads_print_size(tDownload *what){
 	};
 };
 
+void list_of_downloads_set_filename(tDownload *what){
+	char *parsed_name=parse_percents(what->info->file.get());
+	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,parsed_name);
+	delete(parsed_name);
+};
+
 void list_of_downloads_add(tDownload *what) {
 	gchar *data[NOTHING_COL+1];
 	char *URL=what->info->url();
@@ -140,7 +146,7 @@ void list_of_downloads_add(tDownload *what) {
 		data[ListColumns[i].enum_index]="";
 	what->GTKCListRow=gtk_clist_append(GTK_CLIST(ListOfDownloads),data);
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
-	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
+	list_of_downloads_set_filename(what);
 	list_of_downloads_print_size(what);
 
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),what->GTKCListRow,gpointer(what));
@@ -172,7 +178,6 @@ void list_of_downloads_add(tDownload *what,int row) {
 		data[i]=(gchar *)NULL;
 	gtk_clist_insert(GTK_CLIST(ListOfDownloads),row,data);
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),row,what);
-	list_of_downloads_change_data(row,FILE_COL,what->info->file.get());
 	char *URL=what->info->url();
 	list_of_downloads_change_data(row,URL_COL,URL);
 	delete (URL);
@@ -199,6 +204,7 @@ void list_of_downloads_add(tDownload *what,int row) {
 	};
 	};
 	list_of_downloads_print_size(what);
+	list_of_downloads_set_filename(what);
 };
 
 void move_download_up(int ROW){

@@ -28,8 +28,9 @@ void tHttpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	buffer=new char[BuffSize];
 };
 
-void tHttpClient::set_user_agent(char *what){
-	user_agent=what;
+void tHttpClient::set_user_agent(char *agent,char *refer){
+	user_agent=agent;
+	referer=refer;
 };
 
 void tHttpClient::set_offset(int a) {
@@ -70,11 +71,11 @@ int tHttpClient::read_answer(tStringList *list) {
 		sscanf(last->body,"%s %s",str1,str2);
 		if (!equal_first("HTTP",str1)) {
 			LOG->log(LOG_WARNING,_("It is not HTTP server!!!"));
-			delete str1;
+/*			delete str1;
 			delete str2;
-			return -1;
+			return -1;*/
 		};
-		switch (str2[0]) {
+		switch (*str2) {
 			case '2':{
 					LOG->log(LOG_OK,_("All ok, reading file"));
 					break;
@@ -117,16 +118,17 @@ void tHttpClient::send_cookies(char *host,char *path){
 };
 
 int tHttpClient::get_size(char *filename,tStringList *list) {
-	char *real_filename=unparse_percents(filename);
-	send_request("GET ",real_filename," HTTP/1.0\r\n");
-	delete real_filename;
+	send_request("GET ",filename," HTTP/1.0\r\n");
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
 		sprintf(data,"%i",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
-	send_request("Referer: ",HOME_PAGE,"\r\n");
+	if (referer)
+		send_request("Referer: ",referer,"\r\n");
+	else
+		send_request("Referer: ",HOME_PAGE,"\r\n");
 	if (user_agent && strlen(user_agent)){
 		if (equal(user_agent,"%version"))
 			send_request("User-Agent: ",VERSION_NAME,"\r\n");
@@ -159,7 +161,7 @@ int tHttpClient::get_file_from(char *what,unsigned int begin,int len) {
 			break;
 		};
 		if (len && FillSize>llen) FillSize=llen;
-		FileLoaded+=complete;
+		FileLoaded+=FillSize;
 		if (write_buffer()) {
 			Status=STATUS_FATAL;
 			break;

@@ -17,5 +17,6 @@ gint graph_expose_event_handler(GtkWidget *widget,GdkEventExpose *event);
 int graph_draw();
 void graph_recalc();
 void graph_init();
+void graph_reinit();
 
 #endif

@@ -768,11 +768,11 @@ msgstr "/˙¡À¡ﬁÀ¡/“œƒœÃ÷…‘ÿ"
 
 #: face/list.cc:141
 msgid "/Download/Delete completed"
-msgstr "/Download/Lˆschen wenn fertig"
+msgstr "/Download/Fertige loeschen"
 
 #: face/list.cc:142
 msgid "/Download/Delete failed"
-msgstr "/Download/Lˆschen wenn fehlgeschlagen"
+msgstr "/Download/Fehlgeschlagene loeschen"
 
 #: face/list.cc:143
 msgid "/_Options"
@@ -1438,7 +1438,7 @@ msgid "Allow leave this server while recursing via http"
 msgstr "Erlaube das Verlassen des Server beim rekursiven Download via HTTP"
 
 msgid "/Download/Rerun failed"
-msgstr "/Download/Wiederholung fehlgeschlagen"
+msgstr "/Download/Fehlgeschlagene neustarten"
 
 msgid "You have no permissions to create file at path %s"
 msgstr "Sie haben keine Rechte die Datei im Pfad %s zu erzeugen"
@@ -1448,41 +1448,82 @@ msgstr "Sie haben nicht genug Platz um die Datei im Pfad %s zu erzeugen"
 
 #face/edit.cc:
 msgid "Only subdirs"
-msgstr ""
+msgstr "Nur Unterverzeichnisse"
 
 # face/edit.cc
 msgid "Restart this download from begining"
-msgstr ""
+msgstr "Fange mit dem Download von vorne an"
 
 # config.cc
 msgid "restart all failed downloads"
-msgstr ""
+msgstr "starte alle fehlgeschlagenen Downloads neu"
 
 msgid "run program without X interface"
-msgstr ""
+msgstr "starte Programm ohne das X-Interface"
 
 #main.cc
 msgid "Set speed limitation to %s %s"
-msgstr ""
+msgstr "Setze Geschwindigkeit auf %s %s"
 
 #var.cc
 msgid "low"
-msgstr ""
+msgstr "niedrig"
 
 msgid "middle"
-msgstr ""
+msgstr "mittel"
 
 msgid "unlimited"
-msgstr ""
+msgstr "unbegrenzt"
 
 #main.cc:
 msgid "Can't run new thread for downloading!"
-msgstr ""
+msgstr "Kann keinen neuen Download-Thread starten!"
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
+msgstr "Die maximale Groesse des Hauptprotokolls wurde erreicht! Datei wurde gekuerzt."
 
 #face/prefs.cc:
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr ""
+msgstr "Maximale Groesse des Hauptprotokolls (in KBytes)"
+
+# face/list.cc:
+msgid "/File/Find links in file"
+msgstr "/Datei/Finde Links in Datei"
+
+# face/prefs.cc:
+msgid "Use fixed font in logs"
+msgstr "Benutze Fixed-Fonts im Protokoll"
+
+# face/edit.cc:
+msgid "Number of parts for spliting this download"
+msgstr "Anzahl der Teile, in die der Download geteilt werden soll"
+
+
+# face/saveload.cc
+msgid "Find links in txt file"
+msgstr "Finde Links in einer TXT-Datei"
+
+# face/prefs.cc:
+msgid "Color for picks"
+msgstr "Farbe fuer Selektierte"
+
+# face/prefs.cc:
+msgid "Color for total speed"
+msgstr "Farbe fuer Komplettgeschwindigkeit"
+
+# face/prefs.cc:
+msgid "Color for speed of selected"
+msgstr "Farbe fuer die Geschwindigkeit der Selektierten"
+
+# face/prefs.cc:
+msgid "Background color"
+msgstr "Hintergrundfarbe"
+
+# face/mywidget.cc:
+msgid "Select"
+msgstr "Auswaehlen"
+
+# face/mywidget.cc:
+msgid "Select color"
+msgstr "Waehle eine Farbe"

@@ -1,24 +1,99 @@
-Haeufig gestellte Fragen (FAQ)
+	Haeufig gestellte Fragen (FAQ) ueber Downloader for X
 
-Q: Unter welcher Lizenz wird der "Downloader for X" verbreitet?
-A: Dieses Programm ist frei, sogar Open Source, aber es steht nicht unter der
+Author dieser FAQ:
+Koshelev Maxim (mdem@chat.ru)
+Uebersetzer: Felix Knecht (dicer@gmx.net)
+
+
+Allgemeine Informationen
+
+1.1 Was ist "Downloader for X"?
+1.2 Wo kann ich "Downloader for X" finden?
+1.3 Unter welcher Lizenz wird der "Downloader for X" verbreitet?
+1.4 Welche Version von libc brauche ich, um "Downloader for X" zu kompilieren?
+1.5 Ich habe "Downloader for X" kompiliert, aber ich bekomme ein
+    "segfault"-Fehler!
+
+Grundinformationen
+
+2.1 Wie kann ich neue Downloads hinzufuegen?
+2.2 Ich moechte zwei Downloads anhalten oder löschen. Wie mache ich das?
+2.3 Wie kann ich ein ganzes Verzeichnis von einem FTP-Server runterladen?
+2.4 Wie kann ich es anstellen, dass nur jpeg - Dateien von dem FTP-Server
+    geladen werden?
+2.5 Das Hauptfenster von "Downloader for X" enthaelt viel zu viele
+    Informationen fuer mich!
+2.6 Da sind viele fertigen Downloads in "Downloader for X". Wie kann ich sie
+    loeschen?
+
+Weitere Fragen
+
+3.1 Kann ich im "Downloader for X" ein Geschwindigkeitslimit einstellen?
+3.2 Kann "Downloader for X" komplette http - Verzeichnisse runterladen?
+3.3 Ich brauche ein Limit an Verbindungen zum Server ftp.blablabla.de. Wie kann
+    ich das bei "Downloader for X" einstellen?
+3.4 Ich will das Protokoll in eine Datei schreiben. Ist das mit "Downloader for
+    X" moeglich?
+3.5 Mein Proxy gibt immer Datenmuell zurueck, kurz bevor die Verbindung
+    zusammen bricht. Was kann ich machen, damit der Download gutgeht?
+3.6 Ich habe auf der Konsole (oder im Terminal) eine URL. Wie kann ich sie
+    "Downloader for X" uebergeben?
+
+
+
+*******************************************************************************
+Antworten:
+
+1.1 Was ist "Downloader for X"?
+
+"Downloader for X" ist ein Programm um Downloads aus dem Internet zu machen.
+Es unterstuetzt sowohl ftp, als auch http, automatische Wiederaufnahme des
+Downloads wenn eine Verbindung zusammen gebrochen ist, Fortsetzen von
+unterbrochenen Downloads, rekursive Downloads via http und ftp, Proxyserver
+fuer ftp (wingate) und http (squid) und viele andere Sachen. Dieses Programm
+ist sehr nuetzlich, wenn man versucht Dateien von sehr langsamen Servern zu
+laden, da "Downloader for X" immer weiter zu laden versucht. (Anm. des
+Uebersetzers: Auch fuer Leute mit grossen Downloads ist es sehr praktisch, da
+man sie dann nicht an einem Stueck laden muss. Und wir alle kennen ja
+Netscape...)
+
+
+1.2 Wo kann ich "Downloader for X" finden?
+
+http://www.krasu.ru/soft/chuchelo - Homepage von "Downloader for X"
+
+
+1.3 Unter welcher Lizenz wird der "Downloader for X" verbreitet?
+
+Dieses Programm ist frei, sogar Open Source, aber es steht nicht unter der
 GPL! Du darfst nur unmodifizierte Quellen weitergeben. Wenn du Aenderungen an
 den Quellen vorgenommen hast und diese oeffentlich zugaenglich machen willst,
 musst du vorher den Autor um Erlaubnis fragen.
 
-Q: Welche Version von libc brauche ich, um "Downloader for X" zu kompilieren?
-A: "Downloader for X" braucht die libc6 (oder glibc2.0) oder hoeher, um
+
+1.4 Welche Version von libc brauche ich, um "Downloader for X" zu kompilieren?
+
+"Downloader for X" braucht die libc6 (oder glibc2.0) oder hoeher, um
 kompiliert zu werden. Dieses Programm unterstützt leider keine libc5.
 
-Q: Ich habe "Downloader for X" kompiliert, aber ich bekomme ein
-"segfault"-Fehler!
-A: Soweit ich weiss, laeuft "Downloader for X" nicht mit instabilen Versionen
+
+1.5 Ich habe "Downloader for X" kompiliert, aber ich bekomme ein
+    "segfault"-Fehler!
+
+Soweit ich weiss, laeuft "Downloader for X" nicht mit instabilen Versionen
 von libc und anderen Bibliotheken zusammen. Du solltest sichergehen, dass du
 stabile Versionen der libc, gtk+ und pthreads hast! Vielleicht hast du auch
-mehrere Versionen ein und derselben Bibliothek installiert.
+mehrere Versionen ein und derselben Bibliothek installiert. Seit Version 1.06
+arbeitet "Downloader for X" nicht mehr mit libthreads Version <0.8 zusammen.
 
-Q: Wie kann ich neue Downloads hinzufuegen?
-A: Erste Moeglichkeit: druecke Strg+N und gib die Adresse (URL) in das Fenster
+
+*******************************************************************************
+Grundinformationen
+
+
+2.1 Wie kann ich neue Downloads hinzufuegen?
+
+Erste Moeglichkeit: druecke Strg+N und gib die Adresse (URL) in das Fenster
 ein. Zweite Moeglichkeit: klicke auf den linken Button (der Pfeil, der in die
 Kiste zeigt) und gib hier die URL ein. Die dritte Moeglichkeit: klick in
 Netscape auf den Link und lasse den Mausbutton nicht los. Dann bewegst du den
@@ -27,38 +102,54 @@ Und die vierte Möglichkeit: ziehe den Link aus Netscape einfach auf das Icon,
 welches immer im Vordergrund ist, wenn "Downloader for X" gestartet ist (Anm.
 des Uebersetzers: funktioniert unter KDE bei mir nicht).
 
-Q: Ich moechte zwei Downloads anhalten oder löschen. Wie mache ich das?
-A: Waehle den ersten Download mit einem Mausklick aus. Dann haelst du die
+
+2.2 Ich moechte zwei Downloads anhalten oder löschen. Wie mache ich das?
+
+Waehle den ersten Download mit einem Mausklick aus. Dann haelst du die
 Strg-Taste fest und klickst auf den Zweiten. Danach entweder Alt+c zum löschen
-(oder den Mülleimer in der Symbolleiste) oder Alt+s zum anhalten.
+(oder den Mülleimer in der Symbolleiste) oder Alt+s zum anhalten (oder den
+roten Button mit dem Kreuz).
 
 
-Q: Wie kann ich ein ganzes Verzeichnis von einem FTP-Server runterladen?
-A: Du fuegst einfach einen neuen Download mit der Adresse des Verzeichnisses
+2.3 Wie kann ich ein ganzes Verzeichnis von einem FTP-Server runterladen?
+
+Du fuegst einfach einen neuen Download mit der Adresse des Verzeichnisses
 hinzu. "Downloader for X" wird von alleine merken, dass es sich um eine
 Verzeichniss handelt. Ansonsten fügt man der Verzeichnisadresse einfach einen
 * an (URL/*).
 
-Q: Wie kann ich es anstellen, dass nur jpeg - Dateien von dem FTP-Server
-geladen werden?
-A: "Downloader for X" unterstuetzt sogenannte "wildcards" beim Download via
+
+2.4 Wie kann ich es anstellen, dass nur jpeg - Dateien von dem FTP-Server
+    geladen werden?
+
+"Downloader for X" unterstuetzt sogenannte "wildcards" beim Download via
 FTP. Also z.B. URL/*.jpg oder URL/*.j*g, wobei URL die Adresse des
 Verzeichnisses auf dem FTP-Server ist, in dem sich die Dateien befinden. Ach
 ja: ein Stern (*) ist mindestens ein Zeichen!
 
-Q: Das Hauptfenster von "Downloader for X" enthaelt viel zu viele
-Informationen fuer mich!
-A: Gehen in die Optionen (Strg + C) und waehle "Spalten". Hier koennen
-einzelne Spalten abgewaehlt werden.
 
-Q: Da sind viele fertigen Downloads in "Downloader for X". Wie kann ich sie
-loeschen?
-A: Klicke auf das Menu "Download" und waehle "Loeschen wenn fertig".
+2.5 Das Hauptfenster von "Downloader for X" enthaelt viel zu viele
+    Informationen fuer mich!
+
+Gehen in die Einstellungen/Allgemein (Strg + C) und waehle "Spalten". Hier
+koennen einzelne Spalten an- und abgewaehlt werden.
+
+
+2.6 Da sind viele fertigen Downloads in "Downloader for X". Wie kann ich sie
+    loeschen?
+
+Klicke auf das Menu "Download" und waehle "Loeschen wenn fertig".
 "Downloader for X" kann fertige Downloads auch automatisch loeschen, wenn man
 das in den Optionen einstellt.
 
-F: Kann ich im "Downloader for X" ein Geschwindigkeitslimit einstellen?
-A: "Downloader for X" hat einige Features die die Geschwindigkeit regeln
+
+*******************************************************************************
+Weitere Fragen
+
+
+3.1 Kann ich im "Downloader for X" ein Geschwindigkeitslimit einstellen?
+
+"Downloader for X" hat einige Features die die Geschwindigkeit regeln
 koennen. Du kannst in den Einstellungen (-> Allgemein -> Geschw.) zwei Werte
 eingeben und diese dann ueber den roten und gelben Knopf in der Buttonleiste
 auswaehlen (der gruene steht fuer volle Geschwindigkeit). Du kannst aber auch
@@ -66,37 +157,46 @@ bei jedem Download das Limit einzeln festlegen (Rechtsklick auf den Download
 -> Eigenschaften -> Downloadoptionen -> Geschwindigkeitsbegrenzung).
 
 
-F: Kann "Downloader for X" komplette http - Verzeichnisse runterladen?
-A: Seit Version 1.05 kann "Downloader for X" HTML-Dateien nach weiterführenden
+3.2 Kann "Downloader for X" komplette http - Verzeichnisse runterladen?
+
+Seit Version 1.05 kann "Downloader for X" HTML-Dateien nach weiterführenden
 Links durchsuchen und diese automatisch downloaden (via HTTP). Aber die
 HTML-Dateien werden nicht verändert (Anpassung der Links z.B) und gespeichert,
 wie sie auf dem Server waren. Und globale Links werden auch noch nicht
 unterstützt.
 
 
-F: Ich brauche ein Limit an Verbindungen zum Server ftp.blablabla.de. Wie kann
-ich das bei "Downloader for X" einstellen?
-A: "Downloader for X" erlaubt es, dass man fuer Verbindungen zu jedem Server an
+3.3 Ich brauche ein Limit an Verbindungen zum Server ftp.blablabla.de. Wie kann
+    ich das bei "Downloader for X" einstellen?
+
+"Downloader for X" erlaubt es, dass man fuer Verbindungen zu jedem Server an
 jeden Port Verbindungslimits festlegt. Wenn schon ein Download von dem
 entsprechenden Server in der Liste steht, dann klicke einfach mit der rechten
 Maustaste drauf und waehle "Limit". Dann gib einfach die maximalen
 Verbindungen in das vorgesehene Feld ein. Um alle Limits zu sehen, waehlt man
-einfach die allgemeinen Optionen an (Strg + C) und schaut in der Spalte
-"Limits" nach.
-
-F: Ich will das Log in eine Datei schreiben. Ist das mit "Downloader for X"
-moeglich?
-A: Gehe in die Optionen (Strg + C), waehle "Main Log". Dort kann man alle
-Einstellungen vornehmen.
-
-F: Mein Proxy gibt immer Datenmuell zurueck, kurz bevor die Verbindung
-zusammen bricht. Was kann ich machen, damit der Download gutgeht?
-A: Das "Rollback"-Feature wurde extra fuer solche Faelle entwickelt. Waehle
-einfach in den Optionen bei Limits ein Rollback von 500-3000 bytes.
+einfach Einstellungen/Host-Limits an.
 
 
+3.4 Ich will das Protokoll in eine Datei schreiben. Ist das mit "Downloader for
+    X" moeglich?
+
+Gehe in die Einstellungen/Allgemein (Strg + C), waehle "Protokoll". Dort
+kann man alle Einstellungen vornehmen.
 
 
+3.5 Mein Proxy gibt immer Datenmuell zurueck, kurz bevor die Verbindung
+    zusammen bricht. Was kann ich machen, damit der Download gutgeht?
+
+Das "Rollback"-Feature wurde extra fuer solche Faelle entwickelt. Waehle
+einfach in den Einstellungen/Allgemein bei Limits ein Rollback von 500-3000
+bytes.
+
+
+3.6 Ich habe auf der Konsole (oder im Terminal) eine URL. Wie kann ich sie
+    "Downloader for X" uebergeben?
+
+Ab Version 1.08 kann man D4X mit einer URL als Parameter aufrufen, auch wenn
+das Programm schon gestartet war. (> nt "URL")
 
 
 

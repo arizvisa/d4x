@@ -22,10 +22,10 @@ class tHttpDownload:public tDownloader{
 	int ReGet,MustNoReget,ETagChanged;
 	char *content_type,*FULL_NAME_TEMP;
 	char *ETag,*OldETag,*Auth;
+	char *PARAMS;
 	int analize_answer();
-	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
-   	void make_full_pathes(const char *path,char **name,char **guess);
-	void print_error(int error_code);
+	char *make_name();
+	virtual void print_error(int error_code);
 	public:
 		tHttpDownload();
 		int reconnect();
@@ -38,6 +38,8 @@ class tHttpDownload:public tDownloader{
 		char *get_content_type();
 		tStringList *dir();
 		int download(int len);
+		void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+		void make_full_pathes(const char *path,char **name,char **guess);
 		void done();
 		~tHttpDownload();
 };

@@ -98,6 +98,7 @@ struct tMainCfg{
 	int EXIT_COMPLETE,EXIT_COMPLETE_TIME;
 	int CLIPBOARD_MONITOR;
 	char *SKIP_IN_CLIPBOARD;
+	int FIXED_LOG_FONT;
 /* Graph colors....
  */
 	int GRAPH_BACK;

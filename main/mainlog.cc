@@ -310,6 +310,11 @@ tLogString *tMLog::first() {
 	return (tLogString *)tStringList::first();
 };
 
+void tMLog::done(){
+	if (list) gtk_clist_freeze(GTK_CLIST(list));
+	tStringList::done();
+};
+
 tMLog::~tMLog() {
 	done();
 	if (string) delete(string);

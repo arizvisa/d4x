@@ -153,8 +153,16 @@ int calc_curent_run(char *host,int port) {
 	tDownload *temp=DOWNLOAD_QUEUES[DL_RUN]->last();
 	int count=0;
 	while(temp) {
-		if (strcmp(host,temp->info->host.get())==0 && port==temp->info->port)
+		if (strcmp(host,temp->info->host.get())==0 && port==temp->info->port){
 			count+=1;
+			if (temp->split){
+				tDownload *temp1=temp->split->next_part;
+				while (temp1){
+					count+=1;
+					temp1=temp1->split->next_part;
+				};
+			};
+		};
 		temp=DOWNLOAD_QUEUES[DL_RUN]->next();
 	};
 	return count;

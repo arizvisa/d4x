@@ -80,7 +80,7 @@ enum{
 };
 
 enum MAIN_MENU_ENUM{
-	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
+	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_TXT, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
 	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
 	MM_OPTIONS, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON,
@@ -93,6 +93,7 @@ char *main_menu_inames[]={
 	"/_File",
 	"/File/_Save List",
 	"/File/_Load List",
+	"/File/Find links in file",
 	"/File/_New Download",
 	"/File/_Paste Download",
 	"/File/Exit",
@@ -224,6 +225,7 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_FILE]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
 		{_(main_menu_inames[MM_FILE_SAVE]),	"<control>S",	init_save_list,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_FILE_LOAD]),	"<control>L",	init_load_list,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_TXT]),	"<control><alt>L",	init_load_txt_list,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,  (GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_FILE_NEW]),	"<control>N",	init_add_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_FILE_PASTE]),	"<control>P",	init_add_clipboard_window,	0, (gchar *)NULL},
@@ -592,7 +594,7 @@ void init_main_window() {
 	gtk_paned_add2(GTK_PANED(hpaned),scroll_window);
 
 	GtkWidget *TEMP=gtk_statusbar_new();
-	gtk_widget_set_usize(TEMP,106,-1);
+	gtk_widget_set_usize(TEMP,104,-1);
 	gtk_box_pack_end (GTK_BOX (hbox), TEMP, FALSE, FALSE, 0);
 
 	GtkWidget *vbox=gtk_vbox_new(FALSE,1);

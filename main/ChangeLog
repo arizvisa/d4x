@@ -1,3 +1,85 @@
+Tue May 16 08:38:59 2000
+	*nt.cc: releasing 1.16;
+
+Mon May 15 19:28:28 2000
+	*face/about.cc: added new translators;
+	*po/: various translation are updated; Polish translation added;
+
+Sat May 13 15:48:29 2000
+	*face/log.cc: just switching to first log for splited downloads
+	when downloading completed;
+	*dlist.cc: message about completing for ftp downloads is appeared now;
+	code cleanups;
+	*addr.cc: fixed creating url from addr structure;
+	*httpd.cc[h],hproxy.cc[h]: code cleanups, fixed loading
+	files via proxy with different port num;
+
+Fri May 12 19:16:24 2000
+	*face/prefs.cc: doesn't reinit graph if colors not changed;
+	*face/log.cc: radio buttons for splited downloads in the logs;
+	fixed opening string for splited downloads;
+	*face/buttons.cc: save button now pull down by right mouse clicking;
+	*po/: fr.po updated (Jerome Couderc)
+	*face/mywidget.cc: some optimizations;
+
+Thu May 11 12:56:13 2000
+	*face/mywidget.cc: my fileselection widget;
+	*face/edit.cc,face/prefs.cc,face/saveload.cc: related code cleanups;
+	"Browse" button is everywhere;
+	*http.cc: able to load streams via http;
+	*face/prefs.cc,face/graph.cc: added ability to select colors for
+	graph of speeds;
+
+Wed May 10 10:21:28 2000
+	*face/log.cc: fixed slow rendering of logs for splited downloads;
+	*mainlog.cc: freezing mainlog before clearing;
+	*main.cc: fixed recursing and rollbacking for splited downloads;
+
+Tue May  9 11:50:31 2000
+	*face/log.cc: new log window for splited downloads;
+	*ftp.cc,http.cc: fixed downloaded size calculation for splited
+	downloads;
+	*main.cc: extra message added; code cleanups;
+	*face/saveload.cc: fixed setting path in file selector;
+	*face/edit.cc: fixed apllying edit dialog;
+	*dlist.cc: some code cleanups;
+
+Mon May  8 10:13:39 2000
+	*ftpd.cc,main.cc: continuing working for new feature;
+	*face/log.cc: some cleanups;
+
+Sun May  7 09:27:19 2000
+	*socket.cc[h],ftp.cc: flushing socket before closing to avoid
+	"brocken pipe" signal under Linux-glibc;
+
+Sat May  6 16:21:26 2000
+	*dlist.cc[h],main.cc[h]: first part of code for downloading in
+	number of threads;
+	*httpd.cc: fixes in http engine for splited downloads;
+	*face/edit.cc: added entry for spliting;
+	*eff.cc: improved extracting links;
+	*face/limface.cc: fixed calculation already runed for host;
+
+Fri May  5 17:44:23 2000
+	*face/saveload.cc: save/load dialogs now modal;
+	*main.cc: fixed redirection to local path;
+
+Thu May  4 15:43:22 2000
+	*eff.cc[h],face/list.cc: added ability to load URLs from ordinary file;
+	*face/prefs.cc,var.cc[h]: option for fixed font in logs (default 'on');
+
+Thu Apr 27 13:32:57 2000
+	*db.cc,addr.cc[h], httpd.cc[h], hproxy.cc, dlist.cc: new method
+	to decompose http urls;
+
+Wed Apr 26 09:21:49 2000
+	*httpd.cc,http.cc[h],hproxy.cc,main.cc: added automatic referer;
+	*httpd.cc,dlist.cc,addr.cc: fixed unnessessary parsing %xx <-> char;
+
+Mon Apr 24 17:30:52 2000
+	*po/it.po: uptodate;
+	*po/de.po,po/el_GR.po: uptodate;
+
 Thu Apr 20 09:28:27 2000
 	*nt.cc: Releasing new version 1.15;
 	*Makefile: some reorganizations;

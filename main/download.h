@@ -50,7 +50,7 @@ struct tCfg{
 	tPStr proxy_host;
 	tPStr proxy_user;
 	tPStr proxy_pass;
-	tPStr user_agent;
+	tPStr user_agent,referer;
 	tPStr save_name,save_path;
 	tCfg();
 	int get_flags();

@@ -1433,51 +1433,91 @@ msgid "Allow leave this server while recursing via http"
 msgstr "Αγνόησε αυτόν τον server ενώ κάνεις recursing μέσω http"
 
 msgid "/Download/Rerun failed"
-msgstr ""
+msgstr "/Κατέβασμα/Επανεκίνηση απoτυχημένων"
 
 msgid "You have no permissions to create file at path %s"
-msgstr ""
+msgstr "Δεν έχετε δικαιώματα για να δημιουργήσετε αρχείο στο %s"
 
 msgid "You have no space at path %s for creating file"
-msgstr ""
+msgstr "Δεν υπάρχει ελεύθερος χώρος στο %s για δημιουργία αρχείου"
 
 #face/edit.cc:
 msgid "Only subdirs"
-msgstr ""
+msgstr "Μόνο υποκαταλόγους"
 
 # face/edit.cc
 msgid "Restart this download from begining"
-msgstr ""
+msgstr "Επανεκίνηση του κατεβάσματος από την αρχή"
 
 # config.cc
 msgid "restart all failed downloads"
-msgstr ""
+msgstr "επανεκίνηση όλων των αποτυχημένων κατεβασμάτων"
 
 msgid "run program without X interface"
-msgstr ""
+msgstr "εκτέλεση προγράμματος χωρίς το Χ interface"
 
 #main.cc
 msgid "Set speed limitation to %s %s"
-msgstr ""
+msgstr "Ορισμός του ορίου ταχύτητας στο %s %s"
 
 #var.cc
 msgid "low"
-msgstr ""
+msgstr "κατώτερη"
 
 msgid "middle"
-msgstr ""
+msgstr "μεσαία"
 
 msgid "unlimited"
-msgstr ""
+msgstr "απεριόριστη"
 
 #main.cc:
 msgid "Can't run new thread for downloading!"
-msgstr ""
+msgstr "Δεν μπορώ να τρέξω νέα διαδικασία για κατέβασμα!"
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
+msgstr "Το όριο για το μέγεθος του αρχείου του κύριου log ξεπεράστηκε! Το αρχείο έχει περικοπεί"
 
 #face/prefs.cc:
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr ""
+msgstr "Μέγιστο μέγεθος αρχείου για το κύριο log (σε Kbytes)"
+
+# face/list.cc:
+msgid "/File/Find links in file"
+msgstr "/Αρχείο/Εύρεση links σε αρχείο"
+
+# face/prefs.cc:
+msgid "Use fixed font in logs"
+msgstr "Χρήση fixed γραμματοσειρών στα logs"
+
+# face/edit.cc:
+msgid "Number of parts for spliting this download"
+msgstr "Αριθμός κομματιών για 'κόψιμο' του κατεβάσματος"
+
+# face/saveload.cc
+msgid "Find links in txt file"
+msgstr "Εύρεση links σε αρχείο κειμένου"
+
+# face/prefs.cc:
+msgid "Color for picks"
+msgstr "Χρώμα για τις κορυφές"
+
+# face/prefs.cc:
+msgid "Color for total speed"
+msgstr "Χρώμα για την συνολική ταχύτητα"
+
+# face/prefs.cc:
+msgid "Color for speed of selected"
+msgstr "Χρώμα για την ταχύτητα των επιλεγμένων"
+
+# face/prefs.cc:
+msgid "Background color"
+msgstr "Χρώμα background"
+
+# face/mywidget.cc:
+msgid "Select"
+msgstr "Επιλογή"
+
+# face/mywidget.cc:
+msgid "Select color"
+msgstr "Επιλογή χρώματος"

@@ -14,6 +14,7 @@
 #include "edit.h"
 #include "list.h"
 #include "misc.h"
+#include "mywidget.h"
 #include "../history.h"
 #include "../var.h"
 #include "../locstr.h"
@@ -130,31 +131,6 @@ static void edit_browser_path_set_as_default(GtkWidget *parent,tDEdit *where){
 	where->set_path_as_default();
 };
 
-static void edit_browser_open(GtkWidget *parent,tDEdit *where) {
-	where->init_browser();
-};
-
-static void edit_browser_ok(GtkWidget *parent,tDEdit *where) {
-	where->browser_ok();
-};
-
-static void edit_browser_cancel(GtkWidget *parent,tDEdit *where) {
-	where->done_browser();
-};
-
-static int edit_browser_delete(GtkObject *parent,GdkEvent *event,tDEdit *where) {
-	where->done_browser();
-	return TRUE;
-};
-
-static void edit_browser_open2(GtkWidget *parent,tDEdit *where) {
-	where->init_browser2();
-};
-
-static void edit_browser_ok2(GtkWidget *parent,tDEdit *where) {
-	where->browser_ok2();
-};
-
 static void edit_window_password(GtkWidget *parent,tDEdit *where) {
 	where->setup_entries();
 };
@@ -167,7 +143,6 @@ static void edit_time_check_clicked(GtkWidget *parent,tDEdit *where) {
 tDEdit::tDEdit() {
 	parent=NULL;
 	window=NULL;
-	dir_browser=NULL;
 	proxy=NULL;
 };
 
@@ -183,7 +158,7 @@ tDownload *tDEdit::get_parent(){
 void tDEdit::set_path_as_default(){
 	if (CFG.GLOBAL_SAVE_PATH)
 		delete(CFG.GLOBAL_SAVE_PATH);
-	CFG.GLOBAL_SAVE_PATH=copy_string(text_from_combo(path_entry));
+	CFG.GLOBAL_SAVE_PATH=copy_string(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
 };
 
 void tDEdit::init_main(tDownload *who) {
@@ -196,10 +171,11 @@ void tDEdit::init_main(tDownload *who) {
 		pass_entry=gtk_entry_new_with_max_length(MAX_LEN);
 		gtk_entry_set_visibility(GTK_ENTRY(pass_entry),FALSE);
 	};
-	path_entry=my_gtk_combo_new(ALL_HISTORIES[PATH_HISTORY]);
-	file_entry=my_gtk_combo_new(ALL_HISTORIES[FILE_HISTORY]);
+	path_entry=my_gtk_filesel_new(ALL_HISTORIES[PATH_HISTORY]);//my_gtk_combo_new(ALL_HISTORIES[PATH_HISTORY]);
+	file_entry=my_gtk_filesel_new(ALL_HISTORIES[FILE_HISTORY]);//my_gtk_combo_new(ALL_HISTORIES[FILE_HISTORY]);
 	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
 	user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
+	MY_GTK_FILESEL(path_entry)->only_dirs=TRUE;
 
 //	char temp[MAX_LEN];
 //	make_url_from_download(who,temp);
@@ -208,10 +184,10 @@ void tDEdit::init_main(tDownload *who) {
 	text_to_combo(url_entry,URL);
 	delete URL;
 
-	text_to_combo(path_entry,who->config.save_path.get());
+	text_to_combo(MY_GTK_FILESEL(path_entry)->combo,who->config.save_path.get());
 	if (who->config.save_name.get())
-		text_to_combo(file_entry,who->config.save_name.get());
-	else text_to_combo(file_entry,"");
+		text_to_combo(MY_GTK_FILESEL(file_entry)->combo,who->config.save_name.get());
+	else text_to_combo(MY_GTK_FILESEL(file_entry)->combo,"");
 	if (who->info->pass.get())
 		text_to_combo(pass_entry,who->info->pass.get());
 	else
@@ -230,41 +206,29 @@ void tDEdit::init_main(tDownload *who) {
 	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
 	/* set as default button
 	 */
-	GtkWidget *path_set_as_default=gtk_button_new_with_label(_("Default"));
+ 	GtkWidget *path_set_as_default=gtk_button_new_with_label(_("Default"));
 	gtk_signal_connect(GTK_OBJECT(path_set_as_default),"clicked",GTK_SIGNAL_FUNC(edit_browser_path_set_as_default),this);
 	/* initing boxes
 	 */
 	GtkWidget *url_box=gtk_hbox_new(FALSE,0);
-	GtkWidget *path_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *path_vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *file_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *file_vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
 	GtkWidget *pass_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *user_box=gtk_hbox_new(FALSE,0);
-	GtkWidget *dir_browser_button=gtk_button_new_with_label(_("Browse"));
-	GtkWidget *dir_browser_button2=gtk_button_new_with_label(_("Browse"));
-	gtk_signal_connect(GTK_OBJECT(dir_browser_button),"clicked",GTK_SIGNAL_FUNC(edit_browser_open),this);
-	gtk_signal_connect(GTK_OBJECT(dir_browser_button2),"clicked",GTK_SIGNAL_FUNC(edit_browser_open2),this);
 	gtk_box_set_spacing(GTK_BOX(url_box),5);
-	gtk_box_set_spacing(GTK_BOX(path_box),5);
 	gtk_box_set_spacing(GTK_BOX(path_vbox),2);
-	gtk_box_set_spacing(GTK_BOX(file_box),5);
 	gtk_box_set_spacing(GTK_BOX(file_vbox),2);
 	gtk_box_set_spacing(GTK_BOX(user_box),5);
 	gtk_box_set_spacing(GTK_BOX(pass_box),5);
 	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
 	gtk_box_pack_start(GTK_BOX(url_box),url_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(url_box),url_entry,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(path_entry),path_set_as_default,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(path_box),path_entry,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(path_box),dir_browser_button,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(path_box),path_set_as_default,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(path_vbox),path_box,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(file_box),file_entry,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(file_box),dir_browser_button2,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(path_vbox),path_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(file_vbox),file_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(file_vbox),file_box,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(file_vbox),file_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(pass_box),pass_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(pass_box),pass_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_box),user_entry,FALSE,FALSE,0);
@@ -311,6 +275,7 @@ void tDEdit::init_other(tDownload *who) {
 	http_recurse_depth_entry=gtk_entry_new_with_max_length(3);
 	rollback_entry=gtk_entry_new_with_max_length(5);
 	speed_entry=gtk_entry_new_with_max_length(5);
+	split_entry=gtk_entry_new_with_max_length(2);
 
 	char temp[MAX_LEN];
 	sprintf(temp,"%i",who->config.timeout);
@@ -327,6 +292,11 @@ void tDEdit::init_other(tDownload *who) {
 	gtk_entry_set_text(GTK_ENTRY(rollback_entry),temp);
 	sprintf(temp,"%i",who->config.speed);
 	gtk_entry_set_text(GTK_ENTRY(speed_entry),temp);
+	if (who->split){
+		sprintf(temp,"%i",who->split->NumOfParts);
+		gtk_entry_set_text(GTK_ENTRY(split_entry),temp);
+	}else
+		gtk_entry_set_text(GTK_ENTRY(split_entry),"0");
 
 	gtk_widget_set_usize(timeout_entry,30,-1);
 	gtk_widget_set_usize(attempts_entry,30,-1);
@@ -335,6 +305,7 @@ void tDEdit::init_other(tDownload *who) {
 	gtk_widget_set_usize(http_recurse_depth_entry,30,-1);
 	gtk_widget_set_usize(rollback_entry,50,-1);
 	gtk_widget_set_usize(speed_entry,50,-1);
+	gtk_widget_set_usize(split_entry,30,-1);
 
 	GtkWidget *other_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
@@ -371,6 +342,14 @@ void tDEdit::init_other(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
+	other_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_label=gtk_label_new(_("Number of parts for spliting this download"));
+	gtk_box_pack_start(GTK_BOX(other_hbox),split_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
+
+	
 	other_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
 	other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
@@ -546,66 +525,6 @@ void tDEdit::enable_ok_button() {
 	if (window) gtk_widget_set_sensitive(ok_button,TRUE);
 };
 
-void tDEdit::init_browser() {
-	if (dir_browser) return;
-	dir_browser=gtk_file_selection_new(_("Select directory"));
-	gtk_widget_set_sensitive(GTK_FILE_SELECTION(dir_browser)->file_list,FALSE);
-	char *tmp=text_from_combo(path_entry);
-	if (tmp && *tmp)
-		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser),tmp);
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->ok_button),
-	                   "clicked",GTK_SIGNAL_FUNC(edit_browser_ok),this);
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->cancel_button),
-	                   "clicked",GTK_SIGNAL_FUNC(edit_browser_cancel),this);
-	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser)->window)),
-	                   "delete_event",GTK_SIGNAL_FUNC(edit_browser_delete),this);
-	gtk_widget_show(dir_browser);
-	gtk_window_set_modal (GTK_WINDOW(dir_browser),TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (dir_browser), GTK_WINDOW (window));
-};
-
-void tDEdit::init_browser2() {
-	if (dir_browser) return;
-	dir_browser=gtk_file_selection_new(_("Select file"));
-	char *tmp=sum_strings(text_from_combo(path_entry),"/",NULL);
-	if (tmp && *tmp)
-		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser),tmp);
-	delete tmp;
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->ok_button),
-	                   "clicked",GTK_SIGNAL_FUNC(edit_browser_ok2),this);
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser)->cancel_button),
-	                   "clicked",GTK_SIGNAL_FUNC(edit_browser_cancel),this);
-	gtk_signal_connect(GTK_OBJECT(&(GTK_FILE_SELECTION(dir_browser)->window)),
-	                   "delete_event",GTK_SIGNAL_FUNC(edit_browser_delete),this);
-	gtk_widget_show(dir_browser);
-	gtk_window_set_modal (GTK_WINDOW(dir_browser),TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (dir_browser), GTK_WINDOW (window));
-};
-
-
-void tDEdit::browser_ok() {
-	if (!dir_browser) return;
-	char *tmp;
-	tmp=gtk_file_selection_get_filename(GTK_FILE_SELECTION(dir_browser));
-	gtk_entry_set_text(GTK_ENTRY(GTK_ENTRY(GTK_COMBO(path_entry)->entry)),tmp);
-	gtk_widget_destroy(dir_browser);
-	dir_browser=NULL;
-};
-
-void tDEdit::browser_ok2() {
-	if (!dir_browser) return;
-	char *tmp=gtk_entry_get_text(GTK_ENTRY(((GtkFileSelection *)dir_browser)->selection_entry));
-	gtk_entry_set_text(GTK_ENTRY(GTK_ENTRY(GTK_COMBO(file_entry)->entry)),tmp);
-	gtk_widget_destroy(dir_browser);
-	dir_browser=NULL;
-};
-
-void tDEdit::done_browser() {
-	if (!dir_browser) return;
-	gtk_widget_destroy(dir_browser);
-	dir_browser=NULL;
-};
-
 int tDEdit::apply_changes() {
 	char *temp=copy_string(text_from_combo(url_entry));
 	del_crlf(temp);
@@ -634,10 +553,10 @@ int tDEdit::apply_changes() {
 				ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
 		};
 	};
-	parent->config.save_path.set(text_from_combo(path_entry));
+	parent->config.save_path.set(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
 	parent->config.save_name.set(NULL);
-	if (strlen(text_from_combo(file_entry)))
-		parent->config.save_name.set(text_from_combo(file_entry));
+	if (strlen(text_from_combo(MY_GTK_FILESEL(file_entry)->combo)))
+		parent->config.save_name.set(text_from_combo(MY_GTK_FILESEL(file_entry)->combo));
 	if (parent->config.save_name.get())
 		ALL_HISTORIES[FILE_HISTORY]->add(parent->config.save_name.get());
 	normalize_path(parent->config.save_path.get());
@@ -653,7 +572,7 @@ int tDEdit::apply_changes() {
 	 */
 	char *URL=parent->info->url();
 	parent->config.user_agent.set(text_from_combo(user_agent_entry));
-	ALL_HISTORIES[PATH_HISTORY]->add(text_from_combo(path_entry));
+	ALL_HISTORIES[PATH_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
 	ALL_HISTORIES[URL_HISTORY]->add(URL);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add(text_from_combo(user_agent_entry));
 	/*change data in list if available
@@ -691,6 +610,19 @@ int tDEdit::apply_changes() {
 	parent->config.dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
 	parent->config.restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
+
+	temp1=0;
+	sscanf(gtk_entry_get_text(GTK_ENTRY(split_entry)),"%u",&temp1);
+	if (temp1>1){
+		if (temp1>10) temp1=10;
+		if (parent->split==NULL)
+			parent->split=new tSplitInfo;
+		parent->split->NumOfParts=temp1;
+	}else{
+		if (parent->split)
+			delete(parent->split);
+		parent->split=NULL;
+	};
 
 	if (GTK_TOGGLE_BUTTON(time_check)->active) {
 		time_t NOW=time(NULL);
@@ -772,7 +704,6 @@ void tDEdit::set_url(char *a) {
 void tDEdit::done() {
 	if (parent) parent->editor=NULL;
 	gtk_widget_destroy(window);
-	done_browser();
 	delete proxy;
 };
 

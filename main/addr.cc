@@ -54,6 +54,10 @@ int get_proto_by_name(char *str){
 	return D_PROTO_UNKNOWN;
 };
 
+int get_port_by_proto(int proto){
+	return(proto_infos[proto].port);
+};
+
 char *get_name_by_proto(int proto){
 	if (proto>=D_PROTO_LAST || proto<D_PROTO_UNKNOWN)
 		return(proto_infos[D_PROTO_UNKNOWN].name);
@@ -144,12 +148,13 @@ tAddr::tAddr(char *str){
 		pass1=NULL;
 	};
 	if (file1) {
-		char *tmp=parse_percents(file1);
-		if (tmp) {
-			delete file1;
-			file1=tmp;
-		} else
-			delete tmp;
+		if (proto==D_PROTO_HTTP){
+			char *prom=index(file1,'?');
+			if (prom){
+				params.set(prom+1);
+				*prom=0;
+			};
+		};
 		char *prom=rindex(file1,'/');
 		if (prom) {
 			path1=copy_string(prom+1);
@@ -228,17 +233,24 @@ void tAddr::save_to_config(int fd){
 		f_wstr(fd,"@");
 	};
 	f_wstr(fd,host.get());
-	char port_str[MAX_LEN];
-	g_snprintf(port_str,MAX_LEN,"%d",port);
-	f_wstr(fd,":");
-	f_wstr(fd,port_str);
+	if (port!=proto_infos[proto].port){
+		char port_str[MAX_LEN];
+		g_snprintf(port_str,MAX_LEN,"%d",port);
+		f_wstr(fd,":");
+		f_wstr(fd,port_str);
+	};
 	if (!_str_first_char(path.get(),'/'))
 		f_wstr(fd,"/");
 	if (path.get())
 		f_wstr(fd,path.get());
 	if (!_str_last_char(path.get(),'/'))
 		f_wstr(fd,"/");
-	f_wstr_lf(fd,file.get());
+	f_wstr(fd,file.get());
+	if (params.get()){
+		f_wstr(fd,"?");
+		f_wstr(fd,params.get());
+	};
+	f_wstr(fd,"\n");
 };
 
 
@@ -278,20 +290,28 @@ void tAddr::make_url(char *where){
 };
 
 char *tAddr::url() {
+	int params_len=(params.get()?strlen(params.get())+1:0);
+	int port_len=port==proto_infos[proto].port?0:(int_to_strin_len(port)+1);
 	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
-	                   strlen(path.get())+strlen(file.get())+7];
+	                   strlen(path.get())+strlen(file.get())+7+params_len+port_len];
 	*URL=0;
 	/* Easy way to make URL from info  field
 	 */
 	strcat(URL,proto_infos[proto].name);
 	strcat(URL,"://");
 	if (host.get()) strcat(URL,host.get());
+	if (port_len)
+		sprintf(URL+strlen(URL),":%i",port);
 	if (path.get()){
 		if (!_str_first_char(path.get(),'/')) strcat(URL,"/");
 		strcat(URL,path.get());
 		if (!_str_last_char(URL,'/')) strcat(URL,"/");
 	};
 	if (file.get()) strcat(URL,file.get());
+	if (params.get()){
+		strcat(URL,"?");
+		strcat(URL,params.get());
+	};
 	return URL;
 };
 

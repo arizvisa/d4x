@@ -26,7 +26,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.15";
+char *VERSION_NAME="WebDownloader for X 1.16";
 char *LOCK_FILE;
 
 static void init_string_variables(){

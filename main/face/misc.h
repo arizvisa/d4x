@@ -12,6 +12,7 @@
 #define MY_MISC_FACE
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+
 void my_gdk_window_iconify(GdkWindow *window);
 GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm);
 GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm,GtkWidget *parent);
@@ -21,5 +22,6 @@ void set_editable_for_combo(GtkWidget *widget,gboolean flag);
 void motion_notify_get_coords(GdkEventMotion * event);
 char *my_xclipboard_get();
 void my_xclipboard_free(char *buf);
+
 
 #endif

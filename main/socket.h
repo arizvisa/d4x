@@ -47,7 +47,8 @@ class tSocket{
 	int open_port(unsigned long int host,unsigned short int port);
 	int open_port(int *ftp_addr);
 	int send_string(char *what,int timeout);
-	int rec_string(char * where,int len,int timeout);    
+	int rec_string(char * where,int len,int timeout);
+	void flush();
 	void down();
 	~tSocket(); 
 };

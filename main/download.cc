@@ -120,6 +120,8 @@ void tCfg::save_to_config(int fd){
 		write_named_string(fd,"save_name:",save_name.get());
 	if (save_path.get() && *(save_path.get()))
 		write_named_string(fd,"save_path:",save_path.get());
+	if (referer.get())
+		write_named_string(fd,"referer:",referer.get());
 	f_wstr_lf(fd,"EndCfg:");
 };
 
@@ -148,7 +150,8 @@ int tCfg::load_from_config(int fd){
 		"save_name:",//20
 		"save_path:",//21
 		"dont_leave_dir:",//22
-		"EndCfg:" //23
+		"referer:",//23
+		"EndCfg:" //24
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){
@@ -273,6 +276,11 @@ int tCfg::load_from_config(int fd){
 			break;
 		};		
 		case 23:{
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+			referer.set(buf);
+			break;
+		};
+		case 24:{
 			return 0;
 		};
 		};

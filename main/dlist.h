@@ -21,6 +21,8 @@
 #include <pthread.h>
 #include "addr.h"
 
+#define MINIMUM_SIZE_TO_SPLIT 102400
+
 class tDEdit;
 
 struct tTriger{
@@ -48,6 +50,15 @@ class tDefaultWL:public tWriterLoger{
 };
 
 class tDList;
+struct tDownload;
+
+struct tSplitInfo{
+	int NumOfParts,FirstByte,LastByte;
+	int status;
+	tDownload *next_part,*parent;
+	tSplitInfo();
+	~tSplitInfo();
+};
 
 struct tDownload:public tAbstractSortNode{
 	tCfg config;
@@ -57,6 +68,8 @@ struct tDownload:public tAbstractSortNode{
 	tLog *LOG;
 	tWriterLoger *WL;
 	tDEdit *editor;
+	//------Split information-------------
+	tSplitInfo *split;
 	//------------------------------------
 	time_t Start,Pause;
 	pthread_t thread_id;
@@ -85,7 +98,7 @@ struct tDownload:public tAbstractSortNode{
 	/* downloading functions*/
 	int http_check_settings(tAddr *what);
 	void delete_who();
-	void download_completed();
+	void download_completed(int type);
 	void download_failed();
 	void recurse_http();
 	void download_ftp();
@@ -97,6 +110,7 @@ struct tDownload:public tAbstractSortNode{
 	int delete_file();
 	int file_type();
 
+	void prepare_next_split();
 	void save_to_config(int fd);
 	int load_from_config(int fd);
 	void update_trigers();
@@ -142,6 +156,7 @@ enum {
 	ACTION_NONE,
 	ACTION_DELETE,
 	ACTION_CONTINUE,
-	ACTION_STOP
+	ACTION_STOP,
+	ACTION_FAILED
 };
 #endif

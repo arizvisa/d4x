@@ -29,10 +29,22 @@ tStringHostNode::~tStringHostNode(){
 /* tHostTree
  */
 int tDownloadTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	int r=strcmp(((tDownload*)a)->info->file.get(),((tDownload*)b)->info->file.get());
+	tDownload *aa=(tDownload*)a;
+	tDownload *bb=(tDownload*)b;
+	int r=strcmp(aa->info->file.get(),bb->info->file.get());
 	if (r)
 		return r;
-	return strcmp(((tDownload*)a)->info->path.get(),((tDownload*)b)->info->path.get());
+	r=strcmp(aa->info->path.get(),bb->info->path.get());
+	if (r)
+		return r;
+	if (aa->info->params.get()==NULL){
+		if (bb->info->params.get())
+			return 1;
+		return 0;
+	};
+	if (bb->info->params.get()==NULL && aa->info->params.get())
+			return -1;
+	return strcmp(aa->info->params.get(),bb->info->params.get());
 };
 
 int tHostTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){

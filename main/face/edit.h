@@ -15,6 +15,7 @@
 #include <time.h>
 #include "../dlist.h"
 #include "../history.h"
+
 struct tProxyWidget{
 	GtkWidget *frame;
 	GtkWidget *http_proxy_host,*http_proxy_port,*http_proxy_pass,*http_proxy_user,*http_proxy_user_check,*http_proxy_check;
@@ -37,10 +38,10 @@ class tDEdit{
 	GtkWidget *ftp_recurse_depth_entry,*http_recurse_depth_entry;
 	GtkWidget *restart_from_begin_check;
 	GtkWidget *speed_entry;
-	GtkWidget *dir_browser;
 	GtkWidget *button;
 	GtkWidget *time_check;
 	GtkWidget *pause_check;
+	GtkWidget *split_entry;
 	GtkWidget *year_entry,*month_entry,*day_entry,*hour_entry,*minute_entry;
 	tProxyWidget *proxy;
 	void setup_time(time_t when);
@@ -52,11 +53,6 @@ class tDEdit{
 		GtkWidget *window;
 		tDEdit();
 		void init(tDownload *who);
-		void init_browser();
-		void done_browser();
-		void browser_ok();
-		void init_browser2();
-		void browser_ok2();
 		int apply_changes();
 		int get_pause_check();
 		void disable_ok_button();

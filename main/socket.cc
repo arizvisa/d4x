@@ -162,6 +162,17 @@ int tSocket::wait_for_write(int len) {
 	return -1;
 };
 
+void tSocket::flush(){
+	char *a;
+	FD_ZERO(&set);
+	FD_SET(fd,&set);
+	timeval tv;
+	tv.tv_sec=0;
+	tv.tv_usec=0;
+	while (select(1,&set,NULL,NULL,&tv)>0)
+		read(fd,&a,1);
+};
+
 int tSocket::accepting(char * host) {
 	sockaddr_in addr;
 	unsigned int len=sizeof(addr);

@@ -36,6 +36,7 @@ void convert_time(int what,char *where);
 void string_to_low(char *what,char delim);
 void string_to_low(char *what);
 int convert_from_hex(char what);
+void convert_to_hex(char what,char *where);
 char *parse_percents(char *what);
 char *unparse_percents(char *what);
 void del_crlf(char *what);
@@ -64,6 +65,7 @@ int f_wstr_lf(int fd,char *str);
 int write_named_string(int fd,char *name,char *str);
 int write_named_integer(int fd,char *name,int num);
 int write_named_time(int fd,char *name,time_t when);
+int int_to_strin_len(int num);
 
 //**************************************************/
 #endif

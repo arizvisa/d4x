@@ -13,7 +13,7 @@
 #include "locstr.h"
 
 struct tAddr{
-	tPStr host,username,pass,path,file;
+	tPStr host,username,pass,path,file,params;
 	int proto,port;
 	int mask;
 	tAddr();
@@ -36,5 +36,6 @@ enum D_PROTOS{
 };
 
 int get_proto_by_name(char *str);
+int get_port_by_proto(int proto);
 char *get_name_by_proto(int proto);
 #endif

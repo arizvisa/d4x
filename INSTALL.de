@@ -1,0 +1,30 @@
+INSTALLATIONS ANWEISUNG
+
+1.0	Was brauche ich, um das Programm zu kompilieren?
+
+Du brauchst eine GTK Version groesser als 1.2.0 zum kompilieren, eine
+Bibliothek mit Thread-Unterstützung (safethreads, z.B. libc6) und natuerlich
+die Quellen des Programms. Der Autor des Programms hat es erfolgreich mit
+RedHat 5.x, RedHat 6.0 und Slackware 3.6 kompiliert;
+
+1.1	Kompilieren des Programms
+
+Wechsele in das Verzeichnis mit den Programm-Quellen und tippe 'make install'
+(als root natürlich);
+Wenn du Probleme hast, stelle sicher, dass
+- du libc6 oder besser hast
+- du GTK+ Version 1.20 oder besser hast (www.gtk.org)
+- du gettext hast (wenn nicht, brauchst du nur eine Zeile aus dem Makefile
+  entfernen)
+
+1.2	Wo kann ich das Programm nach dem kompilieren finden?
+
+Im Verzeichnis 'main' bei den Programm-Quellen. Es hat den Namen 'nt'.
+Ein 'make install' kopiert die Dateien auch nach /usr/local/bin und
+/user/local/share/locale, sodass du das Programm auch aus /usr/local/bin
+ausführen kannst. Wenn du keine Uebersetzung des Programms brauchst (alles in
+Englisch), dann kannst du auch einfach nur das Programm 'nt' verwenden.
+
+1.3	How to use this program ?
+
+Einfach ausführen, ansehen und verstehen (ansonsten halt die FAQ lesen :-)

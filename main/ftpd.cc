@@ -340,10 +340,12 @@ int tFtpDownload::get_size() {
 			} else {
 				print_error(ERROR_DATA_CONNECT);
 			};
+/*
 		} else {
 			int s=FTP->get_status();
 			if (s!=STATUS_TIMEOUT)
 				break;
+*/
 		};
 		if (reconnect())
 			break;
@@ -377,10 +379,12 @@ int tFtpDownload::download_dir() {
 				} else {
 					print_error(ERROR_DATA_CONNECT);
 				};
+/*
 			} else {
 				int s=FTP->get_status();
 				if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR))
 					return -1;
+*/
 			};
 			if (reconnect()) {
 				return -1;
@@ -425,12 +429,13 @@ int tFtpDownload::download(int len) {
 				} else {
 					print_error(ERROR_DATA_CONNECT);
 				};
-			} else {
+/*			} else {
 				int s=FTP->get_status();
 				if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)){
 					rvalue=-1;
 					break;
 				};
+*/
 			};
 			if (reconnect()) {
 				rvalue=-1;

@@ -34,6 +34,10 @@ download.o: download.cc var.h history.h liststr.h queue.h mainlog.h \
  log.h face/about.h dlist.h download.h locstr.h client.h socket.h \
  sort.h speed.h addr.h sortstr.h pass.h face/passface.h face/../pass.h \
  db.h cookie.h ntlocale.h
+eff.o: eff.cc eff.h liststr.h queue.h var.h history.h mainlog.h log.h \
+ face/about.h dlist.h download.h locstr.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h
 ftp.o: ftp.cc ftp.h client.h socket.h /usr/include/fcntl.h liststr.h \
  queue.h locstr.h var.h history.h mainlog.h log.h face/about.h dlist.h \
  download.h sort.h speed.h addr.h sortstr.h pass.h face/passface.h \

@@ -313,7 +313,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
 			break;
 		};
 		if (len && FillSize>llen) FillSize=llen;
-		FileLoaded+=complete;
+		FileLoaded+=FillSize;
 		if (write_buffer()) {
 			Status=STATUS_FATAL;
 			break;
@@ -322,7 +322,13 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
 			llen -=FillSize;
 			if (llen==0){
 				LOG->log(LOG_OK,_("Requested size was loaded"));
-				break;
+				DataSocket.flush(); /*read data in socket
+						      to avoid "brocken pipe"
+						      on linux;*/
+				DataSocket.down();
+				analize_ctrl(1,&FTP_READ_OK);
+				Status=0;
+				return DSize;
 			};
 		};
 	} while (complete!=0);

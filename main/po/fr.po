@@ -1,5 +1,5 @@
 # French Translation for Downloader for X
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) 2000 Free Software Foundation, Inc.
 # Philippe RIGAUX & Eric SEIGNE, 1999.
 # Jerome COUDERC <j.couderc@ifrance.com>, 1999, 2000.
 #
@@ -13,9 +13,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: nt-1.14.4\n"
+"Project-Id-Version: nt-1.15.7\n"
 "POT-Creation-Date: 1999-08-24 15:06+0800\n"
-"PO-Revision-Date: 2000-04-12 11:34+0100\n"
+"PO-Revision-Date: 2000-05-11 20:34+0200\n"
 "Last-Translator: Jerome COUDERC <j.couderc@ifrance.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -541,7 +541,7 @@ msgstr "Récupérer la date du serveur"
 
 #: face/edit.cc:26
 msgid "Get permisions of the file from server (FTP only)"
-msgstr "Récupérer les permissions des fichiers depuis le serveur (que pour le FTP)"
+msgstr "Récupérer les permissions des fichiers depuis le serveur (FTP)"
 
 #: face/edit.cc:106
 msgid "Edit download"
@@ -727,6 +727,10 @@ msgstr "/Fichier/_Nouveau Download"
 #: face/list.cc:129
 msgid "/File/_Load List"
 msgstr "/Fichier/_Charger la Liste"
+
+# face/list.cc:
+msgid "/File/Find links in file"
+msgstr "/Fichier/Trouver les liens dans le fichier"
 
 #: face/list.cc:130 face/list.cc:133
 msgid "/File/sep1"
@@ -1486,4 +1490,41 @@ msgstr " Taille maximale pour le fichier du log principal (en koctets)"
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
+msgstr "La taille maximale du fichier de log principal a été atteinte! Le fichier a été tronqué."
+
+# face/prefs.cc:
+msgid "Use fixed font in logs"
+msgstr "Utiliser la police fixed dans les logs"
+
+# face/edit.cc:
+msgid "Number of parts for spliting this download"
+msgstr "Nombre de parties pour le partage de ce download"
+
+
+# face/saveload.cc
+msgid "Find links in txt file"
+msgstr "Trouver les liens dans le fichier txt"
+
+# face/prefs.cc:
+msgid "Color for picks"
+msgstr "Couleur pour les pics"
+
+# face/prefs.cc:
+msgid "Color for total speed"
+msgstr "Couleur pour la vitesse totale"
+
+# face/prefs.cc:
+msgid "Color for speed of selected"
+msgstr "Couleur pour la vitesse du download sélectionné"
+
+# face/prefs.cc:
+msgid "Background color"
+msgstr "Couleur de fond"
+
+# face/mywidget.cc:
+msgid "Select"
+msgstr " Choisir "
+
+# face/mywidget.cc:
+msgid "Select color"
+msgstr "Choisir la couleur"

@@ -39,12 +39,15 @@ GdkPixmap *log_ok_pixmap,*log_warning_pixmap,*log_error_pixmap,*log_from_pixmap,
 struct tLogWindow {
 	GtkWidget *window;
 	GtkWidget *clist;
-	GtkWidget *swindow;
+	GtkAdjustment *adj;
+	GtkWidget *button;
+	tDownload *papa; // :))
 	float value;
 	tStringDialog *string;
 	tLogWindow();
 	~tLogWindow();
 };
+
 
 tLogWindow::tLogWindow() {
 	string=(tStringDialog *)NULL;
@@ -53,6 +56,8 @@ tLogWindow::tLogWindow() {
 tLogWindow::~tLogWindow() {
 	if (string) delete string;
 };
+
+gint log_window_button(GtkWidget *button,int a);
 
 void init_pixmaps_for_log() {
 #include "pixmaps2/ok.xpm"
@@ -69,15 +74,18 @@ void init_pixmaps_for_log() {
 
 void log_window_destroy_by_log(void *a) {
 	tLog *log=(tLog *) a;
-	if (log) {
-		tLogWindow *temp=(tLogWindow *)log->Window;
-		if (temp) {
+	if (log==NULL) return;
+	tLogWindow *temp=(tLogWindow *)log->Window;
+	if (temp) {
+		if (temp!=temp->papa->LOG->Window && temp->papa->split!=NULL){
+			log_window_button(temp->button,1);
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
+		}else{
 			log->Window=NULL;
 			gtk_widget_destroy(GTK_WIDGET(temp->window));
 			delete (temp);
 		};
 	};
-
 };
 
 int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
@@ -89,7 +97,8 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 				int a[4];
 				gdk_window_get_position(window->window,&a[0],&a[1]);
 				gdk_window_get_size(window->window,&a[2],&a[3]);
-				log->store_geometry(a);
+				if (temp->papa && temp->papa->LOG)
+					temp->papa->LOG->store_geometry(a);
 			};
 			gtk_widget_destroy(GTK_WIDGET(window));
 			delete (temp);
@@ -187,14 +196,12 @@ static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log
 };
 
 static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
-                                      GdkEventButton *event,tDownload *what) {
-	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1) {
-		tLog *log=what->LOG;
-		if (!log || !log->Window) return FALSE;
-		tLogWindow *temp=(tLogWindow *)(log->Window);
+                                      GdkEventButton *event,tLogWindow *temp) {
+	if (temp && event && event->type==GDK_2BUTTON_PRESS &&
+	    event->button==1 && temp->papa) {
 		if (temp->string==NULL) temp->string=new tStringDialog;
 		char data[MAX_LEN];
-		sprintf(data,_("Row number %i [log of %s]"),row+1,what->info->file.get());
+		sprintf(data,_("Row number %i [log of %s]"),row+1,temp->papa->info->file.get());
 		char *text;
 		gtk_clist_get_text(GTK_CLIST(clist),row,L_COL_STRING,&text);
 		temp->string->init(text,data);
@@ -203,9 +210,8 @@ static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
 	return FALSE;
 };
 
-static void my_gtk_auto_scroll( GtkAdjustment *get,tLog *log){
-	if (get==NULL || log==NULL) return;
-	tLogWindow *temp=(tLogWindow *)log->Window;
+static void my_gtk_auto_scroll( GtkAdjustment *get,tLogWindow *temp){
+	if (get==NULL || temp==NULL) return;
 	if (temp->value==get->value && get->value<get->upper-get->page_size) {
 		get->value=get->upper-get->page_size;
 		temp->value=get->value;
@@ -213,6 +219,44 @@ static void my_gtk_auto_scroll( GtkAdjustment *get,tLog *log){
 	} else
 		temp->value=get->value;
 }
+
+gint log_window_button(GtkWidget *button,int a){
+	tDownload *what=(tDownload *)gtk_object_get_user_data(GTK_OBJECT(button));
+	tDownload *withlog=what;
+	while (withlog){
+		if (withlog->LOG->Window) break;
+		withlog=withlog->split->next_part;
+	};
+	if (withlog==NULL || withlog->LOG->Window==NULL) return FALSE;
+	tDownload *forlog=what;
+	while (forlog){
+		a-=1;
+		if (a==0) break;
+		forlog=forlog->split->next_part;
+	};
+	if (forlog && forlog!=withlog){
+		withlog->LOG->lock();
+		forlog->LOG->lock();
+		forlog->LOG->Window=withlog->LOG->Window;
+		withlog->LOG->Window=NULL;
+		withlog->LOG->unlock();
+		tLogWindow *temp=(tLogWindow *)(forlog->LOG->Window);
+		gtk_object_set_user_data(GTK_OBJECT(temp->window),forlog->LOG);
+		gtk_clist_clear(GTK_CLIST(temp->clist));
+		gtk_clist_freeze(GTK_CLIST(temp->clist));
+		forlog->LOG->print();
+		forlog->LOG->unlock();
+		gtk_clist_thaw(GTK_CLIST(temp->clist));
+		gtk_signal_connect(GTK_OBJECT(temp->window),
+				   "delete_event",
+		                   (GtkSignalFunc)log_window_destroy,
+				   forlog->LOG);
+		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
+	};
+	if (forlog==NULL)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
+	return TRUE;
+};
 
 void log_window_init(tDownload *what) {
 	gchar *titles[L_COL_LAST];
@@ -230,14 +274,15 @@ void log_window_init(tDownload *what) {
 		};
 		what->LOG->lock();
 		tLogWindow *temp=new tLogWindow;
+		temp->papa=what;
 		temp->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		int a[4];
 		what->LOG->get_geometry(a);
-		gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 200);
 		if (a[3]!=0 && a[2]!=0){
-			gtk_window_set_default_size( GTK_WINDOW (temp->window), a[2], a[3]);
 			gtk_widget_set_uposition( GTK_WIDGET (temp->window), a[0], a[1]);
-		};
+			gtk_window_set_default_size( GTK_WINDOW (temp->window), a[2], a[3]);
+		}else
+			gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 200);
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
@@ -249,7 +294,7 @@ void log_window_init(tDownload *what) {
 		                   (GtkSignalFunc)log_window_destroy, what->LOG);
 
 		temp->clist = gtk_clist_new_with_titles(L_COL_LAST, titles);
-		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_list_event_handler),what);
+		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_list_event_handler),temp);
 		gtk_clist_column_titles_hide(GTK_CLIST(temp->clist));
 		gtk_clist_set_shadow_type (GTK_CLIST(temp->clist), GTK_SHADOW_IN);
 		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TYPE , 16);
@@ -259,24 +304,48 @@ void log_window_init(tDownload *what) {
 		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_TIME,TRUE);
 		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_STRING,TRUE);
 
-		GtkAdjustment *adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
+		temp->adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
 
-		temp->swindow=gtk_scrolled_window_new((GtkAdjustment*)NULL,adj);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (temp->swindow),
+		GtkWidget *swindow=gtk_scrolled_window_new((GtkAdjustment*)NULL,temp->adj);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swindow),
 		                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-		gtk_container_add(GTK_CONTAINER(temp->swindow),temp->clist);
-		gtk_container_add(GTK_CONTAINER(temp->window),temp->swindow);
+		gtk_container_add(GTK_CONTAINER(swindow),temp->clist);
+		if (what->split){
+			GtkWidget *buttonsbar=gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_TEXT);
+			GtkWidget *tmpbutton=NULL;
+			for (int i=1;i<=what->split->NumOfParts;i++){
+				char data[MAX_LEN];
+				g_snprintf(data,MAX_LEN," %i ",i);
+				tmpbutton=gtk_toolbar_append_element (GTK_TOOLBAR (buttonsbar),
+								      GTK_TOOLBAR_CHILD_RADIOBUTTON,
+								      (GtkWidget *)tmpbutton,
+								      data,NULL,"",NULL,
+								      GTK_SIGNAL_FUNC (log_window_button),
+								      (GtkWidget *)GINT_TO_POINTER(i));
+				if (i==1){
+					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmpbutton),TRUE);
+					temp->button=tmpbutton;
+				};
+				gtk_object_set_user_data(GTK_OBJECT(tmpbutton),what);
+			};
+			GtkWidget *tmpvbox=gtk_vbox_new(FALSE,0);
+			gtk_box_pack_start(GTK_BOX(tmpvbox),buttonsbar,FALSE,FALSE,0);
+			gtk_box_pack_end(GTK_BOX(tmpvbox),swindow,TRUE,TRUE,0);
+			gtk_container_add(GTK_CONTAINER(temp->window),tmpvbox);
+		}else{
+			gtk_container_add(GTK_CONTAINER(temp->window),swindow);
+		};
 
 		what->LOG->Window=temp;
 
 		gtk_object_set_user_data(GTK_OBJECT(temp->window),what->LOG);
-//		if (a[3]!=0 && a[2]!=0)
-//			gdk_window_move_resize(temp->window->window,a[0],a[1],a[2],a[3]);
 
-		GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->clist)));
-		gdk_font_unref(current_style->font);
-		current_style->font = gdk_font_load("-*-fixed-medium-*-*-*-*-120-*-*-*-*-*-*");;
-		gtk_widget_set_style(GTK_WIDGET(temp->clist), current_style);
+		if (CFG.FIXED_LOG_FONT){
+			GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->clist)));
+			gdk_font_unref(current_style->font);
+			current_style->font = gdk_font_load("-*-fixed-medium-*-*-*-*-120-*-*-*-*-*-*");;
+			gtk_widget_set_style(GTK_WIDGET(temp->clist), current_style);
+		};
 
 		gtk_widget_show_all(temp->window);
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
@@ -284,10 +353,10 @@ void log_window_init(tDownload *what) {
 		what->LOG->unlock();
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
 
-		gtk_signal_connect (GTK_OBJECT(adj), "changed",GTK_SIGNAL_FUNC(my_gtk_auto_scroll), what->LOG);
-		adj->value=adj->upper-adj->page_size;
-		temp->value=adj->value;
-		gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
+		gtk_signal_connect (GTK_OBJECT(temp->adj), "changed",GTK_SIGNAL_FUNC(my_gtk_auto_scroll), temp);
+		temp->adj->value=temp->adj->upper-temp->adj->page_size;
+		temp->value=temp->adj->value;
+		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
 	};
 };
 

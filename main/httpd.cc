@@ -73,6 +73,7 @@ int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	HOST=hostinfo->host.get();
 	USER=hostinfo->username.get();
 	PASS=hostinfo->pass.get();
+	PARAMS=hostinfo->params.get();
 	D_PORT=hostinfo->port;
 	answer=NULL;
 	ETag=NULL;
@@ -81,7 +82,8 @@ int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	config.copy_ints(cfg);
 	HTTP->init(HOST,LOG,D_PORT,config.timeout);
 	config.user_agent.set(cfg->user_agent.get());
-	HTTP->set_user_agent(config.user_agent.get());
+	config.referer.set(cfg->referer.get());
+	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
 	HTTP->registr(USER,PASS);
 	return reconnect();
 };
@@ -223,13 +225,25 @@ int tHttpDownload::analize_answer() {
 	return rvalue;
 };
 
+char *tHttpDownload::make_name(){
+	char *rvalue=new char[strlen(D_PATH)+strlen(D_FILE.name.get())+
+			     (PARAMS ? strlen(PARAMS)+1:0)+strlen("//")+1];
+	*rvalue=0;
+	strcat(rvalue,"/");
+	strcat(rvalue,D_PATH);
+	if (D_PATH[0]!=0 && D_PATH[strlen(D_PATH)-1]!='/')
+		strcat(rvalue,"/");
+	strcat(rvalue,D_FILE.name.get());
+	if (PARAMS){
+		strcat(rvalue,"?");
+		strcat(rvalue,PARAMS);
+	};
+	return rvalue;
+};
+
 int tHttpDownload::get_size() {
 	if (FULL_NAME_TEMP) delete (FULL_NAME_TEMP);
-	FULL_NAME_TEMP=NULL;
-	if (D_PATH[0]!=0 && D_PATH[strlen(D_PATH)-1]!='/')
-		FULL_NAME_TEMP=sum_strings("/",D_PATH,"/",D_FILE.name.get(),NULL);
-	else
-		FULL_NAME_TEMP=sum_strings("/",D_PATH,D_FILE.name.get(),NULL);
+	FULL_NAME_TEMP=make_name();
 	if (!answer) {
 		answer=new tStringList;
 		answer->init(0);
@@ -288,6 +302,7 @@ int tHttpDownload::download(int len) {
 		};
 		first=0;
 //		if (HTTP->get_status()==STATUS_FATAL) return -1;
+		if (len>0 && LOADED>=length_to_load) break;
 		if (LOADED==D_FILE.size && D_FILE.size!=0) break;
 		if (HTTP->get_status()==0 && D_FILE.size==0) break;
 		if (reconnect()) return -1;
@@ -313,29 +328,35 @@ int tHttpDownload::reget() {
 };
 
 void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) {
-	int flag=strlen(D_FILE.name.get());
 	char *full_path;
+	char *parsed_path=parse_percents(D_PATH);
+	char *parsed_name=parse_percents(D_FILE.name.get());
+	int flag=strlen(parsed_name);
 	if (config.http_recursing){
 		if (config.leave_server){
 			char *tmp=compose_path(path,HOST);
-			full_path=compose_path(tmp,D_PATH);
+			full_path=compose_path(tmp,parsed_path);
 			delete tmp;
 		}else
-			full_path=compose_path(path,D_PATH);
+			full_path=compose_path(path,parsed_path);
 	}else
 		full_path=copy_string(path);
 	char *temp;
-	char *question_sign=index(full_path,'?');
-	if (question_sign) *question_sign=0;
 	if (flag){
-		temp=sum_strings(".",D_FILE.name.get(),NULL);
+		temp=(config.http_recursing && PARAMS)?
+			sum_strings(".",parsed_name,"?",PARAMS,NULL):
+			sum_strings(".",parsed_name,NULL);
 		*name=compose_path(full_path,temp);
-		*guess=compose_path(full_path,D_FILE.name.get());
+		*guess=compose_path(full_path,parsed_name);
 	}else{
-		temp=sum_strings(".",CFG.DEFAULT_NAME,NULL);
+		temp=(config.http_recursing && PARAMS)?
+			sum_strings(".",CFG.DEFAULT_NAME,"?",PARAMS,NULL):
+			sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
 		*guess=compose_path(full_path,CFG.DEFAULT_NAME);
 	};
+	delete parsed_name;
+	delete parsed_path;
 	delete full_path;
 	delete temp;
 };
@@ -343,14 +364,18 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
 	char *temp=sum_strings(".",another_name,NULL);
 	char *full_path=NULL;
+	char *parsed_path=parse_percents(D_PATH);
+	char *parsed_name=parse_percents(D_FILE.name.get());
 	if (config.http_recursing)
-		full_path=compose_path(path,D_PATH);
+		full_path=compose_path(path,parsed_path);
 	else
 		full_path=copy_string(path);
 	char *question_sign=index(full_path,'?');
 	if (question_sign) *question_sign=0;
 	*name=compose_path(full_path,temp);
 	*guess=compose_path(full_path,another_name);
+	delete parsed_name;
+	delete parsed_path;
 	delete full_path;
 	delete temp;
 };

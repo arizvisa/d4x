@@ -86,3 +86,4 @@ char *my_xclipboard_get() {
 void my_xclipboard_free(char *buf) {
 	if (buf) XFree(buf);
 }
+

@@ -276,8 +276,7 @@ int tMain::run_new_thread(tDownload *what) {
 		what->LOG->init(CFG.MAX_LOG_LENGTH);
 	};
 	what->WL=new tDefaultWL;
-	((tDefaultWL *)(what->WL))->set_log(what->LOG);
-
+	((tDefaultWL *)(what->WL))->set_log(what->LOG);	
 	what->update_trigers();
 
 	what->SpeedLimit=new tSpeed;
@@ -298,6 +297,15 @@ int tMain::run_new_thread(tDownload *what) {
 	return (pthread_create(&what->thread_id,&attr_p,download_last,(void *)what));
 };
 
+void tMain::stop_split(tDownload *what){
+	tDownload *tmp=what->split->next_part;
+	what->split->status=1;
+	while(tmp){
+		stop_thread(tmp);
+		tmp=tmp->split?tmp->split->next_part:NULL;
+	};
+};
+
 void tMain::stop_download(tDownload *what) {
 	if (DOWNLOAD_QUEUES[DL_STOPWAIT]->owner(what) && what->action!=ACTION_DELETE) {
 		what->action=ACTION_STOP;
@@ -306,7 +314,9 @@ void tMain::stop_download(tDownload *what) {
 	if (DOWNLOAD_QUEUES[DL_RUN]->owner(what)) {
 		DOWNLOAD_QUEUES[DL_RUN]->del(what);
 		MainLog->myprintf(LOG_WARNING,_("Downloading of file %s from %s was terminated [by user]"),what->info->file.get(),what->info->host.get());
-		if (!stop_thread(what)) {
+		if (what->split)
+			stop_split(what);
+		if (!stop_thread(what) || what->split) {
 			DOWNLOAD_QUEUES[DL_STOPWAIT]->insert(what);
 		} else {
 			LimitsForHosts->decrement(what);
@@ -360,12 +370,47 @@ int tMain::delete_download(tDownload *what) {
 	return 1;
 };
 
+void tMain::try_to_run_split(tDownload *what){
+	if (what->status==DOWNLOAD_GO || what->status==DOWNLOAD_COMPLETE){
+		if (what->finfo.size>MINIMUM_SIZE_TO_SPLIT){
+			int part=what->split->NumOfParts-1;
+			tSortString *tmp=LimitsForHosts->find(what->info->host.get(),what->info->port);
+			tDownload *dwn=what;
+			while (part>0){
+				if (tmp && tmp->curent>=tmp->upper)
+					return;
+				dwn->prepare_next_split();
+				if (run_new_thread(dwn->split->next_part)){
+					delete(dwn->split->next_part);
+					dwn->split->next_part=NULL;
+					return;
+				};
+				if (tmp) tmp->increment();
+				dwn=dwn->split->next_part;
+				part-=1;
+			};
+			what->split->status=1;
+		}else{
+			what->split->status=1;
+		};
+	};
+};
+
 int tMain::try_to_run_download(tDownload *what){
 	tSortString *tmp=LimitsForHosts->find(what->info->host.get(),what->info->port);
 	time_t NOW;
 	time(&NOW);
 	if (DOWNLOAD_QUEUES[DL_RUN]->count()<CFG.MAX_THREADS && what->ScheduleTime<=NOW
 	    && (tmp==NULL || tmp->curent<tmp->upper)) {
+		if (what->split){
+			what->finfo.size=-1;
+			what->split->FirstByte=0;
+			what->split->LastByte=-1;
+			what->split->status=0;
+			what->config.rollback=0;
+			what->config.ftp_recurse_depth=0;
+			what->config.http_recurse_depth=0;
+		};
 		if (run_new_thread(what)) return -1;
 		if (tmp) tmp->increment();
 		return 1;
@@ -440,6 +485,18 @@ void tMain::speed_calculation(tDownload *what){
 	};
 };
 
+int tMain::get_split_loaded(tDownload *what){
+	int tmp=0;
+	while (what){
+		if (what->who){
+			int readed=what->who->get_readed();
+			tmp+=readed > what->split->FirstByte ? readed-what->split->FirstByte:0;
+		};
+		what=what->split->next_part;
+	};
+	return tmp;
+};
+
 void tMain::print_info(tDownload *what) {
 	char data[MAX_LEN];
 	switch(what->finfo.type) {
@@ -448,9 +505,15 @@ void tMain::print_info(tDownload *what) {
 		int REAL_SIZE=what->finfo.size;
 		if (REAL_SIZE==0 && what->who!=NULL)
 			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
-		make_number_nice(data,REAL_SIZE);
+		if (REAL_SIZE<0) REAL_SIZE=0;
+		make_number_nice(data,REAL_SIZE);		
 		list_of_downloads_change_data(what->GTKCListRow,FULL_SIZE_COL,data);
-		if (what->who) what->Size.set(what->who->get_readed());
+		if (what->who){
+			if (what->split)
+				what->Size.set(get_split_loaded(what));
+			else
+				what->Size.set(what->who->get_readed());
+		};
 		what->Remain.set(REAL_SIZE-what->Size.curent);
 		if (what->Remain.change() && what->Remain.curent>=0){
 			make_number_nice(data,what->Remain.curent);
@@ -581,16 +644,22 @@ void tMain::redirect(tDownload *what) {
 		what->delete_who();
 	};
 	if (newurl) {
+		char *oldurl=what->info->url();
 		tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
 		if (temp)
 			DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,temp);
 		else
 			DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
 		tAddr *addr=new tAddr(newurl);
+		if (*newurl=='/'){
+			addr->copy_host(what->info);
+		};
 		delete(newurl);
 		ALL_DOWNLOADS->del(what);
 		if (what->info) delete (what->info);
 		what->info=addr;
+		what->config.referer.set(oldurl);
+		delete(oldurl);
 		if (ALL_DOWNLOADS->find(what)) {
 			DOWNLOAD_QUEUES[DL_WAIT]->del(what);
 			list_to_delete=g_list_insert_sorted(list_to_delete,what,_compare_nodes);
@@ -622,10 +691,15 @@ void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 	SpeedScheduler->del(what->SpeedLimit);
 	delete (what->SpeedLimit);
 	what->SpeedLimit=NULL;
-	list->del(what);
+	if (list) list->del(what);
 	if (what->WL){
 		delete(what->WL);
 		what->WL=NULL;
+	};
+	if (what->split && what->split->next_part){
+		prepare_for_stoping(what->split->next_part,NULL);
+		delete(what->split->next_part);
+		what->split->next_part=NULL;
 	};
 };
 
@@ -666,25 +740,65 @@ void tMain::case_download_failed(tDownload *what){
 	};
 };
 
+int tMain::get_status_split(tDownload *what){
+	tDownload *tmp=what;
+	int status[2]={0,0};
+/*	if (what->split->status==0)
+	return(DOWNLOAD_GO);*/
+	while (tmp){
+		switch(tmp->status){
+		case DOWNLOAD_COMPLETE:{
+			status[0]+=1;
+			break;
+		};
+		case DOWNLOAD_REAL_STOP:{
+			status[1]+=1;
+			break;
+		};
+		case DOWNLOAD_FATAL:{
+			tmp->status=DOWNLOAD_REAL_STOP;
+			MainLog->myprintf(LOG_ERROR,_("Splited download [%z] was stopped because one thread failed"),what);
+			stop_download(what);
+			what->action=ACTION_FAILED;
+		};
+		default:
+			return DOWNLOAD_GO;
+		};
+		tmp=tmp->split->next_part;
+	};
+	if (status[0]==0){
+		return DOWNLOAD_REAL_STOP;
+	};
+	return DOWNLOAD_COMPLETE;
+};
+
 void tMain::main_circle() {
 /* look for stopped threads */
 	tDownload *temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->last();
 	while(temp) {
 		tDownload *temp1=DOWNLOAD_QUEUES[DL_STOPWAIT]->next();
+		if (temp->split) temp->status=get_status_split(temp);
 		if (temp->status==DOWNLOAD_REAL_STOP ||
 		        temp->status==DOWNLOAD_COMPLETE  ||
 		        temp->status==DOWNLOAD_FATAL) {
 			real_stop_thread(temp);
 			prepare_for_stoping(temp,DOWNLOAD_QUEUES[DL_STOPWAIT]);
 			DOWNLOAD_QUEUES[DL_PAUSE]->insert(temp);
-			if (temp->action==ACTION_DELETE) {
+			switch(temp->action){
+			case ACTION_DELETE:
 				delete_download(temp);
-			} else {
-				if (temp->action==ACTION_CONTINUE)
-					continue_download(temp);
-				else
-					stop_download(temp);
+				break;
+			case ACTION_CONTINUE:
+				continue_download(temp);
 				temp->action=ACTION_NONE;
+				break;
+			case ACTION_STOP:
+				temp->action=ACTION_NONE;
+				break;
+			case ACTION_FAILED:
+				DOWNLOAD_QUEUES[DL_PAUSE]->del(temp);
+				DOWNLOAD_QUEUES[DL_STOP]->insert(temp);
+				break;
 			};
 		};
 		temp=temp1;
@@ -692,10 +806,19 @@ void tMain::main_circle() {
 /* look for completeted or faild threads */
 	temp=DOWNLOAD_QUEUES[DL_RUN]->last();
 	while(temp) {
+		int status=temp->status;
+		if (temp->split){
+			status=DOWNLOAD_GO;
+			if (temp->split->status==0){
+				try_to_run_split(temp);
+			}else{
+				status=get_status_split(temp);
+			};
+		};
 		tDownload *temp1=DOWNLOAD_QUEUES[DL_RUN]->next();
 		if (CFG.WITHOUT_FACE==0) print_info(temp);
 		else speed_calculation(temp);
-		switch(temp->status) {
+		switch(status) {
 			case DOWNLOAD_COMPLETE:{
 				case_download_completed(temp);
 				break;

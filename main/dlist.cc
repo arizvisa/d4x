@@ -83,6 +83,7 @@ int tDefaultWL::get_fd(){
 
 int tDefaultWL::shift(int shift){
 	if (fd>=0){
+//		printf("Shift to %i\n",shift);
 		lseek(fd,shift,SEEK_SET);
 	};
 	return 0;
@@ -115,9 +116,21 @@ tDefaultWL::~tDefaultWL(){
 	if (fd>=0) close(fd);
 };
 
+/*************Split Information****************/
+
+tSplitInfo::tSplitInfo(){
+	FirstByte=LastByte=-1;
+	next_part=parent=NULL;
+};
+
+tSplitInfo::~tSplitInfo(){
+	if (next_part)	delete(next_part);
+};
+
 /**********************************************/
 tDownload::tDownload() {
 	next=prev=NULL;
+	split=NULL;
 	who=NULL;
 	info=NULL;
 	LOG=NULL;
@@ -503,6 +516,11 @@ void tDownload::convert_list_to_dir2(tStringList *dir) {
 		if (!global_url(temp->body) && !begin_string_uncase(temp->body,"javascript:")) {
 			tAddr *addrnew=new tAddr;
 			tDownload *onenew=new tDownload;
+			char *quest=index(temp->body,'?');
+			if (quest){
+				addrnew->params.set(quest+1);
+				*quest=0;
+			};
 			char *tmp=rindex(temp->body,'/');
 			onenew->config.save_path.set(config.save_path.get());
 			if (tmp) {
@@ -566,6 +584,8 @@ void tDownload::convert_list_to_dir2(tStringList *dir) {
 void tDownload::save_to_config(int fd){
 	f_wstr_lf(fd,"Download:");
 	if (info) info->save_to_config(fd);
+	if (split)
+		write_named_integer(fd,"SplitTo:",split->NumOfParts);
 	config.save_to_config(fd);
 	if (ScheduleTime)
 		write_named_time(fd,"Time:",ScheduleTime);
@@ -581,6 +601,7 @@ int tDownload::load_from_config(int fd){
 		"Cfg:",
 		"SavePath:",
 		"SaveName:",
+		"SplitTo:",
 		"EndDownload:"
 	};
 	char buf[MAX_LEN];
@@ -620,13 +641,34 @@ int tDownload::load_from_config(int fd){
 			config.save_name.set(buf);
 			break;
 		};
-		case 6: return info==NULL?-1:0;
+		case 6:{
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+			int tmp;
+			sscanf(buf,"%d",&tmp);
+			if (tmp>10) tmp=10;
+			if (tmp>1){
+				split=new tSplitInfo;
+				split->NumOfParts=tmp;
+			};
+			break;
+		};		
+		case 7: return info==NULL?-1:0;
 		};
 	};
 	return -1;
 };
-void tDownload::download_completed() {
+void tDownload::download_completed(int type) {
 	who->done();
+	switch (type){
+	case D_PROTO_HTTP:{
+		recurse_http();
+		break;
+	};
+	case D_PROTO_FTP:{
+		if (finfo.type==T_DIR && config.ftp_recurse_depth!=1)
+			convert_list_to_dir();
+	};
+	};
 	WL->log(LOG_OK,_("Downloading was successefully completed!"));
 	make_file_visible();
 	status=DOWNLOAD_COMPLETE;
@@ -671,6 +713,9 @@ void tDownload::download_http() {
 		download_failed();
 		return;
 	};
+	if (split)
+		CurentSize=split->FirstByte;
+
 	who->set_loaded(CurentSize);
 	who->rollback();
 	int size=who->get_size();
@@ -679,15 +724,14 @@ void tDownload::download_http() {
 	if (size==CurentSize && size>0) {
 		finfo.size=size;
 		finfo.type=T_FILE;
-		recurse_http();
-		download_completed();
+		download_completed(D_PROTO_HTTP);
 		return;
 	};
 	/* There are must be procedure for removing file
 	 * wich execute if CurentSize==0
 	 */
 	
-	if (CurentSize==0) {
+	if (size<0 && split==NULL && CurentSize==0) {
 		if (delete_file())
 			WL->log(LOG_WARNING,_("It is strange that we can't delete file which just created..."));
 	};
@@ -710,15 +754,17 @@ void tDownload::download_http() {
 	/* there we need to create file again
 	 * if CurentSize==0
 	 */
-	if (CurentSize==0) CurentSize=create_file();
+	if (split && CurentSize==0 && finfo.size>MINIMUM_SIZE_TO_SPLIT)
+		split->LastByte=finfo.size/split->NumOfParts;
+	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
 	status=DOWNLOAD_GO;
-	if (who->download(0)) {
+	if (who->download(SIZE_FOR_DOWNLOAD)) {
 		download_failed();
 		return;
 	};
 	set_date_file();
 	recurse_http();
-	download_completed();
+	download_completed(D_PROTO_HTTP);
 };
 
 
@@ -732,7 +778,7 @@ void tDownload::download_ftp(){
 		who->set_file_info(&finfo);
 		create_file();
 		set_date_file();
-		download_completed();
+		download_completed(D_PROTO_FTP);
 		return;
 	};
 
@@ -740,8 +786,11 @@ void tDownload::download_ftp(){
 		download_failed();
 		return;
 	};
-
-	who->init_download(info->path.get(),info->file.get());
+	char *tmp_path=parse_percents(info->path.get());
+	char *tmp_file=parse_percents(info->file.get());
+	who->init_download(tmp_path,tmp_file);
+	delete(tmp_file);
+	delete(tmp_path);
 	if (finfo.size<0) {
 		status=DOWNLOAD_SIZE_WAIT;
 		int size=who->get_size();
@@ -765,7 +814,7 @@ void tDownload::download_ftp(){
 	};
 
 	if (finfo.type==T_DEVICE) {
-		download_completed();
+		download_completed(D_PROTO_FTP);
 		return;
 	};
 
@@ -774,20 +823,52 @@ void tDownload::download_ftp(){
 		return;
 	};
 
-	status=DOWNLOAD_GO;
 	Start=Pause=time(NULL);
+	if (split){
+		CurentSize=split->FirstByte;
+		if (CurentSize==0  && finfo.size>MINIMUM_SIZE_TO_SPLIT)
+			split->LastByte=finfo.size/split->NumOfParts;
+	};
 	who->set_loaded(CurentSize);
-//	if (who->download(finfo.size-CurentSize)) {
-	if (who->download(0)) {
+	if (split) WL->shift(CurentSize);
+	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
+	status=DOWNLOAD_GO;
+	if (who->download(SIZE_FOR_DOWNLOAD)) {
 		download_failed();
 		return;
 	};
 	set_date_file();
-	who->done();
-	if (finfo.type==T_DIR && config.ftp_recurse_depth!=1) convert_list_to_dir();
-	make_file_visible();
-	status=DOWNLOAD_COMPLETE;
+	download_completed(D_PROTO_FTP);
 };
+
+void tDownload::prepare_next_split(){
+	if (split->next_part){
+		printf("DEBUG:WARNING DOES NOT COMPLETED DELETING OF PREVIOS SPLIT!\n");
+	};
+	split->next_part=new tDownload;
+	tDownload *tmp=split->next_part;
+	tmp->split=new tSplitInfo;
+	tmp->split->FirstByte=split->LastByte;
+	tmp->split->parent=this;
+	if ((tmp->split->NumOfParts=split->NumOfParts-1)!=1){
+		tmp->split->LastByte=tmp->split->FirstByte + split->LastByte - split->FirstByte;
+	};
+	tmp->config.copy(&config);
+	tmp->config.user_agent.set(config.user_agent.get());
+	tmp->config.referer.set(config.referer.get());
+	tmp->config.save_name.set(config.save_name.get());
+	tmp->config.save_path.set(config.save_path.get());
+	tmp->finfo.size=finfo.size;
+	tmp->finfo.type=finfo.type;
+	tmp->finfo.perm=finfo.perm;
+	tmp->finfo.date=finfo.date;
+	tmp->info=new tAddr();
+	tmp->info->copy_host(info);
+	tmp->info->path.set(info->path.get());
+	tmp->info->file.set(info->file.get());
+	tmp->info->params.set(info->params.get());
+};
+
 
 void tDownload::delete_who(){
 	if (who){
@@ -803,6 +884,7 @@ tDownload::~tDownload() {
 	if (LOG) delete LOG;
 	if (DIR) delete DIR;
 	if (WL) delete(WL);
+	if (split) delete(split);
 };
 
 
