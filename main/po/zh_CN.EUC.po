@@ -1,0 +1,1103 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: face/about.cc:167 face/buttons.cc:117 face/buttons.cc:119
+#: face/buttons.cc:121 face/buttons.cc:124 face/buttons.cc:126
+#: face/buttons.cc:128 face/buttons.cc:130 face/buttons.cc:132
+#: face/buttons.cc:134 face/buttons.cc:137 face/buttons.cc:140
+#: face/buttons.cc:142 face/buttons.cc:144 face/buttons.cc:149
+#: face/edit.cc:465 face/edit.cc:548 face/list.cc:70 face/list.cc:304
+#: face/log.cc:158 main.cc:280 main.cc:465 main.cc:592
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: nt\n"
+"POT-Creation-Date: 1999-08-24 15:06+0800\n"
+"PO-Revision-Date: 1999-08-30 6:12+08\n"
+"Last-Translator: Marlin <marlin@turbolinux.com.cn>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=gb2312\n"
+
+#: client.cc:65
+msgid "Timeout when socket read!"
+msgstr "¶ÁÌ×½Ó×Ö³¬Ê±"
+
+#: client.cc:70
+msgid "Error when reading from socket!"
+msgstr "¶ÁÌ×½Ó×Ö´íÎó"
+
+#: client.cc:79
+msgid "Trying to connect..."
+msgstr "ÕıÔÚÁ¬½Ó..."
+
+#: client.cc:81
+msgid "Socket was opened!"
+msgstr "Ì×½Ó×Ö½Ó¿ÚÒÑ¾­´ò¿ª£¡"
+
+#: client.cc:86
+msgid "Host not found!"
+msgstr "Ã»ÓĞÕÒµ½Ö÷»ú£¡"
+
+#: client.cc:91
+msgid "Can't allocate socket"
+msgstr "²»ÄÜ·ÖÅäÌ×½Ó×Ö½Ó¿Ú"
+
+#: client.cc:96
+msgid "Can't connect"
+msgstr "ÎŞ·¨Áª½Ó"
+
+
+#: config.cc:317
+msgid "WARNING!!! Can't find HOME variable! So can't read config!"
+msgstr "¾¯¸æ!!!²»ÄÜÕÒµ½HOME»·¾³±äÁ¿!ËùÒÔ²»ÄÜ¶ÁÉèÖÃ!"
+
+#: config.cc:334
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr "²»ÄÜ´Ó '%s' ´ò¿ªÅäÖÃÎÄ¼ş\n"
+
+
+#: config.cc:335
+msgid "Use default cfg :))...\n"
+msgstr "Ê¹ÓÃÄ¬ÈÏµÄÅäÖÃÎÄ¼ş:-))...\n"
+
+
+#: config.cc:367
+msgid "WARNING!!! Can't find HOME variable! So can't write config!"
+msgstr "¾¯¸æ!!!²»ÄÜÕÒµ½HOME»·¾³±äÁ¿!ËùÒÔ²»ÄÜ±£´æÉèÖÃ!"
+
+
+
+#: config.cc:562
+msgid "bad read\n"
+msgstr "¶Á´íÎó\n"
+
+
+#: config.cc:567
+msgid "Can't open file of limits!!!\n"
+msgstr "²»ÄÜ´ò¿ªÏŞÖÆÎÄ¼ş£¡£¡£¡\n"
+
+
+#: config.cc:592
+msgid "Can't write limits to file!!!\n"
+msgstr "²»ÄÜĞ´ÏŞÖÆµ½ÎÄ¼ş£¡£¡£¡\n"
+
+
+#: dlist.cc:307
+msgid ""
+"***WARN***!!!Attempt to delete download from list which does'nt contain it!"
+msgstr "***¾¯¸æ*** ÊÔÍ¼É¾³ı±íÖĞ²»°üÀ¨µÄÏÂÔØ£¡"
+
+
+#: download.cc:96
+msgid "Trying to create a file"
+msgstr "³¢ÊÔ´´½¨ÎÄ¼ş..."
+
+
+#: download.cc:101
+msgid "Can't create file at the path:"
+msgstr "²»ÄÜÔÚ´ËÄ¿Â¼ÖĞ´´½¨ÎÄ¼ş£º"
+
+
+#: download.cc:103
+msgid "which has name:"
+msgstr "ÄÄ¸öÓĞÃû×Ö£º"
+
+
+#: download.cc:108
+msgid "File was created!"
+msgstr "ÎÄ¼şÒÑ´´½¨"
+
+
+#: download.cc:113
+msgid "Trying to create a dir"
+msgstr "ÕıÔÚ´´½¨Ä¿Â¼"
+
+
+#: download.cc:119
+msgid "Can't create directory!"
+msgstr "²»ÄÜ´´½¨Ä¿Â¼£¡"
+
+
+#: download.cc:122
+msgid "Directory already created!:))"
+msgstr "Ä¿Â¼ÒÑ¾­´æÔÚ£¡:))"
+
+
+#: download.cc:128
+msgid "Trying to create a link"
+msgstr "ÊÔÍ¼´´½¨Ò»¸öÁ¬½Ó"
+
+
+#: download.cc:132
+msgid "Can't create link"
+msgstr "²»ÄÜ´´½¨Á´½Ó"
+
+
+#: download.cc:135
+msgid "Link already created!:))"
+msgstr "Á´½ÓÒÑ¾­´æÔÚ£¡"
+
+
+#: download.cc:141
+msgid "Downloader can't create devices..."
+msgstr "±¾³ÌĞò²»ÄÜ´´½¨Éè±¸..."
+
+
+#: download.cc:145
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "¾¯¸æ£¡Äú¿ÉÄÜ·¢ÏÖÁË±¾³ÌĞòµÄ´íÎó£¡£¡£¡"
+
+
+#: download.cc:146
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr "Èç¹ûÄú¿´µ½ÁË´ËĞÅÏ¢£¬ÇëÄú±¨¸æµ½ mdem@chat.ru"
+
+
+#: ftp.cc:24
+msgid "Accepting failed"
+msgstr "½ÓÊÜÊ§°Ü"
+
+
+#: ftp.cc:47
+msgid "Timeout send through control socket."
+msgstr "¿ØÖÆÌ×½Ó×Ö¶Ë¿Ú·¢ËÍ³¬Ê±."
+
+
+#: ftp.cc:48
+msgid "Control conection lost"
+msgstr "¿ØÖÆÁ¬½Ó¶ªÊ§£¡"
+
+
+#: ftp.cc:57
+msgid "Data socket lost!"
+msgstr "Êı¾İÌ×½Ó×ÖÁ¬½Ó¶ªÊ§£¡"
+
+
+#: ftp.cc:65
+msgid "Control socket lost!"
+msgstr "¿ØÖÆÌ×½Ó×ÖÁ¬½Ó¶ªÊ§£¡"
+
+
+#: ftp.cc:174
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr "³¢ÊÔÁ¬½Óµ½ %i,%i,%i,%i,%i,%i"
+
+
+#: ftp.cc:177
+msgid "Can't stand data connection"
+msgstr "²»ÄÜÍ£Ö¹Êı¾İÁ¬½Ó"
+
+
+#: ftp.cc:254
+msgid "Data connection closed."
+msgstr "Êı¾İÁ¬½Ó¶ªÊ§¡£"
+
+
+#: ftp.cc:259 http.cc:132
+msgid "Can't write to file"
+msgstr "²»ÄÜĞ´µ½ÎÄ¼ş"
+
+
+#: ftpd.cc:138
+msgid "Reget not supported!!!"
+msgstr "²»Ö§³Ö¶ÏµãĞø´«£¡£¡£¡"
+
+
+#: ftpd.cc:183
+msgid "Server refused login probably too many users of your class"
+msgstr "·şÎñÆ÷¾Ü¾øµÇÂ¼£¬¿ÉÄÜÓĞÌ«¶àµÄÓÃ»§ÕıÔÚÊ¹ÓÃ¡£"
+
+
+#: ftpd.cc:186 httpd.cc:76
+#, c-format
+msgid "Retrying %i of %i...."
+msgstr "ÖØÊÔ %i / %i...."
+
+
+#: ftpd.cc:188
+#, c-format
+msgid "Retrying %i ..."
+msgstr "ÖØÊÔ %i ..."
+
+
+#: ftpd.cc:191 httpd.cc:81
+msgid "Max amount of retries was reached!"
+msgstr "ÒÑ¾­´ïµ½×î´óÖØÊÔ´ÎÊı£¡"
+
+
+#: ftpd.cc:197 httpd.cc:87
+msgid "Sleeping"
+msgstr "ĞİÃß"
+
+
+#: ftpd.cc:301
+#, c-format
+msgid "Length is %i"
+msgstr "³¤¶ÈÎª %i"
+
+
+#: ftpd.cc:306
+msgid "This is a directory!"
+msgstr "ÕâÊÇÒ»¸öÄ¿Â¼£¡"
+
+
+#: ftpd.cc:317
+msgid "Couldn't get size :(("
+msgstr "²»ÄÜ»ñµÃ³¤¶È:(("
+
+
+#: ftpd.cc:319 ftpd.cc:361 ftpd.cc:411
+msgid "Can't establish data connection"
+msgstr "²»ÄÜ½¨Á¢Êı¾İÁ¬½Ó"
+
+
+#: ftpd.cc:325
+msgid "Can't change dir!"
+msgstr "²»ÄÜ¸Ä±äÄ¿Â¼£¡"
+
+
+#: ftpd.cc:354
+msgid "Listing was loaded"
+msgstr "ÁĞ±íÒÑ¾­´ò¿ª"
+
+#: ftpd.cc:358
+msgid "Listing not loaded completelly"
+msgstr "ÁĞ±íÃ»ÓĞÈ«²¿×°Èë"
+
+#: ftpd.cc:364 ftpd.cc:414
+msgid "Can't change directory"
+msgstr "²»ÄÜ¸Ä±äÄ¿Â¼"
+
+#: ftpd.cc:381
+msgid "Loading directory..."
+msgstr "¼ÓÔØÄ¿Â¼..."
+
+#: ftpd.cc:385
+msgid "Link was loaded :))"
+msgstr "Á´½Ó¼ÓÔØ³É¹¦:))"
+
+#: ftpd.cc:395 httpd.cc:246
+msgid "Problems with lseek()"
+msgstr "lseek()º¯Êı´íÎó"
+
+#: ftpd.cc:403
+#, c-format
+msgid "%i bytes loaded."
+msgstr "ÏÂÔØÁË %i ×Ö½Ú."
+
+#: hproxy.cc:136
+msgid "Connection to the internet via proxy"
+msgstr "Í¨¹ı´úÀí·şÎñÆ÷Á¬½Óµ½»¥ÁªÍø"
+
+#: hproxy.cc:137
+msgid "Sending request to proxy"
+msgstr "·¢ËÍÇëÇóµ½´úÀí·şÎñÆ÷"
+
+#: hproxy.cc:141 httpd.cc:220
+msgid "Answer read ok"
+msgstr "Ó¦´ğ³É¹¦"
+
+#: hproxy.cc:151 httpd.cc:230
+msgid "Could'nt get normal answer!"
+msgstr "²»ÄÜµÃµ½Õı³£µÄÓ¦´ğ£¡"
+
+#: http.cc:43
+msgid "Socket lost!"
+msgstr "Ì×½Ó×ÖÁ¬½Ó¶ªÊ§£¡"
+
+#: http.cc:58
+msgid "It is not HTTP server!!!"
+msgstr "²»ÊÇ HTTP ·şÎñÆ÷!!!"
+
+#: http.cc:63
+msgid "All ok, reading file"
+msgstr "È«²¿ÕıÈ·£¬¶ÁÎÄ¼ş"
+
+#: http.cc:67
+msgid "Redirect detected..."
+msgstr "¼ì²âµ½ÖØ¶¨Ïò..."
+
+#: http.cc:73
+msgid "It seems to me that you need a password :)"
+msgstr "Äú¿ÉÄÜĞèÒªÊäÈë¿ÚÁî:)"
+
+#: http.cc:81
+msgid "Server return bad answer:(("
+msgstr "·şÎñÆ÷·µ»Ø´íÎóµÄ»Ø´ğ:<"
+
+#: http.cc:127
+msgid "Connection closed."
+msgstr "Á¬½Ó¹Ø±Õ¡£"
+
+#: httpd.cc:78
+#, c-format
+msgid "Retrying %i"
+msgstr "ÖØÊÔ - %i"
+
+#: httpd.cc:143
+#, c-format
+msgid "Size for download is %i bytes"
+msgstr "ÒªÏÂÔØµÄ³¤¶ÈÎª %i ×Ö½Ú"
+
+#: httpd.cc:216
+msgid "Sending http request..."
+msgstr "·¢ËÍ HTTP ÇëÇó..."
+
+#: httpd.cc:242
+msgid "It is seemed REGET not supported! Loading from begin.."
+msgstr "¶ÏµãĞø´«¿ÉÄÜ²»Ö§³Ö! ÖØĞÂ¿ªÊ¼ÏÂÔØ..."
+
+#: main.cc:145
+msgid "Normally started"
+msgstr "³ÌĞòÆô¶¯Õı³£" 
+
+#: main.cc:202
+msgid "Clear queue of downloads"
+msgstr "Çå³ıÏÂÔØ¶ÓÁĞ"
+
+#: main.cc:340
+#, c-format
+msgid "Downloading of file %s from %s was terminated [by user]"
+msgstr "ÎÄ¼şÏÂÔØ %s £¨´Ó %s£©±»ÓÃ»§ÖÕÖ¹¡£"
+
+#: main.cc:383
+#, c-format
+msgid "Delete file %s from queue of downloads"
+msgstr "´ÓÏÂÔØ¶ÓÁĞÉ¾³ıÎÄ¼şÏî %s"
+
+#: main.cc:430
+#, c-format
+msgid "Continue downloading of file %s from %s..."
+msgstr "¼ÌĞøÏÂÔØÎÄ¼ş %s ´Ó %s ..."
+
+#: main.cc:454
+msgid "file"
+msgstr "ÎÄ¼ş"
+
+#: main.cc:518 main.cc:520
+msgid "..."
+msgstr "..."
+
+#: main.cc:525
+msgid "dir"
+msgstr "Ä¿Â¼ "
+
+#: main.cc:529
+msgid "link"
+msgstr "Á´½Ó"
+
+#: main.cc:533
+msgid "device"
+msgstr "Éè±¸"
+
+#: main.cc:637
+#, c-format
+msgid "Downloading of directory %s://%s%s/%s was completed"
+msgstr "Ä¿Â¼ %s://%s%s/%s ÏÂÔØÍê³É"
+
+#: main.cc:641
+#, c-format
+msgid ""
+"Downloading of file %s://%s%s/%s (%i bytes) was completed at speed %i "
+"bytes/sec"
+msgstr "ÎÄ¼ş %s://%s%s/%s ÏÂÔØÍê³É, ËÙ¶È: %i ×Ö½Ú/Ãë"
+
+#: main.cc:664
+#, c-format
+msgid "Downloading of file %s://%s%s/%s was terminated by fatal error"
+msgstr "ÑÏÖØ´íÎóµ¼ÖÂÏÂÔØÎÄ¼ş %s://%s%s/%s ÖÕÖ¹"
+
+#: main.cc:809
+#, c-format
+msgid "Added downloading of file %s from %s [by user]"
+msgstr "ÓÃ»§Ìí¼ÓÏÂÔØÎÄ¼ş %s ´ÓµØÖ· %s"
+
+#: main.cc:874 main.cc:951
+msgid "It is strange that we can't delete file which just created..."
+msgstr "Ææ¹Ö, ÎÒ²»ÄÜÉ¾³ı¸Õ½¨Á¢µÄÎÄ¼ş..."
+
+#: main.cc:878 main.cc:955 main.cc:1043
+msgid "File not found"
+msgstr "ÎÄ¼şÃ»ÓĞÕÒµ½"
+
+#: main.cc:964
+msgid "We can redirect from proxy!"
+msgstr "ÎÒÃÇ²»ÄÜ´Ó´úÀí·şÎñÆ÷ÖØ¶¨Ïò!"
+
+#: main.cc:999
+msgid "Can't open messages queue!"
+msgstr "²»ÄÜ´ò¿ªÏûÏ¢¶ÓÁĞ"
+
+#: main.cc:1016
+msgid "Was Started!"
+msgstr "ÒÑ¾­¿ªÊ¼!"
+
+#: main.cc:1019
+msgid "It is a link and we already load it"
+msgstr "ÕâÊÇÒ»¸öÒÑ¾­×°ÈëµÄÁ´½Ó"
+
+#: mainlog.cc:99
+msgid "Can't write to file interrupting write to file"
+msgstr "²»ÄÜÓÃĞ´ÎÄ¼şÀ´ÖÕÖ¹Ğ´ÎÄ¼ş"
+
+#: mainlog.cc:138
+#, c-format
+msgid "row number %i of main log"
+msgstr "Ö÷¼ÇÂ¼ÎÄ¼şĞĞºÅ %i"
+
+#: mainlog.cc:166
+msgid "Can't open file for saving log"
+msgstr "²»ÄÜ´ò¿ª¼ÇÂ¼ÎÄ¼ş"
+
+#: nt.cc:39
+#, c-format
+msgid "%s probably is already running\n"
+msgstr "%s ¿ÉÄÜÒÑ¾­ÔËĞĞ\n"
+
+#: savelog.cc:61
+msgid ""
+"Can't save default list of downloads!!! Becouse can't find HOME variable"
+msgstr "²»ÄÜ´æÈëÄ¬ÈÏµÄÏÂÔØÁĞ±í! Ô­ÒòÎª²»ÄÜÕÒµ½ HOME »·¾³±äÁ¿"
+
+#: savelog.cc:72
+msgid "Can't save default list of downloads!!!"
+msgstr "²»ÄÜ´æÄ¬ÈÏÏÂÔØÁĞ±í!"
+
+#: savelog.cc:108
+msgid "Can't load default list of downloads!!!"
+msgstr "²»ÄÜÔØÈëÄ¬ÈÏÏÂÔØÁĞ±í!"
+
+#: signal.cc:43
+msgid "Download  was stopped by user"
+msgstr "ÏÂÔØ±»ÓÃ»§Í£Ö¹"
+
+#: face/about.cc:34
+msgid "About"
+msgstr "¹ØÓÚ"
+
+#: face/about.cc:40
+msgid "Author: Koshelev Maxim"
+msgstr "×÷Õß: Koshelev Maxim"
+
+#: face/about.cc:101 face/edit.cc:240 face/limface.cc:77 face/prefs.cc:501
+#: face/saveload.cc:106 face/saveload.cc:153
+msgid "Cancel"
+msgstr "È¡Ïû"
+
+#: face/addd.cc:71
+msgid "Add new download"
+msgstr "Ìí¼ÓÏÂÔØÁ´½Ó"
+
+#: face/buttons.cc:58
+msgid "Delete ALL downloads?"
+msgstr "É¾³ıËùÓĞÏÂÔØÁ´½Ó?"
+
+#: face/buttons.cc:58
+msgid "Delete all?"
+msgstr "È«²¿É¾³ı?"
+
+#: face/buttons.cc:117
+msgid " Add new download "
+msgstr "Ìí¼ÓÏÂÔØÁ´½Ó "
+
+#: face/buttons.cc:119
+msgid " Paste from clipboard "
+msgstr " ´ÓÕ³Ìù°åÕ³ÌùÁ´½Ó "
+
+#: face/buttons.cc:121
+msgid " Del downloads "
+msgstr " É¾³ıÏÂÔØ "
+
+#: face/buttons.cc:124
+msgid " Continue/restart downloads "
+msgstr " ¼ÌĞø/ÖØĞÂÏÂÔØ "
+
+#: face/buttons.cc:126
+msgid " Stop downloads "
+msgstr " Í£Ö¹ÏÂÔØ "
+
+#: face/buttons.cc:128
+msgid " Del Completed downloads "
+msgstr " É¾³ıÒÑÍê³ÉµÄÏÂÔØ "
+
+#: face/buttons.cc:130
+msgid " Move up "
+msgstr " ÏòÉÏÒÆ "
+
+#: face/buttons.cc:132
+msgid " Move down "
+msgstr " ÏòÏÂÒÆ "
+
+#: face/buttons.cc:134
+msgid " View log "
+msgstr " ²é¿´¼ÇÂ¼ "
+
+#: face/buttons.cc:137
+msgid " Options "
+msgstr " Ñ¡Ïî "
+
+#: face/buttons.cc:140
+msgid " Speed level one "
+msgstr " ËÙ¶È 1 "
+
+#: face/buttons.cc:142
+msgid " Speed level two "
+msgstr " ËÙ¶È 2 "
+
+#: face/buttons.cc:144
+msgid " Unlimited speed "
+msgstr " ²»ÏŞÖÆËÙ¶È "
+
+#: face/buttons.cc:149
+msgid " Delete all downloads "
+msgstr " É¾³ıËùÓĞÏÂÔØÁ´½Ó "
+
+#: face/edit.cc:20
+msgid "Timeout for reading from socket (in seconds)"
+msgstr " ¶ÁÌ×½Ó×Ö½Ó¿Ú³¬Ê±Ê±¼ä(Ãë) "
+
+#: face/edit.cc:21
+msgid "Timeout before reconnection (in seconds)"
+msgstr " ÖØĞÂÁ¬½ÓÖ®Ç°µÄÑÓ³ÙÊ±¼ä(Ãë)"
+
+#: face/edit.cc:22
+msgid "Maximum attempts (0 for unlimited)"
+msgstr "ÖØÊÔ´ÎÊı(0Îª²»ÏŞÖÆ)"
+
+#: face/edit.cc:23
+msgid "Use passive mode for ftp"
+msgstr "Ê¹ÓÃ±»¶¯Ä£Ê½µ½FTP"
+
+#: face/edit.cc:24
+msgid "Retry if resuming is not supported"
+msgstr "Èç¹û¶ÏµãĞø´«²»Ö§³ÖÔòÖØÊÔ"
+
+#: face/edit.cc:25
+msgid "Get date from the server"
+msgstr "´Ó·şÎñÆ÷»ñµÃÊ±¼ä"
+
+#: face/edit.cc:26
+msgid "Get permisions of the file from server (FTP only)"
+msgstr "´Ó·şÎñÆ÷»ñµÃÎÄ¼şÈ¨ÏŞ(½öÏŞFTP)"
+
+#: face/edit.cc:106
+msgid "Edit download"
+msgstr "±à¼­ÏÂÔØÊôĞÔ"
+
+#: face/edit.cc:200
+msgid "Save download to folder"
+msgstr "±£´æÏÂÔØÎÄ¼şµ½Ä¿Â¼"
+
+#: face/edit.cc:201 face/edit.cc:646 face/edit.cc:699
+msgid "password"
+msgstr "¿ÚÁî"
+
+#: face/edit.cc:202
+msgid "user name"
+msgstr "ÓÃ»§Ãû"
+
+#: face/edit.cc:210 face/prefs.cc:330 face/prefs.cc:354 face/saveload.cc:92
+#: face/saveload.cc:139
+msgid "Browse"
+msgstr "ä¯ÀÀ"
+
+#: face/edit.cc:228
+msgid "Use password for this site"
+msgstr "¶Ô´ËÕ¾µãÊ¹ÓÃ¿ÚÁî"
+
+#: face/edit.cc:294 face/edit.cc:378 face/prefs.cc:319 face/prefs.cc:376
+msgid "Other"
+msgstr "ÆäËü"
+
+#: face/edit.cc:308 face/edit.cc:380 face/list.cc:70
+msgid "Time"
+msgstr "Ê±¼ä"
+
+#: face/edit.cc:314
+msgid "Year"
+msgstr "Äê"
+
+#: face/edit.cc:321
+msgid "Month"
+msgstr "ÔÂ"
+
+#: face/edit.cc:328
+msgid "Day"
+msgstr "ÈÕ"
+
+#: face/edit.cc:335
+msgid "Hours"
+msgstr "Ê±"
+
+#: face/edit.cc:342
+msgid "Minutes"
+msgstr "·Ö"
+
+#: face/edit.cc:355
+msgid "Start this downloading at:"
+msgstr "¿ªÊ¼´ËÏÂÔØ´Ó: "
+
+#: face/edit.cc:374
+msgid "Download"
+msgstr "ÏÂÔØ"
+
+#: face/edit.cc:377
+msgid "Main"
+msgstr "Ö÷Òª"
+
+#: face/edit.cc:379 face/edit.cc:583 face/prefs.cc:444
+msgid "Proxy"
+msgstr "´úÀí·şÎñÆ÷"
+
+#: face/edit.cc:393 face/prefs.cc:96
+msgid "Select directory"
+msgstr "Ñ¡ÔñÄ¿Â¼"
+
+#: face/edit.cc:586
+msgid "ftp proxy type"
+msgstr "FTP´úÀí·½Ê½"
+
+#: face/edit.cc:611
+msgid "Use this proxy for ftp"
+msgstr "FTP Ê¹ÓÃ´Ë´úÀí·şÎñÆ÷"
+
+#: face/edit.cc:620 face/edit.cc:675
+msgid "port"
+msgstr "¶Ë¿Ú"
+
+#: face/edit.cc:627 face/edit.cc:681
+msgid "need password"
+msgstr "ĞèÒª¿ÚÁî"
+
+#: face/edit.cc:635 face/edit.cc:689
+msgid "username"
+msgstr "ÓÃ»§Ãû"
+
+#: face/edit.cc:666
+msgid "Use this proxy for http"
+msgstr "HTTP Ê¹ÓÃ´Ë´úÀí·şÎñÆ÷"
+
+#: face/limface.cc:55
+msgid "Limitation for the host"
+msgstr "´ËÕ¾µãµÄÏŞÖÆ"
+
+#: face/limface.cc:61
+msgid "Host:"
+msgstr "Ö÷»úÃû:"
+
+#: face/limface.cc:62
+msgid "Port:"
+msgstr "¶Ë¿Ú:"
+
+#: face/limface.cc:63
+msgid "Maximum connections:"
+msgstr "×î´óÁ¬½ÓÊı:"
+
+#: face/limface.cc:278
+msgid "Limitations for the hosts"
+msgstr "´ËÕ¾µãµÄÏŞÖÆ"
+
+#: face/limface.cc:282
+msgid "Host"
+msgstr "Ö÷»úÃû"
+
+#: face/limface.cc:282
+msgid "N"
+msgstr "ÊıÄ¿"
+
+#: face/limface.cc:296
+msgid "Add new"
+msgstr "Ìí¼Ó"
+
+#: face/limface.cc:297
+msgid "Delete"
+msgstr "É¾³ı"
+
+#: face/list.cc:70
+msgid "File"
+msgstr "ÎÄ¼ş"
+
+#: face/list.cc:70
+msgid "Type"
+msgstr "ÀàĞÍ"
+
+#: face/list.cc:70
+msgid "Full Size"
+msgstr "ÎÄ¼ş³¤¶È"
+
+#: face/list.cc:70
+msgid "Downloaded"
+msgstr "ÒÑÏÂÔØ"
+
+#: face/list.cc:70 face/prefs.cc:471 face/prefs.cc:492
+msgid "Speed"
+msgstr "ËÙ¶È"
+
+#: face/list.cc:70
+msgid "Remaining"
+msgstr "Ê£Óà"
+
+#: face/list.cc:70
+msgid "Pause"
+msgstr "ÔİÍ£"
+
+#: face/list.cc:70
+msgid "Attempt"
+msgstr "ÖØÊÔ´ÎÊı"
+
+#: face/list.cc:70
+msgid "URL"
+msgstr "URL"
+
+#: face/list.cc:126
+msgid "/_File"
+msgstr "/ÎÄ¼ş"
+
+#: face/list.cc:128
+msgid "/File/_Save List"
+msgstr "/ÎÄ¼ş/±£´æÁĞ±í"
+
+#: face/list.cc:131
+msgid "/File/_New Download"
+msgstr "/ÎÄ¼ş/Ìí¼ÓÏÂÔØÁ´½Ó"
+
+#: face/list.cc:129
+msgid "/File/_Load List"
+msgstr "/ÎÄ¼ş/´ò¿ªÁĞ±í"
+
+#: face/list.cc:130 face/list.cc:133
+msgid "/File/sep1"
+msgstr "/ÎÄ¼ş/sep1"
+
+#: face/list.cc:132
+msgid "/File/_Paste Download"
+msgstr "/ÎÄ¼ş/Õ³ÌùÏÂÔØÁ´½Ó"
+
+#: face/list.cc:134
+msgid "/File/Exit"
+msgstr "/ÎÄ¼ş/ÍË³ö"
+
+#: face/list.cc:135
+msgid "/_Download"
+msgstr "/ÏÂÔØ"
+
+#: face/list.cc:136
+msgid "/Download/View _Log"
+msgstr "/ÏÂÔØ/²é¿´¼ÇÂ¼"
+
+msgid "/Download/Continue downloads"
+msgstr "/ÏÂÔØ/¼ÌĞøÏÂÔØ"
+
+#: face/list.cc:137
+msgid "/Download/_Stop downloads"
+msgstr "/ÏÂÔØ/Í£Ö¹ÏÂÔØ"
+
+#: face/list.cc:138
+msgid "/Download/Edit download"
+msgstr "/ÏÂÔØ/±à¼­ÏÂÔØÊôĞÔ"
+
+#: face/list.cc:139
+msgid "/Download/_Delete downloads"
+msgstr "/ÏÂÔØ/É¾³ıÏÂÔØÁ´½Ó"
+
+#: face/list.cc:140
+msgid ""
+msgstr "/Unknown"
+
+#: face/list.cc:141
+msgid "/Download/Delete completed"
+msgstr "/ÏÂÔØ/É¾³ıÒÑÍê³ÉµÄÏÂÔØÁ´½Ó"
+
+#: face/list.cc:142
+msgid "/Download/Delete failed"
+msgstr "/ÏÂÔØ/É¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó"
+
+#: face/list.cc:143
+msgid "/_Options"
+msgstr "/Ñ¡Ïî"
+
+#: face/list.cc:144
+msgid "/Options/Limitations"
+msgstr "/Ñ¡Ïî/Õ¾µãÏŞÖÆ"
+
+#: face/list.cc:145
+msgid "/Options/Common"
+msgstr "/Ñ¡Ïî/¹«ÓÃÑ¡Ïî"
+
+#: face/list.cc:146
+msgid "/_Help"
+msgstr "/°ïÖú"
+
+#: face/list.cc:147
+msgid "/_Help/About"
+msgstr "/°ïÖú/¹ØÓÚ"
+
+#: face/list.cc:226
+msgid "Do you realy want to quit?"
+msgstr "ÄúÊÇ·ñÈ·¶¨ÒªÍË³ö£¿"
+
+#: face/list.cc:226
+msgid "Quit?"
+msgstr "ÍË³ö£"
+
+#: face/list.cc:243
+msgid "Delete selected downloads?"
+msgstr "É¾³ı±»Ñ¡ÖĞµÄÏÂÔØÁ´½Ó£¿"
+
+#: face/list.cc:243 face/list.cc:252 face/list.cc:261
+msgid "Delete?"
+msgstr "É¾³ı£¿"
+
+#: face/list.cc:252
+msgid "Do you wish delete completed downloads?"
+msgstr "ÄúÊÇ·ñÏ£ÍûÉ¾³ıÒÑÍê³ÉµÄÏÂÔØÁ´½Ó£¿"
+
+#: face/list.cc:261
+msgid "Do you wish delete failed downloads?"
+msgstr "ÄúÊÇ·ñÏ£ÍûÉ¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó£¿"
+
+#: face/list.cc:667
+msgid "Ready to go ????"
+msgstr "×¼±¸ºÃÁËÂğ£¿"
+
+#: face/list.cc:768
+#, c-format
+msgid "%i-running %i-completed %i-total"
+msgstr "%i¸öÕıÔÚÔËĞĞ£¬ÒÑ¾­Íê³É %i¸ö£¬×Ü¹² %i¸ö"
+
+#: face/lmenu.cc:69
+msgid "View log"
+msgstr "²é¿´¼ÇÂ¼"
+
+#: face/lmenu.cc:75
+msgid "Stop"
+msgstr "Í£Ö¹"
+
+#: face/lmenu.cc:82
+msgid "Continue downloads"
+msgstr "¼ÌĞøÏÂÔØ"
+
+#: face/lmenu.cc:91
+msgid "Properties"
+msgstr "ÊôĞÔ"
+
+#: face/lmenu.cc:97
+msgid "Delete downloads"
+msgstr "É¾³ıÏÂÔØ"
+
+#: face/lmenu.cc:103
+msgid "Delete completed"
+msgstr "É¾³ıÒÑÍê³ÉµÄ"
+
+#: face/lmenu.cc:109
+msgid "Delete failed"
+msgstr "É¾³ıÊ§°ÜµÄ"
+
+#: face/lmenu.cc:119
+msgid "Move up"
+msgstr "ÏòÉÏÒÆ"
+
+#: face/lmenu.cc:125
+msgid "Move down"
+msgstr "ÏòÏÂÒÆ"
+
+#: face/lmenu.cc:131
+msgid "Set limitation"
+msgstr "ÉèÖÃÏŞÖÆ"
+
+#: face/lmenu.cc:152
+msgid "Open a row"
+msgstr "´ò¿ªÒ»ĞĞ"
+
+#: face/lmenu.cc:155
+msgid "Clear log"
+msgstr "Çå³ı¼ÇÂ¼"
+
+#: face/log.cc:150
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr "ĞĞºÅ %i [¼ÇÂ¼]"
+
+#: face/log.cc:171
+msgid "Log: "
+msgstr "¼ÇÂ¼£º"
+
+#: face/prefs.cc:129 face/saveload.cc:39
+msgid "Select file"
+msgstr "Ñ¡ÔñÎÄ¼ş"
+
+#: face/prefs.cc:165 face/prefs.cc:182
+msgid "Options"
+msgstr "Ñ¡Ïî"
+
+#: face/prefs.cc:183
+msgid "Using title"
+msgstr "Ê¹ÓÃ±êÌâ"
+
+#: face/prefs.cc:191
+msgid "Automatically delete completed downloads"
+msgstr "×Ô¶¯É¾³ıÒÑ¾­Íê³ÉµÄÏÂÔØÁ´½Ó"
+
+#: face/prefs.cc:193
+msgid "Automatically delete failed downloads"
+msgstr "×Ô¶¯É¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó"
+
+#: face/prefs.cc:195
+msgid "Optimize recursive downloads"
+msgstr "ÓÅ»¯µİ¹éÏÂÔØ"
+
+#: face/prefs.cc:201
+msgid "Use title of main window for info"
+msgstr "Ê¹ÓÃÖ÷´°¿Ú±êÌâÏÔÊ¾ĞÅÏ¢"
+
+#: face/prefs.cc:204
+msgid "Display queue statistc too"
+msgstr "Í¬Ê±ÏÔÊ¾¶ÓÁĞ×´Ì¬"
+
+#: face/prefs.cc:211
+msgid "Open dialog for Drag-n-Drop"
+msgstr "´ò¿ªÍÏ×§¶Ô»°¿ò"
+
+#: face/prefs.cc:213
+msgid "Iconify main window when closing"
+msgstr "¹Ø±ÕÊ±×îĞ¡»¯Ö÷´°¿Ú"
+
+#: face/prefs.cc:215
+msgid "Save list of downloads every"
+msgstr "±£´æÏÂÔØÁĞ±íÃ¿"
+
+#: face/prefs.cc:221
+msgid "minutes"
+msgstr "·ÖÖÓ"
+
+#: face/prefs.cc:228
+msgid "Common"
+msgstr "ÆÕÍ¨"
+
+#: face/prefs.cc:247 face/prefs.cc:314
+msgid "Limits"
+msgstr "ÏŞÖÆ"
+
+#: face/prefs.cc:260
+msgid "Maximum active downloads"
+msgstr "×î´ó»î¶¯ÏÂÔØÊı"
+
+#: face/prefs.cc:290
+msgid "Maximum lines in log"
+msgstr "×î´ó¼ÇÂ¼ĞĞÊı"
+
+#: face/prefs.cc:300
+msgid "Maximum lines in MAIN log"
+msgstr "Ö÷¼ÇÂ¼µÄ×î´ó¼ÇÂ¼ĞĞÊı"
+
+#: face/prefs.cc:338
+msgid "Save downloads to folder"
+msgstr "±£´æÏÂÔØÎÄ¼şµ½Ä¿Â¼"
+
+#: face/prefs.cc:347
+msgid "Save main log into file"
+msgstr "±£´æÖ÷¼ÇÂ¼µ½ÎÄ¼ş"
+
+#: face/prefs.cc:366
+msgid "Append to file"
+msgstr "×·¼Óµ½ÎÄ¼ş"
+
+#: face/prefs.cc:369
+msgid "Rewrite file"
+msgstr "ÖØĞ´ÎÄ¼ş"
+
+#: face/prefs.cc:382
+msgid "Size format"
+msgstr "ÎÄ¼ş´óĞ¡¸ñÊ½"
+
+#: face/prefs.cc:383
+msgid "Time format"
+msgstr "Ê±¼ä¸ñÊ½"
+
+#: face/prefs.cc:434 face/prefs.cc:437
+msgid "Columns"
+msgstr "ÁĞ"
+
+#: face/prefs.cc:448 face/prefs.cc:466
+msgid "Confirmation"
+msgstr "È·ÈÏ"
+
+#: face/prefs.cc:451
+msgid "Confirm delete selected downloads"
+msgstr "È·ÈÏÉ¾³ıÑ¡ÖĞµÄÏÂÔØÁ´½Ó"
+
+#: face/prefs.cc:452
+msgid "Confirm delete all downloads"
+msgstr "È·ÈÏÉ¾³ıËùÓĞÏÂÔØÁ´½Ó"
+
+#: face/prefs.cc:453
+msgid "Confirm delete completed downloads"
+msgstr "È·ÈÏÉ¾³ıÍê³ÉµÄÏÂÔØÁ´½Ó"
+
+#: face/prefs.cc:454
+msgid "Confirm delete fataled downloads"
+msgstr "È·ÈÏÉ¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó"
+
+#: face/prefs.cc:455
+msgid "Confirm exit from program"
+msgstr "È·ÈÏÍË³ö³ÌĞò"
+
+#: face/prefs.cc:474
+msgid "bytes/sec speed level one (red button)"
+msgstr "×Ö½Ú/Ãë - ËÙ¶È 1 £¨ºì°´Å¥£©"
+
+#: face/prefs.cc:481
+msgid "bytes/sec speed level two (yellow button)"
+msgstr "×Ö½Ú/Ãë - ËÙ¶È 2 £¨»Æ°´Å¥£©"
+
+#: face/saveload.cc:78
+msgid "Save list"
+msgstr "±£´æÁĞ±í"
+
+#: face/saveload.cc:125
+msgid "Load list"
+msgstr "´ò¿ªÁĞ±í"
+
+#: main.cc:851
+msgid "Downloading was successefully completed!"
+msgstr ""
+
+#: main.cc:858
+msgid "Downloading was failed..."
+msgstr ""
+
+#: face/edit.cc:218
+msgid "Save download to file"
+msgstr ""
+
+#: face/prefs.cc:218
+msgid "Revert drawing graph of speeds"
+msgstr ""
+
+#: face/edit.cc:322
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Filename for saving if it is unknown"
+msgstr ""
+
+#: face/about.cc:44
+msgid "Translators team"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Scroll title"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Default permisions of file"
+msgstr ""
+
+#: face/buttons.cc:
+msgid " Save list "
+msgstr ""

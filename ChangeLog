@@ -1,0 +1,218 @@
+Thu Oct  7 16:37:33 1999
+    Added "save" button into button panel;
+    Added scrolling title of main window;
+    Added primitive command line parameters support for future implementation (-v,--version supported);
+    Added ability to setup default permisions for the files;
+    Dutch translation updated;
+    French translation updated;
+    Number of codecleanups and optimisations;
+    Fixed exit by SIGINT signal (Ctrl-Break);
+    Now Downloader waiting for stoping all threads before exiting;
+    Fixed redirection segfault when server didn't return new location;
+    Various fixes in recursion via http (much better handling ../ and ./ pathes);
+    More precise speed calculation;
+
+Fri Sep 24 16:32:48 1999
+    Added ability to open "properties" window for running downloads;
+    Added ability to configure name of file where downloading will be saved by default if its name of file is unknown;
+    Added recursive html downloading;
+    Added ability to revert drawing graph of speeds;
+    Added ability to setup depth of recursing;
+    Added names of translators to about window;
+    Added Dutch translation (Thanks to Robin Verduijn);
+    Main log now autoscrollable;
+    No more equals URLs in Downloader;
+    Field "Referer" in http request is always URL to Downloader's homepage;
+    Fixed french translation;
+    Fixed downloading via http if ETag was changed;
+    Fixed inheriting of some settings when recurse via ftp;
+    Fixed redirection from proxy;
+    Fixed displaying that resuming isn't supported by http server;
+    Fixed resuming of downloading of directories via ftp;
+    Fixed segfault when user deleting all downloads;
+    Fixed redirection segfault;
+    Fixed number of other segfaults;
+    Global code cleanups;
+
+Tue Sep  7 16:39:35 1999
+    Fixed segmentation fault while getting size of file by second way;
+
+Mon Sep  6 10:15:18 1999
+    Added backgroud colors to the logs
+    Added ability to save download in different file
+    Status of downloading now saving (stopped,failed,completed...)
+    Changed format of saving list
+    Translated to Italian (thanks to Vittorio Rebecchi)
+    Translated to Chinese (thanks to Marlin [TLC-ML])
+    Translated to French (thanks to Philippe Rigaux,Eric Seigne)
+    Translated to Portuguese Brazialian (thanks to Paulo Henrique Baptista de Olivera)    
+    Fixed algorithm of limitation speed of downloading
+    Fixed some memory leaks
+    Fixed localisation of proxy downloading
+    Fixed initing locale in gtk
+    Fixed bug of loading list
+    Fixed instalation of .po files
+    Various code cleanups
+
+Thu Aug 26 09:57:49 1999
+    Added gettext support (thanks to Vicente Aguilar);
+    Added right mouse click menu to mainlog
+    Added checking of existing HOME variable in saving configs
+    Added "retry if resuming not supported" option into "Add new" dialog
+    Added history for proxy;
+    Translated into Bulgarian (thanks to A.J.)
+    Translated into Spanish (thanks again to Vicente Aguilar)
+    Translated into German (thanks to Josef Jahn)
+    Translated into Russian (thanks to me :)
+    Fixed getting date from servers via http proxy
+    Fixed recursion via ftp by mask
+    Fixed storing username in history of proxy
+
+Sat Aug 21 13:49:40 1999
+    Added ftp proxy support;
+    Fixed moving up and down downloads;
+    Fixed some memory leaks;
+    Fixed segfault when download links via ftp;
+
+Thu Aug 19 16:25:17 1999
+    Redirects from http now run in the same row;
+    Added ability to limit speed of download;
+    Added ability to setup start time for any download;
+    Added confirmation settings;
+    Added second way for getting file size from ftp;
+    Code for manipulating with threads was fully rewritten;
+    Storing sizes of columns of limitation's window;
+    Now downloading via ftp will automaticaly change passive mode to
+	normal and vice versa;
+    Added history for field 'user' in proxy dialog;
+    Now downloader check ability to run new thread before run it;
+    Added ability to iconify window instead of closing;
+    Changed format of saved listing but it should be backward compatible;
+    Fixed username and password entering in 'Add new' dialog;
+    Fixed closing of all window (no more segfaults after window closing);
+    Fixed add new limitation;
+    Fixed various bugs which can emit segmentation fault;
+    Code cleanups;
+
+Mon Jul 19 11:56:15 1999
+    Added mask support in ftp;
+    Added ability to set limitations fro connections to the hosts;
+    Added ability to "stop" waiting downloads;
+    Added icon which will be showed when resuming is not supported by server; 
+    Fixed some bugs as well as other codecleanups.
+
+Mon Jul 12 11:55:59 1999
+    Changed save and load list dialogs (history added);
+    Sizes of columns is saved;
+    Added confirmation dialogs for dangerous functions (delete, delete all, exit);
+    Added using title of main window for various info;
+    Added proxy in "add new" dialog;
+    Added ability to automaticaly save list of downloads;
+    Graph of speeds was changed (it show also speed of curent download);
+    List of downloads allow many selections now;
+    Added double click function in logs;
+    Added saving sizes of logs;
+    Added ability to open dialog "add new" for DnD;
+    Added history of "user" filed in "add new" dialog;
+    Added ability getting permisions from ftp server;
+    Added ability to get date from a server (ther are GMT problem);
+    Continue button is restart download if it is already runing;
+    Main log now writing date into file too;
+    Fixed loading devices via ftp (they'll be not loaded);
+    Fixed displaying size in queue of downloads after changnig size format; 
+    Fixed password visibility in the logs;
+    Fixed bug in ftp realization;
+    Fixed some bugs which can cause segfalut;
+    There are no more multiple instances;
+    Various code cleanups, interface cleaunps, and optimizations;
+
+Mon Jun 21 10:26:36 1999
+    Added proxy support;
+    Added passive ftp mode support (manual);
+    Added ability to save log in file;
+    Added ability to save and load list of downloads;
+    fixed various bugs...
+
+Sat Jun 12 20:35:53 1999
+    Added *global* log for useful information;
+    Fixed segfault if first http connection faling;
+    Fixed freezing of interface;
+    Interface was slightly chaged;
+    Other bugfixes and improvements (see main/ChangeLog for details)
+
+Wed Jun  2 12:35:49 1999
+    Http authorization was added;
+    Interfaece was improved;
+    Memory leaks bugs was detected and fixed;
+    History now saved.
+
+Fri May 28 15:31:19 1999
+    Improvements:
+	interface...
+	
+    Bugfixes:
+	names with spaces in ftp's directories now loading properly;
+	socket and memory leaks was fixed;
+	file now closes normaly in http downloading;
+	and other... and other ...
+
+Mon May 10 08:18:09 1999
+    DnD support was added! Thank to Justin Bradford!
+    Release new version...
+
+Sun May  9 15:23:42 1999
+    TON of bugfixes and codes' cleanups;
+    Added ability to edit downloads (you need to stop it before);
+    saving position of main window;
+    List now saving in right order; 
+    Row selecting and by right mouse button too.
+    Dowloads is stopped more faster now.
+
+Wed Apr 21  1999
+    Default path where files will be saved now store in cfg
+    Access to menu by right button mouse click on the list
+    %xx in http URLs now understanding as corresponding symbol
+    And of course there are bugs' fixes and code improvements!!!
+
+Mon Apr 12  1999
+    Graphic of speeds was added!!!!! ( I think I'm realy GTK hacker (: )
+    Value of curent speed now is displayed!
+    Bugs in http downloading was fixed:
+	download file wich has unspecified length;
+	empty file wich was left after redirect now is deleted;
+	something else (I did'nt remember)
+    Various code cleanup;
+    
+Thu Apr  8  1999
+    Number of bugs was fixed in http downloading;
+    Added pair of buttons for moving up and down downloads;
+    Changed button for delete completed downloads;
+    Config file will be saved now automaticaly if not found;
+    Remaining time overflow was fixed.
+    I think now is time for next subversion 0.91 !!!
+
+Mon Mar 29  1999
+    New icons from Aubin Paul.
+    Stupid parameters in destructor of class tString was deleted.
+
+Thu Mar 25  1999
+    Segfault bug in new timeoutput was fixed;
+    Race condition while deleting download with opened log was fixed;
+
+Wed Mar 24  1999
+    Interface changes:
+	Readed bytes field was added in statusbar;
+	time output was changed;
+    Code improvements:
+	Log windows automaticaly updating now!
+	
+Tue Mar 23  1999
+    Interface was changed:
+	The button for clearing queue of downloads was added;
+	File name now output to statusbar;
+	The rows for time and remaining time was added;
+    Bug was fixed:
+	http request ETag checking.
+
+Tue Mar 22  1999
+    First public release!

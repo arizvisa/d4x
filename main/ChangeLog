@@ -1,0 +1,692 @@
+Thu Oct  7 16:28:56 1999
+	*face/buttons.cc: added button "save list";
+
+Wed Oct  6 14:50:56 1999
+	*dlist.cc: fixed displaying pixmap in insert_before();
+
+Tue Oct  5 10:07:15 1999
+	*httpd.cc: fixed getting field from html tegs;
+	*locstr.cc: fixed subtract_path();
+	*main.cc[h]: more precise speed calculation;
+	*var.cc[h]...: code cleanups;
+
+Mon Oct  4 09:42:21 1999
+	*config.cc[h]: added parse_command_line_*() for future
+	    implementation;
+	*nt.cc: code cleanups;
+	*httpd.cc,dlist.cc: http recursion improvements;
+	*main.cc: code cleanups; fixed renaming file with unknown name;
+	*locastr.cc[h]: fixed compose_string() for ./ and ../ prefixes;
+	    added "news:" ulr handling;
+
+Mon Oct  3 09:08:04 1999
+	*main.cc: some code cleanups;
+
+Sat Oct  2 10:04:08 1999
+	*main.cc: fixed redirect when new location isn't defined;
+	*prefs.cc,config.cc,var.cc[h]: added ability to setup default
+	premisions;
+	*httpd.cc: code cleanups;
+	*dlist.cc[h]: now list of downloads set pixmap automatically;
+
+Fri Oct  1 09:29:40 1999
+	*main.cc: fixed displaying URL after redirect (probably segfault fix);
+	    final fix of SIGINT handler;
+	*face/list.cc: fixed displaying status pixmap when move download up 
+	    and down;
+	*face/about.cc: small fix;
+	*locstr.cc: scroll_string_left() nothing to do if shift by 0; 
+	*httpd.cc: fixed getting new location, fixed analizing answer;
+
+Thu Sep 30 15:45:38 1999
+	*locstr.cc[h],var.cc[h],face/prefc.cc,face/list.cc,config.cc:
+	    added ability to scroll mainwin title;
+	*face/log.cc: title of the window of opened row of log have
+	    name of file;
+
+Thu Sep 30 02:08:12 1999
+	*main/*.*: number of constructors-destructors optimisations;
+	*main.cc: now waiting for stoping all threads before exit;
+	    changed signal() calling into sigaction();
+	*signal.cc: changed SIGINT signal into SIGUSR1 to prevent
+	    segfault when pressing Ctr-C;
+
+Wed Sep 29 13:07:40 1999
+	*main/*.*: binary trees more abstractive now;
+	*db.cc[h]: data base of urls was fully rewritten (more faster now);
+	*po/: french and dutch translations is updated;
+	*main.cc: del_all(); delete waiting downloads from end of list;
+
+Mon Sep 27 10:55:06 1999
+	*face/log.cc: log will be scrolled down after opening;
+	*locstr.cc[h]: some fixes;
+
+Sat Sep 25 10:06:52 1999
+	*Makefile: some fixes;
+
+Thu Sep 23 11:55:28 1999
+	*main/*.*: added default filename for saving if it is unknown;
+	*config.cc: code cleanups;
+	*dlist.cc: fixed recurse directories via ftp, some codecleanups;
+	*locstr.cc: fixed compose_path();
+
+Wed Sep 22 09:27:22 1999
+	*main/*.*: separate recurse depth for ftp and http;
+	*main.cc,dlist.cc[h]: fixed displaying info about download after
+	restarting;
+
+Tue Sep 21 13:34:07 1999
+	*main/*.*: code cleanups, (char *) fields of tCfg is private now;
+	*main/db.cc[h]: added data base for searching downloads;
+	*main.cc: fixed segfault when delete all downloads, various fixes
+	and code improvements;
+
+Mon Sep 20 10:13:19 1999
+	*po/ru.po: fixed russian localization;
+	*face/about.cc: added translators to about window;
+	*face/list.cc,main.cc: added icon for downloads just stopped by
+	user;
+	*face/list.cc: in progress bar amount of readed bytes is shown as
+	user specified in config for columns;
+	*httpd.cc: added support for teg <base>, skipping coments (teg <!-->);
+	*locstr.cc,dlist.cc: code cleanups;
+	*httpd.cc,ftpd.cc: fixed segfault when download via proxy;
+	*nt.cc: changed flock() to lockf();
+
+Sat Sep 18 13:14:09 1999
+	*main/*.*: various code cleanups;
+
+Fri Sep 17 09:53:12 1999
+	*locstr.cc,config.cc,nt.cc,savelog.cc.dlist.cc[h]: code cleanups;
+	*face/addd.cc: fixed localization "add new" title of window;
+	*main.cc;face/edit.cc[h]: added abilit open "poroperies" window
+	for runing downloads;
+	*main.cc: fixed one segfault bug,code cleanups;
+
+Thu Sep 16 19:38:02 1999
+	*dlist.cc: added tCfg::copy(tCfg*), code cleanups;
+	*ftpd.cc: fixed checking for equal strings in direcotry listing
+	when download via ftp;
+
+Wed Sep 15 09:42:40 1999
+	*face/list.cc[h],config.cc: rewritten initing list of downloads
+	for future features;
+	*httpd.cc: improvements in http protocol; fixed displaing that
+	resuming is not supported by server side in queue of downloads;
+	*main.cc: fixed redirection from proxy;
+	*main/*.*: added ability to setup recurse depth for recurse downloading;
+	*savelog.cc: fixed saving log when user just stopped downloads;
+	*face/buttons.cc: changed speed buttons to radiobuttons;
+
+Tue Sep 14 09:52:37 1999
+	*dlist.cc: added make_dir_hier(char *) for create directories' tree;
+	fixed inheriting of some flags in recursing; 
+	*face/graph.cc,var.cc[h],config.cc: added ability to revert
+	drawing order of graph;
+	*main.cc: added recurse htmls when via proxy;
+
+Mon Sep 13 09:38:01 1999
+	*locstr.cc[h]: added string_to_low(char *) and fixed
+	string_to_low(char *,char);
+	*main.cc: implemented recursive html downloading;
+	*face/edit.cc[h]: added new parameter in "add new" dialog;
+	fixed setuping tDownload::config.retry parameter;
+	*httpd.cc: slightly changes in parsing html;
+	*dlist.cc: fixed convert_list_to_dir2();
+
+Sat Sep 11 10:26:13 1999
+	*httpd.cc[h]: added analizing Content-Type for recurse via http
+	in next versions; added html parsing functions;
+	*dlist.cc[h]: added function for conversion list of
+	links to list of downloads;
+
+Thu Sep  9 16:55:33 1999
+	*face/about.cc: codecleanups;
+	*var.cc,http.cc,hproxy.cc: changed field "refere" in http
+	request into home page of Downloader for X;
+
+Wed Sep  8 09:16:37 1999
+	*face/list.cc: second attempt to make main log autoscrollable;
+	*po/: translation to Dutch was added;
+
+Tue Sep  7 16:37:36 1999
+	*ftp.cc: fixed segfault when getting size of file by second way;
+	*face/list.cc: first attempt to make main log autoscrollable;
+
+Sat Sep  4 09:55:39 1999
+	*face/limface.cc: added extra checks for inputed parameters;
+	*face/about.cc: fixed appearing of about window;
+	*po/Makefile: fixed installing of .po files;
+
+Fri Sep  3 16:28:36 1999
+	*main.cc:added saving and loading status of downloadings;
+	*savelogs.cc: fixed bug of loading list;
+
+Thu Sep  2 09:21:16 1999
+	*face/list.cc: added gtk_set_locale() in initialisation;
+
+Wed Sep  1 10:34:29 1999
+	*face/prefs.cc: spelling corrections;
+	*main/*.*: ablity to output log in "zebra" mode was deleted;
+	*face/log.cc: added backgrounds for strings in logs;
+	*savelog.cc,main.cc: added saving name of file downloading;
+	*main.cc: some code cleanups;
+	*hproxy.h: fixed localisation of some frases;
+
+Tue Aug 31 17:32:52 1999
+	*face/*.*: some code revisions;
+
+Sun Aug 29 17:20:44 1999
+	*face/*.*: code cleanups;
+
+Sat Aug 28 12:29:14 1999
+	*main/*.*: added ability saving downloads into desired file
+	name;
+
+Fri Aug 27 09:21:26 1999
+	*main/po/: fr.po and chinese .po was added;
+	*speed.cc: changed algorithm of mutual exclusions for speeds
+	into using two mutex; 
+	*log.cc,face/log.cc: added "zebra" output of logs;
+	*main.cc: fixed memory leaks in tMain::analize();
+
+Thu Aug 26 09:53:36 1999
+	*face/lmenu.cc,mainlog.cc: remove menu for mainlog from lmenu.cc
+	to mainlog.cc;
+	*po/es.po,de.po,bg.po: added translations into Spanish,German
+	and Bulgarian;
+	*nt.cc: remove BETA from version name!!!
+	*face/buttons.cc: fixed asking deleding completed downloads if
+	user pressed button;
+
+Tue Aug 24 10:36:41 1999
+	*face/lmenu.cc,mainlog.cc: added "right mouse button click" menu
+	to main log; function of menu creation was changed;
+	*dlist.cc: fixed ftp recursion by mask (files now created);
+	*main/*.*: added gettext support, translate all to Russian;
+
+Mon Aug 23 10:37:53 1999
+	*face/graph.cc: drawing of graph has been optimized;
+	*config.cc: added checking existing of HOME variable
+	before reading and saving config;
+	*face/edit.cc: added "retry if resuming is not supported" check
+	button into "add new" dialog; Added history for proxy; Fixed
+	storing username in history;
+	*hproxy.cc: fixed getting date via proxy;
+	*face/prefs.cc: remove duplicate strings;
+
+Sat Aug 21 09:18:16 1999
+	*dlist.cc: code cleanups,fixed memory leak;
+	*ftpd.cc: fixed segfault when download links;
+
+Fri Aug 20 11:05:04 1999
+	*face/list.cc: fixed moving downloading up&down in queue of downloads; 
+	*face/edit.cc: added ftp proxy type in proxy dialog;
+	*ftpd.cc: added support for ftp proxy (!);
+	*dlist.cc: fixed inheriting of proxy in recursion via ftp;
+
+Thu Aug 19 15:14:18 1999
+	*main/*.*: added ability to setup starting time for any download;
+	*savelog.cc: changed format of saved list (backward compatible);
+
+Wed Aug 18 16:50:53 1999
+	*dlist.cc: 0 perecents now displayed too :)
+
+Tue Aug 17 10:08:23 1999
+	*main.cc: redirect fixed and some code cleanups;
+	*queue.cc: fixed insert_after();
+	*face/edit.cc: username and password now enter and work properly; 
+
+Mon Aug 16 10:42:25 1999
+	*main.cc,dlist.h: added normal handling of stop button;
+	*main.cc,ftp.cc: fixed size detirmination;
+
+Sat Aug 14 11:17:50 1999
+	*download.cc[h],ftp[d].cc[h]: added code for determination file size when 
+	command LIST does not work;
+	*main.cc: size output has been changed;
+	*list.cc: spelling corrections;
+	*misc.cc: remove some functions from list.cc to misc.cc;
+	 
+Fri Aug 13 05:11:02 1999
+	*config.cc: added saving speed in cfg file;
+	*main.cc: new algorithm of speed scheduling; 
+	*face/prefs.cc: added bookbark for speed settings;
+	*socket.cc: more precise reading from socket;
+
+Thu Aug 12 18:30:01 1999
+	*speed.cc[h]: added speed scheduler for speed of donloading manipulations;
+	*main.cc[h]: implement speed scheduler;
+	*face/buttons.cc: added buttons for 3 various speeds;
+	*face/misc.cc: added ability to iconfy window ecxept exit;
+
+Wed Aug 11 14:24:31 1999
+	*main.cc,signal.cc[h]: implemented new algorithm of stoping-starting
+	threads;
+
+Tue Aug 10 14:47:49 1999
+	*face/list.cc[h],prefs.cc: added confirmations for some operations
+	and ability to switch confirmations off;
+	*config.cc: saving confirmations;
+	*signal.cc[h]: added functions which allocate pointer to apropriate
+	tDownload structure in any thread;
+
+Mon Aug  9 14:28:20 1999
+	*main.cc[h]: add checking of ability to run new thread;
+
+Sun Aug  8 20:16:30 1999
+	*face/edit.cc: added history in proxy dialog for field "user";
+
+Fri Aug  6 20:30:02 1999
+	*main/*.*:code cleanups;
+		added ability to lower main window if pressef close button; 
+	*ftp.cc:if passive mode is not supported via ftp downloader will
+		download using PORT command and vice versa;
+
+Thu Aug  5 16:03:49 1999
+	*face/lmenu.cc: code cleanups;
+
+Wed Aug  4 09:05:05 1999
+	*face/limface.cc[h]: now rows in "limitations for hosts" dialog is 
+		normaly editable;
+        *face/prefs.cc: add frame for "using title of main window" options;
+	*face/*.*: all windows will be destroyed normaly, closing of main
+		window emit confirmation dialog;
+
+Tue Aug  3 14:47:44 1999
+        *main.cc[h],dlist.cc[h]: remove analizing of list of ftp directory
+	    from main thread;
+        *ftpd.cc[h],download.h: remove field mask from tFileInfo;
+        *face/limface.cc[h],config.cc: sizes of columns of limitation's window
+	    now is stored; 
+
+Wed Jul 28 12:08:28 1999
+    *main.cc[h]: http redirections will run in the same row;
+    *dlist.cc[h],httpd.cc[h]: codecleanups; 
+
+Mon Jul 19 11:46:59 1999
+    *face/limface.cc: added ability to delete limitation by pressing
+    del button;
+    *face/*.* spelling corrections;
+
+Sat Jul 17 09:47:33 1999
+    *main.cc: now it's possible to "stop" waiting downloads,
+    other code cleanups;
+    *face/list.cc: change behavior for some events;
+    *config.cc: code cleanups;
+
+Fri Jul 16 16:16:57 1999
+    *main/*.*: added abilty to set limits of connection for any site
+    on any port;
+
+Thu Jul 15 10:38:08 1999
+    *main.cc,face/list.cc: added icon for downloading when resuming
+    is not supported;
+    *locstr.cc: added checking for NULLs in check_mask(...);
+
+Wed Jul 14 11:55:57 1999
+    *main.cc: function which download file by  mask now  enter in 
+    directories recursively; also program will create path before 
+    creating file;  codecleanups;
+    *ftpd.cc: fixed displying speed when reget is not supported; 
+
+Tue Jul 13 12:12:00 1999
+    *main.cc,ftpd.cc,locstr.cc: added support for simply mask;
+
+Sun Jul 11 17:41:41 1999
+    *main.cc: fixed NanoSpeed calculation;
+
+Sat Jul 10 12:08:06 1999
+    *main.cc,dlist.cc[h],face/graph.cc,face/list.cc:
+    now graph of speeds is used not only global speed but and for
+    speed of last seconds of slected download;
+    *main.cc: now full URLs are displayed in main log;
+
+Fri Jul  9 12:13:56 1999
+    *face/log.cc: any log now can open one string in separate window;
+    *mainlog.cc[h],face/about.cc[h]: code cleanups;
+
+Thu Jul  8 11:22:56 1999
+    *face/list.cc: changed selection mode of list of downloads
+    to mode which allow multiselect;
+    *main.cc: continue button now restart downloads;
+    *face/about.cc[h]: added simply dialogs for asking about:
+    exit,delete selected downloads, delete all downloads;
+
+Wed Jul  7 12:11:04 1999
+    *mainlog.cc: added double click callback, now it is possible to 
+    open string of main log in separate window;
+    *face/list.cc: now last column in list of downloads resized automaticaly;
+    as well as storing sizes of columns;
+    *main/*.*: added optionally opened dialog for DnD from netscape;
+
+Tue Jul  6 13:53:52 1999
+    *face/prefs.cc,face/edit.cc: global rewriting...;
+    *face/log.cc,log.cc[h]: now windows of the logs store his sizes
+    as well as small bug which can bring up segfault was fixed; 
+    *main.cc: fixed bug of displaying sizes after chaging format
+    in options;
+
+Mon Jul  5 18:44:16 1999
+    *face/graph.cc: slightly changed displayed graph;
+
+Sun Jul  4 19:36:46 1999
+    *face/ : code and interface cleanups;
+    *ftp.cc: fixed passwords' visibility in logs;
+
+Sat Jul  3 13:44:50 1999
+    *main.cc,face/prefs.cc: added code for optionaly getting date from server;
+
+Fri Jul  2 09:24:17 1999
+    *face/edit.cc,face/prefs.cc: code cleanups;
+    *config.cc: fixed small bug;
+    *face/list.cc: now logs will be redrown before closed (for prevent sgfault);
+    *main/*.*: changed CFG.NICE_DEC_DIGITALS to type tTriger;
+    *httpd.cc: added code for getting date of last modification of file;
+
+Thu Jul  1 16:08:58 1999
+    *log.cc: added auotmatic changing size fo log;
+    *face/: list.cc,edit.cc,addd.cc: now already opened windows will popup;
+	    interface cleanups;
+    *main.cc: now set up all parameters in loaded listing of downloads;
+
+Tue Jun 29 13:10:20 1999
+    *main.cc,dlist.cc: some code cleanups;
+
+Mon Jun 28 13:07:58 1999
+    *ftpd.cc,locstr.cc[h]: added parse date from the server;
+    *face/list.cc: download info of selected file is displayed in
+    title of the main window;
+
+Sun Jun 27 15:53:05 1999
+    *config.cc,var.cc[h],face/list.cc,face/prefs.cc: added automatically
+    saving list of downloads;
+
+Fri Jun 25 14:15:43 1999
+    *main.cc: fixed some small bugs...;
+
+Thu Jun 24 13:57:41 1999
+    * Code cleanups;
+    * Added reading permisions from the ftp server and setting up on local
+    files;
+    *face/buttons.cc: fixed small bug of disabling "del completed" button;
+
+Wed Jun 23 15:41:09 1999
+    *face/log.cc[h]: pixmaps was added into logs;
+    *mainlog.cc: added writing date to the file;
+    *nt.cc: added file lock for prevent multiple instances;
+
+Tue Jun 22 13:30:12 1999
+    *ftp.cc: fixed "CRLF" bug in FTP downloads !!!
+    *download.cc[h]: added "device" type of downloads;
+    *some spelling corrections;
+    *face/loadsave.cc: dialogs for load-save list was changed;
+    *face/*.*: almost all windows popup if its already open;
+
+Mon Jun 21 08:49:46 1999
+    *mainlog.cc,main.cc: added changing paramenters of main log "on the fly"
+
+Sun Jun 20 17:00:36 1999
+    *mainlog.cc,face/prefs.cc,config.cc: added ability to save main log 
+    into file;
+    *httpd.cc: fixed small bugs;
+
+Sat Jun 19 09:56:06 1999
+    *download.cc: some code cleanups;
+    *main.cc: added proxy suport;
+
+Fri Jun 18 11:55:34 1999
+    *main/*.*: code cleaups;
+    *face/prefs.cc: added proxy configs and main log;
+
+Thu Jun 17 10:06:36 1999
+    *main/*.*: added ftp passive mode support;
+
+Wed Jun 16 14:51:45 1999
+    *face/list.cc: draw_graph() is returned in callback of "configure_event"
+    also small interface fixes;
+    *savelog.cc[h]: change some functions...;
+    *face/saveload.cc[h]: added ability saving list of downloads to file;
+    *main.cc: speed of completed dowload is outputed in main log;
+
+Mon Jun 14 12:38:54 1999
+    *main/*: code and interface cleanups;
+
+Sun Jun 13 15:04:32 1999
+    *main.cc: fixed segfault in delete_download() if there are no selected
+    download;
+    *face/list.cc: fixed small bug of first start...
+
+Sat Jun 12 17:08:45 1999
+    *face/addd.cc,face/edit.cc[h],face/prefs.cc: cosmetic changes;
+    *main.cc: fixed interface freezing on multimple downloads;
+
+Fri Jun 11 12:45:55 1999
+    *mainlog.cc[h],main.cc[h],face/list.cc[h]m,config.cc: implement GLOBAL
+    log in main window;
+
+Thu Jun 10 16:05:33 1999
+    *face/lmenu.cc,main.cc,locstr.cc: code cleanups;
+
+Wed Jun  9 11:43:16 1999
+    *face/edit.cc: fixed getting from URL username and password;
+
+Tue Jun  8 09:08:35 1999
+    *socket.cc: remove 'hostent *hp=new' from function to object (as 
+    'hostent hp') to prevent memory leaks;
+
+Mon Jun  7 10:50:27 1999
+    *main.cc,face/list.cc[h]: added new icon wich display status of download;
+    *httpd.cc: changed parsing ETag;
+    *socket.cc: change gethostbyname() to gethostbyname_r();
+
+Sun Jun  6 18:20:06 1999
+    *main.cc: optimiezed redrawing of list of downloads;
+    *httpd.cc: fixed 'segfault' bug if server not found in first 
+    attempt;
+
+Sat Jun  5 09:54:58 1999
+    *main.cc,dlist.cc: optimized redrawing of  list of downloads; fixed
+    small bug in tMain::continue_download();
+    *ftpd.cc: code cleanups;
+    *face/list.cc: procedure determination position and sizes of main
+    window is changed;
+
+Fri Jun  4 20:36:55 1999
+    *httpd.cc: fixed small bug if size of file unknown;
+    *face/list.cc: added icon for main window;
+
+Thu Jun  3 14:37:25 1999
+    *main.cc,log.cc: fixed some type castings in msgsnd() for 
+    compilation under slackware3.6;
+
+Wed Jun  2 12:16:15 1999
+    *face/lmenu.cc[h]: new right mouse button menu with pixmaps;
+    *http.cc: change authorization algoritm;
+
+Tue Jun  1 17:19:00 1999
+    *http.cc,httpd.cc: added Basic authorization support;
+    *face/list.cc: added ability to move up and down via Shift and keys;
+    *edit.cc: fixed small security bug...
+    *ALL: change DEFAULT_PASS to NULL
+
+Mon May 31 16:06:07 1999
+    *config.cc[h]: now history of URLs and pathes is saved;
+    *face/prefs.cc: added history of pathes into preferenses window;
+    *face/graph.cc: memory leak was fixed;
+
+Sun May 30 16:30:50 1999
+    *face/list.cc: now position of window saved correctly even if window did
+    not move;
+
+Sat May 29 11:26:09 1999
+    *ftpd.cc,main.cc: fixed some memory leaks and updating log at near sites;
+
+Fri May 28 14:43:17 1999
+    *face/edit.cc: added ability to paste new download from clipboard;
+    *main.cc: now program clear msgqueue before using to prevent segfault;
+    *nt.cc: changed version to 0.95;
+    
+Thu May 27 19:37:33 1999
+    *face/edit.cc: added history list
+
+Wed May 26 13:21:58 1999
+    *dlist.cc,main.cc: fixed 'continue_download()'
+    *dlist.cc,face/addd.cc,face/edit.cc: fixed add new downloading, and added
+    few checkings for stupid men;
+
+Tue May 25 17:49:08 1999
+    *face/addd.cc,face/edit.cc: addwindow look like editwindow now
+    *main.cc: changed 'continue_download()' for more comfortable using
+
+Mon May 24 17:16:45 1999
+    *socket.cc: fixed sockets leak in tSocket::accepting() *BIG BUG*
+    *face/list.cc: added some keybindings and cleaned draw graph
+
+Mon May 24 09:55:47 1999
+    *ftpd.cc: fixed some memory leaks
+    *client.cc: fixed 'Status' change after read from socket in ::read_data()
+    *httpd.cc: fixed incorrect determination size of file
+    *face/about.cc: more information added
+
+Sun May 23 17:39:03 1999
+    *face/prefs.cc: fixed bug with close browser vis close window
+    *face/edit.cc: added browser and fixed "delete window" bug and more
+	convincied interface was added
+    *ftpd.cc: "segmentation fault" fixed, memory leak fixed
+
+Sat May 22 14:44:44 1999
+    ftpd.cc: maybe fixed bug wich was added 20 of may.
+
+Fri May 21 11:18:49 1999
+    main.cc: add '#' checking in http urls
+    face/prefc.cc: add browse button for selection of path
+    download.cc: fixed socket leak (virtual destructor was added)
+    face/*: made interface more nice
+
+Thu May 20 14:09:33 1999
+    ftpd.cc: bug with spaces in file name fixed...
+    main.cc: fixed parsing %xx in ftp URLs
+    httpd.cc: fixed not close file after completing or stoping
+
+Thu May 20 10:28:14 1999
+    ftp.cc: fixed logining into "not valid" servers
+    ftpd.cc: fixed reread catalog if it was loaded in get_size()
+    face/edit.cc: fixed password visibility
+    savelog.cc: port now saved in list
+
+Wed May 19 08:58:12 1999
+    ftpd.c,httpd.cc: cleaned output into log while reconnect
+
+Tue May 18 12:05:50 1999
+    config.cc,face/prefs.cc: add RETRY_IF_NOREGET in options
+
+Mon May 10 08:17:06 1999
+    list.cc: implement DnD support from Justin Bradford;
+
+Sun May  9 14:57:31 1999
+    face/graph.cc[h],face/list.cc:
+	code cleanups in procedure of drawing graph
+    main.cc: added checks for edit downloads
+    nt.cc: change version name
+
+Fri May  7 14:54:46 1999
+    httpd.cc,ftpd.cc,http.cc,ftp.cc,signal.cc:
+	fixed memory leaks and stoping threads
+	threads is stopped normaly now!
+	There are also code cleanups.
+    savelog.cc,face/list.cc:
+	list of files now write in right order 
+
+Fri May  7 09:27:32 1999
+    face/edit.cc: fixed some wich was added yesterday
+
+Thu May  6 21:12:05 1999
+    httpd.cc: fixed definition of file's size if reget not supported and part of file already loaded
+
+Thu May  6 11:24:08 1999
+    added abiliti to edit download
+
+Wed May  5 09:20:55 1999
+    face/list.cc: added selection apropriate row while right button click
+    socket.cc: few changes in "heart" of my program (for stability of course)
+
+Wed Apr 28 08:05:41 1999
+    http[d].cc: loaded size of file now calculate correctly;
+		fixed downloading of file wich was already loaded
+
+Tue Apr 27 20:26:16 1999
+    httpd.cc: code cleanups;
+    client.cc: english cleanups;
+
+Tue Apr 27 10:43:28 1999
+    http.cc: fixed segfault in delete_file(); 
+    signal.cc: fixed sockets leaks;
+
+Mon Apr 26 18:24:09 1999
+    http[d].cc,ftp[d].cc: bugs with downloading fixed and code cleanups
+    main.cc: flashes of list of downloads was fixed. 
+
+Sun Apr 25 16:53:28 1999
+    http.cc: fixed bug with loaded size when reget is supported
+
+Sat Apr 24 19:07:18 1999
+    httpd.cc: many changes in defining name of file and outputting length;
+    incorrect displayed size in http download was fixed
+    main.cc: tMain::make_file_visible() changed for http "real names"
+
+Fri Apr 23 14:46:12 1999
+    ftpd.cc: added extra checking in check_for_repeated()
+
+Fri Apr 23 04:34:21 1999
+    face/list.cc: added geometry setting
+    config.cc: added geometry saving
+
+Thu Apr 22 18:16:16 1999
+    ftpd.cc[h]: added checking for repeated etries in directory listing
+
+Wed Apr 21 15:43:23 1999
+    face/list.cc: double click on list now open log,also added accelerators;
+
+Wed Apr 21 08:50:58 1999
+    config.cc: added saving of GLOBAL_SAVE_PATH
+    face/prefs.cc: added editing of GLOBAL_SAVE_PATH
+    http.cc[h]: parse_percent was added and changed creat_file
+    locstr.cc[h]: added convert_from_hex()
+    face/list.cc: added double click on list of downloads callback
+
+Tue Apr 20 12:38:52 1999
+    face/list.cc: fixed some memory leaks while make pixmaps
+    dlist.cc[h]: useless field FileName was deleted
+
+Fri Apr 16 08:56:55 1999
+    ftpd.cc: fixed cause in tFtpDownload::get_size() when server doesn't return any data on command LIST
+    
+Thu Apr 15 16:20:39 1999
+    face/list.cc: Brrr... fixed bug when download's moved down
+    main.cc: First number of MsgQueue changed from 1 to 100
+
+Thu Apr 15 13:31:28 1999
+    main.cc: fixed tMain::done() to prevent segfault
+    face/list.cc: my_main_quit() added exec of tMain::done()
+    queue.cc: added function insert_after(...)
+    
+Thu Apr 15 10:19:30 1999
+    main.cc: Changed tMain::add_dir()
+    savelog.cc: not so trivial as it was early
+    face/addd.cc: Delete '/n' in the end of the string
+
+Wed Apr 14 18:11:08 1999
+    main.cc: Remaining time calculation in tMain::print_info() was changed
+    
+Tue Apr 13 18:19:15 1999
+    face/list.cc: Added freeze-unfreeze clist in move-up-down downloads
+    
+Tue Apr 13 03:18:22 1999
+    It is good style to record log of changes.
+    main.cc: 
+	Code cleanup;
+	memory leaks fixes;
+	download of whole site in sites' name directory fixes;
+    face/graph.cc: Code cleanup
+
