@@ -24,7 +24,7 @@ libface_a_SOURCES_LIST = $(strip      \
   colors.cc    list.cc    prefs.cc    \
   filtrgui.cc  lmenu.cc   qtree.cc    \
   dndtrash.cc  lod.cc     saveload.cc \
-  edit.cc      log.cc                 \
+  edit.cc      log.cc     themes.cc   \
 )
 
 noinst_HEADERS = $(strip              \
@@ -34,7 +34,7 @@ noinst_HEADERS = $(strip              \
   colors.h    list.h    prefs.h       \
   filtrgui.h  lmenu.h   qtree.h       \
   dndtrash.h  lod.h     saveload.h    \
-  edit.h      log.h                   \
+  edit.h      log.h     themes.h      \
 )
 
 # HINT:

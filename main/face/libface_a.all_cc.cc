@@ -19,3 +19,4 @@
 #include "saveload.cc"
 #include "edit.cc"
 #include "log.cc"
+#include "themes.cc"

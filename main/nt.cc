@@ -155,6 +155,9 @@ int main(int argc,char **argv) {
 		ALL_HISTORIES[i]=new tHistory;
 	read_config();
 	init_string_variables();
+	struct stat stat_buf;
+	if (stat(LOCK_FILE,&stat_buf)==0 && S_ISLNK(stat_buf.st_mode))
+		unlink(LOCK_FILE);
 	LOCK_FILE_D=open(LOCK_FILE,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (LOCK_FILE<0 || lockf(LOCK_FILE_D,F_TLOCK,0)) {
 		if (parse_command_line_already_run(argc,argv))

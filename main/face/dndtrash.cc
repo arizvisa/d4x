@@ -24,6 +24,7 @@
 #include "../var.h"
 #include "../ntlocale.h"
 #include "../xml.h"
+#include <themes.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
@@ -419,34 +420,9 @@ void dnd_trash_init(){
 	gtk_window_set_skip_pager_hint (GTK_WINDOW(dnd_trash_window),TRUE);
 //	wm_skip_window(dnd_trash_window);
 	if (dnd_trash_pixbuf1==NULL){
-		char *iconfile1=NULL;
-		char *iconfile2=NULL;
-		char *themeicon=d4x_xml_find_obj_value(D4X_THEME_DATA,"dndbasket icon>file");
-		if (themeicon)
-			iconfile1=sum_strings(CFG.THEMES_DIR,"/",themeicon,NULL);
-		themeicon=d4x_xml_find_obj_value(D4X_THEME_DATA,"dndbasket dropicon>file");
-		if (themeicon)
-			iconfile2=sum_strings(CFG.THEMES_DIR,"/",themeicon,NULL);
-		GdkPixbuf *pixbuf=NULL;
-		GError *error=NULL;
-		if (iconfile1 && (pixbuf=gdk_pixbuf_new_from_file(iconfile1,&error))){
-			dnd_trash_pixbuf1=pixbuf;
-		}else{
-			dnd_trash_pixbuf1=gdk_pixbuf_new_from_xpm_data((const char**)dndtrash_xpm);
-		};
-		pixbuf=NULL;
-		if (error) g_error_free(error);
-		error=NULL;
-		gdk_pixbuf_ref(dnd_trash_pixbuf1);
-		if (iconfile2 && (pixbuf=gdk_pixbuf_new_from_file(iconfile2,&error))){
-			dnd_trash_pixbuf2=pixbuf;
-		}else{
-			dnd_trash_pixbuf2=gdk_pixbuf_new_from_xpm_data((const char**)dndtrashi_xpm);
-		};
-		if (error) g_error_free(error);
+		dnd_trash_pixbuf1=pixbuf_from_theme("dndbasket icon>file",(const char**)dndtrash_xpm);
+		dnd_trash_pixbuf2=pixbuf_from_theme("dndbasket dropicon>file",(const char**)dndtrashi_xpm);
 		gdk_pixbuf_ref(dnd_trash_pixbuf2);
-		if (iconfile1) delete[] iconfile1;
-		if (iconfile2) delete[] iconfile2;
 		gdk_pixbuf_render_pixmap_and_mask(dnd_trash_pixbuf1,NULL,&dnd_trash_mask1,1);
 		gdk_bitmap_ref(dnd_trash_mask1);
 		gdk_pixbuf_render_pixmap_and_mask(dnd_trash_pixbuf2,NULL,&dnd_trash_mask2,1);

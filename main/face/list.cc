@@ -44,6 +44,7 @@
 #include "filtrgui.h"
 #include "../xml.h"
 #include <ctype.h>
+#include "themes.h"
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -508,7 +509,7 @@ void init_main_menu() {
 	gtk_item_factory_create_items(main_menu_item_factory, nmenu_items, menu_items, NULL);
 	init_load_accelerators();
 	MainMenu= gtk_item_factory_get_widget(main_menu_item_factory, "<main>");
-	_gtk_accel_group_attach(accel_group,G_OBJECT(MainWindow));
+	gtk_window_add_accel_group( GTK_WINDOW( MainWindow ), accel_group );
 	g_signal_connect(G_OBJECT (MainMenu),
 			   "button_press_event",
 			   G_CALLBACK (main_menu_prepare),
@@ -745,9 +746,9 @@ void d4x_save_accelerators(){
 void my_main_quit(...) {
 	if (CFG.WITHOUT_FACE==0){
 		CFG.HIDE_MAIN_WINDOW=!gdk_window_is_visible(MainWindow->window);
-		gtk_timeout_remove(ListTimer);
-		gtk_timeout_remove(LogsTimer);
-		gtk_timeout_remove(GraphTimer);
+//		g_timeout_remove(ListTimer);
+//		g_timeout_remove(LogsTimer);
+//		g_timeout_remove(GraphTimer);
 		D4X_QUEUE->qv.get_adj();
 		CFG.CLIST_SHIFT=D4X_QUEUE->qv.current_shift;
 		d4x_save_accelerators();
@@ -1226,12 +1227,12 @@ GtkWidget *init_vertical_toolbar(){
 	GtkWidget *vbox1=gtk_vbox_new(FALSE,1);
 	GtkWidget *vbox=gtk_vbox_new(FALSE,1);
 	GtkWidget *pixmaps[6];
-	pixmaps[0] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)queues_xpm));
-	pixmaps[1] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)mainlog_xpm));
-	pixmaps[2] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)urlmng_xpm));
-	pixmaps[3] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)ftpsearch_xpm));
-	pixmaps[4] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)filters_xpm));
-	pixmaps[5] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)clocks_xpm));
+	pixmaps[0] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar queues>file",(const char**)queues_xpm));
+	pixmaps[1] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar mainlog>file",(const char**)mainlog_xpm));
+	pixmaps[2] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar urlmng>file",(const char**)urlmng_xpm));
+	pixmaps[3] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar ftpsearch>file",(const char**)ftpsearch_xpm));
+	pixmaps[4] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar filters>file",(const char**)filters_xpm));
+	pixmaps[5] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar scheduler>file",(const char**)clocks_xpm));
 	GtkWidget *buttons[6];
 	GtkStyle  *tmpstyle = gtk_widget_get_style(MainWindow);
 	GdkColor tmpcolor=tmpstyle->bg[GTK_STATE_NORMAL];
@@ -1824,9 +1825,9 @@ int time_for_save_list(void *a) {
 void init_timeouts() {
 	SAVE_LIST_INTERVAL=CFG.SAVE_LIST_INTERVAL;
 	EXIT_COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME;
-	ListTimer = gtk_timeout_add (60000, time_for_save_list , NULL);
-	GraphTimer = gtk_timeout_add (250, time_for_draw_graph , NULL);
-	LogsTimer = gtk_timeout_add (400, time_for_logs_refresh , NULL);
+	ListTimer = g_timeout_add (60000, time_for_save_list , NULL);
+	GraphTimer = g_timeout_add (250, time_for_draw_graph , NULL);
+	LogsTimer = g_timeout_add (400, time_for_logs_refresh , NULL);
 	FirstConfigureEvent=1;
 	g_signal_connect(G_OBJECT(MainWindow), "configure_event",
 	                   G_CALLBACK(get_mainwin_sizes),

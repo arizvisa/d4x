@@ -269,6 +269,7 @@ int tSegmentator::load(){
 int tSegmentator::save(){
 	DBC_RETVAL_IF_FAIL(fd>=0,-1);
 	tSegment *tmp=FIRST;
+	lseek(fd,0,SEEK_SET);
 	ftruncate(fd,0);
 	while(tmp){
 		if (tmp->save(fd)) return(-1);

@@ -699,8 +699,8 @@ void tMain::print_info(tDownload *what) {
 			DQV(what).set_percent(what->list_iter,what->Percent);
 		};
 		what->Size.reset();
-	/*	Speed calculation
-	 */
+		/*	Speed calculation
+		 */
 		if (what->Difference!=0 && what->who) {
 			what->Speed.set(what->SpeedCalc.speed());
 			if (what->Speed.change()){
@@ -1024,7 +1024,8 @@ void tMain::check_split(tDownload *dwn){
 			return;
 		stop_download(grandparent);
 		grandparent->action=ACTION_FAILED;
-		main_circle_second(dwn);
+		main_circle_first(dwn);
+		try_to_run_wait(grandparent->myowner->PAPA);
 		return;
 	};
 	if (grandparent->split->prepared){

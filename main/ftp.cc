@@ -434,6 +434,7 @@ fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	DSize=0;
 	int complete;
 	fsize_t llen=len;
+	LOG->log_printf(LOG_WARNING,"low level loading started from %ll load %ll bytes",begin,len);
 	do {
 		if ((complete=tClient::read_data(BLOCK_READ))<0) {
 			LOG->log(LOG_WARNING,_("Data connection closed."));
@@ -456,6 +457,7 @@ fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 				DataSocket->down();
 				analize_ctrl(1,&FTP_READ_OK);
 				Status=0;
+				LOG->log_printf(LOG_WARNING,"loading end. loaded %ll bytes",DSize);
 				return DSize;
 			};
 		};
@@ -464,11 +466,13 @@ fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 			DataSocket->down();
 //			send_command("ABOR",NULL);
 			Status=0;
+			LOG->log_printf(LOG_WARNING,"loading end. loaded %ll bytes",DSize);
 			return DSize;
 		};
 	} while (complete!=0);
 	if (complete==0) LOG->log(LOG_WARNING,_("EOF recieved from server!"));
 	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team
+	LOG->log_printf(LOG_WARNING,"loading end. loaded %ll bytes",DSize);
 	if (Status) return DSize;
 	if (analize_ctrl(1,&FTP_READ_OK) &&  (len==0 || llen))
 		return(RVALUE_UNSPEC_ERR);

@@ -595,7 +595,9 @@ int tFtpDownload::download(fsize_t len) {
 					};
 					if (ind>0) {
 						LOADED+=ind;
-						LOG->log_printf(LOG_OK,_("%ll bytes loaded."),ind);
+//						LOG->log_printf(LOG_OK,_("%ll bytes loaded."),ind);
+						LOG->log_printf(LOG_OK,"%ll bytes loaded.(LOADED=%ll,len=%ll,FTP->get_status()=%i)",
+								ind,len,FTP->get_status());
 					};
 					if (!FTP->get_status()) {
 						rvalue=0;
