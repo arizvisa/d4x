@@ -87,3 +87,14 @@ void my_xclipboard_free(char *buf) {
 	if (buf) XFree(buf);
 }
 
+GtkWidget *my_gtk_entry_new_with_max_length(gint length, int val){
+	GtkWidget *entry=gtk_entry_new_with_max_length(length);
+	char tmp[length+2];
+	g_snprintf(tmp,length+1,"%i",val);
+	gtk_entry_set_text(GTK_ENTRY(entry),tmp);
+	GtkStyle *style = gtk_widget_get_style(entry);
+	gint real_size=gdk_string_width(style->font,"00");
+	real_size=(real_size*(length+1))/2+3;
+	gtk_widget_set_usize(entry,real_size,-1);
+	return(entry);
+};

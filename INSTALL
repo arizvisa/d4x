@@ -4,14 +4,16 @@ INSTALATION MANUAL
 
 You need GTK version higher than 1.2.0 for compiling,
 safethread libraries (e.g. libc6) and of course sources of program.
-I (author) was testing this program on RedHat 5.x RedHat 6.0 and
-Slackware 3.6;
+I (author) was testing old versions of this program on RedHat 5.x,
+RedHat 6.0 and Slackware 3.6. But unfortunately newest versions are
+stable only with libpthread-0.8 and above.
 
 1.1	Compiling program.
 
 Enter in directory with sources and type 'make install' as root of course;
 If you have problem with compiling make sure that:
 -you have libc6 or better
+-you have pthread-0.8 or above
 -you have GTK+ version 1.2.0 or later (www.gtk.org)
 -you have gettext (if you haven't it just remove one string from Makefile)
 

@@ -11,20 +11,23 @@
 #include "list.h"
 #include "lmenu.h"
 #include "misc.h"
+#include "edit.h"
 #include "../dlist.h"
 #include "../locstr.h"
 #include "../mainlog.h"
 #include "../ntlocale.h"
+#include <gdk/gdkkeysyms.h>
 
 extern tMLog *MainLog;
 
 GtkWidget *ListMenu;
 GtkWidget *ListMenuArray[11];
 
-GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap) {
+GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,int size) {
 	GtkWidget *menu_item=gtk_menu_item_new();
 	GtkWidget *hbox=gtk_hbox_new(FALSE,3);
 	GtkWidget *label = gtk_label_new(name);
+	gtk_widget_set_usize(label,size,-1);
 	GtkWidget *pix;
 	gtk_misc_set_alignment(GTK_MISC(label),0,0.5);
 	if (pixmap && bitmap)
@@ -61,23 +64,43 @@ void init_list_menu() {
 	GdkPixmap *pixmap;
 	GdkBitmap *bitmap;
 	GtkWidget *menu_item;
-
+	int MAX_STR_LENGTH=0;
+	GtkStyle *style =  gtk_widget_get_default_style();
+	char *names[]={"View log",
+		       "Stop",
+		       "Continue downloads",
+		       "Properties",
+		       "Common properties",
+		       "Delete downloads",
+		       "Delete completed",
+		       "Delete failed",
+		       "Move up",
+		       "Move down",
+		       "Set limitation"
+	};
+	for(unsigned int i=0;i<sizeof(names)/sizeof(char *);i++){
+		int size=gdk_string_width(style->font,_(names[i]));
+		if (size>MAX_STR_LENGTH)
+			MAX_STR_LENGTH=size;
+	};
+	MAX_STR_LENGTH+=10;
+		
 	ListMenu=gtk_menu_new();
 	pixmap=make_pixmap_from_xpm(&bitmap,logmini_xpm);
-	menu_item=make_menu_item(_("View log"),(char *)NULL,pixmap,bitmap);
+	menu_item=make_menu_item(_("View log"),(char *)NULL,pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_LOG]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_open_logs),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,stopmini_xpm);
-	menu_item=make_menu_item(_("Stop"),"Alt+S",pixmap,bitmap);
+	menu_item=make_menu_item(_("Stop"),"Alt+S",pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_widget_set_usize(menu_item,130,-1);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_STOP]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(stop_downloads),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
-	menu_item=make_menu_item(_("Continue downloads"),(char *)NULL,pixmap,bitmap);
+	menu_item=make_menu_item(_("Continue downloads"),(char *)NULL,pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_CONTINUE]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(continue_downloads),NULL);
@@ -86,25 +109,30 @@ void init_list_menu() {
 	gtk_widget_set_sensitive(menu_item,FALSE);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 
-	menu_item=make_menu_item(_("Properties"),"Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL);
+	menu_item=make_menu_item(_("Properties"),"Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_EDIT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(open_edit_for_selected),NULL);
 
+	menu_item=make_menu_item(_("Common properties"),"Ctrl+Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
+	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	ListMenuArray[LM_EDIT_COMMON]=menu_item;
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(select_options_window_init),NULL);
+
 	pixmap=make_pixmap_from_xpm(&bitmap,delmini_xpm);
-	menu_item=make_menu_item(_("Delete downloads"),"Alt+C",pixmap,bitmap);
+	menu_item=make_menu_item(_("Delete downloads"),"Alt+C",pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_DEL]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_download),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,delcommini_xpm);
-	menu_item=make_menu_item(_("Delete completed"),(char *)NULL,pixmap,bitmap);
+	menu_item=make_menu_item(_("Delete completed"),(char *)NULL,pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_DELC]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_completed_downloads),NULL);
 
 
-	menu_item=make_menu_item(_("Delete failed"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL);
+	menu_item=make_menu_item(_("Delete failed"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_DELF]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_fataled_downloads),NULL);
@@ -114,22 +142,30 @@ void init_list_menu() {
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,upmini_xpm);
-	menu_item=make_menu_item(_("Move up"),"Shift+Up",pixmap,bitmap);
+	menu_item=make_menu_item(_("Move up"),"Shift+Up",pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEUP]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_up),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,downmini_xpm);
-	menu_item=make_menu_item(_("Move down"),"Shift+Down",pixmap,bitmap);
+	menu_item=make_menu_item(_("Move down"),"Shift+Down",pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_widget_set_usize(menu_item,200,-1);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEDOWN]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_down),NULL);
 
-	menu_item=make_menu_item(_("Set limitation"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL);
+	menu_item=make_menu_item(_("Set limitation"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_SET_LIMIT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(set_limit_to_download),NULL);
+
+	GtkAccelGroup *accel_group = gtk_accel_group_new();
+	gtk_accel_group_add(accel_group,GDK_E,
+			    GdkModifierType(GDK_CONTROL_MASK|GDK_MOD1_MASK),
+			    GtkAccelFlags(0),
+			    GTK_OBJECT(ListMenuArray[LM_EDIT_COMMON]),
+			    "activate");
+	gtk_accel_group_attach(accel_group,GTK_OBJECT(MainWindow));
 
 	gtk_widget_show_all(ListMenu);
 };
@@ -138,6 +174,7 @@ void list_menu_prepare() {
 	if (list_of_downloads_sel()) {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],FALSE);
+		
 	} else {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],TRUE);

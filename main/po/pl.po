@@ -910,11 +910,11 @@ msgstr "Optymalizuj rekursywne pobierania"
 
 #: face/prefs.cc:201
 msgid "Use title of main window for info"
-msgstr "U¿yj tytu³u g³ównego okna dla info"
+msgstr "Wy¶wietl informacje w tytule okna g³ównego"
 
 #: face/prefs.cc:204
 msgid "Display queue statistics too"
-msgstr "Wy¶wietl równie¿ statystykê kolejki"
+msgstr "Wy¶wietl równie¿ statystyki kolejki"
 
 #: face/prefs.cc:211
 msgid "Open dialog for Drag-n-Drop"
@@ -950,7 +950,7 @@ msgstr "Maksymalna liczba linii w dzienniku"
 
 #: face/prefs.cc:300
 msgid "Maximum lines in MAIN log"
-msgstr "Maksymalna liczba linii w dzienniku G£ÓWNYM"
+msgstr "Maksymalna liczba linii w dzienniku g³ównym"
 
 #: face/prefs.cc:338
 msgid "Save downloads to folder"
@@ -1286,11 +1286,11 @@ msgstr "nieznana opcja:"
 
 #: face/prefs.cc:
 msgid "Run this on exit"
-msgstr "Uruchom to po zakoñczeniu"
+msgstr "Po zakoñczeniu uruchom"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
-msgstr "Pamiêtaj has³a"
+msgstr "Zapamiêtaj has³a"
 
 #: face/limface.cc:
 msgid "Now"
@@ -1406,7 +1406,7 @@ msgstr "Próbuj za³adowaæ ³±cze symboliczne jako plik (ftp)"
 
 # face/list.cc
 msgid "/Options/Passwords"
-msgstr "/Opcje/Has³a"
+msgstr "/Opcje/_Has³a"
 
 # face/passwords.cc
 msgid "protocol"
@@ -1486,74 +1486,140 @@ msgstr "Maksymalny rozmiar pliku g³ównego dziennika (kB)"
 
 # face/list.cc:
 msgid "/File/Find links in file"
-msgstr ""
+msgstr "/Plik/Wy_szukaj ³±cza w pliku"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
-msgstr ""
+msgstr "U¿yj sta³ej czcionki w dzienniku"
 
 # face/edit.cc:
 msgid "Number of parts for spliting this download"
-msgstr ""
+msgstr "Liczba czê¶ci podzia³u dla tego pobierania"
 
 
 # face/saveload.cc
 msgid "Find links in txt file"
-msgstr ""
+msgstr "Znajd¼ ³±cza w pliku tekstowym"
 
 # face/prefs.cc:
 msgid "Color for picks"
-msgstr ""
+msgstr "Kolor dla zaznaczeñ"
 
 # face/prefs.cc:
 msgid "Color for total speed"
-msgstr ""
+msgstr "Kolor dla prêdko¶ci ca³kowitej"
 
 # face/prefs.cc:
 msgid "Color for speed of selected"
-msgstr ""
+msgstr "Kolor dla prêdko¶ci pozycji zaznaczonych"
 
 # face/prefs.cc:
 msgid "Background color"
-msgstr ""
+msgstr "Kolor t³a"
 
 # face/mywidget.cc:
 msgid "Select"
-msgstr ""
+msgstr "Wybierz"
 
 # face/mywidget.cc:
 msgid "Select color"
-msgstr ""
+msgstr "Wybierz kolor"
 
 #face/prefs.cc
 msgid "Reset to default"
-msgstr ""
+msgstr "Przywróæ domy¶lne"
 
 msgid "Colors for graph"
-msgstr ""
+msgstr "Kolory dla wykresu"
 
 #face/limface.cc
 msgid "Default limitation for all hosts (0 without limits)"
-msgstr ""
+msgstr "Domy¶lne ograniczenie dla wszystkich serwerów (0 je¶li brak)"
 
 #face/lod.cc
 msgid "Continue open log windows?"
-msgstr ""
+msgstr "Kontynuowaæ otwieranie okien dziennika?"
 
 #face/lod.cc
 msgid "Don't get from cache"
-msgstr ""
+msgstr "Nie pobieraj z bufora"
 
 #config.cc
 msgid "run in minimized mode"
-msgstr ""
+msgstr "uruchom w trybie zminimalizowanym"
 
 #face/prefs.cc
 msgid "Confirm opening large amount of windows"
-msgstr ""
+msgstr "Potwierd¼ otwarcie du¿ej ilo¶ci okien"
 
 
 #face/about.cc
 msgid "Special thanks to"
+msgstr "Specialne podziêkowania dla"
+
+
+#face/prefs.cc
+msgid "Clipboard"
 msgstr ""
 
+msgid "Catch these extensions in clipboard"
+msgstr ""
+
+msgid "Allow to user force run downloads"
+msgstr ""
+
+#face/saveload.cc
+msgid "Loading"
+msgstr ""
+
+#main.cc
+msgid "%lu bytes loaded during the session"
+msgstr ""
+
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr ""
+
+msgid "Exiting if nothing to do is switched off"
+msgstr ""
+
+#face/edit.cc
+msgid "Timeout for reading from socket"
+msgstr ""
+
+msgid "Maximum attempts"
+msgstr ""
+
+msgid "Timeout before reconnection"
+msgstr ""
+
+msgid "Rollback after reconnecting"
+msgstr ""
+
+msgid "Depth of recursing for HTTP"
+msgstr ""
+
+msgid "Depth of recursing for FTP"
+msgstr ""
+
+msgid "Speed limitation"
+msgstr ""
+
+msgid "Unselect all"
+msgstr ""
+
+msgid "Select all"
+msgstr ""
+
+msgid "Select properties"
+msgstr ""
+
+#face/lmenu.cc
+msgid "Common properties"
+msgstr ""
+
+#config.cc
+msgid "set timeout for exiting if nothing to do"
+msgstr ""
+
+msgid "You should specify number as parameter for '--exit-time' option"
+msgstr ""

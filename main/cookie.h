@@ -24,13 +24,12 @@ struct tCookie:public tAbstractSortNode{
 	void set_time(char *what);
 	void init(char *a,char *b,char *c,char *d);
 	time_t get_time();
+	int cmp(tAbstractSortNode *a);
 	void print();
 	~tCookie();
 };
 
 class tCookiesTree:public tAbstractSortTree{
- protected:
-	int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b);
  public:
 	tCookie *find(const char *path);
 	tCookie *find(tCookie **begin,const char *path);

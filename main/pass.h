@@ -21,6 +21,7 @@ class tUserPass:public tAbstractSortNode{
 	tUserPass();
 	void print();
 	void save(int fd);
+	int cmp(tAbstractSortNode *a);
 	int load(int fd);
 	~tUserPass();
 };
@@ -33,7 +34,6 @@ class tUserPassTree:public tAbstractSortTree{
 	void save_node(tUserPass *node,int fd);
 	void fill_face_node(tUserPass *node,tFacePass *a);
  protected:
-	int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b);
  public:
 	void save(int fd);
 	void fill_face(tFacePass *a);

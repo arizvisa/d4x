@@ -22,7 +22,7 @@ class tFileInfo{
 	int size;
 	int type,oldtype;
 	int perm;
-	int date;
+	time_t date;
 };
 
 struct tCfg{
@@ -67,15 +67,16 @@ struct tCfg{
 #include "addr.h"
 
 class tDownloader{
-    protected:
-    tCfg config;
-    tWriterLoger *LOG;
-    int RetrNum;
-    int Status;
-    tAddr ADDR;
-    tFileInfo D_FILE;
-    int StartSize;
-    int LOADED;
+ protected:
+	tCfg config;
+	tWriterLoger *LOG;
+	int RetrNum;
+	int Status;
+	tAddr ADDR;
+	tFileInfo D_FILE;
+	time_t local_filetime;
+	int StartSize;
+	int LOADED;
  public:
     	tDownloader();
     	int treat();
@@ -84,6 +85,8 @@ class tDownloader{
      	virtual void init_download(char *file,char *path);
      	void set_loaded(int a);
     	virtual void set_file_info(tFileInfo *what);
+	void set_local_filetime(time_t lt);
+	virtual int remote_file_changed();
     	virtual tFileInfo *get_file_info();
      	virtual char *get_new_url();
      	virtual int another_way_get_size();
@@ -137,6 +140,7 @@ enum ERROR_CODES{
 	ERROR_TOO_MANY_USERS,
 	ERROR_DIRECTORY,
 	ERROR_ACCESS,
-	ERROR_NO_SPACE
+	ERROR_NO_SPACE,
+	ERROR_FILE_UPDATED
 };
 #endif

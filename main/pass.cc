@@ -41,6 +41,12 @@ void tUserPass::save(int fd){
 	f_wstr_lf(fd,"EndHost:");
 };
 
+int tUserPass::cmp(tAbstractSortNode *b){
+	int r=strcmp(host.get(),((tUserPass*)b)->host.get());
+	if (r) return r;
+	return(proto - ((tUserPass*)b)->proto);	
+};
+
 int tUserPass::load(int fd){
 	char *a[]={
 		"host:",
@@ -83,14 +89,9 @@ int tUserPass::load(int fd){
 	};
 	return 1;
 };
+
 /*
  */
-
-int tUserPassTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	int r=strcmp(((tUserPass*)a)->host.get(),((tUserPass*)b)->host.get());
-	if (r) return r;
-	return(((tUserPass*)a)->proto - ((tUserPass*)b)->proto);
-};
 
 void tUserPassTree::save_node(tUserPass *node,int fd){
 	if (node->less) save_node((tUserPass *)(node->less),fd);

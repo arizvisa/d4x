@@ -17,12 +17,21 @@
 class tUrlParser{
 	int fd;
 	unsigned char buf[MAX_LEN];
+	tStringList *list;
 	int sequence(unsigned char *where, char *str);
 	int read_url(unsigned char *where, tStringList *list);
  public:
+	unsigned int full,current;
 	tUrlParser(const char *filename);
 	tStringList *parse();
+	tStringList *get_list();
 	~tUrlParser();
 };
+
+int thread_for_parse_txt(tUrlParser *parser);
+float thread_for_parse_percent();
+int thread_for_parse_txt_status();
+void thread_for_parse_add();
+void thread_for_parse_stop();
 
 #endif

@@ -47,38 +47,22 @@ tSortString::tSortString(char *what,int len) {
 tSortString::~tSortString() {
 	if (body) delete(body);
 };
+
+int tSortString::cmp(tAbstractSortNode *a){
+	int r=strcmp(body,((tSortString*)a)->body);
+	if (r==0)
+		return(key - ((tSortString*)a)->key);
+	return r;
+};
 //---------------------------------------------------------
-
-int tStrSortTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	int r=strcmp(((tSortString*)a)->body,((tSortString*)b)->body);
-	if (r==0)
-		return(((tSortString*)a)->key - ((tSortString*)b)->key);
-	return r;
-};
-
-int tStrSortTree::compare_nodes(tAbstractSortNode *a,char *b,int key){
-	int r=strcmp(((tSortString*)a)->body,b);
-	if (r==0)
-		return(((tSortString*)a)->key - key);
-	return r;
-};
-
 tSortString *tStrSortTree::find(char *what,int key) {
-	tSortString **temp=(tSortString **)&Top;
-	while (*temp) {
-		int a=compare_nodes(*temp,what,key);
-		if (a<0)
-			temp=(tSortString **)&((*temp)->more);
-		else {
-			if (a==0) {
-				return *temp;
-			};
-			temp=(tSortString **)&((*temp)->less);
-		};
-	};
-	return NULL;
+	tSortString temp;
+	temp.body=what;
+	temp.key=key;
+	tSortString *rvalue=(tSortString *)tAbstractSortTree::find((tAbstractSortNode *)(&temp));
+	temp.body=NULL;
+	return rvalue;
 };
-
 
 /* ---------------------------------------------------------------
  */

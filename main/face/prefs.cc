@@ -51,9 +51,9 @@ GtkWidget *prefs_common_window_lower;
 GtkWidget *prefs_common_graph_order;
 GtkWidget *prefs_common_default_permisions;
 GtkWidget *prefs_common_dnd_trash;
-GtkWidget *prefs_common_clipboard_monitor;
 GtkWidget *prefs_common_fixed_font_log;
 GtkWidget *prefs_common_exit_complete,*prefs_common_exit_complete_time;
+GtkWidget *prefs_common_allow_force_run;
 
 GtkWidget *prefs_limits_frame;
 GtkWidget *prefs_limits_vbox;
@@ -73,7 +73,6 @@ GtkWidget *prefs_other_savepath,*prefs_other_sbox,*prefs_other_slabel;
 GtkWidget *prefs_other_exec,*prefs_other_ebox,*prefs_other_elabel;
 GtkWidget *prefs_other_filename,*prefs_other_fbox,*prefs_other_flabel;
 GtkWidget *prefs_other_user_agent,*prefs_other_ubox,*prefs_other_ulabel;
-GtkWidget *prefs_other_skip_in_clipboard,*prefs_other_scbox,*prefs_other_sclabel;
 GtkWidget *prefs_other_ftp_passive;
 GtkWidget *prefs_other_remember_pass;
 
@@ -99,6 +98,10 @@ GtkWidget *prefs_speed_color_fore1;
 GtkWidget *prefs_speed_color_fore2;
 GtkWidget *prefs_speed_color_pick;
 
+GtkWidget *prefs_clipboard_monitor;
+GtkWidget *prefs_clipboard_catch,*prefs_clipboard_catch_button;
+GtkWidget *prefs_clipboard_skip,*prefs_clipboard_skip_button;
+
 tProxyWidget *prefs_proxy=(tProxyWidget *)NULL;
 
 GtkWidget *ok_button,*cancel_button;
@@ -110,6 +113,13 @@ static void options_toggle_save_log(GtkWidget *parent) {
 	gtk_widget_set_sensitive(prefs_log_fslabel,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(prefs_log_rewrite,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(prefs_log_save_path,GTK_TOGGLE_BUTTON(parent)->active);
+};
+
+static void options_toggle_clipboard_monitor(GtkWidget *parent){
+	gtk_widget_set_sensitive(prefs_clipboard_skip_button,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_clipboard_skip,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_clipboard_catch_button,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_clipboard_catch,GTK_TOGGLE_BUTTON(parent)->active);
 };
 
 static void options_toggle_exit_complete(GtkWidget *parent) {
@@ -194,7 +204,7 @@ void init_options_window(...) {
 	prefs_common_window_lower=gtk_check_button_new_with_label(_("Iconify main window when closing"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_window_lower,0,1,4,5);
 	prefs_common_ftp_permisions=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
-	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_ftp_permisions,0,1,5,6);
+       	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_ftp_permisions,0,1,5,6);
 	prefs_common_use_title=gtk_check_button_new_with_label(_("Use title of main window for info"));
 	//    gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_use_title,1,2,0,1);
 	gtk_signal_connect(GTK_OBJECT(prefs_common_use_title),"clicked",GTK_SIGNAL_FUNC(options_toggle_title),NULL);
@@ -209,46 +219,36 @@ void init_options_window(...) {
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_get_date,1,2,4,5);
 	prefs_common_dnd_dialog=gtk_check_button_new_with_label(_("Open dialog for Drag-n-Drop"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_dnd_dialog,1,2,5,6);
-	prefs_common_clipboard_monitor=gtk_check_button_new_with_label(_("Monitor clipboard"));
-	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_clipboard_monitor,1,2,6,7);
 	prefs_common_graph_order=gtk_check_button_new_with_label(_("Revert drawing graph of speeds"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_graph_order,1,2,7,8);
 	prefs_common_save_list_check=gtk_check_button_new_with_label(_("Save list of downloads every"));
 	gtk_signal_connect(GTK_OBJECT(prefs_common_save_list_check),"clicked",GTK_SIGNAL_FUNC(options_toggle_save_list),NULL);
-	prefs_common_save_list_entry=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_common_save_list_entry,30,-1);
-	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_common_hbox),5);
-	GtkWidget *prefs_common_label=gtk_label_new(_("minutes"));
-	sprintf(temp,"%i",CFG.SAVE_LIST_INTERVAL);
-	gtk_entry_set_text(GTK_ENTRY(prefs_common_save_list_entry),temp);
-	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_save_list_check,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_save_list_entry,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_label,FALSE,FALSE,0);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_hbox,0,1,6,7);
 
-	prefs_common_default_permisions=gtk_entry_new();
-	gtk_widget_set_usize(prefs_common_default_permisions,30,-1);
+	prefs_common_default_permisions=my_gtk_entry_new_with_max_length(4,CFG.DEFAULT_PERMISIONS);
 	GtkWidget *prefs_common_default_permisions_label=gtk_label_new(_("Default permissions of file"));
 	GtkWidget *prefs_common_default_permisions_box=gtk_hbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_default_permisions_box),prefs_common_default_permisions,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_default_permisions_box),prefs_common_default_permisions_label,FALSE,FALSE,0);
-	sprintf(temp,"%i",CFG.DEFAULT_PERMISIONS);
-	gtk_entry_set_text(GTK_ENTRY(prefs_common_default_permisions),temp);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_default_permisions_box,0,1,7,8);
 
+	prefs_common_save_list_entry=my_gtk_entry_new_with_max_length(3,CFG.SAVE_LIST_INTERVAL);
+	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(prefs_common_hbox),5);
+	GtkWidget *prefs_common_label=gtk_label_new(_("minutes"));
+	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_save_list_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_save_list_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_label,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_hbox,0,1,6,7);	
+	
 	prefs_common_dnd_trash=gtk_check_button_new_with_label(_("Show trash for DnD"));
-	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_dnd_trash,1,2,8,9);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_dnd_trash,1,2,6,7);
 
 	prefs_common_exit_complete=gtk_check_button_new_with_label(_("Exit if nothing to do after"));
 	gtk_signal_connect(GTK_OBJECT(prefs_common_exit_complete),"clicked",GTK_SIGNAL_FUNC(options_toggle_exit_complete),NULL);
-	prefs_common_exit_complete_time=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_common_exit_complete_time,30,-1);
+	prefs_common_exit_complete_time=my_gtk_entry_new_with_max_length(3,CFG.EXIT_COMPLETE_TIME);
 	prefs_common_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_common_hbox),5);
 	prefs_common_label=gtk_label_new(_("minutes"));
-	sprintf(temp,"%i",CFG.EXIT_COMPLETE_TIME);
-	gtk_entry_set_text(GTK_ENTRY(prefs_common_exit_complete_time),temp);
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_exit_complete,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_exit_complete_time,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_label,FALSE,FALSE,0);
@@ -256,7 +256,8 @@ void init_options_window(...) {
 	
 	prefs_common_fixed_font_log=gtk_check_button_new_with_label(_("Use fixed font in logs"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_fixed_font_log,0,1,9,10);
-		
+	prefs_common_allow_force_run=gtk_check_button_new_with_label(_("Allow to user force run downloads"));
+	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_allow_force_run,1,2,9,10);
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_common_vbox,gtk_label_new(_("Common")));
 
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_del_fataled),CFG.DELETE_FATAL);
@@ -274,8 +275,8 @@ void init_options_window(...) {
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_graph_order),CFG.GRAPH_ORDER);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_dnd_trash),CFG.DND_TRASH);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_exit_complete),CFG.EXIT_COMPLETE);
-	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_clipboard_monitor),CFG.CLIPBOARD_MONITOR);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_fixed_font_log),CFG.FIXED_LOG_FONT);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_allow_force_run),CFG.ALLOW_FORCE_RUN);
 	options_toggle_save_list(prefs_common_save_list_check);
 	options_toggle_exit_complete(prefs_common_exit_complete);
 	options_toggle_title(prefs_common_use_title);
@@ -291,50 +292,40 @@ void init_options_window(...) {
 	gtk_container_border_width(GTK_CONTAINER(prefs_limits_table),5);
 
 	prefs_limits_tbox=gtk_hbox_new(FALSE,0);
-	prefs_limits_max_threads=gtk_entry_new_with_max_length(2);
-	gtk_widget_set_usize(prefs_limits_max_threads,30,-1);
-	sprintf(temp,"%i",CFG.MAX_THREADS);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_max_threads),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_tbox),5);
+	prefs_limits_max_threads=my_gtk_entry_new_with_max_length(3,CFG.MAX_THREADS);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tbox),prefs_limits_max_threads,FALSE,FALSE,0);
 	prefs_limits_tlabel=gtk_label_new(_("Maximum active downloads"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tbox),prefs_limits_tlabel,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_tbox,1,2,0,1);
 
 	prefs_limits_rtbox=gtk_hbox_new(FALSE,0);
-	prefs_limits_retry_timeout=gtk_entry_new_with_max_length(2);
-	gtk_widget_set_usize(prefs_limits_retry_timeout,30,-1);
-	sprintf(temp,"%i",CFG.RETRY_TIME_OUT);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_retry_timeout),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_rtbox),5);
+	prefs_limits_retry_timeout=my_gtk_entry_new_with_max_length(3,CFG.RETRY_TIME_OUT);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rtbox),prefs_limits_retry_timeout,FALSE,FALSE,0);
 	prefs_limits_rtlabel=gtk_label_new(_("Timeout before reconnection (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rtbox),prefs_limits_rtlabel,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_rtbox,1,2,1,2);
 
 	prefs_limits_tibox=gtk_hbox_new(FALSE,0);
-	prefs_limits_timeout=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_limits_timeout,30,-1);
-	sprintf(temp,"%i",CFG.TIME_OUT);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_timeout),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_tibox),5);
+	prefs_limits_timeout=my_gtk_entry_new_with_max_length(3,CFG.TIME_OUT);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tibox),prefs_limits_timeout,FALSE,FALSE,0);
 	prefs_limits_tilabel=gtk_label_new(_("Timeout for reading from socket (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tibox),prefs_limits_tilabel,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_tibox,1,2,2,3);
 
 	prefs_limits_lbox=gtk_hbox_new(FALSE,0);
-	prefs_limits_log=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_limits_log,30,-1);
-	sprintf(temp,"%i",CFG.MAX_LOG_LENGTH);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_log),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_lbox),5);
+	prefs_limits_log=my_gtk_entry_new_with_max_length(3,CFG.MAX_LOG_LENGTH);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_lbox),prefs_limits_log,FALSE,FALSE,0);
 	prefs_limits_llabel=gtk_label_new(_("Maximum lines in log"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_lbox),prefs_limits_llabel,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_lbox,1,2,3,4);
 
 	prefs_limits_rbox=gtk_hbox_new(FALSE,0);
-	prefs_limits_max_retries=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_limits_max_retries,30,-1);
-	sprintf(temp,"%i",CFG.MAX_RETRIES);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_max_retries),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_rbox),5);
+	prefs_limits_max_retries=my_gtk_entry_new_with_max_length(3,CFG.MAX_RETRIES);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbox),prefs_limits_max_retries,FALSE,FALSE,0);
 	prefs_limits_rlabel=gtk_label_new(_("Maximum attempts (0 for unlimited)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbox),prefs_limits_rlabel,FALSE,FALSE,0);
@@ -342,24 +333,17 @@ void init_options_window(...) {
 	prefs_limits_rbox=gtk_hbox_new(FALSE,0);
 
 	prefs_limits_rbbox=gtk_hbox_new(FALSE,0);
-	prefs_limits_rollback=gtk_entry_new_with_max_length(5);
-	gtk_widget_set_usize(prefs_limits_rollback,50,-1);
-	sprintf(temp,"%i",CFG.ROLLBACK);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_rollback),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_rbbox),5);
+	prefs_limits_rollback=my_gtk_entry_new_with_max_length(5,CFG.ROLLBACK);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbbox),prefs_limits_rollback,FALSE,FALSE,0);
 	prefs_limits_rblabel=gtk_label_new(_("Rollback after reconnecting (in bytes)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbbox),prefs_limits_rblabel,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_rbbox,1,2,6,7);
 
 	prefs_limits_rdbox=gtk_hbox_new(FALSE,0);
-	prefs_limits_ftp_recurse_depth=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_limits_ftp_recurse_depth,30,-1);
-	sprintf(temp,"%i",CFG.FTP_RECURSE_DEPTH);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_ftp_recurse_depth),temp);
-	prefs_limits_http_recurse_depth=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_limits_http_recurse_depth,30,-1);
-	sprintf(temp,"%i",CFG.HTTP_RECURSE_DEPTH);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_http_recurse_depth),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_rdbox),5);
+	prefs_limits_ftp_recurse_depth=my_gtk_entry_new_with_max_length(3,CFG.FTP_RECURSE_DEPTH);
+	prefs_limits_http_recurse_depth=my_gtk_entry_new_with_max_length(3,CFG.HTTP_RECURSE_DEPTH);
 	GtkWidget *temp_frame=gtk_frame_new("ftp");
 	gtk_container_add(GTK_CONTAINER(temp_frame),prefs_limits_ftp_recurse_depth);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rdbox),temp_frame,FALSE,FALSE,0);
@@ -423,14 +407,6 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(prefs_other_ubox),prefs_other_user_agent,TRUE,TRUE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ubox,0,2,3,4);
 
-	prefs_other_scbox=gtk_vbox_new(FALSE,0);
-	prefs_other_skip_in_clipboard=my_gtk_combo_new(ALL_HISTORIES[SKIP_HISTORY]);
-	text_to_combo(prefs_other_skip_in_clipboard,CFG.SKIP_IN_CLIPBOARD);
-	prefs_other_sclabel=gtk_label_new(_("Skip these extensions in clipboard"));
-	gtk_box_pack_start(GTK_BOX(prefs_other_scbox),prefs_other_sclabel,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(prefs_other_scbox),prefs_other_skip_in_clipboard,TRUE,TRUE,0);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_scbox,0,2,4,5);
-
 	prefs_other_ftp_passive=gtk_check_button_new_with_label(_("Use passive mode for ftp"));
 	GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active=CFG.FTP_PASSIVE_MODE;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ftp_passive,0,1,5,6);
@@ -447,10 +423,8 @@ void init_options_window(...) {
 	prefs_log_table=gtk_table_new(1,5,FALSE);
 
 	GtkWidget *prefs_limits_mlbox=gtk_hbox_new(FALSE,0);
-	prefs_log_length=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_log_length,30,-1);
-	sprintf(temp,"%i",CFG.MAX_MAIN_LOG_LENGTH);
-	gtk_entry_set_text(GTK_ENTRY(prefs_log_length),temp);
+	gtk_box_set_spacing(GTK_BOX(prefs_limits_mlbox),5);
+	prefs_log_length=my_gtk_entry_new_with_max_length(3,CFG.MAX_MAIN_LOG_LENGTH);
 	
 	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),prefs_log_length,FALSE,FALSE,0);
 	GtkWidget *prefs_limits_mllabel=gtk_label_new(_("Maximum lines in MAIN log"));
@@ -473,6 +447,7 @@ void init_options_window(...) {
 	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_log_save_path,0,1,4,5);
 
 	GtkWidget *prefs_log_mlfbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(prefs_log_mlfbox),5);
 	prefs_log_fsize=gtk_entry_new_with_max_length(9);
 	gtk_widget_set_usize(prefs_log_fsize,80,-1);
 	sprintf(temp,"%li",CFG.MAIN_LOG_FILE_LIMIT);
@@ -621,6 +596,7 @@ void init_options_window(...) {
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
 	GtkWidget *label=gtk_label_new(_("bytes/sec speed level one (red button)"));
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	prefs_speed_limit_1=gtk_entry_new();
 	gtk_widget_set_usize(prefs_speed_limit_1,100,-1);
 	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed1_xpm),FALSE,FALSE,0);
@@ -629,6 +605,7 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
 	label=gtk_label_new(_("bytes/sec speed level two (yellow button)"));
 	hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	prefs_speed_limit_2=gtk_entry_new();
 	gtk_widget_set_usize(prefs_speed_limit_2,100,-1);
 	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed2_xpm),FALSE,FALSE,0);
@@ -663,8 +640,47 @@ void init_options_window(...) {
 	
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),frame,gtk_label_new(_("Speed")));
-	/*
-	    Buttons Ok and Cancel
+
+/* Clipboard settings
+ */
+	vbox=gtk_vbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	frame=gtk_frame_new(_("Clipboard"));
+	gtk_container_border_width(GTK_CONTAINER(frame),5);
+	gtk_container_add(GTK_CONTAINER(frame),vbox);
+
+	prefs_clipboard_monitor=gtk_check_button_new_with_label(_("Monitor clipboard"));
+	gtk_box_pack_start(GTK_BOX(vbox),prefs_clipboard_monitor,FALSE,FALSE,0);
+	gtk_signal_connect(GTK_OBJECT(prefs_clipboard_monitor),
+			   "clicked",
+			   GTK_SIGNAL_FUNC(options_toggle_clipboard_monitor),NULL);
+	
+	GtkWidget *prefs_other_scbox=gtk_vbox_new(FALSE,0);
+	prefs_clipboard_skip=my_gtk_combo_new(ALL_HISTORIES[SKIP_HISTORY]);
+	text_to_combo(prefs_clipboard_skip,CFG.SKIP_IN_CLIPBOARD);
+	prefs_clipboard_skip_button=gtk_radio_button_new_with_label((GSList *)NULL,
+								    _("Skip these extensions in clipboard"));
+	gtk_box_pack_start(GTK_BOX(prefs_other_scbox),prefs_clipboard_skip_button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_other_scbox),prefs_clipboard_skip,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),prefs_other_scbox,FALSE,FALSE,0);
+
+	prefs_clipboard_catch=my_gtk_combo_new(ALL_HISTORIES[SKIP_HISTORY]);
+	text_to_combo(prefs_clipboard_catch,CFG.CATCH_IN_CLIPBOARD);
+	prefs_clipboard_catch_button=gtk_radio_button_new_with_label(gtk_radio_button_group(GTK_RADIO_BUTTON(prefs_clipboard_skip_button)),
+							  _("Catch these extensions in clipboard"));
+	prefs_other_scbox=gtk_vbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_other_scbox),prefs_clipboard_catch_button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_other_scbox),prefs_clipboard_catch,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),prefs_other_scbox,FALSE,FALSE,0);
+
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_clipboard_monitor),CFG.CLIPBOARD_MONITOR);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_clipboard_skip_button),!CFG.CLIPBOARD_SKIP_OR_CATCH);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_clipboard_catch_button),CFG.CLIPBOARD_SKIP_OR_CATCH);
+	options_toggle_clipboard_monitor(prefs_clipboard_monitor);
+
+	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),frame,gtk_label_new(_("Clipboard")));
+/*
+  Buttons Ok and Cancel
 	 */
 	buttons_hbox=gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
@@ -721,8 +737,10 @@ void options_window_ok() {
 	CFG.DND_TRASH=GTK_TOGGLE_BUTTON(prefs_common_dnd_trash)->active;
 	CFG.EXIT_COMPLETE=GTK_TOGGLE_BUTTON(prefs_common_exit_complete)->active;
 	CFG.REMEMBER_PASS=GTK_TOGGLE_BUTTON(prefs_other_remember_pass)->active;
-	CFG.CLIPBOARD_MONITOR=GTK_TOGGLE_BUTTON(prefs_common_clipboard_monitor)->active;
+	CFG.CLIPBOARD_MONITOR=GTK_TOGGLE_BUTTON(prefs_clipboard_monitor)->active;
+	CFG.CLIPBOARD_SKIP_OR_CATCH=GTK_TOGGLE_BUTTON(prefs_clipboard_catch_button)->active;
 	CFG.FIXED_LOG_FONT=GTK_TOGGLE_BUTTON(prefs_common_fixed_font_log)->active;
+	CFG.ALLOW_FORCE_RUN=GTK_TOGGLE_BUTTON(prefs_common_allow_force_run)->active;
 	if (CFG.DND_TRASH) dnd_trash_init();
 	else dnd_trash_destroy();
 
@@ -754,8 +772,11 @@ void options_window_ok() {
 	options_window_get_field(MY_GTK_FILESEL(prefs_other_exec)->combo,
 				 &CFG.EXEC_WHEN_QUIT,
 				 ALL_HISTORIES[EXEC_HISTORY]);
-	options_window_get_field(prefs_other_skip_in_clipboard,
+	options_window_get_field(prefs_clipboard_skip,
 				 &CFG.SKIP_IN_CLIPBOARD,
+				 ALL_HISTORIES[SKIP_HISTORY]);
+	options_window_get_field(prefs_clipboard_catch,
+				 &CFG.CATCH_IN_CLIPBOARD,
 				 ALL_HISTORIES[SKIP_HISTORY]);
 /* Main log settings */
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_log_length)),"%u",&CFG.MAX_MAIN_LOG_LENGTH);
@@ -793,7 +814,8 @@ void options_window_ok() {
 		CFG.GRAPH_BACK=graph_back;
 		CFG.GRAPH_FORE2=graph_fore2;
 		CFG.GRAPH_PICK=graph_pick;
-		graph_reinit();
+//		graph_reinit();
+		my_gtk_graph_cmap_reinit(GLOBAL_GRAPH);
 	};
 	prefs_columns_order.apply_changes();
 	options_window_cancel();

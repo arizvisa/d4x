@@ -13,13 +13,14 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: nt-1.16.8\n"
+"Project-Id-Version: nt-1.17.9\n"
 "POT-Creation-Date: 1999-08-24 15:06+0800\n"
-"PO-Revision-Date: 2000-06-07 18:34+0200\n"
+"PO-Revision-Date: 2000-08-05 21:34+0200\n"
 "Last-Translator: Jerome COUDERC <j.couderc@ifrance.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=koi8-r\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: client.cc:65
 msgid "Timeout when socket read!"
@@ -1560,3 +1561,69 @@ msgstr "Confirmer l'ouverture d'une grande quantité de fenêtres"
 msgid "Special thanks to"
 msgstr "Remerciements à"
 
+
+#face/prefs.cc
+msgid "Clipboard"
+msgstr "Presse-Papiers"
+
+msgid "Catch these extensions in clipboard"
+msgstr "Prendre ces extensions dans le presse-papier"
+
+msgid "Allow to user force run downloads"
+msgstr "Autoriser l'utilisateur à forcer le lancement des téléchargements"
+
+#face/saveload.cc
+msgid "Loading"
+msgstr "Chargement"
+
+#main.cc
+msgid "%lu bytes loaded during the session"
+msgstr "%lu octets reçus lors de cette session"
+
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "Downloader se fermera s'il n'y a plus rien à faire après %i minutes %s"
+
+msgid "Exiting if nothing to do is switched off"
+msgstr "Fermeture automatique s'il n'y a plus rien à faire, désactivée"
+
+#face/edit.cc
+msgid "Timeout for reading from socket"
+msgstr "Délai pour la lecture à partir du socket"
+
+msgid "Maximum attempts"
+msgstr "Nombre de tentatives maximum"
+
+msgid "Timeout before reconnection"
+msgstr "Délai avant reconnexion"
+
+msgid "Rollback after reconnecting"
+msgstr "Octets à reprendre après reconnexion"
+
+msgid "Depth of recursing for HTTP"
+msgstr "Profondeur de récursivité en HTTP"
+
+msgid "Depth of recursing for FTP"
+msgstr "Profondeur de récursivité en FTP"
+
+msgid "Speed limitation"
+msgstr "Limitation de vitesse"
+
+msgid "Unselect all"
+msgstr "Tout déselectionner"
+
+msgid "Select all"
+msgstr "Tout séléctionner"
+
+msgid "Select properties"
+msgstr "Sélectionner les propriétés"
+
+#face/lmenu.cc
+msgid "Common properties"
+msgstr "Propriétés générales"
+
+#config.cc
+msgid "set timeout for exiting if nothing to do"
+msgstr "règle le délai avant de quitter s'il n'y a plus rien à faire"
+
+msgid "You should specify number as parameter for '--exit-time' option"
+msgstr "Vous devez un nombre pour le paramètre de l'option '--exit-time'"

@@ -53,7 +53,8 @@ tOption downloader_parsed_args[]={
 	{"--rerun-failed",	OPT_RERUN_FAILED},
 	{"-w",			OPT_WITHOUT_FACE},
 	{"--without-face",	OPT_WITHOUT_FACE},
-	{"--minimized",		OPT_RUN_MINIMIZED}
+	{"--minimized",		OPT_RUN_MINIMIZED},
+	{"--exit-time",		OPT_EXIT_TIME}
 };
 
 char *downloader_args_errors[]={
@@ -67,7 +68,11 @@ char *downloader_args_errors[]={
 	(char *)NULL,
 	(char *)"You forgot to specify directory.",
 	(char *)NULL,
-	(char *)"You should specify number as second parameter for '-m' option"
+	(char *)"You should specify number as second parameter for '-m' option",
+	(char *)NULL,
+	(char *)NULL,
+	(char *)NULL,
+	(char *)"You should specify number as parameter for '--exit-time' option"
 };
 
 
@@ -175,14 +180,17 @@ tConfigVariable config_variables[]={
 	{"exec_when_quit",	CV_TYPE_STRING,	&(CFG.EXEC_WHEN_QUIT)},
 	{"remember_pass",	CV_TYPE_BOOL,	&(CFG.REMEMBER_PASS)},
 	{"clipboard_monitor",	CV_TYPE_BOOL,	&(CFG.CLIPBOARD_MONITOR)},
+	{"clipboard_skip_or_catch",	CV_TYPE_BOOL,	&(CFG.CLIPBOARD_SKIP_OR_CATCH)},
 	{"skip_in_clipboard",	CV_TYPE_STRING,	&(CFG.SKIP_IN_CLIPBOARD)},
+	{"catch_in_clipboard",	CV_TYPE_STRING,	&(CFG.CATCH_IN_CLIPBOARD)},
 	{"buttons_add",		CV_TYPE_BOOL,	&(CFG.BUTTONS_ADD)},
 	{"buttons_man",		CV_TYPE_BOOL,	&(CFG.BUTTONS_MAN)},
 	{"buttons_speed",	CV_TYPE_BOOL,	&(CFG.BUTTONS_SPEED)},
 	{"buttons_misc",	CV_TYPE_BOOL,	&(CFG.BUTTONS_MISC)},
 	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)},
 	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)},
-	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)}
+	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)},
+	{"allow_force_run",	CV_TYPE_BOOL,	&(CFG.ALLOW_FORCE_RUN)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -272,6 +280,7 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8",0);
 	load_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9",0);
 	load_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11",0);
+	load_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12",0);
 	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
@@ -318,7 +327,7 @@ void save_config() {
 	if (fd>=0) {
 		list_of_downloads_get_height();
 		list_of_downloads_get_sizes();
-		CFG.DEFAULT_HOST_LIMIT=LimitsForHosts->get_default_limit();
+		CFG.DEFAULT_HOST_LIMIT=LimitsForHosts==NULL?0:LimitsForHosts->get_default_limit();
 		if (FaceForLimits) {
 			FaceForLimits->get_sizes();
 		};
@@ -375,6 +384,7 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9");
 	save_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10");
 	save_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11");
+	save_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12");
 	delete cfgpath;
 };
 
@@ -588,6 +598,14 @@ int parse_command_line_already_run(int argv,char **argc){
 					clt->send_command(PACKET_RERUN_FAILED,NULL,0);
 					break;
 				};
+				case OPT_EXIT_TIME:
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						clt->send_command(PACKET_EXIT_TIME,argc[i],strlen(argc[i]));
+					}else
+						printf("%s\n",_(downloader_args_errors[OPT_EXIT_TIME]));
+					break;
 				};
 			};
 		};		
@@ -616,11 +634,25 @@ void parse_command_line_postload(int argv,char **argc){
 			break;
 		};
 		case OPT_SET_MAX_THREADS:{
-			if (argv>i+1 && sscanf(argc[i+1],"%d",&CFG.MAX_THREADS)<1)
+			if (argv<=i+1 || sscanf(argc[i+1],"%d",&CFG.MAX_THREADS)<1){
 				printf("%s\n",_(downloader_args_errors[OPT_SET_MAX_THREADS]));
-			i+=1;
+				i+=1;
+			};
 			break;
 		};
+		case OPT_EXIT_TIME:
+			int tmp;
+			if (argv<=i+1 || sscanf(argc[i+1],"%d",&tmp)<1 || tmp<0)
+				printf("%s\n",_(downloader_args_errors[OPT_EXIT_TIME]));
+			else{
+				if (tmp>=1){
+					CFG.EXIT_COMPLETE=1;
+					CFG.EXIT_COMPLETE_TIME=tmp;
+				}else
+					CFG.EXIT_COMPLETE=0;
+				i+=1;
+			};
+			break;
 		case OPT_RUN_MINIMIZED:
 			main_window_iconify();
 			break;
@@ -657,10 +689,11 @@ void help_print(){
 	help_print_args(OPT_INFO);printf(_("show information if already run"));printf("\n");
 	help_print_args(OPT_SPEED);printf(_("show current speed if already run"));printf("\n");
 	help_print_args(OPT_RUN_MINIMIZED);printf(_("run in minimized mode"));printf("\n");
+	help_print_args(OPT_EXIT_TIME);printf(_("set timeout for exiting if nothing to do"));printf("\n");
+	help_print_args(OPT_SET_DIRECTORY);printf(_("set directory for saving files"));printf("\n");
 	help_print_args(OPT_TRAFFIC_LOW);printf(_("set lower speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set middle speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_HIGH);printf(_("set unlimited speed"));printf("\n");
-	help_print_args(OPT_SET_DIRECTORY);printf(_("set directory for saving files"));printf("\n");
 	help_print_args(OPT_DEL_COMPLETED);printf(_("delete completed if already run"));printf("\n");
 	help_print_args(OPT_SET_MAX_THREADS);printf(_("set maximum active downloads"));printf("\n");
 	help_print_args(OPT_RERUN_FAILED);printf(_("restart all failed downloads"));printf("\n");

@@ -36,6 +36,7 @@
 #include "misc.h"
 #include "dndtrash.h"
 #include "passface.h"
+#include "colors.h"
 
 
 GtkWidget *MainMenu;
@@ -74,6 +75,7 @@ int FirstConfigureEvent;
 int UpdateTitleCycle=0;
 int MAIN_PANED_HEIGHT=0;
 char *OLD_CLIPBOARD_CONTENT=NULL;
+char *LOAD_ACCELERATORS[6]={(char *)NULL,(char *)NULL,(char *)NULL,(char*)NULL,(char *)NULL};
 enum{
 	ROLL_STAT=0,
 	ROLL_INFO,
@@ -221,6 +223,129 @@ void main_menu_speed_prepare(){
 	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==3?TRUE:FALSE;
 };
 
+void load_accelerated(gpointer *p,gint realnum){
+	tString *str=ALL_HISTORIES[SAVE_HISTORY]->last();
+	int num=realnum-128;
+	for (int i=0;i<=num;i++){
+		if (str==NULL) return;
+		if (i==num) read_list_from_file(str->body);
+		str=ALL_HISTORIES[SAVE_HISTORY]->next();
+	};
+};
+
+static void _remove_underscore(char *where){
+	char *p,*q;
+	p=q=where;
+	while (*p){
+		if (*p!='_')
+			*q++ = *p;
+		p++;
+	};
+	*q=0;
+};
+
+void init_load_accelerators(){
+	tString *str=ALL_HISTORIES[SAVE_HISTORY]->last();
+	char *path=copy_string(_(main_menu_inames[MM_FILE_SEP]));
+	char *sep=index(path+1,'/');
+	if (LOAD_ACCELERATORS[5]==NULL){
+		LOAD_ACCELERATORS[5]=copy_string(_(main_menu_inames[MM_FILE_EXIT]));
+		_remove_underscore(LOAD_ACCELERATORS[5]);
+	};
+	gtk_item_factory_delete_item(main_menu_item_factory,LOAD_ACCELERATORS[5]);
+	if (LOAD_ACCELERATORS[4]==NULL){
+		LOAD_ACCELERATORS[4]=sum_strings(_(main_menu_inames[MM_FILE_SEP]),"1",NULL);
+	}else{
+		gtk_item_factory_delete_item(main_menu_item_factory,
+					     LOAD_ACCELERATORS[4]);
+	};
+	for (int j=0;j<3;j++)
+		if (LOAD_ACCELERATORS[j]){
+			gtk_item_factory_delete_item(main_menu_item_factory,
+						     LOAD_ACCELERATORS[j]);
+			delete(LOAD_ACCELERATORS[j]);
+		};
+	if (sep){
+		*sep=0;
+		for (int i=0;i<3;i++){
+			if (str==NULL) break;
+			GtkItemFactoryEntry tmp;
+			sep=rindex(str->body,'/');
+			char data[MAX_LEN];
+			g_snprintf(data,MAX_LEN,"%i",i+1);
+			if (sep)
+				tmp.path=sum_strings(path,"/",data,". ",sep+1,NULL);
+			else
+				tmp.path=sum_strings(path,"/",data,". ",str->body,NULL);
+			tmp.accelerator=sum_strings("<control>",data,NULL);
+			tmp.callback=(GtkItemFactoryCallback)load_accelerated;
+			tmp.callback_action=i+128;
+			tmp.item_type="<Item>";
+			LOAD_ACCELERATORS[i]=tmp.path;
+			tmp.path=escape_char(tmp.path,'_','_');
+			gtk_item_factory_create_item(main_menu_item_factory,
+						     &tmp,
+						     NULL,1);
+			delete(tmp.path);
+			delete(tmp.accelerator);
+			/*adding tooltip*/
+			GtkWidget *menu_item=gtk_item_factory_get_widget_by_action(main_menu_item_factory,
+										   tmp.callback_action);
+			if (menu_item){
+				GtkTooltips *tooltip=gtk_tooltips_new();
+				gtk_tooltips_force_window(tooltip);
+				GtkStyle *current_style=gtk_style_copy(gtk_widget_get_style(tooltip->tip_window));
+				current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+				gdk_font_unref(current_style->font);
+				current_style->font = MainWindow->style->font;
+				gtk_widget_set_style(tooltip->tip_window, current_style);
+				gtk_tooltips_set_tip(tooltip,menu_item,str->body,(const gchar *)NULL);
+				gtk_tooltips_enable(tooltip);
+			};
+			/* modify path for deleting it successfully
+			 */
+			_remove_underscore(LOAD_ACCELERATORS[i]);
+			str=ALL_HISTORIES[SAVE_HISTORY]->next();
+		};
+	};
+	delete(path);
+	GtkItemFactoryEntry sep_item={LOAD_ACCELERATORS[4],
+				       (gchar *)NULL,
+				       (GtkItemFactoryCallback)NULL,
+				       0,
+				       "<Separator>"};
+	GtkItemFactoryEntry exit_item={_(main_menu_inames[MM_FILE_EXIT]),
+				       "<alt>X",
+				       ask_exit,
+				       0,
+				       (gchar *)NULL};
+	gtk_item_factory_create_item(main_menu_item_factory,
+				     &sep_item,NULL,1);
+	gtk_item_factory_create_item(main_menu_item_factory,
+				     &exit_item,NULL,1);
+};
+
+static gint main_menu_enable_all(){
+	GtkWidget *menu_item;
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_DEL_C]));
+	if (menu_item)	gtk_widget_set_sensitive(menu_item,TRUE);
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_DEL_F]));
+	if (menu_item)	gtk_widget_set_sensitive(menu_item,TRUE);
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_RERUN]));
+	if (menu_item)	gtk_widget_set_sensitive(menu_item,TRUE);
+	for (int i=MM_DOWNLOAD_LOG;i<=MM_DOWNLOAD_RUN;i++){
+		menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+							      i+100);
+		if (menu_item) gtk_widget_set_sensitive(menu_item,TRUE);
+	};
+	for (int i=MM_DOWNLOAD_UNSELECT_ALL;i<=MM_DOWNLOAD_INVERT;i++){
+		menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+							      i+100);
+		if (menu_item) gtk_widget_set_sensitive(menu_item,TRUE);
+	};
+	return FALSE;
+};
+
 void init_main_menu() {
 	GtkItemFactoryEntry menu_items[] = {
 		{_(main_menu_inames[MM_FILE]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
@@ -263,16 +388,20 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_HELP_ABOUT]),	(gchar *)NULL,	init_about_window,		0, (gchar *)NULL},
 	};
 	int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
-	GtkAccelGroup *accel_group;
-
-	accel_group = gtk_accel_group_new();
+	GtkAccelGroup *accel_group = gtk_accel_group_new();
 	main_menu_item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>",accel_group);
 	gtk_item_factory_create_items(main_menu_item_factory, nmenu_items, menu_items, NULL);
+	init_load_accelerators();
 	MainMenu= gtk_item_factory_get_widget(main_menu_item_factory, "<main>");
 	gtk_accel_group_attach(accel_group,GTK_OBJECT(MainWindow));
 	gtk_signal_connect (GTK_OBJECT (MainMenu),
 			    "button_press_event",
 			    GTK_SIGNAL_FUNC (main_menu_prepare),
+			    NULL);
+	/* to avoid losing accelerators key */
+	gtk_signal_connect (GTK_OBJECT (MainMenu),
+			    "deactivate",
+			    GTK_SIGNAL_FUNC (main_menu_enable_all),
 			    NULL);
 	main_menu_speed_prepare();
 	main_menu_buttons_prepare();
@@ -527,7 +656,7 @@ void update_progress_bar() {
 	gtk_widget_show(ProgressOfDownload);
 	char data[MAX_LEN];
 	char data1[MAX_LEN];
-	make_number_nice(data,GVARS.READED_BYTES);
+	make_number_nicel(data,GVARS.READED_BYTES);
 	sprintf(data1,"%s(%iB/s)",data,GlobalMeter->last_value());
 	gtk_statusbar_pop(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext);
 	gtk_statusbar_push(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext,data1);
@@ -604,7 +733,8 @@ void init_main_window() {
 	gtk_paned_add1(GTK_PANED(hpaned),ContainerForCList);
 	gtk_paned_add2(GTK_PANED(hpaned),scroll_window);
 
-	GtkWidget *TEMP=gtk_statusbar_new();
+	GtkWidget *TEMP=my_gtk_graph_new();//gtk_statusbar_new();
+	GLOBAL_GRAPH=(MyGtkGraph *)TEMP;
 	gtk_widget_set_usize(TEMP,104,-1);
 	gtk_box_pack_end (GTK_BOX (hbox), TEMP, FALSE, FALSE, 0);
 
@@ -632,10 +762,6 @@ void init_main_window() {
 	gtk_widget_show(MainWindow);
 	gdk_window_move_resize(MainWindow->window,	gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION),
 												gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
-	graph_init();
-	gtk_signal_connect(GTK_OBJECT(TEMP), "expose_event",
-	                   GTK_SIGNAL_FUNC(graph_expose_event_handler),
-	                   NULL);
 	gtk_signal_connect (GTK_OBJECT (MAIN_PANED), "size_allocate",
 	                    GTK_SIGNAL_FUNC (list_of_downloads_allocation), NULL);
 };
@@ -693,7 +819,7 @@ int time_for_refresh(void *a) {
 		LocalMeter->add(tmp->NanoSpeed);
 	else
 		LocalMeter->add(0);
-	graph_recalc();
+	my_gtk_graph_recalc(GLOBAL_GRAPH);
 	return 1;
 };
 
@@ -733,8 +859,22 @@ int get_mainwin_sizes(GtkWidget *window) {
 };
 
 int check_for_clipboard_skiping(char *buf){
-	char *extension=new char[strlen(CFG.SKIP_IN_CLIPBOARD)+1];
-	char *temp=CFG.SKIP_IN_CLIPBOARD;
+	char *extension,*temp;
+	if (CFG.CLIPBOARD_SKIP_OR_CATCH){
+		extension=new char[strlen(CFG.CATCH_IN_CLIPBOARD)+1];
+		temp=CFG.CATCH_IN_CLIPBOARD;
+		do{
+			temp=extract_string(temp,extension);
+			if (string_ended(extension,buf)==0){
+				delete(extension);
+				return 1;
+			};
+		}while(temp!=NULL && strlen(temp)>0);
+		delete(extension);
+		return 0;
+	};
+	extension=new char[strlen(CFG.SKIP_IN_CLIPBOARD)+1];
+	temp=CFG.SKIP_IN_CLIPBOARD;
 	do{
 		temp=extract_string(temp,extension);
 		if (string_ended(extension,buf)==0){
@@ -742,6 +882,7 @@ int check_for_clipboard_skiping(char *buf){
 			return 0;
 		};
 	}while(temp!=NULL && strlen(temp)>0);
+	delete(extension);
 	return 1;
 };
 
@@ -767,7 +908,6 @@ void my_get_xselection(GtkWidget *window, GdkEvent *event) {
 }
 
 int time_for_draw_graph(void *a) {
-	graph_draw();
 /* clipboard monitoring */
 	if (CFG.CLIPBOARD_MONITOR) {
 		gtk_selection_convert(MainWindow, GDK_SELECTION_PRIMARY,
@@ -787,10 +927,13 @@ int time_for_save_list(void *a) {
 	};
 	if (CFG.EXIT_COMPLETE && aa.complete()){
 		EXIT_COMPLETE_INTERVAL-=1;
-		if (EXIT_COMPLETE_INTERVAL<0)
+		if (EXIT_COMPLETE_INTERVAL<0){
 			my_main_quit();
-	}else
+			return 0;
+		};
+	}else{
 		EXIT_COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME;
+	}
 	return 1;
 };
 
@@ -855,6 +998,10 @@ void init_face(int argc, char *argv[]) {
 	                   NULL);
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "selection_received",
 			   GTK_SIGNAL_FUNC(my_get_xselection),NULL);
+	gtk_signal_connect (GTK_OBJECT (MainWindow),
+			    "key_press_event",
+			    GTK_SIGNAL_FUNC (main_menu_prepare),
+			    NULL);
 	if (CFG.DND_TRASH) dnd_trash_init();
 	main_log_mask=0;
 };

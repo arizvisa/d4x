@@ -462,7 +462,7 @@ msgstr " Πρόσθεση νέου αρχείου προς κατέβασμα "
 
 #: face/buttons.cc:119
 msgid " Paste from clipboard "
-msgstr " Επικόλληση από τη μνήμη "
+msgstr " Επικόλληση από το πρόχειρο "
 
 #: face/buttons.cc:121
 msgid " Del downloads "
@@ -1036,7 +1036,7 @@ msgstr "Αντιστροφή διαγράμματος ταχυτήτων"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr "Βάθος recursing (0 άπειρο,1 όχι recurse)"
+msgstr "Βάθος αναδρομικότητας (0 άπειρο,1 όχι αναδρομή)"
 
 #: face/about.cc:44
 msgid "Translators team"
@@ -1244,7 +1244,7 @@ msgstr "/Επικόλληση Κατεβάσματος"
 
 #: face/dndtrash.cc
 msgid "/Common options"
-msgstr "/Συνήθεις επιλογές"
+msgstr "/Κοινές ρυθμίσεις"
 
 #: face/dndtrash.cc
 msgid "/Exit"
@@ -1316,11 +1316,11 @@ msgstr "Φόρτωμα cookies"
 
 #face/prefs.cc
 msgid "Monitor clipboard"
-msgstr "Παρακολούθηση του clipboard"
+msgstr "Παρακολούθηση του πρόχειρου"
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr "Αγνόησε αυτά τα extensions στο clipboard"
+msgstr "Αγνόησε αυτές τις επεκτάσεις από το πρόχειρο"
 
 #: face/dndtrash.cc
 msgid "/Speed"
@@ -1430,7 +1430,7 @@ msgstr "καθορισμός μέγιστου αριθμού ενεργών κατεβασμάτων"
 
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
-msgstr "Αγνόησε αυτόν τον server ενώ κάνεις recursing μέσω http"
+msgstr "Αγνόησε αυτόν τον server ενώ κάνεις αναδρομή μέσω http"
 
 msgid "/Download/Rerun failed"
 msgstr "/Κατέβασμα/Επανεκίνηση απoτυχημένων"
@@ -1533,7 +1533,6 @@ msgstr "Χρώματα για την γραφική παράσταση"
 msgid "Default limitation for all hosts (0 without limits)"
 msgstr "Εξ ορισμού περιορισμός για όλους τους hosts (0 για χωρίς όρια"
 
-
 #face/lod.cc
 msgid "Continue open log windows?"
 msgstr "Συνέχεια ανοίγματος παράθυρων log;"
@@ -1550,8 +1549,72 @@ msgstr "εκτέλεση σε ελαχιστοποιημένη κατάσταση"
 msgid "Confirm opening large amount of windows"
 msgstr "Επιβεβαίωση ανοίγματος μεγάλου αριθμού παράθυρων"
 
-
 #face/about.cc
 msgid "Special thanks to"
 msgstr "Ειδικές ευχαριστίες στους"
 
+#face/prefs.cc
+msgid "Clipboard"
+msgstr "Πρόχειρο"
+
+msgid "Catch these extensions in clipboard"
+msgstr "Συνέλαβε αυτές τις επεκτάσεις από το πρόχειρο"
+
+msgid "Allow to user force run downloads"
+msgstr "Δυνατότητα του χρήστη να επιβάλλει το κατέβασμα"
+
+#face/saveload.cc
+msgid "Loading"
+msgstr "Φόρτωμα"
+
+#main.cc
+msgid "%lu bytes loaded during the session"
+msgstr "%lu bytes φορτώθηκαν κατά τη διάρκεια της διαδικασίας"
+
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "Ο Downloader θα τερματίσει αν δεν έχει να κάνει τίποτα μετά από %i λεπτά %s"
+
+msgid "Exiting if nothing to do is switched off"
+msgstr "Η έξοδος αν δεν υπάρχει άλλο κατέβασμα είναι απενεργοποιημένη"
+
+#face/edit.cc
+msgid "Timeout for reading from socket"
+msgstr "Ο χρόνος ανάγνωσης από το socket έληξε"
+
+msgid "Maximum attempts"
+msgstr "Μέγιστος αριθμός προσπαθειών"
+
+msgid "Timeout before reconnection"
+msgstr "Χρόνος λήξης πρίν από επανασύνδεση"
+
+msgid "Rollback after reconnecting"
+msgstr "Απόριψη κάποιων bytes μετά την επανασύνδεση"
+
+msgid "Depth of recursing for HTTP"
+msgstr "Βάθος αναδρομικότητας για το HTTP"
+
+msgid "Depth of recursing for FTP"
+msgstr "Βάθος αναδρομικότητας για το FTP"
+
+msgid "Speed limitation"
+msgstr "Περιορισμός ταχύτητας"
+
+msgid "Unselect all"
+msgstr "Επιλογή κανενός"
+
+msgid "Select all"
+msgstr "Επιλογή όλων"
+
+msgid "Select properties"
+msgstr "Επιλογή ρυθμίσεων"
+
+#face/lmenu.cc
+msgid "Common properties"
+msgstr "Κοινές ρυθμίσεις"
+
+#config.cc
+msgid "set timeout for exiting if nothing to do"
+msgstr "ορισμός χρόνου εξόδου αν δεν υπάρχει άλλο κατέβασμα"
+
+msgid "You should specify number as parameter for '--exit-time' option"
+msgstr "Πρέπει να ορίσετε αριθμό ως παράμετρο στην επιλογή '--exit-time'"

@@ -1,4 +1,4 @@
-%define ver      1.17
+%define ver      1.18
 %define prefix   /usr
 
 Name: nt
@@ -21,9 +21,9 @@ Main features:
     * automatic resuming after connection breaks
     * multiple simultaneous downloads
     * recursive ftp and http downloading
-    * mask support for ftp recursing
+    * wildcards support for ftp recursing
     * proxy support (ftp and http)
-    * support for traffic limitation
+    * supports for traffic limitation
     * mass downloading function
     * and other ...
 

@@ -59,6 +59,9 @@ void tWriterLoger::log_printf(int type,const char *fmt,...){
 	log(type,str);
 };
 
+void tWriterLoger::truncate(){
+};
+
 char * tWriterLoger::cookie(const char *host, const char *path){
 	return NULL;
 };

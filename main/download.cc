@@ -21,6 +21,7 @@
 #include "download.h"
 #include "locstr.h"
 #include "ntlocale.h"
+#include "savedvar.h"
 
 /* ---------------------------------------- */
 
@@ -118,6 +119,8 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"link_as_file:",link_as_file);
 	write_named_integer(fd,"leave_server:",leave_server);
 	write_named_integer(fd,"dont_leave_dir:",dont_leave_dir);
+	if (restart_from_begin)
+		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
 	if (save_name.get() && *(save_name.get()))
 		write_named_string(fd,"save_name:",save_name.get());
 	if (save_path.get() && *(save_path.get()))
@@ -128,169 +131,54 @@ void tCfg::save_to_config(int fd){
 };
 
 int tCfg::load_from_config(int fd){
-	char *table_of_fields[]={
-		"User_agent:", //0
-		"Proxy:",//1
-		"proxy_pass:",//2
-		"proxy_user:",//3
-		"proxy_port:",//4
-		"proxy_type:",//5
-		"timeout:",//6
-		"time_for_sleep:",//7
-		"number_of_attempts:",//8
-		"ftp_recurse_depth:",//9
-		"http_recurse_depth:",//10
-		"rollback:",//11
-		"speed:",//12
-		"passive:",//13
-		"retry:",//14
-		"permisions:", //15
-		"get_date:", //16
-		"http_recursing:",//17
-		"link_as_file:",//18
-		"leave_server:",//19
-		"save_name:",//20
-		"save_path:",//21
-		"dont_leave_dir:",//22
-		"referer:",//23
-		"proxy_no_cache:",//24
-		"EndCfg:" //25
+	tSavedVar table_of_fields[]={
+		{"User_agent:", SV_TYPE_PSTR,	&user_agent}, 
+		{"Proxy:",	SV_TYPE_PSTR,	&proxy_host},
+		{"proxy_pass:",	SV_TYPE_PSTR,	&proxy_pass},
+		{"proxy_user:",	SV_TYPE_PSTR,	&proxy_user},
+		{"proxy_port:",	SV_TYPE_INT,	&proxy_port},
+		{"proxy_type:",	SV_TYPE_INT,	&proxy_type},
+		{"timeout:",	SV_TYPE_INT,	&timeout},
+		{"time_for_sleep:",SV_TYPE_INT,	&time_for_sleep},
+		{"number_of_attempts:",SV_TYPE_INT,&number_of_attempts},
+		{"ftp_recurse_depth:",SV_TYPE_INT,&ftp_recurse_depth},
+		{"http_recurse_depth:",SV_TYPE_INT,&http_recurse_depth},
+		{"rollback:",	SV_TYPE_INT,	&rollback},
+		{"speed:",	SV_TYPE_INT,	&speed},
+		{"passive:",	SV_TYPE_INT,	&passive},
+		{"retry:",	SV_TYPE_INT,	&retry},
+		{"permisions:",	SV_TYPE_INT,	&permisions},
+		{"get_date:",	SV_TYPE_INT,	&get_date},
+		{"http_recursing:",SV_TYPE_INT,	&http_recursing},
+		{"link_as_file:",SV_TYPE_INT,	&link_as_file},
+		{"leave_server:",SV_TYPE_INT,	&leave_server},
+		{"save_name:",	SV_TYPE_PSTR,	&save_name},
+		{"save_path:",	SV_TYPE_PSTR,	&save_path},
+		{"dont_leave_dir:",SV_TYPE_INT,	&dont_leave_dir},
+		{"referer:",	SV_TYPE_PSTR,	&referer},
+		{"proxy_no_cache:",SV_TYPE_INT,	&proxy_no_cache},
+		{"EndCfg:",	SV_TYPE_END,	NULL},
+		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin}
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){
 		unsigned int i;
-		for (i=0;i<sizeof(table_of_fields)/sizeof(char *);i++){
-			if (equal_uncase(buf,table_of_fields[i])) break;
-		};
-		switch(i){
-		case 0:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			user_agent.set(buf);
-			break;
-		};
-		case 1:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			proxy_host.set(buf);
-			break;
-		};
-		case 2:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			proxy_pass.set(buf);
-			break;
-		};
-		case 3:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			proxy_user.set(buf);
-			break;
-		};
-		case 4:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&proxy_port);
-			break;
-		};
-		case 5:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&proxy_type);
-			break;
-		};
-		case 6:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&timeout);
-			break;
-		};
-		case 7:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&time_for_sleep);
-			break;
-		};
-		case 8:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&number_of_attempts);
-			break;
-		};
-		case 9:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&ftp_recurse_depth);
-			break;
-		};		
-		case 10:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&http_recurse_depth);
-			break;
-		};		
-		case 11:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&rollback);
-			break;
-		};		
-		case 12:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&speed);
-			break;
-		};		
-		case 13:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&passive);
-			break;
-		};		
-		case 14:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&retry);
-			break;
-		};		
-		case 15:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&permisions);
-			break;
-		};		
-		case 16:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&get_date);
-			break;
-		};		
-		case 17:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&http_recursing);
-			break;
-		};		
-		case 18:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&link_as_file);
-			break;
-		};		
-		case 19:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&leave_server);
-			break;
-		};		
-		case 20:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			save_name.set(buf);
-			break;
-		};
-		case 21:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			save_path.set(buf);
-			break;
-		};
-		case 22:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&dont_leave_dir);
-			break;
-		};		
-		case 23:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			referer.set(buf);
-			break;
-		};
-		case 24:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&proxy_no_cache);
-			break;
-		};		
-		case 25:{
-			return 0;
-		};
+		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
+			if (equal_uncase(buf,table_of_fields[i].name)){
+				switch(table_of_fields[i].type){
+				case SV_TYPE_INT:
+					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+					sscanf(buf,"%d",(int *)(table_of_fields[i].where));
+					break;
+				case SV_TYPE_PSTR:
+					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+					((tPStr *)(table_of_fields[i].where))->set(buf);
+					break;
+				case SV_TYPE_END:
+					return 0;
+				};
+				break;
+			};
 		};
 	};
 	return -1;
@@ -332,6 +220,9 @@ void tDownloader::print_error(int error_code){
 			      config.save_path.get());
 		break;
 	};
+	case ERROR_FILE_UPDATED:
+		LOG->log(LOG_WARNING,_("File on server is newest then local file, restarting from begin\n"));
+		break;
 	default:{
 		LOG->log(LOG_ERROR,_("Warning! Probably you found the BUG!!!"));
 		LOG->log(LOG_ERROR,_("If you see this message please report to mdem@chat.ru"));
@@ -345,6 +236,7 @@ tDownloader::tDownloader(){
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
+	local_filetime=0;
 };
 
 char * tDownloader::get_new_url() {
@@ -376,6 +268,16 @@ void tDownloader::init_download(char *path,char *file) {
 
 void tDownloader::set_loaded(int a) {
 	LOADED=a;
+};
+
+void tDownloader::set_local_filetime(time_t lt){
+	local_filetime=lt;
+};
+
+int tDownloader::remote_file_changed(){
+	if (local_filetime && local_filetime<D_FILE.date)
+		return 1;
+	return 0;
 };
 
 int tDownloader::treat() {

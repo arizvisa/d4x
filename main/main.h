@@ -48,6 +48,7 @@ class tMain{
 	void run_without_face();
 	void main_circle_first();
 	void main_circle_second();
+	void append_list(tStringList *what);
  public:
     	void init();
     	void init_main_log();
@@ -60,7 +61,6 @@ class tMain{
 	void rerun_failed();
         void load_defaults();
 	void check_for_remote_commands();
-        void append_list(tStringList *what);
         void redraw_logs();
         void reinit_main_log();
         void stop_download(tDownload *what);

@@ -27,7 +27,7 @@ tSpeed::tSpeed() {
 	pthread_mutex_init(&lock1,&ma);
 	pthread_mutexattr_destroy(&ma);
 #endif
-	base=bytes=0;
+	last_gived=base=bytes=0;
 };
 
 void tSpeed::print() {
@@ -37,19 +37,30 @@ void tSpeed::print() {
 int tSpeed::init(int a) {
 	pthread_mutex_lock(&lock);
 	if (bytes<0) {
-		bytes=a;
+		last_gived=bytes=a;
 		pthread_mutex_unlock(&lock);
 		pthread_mutex_unlock(&lock1);
 		return 0;
 	};
-	int temp=a-bytes;
-	if (temp<=0) {
-		pthread_mutex_unlock(&lock);
-		return a;
-	};
-	bytes+=temp;
+	int temp=(last_gived>0?last_gived:a)-bytes;
+	if((bytes=temp)<=0)
+		bytes=1;
+	last_gived=bytes;
+	int rvalue=a-bytes;
 	pthread_mutex_unlock(&lock);
-	return a-temp;
+	return(rvalue);
+};
+
+void tSpeed::set(int a){
+	pthread_mutex_lock(&lock);
+	if (bytes<0) {
+		last_gived=bytes=a;
+		pthread_mutex_unlock(&lock);
+		pthread_mutex_unlock(&lock1);
+	}else{
+		last_gived=bytes=a;		
+		pthread_mutex_unlock(&lock);
+	};
 };
 
 void tSpeed::decrement(int a) {
@@ -94,14 +105,22 @@ tSpeed *tSpeedQueue::prev() {
 	return (tSpeed *)(tQueue::prev());
 };
 
+void tSpeedQueue::schedule(unsigned int period) {
+	tSpeed *temp=last();
+	while (temp) {
+		temp->set((temp->base*period)/1000);
+		temp=next();
+	};
+};
+
 void tSpeedQueue::schedule(int a,int flag) {
 	if (Num==0) return;
 	if (a){
 		int part=a / Num;
+		int Full=0;
 		if (part<=0) part=1;
 		tSpeed *temp=last();
 		tSpeed *tmpbeg=NULL;
-		int remain=0;
 		int size=Num;
 		while (temp) {
 			tSpeed *tmpnext=next();
@@ -110,23 +129,18 @@ void tSpeedQueue::schedule(int a,int flag) {
 				temp->next=tmpbeg;
 				tmpbeg=temp;
 			}else{
-				remain+=temp->init(part);
+				Full+=temp->init(part);
 			};
 			temp=tmpnext;
 		};
 		if (size-Num>0)
-			part+=remain/(size-Num);
+			part+=Full/(size-Num);
+//			part+=int(((float(Full)*float(0.7)))/(size-Num));
 		while(tmpbeg){
 			tSpeed *tmpnext=(tSpeed *)(tmpbeg->next);
 			tmpbeg->init(part);
 			insert(tmpbeg);
 			tmpbeg=tmpnext;
-		};
-	}else{
-		tSpeed *temp=last();
-		while (temp) {
-			temp->init(temp->base);
-			temp=next();
 		};
 	};
 };

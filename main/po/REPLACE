@@ -1,9 +1,0 @@
-#!/bin/bash
-FROM=$1
-TO=$2
-shift
-shift
-mkdir qwe
-for i in $*; do
-    sed -e "s/$FROM/$TO/g" $i > qwe/$i;
-done

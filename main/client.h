@@ -22,6 +22,7 @@ class tWriterLoger{
 	virtual void log(int type,const char *str)=0;
 	virtual void log_printf(int type, const char *format,...);
 	virtual char *cookie(const char *host, const char *path);
+	virtual void truncate();
 	virtual ~tWriterLoger();
 };
 

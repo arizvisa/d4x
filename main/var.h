@@ -18,6 +18,7 @@
 #define STATUS_CMD_ERR -4
 #define STATUS_UNSPEC_ERR -5
 #define STATUS_BAD_ANSWER -6
+#define STATUS_NOT_FOUND -7
 #define MAX_LEN 4048
 enum{
 	DOWNLOAD_STOP,
@@ -56,6 +57,7 @@ struct tMainCfg{
 	int HTTP_RECURSE_DEPTH;
 	int ROLLBACK;
 	int DEFAULT_HOST_LIMIT;
+	int ALLOW_FORCE_RUN;
 /* Log
  */
 	int MAX_MAIN_LOG_LENGTH;
@@ -97,9 +99,13 @@ struct tMainCfg{
 	int GRAPH_ORDER;
 	int DND_TRASH,DND_TRASH_X,DND_TRASH_Y;
 	int EXIT_COMPLETE,EXIT_COMPLETE_TIME;
-	int CLIPBOARD_MONITOR;
-	char *SKIP_IN_CLIPBOARD;
 	int FIXED_LOG_FONT;
+/* Clipboard
+ */
+	int CLIPBOARD_MONITOR;
+	int CLIPBOARD_SKIP_OR_CATCH;
+	char *SKIP_IN_CLIPBOARD;
+	char *CATCH_IN_CLIPBOARD;
 /* Graph colors....
  */
 	int GRAPH_BACK;
@@ -159,7 +165,7 @@ extern tMainCfg CFG;
 
 struct tGlobalVars{
 	pthread_mutex_t READED_BYTES_MUTEX;
-	int READED_BYTES;
+	unsigned long int READED_BYTES;
 };
 
 extern tGlobalVars GVARS;
@@ -176,6 +182,7 @@ enum HISTORIES_ENUM{
 	EXEC_HISTORY,
 	PASS_HISTORY,
 	SKIP_HISTORY,
+	SAVE_HISTORY,
 	LAST_HISTORY
 };
 

@@ -15,12 +15,62 @@
 #include "list.h"
 #include "misc.h"
 #include "mywidget.h"
+#include "addd.h"
 #include "../history.h"
 #include "../var.h"
 #include "../locstr.h"
 #include "../main.h"
 #include "../ntlocale.h"
 #include <gdk/gdkkeysyms.h>
+
+enum EDIT_OPTIONS_ENUM{
+	EDIT_OPT_USERPASS=0,
+	EDIT_OPT_SAVEPATH,
+	EDIT_OPT_USERAGENT,
+	EDIT_OPT_TIMEOUT,
+	EDIT_OPT_ATTEMPTS,
+	EDIT_OPT_SLEEPTIME,
+	EDIT_OPT_ROLLBACK,
+	EDIT_OPT_PROXY,
+	EDIT_OPT_PASSIVEFTP,
+	EDIT_OPT_LINKASFILE,
+	EDIT_OPT_LEAVESERVER,
+	EDIT_OPT_LEAVEDIR,
+	EDIT_OPT_RECURSEDEPTHHTTP,
+	EDIT_OPT_RECURSEDEPTHFTP,
+	EDIT_OPT_FROMBEGIN,
+	EDIT_OPT_SPEED,
+	EDIT_OPT_TIME,
+	EDIT_OPT_PERMISSIONS,
+	EDIT_OPT_DATE,
+	EDIT_OPT_IFNOREGET,
+	EDIT_OPT_SPLIT,
+	EDIT_OPT_LASTOPTION
+};
+
+char *edit_fields_labels[]={
+	"Use password for this site",
+	"Save download to folder",
+	"User-Agent",
+	"Timeout for reading from socket",
+	"Maximum attempts",
+	"Timeout before reconnection",
+	"Rollback after reconnecting",
+	"Proxy",
+	"Use passive mode for ftp",
+	"Try to load simbolyc link as file via ftp",
+	"Allow leave this server while recursing via http",
+	"Only subdirs",
+	"Depth of recursing for HTTP",
+	"Depth of recursing for FTP",
+	"Restart this download from begining",
+	"Speed limitation",
+	"Time",
+	"Get permissions of the file from server (FTP only)",
+	"Get date from the server",
+	"Retry if resuming is not supported",
+	"Number of parts for spliting this download"
+};
 
 extern tMain aa;
 void edit_window_cancel(GtkWidget *parent,tDEdit *where);
@@ -173,6 +223,14 @@ tDownload *tDEdit::get_parent(){
 	return parent;
 };
 
+void tDEdit::set_parent(tDownload *what){
+	if (parent)
+		parent->editor=NULL;
+	if (what)
+		what->editor=this;
+	parent=what;		
+};
+
 void tDEdit::set_path_as_default(){
 	if (CFG.GLOBAL_SAVE_PATH)
 		delete(CFG.GLOBAL_SAVE_PATH);
@@ -254,12 +312,12 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_entry,TRUE,TRUE,0);
 
-	button=gtk_check_button_new_with_label(_("Use password for this site"));
-	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(edit_window_password),this);
+	use_pass_check=gtk_check_button_new_with_label(_("Use password for this site"));
+	gtk_signal_connect(GTK_OBJECT(use_pass_check),"clicked",GTK_SIGNAL_FUNC(edit_window_password),this);
 	if (who->info->username.get())
-		GTK_TOGGLE_BUTTON(button)->active=TRUE;
+		GTK_TOGGLE_BUTTON(use_pass_check)->active=TRUE;
 	else
-		GTK_TOGGLE_BUTTON(button)->active=FALSE;
+		GTK_TOGGLE_BUTTON(use_pass_check)->active=FALSE;
 
 	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
@@ -267,13 +325,13 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),path_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),file_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),user_agent_box,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),use_pass_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
 	pause_check=gtk_check_button_new_with_label(_("Pause this just after adding"));
 	restart_from_begin_check=gtk_check_button_new_with_label(_("Restart this download from begining"));
 	GTK_TOGGLE_BUTTON(pause_check)->active=FALSE;
-	GTK_TOGGLE_BUTTON(restart_from_begin_check)->active=FALSE;
+	GTK_TOGGLE_BUTTON(restart_from_begin_check)->active=who->config.restart_from_begin;
 	gtk_box_pack_start(GTK_BOX(vbox),pause_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),restart_from_begin_check,FALSE,FALSE,0);
 	GtkWidget *frame=gtk_frame_new(_("Download"));
@@ -286,44 +344,14 @@ void tDEdit::init_other(tDownload *who) {
 	/* initing other
 	 */
 	GtkWidget *other_vbox=gtk_vbox_new(FALSE,0);
-	timeout_entry=gtk_entry_new_with_max_length(3);
-	sleep_entry=gtk_entry_new_with_max_length(3);
-	attempts_entry=gtk_entry_new_with_max_length(3);
-	ftp_recurse_depth_entry=gtk_entry_new_with_max_length(3);
-	http_recurse_depth_entry=gtk_entry_new_with_max_length(3);
-	rollback_entry=gtk_entry_new_with_max_length(5);
-	speed_entry=gtk_entry_new_with_max_length(5);
-	split_entry=gtk_entry_new_with_max_length(2);
-
-	char temp[MAX_LEN];
-	sprintf(temp,"%i",who->config.timeout);
-	gtk_entry_set_text(GTK_ENTRY(timeout_entry),temp);
-	sprintf(temp,"%i",who->config.time_for_sleep);
-	gtk_entry_set_text(GTK_ENTRY(sleep_entry),temp);
-	sprintf(temp,"%i",who->config.number_of_attempts);
-	gtk_entry_set_text(GTK_ENTRY(attempts_entry),temp);
-	sprintf(temp,"%i",who->config.ftp_recurse_depth);
-	gtk_entry_set_text(GTK_ENTRY(ftp_recurse_depth_entry),temp);
-	sprintf(temp,"%i",who->config.http_recurse_depth);
-	gtk_entry_set_text(GTK_ENTRY(http_recurse_depth_entry),temp);
-	sprintf(temp,"%i",who->config.rollback);
-	gtk_entry_set_text(GTK_ENTRY(rollback_entry),temp);
-	sprintf(temp,"%i",who->config.speed);
-	gtk_entry_set_text(GTK_ENTRY(speed_entry),temp);
-	if (who->split){
-		sprintf(temp,"%i",who->split->NumOfParts);
-		gtk_entry_set_text(GTK_ENTRY(split_entry),temp);
-	}else
-		gtk_entry_set_text(GTK_ENTRY(split_entry),"0");
-
-	gtk_widget_set_usize(timeout_entry,30,-1);
-	gtk_widget_set_usize(attempts_entry,30,-1);
-	gtk_widget_set_usize(sleep_entry,30,-1);
-	gtk_widget_set_usize(ftp_recurse_depth_entry,30,-1);
-	gtk_widget_set_usize(http_recurse_depth_entry,30,-1);
-	gtk_widget_set_usize(rollback_entry,50,-1);
-	gtk_widget_set_usize(speed_entry,50,-1);
-	gtk_widget_set_usize(split_entry,30,-1);
+	timeout_entry=my_gtk_entry_new_with_max_length(3,who->config.timeout);
+	sleep_entry=my_gtk_entry_new_with_max_length(3,who->config.time_for_sleep);
+	attempts_entry=my_gtk_entry_new_with_max_length(3,who->config.number_of_attempts);
+	ftp_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.ftp_recurse_depth);
+	http_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.http_recurse_depth);
+	rollback_entry=my_gtk_entry_new_with_max_length(5,who->config.rollback);
+	speed_entry=my_gtk_entry_new_with_max_length(5,who->config.speed);
+	split_entry=my_gtk_entry_new_with_max_length(2,who->split==NULL?0:who->split->NumOfParts);
 
 	GtkWidget *other_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
@@ -418,47 +446,35 @@ void tDEdit::init_time(tDownload *who){
 	 */
 	GtkWidget *time_frame=gtk_frame_new(_("Time"));
 	GtkWidget *time_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(time_hbox),5);
 	GtkWidget *time_label,*time_vbox;
 	gtk_container_border_width(GTK_CONTAINER(time_frame),5);
+	calendar=gtk_calendar_new();
+	gtk_calendar_display_options(GTK_CALENDAR(calendar),
+				     GtkCalendarDisplayOptions(
+				     GTK_CALENDAR_WEEK_START_MONDAY |
+				     GTK_CALENDAR_SHOW_DAY_NAMES|
+				     GTK_CALENDAR_SHOW_HEADING));
+	gtk_box_pack_start(GTK_BOX(time_hbox),calendar,FALSE,FALSE,0);
 
-	year_entry=my_gtk_combo_new(1999,2010);
-	time_label=gtk_label_new(_("Year"));
-	time_vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),time_label,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),year_entry,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_hbox),time_vbox,TRUE,FALSE,0);
-
-	month_entry=my_gtk_combo_new_month();
-	time_label=gtk_label_new(_("Month"));
-	time_vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),time_label,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),month_entry,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_hbox),time_vbox,TRUE,FALSE,0);
-
-	day_entry=my_gtk_combo_new(1,31);
-	time_label=gtk_label_new(_("Day"));
-	time_vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),time_label,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),day_entry,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_hbox),time_vbox,TRUE,FALSE,0);
 
 	hour_entry=my_gtk_combo_new(0,23);
 	time_label=gtk_label_new(_("Hours"));
 	time_vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),time_label,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),hour_entry,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_hbox),time_vbox,TRUE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(time_vbox),time_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(time_vbox),hour_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(time_vbox),gtk_vbox_new(FALSE,0),TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(time_hbox),time_vbox,FALSE,FALSE,0);
 
 	minute_entry=my_gtk_combo_new(0,59);
 	time_label=gtk_label_new(_("Minutes"));
 	time_vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),time_label,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_vbox),minute_entry,TRUE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(time_hbox),time_vbox,TRUE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(time_vbox),time_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(time_vbox),minute_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(time_vbox),gtk_vbox_new(FALSE,0),TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(time_hbox),time_vbox,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(time_hbox),gtk_hbox_new(FALSE,0),TRUE,TRUE,0);
 
-	gtk_widget_set_usize(year_entry,60,-1);
-	gtk_widget_set_usize(month_entry,60,-1);
-	gtk_widget_set_usize(day_entry,60,-1);
 	gtk_widget_set_usize(hour_entry,60,-1);
 	gtk_widget_set_usize(minute_entry,60,-1);
 
@@ -562,7 +578,7 @@ int tDEdit::apply_changes() {
 	};
 	};
 	char *pass_string=text_from_combo(pass_entry);
-	if (GTK_TOGGLE_BUTTON(button)->active) {
+	if (GTK_TOGGLE_BUTTON(use_pass_check)->active) {
 		if (strlen(text_from_combo(user_entry)) && strlen(pass_string)) {
 			parent->info->username.set(text_from_combo(user_entry));
 			ALL_HISTORIES[USER_HISTORY]->add(parent->info->username.get());
@@ -647,11 +663,12 @@ int tDEdit::apply_changes() {
 		struct tm date;
 		date.tm_isdst=-1;
 		localtime_r(&NOW,&date);
-		sscanf(text_from_combo(year_entry),"%i",&date.tm_year);
-		sscanf(text_from_combo(day_entry),"%i",&date.tm_mday);
 		sscanf(text_from_combo(hour_entry),"%i",&date.tm_hour);
 		sscanf(text_from_combo(minute_entry),"%i",&date.tm_min);
-		date.tm_mon=convert_month(text_from_combo(month_entry));
+		gtk_calendar_get_date(GTK_CALENDAR(calendar),
+				      (guint *)&date.tm_year,
+				      (guint *)&date.tm_mon,
+				      (guint *)&date.tm_mday);
 		date.tm_year-=1900;
 		date.tm_sec=0;
 		parent->ScheduleTime=mktime(&date);
@@ -662,41 +679,40 @@ int tDEdit::apply_changes() {
 };
 
 void tDEdit::toggle_time() {
-	gtk_widget_set_sensitive(year_entry,GTK_TOGGLE_BUTTON(time_check)->active);
+	gtk_widget_set_sensitive(calendar,GTK_TOGGLE_BUTTON(time_check)->active);
 	gtk_widget_set_sensitive(hour_entry,GTK_TOGGLE_BUTTON(time_check)->active);
 	gtk_widget_set_sensitive(minute_entry,GTK_TOGGLE_BUTTON(time_check)->active);
-	gtk_widget_set_sensitive(day_entry,GTK_TOGGLE_BUTTON(time_check)->active);
-	gtk_widget_set_sensitive(month_entry,GTK_TOGGLE_BUTTON(time_check)->active);
 };
 
 
 void tDEdit::setup_entries() {
-	set_editable_for_combo(pass_entry,GTK_TOGGLE_BUTTON(button)->active);
-	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(user_entry)->entry),GTK_TOGGLE_BUTTON(button)->active);
-	gtk_widget_set_sensitive(user_entry,GTK_TOGGLE_BUTTON(button)->active);
-	gtk_widget_set_sensitive(pass_entry,GTK_TOGGLE_BUTTON(button)->active);
+	set_editable_for_combo(pass_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
+	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(user_entry)->entry),GTK_TOGGLE_BUTTON(use_pass_check)->active);
+	gtk_widget_set_sensitive(user_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
+	gtk_widget_set_sensitive(pass_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
 };
 
 void tDEdit::setup_time(time_t when) {
 	char data[MAX_LEN];
-	if (when) {
-		ctime_r(&when,data);
-	} else {
+	struct tm date;
+	if (when){
+		localtime_r(&when,&date);
+	}else{
 		time_t NOW=time(NULL);
-		ctime_r(&NOW,data);
+		localtime_r(&NOW,&date);
+		date.tm_hour=1;
+		date.tm_min=0;
+		time_t tonight=mktime(&date);
+		if (tonight<NOW)
+			tonight+=24*60*60;
+		localtime_r(&tonight,&date);
 	};
-	int year=1999,day=1,hour=0,min=0,temp;
-	char mon[MAX_LEN];
-	sscanf(index(data,' ')+1,"%s %i %i:%i:%i %i",mon,&day,&hour,&min,&temp,&year);
-	sprintf(data,"%i",year);
-	text_to_combo(year_entry,data);
-	text_to_combo(month_entry,mon);
-	sprintf(data,"%i",day);
-	text_to_combo(day_entry,data);
-	sprintf(data,"%i",hour);
+	sprintf(data,"%i",date.tm_hour);
 	text_to_combo(hour_entry,data);
-	sprintf(data,"%i",min);
+	sprintf(data,"%i",date.tm_min);
 	text_to_combo(minute_entry,data);
+	gtk_calendar_select_month(GTK_CALENDAR(calendar),date.tm_mon,date.tm_year+1900);
+	gtk_calendar_select_day(GTK_CALENDAR(calendar),date.tm_mday);
 	GTK_TOGGLE_BUTTON(time_check)->active=when?TRUE:FALSE;
 	toggle_time();
 };
@@ -718,6 +734,181 @@ void tDEdit::set_url(char *a) {
 	text_to_combo(url_entry,a);
 };
 
+void tDEdit::disable_items(int *array){
+	gtk_widget_set_sensitive(url_entry,FALSE);
+	gtk_widget_set_sensitive(file_entry,FALSE);
+	gtk_widget_set_sensitive(pause_check,FALSE);
+	if (array[EDIT_OPT_USERPASS]==0){
+		gtk_widget_set_sensitive(pass_entry,FALSE);
+		gtk_widget_set_sensitive(user_entry,FALSE);
+		gtk_widget_set_sensitive(use_pass_check,FALSE);
+	};
+	if (array[EDIT_OPT_SAVEPATH]==0)
+		gtk_widget_set_sensitive(path_entry,FALSE);
+	if (array[EDIT_OPT_USERAGENT]==0)
+		gtk_widget_set_sensitive(user_agent_entry,FALSE);
+	if (array[EDIT_OPT_TIMEOUT]==0)
+		gtk_widget_set_sensitive(timeout_entry,FALSE);
+	if (array[EDIT_OPT_ATTEMPTS]==0)
+		gtk_widget_set_sensitive(attempts_entry,FALSE);
+	if (array[EDIT_OPT_SLEEPTIME]==0)
+		gtk_widget_set_sensitive(sleep_entry,FALSE);
+	if (array[EDIT_OPT_ROLLBACK]==0)
+		gtk_widget_set_sensitive(rollback_entry,FALSE);
+	if (array[EDIT_OPT_PASSIVEFTP]==0)
+		gtk_widget_set_sensitive(ftp_passive_check,FALSE);
+	if (array[EDIT_OPT_PERMISSIONS]==0)
+		gtk_widget_set_sensitive(permisions_check,FALSE);
+	if (array[EDIT_OPT_DATE]==0)
+		gtk_widget_set_sensitive(get_date_check,FALSE);
+	if (array[EDIT_OPT_IFNOREGET]==0)
+		gtk_widget_set_sensitive(retry_check,FALSE);
+	if (array[EDIT_OPT_LINKASFILE]==0)
+		gtk_widget_set_sensitive(link_as_file_check,FALSE);
+	if (array[EDIT_OPT_LEAVESERVER]==0)
+		gtk_widget_set_sensitive(leave_server_check,FALSE);
+	if (array[EDIT_OPT_LEAVEDIR]==0)
+		gtk_widget_set_sensitive(leave_dir_check,FALSE);
+	if (array[EDIT_OPT_RECURSEDEPTHFTP]==0)
+		gtk_widget_set_sensitive(ftp_recurse_depth_entry,FALSE);
+	if (array[EDIT_OPT_RECURSEDEPTHHTTP]==0)
+		gtk_widget_set_sensitive(http_recurse_depth_entry,FALSE);
+	if (array[EDIT_OPT_FROMBEGIN]==0)
+		gtk_widget_set_sensitive(restart_from_begin_check,FALSE);
+	if (array[EDIT_OPT_SPEED]==0)
+		gtk_widget_set_sensitive(speed_entry,FALSE);
+	if (array[EDIT_OPT_TIME]==0){
+		gtk_widget_set_sensitive(time_check,FALSE);
+		gtk_widget_set_sensitive(calendar,FALSE);
+		gtk_widget_set_sensitive(hour_entry,FALSE);
+		gtk_widget_set_sensitive(minute_entry,FALSE);
+	};
+	if (array[EDIT_OPT_SPLIT]==0)
+		gtk_widget_set_sensitive(split_entry,FALSE);
+	if (array[EDIT_OPT_PROXY]==0)
+		gtk_widget_set_sensitive(proxy->frame,FALSE);
+};
+
+void tDEdit::apply_enabled_changes(){
+	if (GTK_WIDGET_SENSITIVE(proxy->frame)){
+		switch(parent->info->proto){
+		case D_PROTO_FTP:{
+			proxy->apply_changes(&(parent->config),1);
+			break;
+		};
+		case D_PROTO_HTTP:{
+			proxy->apply_changes(&(parent->config),0);
+			break;
+		};
+		};
+	};
+	if (GTK_WIDGET_SENSITIVE(use_pass_check)){
+		char *pass_string=text_from_combo(pass_entry);
+		if (GTK_TOGGLE_BUTTON(use_pass_check)->active) {
+			if (strlen(text_from_combo(user_entry)) && strlen(pass_string)) {
+				parent->info->username.set(text_from_combo(user_entry));
+				ALL_HISTORIES[USER_HISTORY]->add(parent->info->username.get());
+				parent->info->pass.set(pass_string);
+				if (CFG.REMEMBER_PASS)
+					ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
+			};
+		};
+	};
+	if (GTK_WIDGET_SENSITIVE(path_entry)){
+		parent->config.save_path.set(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
+		normalize_path(parent->config.save_path.get());
+		ALL_HISTORIES[PATH_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
+	};
+	if (GTK_WIDGET_SENSITIVE(user_agent_entry)){
+		parent->config.user_agent.set(text_from_combo(user_agent_entry));
+		ALL_HISTORIES[USER_AGENT_HISTORY]->add(text_from_combo(user_agent_entry));
+	};
+	/*change data in list if available
+	 */
+	int  temp1=0;
+	if (GTK_WIDGET_SENSITIVE(timeout_entry)){
+		sscanf(gtk_entry_get_text(GTK_ENTRY(timeout_entry)),"%u",&temp1);
+		if (temp1>0 && temp1<1000) parent->config.timeout=temp1;
+	};
+	if (GTK_WIDGET_SENSITIVE(sleep_entry)){
+		sscanf(gtk_entry_get_text(GTK_ENTRY(sleep_entry)),"%u",&temp1);
+		if (temp1>=0 && temp1<1000) parent->config.time_for_sleep=temp1;
+	};
+	if (GTK_WIDGET_SENSITIVE(attempts_entry)){
+		sscanf(gtk_entry_get_text(GTK_ENTRY(attempts_entry)),"%u",&temp1);
+		if (temp1>=0) parent->config.number_of_attempts=temp1;
+	};
+	if (GTK_WIDGET_SENSITIVE(ftp_recurse_depth_entry)){
+		temp1=1;
+		sscanf(gtk_entry_get_text(GTK_ENTRY(ftp_recurse_depth_entry)),"%u",&temp1);
+		if (temp1>=0) parent->config.ftp_recurse_depth=temp1;
+	};
+	if (GTK_WIDGET_SENSITIVE(http_recurse_depth_entry)){
+		temp1=1;
+		sscanf(gtk_entry_get_text(GTK_ENTRY(http_recurse_depth_entry)),"%u",&temp1);
+		if (temp1>=0) parent->config.http_recurse_depth=temp1;
+	};
+	if (GTK_WIDGET_SENSITIVE(rollback_entry)){
+		sscanf(gtk_entry_get_text(GTK_ENTRY(rollback_entry)),"%u",&temp1);
+		if (temp1>=0) parent->config.rollback=temp1;
+	};
+	if (GTK_WIDGET_SENSITIVE(speed_entry)){
+		sscanf(gtk_entry_get_text(GTK_ENTRY(speed_entry)),"%u",&temp1);
+		if (temp1>=0) parent->config.speed=temp1;
+	};
+	if (GTK_WIDGET_SENSITIVE(ftp_passive_check))
+		parent->config.passive=GTK_TOGGLE_BUTTON(ftp_passive_check)->active;
+	if (GTK_WIDGET_SENSITIVE(permisions_check))
+		parent->config.permisions=GTK_TOGGLE_BUTTON(permisions_check)->active;
+	if (GTK_WIDGET_SENSITIVE(get_date_check))
+		parent->config.get_date=GTK_TOGGLE_BUTTON(get_date_check)->active;
+	if (GTK_WIDGET_SENSITIVE(retry_check))
+		parent->config.retry=GTK_TOGGLE_BUTTON(retry_check)->active;
+	if (GTK_WIDGET_SENSITIVE(link_as_file_check))
+		parent->config.link_as_file=GTK_TOGGLE_BUTTON(link_as_file_check)->active;
+	if (GTK_WIDGET_SENSITIVE(leave_server_check))
+		parent->config.leave_server=GTK_TOGGLE_BUTTON(leave_server_check)->active;
+	if (GTK_WIDGET_SENSITIVE(leave_dir_check))
+		parent->config.dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
+	if (GTK_WIDGET_SENSITIVE(restart_from_begin_check))
+		parent->config.restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
+	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
+
+	if (GTK_WIDGET_SENSITIVE(split_entry)){
+		temp1=0;
+		sscanf(gtk_entry_get_text(GTK_ENTRY(split_entry)),"%u",&temp1);
+		if (temp1>1){
+			if (temp1>10) temp1=10;
+			if (parent->split==NULL)
+				parent->split=new tSplitInfo;
+			parent->split->NumOfParts=temp1;
+		}else{
+			if (parent->split)
+				delete(parent->split);
+			parent->split=NULL;
+		};
+	};
+
+	if (GTK_WIDGET_SENSITIVE(time_check)){
+		if (GTK_TOGGLE_BUTTON(time_check)->active) {
+			time_t NOW=time(NULL);
+			struct tm date;
+			date.tm_isdst=-1;
+			localtime_r(&NOW,&date);
+			sscanf(text_from_combo(hour_entry),"%i",&date.tm_hour);
+			sscanf(text_from_combo(minute_entry),"%i",&date.tm_min);
+			gtk_calendar_get_date(GTK_CALENDAR(calendar),
+					      (guint *)&date.tm_year,
+					      (guint *)&date.tm_mon,
+					      (guint *)&date.tm_mday);
+			date.tm_year-=1900;
+			date.tm_sec=0;
+			parent->ScheduleTime=mktime(&date);
+		} else {
+			parent->ScheduleTime=0;
+		};
+	};
+};
 
 void tDEdit::done() {
 	if (parent) parent->editor=NULL;
@@ -728,6 +919,7 @@ void tDEdit::done() {
 tDEdit::~tDEdit() {
 	done();
 };
+
 /*******************************************************/
 
 void proxy_toggle_pass_ftp(GtkWidget *parent,tProxyWidget *where) {
@@ -1048,4 +1240,111 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 	else
 		cfg->proxy_type=1;
 	cfg->proxy_no_cache=GTK_TOGGLE_BUTTON(no_cache)->active;
+};
+
+/*****************************************************************/
+
+GtkWidget *select_options_window = (GtkWidget *)NULL;
+
+gint select_options_window_hide(GtkWidget *window,GdkEvent *event, gpointer data){
+	if (select_options_window){
+		gtk_window_set_modal (GTK_WINDOW(select_options_window),FALSE);
+//		gtk_window_set_transient_for (GTK_WINDOW (select_options_window), GTK_WINDOW (NULL));
+		gtk_widget_hide(select_options_window);
+	};
+	return TRUE;
+};
+
+void select_options_window_ok(GtkWidget *button,GtkWidget *window){
+	if (window){
+		GtkWidget *list=GTK_WIDGET(gtk_object_get_user_data(GTK_OBJECT(window)));
+		if (list && GTK_CLIST(list)->selection){
+			gint table[EDIT_OPT_LASTOPTION];
+			for (int i=0;i<EDIT_OPT_LASTOPTION;i++)
+				table[i]=0;
+			GList *selection = GTK_CLIST(list)->selection;
+			while (selection){
+				gint row=GPOINTER_TO_INT(selection->data);
+				int opt=GPOINTER_TO_INT(gtk_clist_get_row_data(GTK_CLIST(list),row));
+				if (opt<EDIT_OPT_LASTOPTION){
+					table[opt]=1;
+//					printf("Selected %s\n",edit_fields_labels[opt]);
+				};
+				selection=selection->next;
+			};
+			select_options_window_hide(window,NULL,NULL);
+			init_edit_common_properties_window(table);
+			return;
+		};
+	};
+	select_options_window_hide(window,NULL,NULL);
+};
+
+void select_options_window_unselect_all(GtkWidget *button,GtkWidget *list){
+	if (GTK_CLIST(list)->selection)
+		gtk_clist_unselect_all(GTK_CLIST(list));
+};
+
+void select_options_window_select_all(GtkWidget *button,GtkWidget *list){
+	gtk_clist_select_all(GTK_CLIST(list));
+};
+
+void select_options_window_init(){
+	if (select_options_window){
+		select_options_window_unselect_all(NULL,
+						   GTK_WIDGET(gtk_object_get_user_data(GTK_OBJECT(select_options_window))));
+		gtk_widget_show(select_options_window);
+	}else{
+		select_options_window=gtk_window_new(GTK_WINDOW_DIALOG);
+		gtk_window_set_title(GTK_WINDOW (select_options_window),_("Select properties"));
+		gtk_container_border_width(GTK_CONTAINER(select_options_window),5);
+		gtk_window_set_position(GTK_WINDOW(select_options_window),GTK_WIN_POS_CENTER);
+		gtk_window_set_policy (GTK_WINDOW(select_options_window), FALSE,FALSE,FALSE);
+		gtk_signal_connect(GTK_OBJECT(select_options_window),
+				   "delete_event",
+				   GTK_SIGNAL_FUNC(select_options_window_hide), NULL);
+
+		GtkWidget *list=gtk_clist_new(1);
+		gtk_clist_set_selection_mode(GTK_CLIST(list),GTK_SELECTION_EXTENDED);
+		gtk_object_set_user_data(GTK_OBJECT(select_options_window),list);
+		for (int i=EDIT_OPT_USERPASS;i<EDIT_OPT_LASTOPTION;i++){
+			char *tmp[1];
+			tmp[0]=_(edit_fields_labels[i]);
+			gint row=gtk_clist_append(GTK_CLIST(list),tmp);
+			gtk_clist_set_row_data(GTK_CLIST(list),row,GINT_TO_POINTER(i));
+		};
+		
+		GtkWidget *button_ok=gtk_button_new_with_label(_("Ok"));
+		GTK_WIDGET_SET_FLAGS(button_ok,GTK_CAN_DEFAULT);
+		gtk_signal_connect(GTK_OBJECT(button_ok),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(select_options_window_ok),
+				   select_options_window);
+		GtkWidget *button_clear=gtk_button_new_with_label(_("Unselect all"));
+		GTK_WIDGET_SET_FLAGS(button_clear,GTK_CAN_DEFAULT);
+		gtk_signal_connect(GTK_OBJECT(button_clear),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(select_options_window_unselect_all),
+				   list);
+		GtkWidget *button_all=gtk_button_new_with_label(_("Select all"));
+		GTK_WIDGET_SET_FLAGS(button_all,GTK_CAN_DEFAULT);
+		gtk_signal_connect(GTK_OBJECT(button_all),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(select_options_window_select_all),
+				   list);
+		GtkWidget *hbox=gtk_hbutton_box_new();
+		gtk_box_set_spacing(GTK_BOX(hbox),5);
+		gtk_box_pack_start(GTK_BOX(hbox),button_all,FALSE,FALSE,0);
+		gtk_box_pack_start(GTK_BOX(hbox),button_clear,FALSE,FALSE,0);
+		gtk_box_pack_start(GTK_BOX(hbox),button_ok,FALSE,FALSE,0);
+		GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+		gtk_box_set_spacing(GTK_BOX(vbox),5);
+		gtk_box_pack_start(GTK_BOX(vbox),list,TRUE,TRUE,0);
+		gtk_box_pack_start(GTK_BOX(vbox),hbox,TRUE,TRUE,0);
+		gtk_container_add(GTK_CONTAINER(select_options_window),vbox);
+		gtk_window_set_default(GTK_WINDOW(select_options_window),button_ok);
+		gtk_widget_show_all(select_options_window);
+		gtk_window_set_transient_for (GTK_WINDOW (select_options_window), GTK_WINDOW (MainWindow));
+	};
+	gtk_window_set_modal (GTK_WINDOW(select_options_window),TRUE);
 };

@@ -50,12 +50,17 @@ char *dnd_menu_inames[]={
 GtkItemFactory *dnd_trash_item_factory;
 GtkWidget *dnd_trash_window=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_menu=(GtkWidget *)NULL;
+GtkWidget *dnd_trash_gtk_pixmap; //used for animation/blinking
+static GdkPixmap *dnd_trash_pixmap1=(GdkPixmap *)NULL,*dnd_trash_pixmap2=(GdkPixmap *)NULL;
+static GdkBitmap *dnd_trash_mask1,*dnd_trash_mask2;
 GtkTooltips *dnd_trash_tooltips;
 int dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
 
 void dnd_trash_real_destroy(){
-	if (dnd_trash_window)gtk_widget_destroy(dnd_trash_window);
-	dnd_trash_window=(GtkWidget *)NULL;
+	if (dnd_trash_window){
+		gtk_widget_destroy(dnd_trash_window);
+		dnd_trash_window=(GtkWidget *)NULL;
+	};
 	CFG.DND_TRASH=0;
 };
 
@@ -128,10 +133,9 @@ void dnd_trash_init(){
 	if (dnd_trash_window) return;
 	dnd_trash_moveable=0;
 #include "pixmaps/dndtrash.xpm"
+#include "pixmaps/dndtrashi.xpm"
 	/* GtkWidget is the storage type for widgets */
 	GtkWidget *pixmap, *fixed;
-	GdkPixmap *gdk_pixmap;
-	GdkBitmap *mask;
 	GtkStyle *style;
 	GdkGC *gc;
     
@@ -174,21 +178,32 @@ void dnd_trash_init(){
 
 	gtk_widget_show (dnd_trash_window);
 
+
 	/* Now for the pixmap and the pixmap widget */
 	style = gtk_widget_get_default_style();
 	gc = style->black_gc;
-	gdk_pixmap = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &mask,
-						   &style->bg[GTK_STATE_NORMAL],
-						   dndtrash_xpm);
-	pixmap = gtk_pixmap_new( gdk_pixmap, mask );
-	gtk_widget_show( pixmap );
-
+	if (dnd_trash_pixmap1==NULL){
+		dnd_trash_pixmap1 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask1,
+								  &style->bg[GTK_STATE_NORMAL],
+								  dndtrash_xpm);
+		dnd_trash_pixmap2 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask2,
+								  &style->bg[GTK_STATE_NORMAL],
+								  dndtrashi_xpm);
+		/* we will use it sometimes */
+		gdk_pixmap_ref(dnd_trash_pixmap1);
+		gdk_bitmap_ref(dnd_trash_mask1);
+		gdk_pixmap_ref(dnd_trash_pixmap2);
+		gdk_bitmap_ref(dnd_trash_mask2);
+	};
+	dnd_trash_gtk_pixmap = pixmap = gtk_pixmap_new( dnd_trash_pixmap1, dnd_trash_mask1 );
+//		gtk_widget_show( pixmap );
 	/* To display the pixmap, we use a fixed widget to place the pixmap */
 	fixed = gtk_fixed_new();
 	gtk_widget_set_usize( fixed, 50, 50 );
 	gtk_fixed_put( GTK_FIXED(fixed), pixmap, 0, 0 );
+
 	gtk_container_add( GTK_CONTAINER(dnd_trash_window), fixed );
-	gtk_widget_show( fixed );
+	gtk_widget_show_all( fixed );
 
 	dnd_trash_tooltips=gtk_tooltips_new();
 	gtk_tooltips_force_window(dnd_trash_tooltips);
@@ -201,7 +216,7 @@ void dnd_trash_init(){
 	gtk_tooltips_set_tip(dnd_trash_tooltips,dnd_trash_window,_("Drop link here"),(const gchar *)NULL);
 	gtk_tooltips_enable(dnd_trash_tooltips);
 	/* This masks out everything except for the image itself */
-	gtk_widget_shape_combine_mask( dnd_trash_window, mask, 0, 0 );
+	gtk_widget_shape_combine_mask( dnd_trash_window, dnd_trash_mask1, 0, 0 );
     
 	/* show the window */
 	gtk_widget_show( dnd_trash_window );
@@ -243,5 +258,22 @@ void dnd_trash_init_menu() {
 	accel_group = gtk_accel_group_new();
 	dnd_trash_item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<main>",accel_group);
 	gtk_item_factory_create_items(dnd_trash_item_factory, nmenu_items, menu_items, NULL);
-	dnd_trash_menu= gtk_item_factory_get_widget(dnd_trash_item_factory, "<main>");
+	dnd_trash_menu = gtk_item_factory_get_widget(dnd_trash_item_factory, "<main>");
+};
+
+static gint dnd_trash_animation_end(gpointer unused){
+	gtk_pixmap_set(GTK_PIXMAP(dnd_trash_gtk_pixmap),
+		       dnd_trash_pixmap1,dnd_trash_mask1);
+	return 0;
+};
+
+void dnd_trash_animation(){
+	if (dnd_trash_window){
+		if (GTK_PIXMAP(dnd_trash_gtk_pixmap)->pixmap==dnd_trash_pixmap1){
+			gtk_pixmap_set(GTK_PIXMAP(dnd_trash_gtk_pixmap),
+				       dnd_trash_pixmap2,dnd_trash_mask2);
+			gtk_widget_queue_draw(dnd_trash_gtk_pixmap);
+			gtk_timeout_add (1300, dnd_trash_animation_end , NULL);
+		};
+	};
 };

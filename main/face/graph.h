@@ -11,12 +11,20 @@
 #ifndef MY_GTK_GRAPH
 #define MY_GTK_GRAPH
 
-/*extern GtkWidget *graph_widget;*/
+struct MyGtkGraph{
+	GtkWidget widget;
+	GdkRgbCmap *cmap;
+	guchar *rgb_data;
+};
 
-gint graph_expose_event_handler(GtkWidget *widget,GdkEventExpose *event);
-int graph_draw();
-void graph_recalc();
-void graph_init();
-void graph_reinit();
+struct MyGtkGraphClass{
+	GtkWidgetClass parent_class;
+};
+
+extern MyGtkGraph *GLOBAL_GRAPH;
+
+GtkWidget *my_gtk_graph_new();
+void my_gtk_graph_recalc(MyGtkGraph *graph);
+void my_gtk_graph_cmap_reinit(MyGtkGraph *graph);
 
 #endif

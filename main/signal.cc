@@ -49,6 +49,8 @@ void my_pthread_key_set(tDownload *what){
 void signal_handler(int num) {
 	tDownload **temp=(my_pthread_key_get());
 	if (temp){
+		// to avoid locking if currently string adding in log
+		(*temp)->LOG->unlock();
 		(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
 		//	temp->who->done();
 		(*temp)->status=DOWNLOAD_REAL_STOP;
@@ -64,6 +66,7 @@ void init_signal_handler() {
 	sigset_t oldmask,newmask;
 	sigemptyset(&newmask);
 	sigaddset(&newmask,SIGINT);
+	sigaddset(&newmask,SIGTERM);
 	sigaddset(&newmask,SIGUSR2);
 	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
 };

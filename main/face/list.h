@@ -17,6 +17,7 @@
 #include "../main.h"
 #include "limface.h"
 #include "lod.h"
+#include "graph.h"
 
 extern tMain aa;
 
@@ -34,6 +35,7 @@ extern gint StatusBarContext;
 void main_menu_speed_prepare();
 void init_status_bar();
 void init_main_window();
+void init_load_accelerators();
 void init_face(int argc, char *argv[]);
 void init_timeouts();
 gint get_mainwin_sizes(GtkWidget *window);

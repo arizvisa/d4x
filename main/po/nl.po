@@ -1495,74 +1495,140 @@ msgstr "Maximale grootte voor hoofdlog (in KBytes)"
 
 # face/list.cc:
 msgid "/File/Find links in file"
-msgstr ""
+msgstr "/Bestand/Vind links in bestand"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
-msgstr ""
+msgstr "Gebruik fixed lettertype in log"
 
 # face/edit.cc:
 msgid "Number of parts for spliting this download"
-msgstr ""
+msgstr "Aantal delen waarin deze download gesplitst wordt"
 
 
 # face/saveload.cc
 msgid "Find links in txt file"
-msgstr ""
+msgstr "Vind links in tekstbestand"
 
 # face/prefs.cc:
 msgid "Color for picks"
-msgstr ""
+msgstr "Kleur voor picks"
 
 # face/prefs.cc:
 msgid "Color for total speed"
-msgstr ""
+msgstr "Kleur voor totale snelheid"
 
 # face/prefs.cc:
 msgid "Color for speed of selected"
-msgstr ""
+msgstr "Kleur voor geselecteerde snelheid"
 
 # face/prefs.cc:
 msgid "Background color"
-msgstr ""
+msgstr "Achtergrondkleur"
 
 # face/mywidget.cc:
 msgid "Select"
-msgstr ""
+msgstr "Kies"
 
 # face/mywidget.cc:
 msgid "Select color"
-msgstr ""
+msgstr "Kies kleur"
 #face/prefs.cc
 msgid "Reset to default"
-msgstr ""
+msgstr "Standaardwaarden"
 
 msgid "Colors for graph"
-msgstr ""
+msgstr "Kleuren voor grafiek"
 
 #face/limface.cc
 msgid "Default limitation for all hosts (0 without limits)"
-msgstr ""
+msgstr "Standaard limiet voor alle hosts (0 is zonder limiet)"
 
 
 #face/lod.cc
 msgid "Continue open log windows?"
-msgstr ""
+msgstr "Hervat open log schermen?"
 
 #face/lod.cc
 msgid "Don't get from cache"
-msgstr ""
+msgstr "Laad niet vanuit cache"
 
 #config.cc
 msgid "run in minimized mode"
-msgstr ""
+msgstr "draai in geminimaliseerde mode"
 
 #face/prefs.cc
 msgid "Confirm opening large amount of windows"
-msgstr ""
+msgstr "Bevestig het openen van grote aantallen schermen"
 
 
 #face/about.cc
 msgid "Special thanks to"
-msgstr ""
+msgstr "Speciale dank aan"
 
+
+#face/prefs.cc
+msgid "Clipboard"
+msgstr "Plakboek"
+
+msgid "Catch these extensions in clipboard"
+msgstr "Vang deze extensies in het plakboek"
+
+msgid "Allow to user force run downloads"
+msgstr "Geef gebruiker de mogelijkheid om downloads af te dwingen"
+
+#face/saveload.cc
+msgid "Loading"
+msgstr "Laden"
+
+#main.cc
+msgid "%lu bytes loaded during the session"
+msgstr "%lu bytes geladen tijdens de sessie"
+
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "Downloader sluit af na %i minuten niets inactiviteit %s"
+
+msgid "Exiting if nothing to do is switched off"
+msgstr "Afsluiten na inactiviteit is uitgezet"
+
+#face/edit.cc
+msgid "Timeout for reading from socket"
+msgstr "Timeout bij lezen van socket"
+
+msgid "Maximum attempts"
+msgstr "Maximum aantal pogingen"
+
+msgid "Timeout before reconnection"
+msgstr "Timeout voor herverbinden"
+
+msgid "Rollback after reconnecting"
+msgstr "Rollback bij herverbinden"
+
+msgid "Depth of recursing for HTTP"
+msgstr "Diepte van recursie voor HTTP"
+
+msgid "Depth of recursing for FTP"
+msgstr "Diepte van recursie voor FTP"
+
+msgid "Speed limitation"
+msgstr "Snelheidslimiet"
+
+msgid "Unselect all"
+msgstr "Deselecteer alles"
+
+msgid "Select all"
+msgstr "Selecteer alles"
+
+msgid "Select properties"
+msgstr "Selecteer eigenschappen"
+
+#face/lmenu.cc
+msgid "Common properties"
+msgstr "Algemene eigenschappen"
+
+#config.cc
+msgid "set timeout for exiting if nothing to do"
+msgstr "zet timeout voor afsluiten na inactiviteit"
+
+msgid "You should specify number as parameter for '--exit-time' option"
+msgstr "The optie '--exit-time' heeft een getal nodig als parameter"

@@ -39,9 +39,11 @@ int convert_from_hex(char what);
 void convert_to_hex(char what,char *where);
 char *parse_percents(char *what);
 char *unparse_percents(char *what);
+char *escape_char(const char *where,char what,char bywhat);
 void del_crlf(char *what);
 void str_non_print_replace(char *what, char symbol);
 void make_number_nice(char *where,int num);
+void make_number_nicel(char *where,unsigned long num);
 int convert_month(char *src);
 int ctime_to_time(char *src);
 int check_mask(char *src,char *mask);
@@ -66,6 +68,7 @@ int write_named_string(int fd,char *name,char *str);
 int write_named_integer(int fd,char *name,int num);
 int write_named_time(int fd,char *name,time_t when);
 int int_to_strin_len(int num);
+int sscanf_int(char *str,int *where);
 
 //**************************************************/
 #endif

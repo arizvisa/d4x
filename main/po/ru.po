@@ -1315,11 +1315,11 @@ msgstr "Загрузка cookie"
 
 #face/prefs.cc
 msgid "Monitor clipboard"
-msgstr "Слежение за клипбордой"
+msgstr "Слежение за буфером обмена"
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr "Пропускать эти расширения в клипборде"
+msgstr "Пропускать эти расширения в буфере"
 
 #: face/dndtrash.cc
 msgid "/Speed"
@@ -1532,7 +1532,6 @@ msgstr "Цвета для графика"
 msgid "Default limitation for all hosts (0 without limits)"
 msgstr "Ограничение по умолчанию ко всем хостам (0 без ограничений)"
 
-
 #face/lod.cc
 msgid "Continue open log windows?"
 msgstr "Продолжить открытие логов?"
@@ -1549,8 +1548,72 @@ msgstr "запустить в минимизированном состоянии"
 msgid "Confirm opening large amount of windows"
 msgstr "Подтверждать открытие большого количества окон"
 
-
 #face/about.cc
 msgid "Special thanks to"
 msgstr "Отдельное спасибо"
 
+#face/prefs.cc
+msgid "Clipboard"
+msgstr "Буфер обмена"
+
+msgid "Catch these extensions in clipboard"
+msgstr "Перехватывать эти расширения в буфере"
+
+msgid "Allow to user force run downloads"
+msgstr "Позволять форсировать запуск закачек"
+
+#face/saveload.cc
+msgid "Loading"
+msgstr "Загрузка"
+
+#main.cc
+msgid "%lu bytes loaded during the session"
+msgstr "%lu байт загружено за сессию"
+
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "Downloader выйдет если нечего делать через %i минут %s"
+
+msgid "Exiting if nothing to do is switched off"
+msgstr "вызод если нечего делать отключен"
+
+#face/edit.cc
+msgid "Timeout for reading from socket"
+msgstr "Таймаут чтения из сокета"
+
+msgid "Maximum attempts"
+msgstr "Количество попыток"
+
+msgid "Timeout before reconnection"
+msgstr "Таймаут до повторного соединения"
+
+msgid "Rollback after reconnecting"
+msgstr "Откат после обрыва"
+
+msgid "Depth of recursing for HTTP"
+msgstr "Глубина рекурсии для HTTP"
+
+msgid "Depth of recursing for FTP"
+msgstr "Глубина рекурсии для FTP"
+
+msgid "Speed limitation"
+msgstr "Ограничение скорости"
+
+msgid "Unselect all"
+msgstr "Ничего"
+
+msgid "Select all"
+msgstr "Выбрать все"
+
+msgid "Select properties"
+msgstr "Выберите свойства"
+
+#face/lmenu.cc
+msgid "Common properties"
+msgstr "Общие свойства"
+
+#config.cc
+msgid "set timeout for exiting if nothing to do"
+msgstr "установить таймаут для выхода если нечего делать"
+
+msgid "You should specify number as parameter for '--exit-time' option"
+msgstr "Вы должны указать число как параметр для опции '--exit-time'"

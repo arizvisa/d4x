@@ -278,6 +278,18 @@ void log_window_init(tDownload *what) {
 			tLogWindow *temp=(tLogWindow *)what->LOG->Window;
 			gdk_window_show(temp->window->window);
 			return;
+		}else{
+			if (what->split){
+				tDownload *next_part=what->split->next_part;
+				while (next_part){
+					if (next_part->LOG && next_part->LOG->Window){
+						tLogWindow *temp=(tLogWindow *)(next_part->LOG->Window);
+						gdk_window_show(temp->window->window);
+						return;
+					};
+					next_part=next_part->split->next_part;
+				};
+			};
 		};
 		what->LOG->lock();
 		tLogWindow *temp=new tLogWindow;
@@ -304,7 +316,7 @@ void log_window_init(tDownload *what) {
 		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_list_event_handler),temp);
 		gtk_clist_column_titles_hide(GTK_CLIST(temp->clist));
 		gtk_clist_set_shadow_type (GTK_CLIST(temp->clist), GTK_SHADOW_IN);
-		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TYPE , 16);
+		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TYPE , 18);
 		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_NUM , 16);
 		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TIME , 50);
 		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_NUM,TRUE);
@@ -350,7 +362,7 @@ void log_window_init(tDownload *what) {
 		if (CFG.FIXED_LOG_FONT){
 			GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->clist)));
 			gdk_font_unref(current_style->font);
-			current_style->font = gdk_font_load("-*-fixed-medium-*-*-*-*-120-*-*-*-*-*-*");;
+			current_style->font = gdk_font_load("-*-fixed-medium-r-*-*-*-120-*-*-*-*-*-*");;
 			gtk_widget_set_style(GTK_WIDGET(temp->clist), current_style);
 		};
 

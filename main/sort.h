@@ -15,19 +15,20 @@
 struct tAbstractSortNode:public tNode{
 	tAbstractSortNode *less,*more;
 	tAbstractSortNode();
+	virtual int cmp(tAbstractSortNode *what)=0;
 	virtual ~tAbstractSortNode();
 };
 
 struct tSortNode:public tAbstractSortNode{
 	int key;
 	void print();
+	int cmp(tAbstractSortNode *what);
 };
 
 class tAbstractSortTree{
 	protected:
 	tAbstractSortNode *Top;
 	int NUM;
-	virtual int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b)=0;
 	void simple_add(tAbstractSortNode **where,tAbstractSortNode *what);
 	public:
 		tAbstractSortTree();
@@ -44,7 +45,6 @@ class tAbstractSortTree{
 
 class tSortTree:public tAbstractSortTree{
 	protected:
-	int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b);
 };
 
 #endif

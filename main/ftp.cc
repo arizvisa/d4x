@@ -61,6 +61,7 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 		if (Status==STATUS_TIMEOUT)
 			LOG->log(LOG_ERROR,_("Timeout send through control socket."));
 		LOG->log(LOG_ERROR,_("Control connection is lost"));
+		vdisconnect();
 		return RVALUE_TIMEOUT;
 	};
 	return RVALUE_OK;
@@ -70,18 +71,26 @@ int tFtpClient::read_data(char *where,int len) {
 	int all=DataSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->log(LOG_WARNING,_("Data socket is lost!"));
+		vdisconnect();
 		return RVALUE_TIMEOUT;
 	};
 	return all;
 };
 
 int tFtpClient::read_control() {
+	CTRL->done();
 	if (read_string(&CtrlSocket,CTRL,MAX_LEN)<0) {
 		LOG->log(LOG_WARNING,_("Control socket lost!"));
+		vdisconnect();
 		return RVALUE_TIMEOUT;
 	};
 	tString *log=CTRL->last();
-	if (log) LOG->log(LOG_FROM_SERVER,log->body);
+	if (log)
+		LOG->log(LOG_FROM_SERVER,log->body);
+	else{
+//		vdisconnect();
+		return RVALUE_TIMEOUT;
+	};
 	return RVALUE_OK;
 };
 
@@ -102,8 +111,13 @@ int tFtpClient::analize(char *how) {
 int tFtpClient::analize_ctrl(int argc,char **argv) {
 	int ok;
 	do {
-		if (read_control()) return RVALUE_TIMEOUT;
-	} while (!last_answer());
+		if (read_control())
+			return RVALUE_TIMEOUT;
+		if (!FIRST_REPLY)
+			FIRST_REPLY = CTRL->last()?copy_string(CTRL->last()->body):NULL;
+	} while (!last_answer(FIRST_REPLY));
+	if (FIRST_REPLY) delete(FIRST_REPLY);
+	FIRST_REPLY = NULL;
 	if (!analize("4")){
 		Status=STATUS_UNSPEC_ERR;
 		return RVALUE_UNSPEC_ERR;
@@ -128,10 +142,15 @@ int tFtpClient::is_valid_answer(char *what) {
 	return 1;
 };
 
-int tFtpClient::last_answer() {
+int tFtpClient::last_answer(char *first) {
 	tString *test=CTRL->last();
-	if (test && test->body && strlen(test->body)>=3 &&
-	    isspace(test->body[3]) && is_valid_answer(test->body)) return 1;
+	if (test && test->body && strlen(test->body)>=3 && first &&
+	    isspace(test->body[3]) && is_valid_answer(test->body)){
+		if (first[0] == test->body[0] &&
+		    first[1] == test->body[1] &&
+		    first[2] == test->body[2])
+			return 1;
+	};
 	return 0;
 };
 
@@ -158,6 +177,7 @@ tFtpClient::tFtpClient() {
 	TEMP_SIZE=0;
 	CTRL=new tStringList;
 	CTRL->init(2);
+	FIRST_REPLY = NULL;
 };
 
 void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
@@ -166,14 +186,18 @@ void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	BuffSize=MAX_LEN;
 	passive=0;
 	buffer=new char[BuffSize];
+	vdisconnect();
 };
 
 int tFtpClient::reinit() {
 	ReGet=1;
 	int rvalue=0;
+	quit();
+	vdisconnect();
 	if ((rvalue=tClient::reinit())==0) {
-		return analize_ctrl(1,&FTP_SERVER_OK);
+		rvalue=analize_ctrl(1,&FTP_SERVER_OK);
 	};
+	CON_FLAGS = CON_FLAG_CONNECTED;
 	return(rvalue);
 };
 
@@ -191,6 +215,7 @@ int tFtpClient::connect() {
 		send_command("PASS",userword);
 		if (analize_ctrl(1,&FTP_PASS_OK)) return -2;
 	};
+	CON_FLAGS = CON_FLAGS | CON_FLAG_LOGGED;
 	return 0;
 };
 
@@ -241,6 +266,11 @@ int tFtpClient::stand_data_connection() {
 	return Status;
 };
 
+void tFtpClient::vdisconnect(){
+//	printf("DISCONNECTED!\n");
+	CON_FLAGS = 0;
+};
+
 int tFtpClient::change_dir(char *where) {
 	if (where !=NULL && strlen(where)) {
 		send_command("CWD",where);
@@ -272,6 +302,7 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 			DataSocket.down(); // Added by Terence Haddock
 			break;
 		};
+//		LOG->log(LOG_FROM_SERVER,(list->last())->body);
 	};
 	return (analize_ctrl(1,&FTP_READ_OK));
 };
@@ -349,16 +380,21 @@ void tFtpClient::set_passive(int a) {
 void tFtpClient::down() {
 	CtrlSocket.down();
 	DataSocket.down();
+	vdisconnect();
 };
 
 
 void tFtpClient::quit() {
-	send_command("QUIT",NULL);
-	analize_ctrl(1,&FTP_QUIT_OK);
+	if ((CON_FLAGS & CON_FLAG_LOGGED) &&
+	    (CON_FLAGS & CON_FLAG_CONNECTED)){
+		send_command("QUIT",NULL);
+		analize_ctrl(1,&FTP_QUIT_OK);
+		CON_FLAGS = CON_FLAGS ^ CON_FLAG_LOGGED;
+	};
 };
 
 void tFtpClient::done() {
-	if (!Status) quit();
+	quit();
 	down();
 };
 
@@ -369,4 +405,5 @@ tFtpClient::~tFtpClient() {
 	passive=0;
 	TEMP_SIZE=0;
 	delete(CTRL);
+	if (FIRST_REPLY) delete(FIRST_REPLY);
 };

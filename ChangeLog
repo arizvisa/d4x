@@ -1,3 +1,36 @@
+Wed Aug  9 09:16:26 2000
+	All clipboard settings is in separate folder of "Options" dialog;
+	Added option for catching link in clipboard by extension;
+	Added ability to change common properties for selected downloads;
+	Added extra option for enabling/disabling ability to run new downloads even if limit reached;
+	Added command line option to set timeout for 'exiting if nothing to do';
+	Latest saved lists now can be loaded fast via "File" menu;
+	New time selection dialog for scheduled downloads;
+	New algorithm for traffic shaper;
+	Finding links in file now will be run in separate thread;
+	Parsing date from dos/windows ftp servers was implemented;
+	Comparing time of file on server with local file's time;
+	Trash for DnD now will blink if an URL dropped;
+	Ftp protocol supporting was improved;
+    	Polish translation is updated (thanks to Grzegorz Kowal);
+	Dutch translation is uptodate (thanks to Robin Verduijn);
+	German translation is uptodate (thanks to Felix Knecht);
+	French translation is uptodate (thanks to Jerome Couderc);
+	Russian translation is uptodate (thanks to me :);
+	Fixed number of problems with splited downloads;
+	Fixed losing accelrating keys;
+	Fixed renaming file beginng with '.' if it was not used;
+	Fixed getting date from server for both ftp and http;
+	Fixed limiting speed for separate splited download;
+	Fixed some problems with reading ftp answer;
+	Fixed "exiting if nothing to do" (stupid mistyping in sources);
+	Fixed displaying number of attempts;
+	Fixed overflowing number of readed bytes;
+	Fixed "first run segfault";
+	Fixed segfaulting while continuing opening logs;
+	Fixed segfaulting and other problems with fast log filling;
+	Number of code and interface cleanups;
+
 Fri Jun  9 08:39:36 2000
 	Added ability to set default limitation for connection to hosts;
 	Added option for runing in minimized state;

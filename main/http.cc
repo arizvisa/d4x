@@ -76,24 +76,27 @@ int tHttpClient::read_answer(tStringList *list) {
 			return -1;*/
 		};
 		switch (*str2) {
-			case '2':{
-					LOG->log(LOG_OK,_("All ok, reading file"));
-					break;
-				};
-			case '3':{
-					rvalue=1;
-					break;
-				};
-			case '4':{
-					if (equal_first("401",str2)) {
-						LOG->log(LOG_WARNING,_("It seems to me that you need a password :)"));
-					};
-				};
-			default:{
-					Status=STATUS_BAD_ANSWER;
-					LOG->log(LOG_ERROR,_("Server return bad answer:(("));
-					rvalue = -1;
-				};
+		case '2':{
+			LOG->log(LOG_OK,_("All ok, reading file"));
+			break;
+		};
+		case '3':{
+			rvalue=1;
+			break;
+			};
+		case '4':{
+			Status=STATUS_NOT_FOUND;
+			if (begin_string(last->body,"401") ||
+			    begin_string(last->body,"403"))
+				LOG->log(LOG_WARNING,_("It seems to me that you need a password :)"));
+			rvalue = -1;
+			break;
+		};
+		default:{
+			Status=STATUS_BAD_ANSWER;
+			LOG->log(LOG_ERROR,_("Server return bad answer:(("));
+			rvalue = -1;
+		};
 		};
 		list->del(last);
 		delete str1;

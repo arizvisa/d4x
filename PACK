@@ -1,7 +1,0 @@
-#!/bin/bash
-cd main;
-make clean;
-cd ..
-rm ../main.tar.bz2 ../main.rar >/dev/null
-tar cvo * --exclude-from EXCLUDE|bzip2 -9 >../main.tar.bz2
-rar a ../main.rar * -r -m5 -md1024 -s -x@EXCLUDE

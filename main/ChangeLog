@@ -1,3 +1,150 @@
+Wed Aug  9 09:16:47 2000
+	*po/: nl.po and de.po updated;
+
+Tue Aug  8 20:31:10 2000
+	*var.cc: default password for ftp began from dash again;
+	*edit.cc: dialog for selection common properties is unresizable;
+
+Mon Aug  7 11:58:16 2000
+	*face/list.cc: fixed double appearing of "quit" item;
+	*locstr.cc: time always will be shown as xx:xx:xx instead of x:xx:xx;
+
+Sun Aug  6 11:44:49 2000
+	*ftp.cc: ftp realisation improved;
+	*locstr.cc: make_number_nice show 0.9M instead 1000.xK;
+	*main.cc,speed.cc[h]: global changes in traffic shaper algorithm,
+	should be cleanuped;
+
+Sat Aug  5 02:44:49 2000
+	*signal.cc,main.cc: probably fixed problems with speedy logs :);
+
+Fri Aug  4 11:15:16 2000
+	*face/edit.cc[h],face/addd.cc[h],face/lmenu.cc: implement ability
+	to edit common properties for selected downloads;
+	*face/list.cc: fixed losing key accelerators;
+	*main.cc,signal.cc: fixed normal shutdown by 'killall nt';
+
+Fri Aug  4 01:04:53 2000
+	*face/edit.cc[h]: begin to implement ability to edit common properties
+	for number of downloads;
+	*face/graph.cc: some cleanups;
+
+Wed Aug  2 19:29:38 2000
+	*srvclt.cc[h],config.cc: added extra option for setting timeout for
+	exiting if nothing to do;
+	*socket.cc: some optimisations;
+	*main.cc: some code cleanups at runing new thread; exit 'if nothing
+	to do' even if run without interface;
+	*face/lod.cc,face/dndtrash.cc: do 'ref' for some pixmaps before using
+	them; fixed blinking of dndtrash;
+
+Tue Aug  1 16:53:46 2000
+	*main.cc: fixed yesterday changes;
+	*face/dndtrash.cc,face/lod.cc: implement blinking dndtrash icon when
+	URL dropped;
+	*ftpd.cc: fixed parsing string of ftp answer;
+	*face/log.cc: fixed opening log windows for splited downloads;
+
+Mon Jul 31 16:47:55 2000
+	*main.cc,dlist.cc: fixed number of problems with splited downloads;
+	fixed renaming file '.NAME' if only 'NAME' was used;
+
+Fri Jul 28 17:13:21 2000
+	*eff.cc: fixed segmentation fault when canceling finding links in file;
+	*main.cc: if downloader can't run new thread it will decrement value
+	of maximum active downloads;
+
+Thu Jul 27 15:01:01 2000
+	*face/graph.cc: code cleanups;
+	*face/lod.cc: fixed segfaulting on continue opening log;
+	*main.cc: changed algorithm for redrawing logs;
+	*ftp.cc: some ftp improvements;
+	*eff.cc[h],face/saveload.cc: ability to cancel finding links in file;
+
+Wed Jul 26 20:13:51 2000
+	*face/graph.cc[h],face/list.cc,face/prefs.cc: graphics of speeds now
+	is widget! ; Fixed drawing graph;
+	*main.cc: minor fixes in nano speed calculation;
+
+Sun Jul 23 16:36:28 2000
+	*eff.cc[h],face/saveload.cc: finding links in file is run in separate
+	thread;
+	*mainlog.cc: added %l formater for tMainLog::myprintf();
+	*main.cc: print number of readed bytes at main log before exit;
+
+Sat Jul 22 22:22:36 2000
+	*misc.cc[h],edit.cc,prefs.cc,lmenu.cc[h]: interface cleanups:
+	almost all entries always have size proportional to font size,
+	"right mouse clicking menu" of queue of downloads is much better now;
+
+Fri Jul 21 22:22:36 2000
+	*download.cc,dlist.cc: codecleanups;
+
+Thu Jul 20 23:19:41 2000
+	*main.cc: more precise traffic shaper;
+	*dlist.cc: fixed speed limitation for separate splited download;
+
+Wed Jul 19 14:24:21 2000
+	*config.cc: fixed segfaulting when config file didn't found;
+	*main.cc: code cleanups;
+
+Tue Jul 18 14:20:59 2000
+	*face/list.cc,locstr.cc[h]: problem with '_' in filenames of saved lists
+	is solved; added tooltips with pathes to files and accelerators;
+
+Mon Jul 17 23:09:27 2000
+	*face/list.cc,face/saveload.cc,var.h,config.cc: last saved lists will
+	be stored in "File" menu;
+
+Mon Jul 17 13:27:36 2000
+	*edit.cc: replace my dialog for selecting time for scheduled downloads
+	by GtkCalendar; 1:00 tonight selected by default;
+	*var.h,locstr.cc[h],face/list.cc: fixed overflowing  number of readed
+	bytes;
+
+Mon Jul 17 01:47:57 2000
+	*face/prefs.cc: cosmetic changes;
+
+Thu Jul 13 17:52:12 2000
+	*two weeks of rest: nothing to do :);
+	*face/list.cc: fixed memory leak;
+	*[number of files]: added option for "catching" extensions from
+	clipboard instead of "skiping";
+
+Thu Jun 29 10:32:05 2000
+	*httpd.cc,ftpd.cc: fixed displaying number of attempts when limit
+	reached;
+
+Wed Jun 28 16:53:43 2000
+	*[number of files]: added option for forcing run new downloads above
+	specified limit;
+	*prefs.cc: all clipboard settings are in separate folder now;
+	*dlist.cc,http.cc: some fixes in retrying via http;
+	*main.cc: fixed "exiting if nothing to do";
+
+Sat Jun 24 09:20:04 2000
+	*locstr.cc[h],ftpd.cc: codecleanups and fixes;
+
+Fri Jun 23 15:36:49 2000
+	*ftpd.cc: parsing date in dos style ftp listings;
+
+Wed Jun 21 16:17:39 2000
+	*[tree's structures and rutines]: code cleanups;
+
+Fri Jun 16 16:39:20 2000
+	*dlist.cc[h]: code cleanups;
+	*ftp.cc: fixed some problems with reading ftp's answer;
+
+Tue Jun 13 10:30:34 2000
+	*download.cc[h],ftpd.cc,httpd.cc: minor code cleanups;
+	*po: Dutch translation is updated;
+
+Sat Jun  10 08:39:27 2000
+	*[number of files]: now downloader compare file's time;
+	*ftpd.cc: fixed parsing date from ftp listing;
+	*dlist.cc: some code cleanups;
+	*po: Polish translation updated;
+
 Fri Jun  9 08:39:27 2000
 	*nt.cc: releasing new version;
 	*config.cc: fixed type of no_cache option;

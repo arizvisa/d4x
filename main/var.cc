@@ -19,11 +19,12 @@ int BLOCK_READ=512;
 int LOCK_FILE_D=0;
 
 tMainCfg CFG={
-	5,100,100,1,300,NULL,NULL,NULL,NULL,2,1,0,0,
+	5,100,100,1,300,NULL,NULL,NULL,NULL,2,1,0,0,0,
 	100,0,0,0,NULL,0,
 	5,0,
 	1,1,0,0,0,1,1,600,
-	{0,0},0,1,0,0,40,40,500,400,300,1,150,50,0,1,0,20,30,0,5,1,NULL,1,
+	{0,0},0,1,0,0,40,40,500,400,300,1,150,50,0,1,0,20,30,0,5,1,
+	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,
 	/* Proxy */
 	NULL,0,NULL,NULL,1,NULL,0,NULL,NULL,0,0,0,0,0,
@@ -35,7 +36,7 @@ tMainCfg CFG={
 };
 
 char *DEFAULT_PROTO="ftp";
-char *DEFAULT_PASS="chuchelo@krasu.ru";
+char *DEFAULT_PASS="-chuchelo@krasu.ru";
 char *DEFAULT_USER="anonymous";
 char *HOME_PAGE="http://www.krasu.ru/soft/chuchelo";
 

@@ -1,13 +1,20 @@
 ************** WebDownloader's plans ******************
+last modified at [Sat Aug  5 00:12:25 2000]
 
-to versiom 1.2:
-    Cookies support from ~/.netscape/Cookies;
-    more proxy support
-    "hot list" (top secret feature :-)
+Version 1.20 will not be released without documentation in English.
+There is already text documentation in Russian (it's my native language)
+but it hard to translate it to English.
 
-to version 1.4:
-    recursive download files via HTML documents    
+'Hot list' should be implemented till releasing 1.20 but
+there is a chance that it will be implemented after ftp search.
 
-to version 1.6:
-    ftp-search (like Go!Zilla) support;
+Ftp search abilities will appear in version 1.21 (I hope :)
+First realisation of 'ftp search' should include automatic search mirrors of
+a file and automatic sort alternative URLs by connection/reconnection
+speed.
 
+I hope to add SOCKS in 1.25-1.30
+
+-------------------------------------------------------
+Public relation shown that other planed features had a less value.
+You can see all my plans in TODO file.

@@ -22,6 +22,10 @@ tAbstractSortNode::~tAbstractSortNode(){
 void tSortNode::print(){
 	printf("%i",key);
 };
+
+int tSortNode::cmp(tAbstractSortNode *what){
+	return(key - ((tSortNode *)what)->key);
+};
 // Abstractions
 
 tAbstractSortTree::tAbstractSortTree() {
@@ -41,7 +45,7 @@ int tAbstractSortTree::count() {
 void tAbstractSortTree::simple_add(tAbstractSortNode **where,tAbstractSortNode *what) {
 	tAbstractSortNode **temp=where;
 	while (*temp) {
-		if (compare_nodes(*temp,what)<0)
+		if ((*temp)->cmp(what)<0)
 			temp=&((*temp)->more);
 		else
 			temp=&((*temp)->less);
@@ -64,7 +68,7 @@ tAbstractSortNode *tAbstractSortTree::find(tAbstractSortNode *what) {
 	if (what==NULL) return NULL;
 	tAbstractSortNode **temp=&Top;
 	while (*temp) {
-		int a=compare_nodes(*temp,what);
+		int a=(*temp)->cmp(what);
 		if (a<0)
 			temp=&((*temp)->more);
 		else {
@@ -83,7 +87,7 @@ void tAbstractSortTree::del(tAbstractSortNode *what) {
 	NUM-=1;
 	tAbstractSortNode **temp=&Top;
 	while (*temp && *temp!=what) {
-		if (compare_nodes(*temp,what)<0)
+		if ((*temp)->cmp(what)<0)
 			temp=&((*temp)->more);
 		else
 			temp=&((*temp)->less);
@@ -106,7 +110,4 @@ tAbstractSortTree::~tAbstractSortTree() {
 };
 
 // going from abstraction to reality
- 
-int tSortTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	return(((tSortNode *)a)->key - ((tSortNode *)b)->key);
-};
+

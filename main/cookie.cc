@@ -42,14 +42,15 @@ void tCookie::print(){
 	if (value.get()) puts(value.get());
 };
 
+int tCookie::cmp(tAbstractSortNode *b){
+	return(string_ended(((tCookie *)b)->host.get(),host.get()));
+};
+
 tCookie::~tCookie(){
 };
 
 /*
  */
-int tCookiesTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	return(string_ended(((tCookie *)a)->host.get(),((tCookie *)b)->host.get()));
-};
 
 tCookie *tCookiesTree::find(const char *what) {
 	return find((tCookie **)(&Top),what);

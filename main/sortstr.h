@@ -23,14 +23,12 @@ struct tSortString: public tSortNode{
 	void print();
 	void increment();
 	void decrement();
+	int cmp(tAbstractSortNode *what);
 	int size();
 	~tSortString();
 };
 
 class tStrSortTree:public tAbstractSortTree{
-	protected:
-	int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b);
-	int compare_nodes(tAbstractSortNode *a,char *b,int key);
 	public:
 		tSortString *find(char *what,int key);
 };

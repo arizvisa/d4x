@@ -23,10 +23,11 @@
 #include "locstr.h"
 #include "ntlocale.h"
 #include "ftpd.h"
+#include <signal.h>
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.17";
+char *VERSION_NAME="WebDownloader for X 1.18";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -43,7 +44,9 @@ static void init_string_variables(){
 		};
 	};
 	if (CFG.SKIP_IN_CLIPBOARD==NULL)
-		CFG.SKIP_IN_CLIPBOARD=copy_string("html htm php3 gif jpg");
+		CFG.SKIP_IN_CLIPBOARD=copy_string("html htm php3 gif jpg png");
+	if (CFG.CATCH_IN_CLIPBOARD==NULL)
+		CFG.CATCH_IN_CLIPBOARD=copy_string("zip tar.gz rar arj exe rpm tar.bz2");
 	CFG.LOCAL_SAVE_PATH=copy_string(CFG.GLOBAL_SAVE_PATH);
 };
 

@@ -154,12 +154,17 @@ void convert_time(int what,char *where) {
 	char tmp[MAX_LEN];
 	*where=0;
 	if (hours>0) {
-		sprintf(where,"%i",hours);
+		convert_int_to_2(hours,tmp);
+		strcat(where,tmp);
+//		sprintf(where,"%i",hours);
 		strcat(where,":");
 		convert_int_to_2(mins,tmp);
 		strcat(where,tmp);
-	}else
-		sprintf(where,"%i",mins);
+	}else{
+		convert_int_to_2(mins,tmp);
+		strcat(where,tmp);
+//		sprintf(where,"%i",mins);
+	};
 	if (!CFG.TIME_FORMAT) {
 		strcat(where,":");
 		convert_int_to_2(secs,tmp);
@@ -273,6 +278,37 @@ char *unparse_percents(char *what) {
 	return rvalue;
 };
 
+char *escape_char(const char *where,char what,char bywhat){
+	g_return_val_if_fail(where!=NULL,NULL);
+	int num=0;
+	char *tmp=index(where,what);
+	while(tmp){
+		num+=1;
+		tmp=index(tmp+1,what);
+	};
+	if (num){
+		char *rvalue=new char[strlen(where)+num*2+1];
+		*rvalue=0;
+		char *r=rvalue;
+		tmp=index(where,what);
+		while(tmp){
+			if (tmp-where)
+				memcpy(r,where,tmp-where);
+			r+=tmp-where;
+			r[0]=bywhat;
+			r[1]=what;
+			r+=2;
+			where=tmp+1;
+			tmp=index(where,what);
+		};
+		*r=0;
+		if (*where)
+			memcpy(r,where,strlen(where)+1);
+		return rvalue;
+	};
+	return(copy_string(where));
+};
+
 void str_non_print_replace(char *what,char symbol){
 	g_return_if_fail(what!=NULL);
 	unsigned char *temp=(unsigned char *)what;
@@ -310,10 +346,10 @@ void make_number_nice(char *where,int num) {
 		case 2:	{
 				int megs;
 				megs=num/(1024*1024);
-				if (megs==0) {
-					int kils=num/1024;
+				int kils=num/1024;
+				if (megs==0 && kils<1000) {
 					int bytes=((num-kils*1024)*10)/1024;
-					if (kils==0)
+					if (kils==0 && bytes<1000)
 						sprintf(where,"%i",num);
 					else
 						sprintf(where,"%i.%iK",kils,bytes);
@@ -325,6 +361,44 @@ void make_number_nice(char *where,int num) {
 			};
 		default:
 			sprintf(where,"%i",num);
+	};
+};
+
+void make_number_nicel(char *where,unsigned long num) {
+	g_return_if_fail(where!=NULL);
+	switch (CFG.NICE_DEC_DIGITALS.curent) {
+		case 1:
+		case 3:{
+				sprintf(where,"%lu",num);
+				int len=strlen(where);
+				if (len<4) return;
+				for (int i=len-3;i>0;i-=3,len++) {
+					for (int a=len-1;a>=i;a--)
+						where[a+1]=where[a];
+					if (CFG.NICE_DEC_DIGITALS.curent==1) where[i]=' ';
+					else where[i]='\'';
+				};
+				where[len]=0;
+				break;
+			};
+		case 2:	{
+				int megs;
+				megs=num/(1024*1024);
+				int kils=num/1024;
+				if (megs==0 && kils<1000) {
+					int bytes=((num-kils*1024)*10)/1024;
+					if (kils==0 && bytes<1000)
+						sprintf(where,"%lu",num);
+					else
+						sprintf(where,"%i.%iK",kils,bytes);
+				} else{
+					int bytes=((num-megs*1024*1024)*10)/(1024*1024);
+					sprintf(where,"%i.%iM",megs,bytes);
+				};
+				break;
+			};
+		default:
+			sprintf(where,"%lu",num);
 	};
 };
 
@@ -472,7 +546,12 @@ int ctime_to_time(char *src) {
 	if (tmp && *tmp) {
 		extract_string(tmp,data);
 		if (index(data,':')) {
-			sscanf(data,"%i:%i:%i",&date.tm_hour,&date.tm_min,&date.tm_sec);
+			char *tmpdata=data;
+			sscanf_int(tmpdata,&(date.tm_hour));
+			tmpdata+=3;
+			sscanf_int(tmpdata,&(date.tm_min));
+			tmpdata+=3;
+			sscanf_int(tmpdata,&(date.tm_sec));
 		};
 	};
 	return mktime(&date);
@@ -731,6 +810,16 @@ int int_to_strin_len(int num){
 		len+=1;
 	};
 	return len;
+};
+
+/* scanf for int begined from zero */
+/* FIXME: if begined with more than one zero */
+
+int sscanf_int(char *str,int *where){
+	if (str==NULL) return 0;
+	if (*str && *str=='0')
+		return (sscanf(str+1,"%i",where));
+	return(sscanf(str,"%i",where));
 };
 
 /* tPStr

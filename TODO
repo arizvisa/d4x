@@ -1,9 +1,24 @@
 #################### to version 1.18 ####################################
-check time of local file and file on a server to avoid broken downloads
-parse date in DOS style ftp listing
-"Hot list" (ability to define urls for automatic download by d4x)
+[????] change "remove" to "remove from queue"
+[DONE] ability to configure common options for number of downloads
+[DONE] blinking of dndtrash icon when link was dropped
+[DONE] fix problem with downloading from limited site in number of threads
+[DONE] fix problem with saving to definet file
+[DONE] ability to cancel finding links in file
+[DONE] latest saved/loaded lists in "File" menu
+[DONE] fix overflow readed bytes
+[DONE] use GtkCalendar for scheduling downloads
+[DONE] time by default should be set 1:00 this night
+[DONE] options for "catching" extensions in clipboard instead of skiping
+[DONE] an option for disabling/enabling ability to force starting download
+[DONE] move all clipboard settings into separate place (relayering of options dialog?)
+[DONE] auto retry after 'bad answer' when download via http-proxy
+[DONE] parse date in DOS style ftp listing
+[DONE] check time of local file and file on a server to avoid broken downloads
 ################### end of todo to 1.18 #################################
-check for redirection to the same URL and set maximum redirections
+"Hot list" (ability to define urls for automatic download by d4x)
+check for redirection to the same URL
+check for maximum redirections
 double click on error message in mainlog open log with this error
 SOCKS support
 "conditions" system (user can setup conditions for starting download e.g. "time" is one type of conditions)
@@ -22,7 +37,7 @@ Auto detection of best proxy.
 [DONE] ability to select colors for graph of speeds
 [DONE] ability to download one file in more than one threads
 [DONE] Ability to download files only in defined subdirectories;
-[DONE] Ability to setup defult username and password for host;
+[DONE] Ability to setup default username and password for host;
 [DONE] gnome applet
 [DONE] ability to download links as files
 [DONE] working with selections in queue of downloads (e.g. select/unselect all)

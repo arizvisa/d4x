@@ -16,5 +16,6 @@ extern tDList *list_for_adding;
 void init_add_window(...);
 void init_add_clipboard_window(...);
 void init_add_dnd_window(char *url);
+void init_edit_common_properties_window(int *array);
 
 #endif

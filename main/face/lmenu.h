@@ -12,7 +12,7 @@
 #define MY_GTK_LIST_MENU
 
 extern GtkWidget *ListMenu;
-GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap);
+GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,int size);
 void init_list_menu();
 void list_menu_prepare();
 
@@ -21,6 +21,7 @@ enum {
 	LM_STOP,
 	LM_CONTINUE,
 	LM_EDIT,
+	LM_EDIT_COMMON,
 	LM_DEL,
 	LM_DELC,
 	LM_DELF,

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: nt\n"
 "POT-Creation-Date: 1999-08-24 15:06+0800\n"
 "PO-Revision-Date: 1999-08-24 17:12+07\n"
-"Last-Translator: Koshelev Maxim <mdem@chat.ru>\n"
+"Last-Translator: Felix Knecht <dicer@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
@@ -1529,34 +1529,101 @@ msgid "Select color"
 msgstr "Waehle eine Farbe"
 #face/prefs.cc
 msgid "Reset to default"
-msgstr ""
+msgstr "Auf Standart setzten"
 
 msgid "Colors for graph"
-msgstr ""
+msgstr "Farben fuer Grafik"
 
 #face/limface.cc
 msgid "Default limitation for all hosts (0 without limits)"
-msgstr ""
+msgstr "Standartlimits fuer alle Hosts (0 = ohne Limit)"
 
 
 #face/lod.cc
 msgid "Continue open log windows?"
-msgstr ""
+msgstr "Wirklich alle Protokollfenster oeffnen?"
 
 #face/lod.cc
 msgid "Don't get from cache"
-msgstr ""
+msgstr "Nicht aus dem Cache holen"
 
 #config.cc
 msgid "run in minimized mode"
-msgstr ""
+msgstr "minimiert laufen lassen"
 
 #face/prefs.cc
 msgid "Confirm opening large amount of windows"
-msgstr ""
+msgstr "Bestaetigung beim oeffnen von vielen Fenstern"
 
 
 #face/about.cc
 msgid "Special thanks to"
-msgstr ""
+msgstr "Vielen Dank an"
 
+
+#face/prefs.cc
+msgid "Clipboard"
+msgstr "Zwischenablage"
+
+msgid "Catch these extensions in clipboard"
+msgstr "Diese Erweiterungen in der Zwischenablage beachten"
+
+msgid "Allow to user force run downloads"
+msgstr "Dem Benutzer das Ausfuehren von mehr als angegebenen Downloads erlauben"
+
+#face/saveload.cc
+msgid "Loading"
+msgstr "Lade"
+
+#main.cc
+msgid "%lu bytes loaded during the session"
+msgstr "%lu Bytes in dieser Sitzung geladen"
+
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "Downloader wird sich nach %i Minuten %s beenden, wenn nichts zu tun ist"
+
+msgid "Exiting if nothing to do is switched off"
+msgstr "Das automatische Beenden wenn nichts zu tun ist, wurde abgeschaltet"
+
+#face/edit.cc
+msgid "Timeout for reading from socket"
+msgstr "Zeit bis zum Lese-Socket Timeout"
+
+msgid "Maximum attempts"
+msgstr "Maximale Versuche"
+
+msgid "Timeout before reconnection"
+msgstr "Timeout vor Verbindungswiederholung"
+
+msgid "Rollback after reconnecting"
+msgstr "Rollback nach Verbindungswiederholung"
+
+msgid "Depth of recursing for HTTP"
+msgstr "Tiefe des rekursiven Downloads mit HTTP"
+
+msgid "Depth of recursing for FTP"
+msgstr "Tiefe des rekursiven Downloads mit FTP"
+
+msgid "Speed limitation"
+msgstr "Geschwindigkeitsbeschraenkung"
+
+msgid "Unselect all"
+msgstr "Alle deselektieren"
+
+msgid "Select all"
+msgstr "Alle auswaehlen"
+
+msgid "Select properties"
+msgstr "Waehle Eigenschaften"
+
+#face/lmenu.cc
+msgid "Common properties"
+msgstr "Allgemeine Einstellungen"
+
+#config.cc
+msgid "set timeout for exiting if nothing to do"
+msgstr "setze Timeout zum automatischen Verlassen wenn nichts zu tun ist"
+
+msgid "You should specify number as parameter for '--exit-time' option"
+msgstr "Du solltest die Nummer als Parameter fuer die Option '--exit-time' setzen"
+ 

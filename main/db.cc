@@ -12,6 +12,8 @@
 #include "locstr.h"
 #include <stdio.h>
 
+/* data base is used for avoiding adding the same URLs in Downloader */
+
 tStringHostNode::tStringHostNode(){
 	body=NULL;
 	filled_num=0;
@@ -23,52 +25,22 @@ void tStringHostNode::print(){
 	if (body) puts(body);
 };
 
+int tStringHostNode::cmp(tAbstractSortNode *b){
+	return strcmp(body,((tStringHostNode*)b)->body);
+};
+
 tStringHostNode::~tStringHostNode(){
 	if (body) delete body;
 };
 /* tHostTree
  */
-int tDownloadTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	tDownload *aa=(tDownload*)a;
-	tDownload *bb=(tDownload*)b;
-	int r=strcmp(aa->info->file.get(),bb->info->file.get());
-	if (r)
-		return r;
-	r=strcmp(aa->info->path.get(),bb->info->path.get());
-	if (r)
-		return r;
-	if (aa->info->params.get()==NULL){
-		if (bb->info->params.get())
-			return 1;
-		return 0;
-	};
-	if (bb->info->params.get()==NULL && aa->info->params.get())
-			return -1;
-	return strcmp(aa->info->params.get(),bb->info->params.get());
-};
-
-int tHostTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	return strcmp(((tStringHostNode*)a)->body,((tStringHostNode*)b)->body);
-};
-
-int tHostTree::compare_nodes(tAbstractSortNode *a,char *b){
-	return strcmp(((tStringHostNode*)a)->body,b);
-};
 
 tStringHostNode *tHostTree::find(char *what){
-	tAbstractSortNode **temp=&Top;
-	while (*temp) {
-		int a=compare_nodes(*temp,what);
-		if (a<0)
-			temp=&((*temp)->more);
-		else {
-			if (a==0) {
-				return (tStringHostNode *)(*temp);
-			};
-			temp=&((*temp)->less);
-		};
-	};
-	return NULL;
+	tStringHostNode temp;
+	temp.body=what;
+	tStringHostNode *rvalue=(tStringHostNode *)tAbstractSortTree::find((tAbstractSortNode *)(&temp));
+	temp.body=NULL;
+	return rvalue;
 };
 /* tDB
  */

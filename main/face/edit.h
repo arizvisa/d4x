@@ -39,11 +39,10 @@ class tDEdit{
 	GtkWidget *ftp_recurse_depth_entry,*http_recurse_depth_entry;
 	GtkWidget *restart_from_begin_check;
 	GtkWidget *speed_entry;
-	GtkWidget *button;
 	GtkWidget *time_check;
 	GtkWidget *pause_check;
 	GtkWidget *split_entry;
-	GtkWidget *year_entry,*month_entry,*day_entry,*hour_entry,*minute_entry;
+	GtkWidget *calendar,*hour_entry,*minute_entry;
 	tProxyWidget *proxy;
 	void setup_time(time_t when);
 	void init_main(tDownload *who);
@@ -55,6 +54,7 @@ class tDEdit{
 		tDEdit();
 		void init(tDownload *who);
 		int apply_changes();
+		void apply_enabled_changes();
 		int get_pause_check();
 		void disable_ok_button();
 		void enable_ok_button();
@@ -63,16 +63,19 @@ class tDEdit{
 		void set_path_as_default();
 		void paste_url();
 		tDownload *get_parent();
+		void set_parent(tDownload *);
 		void select_url();
 		void clear_url();
 		void set_url(char *a);
 		void done();
 		void popup();
+		void disable_items(int *array);
 		~tDEdit();
 };
 
 void init_edit_window(tDownload *what);
 GList *make_glist_from_mylist(tHistory *parent);
 GtkWidget *my_gtk_combo_new(tHistory *history);
+void select_options_window_init();
 
 #endif

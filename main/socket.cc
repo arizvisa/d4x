@@ -20,6 +20,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <errno.h>
 #include <sys/time.h>
 #include <fcntl.h>
@@ -37,25 +38,28 @@ tSocket::tSocket() {
 int tSocket::constr_name(char *host,int port) {
 	info.sin_family=AF_INET;
 	if (host) {
-		if (!buffer) buffer=new char[MAX_LEN];
-		hostent *hpr=&hp;
-		temp_variable=0;
+		info.sin_addr.s_addr = inet_addr(host);
+		if (info.sin_addr.s_addr == INADDR_NONE){
+			if (!buffer) buffer=new char[MAX_LEN];
+			hostent *hpr=&hp;
+			temp_variable=0;
 #if !(defined(BSD) && (BSD >= 199306))
 #if defined(__sparc__) && !(defined(__linux__))
-		gethostbyname_r(host,&hp,buffer,MAX_LEN,&temp_variable);
+			gethostbyname_r(host,&hp,buffer,MAX_LEN,&temp_variable);
 #else
-		gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
+			gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
 #endif
-		if (temp_variable) return -1;
-		memcpy((char *)&info.sin_addr,(char *)hpr->h_addr,hpr->h_length);
+			if (temp_variable) return -1;
+			memcpy((char *)&info.sin_addr,hpr->h_addr_list[0],(size_t) hpr->h_length);
 #else /* !(defined(BSD) && (BSD >= 199306)) */
 /* It seems that reentrant variant
    of gethostbyname is not available under BSD
- */
-		hostent *hp=gethostbyname(host);
-		if (!hp) return -1;
-		memcpy((char *)&info.sin_addr,(char *)hp->h_addr,hp->h_length);
+*/
+			hostent *hpa=gethostbyname(host);
+			if (!hpa) return -1;
+			memcpy((char *)&info.sin_addr,hpa->h_addr_list[0],(size_t) hpa->h_length);
 #endif /* !(defined(BSD) && (BSD >= 199306)) */
+		};
 	} else info.sin_addr.s_addr=INADDR_ANY;
 	info.sin_port=htons(port);
 	return sizeof(info);
@@ -233,7 +237,7 @@ int tSocket::readed_bytes() {
 };
 
 tSocket::~tSocket() {
-	delete buffer;
+	if (buffer) delete(buffer);
 	down();
 };
 

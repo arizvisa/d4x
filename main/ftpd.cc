@@ -58,7 +58,47 @@ int ftp_permisions_from_str(char *a) {
 	return perm;
 };
 
-int ftp_date_from_str(char *src) {
+time_t ftp_date_from_dos(char *src){
+	struct tm *date=new tm;
+	time_t NOW=time(NULL);
+	localtime_r(&NOW,date);
+	date->tm_sec=0;
+	date->tm_isdst=-1;
+	char *tmp=src;
+	/* day-month-year min:hour[aa]*/
+	sscanf_int(tmp,&(date->tm_mday));
+	tmp+=3;
+	sscanf_int(tmp,&(date->tm_mon));
+	tmp+=3;
+	int year=date->tm_year;
+	sscanf_int(tmp,&(year));
+	if (year+100<=date->tm_year)
+		date->tm_year=year+100;
+	else
+		date->tm_year=year;
+	if (date->tm_mon>12){
+		year=date->tm_mon;
+		date->tm_mon=date->tm_mday;
+		date->tm_mday=year;
+	};
+	date->tm_mon-=1;
+	/* parsing minutes and hours */
+	tmp=index(src,' ');
+	if (tmp){
+		while (*tmp && *tmp==' ') tmp+=1;
+		sscanf_int(tmp,&(date->tm_hour));
+		tmp+=3;
+		sscanf_int(tmp,&(date->tm_min));
+		tmp+=2;
+		if (*tmp=='p' || *tmp=='P')
+			date->tm_hour+=12;
+	};
+	NOW=mktime(date);
+	delete(date);
+	return(NOW);
+};
+
+time_t ftp_date_from_str(char *src) {
 	char *data=new char[strlen(src)+1];
 	char *tmp;
 	int month,day;
@@ -71,6 +111,7 @@ int ftp_date_from_str(char *src) {
 	time_t NOW=time(NULL);
 	struct tm *date=new tm;
 	localtime_r(&NOW,date);
+	date->tm_sec=0;
 	date->tm_isdst=-1;
 	month=date->tm_mon;
 	day=date->tm_mday;
@@ -85,7 +126,11 @@ int ftp_date_from_str(char *src) {
 	if (tmp && *tmp) {
 		extract_string(tmp,data);
 		if (index(data,':')) {
-			sscanf(data,"%i:%i",&(date->tm_hour),&(date->tm_min));
+			/* very ugly way to skip first zero */
+			char *tmpdata=data;
+			sscanf_int(tmpdata,&(date->tm_hour));
+			tmpdata+=3;
+			sscanf_int(tmpdata,&(date->tm_min));
 			if (month<date->tm_mon ||
 			    (month==date->tm_mon && day<date->tm_mday))
 				date->tm_year-=1;
@@ -93,7 +138,7 @@ int ftp_date_from_str(char *src) {
 			sscanf(data,"%i",&(date->tm_year));
 			date->tm_year-=1900;
 		};
-	};
+	};	
 	NOW=mktime(date);
 	delete date;
 	delete data;
@@ -146,31 +191,28 @@ void ftp_cut_string_list(char *src,tFileInfo *dst,int flag) {
 		}else dst->body.set(NULL);
 	}else{
 // dos style listing
-// we don't get date and time because they are not Y2K compilance
+
 		char *new_src=extract_string(src,str1);
 		new_src=extract_string(new_src,str1);
-		dst->date=time(NULL);
 		new_src=extract_string(new_src,str1);
-
-		if (is_string(str1)){
-			dst->type=T_DIR;
-			dst->perm=0775;
-		}else{
-			sscanf(str1,"%u",&(dst->size));
-			dst->type=T_FILE;
-			dst->perm=0664;
-		};
-		
-		if (flag && new_src && *new_src) {
-			while (*new_src==' ') new_src+=1;
-			dst->name.set(new_src);
-			dst->body.set(NULL);
+		if (new_src && *new_src){
+			dst->date=ftp_date_from_dos(src);
+			if (strstr(str1,"DIR")){
+				dst->type=T_DIR;
+				dst->perm=0775;
+			}else{
+				sscanf(str1,"%u",&(dst->size));
+				dst->type=T_FILE;
+				dst->perm=0664;
+			};
+			
+			if (flag && new_src && *new_src) {
+				while (*new_src==' ') new_src+=1;
+				dst->name.set(new_src);
+				dst->body.set(NULL);
+			};
 		};
 	};
-
-	/* Next cycle extract name from string of
-	 * directory listing
-	 */
 	delete str1;
 	delete name;
 };
@@ -225,17 +267,17 @@ int tFtpDownload::reconnect() {
 	int success=1;
 	Status=D_QUERYING;
 	while (success) {
-		RetrNum++;
 		if (FTP->get_status()!=STATUS_TIMEOUT && FTP->get_status()!=0) {
 			print_error(ERROR_TOO_MANY_USERS);
 		};
+		FTP->done();
 		if (config.number_of_attempts &&
-		    RetrNum>=config.number_of_attempts+1) {
+		    RetrNum>=config.number_of_attempts) {
 			print_error(ERROR_ATTEMPT_LIMIT);
 			return -1;
 		};
+		RetrNum++;
 		print_error(ERROR_ATTEMPT);
-		FTP->down();
 		if (RetrNum>1) {
 			if (FTP->test_reget() || config.retry) {
 				LOG->log(LOG_OK,_("Sleeping"));
@@ -311,8 +353,8 @@ int tFtpDownload::get_size() {
 					a=FTP->get_size(ADDR.file.get(),list);
 				if (a==0 && list->count()<=2) {
 					tString *last=list->last();
+					D_FILE.type=T_FILE;
 					if (!last) {
-						D_FILE.type=T_FILE;
 						D_FILE.size=0;
 						D_FILE.perm=S_IRUSR|S_IWUSR;
 						return 0;
@@ -411,6 +453,10 @@ int tFtpDownload::download(int len) {
 		break;
 	};
 	default:{
+		if (LOADED && remote_file_changed()){
+			print_error(ERROR_FILE_UPDATED);
+			LOADED=0;
+		};
 		int length_to_load=len>0?LOADED+len:0;
 		int ind=0;
 		while(1) {

@@ -17,7 +17,6 @@
 
 class tDownloadTree:public tAbstractSortTree{
 	protected:
-	int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b);
 };
 
 struct tStringHostNode:public tAbstractSortNode{
@@ -26,13 +25,12 @@ struct tStringHostNode:public tAbstractSortNode{
 	tDownloadTree *nodes[256];
 	tStringHostNode();
 	void print();
+	int cmp(tAbstractSortNode *b);
 	~tStringHostNode();
 };
 
 class tHostTree:public tAbstractSortTree{
 	protected:
-	int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b);
-	int compare_nodes(tAbstractSortNode *a,char *b);
 	public:
 		tStringHostNode *find(char *what);
 };

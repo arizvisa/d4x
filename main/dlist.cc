@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <utime.h>
+#include <unistd.h>
 #include "html.h"
 
 #include "face/lod.h"
@@ -26,6 +27,7 @@
 #include "ntlocale.h"
 #include "main.h"
 #include "httpd.h"
+#include "savedvar.h"
 
 extern tMain aa;
 
@@ -87,6 +89,14 @@ int tDefaultWL::shift(int shift){
 		lseek(fd,shift,SEEK_SET);
 	};
 	return 0;
+};
+
+void tDefaultWL::truncate(){
+	if (fd>=0){
+		off_t a=lseek(fd,0,SEEK_CUR);
+		ftruncate(fd,a);
+//		log_printf(LOG_WARNING,"truncate file to %i",a);
+	};
 };
 
 void tDefaultWL::log(int type,const char *str){
@@ -158,6 +168,24 @@ tDownload::tDownload() {
 	ScheduleTime=0;
 };
 
+int tDownload::cmp(tAbstractSortNode *b){
+	tDownload *bb=(tDownload*)b;
+	int r=strcmp(info->file.get(),bb->info->file.get());
+	if (r)
+		return r;
+	r=strcmp(info->path.get(),bb->info->path.get());
+	if (r)
+		return r;
+	if (info->params.get()==NULL){
+		if (info->params.get())
+			return 1;
+		return 0;
+	};
+	if (bb->info->params.get()==NULL && info->params.get())
+			return -1;
+	return strcmp(info->params.get(),bb->info->params.get());
+};
+
 void tDownload::clear() {
 	if (who) {
 		delete(who);
@@ -180,13 +208,22 @@ int tDownload::delete_file() {
 	tFileInfo *D_FILE=who->get_file_info();
 	if (D_FILE->type==T_FILE) {
 		char *name,*guess;
-		who->make_full_pathes(config.save_path.get(),&name,&guess);
+		make_file_names(&name,&guess);
 		if (remove(guess) && remove(name))
 			rvalue=-1;
 		delete name;
 		delete guess;
 	};
 	return rvalue;
+};
+
+void tDownload::make_file_names(char **name, char **guess){
+	if (config.save_name.get() && strlen(config.save_name.get()))
+		who->make_full_pathes(config.save_path.get(),
+				 config.save_name.get(),
+				 name,guess);
+	else
+		who->make_full_pathes(config.save_path.get(),name,guess);
 };
 
 int tDownload::create_file() {
@@ -196,14 +233,8 @@ int tDownload::create_file() {
 		D_FILE->type=T_FILE;
 	int fdesc=-1;
 	int rvalue=0;
-	char *name;
-	char *guess;
-	if (config.save_name.get() && strlen(config.save_name.get()))
-		who->make_full_pathes(config.save_path.get(),
-				 config.save_name.get(),
-				 &name,&guess);
-	else
-		who->make_full_pathes(config.save_path.get(),&name,&guess);
+	char *name,*guess;
+	make_file_names(&name,&guess);
 
 	make_dir_hier_without_last(name);
 	switch (D_FILE->type) {
@@ -258,6 +289,9 @@ int tDownload::create_file() {
 				};
 				break;
 			};
+			need_to_rename=1;
+		}else{
+			need_to_rename=0;
 		};
 		config.restart_from_begin=0;
 		WL->log(LOG_OK,_("File was created!"));
@@ -311,15 +345,9 @@ void tDownload::set_date_file() {
 	tFileInfo *D_FILE=who->get_file_info();
 	if (config.get_date) {
 		char *name,*guess;
-		if (config.save_name.get() && strlen(config.save_name.get()))
-			who->make_full_pathes(config.save_path.get(),
-					 config.save_name.get(),
-					 &name,&guess);
-		else
-			who->make_full_pathes(config.save_path.get(),&name,&guess);
+		make_file_names(&name,&guess);
 		struct utimbuf dates;
-		dates.actime=D_FILE->date;
-		dates.modtime=D_FILE->date;
+		dates.actime=dates.modtime=D_FILE->date;
 		utime(name,&dates);
 		utime(guess,&dates);
 		delete name;
@@ -342,18 +370,11 @@ void tDownload::update_trigers() {
 };
 
 void tDownload::make_file_visible(){
-	if (who){
+	if (who && need_to_rename){
 		tFileInfo *D_FILE=who->get_file_info();
 		if (D_FILE->type==T_FILE) {
 			char *oldname,*newname;
-			if (config.save_name.get() && strlen(config.save_name.get())){
-				who->make_full_pathes(config.save_path.get(),
-						 config.save_name.get(),
-						 &oldname,&newname);
-			} else {
-				who->make_full_pathes(config.save_path.get(),
-						 &oldname,&newname);
-			};
+			make_file_names(&oldname,&newname);
 			rename(oldname,newname);
 			delete oldname;
 			delete newname;
@@ -614,69 +635,70 @@ void tDownload::save_to_config(int fd){
 };
 
 int tDownload::load_from_config(int fd){
-	char *table_of_fields[]={
-		"Url:",
-		"State:",
-		"Time:",
-		"Cfg:",
-		"SavePath:",
-		"SaveName:",
-		"SplitTo:",
-		"EndDownload:"
+	tSavedVar table_of_fields[]={
+		{"Url:",	SV_TYPE_URL,	info},
+		{"State:",	SV_TYPE_INT,	&owner},
+		{"Time:",	SV_TYPE_TIME,	&ScheduleTime},
+		{"Cfg:",	SV_TYPE_CFG,	&config},
+		{"SavePath:",	SV_TYPE_PSTR,	&(config.save_path)},
+		{"SaveName:",	SV_TYPE_PSTR,	&(config.save_name)},
+		{"SplitTo:",	SV_TYPE_SPLIT,	NULL},
+		{"EndDownload:",SV_TYPE_END,	NULL}
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){
 		unsigned int i;
-		for (i=0;i<sizeof(table_of_fields)/sizeof(char *);i++){
-			if (equal_uncase(buf,table_of_fields[i])) break;
-		};
-		switch(i){
-		case 0:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			if (info) delete(info);
-			info=new tAddr(buf);
-			break;
-		};
-		case 1:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%d",&owner);
-			break;
-		};		
-		case 2:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			sscanf(buf,"%ld",&ScheduleTime);
-			break;
-		};
-		case 3:{
-			if (config.load_from_config(fd)<0) return -1;
-			break;
-		};
-		case 4:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			config.save_path.set(buf);
-			break;
-		};
-		case 5:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			config.save_name.set(buf);
-			break;
-		};
-		case 6:{
-			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			int tmp;
-			sscanf(buf,"%d",&tmp);
-			if (tmp>10) tmp=10;
-			if (tmp>1){
-				split=new tSplitInfo;
-				split->NumOfParts=tmp;
+		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
+			if (equal_uncase(buf,table_of_fields[i].name)){
+				switch(table_of_fields[i].type){
+				case SV_TYPE_INT:
+					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+					sscanf(buf,"%d",(int *)(table_of_fields[i].where));
+					break;
+				case SV_TYPE_PSTR:
+					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+					((tPStr *)(table_of_fields[i].where))->set(buf);
+					break;
+				case SV_TYPE_URL:
+					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+					if (info) delete(info);
+					info=new tAddr(buf);
+					break;
+				case SV_TYPE_TIME:
+					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+					sscanf(buf,"%ld",(time_t *)(table_of_fields[i].where));
+					break;
+				case SV_TYPE_CFG:
+					if (config.load_from_config(fd)<0) return -1;
+					break;
+				case SV_TYPE_SPLIT:
+					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+					int tmp;
+					sscanf(buf,"%d",&tmp);
+					if (tmp>10) tmp=10;
+					if (tmp>1){
+						split=new tSplitInfo;
+						split->NumOfParts=tmp;
+					};
+					break;
+				case SV_TYPE_END:
+					return info==NULL?-1:0;
+				};
+				break;
 			};
-			break;
-		};		
-		case 7: return info==NULL?-1:0;
 		};
 	};
 	return -1;
 };
+
+void tDownload::check_local_file_time(){
+	if (split==NULL){
+		struct stat tmpstat;
+		fstat(((tDefaultWL *)WL)->get_fd(),&tmpstat);
+		who->set_local_filetime(tmpstat.st_mtime);
+	};
+};
+
 void tDownload::download_completed(int type) {
 	who->done();
 	switch (type){
@@ -691,6 +713,9 @@ void tDownload::download_completed(int type) {
 	};
 	WL->log(LOG_OK,_("Downloading was successefully completed!"));
 	make_file_visible();
+	if (split==NULL)
+		WL->truncate();
+	set_date_file();
 	status=DOWNLOAD_COMPLETE;
 };
 
@@ -742,10 +767,13 @@ void tDownload::download_http() {
 	/* In the case if file already loaded
 	 */
 	if (size==CurentSize && size>0) {
-		finfo.size=size;
-		finfo.type=T_FILE;
-		download_completed(D_PROTO_HTTP);
-		return;
+		check_local_file_time();
+		if (!who->remote_file_changed()){
+			finfo.size=size;
+			finfo.type=T_FILE;
+			download_completed(D_PROTO_HTTP);
+			return;
+		};
 	};
 	/* There are must be procedure for removing file
 	 * wich execute if CurentSize==0
@@ -770,19 +798,20 @@ void tDownload::download_http() {
 	};
 	finfo.size=size;
 	finfo.type=T_FILE;
-	Start=Pause=time(NULL);
 	/* there we need to create file again
 	 * if CurentSize==0
 	 */
-	if (split && CurentSize==0 && finfo.size>MINIMUM_SIZE_TO_SPLIT)
+	if (split && CurentSize==0 && finfo.size>MINIMUM_SIZE_TO_SPLIT){
 		split->LastByte=finfo.size/split->NumOfParts;
+	};
+	check_local_file_time();
 	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
 	status=DOWNLOAD_GO;
+	Start=Pause=time(NULL);
 	if (who->download(SIZE_FOR_DOWNLOAD)) {
 		download_failed();
 		return;
 	};
-	set_date_file();
 	recurse_http();
 	download_completed(D_PROTO_HTTP);
 };
@@ -838,22 +867,24 @@ void tDownload::download_ftp(){
 		download_failed();
 		return;
 	};
-
-	Start=Pause=time(NULL);
+	if (finfo.size && CurentSize>finfo.size)
+		CurentSize=finfo.size;
+	
 	if (split){
 		CurentSize=split->FirstByte;
 		if (CurentSize==0  && finfo.size>MINIMUM_SIZE_TO_SPLIT)
 			split->LastByte=finfo.size/split->NumOfParts;
 	};
+	check_local_file_time();
 	who->set_loaded(CurentSize);
 	if (split) WL->shift(CurentSize);
 	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
 	status=DOWNLOAD_GO;
+	Start=Pause=time(NULL);
 	if (who->download(SIZE_FOR_DOWNLOAD)) {
 		download_failed();
 		return;
 	};
-	set_date_file();
 	download_completed(D_PROTO_FTP);
 };
 
@@ -870,6 +901,7 @@ void tDownload::prepare_next_split(){
 		tmp->split->LastByte=tmp->split->FirstByte + split->LastByte - split->FirstByte;
 	};
 	tmp->config.copy(&config);
+	tmp->config.speed=(config.speed/split->NumOfParts)*tmp->split->NumOfParts;
 	tmp->config.user_agent.set(config.user_agent.get());
 	tmp->config.referer.set(config.referer.get());
 	tmp->config.save_name.set(config.save_name.get());

@@ -121,3 +121,58 @@ void init_add_dnd_window(char *url) {
 	what->editor->set_url(url);
 	gtk_widget_grab_focus(what->editor->ok_button);
 };
+
+void edit_common_properties_ok(GtkWidget *widget, tDownload *what){
+	GList *selection=GTK_CLIST(ListOfDownloads)->selection;
+	while(selection){
+		int row=GPOINTER_TO_INT(selection->data);
+		tDownload *tmp=get_download_from_clist(row);
+		if (tmp && tmp->owner!=DL_RUN && tmp->owner!=DL_STOPWAIT){
+			what->editor->set_parent(tmp);
+			tmp->editor->apply_enabled_changes();
+			tmp->editor->set_parent(what);
+		};
+		selection=selection->next;
+	};
+	what->editor->set_parent(what);
+	what->delete_editor();
+	list_for_adding->del(what);
+	delete(what);
+};
+
+void init_edit_common_properties_window(int *array) {
+	if (list_for_adding==NULL) {
+		list_for_adding=new tDList(DL_TEMP);
+		list_for_adding->init(0);
+	};
+	tDownload *what=new tDownload;
+	tAddr *info=new tAddr("ftp://somesite.org");
+	what->info=info;
+	what->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+	what->set_default_cfg();
+
+	if (CFG.USE_PROXY_FOR_FTP) {
+		what->config.proxy_host.set(CFG.FTP_PROXY_HOST);
+		what->config.proxy_port=CFG.FTP_PROXY_PORT;
+		if (CFG.NEED_PASS_FTP_PROXY) {
+			what->config.proxy_user.set(CFG.FTP_PROXY_USER);
+			what->config.proxy_pass.set(CFG.FTP_PROXY_PASS);
+		};
+	};
+	what->config.proxy_type=CFG.FTP_PROXY_TYPE;
+
+	what->editor=new tDEdit;
+	what->editor->init(what);
+	what->editor->disable_items(array);
+	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Add new download"));
+	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
+	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_common_properties_ok),what);
+	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
+	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
+			   (GtkSignalFunc)_add_window_event_handler, what);
+	what->editor->clear_url();
+	list_for_adding->insert(what);
+	
+	gtk_window_set_transient_for (GTK_WINDOW (what->editor->window), GTK_WINDOW (MainWindow));
+	gtk_window_set_modal (GTK_WINDOW(what->editor->window),TRUE);
+};

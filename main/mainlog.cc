@@ -273,6 +273,21 @@ void tMLog::myprintf(int type,char *fmt,...){
 				g_snprintf(cur,MAX_LEN-(cur-str),"%i",va_arg(ap,int));
 				break;
 			};
+			case 'l':{
+				switch(*(fmt+1)){
+				case 'u':{
+					fmt+=1;
+					g_snprintf(cur,MAX_LEN-(cur-str),"%lu",va_arg(ap,unsigned long));
+					break;
+				};
+				case 'i':{
+					fmt+=1;
+					g_snprintf(cur,MAX_LEN-(cur-str),"%li",va_arg(ap,long));
+					break;
+				};
+				};
+				break;
+			};
 			default:{
 				*cur=*fmt;
 				cur+=1;

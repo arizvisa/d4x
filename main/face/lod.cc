@@ -18,6 +18,7 @@
 #include "addd.h"
 #include "misc.h"
 #include "about.h"
+#include "dndtrash.h"
 #include "../ntlocale.h"
 #include "../locstr.h"
 #include "../main.h"
@@ -428,10 +429,10 @@ int list_event_callback(GtkWidget *widget,GdkEvent *event) {
 // this the drag-drop even handler
 // just add the url, and assume default download location
 void list_dnd_drop_internal(GtkWidget *widget,
-                                   GdkDragContext *context,
-                                   gint x, gint y,
-                                   GtkSelectionData *selection_data,
-                                   guint info, guint time) {
+			    GdkDragContext *context,
+			    gint x, gint y,
+			    GtkSelectionData *selection_data,
+			    guint info, guint time) {
 	g_return_if_fail(widget!=NULL);
 
 	switch (info) {
@@ -449,6 +450,8 @@ void list_dnd_drop_internal(GtkWidget *widget,
 						init_add_dnd_window((char*)selection_data->data);
 					else
 						aa.add_downloading((char*)selection_data->data, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL);
+					if (!GTK_IS_CLIST(widget))
+						dnd_trash_animation();
 				}
 			}
 	}
@@ -564,6 +567,11 @@ void list_of_downloads_init_pixmaps(){
 		list_of_downloads_pixmaps[PIX_STOP_WAIT]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_STOP_WAIT]),stop_wait_xpm);
 		list_of_downloads_pixmaps[PIX_PAUSE]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_PAUSE]),paused_xpm);
 		list_of_downloads_pixmaps[PIX_COMPLETE]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_COMPLETE]),complete_xpm);
+		/* we will use these pixmaps many times */
+		for (int i=0;i<PIX_UNKNOWN;i++){
+			gdk_pixmap_ref(list_of_downloads_pixmaps[i]);
+			gdk_bitmap_ref(list_of_downloads_bitmaps[i]);
+		};
 };
 
 void list_of_downloads_set_pixmap(int row,int type){
@@ -608,7 +616,7 @@ static void _continue_opening_logs(){
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
-		if (temp->LOG->Window==NULL)
+		if (temp && (temp->LOG==NULL || temp->LOG->Window==NULL))
 			log_window_init(temp);
 		select=select->next;
 	};
@@ -622,9 +630,10 @@ void list_of_downloads_open_logs(...) {
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
+		if (temp && (temp->LOG==NULL || temp->LOG->Window==NULL))
+			a-=1;
 		log_window_init(temp);
 		select=select->next;
-		a-=1;
 		if (a<0 && select && CFG.CONFIRM_OPENING_MANY){
 			if (!AskOpening) AskOpening=new tDialogWidget;
 			if (AskOpening->init(_("Continue open log windows?"),_("Open logs?")))

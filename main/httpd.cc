@@ -87,21 +87,20 @@ int tHttpDownload::reconnect() {
 	int success=1;
 	Status=D_QUERYING;
 	while (success) {
-		RetrNum++;
 //		if (HTTP->get_status()==STATUS_FATAL) return -1;
 		if (config.number_of_attempts &&
 		    RetrNum>=config.number_of_attempts+1) {
 			print_error(ERROR_ATTEMPT_LIMIT);
 			return -1;
 		};
+		RetrNum++;
 		print_error(ERROR_ATTEMPT);
 		HTTP->down();
 		if (RetrNum>1) {
 			if (HTTP->test_reget() || config.retry) {
 				LOG->log(LOG_WARNING,_("Sleeping"));
 				sleep(config.time_for_sleep+1);
-			}
-			else return -1;
+			}else return -1;
 		};
 		if (HTTP->reinit()==0)
 			success=0;
@@ -264,7 +263,8 @@ int tHttpDownload::get_size() {
 		if (temp==1){
 			return -1;
 		};
-		if (HTTP->get_status()!=STATUS_TIMEOUT) break;
+		if (HTTP->get_status()!=STATUS_TIMEOUT ||
+		    HTTP->get_status()!=STATUS_BAD_ANSWER) break;
 		if (reconnect()) break;
 	};
 	print_error(ERROR_BAD_ANSWER);
@@ -279,6 +279,12 @@ int tHttpDownload::download(int len) {
 		StartSize=LOADED;
 		if (!first) StartSize=rollback();
 		HTTP->set_offset(LOADED);
+		if (ReGet && len==0 && LOADED &&
+		    remote_file_changed()){
+			print_error(ERROR_FILE_UPDATED);
+			first=0;
+			LOADED=0;
+		};
 		while (first || get_size()>=0) {
 			if (!ReGet) {
 				if (LOADED)

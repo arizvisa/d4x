@@ -23,6 +23,7 @@ extern tMain aa;
 
 GtkWidget *LoadSaveWindow=(GtkWidget *)NULL;
 GtkWidget *load_save_entry;
+GtkWidget *LoadingStatusWindow=(GtkWidget *)NULL;
 
 gint load_save_list_cancel() {
 	if (LoadSaveWindow) gtk_widget_destroy(LoadSaveWindow);
@@ -36,8 +37,54 @@ void load_list_ok(GtkWidget *parent,GtkWidget *who) {
 	load_save_list_cancel();
 };
 
+static gint time_for_load_refresh(GtkWidget *pbar){
+	if (thread_for_parse_txt_status()==1){
+		gtk_progress_set_percentage(GTK_PROGRESS(pbar),
+					    thread_for_parse_percent());
+		return 1;
+	};
+	thread_for_parse_add();
+	gtk_widget_destroy(LoadingStatusWindow);
+	LoadingStatusWindow=NULL;
+	return 0;
+};
+
+static gint try_to_stop_load_thread(GtkWindow *window,GdkEvent *event,gpointer data){
+	thread_for_parse_stop();
+	return(TRUE);
+};
+
 void load_txt_list_ok(GtkWidget *parent,GtkWidget *who) {
 	tUrlParser *parser=new tUrlParser(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
+	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
+	load_save_list_cancel();
+
+        LoadingStatusWindow = gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_signal_connect(GTK_OBJECT(LoadingStatusWindow),
+			   "delete_event",
+			   GTK_SIGNAL_FUNC(try_to_stop_load_thread), NULL);
+	gtk_window_set_policy (GTK_WINDOW(LoadingStatusWindow), FALSE,FALSE,FALSE);
+	gtk_window_set_position(GTK_WINDOW(LoadingStatusWindow),GTK_WIN_POS_CENTER);
+	gtk_window_set_title(GTK_WINDOW (LoadingStatusWindow), _("Loading"));
+	gtk_container_border_width(GTK_CONTAINER(LoadingStatusWindow),5);
+	GtkWidget *pbar = gtk_progress_bar_new();
+	gtk_widget_set_usize(pbar,200,-1);
+	gtk_progress_set_format_string (GTK_PROGRESS (pbar),"%p%%");
+	gtk_progress_set_value(GTK_PROGRESS(pbar),0);
+	gtk_progress_set_show_text(GTK_PROGRESS(pbar),TRUE);
+	gtk_container_add(GTK_CONTAINER(LoadingStatusWindow),pbar);
+
+	gtk_widget_show_all(LoadingStatusWindow);
+	gtk_window_set_modal (GTK_WINDOW(LoadingStatusWindow),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (LoadingStatusWindow), GTK_WINDOW (MainWindow));
+
+	gint timeout=gtk_timeout_add (100, time_for_load_refresh , pbar);
+	if (thread_for_parse_txt(parser)){
+		gtk_timeout_remove(timeout);
+		gtk_widget_destroy(LoadingStatusWindow);
+		LoadingStatusWindow=NULL;
+	};
+/*
 	tStringList *list=parser->parse();
 	tString *tmp=list->last();
 	while (tmp){
@@ -46,15 +93,16 @@ void load_txt_list_ok(GtkWidget *parent,GtkWidget *who) {
 	};
 	delete(parser);
 	delete(list);
-	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
-	load_save_list_cancel();
+*/
 };
 
 
 void save_list_ok(GtkWidget *parent,GtkWidget *who) {
 	save_list_to_file(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
 	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
+	ALL_HISTORIES[SAVE_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(load_save_entry)->combo));
 	load_save_list_cancel();
+	init_load_accelerators();
 };
 
 static void _sl_set_modal(){

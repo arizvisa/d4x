@@ -116,19 +116,25 @@ void tMain::init() {
 	while ((MsgQueue=msgget(LogsMsgQueue,IPC_CREAT|0600))<0) {
 		LogsMsgQueue+=1;
 	};
+	msgctl(MsgQueue,IPC_RMID,NULL);
+	MsgQueue=msgget(LogsMsgQueue,IPC_CREAT|0600);
+	struct msqid_ds msgbf;
+	msgctl(MsgQueue,IPC_STAT,&msgbf);
+	msgbf.msg_qbytes=(sizeof(mbuf)-sizeof(long))*100;
+	msgctl(MsgQueue,IPC_SET,&msgbf);
 	/* Clearing msgqueue */
 	int complete=0;
 	while (!complete) {
 		mbuf Msg;
 		complete=1;
-		if (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),1,IPC_NOWAIT)>0 ||
-		        msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),2,IPC_NOWAIT)>0)
+		if (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),0,IPC_NOWAIT)>0)
 			complete=0;
 	};
 	struct sigaction action,old_action;
 	action.sa_handler=my_main_quit;
 	action.sa_flags=0;//SA_NOCLDSTOP;
 	sigaction(SIGINT,&action,&old_action);
+	sigaction(SIGTERM,&action,&old_action);
 //	signal(SIGTERM,my_main_quit);
 };
 
@@ -197,18 +203,18 @@ void tMain::init_main_log() {
 
 void tMain::redraw_logs() {
 	mbuf Msg;
-	int limit = 0;
-	while (limit<99) {
-		limit++;
-		if (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),1,IPC_NOWAIT)>0) {
+	int limit = 15;
+	while (limit>0) {
+		limit--;
+		if (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),0,IPC_NOWAIT|MSG_NOERROR)>0) {
 			if (Msg.what){
-				Msg.which->lock();
+//					Msg.which->lock();
 				log_window_add_string(Msg.which,Msg.what);
-				Msg.which->unlock();
+//					Msg.which->unlock();
 			}else
 				del_first_from_log(Msg.which);
 		}else
-			break;
+			return;
 	};
 };
 
@@ -302,12 +308,14 @@ int tMain::run_new_thread(tDownload *what) {
 	what->update_trigers();
 
 	what->SpeedLimit=new tSpeed;
-	what->SpeedLimit->base = GLOBAL_SLEEP_DELAY * what->config.speed;
+/* set speed limitation */
+	if (what->split && what->split->NumOfParts){
+		what->split->stopped=0;
+		what->SpeedLimit->base = what->config.speed/what->split->NumOfParts;
+	}else
+		what->SpeedLimit->base = what->config.speed;
 	if (CFG.SPEED_LIMIT<3 && CFG.SPEED_LIMIT>0)
-		what->SpeedLimit->bytes = 512; //allow to read 512 bytes
-	else
-		what->SpeedLimit->bytes = what->SpeedLimit->base;
-
+		what->SpeedLimit->set(((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2) * GLOBAL_SLEEP_DELAY)/ (DOWNLOAD_QUEUES[DL_RUN]->count()+1));
 	SpeedScheduler->insert(what->SpeedLimit);
 	if (what->editor) what->editor->disable_ok_button();
 
@@ -316,7 +324,15 @@ int tMain::run_new_thread(tDownload *what) {
 	pthread_attr_init(&attr_p);
 	pthread_attr_setdetachstate(&attr_p,PTHREAD_CREATE_JOINABLE);
 	pthread_attr_setscope(&attr_p,PTHREAD_SCOPE_SYSTEM);
-	return (pthread_create(&what->thread_id,&attr_p,download_last,(void *)what));
+	if (pthread_create(&what->thread_id,&attr_p,download_last,(void *)what)){
+		MainLog->add(_("Can't run new thread for downloading!"),LOG_ERROR);
+		if (DOWNLOAD_QUEUES[DL_RUN]->count()){
+			MainLog->myprintf(LOG_WARNING,_("Maximum active downloads is set to %i"),CFG.MAX_THREADS);
+			CFG.MAX_THREADS = DOWNLOAD_QUEUES[DL_RUN]->count();
+		};
+		return(-1);
+	};
+	return(0);
 };
 
 void tMain::stop_split(tDownload *what){
@@ -403,15 +419,17 @@ void tMain::try_to_run_split(tDownload *what){
 			while (part>0){
 				if (tmp && tmp->curent>=tmp->upper)
 					return;
-				dwn->prepare_next_split();
-				if (run_new_thread(dwn->split->next_part)){
-					delete(dwn->split->next_part);
-					dwn->split->next_part=NULL;
-					return;
+				if (dwn->split->next_part==NULL){
+					dwn->prepare_next_split();
+					if (run_new_thread(dwn->split->next_part)){
+						delete(dwn->split->next_part);
+						dwn->split->next_part=NULL;
+						return;
+					};
+					if (tmp) tmp->increment();
 				};
-				if (tmp) tmp->increment();
-				dwn=dwn->split->next_part;
 				part-=1;
+				dwn=dwn->split->next_part;
 			};
 			what->split->status=1;
 		}else{
@@ -459,7 +477,7 @@ void tMain::continue_download(tDownload *what) {
 				  what->info->file.get(),
 				  what->info->host.get());
 		DOWNLOAD_QUEUES[what->owner]->del(what);
-		if (try_to_run_download(what)) {
+		if (CFG.ALLOW_FORCE_RUN && try_to_run_download(what)) {
 			DOWNLOAD_QUEUES[DL_RUN]->insert(what);
 		} else {
 			tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->last();
@@ -474,10 +492,11 @@ void tMain::continue_download(tDownload *what) {
 		};
 	};
 	what->Attempt.clear();
+	what->finfo.size=-1;
 };
 
 int tMain::complete() {
-	return((DOWNLOAD_QUEUES[DL_WAIT]->count()+DOWNLOAD_QUEUES[DL_RUN]->count()+DOWNLOAD_QUEUES[DL_STOPWAIT])>0?0:1);
+	return((DOWNLOAD_QUEUES[DL_WAIT]->count()+DOWNLOAD_QUEUES[DL_RUN]->count()+DOWNLOAD_QUEUES[DL_STOPWAIT]->count())>0?0:1);
 };
 
 void tMain::add_dir(tDownload *parent) {
@@ -552,7 +571,7 @@ void tMain::print_info(tDownload *what) {
 			list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
 			// calculating speed for graph
 			unsigned int TimeLeft=get_precise_time()-LastTime;
-			if (what->Size.old==0 && what->who) what->Size.old=what->who->get_start_size();
+			if (what->Size.old<=0 && what->who) what->Size.old=what->who->get_start_size();
 			if (TimeLeft!=0 && what->Size.curent>what->Size.old)
 				what->NanoSpeed=((what->Size.curent-what->Size.old)*1000)/TimeLeft;
 			else
@@ -712,7 +731,8 @@ void tMain::redirect(tDownload *what) {
 
 void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 	MainLog->myprintf(LOG_OK|LOG_DETAILED,_("Prepare [%z] for stoping"),what);
-	LimitsForHosts->decrement(what);
+	if (what->split==NULL)
+		LimitsForHosts->decrement(what);
 	if (what->editor) what->editor->enable_ok_button();
 	SpeedScheduler->del(what->SpeedLimit);
 	delete (what->SpeedLimit);
@@ -723,6 +743,7 @@ void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 		what->WL=NULL;
 	};
 	if (what->split && what->split->next_part){
+		if (what->split->stopped==0) LimitsForHosts->decrement(what);
 		prepare_for_stoping(what->split->next_part,NULL);
 		delete(what->split->next_part);
 		what->split->next_part=NULL;
@@ -773,6 +794,10 @@ int tMain::get_status_split(tDownload *what){
 		switch(tmp->status){
 		case DOWNLOAD_COMPLETE:{
 			status[0]+=1;
+			if (tmp->split->stopped==0){
+				LimitsForHosts->decrement(tmp);
+				tmp->split->stopped=1;
+			};
 			break;
 		};
 		case DOWNLOAD_REAL_STOP:{
@@ -795,10 +820,12 @@ int tMain::get_status_split(tDownload *what){
 		tmp=tmp->split->next_part;
 	};
 	if (status[2]) return DOWNLOAD_GO;
-	if (status[0]==0){
-		return DOWNLOAD_REAL_STOP;
+	if (status[1]==0){
+		if (what->split->status)
+			return DOWNLOAD_COMPLETE;
+		return DOWNLOAD_GO;
 	};
-	return DOWNLOAD_COMPLETE;
+	return DOWNLOAD_REAL_STOP;
 };
 
 void tMain::main_circle_first(){
@@ -841,11 +868,11 @@ void tMain::main_circle_second(){
 		tDownload *temp1=DOWNLOAD_QUEUES[DL_RUN]->next();
 		int status=temp->status;
 		if (temp->split){
-			status=DOWNLOAD_GO;
+			status=get_status_split(temp);
+//			status=DOWNLOAD_GO;
 			if (temp->status!=DOWNLOAD_FATAL && temp->split->status==0){
 				try_to_run_split(temp);
-			}else{
-				status=get_status_split(temp);
+//			}else{
 			};
 		};
 		if (CFG.WITHOUT_FACE==0) print_info(temp);
@@ -872,7 +899,6 @@ void tMain::main_circle() {
 		tDownload *temp_next=DOWNLOAD_QUEUES[DL_WAIT]->prev();
 		int rvalue=try_to_run_download(temp);
 		if (rvalue<0){
-			MainLog->add(_("Can't run new thread for downloading!"),LOG_ERROR);
 			break;
 		};
 		if (rvalue) {
@@ -944,6 +970,21 @@ void tMain::check_for_remote_commands(){
 		case PACKET_POPUP:
 			if (CFG.WITHOUT_FACE==0) main_window_popup();
 			break;
+		case PACKET_EXIT_TIME:{
+			int tmp;
+			if (addnew->body && sscanf(addnew->body,"%d",&tmp)){
+				if (tmp==0){
+					CFG.EXIT_COMPLETE=0;
+					MainLog->myprintf(LOG_FROM_SERVER,_("Exiting if nothing to do is switched off"),_("[control socket]"));
+				};
+				if (tmp>0){
+					CFG.EXIT_COMPLETE=1;
+					CFG.EXIT_COMPLETE_TIME=tmp;
+					MainLog->myprintf(LOG_FROM_SERVER,_("Downloader will exit if nothing to do after %i minutes %s"),tmp,_("[control socket]"));
+				};
+			};
+			break;
+		};
 		};
 		delete(addnew);
 		i+=1;
@@ -1088,11 +1129,11 @@ void tMain::speed() {
 	int SPEED_LIMIT=0;
 	switch (CFG.SPEED_LIMIT) {
 		case 1:	{
-				SPEED_LIMIT=GLOBAL_SLEEP_DELAY*CFG.SPEED_LIMIT_1;
+				SPEED_LIMIT=(TimeLeft*CFG.SPEED_LIMIT_1)/1000;
 				break;
 			};
 		case 2:	{
-				SPEED_LIMIT=GLOBAL_SLEEP_DELAY*CFG.SPEED_LIMIT_2;
+				SPEED_LIMIT=(TimeLeft*CFG.SPEED_LIMIT_2)/1000;
 				break;
 			};
 		case 3:
@@ -1100,11 +1141,12 @@ void tMain::speed() {
 				SPEED_LIMIT=0;
 		};
 	};
-	if (prev_speed_limit && prev_speed_limit>bytes){
-		SPEED_LIMIT+=prev_speed_limit-bytes;
-		SpeedScheduler->schedule(SPEED_LIMIT,1);
+	if (SPEED_LIMIT){
+//		SPEED_LIMIT+=(prev_speed_limit-bytes)/2;
+		if (SPEED_LIMIT>0)
+			SpeedScheduler->schedule(SPEED_LIMIT,1);
 	}else
-		SpeedScheduler->schedule(SPEED_LIMIT,0);
+		SpeedScheduler->schedule(TimeLeft);
 	prev_speed_limit=SPEED_LIMIT;
 };
 
@@ -1154,7 +1196,9 @@ void tMain::run(int argv,char **argc) {
 
 void tMain::run_without_face(){
 	int TIME_FOR_SAVING=CFG.SAVE_LIST_INTERVAL * 60;
+	int COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME * 60;
 	while(1){
+		check_for_remote_commands();
 		main_circle();
 		sleep(1);
 		TIME_FOR_SAVING-=1;
@@ -1164,8 +1208,22 @@ void tMain::run_without_face(){
 			};
 			TIME_FOR_SAVING=CFG.SAVE_LIST_INTERVAL * 60;
 		};
-		check_for_remote_commands();
+		if (CFG.EXIT_COMPLETE && aa.complete()){
+			COMPLETE_INTERVAL-=1;
+			if (COMPLETE_INTERVAL<0){
+				break;
+			};
+		}else{
+			COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME * 60;
+		};
 	};
+	save_list();
+	save_limits();
+	save_passwords(PasswordsForHosts);
+	done();
+	save_config();
+	for (int i=0;i<LAST_HISTORY;i++)
+		delete(ALL_HISTORIES[i]);
 };
 
 void tMain::run_after_quit(){
@@ -1205,6 +1263,8 @@ void tMain::done() {
 		};
 		temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->last();
 		if (temp==NULL) break;
+		mbuf Msg;
+		while (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),0,IPC_NOWAIT)>0);
 		sleep(1);
 	}while(1);
 
@@ -1215,6 +1275,7 @@ void tMain::done() {
 	delete(ALL_DOWNLOADS);
 	delete(COOKIES);
 
+	MainLog->myprintf(LOG_OK,_("%lu bytes loaded during the session"),GVARS.READED_BYTES);
 	MainLog->add(_("Downloader exited normaly"),LOG_OK);
 	delete(MainLog);
 	delete(LimitsForHosts);

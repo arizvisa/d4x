@@ -44,6 +44,7 @@ class tDefaultWL:public tWriterLoger{
 	void set_log(tLog *log);
 	int write(const void *buff, int len);
 	int shift(int shift);
+	void truncate();
 	char *cookie(const char *host, const char *path);
 	void log(int type, const char *str);
 	~tDefaultWL();
@@ -54,7 +55,7 @@ struct tDownload;
 
 struct tSplitInfo{
 	int NumOfParts,FirstByte,LastByte;
-	int status;
+	int status,stopped;
 	tDownload *next_part,*parent;
 	tSplitInfo();
 	~tSplitInfo();
@@ -80,8 +81,11 @@ struct tDownload:public tAbstractSortNode{
 	//------------------------------------
 //	tQueue *conditions;
 	private:
+	int need_to_rename;
 	char *create_new_file_path();
 	char *create_new_save_path();
+	void make_file_names(char **name, char **guess);
+	void check_local_file_time();
 	public:
 	//------------------------------------
 	tDList *DIR;
@@ -89,6 +93,7 @@ struct tDownload:public tAbstractSortNode{
 	time_t ScheduleTime;
 	//------------------------------------
 	tDownload();
+	int cmp(tAbstractSortNode *b);
 	void clear();
 	void delete_editor();
 	void set_default_cfg();

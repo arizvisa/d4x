@@ -18,5 +18,6 @@ void dnd_trash_destroy();
 void dnd_trash_real_destroy();
 void dnd_trash_init_menu();
 void dnd_trash_menu_prepare();
+void dnd_trash_animation();
 
 #endif
