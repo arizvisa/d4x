@@ -21,6 +21,14 @@
 #include "list.h"
 #include <gdk/gdkkeysyms.h>
 
+enum {
+	UM_COL_REGEX,
+	UM_COL_LIMIT,
+	UM_COL_CON,
+	UM_COL_DATA,
+	UM_COL_LAST
+};
+
 tFacePass *FaceForPasswords=(tFacePass *)NULL;
 
 /*
@@ -43,17 +51,23 @@ static void face_pass_del(GtkWidget *widget, tFacePass *parent) {
 };
 
 
-static void face_pass_clist_handler(GtkWidget *clist, gint row, gint column,
-                                      GdkEventButton *event,tFacePass *parent) {
-	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1)
-		parent->edit_row(row);
-};
-
-static void face_pass_dialog_ok(GtkWidget *widget,tFacePass *parent) {
-	parent->apply_dialog();
-};
-
-static int face_pass_list_event_callback(GtkWidget *widget,GdkEvent *event,tFacePass *parent) {
+static gboolean face_pass_clist_handler(GtkTreeView *view, GdkEventButton *event,
+					tFacePass *parent) {
+	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1){
+		GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
+		GtkTreeIter iter;
+		GtkTreePath *path;
+		if (gtk_tree_view_get_path_at_pos(view,gint(event->x),gint(event->y),&path,NULL,NULL,NULL)){
+			gtk_tree_selection_unselect_all(sel);
+			gtk_tree_selection_select_path(sel,path);
+			GtkTreeIter iter;
+			GtkTreeModel *model=gtk_tree_view_get_model(view);
+			gtk_tree_model_get_iter(model,&iter,path);
+			gtk_tree_path_free(path);
+			parent->edit_row(&iter);
+			return TRUE;
+		};
+	};
 	if (event->type == GDK_KEY_PRESS) {
 		GdkEventKey *kevent=(GdkEventKey *)event;
 		switch(kevent->keyval) {
@@ -66,6 +80,10 @@ static int face_pass_list_event_callback(GtkWidget *widget,GdkEvent *event,tFace
 		};
 	};
 	return FALSE;
+};
+
+static void face_pass_dialog_ok(GtkWidget *widget,tFacePass *parent) {
+	parent->apply_dialog();
 };
 
 static void add_url_cancel(GtkWidget *widget, tDownload *dwn){
@@ -115,27 +133,25 @@ void tFacePass::addlist_del(tDownload *dwn){
 };
 
 void tFacePass::show_url(tLimitDownload *dwn){
-	char *URL=dwn->Name2Save.get();
-	char data1[100];
-	char data2[100];
-	char *data[]={URL,data1,data2};
-	sprintf(data1,"%i",dwn->config->con_limit);
-	sprintf(data2,"%i",dwn->cur_limit);
-	gint row=gtk_clist_append(GTK_CLIST(clist),data);
-	gtk_clist_set_row_data(GTK_CLIST(clist),row,gpointer(dwn));
+	GtkTreeIter iter;
+	gtk_list_store_append(list_store, &iter);
+	gtk_list_store_set(list_store, &iter,
+			   UM_COL_REGEX,dwn->Name2Save.get(),
+			   UM_COL_LIMIT,dwn->config->con_limit,
+			   UM_COL_CON,dwn->cur_limit,
+			   UM_COL_DATA,dwn,
+			   -1);
+	if (dwn->list_iter) gtk_tree_iter_free(dwn->list_iter);
+	dwn->list_iter=gtk_tree_iter_copy(&iter);
 };
 
 void tFacePass::redraw_url(tLimitDownload *dwn){
 	if (!window) return;
-	gint row=gtk_clist_find_row_from_data(GTK_CLIST(clist),dwn);
-	if (row>=0){
-		char data1[100];
-		sprintf(data1,"%i",dwn->config->con_limit);
-		gtk_clist_set_text(GTK_CLIST(clist),row,0,dwn->Name2Save.get());
-		gtk_clist_set_text(GTK_CLIST(clist),row,1,data1);
-		sprintf(data1,"%i",dwn->cur_limit);
-		gtk_clist_set_text(GTK_CLIST(clist),row,2,data1);
-	};
+	gtk_list_store_set(list_store, dwn->list_iter,
+			   UM_COL_REGEX,dwn->Name2Save.get(),
+			   UM_COL_LIMIT,dwn->config->con_limit,
+			   UM_COL_CON,dwn->cur_limit,
+			   -1);
 };
 
 void tFacePass::calc_matched_run_rec(tQueue *q,tLimitDownload *dwn,regex_t *reg){
@@ -303,9 +319,9 @@ void tFacePass::open_dialog() {
 	dwn->editor->limit=1;
 	dwn->editor->init(dwn);
 	gtk_window_set_title(GTK_WINDOW(dwn->editor->window),_("Add new URL to URL-manager"));
-	gtk_signal_connect(GTK_OBJECT(dwn->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_url_cancel), dwn);
-	gtk_signal_connect(GTK_OBJECT(dwn->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(add_url_ok),dwn);
-	gtk_signal_connect(GTK_OBJECT(dwn->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_url_delete), dwn);
+	g_signal_connect(G_OBJECT(dwn->editor->cancel_button),"clicked",G_CALLBACK(add_url_cancel), dwn);
+	g_signal_connect(G_OBJECT(dwn->editor->ok_button),"clicked",G_CALLBACK(add_url_ok),dwn);
+	g_signal_connect(G_OBJECT(dwn->editor->window),"delete_event",G_CALLBACK(add_url_delete), dwn);
 	d4x_eschandler_init(dwn->editor->window,dwn);
 	gtk_widget_set_sensitive(dwn->editor->isdefault_check,FALSE);
 	dwn->editor->clear_save_name();
@@ -314,21 +330,43 @@ void tFacePass::open_dialog() {
 	dwn->editor->clear_url();
 };
 
+static void _foreach_delete_prepare_(GtkTreeModel *model,GtkTreePath *path,
+				     GtkTreeIter *iter,gpointer p){
+	tQueue *q=(tQueue*)p;
+	tmpIterNode *i=new tmpIterNode(iter);
+	q->insert(i);
+};
+
+
 void tFacePass::delete_rows() {
-        GList *select=GTK_CLIST(clist)->selection;
-	if (select) {
-		int row=GPOINTER_TO_INT(select->data);
-		tLimitDownload *dwn=(tLimitDownload *)gtk_clist_get_row_data(GTK_CLIST(clist),row);
+	tQueue q;
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+	gtk_tree_selection_selected_foreach(sel,
+					    _foreach_delete_prepare_,
+					    &q);
+	tNode *t=q.last();
+	while(t){
+		GValue val={0,};
+		gtk_tree_model_get_value(GTK_TREE_MODEL(list_store),
+					 ((tmpIterNode*)t)->iter,
+					 UM_COL_DATA,&val);
+		tDownload *dwn=(tDownload *)g_value_get_pointer(&val);
+		g_value_unset(&val);
 		dlist.del(dwn);
-		free_matched(dwn);
+		free_matched((tLimitDownload*)dwn);
+		gtk_list_store_remove(list_store,dwn->list_iter);
 		delete(dwn);
-		gtk_clist_remove(GTK_CLIST(clist),row);
-		select=GTK_CLIST(clist)->selection;
+		t=t->next;
 	};
 };
 
-void tFacePass::edit_row(int row) {
-	tDownload *dwn=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(clist),row);
+void tFacePass::edit_row(GtkTreeIter *iter) {
+	GValue val={0,};
+	gtk_tree_model_get_value(GTK_TREE_MODEL(list_store),
+				 iter,
+				 UM_COL_DATA,&val);
+	tDownload *dwn=(tDownload *)g_value_get_pointer(&val);
+	g_value_unset(&val);
 	if (!dwn) return;
 	if (dwn->editor) return;
 	dwn->editor=new tDEdit;
@@ -336,9 +374,9 @@ void tFacePass::edit_row(int row) {
 	dwn->editor->limit=1;
 	dwn->editor->init(dwn);
 	gtk_window_set_title(GTK_WINDOW(dwn->editor->window),_("Edit default preferences"));
-	gtk_signal_connect(GTK_OBJECT(dwn->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(edit_url_cancel), dwn);
-	gtk_signal_connect(GTK_OBJECT(dwn->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_url_ok),dwn);
-	gtk_signal_connect(GTK_OBJECT(dwn->editor->window),"delete_event",GTK_SIGNAL_FUNC(edit_url_delete), dwn);
+	g_signal_connect(G_OBJECT(dwn->editor->cancel_button),"clicked",G_CALLBACK(edit_url_cancel), dwn);
+	g_signal_connect(G_OBJECT(dwn->editor->ok_button),"clicked",G_CALLBACK(edit_url_ok),dwn);
+	g_signal_connect(G_OBJECT(dwn->editor->window),"delete_event",G_CALLBACK(edit_url_delete), dwn);
 	d4x_eschandler_init(dwn->editor->window,dwn);
 	gtk_widget_set_sensitive(dwn->editor->isdefault_check,FALSE);
 	dwn->editor->clear_save_name();
@@ -355,23 +393,39 @@ void tFacePass::init(){
 		gdk_window_show(window->window);
 		return;
 	};
-	window = gtk_window_new(GTK_WINDOW_DIALOG);
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(window),
 			       "D4X_Passwords","D4X");
 	gtk_window_set_title(GTK_WINDOW (window),_("URL-manager"));
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
-	gtk_widget_set_usize(window,-1,400);
-	gtk_container_border_width(GTK_CONTAINER(window),5);
+	gtk_widget_set_size_request(window,-1,400);
+	gtk_container_set_border_width(GTK_CONTAINER(window),5);
 	gchar *titles[]={"URL regexp",_("limit"),_("con.")};
-	clist = gtk_clist_new_with_titles(3, titles);
-	gtk_signal_connect(GTK_OBJECT(clist),"select_row",GTK_SIGNAL_FUNC(face_pass_clist_handler),this);
-	gtk_clist_set_shadow_type (GTK_CLIST(clist), GTK_SHADOW_IN);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(clist),0,TRUE);
+	list_store = gtk_list_store_new(UM_COL_LAST,
+					G_TYPE_STRING,
+					G_TYPE_INT,
+					G_TYPE_INT,
+					G_TYPE_POINTER);
+	view = GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store)));
+	gtk_tree_view_set_headers_visible(view,TRUE);
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *col;
+	for (int i=0;i<3;i++){
+		renderer = gtk_cell_renderer_text_new();
+		col=gtk_tree_view_column_new_with_attributes(_(titles[i]),
+							     renderer,
+							     "text",i,
+							     NULL);
+		gtk_tree_view_column_set_visible(col,TRUE);
+		gtk_tree_view_append_column(view,col);
+	};
+	
+	g_signal_connect(G_OBJECT(view),"event",G_CALLBACK(face_pass_clist_handler),this);
 //	gtk_clist_set_selection_mode(GTK_CLIST(clist),GTK_SELECTION_EXTENDED);
 	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scroll_window),clist);
+	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(view));
 	button=gtk_button_new_with_label(_("Ok"));
 	add_button=gtk_button_new_with_label(_("Add new"));
 	del_button=gtk_button_new_with_label(_("Delete"));
@@ -390,11 +444,10 @@ void tFacePass::init(){
 	gtk_container_add(GTK_CONTAINER(window),vbox);
 	gtk_window_set_default(GTK_WINDOW(window),button);
 	gtk_widget_show_all(window);
-	gtk_signal_connect(GTK_OBJECT(clist),"event",GTK_SIGNAL_FUNC(face_pass_list_event_callback),this);
-	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(face_pass_ok),this);
-	gtk_signal_connect(GTK_OBJECT(del_button),"clicked",GTK_SIGNAL_FUNC(face_pass_del),this);
-	gtk_signal_connect(GTK_OBJECT(add_button),"clicked",GTK_SIGNAL_FUNC(face_pass_add),this);
-	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(face_pass_delete), this);
+	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(face_pass_ok),this);
+	g_signal_connect(G_OBJECT(del_button),"clicked",G_CALLBACK(face_pass_del),this);
+	g_signal_connect(G_OBJECT(add_button),"clicked",G_CALLBACK(face_pass_add),this);
+	g_signal_connect(G_OBJECT(window),"delete_event",G_CALLBACK(face_pass_delete), this);
 	tDownload *dwn=dlist.first();
 	while(dwn){
 		show_url((tLimitDownload*)dwn);

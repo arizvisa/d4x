@@ -21,7 +21,7 @@ struct d4xWFNode:public tNode{
 
 struct tColumn{
 	int type;
-	int enum_index; // it is an index in array of tColumn of strings
+	int visible;
 	int size;
 };
 
@@ -91,54 +91,54 @@ enum STATUS_PIXMAPS_ENUM{
 	PIX_UNKNOWN
 };
 
-extern GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
-extern GdkBitmap *list_of_downloads_bitmaps[PIX_UNKNOWN];
-
 struct d4xQueueView{
 private:
+	int move_success;
+	char *wildcard;
 	void remove_wf(tDownload *what);
 	void add_wf(tDownload *what);
-	void init_sort_buttons();
-	void set_column_justification (int col, GtkJustification justify);
-	GtkWidget *d4xQueueView::get_column_widget(int col);
+//	void init_sort_buttons();
+//	void set_column_justification (int col, GtkJustification justify);
+//	GtkWidget *d4xQueueView::get_column_widget(int col);
 public:
+	tDownload *last_selected;
+	GtkListStore *list_store;
 	GtkWidget *ListOfDownloads;
 	tQueue ListOfDownloadsWF;
 	d4xQVPrefs prefs;
 	int LoDSortFlag;
 	d4xQueueView();
 	~d4xQueueView();
+	void toggle_column_visibility(int a);
+	void popup_columns_visibility_menu(GdkEventButton *event);
 	void get_sizes();
 	void init();
 	void add(tDownload *what);
-	void add(tDownload *what,int row);
+	void add_first(tDownload *what);
 	void remove(tDownload *what);
 	void update(tDownload *what);
-	void change_data(int row,int column,gchar *data);
-	void set_percent(int row,int col,float percent);
-	void set_desc(gint row,tDownload *what);
-	void set_color(tDownload *what,int row);
-	void set_filename(gint row,tDownload *what);
+	void change_data(GtkTreeIter *iter,int column,gchar *data);
+	void set_percent(GtkTreeIter *iter,float percent);
+	void set_desc(tDownload *what);
+	void set_color(tDownload *what);
+	void set_filename(tDownload *what);
 
-	void freeze();
-	void unfreeze();
 	gint get_height();
 	void set_height();
-	void print_size(gint row,tDownload *what);
+	void print_size(tDownload *what);
 
 	void set_pixmap(tDownload *what,int type);
-	void set_pixmap(gint row,int type);
-	void set_pixmap(gint row, tDownload *what);
+	void set_pixmap(GtkTreeIter *iter,int type);
+	void set_pixmap(tDownload *what);
+	void redraw_pixmap(GtkTreeIter *iter);
 
 	void set_run_icon(tDownload *what);
-	int sel();
 	int rows();
 
-	void swap(tDownload *a,tDownload *b);
 	void move_up();
 	void move_down();
-	void move_download_up(int row);
-	void move_download_down(int row);
+	void move_download_up(GtkTreeIter *iter);
+	void move_download_down(GtkTreeIter *iter);
 	int move_selected_up();
 	int move_selected_down();
 	void move_selected_home();
@@ -148,14 +148,14 @@ public:
 	void invert_selection();
 	void select(tDownload *dwn);
 	void real_select(int type,char *wildcard);
+	int get_row_num(tDownload *dwn);
 
 	void init_select_window(int type=0);
-	void rebuild_wait();
-	void sort(int how);
+//	void swap(tDownload *a,tDownload *b);
+//	void rebuild_wait();
+//	void sort(int how);
 
-	tDownload *get_download(int row);
-	gint get_row(tDownload *what);
-	tDownload *last_selected();
+	tDownload *get_download(GtkTreeIter *iter);
 
 	void open_logs();
 	void continue_opening_logs();
@@ -171,7 +171,13 @@ public:
 	int load_from_config(int fd);
 	void inherit_settings(d4xQueueView *papa);
 	void redraw_icons();
+	/* may be better describe friends for next funcs? */
+	void select_by_wildcard(GtkTreeIter *iter);
+	void unselect_by_wildcard(GtkTreeIter *iter);
+	void invert_sel(GtkTreeIter *iter);
 };
+
+extern GdkPixbuf *list_of_downloads_pixbufs[];
 
 void lod_init_pixmaps();
 gint lod_get_height();

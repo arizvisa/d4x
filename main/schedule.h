@@ -37,9 +37,11 @@ class tMain;
 struct d4xSchedAction{
 	time_t start_time,period;
 	int retries; // -1 - unlimited, 0 - no retries
+	GtkTreeIter *iter;
 	d4xSchedAction *next,*prev;
 	int lock; //locked if editor opened
 	/* methods */
+	d4xSchedAction(){iter=(GtkTreeIter*)NULL;};
 	virtual int type()=0; //type of action
 	virtual int load(int fd);
 	virtual int save(int fd);
@@ -82,7 +84,7 @@ struct d4xSADelFailed:public d4xSchedAction{
 
 struct d4xSAUrl:public d4xSchedAction{
 	tAddr *url;
-	d4xSAUrl(){url=(tAddr *)NULL;};
+	d4xSAUrl():d4xSchedAction(){url=(tAddr *)NULL;};
 	int load(int fd);
 	int save(int fd);
 	~d4xSAUrl(){if (url) delete(url);};

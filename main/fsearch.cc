@@ -222,16 +222,15 @@ tFtpSearchCtrl::tFtpSearchCtrl(){
 		queues[i]=new tDList(i);
 		queues[i]->init(0);
 	};
-	clist=(GtkCList*)NULL;
+	view=(GtkTreeView *)NULL;
 	parent=(tMain*)NULL;
 	log=(tMLog*)NULL;
 };
 
-void tFtpSearchCtrl::init(GtkCList *list, tMain *papa,tMLog *mylog){
+void tFtpSearchCtrl::init(GtkTreeView *v, tMain *papa,tMLog *mylog){
 	parent=papa;
-	clist=list;
+	view=v;
 	log=mylog;
-	/* FIXME: set up right mouse click handler for clist */
 };
 
 void tFtpSearchCtrl::add(tDownload *what){
@@ -240,8 +239,8 @@ void tFtpSearchCtrl::add(tDownload *what){
 	what->action=ACTION_NONE; //reping only flag
 	what->Status.curent=0; //cumulative reping flag
 	queues[DL_FS_WAIT]->insert(what);
-	if (clist){
-		fs_list_add(clist,what);
+	if (view){
+		fs_list_add(view,what);
 		fs_list_show();
 	};
 };
@@ -254,7 +253,7 @@ void tFtpSearchCtrl::reping(tDownload *what){
 		what->set_default_cfg();
 	};
 	queues[DL_FS_WAIT]->insert(what);
-	fs_list_set_icon(clist,what,PIX_WAIT);
+	fs_list_set_icon(view,what,PIX_WAIT);
 };
 
 void tFtpSearchCtrl::remove(tDownload *what){
@@ -263,7 +262,7 @@ void tFtpSearchCtrl::remove(tDownload *what){
 	case DL_FS_RUN:
 		stop_thread(what);
 		what->action=ACTION_DELETE;
-		fs_list_set_icon(clist,what,PIX_STOP_WAIT);
+		fs_list_set_icon(view,what,PIX_STOP_WAIT);
 		break;
 	case DL_FS_STOP:
 	case DL_FS_WAIT:
@@ -277,8 +276,8 @@ void tFtpSearchCtrl::remove(tDownload *what){
 };
 
 void tFtpSearchCtrl::remove_from_clist(tDownload *what){
-	if (clist){
-		fs_list_remove(clist,what);
+	if (view){
+		fs_list_remove(view,what);
 		if (queues[DL_FS_WAIT]->count()+
 		    queues[DL_FS_STOP]->count()+
 		    queues[DL_FS_RUN]->count()==0)
@@ -305,10 +304,10 @@ void tFtpSearchCtrl::cycle(){
 				break;
 			};
 			default:{
-				if (clist){
+				if (view){
 					switch (tmp->status){
 					case DOWNLOAD_COMPLETE:{
-						fs_list_set_icon(clist,tmp,PIX_COMPLETE);
+						fs_list_set_icon(view,tmp,PIX_COMPLETE);
 						if (tmp->fsearch){
 							tDownload *a=ALL_DOWNLOADS->find(tmp);
 							if (a){
@@ -322,10 +321,10 @@ void tFtpSearchCtrl::cycle(){
 						break;
 					};
 					case DOWNLOAD_REAL_STOP:
-						fs_list_set_icon(clist,tmp,PIX_PAUSE);
+						fs_list_set_icon(view,tmp,PIX_PAUSE);
 						break;
 					default:
-						fs_list_set_icon(clist,tmp,PIX_STOP);
+						fs_list_set_icon(view,tmp,PIX_STOP);
 					};
 				};
 				if (tmp) queues[DL_FS_STOP]->insert(tmp);
@@ -343,8 +342,8 @@ void tFtpSearchCtrl::cycle(){
 			break;
 		queues[DL_FS_WAIT]->del(tmp);
 		queues[DL_FS_RUN]->insert(tmp);
-		if (clist)
-			fs_list_set_icon(clist,tmp,PIX_RUN);
+		if (view)
+			fs_list_set_icon(view,tmp,PIX_RUN);
 		tmp=tmpnext;
 	};
 };

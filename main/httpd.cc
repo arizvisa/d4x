@@ -482,6 +482,7 @@ int tHttpDownload::download(fsize_t len) {
 		};
 		first=0;
 //		if (HTTP->get_status()==STATUS_FATAL) return -1;
+		if (LOG->is_overlaped()) break;
 		if (len>0 && LOADED>=length_to_load) break;
 		if (LOADED==D_FILE.size && D_FILE.size!=0) break;
 		if (HTTP->get_status()==0 && D_FILE.size==0) break;

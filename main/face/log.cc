@@ -33,12 +33,11 @@ enum LOG_COLUMNS{
 };
 
 
-GdkBitmap *log_ok_mask,*log_warning_mask,*log_error_mask,*log_from_mask,*log_to_mask;
-GdkPixmap *log_ok_pixmap,*log_warning_pixmap,*log_error_pixmap,*log_from_pixmap,*log_to_pixmap;
+GdkPixbuf *log_pixbufs[5];
 
 struct tLogWindow {
 	GtkWidget *window;
-	GtkWidget *clist;
+	GtkTreeView *view;
 	GtkAdjustment *adj;
 	GtkWidget *button;
 	GtkWidget *toolbar;
@@ -68,11 +67,11 @@ void init_pixmaps_for_log() {
 #include "pixmaps2/to_server.xpm"
 #include "pixmaps2/error.xpm"
 #include "pixmaps2/warning.xpm"
-	log_ok_pixmap=make_pixmap_from_xpm(&log_ok_mask,ok_xpm);
-	log_to_pixmap=make_pixmap_from_xpm(&log_to_mask,to_server_xpm);
-	log_from_pixmap=make_pixmap_from_xpm(&log_from_mask,from_server_xpm);
-	log_error_pixmap=make_pixmap_from_xpm(&log_error_mask,error_xpm);
-	log_warning_pixmap=make_pixmap_from_xpm(&log_warning_mask,warning_xpm);
+	log_pixbufs[0]=gdk_pixbuf_new_from_xpm_data((const char **)ok_xpm);
+	log_pixbufs[1]=gdk_pixbuf_new_from_xpm_data((const char **)to_server_xpm);
+	log_pixbufs[2]=gdk_pixbuf_new_from_xpm_data((const char **)from_server_xpm);
+	log_pixbufs[3]=gdk_pixbuf_new_from_xpm_data((const char **)error_xpm);
+	log_pixbufs[4]=gdk_pixbuf_new_from_xpm_data((const char **)warning_xpm);
 };
 
 void log_window_remember_geometry(GtkWidget *window, tLogWindow *temp){
@@ -122,81 +121,78 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	/* replace all nonprint symbols by space */
 	char *str_temp=copy_string(str->body);
 	str_non_print_replace(str_temp,' ');
-	char *data[L_COL_LAST];
-	data[L_COL_TYPE]=NULL;
-	data[L_COL_TIME]=useful;
-	data[L_COL_STRING]=str_temp;
-
-	char row_num[MAX_LEN];
-	sprintf(row_num,"[%i]",str->temp);
-	data[L_COL_NUM]=row_num;
-
-	int row=gtk_clist_append(GTK_CLIST(temp->clist),data);
+	GtkTreeIter iter;
+	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(temp->view));
+	gtk_list_store_append(list_store, &iter);
+	gtk_list_store_set(list_store, &iter,
+			   L_COL_NUM,str->temp,
+			   L_COL_TIME,useful,
+			   L_COL_STRING,str_temp,
+			   -1);
 	delete[] str_temp;
-	GdkColor color,back_color;
+	const GdkColor *color,*back_color;
 	switch (str->type) {
-		case LOG_OK:
-			{
-				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      L_COL_TYPE, log_ok_pixmap, log_ok_mask);
-				color=BLACK;
-				back_color=WHITE;
-				break;
-			};
-		case LOG_TO_SERVER:
-			{
-				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      L_COL_TYPE, log_to_pixmap, log_to_mask);
-				color=CYAN;
-				back_color=LCYAN;
-				break;
-			};
-		case LOG_FROM_SERVER:
-			{
-				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      L_COL_TYPE, log_from_pixmap, log_from_mask);
-				color=BLUE;
-				back_color=LBLUE;
-				break;
-			};
-		case LOG_WARNING:
-			{
-				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      L_COL_TYPE, log_warning_pixmap, log_warning_mask);
-				color=GREEN;
-				back_color=LGREEN;
-				break;
-			};
-		case LOG_ERROR:
-			{
-				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      L_COL_TYPE, log_error_pixmap, log_error_mask);
-				color=RED;
-				back_color=LRED;
-				break;
-			};
-		default:
-			color=BLACK;
+	case LOG_OK:{
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[0],-1);
+		color=&BLACK;
+		back_color=&WHITE;
+		break;
 	};
-	GdkColormap *colormap = gtk_widget_get_colormap (temp->window);
-	gdk_color_alloc (colormap, &color);
-	gdk_color_alloc (colormap, &back_color);
-	gtk_clist_set_foreground(GTK_CLIST(temp->clist),row,&color);
-	gtk_clist_set_background(GTK_CLIST(temp->clist),row,&back_color);
-	gtk_clist_set_row_data(GTK_CLIST(temp->clist),row,GINT_TO_POINTER(str->type));
+	case LOG_TO_SERVER: {
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[1],-1);
+		color=&CYAN;
+		back_color=&LCYAN;
+		break;
+	};
+	case LOG_FROM_SERVER: {
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[2],-1);
+		color=&BLUE;
+		back_color=&LBLUE;
+		break;
+	};
+	case LOG_WARNING:{
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[4],-1);
+		color=&GREEN;
+		back_color=&LGREEN;
+		break;
+	};
+	case LOG_ERROR: {
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[3],-1);
+		color=&RED;
+		back_color=&LRED;
+		break;
+	};
+	default:
+		color=&BLACK;
+		back_color=&WHITE;
+	};
+	gtk_list_store_set(list_store,&iter,
+			   L_COL_LAST,color,
+			   L_COL_LAST+1,back_color,
+			   -1);
 };
 
 
-static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
-                                      GdkEventButton *event,tLogWindow *temp) {
+static gint log_list_event_handler(GtkWidget *widget,GdkEventButton *event,tLogWindow *temp) {
 	if (temp && event && event->type==GDK_2BUTTON_PRESS &&
 	    event->button==1 && temp->papa) {
+		GtkTreeSelection *sel=gtk_tree_view_get_selection(temp->view);
+		GtkTreeIter iter;
+		if (!gtk_tree_selection_get_selected(sel,NULL,&iter)) return FALSE;
 		if (temp->string==NULL) temp->string=new tStringDialog;
+		GValue val={0,};
+		GtkTreeModel *model=gtk_tree_view_get_model(temp->view);
+		gtk_tree_model_get_value(model,&iter,L_COL_NUM,&val);
+		int num=g_value_get_int(&val);
 		char data[MAX_LEN];
-		sprintf(data,_("Row number %i [log of %s]"),row+1,temp->papa->info->file.get());
-		char *text;
-		gtk_clist_get_text(GTK_CLIST(clist),row,L_COL_STRING,&text);
-		int err_code=GPOINTER_TO_INT(gtk_clist_get_row_data(GTK_CLIST(temp->clist),row));
+		char *rfile=unparse_percents(temp->papa->info->file.get());
+		sprintf(data,_("Row number %i [log of %s]"),num,rfile);
+		delete[] rfile;
+		g_value_unset(&val);
+		gtk_tree_model_get_value(model,&iter,L_COL_STRING,&val);
+		char *text=(char*)g_value_get_string(&val);
+/*
+		int err_code=0;//GPOINTER_TO_INT(gtk_clist_get_row_data(GTK_CLIST(temp->clist),row));
 		char *error_name=NULL;
 		switch(err_code){
 		case LOG_ERROR:
@@ -216,7 +212,9 @@ static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
 			error_name=_("All ok");
 			break;
 		};
-		temp->string->init(text,data,error_name);
+*/
+		temp->string->init(text,data,"");
+		g_value_unset(&val);
 		return TRUE;
 	};
 	return FALSE;
@@ -227,7 +225,7 @@ static void my_gtk_auto_scroll( GtkAdjustment *get,tLogWindow *temp){
 	if (temp->value==get->value && get->value<get->upper-get->page_size) {
 		get->value=get->upper-get->page_size;
 		temp->value=get->value;
-		gtk_signal_emit_by_name (GTK_OBJECT (get), "value_changed");
+		g_signal_emit_by_name(G_OBJECT (get), "value_changed");
 	} else
 		temp->value=get->value;
 }
@@ -282,11 +280,12 @@ static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log
 			};
 			if (list){
 				GtkToolbarChild *chld=(GtkToolbarChild*)list->data;
-				gtk_signal_emit_by_name(GTK_OBJECT(chld->widget),"clicked",num);
+				if (GTK_IS_BUTTON(chld->widget))
+					g_signal_emit_by_name(G_OBJECT(chld->widget),"clicked",num);
 			};
 		};
 		if (kevent->keyval==GDK_Escape){
-//			gtk_signal_emit_by_name(GTK_OBJECT(window),"delete_event");
+//			g_signal_emit_by_name(G_OBJECT(window),"delete_event");
 			log_window_destroy_by_log(log);
 			return TRUE;
 		};
@@ -316,7 +315,7 @@ void log_window_set_split_info(tDownload *what){
 };
 
 gint log_window_button(GtkWidget *button,int a){
-	tDownload *what=(tDownload *)gtk_object_get_user_data(GTK_OBJECT(button));
+	tDownload *what=(tDownload *)g_object_get_data(G_OBJECT(button),"d4x_user_data");
 	tDownload *withlog=what;
 	while (withlog){
 		if (withlog->LOG->Window) break;
@@ -343,25 +342,24 @@ gint log_window_button(GtkWidget *button,int a){
 		withlog->LOG->unlock();
 		tLogWindow *temp=(tLogWindow *)(forlog->LOG->Window);
 		temp->current=forlog;
-		gtk_object_set_user_data(GTK_OBJECT(temp->window),forlog->LOG);
-		gtk_clist_freeze(GTK_CLIST(temp->clist));
-		gtk_clist_clear(GTK_CLIST(temp->clist));
+		g_object_set_data(G_OBJECT(temp->window),"d4x_user_data",forlog->LOG);
+		gtk_list_store_clear(GTK_LIST_STORE(gtk_tree_view_get_model(temp->view)));
 		forlog->LOG->print();
 		forlog->LOG->unlock();
 		what->LOG->last_log=b;
 		what->CurrentLog=forlog->LOG;
 		/* FIXME: signal_connect again???? */
-		gtk_signal_disconnect_by_data(GTK_OBJECT(temp->window),
-					      withlog->LOG);
-		gtk_signal_connect(GTK_OBJECT(temp->window),
+		g_signal_handlers_disconnect_matched(GTK_OBJECT(temp->window),
+					    G_SIGNAL_MATCH_DATA,
+					    0,0,NULL,NULL,
+					    withlog->LOG);
+		g_signal_connect(G_OBJECT(temp->window),
 				   "delete_event",
 		                   (GtkSignalFunc)log_window_destroy,
 				   forlog->LOG);
-		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
+		g_signal_connect(G_OBJECT(temp->window), "key_press_event",
 		                   (GtkSignalFunc)log_window_event_handler, forlog->LOG);
-		/* GTK is buggy if we 'thaw' list after sending signal */
-		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
-		gtk_clist_thaw(GTK_CLIST(temp->clist));
+		g_signal_emit_by_name(G_OBJECT (temp->adj), "changed");
 		log_window_set_split_info(temp->papa);
 	};
 	if (forlog==NULL || forlog->LOG==NULL){
@@ -408,39 +406,71 @@ void log_window_init(tDownload *what) {
 		int a[4];
 		what->LOG->get_geometry(a);
 		if (a[3]!=0 && a[2]!=0){
-			gtk_widget_set_uposition( GTK_WIDGET (temp->window), a[0], a[1]);
+			gtk_window_move(GTK_WINDOW(temp->window), a[0], a[1]);
 			gtk_window_set_default_size( GTK_WINDOW (temp->window), a[2], a[3]);
 		}else
-			gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 200);
+			gtk_widget_set_size_request( GTK_WIDGET (temp->window), 400, 200);
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
-		strcat(title,what->info->file.get());
+		char *rfile=unparse_percents(what->info->file.get());
+		strcat(title,rfile);
+		delete[] rfile;
 		gtk_window_set_title(GTK_WINDOW (temp->window), title);
-		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
+		g_signal_connect(G_OBJECT(temp->window), "key_press_event",
 		                   (GtkSignalFunc)log_window_event_handler, what->LOG);
-		gtk_signal_connect(GTK_OBJECT(temp->window), "delete_event",
-		                   (GtkSignalFunc)log_window_destroy, what->LOG);
-
-		temp->clist = gtk_clist_new_with_titles(L_COL_LAST, titles);
-		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_list_event_handler),temp);
-		gtk_clist_column_titles_hide(GTK_CLIST(temp->clist));
-		gtk_clist_set_shadow_type (GTK_CLIST(temp->clist), GTK_SHADOW_IN);
+		g_signal_connect(G_OBJECT(temp->window), "delete_event",
+				 (GtkSignalFunc)log_window_destroy, what->LOG);
+		
+		GtkListStore *list_store = gtk_list_store_new(L_COL_LAST+2,
+							      GDK_TYPE_PIXBUF, //L_COL_TYPE,
+							      G_TYPE_INT,      //L_COL_NUM,
+							      G_TYPE_STRING,   //L_COL_TIME,
+							      G_TYPE_STRING,   //L_COL_STRING,
+							      GDK_TYPE_COLOR,  //L_COL_LAST;
+							      GDK_TYPE_COLOR);
+		temp->view = GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store)));
+		GtkCellRenderer *renderer;
+		GtkTreeViewColumn *col;
+		renderer = gtk_cell_renderer_pixbuf_new();
+		col=gtk_tree_view_column_new_with_attributes ("Tittle",
+							      renderer,
+							      "pixbuf",0,
+							      NULL);
+		gtk_tree_view_append_column(temp->view,col);
+		for (int i=L_COL_NUM;i<L_COL_LAST;i++){
+			renderer = gtk_cell_renderer_text_new();
+			col=gtk_tree_view_column_new_with_attributes("Tittle",
+								     renderer,
+								     "text",i,
+								     "foreground-gdk",ML_COL_LAST,
+								     "background-gdk",ML_COL_LAST+1,
+								     NULL);
+			gtk_tree_view_append_column(temp->view,col);
+		};
+							      
+		gtk_tree_view_set_headers_visible(temp->view,FALSE);
+		gtk_tree_view_set_reorderable(temp->view,FALSE);
+		g_signal_connect(G_OBJECT(temp->view),"event",G_CALLBACK(log_list_event_handler),temp);
+/*		gtk_clist_set_shadow_type (GTK_CLIST(temp->clist), GTK_SHADOW_IN);
 		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TYPE , 18);
 		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_NUM , 16);
 		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TIME , 50);
 		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_NUM,TRUE);
 		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_TIME,TRUE);
 		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_STRING,TRUE);
+*/
 
 		temp->adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
 
 		GtkWidget *swindow=gtk_scrolled_window_new((GtkAdjustment*)NULL,temp->adj);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swindow),
 		                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-		gtk_container_add(GTK_CONTAINER(swindow),temp->clist);
+		gtk_container_add(GTK_CONTAINER(swindow),GTK_WIDGET(temp->view));
 		if (what->split){
-			GtkWidget *buttonsbar=temp->toolbar=gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_TEXT);
+			GtkWidget *buttonsbar=temp->toolbar=gtk_toolbar_new();
+			gtk_toolbar_set_orientation(GTK_TOOLBAR(buttonsbar),GTK_ORIENTATION_HORIZONTAL);
+			gtk_toolbar_set_style(GTK_TOOLBAR(buttonsbar),GTK_TOOLBAR_TEXT);
 			GtkWidget *tmpbutton=NULL;
 			for (int i=1;i<=what->split->NumOfParts;i++){
 				char data[MAX_LEN];
@@ -451,12 +481,12 @@ void log_window_init(tDownload *what) {
 								      GTK_TOOLBAR_CHILD_RADIOBUTTON,
 								      (GtkWidget *)tmpbutton,
 								      data,tip,"",NULL,
-								      GTK_SIGNAL_FUNC (log_window_button),
+								      G_CALLBACK (log_window_button),
 								      GINT_TO_POINTER(i));
 				if (what->LOG->last_log==i){
 					temp->button=tmpbutton;
 				};
-				gtk_object_set_user_data(GTK_OBJECT(tmpbutton),what);
+				g_object_set_data(G_OBJECT(tmpbutton),"d4x_user_data",what);
 			};
 			temp->label=gtk_label_new("");
 			gtk_toolbar_append_widget(GTK_TOOLBAR (buttonsbar),temp->label,NULL,NULL);
@@ -472,29 +502,29 @@ void log_window_init(tDownload *what) {
 
 		what->LOG->Window=temp;
 
-		gtk_object_set_user_data(GTK_OBJECT(temp->window),what->LOG);
+		g_object_set_data(G_OBJECT(temp->window),"d4x_user_data",what->LOG);
 
+/*
 		if (CFG.FIXED_LOG_FONT){
-			GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->clist)));
-			gdk_font_unref(current_style->font);
-			current_style->font = gdk_fontset_load("-*-fixed-medium-r-*-*-*-120-*-*-*-*-*-*");;
-			if (current_style->font==NULL){
-				current_style->font = gdk_fontset_load("-*-*-medium-r-*-*-*-120-*-*-m-*-*-*");;
+			GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->view)));
+			GdkFont *font=gdk_fontset_load("-*-fixed-medium-r-*-*-*-120-*-*-*-*-*-*");
+			if (font==NULL){
+				font = gdk_fontset_load("-*-*-medium-r-*-*-*-120-*-*-m-*-*-*");;
 			};
-			gtk_widget_set_style(GTK_WIDGET(temp->clist), current_style);
+			if (font)
+				gtk_style_set_font(current_style,font);
+			gtk_widget_set_style(GTK_WIDGET(temp->view), current_style);
 		};
-
+*/
 		gtk_widget_show_all(temp->window);
-		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		what->LOG->print();
 		what->LOG->unlock(); // unlock by main thread?
 		what->CurrentLog=what->LOG;
-		gtk_clist_thaw(GTK_CLIST(temp->clist));
 
-		gtk_signal_connect (GTK_OBJECT(temp->adj), "changed",GTK_SIGNAL_FUNC(my_gtk_auto_scroll), temp);
+		g_signal_connect(G_OBJECT(temp->adj), "changed",G_CALLBACK(my_gtk_auto_scroll), temp);
 		temp->adj->value=temp->adj->upper-temp->adj->page_size;
 		temp->value=temp->adj->value;
-		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
+		g_signal_emit_by_name(G_OBJECT (temp->adj), "changed");
 		if (what->LOG->last_log>1 && what->split &&
 		    what->LOG->last_log<=what->split->NumOfParts){
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
@@ -518,7 +548,10 @@ void log_window_set_title(tDownload *what,char *title) {
 void del_first_from_log(tLog *what) {
 	tLogWindow *temp=(tLogWindow *)what->Window;
 	if (temp) {
-		gtk_clist_remove(GTK_CLIST(temp->clist),0);
+		GtkTreeIter iter;
+		GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(temp->view);
+		gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store),&iter);
+		gtk_list_store_remove(store,&iter);
 	};
 
 };
@@ -531,7 +564,6 @@ GList *log_window_freeze(GList *list,tLog *what){
 		tlist->next=list;
 		tlist->data=what;
 		tlist->prev=NULL;
-		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		return(tlist);
 	};
 	return(list);
@@ -544,8 +576,7 @@ GList *log_window_unfreeze(GList *list){
 	g_free(list);
 	what->freezed_flag=0;
 	if (temp){
-		gtk_clist_thaw(GTK_CLIST(temp->clist));
-		gtk_widget_queue_draw(temp->clist);
+		gtk_widget_queue_draw(GTK_WIDGET(temp->view));
 	};
 	return(next);
 };

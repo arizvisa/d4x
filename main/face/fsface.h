@@ -21,10 +21,10 @@ enum FS_FACE_COLUMNS{
 	FS_COL_LAST
 };
 
-void fs_list_remove(GtkCList *clist,tDownload *what);
-void fs_list_add(GtkCList* clist,tDownload *what);
-void fs_list_set_icon(GtkCList *clist,tDownload *what,int icon);
-GtkCList *fs_list_init();
+void fs_list_remove(GtkTreeView *view,tDownload *what);
+void fs_list_add(GtkTreeView *view,tDownload *what);
+void fs_list_set_icon(GtkTreeView *view,tDownload *what,int icon);
+GtkTreeView *fs_list_init();
 void fs_list_set_size();
 void fs_list_get_size();
 void fs_list_hide();

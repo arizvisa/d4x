@@ -41,6 +41,7 @@ struct tTriger{
 class tDefaultWL:public tWriterLoger{
 	int fd;
 	int fdlock;
+	int overlap_flag;
 	tLog *LOG;
 	tSegmentator *segments;
 	void fd_close();
@@ -51,6 +52,7 @@ class tDefaultWL:public tWriterLoger{
 	void set_fd(int newfd,int lockstate=0);
 	void set_segments(tSegmentator *newseg);
 	int get_fd();
+	int is_overlaped();
 	void set_log(tLog *log);
 	fsize_t write(const void *buff, fsize_t len);
 	fsize_t read(void *dst,fsize_t len);
@@ -100,6 +102,7 @@ struct d4xDwnLink:public tNode{
 struct d4xSearchEngine;
 
 struct tDownload:public tAbstractSortNode{
+	GtkTreeIter *list_iter;
 	tCfg *config;
 	tPStr Name2Save;
 	int restart_from_begin;
@@ -151,6 +154,7 @@ struct tDownload:public tAbstractSortNode{
 	d4xDwnLink *regex_match; //is neded for URL-manager's limits
 	tDList *DIR;
 	tSpeed *SpeedLimit;
+	d4xSpeedCalc SpeedCalc;
 	time_t ScheduleTime;
 	//------------------------------------
 	tDownload();
@@ -179,9 +183,10 @@ struct tDownload:public tAbstractSortNode{
 	void remove_tmp_files();
 	int file_type();
 	fsize_t get_loaded();
-	fsize_t start_size();
 	fsize_t filesize();
-	
+
+	int find_best_split();
+
 	void save_to_config(int fd);
 	int load_from_config(int fd);
 	int owner();

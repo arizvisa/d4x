@@ -93,6 +93,7 @@ tDefaultWL::tDefaultWL(){
 	LOG=NULL;
 	segments=NULL;
 	fdlock=0;
+	overlap_flag=0;
 };
 
 fsize_t tDefaultWL::read(void *dst,fsize_t len){
@@ -101,6 +102,10 @@ fsize_t tDefaultWL::read(void *dst,fsize_t len){
 		return(loaded_size);
 	};
 	return(0);
+};
+
+int tDefaultWL::is_overlaped(){
+	return(overlap_flag);
 };
 
 fsize_t tDefaultWL::write(const void *buff, fsize_t len){
@@ -112,7 +117,7 @@ fsize_t tDefaultWL::write(const void *buff, fsize_t len){
 			log(LOG_ERROR,_("Can't write to file"));
 		
 		if (segments && saved_size){
-			segments->insert(cur,cur+saved_size);
+			overlap_flag=segments->insert(cur,cur+saved_size);
 		};
 		return (saved_size);
 	};
@@ -294,6 +299,7 @@ d4xCondition::~d4xCondition(){
 tSplitInfo::tSplitInfo(){
 	FirstByte=LastByte=-1;
 	next_part=parent=grandparent=NULL;
+	thread_num=1;
 	cond=NULL;
 	reset();
 };
@@ -309,6 +315,7 @@ tSplitInfo::~tSplitInfo(){
 
 /**********************************************/
 tDownload::tDownload() {
+	list_iter=NULL;
 	fsearch=0;
 	restart_from_begin=0;
 	regex_match=NULL;
@@ -341,7 +348,6 @@ tDownload::tDownload() {
 	action=ACTION_NONE;
 	ScheduleTime=0;
 	segments=NULL;
-	StartSize=0;
 	ALTS=NULL;
 };
 
@@ -355,12 +361,6 @@ fsize_t tDownload::get_loaded(){
 	if (segments){
 		return(segments->get_total());
 	};
-	return(0);
-};
-
-fsize_t tDownload::start_size(){
-	if (split) return(StartSize);
-	if (who) return(who->get_start_size());
 	return(0);
 };
 
@@ -505,7 +505,6 @@ fsize_t tDownload::init_segmentator(int fdesc,fsize_t cursize,char *name){
 		};
 		first_seg=segments->get_first();
 		rvalue=first_seg?first_seg->end:0;
-		StartSize=segments->get_total();
 	};
 	((tDefaultWL*)(WL))->set_segments(segments);
 	return rvalue;
@@ -694,6 +693,10 @@ void tDownload::set_default_cfg(){
 			config->hproxy_user.set(CFG.HTTP_PROXY_USER);
 			config->hproxy_pass.set(CFG.HTTP_PROXY_PASS);
 		};
+	};
+	if (CFG.NUMBER_OF_PARTS>1 && split==NULL){
+		split=new tSplitInfo;
+		split->NumOfParts=CFG.NUMBER_OF_PARTS;
 	};
 };
 
@@ -1073,7 +1076,6 @@ void tDownload::download_completed(int type) {
 	im_last=1;
 	if (split && split->cond && split->cond->dec()!=0)
 		im_last=0;
-
 	if (split==NULL)
 		WL->truncate();
 	switch (type){
@@ -1081,6 +1083,11 @@ void tDownload::download_completed(int type) {
 		if (im_last){
 			http_recurse();
 			http_postload();
+			if (split && split->grandparent!=this){
+				if (split->grandparent->DIR) delete(split->grandparent->DIR);
+				split->grandparent->DIR=DIR;
+				DIR=NULL;
+			};
 		};
 		break;
 	};
@@ -1233,6 +1240,7 @@ void tDownload::http_recurse() {
 };
 
 void tDownload::export_socket(tDownloader *what){
+	if (WL->is_overlaped()) return;
 	download_set_block(1);
 	tSocket *sock=what->export_ctrl_socket();
 	if (sock){
@@ -1371,7 +1379,6 @@ void tDownload::download_http() {
 	check_local_file_time();
 	fsize_t SIZE_FOR_DOWNLOAD=who->reget()?size-CurentSize:size;
 	SIZE_FOR_DOWNLOAD=(split && split->LastByte>0)?split->LastByte-split->FirstByte:SIZE_FOR_DOWNLOAD;
-	Start=Pause=time(NULL);
 	Difference=0;
 	status=DOWNLOAD_GO;
 	if (who->download(SIZE_FOR_DOWNLOAD)) {
@@ -1602,7 +1609,7 @@ void tDownload::download_ftp(){
 	if (finfo.size && CurentSize>finfo.size)
 		CurentSize=finfo.size;
 	
-	if (split){
+	if (split && finfo.type==T_FILE){
 		if (im_first){
 			if (who->reget())
 				prepare_splits();
@@ -1616,7 +1623,6 @@ void tDownload::download_ftp(){
 	who->set_loaded(CurentSize);
 	if (split) WL->shift(CurentSize);
 	fsize_t SIZE_FOR_DOWNLOAD=(split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
-	Start=Pause=time(NULL);
 	Difference=0;
 	status=DOWNLOAD_GO;
 	if (who->download(SIZE_FOR_DOWNLOAD)) {
@@ -1629,7 +1635,50 @@ void tDownload::download_ftp(){
 	download_completed(D_PROTO_FTP);
 };
 
-#define SPLIT_MINIMUM_PART 2048
+#define SPLIT_MINIMUM_PART 4096
+
+int tDownload::find_best_split(){
+	tSegment *holes=segments->to_holes(finfo.size);
+	tSegment *tmp=holes->next;
+	tSegment *best=holes;
+	fsize_t maxlen=holes->end-holes->begin;
+	while(tmp){
+		fsize_t l=tmp->end-tmp->begin;
+		if (l>maxlen){
+			maxlen=l;
+			best=tmp;
+		};
+		tmp=tmp->next;
+	};
+	// if this part is already loading by another thread then we
+	// need to load only part of this chunk
+	tDownload *gp=split->grandparent;
+	while (gp){
+		if ((gp->split->LastByte>=best->begin && gp->split->LastByte<=best->end) ||
+		    (gp->split->FirstByte>=best->begin && gp->split->FirstByte<=best->end))
+			break;
+		gp=gp->split->next_part;
+	};
+	if (gp){
+		split->FirstByte=best->begin+maxlen/2;
+	}else{
+		split->FirstByte=best->begin;
+	};
+	split->LastByte=best->end;
+//	printf("Best part: %lli-%lli (%lli)\n",split->FirstByte,split->LastByte,split->LastByte-split->FirstByte);
+	int completed=0;
+	if (best->begin==0) completed=1;
+	while(holes){
+		tmp=holes->next;
+		delete(holes);
+		holes=tmp;
+	};
+	if (split->LastByte-split->FirstByte>SPLIT_MINIMUM_PART*10 && completed==0){
+		return 1;
+	};
+	return 0;
+};
+
 
 void tDownload::prepare_splits(){
  	DBC_RETURN_IF_FAIL(split!=NULL);
@@ -1769,6 +1818,7 @@ tAddr *tDownload::redirect_url(){
 };
 
 tDownload::~tDownload() {
+	if (list_iter) gtk_tree_iter_free(list_iter);
 	if (config) delete(config);
 	if (myowner) myowner->del(this);
 	if (who) delete who;

@@ -422,6 +422,36 @@ char *tAddr::url() {
 	return URL;
 };
 
+char *tAddr::url_parsed() {
+	int params_len=(params.get()?strlen(params.get())+1:0);
+	int port_len=port==proto_infos[proto].port?0:(int_to_strin_len(port)+1);
+	char *rpath=unparse_percents(path.get());
+	char *rfile=unparse_percents(file.get());;
+	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
+	                   strlen(rpath)+strlen(rfile)+7+params_len+port_len];
+	*URL=0;
+	/* Easy way to make URL from info  field
+	 */
+	strcat(URL,proto_infos[proto].name);
+	strcat(URL,"://");
+	if (host.get()) strcat(URL,host.get());
+	if (port_len)
+		sprintf(URL+strlen(URL),":%i",port);
+	if (rpath){
+		if (!_str_first_char(rpath,'/')) strcat(URL,"/");
+		strcat(URL,rpath);
+		if (!_str_last_char(URL,'/')) strcat(URL,"/");
+	};
+	if (rfile) strcat(URL,rfile);
+	if (params.get()){
+		strcat(URL,"?");
+		strcat(URL,params.get());
+	};
+	delete[] rfile;
+	delete[] rpath;
+	return URL;
+};
+
 char *tAddr::url_full(){
 	int params_len=(params.get()?strlen(params.get())+1:0);
 	int port_len=port==proto_infos[proto].port?0:(int_to_strin_len(port)+1);

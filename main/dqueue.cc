@@ -23,6 +23,7 @@ int d4x_run_or_wait_downloads(){
 };
 
 d4xDownloadQueue::d4xDownloadQueue(){
+	inserted=0;
 	MAX_ACTIVE=5;
 	TIME_FORMAT=NICE_DEC_DIGITALS=0;
 	AUTODEL_COMPLETED=AUTODEL_FAILED=0;
@@ -155,7 +156,7 @@ void d4xDownloadQueue::subq_del(d4xDownloadQueue *what){
 };
 
 void d4xDownloadQueue::update(){
-	if (!CFG.WITHOUT_FACE)
+	if (!CFG.WITHOUT_FACE && inserted)
 		D4X_QVT->update(this);
 };
 
@@ -179,12 +180,15 @@ void d4xDownloadQueue::save_to_config_list(int fd){
 			node=(d4xWFNode *)(node->prev);
 		};
 	}else{
-		int i=0;
-		tDownload *temp=qv.get_download(i);
-		while (temp) {
-			i++;
-			temp->save_to_config(fd);
-			temp=qv.get_download(i);
+		GtkTreeIter iter;
+		if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(qv.list_store),&iter)){
+			tDownload *temp=qv.get_download(&iter);
+			while (temp) {
+				temp->save_to_config(fd);
+				if (!gtk_tree_model_iter_next(GTK_TREE_MODEL(qv.list_store),&iter))
+					break;
+				temp=qv.get_download(&iter);
+			};
 		};
 	};
 };

@@ -46,7 +46,7 @@ class tSegmentator{
 	tSegmentator(char *path);
 	void init(char *path);
 	void print();
-	void insert(unsigned long int begin, unsigned long int end);
+	int insert(unsigned long int begin, unsigned long int end);
 	void truncate(unsigned long int shift);
 	tSegment *get_first();
 	tSegment *to_holes(unsigned long int size);

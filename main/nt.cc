@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <ctype.h>
 #include "main.h"
 #include "config.h"
 #include "face/list.h"
@@ -33,6 +34,7 @@ tMain aa;
 char *VERSION_NAME="WebDownloader for X "
 			VERSION;
 char *LOCK_FILE;
+char *LOCALE_CODEPAGE;
 
 static void init_string_variables(){
 	if (CFG.DEFAULT_NAME==NULL)
@@ -112,6 +114,12 @@ int main(int argc,char **argv) {
 #ifdef ENABLE_NLS
 	bindtextdomain("d4x", LOCALEDIR);
 	textdomain("d4x");
+	char *a=index(getenv("LANG"),'.');
+	if (a){
+		LOCALE_CODEPAGE=copy_string(a+1);
+		a=LOCALE_CODEPAGE;
+		while (*a){ *a=toupper(*a);a++;};
+	}else LOCALE_CODEPAGE="UTF-8";
 	setlocale(LC_ALL,"");
 #endif
 

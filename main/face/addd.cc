@@ -95,9 +95,9 @@ void init_add_window(...) {
 	what->editor->add_or_edit=1;
 	what->editor->init(what);
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Add new download"));
-	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(add_window_ok),what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
+	g_signal_connect(G_OBJECT(what->editor->cancel_button),"clicked",G_CALLBACK(add_window_cancel), what);
+	g_signal_connect(G_OBJECT(what->editor->ok_button),"clicked",G_CALLBACK(add_window_ok),what);
+	g_signal_connect(G_OBJECT(what->editor->window),"delete_event",G_CALLBACK(add_window_delete), what);
 	d4x_eschandler_init(what->editor->window,what);
 	what->editor->clear_url();
 	list_for_adding->insert(what);
@@ -181,9 +181,9 @@ void d4x_automated_add(){
 	what->editor->add_or_edit=1;
 	what->editor->init(what);
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Automated adding"));
-	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(d4x_automated_ok),what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
+	g_signal_connect(G_OBJECT(what->editor->cancel_button),"clicked",G_CALLBACK(add_window_cancel), what);
+	g_signal_connect(G_OBJECT(what->editor->ok_button),"clicked",G_CALLBACK(d4x_automated_ok),what);
+	g_signal_connect(G_OBJECT(what->editor->window),"delete_event",G_CALLBACK(add_window_delete), what);
 	d4x_eschandler_init(what->editor->window,what);
 	what->editor->clear_url();
 	what->editor->paste_url();
@@ -197,27 +197,29 @@ static gint _tmp_compare_(gconstpointer a,gconstpointer b){
 	return(bb-aa);
 };
 
+static void _apply_common_properties_(GtkTreeModel *model,GtkTreePath *path,
+				      GtkTreeIter *iter,gpointer data){
+	GValue val={0,};
+	gtk_tree_model_get_value(model,iter,NOTHING_COL,&val);
+	tDownload *tmp=(tDownload *)g_value_peek_pointer(&val);
+	g_value_unset(&val);
+	tDownload *what=(tDownload *)data;
+	if (tmp && tmp->owner()!=DL_RUN && tmp->owner()!=DL_STOPWAIT){
+		if (tmp->config==NULL){
+			tmp->config=new tCfg;
+			tmp->set_default_cfg();
+			tmp->config->isdefault=0;
+		};
+		what->editor->set_parent(tmp);
+		tmp->editor->apply_enabled_changes();
+		tmp->editor->set_parent(what);
+	};
+};
+
 void edit_common_properties_ok(GtkWidget *widget, tDownload *what){
 	/* FIXME: too deep access via 'D4X_QUEUE->qv.' */
-	GList *selection=g_list_copy(GTK_CLIST(D4X_QUEUE->qv.ListOfDownloads)->selection);
-	selection=g_list_sort(selection,_tmp_compare_);
-	GList *sel=selection;
-	while(selection){
-		int row=GPOINTER_TO_INT(selection->data);
-		tDownload *tmp=D4X_QUEUE->qv.get_download(row);
-		if (tmp && tmp->owner()!=DL_RUN && tmp->owner()!=DL_STOPWAIT){
-			if (tmp->config==NULL){
-				tmp->config=new tCfg;
-				tmp->set_default_cfg();
-				tmp->config->isdefault=0;
-			};
-			what->editor->set_parent(tmp);
-			tmp->editor->apply_enabled_changes();
-			tmp->editor->set_parent(what);
-		};
-		selection=selection->next;
-	};
-	g_list_free(sel);
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(D4X_QUEUE->qv.ListOfDownloads));
+	gtk_tree_selection_selected_foreach(sel,_apply_common_properties_,what);
 	what->editor->set_parent(what);
 	what->delete_editor();
 	list_for_adding->del(what);
@@ -242,9 +244,9 @@ void init_edit_common_properties_window(int *array) {
 	gtk_widget_hide(what->editor->isdefault_check);
 	what->editor->disable_items(array);
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Add new download"));
-	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_common_properties_ok),what);
-	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
+	g_signal_connect(G_OBJECT(what->editor->cancel_button),"clicked",G_CALLBACK(add_window_cancel), what);
+	g_signal_connect(G_OBJECT(what->editor->ok_button),"clicked",G_CALLBACK(edit_common_properties_ok),what);
+	g_signal_connect(G_OBJECT(what->editor->window),"delete_event",G_CALLBACK(add_window_delete), what);
 	d4x_eschandler_init(what->editor->window,what);
 	what->editor->clear_url();
 	list_for_adding->insert(what);

@@ -12,12 +12,12 @@
 #define _D4X_QUEUE_TREE_HEADER_
 
 #include <gtk/gtk.h>
-#include "columns.h"
 #include "../dqueue.h"
 
 struct d4xQsTree{
-	gint drop_to_row,row_to_color;
-	GtkCTree *tree;
+	GtkTreeIter *row_to_color,*drop_to_row;
+	GtkTreeView *view;
+	GtkTreeStore *store;
 	GtkWidget *menu1,*menu2;
 	GtkWidget *dialog,*dialog_entry;
 	GtkWidget *prefs;
@@ -25,16 +25,17 @@ struct d4xQsTree{
 	GtkWidget *columns_time1,*columns_time2;
 	GtkWidget *del_completed,*del_fataled,*max_threads;
 	GtkWidget *name,*path_entry;
-	tColumnsPrefs columns_order;
 	int create_mode;
+	d4xQsTree():store(NULL){};
 	void init();
 	void init_menus();
 	void add(d4xDownloadQueue *what,d4xDownloadQueue *papa=(d4xDownloadQueue *)NULL);
 	void del(d4xDownloadQueue *what);
 	void update(d4xDownloadQueue *what);
+	void switch_remote(d4xDownloadQueue *what);
 	void switch_to(d4xDownloadQueue *what);
-	void select_row(int row);
-	void popup_menu(GdkEvent *event);
+	void select_row(GtkTreeIter *iter);
+	void popup_menu(GdkEvent *event,int selected);
 	void delete_queue();
 	void create_init(int mode=0);
 	void create_ok();
@@ -42,8 +43,9 @@ struct d4xQsTree{
 	void prefs_init();
 	void prefs_ok();
 	void prefs_cancel();
-	void drop_from(GtkWidget *clist);
-	void drag_motion(int row);
+	void drop_from(GtkTreeView *view);
+	tDownload *get_download(GtkTreeView *view,GtkTreeIter *iter);
+	void drag_motion(GtkTreeIter *iter);
 	void move_to(tDownload *where);
 	d4xDownloadQueue *selected();
 };

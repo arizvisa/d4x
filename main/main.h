@@ -53,6 +53,7 @@ class tMain{
 	void stop_all(tQueue *q);
 	int try_to_switch_split(tDownload *dwn,tDownload *gp);
 	int try_to_switch(tDownload *dwn);
+	void prepare_for_stoping_pre(tDownload *what);
  public:
     	int init();
     	void init_main_log();

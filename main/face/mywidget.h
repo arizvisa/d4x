@@ -34,7 +34,7 @@ struct MyGtkColorsel{
 	GtkWidget *preview;
 	GtkWidget *browser;
 	GtkWindow *modal;
-	gdouble color[4];
+	GdkColor color;
 };
 
 struct MyGtkColorselClass{
@@ -71,7 +71,8 @@ struct d4xFNode;
 struct d4xFilterEdit{
 	GtkWindow window;
 	GtkWidget *vbox;
-	GtkWidget *clist;  //list of rules
+	GtkTreeView *view;  //list of rules
+	GtkListStore *store;
 	GtkWidget *include,*exclude; //default action
 	GtkWidget *name;   //name entry
 	GtkWidget *ok,*edit;   //buttons
@@ -91,7 +92,8 @@ void d4x_filter_edit_add_rule(d4xFilterEdit *edit,d4xRule *rule);
 
 struct d4xFilterSel{
 	GtkWindow window;
-	GtkWidget *clist,*ok,*cancel;
+	GtkTreeView *view;
+	GtkWidget *ok,*cancel;
 };
 struct d4xFilterSelClass{
 	GtkWindowClass parent_class;
@@ -101,6 +103,7 @@ struct d4xFNode;
 
 GtkWidget *d4x_filter_sel_new();
 void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node);
+void d4x_filter_sel_to_combo(d4xFilterSel *sel,GtkWidget *combo);
 
 /* next widget is used for list of links which was found in
    legacy file via "Search links in file"
@@ -108,7 +111,7 @@ void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node);
 
 struct d4xLinksSel{
 	GtkWindow window;
-	GtkCList *clist;
+	GtkTreeView *view;
 	GtkWidget *hbbox;
 	GtkWidget *ok,*cancel,*remove,*find;
 };
@@ -117,8 +120,17 @@ struct d4xLinksSelClass{
 	GtkWindowClass parent_class;
 };
 
+typedef void (* d4xLinksSelForeachFunc) (d4xLinksSel *sel, GtkTreeIter *iter,const gchar *text, gpointer rowdata,gpointer userdata);
+
 GtkWidget *d4x_links_sel_new();
 void d4x_links_sel_add(d4xLinksSel *sel,char *url,gpointer data);
+void d4x_links_sel_foreach(d4xLinksSel *sel,d4xLinksSelForeachFunc func,gpointer data);
+void d4x_links_sel_selected_foreach(d4xLinksSel *sel,d4xLinksSelForeachFunc func,gpointer data);
+void d4x_links_sel_del(d4xLinksSel *sel,GtkTreeIter *iter);
+void d4x_links_sel_clear(d4xLinksSel *sel);
+gpointer d4x_links_sel_get_data(d4xLinksSel *sel,GtkTreeIter *iter);
+void d4x_links_sel_set(d4xLinksSel *sel,GtkTreeIter *iter,char *url,gpointer p);
+
 GtkWidget *d4x_links_sel_new_with_add();
 
 struct d4xStringEdit{

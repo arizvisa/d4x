@@ -5,429 +5,426 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: d4x 2.02\n"
-"POT-Creation-Date: 2002-08-27 20:22+0800\n"
-"PO-Revision-Date: 2002-07-19 21:13+0200\n"
-"Last-Translator: Gergely Nagy <algeron@madhouse.lonyay.edu.hu> Sa'ndor "
-"Pinte'r <jimmycime@mailbox.hu>\n"
+"Project-Id-Version: d4x 2.03\n"
+"POT-Creation-Date: 2002-10-06 19:02+0800\n"
+"PO-Revision-Date: 2002-09-15 14:51+0200\n"
+"Last-Translator: Sa'ndor Pinte'r <jimmycime@mailbox.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: main/client.cc:429
+#: main/client.cc:433
 msgid "Timeout while reading from socket!"
-msgstr "Idõtúllépés a SOCKET olvasása közben!"
+msgstr "IdÅ‘tÃºllÃ©pÃ©s a SOCKET olvasÃ¡sa kÃ¶zben!"
 
-#: main/client.cc:434
+#: main/client.cc:438
 msgid "Error while reading from socket!"
-msgstr "Hiba a SOCKET olvasása közben!"
+msgstr "Hiba a SOCKET olvasÃ¡sa kÃ¶zben!"
 
-#: main/client.cc:443
+#: main/client.cc:447
 msgid "Trying to connect..."
-msgstr "Kapcsolódás..."
+msgstr "KapcsolÃ³dÃ¡s..."
 
-#: main/client.cc:445
+#: main/client.cc:449
 msgid "Socket was opened!"
 msgstr "SOCKET megnyitva!"
 
-#: main/client.cc:450
+#: main/client.cc:454
 msgid "Host not found!"
-msgstr "A cél nem található!"
+msgstr "A cÃ©l nem talÃ¡lhatÃ³!"
 
-#: main/client.cc:455
+#: main/client.cc:459
 msgid "Can't allocate socket"
 msgstr "A SOCKET-et nem lehet lefoglalni"
 
-#: main/client.cc:460
+#: main/client.cc:464
 msgid "Can't connect"
-msgstr "Kapcsolódás sikertelen"
+msgstr "KapcsolÃ³dÃ¡s sikertelen"
 
 #: main/config.cc:77
 msgid "You forgot to specify directory."
-msgstr "Elfelejtetted megadni a könyvtárat!"
+msgstr "Elfelejtetted megadni a kÃ¶nyvtÃ¡rat!"
 
 #: main/config.cc:79
 msgid "You must specify number as second parameter for '-m' option"
 msgstr ""
-"Meg kell ednod egy számot (mint másodperc) paraméternek a '-m' opciónak"
+"Meg kell adnod egy szÃ¡mot (mint mÃ¡sodperc) paramÃ©ternek a '-m' opciÃ³nak"
 
 #: main/config.cc:83
 msgid "You must specify number as parameter for '--exit-time' option"
-msgstr "Meg kell adnod egy számot paraméternek a '--exit-time' opciónak"
+msgstr "Meg kell adnod egy szÃ¡mot paramÃ©ternek a '--exit-time' opciÃ³nak"
 
 #: main/config.cc:84
 msgid "Expect URL as parameter for '--ls' option"
-msgstr "URL-t várj paraméternek a '--ls' opcióra"
+msgstr "URL-t vÃ¡rok paramÃ©ternek a '--ls' opciÃ³ra"
 
 #: main/config.cc:86
 msgid "Expect URL as parameter for '--del' option"
-msgstr "URL-t várj paraméternek '--del' opcióra"
+msgstr "URL-t vÃ¡rok paramÃ©ternek '--del' opciÃ³ra"
 
 #: main/config.cc:87
 msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
-msgstr "Szöveget várj SZÉLESSÉGXMAGASSÁG+X+Y alakban a '-geometry' opcióra"
+msgstr "SzÃ¶veget vÃ¡rok SZÃ‰LESSÃ‰GxMAGASSÃG+X+Y alakban a '-geometry' opciÃ³ra"
 
 #: main/config.cc:88
 msgid "Expect URL as parameter for '--stop' option"
-msgstr "URL-t várj paraméternek a '--stop' opcióra"
+msgstr "URL-t vÃ¡rok paramÃ©ternek a '--stop' opciÃ³ra"
 
 #: main/config.cc:90
-#, fuzzy
 msgid "Expect URL as parameter for '-a' option"
-msgstr "URL-t várj paraméternek a '--ls' opcióra"
-
-#: main/config.cc:276
-#, c-format
-msgid "Can't open cfg file at '%s'\n"
-msgstr "Nem tudom megnyitni a(z) '%s' konfigurációs fájlt\n"
+msgstr "URL-t vÃ¡rok paramÃ©ternek a '-a' opciÃ³ra"
 
 #: main/config.cc:277
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr "Nem tudom megnyitni a(z) '%s' konfigurÃ¡ciÃ³s fÃ¡jlt\n"
+
+#: main/config.cc:278
 msgid "Use default cfg :))...\n"
-msgstr "Alapbeállítások használata :))...\n"
+msgstr "AlapbeÃ¡llÃ­tÃ¡sok hasznÃ¡lata :))...\n"
 
-#: main/config.cc:489
+#: main/config.cc:490
 msgid "unknown option:"
-msgstr "ismeretlen opció:"
+msgstr "ismeretlen opciÃ³:"
 
-#: main/config.cc:563
+#: main/config.cc:564
 msgid "List of queues:\n"
-msgstr "Sorok listája:\n"
+msgstr "Sorok listÃ¡ja:\n"
 
-#: main/config.cc:618
+#: main/config.cc:619
 #, c-format
 msgid "Run downloads: %d\n"
-msgstr "Futó letöltések: %d\n"
+msgstr "FutÃ³ letÃ¶ltÃ©sek: %d\n"
 
-#: main/config.cc:620
+#: main/config.cc:621
 #, c-format
 msgid "Paused downloads: %d\n"
-msgstr "Szünetelõ letöltések: %d\n"
+msgstr "SzÃ¼netelÅ‘ letÃ¶ltÃ©sek: %d\n"
 
-#: main/config.cc:622
+#: main/config.cc:623
 #, c-format
 msgid "Failed downloads: %d\n"
-msgstr "Sikertelen letöltések: %d\n"
+msgstr "Sikertelen letÃ¶ltÃ©sek: %d\n"
 
-#: main/config.cc:624
+#: main/config.cc:625
 #, c-format
 msgid "Completed downloads: %d\n"
-msgstr "Sikeres letöltések: %d\n"
+msgstr "Sikeres letÃ¶ltÃ©sek: %d\n"
 
-#: main/config.cc:627
+#: main/config.cc:628
 #, c-format
 msgid "Total: %d\n"
-msgstr "Összesen: %d\n"
+msgstr "Ã–sszesen: %d\n"
 
-#: main/config.cc:629
+#: main/config.cc:630
 #, c-format
 msgid "Total bytes loaded: %d\n"
-msgstr "%i byte betöltve.\n"
+msgstr "%d byte betÃ¶ltve.\n"
 
-#: main/config.cc:631
+#: main/config.cc:632
 #, c-format
 msgid "Current speed: %d\n"
-msgstr "Jelenlegi sebesség: %d\n"
+msgstr "Jelenlegi sebessÃ©g: %d\n"
 
-#: main/config.cc:637
+#: main/config.cc:638
 #, c-format
 msgid "Curent speed: %d\n"
-msgstr "Jelenlegi sebesség: %d\n"
-
-#: main/config.cc:838
-msgid "Usage: nt [OPTION] ... [URL]"
-msgstr "Használat: nt [OPCIÓK] ... [URL]"
+msgstr "Jelenlegi sebessÃ©g: %d\n"
 
 #: main/config.cc:839
-msgid "print this page and exit"
-msgstr "e képernyõ kiírása, és kilépés"
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr "HasznÃ¡lat: nt [OPCIÃ“K] ... [URL]"
 
 #: main/config.cc:840
-msgid "show version information and exit"
-msgstr "verziószám kiírása, és kilépés"
+msgid "print this page and exit"
+msgstr "e kÃ©pernyÅ‘ kiÃ­rÃ¡sa, Ã©s kilÃ©pÃ©s"
 
 #: main/config.cc:841
-msgid "show information if already run"
-msgstr "információ kiírása, ha már fut"
+msgid "show version information and exit"
+msgstr "verziÃ³szÃ¡m kiÃ­rÃ¡sa, Ã©s kilÃ©pÃ©s"
 
 #: main/config.cc:842
-msgid "show current speed if already run"
-msgstr "aktuális sebesség kiírása, ha már fut"
+msgid "show information if already run"
+msgstr "informÃ¡ciÃ³ kiÃ­rÃ¡sa, ha mÃ¡r fut"
 
 #: main/config.cc:843
-msgid "run in minimized mode"
-msgstr "minimalizált módban futtat"
+msgid "show current speed if already run"
+msgstr "aktuÃ¡lis sebessÃ©g kiÃ­rÃ¡sa, ha mÃ¡r fut"
 
 #: main/config.cc:844
-msgid "set timeout for exiting if nothing to do"
-msgstr "Kilépési idõ beállítása, ha nincs más dolga"
+msgid "run in minimized mode"
+msgstr "minimalizÃ¡lt mÃ³dban futtat"
 
 #: main/config.cc:845
-msgid "set directory for saving files"
-msgstr "könyvtár beállítása a fájlok mentésére"
+msgid "set timeout for exiting if nothing to do"
+msgstr "KilÃ©pÃ©si idÅ‘ beÃ¡llÃ­tÃ¡sa, ha nincs mÃ¡s dolga"
 
 #: main/config.cc:846
-msgid "set lower speed limitation"
-msgstr "alacsony sebesség-korlátozás beállítása"
+msgid "set directory for saving files"
+msgstr "kÃ¶nyvtÃ¡r beÃ¡llÃ­tÃ¡sa a fÃ¡jlok mentÃ©sÃ©re"
 
 #: main/config.cc:847
-msgid "set medium speed limitation"
-msgstr "közepes sebesség-korlátozás beállítása"
+msgid "set lower speed limitation"
+msgstr "alacsony sebessÃ©g-korlÃ¡tozÃ¡s beÃ¡llÃ­tÃ¡sa"
 
 #: main/config.cc:848
-msgid "set unlimited speed"
-msgstr "maximális sebesség beállítása"
+msgid "set medium speed limitation"
+msgstr "kÃ¶zepes sebessÃ©g-korlÃ¡tozÃ¡s beÃ¡llÃ­tÃ¡sa"
 
 #: main/config.cc:849
-msgid "delete completed if already run"
-msgstr "befejezett törlése ha még fut"
+msgid "set unlimited speed"
+msgstr "maximÃ¡lis sebessÃ©g beÃ¡llÃ­tÃ¡sa"
 
 #: main/config.cc:850
-msgid "set maximum active downloads"
-msgstr "maximális aktív letöltések beállítása"
+msgid "delete completed if already run"
+msgstr "befejezett tÃ¶rlÃ©se ha mÃ©g fut"
 
 #: main/config.cc:851
-msgid "restart all failed downloads"
-msgstr "összes sikertelen letöltés újrakezdése"
+msgid "set maximum active downloads"
+msgstr "maximÃ¡lis aktÃ­v letÃ¶ltÃ©sek beÃ¡llÃ­tÃ¡sa"
 
 #: main/config.cc:852
-msgid "run program without X interface"
-msgstr "X interface nélkül futtat"
+msgid "restart all failed downloads"
+msgstr "Ã¶sszes sikertelen letÃ¶ltÃ©s ÃºjrakezdÃ©se"
 
 #: main/config.cc:853
-msgid "display info about URL in queue of downloads"
-msgstr "információ az URL-rõl a letöltési sorból"
+msgid "run program without X interface"
+msgstr "X interface nÃ©lkÃ¼l futtat"
 
 #: main/config.cc:854
-msgid "change current default queue"
-msgstr "alapértelmezett sor megváltoztatása"
+msgid "display info about URL in queue of downloads"
+msgstr "informÃ¡ciÃ³ az URL-rÅ‘l a letÃ¶ltÃ©si sorbÃ³l"
 
 #: main/config.cc:855
-msgid "remove a download from queue"
-msgstr "letöltés törlése a sorból"
+msgid "change current default queue"
+msgstr "alapÃ©rtelmezett sor megvÃ¡ltoztatÃ¡sa"
 
 #: main/config.cc:856
-msgid "stop a download"
-msgstr "letöltés megállítása "
+msgid "remove a download from queue"
+msgstr "letÃ¶ltÃ©s tÃ¶rlÃ©se a sorbÃ³l"
 
 #: main/config.cc:857
-msgid "using colors if run without interface"
-msgstr "színek használata, ha interface nélkül fut"
+msgid "stop a download"
+msgstr "letÃ¶ltÃ©s megÃ¡llÃ­tÃ¡sa "
 
 #: main/config.cc:858
-msgid "specifies preferred size and position of main window"
-msgstr "fõ ablak elõnyös méretének és helyének beállítása"
+msgid "using colors if run without interface"
+msgstr "szÃ­nek hasznÃ¡lata, ha interface nÃ©lkÃ¼l fut"
 
 #: main/config.cc:859
-#, fuzzy
+msgid "specifies preferred size and position of main window"
+msgstr "fÅ‘ ablak elÅ‘nyÃ¶s mÃ©retÃ©nek Ã©s helyÃ©nek beÃ¡llÃ­tÃ¡sa"
+
+#: main/config.cc:860
 msgid "open \"Add new download\" dialog for the URL"
-msgstr " Új letöltés hozzáadása"
+msgstr " Ãšj letÃ¶ltÃ©s hozzÃ¡adÃ¡sa"
 
 #: main/cookie.cc:317
 msgid "Loading cookies"
-msgstr "Cookie-k betöltése"
+msgstr "Cookie-k betÃ¶ltÃ©se"
 
 #: main/cookie.cc:323
 #, c-format
 msgid "%i cookies loaded from browsers' files"
-msgstr "%i cookie betöltve a böngészõbõl"
+msgstr "%i cookie betÃ¶ltve a bÃ¶ngÃ©szÅ‘bÅ‘l"
 
 #: main/cookie.cc:325
 #, c-format
 msgid "Can't open cookies file %s!"
-msgstr "Nem tudom megnyitni a %s cookie fájlt!"
+msgstr "Nem tudom megnyitni a %s cookie fÃ¡jlt!"
 
 #: main/cookie.cc:335
 #, c-format
 msgid "%i cookies loaded"
-msgstr "%i cookie betöltve"
+msgstr "%i cookie betÃ¶ltve"
 
-#: main/dlist.cc:112
+#: main/dlist.cc:117
 msgid "Can't write to file"
-msgstr "Nem lehet fájlba írni"
+msgstr "Nem lehet fÃ¡jlba Ã­rni"
 
-#: main/dlist.cc:139
+#: main/dlist.cc:144
 msgid "File is already opened by another download!"
-msgstr "Már meg van nyitva a fájl egy másik letöltésre"
+msgstr "MÃ¡r meg van nyitva a fÃ¡jl egy mÃ¡sik letÃ¶ltÃ©sre"
 
-#: main/dlist.cc:142
+#: main/dlist.cc:147
 msgid "Filesystem do not support advisory record locking!"
-msgstr "A fájlrendszer nem támogatja az advisory record lockingot!"
+msgstr "A fÃ¡jlrendszer nem tÃ¡mogatja az advisory record lockingot!"
 
-#: main/dlist.cc:143
+#: main/dlist.cc:148
 msgid "Will proceed without it but beware that you might have problems."
-msgstr "Az nélkül fog végrehajtódni, de vigyázz, mert hibákkal járhat!"
+msgstr "Az nÃ©lkÃ¼l fog vÃ©grehajtÃ³dni, de vigyÃ¡zz, mert hibÃ¡kkal jÃ¡rhat!"
 
 #: main/dlist.cc:395
 #, c-format
 msgid "You have no permissions to create file at path %s"
-msgstr "Nincs jogod létrehozni a %s fájlt"
+msgstr "Nincs jogod lÃ©trehozni a %s fÃ¡jlt"
 
 #: main/dlist.cc:400
 #, c-format
 msgid "You have no space at path %s for creating file"
-msgstr "Nincs elég helyed, hogy létrehozd a %s fájlt!"
+msgstr "Nincs elÃ©g helyed, hogy lÃ©trehozd a %s fÃ¡jlt!"
 
 #: main/dlist.cc:405
 msgid "Directory already created!:))"
-msgstr "A könyvtár már létezik!:))"
+msgstr "A kÃ¶nyvtÃ¡r mÃ¡r lÃ©tezik!:))"
 
 #. this is a link
-#: main/dlist.cc:525
+#: main/dlist.cc:524
 msgid "Trying to create a link"
-msgstr "Link létrehozása"
+msgstr "Link lÃ©trehozÃ¡sa"
 
-#: main/dlist.cc:530
+#: main/dlist.cc:529
 msgid "Link already created!:))"
-msgstr "A link már létezik!:))"
+msgstr "A link mÃ¡r lÃ©tezik!:))"
 
-#: main/dlist.cc:536
+#: main/dlist.cc:535
 msgid "Can't create link"
-msgstr "Link létrehozása sikertelen"
+msgstr "Link lÃ©trehozÃ¡sa sikertelen"
 
 #. this is a file
-#: main/dlist.cc:545
+#: main/dlist.cc:544
 msgid "Trying to create a file"
-msgstr "Állomány létrehozása"
+msgstr "ÃllomÃ¡ny lÃ©trehozÃ¡sa"
 
-#: main/dlist.cc:566
+#: main/dlist.cc:565
 msgid "Can't create file at the path:"
-msgstr "A következõ fájlt nem lehet létrehozni:"
+msgstr "A kÃ¶vetkezÅ‘ fÃ¡jlt nem lehet lÃ©trehozni:"
 
-#: main/dlist.cc:568
+#: main/dlist.cc:567
 msgid "which has name:"
 msgstr "melynek a neve:"
 
-#: main/dlist.cc:579
+#: main/dlist.cc:578
 msgid "File was created!"
-msgstr "Fájl létrehozva!"
+msgstr "FÃ¡jl lÃ©trehozva!"
 
 #. this is a directory
-#: main/dlist.cc:584
+#: main/dlist.cc:583
 msgid "Trying to create a dir"
-msgstr "Könyvtár létrehozása"
+msgstr "KÃ¶nyvtÃ¡r lÃ©trehozÃ¡sa"
 
-#: main/dlist.cc:594
+#: main/dlist.cc:593
 msgid "Can't create directory!"
-msgstr "Nem lehet könyvtárat váltani!"
+msgstr "Nem lehet kÃ¶nyvtÃ¡rat vÃ¡ltani!"
 
 #. this is device
-#: main/dlist.cc:604
+#: main/dlist.cc:603
 msgid "Downloader can't create devices..."
-msgstr "A letöltõ nem tud eszköz fájlokat létrehozni..."
-
-#: main/dlist.cc:1058
-#, c-format
-msgid "Trying to copy %s to %s due 'Content-Disposition'"
-msgstr "Próbálom másolni a(z) %s %s-be due 'Content-Disposition'"
+msgstr "A letÃ¶ltÅ‘ nem tud eszkÃ¶z fÃ¡jlokat lÃ©trehozni..."
 
 #: main/dlist.cc:1061
+#, c-format
+msgid "Trying to copy %s to %s due 'Content-Disposition'"
+msgstr "PrÃ³bÃ¡lom mÃ¡solni a(z) %s %s-be due 'Content-Disposition'"
+
+#: main/dlist.cc:1064
 msgid "Error during copying!"
-msgstr "Hiba a másolás közben"
+msgstr "Hiba a mÃ¡solÃ¡s kÃ¶zben"
 
-#: main/dlist.cc:1092
+#: main/dlist.cc:1099
 msgid "Downloading was successefully completed!"
-msgstr "Letöltés sikeresen befejezõdött!"
+msgstr "LetÃ¶ltÃ©s sikeresen befejezÅ‘dÃ¶tt!"
 
-#: main/dlist.cc:1143
+#: main/dlist.cc:1150
 msgid "Downloading was failed..."
-msgstr "A letöltés sikertelen..."
+msgstr "A letÃ¶ltÃ©s sikertelen..."
 
-#: main/dlist.cc:1288
+#: main/dlist.cc:1296
 msgid "Redirection blocked by filter"
-msgstr "Blokkolt szûrõ átirányítása"
+msgstr "Blokkolt szÅ±rÅ‘ Ã¡tirÃ¡nyÃ­tÃ¡sa"
 
-#: main/dlist.cc:1294
+#: main/dlist.cc:1302
 msgid "Redirect detected..."
-msgstr "Átirányítás..."
+msgstr "ÃtirÃ¡nyÃ­tÃ¡s..."
 
-#: main/dlist.cc:1352
+#: main/dlist.cc:1360
 msgid "It is strange that we can't delete file which just created..."
-msgstr "Furcsa, hogy nem lehet törölni az éppen most létrehozott fájlt..."
+msgstr "Furcsa, hogy nem lehet tÃ¶rÃ¶lni az Ã©ppen most lÃ©trehozott fÃ¡jlt..."
 
-#: main/dlist.cc:1356 main/dlist.cc:1565
+#: main/dlist.cc:1364 main/dlist.cc:1572
 msgid "File not found"
-msgstr "A fájl nem található"
+msgstr "A fÃ¡jl nem talÃ¡lhatÃ³"
 
-#: main/dlist.cc:1430
+#: main/dlist.cc:1437
 msgid "Sorting started"
-msgstr "Rendezés elindítva"
+msgstr "RendezÃ©s elindÃ­tva"
 
-#: main/dlist.cc:1433
+#: main/dlist.cc:1440
 #, c-format
 msgid "Pinging (atempt %i of %i)"
-msgstr "Pingelés (%i/%i)"
+msgstr "PingelÃ©s (%i/%i)"
 
-#: main/dlist.cc:1461
+#: main/dlist.cc:1468
 msgid "Trying to determine filesizes"
-msgstr "Fájl méretének megállapítása"
+msgstr "FÃ¡jl mÃ©retÃ©nek megÃ¡llapÃ­tÃ¡sa"
 
-#: main/dlist.cc:1506
+#: main/dlist.cc:1513
 msgid "Searching failed"
-msgstr "Sikertelen keresés"
+msgstr "Sikertelen keresÃ©s"
 
-#: main/dlist.cc:1533
+#: main/dlist.cc:1540
 msgid "Search had been completed!"
-msgstr "Keresés befejezõdött!"
+msgstr "KeresÃ©s befejezÅ‘dÃ¶tt!"
 
-#: main/dlist.cc:1539
+#: main/dlist.cc:1546
 msgid "Was Started!"
-msgstr "Elkezdõdött!"
+msgstr "ElkezdÅ‘dÃ¶tt!"
 
-#: main/dlist.cc:1543
+#: main/dlist.cc:1550
 msgid "It is a link and we already load it"
-msgstr "Ez egy link, és már letöltöttük"
+msgstr "Ez egy link, Ã©s mÃ¡r letÃ¶ltÃ¶ttÃ¼k"
 
-#: main/dlist.cc:1570
+#: main/dlist.cc:1577
 msgid "Trying to work without CWD"
-msgstr "Megpróbálom CWD nélkül"
+msgstr "MegprÃ³bÃ¡lom CWD nÃ©lkÃ¼l"
 
-#: main/dlist.cc:1649
+#: main/dlist.cc:1698
 msgid "Can't split file to specified number of parts!"
-msgstr "Nem tudom a megadott számban feldarabolni a fájlt!"
+msgstr "Nem tudom a megadott szÃ¡mban feldarabolni a fÃ¡jlt!"
 
 #: main/download.cc:34
 msgid "Maximum number of retries reached!"
-msgstr "Elértük az újra próbálások felsõ határát!"
+msgstr "ElÃ©rtÃ¼k az Ãºjra prÃ³bÃ¡lÃ¡sok felsÅ‘ hatÃ¡rÃ¡t!"
 
 #: main/download.cc:39
 #, c-format
 msgid "Retry %i of %i...."
-msgstr "Újra próbálás: %i / %i..."
+msgstr "Ãšjra prÃ³bÃ¡lÃ¡s: %i / %i..."
 
 #: main/download.cc:41
 #, c-format
 msgid "Retry %i ..."
-msgstr "Újra próbálás: %i ..."
+msgstr "Ãšjra prÃ³bÃ¡lÃ¡s: %i ..."
 
 #: main/download.cc:45
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr "A szerveren lévõ fájl újabb, mint a helyi fájl. Letöltés újrakezdése\n"
+msgstr "A szerveren lÃ©vÅ‘ fÃ¡jl Ãºjabb, mint a helyi fÃ¡jl. LetÃ¶ltÃ©s ÃºjrakezdÃ©se\n"
 
 #: main/download.cc:49
 #, c-format
 msgid "Error code %i"
-msgstr "Hiba Kódja: %i"
+msgstr "Hiba KÃ³dja: %i"
 
 #: main/download.cc:50
 msgid "Warning! Probably you found the BUG!!!"
-msgstr "Figyelem! Ön valószínûleg megtalálta a BUG-ot!!!"
+msgstr "Figyelem! Ã–n valÃ³szÃ­nÅ±leg megtalÃ¡lta a BUG-ot!!!"
 
 #: main/download.cc:51
 msgid "If you see this message please report to mdem@chat.ru"
-msgstr "Ha ezt az üzenetet látja, jelentse a mdem@chat.ru címen"
+msgstr "Ha ezt az Ã¼zenetet lÃ¡tja, jelentse a mdem@chat.ru cÃ­men"
 
 #: main/ftp.cc:50
 msgid "Accepting faild"
-msgstr "Elfogadás sikertelen"
+msgstr "ElfogadÃ¡s sikertelen"
 
 #: main/ftp.cc:73
 msgid "Timeout while sending through control socket."
-msgstr "Idõtúllépés a vezérlõ SOCKET-tel való kommunikáció közben."
+msgstr "IdÅ‘tÃºllÃ©pÃ©s a vezÃ©rlÅ‘ SOCKET-tel valÃ³ kommunikÃ¡ciÃ³ kÃ¶zben."
 
 #: main/ftp.cc:74
 msgid "Control connection lost"
-msgstr "Vezér kapcsolat elveszett"
+msgstr "VezÃ©r kapcsolat elveszett"
 
 #: main/ftp.cc:85
 msgid "Data connection lost!"
@@ -435,11 +432,11 @@ msgstr "Adat kapcsolat elveszett!"
 
 #: main/ftp.cc:95
 msgid "Control connection lost!"
-msgstr "Vezér kapcsolat elveszett!"
+msgstr "VezÃ©r kapcsolat elveszett!"
 
 #: main/ftp.cc:185
 msgid "Reget is not supported!!!"
-msgstr "Folytatás nem támogatott!!!"
+msgstr "FolytatÃ¡s nem tÃ¡mogatott!!!"
 
 #.
 #. if (index(log->body,'(')!=NULL)
@@ -448,96 +445,99 @@ msgstr "Folytatás nem támogatott!!!"
 #: main/ftp.cc:298
 #, c-format
 msgid "try to connect to %i,%i,%i,%i,%i,%i"
-msgstr "kapcsolódás: %i,%i,%i,%i,%i,%i"
+msgstr "kapcsolÃ³dÃ¡s: %i,%i,%i,%i,%i,%i"
 
 #: main/ftp.cc:420
 msgid "Probably file was changed on server!"
-msgstr "A fájl megváltozhatott a szerveren!"
+msgstr "A fÃ¡jl megvÃ¡ltozhatott a szerveren!"
 
 #: main/ftp.cc:437 main/http.cc:213
 msgid "Data connection closed."
-msgstr "Adat kapcsolat lezárva."
+msgstr "Adat kapcsolat lezÃ¡rva."
 
 #: main/ftp.cc:449 main/http.cc:225
 msgid "Requested size was loaded"
-msgstr "A kért méret letöltve"
+msgstr "A kÃ©rt mÃ©ret letÃ¶ltve"
+
+#: main/ftp.cc:461 main/http.cc:230
+msgid "Segment was loaded! Complete this thread."
+msgstr ""
 
 #: main/ftpd.cc:237
 msgid "Can't establish data connection"
-msgstr "Nem létesíthetõ adat kapcsolat"
+msgstr "Nem lÃ©tesÃ­thetÅ‘ adat kapcsolat"
 
 #: main/ftpd.cc:240
 msgid "Can't change directory"
-msgstr "Nem lehet könyvtárat váltani"
+msgstr "Nem lehet kÃ¶nyvtÃ¡rat vÃ¡ltani"
 
 #: main/ftpd.cc:243
 msgid "Server refused login, perhaps there are too many users of your class"
-msgstr "A szerver visszautasította belépését, valószínûleg túlterheltség miatt"
+msgstr "A szerver visszautasÃ­totta belÃ©pÃ©sÃ©t, valÃ³szÃ­nÅ±leg tÃºlterheltsÃ©g miatt"
 
 #: main/ftpd.cc:313 main/httpd.cc:225
 msgid "Sleeping"
-msgstr "Várakozás"
+msgstr "VÃ¡rakozÃ¡s"
 
 #: main/ftpd.cc:423
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr ""
-"Üres válasz. Megpróbálok könyvtárat váltani, hogy azonosítsam a fájl típusát"
+"Ãœres vÃ¡lasz. MegprÃ³bÃ¡lok kÃ¶nyvtÃ¡rat vÃ¡ltani, hogy azonosÃ­tsam a fÃ¡jl tÃ­pusÃ¡t"
 
 #: main/ftpd.cc:448 main/ftpd.cc:474
-#, fuzzy, c-format
+#, c-format
 msgid "Length is %ll"
-msgstr "Hossz: %i"
+msgstr "Hossz: %ll"
 
 #: main/ftpd.cc:460
 msgid "This is a directory!"
-msgstr "Ez egy könyvtár!"
+msgstr "Ez egy kÃ¶nyvtÃ¡r!"
 
 #: main/ftpd.cc:470
 msgid "No such file or directory!"
-msgstr "Nincs ilyen fájl vagy könyvtár!"
+msgstr "Nincs ilyen fÃ¡jl vagy kÃ¶nyvtÃ¡r!"
 
 #: main/ftpd.cc:501
 msgid "Couldn't get size :(("
-msgstr "A méret nem megállapítható :(("
+msgstr "A mÃ©ret nem megÃ¡llapÃ­thatÃ³ :(("
 
 #: main/ftpd.cc:516
 msgid "Loading directory..."
-msgstr "Könyvtár listázása..."
+msgstr "KÃ¶nyvtÃ¡r listÃ¡zÃ¡sa..."
 
 #: main/ftpd.cc:530
 msgid "Listing was loaded"
-msgstr "Lista betöltve"
+msgstr "Lista betÃ¶ltve"
 
 #: main/ftpd.cc:533
 msgid "Listing not loaded completelly"
-msgstr "A lista kicsit hiányosan betöltve"
+msgstr "A lista kicsit hiÃ¡nyosan betÃ¶ltve"
 
 #: main/ftpd.cc:560
 msgid "Link was loaded :))"
-msgstr "Link betöltve :))"
+msgstr "Link betÃ¶ltve :))"
 
 #: main/ftpd.cc:594 main/httpd.cc:479
-#, fuzzy
 msgid "%ll bytes loaded."
-msgstr "%i byte betöltve."
+msgstr "%ll byte betÃ¶ltve."
 
 #: main/hproxy.cc:191
 #, c-format
 msgid "Sending request to proxy (%s:%i)"
-msgstr "Kérés továbbítása a (%s:%i) proxy felé"
+msgstr "KÃ©rÃ©s tovÃ¡bbÃ­tÃ¡sa a (%s:%i) proxy felÃ©"
 
 #. all ok
 #: main/hproxy.cc:195 main/httpd.cc:421
 msgid "Answer read ok"
-msgstr "Válasz rendben"
+msgstr "VÃ¡lasz rendben"
 
 #: main/hproxy.cc:206
 msgid "File not found on the server"
-msgstr "Nem található a fájl a szerveren"
+msgstr "Nem talÃ¡lhatÃ³ a fÃ¡jl a szerveren"
 
 #: main/hproxy.cc:209
 msgid "Probably it's problem of proxy server, retrying"
-msgstr "A proxy szervernek gondja lehet, újrapróbálkozás"
+msgstr "A proxy szervernek gondja lehet, ÃºjraprÃ³bÃ¡lkozÃ¡s"
 
 #: main/http.cc:62
 msgid "Socket lost!"
@@ -545,7 +545,7 @@ msgstr "A SOCKET elveszett!"
 
 #: main/http.cc:72
 msgid "Request was sent, waiting for the answer"
-msgstr "Kérés elküldve, várok válaszra"
+msgstr "KÃ©rÃ©s elkÃ¼ldve, vÃ¡rok vÃ¡laszra"
 
 #: main/http.cc:87
 msgid "It is not HTTP server!!!"
@@ -553,387 +553,387 @@ msgstr "Ez nem HTTP szerver!!!"
 
 #: main/http.cc:95
 msgid "All ok, reading file"
-msgstr "Minden rendben, fájlok olvasása"
+msgstr "Minden rendben, fÃ¡jlok olvasÃ¡sa"
 
 #: main/http.cc:106
 msgid "It seems to me that you need a password :)"
-msgstr "Szerintem ide jelszó kell :)"
+msgstr "Szerintem ide jelszÃ³ kell :)"
 
 #: main/http.cc:112
 msgid "Server return bad answer:(("
-msgstr "A szerver rosszul válaszol :("
+msgstr "A szerver rosszul vÃ¡laszol :("
 
 #: main/http.cc:191
 msgid "Wrong chunk size!"
-msgstr "Rosz csonk méret!"
+msgstr "Rosz csonk mÃ©ret!"
 
 #: main/http.cc:194
 #, fuzzy, c-format
-msgid "Chunk size %lli"
-msgstr "Darab mérete: %i"
+msgid "Chunk size %ll"
+msgstr "Darab mÃ©rete: %lli"
 
 #: main/http.cc:196
 msgid "It's last chunk!"
-msgstr "Utolsó darab"
+msgstr "UtolsÃ³ darab"
 
 #: main/httpd.cc:175
 msgid "Couldn't get normal answer!"
-msgstr "Hibás válasz!"
+msgstr "HibÃ¡s vÃ¡lasz!"
 
 #: main/httpd.cc:377
 #, c-format
 msgid "Size for download is %i bytes"
-msgstr "Letöltés mérete: %i bytes"
+msgstr "LetÃ¶ltÃ©s mÃ©rete: %i bytes"
 
 #: main/httpd.cc:417
 msgid "Sending HTTP request..."
-msgstr "HTTP kérés küldése..."
+msgstr "HTTP kÃ©rÃ©s kÃ¼ldÃ©se..."
 
 #: main/httpd.cc:461
 msgid "It is seemed REGET not supported! Loading from begin.."
-msgstr "REGET nem támogatott! Kezdem elõlrõl..."
+msgstr "REGET nem tÃ¡mogatott! Kezdem elÅ‘lrÅ‘l..."
 
 #: main/httpd.cc:464
 msgid "ETag was changed, restarting again..."
-msgstr "ETag megváltozott, elõrõl kezdem..."
+msgstr "ETag megvÃ¡ltozott, elÅ‘rÅ‘l kezdem..."
 
-#: main/log.cc:64
+#: main/log.cc:63
 msgid "Log was started!"
-msgstr "Naplózás elkezdõdött!"
+msgstr "NaplÃ³zÃ¡s elkezdÅ‘dÃ¶tt!"
 
 #: main/main.cc:138
 msgid "Can't init control socket!\n"
-msgstr "Nem tudom inicializálzni a vezérlõ socketet\n"
+msgstr "Nem tudom inicializÃ¡lzni a vezÃ©rlÅ‘ socketet\n"
 
 #: main/main.cc:185
 msgid "Loading default list of downloads"
-msgstr "Alap letöltési lista betöltése"
+msgstr "Alap letÃ¶ltÃ©si lista betÃ¶ltÃ©se"
 
-#: main/main.cc:253 main/main.cc:1232
+#: main/main.cc:253 main/main.cc:1234
 msgid "Delete completed downloads"
-msgstr "Sikeres letöltések törlése"
+msgstr "Sikeres letÃ¶ltÃ©sek tÃ¶rlÃ©se"
 
 #: main/main.cc:266
 msgid "Delete failed downloads"
-msgstr "Sikertelen letöltések törlése"
+msgstr "Sikertelen letÃ¶ltÃ©sek tÃ¶rlÃ©se"
 
 #: main/main.cc:283
 msgid "Clear queue of downloads"
-msgstr "Letöltési lista törlése"
+msgstr "LetÃ¶ltÃ©si lista tÃ¶rlÃ©se"
 
 #: main/main.cc:340
 msgid "Run new thread for %z"
-msgstr "Új szál futtatása %z számára"
+msgstr "Ãšj szÃ¡l futtatÃ¡sa %z szÃ¡mÃ¡ra"
 
 #: main/main.cc:346
 msgid "Can't run new thread for downloading!"
-msgstr "Nem tudok új szálat futtatni a letöltésnek"
+msgstr "Nem tudok Ãºj szÃ¡lat futtatni a letÃ¶ltÃ©snek"
 
 #: main/main.cc:401
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
-msgstr "A(z) %s fájl letöltését a(z) %s címrõl megszakíttatott a felhasználó"
+msgstr "A(z) %s fÃ¡jl letÃ¶ltÃ©sÃ©t a(z) %s cÃ­mrÅ‘l megszakÃ­ttatott a felhasznÃ¡lÃ³"
 
 #: main/main.cc:432
 #, c-format
 msgid "Delete file %s from queue of downloads"
-msgstr "A(z) %s fájl törlése a letöltési listáról"
+msgstr "A(z) %s fÃ¡jl tÃ¶rlÃ©se a letÃ¶ltÃ©si listÃ¡rÃ³l"
 
-#: main/main.cc:523
+#: main/main.cc:524
 #, c-format
 msgid "Continue downloading of file %s from %s..."
-msgstr "A(z) %s fájl letöltésésnek folytatása a(z) %s címrõl..."
+msgstr "A(z) %s fÃ¡jl letÃ¶ltÃ©sÃ©snek folytatÃ¡sa a(z) %s cÃ­mrÅ‘l..."
 
-#: main/face/mywidget.cc:390 main/face/mywidget.cc:696 main/main.cc:612
+#: main/face/mywidget.cc:383 main/face/mywidget.cc:722 main/main.cc:609
 msgid "file"
-msgstr "fájl"
+msgstr "fÃ¡jl"
 
-#: main/main.cc:711
+#: main/main.cc:690
 msgid "dir"
-msgstr "könyvtár"
+msgstr "kÃ¶nyvtÃ¡r"
 
-#: main/main.cc:716
+#: main/main.cc:695
 msgid "link"
 msgstr "link"
 
-#: main/main.cc:721
+#: main/main.cc:700
 msgid "device"
-msgstr "eszköz"
+msgstr "eszkÃ¶z"
 
-#: main/main.cc:754
+#: main/main.cc:733
 msgid "Too many redirections!"
-msgstr "Túl sok átirányítás!"
+msgstr "TÃºl sok Ã¡tirÃ¡nyÃ­tÃ¡s!"
 
-#: main/main.cc:772
+#: main/main.cc:751
 msgid "Redirection from [%z] to the same location!"
-msgstr "Átirányítás a(z) [%z]-ról ugyanarra a helyre!"
+msgstr "ÃtirÃ¡nyÃ­tÃ¡s a(z) [%z]-rÃ³l ugyanarra a helyre!"
 
-#: main/main.cc:808
+#: main/main.cc:787
 msgid "Redirection from [%z] to nowhere!"
-msgstr "Átirányítás a(z) [%z]-ról sehova!"
+msgstr "ÃtirÃ¡nyÃ­tÃ¡s a(z) [%z]-rÃ³l sehova!"
 
-#: main/main.cc:835
+#: main/main.cc:813
 msgid "Prepare thread %i of [%z] for stoping"
-msgstr "Szál leállításának elõkészítése %i/[%z]"
+msgstr "SzÃ¡l leÃ¡llÃ­tÃ¡sÃ¡nak elÅ‘kÃ©szÃ­tÃ©se %i/[%z]"
 
-#: main/main.cc:856
+#: main/main.cc:839
 msgid "Redirect from %z"
-msgstr "Átírányítás %z-rõl"
+msgstr "ÃtÃ­rÃ¡nyÃ­tÃ¡s %z-rÅ‘l"
 
-#: main/main.cc:863
+#: main/main.cc:846
 msgid "Downloading of directory %z was completed"
-msgstr "A(z) %z könyvtár letöltése befejezõdött"
+msgstr "A(z) %z kÃ¶nyvtÃ¡r letÃ¶ltÃ©se befejezÅ‘dÃ¶tt"
 
-#: main/main.cc:867
+#: main/main.cc:850
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
-"A(z) %z fájl (%i byte) letöltése befejezõdött. Átlagsebesség: %i byte/sec"
+"A(z) %z fÃ¡jl (%i byte) letÃ¶ltÃ©se befejezÅ‘dÃ¶tt. ÃtlagsebessÃ©g: %i byte/sec"
 
-#: main/main.cc:874
+#: main/main.cc:857
 msgid "%z was deleted from queue of downloads as completed download"
-msgstr "%z törlõdött a sorból, mert sikeresen leért"
+msgstr "%z tÃ¶rlÅ‘dÃ¶tt a sorbÃ³l, mert sikeresen leÃ©rt"
 
-#: main/main.cc:885
+#: main/main.cc:868
 msgid "Downloading of file %z was terminated by fatal error"
-msgstr "A(z) %z fájl letöltése végzetes hiba miatt megszakadt"
+msgstr "A(z) %z fÃ¡jl letÃ¶ltÃ©se vÃ©gzetes hiba miatt megszakadt"
 
-#: main/main.cc:887
+#: main/main.cc:870
 msgid "%z was deleted from queue of downloads as failed download"
-msgstr "%z törlõdött a sorból, mert letöltése sikertelen"
+msgstr "%z tÃ¶rlÅ‘dÃ¶tt a sorbÃ³l, mert letÃ¶ltÃ©se sikertelen"
 
-#: main/main.cc:1176
+#: main/main.cc:1178
 msgid "Restarting failed downloads"
-msgstr "Sikertelen letöltések újrakezdése"
+msgstr "Sikertelen letÃ¶ltÃ©sek ÃºjrakezdÃ©se"
 
-#: main/main.cc:1176 main/main.cc:1212 main/main.cc:1228 main/main.cc:1232
-#: main/main.cc:1237 main/main.cc:1250 main/main.cc:1255
+#: main/main.cc:1178 main/main.cc:1214 main/main.cc:1230 main/main.cc:1234
+#: main/main.cc:1239 main/main.cc:1252 main/main.cc:1257
 msgid "[control socket]"
-msgstr "[vezérlõ SOCKET]"
+msgstr "[vezÃ©rlÅ‘ SOCKET]"
 
-#: main/main.cc:1194
+#: main/main.cc:1196
 #, c-format
 msgid "Remove the download via control socket [%s]"
-msgstr "Letöltés törlése vezérlõ SOCKET-en keresztül [%s]"
+msgstr "LetÃ¶ltÃ©s tÃ¶rlÃ©se vezÃ©rlÅ‘ SOCKET-en keresztÃ¼l [%s]"
 
-#: main/main.cc:1202
+#: main/main.cc:1204
 #, c-format
 msgid "Adding downloading via control socket [%s]"
-msgstr "Letöltés hozzáadása [%s] vezérlõ SOCKET-en keresztül "
+msgstr "LetÃ¶ltÃ©s hozzÃ¡adÃ¡sa [%s] vezÃ©rlÅ‘ SOCKET-en keresztÃ¼l "
 
-#: main/main.cc:1210
+#: main/main.cc:1212
 #, c-format
 msgid "Set speed limitation to %s %s"
-msgstr "Sebesség korlátozás beállítása %s %s"
+msgstr "SebessÃ©g korlÃ¡tozÃ¡s beÃ¡llÃ­tÃ¡sa %s %s"
 
-#: main/main.cc:1228
+#: main/main.cc:1230
 msgid "Setup maximum active downloads to"
-msgstr "Maximális aktív letöltések beállítása"
+msgstr "MaximÃ¡lis aktÃ­v letÃ¶ltÃ©sek beÃ¡llÃ­tÃ¡sa"
 
-#: main/main.cc:1250
+#: main/main.cc:1252
 msgid "Exiting if nothing to do is switched off"
-msgstr "Kilépés, ha ki van kapcsolva a semmit sem csinálás"
+msgstr "KilÃ©pÃ©s, ha ki van kapcsolva a semmit sem csinÃ¡lÃ¡s"
 
-#: main/main.cc:1255
+#: main/main.cc:1257
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr "Downloader ki fog lépni, ha semmit nem csinálsz %i perc %s"
+msgstr "Downloader ki fog lÃ©pni, ha semmit nem csinÃ¡lsz %i perc %s"
 
-#: main/main.cc:1268
+#: main/main.cc:1270
 #, c-format
 msgid "Default queue is '%s' now."
-msgstr "Alapértelmezett sor '%s'-on van"
+msgstr "AlapÃ©rtelmezett sor '%s'-on van"
 
-#: main/main.cc:1509
+#: main/main.cc:1515
 msgid "Loading FTP-Search engines"
-msgstr ""
+msgstr "FTP-keresÅ‘ motor betÃ¶ltÃ©se"
 
-#: main/main.cc:1511
+#: main/main.cc:1517
 msgid "Normally started"
-msgstr "Normális indulás"
+msgstr "NormÃ¡lis indulÃ¡s"
 
-#: main/main.cc:1566
+#: main/main.cc:1573
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
-msgstr "A(z) %s fájl letöltése a(z) %s címrõl hozzáadva a listához"
+msgstr "A(z) %s fÃ¡jl letÃ¶ltÃ©se a(z) %s cÃ­mrÅ‘l hozzÃ¡adva a listÃ¡hoz"
 
-#: main/main.cc:1624
+#: main/main.cc:1628
 #, c-format
 msgid "%lu bytes loaded during the session"
-msgstr "%lu byte betöltve a folyamat alatt"
+msgstr "%lu byte betÃ¶ltve a folyamat alatt"
 
-#: main/main.cc:1625
+#: main/main.cc:1629
 msgid "Downloader exited normaly"
-msgstr "Letöltõ normálisan kilépett"
+msgstr "LetÃ¶ltÅ‘ normÃ¡lisan kilÃ©pett"
 
-#: main/main.cc:1662
+#: main/main.cc:1666
 #, c-format
 msgid "Can't open '%s' to save log"
-msgstr "Nem lehet megnyitni a(z) '%s' fájlt a napló mentésére"
+msgstr "Nem lehet megnyitni a(z) '%s' fÃ¡jlt a naplÃ³ mentÃ©sÃ©re"
 
-#: main/main.cc:1693
+#: main/main.cc:1697
 msgid "Such protocol is not supported!"
-msgstr "Nincs ilyen protokoll támogatva"
+msgstr "Nincs ilyen protokoll tÃ¡mogatva"
 
-#: main/mainlog.cc:163
+#: main/mainlog.cc:148
 msgid ""
 "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr "A fõ napló elérte a maximálisnak megadott méretet! A fájlt csonkoltam!"
+msgstr "A fÅ‘ naplÃ³ elÃ©rte a maximÃ¡lisnak megadott mÃ©retet! A fÃ¡jlt csonkoltam!"
 
-#: main/mainlog.cc:172
+#: main/mainlog.cc:157
 msgid "Can't write to file interrupting write to file"
-msgstr "Nem tudok a fájlba írni, így abbahagyom"
+msgstr "Nem tudok a fÃ¡jlba Ã­rni, Ã­gy abbahagyom"
 
-#: main/mainlog.cc:214
+#: main/mainlog.cc:198
 msgid "Open a row"
-msgstr "Sor megnyitása"
+msgstr "Sor megnyitÃ¡sa"
 
-#: main/mainlog.cc:217
+#: main/mainlog.cc:201
 msgid "Clear log"
-msgstr "Napló törlése"
+msgstr "NaplÃ³ tÃ¶rlÃ©se"
 
-#: main/face/fsched.cc:772 main/face/lmenu.cc:141 main/mainlog.cc:220
+#: main/face/fsched.cc:811 main/face/lmenu.cc:130 main/mainlog.cc:204
 msgid "Properties"
-msgstr "Tulajdonságok"
+msgstr "TulajdonsÃ¡gok"
 
-#: main/mainlog.cc:251
+#: main/mainlog.cc:257
 #, c-format
 msgid "row number %i of main log"
-msgstr "fõ napló %i.-dik sora"
+msgstr "fÅ‘ naplÃ³ %i.-dik sora"
 
-#: main/mainlog.cc:291
+#: main/mainlog.cc:301
 msgid "Can't open file for saving log"
-msgstr "Nem lehet megnyitni a fájlt a napló mentésére"
+msgstr "Nem lehet megnyitni a fÃ¡jlt a naplÃ³ mentÃ©sÃ©re"
 
-#: main/nt.cc:125
+#: main/nt.cc:133
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
-"FIGYELEM!!! A HOME változó nem található! Így a konfigurációt nem lehet "
+"FIGYELEM!!! A HOME vÃ¡ltozÃ³ nem talÃ¡lhatÃ³! Ãgy a konfigurÃ¡ciÃ³t nem lehet "
 "beolvasni!"
 
-#: main/nt.cc:138
+#: main/nt.cc:146
 #, c-format
 msgid "%s probably is already running\n"
-msgstr "%s valószínûleg már fut\n"
+msgstr "%s valÃ³szÃ­nÅ±leg mÃ¡r fut\n"
 
 #: main/savelog.cc:44
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
 msgstr ""
-"Nem lehet menteni az alapértelmezett letöltési listát, mert a HOME változó "
-"nem található !"
+"Nem lehet menteni az alapÃ©rtelmezett letÃ¶ltÃ©si listÃ¡t, mert a HOME vÃ¡ltozÃ³ "
+"nem talÃ¡lhatÃ³ !"
 
 #: main/savelog.cc:50
 msgid "Can't save default list of downloads!!!"
-msgstr "Nem lehet menteni a alapértelmezett letöltési listát!!!"
+msgstr "Nem lehet menteni a alapÃ©rtelmezett letÃ¶ltÃ©si listÃ¡t!!!"
 
 #: main/savelog.cc:85
 msgid "Can't load default list of downloads!!!"
-msgstr "Nem lehet betölteni az alapértelmezett letöltési listát!!!"
+msgstr "Nem lehet betÃ¶lteni az alapÃ©rtelmezett letÃ¶ltÃ©si listÃ¡t!!!"
 
 #: main/signal.cc:53 main/signal.cc:72
 msgid "Download  was stopped by user"
-msgstr "A felhasználó megszakította a letöltést"
+msgstr "A felhasznÃ¡lÃ³ megszakÃ­totta a letÃ¶ltÃ©st"
 
 #: main/memwl.cc:74
 msgid "BUG: Wrong mode of lseek!\n"
-msgstr "BUG: Rosz Iseek mód!\n"
+msgstr "BUG: Rosz Iseek mÃ³d!\n"
 
 #: main/ping.cc:50
 msgid "Resolving hosts..."
-msgstr "Cím keresése"
+msgstr "CÃ­m keresÃ©se..."
 
 #: main/ping.cc:79
 msgid "Pinging  (it takes 30 seconds maximum)..."
-msgstr "Pingelés (maximum 30 másodperc)..."
-
-#: main/var.cc:96
-msgid "low"
-msgstr "lassú"
+msgstr "PingelÃ©s (maximum 30 mÃ¡sodperc)..."
 
 #: main/var.cc:97
-msgid "medium"
-msgstr "közepes"
+msgid "low"
+msgstr "lassÃº"
 
 #: main/var.cc:98
+msgid "medium"
+msgstr "kÃ¶zepes"
+
+#: main/var.cc:99
 msgid "unlimited"
-msgstr "végtelen"
+msgstr "vÃ©gtelen"
 
 #: main/fsearch.cc:149
 msgid "Check your installation of the Downloader"
-msgstr ""
+msgstr "A Downloader installÃ¡lÃ¡sÃ¡nak ellenÅ‘rzÃ©se"
 
 #: main/face/about.cc:110
 msgid "About"
-msgstr "Magamról"
-
-#: main/face/about.cc:120
-msgid "Author: Koshelev Maxim"
-msgstr "Írta: Koshelev Maxim"
+msgstr "MagamrÃ³l"
 
 #: main/face/about.cc:122
+msgid "Author: Koshelev Maxim"
+msgstr "Ãrta: Koshelev Maxim"
+
+#: main/face/about.cc:124
 msgid "Translators team"
-msgstr "Fordítók csapata"
+msgstr "FordÃ­tÃ³k csapata"
 
-#: main/face/about.cc:129
+#: main/face/about.cc:131
 msgid "Special thanks to"
-msgstr "Köszönet"
+msgstr "KÃ¶szÃ¶net"
 
-#: main/face/about.cc:136 main/face/about.cc:205 main/face/about.cc:289
-#: main/face/buttons.cc:169 main/face/edit.cc:844 main/face/edit.cc:2119
-#: main/face/filtrgui.cc:168 main/face/fsched.cc:202 main/face/fsched.cc:778
-#: main/face/lod.cc:656 main/face/mywidget.cc:460 main/face/mywidget.cc:739
-#: main/face/mywidget.cc:827 main/face/mywidget.cc:926
-#: main/face/mywidget.cc:1028 main/face/passface.cc:375
-#: main/face/prefs.cc:1271 main/face/qtree.cc:122 main/face/qtree.cc:572
-#: main/face/saveload.cc:162 main/face/saveload.cc:205
-#: main/face/saveload.cc:247
+#: main/face/about.cc:138 main/face/about.cc:207 main/face/about.cc:291
+#: main/face/buttons.cc:169 main/face/edit.cc:851 main/face/edit.cc:2150
+#: main/face/filtrgui.cc:187 main/face/fsched.cc:247 main/face/fsched.cc:817
+#: main/face/lod.cc:883 main/face/mywidget.cc:453 main/face/mywidget.cc:780
+#: main/face/mywidget.cc:877 main/face/mywidget.cc:1061
+#: main/face/mywidget.cc:1197 main/face/passface.cc:429
+#: main/face/prefs.cc:1282 main/face/qtree.cc:124 main/face/qtree.cc:665
+#: main/face/saveload.cc:159 main/face/saveload.cc:202
+#: main/face/saveload.cc:244
 msgid "Ok"
 msgstr "OK"
 
-#: main/face/about.cc:206 main/face/buttons.cc:171 main/face/edit.cc:845
-#: main/face/fsched.cc:779 main/face/lod.cc:657 main/face/mywidget.cc:461
-#: main/face/mywidget.cc:828 main/face/mywidget.cc:928
-#: main/face/mywidget.cc:1029 main/face/prefs.cc:1272 main/face/qtree.cc:123
-#: main/face/qtree.cc:573 main/face/saveload.cc:164 main/face/saveload.cc:207
-#: main/face/saveload.cc:249
+#: main/face/about.cc:208 main/face/buttons.cc:171 main/face/edit.cc:852
+#: main/face/fsched.cc:818 main/face/lod.cc:884 main/face/mywidget.cc:454
+#: main/face/mywidget.cc:878 main/face/mywidget.cc:1063
+#: main/face/mywidget.cc:1198 main/face/prefs.cc:1283 main/face/qtree.cc:125
+#: main/face/qtree.cc:666 main/face/saveload.cc:161 main/face/saveload.cc:204
+#: main/face/saveload.cc:246
 msgid "Cancel"
-msgstr "Mégsem"
+msgstr "MÃ©gsem"
 
-#: main/face/about.cc:247
+#: main/face/about.cc:249
 msgid "Don't ask next time"
-msgstr "Ne kérdezd legközelebb"
+msgstr "Ne kÃ©rdezd legkÃ¶zelebb"
 
-#: main/face/addd.cc:97 main/face/addd.cc:244
+#: main/face/addd.cc:97 main/face/addd.cc:246
 msgid "Add new download"
-msgstr "Új letöltés hozzáadása"
+msgstr "Ãšj letÃ¶ltÃ©s hozzÃ¡adÃ¡sa"
 
 #: main/face/addd.cc:183
 msgid "Automated adding"
-msgstr "Automatikus hozzáadás"
+msgstr "Automatikus hozzÃ¡adÃ¡s"
 
 #: main/face/buttons.cc:51
 msgid " Add new download "
-msgstr " Új letöltés hozzáadása"
+msgstr " Ãšj letÃ¶ltÃ©s hozzÃ¡adÃ¡sa"
 
 #: main/face/buttons.cc:52
 msgid " Paste from clipboard "
-msgstr " Másolás a vágólapról "
+msgstr " MÃ¡solÃ¡s a vÃ¡gÃ³laprÃ³l "
 
 #: main/face/buttons.cc:53
 msgid " Del downloads "
-msgstr " Letöltések törlése "
+msgstr " LetÃ¶ltÃ©sek tÃ¶rlÃ©se "
 
 #: main/face/buttons.cc:54
 msgid " Stop downloads "
-msgstr " Letöltések megállítása "
+msgstr " LetÃ¶ltÃ©sek megÃ¡llÃ­tÃ¡sa "
 
 #: main/face/buttons.cc:55
 msgid " Continue/restart downloads "
-msgstr " Letöltés folytatása/újrakezdése"
+msgstr " LetÃ¶ltÃ©s folytatÃ¡sa/ÃºjrakezdÃ©se"
 
 #: main/face/buttons.cc:56
 msgid " Del Completed downloads "
-msgstr " Befejezõdött letöltések törlése"
+msgstr " BefejezÅ‘dÃ¶tt letÃ¶ltÃ©sek tÃ¶rlÃ©se"
 
 #: main/face/buttons.cc:57
 msgid " Move up "
@@ -945,35 +945,35 @@ msgstr " Le "
 
 #: main/face/buttons.cc:59
 msgid " View log "
-msgstr " Napló megnézése "
+msgstr " NaplÃ³ megnÃ©zÃ©se "
 
-#: main/face/buttons.cc:60 main/face/buttons.cc:251
+#: main/face/buttons.cc:60 main/face/buttons.cc:253
 msgid " Speed level one "
-msgstr " Eggyes sebesség "
+msgstr " Eggyes sebessÃ©g "
 
-#: main/face/buttons.cc:61 main/face/buttons.cc:255
+#: main/face/buttons.cc:61 main/face/buttons.cc:257
 msgid " Speed level two "
-msgstr " Kettes sebesság "
+msgstr " Kettes sebessÃ¡g "
 
 #: main/face/buttons.cc:62
 msgid " Unlimited speed "
-msgstr " Maximum sebesség "
+msgstr " Maximum sebessÃ©g "
 
 #: main/face/buttons.cc:63
 msgid " Options "
-msgstr " Opciók "
+msgstr " OpciÃ³k "
 
 #: main/face/buttons.cc:64
 msgid " Delete all downloads "
-msgstr " Összes letöltés törlése "
+msgstr " Ã–sszes letÃ¶ltÃ©s tÃ¶rlÃ©se "
 
 #: main/face/buttons.cc:65
 msgid " Save list "
-msgstr " Lista mentése "
+msgstr " Lista mentÃ©se "
 
 #: main/face/buttons.cc:66
 msgid " Load list "
-msgstr " Lista betölrése "
+msgstr " Lista betÃ¶lrÃ©se "
 
 #: main/face/buttons.cc:67
 msgid " DnD basket "
@@ -981,125 +981,125 @@ msgstr " DnD szemetes "
 
 #: main/face/buttons.cc:68
 msgid " Switch percentage mode to"
-msgstr " Átváltás százalékos módba"
+msgstr " ÃtvÃ¡ltÃ¡s szÃ¡zalÃ©kos mÃ³dba"
 
 #: main/face/buttons.cc:69
 msgid " Configure buttons "
-msgstr " Gombok beállítása "
+msgstr " Gombok beÃ¡llÃ­tÃ¡sa "
 
-#: main/face/buttons.cc:170 main/face/prefs.cc:1273
+#: main/face/buttons.cc:170 main/face/prefs.cc:1284
 msgid "Apply"
 msgstr "Alkalmaz"
 
-#: main/face/buttons.cc:240
+#: main/face/buttons.cc:242
 msgid "Delete ALL downloads?"
-msgstr "MINDEN letöltés törlése?"
+msgstr "MINDEN letÃ¶ltÃ©s tÃ¶rlÃ©se?"
 
-#: main/face/buttons.cc:240
+#: main/face/buttons.cc:242
 msgid "Delete all?"
-msgstr "Mindet töröljem?"
+msgstr "Mindet tÃ¶rÃ¶ljem?"
 
 #: main/face/columns.cc:21
 msgid "status"
-msgstr "állapot"
+msgstr "Ã¡llapot"
 
 #: main/face/columns.cc:22
 msgid "file name"
-msgstr "fájl név"
+msgstr "fÃ¡jl nÃ©v"
 
 #: main/face/columns.cc:23
 msgid "type of file"
-msgstr "fájl tipus"
+msgstr "fÃ¡jl tipus"
 
 #: main/face/columns.cc:24
 msgid "size of file"
-msgstr "fájl méret"
+msgstr "fÃ¡jl mÃ©ret"
 
 #: main/face/columns.cc:25
 msgid "downloaded size"
-msgstr "letöltött méret"
+msgstr "letÃ¶ltÃ¶tt mÃ©ret"
 
 #: main/face/columns.cc:26
 msgid "rest"
-msgstr "maradék"
+msgstr "maradÃ©k"
 
 #: main/face/columns.cc:27
 msgid "percent"
-msgstr "százalék"
+msgstr "szÃ¡zalÃ©k"
 
 #: main/face/columns.cc:28
 msgid "speed"
-msgstr "sebesség"
+msgstr "sebessÃ©g"
 
 #: main/face/columns.cc:29
 msgid "elapsed time"
-msgstr "eltelt idõ"
+msgstr "eltelt idÅ‘"
 
 #: main/face/columns.cc:30
 msgid "estimated time"
-msgstr "jósolt idõ"
+msgstr "jÃ³solt idÅ‘"
 
 #: main/face/columns.cc:31
 msgid "time of pause"
-msgstr "szünet ideje"
+msgstr "szÃ¼net ideje"
 
 #: main/face/columns.cc:32
 msgid "number of attempts"
-msgstr "próbálkozások száma"
+msgstr "prÃ³bÃ¡lkozÃ¡sok szÃ¡ma"
 
 #: main/face/columns.cc:33
 msgid "description"
-msgstr "leírás"
+msgstr "leÃ­rÃ¡s"
 
-#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:916
+#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1045
 msgid "URL"
 msgstr "URL"
 
 #: main/face/columns.cc:72
 msgid "Showed columns"
-msgstr "Látszó oszlopok"
+msgstr "LÃ¡tszÃ³ oszlopok"
 
 #: main/face/dndtrash.cc:45
 msgid "/New Download"
-msgstr "/Új letöltés"
+msgstr "/Ãšj letÃ¶ltÃ©s"
 
 #: main/face/dndtrash.cc:46
 msgid "/Paste Download"
-msgstr "/Letöltés beillesztése"
+msgstr "/LetÃ¶ltÃ©s beillesztÃ©se"
 
 #: main/face/dndtrash.cc:47
 msgid "/Automated adding"
-msgstr "/Automatikus hozzáadás"
+msgstr "/Automatikus hozzÃ¡adÃ¡s"
 
 #: main/face/dndtrash.cc:48
 msgid "/Delete completed"
-msgstr "/Sikeresek törlése"
+msgstr "/Sikeresek tÃ¶rlÃ©se"
 
 #: main/face/dndtrash.cc:49
 msgid "/General options"
-msgstr "/Általános opciók"
+msgstr "/ÃltalÃ¡nos opciÃ³k"
 
 #: main/face/dndtrash.cc:50
 msgid "/Speed"
-msgstr "/Sebesség"
+msgstr "/SebessÃ©g"
 
 #: main/face/dndtrash.cc:51
 msgid "/Speed/Low"
-msgstr "/Sebesség/Alacsonyabb"
+msgstr "/SebessÃ©g/Alacsonyabb"
 
 #: main/face/dndtrash.cc:52
 msgid "/Speed/Medium"
-msgstr "/Sepesség/Közepes"
+msgstr "/SepessÃ©g/KÃ¶zepes"
 
 #: main/face/dndtrash.cc:53
 msgid "/Speed/Unlimited"
-msgstr "/Sebesség/Korlátlan"
+msgstr "/SebessÃ©g/KorlÃ¡tlan"
 
 #: main/face/dndtrash.cc:54
 msgid "/Exit"
-msgstr "/Kilépés"
+msgstr "/KilÃ©pÃ©s"
 
-#: main/face/dndtrash.cc:399
+#: main/face/dndtrash.cc:393
 msgid "DnD basket"
 msgstr " DnD szemetes"
 
@@ -1107,249 +1107,249 @@ msgstr " DnD szemetes"
 msgid "Drop link here"
 msgstr "Ide dobd a linket"
 
-#: main/face/edit.cc:64 main/face/edit.cc:472
+#: main/face/edit.cc:64 main/face/edit.cc:479
 msgid "Use password for this site"
-msgstr "Jelszó használata ehhez az oldalhoz"
+msgstr "JelszÃ³ hasznÃ¡lata ehhez az oldalhoz"
 
-#: main/face/edit.cc:65 main/face/edit.cc:433
+#: main/face/edit.cc:65 main/face/edit.cc:440
 msgid "Save download to folder"
-msgstr "Letöltés mentése könyvtárba"
+msgstr "LetÃ¶ltÃ©s mentÃ©se kÃ¶nyvtÃ¡rba"
 
-#: main/face/edit.cc:66 main/face/edit.cc:500
+#: main/face/edit.cc:66 main/face/edit.cc:507
 msgid "Restart this download from begining"
-msgstr "Letöltés kezdése az elejérõl"
+msgstr "LetÃ¶ltÃ©s kezdÃ©se az elejÃ©rÅ‘l"
 
 #: main/face/edit.cc:67
 msgid "Timeout for reading from socket"
-msgstr "Idõtúllépés a SOCKET olvasása közben!"
+msgstr "IdÅ‘tÃºllÃ©pÃ©s a SOCKET olvasÃ¡sa kÃ¶zben!"
 
 #: main/face/edit.cc:68
 msgid "Speed limitation"
-msgstr "Sebesség korlátozása"
+msgstr "SebessÃ©g korlÃ¡tozÃ¡sa"
 
 #: main/face/edit.cc:69
 msgid "Maximum attempts"
-msgstr "Próbálkozások száma"
+msgstr "PrÃ³bÃ¡lkozÃ¡sok szÃ¡ma"
 
 #: main/face/edit.cc:70
 msgid "Timeout before reconnection"
-msgstr "Idõ újabb kapcsolat felvétele elõtt"
+msgstr "IdÅ‘ Ãºjabb kapcsolat felvÃ©tele elÅ‘tt"
 
 #: main/face/edit.cc:71
 msgid "Rollback after reconnecting"
-msgstr "Visszaugrás újabb kapcsolat felvétele után"
+msgstr "VisszaugrÃ¡s Ãºjabb kapcsolat felvÃ©tele utÃ¡n"
 
-#: main/face/edit.cc:72 main/face/edit.cc:577 main/face/prefs.cc:237
+#: main/face/edit.cc:72 main/face/edit.cc:584 main/face/prefs.cc:239
 msgid "Get date from the server"
-msgstr "Dátum kérése a szervertõl"
+msgstr "DÃ¡tum kÃ©rÃ©se a szervertÅ‘l"
 
-#: main/face/edit.cc:73 main/face/edit.cc:581 main/face/prefs.cc:241
+#: main/face/edit.cc:73 main/face/edit.cc:588 main/face/prefs.cc:243
 msgid "Retry if resuming is not supported"
-msgstr "Újrakezdés ha a folytatás nem lehetséges"
+msgstr "ÃšjrakezdÃ©s ha a folytatÃ¡s nem lehetsÃ©ges"
 
-#: main/face/edit.cc:74 main/face/edit.cc:572
+#: main/face/edit.cc:74 main/face/edit.cc:579
 msgid "Number of parts for spliting this download"
-msgstr "Letöltési darabok száma"
+msgstr "LetÃ¶ltÃ©si darabok szÃ¡ma"
 
-#: main/face/edit.cc:75 main/face/edit.cc:619 main/face/prefs.cc:351
+#: main/face/edit.cc:75 main/face/edit.cc:626 main/face/prefs.cc:352
 msgid "Use passive mode for FTP"
-msgstr "Passzív mód használata FTP-hez"
+msgstr "PasszÃ­v mÃ³d hasznÃ¡lata FTP-hez"
 
-#: main/face/edit.cc:76 main/face/edit.cc:625 main/face/prefs.cc:359
+#: main/face/edit.cc:76 main/face/edit.cc:632 main/face/prefs.cc:360
 msgid "Get permissions of the file from server (FTP only)"
-msgstr "Hozzáférési jogok kérése a szervertõl (csak FTP)"
+msgstr "HozzÃ¡fÃ©rÃ©si jogok kÃ©rÃ©se a szervertÅ‘l (csak FTP)"
 
-#: main/face/edit.cc:77 main/face/edit.cc:622 main/face/prefs.cc:355
+#: main/face/edit.cc:77 main/face/edit.cc:629 main/face/prefs.cc:356
 msgid "Don't send QUIT command (FTP)"
-msgstr "Ne küldj QUIT parancsot (FTP)"
+msgstr "Ne kÃ¼ldj QUIT parancsot (FTP)"
 
-#: main/face/edit.cc:78 main/face/edit.cc:640 main/face/prefs.cc:375
+#: main/face/edit.cc:78 main/face/edit.cc:647 main/face/prefs.cc:376
 msgid "Put directories on the top of queue during recursion"
-msgstr "Rekurzió alatt a sor elejére tedd a könyvtárakat"
+msgstr "RekurziÃ³ alatt a sor elejÃ©re tedd a kÃ¶nyvtÃ¡rakat"
 
-#: main/face/edit.cc:79 main/face/edit.cc:589 main/face/prefs.cc:257
+#: main/face/edit.cc:79 main/face/edit.cc:596 main/face/prefs.cc:259
 msgid "Compare date/time of remote file with local one"
 msgstr ""
-"Helyi fájl dátumának/idõpontjának összehasonlítása a távoli álománnyéval"
+"Helyi fÃ¡jl dÃ¡tumÃ¡nak/idÅ‘pontjÃ¡nak Ã¶sszehasonlÃ­tÃ¡sa a tÃ¡voli Ã¡lomÃ¡nyÃ©val"
 
-#: main/face/edit.cc:80 main/face/edit.cc:585 main/face/prefs.cc:245
+#: main/face/edit.cc:80 main/face/edit.cc:592 main/face/prefs.cc:247
 msgid "Sleep before completing"
-msgstr "Befejezés elõtt szünetel"
+msgstr "BefejezÃ©s elÅ‘tt szÃ¼netel"
 
-#: main/face/edit.cc:81 main/face/edit.cc:628 main/face/prefs.cc:363
+#: main/face/edit.cc:81 main/face/edit.cc:635 main/face/prefs.cc:364
 msgid "Follow symbolic links"
-msgstr "Szimbolikus linkek követése"
+msgstr "Szimbolikus linkek kÃ¶vetÃ©se"
 
 #: main/face/edit.cc:82
 msgid "Depth of recursing for FTP"
-msgstr "Rekurzió mélysége FTP-nél"
+msgstr "RekurziÃ³ mÃ©lysÃ©ge FTP-nÃ©l"
 
 #: main/face/edit.cc:83
 msgid "Depth of recursing for HTTP"
-msgstr "Rekurzió mélysége HTTP-nél"
+msgstr "RekurziÃ³ mÃ©lysÃ©ge HTTP-nÃ©l"
 
-#: main/face/edit.cc:84 main/face/edit.cc:669 main/face/prefs.cc:462
+#: main/face/edit.cc:84 main/face/edit.cc:676 main/face/prefs.cc:456
 msgid "Only subdirs"
-msgstr "Csak alkönyvtárakat"
+msgstr "Csak alkÃ¶nyvtÃ¡rakat"
 
-#: main/face/edit.cc:85 main/face/edit.cc:670 main/face/prefs.cc:463
+#: main/face/edit.cc:85 main/face/edit.cc:677 main/face/prefs.cc:457
 msgid "Allow leave this server while recursing via HTTP"
-msgstr "Kiléphet a szerverrõl rekurzív HTTP alatt"
+msgstr "KilÃ©phet a szerverrÅ‘l rekurzÃ­v HTTP alatt"
 
-#: main/face/edit.cc:86 main/face/edit.cc:671 main/face/prefs.cc:464
+#: main/face/edit.cc:86 main/face/edit.cc:678 main/face/prefs.cc:458
 msgid "Change links in HTML file to local"
-msgstr "HTML fájlban a linkek módosítása helyire"
+msgstr "HTML fÃ¡jlban a linkek mÃ³dosÃ­tÃ¡sa helyire"
 
-#: main/face/edit.cc:87 main/face/edit.cc:672 main/face/prefs.cc:465
+#: main/face/edit.cc:87 main/face/edit.cc:679 main/face/prefs.cc:459
 msgid "Ignore ETag field in reply"
-msgstr "ETag elfogadása válaszként"
+msgstr "ETag elfogadÃ¡sa vÃ¡laszkÃ©nt"
 
-#: main/face/edit.cc:88 main/face/edit.cc:697 main/face/prefs.cc:484
+#: main/face/edit.cc:88 main/face/edit.cc:704 main/face/prefs.cc:478
 msgid "User-Agent"
-msgstr "Böngészõazonosító"
+msgstr "BÃ¶ngÃ©szÅ‘azonosÃ­tÃ³"
 
-#: main/face/edit.cc:89 main/face/edit.cc:707
+#: main/face/edit.cc:89 main/face/edit.cc:714
 msgid "Referer"
-msgstr "Azonosító"
+msgstr "AzonosÃ­tÃ³"
 
-#: main/face/edit.cc:90 main/face/edit.cc:719
+#: main/face/edit.cc:90 main/face/edit.cc:726
 msgid "Cookie"
 msgstr "Cookie"
 
-#: main/face/edit.cc:91 main/face/edit.cc:826 main/face/edit.cc:829
-#: main/face/prefs.cc:522 main/face/prefs.cc:1185 main/face/prefs.cc:1377
+#: main/face/edit.cc:91 main/face/edit.cc:833 main/face/edit.cc:836
+#: main/face/prefs.cc:516 main/face/prefs.cc:1246 main/face/prefs.cc:1388
 msgid "Proxy"
 msgstr "Proxy"
 
 #. Init time
 #.
-#: main/face/edit.cc:92 main/face/edit.cc:743 main/face/edit.cc:786
-#: main/face/fsched.cc:187 main/face/lod.cc:53
+#: main/face/edit.cc:92 main/face/edit.cc:750 main/face/edit.cc:793
+#: main/face/fsched.cc:218 main/face/lod.cc:53
 msgid "Time"
-msgstr "Idõ"
+msgstr "IdÅ‘"
 
 #: main/face/edit.cc:193 main/face/edit.cc:212
 msgid "Edit download"
-msgstr "Letöltés szerkesztése"
+msgstr "LetÃ¶ltÃ©s szerkesztÃ©se"
 
-#: main/face/edit.cc:432 main/face/lod.cc:57
+#: main/face/edit.cc:439 main/face/lod.cc:57
 msgid "Description"
-msgstr "Leírás"
+msgstr "LeÃ­rÃ¡s"
 
-#: main/face/edit.cc:434
+#: main/face/edit.cc:441
 msgid "Save download to file"
-msgstr "Lista mentése fájlba"
+msgstr "Lista mentÃ©se fÃ¡jlba"
 
-#: main/face/edit.cc:435 main/face/edit.cc:1626 main/face/edit.cc:1693
+#: main/face/edit.cc:442 main/face/edit.cc:1626 main/face/edit.cc:1693
 #: main/face/edit.cc:1734
 msgid "password"
-msgstr "jelszó"
+msgstr "jelszÃ³"
 
-#: main/face/edit.cc:436
+#: main/face/edit.cc:443
 msgid "user name"
-msgstr "felhasználói név"
+msgstr "felhasznÃ¡lÃ³i nÃ©v"
 
 #. set as default button
 #.
-#: main/face/edit.cc:439
+#: main/face/edit.cc:446
 msgid "Default"
-msgstr "Alapbeállítás"
+msgstr "AlapbeÃ¡llÃ­tÃ¡s"
 
-#: main/face/edit.cc:449
-msgid "CP1251->KOI8"
+#: main/face/edit.cc:456
+msgid "CP1251->UTF8"
 msgstr ""
 
-#: main/face/edit.cc:492
+#: main/face/edit.cc:499
 msgid "Connections limit:"
 msgstr "Kapcsolatok limite:"
 
-#: main/face/edit.cc:499 main/face/prefs.cc:253
+#: main/face/edit.cc:506 main/face/prefs.cc:255
 msgid "Pause this just after adding"
-msgstr "Szüneteltetés rögtön a hozzáadás után"
+msgstr "SzÃ¼neteltetÃ©s rÃ¶gtÃ¶n a hozzÃ¡adÃ¡s utÃ¡n"
 
-#: main/face/edit.cc:505
+#: main/face/edit.cc:512
 msgid "Add to top of queue"
-msgstr "Illeszd a sor elejére"
+msgstr "Illeszd a sor elejÃ©re"
 
-#: main/face/edit.cc:518 main/face/prefs.cc:235 main/face/prefs.cc:1161
-#: main/face/prefs.cc:1320
+#: main/face/edit.cc:525 main/face/lod.cc:291 main/face/prefs.cc:237
+#: main/face/prefs.cc:1237 main/face/prefs.cc:1330
 msgid "Download"
-msgstr "Letöltés"
+msgstr "LetÃ¶ltÃ©s"
 
-#: main/face/edit.cc:521 main/face/prefs.cc:737 main/face/prefs.cc:1245
-#: main/face/prefs.cc:1469
+#: main/face/edit.cc:528 main/face/prefs.cc:732 main/face/prefs.cc:1269
+#: main/face/prefs.cc:1480
 msgid "Main"
-msgstr "Fõ"
+msgstr "FÅ‘"
 
-#: main/face/edit.cc:537 main/face/prefs.cc:296
+#: main/face/edit.cc:544 main/face/prefs.cc:298
 msgid "Timeout for reading from socket (in seconds)"
-msgstr "Idõtúllépés a SOCKET olvasása közben! (másodpercben)"
+msgstr "IdÅ‘tÃºllÃ©pÃ©s a SOCKET olvasÃ¡sa kÃ¶zben! (mÃ¡sodpercben)"
 
-#: main/face/edit.cc:544 main/face/prefs.cc:303
+#: main/face/edit.cc:551 main/face/prefs.cc:305
 msgid "Timeout before reconnection (in seconds)"
-msgstr "Idõ újabb kapcsolat felvétele elõtt (másodpercekben)"
+msgstr "IdÅ‘ Ãºjabb kapcsolat felvÃ©tele elÅ‘tt (mÃ¡sodpercekben)"
 
-#: main/face/edit.cc:551 main/face/prefs.cc:310
+#: main/face/edit.cc:558 main/face/prefs.cc:312
 msgid "Maximum attempts (0 for unlimited)"
-msgstr "Maximális kisérletek száma (0, ha végtelen)"
+msgstr "MaximÃ¡lis kisÃ©rletek szÃ¡ma (0, ha vÃ©gtelen)"
 
-#: main/face/edit.cc:558 main/face/prefs.cc:317
+#: main/face/edit.cc:565 main/face/prefs.cc:319
 msgid "Rollback after reconnecting (in bytes)"
-msgstr "Visszaugrás újabb kapcsolat felvétele után (byte-okban)"
+msgstr "VisszaugrÃ¡s Ãºjabb kapcsolat felvÃ©tele utÃ¡n (byte-okban)"
 
-#: main/face/edit.cc:565 main/face/prefs.cc:324
+#: main/face/edit.cc:572 main/face/prefs.cc:326
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
-msgstr "Sebesség korlátozása Byte/sec-ben (0 a korlátozattlan)"
+msgstr "SebessÃ©g korlÃ¡tozÃ¡sa Byte/sec-ben (0 a korlÃ¡tozattlan)"
 
-#: main/face/edit.cc:593
+#: main/face/edit.cc:600
 msgid "Save log to file"
-msgstr "Fõ-napló mentése fájlba"
+msgstr "FÅ‘-naplÃ³ mentÃ©se fÃ¡jlba"
 
-#: main/face/edit.cc:603
+#: main/face/edit.cc:610
 msgid "Auto"
 msgstr "Automatikus"
 
-#: main/face/edit.cc:610 main/face/edit.cc:613
+#: main/face/edit.cc:617 main/face/edit.cc:620
 msgid "Common"
-msgstr "Általános"
+msgstr "ÃltalÃ¡nos"
 
-#: main/face/edit.cc:632 main/face/prefs.cc:367
+#: main/face/edit.cc:639 main/face/prefs.cc:368
 msgid "Load links as links"
-msgstr "Link letöltése mint link"
+msgstr "Link letÃ¶ltÃ©se mint link"
 
-#: main/face/edit.cc:636 main/face/prefs.cc:371
+#: main/face/edit.cc:643 main/face/prefs.cc:372
 msgid "Load links as file"
-msgstr "Linkek letöltése mint fájl"
+msgstr "Linkek letÃ¶ltÃ©se mint fÃ¡jl"
 
-#: main/face/edit.cc:647 main/face/edit.cc:664 main/face/prefs.cc:382
-#: main/face/prefs.cc:478
+#: main/face/edit.cc:654 main/face/edit.cc:671 main/face/prefs.cc:383
+#: main/face/prefs.cc:472
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr "Rekurzió mélysége (0 végtelen, 1 nincs rekurzió)"
+msgstr "RekurziÃ³ mÃ©lysÃ©ge (0 vÃ©gtelen, 1 nincs rekurziÃ³)"
 
-#: main/face/edit.cc:688 main/face/prefs.cc:509
+#: main/face/edit.cc:695 main/face/prefs.cc:503
 msgid "Filter"
-msgstr "Szûrõ"
+msgstr "SzÅ±rÅ‘"
 
-#: main/face/edit.cc:689 main/face/lod.cc:676 main/face/mywidget.cc:239
-#: main/face/prefs.cc:510
+#: main/face/edit.cc:696 main/face/lod.cc:903 main/face/mywidget.cc:243
+#: main/face/prefs.cc:504
 msgid "Select"
-msgstr "Kiválaszt"
+msgstr "KivÃ¡laszt"
 
-#: main/face/edit.cc:758
+#: main/face/edit.cc:765
 msgid "Hours"
-msgstr "Óra"
+msgstr "Ã“ra"
 
-#: main/face/edit.cc:766
+#: main/face/edit.cc:773
 msgid "Minutes"
 msgstr "Perc"
 
-#: main/face/edit.cc:778
+#: main/face/edit.cc:785
 msgid "Start this downloading at:"
-msgstr "Letöltés kezdése:"
+msgstr "LetÃ¶ltÃ©s kezdÃ©se:"
 
-#: main/face/edit.cc:839
+#: main/face/edit.cc:846
 msgid "Use default settings"
-msgstr "Alapértelmezett beállítások használata"
+msgstr "AlapÃ©rtelmezett beÃ¡llÃ­tÃ¡sok hasznÃ¡lata"
 
 #: main/face/edit.cc:1556
 msgid "FTP proxy type"
@@ -1361,7 +1361,7 @@ msgstr "FTP (wingate)"
 
 #: main/face/edit.cc:1581
 msgid "Use this proxy for FTP"
-msgstr "E proxy használata FTP-hez"
+msgstr "E proxy hasznÃ¡lata FTP-hez"
 
 #: main/face/edit.cc:1596 main/face/edit.cc:1665 main/face/edit.cc:1715
 msgid "port"
@@ -1369,132 +1369,132 @@ msgstr "Port"
 
 #: main/face/edit.cc:1603 main/face/edit.cc:1671
 msgid "need password"
-msgstr "jelszó kell"
+msgstr "jelszÃ³ kell"
 
 #: main/face/edit.cc:1611 main/face/edit.cc:1679 main/face/edit.cc:1727
 msgid "username"
-msgstr "felhasználói név"
+msgstr "felhasznÃ¡lÃ³i nÃ©v"
 
 #: main/face/edit.cc:1643
 msgid "Don't get from cache"
-msgstr "Ne olvass a cache-bõl"
+msgstr "Ne olvass a cache-bÅ‘l"
 
 #: main/face/edit.cc:1650
 msgid "Use this proxy for HTTP"
-msgstr "E proxy használata HTTP-hez"
+msgstr "E proxy hasznÃ¡lata HTTP-hez"
 
 #. SOCKS settings
 #: main/face/edit.cc:1701
 msgid "Use SOCKS5 proxy"
-msgstr "SOCKS5 proxy használata"
+msgstr "SOCKS5 proxy hasznÃ¡lata"
 
-#: main/face/edit.cc:1708 main/face/mywidget.cc:376 main/face/mywidget.cc:696
+#: main/face/edit.cc:1708 main/face/mywidget.cc:369 main/face/mywidget.cc:722
 msgid "host"
 msgstr "host"
 
-#: main/face/edit.cc:2100
+#: main/face/edit.cc:2111
 msgid "Select properties"
-msgstr "Tulajdonságok kiválasztása"
+msgstr "TulajdonsÃ¡gok kivÃ¡lasztÃ¡sa"
 
-#: main/face/edit.cc:2125
+#: main/face/edit.cc:2156
 msgid "Unselect all"
-msgstr "Összes kiválasztás megszüntet"
+msgstr "Ã–sszes kivÃ¡lasztÃ¡s megszÃ¼ntet"
 
-#: main/face/edit.cc:2131
+#: main/face/edit.cc:2162
 msgid "Select all"
-msgstr "Összeset kiválaszt"
+msgstr "Ã–sszeset kivÃ¡laszt"
 
 #: main/face/list.cc:154
 msgid "/_File"
-msgstr "/_Fájl"
+msgstr "/_FÃ¡jl"
 
 #: main/face/list.cc:155
 msgid "/File/_Save List"
-msgstr "/Fájl/Lista _mentése"
+msgstr "/FÃ¡jl/Lista _mentÃ©se"
 
 #: main/face/list.cc:156
 msgid "/File/_Load List"
-msgstr "/Fájl/_Lista betöltése"
+msgstr "/FÃ¡jl/_Lista betÃ¶ltÃ©se"
 
 #: main/face/list.cc:157
 msgid "/File/Find links in file"
-msgstr "/Fájl/Linkek keresése fájlban"
+msgstr "/FÃ¡jl/Linkek keresÃ©se fÃ¡jlban"
 
 #: main/face/list.cc:158
 msgid "/File/_New Download"
-msgstr "/Fájl/Új _letöltés"
+msgstr "/FÃ¡jl/Ãšj _letÃ¶ltÃ©s"
 
 #: main/face/list.cc:159
 msgid "/File/_Paste Download"
-msgstr "/Fájl/Letöltés _beillesztése"
+msgstr "/FÃ¡jl/LetÃ¶ltÃ©s _beillesztÃ©se"
 
 #: main/face/list.cc:160
 msgid "/File/_Automated adding"
-msgstr "/Fájl/_Automatikus hozzásadás"
+msgstr "/FÃ¡jl/_Automatikus hozzÃ¡sadÃ¡s"
 
 #: main/face/list.cc:161
 msgid "/File/Exit"
-msgstr "/Fájl/Kilépés"
+msgstr "/FÃ¡jl/KilÃ©pÃ©s"
 
 #: main/face/list.cc:162
 msgid "/File/sep1"
-msgstr "/Fájl/sep1"
+msgstr "/FÃ¡jl/sep1"
 
 #: main/face/list.cc:163
 msgid "/_Download"
-msgstr "/L_etöltés"
+msgstr "/L_etÃ¶ltÃ©s"
 
 #: main/face/list.cc:164
 msgid "/Download/View _Log"
-msgstr "/Letöltés/_Napló megnézése"
+msgstr "/LetÃ¶ltÃ©s/_NaplÃ³ megnÃ©zÃ©se"
 
 #: main/face/list.cc:165
 msgid "/Download/_Stop downloads"
-msgstr "/Letöltés/Letöltése _megállítása"
+msgstr "/LetÃ¶ltÃ©s/LetÃ¶ltÃ©se _megÃ¡llÃ­tÃ¡sa"
 
 #: main/face/list.cc:166
 msgid "/Download/Edit download"
-msgstr "/Letöltés/Letöltés szerkesztése"
+msgstr "/LetÃ¶ltÃ©s/LetÃ¶ltÃ©s szerkesztÃ©se"
 
 #: main/face/list.cc:167
 msgid "/Download/_Delete downloads"
-msgstr "/Letöltés/Letöltések _törlése"
+msgstr "/LetÃ¶ltÃ©s/LetÃ¶ltÃ©sek _tÃ¶rlÃ©se"
 
 #: main/face/list.cc:168
 msgid "/Download/Continue downloads"
-msgstr "/Letöltés/Letöltések folytatása"
+msgstr "/LetÃ¶ltÃ©s/LetÃ¶ltÃ©sek folytatÃ¡sa"
 
 #: main/face/list.cc:169
 msgid "/Download/Delete completed"
-msgstr "/Letöltés/Törlés befejezõdött"
+msgstr "/LetÃ¶ltÃ©s/TÃ¶rlÃ©s befejezÅ‘dÃ¶tt"
 
 #: main/face/list.cc:170
 msgid "/Download/Delete failed"
-msgstr "/Letöltés/Törlés nem sikerült"
+msgstr "/LetÃ¶ltÃ©s/TÃ¶rlÃ©s nem sikerÃ¼lt"
 
 #: main/face/list.cc:171
 msgid "/Download/Rerun failed"
-msgstr "/Letöltés/Sikertelenek újrafuttatása"
+msgstr "/LetÃ¶ltÃ©s/Sikertelenek ÃºjrafuttatÃ¡sa"
 
 #: main/face/list.cc:172
 msgid "/Download/(Un)Protect"
-msgstr "/Letöltés/(Ki)Véd"
+msgstr "/LetÃ¶ltÃ©s/(Ki)VÃ©d"
 
 #: main/face/list.cc:173
 msgid "/Download/Unselect all"
-msgstr "/Letöltés/Kiválasztás megszüntetése"
+msgstr "/LetÃ¶ltÃ©s/KivÃ¡lasztÃ¡s megszÃ¼ntetÃ©se"
 
 #: main/face/list.cc:174
 msgid "/Download/Select all"
-msgstr "/Letöltés/Minden kiválasztása"
+msgstr "/LetÃ¶ltÃ©s/Minden kivÃ¡lasztÃ¡sa"
 
 #: main/face/list.cc:175
 msgid "/Download/Invert selection"
-msgstr "/Letöltés/Kiválasztás megfordítása"
+msgstr "/LetÃ¶ltÃ©s/KivÃ¡lasztÃ¡s megfordÃ­tÃ¡sa"
 
 #: main/face/list.cc:176
 msgid "/Download/-"
-msgstr "/Letöltés/-"
+msgstr "/LetÃ¶ltÃ©s/-"
 
 #: main/face/list.cc:177
 msgid "/_Queue"
@@ -1502,174 +1502,174 @@ msgstr "/_Sor"
 
 #: main/face/list.cc:178
 msgid "/Queue/Create new queue"
-msgstr "/Sor/Új sor létrehozása"
+msgstr "/Sor/Ãšj sor lÃ©trehozÃ¡sa"
 
 #: main/face/list.cc:179
 msgid "/Queue/Create new subqueue"
-msgstr "/Sor/Új alsor létrehozása"
+msgstr "/Sor/Ãšj alsor lÃ©trehozÃ¡sa"
 
 #: main/face/list.cc:180
 msgid "/Queue/Remove this queue"
-msgstr "/Sor/Sor törlése"
+msgstr "/Sor/Sor tÃ¶rlÃ©se"
 
 #: main/face/list.cc:181
 msgid "/Queue/Properties"
-msgstr "/Sor/Tulajdonságok"
+msgstr "/Sor/TulajdonsÃ¡gok"
 
 #: main/face/list.cc:182
 msgid "/_Options"
-msgstr "/_Opciók"
+msgstr "/_OpciÃ³k"
 
 #: main/face/list.cc:183
 msgid "/Options/Scheduler"
-msgstr "/Opciók/Idõzítõ"
+msgstr "/OpciÃ³k/IdÅ‘zÃ­tÅ‘"
 
 #: main/face/list.cc:184
 msgid "/Options/URL-manager"
-msgstr "/Opciók/URL-kezelõ"
+msgstr "/OpciÃ³k/URL-kezelÅ‘"
 
 #: main/face/list.cc:185
 msgid "/Options/General"
-msgstr "/Opciók/Általános"
+msgstr "/OpciÃ³k/ÃltalÃ¡nos"
 
 #: main/face/list.cc:186
 msgid "/Options/Filters"
-msgstr "/Opciók/Filterek"
+msgstr "/OpciÃ³k/Filterek"
 
 #: main/face/list.cc:187
 msgid "/Options/Speed"
-msgstr "/Opciók/Sebesség"
+msgstr "/OpciÃ³k/SebessÃ©g"
 
 #: main/face/list.cc:188
 msgid "/Options/Speed/Low"
-msgstr "/Opciók/Sebesség/Alacsonyabb"
+msgstr "/OpciÃ³k/SebessÃ©g/Alacsonyabb"
 
 #: main/face/list.cc:189
 msgid "/Options/Speed/Medium"
-msgstr "/Opciók/Sebesség/Közepes"
+msgstr "/OpciÃ³k/SebessÃ©g/KÃ¶zepes"
 
 #: main/face/list.cc:190
 msgid "/Options/Speed/Unlimited"
-msgstr "/Opciók/Sebesség/Korlátlan"
+msgstr "/OpciÃ³k/SebessÃ©g/KorlÃ¡tlan"
 
 #: main/face/list.cc:191
 msgid "/Options/Buttons"
-msgstr "/Opciók/Gombok"
+msgstr "/OpciÃ³k/Gombok"
 
 #: main/face/list.cc:192
 msgid "/Options/Buttons/Add buttons"
-msgstr "/Opciók/Gombok/Hozzáadó gombok"
+msgstr "/OpciÃ³k/Gombok/HozzÃ¡adÃ³ gombok"
 
 #: main/face/list.cc:193
 msgid "/Options/Buttons/Manipulating"
-msgstr "/Opciók/Gombok/Manipulálás"
+msgstr "/OpciÃ³k/Gombok/ManipulÃ¡lÃ¡s"
 
 #: main/face/list.cc:194
 msgid "/Options/Buttons/Speed buttons"
-msgstr "/Opciók/Gombok/Sebesség gombok"
+msgstr "/OpciÃ³k/Gombok/SebessÃ©g gombok"
 
 #: main/face/list.cc:195
 msgid "/Options/Buttons/Misc buttons"
-msgstr "/Opciók/Gombok/Egyéb gombok"
+msgstr "/OpciÃ³k/Gombok/EgyÃ©b gombok"
 
 #: main/face/list.cc:196
 msgid "/_Help"
-msgstr "/_Segítség"
+msgstr "/_SegÃ­tsÃ©g"
 
 #: main/face/list.cc:197
 msgid "/_Help/About"
-msgstr "/_Segítség/Magamról"
+msgstr "/_SegÃ­tsÃ©g/MagamrÃ³l"
 
-#: main/face/list.cc:792
+#: main/face/list.cc:794
 msgid "Do you really want to quit?"
-msgstr "Biztosan ki akar lépni?"
+msgstr "Biztosan ki akar lÃ©pni?"
 
-#: main/face/list.cc:792
+#: main/face/list.cc:794
 msgid "Quit?"
-msgstr "Kilépsz?"
+msgstr "KilÃ©psz?"
 
-#: main/face/list.cc:821
+#: main/face/list.cc:823
 msgid "Delete selected downloads?"
-msgstr "A kijelölt letöltések törlése?"
+msgstr "A kijelÃ¶lt letÃ¶ltÃ©sek tÃ¶rlÃ©se?"
 
-#: main/face/list.cc:821 main/face/list.cc:839 main/face/list.cc:857
+#: main/face/list.cc:823 main/face/list.cc:841 main/face/list.cc:859
 msgid "Delete?"
-msgstr "Törlés?"
+msgstr "TÃ¶rlÃ©s?"
 
-#: main/face/list.cc:839
+#: main/face/list.cc:841
 msgid "Do you wish delete completed downloads?"
-msgstr "Törölni akarja a sikeres letöltéseket?"
+msgstr "TÃ¶rÃ¶lni akarja a sikeres letÃ¶ltÃ©seket?"
 
-#: main/face/list.cc:857
+#: main/face/list.cc:859
 msgid "Do you wish delete failed downloads?"
-msgstr "Törölni akarja a sikertelen letöltéseket?"
+msgstr "TÃ¶rÃ¶lni akarja a sikertelen letÃ¶ltÃ©seket?"
 
-#: main/face/list.cc:905
+#: main/face/list.cc:906
 msgid "Ready to go ????"
-msgstr "Kész van ???"
+msgstr "KÃ©sz van ???"
 
-#: main/face/list.cc:1232
+#: main/face/list.cc:1262
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
-msgstr "[%s] %i-fut %i-befejezõdött %i összesen"
+msgstr "[%s] %i-fut %i-befejezÅ‘dÃ¶tt %i Ã¶sszesen"
 
-#: main/face/lmenu.cc:147
+#: main/face/lmenu.cc:136
 msgid "View log"
-msgstr "Napló megnézése"
+msgstr "NaplÃ³ megnÃ©zÃ©se"
 
-#: main/face/lmenu.cc:153
+#: main/face/lmenu.cc:142
 msgid "Stop"
-msgstr "Állj"
+msgstr "Ãllj"
 
-#: main/face/lmenu.cc:160
+#: main/face/lmenu.cc:148
 msgid "Continue downloads"
-msgstr "Letöltések folytatása"
+msgstr "LetÃ¶ltÃ©sek folytatÃ¡sa"
 
 #. 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
-#: main/face/lmenu.cc:166
+#: main/face/lmenu.cc:154
 msgid "Copy"
-msgstr "Másol"
+msgstr "MÃ¡sol"
 
-#: main/face/lmenu.cc:171
+#: main/face/lmenu.cc:159
 msgid "(Un)Protect"
-msgstr "Véd(telen)"
+msgstr "VÃ©d(telen)"
+
+#: main/face/lmenu.cc:168
+msgid "Common properties"
+msgstr "ÃltalÃ¡nos tulajdonsÃ¡gok"
+
+#: main/face/lmenu.cc:174
+msgid "Delete downloads"
+msgstr "LetÃ¶ltÃ©sek tÃ¶rlÃ©se"
 
 #: main/face/lmenu.cc:180
-msgid "Common properties"
-msgstr "Általános tulajdonságok"
+msgid "Delete completed"
+msgstr "TÃ¶rlÃ©s befejezÅ‘dÃ¶tt"
 
 #: main/face/lmenu.cc:186
-msgid "Delete downloads"
-msgstr "Letöltések törlése"
-
-#: main/face/lmenu.cc:192
-msgid "Delete completed"
-msgstr "Törlés befejezõdött"
-
-#: main/face/lmenu.cc:198
 msgid "Delete failed"
-msgstr "Sikertelen letöltések törlése"
+msgstr "Sikertelen letÃ¶ltÃ©sek tÃ¶rlÃ©se"
 
-#: main/face/lmenu.cc:208
+#: main/face/lmenu.cc:196
 msgid "Move up"
 msgstr "Fel"
 
-#: main/face/lmenu.cc:214
+#: main/face/lmenu.cc:202
 msgid "Move down"
 msgstr "Le"
 
-#: main/face/lmenu.cc:220
+#: main/face/lmenu.cc:207
 msgid "Alternates"
-msgstr "Változók"
+msgstr "VÃ¡ltozÃ³k"
 
-#: main/face/lmenu.cc:225 main/face/prefs.cc:789 main/face/prefs.cc:1260
-#: main/face/prefs.cc:1456
+#: main/face/lmenu.cc:212 main/face/prefs.cc:784 main/face/prefs.cc:1275
+#: main/face/prefs.cc:1467
 msgid "FTP search"
-msgstr "FTP keresés"
+msgstr "FTP keresÃ©s"
 
 #: main/face/lod.cc:46
 msgid "File"
-msgstr "Állomány"
+msgstr "ÃllomÃ¡ny"
 
 #: main/face/lod.cc:47
 msgid "Type"
@@ -1677,531 +1677,527 @@ msgstr "Tipus"
 
 #: main/face/lod.cc:48
 msgid "Full Size"
-msgstr "Teljes méret"
+msgstr "Teljes mÃ©ret"
 
 #: main/face/lod.cc:49
 msgid "Downloaded"
-msgstr "Letöltve"
+msgstr "LetÃ¶ltve"
 
 #: main/face/lod.cc:50
 msgid "Rest"
-msgstr "Maradék"
+msgstr "MaradÃ©k"
 
 #: main/face/lod.cc:52
 msgid "Speed"
-msgstr "Sebesség"
+msgstr "SebessÃ©g"
 
 #: main/face/lod.cc:54
 msgid "Remaining"
-msgstr "Maradék"
+msgstr "MaradÃ©k"
 
 #: main/face/lod.cc:55
 msgid "Pause"
-msgstr "Szünet"
+msgstr "SzÃ¼net"
 
 #: main/face/lod.cc:56
 msgid "Attempt"
-msgstr "Kísérlet"
+msgstr "KÃ­sÃ©rlet"
 
-#: main/face/lod.cc:646
+#: main/face/lod.cc:285
+#, fuzzy
+msgid "Percent"
+msgstr "szÃ¡zalÃ©k"
+
+#: main/face/lod.cc:286
+#, fuzzy
+msgid "Percentage to render"
+msgstr "hasznÃ¡lt keresÅ‘ motor"
+
+#: main/face/lod.cc:292
+#, fuzzy
+msgid "Link to tDownload"
+msgstr "letÃ¶ltÃ©sek megÃ¡llÃ­tÃ¡sa "
+
+#: main/face/lod.cc:873
 msgid "Enter wildcard"
-msgstr "Wildcard beírása"
+msgstr "Wildcard beÃ­rÃ¡sa"
 
-#: main/face/lod.cc:674
+#: main/face/lod.cc:901
 msgid "Unselect"
-msgstr "Kiválasztás megszüntet"
+msgstr "KivÃ¡lasztÃ¡s megszÃ¼ntet"
 
-#: main/face/lod.cc:1248
-msgid "Continue open log windows?"
-msgstr "Folytassam a napló ablak megnyitását?"
+#: main/face/lod.cc:1326
+#, fuzzy
+msgid "Status"
+msgstr "Ã¡llapot"
 
-#: main/face/lod.cc:1248
-msgid "Open logs?"
-msgstr "Napló megnyitása?"
-
-#: main/face/log.cc:196
+#: main/face/log.cc:189
 #, c-format
 msgid "Row number %i [log of %s]"
-msgstr "Sor száma %i [%s naplója]"
+msgstr "Sor szÃ¡ma %i [%s naplÃ³ja]"
 
-#: main/face/log.cc:203
-msgid "Erorr!"
-msgstr "Hiba!"
-
-#: main/face/log.cc:206
-msgid "Warning!"
-msgstr "Figyelem!"
-
-#: main/face/log.cc:209
-msgid "Message to server"
-msgstr "Üzenet a szervernek"
-
-#: main/face/log.cc:212
-msgid "Message from server"
-msgstr "Üzenet a szervertõl"
-
-#: main/face/log.cc:216
-msgid "All ok"
-msgstr "Minden rendben"
-
-#: main/face/log.cc:417
+#: main/face/log.cc:415
 msgid "Log: "
-msgstr "Napló: "
+msgstr "NaplÃ³: "
 
 #: main/face/mywidget.cc:62
 msgid "Select directory"
-msgstr "Könyvtár választás"
+msgstr "KÃ¶nyvtÃ¡r vÃ¡lasztÃ¡s"
 
-#: main/face/fsched.cc:294 main/face/mywidget.cc:65
+#: main/face/fsched.cc:334 main/face/mywidget.cc:65
 msgid "Select file"
-msgstr "Állomány választás"
+msgstr "ÃllomÃ¡ny vÃ¡lasztÃ¡s"
 
-#: main/face/fsched.cc:435 main/face/fsched.cc:458 main/face/mywidget.cc:109
+#: main/face/fsched.cc:474 main/face/fsched.cc:497 main/face/mywidget.cc:109
 msgid "Browse"
-msgstr "Tallózás"
+msgstr "TallÃ³zÃ¡s"
 
-#: main/face/mywidget.cc:199
+#: main/face/mywidget.cc:201
 msgid "Select color"
-msgstr "Szín kiválasztása"
+msgstr "SzÃ­n kivÃ¡lasztÃ¡sa"
 
-#: main/face/mywidget.cc:355
+#: main/face/mywidget.cc:348
 msgid "Edit properties of Rule"
-msgstr "Szabályok tulajdonságának szerkesztése"
+msgstr "SzabÃ¡lyok tulajdonsÃ¡gÃ¡nak szerkesztÃ©se"
 
-#: main/face/mywidget.cc:358 main/face/mywidget.cc:696
+#: main/face/mywidget.cc:351 main/face/mywidget.cc:722
 msgid "protocol"
 msgstr "protokoll"
 
-#: main/face/mywidget.cc:383 main/face/mywidget.cc:696
+#: main/face/mywidget.cc:376 main/face/mywidget.cc:722
 msgid "path"
-msgstr "út"
+msgstr "Ãºt"
 
-#: main/face/mywidget.cc:397
+#: main/face/mywidget.cc:390
 msgid "?"
 msgstr "?"
 
-#: main/face/mywidget.cc:404 main/face/mywidget.cc:696
+#: main/face/mywidget.cc:397 main/face/mywidget.cc:722
 msgid "tag"
 msgstr "tag"
 
-#: main/face/mywidget.cc:453
+#: main/face/mywidget.cc:446
 msgid "include"
 msgstr "tartalmaz"
 
-#: main/face/mywidget.cc:455
+#: main/face/mywidget.cc:448
 msgid "exclude"
-msgstr "végrehajt"
+msgstr "vÃ©grehajt"
 
-#: main/face/mywidget.cc:692
+#: main/face/mywidget.cc:718
 msgid "Modify filter"
-msgstr "Szûrõ módosítása"
+msgstr "SzÅ±rÅ‘ mÃ³dosÃ­tÃ¡sa"
 
-#: main/face/mywidget.cc:715
+#: main/face/mywidget.cc:756
 msgid "include by default"
-msgstr "alapértelmezettként tartalmaz"
+msgstr "alapÃ©rtelmezettkÃ©nt tartalmaz"
 
-#: main/face/mywidget.cc:717
+#: main/face/mywidget.cc:758
 msgid "exclude by default"
-msgstr "végrehajt alapértelmezettként"
+msgstr "vÃ©grehajt alapÃ©rtelmezettkÃ©nt"
 
-#: main/face/mywidget.cc:723
+#: main/face/mywidget.cc:764
 msgid "Name of filter"
-msgstr "Szûrõ neve"
+msgstr "SzÅ±rÅ‘ neve"
 
-#: main/face/mywidget.cc:729
+#: main/face/mywidget.cc:770
 msgid "Up"
 msgstr "Fel"
 
-#: main/face/mywidget.cc:730
+#: main/face/mywidget.cc:771
 msgid "Add rule"
-msgstr "Szabály hozzáadása"
+msgstr "SzabÃ¡ly hozzÃ¡adÃ¡sa"
 
-#: main/face/mywidget.cc:731
+#: main/face/mywidget.cc:772
 msgid "Down"
 msgstr "Le"
 
-#: main/face/filtrgui.cc:171 main/face/fsched.cc:205 main/face/mywidget.cc:740
-#: main/face/mywidget.cc:927
+#: main/face/filtrgui.cc:190 main/face/fsched.cc:250 main/face/mywidget.cc:781
+#: main/face/mywidget.cc:1062
 msgid "Remove"
-msgstr "Eltávolít"
+msgstr "EltÃ¡volÃ­t"
 
-#: main/face/filtrgui.cc:170 main/face/fsched.cc:204 main/face/fsched.cc:416
-#: main/face/mywidget.cc:741
+#: main/face/filtrgui.cc:189 main/face/fsched.cc:249 main/face/fsched.cc:455
+#: main/face/mywidget.cc:782
 msgid "Edit"
-msgstr "Szerkesztés"
+msgstr "SzerkesztÃ©s"
 
-#: main/face/mywidget.cc:816
+#: main/face/mywidget.cc:855
 msgid "Select filter"
-msgstr "Szûrõ kiválasztása"
+msgstr "SzÅ±rÅ‘ kivÃ¡lasztÃ¡sa"
 
-#: main/face/filtrgui.cc:155 main/face/mywidget.cc:818
+#: main/face/filtrgui.cc:171 main/face/mywidget.cc:864
 msgid "filter name"
-msgstr "szûrõ neve"
+msgstr "szÅ±rÅ‘ neve"
 
-#: main/face/mywidget.cc:914
+#: main/face/mywidget.cc:1036
 msgid "List of links"
-msgstr "Linkek listája"
+msgstr "Linkek listÃ¡ja"
 
-#: main/face/mywidget.cc:972
+#: main/face/mywidget.cc:1105
 msgid "Find"
-msgstr ""
+msgstr "Keres"
 
-#: main/face/mywidget.cc:978
+#: main/face/mywidget.cc:1111
 msgid "Add"
-msgstr "Hozzáad"
+msgstr "HozzÃ¡ad"
 
-#: main/face/passface.cc:305
+#: main/face/passface.cc:321
 msgid "Add new URL to URL-manager"
-msgstr "Új URL hozzáadása az URL-kezelõhöz"
+msgstr "Ãšj URL hozzÃ¡adÃ¡sa az URL-kezelÅ‘hÃ¶z"
 
-#: main/face/passface.cc:338
+#: main/face/passface.cc:376
 msgid "Edit default preferences"
-msgstr "Alapértelmezett beállítások szerkesztése"
+msgstr "AlapÃ©rtelmezett beÃ¡llÃ­tÃ¡sok szerkesztÃ©se"
 
-#: main/face/passface.cc:361
+#: main/face/passface.cc:399
 msgid "URL-manager"
-msgstr "URL-kezelõ"
+msgstr "URL-kezelÅ‘"
 
-#: main/face/passface.cc:365
+#: main/face/passface.cc:403
 msgid "limit"
 msgstr "limit"
 
-#: main/face/passface.cc:365
+#: main/face/passface.cc:403
 msgid "con."
-msgstr "con."
+msgstr "kapcs."
 
-#: main/face/filtrgui.cc:169 main/face/passface.cc:376
+#: main/face/filtrgui.cc:188 main/face/passface.cc:430
 msgid "Add new"
-msgstr "Új hozzáadása"
+msgstr "Ãšj hozzÃ¡adÃ¡sa"
 
-#: main/face/passface.cc:377
+#: main/face/passface.cc:431
 msgid "Delete"
-msgstr "Törlés"
+msgstr "TÃ¶rlÃ©s"
 
-#: main/face/prefs.cc:249
+#: main/face/prefs.cc:251
 msgid "Optimize recursive downloads"
-msgstr "Rekurzív letöltések optimallizálása"
+msgstr "RekurzÃ­v letÃ¶ltÃ©sek optimallizÃ¡lÃ¡sa"
 
-#: main/face/prefs.cc:265
+#: main/face/prefs.cc:267
 msgid "Default permissions of local file"
-msgstr "Állomány alapértelmezett hozzáférési jogai"
+msgstr "ÃllomÃ¡ny alapÃ©rtelmezett hozzÃ¡fÃ©rÃ©si jogai"
 
-#: main/face/prefs.cc:276
+#: main/face/prefs.cc:278
 msgid "Save downloads to folder"
-msgstr "Letöltések mentése könyvtárba"
+msgstr "LetÃ¶ltÃ©sek mentÃ©se kÃ¶nyvtÃ¡rba"
 
-#: main/face/prefs.cc:285 main/face/prefs.cc:1170 main/face/prefs.cc:1333
+#: main/face/prefs.cc:287 main/face/prefs.cc:1240 main/face/prefs.cc:1343
 msgid "Limits"
 msgstr "Limitek"
 
-#: main/face/prefs.cc:341
-msgid "Maximum lines in log"
-msgstr "Napló maximális hossza (sorokban)"
+#: main/face/prefs.cc:333
+#, fuzzy
+msgid "Number of parts to split files"
+msgstr "LetÃ¶ltÃ©si darabok szÃ¡ma"
 
-#: main/face/prefs.cc:349 main/face/prefs.cc:1175 main/face/prefs.cc:1342
+#: main/face/prefs.cc:342
+msgid "Maximum lines in log"
+msgstr "NaplÃ³ maximÃ¡lis hossza (sorokban)"
+
+#: main/face/prefs.cc:350 main/face/prefs.cc:1242 main/face/prefs.cc:1353
 msgid "FTP"
 msgstr "FTP"
 
-#: main/face/prefs.cc:387
+#: main/face/prefs.cc:388
 msgid "Output FTP dirs in logs"
-msgstr "FTP könyvtárak irása a naplóban"
+msgstr "FTP kÃ¶nyvtÃ¡rak irÃ¡sa a naplÃ³ban"
 
-#: main/face/prefs.cc:398
+#: main/face/prefs.cc:400
 msgid "default anonymous password"
-msgstr "Alapértelmezett anonymous jelszó"
+msgstr "AlapÃ©rtelmezett anonymous jelszÃ³"
 
-#: main/face/prefs.cc:460 main/face/prefs.cc:1180 main/face/prefs.cc:1359
+#: main/face/prefs.cc:454 main/face/prefs.cc:1244 main/face/prefs.cc:1370
 msgid "HTTP"
 msgstr "HTTP"
 
-#: main/face/prefs.cc:498
+#: main/face/prefs.cc:492
 msgid "Filename for saving if it is unknown"
-msgstr "Állomány neve a mentéshez, ha egyébként nem ismert"
+msgstr "ÃllomÃ¡ny neve a mentÃ©shez, ha egyÃ©bkÃ©nt nem ismert"
 
-#: main/face/prefs.cc:537 main/face/prefs.cc:1200 main/face/prefs.cc:1386
+#: main/face/prefs.cc:531 main/face/prefs.cc:1252 main/face/prefs.cc:1397
 msgid "Main window"
-msgstr "Fõ ablak"
+msgstr "FÅ‘ ablak"
 
-#: main/face/prefs.cc:539
+#: main/face/prefs.cc:533
 msgid "Using title"
-msgstr "Fejléc használada"
+msgstr "FejlÃ©c hasznÃ¡lada"
+
+#: main/face/prefs.cc:537
+msgid "Use title of main window for info"
+msgstr "A fÅ‘ablak fejlÃ©cÃ©nek hasznÃ¡lata az informÃ¡ciÃ³hoz"
+
+#: main/face/prefs.cc:542
+msgid "Display queue statistics too"
+msgstr "Sor-statisztika megjelenÃ­tÃ©se"
 
 #: main/face/prefs.cc:543
-msgid "Use title of main window for info"
-msgstr "A fõablak fejlécének használata az információhoz"
+msgid "Scroll title"
+msgstr "FejlÃ©c gÃ¶rgetÃ©se"
 
 #: main/face/prefs.cc:548
-msgid "Display queue statistics too"
-msgstr "Sor-statisztika megjelenítése"
-
-#: main/face/prefs.cc:549
-msgid "Scroll title"
-msgstr "Fejléc görgetése"
-
-#: main/face/prefs.cc:554
 msgid "Iconfiy main window instead of closing"
-msgstr "Fõablak ikonizálása bezáráskor"
+msgstr "FÅ‘ablak ikonizÃ¡lÃ¡sa bezÃ¡rÃ¡skor"
 
-#: main/face/prefs.cc:556
+#: main/face/prefs.cc:550
 msgid "Do not remember position of the main window"
-msgstr "Ne emlékezzen a fõ ablak pozíciójára"
+msgstr "Ne emlÃ©kezzen a fÅ‘ ablak pozÃ­ciÃ³jÃ¡ra"
 
-#: main/face/prefs.cc:569 main/face/prefs.cc:1205 main/face/prefs.cc:1394
+#: main/face/prefs.cc:563 main/face/prefs.cc:1254 main/face/prefs.cc:1405
 msgid "Confirmation"
-msgstr "Megerõsítés"
+msgstr "MegerÅ‘sÃ­tÃ©s"
 
-#: main/face/prefs.cc:571
+#: main/face/prefs.cc:565
 msgid "Confirm delete selected downloads"
-msgstr "Kiválasztott letöltések törlésekor"
+msgstr "KivÃ¡lasztott letÃ¶ltÃ©sek tÃ¶rlÃ©sekor"
 
-#: main/face/prefs.cc:572
+#: main/face/prefs.cc:566
 msgid "Confirm delete all downloads"
-msgstr "Minden letöltés törlésekor"
+msgstr "Minden letÃ¶ltÃ©s tÃ¶rlÃ©sekor"
 
-#: main/face/prefs.cc:573
+#: main/face/prefs.cc:567
 msgid "Confirm delete completed downloads"
-msgstr "Befejezõdött letöltések törlésekor"
+msgstr "BefejezÅ‘dÃ¶tt letÃ¶ltÃ©sek tÃ¶rlÃ©sekor"
 
-#: main/face/prefs.cc:574
+#: main/face/prefs.cc:568
 msgid "Confirm delete failed downloads"
-msgstr "Sikertelen letöltések törlésekor"
+msgstr "Sikertelen letÃ¶ltÃ©sek tÃ¶rlÃ©sekor"
 
-#: main/face/prefs.cc:575
+#: main/face/prefs.cc:569
 msgid "Confirm opening large amount of windows"
-msgstr "Megerõsítés nagy számú ablakok nyitásakor"
+msgstr "MegerÅ‘sÃ­tÃ©s nagy szÃ¡mÃº ablakok nyitÃ¡sakor"
 
-#: main/face/prefs.cc:576
+#: main/face/prefs.cc:570
 msgid "Confirm exit from program"
-msgstr "Programból való kilépés elõtt"
+msgstr "ProgrambÃ³l valÃ³ kilÃ©pÃ©s elÅ‘tt"
 
-#.
-#. tmpitem=gtk_tree_item_new_with_label(_("DnD"));
-#. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-#. gtk_widget_show(tmpitem);
-#.
-#: main/face/prefs.cc:601 main/face/prefs.cc:1239 main/face/prefs.cc:1445
+#: main/face/prefs.cc:595 main/face/prefs.cc:1266 main/face/prefs.cc:1456
 msgid "Clipboard"
-msgstr "Vágólap"
+msgstr "VÃ¡gÃ³lap"
 
-#: main/face/prefs.cc:603
+#: main/face/prefs.cc:597
 msgid "Monitor clipboard"
-msgstr "Vágólap figyelés"
+msgstr "VÃ¡gÃ³lap figyelÃ©s"
 
-#: main/face/prefs.cc:613
+#: main/face/prefs.cc:607
 msgid "Skip these extensions in clipboard"
-msgstr "Ezeket a kiterjesztéseket figyelmen kívül hagyni a vágólapon"
+msgstr "Ezeket a kiterjesztÃ©seket figyelmen kÃ­vÃ¼l hagyni a vÃ¡gÃ³lapon"
 
-#: main/face/prefs.cc:621
+#: main/face/prefs.cc:615
 msgid "Catch these extensions in clipboard"
-msgstr "Ezen kiterjesztések figyelése a vágólapon"
+msgstr "Ezen kiterjesztÃ©sek figyelÃ©se a vÃ¡gÃ³lapon"
 
-#: main/face/prefs.cc:644 main/face/prefs.cc:1254 main/face/prefs.cc:1479
+#: main/face/prefs.cc:638 main/face/prefs.cc:1272 main/face/prefs.cc:1490
 msgid "Main log"
-msgstr "Fõ napló"
+msgstr "FÅ‘ naplÃ³"
 
-#: main/face/prefs.cc:650
+#: main/face/prefs.cc:644
 msgid "Maximum lines in MAIN log"
-msgstr "Fõ-napló maximális hossza (sorokban)"
+msgstr "FÅ‘-naplÃ³ maximÃ¡lis hossza (sorokban)"
 
-#: main/face/prefs.cc:654
+#: main/face/prefs.cc:648
 msgid "Output detailed information"
-msgstr "Részletes információ"
+msgstr "RÃ©szletes informÃ¡ciÃ³"
 
-#: main/face/prefs.cc:658
+#: main/face/prefs.cc:652
 msgid "Save main log into file"
-msgstr "Fõ-napló mentése fájlba"
+msgstr "FÅ‘-naplÃ³ mentÃ©se fÃ¡jlba"
 
-#: main/face/prefs.cc:677
+#: main/face/prefs.cc:672
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr "Maximális fõ napló méret (KByteban)"
+msgstr "MaximÃ¡lis fÅ‘ naplÃ³ mÃ©ret (KByteban)"
 
-#: main/face/prefs.cc:683
+#: main/face/prefs.cc:678
 msgid "Append to file"
-msgstr "Hozzáfûzés"
+msgstr "HozzÃ¡fÅ±zÃ©s"
 
-#: main/face/prefs.cc:686
+#: main/face/prefs.cc:681
 msgid "Overwrite file"
-msgstr "Fájl felülírás"
+msgstr "FÃ¡jl felÃ¼lÃ­rÃ¡s"
 
-#: main/face/prefs.cc:701 main/face/prefs.cc:1226 main/face/prefs.cc:1436
+#: main/face/prefs.cc:696 main/face/prefs.cc:1263 main/face/prefs.cc:1447
 msgid "Integration"
-msgstr "Integráció"
+msgstr "IntegrÃ¡ciÃ³"
 
-#: main/face/prefs.cc:703
+#: main/face/prefs.cc:698
 msgid "Exit if nothing to do after"
-msgstr "kilépés, ha utána nincs más dolga"
+msgstr "kilÃ©pÃ©s, ha utÃ¡na nincs mÃ¡s dolga"
 
-#: main/face/prefs.cc:709 main/face/prefs.cc:748
+#: main/face/prefs.cc:704 main/face/prefs.cc:743
 msgid "minutes"
-msgstr "percenként"
+msgstr "percenkÃ©nt"
+
+#: main/face/prefs.cc:715
+msgid "Run this on exit"
+msgstr "KilÃ©pÃ©skor futtat"
 
 #: main/face/prefs.cc:720
-msgid "Run this on exit"
-msgstr "Kilépéskor futtat"
-
-#: main/face/prefs.cc:725
 msgid "Open dialog for Drag-n-Drop"
-msgstr "Drag-n-Drop dialógus megnyitása"
+msgstr "Drag-n-Drop dialÃ³gus megnyitÃ¡sa"
 
-#: main/face/prefs.cc:742
+#: main/face/prefs.cc:737
 msgid "Save list of downloads every"
-msgstr "Letöltési lista mentése minden"
+msgstr "LetÃ¶ltÃ©si lista mentÃ©se minden"
 
-#: main/face/prefs.cc:755
+#: main/face/prefs.cc:750
 msgid "Allow to user force run downloads"
-msgstr "A felhasználó kierõszakolhatja a letöltések elindítását"
+msgstr "A felhasznÃ¡lÃ³ kierÅ‘szakolhatja a letÃ¶ltÃ©sek elindÃ­tÃ¡sÃ¡t"
 
-#: main/face/prefs.cc:756
+#: main/face/prefs.cc:751
 msgid "Remember passwords"
-msgstr "Emlékezés a jelszóra"
+msgstr "EmlÃ©kezÃ©s a jelszÃ³ra"
 
-#: main/face/prefs.cc:757
+#: main/face/prefs.cc:752
 msgid "Write Descript.ion file"
-msgstr "Descript.ion fájl írása"
+msgstr "Descript.ion fÃ¡jl Ã­rÃ¡sa"
 
-#: main/face/prefs.cc:767
+#: main/face/prefs.cc:762
 msgid "bytes/sec speed level one (red button)"
-msgstr "byte/sec eggyes sebességen (piros gomb)"
+msgstr "byte/sec eggyes sebessÃ©gen (piros gomb)"
 
-#: main/face/prefs.cc:775
+#: main/face/prefs.cc:770
 msgid "bytes/sec speed level two (yellow button)"
-msgstr "byte/sec kettes sebességen (sárga gomb)"
+msgstr "byte/sec kettes sebessÃ©gen (sÃ¡rga gomb)"
 
-#: main/face/prefs.cc:795
+#: main/face/prefs.cc:790
 msgid "Number of attempts to ping hosts"
-msgstr "Pingelések száma"
+msgstr "PingelÃ©sek szÃ¡ma"
 
-#: main/face/prefs.cc:803
+#: main/face/prefs.cc:798
 msgid "Number of hosts in list"
-msgstr "Hostok száma a listában"
+msgstr "Hostok szÃ¡ma a listÃ¡ban"
 
-#: main/face/prefs.cc:830
+#: main/face/prefs.cc:825
 msgid "search engine to use"
-msgstr "használt keresõ motor"
+msgstr "hasznÃ¡lt keresÅ‘ motor"
 
-#: main/face/prefs.cc:839 main/face/prefs.cc:1191 main/face/prefs.cc:1381
+#: main/face/prefs.cc:834 main/face/prefs.cc:1249 main/face/prefs.cc:1392
 msgid "Interface"
-msgstr "Interfész"
+msgstr "InterfÃ©sz"
 
-#: main/face/prefs.cc:841
+#: main/face/prefs.cc:836
 msgid "Show DnD basket"
-msgstr "Kosár DnD-hoz"
+msgstr "KosÃ¡r DnD-hoz"
 
-#: main/face/prefs.cc:842
+#: main/face/prefs.cc:837
 msgid "Use fixed font in logs"
-msgstr "Fixelt fontok használata a naplóban"
+msgstr "FixÃ¡lt fontok hasznÃ¡lata a naplÃ³ban"
 
-#: main/face/prefs.cc:859 main/face/prefs.cc:1210 main/face/prefs.cc:1403
+#: main/face/prefs.cc:854 main/face/prefs.cc:1256 main/face/prefs.cc:1414
 msgid "Graph"
 msgstr "Grafikon"
 
-#: main/face/prefs.cc:861
+#: main/face/prefs.cc:856
 msgid "Revert drawing graph of speeds"
-msgstr "Grafikon rajzolásának megfordítása"
+msgstr "Grafikon rajzolÃ¡sÃ¡nak megfordÃ­tÃ¡sa"
 
-#: main/face/prefs.cc:864
+#: main/face/prefs.cc:859
 msgid "Compressed mode"
-msgstr "Tömörített mód"
+msgstr "TÃ¶mÃ¶rÃ­tett mÃ³d"
 
-#: main/face/prefs.cc:870
+#: main/face/prefs.cc:865
 msgid "Color for picks"
-msgstr "Oszlopvégek színe"
+msgstr "OszlopvÃ©gek szÃ­ne"
 
-#: main/face/prefs.cc:871
+#: main/face/prefs.cc:866
 msgid "Color for total speed"
-msgstr "Teljessebesség színe"
+msgstr "TeljessebessÃ©g szÃ­ne"
 
-#: main/face/prefs.cc:872
+#: main/face/prefs.cc:867
 msgid "Color for speed of selected"
-msgstr "Kiválasztott sebességének színe"
+msgstr "KivÃ¡lasztott sebessÃ©gÃ©nek szÃ­ne"
 
-#: main/face/prefs.cc:873
+#: main/face/prefs.cc:868
 msgid "Background color"
-msgstr "Háttér színe"
+msgstr "HÃ¡ttÃ©r szÃ­ne"
 
-#: main/face/prefs.cc:882
+#: main/face/prefs.cc:877
 msgid "Reset to default"
-msgstr "Alapértelmezett visszaállítása"
+msgstr "AlapÃ©rtelmezett visszaÃ¡llÃ­tÃ¡sa"
 
-#: main/face/prefs.cc:885
+#: main/face/prefs.cc:880
 msgid "Colors for graph"
-msgstr "Grafikon színe"
+msgstr "Grafikon szÃ­ne"
 
-#: main/face/prefs.cc:911 main/face/prefs.cc:1215 main/face/prefs.cc:1412
+#: main/face/prefs.cc:906 main/face/prefs.cc:1258 main/face/prefs.cc:1423
 msgid "Sounds"
 msgstr "Hangok"
 
-#: main/face/prefs.cc:914
+#: main/face/prefs.cc:909
 msgid "enable sounds"
-msgstr "hangok bekapcsolása"
+msgstr "hangok bekapcsolÃ¡sa"
 
-#: main/face/prefs.cc:919
+#: main/face/prefs.cc:914
 msgid "output via ESD"
 msgstr "Kimenet az ESD-n"
 
-#: main/face/prefs.cc:926
+#: main/face/prefs.cc:921
 msgid "Startup"
-msgstr "Indítás"
+msgstr "IndÃ­tÃ¡s"
 
-#: main/face/prefs.cc:928
+#: main/face/prefs.cc:923
 msgid "Adding a download"
-msgstr "Letöltés hozzáadása"
+msgstr "LetÃ¶ltÃ©s hozzÃ¡adÃ¡sa"
 
-#: main/face/prefs.cc:930
+#: main/face/prefs.cc:925
 msgid "Downloading completed"
-msgstr "Letöltés befejezõdött"
+msgstr "LetÃ¶ltÃ©s befejezÅ‘dÃ¶tt"
 
-#: main/face/prefs.cc:932
+#: main/face/prefs.cc:927
 msgid "Downloading failed"
-msgstr "Letöltés nem lehetséges"
+msgstr "LetÃ¶ltÃ©s nem lehetsÃ©ges"
 
-#: main/face/prefs.cc:934
+#: main/face/prefs.cc:929
 msgid "Downloading of queue is completed"
-msgstr "A lista letöltése befejezõdött"
+msgstr "A lista letÃ¶ltÃ©se befejezÅ‘dÃ¶tt"
 
-#: main/face/prefs.cc:936
+#: main/face/prefs.cc:931
 msgid "Drag'n'Drop event"
-msgstr "Drag'n'Drop esemény"
+msgstr "Drag'n'Drop esemÃ©ny"
 
-#: main/face/prefs.cc:984 main/face/prefs.cc:985
+#: main/face/prefs.cc:969 main/face/prefs.cc:970
 msgid "No info about this theme."
-msgstr "Nincs információ errõl a témáról"
+msgstr "Nincs informÃ¡ciÃ³ errÅ‘l a tÃ©mÃ¡rÃ³l"
 
-#: main/face/prefs.cc:1000
+#: main/face/prefs.cc:990
 msgid "Default theme"
-msgstr "Alapértelmezett téma"
+msgstr "AlapÃ©rtelmezett tÃ©ma"
 
-#: main/face/prefs.cc:1032 main/face/prefs.cc:1220
+#: main/face/prefs.cc:1021 main/face/prefs.cc:1260
 msgid "Themes"
-msgstr "Témák"
+msgstr "TÃ©mÃ¡k"
 
-#: main/face/prefs.cc:1039
+#: main/face/prefs.cc:1028
 msgid "Themes' directory"
-msgstr "Témák könyvtára"
+msgstr "TÃ©mÃ¡k kÃ¶nyvtÃ¡ra"
 
-#: main/face/prefs.cc:1040
+#: main/face/prefs.cc:1029
 msgid "Rescan"
-msgstr "Újraolvas"
+msgstr "Ãšjraolvas"
 
-#: main/face/prefs.cc:1120
+#: main/face/prefs.cc:1038
+msgid "Name"
+msgstr "NÃ©v"
+
+#: main/face/prefs.cc:1185
 msgid "Options"
-msgstr "Opciók"
+msgstr "OpciÃ³k"
 
-#: main/face/saveload.cc:90
+#: main/face/saveload.cc:89
 msgid "Loading"
-msgstr "Töltés"
+msgstr "TÃ¶ltÃ©s"
 
-#: main/face/saveload.cc:143
+#: main/face/saveload.cc:140
 msgid "Save list"
-msgstr "Lista mentése"
+msgstr "Lista mentÃ©se"
 
-#: main/face/saveload.cc:186
+#: main/face/saveload.cc:183
 msgid "Load list"
-msgstr "Lista betöltése"
+msgstr "Lista betÃ¶ltÃ©se"
 
-#: main/face/saveload.cc:228
+#: main/face/saveload.cc:225
 msgid "Find links in txt file"
-msgstr "Linkek keresése a txt fájlban"
+msgstr "Linkek keresÃ©se a txt fÃ¡jlban"
 
 #: main/face/fsface.cc:71
 msgid "bytes"
@@ -2209,188 +2205,202 @@ msgstr "byte"
 
 #: main/face/fsface.cc:83
 msgid "nothing found"
-msgstr "semmit sem találtam"
+msgstr "semmit sem talÃ¡ltam"
 
 #: main/face/fsface.cc:87
 msgid "searching"
-msgstr "keresés"
+msgstr "keresÃ©s"
 
 #: main/face/fsface.cc:96
 msgid "reping"
-msgstr "újrapingelés"
+msgstr "ÃºjrapingelÃ©s"
 
 #: main/face/fsface.cc:100
 msgid "cumulative reping"
-msgstr "felhalmozott újrapingelés"
+msgstr "felhalmozott ÃºjrapingelÃ©s"
 
 #: main/face/fsface.cc:106
 msgid "remove"
-msgstr "eltávolít"
-
-#: main/face/fsched.cc:31
-msgid "limit speed"
-msgstr "sebbeség korlátozás"
+msgstr "eltÃ¡volÃ­t"
 
 #: main/face/fsched.cc:32
-msgid "popup main window"
-msgstr "Elõugró fõ ablak"
+msgid "limit speed"
+msgstr "sebbesÃ©g korlÃ¡tozÃ¡s"
 
 #: main/face/fsched.cc:33
-msgid "exit"
-msgstr "kilépés"
+msgid "popup main window"
+msgstr "ElÅ‘ugrÃ³ fÅ‘ ablak"
 
 #: main/face/fsched.cc:34
-msgid "remove completed"
-msgstr "törlés befejezõdött"
+msgid "exit"
+msgstr "kilÃ©pÃ©s"
 
 #: main/face/fsched.cc:35
-msgid "remove failed"
-msgstr "Sikertelen letöltés törlése"
+msgid "remove completed"
+msgstr "tÃ¶rlÃ©s befejezÅ‘dÃ¶tt"
 
 #: main/face/fsched.cc:36
-msgid "restart download"
-msgstr "letöltés újrakezdése "
+msgid "remove failed"
+msgstr "Sikertelen letÃ¶ltÃ©s tÃ¶rlÃ©se"
 
 #: main/face/fsched.cc:37
-msgid "stop download"
-msgstr "letöltések megállítása "
+msgid "restart download"
+msgstr "letÃ¶ltÃ©s ÃºjrakezdÃ©se "
 
 #: main/face/fsched.cc:38
-msgid "remove download"
-msgstr "letöltés törlése"
+msgid "stop download"
+msgstr "letÃ¶ltÃ©sek megÃ¡llÃ­tÃ¡sa "
 
 #: main/face/fsched.cc:39
-msgid "remove download if completed"
-msgstr "Kész letöltés törlése"
+msgid "remove download"
+msgstr "letÃ¶ltÃ©s tÃ¶rlÃ©se"
 
 #: main/face/fsched.cc:40
-msgid "add download"
-msgstr "letöltés hozzáadása"
+msgid "remove download if completed"
+msgstr "KÃ©sz letÃ¶ltÃ©s tÃ¶rlÃ©se"
 
 #: main/face/fsched.cc:41
-msgid "save list"
-msgstr "lista mentése"
+msgid "add download"
+msgstr "letÃ¶ltÃ©s hozzÃ¡adÃ¡sa"
 
 #: main/face/fsched.cc:42
+msgid "save list"
+msgstr "lista mentÃ©se"
+
+#: main/face/fsched.cc:43
 msgid "execute command"
-msgstr "parancs végrehajtása"
+msgstr "parancs vÃ©grehajtÃ¡sa"
 
-#: main/face/fsched.cc:181
+#: main/face/fsched.cc:212
 msgid "Scheduler"
-msgstr "Idõzítõ"
+msgstr "IdÅ‘zÃ­tÅ‘"
 
-#: main/face/fsched.cc:187 main/face/fsched.cc:764
+#: main/face/fsched.cc:218 main/face/fsched.cc:803
 msgid "Action"
-msgstr "Opciók"
+msgstr "OpciÃ³k"
 
-#: main/face/fsched.cc:187
+#: main/face/fsched.cc:218
 msgid "Info"
-msgstr "Infó"
+msgstr "InfÃ³"
 
-#: main/face/fsched.cc:203
+#: main/face/fsched.cc:248
 msgid "New"
-msgstr "Új"
+msgstr "Ãšj"
 
-#: main/face/fsched.cc:431
+#: main/face/fsched.cc:470
 msgid "Command:"
 msgstr "Parancs:"
 
-#: main/face/fsched.cc:454
+#: main/face/fsched.cc:493
 msgid "Path:"
-msgstr "Út:"
+msgstr "Ãšt:"
 
-#: main/face/fsched.cc:473
+#: main/face/fsched.cc:512
 msgid "This action has no properties"
-msgstr "Ehhez a mûvelethez nem tartozik tulajdonság"
+msgstr "Ehhez a mÅ±velethez nem tartozik tulajdonsÃ¡g"
 
-#: main/face/fsched.cc:705
+#: main/face/fsched.cc:744
 msgid "Start time(hour:min:sec)"
-msgstr "Indulási idõpont (óra:perc:másodperc)"
+msgstr "IndulÃ¡si idÅ‘pont (Ã³ra:perc:mÃ¡sodperc)"
 
-#: main/face/fsched.cc:734
+#: main/face/fsched.cc:773
 msgid "Retry this action"
-msgstr "Mûvelet megismétlése"
+msgstr "MÅ±velet megismÃ©tlÃ©se"
 
-#: main/face/fsched.cc:743
+#: main/face/fsched.cc:782
 msgid "times to repeat (-1 unlimited)"
-msgstr "maximális kisérletek száma (-1, ha végtelen)"
+msgstr "maximÃ¡lis kisÃ©rletek szÃ¡ma (-1, ha vÃ©gtelen)"
 
-#: main/face/fsched.cc:747
+#: main/face/fsched.cc:786
 msgid "period (day/hour:min)"
-msgstr "periódus (nap/óra:perc)"
+msgstr "periÃ³dus (nap/Ã³ra:perc)"
 
-#: main/face/fsched.cc:792
+#: main/face/fsched.cc:831
 msgid "Edit scheduled action"
-msgstr "Idõzített akció szerkesztése"
+msgstr "IdÅ‘zÃ­tett akciÃ³ szerkesztÃ©se"
 
-#: main/face/filtrgui.cc:149
+#: main/face/filtrgui.cc:158
 msgid "Filters"
-msgstr "Szûrõk"
+msgstr "SzÅ±rÅ‘k"
 
-#: main/face/qtree.cc:112
+#: main/face/qtree.cc:114
 msgid "Create new queue"
-msgstr "Új sor létrehozása"
+msgstr "Ãšj sor lÃ©trehozÃ¡sa"
 
-#: main/face/qtree.cc:266
-msgid "Name"
-msgstr "Név"
-
-#: main/face/qtree.cc:267
-msgid "Total"
-msgstr "Összesen"
-
-#: main/face/qtree.cc:268
-msgid "Wait"
-msgstr "Vár"
-
-#: main/face/qtree.cc:269
-msgid "Run"
-msgstr "Futtat"
-
-#: main/face/qtree.cc:364 main/face/qtree.cc:370
+#: main/face/qtree.cc:455 main/face/qtree.cc:461
 msgid "/Create new queue"
-msgstr "/Új sor létrehozása"
+msgstr "/Ãšj sor lÃ©trehozÃ¡sa"
 
-#: main/face/qtree.cc:365
+#: main/face/qtree.cc:456
 msgid "/Create new subqueue"
-msgstr "/Új alsor létrehozása"
+msgstr "/Ãšj alsor lÃ©trehozÃ¡sa"
 
-#: main/face/qtree.cc:366
+#: main/face/qtree.cc:457
 msgid "/Delete queue"
-msgstr "/Sor törlése"
+msgstr "/Sor tÃ¶rlÃ©se"
 
-#: main/face/qtree.cc:367
+#: main/face/qtree.cc:458
 msgid "/Properties"
-msgstr "/Tulajdonságok"
+msgstr "/TulajdonsÃ¡gok"
 
-#: main/face/qtree.cc:460
+#: main/face/qtree.cc:557
 msgid "Queue properties"
-msgstr "Sor tulajdonságok"
+msgstr "Sor tulajdonsÃ¡gok"
 
-#: main/face/qtree.cc:472
+#: main/face/qtree.cc:569
 msgid "Maximum active downloads"
-msgstr "Aktív letöltések maximális száma"
+msgstr "AktÃ­v letÃ¶ltÃ©sek maximÃ¡lis szÃ¡ma"
 
-#: main/face/qtree.cc:476
+#: main/face/qtree.cc:573
 msgid "Automatically delete completed downloads"
-msgstr "Befejezõdött letöltések automatikus törlése"
+msgstr "BefejezÅ‘dÃ¶tt letÃ¶ltÃ©sek automatikus tÃ¶rlÃ©se"
 
-#: main/face/qtree.cc:477
+#: main/face/qtree.cc:574
 msgid "Automatically delete failed downloads"
-msgstr "Sikertelen letöltések automatikus törlése"
+msgstr "Sikertelen letÃ¶ltÃ©sek automatikus tÃ¶rlÃ©se"
 
-#: main/face/qtree.cc:487
+#: main/face/qtree.cc:584
 msgid "Default folder to save downloaded files"
-msgstr "Alapértelmezett könyvtár a letöltött fájlok mentésére"
+msgstr "AlapÃ©rtelmezett kÃ¶nyvtÃ¡r a letÃ¶ltÃ¶tt fÃ¡jlok mentÃ©sÃ©re"
 
-#: main/face/qtree.cc:495
+#: main/face/qtree.cc:592
 msgid "Size format"
-msgstr "Méret formátum"
+msgstr "MÃ©ret formÃ¡tum"
 
-#: main/face/qtree.cc:496
+#: main/face/qtree.cc:593
 msgid "Time format"
-msgstr "Idõ formátum"
+msgstr "IdÅ‘ formÃ¡tum"
 
-#: main/face/qtree.cc:565
+#: main/face/qtree.cc:658
 msgid "Name of the queue"
 msgstr "Sor neve"
+
+#~ msgid "Continue open log windows?"
+#~ msgstr "Folytassam a naplÃ³ ablak megnyitÃ¡sÃ¡t?"
+
+#~ msgid "Open logs?"
+#~ msgstr "NaplÃ³ megnyitÃ¡sa?"
+
+#~ msgid "Erorr!"
+#~ msgstr "Hiba!"
+
+#~ msgid "Warning!"
+#~ msgstr "Figyelem!"
+
+#~ msgid "Message to server"
+#~ msgstr "Ãœzenet a szervernek"
+
+#~ msgid "Message from server"
+#~ msgstr "Ãœzenet a szervertÅ‘l"
+
+#~ msgid "All ok"
+#~ msgstr "Minden rendben"
+
+#~ msgid "Total"
+#~ msgstr "Ã–sszesen"
+
+#~ msgid "Wait"
+#~ msgstr "VÃ¡r"
+
+#~ msgid "Run"
+#~ msgstr "Futtat"

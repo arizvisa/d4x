@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.7 2002/06/27 02:37:02 zaufi Exp $
+# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.7.2.2 2002/09/06 06:47:49 max Exp $
 #
 SHELL = @SHELL@
 
@@ -72,42 +72,33 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
+CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CXX = @CXX@
+D4X_CFLAGS = @D4X_CFLAGS@
+D4X_LIBS = @D4X_LIBS@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
 ESD_CFLAGS = @ESD_CFLAGS@
-ESD_CONFIG = @ESD_CONFIG@
 ESD_LIBS = @ESD_LIBS@
-GDK_PIXBUF_CFLAGS = @GDK_PIXBUF_CFLAGS@
-GDK_PIXBUF_CONFIG = @GDK_PIXBUF_CONFIG@
-GDK_PIXBUF_LIBS = @GDK_PIXBUF_LIBS@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
-GLIB_CFLAGS = @GLIB_CFLAGS@
-GLIB_CONFIG = @GLIB_CONFIG@
-GLIB_LIBS = @GLIB_LIBS@
+GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
-GTK_CFLAGS = @GTK_CFLAGS@
-GTK_CONFIG = @GTK_CONFIG@
-GTK_LIBS = @GTK_LIBS@
-HAVE_LIB = @HAVE_LIB@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
 INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
 INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
-LIB = @LIB@
 LIBICONV = @LIBICONV@
-LIBINTL = @LIBINTL@
-LTLIB = @LTLIB@
-LTLIBICONV = @LTLIBICONV@
-LTLIBINTL = @LTLIBINTL@
 MAINT = @MAINT@
 MKINSTALLDIRS = @MKINSTALLDIRS@
+MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
+POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
@@ -126,26 +117,24 @@ EXTRA_DIST = pixmaps pixmaps2
 noinst_LIBRARIES = libface.a
 
 libface_a_SOURCES = $(strip           \
-  about.cc     fsched.cc  myclist.cc  \
+  about.cc     fsched.cc  misc.cc     \
   addd.cc      fsface.cc  mywidget.cc \
   buttons.cc   graph.cc   passface.cc \
   colors.cc    list.cc    prefs.cc    \
-  columns.cc   lmenu.cc   qtree.cc    \
+  filtrgui.cc  lmenu.cc   qtree.cc    \
   dndtrash.cc  lod.cc     saveload.cc \
   edit.cc      log.cc                 \
-  filtrgui.cc  misc.cc                \
 )
 
 
 noinst_HEADERS = $(strip              \
-  about.h     fsched.h  myclist.h     \
+  about.h     fsched.h  misc.h        \
   addd.h      fsface.h  mywidget.h    \
   buttons.h   graph.h   passface.h    \
   colors.h    list.h    prefs.h       \
-  columns.h   lmenu.h   qtree.h       \
+  filtrgui.h  lmenu.h   qtree.h       \
   dndtrash.h  lod.h     saveload.h    \
   edit.h      log.h                   \
-  filtrgui.h  misc.h                  \
 )
 
 subdir = main/face
@@ -156,14 +145,13 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libface_a_AR = $(AR) cru
 libface_a_LIBADD =
-am_libface_a_OBJECTS = about.$(OBJEXT) fsched.$(OBJEXT) \
-	myclist.$(OBJEXT) addd.$(OBJEXT) fsface.$(OBJEXT) \
-	mywidget.$(OBJEXT) buttons.$(OBJEXT) graph.$(OBJEXT) \
-	passface.$(OBJEXT) colors.$(OBJEXT) list.$(OBJEXT) \
-	prefs.$(OBJEXT) columns.$(OBJEXT) lmenu.$(OBJEXT) \
-	qtree.$(OBJEXT) dndtrash.$(OBJEXT) lod.$(OBJEXT) \
-	saveload.$(OBJEXT) edit.$(OBJEXT) log.$(OBJEXT) \
-	filtrgui.$(OBJEXT) misc.$(OBJEXT)
+am_libface_a_OBJECTS = about.$(OBJEXT) fsched.$(OBJEXT) misc.$(OBJEXT) \
+	addd.$(OBJEXT) fsface.$(OBJEXT) mywidget.$(OBJEXT) \
+	buttons.$(OBJEXT) graph.$(OBJEXT) passface.$(OBJEXT) \
+	colors.$(OBJEXT) list.$(OBJEXT) prefs.$(OBJEXT) \
+	filtrgui.$(OBJEXT) lmenu.$(OBJEXT) qtree.$(OBJEXT) \
+	dndtrash.$(OBJEXT) lod.$(OBJEXT) saveload.$(OBJEXT) \
+	edit.$(OBJEXT) log.$(OBJEXT)
 libface_a_OBJECTS = $(am_libface_a_OBJECTS)
 
 DEFS = @DEFS@
@@ -175,13 +163,12 @@ depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/about.Po ./$(DEPDIR)/addd.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/buttons.Po ./$(DEPDIR)/colors.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/columns.Po ./$(DEPDIR)/dndtrash.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/edit.Po ./$(DEPDIR)/filtrgui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/fsched.Po ./$(DEPDIR)/fsface.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/graph.Po ./$(DEPDIR)/list.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/lmenu.Po ./$(DEPDIR)/lod.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/log.Po ./$(DEPDIR)/misc.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/myclist.Po ./$(DEPDIR)/mywidget.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/dndtrash.Po ./$(DEPDIR)/edit.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/filtrgui.Po ./$(DEPDIR)/fsched.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fsface.Po ./$(DEPDIR)/graph.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/list.Po ./$(DEPDIR)/lmenu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/lod.Po ./$(DEPDIR)/log.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/misc.Po ./$(DEPDIR)/mywidget.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/passface.Po ./$(DEPDIR)/prefs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/qtree.Po ./$(DEPDIR)/saveload.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
@@ -225,7 +212,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/addd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/buttons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/colors.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/columns.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dndtrash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/edit.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filtrgui.Po@am__quote@
@@ -237,7 +223,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lod.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/misc.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/myclist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mywidget.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/passface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/prefs.Po@am__quote@

@@ -58,11 +58,10 @@ tLog::tLog():tStringList(){
 	last_log=1;
 	for (int i=0;i<4;i++)
 		geometry[i]=0;
-
 /* next string should be added quiet */
 	current_row=0;
-	char *msg=_("Log was started!");
-	tLogString *temp=new tLogString(msg,strlen(msg),LOG_OK);
+	char *msg=N_("Log was started!");
+	tLogString *temp=new tLogString(_(msg),strlen(_(msg)),LOG_OK);
 	temp->time=time(NULL);
 	ref_count=0;
 	insert(temp);

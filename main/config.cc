@@ -208,7 +208,8 @@ tConfigVariable config_variables[]={
 	{"theme_file",		CV_TYPE_STRING,	&(CFG.THEME_FILE)},
 	{"use_theme",		CV_TYPE_BOOL,	&(CFG.USE_THEME)},
 	{"themes_dir",		CV_TYPE_STRING,	&(CFG.THEMES_DIR)},
-	{"use_default_cfg",	CV_TYPE_BOOL,	&(CFG.USE_DEFAULT_CFG)}
+	{"use_default_cfg",	CV_TYPE_BOOL,	&(CFG.USE_DEFAULT_CFG)},
+	{"number_of_parts",	CV_TYPE_INT,	&(CFG.NUMBER_OF_PARTS)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);

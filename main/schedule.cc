@@ -28,6 +28,7 @@
 d4xScheduler *MainScheduler=(d4xScheduler *)NULL;
 
 d4xSchedAction::~d4xSchedAction(){
+	if (iter) gtk_tree_iter_free(iter);
 };
 
 int d4xSchedAction::load(int fd){
@@ -167,7 +168,7 @@ void d4xSADelFailed::run(tMain *papa){
 	papa->del_fataled();
 };
 /*------------------------------------------------------------*/
-d4xSAAddDownload::d4xSAAddDownload(){
+d4xSAAddDownload::d4xSAAddDownload():d4xSchedAction(){
 	dwn=NULL;
 };
 

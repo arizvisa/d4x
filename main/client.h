@@ -80,6 +80,7 @@ class tWriterLoger{
  public:
 	tWriterLoger();
 	virtual fsize_t write(const void *buf,fsize_t len)=0;
+	virtual int is_overlaped();
 	virtual fsize_t shift(fsize_t shift);
 	virtual fsize_t shift(fsize_t shift,int mode)=0; // for html parser
 	virtual fsize_t read(void *dst,fsize_t len)=0; //for html parser

@@ -18,7 +18,6 @@
 #include "misc.h"
 #include "prefs.h"
 #include "mywidget.h"
-#include "columns.h"
 #include "buttons.h"
 #include "edit.h"
 #include "graph.h"
@@ -38,7 +37,7 @@ tMainCfg TMPCFG={
 	{300,5,0,100,0,1,0,0,
 	 0,0,0,0,0,1,1,1,0,0,0,0,1,0,0,
 	 0,0},
-	100,NULL,NULL,NULL,NULL,NULL,NULL,0,
+	100,NULL,NULL,NULL,NULL,NULL,NULL,0,0,
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,600,0,0, //flags
@@ -62,10 +61,12 @@ tMainCfg TMPCFG={
 struct D4xPrefsWidget{
 	/* TREE ITEMS */
 	GtkWidget *root_tree;
-	GtkWidget *tree_download;
-	GtkWidget *tree_interface;
-	GtkWidget *tree_main;
-	GtkWidget *tree_integration;
+	GtkTreeStore *root_model;
+//	GtkTreeIter *tree_download;
+	GtkTreeIter iter_download_proxy;
+	GtkTreeIter iter_interface_sound;
+	GtkTreeIter iter_main;
+	GtkTreeIter iter_main_log;
 	/* DOWNLOAD */
 	GtkWidget *savepath;
 	GtkWidget *sleep_check;
@@ -174,6 +175,7 @@ struct D4xPrefsWidget{
 	GtkWidget *themes_dir;
 	GtkWidget *themes_list;
 	GtkWidget *theme_info;
+	GtkTextBuffer *theme_text;
 //	GtkWidget *;
 };
 
@@ -289,7 +291,7 @@ void d4x_prefs_download_limits(){
 	D4XPWS.attempts_entry=my_gtk_entry_new_with_max_length(3,TMPCFG.DEFAULT_CFG.number_of_attempts);
 	D4XPWS.rollback_entry=my_gtk_entry_new_with_max_length(5,TMPCFG.DEFAULT_CFG.rollback);
 	D4XPWS.speed_entry=my_gtk_entry_new_with_max_length(5,TMPCFG.DEFAULT_CFG.speed);
-//	D4XPWS.split_entry=my_gtk_entry_new_with_max_length(2,who->split==NULL?0:who->split->NumOfParts);
+	D4XPWS.split_entry=my_gtk_entry_new_with_max_length(2,TMPCFG.NUMBER_OF_PARTS);
 
 	GtkWidget *other_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
@@ -325,14 +327,13 @@ void d4x_prefs_download_limits(){
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.speed_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
-/*
+
 	other_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
-	other_label=gtk_label_new(_("Number of parts for spliting this download"));
+	other_label=gtk_label_new(_("Number of parts to split files"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.split_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
-*/
 
 	GtkWidget *prefs_limits_lbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_lbox),5);
@@ -363,11 +364,11 @@ void d4x_prefs_download_ftp(){
 	D4XPWS.follow_link_check=gtk_radio_button_new_with_label(NULL,_("Follow symbolic links"));
 	GTK_TOGGLE_BUTTON(D4XPWS.follow_link_check)->active=TMPCFG.DEFAULT_CFG.follow_link==1?1:0;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.follow_link_check,FALSE,FALSE,0);
-	GSList *proxy_group1=gtk_radio_button_group(GTK_RADIO_BUTTON(D4XPWS.follow_link_check));
+	GSList *proxy_group1=gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.follow_link_check));
 	D4XPWS.load_link_check=gtk_radio_button_new_with_label(proxy_group1,_("Load links as links"));
 	GTK_TOGGLE_BUTTON(D4XPWS.load_link_check)->active=TMPCFG.DEFAULT_CFG.follow_link==0?1:0;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.load_link_check,FALSE,FALSE,0);
-	proxy_group1=gtk_radio_button_group(GTK_RADIO_BUTTON(D4XPWS.load_link_check));
+	proxy_group1=gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.load_link_check));
 	D4XPWS.link_as_file_check=gtk_radio_button_new_with_label(proxy_group1,_("Load links as file"));
 	GTK_TOGGLE_BUTTON(D4XPWS.link_as_file_check)->active=TMPCFG.DEFAULT_CFG.follow_link==2?1:0;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.link_as_file_check,FALSE,FALSE,0);
@@ -390,7 +391,8 @@ void d4x_prefs_download_ftp(){
 
 	GtkWidget *other_box=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(other_box),5);
-	D4XPWS.ftp_anonymous_pass=gtk_entry_new_with_max_length(256);
+	D4XPWS.ftp_anonymous_pass=gtk_entry_new();
+	gtk_entry_set_max_length(GTK_ENTRY(D4XPWS.ftp_anonymous_pass),256);
 	if (TMPCFG.ANONYMOUS_PASS)
 		text_to_combo(D4XPWS.ftp_anonymous_pass,TMPCFG.ANONYMOUS_PASS);
 	else
@@ -410,24 +412,16 @@ static void prefs_filter_sel_delete(){
 };
 
 static void prefs_filter_sel_ok(){
-	GList *select=(GTK_CLIST(D4XPWS.filter_sel->clist))->selection_end;
-	if (select) {
-		char *name;
-		gint row=GPOINTER_TO_INT(select->data);
-		gtk_clist_get_text(GTK_CLIST(D4XPWS.filter_sel->clist),
-				   row,0,&name);
-		text_to_combo(D4XPWS.default_filter,name);
-	}else{
-		text_to_combo(D4XPWS.default_filter,"");
-	};
+	d4x_filter_sel_to_combo(D4XPWS.filter_sel,D4XPWS.default_filter);
 	prefs_filter_sel_delete();
 };
 
-static void prefs_filter_sel_select(GtkWidget *clist, gint row, gint column,
-				    GdkEventButton *event,
-				    tDEdit *where) {
-	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1)
+static gboolean prefs_filter_sel_select(GtkTreeView *view, GdkEventButton *event) {
+	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1){
 		prefs_filter_sel_ok();
+		return TRUE;
+	};
+	return FALSE;
 };
 
 static void prefs_filter_sel_clicked(GtkWidget *parent){
@@ -438,21 +432,21 @@ static void prefs_filter_sel_clicked(GtkWidget *parent){
 	D4XPWS.filter_sel=(d4xFilterSel*)d4x_filter_sel_new();
 	gtk_window_set_modal(GTK_WINDOW(D4XPWS.filter_sel),TRUE);
 	gtk_window_set_transient_for(GTK_WINDOW(D4XPWS.filter_sel),GTK_WINDOW(d4x_prefs_window));
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel->clist),
-			   "select_row",
-			   GTK_SIGNAL_FUNC(prefs_filter_sel_select),
+	g_signal_connect(G_OBJECT(D4XPWS.filter_sel->view),
+			   "event",
+			   G_CALLBACK(prefs_filter_sel_select),
 			   NULL);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel->ok),
+	g_signal_connect(G_OBJECT(D4XPWS.filter_sel->ok),
 			   "clicked",
-			   GTK_SIGNAL_FUNC(prefs_filter_sel_ok),
+			   G_CALLBACK(prefs_filter_sel_ok),
 			   NULL);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel->cancel),
+	g_signal_connect(G_OBJECT(D4XPWS.filter_sel->cancel),
 			   "clicked",
-			   GTK_SIGNAL_FUNC(prefs_filter_sel_delete),
+			   G_CALLBACK(prefs_filter_sel_delete),
 			   NULL);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel),
+	g_signal_connect(G_OBJECT(D4XPWS.filter_sel),
 			   "delete_event",
-			   GTK_SIGNAL_FUNC(prefs_filter_sel_delete),
+			   G_CALLBACK(prefs_filter_sel_delete),
 			   NULL);
 };
 
@@ -501,15 +495,15 @@ void d4x_prefs_download_http(){
 	gtk_box_pack_start(GTK_BOX(tmpbox),prefs_other_fbox,FALSE,FALSE,0);
 
 	D4XPWS.default_filter=gtk_entry_new();
-	gtk_entry_set_editable(GTK_ENTRY(D4XPWS.default_filter),FALSE);
+	gtk_editable_set_editable(GTK_EDITABLE(D4XPWS.default_filter),FALSE);
 	if (CFG.DEFAULT_FILTER)
 		text_to_combo(D4XPWS.default_filter,CFG.DEFAULT_FILTER);
 	http_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
 	other_label=gtk_label_new(_("Filter"));
 	GtkWidget *button=gtk_button_new_with_label(_("Select"));
- 	gtk_signal_connect(GTK_OBJECT(button),"clicked",
-			   GTK_SIGNAL_FUNC(prefs_filter_sel_clicked),NULL);
+ 	g_signal_connect(G_OBJECT(button),"clicked",
+			   G_CALLBACK(prefs_filter_sel_clicked),NULL);
 	gtk_box_pack_start(GTK_BOX(http_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(http_hbox),D4XPWS.default_filter,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(http_hbox),button,FALSE,FALSE,0);
@@ -539,11 +533,11 @@ void d4x_prefs_mwin(){
 	GtkWidget *frame=gtk_frame_new(_("Using title"));
 	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
-	gtk_container_border_width(GTK_CONTAINER(frame),5);
+	gtk_container_set_border_width(GTK_CONTAINER(frame),5);
 	D4XPWS.mw_use_title=gtk_check_button_new_with_label(_("Use title of main window for info"));
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.mw_use_title),
+	g_signal_connect(G_OBJECT(D4XPWS.mw_use_title),
 			   "clicked",
-			   GTK_SIGNAL_FUNC(d4x_prefs_toggle_title),
+			   G_CALLBACK(d4x_prefs_toggle_title),
 			   NULL);
 	D4XPWS.mw_use_title2=gtk_check_button_new_with_label(_("Display queue statistics too"));
 	D4XPWS.mw_scroll_title=gtk_check_button_new_with_label(_("Scroll title"));
@@ -602,9 +596,9 @@ void d4x_prefs_clipboard(){
 
 	D4XPWS.clipboard_monitor=gtk_check_button_new_with_label(_("Monitor clipboard"));
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.clipboard_monitor,FALSE,FALSE,0);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.clipboard_monitor),
+	g_signal_connect(G_OBJECT(D4XPWS.clipboard_monitor),
 			   "clicked",
-			   GTK_SIGNAL_FUNC(d4x_prefs_toggle_clipboard_monitor),NULL);
+			   G_CALLBACK(d4x_prefs_toggle_clipboard_monitor),NULL);
 	
 	GtkWidget *prefs_other_scbox=gtk_vbox_new(FALSE,0);
 	D4XPWS.clipboard_skip=my_gtk_combo_new(ALL_HISTORIES[SKIP_HISTORY]);
@@ -617,7 +611,7 @@ void d4x_prefs_clipboard(){
 
 	D4XPWS.clipboard_catch=my_gtk_combo_new(ALL_HISTORIES[SKIP_HISTORY]);
 	text_to_combo(D4XPWS.clipboard_catch,TMPCFG.CATCH_IN_CLIPBOARD);
-	D4XPWS.clipboard_catch_button=gtk_radio_button_new_with_label(gtk_radio_button_group(GTK_RADIO_BUTTON(D4XPWS.clipboard_skip_button)),
+	D4XPWS.clipboard_catch_button=gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.clipboard_skip_button)),
 							  _("Catch these extensions in clipboard"));
 	prefs_other_scbox=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_other_scbox),D4XPWS.clipboard_catch_button,FALSE,FALSE,0);
@@ -658,7 +652,7 @@ void d4x_prefs_main_log(){
 	D4XPWS.log_save=gtk_check_button_new_with_label(_("Save main log into file"));
 	GTK_TOGGLE_BUTTON(D4XPWS.log_save)->active=TMPCFG.SAVE_MAIN_LOG;
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.log_save,FALSE,FALSE,0);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.log_save),"clicked",GTK_SIGNAL_FUNC(d4x_prefs_toggle_save_log),NULL);
+	g_signal_connect(G_OBJECT(D4XPWS.log_save),"clicked",G_CALLBACK(d4x_prefs_toggle_save_log),NULL);
 
 	D4XPWS.log_save_path=my_gtk_filesel_new(ALL_HISTORIES[LOG_HISTORY]);
 	MY_GTK_FILESEL(D4XPWS.log_save_path)->modal=GTK_WINDOW(d4x_prefs_window);
@@ -669,8 +663,9 @@ void d4x_prefs_main_log(){
 	char temp[MAX_LEN];
 	GtkWidget *prefs_log_mlfbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_log_mlfbox),5);
-	D4XPWS.log_fsize=gtk_entry_new_with_max_length(9);
-	gtk_widget_set_usize(D4XPWS.log_fsize,80,-1);
+	D4XPWS.log_fsize=gtk_entry_new();
+	gtk_entry_set_max_length(GTK_ENTRY(D4XPWS.log_fsize),9);
+	gtk_widget_set_size_request(D4XPWS.log_fsize,80,-1);
 	sprintf(temp,"%li",TMPCFG.MAIN_LOG_FILE_LIMIT);
 	gtk_entry_set_text(GTK_ENTRY(D4XPWS.log_fsize),temp);
 	gtk_box_pack_start(GTK_BOX(prefs_log_mlfbox),D4XPWS.log_fsize,FALSE,FALSE,0);
@@ -682,7 +677,7 @@ void d4x_prefs_main_log(){
 	gtk_box_set_spacing(GTK_BOX(hboxtemp),5);
 	D4XPWS.log_append=gtk_radio_button_new_with_label((GSList *)NULL,_("Append to file"));
 	gtk_box_pack_start(GTK_BOX(hboxtemp),D4XPWS.log_append,FALSE,FALSE,0);
-	GSList *other_group=gtk_radio_button_group(GTK_RADIO_BUTTON(D4XPWS.log_append));
+	GSList *other_group=gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.log_append));
 	D4XPWS.log_rewrite=gtk_radio_button_new_with_label(other_group,_("Overwrite file"));
 	gtk_box_pack_start(GTK_BOX(hboxtemp),D4XPWS.log_rewrite,FALSE,FALSE,0);
 	GTK_TOGGLE_BUTTON(D4XPWS.log_append)->active=TMPCFG.APPEND_REWRITE_LOG;
@@ -702,7 +697,7 @@ void d4x_prefs_integration(){
 	
 	D4XPWS.exit_complete=gtk_check_button_new_with_label(_("Exit if nothing to do after"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.exit_complete),TMPCFG.EXIT_COMPLETE);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.exit_complete),"clicked",GTK_SIGNAL_FUNC(d4x_prefs_toggle_exit_complete),NULL);
+	g_signal_connect(G_OBJECT(D4XPWS.exit_complete),"clicked",G_CALLBACK(d4x_prefs_toggle_exit_complete),NULL);
 	D4XPWS.exit_complete_time=my_gtk_entry_new_with_max_length(3,TMPCFG.EXIT_COMPLETE_TIME);
 	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_common_hbox),5);
@@ -740,7 +735,7 @@ void d4x_prefs_main(){
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_tbox),5);
 
 	D4XPWS.save_list_check=gtk_check_button_new_with_label(_("Save list of downloads every"));
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.save_list_check),"clicked",GTK_SIGNAL_FUNC(d4x_prefs_toggle_save_list),NULL);
+	g_signal_connect(G_OBJECT(D4XPWS.save_list_check),"clicked",G_CALLBACK(d4x_prefs_toggle_save_list),NULL);
 	GTK_TOGGLE_BUTTON(D4XPWS.save_list_check)->active=TMPCFG.SAVE_LIST;
 	D4XPWS.save_list_entry=my_gtk_entry_new_with_max_length(3,TMPCFG.SAVE_LIST_INTERVAL);
 	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,0);
@@ -816,7 +811,7 @@ void d4x_prefs_search(){
 	for (i = 0; (unsigned int)i <count; i++){
 		menu_item = gtk_radio_menu_item_new_with_label (group, labels[i]);
 		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
-		gtk_menu_append (GTK_MENU (menu), menu_item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
 		if (i==TMPCFG.SEARCH_HOST)
 			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (menu_item), TRUE);
 		gtk_widget_show(menu_item);
@@ -880,12 +875,12 @@ void d4x_prefs_graph(){
 	gtk_box_pack_start(GTK_BOX(vbox_colors),D4XPWS.speed_color_fore2,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox_colors),D4XPWS.speed_color_pick,FALSE,FALSE,0);
 	GtkWidget *button_reset=gtk_button_new_with_label(_("Reset to default"));
-	gtk_signal_connect(GTK_OBJECT(button_reset),"clicked",GTK_SIGNAL_FUNC(d4x_prefs_reset_colors),NULL);
+	g_signal_connect(G_OBJECT(button_reset),"clicked",G_CALLBACK(d4x_prefs_reset_colors),NULL);
 	gtk_box_pack_start(GTK_BOX(vbox_colors),button_reset,FALSE,FALSE,0);
 	GtkWidget *frame_colors=gtk_frame_new(_("Colors for graph"));
-	gtk_container_border_width(GTK_CONTAINER(frame_colors),5);
+	gtk_container_set_border_width(GTK_CONTAINER(frame_colors),5);
 	gtk_container_add(GTK_CONTAINER(frame_colors),vbox_colors);
-	gtk_container_border_width(GTK_CONTAINER(vbox_colors),5);
+	gtk_container_set_border_width(GTK_CONTAINER(vbox_colors),5);
 	gtk_box_pack_start(GTK_BOX(vbox),frame_colors,FALSE,FALSE,0);
 	
 	gtk_widget_show_all(vbox);
@@ -893,7 +888,7 @@ void d4x_prefs_graph(){
 
 #define SND_ENTRY_INIT(a,b) { 					\
 	a=my_gtk_filesel_new(ALL_HISTORIES[SOUNDS_HISTORY]);	\
-	gtk_widget_set_usize(a,320,-1);				\
+	gtk_widget_set_size_request(a,320,-1);				\
 	MY_GTK_FILESEL(a)->modal=GTK_WINDOW(d4x_prefs_window);	\
 	if (b)							\
 		text_to_combo(MY_GTK_FILESEL(a)->combo,b);	\
@@ -940,54 +935,46 @@ void d4x_prefs_sounds(){
 
 };
 
-static void d4x_prefs_themes_select_row(GtkWidget *clist, gint row, gint column,
-					GdkEventButton *event, gpointer nothing){
-	int textlen=gtk_text_get_length(GTK_TEXT(D4XPWS.theme_info));
-	gtk_text_backward_delete(GTK_TEXT(D4XPWS.theme_info),textlen);
-	if (row==0){
-		gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-				NULL,NULL,NULL,
-				" ",1);
-		TMPCFG.USE_THEME=0;
-	}else{
-		char *text;
-		gtk_clist_get_text(GTK_CLIST(D4XPWS.themes_list),row,0,&text);
+static gboolean d4x_prefs_themes_select_row(GtkTreeSelection *sel, GtkTreeModel *model,
+					    GtkTreePath *path,gboolean is_sel,
+					    gpointer data){
+	GtkTextIter start,end;
+	gtk_text_buffer_get_bounds(D4XPWS.theme_text,&start,&end);
+	gtk_text_buffer_delete(D4XPWS.theme_text,&start,&end);
+	GtkTreeIter iter;
+	if (is_sel==0 && gtk_tree_model_get_iter(model,&iter,path)){
+		GValue value={0,};
+		gtk_tree_model_get_value(model,&iter,0,&value);
+		const char *text=g_value_get_string(&value);
 		char *path=sum_strings(TMPCFG.THEMES_DIR,"/",text,".xml",NULL);
 		tQueue *q=d4x_xml_parse_file(path);
 		delete[] path;
 		d4xXmlObject *info=d4x_xml_find_obj(q,"info");
-		gtk_text_backward_delete(GTK_TEXT(D4XPWS.theme_info),textlen);
 		if (info && info->value.get()){
 			d4xXmlField *fld=info->get_attr("author");
 			if (fld && fld->value.get()){
-				gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-						NULL,NULL,NULL,"Author: ",strlen("Author: "));
-				gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-						NULL,NULL,NULL,fld->value.get(),strlen(fld->value.get()));
+				gtk_text_buffer_insert(D4XPWS.theme_text,&start,"Author: ",strlen("Author: "));
+				gtk_text_buffer_insert(D4XPWS.theme_text,&start,fld->value.get(),strlen(fld->value.get()));
 				fld=info->get_attr("email");
 				if (fld && fld->value.get()){
-					gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-							NULL,NULL,NULL," <",strlen(" <"));
-					gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-							NULL,NULL,NULL,fld->value.get(),strlen(fld->value.get()));
-					gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-							NULL,NULL,NULL,">",strlen(">"));
+					gtk_text_buffer_insert(D4XPWS.theme_text,&start," <",strlen(" <"));
+					gtk_text_buffer_insert(D4XPWS.theme_text,&start,fld->value.get(),strlen(fld->value.get()));
+					gtk_text_buffer_insert(D4XPWS.theme_text,&start,">",strlen(">"));
 				};
-				gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-						NULL,NULL,NULL,"\n",strlen("\n"));
+				gtk_text_buffer_insert(D4XPWS.theme_text,&start,"\n",strlen("\n"));
 			};
-			gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-					NULL,NULL,NULL,info->value.get(),strlen(info->value.get()));
+			gtk_text_buffer_insert(D4XPWS.theme_text,&start,info->value.get(),strlen(info->value.get()));
 		}else
-			gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
-					NULL,NULL,NULL,
-					_("No info about this theme."),
-					strlen(_("No info about this theme.")));
+			gtk_text_buffer_insert(D4XPWS.theme_text,&start,
+					       _("No info about this theme."),
+					       strlen(_("No info about this theme.")));
 		if (q) delete(q);
 		if (TMPCFG.THEME_FILE) delete[] TMPCFG.THEME_FILE;
 		TMPCFG.THEME_FILE=copy_string(text);
 		TMPCFG.USE_THEME=1;
+		g_value_unset(&value);
 	};
+	return TRUE;
 };
 
 static int d4x_themes_rescan(){
@@ -995,10 +982,12 @@ static int d4x_themes_rescan(){
 	TMPCFG.THEMES_DIR=copy_string(text_from_combo(MY_GTK_FILESEL(D4XPWS.themes_dir)->combo));
 	ALL_HISTORIES[THEMES_HISTORY]->add(TMPCFG.THEMES_DIR);
 	char *path=sum_strings(TMPCFG.THEMES_DIR,"/",NULL);
-	char *data[1];
-	gtk_clist_clear(GTK_CLIST(D4XPWS.themes_list));
-	data[0]=_("Default theme");
-	gtk_clist_append(GTK_CLIST(D4XPWS.themes_list),data);
+	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(D4XPWS.themes_list)));
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(D4XPWS.themes_list));
+	gtk_list_store_clear(list_store);
+	GtkTreeIter iter;
+	gtk_list_store_append(list_store,&iter);
+	gtk_list_store_set(list_store,&iter,0,_("Default theme"),-1);
 	DIR *d=opendir(path);
 	if (d){
 		struct dirent *de=NULL;
@@ -1012,10 +1001,10 @@ static int d4x_themes_rescan(){
 					char *a=rindex(de->d_name,'.');
 					if (a)
 						*a=0;
-					data[0]=de->d_name;
-					int row=gtk_clist_append(GTK_CLIST(D4XPWS.themes_list),data);
+					gtk_list_store_append(list_store,&iter);
+					gtk_list_store_set(list_store,&iter,0,de->d_name,-1);
 					if (CFG.THEME_FILE && equal(CFG.THEME_FILE,de->d_name))
-						gtk_clist_select_row(GTK_CLIST(D4XPWS.themes_list),row,0);
+						gtk_tree_selection_select_iter(sel,&iter);
 					if (a)
 						*a='.';
 				};
@@ -1038,71 +1027,147 @@ void d4x_prefs_themes(){
 	text_to_combo(MY_GTK_FILESEL(D4XPWS.themes_dir)->combo,TMPCFG.THEMES_DIR);
 	GtkWidget *themes_dir_label=gtk_label_new(_("Themes' directory"));
  	GtkWidget *themes_rescan=gtk_button_new_with_label(_("Rescan"));
-	gtk_signal_connect(GTK_OBJECT(themes_rescan),"clicked",GTK_SIGNAL_FUNC(d4x_themes_rescan),NULL);
+	g_signal_connect(G_OBJECT(themes_rescan),"clicked",G_CALLBACK(d4x_themes_rescan),NULL);
 	gtk_box_pack_start(GTK_BOX(D4XPWS.themes_dir),themes_rescan,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),themes_dir_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.themes_dir,FALSE,FALSE,0);
 
-	D4XPWS.themes_list = gtk_clist_new_with_titles(1, titles);
+	GtkListStore *list_store = gtk_list_store_new(1,G_TYPE_STRING);
+	D4XPWS.themes_list=gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store));
+	GtkCellRenderer *renderer=gtk_cell_renderer_text_new ();
+	GtkTreeViewColumn *col=gtk_tree_view_column_new_with_attributes (_("Name"),
+									 renderer,
+									 "text",0,
+									 NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW(D4XPWS.themes_list), col);
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(D4XPWS.themes_list));
+	gtk_tree_selection_set_select_function(sel,d4x_prefs_themes_select_row,NULL,NULL);
+	
+
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.themes_list,TRUE,TRUE,0);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.themes_list), "select_row",
-	                   GTK_SIGNAL_FUNC(d4x_prefs_themes_select_row),NULL);
-	D4XPWS.theme_info=gtk_text_new(NULL,NULL);
-	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.theme_info,TRUE,FALSE,0);
-	gtk_text_set_editable(GTK_TEXT(D4XPWS.theme_info),FALSE);
+	D4XPWS.theme_info=gtk_text_view_new();
+	D4XPWS.theme_text=gtk_text_view_get_buffer(GTK_TEXT_VIEW(D4XPWS.theme_info));
+	GtkWidget *sw=gtk_scrolled_window_new(NULL,NULL);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_box_pack_start(GTK_BOX(vbox),sw,TRUE,FALSE,0);
+	gtk_widget_set_size_request(D4XPWS.theme_info,-1,100);
+	gtk_container_add(GTK_CONTAINER(sw),D4XPWS.theme_info);
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(D4XPWS.theme_info),FALSE);
 	d4x_themes_rescan();
-	if (CFG.USE_THEME==0)
-		gtk_clist_select_row(GTK_CLIST(D4XPWS.themes_list),0,0);
+	if (CFG.USE_THEME==0){
+		GtkTreeIter iter;
+		gtk_tree_model_get_iter_first(GTK_TREE_MODEL(list_store),&iter);
+		gtk_tree_selection_select_iter(sel,&iter);
+	};
 	gtk_widget_show_all(vbox);
 };
 
-static int d4x_prefs_w=0,d4x_prefs_h=0;
-static int d4x_prefs_first=1;
-static int d4x_prefs_page=0;
-
-void d4x_prefs_window_configure(GtkWidget *window){
-	gint w=0,h=0;
-	gdk_window_get_size(window->window,&w,&h);
-	int wc=0,hc=0;
-	if (w>d4x_prefs_w){
-		d4x_prefs_w=w;
-		wc=1;
-	};
-	if (h>d4x_prefs_h){
-		d4x_prefs_h=h;
-		hc=1;
-	};
-	switch (d4x_prefs_first){
-	case 1:
-		gtk_tree_select_item(GTK_TREE(D4XPWS.tree_interface),3);
-		d4x_prefs_first=2;
+gboolean d4x_prefs_select_func(GtkTreeSelection *sel, GtkTreeModel *model,GtkTreePath *path,
+			       gboolean is_sel, gpointer data){
+	if (is_sel) return(TRUE);
+	int depth=gtk_tree_path_get_depth(path);
+	int *a=gtk_tree_path_get_indices(path);
+	switch(a[0]){
+	case 0:{
+		if (depth==1)
+			d4x_prefs_download();
+		else{
+			switch(a[1]){
+			case 0:
+				d4x_prefs_download_limits();
+				break;
+			case 1:
+				d4x_prefs_download_ftp();
+				break;
+			case 2:
+				d4x_prefs_download_http();
+				break;
+			case 3:
+				d4x_prefs_proxy();
+				break;
+			};
+		};
 		break;
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-	case 6:
-	case 7:{
-		if (!hc){
-		    d4x_prefs_first+=1;
-		    break;
+	};
+	case 1:{
+		if (depth==1)
+			d4x_prefs_interface();
+		else{
+			switch(a[1]){
+			case 0:
+				d4x_prefs_mwin();
+				break;
+			case 1:
+				d4x_prefs_confirm();
+				break;
+			case 2:
+				d4x_prefs_graph();
+				break;
+			case 3:
+				d4x_prefs_sounds();
+				break;
+			case 4:
+				d4x_prefs_themes();
+			};
+		};	
+		break;
+	};
+	case 2:{
+		if (depth==1)
+			d4x_prefs_integration();
+		else{
+			switch(a[1]){
+			case 0:
+				d4x_prefs_clipboard();
+			};
+		};
+		break;
+	};
+	case 3:{
+		if (depth==1)
+			d4x_prefs_main();
+		else{
+			switch(a[1]){
+			case 0:
+				d4x_prefs_main_log();
+				break;
+			case 1:
+				d4x_prefs_search();
+				break;
+			};
+		break;
 		};
 	};
-	case 8:{
-		d4x_prefs_first=0;
-		gtk_widget_set_usize(GTK_WIDGET (d4x_prefs_window),
-				     d4x_prefs_w,d4x_prefs_h);
-		switch (d4x_prefs_page){
-		case PREFS_PAGE_MAINLOG:
-			gtk_tree_select_item(GTK_TREE(D4XPWS.tree_main),0);
-			break;
-		case PREFS_PAGE_MAIN:
-			gtk_tree_select_item(GTK_TREE(D4XPWS.root_tree),3);
-			break;
-		};
 	};
-	};
-//	printf("Conf:%i %i\n",w,h);
+	return(TRUE);
+};
+
+static int d4x_prefs_w=0,d4x_prefs_h=0;
+
+static void d4x_prefs_allocate(GtkWidget *widget,GtkAllocation *a,gpointer p){
+//	printf("A:%ix%i\n",a->width,a->height);
+	if (d4x_prefs_w<a->width)
+		d4x_prefs_w=a->width;
+	else
+		a->width=d4x_prefs_w;
+	if (d4x_prefs_h<a->height)
+		d4x_prefs_h=a->height;
+	else
+		a->height=d4x_prefs_h;
+};
+static void d4x_prefs_size_request(GtkWidget *widget,GtkRequisition *a,gpointer p){
+//	printf("R:%ix%i\n",a->width,a->height);
+	if (d4x_prefs_w<a->width)
+		d4x_prefs_w=a->width;
+	else
+		a->width=d4x_prefs_w;
+	if (d4x_prefs_h<a->height)
+		d4x_prefs_h=a->height;
+	else
+		a->height=d4x_prefs_h;
 };
 
 void d4x_prefs_init_pre(){
@@ -1112,35 +1177,34 @@ void d4x_prefs_init_pre(){
 	};
 	var_copy_cfg(&TMPCFG,&CFG);
 	/* create preferences window */
-	d4x_prefs_window=gtk_window_new(GTK_WINDOW_DIALOG);
+	d4x_prefs_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(d4x_prefs_window),
 			       "D4X_Preferences","D4X");
+	gtk_window_set_resizable(GTK_WINDOW(d4x_prefs_window),FALSE);
 	gtk_window_set_position(GTK_WINDOW(d4x_prefs_window),GTK_WIN_POS_NONE);
-	gtk_window_set_policy (GTK_WINDOW(d4x_prefs_window), FALSE,FALSE,FALSE);
 	gtk_window_set_title(GTK_WINDOW(d4x_prefs_window),_("Options"));
-	if (d4x_prefs_first==0 && d4x_prefs_w && d4x_prefs_h){
-		gtk_widget_set_usize(GTK_WIDGET (d4x_prefs_window),
-				     d4x_prefs_w,d4x_prefs_h);
-	};
+	gtk_window_set_default_size(GTK_WINDOW(d4x_prefs_window),500,350);
+	gtk_widget_set_size_request(d4x_prefs_window,550,400);
 
-	gtk_signal_connect(GTK_OBJECT(d4x_prefs_window), "key_press_event",
+	g_signal_connect(G_OBJECT(d4x_prefs_window), "key_press_event",
 			   (GtkSignalFunc)d4x_prefs_esc_handler, NULL);
-	gtk_signal_connect(GTK_OBJECT(d4x_prefs_window),"delete_event",
-			   GTK_SIGNAL_FUNC(d4x_prefs_cancel), NULL);
-	gtk_signal_connect(GTK_OBJECT(d4x_prefs_window), "configure_event",
-	                   GTK_SIGNAL_FUNC(d4x_prefs_window_configure),
-	                   d4x_prefs_window);
-	
+	g_signal_connect(G_OBJECT(d4x_prefs_window),"delete_event",
+			   G_CALLBACK(d4x_prefs_cancel), NULL);
+	g_signal_connect(G_OBJECT(d4x_prefs_window),"size_allocate",
+			   G_CALLBACK(d4x_prefs_allocate), NULL);
+	g_signal_connect(G_OBJECT(d4x_prefs_window),"size_request",
+			   G_CALLBACK(d4x_prefs_size_request), NULL);
+
 	/* first box inside window */
 	GtkWidget *tmphbox=gtk_hbox_new(FALSE,0);
 	GtkWidget *tmpvbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(tmphbox),5);
 	gtk_box_set_spacing(GTK_BOX(tmpvbox),5);
-	gtk_container_border_width(GTK_CONTAINER(d4x_prefs_window),5);
+	gtk_container_set_border_width(GTK_CONTAINER(d4x_prefs_window),5);
 	gtk_container_add(GTK_CONTAINER(d4x_prefs_window),tmpvbox);
 	/* container for tree */
 	GtkWidget *scroll_win=gtk_scrolled_window_new((GtkAdjustment*)NULL,(GtkAdjustment*)NULL);
-	gtk_widget_set_usize(scroll_win,150,-1);
+	gtk_widget_set_size_request(scroll_win,150,-1);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_win),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_box_pack_start (GTK_BOX (tmphbox), scroll_win, FALSE, TRUE, 0);
@@ -1148,132 +1212,79 @@ void d4x_prefs_init_pre(){
 	gtk_widget_show (scroll_win);
 	/* containder for all other */
 	d4x_prefs_frame=gtk_frame_new("test");
-//	gtk_widget_set_usize(d4x_prefs_frame,480,-1);
+//	gtk_widget_set_size_request(d4x_prefs_frame,480,-1);
 	gtk_box_pack_start (GTK_BOX (tmphbox), d4x_prefs_frame, TRUE, TRUE, 0);
-	gtk_container_border_width(GTK_CONTAINER(d4x_prefs_frame),5);
+	gtk_container_set_border_width(GTK_CONTAINER(d4x_prefs_frame),5);
 	/* create tree of options */
-	GtkWidget *root_tree=D4XPWS.root_tree=gtk_tree_new();
-//	gtk_widget_set_usize(root_tree,150,-1);
+	D4XPWS.root_model=gtk_tree_store_new(1,G_TYPE_STRING);
+	GtkWidget *root_tree=D4XPWS.root_tree=gtk_tree_view_new_with_model(GTK_TREE_MODEL(D4XPWS.root_model));
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(D4XPWS.root_tree),FALSE);
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(D4XPWS.root_tree));
+	gtk_tree_selection_set_select_function(sel,d4x_prefs_select_func,NULL,NULL);
+	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
+	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes ("Category",
+									      renderer,
+									      "text",0,
+									      NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (D4XPWS.root_tree), column);
+//	gtk_widget_set_size_request(root_tree,150,-1);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (scroll_win),
 					      root_tree);
 	gtk_widget_show(root_tree);
+
+	GtkTreeIter iter,child_iter;
+	gtk_tree_store_append(D4XPWS.root_model,&iter,NULL);
+	gtk_tree_store_set(D4XPWS.root_model,&iter,0,_("Download"),-1);
+
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("Limits"),-1);
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("FTP"),-1);
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("HTTP"),-1);
+	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_download_proxy),&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_download_proxy),0,_("Proxy"),-1);
 	
-	GtkWidget *tmpitem=gtk_tree_item_new_with_label(_("Download"));
-	gtk_tree_append(GTK_TREE(root_tree), tmpitem);
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_download, NULL);
-	gtk_widget_show(tmpitem);
-	GtkWidget *sub_tree=D4XPWS.tree_download=gtk_tree_new();
-	gtk_tree_item_set_subtree(GTK_TREE_ITEM(tmpitem), sub_tree);
-	gtk_signal_emit_by_name(GTK_OBJECT(tmpitem),"expand",NULL);
-	
-	tmpitem=gtk_tree_item_new_with_label(_("Limits"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_download_limits, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	tmpitem=gtk_tree_item_new_with_label(_("FTP"));
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_download_ftp, NULL);
-	tmpitem=gtk_tree_item_new_with_label(_("HTTP"));
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_download_http, NULL);
-	tmpitem=gtk_tree_item_new_with_label(_("Proxy"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_proxy, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	
-	tmpitem=gtk_tree_item_new_with_label(_("Interface"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_interface, NULL);
-	gtk_tree_append(GTK_TREE(root_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	sub_tree=D4XPWS.tree_interface=gtk_tree_new();
-	gtk_tree_item_set_subtree(GTK_TREE_ITEM(tmpitem), sub_tree);
-	gtk_signal_emit_by_name(GTK_OBJECT(tmpitem),"expand",NULL);
+	gtk_tree_store_append(D4XPWS.root_model,&iter,NULL);
+	gtk_tree_store_set(D4XPWS.root_model,&iter,0,_("Interface"),-1);
 
-	tmpitem=gtk_tree_item_new_with_label(_("Main window"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_mwin, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	tmpitem=gtk_tree_item_new_with_label(_("Confirmation"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_confirm, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	tmpitem=gtk_tree_item_new_with_label(_("Graph"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_graph, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	tmpitem=gtk_tree_item_new_with_label(_("Sounds"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_sounds, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	tmpitem=gtk_tree_item_new_with_label(_("Themes"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_themes, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("Main window"),-1);
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("Confirmation"),-1);
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("Graph"),-1);
+	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_interface_sound),&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_interface_sound),0,_("Sounds"),-1);
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("Themes"),-1);
 
-	tmpitem=gtk_tree_item_new_with_label(_("Integration"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_integration, NULL);
-	gtk_tree_append(GTK_TREE(root_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	sub_tree=D4XPWS.tree_integration=gtk_tree_new();
-	gtk_tree_item_set_subtree(GTK_TREE_ITEM(tmpitem), sub_tree);
-	gtk_signal_emit_by_name(GTK_OBJECT(tmpitem),"expand",NULL);
-/*	
-	tmpitem=gtk_tree_item_new_with_label(_("DnD"));
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-*/
-	tmpitem=gtk_tree_item_new_with_label(_("Clipboard"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_clipboard, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
+	gtk_tree_store_append(D4XPWS.root_model,&iter,NULL);
+	gtk_tree_store_set(D4XPWS.root_model,&iter,0,_("Integration"),-1);
 
-	tmpitem=gtk_tree_item_new_with_label(_("Main"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_main, NULL);
-	gtk_tree_append(GTK_TREE(root_tree), tmpitem);
-	gtk_widget_show(tmpitem);
-	sub_tree=D4XPWS.tree_main=gtk_tree_new();
-	gtk_tree_item_set_subtree(GTK_TREE_ITEM(tmpitem), sub_tree);
-	gtk_signal_emit_by_name(GTK_OBJECT(tmpitem),"expand",NULL);
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("Clipboard"),-1);
 
-	tmpitem=gtk_tree_item_new_with_label(_("Main log"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_main_log, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
+	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_main),NULL);
+	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_main),0,_("Main"),-1);
 
-	tmpitem=gtk_tree_item_new_with_label(_("FTP search"));
-	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
-			   (GtkSignalFunc)d4x_prefs_search, NULL);
-	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
-	gtk_widget_show(tmpitem);
+	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_main_log),&(D4XPWS.iter_main));
+	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_main_log),0,_("Main log"),-1);
+
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&(D4XPWS.iter_main));
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("FTP search"),-1);
 	/* show window */
 
 	GtkWidget *buttons_hbox=gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
-	gtk_button_box_set_spacing(GTK_BUTTON_BOX(buttons_hbox),5);
+	gtk_box_set_spacing(GTK_BOX(buttons_hbox),5);
 	gtk_box_pack_start (GTK_BOX (tmpvbox), buttons_hbox, FALSE, FALSE, 0);
 	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
 	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
 	GtkWidget *apply_button=gtk_button_new_with_label(_("Apply"));
-	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(d4x_prefs_cancel),NULL);
-	gtk_signal_connect(GTK_OBJECT(apply_button),"clicked",GTK_SIGNAL_FUNC(d4x_prefs_apply),NULL);
-	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",GTK_SIGNAL_FUNC(d4x_prefs_ok),NULL);
+	g_signal_connect(G_OBJECT(cancel_button),"clicked",G_CALLBACK(d4x_prefs_cancel),NULL);
+	g_signal_connect(G_OBJECT(apply_button),"clicked",G_CALLBACK(d4x_prefs_apply),NULL);
+	g_signal_connect(G_OBJECT(ok_button),"clicked",G_CALLBACK(d4x_prefs_ok),NULL);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(apply_button,GTK_CAN_DEFAULT);
@@ -1282,23 +1293,22 @@ void d4x_prefs_init_pre(){
 	gtk_box_pack_start(GTK_BOX(buttons_hbox),cancel_button,TRUE,TRUE,0);
 	gtk_window_set_default(GTK_WINDOW(d4x_prefs_window),ok_button);
 	
-	if (d4x_prefs_first)
-		gtk_tree_select_item(GTK_TREE(D4XPWS.tree_download),3);
+	gtk_tree_view_expand_all(GTK_TREE_VIEW (D4XPWS.root_tree));
 	
 
 	gtk_widget_show_all(d4x_prefs_window);
+	gtk_widget_set_size_request(d4x_prefs_window,-1,-1);
 };
 
 void d4x_prefs_init_page(int page){
-	d4x_prefs_page=page;
 	d4x_prefs_init_pre();
-	if (d4x_prefs_first) return;
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(D4XPWS.root_tree));
 	switch (page){
 	case PREFS_PAGE_MAINLOG:
-		gtk_tree_select_item(GTK_TREE(D4XPWS.tree_main),0);
+		gtk_tree_selection_select_iter(sel,&(D4XPWS.iter_main_log));
 		break;
 	case PREFS_PAGE_MAIN:
-		gtk_tree_select_item(GTK_TREE(D4XPWS.root_tree),3);
+		gtk_tree_selection_select_iter(sel,&(D4XPWS.iter_main));
 		break;
 	};
 	gtk_widget_queue_draw(D4XPWS.root_tree);
@@ -1316,7 +1326,7 @@ static void d4x_prefs_get_field(GtkWidget *widget,char **where,tHistory *history
 };
 
 void d4x_prefs_apply_tmp(){
-	char *label=GTK_FRAME(d4x_prefs_frame)->label;
+	char *label=(char *)gtk_frame_get_label(GTK_FRAME(d4x_prefs_frame));
 	if (equal(label,_("Download"))){
 		TMPCFG.DEFAULT_CFG.get_date=GTK_TOGGLE_BUTTON(D4XPWS.get_date_check)->active;
 		TMPCFG.DEFAULT_CFG.retry=GTK_TOGGLE_BUTTON(D4XPWS.retry_check)->active;
@@ -1337,6 +1347,7 @@ void d4x_prefs_apply_tmp(){
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.limits_log)),"%u",&TMPCFG.MAX_LOG_LENGTH);
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.rollback_entry)),"%u",&TMPCFG.DEFAULT_CFG.rollback);
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.speed_entry)),"%u",&TMPCFG.DEFAULT_CFG.speed);
+		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.split_entry)),"%u",&TMPCFG.NUMBER_OF_PARTS);
 		return;
 	};
 	if (equal(label,_("FTP"))){

@@ -22,22 +22,22 @@ class tMLog:public tStringList{
 	protected:
 	int current_line;
 	time_t start;
-	GtkCList *list;
+	GtkTreeView *list;
 	GtkWidget *open_row_item;
 	GtkWidget *clear_item;
 	void add_to_list();
 	int fd;
 	tStringDialog *string;
 	tAddr *last_error;
-	void real_open_row(int row);
+	void real_open_row(GtkTreeIter *iter);
 	public:
 		GtkWidget *popup_menu;
 		tMLog();
-		void open_row(int row);
+		void open_row(GtkTreeIter *iter);
 		void open_selected_row();
 		void print();
 		void reinit(int a);
-		void init_list(GtkCList *clist);
+		void init_list(GtkTreeView *clist);
 		void add(char *str,int len,int type);
 		void add(char *str,int type);
 		void add(char *str);

@@ -1,4 +1,4 @@
-%define version	2.03
+%define version	2.4beta
 %define name	d4x
 %define prefix	/usr
 
@@ -13,7 +13,7 @@ Summary:	FTP/HTTP download manager for X window system
 Source:		%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 Packager:	Anton Voloshin (vav@isv.ru)
-Requires:	gtk+ >= 1.2.10
+Requires:	gtk+ >= 2.0.6
 
 %description
 This program lets you download files from internet/intranet using

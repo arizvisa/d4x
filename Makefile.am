@@ -1,12 +1,12 @@
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.26 2002/08/16 07:04:48 max Exp $
+# $Header: /var/cvs/d4x/Makefile.am,v 1.26.2.1 2002/10/06 11:00:02 max Exp $
 #
 
 ACLOCAL_AMFLAGS = -I admin
 
 SUBDIRS = main po share DOC
 
-EXTRA_DIST = admin/config.rpath  admin/strip.awk nt-gray.png nt-mini.xpm nt-wm.png nt.desktop nt.png \
+EXTRA_DIST = nt-gray.png nt-mini.xpm nt-wm.png nt.desktop nt.png \
 nt.wmconfig nt.xpm PLANS ChangeLog-1.x reconf nt.spec DOC
 
 # Remove all generated and autoinstalled (linked) files (maintainer mode only)

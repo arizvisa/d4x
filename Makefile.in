@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.26 2002/08/16 07:04:48 max Exp $
+# $Header: /var/cvs/d4x/Makefile.am,v 1.26.2.1 2002/10/06 11:00:02 max Exp $
 #
 SHELL = @SHELL@
 
@@ -72,42 +72,33 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 AMTAR = @AMTAR@
 AWK = @AWK@
 BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
+CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CXX = @CXX@
+D4X_CFLAGS = @D4X_CFLAGS@
+D4X_LIBS = @D4X_LIBS@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
 ESD_CFLAGS = @ESD_CFLAGS@
-ESD_CONFIG = @ESD_CONFIG@
 ESD_LIBS = @ESD_LIBS@
-GDK_PIXBUF_CFLAGS = @GDK_PIXBUF_CFLAGS@
-GDK_PIXBUF_CONFIG = @GDK_PIXBUF_CONFIG@
-GDK_PIXBUF_LIBS = @GDK_PIXBUF_LIBS@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
-GLIB_CFLAGS = @GLIB_CFLAGS@
-GLIB_CONFIG = @GLIB_CONFIG@
-GLIB_LIBS = @GLIB_LIBS@
+GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
-GTK_CFLAGS = @GTK_CFLAGS@
-GTK_CONFIG = @GTK_CONFIG@
-GTK_LIBS = @GTK_LIBS@
-HAVE_LIB = @HAVE_LIB@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INSTOBJEXT = @INSTOBJEXT@
 INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
 INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
-LIB = @LIB@
 LIBICONV = @LIBICONV@
-LIBINTL = @LIBINTL@
-LTLIB = @LTLIB@
-LTLIBICONV = @LTLIBICONV@
-LTLIBINTL = @LTLIBINTL@
 MAINT = @MAINT@
 MKINSTALLDIRS = @MKINSTALLDIRS@
+MSGFMT = @MSGFMT@
 PACKAGE = @PACKAGE@
+PKG_CONFIG = @PKG_CONFIG@
+POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
@@ -123,7 +114,7 @@ ACLOCAL_AMFLAGS = -I admin
 
 SUBDIRS = main po share DOC
 
-EXTRA_DIST = admin/config.rpath  admin/strip.awk nt-gray.png nt-mini.xpm nt-wm.png nt.desktop nt.png \
+EXTRA_DIST = nt-gray.png nt-mini.xpm nt-wm.png nt.desktop nt.png \
 nt.wmconfig nt.xpm PLANS ChangeLog-1.x reconf nt.spec DOC
 
 
@@ -146,8 +137,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = README ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL \
-	Makefile.am Makefile.in NEWS TODO aclocal.m4 admin/ChangeLog \
-	admin/acinclude.m4 admin/config.guess admin/config.rpath \
+	Makefile.am Makefile.in NEWS TODO aclocal.m4 admin/config.guess \
 	admin/config.sub admin/depcomp admin/install-sh admin/missing \
 	admin/mkinstalldirs config.h.in configure configure.in \
 	nt.spec.in
@@ -169,7 +159,7 @@ $(top_builddir)/config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in admin/acinclude.m4 admin/codeset.m4 admin/gettext.m4 admin/glibc21.m4 admin/iconv.m4 admin/isc-posix.m4 admin/lcmessage.m4 admin/lib-ld.m4 admin/lib-link.m4 admin/lib-prefix.m4 admin/progtest.m4
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ configure.in 
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
 config.h: stamp-h1

@@ -26,7 +26,7 @@ static GtkWidgetClass *parent_class = (GtkWidgetClass *)NULL;
 
 static void my_gtk_graph_class_init(MyGtkGraphClass *klass);
 //static void my_gtk_graph_destroy(GtkObject *widget);
-static void my_gtk_graph_finalize(GtkObject *widget);
+static void my_gtk_graph_finalize(GObject *widget);
 static void my_gtk_graph_init(MyGtkGraph *graph);
 static void my_gtk_graph_draw(GtkWidget *widget,GdkRectangle *area);
 static void my_gtk_graph_realize (GtkWidget *widget);
@@ -36,37 +36,32 @@ static void my_gtk_graph_size_allocate(GtkWidget *widget,
 static void my_gtk_graph_reinit(MyGtkGraph *graph);
 
 GtkType
-my_gtk_graph_get_type (void)
-{
-  static GtkType graph_type = 0;
-  
-  if (!graph_type)
-    {
-      static const GtkTypeInfo graph_info =
-      {
-	"MyGtkGraph",
-	sizeof (MyGtkGraph),
-	sizeof (MyGtkGraphClass),
-	(GtkClassInitFunc) my_gtk_graph_class_init,
-	(GtkObjectInitFunc) my_gtk_graph_init,
-        /* reserved_1 */ NULL,
-	/* reserved_2 */ NULL,
-	(GtkClassInitFunc) NULL,
-      };
-      
-      graph_type = gtk_type_unique (gtk_widget_get_type (), &graph_info);
-    }
-  
-  return graph_type;
+my_gtk_graph_get_type (void){
+	static GtkType graph_type = 0;
+	
+	if (!graph_type) {
+		static const GTypeInfo graph_info={
+			sizeof (MyGtkGraphClass),
+			NULL,NULL,
+			(GClassInitFunc) my_gtk_graph_class_init,
+			NULL,NULL,
+			sizeof (MyGtkGraph),
+			0,
+			(GInstanceInitFunc)my_gtk_graph_init
+		};
+		graph_type = g_type_register_static (GTK_TYPE_WIDGET,"MyGtkGraph",&graph_info,(GTypeFlags)0);
+	}
+	return graph_type;
 }
 
 static void my_gtk_graph_class_init(MyGtkGraphClass *klass){
 	GtkWidgetClass *widget_class=(GtkWidgetClass *)klass;
 	GtkObjectClass *object_class = (GtkObjectClass*) klass;
+	GObjectClass *gobject_class = G_OBJECT_CLASS(klass);
 	
 //	object_class->destroy = my_gtk_graph_destroy;
-	object_class->finalize = my_gtk_graph_finalize;
-	widget_class->draw = my_gtk_graph_draw;
+	gobject_class->finalize = my_gtk_graph_finalize;
+//	widget_class->draw = my_gtk_graph_draw;
 	widget_class->realize = my_gtk_graph_realize;
 	widget_class->expose_event = my_gtk_graph_expose;
 	widget_class->size_allocate = my_gtk_graph_size_allocate;
@@ -88,7 +83,7 @@ static void my_gtk_graph_destroy(GtkObject *widget){
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (widget);
 };
 */
-static void my_gtk_graph_finalize (GtkObject *object){
+static void my_gtk_graph_finalize (GObject *object){
 	MyGtkGraph *graph;
 
 	g_return_if_fail (object != NULL);
@@ -104,8 +99,8 @@ static void my_gtk_graph_finalize (GtkObject *object){
 	graph->cmap=(GdkRgbCmap *)NULL;
 	graph->rgb_data=(guchar *)NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->finalize)
-		GTK_OBJECT_CLASS (parent_class)->finalize (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
@@ -115,7 +110,7 @@ static void my_gtk_graph_init(MyGtkGraph *graph){
 };
 
 GtkWidget *my_gtk_graph_new(){
-	MyGtkGraph *graph=(MyGtkGraph *)gtk_type_new(my_gtk_graph_get_type());
+	MyGtkGraph *graph=(MyGtkGraph *)g_object_new(my_gtk_graph_get_type(),NULL);
 	my_gtk_graph_cmap_reinit(graph);
 	return GTK_WIDGET(graph);
 };

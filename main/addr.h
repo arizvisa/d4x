@@ -27,6 +27,7 @@ struct tAddr{
 	void make_url(char *where);
 	char *pathfile();
 	char *url();
+	char *url_parsed();
 	char *url_full();
 	void copy_host(tAddr *what);
 	void copy(tAddr *what);

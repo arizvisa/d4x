@@ -27,12 +27,13 @@ class tFacePass{
 protected:
 	int do_not_run;
 	GtkWidget *window;
-	GtkWidget *clist;
+	GtkTreeView *view;
+	GtkListStore *list_store;
 	GtkWidget *button;
 	GtkWidget *add_button;
 	GtkWidget *del_button;
 	tDList dlist,addlist;
-	void del_row(int row);
+	void del_row(GtkTreeIter *inter);
 	void show_url(tLimitDownload *dwn);
 	void calc_matched_run(tLimitDownload *dwn);
 	void calc_matched_run_rec(tQueue *q,tLimitDownload *dwn,regex_t *reg);
@@ -42,7 +43,7 @@ protected:
 public:
 	tFacePass();
 	void init();
-	void edit_row(int row);
+	void edit_row(GtkTreeIter *iter);
 	void apply_dialog();
 	void addlist_del(tDownload *dwn);
 	void addlist_add(tLimitDownload *dwn);

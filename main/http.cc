@@ -191,7 +191,7 @@ int tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 				LOG->log(LOG_ERROR,_("Wrong chunk size!"));
 				return(0);
 			};
-			LOG->log_printf(LOG_OK,_("Chunk size %lli"),llen);
+			LOG->log_printf(LOG_OK,_("Chunk size %ll"),llen);
 			if (!llen){
 				LOG->log(LOG_OK,_("It's last chunk!"));
 				/*skip for last string*/
@@ -225,6 +225,10 @@ int tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 					LOG->log(LOG_OK,_("Requested size was loaded"));
 					break;
 				};
+			};
+			if (LOG->is_overlaped()){
+				LOG->log(LOG_OK,_("Segment was loaded! Complete this thread."));
+				return DSize;
 			};
 		} while (complete!=0);
 		if (CHUNKED) tClient::read_data(2);

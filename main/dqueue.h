@@ -22,6 +22,8 @@ public:
 	int MAX_ACTIVE,TIME_FORMAT,NICE_DEC_DIGITALS;
 	int AUTODEL_COMPLETED,AUTODEL_FAILED;
 	int IamDefault;
+	int inserted;
+	GtkTreeIter tree_iter;
 	tQueue child;
 	d4xDownloadQueue *parent;
 	d4xQueueView qv;

@@ -54,6 +54,7 @@ struct tMainCfg{
 	char *ANONYMOUS_PASS;
 	char *DEFAULT_FILTER;
 	int ALLOW_FORCE_RUN;
+	int NUMBER_OF_PARTS;
 /* Log
  */
 	int MAX_MAIN_LOG_LENGTH;
@@ -220,6 +221,7 @@ extern char *VERSION_NAME;
 extern char *DEFAULT_PASS;
 extern char *DEFAULT_USER;
 extern char *HOME_PAGE;
+extern char *LOCALE_CODEPAGE;
 
 
 extern char *DEFAULT_PROTO;

@@ -23,19 +23,34 @@
 
 extern tMain aa;
 
+static void _open_alternates_(GtkTreeModel *model,GtkTreePath *path,
+			      GtkTreeIter *iter,gpointer data){
+	GValue val={0,};
+	gtk_tree_model_get_value(model,iter,NOTHING_COL,&val);
+	tDownload *tmp=(tDownload *)g_value_peek_pointer(&val);
+	g_value_unset(&val);
+	if (tmp->ALTS==NULL)
+		tmp->ALTS=new d4xAltList;
+	tmp->ALTS->init_edit(tmp);
+};
+
 void lmenu_alternates(){
-	tDownload *tmp=D4X_QUEUE->qv.last_selected();
-	if (tmp){
-		if (tmp->ALTS==NULL)
-			tmp->ALTS=new d4xAltList;
-		tmp->ALTS->init_edit(tmp);
-	};
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(D4X_QUEUE->qv.ListOfDownloads));
+	gtk_tree_selection_selected_foreach(sel,_open_alternates_,NULL);
+};
+
+static void _ftp_search_(GtkTreeModel *model,GtkTreePath *path,
+			 GtkTreeIter *iter,gpointer data){
+	GValue val={0,};
+	gtk_tree_model_get_value(model,iter,NOTHING_COL,&val);
+	tDownload *tmp=(tDownload *)g_value_peek_pointer(&val);
+	g_value_unset(&val);
+	aa.ftp_search(tmp);
 };
 
 void lmenu_ftp_search_go(){
-	tDownload *tmp=D4X_QUEUE->qv.last_selected();
-	if (tmp)
-		aa.ftp_search(tmp);
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(D4X_QUEUE->qv.ListOfDownloads));
+	gtk_tree_selection_selected_foreach(sel,_ftp_search_,NULL);
 };
 
 extern tMLog *MainLog;
@@ -44,7 +59,7 @@ GtkWidget *ListMenu;
 GtkWidget *ListMenuArray[LM_LAST];
 
 void copy_download_to_clipboard(){
-	tDownload *dwn=D4X_QUEUE->qv.last_selected();
+	tDownload *dwn=D4X_QUEUE->qv.last_selected;
 	if (dwn->info){
 		char *url=dwn->info->url();
 		d4x_mw_clipboard_set(url);
@@ -53,20 +68,17 @@ void copy_download_to_clipboard(){
 	};
 };
 
-GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,int size) {
-	GtkWidget *menu_item=gtk_menu_item_new();
+GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,GtkSizeGroup *sgroup) {
+	GtkWidget *menu_item=gtk_image_menu_item_new();
 	GtkWidget *hbox=gtk_hbox_new(FALSE,3);
 	GtkWidget *label = gtk_label_new(name);
-	gtk_widget_set_usize(label,size,-1);
+	gtk_size_group_add_widget(sgroup,label);
 	GtkWidget *pix;
 	gtk_misc_set_alignment(GTK_MISC(label),0,0.5);
-	if (pixmap && bitmap)
-		pix=gtk_pixmap_new(pixmap,bitmap);
-	else {
-		pix=gtk_hbox_new(FALSE,0);
-		gtk_widget_set_usize(pix,10,-1);
+	if (pixmap && bitmap){
+		pix=gtk_image_new_from_pixmap(pixmap,bitmap);
+		gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item),pix);
 	};
-	gtk_box_pack_start(GTK_BOX(hbox),pix,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
 	if (accel) {
 		GtkWidget *accel_label=gtk_label_new(accel);
@@ -76,7 +88,6 @@ GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bi
 		gtk_label_set_justify(GTK_LABEL(accel_label),GTK_JUSTIFY_RIGHT);
 	};
 	gtk_container_add(GTK_CONTAINER(menu_item),hbox);
-	gtk_widget_show(pix);
 	gtk_widget_show(label);
 	gtk_widget_show(hbox);
 	gtk_widget_show(menu_item);
@@ -112,134 +123,112 @@ void init_list_menu() {
 	GdkPixmap *pixmap;
 	GdkBitmap *bitmap;
 	GtkWidget *menu_item;
-	int MAX_STR_LENGTH=0;
-	GtkStyle *style =  gtk_widget_get_default_style();
-	char *names[]={"View log",
-		       "Stop",
-		       "Continue downloads",
-		       "Copy",
-		       "(Un)Protect",
-		       "Properties",
-		       "Common properties",
-		       "Delete downloads",
-		       "Delete completed",
-		       "Delete failed",
-		       "Move up",
-		       "Move down",
-		       "Set limitation",
-		       "Alternates",
-		       "FTP search"
-	};
-	for(unsigned int i=0;i<sizeof(names)/sizeof(char *);i++){
-		int size=gdk_string_width(style->font,_(names[i]));
-		if (size>MAX_STR_LENGTH)
-			MAX_STR_LENGTH=size;
-	};
-	MAX_STR_LENGTH+=10;
-		
 	ListMenu=gtk_menu_new();
-	menu_item=make_menu_item(_("Properties"),"Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+
+	GtkSizeGroup *sgroup=gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
+	
+	menu_item=make_menu_item(_("Properties"),"Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_EDIT]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(open_edit_for_selected),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(open_edit_for_selected),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,logmini_xpm);
-	menu_item=make_menu_item(_("View log"),(char *)NULL,pixmap,bitmap,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("View log"),(char *)NULL,pixmap,bitmap,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_LOG]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lmenu_open_logs),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lmenu_open_logs),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,stopmini_xpm);
-	menu_item=make_menu_item(_("Stop"),"Alt+S",pixmap,bitmap,MAX_STR_LENGTH);
-	gtk_widget_set_usize(menu_item,130,-1);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Stop"),"Alt+S",pixmap,bitmap,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_STOP]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(stop_downloads),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(stop_downloads),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
-	menu_item=make_menu_item(_("Continue downloads"),(char *)NULL,pixmap,bitmap,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Continue downloads"),(char *)NULL,pixmap,bitmap,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_CONTINUE]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(continue_downloads),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(continue_downloads),NULL);
 
 //	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
-	menu_item=make_menu_item(_("Copy"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Copy"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_COPY]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(copy_download_to_clipboard),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(copy_download_to_clipboard),NULL);
 
-	menu_item=make_menu_item(_("(Un)Protect"),"Ctrl+Alt+P",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("(Un)Protect"),"Ctrl+Alt+P",(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_PROTECT]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lm_inv_protect_flag),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lm_inv_protect_flag),NULL);
 	
 	menu_item=gtk_menu_item_new();
 	gtk_widget_set_sensitive(menu_item,FALSE);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 
-	menu_item=make_menu_item(_("Common properties"),"Ctrl+Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Common properties"),"Ctrl+Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_EDIT_COMMON]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(select_options_window_init),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(select_options_window_init),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,delmini_xpm);
-	menu_item=make_menu_item(_("Delete downloads"),"Alt+C",pixmap,bitmap,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Delete downloads"),"Alt+C",pixmap,bitmap,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_DEL]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_download),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(ask_delete_download),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,delcommini_xpm);
-	menu_item=make_menu_item(_("Delete completed"),(char *)NULL,pixmap,bitmap,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Delete completed"),(char *)NULL,pixmap,bitmap,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_DELC]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_completed_downloads),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(ask_delete_completed_downloads),NULL);
 
 
-	menu_item=make_menu_item(_("Delete failed"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Delete failed"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_DELF]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_fataled_downloads),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(ask_delete_fataled_downloads),NULL);
 
 	menu_item=gtk_menu_item_new();
 	gtk_widget_set_sensitive(menu_item,FALSE);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,upmini_xpm);
-	menu_item=make_menu_item(_("Move up"),"Shift+Up",pixmap,bitmap,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Move up"),"Shift+Up",pixmap,bitmap,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEUP]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lmenu_move_up),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lmenu_move_up),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,downmini_xpm);
-	menu_item=make_menu_item(_("Move down"),"Shift+Down",pixmap,bitmap,MAX_STR_LENGTH);
-	gtk_widget_set_usize(menu_item,200,-1);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Move down"),"Shift+Down",pixmap,bitmap,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEDOWN]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lmenu_move_down),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lmenu_move_down),NULL);
 
-	menu_item=make_menu_item(_("Alternates"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("Alternates"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_ALT]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lmenu_alternates),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lmenu_alternates),NULL);
 	
-	menu_item=make_menu_item(_("FTP search"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	menu_item=make_menu_item(_("FTP search"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 	ListMenuArray[LM_SEARCH]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lmenu_ftp_search_go),NULL);
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lmenu_ftp_search_go),NULL);
 	
 	GtkAccelGroup *accel_group = gtk_accel_group_new();
+/* FIXME: GTK2
 	gtk_accel_group_add(accel_group,GDK_E,
 			    GdkModifierType(GDK_CONTROL_MASK|GDK_MOD1_MASK),
 			    GtkAccelFlags(0),
 			    GTK_OBJECT(ListMenuArray[LM_EDIT_COMMON]),
 			    "activate");
-	gtk_accel_group_attach(accel_group,GTK_OBJECT(MainWindow));
+*/
+	_gtk_accel_group_attach(accel_group,G_OBJECT(MainWindow));
 
 	gtk_widget_show_all(ListMenu);
 };
 
 void list_menu_prepare() {
-	tDownload *dwn=D4X_QUEUE->qv.last_selected();
+	tDownload *dwn=D4X_QUEUE->qv.last_selected;
 	if (dwn==NULL) {
 		for (int i=0;i<=LM_DELF;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],FALSE);
@@ -256,8 +245,6 @@ void list_menu_prepare() {
 			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],FALSE);
 			gtk_widget_set_sensitive(ListMenuArray[LM_ALT],FALSE);
 		};
-		GList *tmp=GTK_CLIST(D4X_QUEUE->qv.ListOfDownloads)->selection;
-		if (tmp->next==NULL)
-			gtk_widget_set_sensitive(ListMenuArray[LM_EDIT_COMMON],FALSE);
+//		gtk_widget_set_sensitive(ListMenuArray[LM_EDIT_COMMON],FALSE);
 	};
 };

@@ -30,7 +30,7 @@ extern GtkWidget *MainWindow;
 extern GdkGC *MainWindowGC;
 extern GtkWidget *ContainerForCList;
 extern gint StatusBarContext;
-extern GtkCList *FSearchCList;
+extern GtkTreeView *FSearchView;
 extern d4xQsTree *D4X_QVT;
 
 void main_menu_speed_prepare();

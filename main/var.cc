@@ -26,7 +26,7 @@ tMainCfg CFG={
 	{300,5,0,100,0,1,0,0,
 	 0,0,0,0,0,1,1,1,0,0,0,0,1,0,0,
 	 0,0},
-	100,NULL,NULL,NULL,NULL,NULL,NULL,0,
+	100,NULL,NULL,NULL,NULL,NULL,NULL,0,0,
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,600,0,0, //flags
@@ -86,10 +86,11 @@ void var_check_all_limits(){
 	var_check_limits_long(0,99999,&CFG.MAIN_LOG_FILE_LIMIT);
 	var_check_limits_int(1,100,&CFG.SEARCH_PING_TIMES);
 	var_check_limits_int(1,30,&CFG.SEARCH_ENTRIES);
+	var_check_limits_int(0,10,&CFG.NUMBER_OF_PARTS);
 };
 
-const char *CFG_FILE=".ntrc/config";
-const char *CFG_DIR=".ntrc";
+const char *CFG_FILE=".ntrc_2/config";
+const char *CFG_DIR=".ntrc_2";
 
 char *SPEED_LIMITATIONS_NAMES[]={
 	"",
@@ -200,6 +201,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->DONOTSET_WINPOS=src->DONOTSET_WINPOS;
 	dst->USE_THEME=src->USE_THEME;
 	dst->USE_DEFAULT_CFG=src->USE_DEFAULT_CFG;
+	dst->NUMBER_OF_PARTS=src->NUMBER_OF_PARTS;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);

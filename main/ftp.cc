@@ -447,6 +447,7 @@ int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 			llen -=FillSize;
 			if (llen==0){
 				LOG->log(LOG_OK,_("Requested size was loaded"));
+				send_command("ABOR",NULL);
 				DataSocket->flush(); /*read data in socket
 						      to avoid "brocken pipe"
 						      on linux;*/
@@ -455,6 +456,13 @@ int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 				Status=0;
 				return DSize;
 			};
+		};
+		if (LOG->is_overlaped()){
+			LOG->log(LOG_OK,_("Segment was loaded! Complete this thread."));
+			send_command("ABOR",NULL);
+			DataSocket->down();
+			Status=0;
+			return DSize;
 		};
 	} while (complete!=0);
 	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team

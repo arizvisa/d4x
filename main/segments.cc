@@ -167,9 +167,16 @@ int tSegmentator::join(tSegment *what){
 	return(!changed);
 };
 
-void tSegmentator::insert(unsigned long int begin, unsigned long int end){
-	DBC_RETURN_IF_FAIL(begin<end);
+/* tSegmentator::insert
+   return values:
+      zero - if inserted zone does not overlap any exist zone
+      non zero - if it overlaps :-)
+ */
+
+int tSegmentator::insert(unsigned long int begin, unsigned long int end){
+	DBC_RETVAL_IF_FAIL(begin<end,0);
 	lock();
+	int overlap_flag=0;
 	total+=end-begin;
 	tSegment *tmp=FIRST,*prev=NULL;
 	if (tmp){
@@ -179,10 +186,12 @@ void tSegmentator::insert(unsigned long int begin, unsigned long int end){
 				tSegment *a=seg_alloc();
 				a->begin=begin;
 				a->end=end;
-				a->next=tmp;
+				if ((a->next=tmp) && tmp->begin<a->end)
+					overlap_flag=1;
 				if ((a->prev=tmp->prev)){
 					tmp->prev->next=a;
 					a->offset_in_file=tmp->offset_in_file;
+					if (a->prev->end>begin) overlap_flag=1;
 				}else{
 					a->offset_in_file=0;
 					FIRST=a;
@@ -191,11 +200,12 @@ void tSegmentator::insert(unsigned long int begin, unsigned long int end){
 				if (join(a))
 					save_from(a);
 				unlock();
-				return;
+				return(overlap_flag);
 			};
 			prev=tmp;
 			tmp=tmp->next;
 		};
+		if (prev->end>begin) overlap_flag=1;
 		/* adding to the end */
 		tmp=seg_alloc();
 		tmp->prev=prev;
@@ -217,6 +227,7 @@ void tSegmentator::insert(unsigned long int begin, unsigned long int end){
 		save();
 	};
 	unlock();
+	return(overlap_flag);
 };
 
 tSegment *tSegmentator::get_first(){

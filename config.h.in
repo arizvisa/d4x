@@ -44,8 +44,7 @@
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #undef HAVE_ARPA_INET_H
 
-/* Define if the GNU dcgettext() function is already present or preinstalled.
-   */
+/* Define to 1 if you have the `dcgettext' function. */
 #undef HAVE_DCGETTEXT
 
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
@@ -54,9 +53,6 @@
 
 /* Define to 1 if you have the <errno.h> header file. */
 #undef HAVE_ERRNO_H
-
-/* Define if have libesd */
-#undef HAVE_ESD
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
@@ -81,9 +77,6 @@
 
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD
-
-/* Define to 1 if you have the `getc_unlocked' function. */
-#undef HAVE_GETC_UNLOCKED
 
 /* Define to 1 if you have the `getegid' function. */
 #undef HAVE_GETEGID
@@ -217,6 +210,9 @@
 
 /* Define to 1 if you have the `strcasecmp' function. */
 #undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strchr' function. */
+#undef HAVE_STRCHR
 
 /* Define to 1 if you have the `strdup' function. */
 #undef HAVE_STRDUP

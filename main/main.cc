@@ -156,7 +156,7 @@ void create_new_queue(char *name,d4xDownloadQueue *papa){
 		q->qv.init();
 		q->init_pixmaps();
 		D4X_QVT->add(q,papa);
-		if (!D4X_QUEUE) D4X_QVT->switch_to(q);
+		if (!D4X_QUEUE) D4X_QVT->switch_remote(q);
 	}else{
 		if (!D4X_QUEUE) D4X_QUEUE=q;
 	};
@@ -169,7 +169,7 @@ void tMain::init_qtree(tQueue *list,d4xDownloadQueue *papa){
 		if (CFG.WITHOUT_FACE==0){
 			D4X_QVT->add(q,papa);
 			if (q->IamDefault)
-				D4X_QVT->switch_to(q);
+				D4X_QVT->switch_remote(q);
 		}else{
 			if (q->IamDefault)
 				D4X_QUEUE=q;
@@ -191,7 +191,7 @@ void tMain::load_defaults() {
 			if (CFG.WITHOUT_FACE){
 				D4X_QUEUE=q;
 			}else{
-				D4X_QVT->switch_to(q);
+				D4X_QVT->switch_remote(q);
 			};
 		};
 	}else{
@@ -206,7 +206,7 @@ void tMain::init_main_log() {
 	MainLog=new tMLog;
 	MainLog->init(CFG.MAX_MAIN_LOG_LENGTH);
 	if (CFG.WITHOUT_FACE==0)
-		MainLog->init_list(GTK_CLIST(MainLogList));
+		MainLog->init_list(GTK_TREE_VIEW(MainLogList));
 	MainLog->reinit_file();
 	MainLog->add("----------------------------------------",LOG_FROM_SERVER);
 };
@@ -324,13 +324,13 @@ int tMain::run_new_thread(tDownload *what) {
 	what->config->redirect_count=0;
 	what->Size.old=what->Size.curent; // no need update size
 
-	what->SpeedLimit=new tSpeed;
-	what->StartSize=0;
+	if (what->SpeedLimit==NULL) what->SpeedLimit=new tSpeed;
 /* set speed limitation */
 	if (what->split && what->split->NumOfParts){
 		what->SpeedLimit->base = what->config->speed/what->split->NumOfParts;
-	}else
+	}else{
 		what->SpeedLimit->base = what->config->speed;
+	};
 	if (CFG.SPEED_LIMIT<3 && CFG.SPEED_LIMIT>0){
 		what->SpeedLimit->set((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2)/50+1);
 	};
@@ -459,14 +459,15 @@ int tMain::try_to_run_download(tDownload *what){
 	time(&NOW);
 	d4xDownloadQueue *papa=what->myowner->PAPA;
 	if (papa->count(DL_RUN)<50) {
+		what->SpeedCalc.reset();
+		what->Start=what->Pause=time(NULL);
 		if (what->config==NULL){
 			what->config=new tCfg;
 			what->set_default_cfg();
 		};
 		// to avoid old info in columns
 		if (CFG.WITHOUT_FACE==0)
-			DQV(what).change_data(DQV(what).get_row(what),
-					      PAUSE_COL,"");
+			DQV(what).change_data(what->list_iter,PAUSE_COL,"");
 		if (what->split){
 			what->finfo.size=-1;
 			what->split->FirstByte=0;
@@ -475,7 +476,7 @@ int tMain::try_to_run_download(tDownload *what){
 			what->config->rollback=0;
 			what->config->ftp_recurse_depth = 1;
 			what->split->grandparent=what;
-			//what->config->http_recurse_depth = 1;
+//			what->config->http_recurse_depth = 1;
 		};
 		if (run_new_thread(what)) return -1;
 		if (what->split){
@@ -493,11 +494,11 @@ void tMain::insert_into_wait_list(tDownload *what,
 		dq->add(what);
 	}else{
 		tDownload *temp=dq->last(DL_WAIT);
-		if (!temp || dq->qv.get_row(temp) < dq->qv.get_row(what))
+		if (!temp || dq->qv.get_row_num(temp) < dq->qv.get_row_num(what))
 			dq->add(what);
 		else {
 			temp=dq->first(DL_WAIT);
-			while (temp && dq->qv.get_row(temp) < dq->qv.get_row(what))
+			while (temp && dq->qv.get_row_num(temp) < dq->qv.get_row_num(what))
 				temp=(tDownload*)(temp->prev);
 			dq->insert_before(what,temp);
 		};
@@ -573,10 +574,7 @@ void tMain::speed_calculation(tDownload *what){
 		if (what->who) what->Size.set(what->get_loaded());
 		what->Remain.set(REAL_SIZE-what->Size.curent);
 		if (what->Difference!=0 && what->who) {
-			float tmp=float(what->Size.curent-what->start_size());
-			if (tmp>0) {
-				what->Speed.set(int(tmp/what->Difference));
-			};
+			what->Speed.set(what->SpeedCalc.speed());
 		};
 	};
 	};
@@ -605,19 +603,18 @@ void tMain::print_info(tDownload *what) {
 //			DQV(what).set_run_icon(what);
 		};
 	};
-	gint row=DQV(what).get_row(what);
 	switch(what->finfo.type) {
 	case T_FILE:{
 		if (what->finfo.type!=what->finfo.oldtype)
-			DQV(what).change_data(row,FILE_TYPE_COL,_("file"));
+			DQV(what).change_data(what->list_iter,FILE_TYPE_COL,_("file"));
 		fsize_t REAL_SIZE=what->filesize();
 		make_number_nice(data,REAL_SIZE,PAPA->NICE_DEC_DIGITALS);
-		DQV(what).change_data(row,FULL_SIZE_COL,data);
+		DQV(what).change_data(what->list_iter,FULL_SIZE_COL,data);
 		what->Size.set(what->get_loaded());
 		what->Remain.set(REAL_SIZE-what->Size.curent);
 		if (what->Remain.change() && what->Remain.curent>=0){
 			make_number_nice(data,what->Remain.curent,PAPA->NICE_DEC_DIGITALS);
-			DQV(what).change_data(row,REMAIN_SIZE_COL,data);
+			DQV(what).change_data(what->list_iter,REMAIN_SIZE_COL,data);
 		};
 		time_t NOWTMP;
 		time(&NOWTMP);
@@ -631,22 +628,21 @@ void tMain::print_info(tDownload *what) {
 				what->Start-=difdif;
 			convert_time(newdiff,data,PAPA->TIME_FORMAT);
 			what->Difference=NOWTMP-what->Start;
-			DQV(what).change_data(row,TIME_COL,data);
+			DQV(what).change_data(what->list_iter,TIME_COL,data);
 		};
 		if (what->Size.change()) {
 			make_number_nice(data,what->Size.curent,PAPA->NICE_DEC_DIGITALS);
-			DQV(what).change_data(row,DOWNLOADED_SIZE_COL,data);
+			DQV(what).change_data(what->list_iter,DOWNLOADED_SIZE_COL,data);
 			time_t Pause=NOWTMP;
 			if (Pause - what->Pause > 4)
-				DQV(what).change_data(row,PAUSE_COL,"");
+				DQV(what).change_data(what->list_iter,PAUSE_COL,"");
 			what->Pause = Pause;
-			if (what->Size.old<=0 && what->who) what->Size.old=what->start_size();
 		} else {
 			if (what->status==DOWNLOAD_GO) {
 				int Pause=NOWTMP-what->Pause;
 				if (Pause>=30) {
 					convert_time(Pause,data,PAPA->TIME_FORMAT);
-					DQV(what).change_data(row,PAUSE_COL,data);
+					DQV(what).change_data(what->list_iter,PAUSE_COL,data);
 				};
 			};
 		};
@@ -656,81 +652,64 @@ void tMain::print_info(tDownload *what) {
 /* setting new title of log*/
 		if (CFG.USE_MAINWIN_TITLE){
 			char title[MAX_LEN];
-			sprintf(title,"%2.0f%% %lli/%lli %s",what->Percent,what->Size.curent,REAL_SIZE,what->info->file.get());
+			char *rfile=unparse_percents(what->info->file.get());
+			sprintf(title,"%2.0f%% %lli/%lli %s",what->Percent,what->Size.curent,REAL_SIZE,rfile);
+			delete[] rfile;
 			log_window_set_title(what,title);
 			log_window_set_split_info(what);
 		};
 		DQV(what).set_run_icon(what);
 
 		if (what->Size.change()) {
-			DQV(what).set_percent(row,
-					      PERCENT_COL,
-					      what->Percent);
+			DQV(what).set_percent(what->list_iter,what->Percent);
 		};
 		what->Size.reset();
 	/*	Speed calculation
 	 */
-		if (what->Difference!=0 && what->who && what->start_size()>=0) {
-			float tmp=float(what->Size.curent-what->start_size());
-			if (tmp>0) {
-				what->Speed.set(int(tmp/what->Difference));
-				if (what->Speed.change()) {
-					sprintf(data,"%lli",what->Speed.curent);
-					DQV(what).change_data(row,SPEED_COL,data);
-					what->Speed.reset();
-				};
+		if (what->Difference!=0 && what->who) {
+			what->Speed.set(what->SpeedCalc.speed());
+			if (what->Speed.change()){
+				sprintf(data,"%lli",what->Speed.curent);
+				DQV(what).change_data(what->list_iter,SPEED_COL,data);
+				what->Speed.reset();
 			};
-			/*	Remaining time calculation
-				RT=AP+AV*RS
-				where AP - Aproximate Pause
-				AV - Aproximate Speed
-				AP=P>30?TO:0;
-				where P - time of pause, TO=timeout
-				
-				AV=((V-LV)*DS)/FS+LV
-				V  - current speed
-				DS - downloaded size
-				FS - full size
-				LV=(V+MV)/2
-				MV - speed for last tic
-			 */
-			if (what->finfo.size>0){
-				tmp=(float(REAL_SIZE-what->Size.curent)*float(what->Difference))/tmp;
+			if (what->finfo.size>0 && what->Speed.curent>0){
+				int tmp=(REAL_SIZE-what->Size.curent)/what->Speed.curent;
 				if (tmp>=0 && tmp<24*3660) {
 					convert_time(int(tmp),data,PAPA->TIME_FORMAT);
-					DQV(what).change_data(row,ELAPSED_TIME_COL,data);
+					DQV(what).change_data(what->list_iter,ELAPSED_TIME_COL,data);
 				} else
-					DQV(what).change_data(row,ELAPSED_TIME_COL,"...");
+					DQV(what).change_data(what->list_iter,ELAPSED_TIME_COL,"...");
 			} else
-				DQV(what).change_data(row,ELAPSED_TIME_COL,"...");
+				DQV(what).change_data(what->list_iter,ELAPSED_TIME_COL,"...");
 		};
 		break;
 	};
 	case T_DIR:{
 		if (what->finfo.type!=what->finfo.oldtype)
-			DQV(what).change_data(row,FILE_TYPE_COL,_("dir"));
+			DQV(what).change_data(what->list_iter,FILE_TYPE_COL,_("dir"));
 		break;
 	};
 	case T_LINK:{
 		if (what->finfo.type!=what->finfo.oldtype)
-			DQV(what).change_data(row,FILE_TYPE_COL,_("link"));
+			DQV(what).change_data(what->list_iter,FILE_TYPE_COL,_("link"));
 		break;
 	};
 	case T_DEVICE:{
 		if (what->finfo.type!=what->finfo.oldtype)
-			DQV(what).change_data(row,FILE_TYPE_COL,_("device"));
+			DQV(what).change_data(what->list_iter,FILE_TYPE_COL,_("device"));
 		break;
 	};
 	default:
 		if (what->finfo.type!=what->finfo.oldtype)
-			DQV(what).change_data(row,FILE_TYPE_COL,"???");
+			DQV(what).change_data(what->list_iter,FILE_TYPE_COL,"???");
 	};
 	if (what->finfo.type==T_DIR || what->finfo.type==T_NONE){
 		if (what->who) what->Size.set(what->who->get_readed());
 		if (what->Size.change()) {
 			char data[MAX_LEN];
 			make_number_nice(data,what->Size.curent,PAPA->NICE_DEC_DIGITALS);
-			DQV(what).change_data(row,DOWNLOADED_SIZE_COL,data);
+			DQV(what).change_data(what->list_iter,DOWNLOADED_SIZE_COL,data);
 			what->Size.reset();
 		};				
 	};
@@ -740,7 +719,7 @@ void tMain::print_info(tDownload *what) {
 			sprintf(data,"%lli/%i",what->Attempt.curent, what->config->number_of_attempts);
 		else
 			sprintf(data,"%lli",what->Attempt.curent);
-		DQV(what).change_data(row,TREAT_COL,data);
+		DQV(what).change_data(what->list_iter,TREAT_COL,data);
 	};
 	what->finfo.oldtype=what->finfo.type;
 };
@@ -796,13 +775,13 @@ void tMain::redirect(tDownload *what,d4xDownloadQueue *dq) {
 		what->finfo.type=what->status=0;
 		what->finfo.size=-1;
 		if (CFG.WITHOUT_FACE==0){
-			char *URL=what->info->url();
-			gint row=dq->qv.get_row(what);
-			dq->qv.change_data(row,URL_COL,URL);
+			char *URL=what->info->url_parsed();
+			dq->qv.change_data(what->list_iter,URL_COL,URL);
 			delete [] URL;
-			dq->qv.change_data(row,FILE_COL,what->info->file.get());
-			for (int i=FILE_TYPE_COL;i<URL_COL;i++)
-				DQV(what).change_data(row,i,"");
+			dq->qv.set_filename(what);
+			for (int i=FILE_TYPE_COL;i<PERCENT_COL;i++)
+				if (i!=PERCENT_COL)
+					DQV(what).change_data(what->list_iter,i,"");
 		};
 	}else{
 		MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to nowhere!"),what);
@@ -830,8 +809,7 @@ void tMain::post_stopping(tDownload *what){
 	FaceForPasswords->stop_matched(what);
 };
 
-void tMain::prepare_for_stoping(tDownload *what) {
-	DBC_RETURN_IF_FAIL(what!=NULL);
+void tMain::prepare_for_stoping_pre(tDownload *what){
 	MainLog->myprintf(LOG_OK|LOG_DETAILED,_("Prepare thread %i of [%z] for stoping"),what->split?what->split->thread_num:1,what);
 	if (what->SpeedLimit) SpeedScheduler->del(what->SpeedLimit);
 	delete (what->SpeedLimit);
@@ -840,6 +818,11 @@ void tMain::prepare_for_stoping(tDownload *what) {
 		delete(what->WL);
 		what->WL=NULL;
 	};
+};
+
+void tMain::prepare_for_stoping(tDownload *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
+	prepare_for_stoping_pre(what);
 	if (what->split){
 		what->split->grandparent->split->stopcount+=1;
 		FaceForPasswords->limit_dec(what->split->grandparent);
@@ -1004,6 +987,17 @@ void tMain::check_split(tDownload *dwn){
 		return;
 	};
 	if (grandparent->split->prepared){
+		// we need to check overlaping event here for splited downloads
+		// just find best part to download, and go! :-)
+		if (dwn->WL->is_overlaped() || dwn->status==DOWNLOAD_COMPLETE){
+			if (dwn->find_best_split()){
+				real_stop_thread(dwn);
+				prepare_for_stoping_pre(dwn);
+				dwn->split->cond->inc();
+				run_new_thread(dwn);
+				return;
+			};
+		};
 		prepare_for_stoping(dwn);
 		try_to_run_split(grandparent);
 		if (dwn!=grandparent) real_stop_thread(dwn);
@@ -1086,13 +1080,21 @@ void tMain::main_circle_nano2(){
 		D4X_UPDATE.del(dwn);
 		if (dwn->split)
 			gp=dwn->split->grandparent;
+//		printf("%p %p\n",dwn,gp);
 		switch(gp->owner()){
 		case DL_RUN:
 			if (dwn->split){
 				check_split(dwn);
 				break;
-			}else
+			}else{
+				if (dwn->WL->is_overlaped() && dwn->status==DOWNLOAD_COMPLETE){
+					real_stop_thread(dwn);
+					prepare_for_stoping_pre(dwn);
+					run_new_thread(dwn);
+					break;
+				};
 				prepare_for_stoping(gp);
+			};
 			main_circle_second(gp);
 			break;
 		case DL_STOPWAIT:
@@ -1263,7 +1265,7 @@ void tMain::check_for_remote_commands(){
 				d4xDownloadQueue *q=d4x_get_queue_num(num);
 				if (q){
 					if (CFG.WITHOUT_FACE==0){
-						D4X_QVT->switch_to(q);
+						D4X_QVT->switch_remote(q);
 					}else{
 						MainLog->myprintf(LOG_FROM_SERVER,_("Default queue is '%s' now."),q->name.get());
 						D4X_QUEUE=q;
@@ -1291,6 +1293,10 @@ void tMain::ftp_search(tDownload *what,int type){
 		tmp->info->copy(what->info);
 		tmp->finfo.size=what->finfo.size;
 		tmp->info->proto=D_PROTO_SEARCH;
+		if (tmp->split){
+			delete(tmp->split);
+			tmp->split=NULL;
+		};
 		ftpsearch->add(tmp);
 	};
 };
@@ -1342,7 +1348,7 @@ int tMain::add_downloading(tDownload *what,int to_top) {
 	else		
 		D4X_QUEUE->add(what);
 	if (to_top)
-		D4X_QUEUE->qv.add(what,0);
+		D4X_QUEUE->qv.add_first(what);
 	else
 		D4X_QUEUE->qv.add(what);
 	try_to_run_wait(D4X_QUEUE);
@@ -1489,7 +1495,7 @@ void tMain::run(int argv,char **argc) {
 		};
 		ftpsearch=new tFtpSearchCtrl;
 		init_face(argv,argc);
-		ftpsearch->init(FSearchCList,this,MainLog);
+		ftpsearch->init(FSearchView,this,MainLog);
 		fs_list_set_size();
 	};
 	init_main_log();
@@ -1563,7 +1569,9 @@ void tMain::run_after_quit(){
 
 void tMain::add_download_message(tDownload *what) {
 	if (!what) return;
-	MainLog->myprintf(LOG_OK,_("Added downloading of file %s from %s [by user]"),what->info->file.get(),what->info->host.get());
+	char *rfile=unparse_percents(what->info->file.get());
+	MainLog->myprintf(LOG_OK,_("Added downloading of file %s from %s [by user]"),rfile,what->info->host.get());
+	delete[] rfile;
 };
 
 static int not_all_stopped(tQueue *q){
@@ -1600,8 +1608,6 @@ void tMain::done() {
 	   to avoid segfault at host-limit checks */
 	if (ftpsearch) delete(ftpsearch);
 	SOUND_SERVER->stop_thread();
-	if (CFG.WITHOUT_FACE==0)
-		D4X_QUEUE->qv.freeze();
 	FaceForPasswords->save();
 	if (FaceForPasswords)
 		delete (FaceForPasswords);
@@ -1610,8 +1616,6 @@ void tMain::done() {
 		main_circle_nano2();
 		sleep(1);
 	};
-	if (CFG.WITHOUT_FACE==0)
-		D4X_QUEUE->qv.unfreeze();
 	D4X_QUEUE->done();
 	MainScheduler->save();
 	delete(MainScheduler);

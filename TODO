@@ -1,3 +1,14 @@
+[DONE] current method of speed calculation via tDownload::StartSize is *UGLY*
+move to GTK-2.0
+[DONE]	all CLists MUST BE REPLACED by ListStore-TreeView
+[DONE]	all widget_set_usize replace by widget_set_size_request
+	use GtkImageMenuItem
+	ability to hide "The Tree of Queues" panel
+	only UTF-8 strings!!!
+	graph of speeds for separated download
+	browser for ftp and http
+	"tree" window for displaying tree structure of a site(s)
+	graph on DnD basket
 Menuitem 'File/Create new queue for download'
 download using exactly specified number of parts
 store size in segments file
@@ -10,11 +21,6 @@ searching in queue (by Ctrl-S like MC)
 check free space on disk to prevent empty it
 uploading files to server
 Auto detection of best proxy.
-move to GTK-2.0
-    graph of speeds for separated download
-    browser for ftp and http
-    "tree" window for displaying tree structure of a site(s)
-    graph on DnD basket
 [????] Scale DnDBasket for different resolutions [code implemented but scaled dnd-basket looks bad :(]
 [????] fix displaying info for split-ed download when first thread in 'reconnect' state
 [????] do not use .segments file for downloading in one thread

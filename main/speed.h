@@ -43,4 +43,37 @@ class tSpeedQueue:public tQueue{
 		void schedule(unsigned int period);
 		~tSpeedQueue();
 };
+
+class d4xSpeedCalc{
+	d4xMutex lock;
+	fsize_t loaded;
+	time_t start;
+	int counter;
+public:
+	d4xSpeedCalc():loaded(0),counter(0){};
+	void inc(fsize_t val){
+		lock.lock();
+		loaded+=val;
+		if(counter++>1024){
+			time_t r=time(NULL);
+			time_t period=r-start;
+			if (period){
+				loaded=loaded/period;
+				start=r-1;
+			};
+			counter=0;
+		};
+		lock.unlock();
+	};
+	void reset(){
+		loaded=0;
+		start=time(NULL);
+	};
+	fsize_t speed(){
+		time_t period=time(NULL)-start;
+		if (period) return(loaded/period);
+		return(0);
+	};
+};
+
 #endif

@@ -45,12 +45,12 @@ GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm) {
 
 gchar *text_from_combo(GtkWidget *combo) {
 	if (GTK_IS_COMBO(combo))
-		return(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry)));
+		return((gchar*)gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry)));
 	else
-		return(gtk_entry_get_text(GTK_ENTRY(combo)));
+		return((gchar*)gtk_entry_get_text(GTK_ENTRY(combo)));
 };
 
-void text_to_combo(GtkWidget *widget,gchar *text) {
+void text_to_combo(GtkWidget *widget,const gchar *text) {
 	if (GTK_IS_COMBO(widget))
 		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(widget)->entry),text);
 	else
@@ -60,10 +60,10 @@ void text_to_combo(GtkWidget *widget,gchar *text) {
 
 void set_editable_for_combo(GtkWidget *widget,gboolean flag){
 	if (GTK_IS_COMBO(widget))
-		gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),flag);
+		gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(widget)->entry),flag);
 	else
 		if (GTK_IS_ENTRY(widget))
-			gtk_entry_set_editable(GTK_ENTRY(widget),flag);
+			gtk_editable_set_editable(GTK_EDITABLE(widget),flag);
 };
 
 void motion_notify_get_coords(GdkEventMotion * event){
@@ -103,14 +103,19 @@ void my_xclipboard_free(char *buf) {
 }
 
 GtkWidget *my_gtk_entry_new_with_max_length(gint length, int val){
-	GtkWidget *entry=gtk_entry_new_with_max_length(length);
+	GtkWidget *entry=gtk_entry_new();
+	gtk_entry_set_max_length (GTK_ENTRY(entry),length);
 	char tmp[length+2];
 	g_snprintf(tmp,length+1,"%i",val);
 	gtk_entry_set_text(GTK_ENTRY(entry),tmp);
 	GtkStyle *style = gtk_widget_get_style(entry);
-	gint real_size=gdk_string_width(style->font,"00");
+	/*
+	gint real_size=gdk_string_width(gtk_style_get_font(style),"00");
 	real_size=(real_size*(length+1))/2+3;
-	gtk_widget_set_usize(entry,real_size,-1);
+	gtk_widget_set_size_request(entry,real_size,-1);
+	*/
+	int real_size=length*13;
+	gtk_widget_set_size_request(entry,real_size>100?100:real_size,-1);
 	return(entry);
 };
 
@@ -141,8 +146,8 @@ void wm_skip_window(GtkWidget *widget){
 	/* set always on top flag (GNOME) */
 	XEvent xev;
 	gint prev_error;
-	prev_error = gdk_error_warnings;
-	gdk_error_warnings = 0;
+//FIXME:	prev_error = gdk_error_warnings;
+//FIXME:	gdk_error_warnings = 0;
 	xev.type = ClientMessage;
 	xev.xclient.type = ClientMessage;
 	xev.xclient.window = GDK_WINDOW_XWINDOW(widget->window);
@@ -151,7 +156,7 @@ void wm_skip_window(GtkWidget *widget){
 	xev.xclient.data.l[0] = (CARD32) WIN_LAYER_ONTOP;
 	XSendEvent(GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
 		   SubstructureNotifyMask, (XEvent *) & xev);
-	gdk_error_warnings = prev_error;
+//FIXME:	gdk_error_warnings = prev_error;
 	/* set sticky */
 	xev.type = ClientMessage;
 	xev.xclient.type = ClientMessage;
@@ -198,9 +203,9 @@ static gint _esc_handler_(GtkWidget *widget,GdkEvent *event,gpointer pointer){
 		GdkEventKey *kevent=(GdkEventKey *)event;
 		switch(kevent->keyval) {
 		case GDK_Escape:{
-			gtk_signal_emit_by_name(GTK_OBJECT(widget),
-						"delete_event",
-						widget,event,pointer);
+			g_signal_emit_by_name(G_OBJECT(widget),
+					      "delete_event",
+					      widget,event,pointer);
 			return TRUE;
 			break;
 		};
@@ -210,7 +215,28 @@ static gint _esc_handler_(GtkWidget *widget,GdkEvent *event,gpointer pointer){
 };
 
 void d4x_eschandler_init(GtkWidget *widget,gpointer data){
-	gtk_signal_connect(GTK_OBJECT(widget),
-			   "key_press_event",
-			   (GtkSignalFunc)_esc_handler_, data);
+	g_signal_connect(G_OBJECT(widget),
+			 "key_press_event",
+			 (GtkSignalFunc)_esc_handler_, data);
+};
+
+
+void gtk_tree_model_swap_rows_l(GtkTreeModel *model,GtkTreeIter *a,GtkTreeIter *b){
+	gint num=gtk_tree_model_get_n_columns(model);
+	GValue values[num];
+	gint i;
+	for (i=0;i<num;i++){
+		values[i].g_type=0;
+		gtk_tree_model_get_value(model,a,i,&(values[i]));
+	};
+	for (i=0;i<num;i++){
+		GValue val={0,};
+		gtk_tree_model_get_value(model,b,i,&val);
+		gtk_list_store_set_value(GTK_LIST_STORE(model),a,i,&val);
+		g_value_unset(&val);
+	};
+	for (i=0;i<num;i++)
+		gtk_list_store_set_value(GTK_LIST_STORE(model),b,i,&(values[i]));
+	for (i=0;i<num;i++)
+		g_value_unset(&(values[i]));
 };

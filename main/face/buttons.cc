@@ -140,16 +140,16 @@ void buttons_configure(){
 		GTK_TOGGLE_BUTTON(BConfigButtons[i])->active= (CFG.BUTTONS_FLAGS & (1<<i)?TRUE:FALSE);
 			
 	};
-	BConfigWindow=gtk_window_new(GTK_WINDOW_DIALOG);
+	BConfigWindow=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(BConfigWindow),
 			       "D4X_Buttons","D4X");
 	gtk_window_set_title(GTK_WINDOW (BConfigWindow),
 			     _(BUTTONS_TEXT[BUTTON_CONFIGURE]));
 	gtk_window_set_position(GTK_WINDOW(BConfigWindow),
 				GTK_WIN_POS_CENTER);
-	gtk_window_set_policy (GTK_WINDOW(BConfigWindow),FALSE,FALSE,FALSE);
-	gtk_widget_set_usize(BConfigWindow,-1,400);
-	gtk_container_border_width(GTK_CONTAINER(BConfigWindow),5);
+	gtk_window_set_resizable(GTK_WINDOW(BConfigWindow), FALSE);
+	gtk_widget_set_size_request(BConfigWindow,-1,400);
+	gtk_container_set_border_width(GTK_CONTAINER(BConfigWindow),5);
 
 	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,
 							 (GtkAdjustment *)NULL);
@@ -175,21 +175,21 @@ void buttons_configure(){
 	gtk_box_pack_end(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),apply_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
-	gtk_signal_connect(GTK_OBJECT(cancel_button),
+	g_signal_connect(G_OBJECT(cancel_button),
 			   "clicked",
-			   GTK_SIGNAL_FUNC(buttons_configure_close), NULL);
-	gtk_signal_connect(GTK_OBJECT(ok_button),
+			   G_CALLBACK(buttons_configure_close), NULL);
+	g_signal_connect(G_OBJECT(ok_button),
 			   "clicked",
-			   GTK_SIGNAL_FUNC(buttons_configure_ok), NULL);
-	gtk_signal_connect(GTK_OBJECT(apply_button),
+			   G_CALLBACK(buttons_configure_ok), NULL);
+	g_signal_connect(G_OBJECT(apply_button),
 			   "clicked",
-			   GTK_SIGNAL_FUNC(buttons_configure_apply), NULL);
+			   G_CALLBACK(buttons_configure_apply), NULL);
 
 	gtk_container_add(GTK_CONTAINER(BConfigWindow),vbox);
 	gtk_window_set_default(GTK_WINDOW(BConfigWindow),cancel_button);
-	gtk_signal_connect(GTK_OBJECT(BConfigWindow),
+	g_signal_connect(G_OBJECT(BConfigWindow),
 			   "delete_event",
-			   GTK_SIGNAL_FUNC(buttons_configure_close), NULL);
+			   G_CALLBACK(buttons_configure_close), NULL);
 	d4x_eschandler_init(BConfigWindow,NULL);
 	gtk_widget_show_all(BConfigWindow);
 };
@@ -202,12 +202,14 @@ static int bb_new_pixmap_from_theme(char *themename,GdkPixmap **pixmap,GdkBitmap
 	if (fld)
 		file=sum_strings(CFG.THEMES_DIR,"/",fld->value.get(),NULL);
 	GdkPixbuf *pixbuf;
-	if (file && (pixbuf=gdk_pixbuf_new_from_file(file))){
+	GError *error=NULL;
+	if (file && (pixbuf=gdk_pixbuf_new_from_file(file,&error))){
 		gdk_pixbuf_render_pixmap_and_mask(pixbuf,pixmap,mask,1);
 		gdk_pixbuf_unref(pixbuf);
 		delete[] file;
 		return(0);
 	};
+	if (error) g_error_free(error);
 	if (file) delete[] file;
 	return(-1);
 };
@@ -217,7 +219,7 @@ GtkWidget *new_pixmap(char **xpm, char *themename) {
 	GdkPixmap *pixmap;
 	if (themename==NULL || bb_new_pixmap_from_theme(themename,&pixmap,&mask))
 		pixmap=make_pixmap_from_xpm(&mask,xpm);
-	GtkWidget *rval=gtk_pixmap_new(pixmap,mask);
+	GtkWidget *rval=gtk_image_new_from_pixmap(pixmap,mask);
 	gdk_pixmap_unref(pixmap);
 	gdk_bitmap_unref(mask);
 	return (rval);
@@ -238,9 +240,9 @@ void ask_delete_all(...) {
 	if (!AskDeleteAll) AskDeleteAll=new tConfirmedDialog;
 	if (CFG.CONFIRM_DELETE_ALL){
 		if (AskDeleteAll->init(_("Delete ALL downloads?"),_("Delete all?")))
-			gtk_signal_connect(GTK_OBJECT(AskDeleteAll->ok_button),
+			g_signal_connect(G_OBJECT(AskDeleteAll->ok_button),
 					   "clicked",
-					   GTK_SIGNAL_FUNC(_ask_delete_all_check_),
+					   G_CALLBACK(_ask_delete_all_check_),
 					   AskDeleteAll);
 	}else
 		del_all_downloads();
@@ -263,16 +265,16 @@ void set_speed_buttons() {
 	if (CFG.WITHOUT_FACE) return;
 	switch (CFG.SPEED_LIMIT) {
 		case 1:	{
-				gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_SPEED1]), "clicked");
+				g_signal_emit_by_name(G_OBJECT (buttons_array[BUTTON_SPEED1]), "clicked");
 				break;
 			};
 		case 2:	{
-				gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_SPEED2]), "clicked");
+				g_signal_emit_by_name(G_OBJECT (buttons_array[BUTTON_SPEED2]), "clicked");
 				break;
 			};
 		case 3:
 		default:{
-				gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_SPEED3]), "clicked");
+				g_signal_emit_by_name(G_OBJECT (buttons_array[BUTTON_SPEED3]), "clicked");
 				break;
 			};
 	};
@@ -304,19 +306,19 @@ void set_dndtrash_button(){
 	if (CFG.DND_TRASH ) {
 		if (!(GTK_TOGGLE_BUTTON(buttons_array[BUTTON_DND_TRASH])->active)){
 			GTK_TOGGLE_BUTTON(buttons_array[BUTTON_DND_TRASH])->active=FALSE;
-			gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_DND_TRASH]), "clicked");
+			g_signal_emit_by_name(G_OBJECT (buttons_array[BUTTON_DND_TRASH]), "clicked");
 		};
 	}else{
 		if (GTK_TOGGLE_BUTTON(buttons_array[BUTTON_DND_TRASH])->active){
 			GTK_TOGGLE_BUTTON(buttons_array[BUTTON_DND_TRASH])->active=TRUE;
-			gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_DND_TRASH]), "clicked");
+			g_signal_emit_by_name(G_OBJECT (buttons_array[BUTTON_DND_TRASH]), "clicked");
 		};
 	};
 };
 
 gint buttons_save_press(GtkWidget *widget,GdkEventButton *event, gint code){
 	if (event->button==3){
-		gtk_signal_emit_by_name(GTK_OBJECT(widget),"pressed",NULL);
+		g_signal_emit_by_name(G_OBJECT(widget),"pressed",NULL);
 		return TRUE;
 	};
 	return FALSE;
@@ -351,9 +353,9 @@ void buttons_progress_set_text(){
 	gtk_tooltips_set_tip(GTK_TOOLBAR(ButtonsBar)->tooltips,
 			     buttons_array[BUTTON_PROGRESS],
 			     text,(char*) NULL);
-	gtk_pixmap_set(GTK_PIXMAP(pixmaps_array[BUTTON_PROGRESS]),
-		       progress_pixmap[CFG.PROGRESS_MODE],
-		       progress_bitmap[CFG.PROGRESS_MODE]);
+	gtk_image_set_from_pixmap(GTK_IMAGE(pixmaps_array[BUTTON_PROGRESS]),
+				  progress_pixmap[CFG.PROGRESS_MODE],
+				  progress_bitmap[CFG.PROGRESS_MODE]);
 	
 	delete[] text;
 };
@@ -401,10 +403,10 @@ static void bb_button_change_pix(GtkWidget *pix,char *themename,char **xpm){
 	GdkBitmap *mask;
 	GdkPixmap *pixmap;
 	if (bb_new_pixmap_from_theme(themename,&pixmap,&mask)==0){
-		gtk_pixmap_set(GTK_PIXMAP(pix),pixmap,mask);
+		gtk_image_set_from_pixmap(GTK_IMAGE(pix),pixmap,mask);
 	}else{
 		pixmap=make_pixmap_from_xpm(&mask,xpm,MainWindow);
-		gtk_pixmap_set(GTK_PIXMAP(pix),pixmap,mask);
+		gtk_image_set_from_pixmap(GTK_IMAGE(pix),pixmap,mask);
 	};
 	gdk_pixmap_unref(pixmap);
 	gdk_bitmap_unref(mask);
@@ -469,42 +471,45 @@ void init_buttons_bar() {
 #include "pixmaps/cfgbt.xpm"
 #include "pixmaps/load.xpm"
 	bb_reinit_progress_pixs();
-	ButtonsBar=gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_ICONS);
+	ButtonsBar=gtk_toolbar_new ();
+	gtk_toolbar_set_orientation(GTK_TOOLBAR(ButtonsBar),GTK_ORIENTATION_HORIZONTAL);
+	gtk_toolbar_set_style(GTK_TOOLBAR(ButtonsBar),GTK_TOOLBAR_ICONS);
+	gtk_container_set_border_width(GTK_CONTAINER(ButtonsBar),0);
 //	gtk_toolbar_set_space_style(GTK_TOOLBAR(ButtonsBar), GTK_TOOLBAR_SPACE_LINE);
 //	gtk_toolbar_set_button_relief(GTK_TOOLBAR(ButtonsBar), GTK_RELIEF_NONE);
 
 	pixmaps_array[BUTTON_ADD]=new_pixmap(add_xpm,"add");
 	buttons_array[BUTTON_ADD]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(BUTTONS_TEXT[BUTTON_ADD]),"",pixmaps_array[BUTTON_ADD],
-							   GTK_SIGNAL_FUNC (init_add_window), NULL);
+							   G_CALLBACK (init_add_window), NULL);
 	pixmaps_array[BUTTON_ADD_CLIPBOARD]=new_pixmap(add_clipboard_xpm,"clipboardadd");
-	buttons_array[BUTTON_ADD_CLIPBOARD]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_ADD_CLIPBOARD]),"",pixmaps_array[BUTTON_ADD_CLIPBOARD],
-								     GTK_SIGNAL_FUNC (init_add_clipboard_window), NULL);
+	buttons_array[BUTTON_ADD_CLIPBOARD]=gtk_toolbar_append_item(GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_ADD_CLIPBOARD]),"",pixmaps_array[BUTTON_ADD_CLIPBOARD],
+								    G_CALLBACK (init_add_clipboard_window), NULL);
 	pixmaps_array[BUTTON_DEL]=new_pixmap(del_xpm,"del");
 	buttons_array[BUTTON_DEL]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_DEL]), "",pixmaps_array[BUTTON_DEL],
-							   GTK_SIGNAL_FUNC (ask_delete_download), NULL);
+							   G_CALLBACK (ask_delete_download), NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	pixmaps_array[BUTTON_CONTINUE]=new_pixmap(continue_xpm,"continue");
 	buttons_array[BUTTON_CONTINUE]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_CONTINUE]), "", pixmaps_array[BUTTON_CONTINUE],
-								GTK_SIGNAL_FUNC (continue_downloads), NULL);
+								G_CALLBACK (continue_downloads), NULL);
 	pixmaps_array[BUTTON_STOP]=new_pixmap(stop_bar_xpm,"stop");
 	buttons_array[BUTTON_STOP]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_STOP]) , "", pixmaps_array[BUTTON_STOP],
-							    GTK_SIGNAL_FUNC (stop_downloads), NULL);
+							    G_CALLBACK (stop_downloads), NULL);
 	pixmaps_array[BUTTON_DEL_COMPLETED]=new_pixmap(del_com_xpm,"delcompleted");
 	buttons_array[BUTTON_DEL_COMPLETED]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_DEL_COMPLETED]) , "", pixmaps_array[BUTTON_DEL_COMPLETED],
-	                  GTK_SIGNAL_FUNC (ask_delete_completed_downloads), NULL);
+	                  G_CALLBACK (ask_delete_completed_downloads), NULL);
 	pixmaps_array[BUTTON_UP]=new_pixmap(up_bar_xpm,"moveup");
 	buttons_array[BUTTON_UP]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_UP]),"",pixmaps_array[BUTTON_UP],
-	                                  GTK_SIGNAL_FUNC (bb_move_up), NULL);
+	                                  G_CALLBACK (bb_move_up), NULL);
 	pixmaps_array[BUTTON_DOWN]=new_pixmap(down_bar_xpm,"movedown");
 	buttons_array[BUTTON_DOWN]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_DOWN]) , "", pixmaps_array[BUTTON_DOWN],
-	                                    GTK_SIGNAL_FUNC (bb_move_down), NULL);
+	                                    G_CALLBACK (bb_move_down), NULL);
 	pixmaps_array[BUTTON_LOG]=new_pixmap(openlog_xpm,"openlog");
 	buttons_array[BUTTON_LOG]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_LOG]) , "", pixmaps_array[BUTTON_LOG],
-							   GTK_SIGNAL_FUNC (bb_open_logs), NULL);
+							   G_CALLBACK (bb_open_logs), NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	pixmaps_array[BUTTON_OPTIONS]=new_pixmap(prefs_xpm,"preferences");
 	buttons_array[BUTTON_OPTIONS]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_OPTIONS]),"",pixmaps_array[BUTTON_OPTIONS],
-	                                       GTK_SIGNAL_FUNC (d4x_prefs_init), NULL);
+	                                       G_CALLBACK (d4x_prefs_init), NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	pixmaps_array[BUTTON_SPEED1]=new_pixmap(speed1_xpm,"speedlow");
 	buttons_array[BUTTON_SPEED1]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
@@ -514,7 +519,7 @@ void init_buttons_bar() {
 								 _(BUTTONS_TEXT[BUTTON_SPEED1]),
 								 "",
 								 pixmaps_array[BUTTON_SPEED1],
-								 GTK_SIGNAL_FUNC (set_speed_limit),
+								 G_CALLBACK (set_speed_limit),
 								 (GtkWidget *)NULL);
 	pixmaps_array[BUTTON_SPEED2]=new_pixmap(speed2_xpm,"speedmedium");
 	buttons_array[BUTTON_SPEED2]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
@@ -524,7 +529,7 @@ void init_buttons_bar() {
 								 _(BUTTONS_TEXT[BUTTON_SPEED2]),
 								 "",
 								 pixmaps_array[BUTTON_SPEED2],
-								 GTK_SIGNAL_FUNC (set_speed_limit),
+								 G_CALLBACK (set_speed_limit),
 								 (GtkWidget *)NULL);
 	pixmaps_array[BUTTON_SPEED3]=new_pixmap(speed3_xpm,"speedhigh");
 	buttons_array[BUTTON_SPEED3]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
@@ -534,25 +539,25 @@ void init_buttons_bar() {
 								 _(BUTTONS_TEXT[BUTTON_SPEED3]),
 								 "",
 								 pixmaps_array[BUTTON_SPEED3],
-								 GTK_SIGNAL_FUNC (set_speed_limit),
+								 G_CALLBACK (set_speed_limit),
 								 (GtkWidget *)NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	pixmaps_array[BUTTON_DEL_ALL]=new_pixmap(del_all_xpm,"clearlist");
 	buttons_array[BUTTON_DEL_ALL]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_DEL_ALL]),"",pixmaps_array[BUTTON_DEL_ALL],
-							       GTK_SIGNAL_FUNC (ask_delete_all), NULL);
+							       G_CALLBACK (ask_delete_all), NULL);
 	pixmaps_array[BUTTON_SAVE]=new_pixmap(save_xpm,"save");
 	buttons_array[BUTTON_SAVE]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_SAVE]) , "", pixmaps_array[BUTTON_SAVE],
-	                                      GTK_SIGNAL_FUNC (init_save_list), NULL);
+	                                      G_CALLBACK (init_save_list), NULL);
 	pixmaps_array[BUTTON_LOAD]=new_pixmap(load_xpm,"load");
 	buttons_array[BUTTON_LOAD]=gtk_toolbar_append_item(GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_LOAD]) , "",pixmaps_array[BUTTON_LOAD],
-							   GTK_SIGNAL_FUNC (init_load_list),NULL);
-	pixmaps_array[BUTTON_PROGRESS]=gtk_pixmap_new(progress_pixmap[0],progress_bitmap[0]);
+							   G_CALLBACK (init_load_list),NULL);
+	pixmaps_array[BUTTON_PROGRESS]=gtk_image_new_from_pixmap(progress_pixmap[0],progress_bitmap[0]);
 	buttons_array[BUTTON_PROGRESS]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar),
 								"",
 								_(BUTTONS_TEXT[BUTTON_PROGRESS]),
 								"",
 								pixmaps_array[BUTTON_PROGRESS],
-								GTK_SIGNAL_FUNC (buttons_progress_toggle),
+								G_CALLBACK (buttons_progress_toggle),
 								NULL);
 	pixmaps_array[BUTTON_DND_TRASH]=new_pixmap (dndtrash_bar_xpm,"dnd");
 	buttons_array[BUTTON_DND_TRASH]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
@@ -562,7 +567,7 @@ void init_buttons_bar() {
 	             _(BUTTONS_TEXT[BUTTON_DND_TRASH]),
 	             "",
 	             pixmaps_array[BUTTON_DND_TRASH],
-	             GTK_SIGNAL_FUNC (dnd_trash_toggle),
+	             G_CALLBACK (dnd_trash_toggle),
 	             (GtkWidget *)NULL);
 
 	buttons_array[BUTTON_CONFIGURE] = gtk_button_new ();
@@ -574,25 +579,22 @@ void init_buttons_bar() {
 				  buttons_array[BUTTON_CONFIGURE],
 				  _(BUTTONS_TEXT[BUTTON_CONFIGURE]),
 				  "");
-	gtk_signal_connect(GTK_OBJECT(buttons_array[BUTTON_CONFIGURE]),
-			   "clicked",GTK_SIGNAL_FUNC(buttons_configure), NULL);
+	g_signal_connect(G_OBJECT(buttons_array[BUTTON_CONFIGURE]),
+			   "clicked",G_CALLBACK(buttons_configure), NULL);
 
-	gtk_signal_connect (GTK_OBJECT (buttons_array[BUTTON_SAVE]), "button_press_event",
-			    GTK_SIGNAL_FUNC (buttons_save_press), GINT_TO_POINTER(BUTTON_SAVE));
-	gtk_signal_connect (GTK_OBJECT (buttons_array[BUTTON_SAVE]), "button_release_event",
-			    GTK_SIGNAL_FUNC (buttons_save_release),GINT_TO_POINTER(BUTTON_SAVE));
-	gtk_signal_connect (GTK_OBJECT (buttons_array[BUTTON_OPTIONS]), "button_press_event",
-			    GTK_SIGNAL_FUNC (buttons_save_press), GINT_TO_POINTER(BUTTON_OPTIONS));
-	gtk_signal_connect (GTK_OBJECT (buttons_array[BUTTON_OPTIONS]), "button_release_event",
-			    GTK_SIGNAL_FUNC (buttons_save_release),GINT_TO_POINTER(BUTTON_OPTIONS));
+	g_signal_connect(G_OBJECT (buttons_array[BUTTON_SAVE]), "button_press_event",
+			   G_CALLBACK (buttons_save_press), GINT_TO_POINTER(BUTTON_SAVE));
+	g_signal_connect(G_OBJECT (buttons_array[BUTTON_SAVE]), "button_release_event",
+			   G_CALLBACK (buttons_save_release),GINT_TO_POINTER(BUTTON_SAVE));
+	g_signal_connect(G_OBJECT (buttons_array[BUTTON_OPTIONS]), "button_press_event",
+			   G_CALLBACK (buttons_save_press), GINT_TO_POINTER(BUTTON_OPTIONS));
+	g_signal_connect(G_OBJECT (buttons_array[BUTTON_OPTIONS]), "button_release_event",
+			   G_CALLBACK (buttons_save_release),GINT_TO_POINTER(BUTTON_OPTIONS));
 	set_speed_buttons();
 	set_dndtrash_button();
 	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;
 	gtk_tooltips_force_window(tooltips);
 	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(tooltips->tip_window));
-	gdk_font_unref(current_style->font);
-	current_style->font = MainWindow->style->font;
-	gdk_font_ref(current_style->font);
 	char *tcolor=d4x_xml_find_obj_value(D4X_THEME_DATA,"buttonsbar tipcolor");
 	if (tcolor){
 		gdk_color_parse(tcolor,&(current_style->bg[GTK_STATE_NORMAL]));
@@ -628,7 +630,7 @@ void prepare_buttons() {
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],TRUE);
 	else
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],FALSE);
-	if (D4X_QUEUE->qv.sel()) {
+	if (D4X_QUEUE->qv.last_selected==NULL) {
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL],FALSE);
 		gtk_widget_set_sensitive(buttons_array[BUTTON_STOP],FALSE);
 		gtk_widget_set_sensitive(buttons_array[BUTTON_CONTINUE],FALSE);

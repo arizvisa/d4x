@@ -285,9 +285,14 @@ int tSocket::rec_string(char * where,fsize_t len,int timeout) {
 		GVARS.READED_BYTES+=temp;
 		GVARS.MUTEX.unlock();
 		if (download!=NULL && *download!=NULL){
-			if (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0)
-				(*download)->SpeedLimit->decrement(temp);
-			D4X_UPDATE.add(*download);
+			tDownload *dwn=*download;
+			if (dwn->split && dwn->split->grandparent)
+				dwn->split->grandparent->SpeedCalc.inc(temp);
+			else
+				dwn->SpeedCalc.inc(temp);
+			if (CFG.SPEED_LIMIT!=3 || dwn->SpeedLimit->base>0)
+				dwn->SpeedLimit->decrement(temp);
+			D4X_UPDATE.add(dwn);
 		};
 	};
 	return temp;

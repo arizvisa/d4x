@@ -56,14 +56,14 @@ class tMain;
 
 class tFtpSearchCtrl{
 	tDList *queues[DL_FS_LAST];
-	GtkCList *clist;
+	GtkTreeView *view;
 	tMain *parent;
 	tMLog *log;
 	void stop(tDownload *what);
 	void remove_from_clist(tDownload *what);
  public:
 	tFtpSearchCtrl();
-	void init(GtkCList *widget,tMain *papa,tMLog *mylog);
+	void init(GtkTreeView *widget,tMain *papa,tMLog *mylog);
 	void cycle();
 	void add(tDownload *what);
 	void remove(tDownload *what);

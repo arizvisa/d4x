@@ -1,3 +1,375 @@
+2002-10-04 10:18  max
+
+	* main/face/: lod.cc, qtree.cc: expand queue tree during loading
+
+2002-10-04 09:24  max
+
+	* NEWS, PLANS, TODO, configure.in: updated
+
+2002-10-04 09:24  max
+
+	* main/face/qtree.cc: removed debug printf
+
+2002-10-04 09:21  max
+
+	* main/dlist.cc: fixed sgfaults when link loading in number of
+	threads
+
+2002-10-04 08:53  max
+
+	* main/face/mywidget.cc: forgot to commit yesterday (fixed typos)
+
+2002-10-03 17:11  max
+
+	* main/: dlist.cc, dlist.h, ftp.cc, main.cc, mainlog.cc,
+	segments.cc, socket.cc, speed.h, face/about.cc, face/buttons.cc,
+	face/dndtrash.cc, face/edit.cc, face/filtrgui.cc, face/fsched.cc,
+	face/fsface.cc, face/graph.cc, face/list.cc, face/lmenu.cc,
+	face/lod.cc, face/log.cc, face/misc.cc, face/mywidget.cc,
+	face/mywidget.h, face/passface.cc, face/prefs.cc, face/qtree.cc,
+	face/saveload.cc: all deprecated GTK routines have been replaced by
+	nondepricated! conitunue to work on overlaping detection
+
+2002-10-03 08:21  max
+
+	* main/: dlist.cc, log.cc, main.cc, mainlog.cc, segments.cc,
+	face/edit.cc, face/list.cc: fixed segfaults on startup and shutdown
+	(due my last changes)
+
+2002-10-02 17:40  max
+
+	* main/segments.cc: fixed overlaping detection
+
+2002-10-02 17:18  max
+
+	* main/: client.cc, client.h, config.cc, dlist.cc, dlist.h, ftp.cc,
+	http.cc, httpd.cc, main.cc, main.h, mainlog.cc, nt.cc, segments.cc,
+	segments.h, var.cc, var.h, face/list.cc, face/mywidget.cc,
+	face/prefs.cc: fixed some non-utf locale problems (eg DnD from
+	mozilla) extended downloading splited files! "number of parts to
+	split files" property in "Default properties" now!
+
+2002-10-01 14:59  max
+
+	* main/client.cc: fixed storing username and password for
+	HTTP-proxy
+
+2002-09-30 19:39  max
+
+	* main/face/: buttons.cc, edit.cc, pixmaps/openlog.xpm: fixed
+	sizing of "open log" icon in buttonsbar fixed wrong percentage set
+	when applying new download's preferences
+
+2002-09-30 16:24  max
+
+	* nt.spec.in, main/face/about.cc, main/face/buttons.cc,
+	main/face/edit.cc, main/face/mywidget.cc, main/face/saveload.cc:
+	replaced deprecated gtk_window_set_policy by
+	gtk_window_set_resizable changed gtk>=1.2.10 requirements by
+	gtk>=2.0.6
+
+2002-09-30 15:31  max
+
+	* configure.in: ESD support via PKG_ defines
+
+2002-09-29 14:09  max
+
+	* TODO: forget to point out
+
+2002-09-29 14:08  max
+
+	* configure.in, main/alt.cc, main/mainlog.cc, main/face/about.cc,
+	main/face/addd.cc, main/face/buttons.cc, main/face/dndtrash.cc,
+	main/face/edit.cc, main/face/filtrgui.cc, main/face/fsched.cc,
+	main/face/fsface.cc, main/face/list.cc, main/face/lmenu.cc,
+	main/face/lod.cc, main/face/log.cc, main/face/misc.cc,
+	main/face/mywidget.cc, main/face/passface.cc, main/face/prefs.cc,
+	main/face/qtree.cc, main/face/saveload.cc: almost all
+	gtk_signal_... instanses  have been replaced by apropriate
+	g_signal_...  no more GtkPixmaps only GtkImage instead of use
+	GtkImageMenuItem in context menu of queue of downloads interface
+	cleanups in "Edit common properties" dialog continue to working
+	under 2.4-beta!
+
+2002-09-28 15:39  max
+
+	* main/face/: lod.cc, qtree.cc, qtree.h: DnD from one queue to
+	another has been fully implemented
+
+2002-09-27 21:23  max
+
+	* d4x_aqua.png: file d4x_aqua.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-09-27 21:23  max
+
+	* d4x_aqua.png: added new icon to CVS tree
+
+2002-09-27 21:21  max
+
+	* main/face/lod.cc: continue to reimplement DnD on GTK2
+
+2002-09-26 14:03  max
+
+	* configure.in, main/face/dndtrash.cc, main/face/list.cc,
+	main/face/lod.cc: DnD-basket has been ported to GTK2!
+
+2002-09-15 15:12  max
+
+	* main/: filter.h, main.cc, face/dndtrash.cc, face/filtrgui.cc,
+	face/lod.cc, face/misc.cc, face/misc.h, face/mywidget.cc,
+	face/mywidget.h, face/passface.cc: code cleanups replace CList in
+	filter selection dialog by TreeView
+
+2002-09-15 15:11  max
+
+	* TODO: updated
+
+2002-09-14 21:50  max
+
+	* main/face/: buttons.cc, lod.cc, prefs.cc: Themes selector uses
+	GtkTreeView+ListStore! It seems to me that only filter manager uses
+	CList!!!
+
+2002-09-14 19:58  max
+
+	* main/face/: dndtrash.cc, passface.cc: yeah, DnD-basket is able to
+	show now. No real DnD yet
+
+2002-09-14 18:28  max
+
+	* main/face/: lod.cc, passface.cc, passface.h: one more CList
+	replaced
+
+2002-09-13 10:41  max
+
+	* main/face/: edit.cc, lod.cc: replaced gtk_signal_* by g_signal_*
+	in these two files
+
+2002-09-13 09:10  max
+
+	* main/face/edit.cc: one more CList replaced
+
+2002-09-13 08:34  max
+
+	* TODO: updated
+
+2002-09-12 17:59  max
+
+	* main/: schedule.cc, schedule.h, face/fsched.cc, face/mywidget.cc:
+	interface of scheduler has been ported to GTK2's widgets
+
+2002-09-12 11:19  max
+
+	* main/face/: edit.cc, mywidget.cc, mywidget.h, prefs.cc: fliter
+	selector uses TreeView+ListStore instead of CList
+
+2002-09-11 18:02  max
+
+	* main/: alt.cc, alt.h, http.cc, face/fsface.cc, face/lod.cc,
+	face/misc.h, face/mywidget.cc, face/mywidget.h, face/saveload.cc:
+	double click on FTP-search process now works d4xLinksSel widget
+	uses GtkTreeView+GtkListStore instead of GtkCList fixed wrong %lli
+	format in printing chunk sizes to the log
+
+2002-09-11 11:50  max
+
+	* main/: mainlog.cc, face/list.cc, face/lod.cc, face/log.cc: log
+	windows of downloads use GtkTreeView+GtkListStore instead of
+	GtkCList changed method to colorize main log
+
+2002-09-10 16:41  max
+
+	* main/face/lod.cc: check loaded info about columns visibility and
+	sizes
+
+2002-09-10 16:25  max
+
+	* main/face/lod.cc: view for queue of downloads is almost fully
+	realized
+
+2002-09-10 09:08  max
+
+	* main/face/: lod.cc, lod.h: changing columns' visibility has been
+	implemented
+
+2002-09-09 19:10  max
+
+	* main/face/: lod.cc, lod.h: begin to implement ability to hide
+	columns of download's queue
+
+2002-09-09 16:30  max
+
+	* main/face/qtree.cc: code cleanups
+
+2002-09-09 16:17  max
+
+	* main/face/lod.cc: storing and restoring sizes of columns has been
+	implmented
+
+2002-09-09 15:32  max
+
+	* main/face/: list.cc, lod.cc, lod.h: store columns visibility and
+	order of queue of downloads fixed saving keybinds
+
+2002-09-08 19:05  max
+
+	* main/: mainlog.cc, face/list.cc, face/lod.cc, face/qtree.cc,
+	face/qtree.h: MainLog widget has almost fully functionality (except
+	open errors) All ScrolledWindows of main window has SHADOW_IN
+	shadow
+
+2002-09-08 12:02  max
+
+	* main/: mainlog.cc, face/list.cc: colored strings in main log (via
+	markup abilities)
+
+2002-09-08 03:46  max
+
+	* configure.in, main/fsearch.cc, main/fsearch.h, main/main.cc,
+	main/mainlog.cc, main/mainlog.h, main/face/dndtrash.cc,
+	main/face/edit.cc, main/face/fsface.cc, main/face/fsface.h,
+	main/face/list.cc, main/face/list.h, main/face/lod.cc,
+	main/face/lod.h: deep hacking to gtk2 :-) main log and fTP-search
+	list is GTK2 widgets now dnd trash also begin to be ported!!!
+
+2002-09-06 19:36  max
+
+	* main/: main.cc, face/dndtrash.cc, face/lod.cc, face/qtree.cc:
+	continue to make port
+
+2002-09-06 18:12  max
+
+	* main/: dqueue.cc, dqueue.h, main.cc, face/list.cc, face/lod.cc,
+	face/prefs.cc, face/qtree.cc, face/qtree.h: one more step to
+	version 2.2 :-)
+
+2002-09-06 15:53  max
+
+	* TODO, main/face/lod.cc: only DnD left to implement for queue of
+	downloads
+
+2002-09-06 15:05  max
+
+	* main/face/lod.cc: double click on the download opens log window
+
+2002-09-06 14:47  max
+
+	* main/face/: Makefile.am, buttons.cc, fsface.cc, list.cc,
+	lmenu.cc, lod.cc, prefs.cc, qtree.cc, qtree.h: preferences dialog
+	is worked! :-) continue to work under queue of downloads
+
+2002-09-06 09:35  max
+
+	* main/face/lod.cc: implement moving items up and down in GTK2
+
+2002-09-05 18:41  max
+
+	* main/face/lod.cc: moving downloads up does work (moving down does
+	not)
+
+2002-09-05 18:17  max
+
+	* TODO, main/face/addd.cc, main/face/list.cc, main/face/lmenu.cc,
+	main/face/lod.cc, main/face/prefs.cc: Uahahaaaa!!! It's worked
+	(DnD-Basket must be turned off, LANG="C") :-) of course most part
+	of the work wait for us ahead :-)
+
+2002-09-05 16:13  max
+
+	* main/: dqueue.cc, main.cc, face/buttons.cc, face/columns.cc,
+	face/fsface.cc, face/list.cc, face/lod.cc, face/lod.h: it compiles
+	now with GTK2 but I didn't run it yet :-) all CList and CTree
+	structures must be replaced by TreeView/Store
+
+2002-09-04 18:25  max
+
+	* main/: dlist.cc, face/addd.cc, face/columns.cc, face/list.cc,
+	face/lmenu.cc, face/lod.cc, face/lod.h: oooh last changes for today
+	%-/
+
+2002-09-04 17:04  max
+
+	* main/: dlist.h, face/edit.cc, face/filtrgui.cc, face/lod.cc,
+	face/lod.h, face/log.cc, face/saveload.cc: continue conitnue
+	continue cont.... porting to GTK+2 (-Beavis! It's sux! - Ya,
+	Butthead...)
+
+2002-09-04 15:17  max
+
+	* main/face/: columns.cc, dndtrash.cc, lmenu.cc, prefs.cc,
+	qtree.cc: more GTK2 changes (porting in the progress)
+
+2002-09-04 12:28  max
+
+	* main/face/: Makefile.am, buttons.cc, fsface.cc, graph.cc,
+	list.cc, lod.cc, misc.cc, mywidget.cc, passface.cc, prefs.cc: many
+	GTK2 changes
+
+2002-08-31 13:18  max
+
+	* README: updated some info
+
+2002-08-30 21:27  max
+
+	* configure.in, main/face/about.cc, main/face/fsched.cc,
+	main/face/misc.cc, main/face/misc.h: begin to implement gtk2 port
+
+2002-08-30 21:07  max
+
+	* configure.in, main/face/about.cc, main/face/fsched.cc,
+	main/face/misc.cc, main/face/misc.h: move back some gtk-1.2.x stuff
+
+2002-08-30 18:00  max
+
+	* configure.in: GTK2.0 changes
+
+2002-08-30 17:29  max
+
+	* main/face/: about.cc, fsched.cc, misc.cc, misc.h: begin updating
+	new branch with port to gtk2
+
+2002-08-29 09:44  max
+
+	* nt.spec.in: forget about ftpsearch.xml file
+
+2002-08-28 23:46  max
+
+	* main/face/log.cc: forget about chaging %li to %lli
+
+2002-08-28 12:54  max
+
+	* NEWS: release 2.03
+
+2002-08-27 20:28  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po:
+	'make udpdate-po' has been executed Russian translation updated
+
+2002-08-27 20:18  max
+
+	* main/fsearch.cc, po/POTFILES.in: fixed localization of some
+	strings
+
+2002-08-27 18:27  max
+
+	* main/: dlist.cc, locstr.cc, locstr.h: fixed loading and saving
+	sizes of download-queue
+
+2002-08-27 17:46  max
+
+	* main/sm.cc: fixed last fix :-)
+
+2002-08-27 14:32  max
+
+	* NEWS, configure.in, main/sm.cc, main/socket.cc, main/socket.h:
+	send QUIT command before closing stored FTP-sockets increment
+	version
+
+2002-08-27 12:27  max
+
+	* ChangeLog, NEWS: updated info
+
 2002-08-27 12:09  max
 
 	* main/: dlist.cc, ftp.h, socket.cc: fixed sending QUIT command
@@ -674,10 +1046,6 @@
 	routine for easy getting value of a xml object related code
 	cleanups
 
-2002-03-20 22:15  zaufi
-
-	* admin/strip.awk: Fix for Slackware wich is have strange awk...
-
 2002-03-20 14:31  max
 
 	* po/: bg.po, de.po, es.po, fr.po, it.po, ru.po: po files after
@@ -712,10 +1080,6 @@
 
 	* README: make it cleaner... but future update still req
 
-2002-03-20 08:56  zaufi
-
-	* admin/strip.awk: Improved version
-
 2002-03-20 08:46  max
 
 	* ChangeLog: Added changlog produced by cvs2pl
@@ -744,10 +1108,6 @@
 	* configure.in: Add --enable-extra-optimize for highly optimize
 	code, --enable-release now produce -O2 optimized code
 
-2002-03-17 22:39  zaufi
-
-	* admin/acinclude.m4: fix comments
-
 2002-03-17 20:06  max
 
 	* configure.in, main/dqueue.cc, main/main.cc: changed default
@@ -761,13 +1121,13 @@
 
 	* .cvsignore: Add ignore list
 
+2002-03-16 19:47  zaufi
+
+	* strip.awk: Move strip.awk to admin
+
 2002-03-16 19:45  zaufi
 
 	* configure.in: strip.awk moved to admin
-
-2002-03-16 19:44  zaufi
-
-	* admin/strip.awk, strip.awk: Move strip.awk to admin
 
 2002-03-16 15:46  max
 
@@ -809,12 +1169,7 @@
 
 2002-03-14 13:33  zaufi
 
-	* configure.in, admin/acinclude.m4: Little fixes
-
-2002-03-14 13:12  zaufi
-
-	* admin/acinclude.m4: Add support to choose between gawk regex and
-	rx
+	* configure.in: Little fixes
 
 2002-03-14 13:12  zaufi
 

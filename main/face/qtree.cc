@@ -19,32 +19,34 @@
 #include "mywidget.h"
 #include "buttons.h"
 
-extern tMain aa;
-
-static void _select_queue_(GtkCTree *tree,
-			   gint row,
-			   gint column,
-			   GdkEvent *event,
-			   d4xQsTree *q){
-	q->select_row(row);
+enum {
+	QROW_NAME,
+	QROW_TOTAL,
+	QROW_WAIT,
+	QROW_RUN,
+	QROW_QUEUE,
+	QROW_LAST
 };
 
-static gint _event_queue_(GtkWidget *widget,GdkEvent *event,d4xQsTree *q){
-	if (event->type == GDK_BUTTON_PRESS) {
-		GdkEventButton *bevent=(GdkEventButton *)event;
-		if (bevent->button==3) {
-			gint row;
-			if (gtk_clist_get_selection_info(GTK_CLIST(widget),
-							 int(bevent->x),
-							 int(bevent->y),
-							 &row,(gint *)NULL)) {
-				gtk_clist_select_row(GTK_CLIST(widget),row,-1);
-			}else{
-				if (GTK_CLIST(widget)->selection)
-					gtk_clist_unselect_all(GTK_CLIST(widget));
-			};
-			q->popup_menu(event);
+extern tMain aa;
+
+static gint _event_queue_(GtkWidget *widget,GdkEventButton *event,d4xQsTree *q){
+	if (event->type==GDK_BUTTON_PRESS && event->button==3) {
+		GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(widget));
+		GtkTreePath *path=NULL;
+		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget),
+						  gint(event->x),
+						  gint(event->y),
+						  &path,
+						  NULL,NULL,NULL)){
+			gtk_tree_selection_select_path(sel,path);
+			gtk_tree_path_free(path);
+			q->popup_menu((GdkEvent*)event,1);
+		}else{
+			q->popup_menu((GdkEvent*)event,0);
+			gtk_tree_selection_unselect_all(sel);
 		};
+		return TRUE;
 	};
 	return FALSE;
 };
@@ -105,14 +107,14 @@ void d4xQsTree::create_init(int mode){
 		return;
 	};
 	create_mode=mode;
-	dialog = gtk_window_new(GTK_WINDOW_DIALOG);
+	dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(dialog),
 			       "D4X_CreateQueueDialog","D4X");
 	gtk_window_set_title(GTK_WINDOW (dialog),
 			     _("Create new queue"));
 	gtk_window_set_position(GTK_WINDOW(dialog),
 				GTK_WIN_POS_CENTER);
-	gtk_container_border_width(GTK_CONTAINER(dialog),5);
+	gtk_container_set_border_width(GTK_CONTAINER(dialog),5);
 	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *hbox=gtk_hbutton_box_new();
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
@@ -127,16 +129,16 @@ void d4xQsTree::create_init(int mode){
 	gtk_box_pack_start(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	gtk_signal_connect (GTK_OBJECT (dialog_entry),"changed",
-			    (GtkSignalFunc)_create_changed_, ok_button);
-	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",
-			   GTK_SIGNAL_FUNC(_create_ok_),this);
-	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",
-			   GTK_SIGNAL_FUNC(_create_cancel_),this);
-	gtk_signal_connect(GTK_OBJECT(dialog),"delete_event",
-			   GTK_SIGNAL_FUNC(_create_delete_),this);
-	gtk_signal_connect(GTK_OBJECT(dialog_entry), "activate",
-			   GTK_SIGNAL_FUNC (_create_ok_), this);
+	g_signal_connect(G_OBJECT (dialog_entry),"changed",
+			   (GtkSignalFunc)_create_changed_, ok_button);
+	g_signal_connect(G_OBJECT(ok_button),"clicked",
+			   G_CALLBACK(_create_ok_),this);
+	g_signal_connect(G_OBJECT(cancel_button),"clicked",
+			   G_CALLBACK(_create_cancel_),this);
+	g_signal_connect(G_OBJECT(dialog),"delete_event",
+			   G_CALLBACK(_create_delete_),this);
+	g_signal_connect(G_OBJECT(dialog_entry), "activate",
+			   G_CALLBACK (_create_ok_), this);
 	d4x_eschandler_init(dialog,this);
 	gtk_container_add(GTK_CONTAINER(dialog),vbox);
 	gtk_widget_show_all(dialog);
@@ -147,51 +149,78 @@ void d4xQsTree::create_init(int mode){
 				      GTK_WINDOW (MainWindow));
 };
 
-static gboolean target_drag_drop (GtkWidget          *widget,
+
+static gboolean target_drag_drop (GtkTreeView        *view,
 				  GdkDragContext     *context,
 				  gint                x,
 				  gint                y,
 				  guint               time,
 				  d4xQsTree *qt){
-	int row;
+	GtkTreePath *path=NULL;
 	if (context->targets &&
-	    gtk_clist_get_selection_info(GTK_CLIST(widget),
-					 x,y,
-					 &row,(gint *)NULL)){
-		qt->drop_to_row=row;
-		gtk_drag_get_data (widget, context,
-				   GPOINTER_TO_INT (context->targets->data),
-				   time);
+	    gtk_tree_view_get_path_at_pos(view,x,y,&path,NULL,NULL,NULL)){
+		GtkTreeModel *model=gtk_tree_view_get_model(view);
+		GtkTreeIter iter;
+		if (gtk_tree_model_get_iter(model,&iter,path))
+			if (qt->drop_to_row) gtk_tree_iter_free(qt->drop_to_row);
+			qt->drop_to_row=gtk_tree_iter_copy(&iter);
+			gtk_drag_get_data (GTK_WIDGET(view), context,
+					   GDK_POINTER_TO_ATOM (context->targets->data),
+					   time);
+		gtk_tree_path_free(path);
 		return TRUE;
 	};
-	qt->drop_to_row=-1;
+	if (qt->drop_to_row) gtk_tree_iter_free(qt->drop_to_row);
+	qt->drop_to_row=NULL;
 	return FALSE;
 };
 
+static void _foreach_move_prepare_(GtkTreeModel *model,GtkTreePath *path,
+				   GtkTreeIter *iter,gpointer p){
+	tQueue *q=(tQueue*)p;
+	tmpIterNode *i=new tmpIterNode(iter);
+	q->insert(i);
+};
 
-void d4xQsTree::drop_from(GtkWidget *clist){
-	drag_motion(-1);
-	if (drop_to_row<0) return;
-	GList *select=(GTK_CLIST(clist))->selection_end;
-	if (select==NULL) return;
-	tDownload *temp=(tDownload *)gtk_clist_get_row_data(
-		GTK_CLIST(clist),GPOINTER_TO_INT(select->data));
-	if (temp==NULL || temp->myowner==NULL) return;
+tDownload * d4xQsTree::get_download(GtkTreeView *view,GtkTreeIter *iter){
+	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(view));
+	GValue val={0,};
+	gtk_tree_model_get_value(GTK_TREE_MODEL(list_store),iter,
+				 NOTHING_COL,&val);
+	tDownload *what=(tDownload *)g_value_get_pointer(&val);
+	g_value_unset(&val);
+	return (what);
+};
+
+void d4xQsTree::drop_from(GtkTreeView *src_view){
+	drag_motion(NULL);
+	if (drop_to_row==NULL) return;
+
+	tQueue q;
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(src_view);
+	gtk_tree_selection_selected_foreach(sel,
+					    _foreach_move_prepare_,
+					    &q);
+	tNode *t=q.last();
+	if (t==NULL) return;
+	tDownload *temp=get_download(src_view,((tmpIterNode*)t)->iter);
 	d4xDownloadQueue *src=temp->myowner->PAPA;
 	if (src==NULL) return;
-	d4xDownloadQueue *dst=(d4xDownloadQueue *)gtk_clist_get_row_data(GTK_CLIST(tree),drop_to_row);
+	GValue val={0,};
+	gtk_tree_model_get_value(GTK_TREE_MODEL(store),drop_to_row,
+				 QROW_QUEUE,&val);
+	d4xDownloadQueue *dst=(d4xDownloadQueue *)g_value_get_pointer(&val);
+	g_value_unset(&val);
+	
 	if (dst && dst!=src){
-//		printf("Dropped to %s from %s\n",dst->name.get(),src->name.get());
-		select=(GTK_CLIST(clist))->selection_end;
-		while (select){
-			temp=(tDownload *)gtk_clist_get_row_data(
-				GTK_CLIST(clist),GPOINTER_TO_INT(select->data));
+		while(t){
+			tDownload *temp=get_download(src_view,((tmpIterNode*)t)->iter);
 			int type=temp->owner();
 			src->del(temp);
 			src->qv.remove(temp);
 			dst->add(temp,type);
 			dst->qv.add(temp);
-			select=(GTK_CLIST(clist))->selection_end;
+			t=t->next;
 		};
 		aa.try_to_run_wait(dst);
 		aa.try_to_run_wait(src);
@@ -199,35 +228,40 @@ void d4xQsTree::drop_from(GtkWidget *clist){
 	};
 };
 
-void d4xQsTree::drag_motion(int row){
-	if (row==row_to_color) return;
-	if (row_to_color>=0){
-		gtk_clist_set_background(GTK_CLIST(tree),row_to_color,NULL);
-		gtk_clist_set_foreground(GTK_CLIST(tree),row_to_color,NULL);
+void d4xQsTree::drag_motion(GtkTreeIter *iter){
+	if (row_to_color){
+		gtk_tree_store_set(store,row_to_color,
+				   QROW_LAST,FALSE,
+				   -1);
+		gtk_tree_iter_free(row_to_color);
 	};
-	row_to_color=row;
-	if (row>=0){
-		GtkStyle *style=gtk_widget_get_style(GTK_WIDGET(tree));
-		gtk_clist_set_background(GTK_CLIST(tree),row,&(style->bg[GTK_STATE_SELECTED]));
-		gtk_clist_set_foreground(GTK_CLIST(tree),row,&(style->fg[GTK_STATE_SELECTED]));
+	if (iter==NULL){
+		row_to_color=NULL;
+	}else{
+		row_to_color=gtk_tree_iter_copy(iter);
+		gtk_tree_store_set(store,row_to_color,
+				   QROW_LAST,TRUE,
+				   -1);
 	};
 };
 
-static gboolean target_drag_motion (GtkWidget *widget,
+static gboolean target_drag_motion (GtkTreeView *view,
 				    GdkDragContext *context,
 				    gint x,gint y,
 				    guint time,
 				    d4xQsTree *qt){
-	
-	int row;
+
+	GtkTreeIter iter;
+	GtkTreePath *path=NULL;
 	if (context->targets &&
-	    gtk_clist_get_selection_info(GTK_CLIST(widget),
-					 x,y,
-					 &row,(gint *)NULL)){
-		qt->drag_motion(row);
+	    gtk_tree_view_get_path_at_pos(view,x,y,&path,NULL,NULL,NULL)){
+		GtkTreeModel *model=gtk_tree_view_get_model(view);
+		if (gtk_tree_model_get_iter(model,&iter,path))
+			qt->drag_motion(&iter);
+		gtk_tree_path_free(path);
 		return TRUE;
 	};
-	qt->drag_motion(-1);
+	qt->drag_motion(NULL);
 	return FALSE;
 };
 
@@ -240,10 +274,10 @@ static void target_drag_data_received  (GtkWidget *widget,
 					guint               time,
 					d4xQsTree *qt){
 	if ((data->length == sizeof(GtkWidget *)) && (data->format == 8)){
-		GtkWidget **clist=NULL;
-		clist=(GtkWidget **)(data->data);
-		if (clist && *clist){
-			qt->drop_from(*clist);
+		GtkTreeView **src_view=NULL;
+		src_view=(GtkTreeView **)(data->data);
+		if (src_view && *src_view){
+			qt->drop_from(*src_view);
 		};
 		gtk_drag_finish (context, TRUE, FALSE, time);
 		return;
@@ -258,82 +292,138 @@ static GtkTargetEntry ltarget_table[] = {
 static guint ln_targets = sizeof(ltarget_table) / sizeof(ltarget_table[0]);
 
 static void target_drag_leave(GtkWidget *widget,GdkDragContext *context, guint time,d4xQsTree *qt){
-	qt->drag_motion(-1);
+	qt->drag_motion(NULL);
 }
 
-void d4xQsTree::init(){
-	char *title[]={
-		N_("Name"),
-		N_("Total"),
-		N_("Wait"),
-		N_("Run")
+static gboolean d4x_qstree_select_func(GtkTreeSelection *sel, GtkTreeModel *model,GtkTreePath *path,
+				       gboolean is_sel, gpointer data){
+	if (!is_sel){
+		d4xQsTree *qt=(d4xQsTree*)data;
+		GtkTreeIter iter;
+		gtk_tree_model_get_iter(model,&iter,path);
+		qt->select_row(&iter);
 	};
-	row_to_color=-1;
-	tree = GTK_CTREE(gtk_ctree_new_with_titles (4, 0, title));
-	gtk_drag_dest_set (GTK_WIDGET(tree),
+	return(TRUE);
+};
+
+void d4xQsTree::init(){
+	store=gtk_tree_store_new(QROW_LAST+1,
+				 G_TYPE_STRING,  //name
+				 G_TYPE_INT,     //Total
+				 G_TYPE_INT,     //Wait
+				 G_TYPE_STRING,  //Run 
+				 G_TYPE_POINTER,
+				 G_TYPE_BOOLEAN);//queue
+	view=GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(store)));
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
+	gtk_tree_selection_set_select_function(sel,d4x_qstree_select_func,this,NULL);
+	gtk_tree_view_set_headers_visible(view,FALSE);
+	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),"background-gdk", &BLUE,NULL);
+	g_object_set (G_OBJECT (renderer),"foreground-gdk", &WHITE,NULL);
+	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes ("Name",
+									      renderer,
+									      "text",QROW_NAME,
+									      "background_set", QROW_LAST,
+									      "foreground_set", QROW_LAST,
+									      NULL);
+	gtk_tree_view_append_column(view, column);
+	
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),"background-gdk", &BLUE,NULL);
+	g_object_set (G_OBJECT (renderer),"foreground-gdk", &WHITE,NULL);
+	column = gtk_tree_view_column_new_with_attributes ("Total",
+							   renderer,
+							   "text",QROW_TOTAL,
+							   "background_set", QROW_LAST,
+							   "foreground_set", QROW_LAST,
+							   NULL);
+	gtk_tree_view_append_column(view, column);
+	
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),"background-gdk", &BLUE,NULL);
+	g_object_set (G_OBJECT (renderer),"foreground-gdk", &WHITE,NULL);
+	column = gtk_tree_view_column_new_with_attributes ("Wait",
+							   renderer,
+							   "text",QROW_WAIT,
+							   "background_set", QROW_LAST,
+							   "foreground_set", QROW_LAST,
+							   NULL);
+	gtk_tree_view_append_column(view, column);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),"background-gdk", &BLUE,NULL);
+	g_object_set (G_OBJECT (renderer),"foreground-gdk", &WHITE,NULL);
+	column = gtk_tree_view_column_new_with_attributes ("Run",
+							   renderer,
+							   "text",QROW_RUN,
+							   "background_set", QROW_LAST,
+							   "foreground_set", QROW_LAST,
+							   NULL);
+	gtk_tree_view_append_column(view, column);
+
+	drop_to_row=row_to_color=NULL;
+	gtk_drag_dest_set (GTK_WIDGET(view),
 			   (GtkDestDefaults)(GTK_DEST_DEFAULT_MOTION |
 					     GTK_DEST_DEFAULT_HIGHLIGHT |
 					     GTK_DEST_DEFAULT_DROP),
 			   ltarget_table, ln_targets,
 			   (GdkDragAction)(GDK_ACTION_COPY|GDK_ACTION_MOVE));
-	gtk_signal_connect (GTK_OBJECT (tree), "drag_leave",
-			    GTK_SIGNAL_FUNC (target_drag_leave), this);
-	gtk_signal_connect (GTK_OBJECT (tree), "drag_drop",
-			    GTK_SIGNAL_FUNC (target_drag_drop), this);
-	gtk_signal_connect (GTK_OBJECT (tree), "drag_data_received",
-			    GTK_SIGNAL_FUNC (target_drag_data_received), this);
-	gtk_signal_connect (GTK_OBJECT (tree), "drag_motion",
-			    GTK_SIGNAL_FUNC (target_drag_motion), this);
-	gtk_clist_column_titles_hide(GTK_CLIST(tree));
-	gtk_clist_set_selection_mode(GTK_CLIST(tree),GTK_SELECTION_SINGLE);
-	for (int i=0;i<4;i++)
-		gtk_clist_set_column_auto_resize(GTK_CLIST(tree),i,TRUE);
-	gtk_signal_connect(GTK_OBJECT(tree), "select_row",
-	                   GTK_SIGNAL_FUNC(_select_queue_),this);
-	gtk_signal_connect(GTK_OBJECT(tree), "event",
-	                   GTK_SIGNAL_FUNC(_event_queue_),this);
+	g_signal_connect(G_OBJECT (view), "drag_leave",
+			   G_CALLBACK (target_drag_leave), this);
+	g_signal_connect(G_OBJECT (view), "drag_drop",
+			   G_CALLBACK (target_drag_drop), this);
+	g_signal_connect(G_OBJECT (view), "drag_data_received",
+			   G_CALLBACK (target_drag_data_received), this);
+	g_signal_connect(G_OBJECT (view), "drag_motion",
+			   G_CALLBACK (target_drag_motion), this);
+	g_signal_connect(G_OBJECT(view), "event",
+	                   G_CALLBACK(_event_queue_),this);
 	menu1=menu2=dialog=prefs=NULL;
 };
 
 void d4xQsTree::add(d4xDownloadQueue *what,d4xDownloadQueue *papa){
-	char *text[4];
-	text[0]=what->name.get();
-	char data1[10],data2[10],data3[10];
-	sprintf(data1,"%i",what->count());
-	sprintf(data2,"%i",what->count(DL_WAIT));
-	sprintf(data3,"%i/%i",what->count(DL_RUN),what->MAX_ACTIVE);
-	text[1]=data1;
-	text[2]=data2;
-	text[3]=data3;
+	what->inserted=1;
 	if (papa){
-		GtkCTreeNode *a=gtk_ctree_find_by_row_data(tree,NULL,papa);
-		if (a){
-			GtkCTreeNode *node=gtk_ctree_insert_node (tree, a, NULL,text,5,NULL,NULL,NULL,NULL,FALSE,TRUE);
-			gtk_ctree_node_set_row_data(tree,node,what);
-			return;
-		};
-	};
-	GtkCTreeNode *node=gtk_ctree_insert_node (tree, NULL, NULL,text,5,NULL,NULL,NULL,NULL,FALSE,TRUE);
-	gtk_ctree_node_set_row_data(tree,node,what);
+		gtk_tree_store_append(store,&(what->tree_iter),&(papa->tree_iter));
+		GtkTreePath *path=gtk_tree_model_get_path(GTK_TREE_MODEL(store),&(papa->tree_iter));
+		gtk_tree_view_expand_row(view,path,TRUE);
+		gtk_tree_path_free(path);
+	}else
+		gtk_tree_store_append(store,&(what->tree_iter),NULL);
+	char data[100];
+	sprintf(data,"%i/%i",what->count(DL_RUN),what->MAX_ACTIVE);
+	gtk_tree_store_set(store,&(what->tree_iter),
+			   QROW_NAME,what->name.get(),
+			   QROW_TOTAL,what->count(),
+			   QROW_WAIT,what->count(DL_WAIT),
+			   QROW_RUN,data,
+			   QROW_QUEUE,what,
+			   QROW_LAST,FALSE,
+			   -1);
 };
 
 void d4xQsTree::del(d4xDownloadQueue *what){
-	GtkCTreeNode *a=gtk_ctree_find_by_row_data(tree,NULL,what);
-	gtk_ctree_remove_node(tree,a);
+	gtk_tree_store_remove(store,&(what->tree_iter));
+	what->inserted=0;
 };
 
 void d4xQsTree::update(d4xDownloadQueue *what){
-	GtkCTreeNode *a=gtk_ctree_find_by_row_data(tree,NULL,what);
-	if (a){
-		what->name.get();
-		gtk_ctree_node_set_text(tree,a,0,what->name.get());
-		char data1[10];
-		sprintf(data1,"%i",what->count());
-		gtk_ctree_node_set_text(tree,a,1,data1);
-		sprintf(data1,"%i",what->count(DL_WAIT));
-		gtk_ctree_node_set_text(tree,a,2,data1);
-		sprintf(data1,"%i/%i",what->count(DL_RUN),what->MAX_ACTIVE);
-		gtk_ctree_node_set_text(tree,a,3,data1);
+	if (store==NULL) return;
+	char data[100];
+	sprintf(data,"%i/%i",what->count(DL_RUN),what->MAX_ACTIVE);
+	gtk_tree_store_set(store,&(what->tree_iter),
+			   QROW_NAME,what->name.get(),
+			   QROW_TOTAL,what->count(),
+			   QROW_WAIT,what->count(DL_WAIT),
+			   QROW_RUN,data,
+			   -1);
+};
+
+void d4xQsTree::switch_remote(d4xDownloadQueue *what){
+	if (store && what->inserted){
+		GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
+		gtk_tree_selection_select_iter(sel,&(what->tree_iter));
 	};
 };
 
@@ -341,7 +431,7 @@ void d4xQsTree::switch_to(d4xDownloadQueue *what){
 	if (D4X_QUEUE==what) return;
 	if (D4X_QUEUE){
 		D4X_QUEUE->reset_empty_func();
-		gtk_widget_hide(D4X_QUEUE->qv.ListOfDownloads);
+//		gtk_widget_hide(D4X_QUEUE->qv.ListOfDownloads);
 		gtk_container_remove(GTK_CONTAINER(ContainerForCList),D4X_QUEUE->qv.ListOfDownloads);
 	};
 	gtk_container_add(GTK_CONTAINER(ContainerForCList),what->qv.ListOfDownloads);
@@ -349,13 +439,14 @@ void d4xQsTree::switch_to(d4xDownloadQueue *what){
 	what->set_defaults();
 	D4X_QUEUE=what;
 	prepare_buttons();
-	GtkCTreeNode *node=gtk_ctree_find_by_row_data(tree,NULL,what);
-	if (node)
-		gtk_ctree_select(tree,node);
 };
 
-void d4xQsTree::select_row(int row){
-	d4xDownloadQueue *q=(d4xDownloadQueue *)gtk_clist_get_row_data(GTK_CLIST(tree),row);
+void d4xQsTree::select_row(GtkTreeIter *iter){
+	GValue val={0,};
+	gtk_tree_model_get_value(GTK_TREE_MODEL(store),iter,
+				 QROW_QUEUE,&val);
+	d4xDownloadQueue *q=(d4xDownloadQueue *)g_value_peek_pointer(&val);
+	g_value_unset(&val);
 	if (q) switch_to(q);
 };
 
@@ -383,10 +474,10 @@ void d4xQsTree::init_menus() {
 	menu2 = gtk_item_factory_get_widget(item_factory, "<main>");
 };
 
-void d4xQsTree::popup_menu(GdkEvent *event){
+void d4xQsTree::popup_menu(GdkEvent *event,int selected){
 	if (menu1==NULL) init_menus();	
 	GdkEventButton *bevent=(GdkEventButton *)event;
-	if (GTK_CLIST(tree)->selection)
+	if (selected)
 		gtk_menu_popup(GTK_MENU(menu1),
 			       (GtkWidget *)NULL,
 			       (GtkWidget *)NULL,
@@ -403,15 +494,21 @@ void d4xQsTree::popup_menu(GdkEvent *event){
 };
 
 d4xDownloadQueue *d4xQsTree::selected(){
-	if (GTK_CLIST(tree)->selection==NULL) return(NULL);
-	GtkCTreeNode *node=(GtkCTreeNode *)(GTK_CLIST(tree)->selection->data);
-	return((d4xDownloadQueue *)gtk_ctree_node_get_row_data(tree,node));
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
+	GtkTreeIter iter;
+	if (gtk_tree_selection_get_selected(sel,NULL,&iter)){
+		GValue val={0,};
+		gtk_tree_model_get_value(GTK_TREE_MODEL(store),&iter,
+					 QROW_QUEUE,&val);
+		d4xDownloadQueue *q=(d4xDownloadQueue *)g_value_peek_pointer(&val);
+		g_value_unset(&val);
+		return(q);
+	};
+	return(NULL);
 };
 
 void d4xQsTree::delete_queue(){
-	if (GTK_CLIST(tree)->selection==NULL) return;
-	GtkCTreeNode *node=(GtkCTreeNode *)(GTK_CLIST(tree)->selection->data);
-	d4xDownloadQueue *q=(d4xDownloadQueue *)gtk_ctree_node_get_row_data(tree,node);
+	d4xDownloadQueue *q=selected();
 	if (q==NULL) return;
 	if (q->count() || q->child.count()) return; //remove all downloads
 	if (q->prev==NULL && q->next==NULL && q->parent==NULL) return; //last queue
@@ -426,8 +523,8 @@ void d4xQsTree::delete_queue(){
 		q->parent->subq_del(q);
 	else
 		D4X_QTREE.del(q);
+	del(q);
 	delete(q);
-	gtk_ctree_remove_node(tree,node);
 };
 
 static void _prefs_cancel_(GtkButton *button,d4xQsTree *qt){
@@ -453,14 +550,14 @@ void d4xQsTree::prefs_init(){
 	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
 
-	prefs = gtk_window_new(GTK_WINDOW_DIALOG);
+	prefs = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(prefs),
 			       "D4X_QueuePrefs","D4X");
 	gtk_window_set_title(GTK_WINDOW (prefs),
 			     _("Queue properties"));
 	gtk_window_set_position(GTK_WINDOW(prefs),
 				GTK_WIN_POS_CENTER);
-	gtk_container_border_width(GTK_CONTAINER(prefs),5);
+	gtk_container_set_border_width(GTK_CONTAINER(prefs),5);
 
 	GtkWidget *prefs_limits_tbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_tbox),5);
@@ -494,48 +591,48 @@ void d4xQsTree::prefs_init(){
 	gtk_box_set_spacing(GTK_BOX(columns_hbox),5);
 	GtkWidget *columns_frame1=gtk_frame_new(_("Size format"));
 	GtkWidget *columns_frame2=gtk_frame_new(_("Time format"));
-	gtk_container_border_width(GTK_CONTAINER(columns_frame1),5);
-	gtk_container_border_width(GTK_CONTAINER(columns_frame2),5);
+	gtk_container_set_border_width(GTK_CONTAINER(columns_frame1),5);
+	gtk_container_set_border_width(GTK_CONTAINER(columns_frame2),5);
 	GtkWidget *columns_vbox1=gtk_vbox_new(FALSE,0);
 	GtkWidget *columns_vbox2=gtk_vbox_new(FALSE,0);
 
 	columns_nums1=gtk_radio_button_new_with_label((GSList *)NULL,"123456");
 	gtk_box_pack_start(GTK_BOX(columns_vbox1),columns_nums1,FALSE,FALSE,0);
-	GSList *columns_group1=gtk_radio_button_group(GTK_RADIO_BUTTON(columns_nums1));
+	GSList *columns_group1=gtk_radio_button_get_group(GTK_RADIO_BUTTON(columns_nums1));
 	columns_nums2=gtk_radio_button_new_with_label(columns_group1,"123 456");
 	gtk_box_pack_start(GTK_BOX(columns_vbox1),columns_nums2,FALSE,FALSE,0);
 	columns_nums3=gtk_radio_button_new_with_label(
-		gtk_radio_button_group(GTK_RADIO_BUTTON(columns_nums2)),"123K");
+		gtk_radio_button_get_group(GTK_RADIO_BUTTON(columns_nums2)),"123K");
 	gtk_box_pack_start(GTK_BOX(columns_vbox1),columns_nums3,FALSE,FALSE,0);
 	columns_nums4=gtk_radio_button_new_with_label(
-		gtk_radio_button_group(GTK_RADIO_BUTTON(columns_nums3)),"123'456");
+		gtk_radio_button_get_group(GTK_RADIO_BUTTON(columns_nums3)),"123'456");
 	gtk_box_pack_start(GTK_BOX(columns_vbox1),columns_nums4,FALSE,FALSE,0);
 
 	switch(q->NICE_DEC_DIGITALS) {
 	case 1:	{
-		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(columns_nums2),TRUE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_nums2),TRUE);
 		break;
 	};
 	case 2:{
-		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(columns_nums3),TRUE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_nums3),TRUE);
 		break;
 	};
 	case 3:	{
-		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(columns_nums4),TRUE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_nums4),TRUE);
 		break;
 	};
 	default:
-		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(columns_nums1),TRUE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_nums1),TRUE);
 	};
 	columns_time1=gtk_radio_button_new_with_label((GSList *)NULL,"12:34:56");
 	gtk_box_pack_start(GTK_BOX(columns_vbox2),columns_time1,FALSE,FALSE,0);
-	GSList *columns_group2=gtk_radio_button_group(GTK_RADIO_BUTTON(columns_time1));
+	GSList *columns_group2=gtk_radio_button_get_group(GTK_RADIO_BUTTON(columns_time1));
 	columns_time2=gtk_radio_button_new_with_label(columns_group2,"12:34");
 	gtk_box_pack_start(GTK_BOX(columns_vbox2),columns_time2,FALSE,FALSE,0);
 	if (q->TIME_FORMAT)
-		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(columns_time2),TRUE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_time2),TRUE);
 	else
-		gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(columns_time1),TRUE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_time1),TRUE);
 	gtk_container_add(GTK_CONTAINER(columns_frame1),columns_vbox1);
 	GtkWidget *columns_vbox11=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_vbox11),columns_frame1,FALSE,FALSE,0);
@@ -548,13 +645,9 @@ void d4xQsTree::prefs_init(){
 	GtkWidget *columns_vbox22=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_vbox21),columns_vbox22,FALSE,FALSE,0);
 
-	GtkWidget *columns_vbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(columns_hbox),5);
-	gtk_box_pack_start(GTK_BOX(columns_vbox),columns_vbox11,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(columns_vbox),columns_vbox21,FALSE,FALSE,0);
-	columns_order.init(&(q->qv));
-	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_order.body(),FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox11,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox21,FALSE,FALSE,0);
 
 	gtk_box_pack_start(GTK_BOX(vbox),columns_hbox,FALSE,FALSE,0);
 
@@ -577,31 +670,29 @@ void d4xQsTree::prefs_init(){
 	gtk_box_pack_end(GTK_BOX(hbbox),cancel_button,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbbox,FALSE,FALSE,0);
 
-	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",
-			   GTK_SIGNAL_FUNC(_prefs_ok_),this);
-	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",
-			   GTK_SIGNAL_FUNC(_prefs_cancel_),this);
-	gtk_signal_connect(GTK_OBJECT(prefs),"delete_event",
-			   GTK_SIGNAL_FUNC(_prefs_delete_),this);
+	g_signal_connect(G_OBJECT(ok_button),"clicked",
+			 G_CALLBACK(_prefs_ok_),this);
+	g_signal_connect(G_OBJECT(cancel_button),"clicked",
+			 G_CALLBACK(_prefs_cancel_),this);
+	g_signal_connect(G_OBJECT(prefs),"delete_event",
+			 G_CALLBACK(_prefs_delete_),this);
 	d4x_eschandler_init(prefs,this);
 	
 	gtk_container_add(GTK_CONTAINER(prefs),vbox);
 	gtk_widget_show_all(prefs);
 	gtk_window_set_default(GTK_WINDOW(prefs),ok_button);
 	gtk_window_set_modal (GTK_WINDOW(prefs),TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (prefs),
-				      GTK_WINDOW (MainWindow));
+	gtk_window_set_transient_for(GTK_WINDOW (prefs),
+				     GTK_WINDOW (MainWindow));
 };
 
 void d4xQsTree::prefs_cancel(){
-	columns_order.reset();
 	gtk_widget_destroy(prefs);
 	prefs=NULL;
 };
 
 void d4xQsTree::prefs_ok(){
 	d4xDownloadQueue *q=selected();
-	columns_order.apply_changes_tmp();
 	q->NICE_DEC_DIGITALS=(GTK_TOGGLE_BUTTON(columns_nums2)->active?1:0)+
 		(GTK_TOGGLE_BUTTON(columns_nums3)->active?2:0)+
 		(GTK_TOGGLE_BUTTON(columns_nums4)->active?3:0);
@@ -617,10 +708,6 @@ void d4xQsTree::prefs_ok(){
 	if (q->MAX_ACTIVE>50) q->MAX_ACTIVE=50;
 	q->AUTODEL_FAILED=GTK_TOGGLE_BUTTON(del_fataled)->active;
 	q->AUTODEL_COMPLETED=GTK_TOGGLE_BUTTON(del_completed)->active;
-	if (q==D4X_QUEUE && columns_order.apply_changes()){
-		gtk_container_add(GTK_CONTAINER(ContainerForCList),q->qv.ListOfDownloads);
-		gtk_widget_show(q->qv.ListOfDownloads);
-	};
 	if (q->AUTODEL_COMPLETED) aa.del_completed(q);
 	if (q->AUTODEL_FAILED) aa.del_fataled(q);
 	update(q);

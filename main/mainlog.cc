@@ -46,15 +46,6 @@ static gint list_menu_open_properties(GtkWidget *widget, tMLog *Log){
 	return TRUE;
 };
 
-static void main_log_event_handler( GtkWidget *clist, gint row, gint column,
-                                    GdkEventButton *event,tMLog *parent) {
-	if (event) {
-		if (event->type==GDK_2BUTTON_PRESS && event->button==1) {
-			parent->open_row(row);
-		};
-	};
-};
-
 int main_log_event_handler2(GtkWidget *widget,GdkEventButton *event,tMLog *log) {
 	return log->popup(event);
 };
@@ -79,65 +70,59 @@ static void _ml_clist_addr_destroy_(tAddr *addr){
 void tMLog::add_to_list() {
 	current_line+=1;
 	tLogString *str=(tLogString *)Last;
-	struct tm msgtime;
-	localtime_r(&(str->time),&msgtime);
-	char useful[MAX_LEN];
-	strftime(useful,MAX_LEN,"%T",&msgtime);
-	char tmpdate[MAX_LEN];
-	strftime(tmpdate,MAX_LEN,"%d %b %Y",&msgtime);
-	char line_number[MAX_LEN];
-	sprintf(line_number,"[%i]",current_line);
-	char *data[ML_COL_LAST];
-	data[ML_COL_NUM] = line_number;
-	data[ML_COL_TIME] = useful;
-	data[ML_COL_DATE] = tmpdate;
-	data[ML_COL_STRING] = str->body;
-	int row=0;
-	if (list){
-		row=gtk_clist_append(list,data);
-		if (str->type==LOG_ERROR && last_error){
-			tAddr *addr=new tAddr;
-			addr->copy(last_error);
-			addr->username.set(NULL); //no need for search
-			addr->pass.set(NULL);  //no need for search
-			gtk_clist_set_row_data_full(list,row,addr,
-						    GtkDestroyNotify(_ml_clist_addr_destroy_));
-		};
-	};
-	GdkColor color;
+	char *color;
 	char str_type;
 	switch (str->type & (LOG_DETAILED-1)) {
 		case LOG_OK:{
-				color=BLACK;
+				color="black";
 				str_type='+';
 				break;
 			};
 		case LOG_FROM_SERVER:
 			{
-				color=BLUE;
+				color="blue";
 				str_type='-';
 				break;
 			};
 		case LOG_WARNING:
 			{
 				str_type='?';
-				color=GREEN;
+				color="darkgreen";
 				break;
 			};
 		case LOG_ERROR:
 			{
 				str_type='!';
-				color=RED;
+				color="red";
 				break;
 			};
 		default:
 			str_type=' ';
-			color=BLACK;
+			color="black";
 	};
+	struct tm msgtime;
+	localtime_r(&(str->time),&msgtime);
+	char useful[MAX_LEN];
+	strftime(useful,MAX_LEN,"%T",&msgtime);
+	char tmpdate[MAX_LEN];
+	strftime(tmpdate,MAX_LEN,"%d %b %Y",&msgtime);
+	GtkTreeIter iter;
 	if (list){
-		GdkColormap *colormap = gtk_widget_get_colormap (MainWindow);
-		gdk_color_alloc (colormap, &color);
-		gtk_clist_set_foreground(list,row,&color);
+		char *date_utf=g_convert(tmpdate,-1,"UTF-8",LOCALE_CODEPAGE,NULL,NULL,NULL);
+		GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(list);
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter,
+				   ML_COL_NUM, current_line,
+				   ML_COL_TIME, useful,
+				   ML_COL_DATE, date_utf?date_utf:tmpdate,
+				   ML_COL_STRING, str->body,
+				   ML_COL_LAST, color,
+				   -1);
+		if (date_utf) g_free(date_utf);
+/*FIXME: GTK2
+			gtk_clist_set_row_data_full(list,row,addr,
+						    GtkDestroyNotify(_ml_clist_addr_destroy_));
+*/
 	};
 	strftime(useful,MAX_LEN,"%T %d %b %Y ",&msgtime);
 	if (CFG.WITHOUT_FACE){
@@ -203,36 +188,38 @@ void tMLog::add(char *str,int type) {
 	Size+=len;
 };
 
-void tMLog::init_list(GtkCList *clist) {
+void tMLog::init_list(GtkTreeView *clist) {
 	list=clist;
 	if (list==NULL) return;
-	gtk_signal_connect(GTK_OBJECT(list),"select_row",GTK_SIGNAL_FUNC(main_log_event_handler),this);
-	gtk_signal_connect(GTK_OBJECT(list),"event",GTK_SIGNAL_FUNC(main_log_event_handler2),this);
+	g_signal_connect(G_OBJECT(list),"event",G_CALLBACK(main_log_event_handler2),this);
 	/* Initing popup menu
 	 */
 	popup_menu=gtk_menu_new();
 	open_row_item=gtk_menu_item_new_with_label(_("Open a row"));
-	gtk_menu_append(GTK_MENU(popup_menu),open_row_item);
-	gtk_signal_connect(GTK_OBJECT(open_row_item),"activate",GTK_SIGNAL_FUNC(list_menu_open_row_main_log),this);
+	gtk_menu_shell_append(GTK_MENU_SHELL(popup_menu),open_row_item);
+	g_signal_connect(G_OBJECT(open_row_item),"activate",G_CALLBACK(list_menu_open_row_main_log),this);
 	clear_item=gtk_menu_item_new_with_label(_("Clear log"));
-	gtk_menu_append(GTK_MENU(popup_menu),clear_item);
-	gtk_signal_connect(GTK_OBJECT(clear_item),"activate",GTK_SIGNAL_FUNC(list_menu_clear_main_log),this);
+	gtk_menu_shell_append(GTK_MENU_SHELL(popup_menu),clear_item);
+	g_signal_connect(G_OBJECT(clear_item),"activate",G_CALLBACK(list_menu_clear_main_log),this);
 	GtkWidget *item=gtk_menu_item_new_with_label(_("Properties"));
-	gtk_menu_append(GTK_MENU(popup_menu),item);
-	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(list_menu_open_properties),this);
+	gtk_menu_shell_append(GTK_MENU_SHELL(popup_menu),item);
+	g_signal_connect(G_OBJECT(item),"activate",G_CALLBACK(list_menu_open_properties),this);
 	gtk_widget_show_all(popup_menu);
 };
 
 int tMLog::popup(GdkEventButton *event) {
 	if (!list) return FALSE;
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(list);
+	GtkTreePath *path=NULL;
 	if (event && event->type==GDK_BUTTON_PRESS && event->button==3) {
-		int row;
-		gtk_clist_unselect_all(list);
-		if (gtk_clist_get_selection_info(list,int(event->x),int(event->y),&row,NULL)) {
-			gtk_clist_select_row(list,row,-1);
+		gtk_tree_selection_unselect_all(sel);
+		int selected=0;
+		if (gtk_tree_view_get_path_at_pos(list,gint(event->x),gint(event->y),&path,NULL,NULL,NULL)){
+			selected=1;
+			gtk_tree_selection_select_path(sel,path);
+			gtk_tree_path_free(path);
 		};
-		GList *select=((GtkCList *)list)->selection;
-		if (select)
+		if (selected)
 			gtk_widget_set_sensitive(open_row_item,TRUE);
 		else
 			gtk_widget_set_sensitive(open_row_item,FALSE);
@@ -243,36 +230,59 @@ int tMLog::popup(GdkEventButton *event) {
 		gtk_menu_popup(GTK_MENU(popup_menu),NULL,NULL,NULL,NULL,event->button,event->time);
 		return TRUE;
 	};
+	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1){
+		if (gtk_tree_view_get_path_at_pos(list,gint(event->x),gint(event->y),&path,NULL,NULL,NULL)){
+			gtk_tree_selection_select_path(sel,path);
+			GtkTreeIter iter;
+			GtkTreeModel *model=gtk_tree_view_get_model(list);
+			gtk_tree_model_get_iter(model,&iter,path);
+			gtk_tree_path_free(path);
+			open_row(&iter);
+		};
+		return TRUE;
+	};
 	return FALSE;
 };
 
-void tMLog::real_open_row(int row){
+void tMLog::real_open_row(GtkTreeIter *iter){
 	char data[MAX_LEN];
-	sprintf(data,_("row number %i of main log"),row+1);
 	char *text;
-	gtk_clist_get_text(list,row,ML_COL_STRING,&text);
+	int num=0;
+// FIXME GTK2
+	GValue val={0,};
+	GtkTreeModel *model=gtk_tree_view_get_model(list);
+	gtk_tree_model_get_value(model,iter,ML_COL_NUM,&val);
+	num=g_value_get_int(&val);
+	g_value_unset(&val);
+	sprintf(data,_("row number %i of main log"),num);
+	gtk_tree_model_get_value(model,iter,ML_COL_STRING,&val);
+	text=(char*)g_value_get_string(&val);
 	if (!string)
 		string=new tStringDialog;
 	string->init(text,data);
+	g_value_unset(&val);
 };
 
-void tMLog::open_row(int row) {
+void tMLog::open_row(GtkTreeIter *iter) {
 	if (!list) return;
+/*
 	tAddr *addr=(tAddr *)gtk_clist_get_row_data(list,row);
 	tDownload *dwn;
 	if (addr  && (dwn=aa.find_url(addr))){
 		log_window_init(dwn);
 		D4X_QVT->move_to(dwn);
 	}else{
-		real_open_row(row);
-	};
+*/
+		real_open_row(iter);
+//	};
 };
 
 void tMLog::open_selected_row() {
 	if (!list) return;
-	GList *select=((GtkCList *)list)->selection;
-	if (select) {
-		real_open_row(GPOINTER_TO_INT(select->data));
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(list);
+	GtkTreeIter iter;
+	if (gtk_tree_selection_get_selected(sel,NULL,&iter)){
+		real_open_row(&iter);
 	};
 };
 
@@ -327,7 +337,7 @@ void tMLog::myprintf(int type,char *fmt,...){
 			case 'z':{
 				tDownload *temp=va_arg(ap,tDownload *);
 				if (temp && temp->info){
-					char *s=temp->info->url();
+					char *s=temp->info->url_parsed();
 					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
 					delete[] s;
 					last_error=temp->info;
@@ -375,8 +385,12 @@ void tMLog::myprintf(int type,char *fmt,...){
 };
 
 void tMLog::dispose() {
-	if (list)
-		gtk_clist_remove(list,0);
+	if (list){
+		GtkTreeIter iter;
+		GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(list);
+		gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store),&iter);
+		gtk_list_store_remove(store,&iter);
+	};
 	tStringList::dispose();
 };
 
@@ -393,9 +407,7 @@ tLogString *tMLog::first() {
 };
 
 void tMLog::done(){
-	if (list) gtk_clist_freeze(GTK_CLIST(list));
 	tStringList::done();
-	if (list) gtk_clist_thaw(GTK_CLIST(list));
 };
 
 tMLog::~tMLog() {

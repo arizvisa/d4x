@@ -29,6 +29,10 @@ fsize_t tWriterLoger::shift(fsize_t len){
 
 tWriterLoger::~tWriterLoger(){};
 
+int tWriterLoger::is_overlaped(){
+	return(0);
+};
+
 void tWriterLoger::log_printf(int type,const char *fmt,...){
 	DBC_RETURN_IF_FAIL(fmt!=NULL);
 	char str[MAX_LEN+1];
@@ -204,7 +208,7 @@ void tCfg::save_to_config(int fd){
 	if (hproxy_host.get()){
 		write_named_string(fd,"Hproxy:",hproxy_host.get());
 		write_named_integer(fd,"Hproxy_port:",hproxy_port);
-		if(fproxy_pass.get()!=NULL && fproxy_user.get()!=NULL){
+		if(hproxy_pass.get()!=NULL && hproxy_user.get()!=NULL){
 			write_named_string(fd,"Hproxy_pass:",hproxy_pass.get());
 			write_named_string(fd,"Hproxy_user:",hproxy_user.get());
 		};

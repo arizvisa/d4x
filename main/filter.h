@@ -19,6 +19,7 @@
 
 struct d4xRule:public tNode{
 	tPStr path,file,host,params,tag;
+	GtkTreeIter iter;
 	int proto;
 	int include;
 	d4xRule();
@@ -52,6 +53,7 @@ class d4xFilter:public tQueue{
 
 struct d4xFNode:public tAbstractSortNode{
 	d4xFilter *filter;
+	GtkTreeIter iter;
 	d4xFNode();
 	int cmp(tAbstractSortNode *what);
 	void print(){};

@@ -26,13 +26,13 @@ struct d4xAltList{
 private:
 	d4xLinksSel *edit;
 	d4xStringEdit *add_edit,*mod_edit;
-	int str2mod;
+	GtkTreeIter *str2mod;
 public:
 	d4xMutex lock;
 	d4xAlt *FIRST,*END;
 	d4xAltList();
 	~d4xAltList();
-	void init_edit_mod(int str);
+	void init_edit_mod(GtkTreeIter *iter);
 	void edit_mod_destroy();
 	void edit_mod_ok();
 	void lock_by_download();
