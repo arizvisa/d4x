@@ -55,6 +55,28 @@ int tTriger::change() {
 	return old==curent?0:1;
 };
 
+/* file locking functions */
+/* return zero id all ok */
+int d4x_f_lock(int fd){
+	struct flock a;
+	a.l_type=F_WRLCK;
+	a.l_whence=SEEK_SET;
+	a.l_start=0;
+	a.l_len=1;
+	if (fcntl(fd,F_SETLK,&a)==-1)
+		return(-1);
+	return(0);
+};
+
+void d4x_f_unlock(int fd){
+	struct flock a;
+	a.l_type=F_UNLCK;
+	a.l_whence=SEEK_SET;
+	a.l_start=0;
+	a.l_len=1;
+	fcntl(fd,F_SETLK,&a);
+};
+
 /*-------------------------------------------------------------
   tDefaultWL
  --------------------------------------------------------------*/
@@ -63,6 +85,7 @@ tDefaultWL::tDefaultWL(){
 	fd=-1;
 	LOG=NULL;
 	segments=NULL;
+	fdlock=0;
 };
 
 fsize_t tDefaultWL::read(void *dst,fsize_t len){
@@ -97,8 +120,16 @@ void tDefaultWL::set_segments(tSegmentator *newseg){
 	segments=newseg;
 };
 
-void tDefaultWL::set_fd(int newfd){
-	if (fd>=0) close(fd);
+void tDefaultWL::fd_close(){
+	if (fd>=0){
+		if (fdlock)
+			d4x_f_unlock(fd);
+		close(fd);		
+	};
+};
+
+void tDefaultWL::set_fd(int newfd,int lockstate=0){
+	fdlock=lockstate;
 	fd=newfd;
 };
 
@@ -153,7 +184,7 @@ char *tDefaultWL::cookie(const char *host, const char *path){
 
 
 tDefaultWL::~tDefaultWL(){
-	if (fd>=0) close(fd);
+	fd_close();
 };
 
 /*************Split Information****************/
@@ -325,6 +356,13 @@ fsize_t tDownload::init_segmentator(int fdesc,fsize_t cursize,char *name){
 	fsize_t rvalue=cursize;
 	im_first=0;
 	if (segments==NULL){
+		/*trying to lock*/
+		if (d4x_f_lock(fdesc)){
+			WL->log(LOG_ERROR,_("File is already opened by another download!"));
+			close(fdesc);
+			return(-1);
+		};
+		/*end of trying */
 		segments=new tSegmentator;
 		char *segname=sum_strings(name,".segments",NULL);
 		segments->init(segname);
@@ -347,6 +385,7 @@ fsize_t tDownload::init_segmentator(int fdesc,fsize_t cursize,char *name){
 		StartSize=segments->get_total();
 	};
 	((tDefaultWL*)(WL))->set_segments(segments);
+	((tDefaultWL*)(WL))->set_fd(fdesc,im_first);
 	return rvalue;
 };
 
@@ -419,7 +458,6 @@ fsize_t tDownload::create_file() {
 		config.restart_from_begin=0;
 		WL->log(LOG_OK,_("File was created!"));
 		rvalue=init_segmentator(fdesc,lseek(fdesc,0,SEEK_END),name);
-		((tDefaultWL*)(WL))->set_fd(fdesc);
 		break;
 	};
 	case T_DIR:{ //this is a directory

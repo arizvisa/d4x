@@ -37,11 +37,13 @@ struct tTriger{
 
 class tDefaultWL:public tWriterLoger{
 	int fd;
+	int fdlock;
 	tLog *LOG;
 	tSegmentator *segments;
+	void fd_close();
  public:
 	tDefaultWL();
-	void set_fd(int newfd);
+	void set_fd(int newfd,int lockstate=0);
 	void set_segments(tSegmentator *newseg);
 	int get_fd();
 	void set_log(tLog *log);

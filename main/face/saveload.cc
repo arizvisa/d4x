@@ -88,7 +88,7 @@ void load_txt_list_ok(GtkWidget *parent,GtkWidget *who) {
 	tStringList *list=parser->parse();
 	tString *tmp=list->last();
 	while (tmp){
-		aa.add_downloading(tmp->body,(char *)NULL,(char *)NULL);
+		aa.add_downloading(tmp->body);
 		tmp=list->next();
 	};
 	delete(parser);

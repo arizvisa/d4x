@@ -196,16 +196,16 @@ void fs_list_hide(){
 
 void fs_list_show(){
 	fs_list_status=1;
-	if (MAIN_PANED2){
-		gtk_paned_set_position(GTK_PANED(MAIN_PANED2),
-				       gint(CFG.WINDOW_CLIST_WIDTH));
-	};
+	fs_list_set_size();
 };
 
 void fs_list_set_size(){
 	if (MAIN_PANED2){
 		if (fs_list_status)
-			gtk_paned_set_position(GTK_PANED(MAIN_PANED2),gint(CFG.WINDOW_CLIST_WIDTH));
+			gtk_paned_set_position(GTK_PANED(MAIN_PANED2),
+					       MAIN_PANED2->allocation.width-
+					       gint(CFG.WINDOW_CLIST_WIDTH)-
+					       GTK_PANED(MAIN_PANED2)->gutter_size);
 		else{
 			fs_list_hide();
 		};
@@ -214,7 +214,9 @@ void fs_list_set_size(){
 
 void fs_list_get_size(){
 	if (MAIN_PANED2 && fs_list_status)
-		CFG.WINDOW_CLIST_WIDTH=GTK_PANED(MAIN_PANED2)->child1_size;
+		CFG.WINDOW_CLIST_WIDTH=MAIN_PANED2->allocation.width-
+			GTK_PANED(MAIN_PANED2)->child1_size-
+			GTK_PANED(MAIN_PANED2)->gutter_size;
 };
 
 

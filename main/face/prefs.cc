@@ -1100,7 +1100,7 @@ void d4x_prefs_apply(){
 	d4x_prefs_apply_tmp();
 	int need_reinit_log=0;
 	int need_reinit_graph=0;
- 	if (TMPCFG.SAVE_LOG_PATH==NULL ||
+ 	if (TMPCFG.SAVE_LOG_PATH==NULL || CFG.SAVE_LOG_PATH==NULL ||
 	    strcmp(TMPCFG.SAVE_LOG_PATH,CFG.SAVE_LOG_PATH) ||
 	    CFG.SAVE_MAIN_LOG!=TMPCFG.SAVE_MAIN_LOG)
 		need_reinit_log=1;

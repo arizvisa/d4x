@@ -165,27 +165,35 @@ void ftp_cut_string_list(char *src,tFileInfo *dst,int flag) {
 	extract_string(src,str1,5);
 	if (strlen(str1)){
 // unix style listing
+		extract_string(src,name,1);
+		char *rsrc;
+		if (is_string(name))
+			rsrc=src;
+		else{
+			rsrc=skip_strings(src,2);
+			extract_string(rsrc,str1,5);
+		};
 		char *tmp;
 		if (!is_string(str1)){
-			tmp=skip_strings(src,8);
-			sscanf(src,"%s %u %s %s %li %s %u %s %s",
+			tmp=skip_strings(rsrc,8);
+			sscanf(rsrc,"%s %u %s %s %li %s %u %s %s",
 	       		str1,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
 		}else{
-			tmp=skip_strings(src,7);
-			sscanf(src,"%s %u %s %li %s %u %s %s",
+			tmp=skip_strings(rsrc,7);
+			sscanf(rsrc,"%s %u %s %li %s %u %s %s",
 	       		str1,&par1,str1,&dst->size,str1,&par1,str1,name);
 		};
-		dst->type=ftp_type_from_str(src);
+		dst->type=ftp_type_from_str(rsrc);
 		if (dst->type!=T_DEVICE) {
-			dst->perm=ftp_permisions_from_str(src);
-			dst->date=ftp_date_from_str(src);
+			dst->perm=ftp_permisions_from_str(rsrc);
+			dst->date=ftp_date_from_str(rsrc);
 		};
 		if (flag) {
 			if (tmp) dst->name.set(tmp);
 			else dst->name.set(name);
 		};
 		if (dst->type==T_LINK) {
-			ftp_extract_link(src,name);
+			ftp_extract_link(rsrc,name);
 			dst->body.set(name);
 			if (flag) {
 				tmp=strstr(dst->name.get()," -> ");
@@ -240,6 +248,7 @@ void tFtpDownload::print_error(int error_code){
 int tFtpDownload::change_dir() {
 	int rvalue=0;
 	if (CWDFlag) return 0;
+	/*
 	if (!equal(ADDR.username.get(),DEFAULT_USER)){
 		if ((rvalue=FTP->change_dir("/"))){
 			print_error(ERROR_CWD);
@@ -250,6 +259,12 @@ int tFtpDownload::change_dir() {
 		print_error(ERROR_CWD);
 		return(rvalue);
 	};
+	*/
+	if ((rvalue=FTP->change_dir(ADDR.path.get()))){
+		print_error(ERROR_CWD);
+		return(rvalue);
+	};
+		
 	CWDFlag=1;
 	return RVALUE_OK;
 };
@@ -294,6 +309,16 @@ int tFtpDownload::reconnect() {
 	};
 	CWDFlag=0;
 	return 0;
+};
+
+void tFtpDownload::init_download(char *path,char *file) {
+	ADDR.file.set(file);
+	if (*path!='~' && *path!='/'){
+		path=sum_strings("/",path,NULL);
+		ADDR.path.set(path);
+		delete(path);
+	}else
+		ADDR.path.set(path);
 };
 
 int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {

@@ -39,6 +39,7 @@ class tHtmlParser{
 	char *get_word_icommas();
 	void get_fields(tHtmlTag *tag);
 	char *extract_from_icommas(char *str);
+	void compact_string(char *str);
 	void look_for_meta_content(tHtmlTagField *where,tStringList *list);
 	tHtmlTag *get_tag();
  public:

@@ -27,6 +27,7 @@ class tFtpDownload:public tDownloader{
     public:
     	tFtpDownload();
     	int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
+	void init_download(char *path,char *file);
     	int download(fsize_t len);
     	fsize_t get_size();
     	void done();

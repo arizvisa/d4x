@@ -745,7 +745,7 @@ void normalize_path(char *src) {
 					};
 					if (*(a+2)=='.'  && (*(a+3)=='/' || *(a+3)==0)){
 						if (b>src) b-=1;
-						while (b>=src && *b!='/') b-=1;
+						while (b>src && *b!='/') b-=1;
 						a+=3;
 						break;
 					};
@@ -765,6 +765,15 @@ void normalize_path(char *src) {
 /* FIXME: compose_path() should be rewritten!!!
  */
 
+char *compose_path(const char *left,const char *right){
+	DBC_RETVAL_IF_FAIL(left!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(right!=NULL,NULL);
+	char *newpath=sum_strings(left,"/",right,NULL);
+	normalize_path(newpath);
+	return(newpath);
+}; 
+
+/*
 char *compose_path(const char *left,const char *right) {
 	DBC_RETVAL_IF_FAIL(left!=NULL,NULL);
 	DBC_RETVAL_IF_FAIL(right!=NULL,NULL);
@@ -803,7 +812,7 @@ char *compose_path(const char *left,const char *right) {
 //	printf("%s + %s -> %s\n",left,right,newpath);
 	return(newpath);
 };
-
+*/
 /*
 char *compose_path(const char *left,const char *right) {
 	DBC_RETVAL_IF_FAIL(left!=NULL,NULL);

@@ -1030,7 +1030,7 @@ void tMain::check_for_remote_commands(){
 		};
 		case PACKET_ADD:{
 			MainLog->myprintf(LOG_FROM_SERVER,_("Adding downloading via control socket [%s]"),addnew->body);
-			add_downloading(addnew->body,CFG.LOCAL_SAVE_PATH,NULL);
+			add_downloading(addnew->body,CFG.LOCAL_SAVE_PATH);
 			break;
 		};
 		case PACKET_SET_SPEED_LIMIT:{
@@ -1183,7 +1183,7 @@ void tMain::add_downloading_to(tDownload *what) {
 	};
 };
 
-int tMain::add_downloading(char *adr,char *where,char *name,char *desc=NULL) {
+int tMain::add_downloading(char *adr,char *where=NULL,char *name=NULL,char *desc=NULL) {
 	if (adr==NULL) return -1;
 	tAddr *addr=new tAddr(adr);
 //	if (!addr->is_valid()) return -1;

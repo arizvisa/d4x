@@ -69,88 +69,88 @@ tHtmlTegTable HTML_TEGS[]={
 	{"head",	HTML_FIELDS_NAMES[HF_PROFILE],		0},
 
 	{"body",	HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"body",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"body",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"table",	HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"table",      	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"table",      	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"th",		HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"th",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"th",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"td",		HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"td",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"td",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"col",		HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"col",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"col",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"thead",	HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"thead",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"thead",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"tfoot",	HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"tfoot",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"tfoot",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"tbody",	HTML_FIELDS_NAMES[HF_BACKGROUND],	0},
-	{"tbody",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"tbody",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"a",		HTML_FIELDS_NAMES[HF_HREF],		0},
-	{"a",		HTML_FIELDS_NAMES[HF_STYLE],		0},
-	{"address",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"a",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"address",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"area",	HTML_FIELDS_NAMES[HF_HREF],		0},
-	{"area",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"area",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"img",		HTML_FIELDS_NAMES[HF_SRC],		0},
 	{"img",		HTML_FIELDS_NAMES[HF_LOWSRC],		0},
 	{"img",		HTML_FIELDS_NAMES[HF_LONGDESC],		0},
-	{"img",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"img",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"img",		HTML_FIELDS_NAMES[HF_USEMAP],		0},
 
 	{"link",	HTML_FIELDS_NAMES[HF_HREF],		0},
-	{"link",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"link",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"input",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"input",	HTML_FIELDS_NAMES[HF_SRC],		0},
 	{"input",	HTML_FIELDS_NAMES[HF_USEMAP],		0},
 
 	{"applet",	HTML_FIELDS_NAMES[HF_CODEBASE],		0},
-	{"applet",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"applet",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"iframe",	HTML_FIELDS_NAMES[HF_LONGDESC],		0},
-	{"iframe",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"iframe",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"iframe",	HTML_FIELDS_NAMES[HF_SRC],		0},
 	{"frame",	HTML_FIELDS_NAMES[HF_LONGDESC],		0},
-	{"frame",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"frame",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"frame",	HTML_FIELDS_NAMES[HF_SRC],		0},
 
 	{"sound",	HTML_FIELDS_NAMES[HF_SRC],		0},
-	{"sound",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"sound",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"bgsound",	HTML_FIELDS_NAMES[HF_SRC],		0},
-	{"bgsound",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"bgsound",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"script",	HTML_FIELDS_NAMES[HF_SRC],		0},
 
 	{"embed",	HTML_FIELDS_NAMES[HF_SRC],		0},
-	{"embed",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"embed",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"fig",		HTML_FIELDS_NAMES[HF_SRC],		0},
-	{"fig",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"fig",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"overlay",	HTML_FIELDS_NAMES[HF_SRC],		0},
-	{"overlay",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"overlay",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"layer",	HTML_FIELDS_NAMES[HF_SRC],		0},
-	{"layer",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"layer",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"ins",		HTML_FIELDS_NAMES[HF_CITE],		0},
-	{"ins",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"ins",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"del",		HTML_FIELDS_NAMES[HF_CITE],		0},
-	{"del",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"del",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"q",		HTML_FIELDS_NAMES[HF_CITE],		0},
-	{"q",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"q",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"blockqute",	HTML_FIELDS_NAMES[HF_CITE],		0},
-	{"blockqute",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"blockqute",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
 	{"span",	HTML_FIELDS_NAMES[HF_HREF],		0},
-	{"span",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"span",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"div",		HTML_FIELDS_NAMES[HF_HREF],		0},
-	{"div",		HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"div",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 
-	{"object",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"object",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"object",	HTML_FIELDS_NAMES[HF_USEMAP],		0},
 	{"object",	HTML_FIELDS_NAMES[HF_DATA],		0},
-
+/*
 	{"center",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"h1",		HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"h2",		HTML_FIELDS_NAMES[HF_STYLE],		0},
@@ -208,6 +208,7 @@ tHtmlTegTable HTML_TEGS[]={
 	{"csobj",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"noframes",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"frameset",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+*/
 	{"base",	HTML_FIELDS_NAMES[HF_HREF],		HF_TYPE_BASE},
 	{"/base",	NULL,					HF_TYPE_BASE_CLOSE},
 	{"meta",	HTML_FIELDS_NAMES[HF_HTTP_EQUIV],	HF_TYPE_META}
@@ -276,6 +277,27 @@ char *tHtmlParser::get_word(int shift){
 	return NULL;
 };
 
+/* compact_string(char *str)
+    before exec:    str="\naa\nbb\ncc"
+    after execution:    str="aabbcc"
+ */
+void tHtmlParser::compact_string(char *str){
+	char *a=str,*b;
+	while (*a){
+		if (*a=='\n' || *a=='\r')
+			break;
+		a+=1;
+	};
+	b=a;
+	while (*a){
+		*a=*b;
+		if (*a!='\n' && *a!='\r')
+			b+=1;
+		a+=1;
+	};
+	*b=0;
+};
+
 char *tHtmlParser::get_word_icommas(){
 	int i=1;
 	char p;
@@ -331,6 +353,8 @@ void tHtmlParser::get_fields(tHtmlTag *tag){
 					default:
 						field->value=get_word(1);
 					};
+					if (field->value)
+						compact_string(field->value);
 					break;
 				};
 			};

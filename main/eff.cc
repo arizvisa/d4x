@@ -153,7 +153,7 @@ void thread_for_parse_add(){
 		if (list){
 			tString *tmp=list->last();
 			while (tmp){
-				aa.add_downloading(tmp->body,(char *)NULL,(char *)NULL);
+				aa.add_downloading(tmp->body);
 				tmp=list->next();
 			};
 		};

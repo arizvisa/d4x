@@ -789,7 +789,10 @@ void tDEdit::toggle_time() {
 
 
 void tDEdit::set_description(char *desc){
-	text_to_combo(desc_entry,desc);
+	if (desc)
+		text_to_combo(desc_entry,desc);
+	else
+		text_to_combo(desc_entry,"");		
 };
 
 void tDEdit::setup_entries() {

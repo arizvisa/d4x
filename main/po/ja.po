@@ -689,63 +689,63 @@ msgstr "削除"
 
 #: face/list.cc:135
 msgid "/_File"
-msgstr "/_ファイル"
+msgstr "/ファイル(_F)"
 
 #: face/list.cc:136
 msgid "/File/_Save List"
-msgstr "/ファイル/_リストのセーブ"
+msgstr "/ファイル(_F)/リストのセーブ(_S)"
 
 #: face/list.cc:137
 msgid "/File/_Load List"
-msgstr "/ファイル/_リストのロード"
+msgstr "/ファイル(_F)/リストのロード(_L)"
 
 #: face/list.cc:138 face/list.cc:141
 msgid "/File/sep1"
-msgstr "/ファイル/sep1"
+msgstr "/ファイル(_F)/sep1"
 
 #: face/list.cc:139
 msgid "/File/_New Download"
-msgstr "/ファイル/_新規ダウンロード"
+msgstr "/ファイル(_F)/_新規ダウンロード(_N)"
 
 #: face/list.cc:140
 msgid "/File/_Paste Download"
-msgstr "/ファイル/_ペースト ダウンロード"
+msgstr "/ファイル(_F)/ペースト ダウンロード(_P)"
 
 #: face/list.cc:142
 msgid "/File/Exit"
-msgstr "/ファイル/_終了"
+msgstr "/ファイル(_F)/終了(_X)"
 
 #: face/list.cc:143
 msgid "/_Download"
-msgstr "/_ダウンロード"
+msgstr "/ダウンロード(_D)"
 
 #: face/list.cc:144
 msgid "/Download/View _Log"
-msgstr "/ダウンロード/ログを見る"
+msgstr "/ダウンロード(_D)/ログを見る(_L)"
 
 #: face/list.cc:145
 msgid "/Download/_Stop downloads"
-msgstr "/ダウンロード/_ダウンロードの中断"
+msgstr "/ダウンロード(_D)/ダウンロードの中断(_S)"
 
 #: face/list.cc:146
 msgid "/Download/Edit download"
-msgstr "/ダウンロード/_設定変更"
+msgstr "/ダウンロード(_D)/設定変更"
 
 #: face/list.cc:147
 msgid "/Download/_Delete downloads"
-msgstr "/ダウンロード/_キューの削除"
+msgstr "/ダウンロード(_D)/キューの削除(_D)"
 
 #: face/list.cc:148
 msgid "/Download/Continue downloads"
-msgstr "/ダウンロード/_ダウンロードの再開"
+msgstr "/ダウンロード(_D)/ダウンロードの再開"
 
 #: face/list.cc:149
 msgid "/Download/Delete completed"
-msgstr "/ダウンロード/取得の完了したキューの削除"
+msgstr "/ダウンロード(_D)/取得の完了したキューの削除"
 
 #: face/list.cc:150
 msgid "/Download/Delete failed"
-msgstr "/ダウンロード/取得に失敗したキューの削除"
+msgstr "/ダウンロード(_D)/取得に失敗したキューの削除"
 
 #: face/list.cc:151
 msgid "/_Options"
@@ -761,11 +761,11 @@ msgstr "/オプション/一般"
 
 #: face/list.cc:154
 msgid "/_Help"
-msgstr "/_ヘルプ"
+msgstr "/ヘルプ(_H)"
 
 #: face/list.cc:155
 msgid "/_Help/About"
-msgstr "/_ヘルプ/このプログラムについて"
+msgstr "/ヘルプ(_H)/このプログラムについて"
 
 #: face/list.cc:234
 msgid "Do you really want to quit?"
@@ -1360,11 +1360,11 @@ msgstr "[コントロールソケット]"
 
 # face/list.cc
 msgid "/Download/Unselect all"
-msgstr "/ダウンロード/全てを不選択"
+msgstr "/ダウンロード(_D)/全てを不選択"
 
 # face/list.cc
 msgid "/Download/-"
-msgstr "/ダウンロード/-"
+msgstr "/ダウンロード(_D)/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
@@ -1372,11 +1372,11 @@ msgstr "リストに追加時に停止"
 
 #face/list.cc:
 msgid "/Download/Select all"
-msgstr "/ダウンロード/全てを選択"
+msgstr "/ダウンロード(_D)/全てを選択"
 
 # face/list.cc
 msgid "/Download/Invert selection"
-msgstr "/ダウンロード/選択を反転"
+msgstr "/ダウンロード(_D)/選択を反転"
 
 #face/edit.cc:
 msgid "Try to load symbolic link as file via FTP"
@@ -1414,7 +1414,7 @@ msgid "Allow leave this server while recursing via HTTP"
 msgstr "HTTPで他のサーバからの再帰取得を許可する"
 
 msgid "/Download/Rerun failed"
-msgstr "/ダウンロード/失敗したキューの再試行"
+msgstr "/ダウンロード(_D)/失敗したキューの再試行"
 
 msgid "You have no permissions to create file at path %s"
 msgstr "%sへのファイルの作成はパーミッションで禁止されています。"
@@ -1465,7 +1465,7 @@ msgstr "メインログの最大サイズ (キロバイト)"
 
 # face/list.cc:
 msgid "/File/Find links in file"
-msgstr "/ファイル/ファイル中のリンクを探す"
+msgstr "/ファイル(_F)/ファイル中のリンクを探す"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
@@ -1657,7 +1657,7 @@ msgid "Expect URL as parameter for '--ls' option"
 msgstr ""
 
 msgid "display info about URL in queue of downloads"
-msgstr ""
+msgstr "ダウンロード キューを出しているURLの情報を表示"
 
 #: face/edit.cc
 msgid "Sleep before completing"
@@ -1675,7 +1675,7 @@ msgid "Compare date/time of remote file with local one"
 msgstr ""
 
 msgid "Apply"
-msgstr ""
+msgstr "適用"
 
 #: dlist.cc
 msgid "Searching failed"
@@ -1691,4 +1691,8 @@ msgstr ""
 
 #: dlist.cc
 msgid "Sorting started"
+msgstr ""
+
+#: dlist.cc
+msgid "File is already opened by another download!"
 msgstr ""

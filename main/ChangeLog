@@ -1,3 +1,24 @@
+Fri Feb 16 16:01:23 2001
+	*ftpd.cc[h]: changed method to change dir on ftp;
+	*face/list.cc: fixed segfault on exiting if "Add new" window opened,
+	fixed getting sizes of mainwindow if it is hided;
+	*face/fsface.cc: store width of ftp-search zone instead of mainlog's
+	one;
+
+Thu Feb 15 17:52:25 2001
+	*ping.cc: minor fixes;
+	*po/ja.po: fixed Japanieze translation by Kei Kodera;
+	*dlist.cc[h]: implement file locking to avoid multiple writes from
+	different threads;
+
+Wed Feb 14 15:47:47 2001
+	*locstr.cc: compose_path() has been rewritten;
+	*face/edit.cc: code cleanups;
+	*face/prefs.cc: fixed segfaulting;
+	*html.cc[h]: improved http recursion;
+	*ftpd.cc: improved parsing ftp lists;
+	*[various files]: code cleaups;
+
 Tue Feb 13 09:39:09 2001
 	*segments.cc: fixed segmentation of file if last part is already
 	downloaded;

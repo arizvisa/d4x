@@ -79,6 +79,8 @@ void d4xPing::run(tDList *list,tWriterLoger *WL){
 	int step=0;
 	int connected=0;
 	while(step<300){
+		if (connected==TOTAL)
+			break;
 		poll(pf,TOTAL,0);
     		for (int i=0;i<TOTAL;i++){
 			pf[i].events=POLLOUT|POLLIN;
@@ -102,13 +104,11 @@ void d4xPing::run(tDList *list,tWriterLoger *WL){
 			};
 			*/
 		};
-		if (connected==TOTAL)
-			break;
+		step+=1;
 		timespec req;
 		req.tv_sec=0;
 		req.tv_nsec=100000000;
 		nanosleep(&req,NULL);
-		step+=1;
 	};
 	for (int i=0;i<TOTAL;i++){
 		data[i].ref->status+=((300-step)*(300-step+1))/2;

@@ -699,7 +699,7 @@ int parse_command_line_already_run(int argv,char **argc){
 void parse_command_line_postload(int argv,char **argc){
 	for (int i=1;i<argv;i++){
 		if (*(argc[i])!='-'){
-			aa.add_downloading(argc[i],NULL,NULL);
+			aa.add_downloading(argc[i]);
 		};
 		int option=downloader_args_type(argc[i]);
 		switch (option){

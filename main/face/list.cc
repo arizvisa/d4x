@@ -504,7 +504,14 @@ void my_main_quit(...) {
 		delete (FaceForPasswords);
 	if (CFG.WITHOUT_FACE==0){
 		dnd_trash_real_destroy();
-		delete(list_for_adding);
+		if (list_for_adding){
+			tDownload *tmp=list_for_adding->last();
+			while (tmp){
+				tmp->editor=NULL;
+				tmp=list_for_adding->next();
+			};
+			delete(list_for_adding);
+		};
 		d4x_prefs_cancel();
 		destroy_about_window();
 		gtk_widget_destroy(MainWindow);
@@ -907,7 +914,8 @@ int get_mainwin_sizes(GtkWidget *window) {
 		FirstConfigureEvent=0;
 		return FALSE;
 	};
-	if (window!=NULL && window->window!=NULL) {
+	if (window!=NULL && window->window!=NULL &&
+	    gdk_window_is_visible(window->window)) {
 		gint x,y,w,h;
 		gdk_window_get_position(window->window,&x,&y);
 		gdk_window_get_size(window->window,&w,&h);
