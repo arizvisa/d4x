@@ -90,7 +90,7 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 	menu_item=gtk_menu_item_new();
 	gtk_menu_append(GTK_MENU(menu),menu_item);
 
-	if (what->status==DOWNLOAD_COMPLETE && what->owner==DL_FS_STOP
+	if (what->status==DOWNLOAD_COMPLETE && what->owner()==DL_FS_STOP
 	    && what->DIR && what->DIR->count()>0){
 		menu_item=gtk_menu_item_new_with_label(_("reping"));
 		gtk_menu_append(GTK_MENU(menu),menu_item);

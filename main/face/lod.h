@@ -15,6 +15,12 @@
 #include "../dlist.h"
 
 extern GtkWidget *ListOfDownloads;
+extern tQueue *ListOfDownloadsWF;
+
+struct d4xWFNode:public tNode{
+	tDownload *dwn;
+	void print(){};
+};
 
 struct tColumn{
 	int type;
@@ -93,6 +99,7 @@ void list_of_downloads_move_down();
 void list_of_downloads_unselect_all();
 void list_of_downloads_select_all();
 void list_of_downloads_invert_selection();
+void list_of_downloads_select(tDownload *dwn);
 
 tDownload *get_download_from_clist(int row);
 gint list_of_downloads_row(tDownload *what);
@@ -100,5 +107,6 @@ tDownload *list_of_downloads_last_selected();
 
 void list_of_downloads_open_logs(...);
 void list_of_downloads_set_shift(float shift);
+void list_of_downloads_move_to(tDownload *dwn);
 
 #endif

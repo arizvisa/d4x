@@ -60,6 +60,8 @@ gint main_menu_prepare();
 void main_window_iconify();
 void main_window_toggle();
 void main_window_popup();
+void main_window_resize(int w,int h);
+void main_window_move(int x,int y);
 
 void update_progress_bar();
 void update_mainwin_title();

@@ -14,10 +14,8 @@
 
 extern const char *LIST_FILE;
 void save_list();
-void read_list(tStringList *where);
 void read_list();
 int save_list_to_file(char *path);
-int read_list_from_file_old(char *path,tStringList *where);
 int read_list_from_file(char *path);
 
 #endif

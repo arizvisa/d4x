@@ -31,6 +31,7 @@
 #include "colors.h"
 
 GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
+tQueue *ListOfDownloadsWF=(tQueue *)NULL;
 tConfirmedDialog *AskOpening=(tConfirmedDialog *)NULL;
 
 GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
@@ -105,6 +106,30 @@ gint n_download_drop_types = sizeof(download_drop_types) / sizeof(download_drop_
     End of first part of DnD's code
  *********************************************************************/
 
+/* functions to store list ordering when run without interface */
+
+static void list_of_downloads_remove_wf(tDownload *what){
+	d4xWFNode *node=(d4xWFNode *)(what->WFP);
+	if (node){
+		ALL_DOWNLOADS->lock();
+		ListOfDownloadsWF->del(node);
+		ALL_DOWNLOADS->unlock();
+	};
+	what->WFP=(tNode*)NULL;
+	delete(node);
+};
+
+static void list_of_downloads_add_wf(tDownload *what){
+	d4xWFNode *node=new d4xWFNode;
+	node->dwn=what;
+	what->WFP=node;
+	ALL_DOWNLOADS->lock();
+	ListOfDownloadsWF->insert(node);
+	ALL_DOWNLOADS->unlock();
+};
+
+/***************************************************************/
+
 
 void init_columns_info() {
 	for (int i=STATUS_COL;i<=NOTHING_COL;i++) {
@@ -145,10 +170,10 @@ gint list_of_downloads_row(tDownload *what){
 };
 
 void list_of_downloads_set_desc(gint row,tDownload *what){
-	if (what->Description.get()){
+	if (what->config.Description.get()){
 		list_of_downloads_change_data(row,
 					      DESCRIPTION_COL,
-					      what->Description.get());
+					      what->config.Description.get());
 	};
 };
 
@@ -229,6 +254,8 @@ void list_of_downloads_print_size(gint row,tDownload *what){
 };
 
 void list_of_downloads_add(tDownload *what) {
+	list_of_downloads_add_wf(what);
+	if (CFG.WITHOUT_FACE) return;
 	LoDSortFlag=NOTHING_COL;
 	gchar *data[NOTHING_COL+1];
 	char *URL=what->info->url();
@@ -249,6 +276,8 @@ void list_of_downloads_add(tDownload *what) {
 };
 
 void list_of_downloads_remove(tDownload *what){
+	list_of_downloads_remove_wf(what);
+	if (CFG.WITHOUT_FACE) return;
 	gint row=list_of_downloads_row(what);
 	gtk_clist_remove(GTK_CLIST(ListOfDownloads),row);
 };
@@ -272,6 +301,8 @@ void list_of_downloads_set_run_icon(tDownload *what){
 };
 
 void list_of_downloads_add(tDownload *what,int row) {
+	list_of_downloads_add_wf(what);
+	if (CFG.WITHOUT_FACE) return;
 	LoDSortFlag=NOTHING_COL;
 	gchar *data[NOTHING_COL+1];
 	for (int i=STATUS_COL;i<=URL_COL;i++)
@@ -282,7 +313,7 @@ void list_of_downloads_add(tDownload *what,int row) {
 	char *URL=what->info->url();
 	list_of_downloads_change_data(row,URL_COL,URL);
 	delete[] URL;
-	switch (what->owner) {
+	switch (what->owner()) {
 	case DL_WAIT:{
 		list_of_downloads_set_pixmap(row,PIX_WAIT);
 		break;
@@ -313,16 +344,16 @@ void move_download_up(int row){
 	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row-1);
 	tDownload *what=get_download_from_clist(row-1);
 	tDownload *what2=get_download_from_clist(row);
-	if (DOWNLOAD_QUEUES[DL_WAIT]->owner(what) && DOWNLOAD_QUEUES[DL_WAIT]->owner(what2))
-		DOWNLOAD_QUEUES[DL_WAIT]->forward(what);
+	if (what->owner()==DL_WAIT && what2->owner()==DL_WAIT)
+		D4X_QUEUE->forward(what);
 };
 
 void move_download_down(int row){
 	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row+1);
 	tDownload *what=get_download_from_clist(row+1);
 	tDownload *what2=get_download_from_clist(row);
-	if (DOWNLOAD_QUEUES[DL_WAIT]->owner(what) && DOWNLOAD_QUEUES[DL_WAIT]->owner(what2))
-		DOWNLOAD_QUEUES[DL_WAIT]->backward(what);
+	if (what->owner()==DL_WAIT && what2->owner()==DL_WAIT)
+		D4X_QUEUE->backward(what);
 };
 static gint compare_nodes1(gconstpointer a,gconstpointer b){
     gint aa=GPOINTER_TO_INT(a);
@@ -663,23 +694,22 @@ void list_dnd_drop_internal(GtkWidget *widget,
  **********************************************************/
 
 void list_of_downloads_rebuild_wait(){
-	if (DOWNLOAD_QUEUES[DL_WAIT]->count()==0) return;
+	if (D4X_QUEUE->count(DL_WAIT)==0) return;
 	int i=0;
 	tDList *dlist=new tDList(DL_WAIT);
 	dlist->init(0);
 	tDownload *tmp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
 	while(tmp){
-		if (tmp->owner==DL_WAIT){
-			DOWNLOAD_QUEUES[DL_WAIT]->del(tmp);
+		if (tmp->owner()==DL_WAIT){
+			D4X_QUEUE->del(tmp);
 			dlist->insert(tmp);
-			if (DOWNLOAD_QUEUES[DL_WAIT]->count()==0)
+			if (D4X_QUEUE->count(DL_WAIT)==0)
 				break;
 		};
 		i+=1;
 		tmp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
 	};
-	delete(DOWNLOAD_QUEUES[DL_WAIT]);
-	DOWNLOAD_QUEUES[DL_WAIT]=dlist;
+	D4X_QUEUE->replace_list(dlist,DL_WAIT);
 };
 
 static int _cmp_bypercent(tDownload *a,tDownload *b){
@@ -766,7 +796,7 @@ static int _cmp_whole_file_(GtkCList *clist,
 CLIST_CMP_I(_cmp_whole_file_);
 
 static void list_of_downloads_sort(GtkWidget *widget,int how){
-	int count=DOWNLOAD_QUEUES[DL_RUN]->count();
+	int count=D4X_QUEUE->count(DL_RUN);
 	int (*cmp_func)(tDownload *,tDownload *)=(int)NULL;
 	GdkModifierType mask;
 	gint x,y;
@@ -820,7 +850,7 @@ static void list_of_downloads_sort(GtkWidget *widget,int how){
 	if (count<2) return; //nothing todo
 	if (cmp_func==NULL) return;
 	list_of_downloads_freeze();
-	tDownload *tmp=DOWNLOAD_QUEUES[DL_RUN]->last();
+	tDownload *tmp=D4X_QUEUE->last(DL_RUN);
 	tDownload *cur=(tDownload*)(tmp->next);
 	int changed;
 	do{
@@ -855,7 +885,7 @@ static int _cmp_whole_status_(GtkCList *clist,
 		int smap[]={0,10,6,8,9,11,7,0};
 		tDownload *d1=(tDownload *)(row1->data);
 		tDownload *d2=(tDownload *)(row2->data);
-		return(smap[d2->owner]-smap[d1->owner]);
+		return(smap[d2->owner()]-smap[d1->owner()]);
 	};
 	if (row1->data)	return(1);
 	if (row2->data)	return(0);
@@ -1072,6 +1102,12 @@ void list_of_downloads_invert_selection(){
 	list_of_downloads_unfreeze();
 };
 
+void list_of_downloads_select(tDownload *dwn){
+	gint row=list_of_downloads_row(dwn);
+	list_of_downloads_unselect_all();
+	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),row,-1);
+};
+
 int list_of_downloads_sel(){
 	return(GTK_CLIST(ListOfDownloads)->selection==NULL?1:0);
 };
@@ -1129,4 +1165,9 @@ void list_of_downloads_set_shift(float shift){
 		adj->value=shift;
 		gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
 	};
+};
+
+void list_of_downloads_move_to(tDownload *dwn){
+	gint row=list_of_downloads_row(dwn);
+	gtk_clist_moveto(GTK_CLIST(ListOfDownloads),row,0,0,0);
 };

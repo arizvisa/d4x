@@ -83,7 +83,8 @@ MODULES1=base64.o addr.o queue.o liststr.o dlist.o mdlist.o locstr.o \
 	client.o ftp.o http.o download.o ftpd.o httpd.o hproxy.o signal.o \
 	main.o config.o savelog.o mainlog.o var.o sortstr.o db.o cookie.o \
 	pass.o eff.o segments.o memwl.o fsearch.o msgqueue.o ping.o \
-	savedvar.o schedule.o socks.o filter.o sndserv.o sm.o autoadd.o
+	savedvar.o schedule.o socks.o filter.o sndserv.o sm.o autoadd.o \
+	dqueue.o
 MODULES = $(FACE) $(MODULES1)
 
 D4X_SHARE = $(DEST)/share/d4x

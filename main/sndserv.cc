@@ -344,6 +344,7 @@ d4xSndServer::d4xSndServer(){
 	queue=new tQueue;
 	thread_id=0;
 	pthread_mutex_init(&my_mutex,NULL);
+	pthread_mutex_init(&exit_lock,NULL);
 	pthread_cond_init(&cond,NULL);
 };
 
@@ -357,10 +358,13 @@ d4xSndServer::~d4xSndServer(){
 
 void d4xSndServer::stop_thread(){
 	void *val;
+	pthread_mutex_lock(&exit_lock);
 	pthread_mutex_lock(&my_mutex);
 	stop_now=1;
 	pthread_cond_signal(&cond);
 	pthread_mutex_unlock(&my_mutex);
+	pthread_mutex_lock(&exit_lock);
+	pthread_mutex_unlock(&exit_lock);
 	pthread_join(thread_id,&val);
 	thread_id=0;
 };
@@ -398,10 +402,12 @@ void d4xSndServer::run(){
 	while(1){
 		pthread_mutex_lock(&my_mutex);
 		pthread_cond_wait(&cond,&my_mutex);
+/*
 		if (stop_now){
 			pthread_mutex_unlock(&my_mutex);
-			return;
+			break
 		};
+*/
 		while(queue->first()){
 			d4xSndEvent *snd=(d4xSndEvent *)(queue->first());
 			queue->del(snd);
@@ -412,12 +418,13 @@ void d4xSndServer::run(){
 				play_sound(snd->event);
 			};
 			delete(snd);
-			if (stop_now) return;
 			pthread_mutex_lock(&my_mutex);
+//			if (stop_now) break;
 		};
 		pthread_mutex_unlock(&my_mutex);
-		if (stop_now) return;
+		if (stop_now) break;
 	};
+	pthread_mutex_unlock(&exit_lock);
 };
 
 void d4xSndServer::set_sound_file(int event,char *path){

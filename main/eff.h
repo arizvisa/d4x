@@ -11,27 +11,40 @@
 #ifndef _DOWNLOADER_FILE_PARSER_
 #define _DOWNLOADER_FILE_PARSER_
 
-#include "liststr.h"
+#include "sort.h"
 #include "var.h"
+
+
+struct d4xEffString:public tAbstractSortNode{
+	char *body;
+	d4xEffString();
+	d4xEffString(const char *a);
+	void print();
+	int cmp(tAbstractSortNode *what);
+	~d4xEffString();
+};
 
 class tUrlParser{
 	int fd;
 	unsigned char buf[MAX_LEN];
-	tStringList *list;
+	tAbstractSortTree *tree;
 	int sequence(unsigned char *where, char *str);
-	int read_url(unsigned char *where, tStringList *list);
+	int read_url(unsigned char *where);
  public:
 	unsigned int full,current;
 	tUrlParser(const char *filename);
-	tStringList *parse();
-	tStringList *get_list();
+	tAbstractSortTree *parse();
+	tAbstractSortTree *get_list();
 	~tUrlParser();
 };
+
+struct d4xLinksSel;
 
 int thread_for_parse_txt(tUrlParser *parser);
 float thread_for_parse_percent();
 int thread_for_parse_txt_status();
-void thread_for_parse_add();
+void thread_for_parse_add(d4xLinksSel *sel);
 void thread_for_parse_stop();
+int thread_for_parse_full();
 
 #endif

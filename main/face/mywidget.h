@@ -85,6 +85,10 @@ struct d4xFilterEditClass{
 GtkWidget *d4x_filter_edit_new(d4xFNode *node);
 void d4x_filter_edit_add_rule(d4xFilterEdit *edit,d4xRule *rule);
 
+/* filter selector is used for select filter in properties of
+   a download and in "Common properties"/HTTP
+*/
+
 struct d4xFilterSel{
 	GtkWindow window;
 	GtkWidget *clist,*ok,*cancel;
@@ -97,4 +101,21 @@ struct d4xFNode;
 
 GtkWidget *d4x_filter_sel_new();
 void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node);
+
+/* next widget is used for list of links which was found in
+   legacy file via "Search links in file"
+ */
+
+struct d4xLinksSel{
+	GtkWindow window;
+	GtkCList *clist;
+	GtkWidget *ok,*cancel,*remove;
+};
+
+struct d4xLinksSelClass{
+	GtkWindowClass parent_class;
+};
+
+GtkWidget *d4x_links_sel_new();
+void d4x_links_sel_add(d4xLinksSel *sel,char *url);
 #endif

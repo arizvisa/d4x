@@ -97,6 +97,7 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	retry = src->retry;
 	full_server_loading=src->full_server_loading;
 	dont_leave_dir=src->dont_leave_dir;
+	ftp_dirontop=src->ftp_dirontop;
 
 	rollback = src->rollback;
 	link_as_file = src->link_as_file;
@@ -116,6 +117,7 @@ tCfg::tCfg() {
 	restart_from_begin=0;
 	sleep_before_complete=0;
 	socks_port=0;
+	ftp_dirontop=0;
 };
 
 int tCfg::get_flags(){
@@ -154,6 +156,8 @@ void tCfg::copy(tCfg *src) {
 	copy_proxy(src);
 	user_agent.set(src->user_agent.get());
 	cookie.set(src->cookie.get());
+	Description.set(src->Description.get());
+	Filter.set(src->Filter.get());
 };
 
 void tCfg::reset_proxy() {
@@ -205,6 +209,7 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"dont_leave_dir:",dont_leave_dir);
 	write_named_integer(fd,"check_time:",check_time);
 	write_named_integer(fd,"change_links:",change_links);
+	write_named_integer(fd,"ftp_dirontop:",ftp_dirontop);
 	if (restart_from_begin)
 		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
 	if (save_name.get() && *(save_name.get()))
@@ -217,6 +222,10 @@ void tCfg::save_to_config(int fd){
 		write_named_string(fd,"cookie:",cookie.get());
 	if (log_save_path.get())
 		write_named_string(fd,"log_save_path:",log_save_path.get());
+	if (Description.get())
+		write_named_string(fd,"Description:",Description.get());
+	if (Filter.get())
+		write_named_string(fd,"Filter:",Filter.get());
 	f_wstr_lf(fd,"EndCfg:");
 };
 
@@ -258,7 +267,10 @@ int tCfg::load_from_config(int fd){
 		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin},
 		{"check_time:",SV_TYPE_INT,&check_time},
 		{"change_links:",SV_TYPE_INT,&change_links},
-		{"log_save_path:",SV_TYPE_PSTR,	&log_save_path}
+		{"ftp_dirontop:",SV_TYPE_INT,&ftp_dirontop},
+		{"log_save_path:",SV_TYPE_PSTR,	&log_save_path},
+		{"Filter:",	SV_TYPE_PSTR,	&(Filter)},
+		{"Description:",SV_TYPE_PSTR,	&(Description)}
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){

@@ -472,7 +472,7 @@ void buttons_cfg_init(){
 };
 
 void prepare_buttons() {
-	if (amount_of_downloads_in_queues())
+	if (D4X_QUEUE->count())
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],TRUE);
 	else
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],FALSE);

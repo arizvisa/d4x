@@ -21,5 +21,6 @@ void dnd_trash_menu_prepare();
 void dnd_trash_animation();
 void dnd_trash_set_tooltip(char *str);
 void dnd_trash_set_del_completed(gint how);
+void dnd_trash_set_speed_text();
 
 #endif

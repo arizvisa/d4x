@@ -25,21 +25,30 @@ struct tSortNode:public tAbstractSortNode{
 	int cmp(tAbstractSortNode *what);
 };
 
+class tAbstractSortTree;
+
+typedef void (*d4xSortTreeFunc) (tAbstractSortNode *node,
+				 tAbstractSortTree *tree,
+				 void *data);
+
+
 class tAbstractSortTree{
-	protected:
+protected:
 	tAbstractSortNode *Top;
 	int NUM;
 	void simple_add(tAbstractSortNode **where,tAbstractSortNode *what);
-	public:
-		tAbstractSortTree();
-		void init();
-		virtual void add(tAbstractSortNode *what);
-		virtual void del(tAbstractSortNode *what);
-		int count();
-		int empty();
-		virtual tAbstractSortNode *find(tAbstractSortNode *what);
-		tAbstractSortNode *max();
-		virtual ~tAbstractSortTree();
+	void foreach_rec(tAbstractSortNode *node,d4xSortTreeFunc doit,void *data);
+public:
+	tAbstractSortTree();
+	void init();
+	virtual void add(tAbstractSortNode *what);
+	virtual void del(tAbstractSortNode *what);
+	int count();
+	int empty();
+	void foreach(d4xSortTreeFunc doit,void *data);
+	virtual tAbstractSortNode *find(tAbstractSortNode *what);
+	tAbstractSortNode *max();
+	virtual ~tAbstractSortTree();
 };
 
 

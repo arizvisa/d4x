@@ -62,6 +62,16 @@ tDownloader::tDownloader(){
 	local_filetime=0;
 };
 
+tDownloader::tDownloader(tWriterLoger *log){
+	LOG=NULL;
+	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
+	StartSize=-1;
+	D_FILE.size=D_FILE.type=0;
+	Status=D_NOTHING;
+	local_filetime=0;
+	LOG=log;
+};
+
 char * tDownloader::get_new_url() {
 	return NULL;
 };

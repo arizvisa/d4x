@@ -22,6 +22,7 @@
 #include "config.h"
 #include "face/list.h"
 #include "face/fsface.h"
+#include "face/buttons.h"
 #include "ntlocale.h"
 #include "srvclt.h"
 
@@ -58,7 +59,9 @@ tOption downloader_parsed_args[]={
 	{"--exit-time",		OPT_EXIT_TIME},
 	{"--ls",		OPT_LS},
 	{"--del",		OPT_DEL},
-	{"--color",		OPT_COLOR}
+	{"--stop",		OPT_STOP},
+	{"--color",		OPT_COLOR},
+	{"-geometry",		OPT_GEOMETRY}
 };
 
 char *downloader_args_errors[]={
@@ -78,7 +81,10 @@ char *downloader_args_errors[]={
 	(char *)NULL,
 	(char *)N_("You must specify number as parameter for '--exit-time' option"),
 	(char *)N_("Expect URL as parameter for '--ls' option"),
+	(char *)NULL,
 	(char *)N_("Expect URL as parameter for '--del' option"),
+	(char *)N_("Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"),
+	(char *)N_("Expect URL as parameter for '--stop' option"),
 	(char *)NULL
 };
 
@@ -97,6 +103,7 @@ tConfigVariable config_variables[]={
 	{"time_format",		CV_TYPE_INT,	&(CFG.TIME_FORMAT)},
 	{"ftp_passive_mode",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.passive)},
 	{"retry_if_noreget",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.retry)},
+	{"ftp_dirontop",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.ftp_dirontop)},
 	{"sleeptime",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.time_for_sleep)},
 	{"savepath",		CV_TYPE_STRING,	&(CFG.GLOBAL_SAVE_PATH)},
 	{"xposition",		CV_TYPE_INT,	&(CFG.WINDOW_X_POSITION)},
@@ -225,7 +232,8 @@ tConfigVariable config_variables[]={
 	{"sound_queue_finish",	CV_TYPE_STRING,	&(CFG.SOUND_QUEUE_FINISH)},
 	{"sound_startup",	CV_TYPE_STRING,	&(CFG.SOUND_STARTUP)},
 	{"clist_shift",		CV_TYPE_FLOAT,	&(CFG.CLIST_SHIFT)},
-	{"default_filter",	CV_TYPE_STRING,	&(CFG.DEFAULT_FILTER)}
+	{"default_filter",	CV_TYPE_STRING,	&(CFG.DEFAULT_FILTER)},
+	{"donotset_winpos",	CV_TYPE_BOOL,	&(CFG.DONOTSET_WINPOS)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -694,54 +702,70 @@ int parse_command_line_already_run(int argv,char **argc){
 					}else
 						opt_error=1;
 					break;
+				case OPT_STOP:{
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						clt->send_command(PACKET_STOP,argc[i],strlen(argc[i]));
+					}else{
+						opt_error=1;
+					};
+					break;
+				};
 				case OPT_DEL:{
 					rvalue=0;
 					if (argv>i+1){
 						i+=1;
 						clt->send_command(PACKET_DEL,argc[i],strlen(argc[i]));
-					}else
+					}else{
 						opt_error=1;
+					};
 					break;
 				};
 				case OPT_LS:{
+					tPacketStatus status;
 					rvalue=0;
+					char *which=NULL;
 					if (argv>i+1){
-						tPacketStatus status;
 						i+=1;
-						clt->send_command(PACKET_LS,argc[i],strlen(argc[i]));
-						printf("%s:\n",argc[i]);
-						if (clt->get_answer_status(&status)){
-							switch(status.Status){
-							case DL_RUN:
-								printf(">");
-								break;
-							case DL_STOP:
-								printf("X");
-								break;
-							case DL_WAIT:
-								printf("o");
-								break;
-							case DL_PAUSE:
-								printf("=");
-								break;
-							case DL_COMPLETE:
-								printf("+");
-								break;
-							case DL_STOPWAIT:
-								printf("-");
-								break;
-							default:
-								printf("?");
-								break;
-							};
-							printf(" %i/%i bytes %i B/s %i/%i attempts\n",
-							       status.Download,status.Size,
-							       status.Speed,
-							       status.Attempt,status.MaxAttempt);
-						}else
-							opt_error=1;
+						which=argc[i];
 					}else
-						opt_error=1;
+						which="";
+					clt->send_command_short(PACKET_LS,which,strlen(which));
+					while(clt->get_answer_status(&status)){
+						switch(status.Status){
+						case DL_RUN:
+							printf(">");
+							break;
+						case DL_STOP:
+							printf("X");
+							break;
+						case DL_WAIT:
+							printf("o");
+							break;
+						case DL_PAUSE:
+							printf("=");
+							break;
+						case DL_COMPLETE:
+							printf("+");
+							break;
+						case DL_STOPWAIT:
+							printf("-");
+							break;
+						default:
+							printf("?");
+							break;
+						};
+						if (status.url){
+							printf("%s",status.url);
+							delete[] status.url;
+							status.url=NULL;
+						};
+						printf(" %i/%i bytes %i B/s %i/%i attempts\n",
+						       status.Download,status.Size,
+						       status.Speed,
+						       status.Attempt,status.MaxAttempt);
+					};
 					break;
 				};
 				};
@@ -763,14 +787,17 @@ void parse_command_line_postload(int argv,char **argc){
 		switch (option){
 		case OPT_TRAFFIC_LOW:{
 			CFG.SPEED_LIMIT=1;
+			set_speed_buttons();
 			break;
 		};
 		case OPT_TRAFFIC_MIDDLE:{
 			CFG.SPEED_LIMIT=2;
+			set_speed_buttons();
 			break;
 		};
 		case OPT_TRAFFIC_HIGH:{
 			CFG.SPEED_LIMIT=3;
+			set_speed_buttons();
 			break;
 		};
 		case OPT_SET_MAX_THREADS:{
@@ -804,6 +831,25 @@ void parse_command_line_postload(int argv,char **argc){
 			}else
 				printf("%s\n",_(downloader_args_errors[OPT_SET_DIRECTORY]));
 			break;
+		};
+		case OPT_GEOMETRY:{
+			if (argv>i+1){
+				i+=1;
+				int x=0,y=0,w=0,h=0;
+				if (index(argc[i],'x'))
+					sscanf(argc[i],"%ix%i+%i+%i",&w,&h,&x,&y);
+				else
+					sscanf(argc[i],"+%i+%i",&x,&y);
+				if (w>0 && h>0){
+					main_window_resize(h,w);
+//					printf("h=%i w=%i\n",h,w);
+				};
+				if (x>0 && y>0){
+					main_window_move(x,y);
+//					printf("x=%i y=%i\n",x,y);
+				};
+			}else
+				printf("%s\n",_(downloader_args_errors[OPT_GEOMETRY]));
 		};
 		};
 	};
@@ -840,6 +886,8 @@ void help_print(){
 	help_print_args(OPT_WITHOUT_FACE);printf(_("run program without X interface"));printf("\n");
 	help_print_args(OPT_LS);printf(_("display info about URL in queue of downloads"));printf("\n");
 	help_print_args(OPT_DEL);printf(_("remove a download from queue"));printf("\n");
+	help_print_args(OPT_STOP);printf(_("stop a download"));printf("\n");
 	help_print_args(OPT_COLOR);printf(_("using colors if run without interface"));printf("\n");
+	help_print_args(OPT_GEOMETRY);printf(_("specifies preferred size and position of main window"));printf("\n");
 	printf("\n");
 };

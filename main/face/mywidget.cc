@@ -19,6 +19,7 @@ static GtkWidgetClass *color_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *rule_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *filter_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *filtersel_parent_class = (GtkWidgetClass *)NULL;
+static GtkWidgetClass *linkssel_parent_class = (GtkWidgetClass *)NULL;
 
 static void my_gtk_filesel_destroy_browser(MyGtkFilesel *filesel){
 	if (filesel->browser){
@@ -810,7 +811,7 @@ static void d4x_filter_sel_init(d4xFilterSel *sel){
 	sel->clist = gtk_clist_new_with_titles(1, titles);
 	gtk_clist_set_shadow_type(GTK_CLIST(sel->clist), GTK_SHADOW_IN);
 	gtk_clist_set_column_auto_resize(GTK_CLIST(sel->clist),0,TRUE);
-	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment*)NULL,(GtkAdjustment*)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
@@ -870,3 +871,113 @@ void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node){
 	gint row=gtk_clist_append(GTK_CLIST(sel->clist),data);
 	gtk_clist_set_row_data(GTK_CLIST(sel->clist),row,node);
 };
+
+/********************************************************/
+
+static void d4x_links_sel_destroy(GtkObject *widget){
+	g_return_if_fail(widget!=NULL);
+
+	if (GTK_OBJECT_CLASS (linkssel_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (linkssel_parent_class)->destroy) (widget);
+};
+
+static void d4x_links_sel_remove(GtkWidget *button,d4xLinksSel *sel){
+	while(sel->clist->selection){
+		gtk_clist_remove(GTK_CLIST(sel->clist),
+				 GPOINTER_TO_INT(sel->clist->selection->data));
+	};
+};
+
+static void d4x_links_sel_cancel(GtkWidget *button,d4xLinksSel *sel){
+	gtk_widget_destroy(GTK_WIDGET(sel));
+}
+
+static void d4x_links_sel_delete(GtkWindow *window,
+				 GdkEvent *event,
+				 d4xLinksSel *sel){
+	gtk_widget_destroy(GTK_WIDGET(sel));
+};
+
+static void d4x_links_sel_init(d4xLinksSel *sel){
+	gtk_window_set_wmclass(GTK_WINDOW(sel),
+			       "D4X_LinksSel","D4X");
+	gtk_signal_connect(GTK_OBJECT(sel),"delete_event",
+			   GTK_SIGNAL_FUNC(d4x_links_sel_delete), sel);
+	gtk_widget_set_usize(GTK_WIDGET(sel),-1,300);
+	gtk_window_set_title(GTK_WINDOW(sel),_("List of links"));
+
+	gchar *titles[]={_("URL")};
+	sel->clist = (GtkCList*)gtk_clist_new_with_titles(1, titles);
+	gtk_clist_set_selection_mode(sel->clist,GTK_SELECTION_EXTENDED);
+	gtk_clist_set_shadow_type(GTK_CLIST(sel->clist), GTK_SHADOW_IN);
+	gtk_clist_set_column_auto_resize(GTK_CLIST(sel->clist),0,TRUE);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment*)NULL,(GtkAdjustment*)NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
+	                                GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(sel->clist));
+	sel->ok=gtk_button_new_with_label(_("Ok"));
+	sel->remove=gtk_button_new_with_label(_("Remove"));
+	sel->cancel=gtk_button_new_with_label(_("Cancel"));
+	gtk_signal_connect(GTK_OBJECT(sel->remove),"clicked",
+			   GTK_SIGNAL_FUNC(d4x_links_sel_remove),
+			   sel);
+	gtk_signal_connect(GTK_OBJECT(sel->cancel),"clicked",
+			   GTK_SIGNAL_FUNC(d4x_links_sel_cancel),
+			   sel);
+	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(sel->remove,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *hbox=gtk_hbutton_box_new();
+	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbox),sel->ok,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbox),sel->remove,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbox),sel->cancel,FALSE,FALSE,0);
+	gtk_container_add(GTK_CONTAINER(sel),vbox);
+	gtk_window_set_default(GTK_WINDOW(sel),sel->ok);
+};
+
+static void d4x_links_sel_class_init(d4xLinksSelClass *klass){
+	GtkObjectClass *object_class=(GtkObjectClass *)klass;
+	
+	object_class->destroy=d4x_links_sel_destroy;
+	linkssel_parent_class=(GtkWidgetClass *)gtk_type_class(gtk_window_get_type());
+};
+
+guint d4x_links_sel_get_type(){
+	static guint d4x_links_sel_type=0;
+	if (!d4x_links_sel_type){
+		GtkTypeInfo info={
+			"d4xLinksSel",
+			sizeof(d4xLinksSel),
+			sizeof(d4xLinksSelClass),
+			(GtkClassInitFunc) d4x_links_sel_class_init,
+			(GtkObjectInitFunc) d4x_links_sel_init,
+			NULL,NULL
+//			(GtkArgSetFunc) NULL,
+//			(GtkArgGetFunc) NULL
+		};
+		d4x_links_sel_type = gtk_type_unique (gtk_window_get_type (),
+							&info);
+	};
+	return d4x_links_sel_type;
+};
+
+GtkWidget *d4x_links_sel_new(){
+	d4xLinksSel *sel=(d4xLinksSel *)gtk_type_new(d4x_links_sel_get_type());
+	gtk_widget_show_all(GTK_WIDGET(sel));
+	return GTK_WIDGET(sel);
+};
+
+void d4x_links_sel_add(d4xLinksSel *sel,char *url){
+	gchar *data[1];
+	data[0]=url;
+	gtk_clist_append(sel->clist,data);
+};
+
+
+

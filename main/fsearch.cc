@@ -47,14 +47,14 @@ void tFtpSearchCtrl::add(tDownload *what){
 
 void tFtpSearchCtrl::reping(tDownload *what){
 	what->action=ACTION_REPING;
-	queues[what->owner]->del(what);
+	what->myowner->del(what);
 	queues[DL_FS_WAIT]->insert(what);
 	fs_list_set_icon(clist,what,PIX_WAIT);
 };
 
 void tFtpSearchCtrl::remove(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	switch(what->owner){
+	switch(what->owner()){
 	case DL_FS_RUN:
 		stop_thread(what);
 		what->action=ACTION_DELETE;
@@ -62,7 +62,7 @@ void tFtpSearchCtrl::remove(tDownload *what){
 		break;
 	case DL_FS_STOP:
 	case DL_FS_WAIT:
-		queues[what->owner]->del(what);
+		what->myowner->del(what);
 		remove_from_clist(what);
 		delete(what);
 		break;
@@ -90,7 +90,8 @@ void tFtpSearchCtrl::cycle(){
 		    tmp->status==DOWNLOAD_COMPLETE  ||
 		    tmp->status==DOWNLOAD_FATAL) {
 			real_stop_thread(tmp);
-			parent->prepare_for_stoping(tmp,queues[DL_FS_RUN]);
+			queues[DL_FS_RUN]->del(tmp);
+			parent->prepare_for_stoping(tmp);
 			switch(tmp->action){
 			case ACTION_DELETE:{
 				remove_from_clist(tmp);

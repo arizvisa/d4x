@@ -48,12 +48,17 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 	int to_top=what->editor->get_to_top_check();
 	what->delete_editor();
 	if (tmp){
-		what->owner=DL_PAUSE;
+		what->status=DL_PAUSE;
 		aa.add_downloading_to(what,to_top);
 		SOUND_SERVER->add_event(SND_ADD);
 	}else{
 		if (aa.add_downloading(what,to_top)){
+			tDownload *dwn=ALL_DOWNLOADS->find(what);
 			delete(what);
+			if (dwn){
+				list_of_downloads_move_to(dwn);
+				list_of_downloads_select(dwn);
+			};
 		}else{
 			aa.add_download_message(what);
 			SOUND_SERVER->add_event(SND_ADD);
@@ -154,9 +159,8 @@ void d4x_automated_ok(GtkWidget *widget, tDownload *what) {
 		dwn->config.save_name.set(what->config.save_name.get());
 		dwn->config.save_path.set(what->config.save_path.get());
 		dwn->config.log_save_path.set(what->config.log_save_path.get());
-		dwn->Description.set(what->Description.get());
 		if (to_pause){
-			dwn->owner=DL_PAUSE;
+			dwn->status=DL_PAUSE;
 			aa.add_downloading_to(dwn,to_top);
 		}else
 			aa.add_downloading(dwn,to_top);
@@ -203,6 +207,7 @@ void d4x_automated_add(){
 	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
 			   (GtkSignalFunc)_add_window_event_handler, what);
 	what->editor->clear_url();
+	what->editor->paste_url();
 	list_for_adding->insert(what);
 };
 
@@ -220,7 +225,7 @@ void edit_common_properties_ok(GtkWidget *widget, tDownload *what){
 	while(selection){
 		int row=GPOINTER_TO_INT(selection->data);
 		tDownload *tmp=get_download_from_clist(row);
-		if (tmp && tmp->owner!=DL_RUN && tmp->owner!=DL_STOPWAIT){
+		if (tmp && tmp->owner()!=DL_RUN && tmp->owner()!=DL_STOPWAIT){
 			what->editor->set_parent(tmp);
 			tmp->editor->apply_enabled_changes();
 			tmp->editor->set_parent(what);

@@ -1281,3 +1281,28 @@ tPStr::~tPStr(){
 	if (a)
 		delete[] a;
 };
+
+/***************************************************************/
+
+int file_copy(char *from,char *to,char *buf,int size){
+	FILE *src=fopen(from,"r");
+	if (src==NULL){
+		return(-1);
+	};
+	FILE *dst=fopen(to,"w+");
+	if (dst==NULL){
+		fclose(src);
+		return(-1);
+	};
+	int len=0;
+	int rval=0;
+	while ((len=fread(buf,1,size,src))>0){
+		if (fwrite(buf,len,1,dst)!=1){
+			rval=-1;
+			break;
+		};
+	};
+	fclose(dst);
+	fclose(src);
+	return(rval);
+};

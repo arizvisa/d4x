@@ -1,16 +1,30 @@
------------------ to 2.0 ----------------------------------------
-different window managers need different coords for created window
-check segments.* code
-add mask for MIME type in a rule of a filter
-ability to do FTP-search in case insensetive mode
-what about accepting cookies?
+----------------- to 1.30 ----------------------------------------
+[????] fix displaying info for split-ed download when first thread in 'reconnect' state
+[DONE] -geometry WxH+X+Y command line parameter support
+[DONE] when add manually download which is already in queue point to it for user
+[DONE] when redirected to the file with the same filename may be better rewrite it?
+[DONE] check segments.* code
+[DONE] --ls without parameters show full list
+[DONE] support 'Content-Disposition'
+[DONE] different window managers need different coords for created window
+[DONE] fix saving order of queue when run without interface
+[DONE] search links in file must bring "list of found URLs" dialog;
+[DONE] another way to calc remaining time
+[DONE] add tooltips to traffic selection menu items in DnDbasket's menu
+[DONE] scroll queue and select download when dblclicked on error in main log
 -----------------------------------------------------------------
+add mask for MIME type in a rule of a filter
+ability to do FTP-search in case insensitive mode
+what about accepting cookies?
+all config files in xml-like format
+rewrite split-ed downloading
+graph on DnD basket
 graph of speeds for separated download
-scale DnD-bascket icon according screen resolution
+scale DnD-basket icon according screen resolution
 browser for ftp and http
 profiles
 searching in queue (by Ctrl-S like MC)
-"tree" window for displaiyng tree structure of a site(s)
+"tree" window for displaying tree structure of a site(s)
 check free space on disk to prevent empty it
 uploading files to server
 Auto detection of best proxy.
@@ -19,7 +33,7 @@ ability to create new queue
 rewrite face/lod.cc[h] in OO style
 move to GTK-2.0
 [????] do not use .segments file for downloading in one thread
-[????] option for configuring persentage in queue of downloads
+[????] option for configuring percentage in queue of downloads
 [????] stand_data_connection() should try another way to set it up
 [????] regular expressions in URLs
 [????] change "remove" to "remove from queue"
@@ -38,24 +52,24 @@ move to GTK-2.0
 [DONE] ability to run something before exit (e.g. pppd down script)
 [DONE] Cookies support
 [DONE] clipboard monitoring
-[DONE] Remeber passwords (optionaly)
-[DONE] user configurable 'user-agent' for http requests
+[DONE] Remember passwords (optionally)
+[DONE] user configurable 'user-agent' for HTTP requests
 [DONE] menu by right clicking on DnD trash
 [DONE] exit if nothing to do
 [DONE] ability to add downloading via command prompt
 [DONE] ability to setup limitation by speed for any download separately
 [DONE] roll back feature
-[DONE] autoscroll of all logs
-[DONE] translate all 'Ok' buttons
+[DONE] auto scroll of all logs
+[DONE] translate all 'OK' buttons
 [DONE] grab window (which is always on top like gozilla and getsmart)
-[DONE] loading server via http (directories will be created from virtual root directory)
-[NEVER] saving urls of completed downloads into special file
+[DONE] loading server via HTTP (directories will be created from virtual root directory)
+[NEVER] saving URLs of completed downloads into special file
 ######### TO version 1.17 ####################
 [DONE] change about dialog
-[DONE] option for skiping http-proxy's cache
+[DONE] option for skipping HTTP-proxy's cache
 [DONE] opening more than one adding window
 [DONE] fix moving down of log windows after closing and opening again
-[DONE] resizing main window resize Mainlog and queue of downloads proportionaly
+[DONE] resizing main window resize Main-log and queue of downloads proportionally
 [DONE] "Add new" dialog closing by ESC
 [DONE] option for run in mimimized mode
 [DONE] confirmation for opening many windows (log,prefs)

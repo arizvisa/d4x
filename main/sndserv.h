@@ -32,7 +32,7 @@ struct d4xSndEvent:public tNode{
 
 class d4xSndServer{
 	tQueue *queue;
-	pthread_mutex_t my_mutex;
+	pthread_mutex_t my_mutex,exit_lock;
 	pthread_t thread_id;
 	char *snd_table[SND_LAST];
 	void play_sound(int event);

@@ -91,11 +91,12 @@ tHProxyClient::~tHProxyClient() {
 tProxyDownload::tProxyDownload():tHttpDownload(){
 };
 
-int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL) {
+tProxyDownload::tProxyDownload(tWriterLoger *log):tHttpDownload(log){
+};
+
+int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 	DBC_RETVAL_IF_FAIL(hostinfo!=NULL,-1);
-	DBC_RETVAL_IF_FAIL(log!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
-	LOG=log;
 	HTTP=new tHProxyClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);
@@ -155,7 +156,6 @@ char *tProxyDownload::make_name(){
 		strcat(rvalue,"?");
 		strcat(rvalue,ADDR.params.get());
 	};
-	printf("%p %p\n",parsed_path,parsed_name);
 	delete[] parsed_path;
 	delete[] parsed_name;
 	return rvalue;
@@ -172,9 +172,7 @@ fsize_t tProxyDownload::get_size() {
 	while (1) {
 		answer->done();
 		HTTP->set_offset(LOADED);
-		LOG->log(LOG_OK,_("Connection to the internet via proxy"));
-
-		LOG->log(LOG_OK,_("Sending request to proxy"));
+		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.proxy_host.get(),config.proxy_port);
 		fsize_t temp=HTTP->get_size(REQUESTED_URL,answer);
 		switch (temp){
 		case 0:{

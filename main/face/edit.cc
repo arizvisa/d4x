@@ -40,6 +40,7 @@ enum EDIT_OPTIONS_ENUM{
 	EDIT_OPT_PASSIVEFTP,
 	EDIT_OPT_PERMISSIONS,
 	EDIT_OPT_DONT_SEND_QUIT,
+	EDIT_OPT_DIRONTOP,
 	EDIT_OPT_CHECK_TIME,
 	EDIT_OPT_SLEEP_BEFORE_COMPLETE,
 	EDIT_OPT_LINKASFILE,
@@ -71,6 +72,7 @@ char *edit_fields_labels[]={
 	N_("Use passive mode for FTP"),
 	N_("Get permissions of the file from server (FTP only)"),
 	N_("Don't send QUIT command (FTP)"),
+	N_("Put directories on the top of queue during recursion"),
 	N_("Compare date/time of remote file with local one"),
 	N_("Sleep before completing"),
 	N_("Try to load symbolic link as file via FTP"),
@@ -191,7 +193,9 @@ void init_edit_window(tDownload *what) {
 	what->editor=new tDEdit;
 	what->editor->init(what);
 	what->editor->parent_in_db=1;
-	if (what->owner==DL_RUN || what->owner==DL_STOPWAIT) what->editor->disable_ok_button();
+	if (what->owner()==DL_RUN ||
+	    what->owner()==DL_STOPWAIT)
+		what->editor->disable_ok_button();
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Edit download"));
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(edit_window_cancel),what->editor);
 	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_window_ok),what->editor);
@@ -208,7 +212,9 @@ void init_edit_window_without_ok(tDownload *what) {
 	};
 	what->editor=new tDEdit;
 	what->editor->init(what);
-	if (what->owner==DL_RUN || what->owner==DL_STOPWAIT) what->editor->disable_ok_button();
+	if (what->owner()==DL_RUN ||
+	    what->owner()==DL_STOPWAIT)
+		what->editor->disable_ok_button();
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Edit download"));
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(edit_window_cancel),what->editor);
 	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(edit_window_delete), what->editor);
@@ -379,8 +385,8 @@ void tDEdit::init_main(tDownload *who) {
 			   GTK_SIGNAL_FUNC (edit_window_url_activate), this);
 	MY_GTK_FILESEL(path_entry)->only_dirs=TRUE;
 	desc_entry=my_gtk_combo_new(ALL_HISTORIES[DESC_HISTORY]);
-	if (who->Description.get())
-		set_description(who->Description.get());
+	if (who->config.Description.get())
+		set_description(who->config.Description.get());
 	else
 		set_description("");
 	
@@ -469,7 +475,10 @@ void tDEdit::init_main(tDownload *who) {
 	}else
 		to_top_check=NULL;
 
-	GTK_TOGGLE_BUTTON(pause_check)->active=CFG.PAUSE_AFTER_ADDING;
+	if (who->owner()==DL_PAUSE)
+		GTK_TOGGLE_BUTTON(pause_check)->active=1;
+	else
+		GTK_TOGGLE_BUTTON(pause_check)->active=CFG.PAUSE_AFTER_ADDING;
 	GTK_TOGGLE_BUTTON(restart_from_begin_check)->active=who->config.restart_from_begin;
 	gtk_box_pack_start(GTK_BOX(vbox),pause_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),tmp_hbox,FALSE,FALSE,0);
@@ -586,7 +595,9 @@ void tDEdit::init_ftp(tDownload *who){
 	link_as_file_check=gtk_check_button_new_with_label(_("Try to load symbolic link as file via FTP"));
 	GTK_TOGGLE_BUTTON(link_as_file_check)->active=who->config.link_as_file;
 	gtk_box_pack_start(GTK_BOX(ftp_vbox),link_as_file_check,FALSE,FALSE,0);
-
+	ftp_dirontop_check=gtk_check_button_new_with_label(_("Put directories on the top of queue during recursion"));
+	GTK_TOGGLE_BUTTON(ftp_dirontop_check)->active=who->config.ftp_dirontop;
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),ftp_dirontop_check,FALSE,FALSE,0);
 	
 	ftp_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.ftp_recurse_depth);
 	GtkWidget *ftp_hbox=gtk_hbox_new(FALSE,0);
@@ -625,8 +636,8 @@ void tDEdit::init_http(tDownload *who){
 
 	filter=gtk_entry_new();
 	gtk_entry_set_editable(GTK_ENTRY(filter),FALSE);
-	if (who->Filter.get())
-		text_to_combo(filter,who->Filter.get());
+	if (who->config.Filter.get())
+		text_to_combo(filter,who->config.Filter.get());
 	http_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
 	other_label=gtk_label_new(_("Filter"));
@@ -945,14 +956,14 @@ int tDEdit::apply_changes() {
 	char *desc=text_from_combo(desc_entry);
 	if (desc && *desc){
 		ALL_HISTORIES[DESC_HISTORY]->add(desc);
-		parent->Description.set(desc);
+		parent->config.Description.set(desc);
 	}else
-		parent->Description.set(NULL);
+		parent->config.Description.set(NULL);
 	desc=text_from_combo(filter);
 	if (desc && *desc){
-		parent->Filter.set(desc);
+		parent->config.Filter.set(desc);
 	}else
-		parent->Filter.set(NULL);
+		parent->config.Filter.set(NULL);
 	
 	/*change data in list if available
 	 */
@@ -993,6 +1004,7 @@ int tDEdit::apply_changes() {
 	parent->config.sleep_before_complete=GTK_TOGGLE_BUTTON(sleep_check)->active;
 	parent->config.change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
+	parent->config.ftp_dirontop=GTK_TOGGLE_BUTTON(ftp_dirontop_check)->active;
 
 	temp1=0;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(split_entry)),"%u",&temp1);
@@ -1080,11 +1092,11 @@ void tDEdit::setup_time(time_t when) {
 
 void  tDEdit::paste_url() {
 	char *a=d4x_mw_clipboard_get();
-	if (a){
+	if (a && global_url(a)){
 		set_url(a);
 		return;
 	};
-	if (old_clipboard_content()!=NULL){
+	if (old_clipboard_content()!=NULL && global_url(old_clipboard_content())){
 		set_url(old_clipboard_content());
 		return;
 	};
@@ -1140,6 +1152,8 @@ void tDEdit::disable_items(int *array){
 		gtk_widget_set_sensitive(rollback_entry,FALSE);
 	if (array[EDIT_OPT_PASSIVEFTP]==0)
 		gtk_widget_set_sensitive(ftp_passive_check,FALSE);
+	if (array[EDIT_OPT_DIRONTOP]==0)
+		gtk_widget_set_sensitive(ftp_dirontop_check,FALSE);
 	if (array[EDIT_OPT_PERMISSIONS]==0)
 		gtk_widget_set_sensitive(permisions_check,FALSE);
 	if (array[EDIT_OPT_DATE]==0)
@@ -1287,6 +1301,8 @@ void tDEdit::apply_enabled_changes(){
 		parent->config.check_time=GTK_TOGGLE_BUTTON(check_time_check)->active;
 	if (GTK_WIDGET_SENSITIVE(change_links_check))
 		parent->config.change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
+	if (GTK_WIDGET_SENSITIVE(ftp_dirontop_check))
+		parent->config.ftp_dirontop=GTK_TOGGLE_BUTTON(ftp_dirontop_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
 
 	if (GTK_WIDGET_SENSITIVE(split_entry)){
@@ -1369,6 +1385,19 @@ static void proxy_toggle_socks(GtkWidget *parent,tProxyWidget *where) {
 	gtk_widget_set_sensitive(where->socks_host,GTK_TOGGLE_BUTTON(parent)->active);
 };
 
+static void _proxy_port_changed_(GtkEntry *entry,GtkEntry *entryh){
+	char *tmp=gtk_entry_get_text(entryh);
+	char *tmp1=index(tmp,':');
+	if (tmp1){
+		*tmp1=0;
+		char *ns=sum_strings(tmp,":",gtk_entry_get_text(entry),NULL);
+		*tmp1=':';
+		if (!equal(ns,tmp))
+			gtk_entry_set_text(entryh,ns);
+		delete[] ns;
+	};
+};
+
 static void _ftp_host_changed_(GtkEntry *entry,tProxyWidget *parent){
 	char *tmp=gtk_entry_get_text(entry);
 	tmp=index(tmp,':');
@@ -1448,6 +1477,10 @@ void tProxyWidget::init() {
 
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_host,FALSE,0,0);
 	ftp_proxy_port=my_gtk_entry_new_with_max_length(5,0);
+	gtk_signal_connect (GTK_OBJECT (ftp_proxy_port),
+			    "changed",
+			    (GtkSignalFunc) _proxy_port_changed_,
+			    GTK_COMBO(ftp_proxy_host)->entry);
 	GtkWidget *label=gtk_label_new(_("port"));
 	hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hbox),3);
@@ -1513,6 +1546,10 @@ void tProxyWidget::init() {
 
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_host,FALSE,0,0);
 	http_proxy_port=my_gtk_entry_new_with_max_length(5,0);//gtk_entry_new();
+	gtk_signal_connect (GTK_OBJECT (http_proxy_port),
+			    "changed",
+			    (GtkSignalFunc) _proxy_port_changed_,
+			    GTK_COMBO(http_proxy_host)->entry);
 	label=gtk_label_new(_("port"));
 	hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hbox),3);
@@ -1565,6 +1602,10 @@ void tProxyWidget::init() {
 	gtk_box_pack_start(GTK_BOX(hbox),socks_host,FALSE,0,0);
 	label=gtk_label_new(_("port"));
 	socks_port=my_gtk_entry_new_with_max_length(5,0);
+	gtk_signal_connect (GTK_OBJECT (socks_port),
+			    "changed",
+			    (GtkSignalFunc) _proxy_port_changed_,
+			    GTK_COMBO(socks_host)->entry);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),socks_port,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox_temp),hbox,FALSE,0,0);

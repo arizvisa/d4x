@@ -37,6 +37,7 @@ struct tSimplyCfg{
 	int restart_from_begin;
 	int dont_send_quit;
 	int check_time;
+	int ftp_dirontop;
 	/* temporary flags */
 	int split; 
 	int redirect_count;
@@ -56,6 +57,8 @@ struct tCfg:public tSimplyCfg{
 	tPStr user_agent,referer,cookie; /* HTTP items */
 	tPStr save_name,save_path;
 	tPStr log_save_path;
+	tPStr Description;
+	tPStr Filter;
 	tCfg();
 	int get_flags();
 	void set_flags(int what);

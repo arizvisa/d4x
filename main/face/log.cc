@@ -250,20 +250,22 @@ gint log_window_button(GtkWidget *button,int a){
 		withlog->LOG->unlock();
 		tLogWindow *temp=(tLogWindow *)(forlog->LOG->Window);
 		gtk_object_set_user_data(GTK_OBJECT(temp->window),forlog->LOG);
-		gtk_clist_clear(GTK_CLIST(temp->clist));
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
+		gtk_clist_clear(GTK_CLIST(temp->clist));
 		forlog->LOG->print();
 		forlog->LOG->unlock();
 		what->LOG->last_log=b;
 		what->CurrentLog=forlog->LOG;
-		gtk_clist_thaw(GTK_CLIST(temp->clist));
+		/* FIXME: signal_connect again???? */
 		gtk_signal_connect(GTK_OBJECT(temp->window),
 				   "delete_event",
 		                   (GtkSignalFunc)log_window_destroy,
 				   forlog->LOG);
 		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
 		                   (GtkSignalFunc)log_window_event_handler, forlog->LOG);
-		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "value_changed");
+		/* GTK is buggy if we 'thaw' list after sending signal */
+		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
+		gtk_clist_thaw(GTK_CLIST(temp->clist));
 	};
 	if (forlog==NULL || forlog->LOG==NULL){
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
@@ -389,7 +391,8 @@ void log_window_init(tDownload *what) {
 		temp->adj->value=temp->adj->upper-temp->adj->page_size;
 		temp->value=temp->adj->value;
 		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
-		if (what->LOG->last_log>1 && what->split && what->LOG->last_log<what->split->NumOfParts){
+		if (what->LOG->last_log>1 && what->split &&
+		    what->LOG->last_log<=what->split->NumOfParts){
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
 			log_window_button(temp->button,
 					  what->LOG->last_log);

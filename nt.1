@@ -29,7 +29,9 @@ requested operations will be performed in that order.
 Add the indicated file to the download queue.  A dialog box will appear in
 which you can indicate where the file should be saved and set other options.
 If \fBnt\fP is already running, then the new instance will simply ask the
-existing instance to add the file and then it will exit.
+existing instance to add the file and then it will exit. If existing instance
+already have this \fBURL\fP in queue in inactive state than it will be
+moved to *wait* state.
 .TP
 \fB-h, --help\fP
 Print a brief description of the command line options and exit.

@@ -23,27 +23,41 @@
 #include <sys/un.h>
 #include <signal.h>
 #include <string.h>
+#include "face/lod.h"
+
 
 #if defined(sun)
 typedef int socklen_t;
 #endif
 
-static void *server_thread_run(void *what){
-    tMsgServer *srv=(tMsgServer *)what;
-    srv->run();
-    return NULL;
+void server_thread_stop(int i){
+	pthread_exit(NULL);
 };
 
-void server_thread_stop(int i){
-    pthread_exit(NULL);
+static void *server_thread_run(void *what){
+	struct sigaction action,old_action;
+	action.sa_handler=server_thread_stop;
+	action.sa_flags=0;
+	sigaction(SIGUSR2,&action,&old_action);
+
+	sigset_t oldmask,newmask;
+	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGTERM);
+	sigaddset(&newmask,SIGINT);
+	sigaddset(&newmask,SIGUSR1);
+	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
+	tMsgServer *srv=(tMsgServer *)what;
+	srv->run();
+	return NULL;
 };
+
 
 tMsgServer::tMsgServer(){
-    list=new tStringList;
-    list->init(0);
-    file=NULL;
-    fd=newfd=0;
-    my_pthreads_mutex_init(&lock);
+	list=new tStringList;
+	list->init(0);
+	file=NULL;
+	fd=newfd=0;
+	my_pthreads_mutex_init(&lock);
 };
 
 tMsgServer::~tMsgServer(){
@@ -70,17 +84,6 @@ void tMsgServer::stop_thread(){
 };
 
 int tMsgServer::init(){
-	struct sigaction action,old_action;
-	action.sa_handler=server_thread_stop;
-	action.sa_flags=0;
-	sigaction(SIGUSR2,&action,&old_action);
-
-	sigset_t oldmask,newmask;
-	sigemptyset(&newmask);
-	sigaddset(&newmask,SIGTERM);
-	sigaddset(&newmask,SIGINT);
-	sigaddset(&newmask,SIGUSR1);
-	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
 
 	struct sockaddr_un saddr;
 	fd=socket(AF_UNIX,SOCK_STREAM,0);
@@ -109,41 +112,66 @@ void tMsgServer::cmd_ack(){
 	cmd_return_int(0);
 };
 
-void tMsgServer::cmd_ls(int len,int type){
-	char *temp=new char[len+1];
-	if (read(newfd,temp,len)==len){
-		temp[len]=0;
-		tDownload *dl=new tDownload;
-		dl->info=new tAddr(temp);
-		ALL_DOWNLOADS->lock();
-		tDownload *answer=ALL_DOWNLOADS->find(dl);
-		
-		tPacketStatus status;
-		if (answer){
-			status.Size=answer->finfo.size;
-			status.Download=answer->Size.curent;
-			status.Time=answer->Start;
-			status.Speed=answer->Speed.curent;
-			status.Status=answer->owner;
-			status.Attempt=answer->Attempt.curent;
-			status.MaxAttempt=answer->config.number_of_attempts;
-		};
-		
-		ALL_DOWNLOADS->unlock();
-		delete(dl);
-		
-		tPacket packet;
-		packet.type=PACKET_ACK;
-		if (answer){
-			packet.len=sizeof(tPacketStatus);
-			write(newfd,&packet,sizeof(packet));
-			write(newfd,&status,sizeof(status));
-		}else{
-			packet.len=0;
-			write(newfd,&packet,sizeof(packet));
-		};
+void tMsgServer::write_dwn_status(tDownload *dwn,int full=0){
+	tPacketStatus status;
+	if (dwn){
+		if (full) status.url=dwn->info->url();
+		status.Size=dwn->finfo.size;
+		status.Download=dwn->Size.curent;
+		status.Time=dwn->Start;
+		status.Speed=dwn->Speed.curent;
+		status.Status=dwn->owner(); /* FIXME: possible race condition */
+		status.Attempt=dwn->Attempt.curent;
+		status.MaxAttempt=dwn->config.number_of_attempts;
 	};
-	delete[] temp;
+	
+	ALL_DOWNLOADS->unlock();
+	
+	tPacket packet;
+	packet.type=PACKET_ACK;
+	if (dwn){
+		packet.len=sizeof(tPacketStatus)-sizeof(char*);
+		if (full)
+			packet.len+=strlen(status.url)+1;
+		write(newfd,&packet,sizeof(packet));
+		write(newfd,&status,sizeof(status)-sizeof(char*));
+		if (full)
+			write(newfd,status.url,strlen(status.url)+1);
+	}else{
+		packet.len=0;
+		write(newfd,&packet,sizeof(packet));
+	};
+};
+
+void tMsgServer::cmd_ls(int len,int type){
+	if (len){
+		char *temp=new char[len+1];
+		if (read(newfd,temp,len)==len){
+			temp[len]=0;
+			tDownload *dl=new tDownload;
+			dl->info=new tAddr(temp);
+			ALL_DOWNLOADS->lock();
+			tDownload *answer=ALL_DOWNLOADS->find(dl);
+			delete(dl);
+			write_dwn_status(answer);
+		};
+		delete[] temp;
+	}else{ // output whole list
+		ALL_DOWNLOADS->lock();
+		d4xWFNode *node=(d4xWFNode *)(ListOfDownloadsWF->first());
+		while (node) {
+			d4xWFNode *next=(d4xWFNode *)(node->prev);
+			if (node->dwn){
+				write_dwn_status(node->dwn,1);
+				ALL_DOWNLOADS->lock();
+			};
+			if (next==NULL || next->next==node)
+				node=next;
+			else
+				break;
+		};
+		ALL_DOWNLOADS->unlock();
+	};
 };
 
 void tMsgServer::cmd_add(int len,int type){
@@ -186,6 +214,7 @@ void tMsgServer::run(){
 				case PACKET_ICONIFY:
 				case PACKET_POPUP:
 				case PACKET_MSG:
+				case PACKET_STOP:
 				case PACKET_DEL:
 				case PACKET_ADD:{
 					cmd_add(packet.len,packet.type);
@@ -196,19 +225,19 @@ void tMsgServer::run(){
 					break;
 				};
 				case PACKET_ASK_RUN:{
-					cmd_return_int(DOWNLOAD_QUEUES[DL_RUN]->count());
+					cmd_return_int(D4X_QUEUE->count(DL_RUN));
 					break;
 				};
 				case PACKET_ASK_STOP:{
-					cmd_return_int(DOWNLOAD_QUEUES[DL_STOP]->count());
+					cmd_return_int(D4X_QUEUE->count(DL_STOP));
 					break;
 				};
 				case PACKET_ASK_PAUSE:{
-					cmd_return_int(DOWNLOAD_QUEUES[DL_PAUSE]->count()+DOWNLOAD_QUEUES[DL_STOPWAIT]->count());
+					cmd_return_int(D4X_QUEUE->count(DL_PAUSE)+D4X_QUEUE->count(DL_STOPWAIT));
 					break;
 				};
 				case PACKET_ASK_COMPLETE:{
-					cmd_return_int(DOWNLOAD_QUEUES[DL_COMPLETE]->count());
+					cmd_return_int(D4X_QUEUE->count(DL_COMPLETE));
 					break;
 				};
 				case PACKET_ASK_READED_BYTES:{
@@ -216,9 +245,7 @@ void tMsgServer::run(){
 					break;
 				};
 				case PACKET_ASK_FULLAMOUNT:{
-					int a=0;
-					for (int i=DL_RUN;i<DL_TEMP;i++)
-						a+=DOWNLOAD_QUEUES[i]->count();
+					int a=D4X_QUEUE->count();
 					cmd_return_int(a);
 					break;
 				};
@@ -299,6 +326,17 @@ int tMsgClient::send_command(int cmd,char *data,int len){
 	return 0;
 };
 
+int tMsgClient::send_command_short(int cmd,char *data,int len){
+	if (init()) return -1;
+	tPacket command;
+	command.type=cmd;
+	command.len = data!=NULL ? len:0;
+	
+	write(fd, &command, sizeof (command));
+	if (command.len) write(fd, data, command.len);
+	return 0;
+};
+
 int tMsgClient::get_answer_int(){
 	int tmp=0;
 	if (bufsize==sizeof(int)){
@@ -308,8 +346,29 @@ int tMsgClient::get_answer_int(){
 };
 
 int tMsgClient::get_answer_status(tPacketStatus *status){
-	if (bufsize==sizeof(tPacketStatus)){
-		memcpy(status,buf,sizeof(tPacketStatus));
+	tPacket command;
+	command.type=PACKET_NOP;
+	if (read(fd,&command,sizeof(command))<=0)
+		return 0;
+	if (command.type!=PACKET_ACK)
+		return 0;
+	if (buf)
+		delete[] buf;
+	if (command.len){
+		buf=new char[command.len];
+		read(fd,buf,command.len);
+	}else
+		buf=NULL;
+	bufsize=command.len;
+	int size=sizeof(tPacketStatus)-sizeof(char *);
+	if (bufsize>=size){
+		memcpy(status,buf,size);
+		if (bufsize>size){
+			int len=bufsize-size;
+			status->url=new char[len+1];
+			memcpy(status->url,buf+size,len);
+			status->url[len]=0;
+		};
 		return(1);
 	};
 	return(0);

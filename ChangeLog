@@ -1,3 +1,35 @@
+Fri Nov 23 23:13:40 2001
+	New icons for DnD and for main window from Kurt Haribo!;
+	Added tooltips for traffic selection menu items in DnDbasket;
+	Added "remove unused links" dialog after "Search links in file";
+	Added support for 'Content-Disposition' HTTP-answer's field;
+	Added option "do not remember position of the main window";
+	Added command line parameter '-geometry';
+	Added ability to add new dirs during FTP-recursion to the top of queue;
+	Changed formula for calculating remaining time;
+	Spanish translation is uptodated (thanks to "Gustavo D. Vranjes");
+	Hebrew translation was updated (thanks to Oren Held);
+	Allowed HTTP recurse for splited downloads;
+	Improved '--ls' command line parameter;
+	Fixed automated adding with {08-xx}/{xx-08};
+	Fixed terminating sound server's thread;
+	Fixed find links in file (some chars are delimeters);
+	Fixed annoying blinks when switch logs of splited downlad;
+	Fixed segfault on exit when "Add new" windows are opened;
+	Fixed recurse via HTTP whith absolute pathes;
+	Fixed storing order of download queue when run without interface;
+	Fixed exiting by Ctrl+C;
+	Fixed matching rules of a filter;
+	Fixed passing URL through filter via redirections;
+	Fixed placing main window under differents WM;
+	Fixed broken files when redirected with "change links in HTML...";
+	Fixed "wrong segmentation info" for one threaded downloads;
+	Fixed opening remembered log for splited downloads;
+	Fixed displaing number of attempts for splited downloads;
+	Fixed changing links in file during HTTP recursion (if option is set);
+	Updated spec file for new distributions;
+	Various interface and code cleanups;
+
 Sat Sep  8 13:35:09 2001
 	Updated Polish translation (thanks to Grzegorz Kowal);
 	Updated Ukrainian translation (thanks to Cawko Xakep);

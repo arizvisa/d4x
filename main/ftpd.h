@@ -32,7 +32,8 @@ protected:
 	int is_dir();
 public:
     	tFtpDownload();
-    	int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL);
+    	tFtpDownload(tWriterLoger *log);
+    	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL);
 	void init_download(char *path,char *file);
     	int download(fsize_t len);
     	fsize_t get_size();

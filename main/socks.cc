@@ -187,7 +187,7 @@ int tSocksSocket::socks_bind_reply(){
 		return(SOCKET_UNKNOWN_HOST);
 	default:
 		return(SOCKET_CANT_CONNECT);
-	};		
+	};
 	memcpy(&bnd_host,socks_buf+4,4);
 	memcpy(&bnd_port,socks_buf+8,2);
 	bnd_host=ntohl(bnd_host);
@@ -197,7 +197,7 @@ int tSocksSocket::socks_bind_reply(){
 
 int tSocksSocket::accepting(char *host){
 	DBC_RETVAL_IF_FAIL(host!=NULL,-1);
-	int repsize=read(fd,socks_buf,10);	
+	int repsize=read(fd,socks_buf,10);
 	if (repsize<10){
 		down();
 		return(-1);
@@ -235,6 +235,12 @@ int tSocksSocket::open_any(guint32 host) {
 	socks_buf[2]=0;
 	socks_buf[3]=SOCKS_ATYPE_IPV4;
 	write(fd,socks_buf,4);
+//	guint32 me=htonl(tSocket::get_addr());
+//	write(fd,&me,4);
+/*
+	char a[6]={0,0,0,0,0,0};
+	write(fd,a,6);
+*/
 	write(fd,&host,4);
 	guint16 port=0;
 	write(fd,&port,2);

@@ -124,27 +124,62 @@ static void my_gtk_graph_draw(GtkWidget *widget,GdkRectangle *area){
 	g_return_if_fail(area!=NULL);
 
 	MyGtkGraph *graph=(MyGtkGraph *)widget;
-	gtk_paint_box (widget->style,
-		       widget->window,
-		       GTK_STATE_NORMAL, GTK_SHADOW_IN,
-		       (GdkRectangle *)NULL, widget, "trough",
-		       0, 0,
-		       widget->allocation.width,
-		       widget->allocation.height);
+	gtk_paint_shadow (widget->style,
+			  widget->window,
+			  GTK_STATE_NORMAL,
+			  GTK_SHADOW_IN,
+			  area,widget,"trough",
+			  0,0,
+			  widget->allocation.width,
+			  widget->allocation.height);
 	if (graph->rgb_data==NULL){
 		my_gtk_graph_reinit(graph);
 	};
-	if (graph->rgb_data && graph->cmap)
-		gdk_draw_indexed_image(widget->window,
-				       MainWindowGC,
-				       2,2,
-				       widget->allocation.width-4,
-				       widget->allocation.height-4,
-				       GDK_RGB_DITHER_NONE,
-				       graph->rgb_data,
-				       widget->allocation.width-4,
-				       graph->cmap);
-
+	if (area->x>widget->allocation.width-2 ||
+	    area->y>widget->allocation.height-2 ||
+	    area->x+area->width<2 || area->y+area->height<2){
+		return;
+	};
+	if (graph->rgb_data && graph->cmap){
+		if (area->x<=2 && area->y<=2 &&
+		    area->width>=widget->allocation.width-4 &&
+		    area->height>=widget->allocation.height-4){
+			gdk_draw_indexed_image(widget->window,
+					       MainWindowGC,
+					       2,2,
+					       widget->allocation.width-4,
+					       widget->allocation.height-4,
+					       GDK_RGB_DITHER_NONE,
+					       graph->rgb_data,
+					       widget->allocation.width-4,
+					       graph->cmap);
+		}else{
+			GdkRectangle a,b;
+			a.x=2;
+			a.y=2;
+			a.width=widget->allocation.width-4;
+			a.height=widget->allocation.height-4;
+			if (gdk_rectangle_intersect(area,&a,&b)){
+				guchar *rgb_data=new guchar[b.width*b.height];
+				b.x-=2;
+				b.y-=2;
+				for (int x=0;x<b.width;x++)
+					for (int y=0;y<b.height;y++)
+						rgb_data[y*b.width+x]=graph->rgb_data[(widget->allocation.width-4)*(b.y+y)+b.x+x];
+				gdk_draw_indexed_image(widget->window,
+						       MainWindowGC,
+						       b.x+2,b.y+2,
+						       b.width,
+						       b.height,
+						       GDK_RGB_DITHER_NONE,
+						       rgb_data,
+						       b.width,
+						       graph->cmap);
+				delete[] rgb_data;
+			};
+//			graph->rgb_data
+		};
+	};
 };
 
 static void my_gtk_graph_realize (GtkWidget *widget){
@@ -184,10 +219,10 @@ static void my_gtk_graph_realize (GtkWidget *widget){
 static gint my_gtk_graph_expose (GtkWidget *widget, GdkEventExpose *event){
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
-//  g_return_val_if_fail (GTK_IS_PROGRESS (widget), FALSE);
 
-	if (GTK_WIDGET_DRAWABLE (widget))
+	if (GTK_WIDGET_DRAWABLE (widget)){
 		my_gtk_graph_draw(widget,&(event->area));
+	};
 	return FALSE;
 }
 

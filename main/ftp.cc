@@ -394,6 +394,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 	if ((rvalue=rest(begin))) return rvalue;
 	if (!ReGet) {
 		if (!RETRY_IF_NO_REGET) return(-1);
+		begin=0;
 		LOG->shift(0);
 		FileLoaded=0;
 		LOG->truncate(); //to avoid displaing wrong size
@@ -408,19 +409,16 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 		if (str) sscanf(str+1,"%li",&TEMP_SIZE);
 	};
 	TEMP_SIZE+=begin;
-	if (OLD_SIZE){
-		if (OLD_SIZE<TEMP_SIZE){
-			/* file seems to be changed */
-			ReGet=0;
-			if (!RETRY_IF_NO_REGET) return(-1);
-			LOG->shift(0);
-			FileLoaded=0;
-			LOG->truncate();
-		}else{
-			TEMP_SIZE=OLD_SIZE;
-		};
-	}else
-		OLD_SIZE=0;
+	if (OLD_SIZE && OLD_SIZE>TEMP_SIZE){
+		LOG->log(LOG_WARNING,_("Probably file was changed on server!"));
+		ReGet=0;
+		if (!RETRY_IF_NO_REGET) return(-1);
+		send_command("REST","0");
+		LOG->shift(0);
+		FileLoaded=0;
+		LOG->truncate();
+	};
+	OLD_SIZE=TEMP_SIZE;
 	/************************************************/
 	if ((rvalue=accepting())) return(rvalue);
 	if (Status) return RVALUE_TIMEOUT;

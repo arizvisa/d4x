@@ -40,6 +40,7 @@ class tDownloader{
 	fsize_t StartSize,LOADED;
  public:
     	tDownloader();
+    	tDownloader(tWriterLoger *log);
     	int treat();
      	int get_status();
      	virtual fsize_t get_start_size();
@@ -58,7 +59,7 @@ class tDownloader{
 	virtual void print_error(int error_code);
 
      	virtual int reconnect()=0;
-    	virtual int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=(tSocket*)NULL)=0;
+    	virtual int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket*)NULL)=0;
     	virtual fsize_t get_readed()=0;
     	virtual fsize_t get_size()=0;
     	virtual int get_child_status()=0;

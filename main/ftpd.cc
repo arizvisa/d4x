@@ -278,6 +278,14 @@ tFtpDownload::tFtpDownload():tDownloader(){
 	TMP_FILEPATH=NULL;
 };
 
+tFtpDownload::tFtpDownload(tWriterLoger *log):tDownloader(log){
+	FTP=NULL;
+	DIR=list=NULL;
+	RetrNum=0;
+	DONT_CWD=0;
+	TMP_FILEPATH=NULL;
+};
+
 void tFtpDownload::dont_cwd(){
 	DONT_CWD=1;
 };
@@ -327,8 +335,7 @@ void tFtpDownload::init_download(char *path,char *file) {
 		ADDR.path.set(path);
 };
 
-int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL) {
-	LOG=log;
+int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 	FTP=new tFtpClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);

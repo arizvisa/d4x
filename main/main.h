@@ -18,6 +18,7 @@
 #include "srvclt.h"
 #include "fsearch.h"
 #include "msgqueue.h"
+#include "dqueue.h"
 
 class tMain{
 	int prev_speed_limit;
@@ -28,6 +29,7 @@ class tMain{
 	tFtpSearchCtrl *ftpsearch;
 	tSpeedQueue *SpeedScheduler;
 	int LastReadedBytes;
+	int TO_WAIT_IF_HERE;
 	void case_download_completed(tDownload *what);
 	void case_download_failed(tDownload *what);
 
@@ -36,12 +38,12 @@ class tMain{
 	int get_status_split(tDownload *what);
 	int get_split_loaded(tDownload *what);
 	int try_to_run_download(tDownload *what);
-	void absolute_delete_download(tDList *where,tDownload *what);
+	void absolute_delete_download(tDownload *what);
 
 	void add_dir(tDownload *parent);
 	void print_info(tDownload *what);
 	void redirect(tDownload *what);
-	void del_all_from_list(tDList *list);
+	void del_all_from_list(int list);
 	unsigned int get_precise_time();
 	void run_msg_server();
 	void speed_calculation(tDownload *what);
@@ -49,7 +51,6 @@ class tMain{
 	void main_circle_first();
 	void main_circle_second();
 	void insert_into_wait_list(tDownload *what);
-	void append_list(tStringList *what);
  public:
     	int init();
     	void init_main_log();
@@ -84,7 +85,7 @@ class tMain{
 	void run_after_quit();
 	void done();
 	/* next methods are public especialy for tFtpSearchCtrl */
-	void prepare_for_stoping(tDownload *what,tDList *list);
+	void prepare_for_stoping(tDownload *what);
 	int run_new_thread(tDownload *what);
 	void ftp_search_remove(tDownload *what);
 	void ftp_search_reping(tDownload *what);
@@ -93,14 +94,13 @@ class tMain{
 
 void *download_last(void *);
 int get_port_by_proto(char *proto);
-int amount_of_downloads_in_queues();
 int calc_curent_run(char *host,int port);
 
 extern tMLog *MainLog;
 extern tMeter *GlobalMeter;
 extern tMeter *LocalMeter;
 
-extern tDList *DOWNLOAD_QUEUES[DL_TEMP];
+extern d4xDownloadQueue *D4X_QUEUE;
 
 //************************************************/
 #endif

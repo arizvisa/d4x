@@ -284,7 +284,7 @@ int d4xSADelIfCompleted::save(int fd){
 void d4xSADelIfCompleted::run(tMain *papa){
 	if (url){
 		tDownload *tmp=papa->find_url(url);
-		if (tmp && tmp->owner==DL_COMPLETE)
+		if (tmp && tmp->owner()==DL_COMPLETE)
 			papa->delete_download(tmp);
 	};
 };

@@ -25,7 +25,7 @@ class tColumnsPrefs{
 	int first;
 	GList *sort_list;
 	GList *find_by_data(GList *where, char *what);	
-	void add_to_list(tDList *list);
+	void add_to_list(int list);
 	void add_to_sort(tDownload *what);
 	public:
 		tColumnsPrefs();

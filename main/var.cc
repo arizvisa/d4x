@@ -23,13 +23,13 @@ int LOCK_FILE_D=0;
 
 tMainCfg CFG={
 	{300,5,0,100,0,1,0,0,
-	 0,0,0,0,0,1,1,1,0,0,0,0,1,
+	 0,0,0,0,0,1,1,1,0,0,0,0,1,0,
 	 0,0},
-	100,1,NULL,NULL,NULL,NULL,NULL,NULL,0,0,
+	100,5,NULL,NULL,NULL,NULL,NULL,NULL,0,0,
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,0,0,600,0,0, //flags
-	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,1,0,//interface
+	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,1,0,0,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,
 	/* Proxy */
@@ -199,6 +199,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->BUTTONS_FLAGS=src->BUTTONS_FLAGS;
 	dst->PROGRESS_MODE=src->PROGRESS_MODE;
 	dst->ENABLE_SOUNDS=src->ENABLE_SOUNDS;
+	dst->DONOTSET_WINPOS=src->DONOTSET_WINPOS;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);

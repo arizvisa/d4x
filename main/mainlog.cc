@@ -260,6 +260,8 @@ void tMLog::open_row(int row) {
 	tDownload *dwn;
 	if (addr  && (dwn=aa.find_url(addr))){
 		log_window_init(dwn);
+		list_of_downloads_move_to(dwn);
+		list_of_downloads_select(dwn);
 	}else{
 		real_open_row(row);
 	};

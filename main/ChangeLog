@@ -1,3 +1,179 @@
+Fri Nov 23 14:09:46  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/edit.cc: interface cleanups;
+
+Thu Nov 22 16:08:34  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: change state of new download to 'wait' when adding via control
+	socket (if download already in queue);
+	* config.cc, srvclt.*: added --stop comand line parameter;
+
+Mon Nov 21 16:08:34  Maxim Koshelev  <mdem@chat.ru>
+	* main.cc: do not store logs when run without interface;
+
+Sun Nov 18 11:24:27  Maxim Koshelev  <mdem@chat.ru>
+
+	* config.cc : fixed broken --ls URL;
+	* po/: make update-po, Russian locale uptodated;
+	* face/about.cc: updated about dialog;
+
+Fri Nov 16 10:54:18  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/prefs.cc: continue to working under preferences window,
+	some cleanups;
+	* po/es.po: updated Spanish translation by Gustavo D. Vranjes;
+	* html.cc: fixed changing links in HTML file;
+
+Thu Nov 15 10:10:20  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, client.*, var.cc, face/prefs.cc, face/edit.cc: added ability
+	to add directories during FTP-recursion to the top of queue;
+	* face/list.cc: do not allow to resize main window less then 400x200;
+	* face/prefs.*: first attempt to avoid window resizing;
+
+Sat Nov 10 22:46:17  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/graph.cc: optimize graph drawing;
+
+Fri Nov 09 21:08:35  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/prefs.cc: extend "default anonymous pass" entry to 256 symbols;
+	* face/list.*, config.*: added '-geometry' command line parameter;
+	* dlist.*: code cleanups, real fix for redirection to another host when
+	'allow leave' is turned off;
+
+Thu Nov 08  7:39:25  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: fixed redirection to different host when recursing is turned on;
+
+Wed Nov 07 20:30:27  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/list.cc, face/prefs.cc, var.*, config.cc: added ability to turn off remembering position
+	of the main window;
+
+Thu Nov 01 16:50:05  Maxim Koshelev  <mdem@chat.ru>
+
+	* manyfiles: code cleanups;
+	* face/edit.cc, face/addd.cc: if clipboard contains URL paste it when select "Automatic adding";
+
+Tue Oct 30 15:43:54  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/dndtrash.cc: continue cleanups;
+
+Mon Oct 29 19:37:17  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/dndtrash.cc : call class->draw instead of gtk_widget_draw()
+	of DnD-basket's pixmap for speed;
+
+Sun Oct 28 13:22:01  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/list.cc: new icon as window's icon for main window;
+	* face/dndtrash.cc, pixmaps/dndtrash*: new icons from Kurt Haribo!, some code rewritten to accept any icons;
+
+Thu Oct 25 18:31:18  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc: fixed redirection from HTTP to FTP (added some days ago :-),
+	show maximal number of attempts for splited downloads;
+
+Mon Oct 22 15:12:58  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, face/addd.cc: select apropriate download when trying
+	to add the same download twice;
+
+Sun Oct 21 17:20:59  Maxim Koshelev  <mdem@chat.ru>
+
+	* config.cc, srvclt.cc, srvclt.h, main.cc : --ls now works without
+	parameters too;
+
+Fri Oct 19 18:39:47  Maxim Koshelev  <mdem@chat.ru>
+
+	* ftp.cc: real workarroun if file was changed on server and become
+	smaller;
+	* face/edit.cc: "pause just after adding" is on if download is paused;
+	* po/ru.po: fixed typos;
+	* many files: code cleanups, remove some settings related variables
+	from tDownload to tCfg;
+
+Thu Oct 18 14:50:46  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: code cleanups (yesterday's changes);
+	* ftp.cc:  some cleanups in "resuming not supported" detection code;
+	* segments.cc: fixed problems with "wrong segmentation info" for
+	one threaded downloads;
+	* face/log.cc: fixed opening remembered log for splited downloads
+	if it's last;
+
+Wed Oct 17 18:37:37 2001
+	*dlist.cc: fixed problems with redirection when "change links in
+	HTML file to local" was set;
+
+Tue Oct 16 17:46:25 2001
+	*mainlog.cc,face/lod.cc[h]: dblclick on error in mainlog will scroll
+	queue of downloads and select download with error;
+
+Tue Oct  9 16:24:56 2001
+	*face/list.cc: progress bar in status bar is resizable now;
+	*signal.h: probably fixed compilation under UnixWare;
+
+Mon Oct  8 00:40:25 2001
+	*face/lod.cc,mywidget.cc,saveload.cc: compilation cleanups;
+
+Sat Oct  6 13:44:19 2001
+	*filter.cc: fixed matching tags;
+	*httpd.cc[h],dlist.cc[h],locstr.cc[h]: added support for
+	'Content-Disposition' parameter, allow HTTP recursing for splited
+	downloads;
+
+Fri Oct  5 13:20:01 2001
+	*face/prefs.cc: code cleanups for compilation under UnixWare;
+	*hproxy.cc: more nice output of "sending request to proxy";
+
+Sat Sep 29 17:20:55 2001
+	*face/list.cc: fixed placing main window under different WM;
+
+Thu Sep 27 10:27:05 2001
+	*filter.cc: fixed rule matching;
+	*dlist.cc: fixed filtering redirected urls;
+	*main.cc[h],face/buttons.cc,dlist.cc[h]: code cleanups;
+
+Wed Sep 26 18:46:35 2001
+	*main.cc,face/lod.cc[h],savelog.cc: fixed storing order of download
+	queue when run without interface;
+	*srvclt.cc: fixed exiting by Ctrl+C;
+	*[many files]: massive code cleanups;
+	*main.cc[h],savelog.cc[h]: removed rutines to load old style queue;
+
+Fri Sep 21 15:54:10 2001
+	*html.cc: fixed recurse contain one file in root dir e.g. "/index.htm";
+
+Sat Sep 15 18:52:15 2001
+	*face/list.cc: fixed segfault on exiting when "Add new" windows
+	are opened;
+	*face/log.cc: revert back some autoscroll code;
+
+Fri Sep 14 16:06:37 2001
+	*eff.cc[h],sort.cc[h]: fixed duplicating links in the list,
+	do not create list-window if no links found;
+	*face/mywidget.cc: fixed closing window with list of URLs;
+
+Thu Sep 13 18:46:35 2001
+	*eff.cc: added '<','>',',' to bad_chars;
+	*face/log.cc: fixed annoying blinks when switch logs of splited downlad;
+	*face/saveload.cc,face/mywidget.cc[h],eff.cc[h]: added dialog which
+	contains list of found URLs;
+
+Wed Sep 12 16:06:25 2001
+	*autoadd.cc: fixed work with params like {09-something};
+	*sndserv.cc: another way to shutdown sound server thread;
+
+Tue Sep 11 15:39:21 2001
+	[BLACK DAY OVER THE WORLD]
+	*main.cc: continue to work under formula;
+
+Sun Sep  9 19:35:06 2001
+	*main.cc: new formula to calculate remaining time;
+	*face/dndtrash.cc: added tolotips to traffic limitations menu items;
+
 Sat Sep  8 12:22:14 2001
 	*po/: fixed some translation, Russian is updated as usual;
 	*nt.cc: release 1.29;

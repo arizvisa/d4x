@@ -36,21 +36,21 @@ int d4xRule::match(tAddr *addr){
 	if (proto && addr->proto!=proto)
 		return(0);
 	if (file.get() &&
-	    (addr->file.get() ||
-	     !check_mask2_uncase(addr->file.get(),file.get())))
+	    addr->file.get() &&
+	    !check_mask2_uncase(addr->file.get(),file.get()))
 		return(0);
 	if (host.get() &&
-	    (addr->host.get() ||
-	     !check_mask2(addr->host.get(),host.get())))
+	    addr->host.get() &&
+	    !check_mask2(addr->host.get(),host.get()))
 		return(0);
 	if (path.get() &&
-	    (addr->path.get()==NULL ||
-	     !check_mask2(addr->path.get(),path.get())))
+	    addr->path.get() &&
+	    !check_mask2(addr->path.get(),path.get()))
 		return(0);
-	if (tag.get() &&
-	    (addr->tag.get()==NULL ||
-	     equal_uncase(addr->tag.get(),tag.get())==0))
+	if (tag.get() && addr->tag.get()  &&
+	    equal_uncase(addr->tag.get(),tag.get())==0){
 		return(0);
+	};
 	if (params.get() &&
 	    (addr->params.get()==NULL ||
 	     !check_mask2(addr->params.get(),params.get())))

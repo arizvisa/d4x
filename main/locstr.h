@@ -77,6 +77,7 @@ int int_to_strin_len(int num);
 int sscanf_int(char *str,int *where);
 char *parse_save_path(const char *str,char *file);
 char *index_mult(char *str,const char *what);
+int file_copy(char *from,char *to,char *buf,int size);
 
 //**************************************************/
 #endif

@@ -1,5 +1,4 @@
-%define ver      1.29
-%define prefix   /usr
+%define ver      1.30
 
 Name: nt
 Version: %ver
@@ -35,54 +34,55 @@ Main features:
 %setup
 
 %build
-make -C main CCFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="${RPM_OPT_FLAGS} -s" DEST=%prefix
+make -C main CCFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="${RPM_OPT_FLAGS} -s" DEST=%{_prefix}
 
 %install
-mkdir -p "${RPM_BUILD_ROOT}"%prefix/bin
-mkdir -p "${RPM_BUILD_ROOT}"%prefix/doc
-mkdir -p "${RPM_BUILD_ROOT}"/etc/X11/wmconfig
-mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet
-mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/pixmaps
-mkdir -p "${RPM_BUILD_ROOT}"%prefix/man/man1
+mkdir -p $RPM_BUILD_ROOT%{_bindir}
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 for i in main/po/*.gmo; do
     j=`basename $i .gmo`
-    mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/locale/$j/LC_MESSAGES
-    cp -f $i "${RPM_BUILD_ROOT}"%prefix/share/locale/$j/LC_MESSAGES/nt.mo
+    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$j/LC_MESSAGES
+    cp -f $i $RPM_BUILD_ROOT%{_datadir}/locale/$j/LC_MESSAGES/nt.mo
 done
 for i in main/sounds/*.wav; do
-    mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/d4x/sounds
-    cp -f $i "${RPM_BUILD_ROOT}"%prefix/share/d4x/sounds/
+    mkdir -p $RPM_BUILD_ROOT%{_datadir}/d4x/sounds
+    cp -f $i $RPM_BUILD_ROOT%{_datadir}/d4x/sounds/
 done
-cp -f main/nt "${RPM_BUILD_ROOT}"%prefix/bin/
-cp -f nt.wmconfig "${RPM_BUILD_ROOT}"/etc/X11/wmconfig/nt
-cp -f nt.desktop "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet/nt.desktop
-cp -f nt.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.xpm
-cp -f nt-mini.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-mini.xpm
-cp -f nt-gray.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-gray.png
-cp -f nt.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.png
-cp -f nt-wm.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-wm.png
-cp -f nt.1 "${RPM_BUILD_ROOT}"%prefix/man/man1/nt.1
+cp -f main/nt $RPM_BUILD_ROOT%{_bindir}/
+cp -f nt.desktop $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet/nt.desktop
+cp -f nt.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.xpm
+cp -f nt-mini.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-mini.xpm
+cp -f nt-gray.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-gray.png
+cp -f nt.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.png
+cp -f nt-wm.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-wm.png
+cp -f nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
+
+%find_lang %{name}
 
 %clean
 rm -rf ${RPM_BUILD_ROOT}
 rm -rf nt-%{ver}
 
-%files
+%files -f %{name}.lang
 %defattr(-, root, root)
 %doc ChangeLog FAQ FAQ.* INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.* INSTALL.*
-%prefix/bin/nt
-%prefix/man/man1/*
-/etc/X11/wmconfig/nt
-%prefix/share/gnome/apps/Internet/nt.desktop
-%prefix/share/pixmaps/nt.xpm
-%prefix/share/pixmaps/nt-mini.xpm
-%prefix/share/pixmaps/nt-gray.png
-%prefix/share/pixmaps/nt.png
-%prefix/share/pixmaps/nt-wm.png
-%{prefix}/share/locale/*/*/*
-%prefix/share/d4x/sounds/*
+%{_bindir}/nt
+%{_mandir}/man1/*1.gz
+%{_sysconfdir}/X11/applnk/Internet/nt.desktop
+%{_datadir}/pixmaps/nt.xpm
+%{_datadir}/pixmaps/nt-mini.xpm
+%{_datadir}/pixmaps/nt-gray.png
+%{_datadir}/pixmaps/nt.png
+%{_datadir}/pixmaps/nt-wm.png
+%{_datadir}/d4x/sounds/*
 
 %changelog
+
+* Sat Oct 6 2001 leon@asplinux.ru
+- rewrite spec using new macros system, langify
+
 * Sat Apr 28 2001 Maxim Koshelev <mdem@chat.ru>
 - added sounds instalation
 

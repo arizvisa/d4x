@@ -17,6 +17,36 @@
 #include <unistd.h>
 #include <signal.h>
 #include <pthread.h>
+#include "face/mywidget.h"
+
+d4xEffString::d4xEffString():tAbstractSortNode(){
+	body=NULL;
+};
+
+d4xEffString::d4xEffString(const char *a):tAbstractSortNode(){
+	body=copy_string(a);
+};
+
+void d4xEffString::print(){
+	printf("%s\n",body);
+};
+
+int d4xEffString::cmp(tAbstractSortNode *what){
+	d4xEffString *a=(d4xEffString *)what;
+	if (a->body==NULL){
+		if (body) return(1);
+		return(0);
+	};
+	if (body==NULL) return(-1);
+	return(strcmp(body,a->body));
+};
+
+d4xEffString::~d4xEffString(){
+	if (body)
+		delete[] body;
+};
+
+/***********************************************/
 
 tUrlParser::tUrlParser(const char *filename){
 	DBC_RETURN_IF_FAIL(filename!=NULL);
@@ -27,7 +57,7 @@ tUrlParser::tUrlParser(const char *filename){
 		lseek(fd,0,SEEK_SET);
 	};
 	*buf=0;
-	list=NULL;
+	tree=NULL;
 };
 
 int tUrlParser::sequence(unsigned char *where, char *str){
@@ -49,15 +79,18 @@ int tUrlParser::sequence(unsigned char *where, char *str){
 	return 1;
 };
 
-int tUrlParser::read_url(unsigned char *where, tStringList *list){
+int tUrlParser::read_url(unsigned char *where){
 	DBC_RETVAL_IF_FAIL(where!=NULL,0);
-	DBC_RETVAL_IF_FAIL(list!=NULL,0);
 
-	char *bad_chars="[]()\"'`*";
+	char *bad_chars="[]()\"'`*><,";
 	while(read(fd,where,1)>0){
 		if (*where<=' ' || *where>127 || index(bad_chars,*where)){
 			*where=0;
-			list->add((char *)buf);
+			d4xEffString *str=new d4xEffString((char*)buf);
+			if (tree->find(str)==NULL)
+				tree->add(str);
+			else
+				delete(str);
 			return 0;
 		};
 		if (where>=buf+MAX_LEN) return 0;
@@ -66,42 +99,42 @@ int tUrlParser::read_url(unsigned char *where, tStringList *list){
 	return 1;
 };
 
-tStringList *tUrlParser::parse(){
-	list=new tStringList;
-	list->init(0);
-	if (read(fd,buf,1)<=0) return(list);
+tAbstractSortTree *tUrlParser::parse(){
+	if (tree) delete tree;
+	tree=new tAbstractSortTree;
+	if (read(fd,buf,1)<=0) return(tree);
 	while (1){
 		switch(*buf){
 		case 'f':{
 			if (sequence(buf+1,"tp://")){
-				if (read_url(buf+6,list))
-					return (list);
+				if (read_url(buf+6))
+					return (tree);
 			};
 			break;
 		};
 		case 'h':{
 			if (sequence(buf+1,"ttp://")){
-				if (read_url(buf+7,list))
-					return (list);
+				if (read_url(buf+7))
+					return (tree);
 			};
 			break;
 		};
 		default:
 			current=lseek(fd,0,SEEK_CUR);
 			fflush(stdout);
-			if (read(fd,buf,1)<=0) return(list);
+			if (read(fd,buf,1)<=0) return(tree);
 		};
 	};
-	return(list);
+	return(tree);
 };
 
-tStringList *tUrlParser::get_list(){
-	return(list);
+tAbstractSortTree *tUrlParser::get_list(){
+	return(tree);
 };
 
 tUrlParser::~tUrlParser(){
 	if (fd>=0) close(fd);
-	if (list) delete(list);
+	if (tree) delete(tree);
 };
 
 /***************************************************************/
@@ -114,6 +147,7 @@ extern tMain aa;
 static void *thread_for_parse(void *what){
 	sigset_t oldmask,newmask;
 	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGTERM);
 	sigaddset(&newmask,SIGINT);
 	sigaddset(&newmask,SIGUSR2);
 	sigaddset(&newmask,SIGUSR1);
@@ -147,15 +181,29 @@ int thread_for_parse_txt_status(){
 	return LOAD_STATUS;
 };
 
-void thread_for_parse_add(){
+int thread_for_parse_full(){
 	if (LOAD_PARSER){
-		tStringList *list=LOAD_PARSER->get_list();
-		if (list){
-			tString *tmp=list->last();
-			while (tmp){
-				aa.add_downloading(tmp->body);
-				tmp=list->next();
-			};
+		tAbstractSortTree *tree=LOAD_PARSER->get_list();
+		if (tree && tree->count()>0) return(1);
+	};
+	return(0);
+};
+
+static void tread_for_parse_foreach(tAbstractSortNode *node,
+				    tAbstractSortTree *tree,
+				    void *data){
+	d4xEffString *str=(d4xEffString *)node;
+	d4xLinksSel *sel=(d4xLinksSel *)data;
+	d4x_links_sel_add(sel,str->body);
+	tree->del(node);
+	delete(node);
+};
+
+void thread_for_parse_add(d4xLinksSel *sel){
+	if (LOAD_PARSER){
+		tAbstractSortTree *tree=LOAD_PARSER->get_list();
+		if (tree){
+			tree->foreach(tread_for_parse_foreach,sel);
 		};
 		if (LOAD_PARSER){
 			delete(LOAD_PARSER);

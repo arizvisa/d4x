@@ -15,6 +15,7 @@ void d4x_prefs_init();
 gint d4x_prefs_cancel();
 void d4x_prefs_init_page(int page_num);
 void toggle_button_set_state(GtkToggleButton *tb,gboolean state);
+void d4x_prefs_init_pre();
 
 enum PREFS_PAGES_ENUM{
 	PREFS_PAGE_MAINLOG,

@@ -93,12 +93,12 @@ void tColumnsPrefs::add_to_sort(tDownload *what){
 	};
 };
 
-void tColumnsPrefs::add_to_list(tDList *list){
-		tDownload *temp=list->last();
-		while (temp){
-			add_to_sort(temp);
-			temp=list->next();
-		};
+void tColumnsPrefs::add_to_list(int list){
+	tDownload *temp=D4X_QUEUE->last(list);
+	while (temp){
+		add_to_sort(temp);
+		temp=(tDownload *)(temp->next);
+	};
 };
 
 void tColumnsPrefs::apply_changes_tmp(){
@@ -158,7 +158,7 @@ void tColumnsPrefs::apply_changes(){
 		first=0;
 		sort_list=NULL;
 		for(int i=DL_ALONE+1;i<DL_TEMP;i++)
-			add_to_list(DOWNLOAD_QUEUES[i]);
+			add_to_list(i);
 		list_of_downloads_set_height();
 	};
 	tmp_apply_flag=0;

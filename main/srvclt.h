@@ -14,6 +14,8 @@
 #include "liststr.h"
 #include <pthread.h>
 
+struct tDownload;
+
 class tMsgServer{
 	tStringList *list;
 	char *file;
@@ -24,6 +26,7 @@ class tMsgServer{
 	void cmd_ls(int len,int type);
 	void cmd_ack();
 	void cmd_return_int(int what);
+	void write_dwn_status(tDownload *dwn,int full=0);
  public:
 	tMsgServer();
 	int init();
@@ -42,6 +45,9 @@ struct tPacketStatus{
 	int Time;
 	int Attempt;
 	int MaxAttempt;
+	char *url;
+	tPacketStatus(){url=(char*)NULL;};
+	~tPacketStatus(){if (url) delete[] url;};
 };
 
 class tMsgClient{
@@ -52,6 +58,7 @@ class tMsgClient{
 		tMsgClient();
 		int init();
 		int send_command(int cmd,char *data,int len);
+		int send_command_short(int cmd,char *data,int len);
 		int get_answer_int();
 		int get_answer_status(tPacketStatus *status);
 		void done();
@@ -86,6 +93,7 @@ enum {
 	PACKET_EXIT_TIME,
 	PACKET_LS,
 	PACKET_DEL,
+	PACKET_STOP,
 	PACKET_UNKNOWN
 };
 

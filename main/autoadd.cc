@@ -153,7 +153,7 @@ char *d4xAASubStr::scan(char *str){
 		left_str[1]=0;
 		return(cur+1);
 	};
-	if (sscanf(cur,"%i-%i",&left_int,&right_int)==2){
+	if (sscanf(cur,"%u-%u",&left_int,&right_int)==2){
 		char a[100];
 		sprintf(a,"%i-%i",left_int,right_int);
 		if (!begin_string(cur,a)){

@@ -99,6 +99,7 @@ struct tMainCfg{
 	int FIXED_LOG_FONT;
 	int PROGRESS_MODE;
 	float CLIST_SHIFT;
+	int DONOTSET_WINPOS;
 /* Clipboard
  */
 	int CLIPBOARD_MONITOR;

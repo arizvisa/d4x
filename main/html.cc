@@ -256,7 +256,7 @@ tHtmlUrl::~tHtmlUrl(){
 
 
 /* Will be parse htmls in next assumption:
-   <TAG[spaces]FIELD[spaces]=[spaces]VALUEspacesFIELD[spaces]=[spaces]VALUE...[spaces]>
+   <TAG[spaces]FIELD[spaces][=[spaces]VALUE]spacesFIELD[spaces][=[spaces]VALUE]...[spaces]>
  */
 
 char *tHtmlParser::get_string_back(int len,int shift){
@@ -364,9 +364,15 @@ void tHtmlParser::get_fields(tHtmlTag *tag){
 			tHtmlTagField *field=new tHtmlTagField;
 			field->name=get_word(1);
 			tag->fields->insert(field);
+			int eqsign=0;
 			while(WL->read(&p,sizeof(p)>0)){
 				if (p=='>') return;
+				if (p=='=') eqsign=1;
 				if (!isspace(p) && p!='='){
+					if (!eqsign){
+						WL->shift(-1,SEEK_CUR);
+						break;
+					};
 					switch(p){
 					case '\"':{
 						field->value=get_word_icommas();
@@ -416,8 +422,6 @@ tHtmlTag *tHtmlParser::get_tag(){
 		if (p=='<'){
 			char *name=NULL;
 			if ((name=get_word())){
-				rvalue=new tHtmlTag;
-				rvalue->name=name;
 				if (name && equal(name,"!--")){
 					if (out_fd>=0){
 						f_wstr(out_fd,"<!--");
@@ -427,8 +431,12 @@ tHtmlTag *tHtmlParser::get_tag(){
 							write(out_fd,&p,sizeof(p));
 						if (p=='>') break;
 					};
-				}else
+					rvalue=get_tag();
+				}else{
+					rvalue=new tHtmlTag;
+					rvalue->name=name;
 					get_fields(rvalue);
+				};
 			};
 			break;
 		}else{
@@ -482,7 +490,10 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 			if (*tmp=='/')
 				info->path.set(tmp+1);
 			else{
-				info->compose_path(papa->path.get(),tmp);
+				if (tmp==quest)
+					info->path.set("");
+				else
+					info->compose_path(papa->path.get(),tmp);
 			};
 			*quest='/';
 		} else {

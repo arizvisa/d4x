@@ -109,6 +109,20 @@ tAbstractSortNode *tAbstractSortTree::max() {
 	return temp;
 };
 
+void tAbstractSortTree::foreach_rec(tAbstractSortNode *node,
+				    d4xSortTreeFunc doit,void *data){
+	if (node->less)
+		foreach_rec(node->less,doit,data);
+	doit(node,this,data);
+	if (node->more)
+		foreach_rec(node->more,doit,data);
+};
+
+void tAbstractSortTree::foreach(d4xSortTreeFunc doit,void *data){
+	if (Top)
+		foreach_rec(Top,doit,data);
+};
+
 tAbstractSortTree::~tAbstractSortTree() {
 	//do nothing %))
 };

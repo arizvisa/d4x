@@ -31,10 +31,11 @@ class tHProxyClient:public tHttpClient{
 class tProxyDownload:public tHttpDownload{
 	int D_PROTO;
 	char *make_name();
-	public:
-		tProxyDownload();
-		int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL);
-		fsize_t get_size();
-		~tProxyDownload();
+public:
+	tProxyDownload();
+	tProxyDownload(tWriterLoger *log);
+	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL);
+	fsize_t get_size();
+	~tProxyDownload();
 };
 #endif

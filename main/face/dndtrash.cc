@@ -62,6 +62,46 @@ static int dnd_trash_raise_count=0;
 static time_t dnd_trash_last_raise=0;
 GtkTooltips *dnd_trash_tooltips=(GtkTooltips *)NULL;
 static gint dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
+static GtkTooltips *dnd_trash_speed_tooltips[2];
+static GtkWidget *dnd_trash_speed_menu[2];
+
+
+void dnd_trash_set_speed_text(){
+	char text[MAX_LEN];
+	if (dnd_trash_speed_menu[0]){
+		sprintf(text,"%i B/s",CFG.SPEED_LIMIT_1);
+		gtk_tooltips_set_tip(dnd_trash_speed_tooltips[0],
+				     dnd_trash_speed_menu[0],
+				     text,
+				     (const gchar *)NULL);
+	};
+	if (dnd_trash_speed_menu[1]){
+		sprintf(text,"%i B/s",CFG.SPEED_LIMIT_2);
+		gtk_tooltips_set_tip(dnd_trash_speed_tooltips[1],
+				     dnd_trash_speed_menu[1],
+				     text,
+				     (const gchar *)NULL);
+	};
+};
+
+static void dnd_trash_init_speed_tips(){
+	for(int i=1;i<3;i++){
+		GtkWidget *menu_item=gtk_item_factory_get_widget_by_action(dnd_trash_item_factory,i);
+		dnd_trash_speed_menu[i-1]=menu_item;
+		if (menu_item){
+			GtkTooltips *tooltip=gtk_tooltips_new();
+			dnd_trash_speed_tooltips[i-1]=tooltip;
+			gtk_tooltips_force_window(tooltip);
+			GtkStyle *current_style=gtk_style_copy(gtk_widget_get_style(tooltip->tip_window));
+			current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+			gdk_font_unref(current_style->font);
+			current_style->font = MainWindow->style->font;
+			gtk_widget_set_style(tooltip->tip_window, current_style);
+			gtk_tooltips_enable(tooltip);
+		};
+	};
+	dnd_trash_set_speed_text();
+};
 
 void dnd_trash_real_destroy(){
 	if (dnd_trash_window){
@@ -177,17 +217,12 @@ void dnd_trash_init(){
 	GtkStyle *style;
 	GdkGC *gc;
     
-	/* Create the main window, and attach delete_event signal to terminate
-	 * the application.  Note that the main window will not have a titlebar
-	 * since we're making it a popup. */
-	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
+	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_DnDBasket", "D4X_DnDBasket");
-//	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
+	gtk_window_set_title(GTK_WINDOW (dnd_trash_window), _("DnD basket"));
 	d4x_normalize_coords(&(CFG.DND_TRASH_X),&(CFG.DND_TRASH_Y));
-	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
 	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
-//	gtk_widget_set_events(dnd_trash_window,GDK_ALL_EVENTS_MASK);
 	gtk_widget_set_events(dnd_trash_window,
 			      gtk_widget_get_events(dnd_trash_window) |
 			      GDK_FOCUS_CHANGE_MASK |
@@ -199,6 +234,34 @@ void dnd_trash_init(){
 			      GDK_STRUCTURE_MASK |
 			      GDK_VISIBILITY_NOTIFY_MASK |
 			      GDK_EXPOSURE_MASK);
+	/* create pixmaps first
+	 */
+	gint width=0,height=0;
+	style = gtk_widget_get_default_style();
+	gc = style->black_gc;
+	gtk_widget_realize(dnd_trash_window);
+	if (dnd_trash_pixmap1==NULL){
+		dnd_trash_pixmap1 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask1,
+								  &style->bg[GTK_STATE_NORMAL],
+								  dndtrash_xpm);
+		dnd_trash_pixmap2 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask2,
+								  &style->bg[GTK_STATE_NORMAL],
+								  dndtrashi_xpm);
+		/* we will use it sometimes */
+		gdk_pixmap_ref(dnd_trash_pixmap1);
+		gdk_bitmap_ref(dnd_trash_mask1);
+		gdk_pixmap_ref(dnd_trash_pixmap2);
+		gdk_bitmap_ref(dnd_trash_mask2);
+
+	};
+	gdk_window_get_size((GdkWindow*)dnd_trash_pixmap1,
+			    &width,&height);
+	/* Create the main window, and attach delete_event signal to terminate
+	 * the application.  Note that the main window will not have a titlebar
+	 * since we're making it a popup. */
+//	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
+	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),width,height);
+//	gtk_widget_set_events(dnd_trash_window,GDK_ALL_EVENTS_MASK);
 	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "delete_event",
 			    GTK_SIGNAL_FUNC (dnd_trash_destroy), NULL);
 	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "motion_notify_event",
@@ -230,26 +293,11 @@ void dnd_trash_init(){
 
 
 	/* Now for the pixmap and the pixmap widget */
-	style = gtk_widget_get_default_style();
-	gc = style->black_gc;
-	if (dnd_trash_pixmap1==NULL){
-		dnd_trash_pixmap1 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask1,
-								  &style->bg[GTK_STATE_NORMAL],
-								  dndtrash_xpm);
-		dnd_trash_pixmap2 = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &dnd_trash_mask2,
-								  &style->bg[GTK_STATE_NORMAL],
-								  dndtrashi_xpm);
-		/* we will use it sometimes */
-		gdk_pixmap_ref(dnd_trash_pixmap1);
-		gdk_bitmap_ref(dnd_trash_mask1);
-		gdk_pixmap_ref(dnd_trash_pixmap2);
-		gdk_bitmap_ref(dnd_trash_mask2);
-	};
 	dnd_trash_gtk_pixmap = pixmap = gtk_pixmap_new( dnd_trash_pixmap1, dnd_trash_mask1 );
 //		gtk_widget_show( pixmap );
 	/* To display the pixmap, we use a fixed widget to place the pixmap */
 	fixed = gtk_fixed_new();
-	gtk_widget_set_usize( fixed, 50, 50 );
+	gtk_widget_set_usize( fixed, width, height );
 	gtk_event_box_new();
 	gtk_fixed_put( GTK_FIXED(fixed), pixmap, 0, 0 );
 
@@ -273,7 +321,8 @@ void dnd_trash_init(){
     
 	/* show the window */
 	gtk_widget_show( dnd_trash_window );
-	gdk_window_resize(dnd_trash_window->window,50,50);
+	gdk_window_set_icon(dnd_trash_window->window,(GdkWindow *)NULL,dnd_trash_pixmap1,dnd_trash_mask1);
+	gdk_window_resize(dnd_trash_window->window,width,height);
 	set_dndtrash_button();
 	wm_skip_window(dnd_trash_window);
 	gdk_window_move(dnd_trash_window->window,CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
@@ -340,11 +389,25 @@ void dnd_trash_init_menu() {
 	dnd_trash_menu = gtk_item_factory_get_widget(dnd_trash_item_factory, "<main>");
 	gtk_signal_connect (GTK_OBJECT (dnd_trash_menu), "unmap_event",
 			    GTK_SIGNAL_FUNC (dnd_trash_menu_umap), NULL);
+	dnd_trash_init_speed_tips();
 };
 
 static gint dnd_trash_animation_end(gpointer unused){
 	gtk_pixmap_set(GTK_PIXMAP(dnd_trash_gtk_pixmap),
 		       dnd_trash_pixmap1,dnd_trash_mask1);
+	gint width,height;
+	gdk_window_get_size((GdkWindow*)dnd_trash_pixmap1,
+			    &width,&height);
+	gdk_window_resize(dnd_trash_window->window,width,height);
+	gtk_widget_shape_combine_mask(dnd_trash_window, dnd_trash_mask1, 0, 0 );
+	/* draw NOW */
+	GdkRectangle rect;
+	rect.x=dnd_trash_gtk_pixmap->allocation.x;
+	rect.y=dnd_trash_gtk_pixmap->allocation.y;
+	rect.width=dnd_trash_gtk_pixmap->allocation.width;
+	rect.height=dnd_trash_gtk_pixmap->allocation.height;
+	GtkWidgetClass *k=(GtkWidgetClass *)gtk_type_class(gtk_pixmap_get_type());
+	k->draw(dnd_trash_gtk_pixmap,&rect);
 	return 0;
 };
 
@@ -353,14 +416,21 @@ void dnd_trash_animation(){
 		if (GTK_PIXMAP(dnd_trash_gtk_pixmap)->pixmap==dnd_trash_pixmap1){
 			gtk_pixmap_set(GTK_PIXMAP(dnd_trash_gtk_pixmap),
 				       dnd_trash_pixmap2,dnd_trash_mask2);
-//			gtk_widget_queue_draw(dnd_trash_gtk_pixmap);
+			gint width,height;
+			gdk_window_get_size((GdkWindow*)dnd_trash_pixmap2,
+					    &width,&height);
+			gdk_window_resize(dnd_trash_window->window,width,height);
+			gtk_widget_shape_combine_mask(dnd_trash_window, dnd_trash_mask2,0, 0 );
 			GdkRectangle rect;
 			rect.x=dnd_trash_gtk_pixmap->allocation.x;
 			rect.y=dnd_trash_gtk_pixmap->allocation.y;
 			rect.width=dnd_trash_gtk_pixmap->allocation.width;
 			rect.height=dnd_trash_gtk_pixmap->allocation.height;
-			gtk_widget_draw(dnd_trash_gtk_pixmap,&rect);
+			GtkWidgetClass *k=(GtkWidgetClass *)gtk_type_class(gtk_pixmap_get_type());
+			k->draw(dnd_trash_gtk_pixmap,&rect);
+//			gtk_widget_draw(dnd_trash_gtk_pixmap,&rect);
 			gtk_timeout_add (500, dnd_trash_animation_end , NULL);
+			
 		};
 	};
 };

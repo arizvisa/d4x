@@ -43,12 +43,123 @@ char *http_answers[]={
 	"last-modified:"
 };
 
+
+/*************************************************************/
+
+enum CONTENDDISPOSITION_ENUM{
+	CDE_FILENAME,
+	CDE_M_DATE,
+	CDE_R_DATE,
+	CDE_C_DATE,
+	CDE_SIZE,
+	CDE_NONE
+};
+
+d4xContentDisposition::d4xContentDisposition(){
+	size=-1;
+	c_date=m_date=r_date=0;
+};
+
+d4xContentDisposition::d4xContentDisposition(char *httpstr){
+	/* skip first parm cos it's 'inline' or 'attachment' */
+	char *tmp=index(httpstr,';');
+	while (tmp){
+		tmp+=1;
+		char *name=get_name(tmp);
+		char *value=get_value(tmp);
+		if (value){
+			switch(get_code(name)){
+			case CDE_FILENAME:
+				filename.set(value);
+				break;
+			case CDE_M_DATE:
+				m_date=ctime_to_time(value);
+				break;
+			case CDE_C_DATE:
+				c_date=ctime_to_time(value);
+				break;
+			case CDE_R_DATE:
+				r_date=ctime_to_time(value);
+				break;
+			case CDE_SIZE:
+				sscanf(value,"%li",&size);
+				break;
+			};
+			delete[] value;
+		};
+		if (name) delete[] name;
+		tmp=index(tmp,';');
+	};
+};
+
+int d4xContentDisposition::get_code(char *name){
+	char *parm_names[]={
+		"filename",
+		"modification-date",
+		"read-date",
+		"creation-date",
+		"size"
+	};
+	if (name==NULL) return(CDE_NONE);
+	for (unsigned int i=0;i<sizeof(parm_names)/sizeof(char*);i++)
+		if (equal_uncase(parm_names[i],name))
+			return(i);
+	return(CDE_NONE);
+};
+
+char *d4xContentDisposition::get_value(char *s){
+	char *tmp=index(s,'=');
+	if (tmp==NULL) return(NULL);
+	tmp=skip_spaces(tmp+1);
+	char *sqs=index(s,';');
+	if (sqs==NULL) sqs=tmp+strlen(tmp)-1;
+	else sqs-=1;
+	int len=sqs-tmp;
+	char *rval=copy_string2(tmp,len);
+	for (int i=len-1;i>=0;i++){
+		if (isspace(rval[i])) rval[i]=0;
+		else break;
+	};
+//	printf("value='%s'\n",rval);
+	return(rval);
+};
+
+char *d4xContentDisposition::get_name(char *s){
+	char *tmp=skip_spaces(s);
+	char *eqs=index(s,'=');
+	if (eqs==NULL) return(NULL);
+	int len=eqs-tmp;
+	char *rval=copy_string2(tmp,len);
+	for (int i=len-1;i>=0;i++){
+		if (isspace(rval[i])) rval[i]=0;
+		else break;
+	};
+//	printf("name='%s'\n",rval);
+	return(rval);
+};
+
+d4xContentDisposition::~d4xContentDisposition(){
+	/* nothing to do yet */
+};
+
+/*************************************************************/
+
 tHttpDownload::tHttpDownload():tDownloader(){
 	answer=NULL;
 	HTTP=NULL;
 	OldETag=ETag=Auth=NULL;
 	content_type=NULL;
 	REQUESTED_URL=NULL;
+	content_disp=NULL;
+};
+
+tHttpDownload::tHttpDownload(tWriterLoger *log):tDownloader(log){
+	answer=NULL;
+	HTTP=NULL;
+	OldETag=ETag=Auth=NULL;
+	content_type=NULL;
+	REQUESTED_URL=NULL;
+	content_disp=NULL;
 };
 
 void tHttpDownload::print_error(int error_code){
@@ -61,8 +172,7 @@ void tHttpDownload::print_error(int error_code){
 	};
 };
 
-int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL) {
-	LOG=log;
+int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 	HTTP=new tHttpClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);
@@ -201,6 +311,8 @@ fsize_t tHttpDownload::analize_answer() {
 			break;
 		};
 		case H_CONTENT_DISPOSITION:{
+			if (content_disp) delete(content_disp);
+			content_disp=new d4xContentDisposition(temp->body+strlen(STR));
 			break;
 		};
 		case  H_WWW_AUTHENTICATE:{
@@ -336,6 +448,10 @@ fsize_t tHttpDownload::get_readed() {
 	return (HTTP->get_readed());
 };
 
+d4xContentDisposition *tHttpDownload::get_content_disp(){
+	return content_disp;
+};
+
 char *tHttpDownload::get_content_type() {
 	return content_type;
 };
@@ -422,4 +538,5 @@ tHttpDownload::~tHttpDownload() {
 	if (Auth) delete[] Auth;
 	if (answer) delete(answer);
 	if (content_type) delete[] content_type;
+	if (content_disp) delete(content_disp);
 };

@@ -88,13 +88,15 @@ struct tDownload:public tAbstractSortNode{
 	tLog *LOG,*CurrentLog;// CurrentLog is used for splited downloads
 	tWriterLoger *WL;
 	tDEdit *editor;
+	tNode *WFP; // used when run without interface
 	tSegmentator *segments;
 	//------Split information-------------
 	tSplitInfo *split;
 	//------------------------------------
 	time_t Start,Pause,Difference;
 	pthread_t thread_id;
-	int status,owner,action,status_cp;
+	tDList *myowner;
+	int status,action,status_cp;
 	int NanoSpeed;
 	int BLOCKED;
 	int protect;
@@ -103,8 +105,6 @@ struct tDownload:public tAbstractSortNode{
 	fsize_t StartSize;
 	int GTKCListRow;
 	//------------------------------------
-	tPStr Description;
-	tPStr Filter;
 //	tQueue *conditions;
 	private:
 	int need_to_rename,im_first,im_last;
@@ -117,6 +117,7 @@ struct tDownload:public tAbstractSortNode{
 	char *make_path_to_file();
 	void remove_links();
 	void sort_links();
+	void http_check_redirect();
 	void ftp_search_sizes();
 	fsize_t init_segmentator(int fdesc,fsize_t cursize,char *name);
 	void export_socket(tDownloader *what);
@@ -140,7 +141,8 @@ struct tDownload:public tAbstractSortNode{
 	void delete_who();
 	void download_completed(int type);
 	void download_failed();
-	void recurse_http();
+	void http_recurse();
+	void http_postload();
 	void download_ftp();
 	void download_http();
 	void ftp_search();
@@ -156,6 +158,8 @@ struct tDownload:public tAbstractSortNode{
 	
 	void save_to_config(int fd);
 	int load_from_config(int fd);
+	int owner();
+	tAddr *redirect_url();
 	void update_trigers();
 	~tDownload();
 };
@@ -165,23 +169,23 @@ class tDList:public tQueue{
 	int Pixmap;
 	void (*empty)();
 	void (*non_empty)();
-    public:
-		tDList();
-		tDList(int key);
-		void insert(tDownload *what);
-		void init_pixmap(int a);
-		void insert_before(tDownload *what,tDownload *where);
-		void del(tDownload *what);
-		void forward(tDownload *what);
-		void backward(tDownload *what);
-		void dispose();
-		void set_empty_func(void (*emp)(),void (*nonemp)());
-		tDownload *last();
-		tDownload *next();
-		tDownload *prev();
-		tDownload *first();
-		int owner(tDownload *which);
-		~tDList();
+public:
+	tDList();
+	tDList(int key);
+	int get_key();
+	void insert(tDownload *what);
+	void init_pixmap(int a);
+	void insert_before(tDownload *what,tDownload *where);
+	void del(tDownload *what);
+	void forward(tDownload *what);
+	void backward(tDownload *what);
+	void dispose();
+	void set_empty_func(void (*emp)(),void (*nonemp)());
+	tDownload *last();
+	tDownload *next();
+	tDownload *prev();
+	tDownload *first();
+	~tDList();
 };
 
 void make_dir_hier(char *path);

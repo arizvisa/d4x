@@ -488,10 +488,14 @@ void my_main_quit(...) {
 	if (CFG.WITHOUT_FACE==0){
 		dnd_trash_real_destroy();
 		if (list_for_adding){
+			/* free list item by item to avoid
+			   searching downloads in global tDB sructure
+			 */
 			tDownload *tmp=list_for_adding->last();
 			while (tmp){
-				tmp->editor=NULL;
-				tmp=list_for_adding->next();
+				list_for_adding->del(tmp);
+				delete(tmp);
+				tmp=list_for_adding->last();
 			};
 			delete(list_for_adding);
 		};
@@ -680,7 +684,7 @@ void init_status_bar() {
 	 * %v - value
 	 * %l - lower range value
 	 * %u - upper range value */
-	gtk_widget_set_usize(ProgressOfDownload,180,-1);
+	gtk_widget_set_usize(ProgressOfDownload,-1,-1);
 	gtk_progress_set_format_string (GTK_PROGRESS (ProgressOfDownload),
 	                                "0%%(%v/%u)");
 	gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),FALSE);
@@ -770,7 +774,7 @@ void init_main_window() {
 	GtkWidget *hbox=gtk_hbox_new(FALSE,1);
 	MainHBox=hbox;
 	gtk_box_pack_start (GTK_BOX (hbox), MainStatusBar, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), ProgressOfDownload, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), ProgressOfDownload, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), ReadedBytesStatusBar, FALSE, FALSE, 0);
 	gtk_widget_set_usize(hbox,-1,21);
 
@@ -838,8 +842,12 @@ void init_main_window() {
 	gtk_widget_show(hbox);
 	gtk_widget_show(vbox);
 	gtk_widget_show(MainWindow);
-	gdk_window_move_resize(MainWindow->window,	gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION),
-												gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
+	if (!CFG.DONOTSET_WINPOS)
+		gdk_window_move_resize(MainWindow->window,
+				       gint(CFG.WINDOW_X_POSITION),
+				       gint(CFG.WINDOW_Y_POSITION),
+				       gint(CFG.WINDOW_WIDTH),
+				       gint(CFG.WINDOW_HEIGHT));
 	gtk_signal_connect (GTK_OBJECT (MAIN_PANED), "size_allocate",
 	                    GTK_SIGNAL_FUNC (list_of_downloads_allocation), NULL);
 	gtk_signal_connect (GTK_OBJECT (MAIN_PANED2), "size_allocate",
@@ -879,8 +887,8 @@ void update_mainwin_title() {
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 		} else {
 			if (CFG.USE_MAINWIN_TITLE2) {
-				int total=amount_of_downloads_in_queues();
-				sprintf(data,_("%i-running %i-completed %i-total "),DOWNLOAD_QUEUES[DL_RUN]->count(),DOWNLOAD_QUEUES[DL_COMPLETE]->count(),total);
+				int total=D4X_QUEUE->count();
+				sprintf(data,_("%i-running %i-completed %i-total "),D4X_QUEUE->count(DL_RUN),D4X_QUEUE->count(DL_COMPLETE),total);
 				tmp_scroll_title(data,ROLL_INFO);
 				gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 			} else{
@@ -904,7 +912,7 @@ int time_for_refresh(void *a) {
 	update_mainwin_title();
 	UpdateTitleCycle+=1;
 	tDownload *tmp=list_of_downloads_last_selected();
-	if (tmp && DOWNLOAD_QUEUES[DL_RUN]->owner(tmp))
+	if (tmp && tmp->owner()==DL_RUN)
 		LocalMeter->add(tmp->NanoSpeed);
 	else
 		LocalMeter->add(0);
@@ -925,13 +933,23 @@ int time_for_logs_refresh(void *a) {
 };
 
 int get_mainwin_sizes(GtkWidget *window) {
-	if (FirstConfigureEvent) {
+	gint x,y,w,h;
+	if (FirstConfigureEvent && !CFG.DONOTSET_WINPOS) {
 		FirstConfigureEvent=0;
+		gdk_window_get_root_origin (window->window, &x, &y);
+		if (y!=CFG.WINDOW_Y_POSITION ||
+		    x!=CFG.WINDOW_X_POSITION){
+			gdk_window_move(MainWindow->window,
+					gint(CFG.WINDOW_X_POSITION+(CFG.WINDOW_X_POSITION-x)),
+					gint(CFG.WINDOW_Y_POSITION+
+					     (CFG.WINDOW_Y_POSITION-y)));
+			FirstConfigureEvent=1;
+		};
 		return FALSE;
 	};
+	FirstConfigureEvent=0;
 	if (window!=NULL && window->window!=NULL &&
 	    gdk_window_is_visible(window->window)) {
-		gint x,y,w,h;
 //		gdk_window_get_position(window->window,&x,&y);
 //		gdk_window_get_origin (window->window, &x, &y);
 		gdk_window_get_root_origin (window->window, &x, &y);
@@ -1064,6 +1082,22 @@ void main_window_toggle(){
 	};
 };
 
+void main_window_resize(int w,int h){
+	if (MainWindow){
+		FirstConfigureEvent=0;
+		w=w<400?400:w;
+		h=h<200?200:h;
+		gdk_window_resize(MainWindow->window,w,h);
+	};
+};
+
+void main_window_move(int x,int y){
+	if (MainWindow){
+		FirstConfigureEvent=0;
+		gdk_window_move(MainWindow->window,x,y);
+	};
+};
+
 static char *D4X_CLIPBOARD=NULL;
 
 char *d4x_mw_clipboard_get(){
@@ -1145,7 +1179,10 @@ void init_face(int argc, char *argv[]) {
 	MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(MainWindow),"D4X_Main", "D4X");
 	d4x_mw_set_targets();
-	gtk_widget_set_uposition(MainWindow,gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION));
+	if (!CFG.DONOTSET_WINPOS)
+		gtk_widget_set_uposition(MainWindow,
+					 gint(CFG.WINDOW_X_POSITION),
+					 gint(CFG.WINDOW_Y_POSITION));
 	gtk_window_set_default_size(GTK_WINDOW(MainWindow),gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
 	gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
 	gtk_widget_set_usize( GTK_WIDGET (MainWindow), 400, 200);
@@ -1168,9 +1205,9 @@ void init_face(int argc, char *argv[]) {
 	prepare_buttons();
 	FaceForLimits=new tFaceLimits;
 	FaceForPasswords=new tFacePass;
-#include "pixmaps/dndtrash.xpm"
+#include "pixmaps/main.xpm"
 	GdkBitmap *bitmap;
-	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,dndtrash_xpm);
+	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,main_xpm);
 	gdk_window_set_icon(MainWindow->window,(GdkWindow *)NULL,pixmap,bitmap);
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "delete_event",
 	                   GTK_SIGNAL_FUNC(ask_exit2),

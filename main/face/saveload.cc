@@ -37,13 +37,32 @@ void load_list_ok(GtkWidget *parent,GtkWidget *who) {
 	load_save_list_cancel();
 };
 
+static void d4x_links_sel_ok(GtkWidget *button, d4xLinksSel *sel){
+	int row=0;
+	char *url=(char *)NULL;
+	gtk_clist_get_text(sel->clist,row,0,&url);
+	while(url && *url){
+		aa.add_downloading(url);
+		row+=1;
+		url=(char *)NULL;
+		gtk_clist_get_text(sel->clist,row,0,&url);
+	};
+	gtk_widget_destroy(GTK_WIDGET(sel));
+};
+
 static gint time_for_load_refresh(GtkWidget *pbar){
 	if (thread_for_parse_txt_status()==1){
 		gtk_progress_set_percentage(GTK_PROGRESS(pbar),
 					    thread_for_parse_percent());
 		return 1;
 	};
-	thread_for_parse_add();
+	if (thread_for_parse_full()){
+		d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new();
+		gtk_signal_connect(GTK_OBJECT(sel->ok),"clicked",
+				   GTK_SIGNAL_FUNC(d4x_links_sel_ok),
+				   sel);
+		thread_for_parse_add(sel);
+	};
 	gtk_widget_destroy(LoadingStatusWindow);
 	LoadingStatusWindow=(GtkWidget *)NULL;
 	return 0;
