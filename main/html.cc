@@ -364,12 +364,16 @@ tHtmlTag *tHtmlParser::get_tag(){
 	tHtmlTag *rvalue=NULL;
 	while(read(fdesc,&p,sizeof(p))>0){
 		if (p=='<'){
-			rvalue=new tHtmlTag;
-			if ((rvalue->name=get_word())){
-				get_fields(rvalue);
-			}else{
-				delete(rvalue);
-				rvalue=NULL;
+			char *name=NULL;
+			if ((name=get_word())){
+				rvalue=new tHtmlTag;
+				rvalue->name=name;
+				if (name && equal(name,"!--")){
+					while(read(fdesc,&p,sizeof(p))>0){
+						if (p=='>') break;
+					};
+				}else
+					get_fields(rvalue);
 			};
 			break;
 		};

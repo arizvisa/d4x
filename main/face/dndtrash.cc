@@ -90,13 +90,14 @@ void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 	switch (event->button){
 	case 3:{
-			gtk_menu_popup(GTK_MENU(dnd_trash_menu),
-				       (GtkWidget *)NULL,
-				       (GtkWidget *)NULL,
-				       (GtkMenuPositionFunc)NULL,
-				       (gpointer)NULL,
-				       event->button,event->time);
-			break;
+		CFG.DND_NEED_POPUP=0;
+		gtk_menu_popup(GTK_MENU(dnd_trash_menu),
+			       (GtkWidget *)NULL,
+			       (GtkWidget *)NULL,
+			       (GtkMenuPositionFunc)NULL,
+			       (gpointer)NULL,
+			       event->button,event->time);
+		break;
 	};
 	case 1:{
 		if (event->type==GDK_2BUTTON_PRESS)
@@ -132,8 +133,10 @@ int dnd_trash_button_release(GtkWidget *widget,GdkEventButton *event){
 }; 
 
 
-static void dnd_trash_configure(){
-	gdk_window_raise(dnd_trash_window->window);
+static int dnd_trash_no_expose(){
+	if (CFG.DND_NEED_POPUP)
+		gdk_window_raise(dnd_trash_window->window);
+	return TRUE;
 };
 
 void dnd_trash_init(){
@@ -150,7 +153,9 @@ void dnd_trash_init(){
 	/* Create the main window, and attach delete_event signal to terminate
 	 * the application.  Note that the main window will not have a titlebar
 	 * since we're making it a popup. */
+//	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
+	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
 	if (CFG.DND_TRASH_X>gdk_screen_width()) CFG.DND_TRASH_X=0;
 	if (CFG.DND_TRASH_Y>gdk_screen_height()) CFG.DND_TRASH_Y=0;
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
@@ -163,7 +168,9 @@ void dnd_trash_init(){
 			      GDK_POINTER_MOTION_HINT_MASK |
 			      GDK_BUTTON_PRESS_MASK |
 			      GDK_BUTTON_RELEASE_MASK |
-			      GDK_STRUCTURE_MASK);
+			      GDK_STRUCTURE_MASK |
+			      GDK_VISIBILITY_NOTIFY_MASK |
+			      GDK_EXPOSURE_MASK);
 	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "delete_event",
 			    GTK_SIGNAL_FUNC (dnd_trash_destroy), NULL);
 	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "motion_notify_event",
@@ -183,7 +190,19 @@ void dnd_trash_init(){
 	                                    GTK_DEST_DEFAULT_DROP),
 	                  download_drop_types, n_download_drop_types,
 	                  (GdkDragAction)GDK_ACTION_COPY);
-
+	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "visibility_notify_event",
+	                   GTK_SIGNAL_FUNC(dnd_trash_no_expose),
+	                   dnd_trash_window);			  
+	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "no_expose_event",
+	                   GTK_SIGNAL_FUNC(dnd_trash_no_expose),
+	                   dnd_trash_window);
+/*
+	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "configure_event",
+	                   GTK_SIGNAL_FUNC(dnd_trash_no_expose),
+	                   dnd_trash_window);
+*/
+	gtk_widget_realize(dnd_trash_window);
+	gdk_window_set_decorations(dnd_trash_window->window,GdkWMDecoration(0));
 	gtk_widget_show (dnd_trash_window);
 
 
@@ -228,9 +247,6 @@ void dnd_trash_init(){
     
 	/* show the window */
 	gtk_widget_show( dnd_trash_window );
-	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "configure_event",
-	                   GTK_SIGNAL_FUNC(dnd_trash_configure),
-	                   dnd_trash_window);
 	gdk_window_resize(dnd_trash_window->window,50,50);
 	set_dndtrash_button();
 };
@@ -262,6 +278,10 @@ void dnd_trash_set_del_completed(gint how){
 		gtk_widget_set_sensitive(menu_item,how);
 };
 
+static gint dnd_trash_menu_umap(){
+	CFG.DND_NEED_POPUP=1;
+	return(FALSE);
+};
 void dnd_trash_init_menu() {
 	GtkItemFactoryEntry menu_items[] = {
 		{_(dnd_menu_inames[DM_NEW]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
@@ -282,6 +302,8 @@ void dnd_trash_init_menu() {
 	dnd_trash_item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<main>",accel_group);
 	gtk_item_factory_create_items(dnd_trash_item_factory, nmenu_items, menu_items, NULL);
 	dnd_trash_menu = gtk_item_factory_get_widget(dnd_trash_item_factory, "<main>");
+	gtk_signal_connect (GTK_OBJECT (dnd_trash_menu), "unmap_event",
+			    GTK_SIGNAL_FUNC (dnd_trash_menu_umap), NULL);
 };
 
 static gint dnd_trash_animation_end(gpointer unused){
@@ -302,7 +324,8 @@ void dnd_trash_animation(){
 };
 
 void dnd_trash_set_tooltip(char *str){
-	if (str && dnd_trash_window && dnd_trash_tooltips->tip_window){
+	if (str==NULL || dnd_trash_window==NULL) return;
+	if (dnd_trash_tooltips->tip_window){
 		GtkTooltipsData *data=dnd_trash_tooltips->active_tips_data;
 		if (data==NULL && dnd_trash_tooltips->tips_data_list)
 			data=(GtkTooltipsData *)(dnd_trash_tooltips->tips_data_list->data);
@@ -343,5 +366,12 @@ void dnd_trash_set_tooltip(char *str){
 				gtk_widget_queue_draw(window);
 			};
 		};
+/*
+	}else{
+		gtk_tooltips_set_tip(dnd_trash_tooltips,
+				     dnd_trash_window,
+				     str,NULL);	
+*/
 	};
+
 };

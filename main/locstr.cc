@@ -203,8 +203,8 @@ void convert_int_to_2(int what,char *where) {
 void convert_time(int what,char *where) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
 	int hours=what/int(3600);
-	int mins=(what - hours*3600)/int(60);
-	int secs= what-mins*60-hours*3600;
+	int mins=(what%3600)/int(60);
+	int secs= what%60;
 	char tmp[MAX_LEN];
 	*where=0;
 	if (hours>0) {
@@ -260,7 +260,7 @@ void string_to_low(char *what,char delim) {
 	    of specifyed character
  */
 
-int convert_from_hex(char what) {
+int convert_from_hex(unsigned char what) {
 	if (what>='0' && what<='9')
 		return(what-'0');
 	if (what>='a' && what<='f')
@@ -268,6 +268,23 @@ int convert_from_hex(char what) {
 	if (what>='A' && what<='F')
 		return (10+what-'A');
 	return -1;
+};
+
+/* convert_to_hex();
+    params: char, pointer to buffer
+    return: none
+    action: coverts character to hexademal string (e.g. ' ' -> "20")
+ */
+
+static const char _dec_to_hex_[16]={
+	'0','1','2','3','4','5','6','7','8','9',
+	'A','B','C','D','E','F'
+};
+
+void convert_to_hex(unsigned char what,char *where) {
+	DBC_RETURN_IF_FAIL(where!=NULL);
+	*where = _dec_to_hex_[what/16];
+	where[1] = _dec_to_hex_[what%16];
 };
 
 /* parse_percents();
@@ -306,26 +323,6 @@ char *parse_percents(char *what) {
 	};
 	*where=0;
 	return temp;
-};
-
-/* convert_to_hex();
-    params: char, pointer to buffer
-    return: none
-    action: coverts character to hexademal string (e.g. ' ' -> "20")
- */
-
-void convert_to_hex(char what,char *where) {
-	DBC_RETURN_IF_FAIL(where!=NULL);
-	char hi=what/16;
-	char lo=(what-(hi*16));
-	if (hi>9)
-		*where='A'+hi-10;
-	else
-		*where='0'+hi;		
-	if (lo>9)
-		where[1]='A'+lo-10;
-	else
-		where[1]='0'+lo;		
 };
 
 /* unparse_percents();
@@ -866,13 +863,6 @@ char *subtract_path(const char *a,const char *b){
 	return copy_string("/");
 };
 
-int global_url(char *url) {
-	DBC_RETVAL_IF_FAIL(url!=NULL,0);
-	if (!begin_string_uncase(url,"ftp://") && !begin_string_uncase(url,"http://")
-	        && !begin_string_uncase(url,"mailto:") && !begin_string_uncase(url,"news:")) return 0;
-	return 1;
-};
-
 void scroll_string_left(char *str,unsigned int shift){
 	DBC_RETURN_IF_FAIL(str!=NULL);
 	unsigned int len=strlen(str);
@@ -970,7 +960,7 @@ int write_named_time(int fd,char *name,time_t when){
 	if (name==NULL) return(0);
 	if (f_wstr_lf(fd,name)<0) return(-1);
 	char str[MAX_LEN];
-	g_snprintf(str,MAX_LEN,"%ld",when);
+	g_snprintf(str,MAX_LEN,"%ld",(long int)(when));
 	if (f_wstr_lf(fd,str)<0) return(-1);
 	return 0;
 };

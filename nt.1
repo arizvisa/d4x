@@ -6,7 +6,7 @@ nt - A download manager for X
 .SH DESCRIPTION
 \fBnt\fP is a linux graphic program for downloading files through the internet which supports both FTP and HTTP (not completed yet but curent realisation is quite enough for downloading) protocols. Program also supports RESUMING if server side supports it too. It is like kget for Linux and ReGet or GetRight for Windows (tm).
 .SH OPTIONS
-Options different from URLs only that they begined from \fBminus sign\fP, you can specify any number of options and URLs. Command line will be parsed from left to right.
+Options different from URLs only that they begined from \fBminus sign\fP, you can specify any number of options and URLs. Command line will be parsed from left to right. It means that command of remote cotrol will be sent to downloader in this order.
 .TP
 \fBnt\fP accepts the following options:
 .TP
@@ -20,15 +20,21 @@ Print help informations and exit.
 Show version informations and exit.
 .TP
 \fB-i, --info\fP
-Show informations if already running.
+Show simple information about current state if Downloader is already run.
 .TP
 \fB-s, --speed\fP
-Show current speed if already running.
+Show current speed if already running. Speed is a part of information which is shown by previous command.
+.TP
+\fB--minimized\fP
+Start Downloader in minimised state.
+.TP
+\fB--exit-time\fP
+Set timeout for exiting if nothing to do. This command works if Downloader is already run.
 .TP
 \fB-t1, --traffic-low\fP
 Set lower speed limitation.
 .TP
-\fB-t2, --traffic-middle\fP
+\fB-t2, --traffic-medium\fP
 Set middle speed limitation.
 .TP
 \fB-t3, --traffic-high\fP
@@ -41,14 +47,21 @@ via control socket (e.g. from command line)
 \fB-c, --delete-completed\fP
 Delete completed if already running.
 .TP
+\fB-r, --rerun-failed\fP
+Rerun all failed downloads if Downloader is already run.
+.TP
+\fB-w, --without-face\fP
+Start Downloader without X interface.
+.TP
 \fB-m, --max-running\fP
 Set maximum active downloads.
 .SH COPYRIGHT
 Copyright (C) 1999-2000, Maxim Koshelev <chuchelo@krasu.ru>
 This program is free sources but not GPL!!!!!
-You can't modify sources without agreement with author but can distribute unmodified sources.
+You can't distribute modified sources without agreement with author but you can distribute unmodified sources.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 .SH SUGGESTIONS AND BUG REPORTS
 Go to http://www.krasu.ru/soft/chuchelo/
 .SH AUTHOR
 This manual page was written by Julien BLACHE <j.blache@rmcnet.fr>, for the Debian GNU/Linux system (but may be used by others).
+Updated by Maxim Koshelev <mdem@chat.ru>

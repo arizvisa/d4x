@@ -325,6 +325,7 @@ int tMain::run_new_thread(tDownload *what) {
 	what->WL=new tDefaultWL;
 	((tDefaultWL *)(what->WL))->set_log(what->LOG);	
 	what->update_trigers();
+	what->Size.old=what->Size.curent; // no need update size
 	what->NanoSpeed=0;
 
 	what->SpeedLimit=new tSpeed;
@@ -470,7 +471,8 @@ int tMain::try_to_run_download(tDownload *what){
 	if (DOWNLOAD_QUEUES[DL_RUN]->count()<50 && what->ScheduleTime<=NOW
 	    && (tmp==NULL || tmp->curent<tmp->upper)) {
 		// to avoid old info in columns
-		list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
+		if (CFG.WITHOUT_FACE==0)
+			list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
 		if (what->split){
 			what->finfo.size=-1;
 			what->split->FirstByte=0;
@@ -484,6 +486,18 @@ int tMain::try_to_run_download(tDownload *what){
 		return 1;
 	};
 	return 0;
+};
+
+void tMain::insert_into_wait_list(tDownload *what){
+	tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->last();
+	if (!temp || temp->GTKCListRow < what->GTKCListRow)
+		DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
+	else {
+		temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
+		while (temp && temp->GTKCListRow < what->GTKCListRow)
+			temp=DOWNLOAD_QUEUES[DL_WAIT]->prev();
+		DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,temp);
+	};
 };
 
 void tMain::continue_download(tDownload *what) {
@@ -507,15 +521,7 @@ void tMain::continue_download(tDownload *what) {
 		if (CFG.ALLOW_FORCE_RUN && try_to_run_download(what)) {
 			DOWNLOAD_QUEUES[DL_RUN]->insert(what);
 		} else {
-			tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->last();
-			if (!temp || temp->GTKCListRow < what->GTKCListRow)
-				DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
-			else {
-				temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
-				while (temp && temp->GTKCListRow < what->GTKCListRow)
-					temp=DOWNLOAD_QUEUES[DL_WAIT]->prev();
-				DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,temp);
-			};
+			insert_into_wait_list(what);
 		};
 	};
 	what->Attempt.clear();
@@ -540,18 +546,27 @@ void tMain::add_dir(tDownload *parent) {
 
 void tMain::speed_calculation(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
+	time_t NOWTMP;
+	time(&NOWTMP);
 	switch(what->finfo.type) {
 	case T_FILE:{
+		time_t newdiff=NOWTMP-what->Start;
+		time_t difdif=what->Difference-newdiff;
+		/* detecting clock skew */
+		if (difdif<1800)
+			what->Start+=difdif;
+		else if (difdif>1800)
+			what->Start-=difdif;
+		what->Difference=NOWTMP-what->Start;
 		int REAL_SIZE=what->finfo.size;
 		if (REAL_SIZE==0 && what->who!=NULL)
 			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
 		if (what->who) what->Size.set(what->who->get_readed());
 		what->Remain.set(REAL_SIZE-what->Size.curent);
-		int period=int(time(NULL)-what->Start);
-		if (period!=0 && what->who) {
+		if (what->Difference!=0 && what->who) {
 			float tmp=float(what->Size.curent-what->who->get_start_size());
 			if (tmp>0) {
-				what->Speed.set(int(tmp/period));
+				what->Speed.set(int(tmp/what->Difference));
 			};
 		};
 	};
@@ -574,6 +589,19 @@ int tMain::get_split_loaded(tDownload *what){
 void tMain::print_info(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	char data[MAX_LEN];
+	int downloading_started=0;
+	if (what->who) {
+		what->Status.set(what->who->get_status());
+		if (what->Status.curent==D_DOWNLOAD){
+			downloading_started=1;
+			if (!what->who->reget())
+				what->Status.set(D_DOWNLOAD_BAD);
+		};
+		if (what->Status.change()) {
+			what->Status.reset();
+			list_of_downloads_set_run_icon(what);
+		};
+	};
 	switch(what->finfo.type) {
 	case T_FILE:{
 		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,_("file"));
@@ -581,23 +609,40 @@ void tMain::print_info(tDownload *what) {
 		if (REAL_SIZE==0 && what->who!=NULL)
 			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
 		if (REAL_SIZE<0) REAL_SIZE=0;
-		make_number_nice(data,REAL_SIZE);		
-		list_of_downloads_change_data(what->GTKCListRow,FULL_SIZE_COL,data);
-		if (what->who){
-			if (what->split)
-				what->Size.set(get_split_loaded(what));
-			else
-				what->Size.set(what->who->get_readed());
+		make_number_nice(data,REAL_SIZE);
+		if (downloading_started){
+			list_of_downloads_change_data(what->GTKCListRow,FULL_SIZE_COL,data);
+			if (what->who){
+				if (what->split)
+					what->Size.set(get_split_loaded(what));
+				else
+					what->Size.set(what->who->get_readed());
+			};
+			what->Remain.set(REAL_SIZE-what->Size.curent);
 		};
-		what->Remain.set(REAL_SIZE-what->Size.curent);
+		
 		if (what->Remain.change() && what->Remain.curent>=0){
 			make_number_nice(data,what->Remain.curent);
 			list_of_downloads_change_data(what->GTKCListRow,REMAIN_SIZE_COL,data);
 		};
+		time_t NOWTMP;
+		time(&NOWTMP);
+		if (what->Start>0) {
+			time_t newdiff=NOWTMP-what->Start;
+			time_t difdif=what->Difference-newdiff;
+			/* detecting clock skew */
+			if (difdif<1800)
+				what->Start+=difdif;
+			else if (difdif>1800)
+				what->Start-=difdif;
+			convert_time(newdiff,data);
+			what->Difference=NOWTMP-what->Start;
+			list_of_downloads_change_data(what->GTKCListRow,TIME_COL,data);
+		};
 		if (what->Size.change() || CFG.NICE_DEC_DIGITALS.change()) {
 			make_number_nice(data,what->Size.curent);
 			list_of_downloads_change_data(what->GTKCListRow,DOWNLOADED_SIZE_COL,data);
-			time_t Pause=time(NULL);
+			time_t Pause=NOWTMP;
 			if (Pause - what->Pause > 4)
 				list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
 			what->Pause = Pause;
@@ -608,46 +653,40 @@ void tMain::print_info(tDownload *what) {
 				what->NanoSpeed=((what->Size.curent-what->Size.old)*1000)/TimeLeft;
 			else
 				what->NanoSpeed=0;
-			what->Size.reset();
 		} else {
 			what->NanoSpeed=0;
 			if (what->status==DOWNLOAD_GO) {
-				int Pause=time(NULL)-what->Pause;
+				int Pause=NOWTMP-what->Pause;
 				if (Pause>=30) {
 					convert_time(Pause,data);
 					list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,data);
 				};
 			};
 		};
-		if (what->Start>0) {
-			convert_time(time(NULL)-what->Start,data);
-			list_of_downloads_change_data(what->GTKCListRow,TIME_COL,data);
-		};
-		int temp;
+		float temp=100;
 		if (REAL_SIZE!=0)
-			temp=int((double(what->Size.curent)*double(100))/double(REAL_SIZE));
-		else
-			temp=100;
+			temp=(float(what->Size.curent)*float(100))/float(REAL_SIZE);
 /* setting new title of log*/
 		if (CFG.USE_MAINWIN_TITLE){
 			char title[MAX_LEN];
-			sprintf(title,"%i%% %i/%i %s",temp,what->Size.curent,REAL_SIZE,what->info->file.get());
+			sprintf(title,"%2.0f%% %i/%i %s",temp,what->Size.curent,REAL_SIZE,what->info->file.get());
 			log_window_set_title(what,title);
 		};
 
-		what->Percent.set(temp);
-		if (what->Percent.change()) {
-			sprintf(data,"%i",temp);
-			list_of_downloads_change_data(what->GTKCListRow,PERCENT_COL,data);
-			what->Percent.reset();
+		what->Percent.set(int(temp));
+		if (what->Size.change()) {
+			list_of_downloads_set_percent(what->GTKCListRow,
+						      PERCENT_COL,
+						      temp);
 		};
+		what->Percent.reset();
+		what->Size.reset();
 	/*	Speed calculation
 	 */
-		int period=int(time(NULL)-what->Start);
-		if (period!=0 && what->who) {
+		if (what->Difference!=0 && what->who && what->who->get_start_size()>=0) {
 			float tmp=float(what->Size.curent-what->who->get_start_size());
 			if (tmp>0) {
-				what->Speed.set(int(tmp/period));
+				what->Speed.set(int(tmp/what->Difference));
 				if (what->Speed.change()) {
 					sprintf(data,"%i",what->Speed.curent);
 					list_of_downloads_change_data(what->GTKCListRow,SPEED_COL,data);
@@ -657,7 +696,7 @@ void tMain::print_info(tDownload *what) {
 			/*	Remaining time calculation
 			 */
 			if (tmp>0) {
-				tmp=(float(REAL_SIZE-what->Size.curent)*float(period))/tmp;
+				tmp=(float(REAL_SIZE-what->Size.curent)*float(what->Difference))/tmp;
 				if (tmp>=0 && tmp<24*3660) {
 					convert_time(int(tmp),data);
 					list_of_downloads_change_data(what->GTKCListRow,ELAPSED_TIME_COL,data);
@@ -693,13 +732,6 @@ void tMain::print_info(tDownload *what) {
 		};				
 	};
 	if (what->who) {
-		what->Status.set(what->who->get_status());
-		if (what->Status.curent==D_DOWNLOAD && !what->who->reget())
-			what->Status.set(D_DOWNLOAD_BAD);
-		if (what->Status.change()) {
-			what->Status.reset();
-			list_of_downloads_set_run_icon(what);
-		};
 		what->Attempt.set(what->who->treat());
 		if (what->Attempt.change()) {
 			what->Attempt.reset();
@@ -723,9 +755,31 @@ void tMain::redirect(tDownload *what) {
 	};
 	if (newurl) {
 		char *oldurl=what->info->url();
-		tAddr *addr=new tAddr(newurl);
-		if (*newurl=='/'){
+		tAddr *addr=NULL;
+		if (!global_url(newurl)){
+			addr=new tAddr;
+			char *file=NULL,*path=newurl;
+			if ((file=rindex(newurl,'/'))){
+				*file=0;
+				file+=1;
+			}else{
+				path="";
+				file=newurl;
+			};
+			addr->file.set(file);
+//			printf("%s\n%s\n%s\n",path,file,what->info->path.get());
+			if (*newurl=='/'){
+				addr->path.set(path);
+			}else{
+				char *newpath=sum_strings(what->info->path.get(),"/",path,NULL);
+				normalize_path(newpath);
+				addr->file.set(file);
+				addr->path.set(newpath);
+				delete(newpath);
+			};
 			addr->copy_host(what->info);
+		}else{
+			addr=new tAddr(newurl);
 		};
 		delete(newurl);
 		if (addr->cmp(what->info) && equal(what->config.referer.get(),oldurl)){
@@ -994,8 +1048,13 @@ void tMain::check_for_remote_commands(){
 			break;
 		};
 		case PACKET_SET_SAVE_PATH:{
-			delete(CFG.LOCAL_SAVE_PATH);
-			CFG.LOCAL_SAVE_PATH=copy_string(addnew->body);
+			/* to avoid misunderstandings we allow only absolute
+			   pathes here 
+			 */
+			if (addnew->body && addnew->body[0]=='/'){
+				delete(CFG.LOCAL_SAVE_PATH);
+				CFG.LOCAL_SAVE_PATH=copy_string(addnew->body);
+			};
 			break;
 		};
 		case PACKET_SET_MAX_THREADS:{
@@ -1111,7 +1170,6 @@ int tMain::add_downloading(char *adr,char *where,char *name) {
 		whatadd->finfo.type=T_DIR;
 		whatadd->finfo.size=0;
 	};
-
 	if (add_downloading(whatadd)) {
 		delete(whatadd);
 		return -1;

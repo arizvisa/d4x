@@ -48,6 +48,7 @@ class tMain{
 	void run_without_face();
 	void main_circle_first();
 	void main_circle_second();
+	void insert_into_wait_list(tDownload *what);
 	void append_list(tStringList *what);
  public:
     	void init();

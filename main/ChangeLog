@@ -1,3 +1,96 @@
+Sat Dec 23 09:21:50 2000
+	*httpd.cc,ftpd.cc: truncating file to 0 if it was changed on server;
+
+Fri Dec 22 09:30:19 2000
+	*http.cc: limit http answer to 32 strings;
+	*face/graph.cc: fixed graph drawing;
+
+Tue Dec 19 09:57:02 2000
+	*main.cc: set values in row of queue of downloads only after
+	info has been retireved;
+
+Sun Dec 17 12:35:23 2000
+	*face/myclist.cc[h],face/lod.cc[h],main.cc: percentage in queue of
+	downloads displaied via bars;
+	*ftpd.cc: fixed getting date from string of ftp listing;
+
+Sat Dec  9 13:14:23 2000
+	*face/list.cc: the same value of downloaded percentage in status and
+	in queue;
+	*po/ko.po: Korean translation added;
+
+Wed Nov 29 13:23:37 2000
+	*dlist.cc: does not check for "javascript:" anymore;
+	*db.cc: some additional dbc checks;
+	*addr.cc[h],locstr.cc[h]: new method for parsing urls, global_url() was
+	moved from locstr.cc[h] to addr.cc[h] and rewritten;
+
+Mon Nov 20 09:55:49 2000
+	*hproxy.cc[h]: Send username and password for site using `Authorisation'
+	field of HTTP header;
+
+Sun Nov 19 14:27:42 2000
+	*face/lod.cc: hide Mozilla's names of dropped links; links dropped
+	from ftp-mc is always 'ftp' now;
+
+Sat Nov 18 11:09:40 2000
+	*main.cc: fix loading local urls after redirections;
+
+Fri Nov 17 12:00:00 2000
+	*face/list.cc,locstr.cc: codecleanups;
+
+Wed Nov 15 14:43:21 2000
+	*face/list.cc[h],face/addd.cc: fill by latest content of selection
+	if clipboard is empty;
+	*locstr.cc[h]: fixed and cleanuped convert_to_hex();
+
+Mon Nov 13 09:06:53 2000
+	*po/sk.po: Slovak translation of 1.19;
+
+Sat Nov 11 13:07:31 2000
+	*signal.cc: completed fix for buggy routines of glibc :) ;
+
+Thu Nov  9 13:07:31 2000
+	*dlist.cc[h],main.cc: adding code for detecting time skews;
+
+Sun Nov  5 14:39:50 2000
+	*main.cc: does not setup remote dir if it's not absolute;
+	fixed working without face;
+
+Sat Nov  4 14:39:27 2000
+	*face/dndtrash.cc: code cleanups;
+	*face/buttons.cc[h],prefs.cc: values of speed limits in tooltips;
+	*html.cc: fixed parsing after my comments skiping code;
+	*dlist.cc: fixed truncating;
+
+Fri Nov  3 10:16:09 2000
+	*config.cc: set absolute path by -d commad line parameter;
+	*face/dndtrash.cc: fixed "alwaysontop-ness" DnD trash can window;
+	*ftp.cc[h]: *intelegent* algorithm for ftp listing;
+
+Thu Nov  2 12:19:58 2000
+	*dbc.h,savedvar.h,segments.cc[h]: added copyrights;
+
+Wed Nov  1 12:19:58 2000
+	*dlist.cc: double parsing fixed, implement  skiping remarks for
+	faster parsing;
+	*main.cc[h]: move routine which insert into WAIT queue to separate
+	function;
+	*segment.cc: destroy mutex when tSegmentator is destroyed, optimize
+	saving into file;
+
+Tue Oct 31 16:55:21 2000
+	*segments.cc[h]: continue implementing code for resuming splited;
+	*face/log.cc: stupid crash fix in log of splited downloads; changed
+	fixed font to monowidth;
+	*po/ja.po: Japaniese translation is uptodate;
+    
+Mon Oct 30 09:24:26 2000
+	*segment.cc[h]: begin to implement code for resuming splited downloads;
+	*signal.cc[h],speed.cc,log.cc,srvclt.cc: try to init all mutexes as 
+	'fast' for all platforms;
+	*po/: French and Russian translation is updated;
+
 Thu Oct 26 18:30:21 2000
 	*face/prefs.cc,nt.cc: last fixes befor releasing new version :)
 

@@ -748,8 +748,13 @@ void tDEdit::setup_time(time_t when) {
 };
 
 
-void tDEdit::paste_url() {
+void  tDEdit::paste_url() {
 	gtk_editable_paste_clipboard(GTK_EDITABLE(GTK_COMBO(url_entry)->entry));
+	if ((text_from_combo(url_entry)==NULL || text_from_combo(url_entry)[0]==0) &&
+	    old_clipboard_content()!=NULL){
+		set_url(old_clipboard_content());
+	};
+//	printf("%s\n",text_from_combo(url_entry));
 };
 
 void tDEdit::select_url() {

@@ -848,6 +848,7 @@ void options_window_ok() {
 	prefs_columns_order.apply_changes();
 	options_window_cancel();
 	var_check_all_limits();
+	buttons_speed_set_text();
 	save_config();
 };
 

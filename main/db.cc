@@ -37,6 +37,7 @@ tStringHostNode::~tStringHostNode(){
  */
 
 tStringHostNode *tHostTree::find(char *what){
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	tStringHostNode temp;
 	temp.body=what;
 	tStringHostNode *rvalue=(tStringHostNode *)tAbstractSortTree::find((tAbstractSortNode *)(&temp));
@@ -95,6 +96,7 @@ void tDB::insert(tDownload *what) {
 
 tDownload *tDB::find(tDownload *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(what->info!=NULL,NULL);
 	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
 		tDownloadTree **point=hash(temp,what);
@@ -107,6 +109,7 @@ tDownload *tDB::find(tDownload *what) {
 
 void tDB::del(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
+	DBC_RETURN_IF_FAIL(what->info!=NULL);
 	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
 		tDownloadTree **point=hash(temp,what);

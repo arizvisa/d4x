@@ -113,6 +113,8 @@ time_t ftp_date_from_str(char *src) {
 	struct tm *date=new tm;
 	localtime_r(&NOW,date);
 	date->tm_sec=0;
+	date->tm_min=0;
+	date->tm_hour=0;
 	date->tm_isdst=-1;
 	month=date->tm_mon;
 	day=date->tm_mday;
@@ -451,6 +453,8 @@ int tFtpDownload::download(int len) {
 		if (LOADED && remote_file_changed()){
 			print_error(ERROR_FILE_UPDATED);
 			LOADED=0;
+			LOG->shift(0);
+			LOG->truncate();
 		};
 		int length_to_load=len>0?LOADED+len:0;
 		int ind=0;
@@ -461,8 +465,9 @@ int tFtpDownload::download(int len) {
 					Status=D_DOWNLOAD;
 					int to_load=len>0?length_to_load-LOADED:0;
 					ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
-					if (!FTP->test_reget())
+					if (!FTP->test_reget()){
 						StartSize=LOADED=0;
+					};
 					if (ind>0) {
 						LOADED+=ind;
 						LOG->log_printf(LOG_OK,_("%i bytes loaded."),ind);

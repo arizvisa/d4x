@@ -13,6 +13,7 @@
 #include "var.h"
 #include "main.h"
 #include "locstr.h"
+#include "signal.h"
 #include <gtk/gtk.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -43,7 +44,7 @@ tMsgServer::tMsgServer(){
     list->init(0);
     file=NULL;
     fd=newfd=0;
-    pthread_mutex_init(&lock,NULL);
+    my_pthreads_mutex_init(&lock);
 };
 
 tMsgServer::~tMsgServer(){

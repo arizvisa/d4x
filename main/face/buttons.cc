@@ -49,6 +49,19 @@ void ask_delete_all(...) {
 		gtk_signal_connect(GTK_OBJECT(AskDeleteAll->ok_button),"clicked",GTK_SIGNAL_FUNC(del_all_downloads),NULL);
 };
 
+void buttons_speed_set_text(){
+	char text[MAX_LEN];
+	sprintf(text,"%s (%i B/s)",_(" Speed level one "),CFG.SPEED_LIMIT_1);
+	gtk_tooltips_set_tip(GTK_TOOLBAR(ButtonsBar)->tooltips,
+			     buttons_array[BUTTON_SPEED1],
+			     text,NULL);
+	sprintf(text,"%s (%i B/s)",_(" Speed level two "),CFG.SPEED_LIMIT_2);
+	gtk_tooltips_set_tip(GTK_TOOLBAR(ButtonsBar)->tooltips,
+			     buttons_array[BUTTON_SPEED2],
+			     text,NULL);
+};
+
+
 void set_speed_buttons() {
 	switch (CFG.SPEED_LIMIT) {
 		case 1:	{
@@ -238,6 +251,7 @@ void init_buttons_bar() {
 	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
 	gtk_widget_set_style(tooltips->tip_window, current_style);
 	gtk_widget_show(ButtonsBar);
+	buttons_speed_set_text();
 	buttons_cfg_init();
 };
 

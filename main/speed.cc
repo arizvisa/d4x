@@ -11,26 +11,11 @@
 
 #include <stdio.h>
 #include "speed.h"
+#include "signal.h"
 
 tSpeed::tSpeed() {
-	pthread_mutex_init(&lock,NULL);
-#if defined(__linux__)
-/* manual page for mutexes said that mutexes in linux is fast by
-   default...
- */
-//	pthread_mutexattr_setkind_np(&ma,PTHREAD_MUTEX_FAST_NP);
-	pthread_mutex_init(&lock1,NULL);
-#else
-	pthread_mutexattr_t ma;
-	pthread_mutexattr_init(&ma);
-#if !defined (__sparc__) && !defined(__mips__)
-	pthread_mutexattr_settype(&ma,MUTEX_TYPE_FAST);
-#elseif defined(__mips__)
-	pthread_mutexattr_settype(&ma,MUTEX_TYPE_NORMAL);	
-#endif
-	pthread_mutex_init(&lock1,&ma);
-	pthread_mutexattr_destroy(&ma);
-#endif
+	my_pthreads_mutex_init(&lock);
+	my_pthreads_mutex_init(&lock1);
 	last_gived=base=bytes=0;
 };
 

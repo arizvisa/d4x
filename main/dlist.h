@@ -72,7 +72,7 @@ struct tDownload:public tAbstractSortNode{
 	//------Split information-------------
 	tSplitInfo *split;
 	//------------------------------------
-	time_t Start,Pause;
+	time_t Start,Pause,Difference;
 	pthread_t thread_id;
 	int status,owner,action;
 	int NanoSpeed;

@@ -19,6 +19,7 @@ class tFtpClient:public tClient{
 	int TEMP_SIZE;
 	int CON_FLAGS;
 	int DONT_SEND_QUIT;
+	int METHOD_TO_LIST;
 	/* to avoid memory leaks next variable is global */
 	char *FIRST_REPLY;
 	tStringList *CTRL;

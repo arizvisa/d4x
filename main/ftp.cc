@@ -26,13 +26,19 @@ char *FTP_PASS_OK="230";
 char *FTP_PASV_OK="227";
 char *FTP_PORT_OK="200";
 char *FTP_CWD_OK="250";
+char *FTP_DATA_OK="125";
 char *FTP_RETR_OK="150";
 char *FTP_QUIT_OK="221";
 char *FTP_READ_OK="226";
 char *FTP_ABOR_OK="225";
 char *FTP_REST_OK="350";
-char *FTP_LOGIN_OK[]={FTP_PASS_OK,
-		    FTP_USER_OK
+char *FTP_LOGIN_OK[]={
+	FTP_PASS_OK,
+	FTP_USER_OK
+};
+char *FTP_EXIST_DATA[]={
+	FTP_RETR_OK,
+	FTP_DATA_OK
 };
 
 int tFtpClient::accepting() {
@@ -188,6 +194,7 @@ tFtpClient::tFtpClient():tClient(){
 	CTRL=new tStringList;
 	CTRL->init(2);
 	FIRST_REPLY = NULL;
+	METHOD_TO_LIST=0;
 };
 
 void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
@@ -297,12 +304,18 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 	int rvalue=0;;
 	if ((rvalue=rest(list->size()))) return(rvalue);
 	if (!ReGet) list->done();
-	send_command("LIST -la",filename);
-	if ((rvalue=analize_ctrl(1,&FTP_RETR_OK))){
-		if (Status==STATUS_UNSPEC_ERR || Status==STATUS_CMD_ERR){
-			send_command("LIST",filename);
-			if ((rvalue=analize_ctrl(1,&FTP_RETR_OK)))
-				return(rvalue);
+	switch (METHOD_TO_LIST){
+	case 1:
+		send_command("LIST",filename);
+		break;
+	default:
+		send_command("LIST -la",filename);
+	};
+	if ((rvalue=analize_ctrl(sizeof(FTP_EXIST_DATA)/sizeof(char*),FTP_EXIST_DATA))){
+		if ((Status==STATUS_UNSPEC_ERR || Status==STATUS_CMD_ERR) &&
+		    METHOD_TO_LIST==0){
+			METHOD_TO_LIST=1;
+			return(get_size(filename,list));
 		}else
 			return(rvalue);
 	};
@@ -318,7 +331,14 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 		if (CFG.FTP_DIR_IN_LOG)
 			LOG->log(LOG_FROM_SERVER,(list->last())->body);
 	};
-	return (analize_ctrl(1,&FTP_READ_OK));
+	if ((rvalue=analize_ctrl(1,&FTP_READ_OK)) && METHOD_TO_LIST==0){
+		METHOD_TO_LIST=1;
+		DataSocket.down();
+		if ((rvalue=stand_data_connection()))
+			return(rvalue);
+		return(get_size(filename,list));
+	};
+	return(rvalue);
 };
 
 int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
@@ -336,7 +356,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
 		FileLoaded=0;
 	};
 	send_command("RETR",what);
-	if ((rvalue=analize_ctrl(1,&FTP_RETR_OK))) return(rvalue);
+	if ((rvalue=analize_ctrl(sizeof(FTP_EXIST_DATA)/sizeof(char*),FTP_EXIST_DATA))) return(rvalue);
 	// Trying to determine file size
 	tString *log=CTRL->last();
 	TEMP_SIZE=0;

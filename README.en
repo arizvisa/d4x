@@ -1,0 +1,569 @@
+Instructions for using the program "Downloader for X" version 1.16
+(c) 1999--2000, Maxim Koshelev
+
+Contents
+0. Introduction
+1. What is this Program Needed For?
+	1.1 License
+	1.2 Features
+	1.3 Installing the Program
+	1.4 Usage Examples
+2. The Program's Main Window
+	2.1 The Menu
+	2.2 The Button Bar
+	2.3 Download Queue
+	2.4 Main Log
+	2.5 Status Line
+3. Configuration Dialog
+	3.1 Geneneral Options
+	3.2 Limits
+	3.3 Other Options
+	3.4 Main Log Options
+	3.5 Selecting Columns to Display
+	3.6 Proxy Server Options
+	3.7 Confirmation Options
+	3.8 Download Speed Options
+4. Limits Window
+5. Default Passwords
+6. Drag-and-Drop Basket
+	6.1 Basket Menu
+7. Interface Options
+8. Command Line Parameters
+9. Appending New Downloads
+	9.1 Download Editing Dialog
+	9.2 Other Ways of Adding Downloads
+10. Conclusion
+---------------------------------------------------------------------
+
+0. Introduction
+
+These instructions are at attempt at a full description of the characteristics
+of "Downloader for X" (henceforth "the program").  If you find in the text
+here presented any discrepancy or inaccuracy, please inform the author of
+this program.  Of course, the author does not assume any responsibility for
+harm suffered as a result of the use of this program, for as much as the
+program is furnished free of charge, in the hope that it will be useful.
+
+1. What is this Program Needed For?
+
+This program is intended to make it possible to download files from Internet
+sites by means of the FTP and HTTP protocols.  Because it supports
+resuming of downloads  and automatic re-connection to servers after
+failures, it will prove absolutely indespensible when connections to Internet
+sites are unstable, for downloading files from distant servers, and for
+fetching large numbers of files.
+
+1.1 License
+
+Alas, the license is not the GPL.  What does this mean?  This program is
+distributed without fee, even with open source code.  Accordingly, the author
+assumes no responsibility for any damage which might be inflicted by this
+program.  But the author reserves unto himself the inviolable right of
+exclusive modification of the source code.  This means that any other
+person may distribute this program only "as is," that is without modification
+of the source code.  If you are considering introducing some sort of modification
+you are OBLIDGED to send it to the author for incorporation into the program's
+official code.  NO ONE other than the author of this program HAS THE RIGHT
+to distribute MODIFIED versions of this program.  This restriction is made
+chiefly in order to centralize the project, to avoid the appearance of various
+"offshoots" of this single program.  Naturally, upon the completion of work on
+the program, the present license will give way to the GPL.
+
+1.2 Features
+
+Here I shall attempt to present a complete list of the features available
+in the version described:
+
+    * Downloading using the FTP and HTTP protocols
+    * Support for FTP and HTTP proxies
+    * Recursive FTP downloads
+    * Recursive HTTP downloads
+    * Support for "masks" in FTP downloads
+    * The ability to limit the depth of recursion
+    * The ability to postpone file downloads until a specified time
+    * Support for the resumption of downloads
+    * Automatic reconnection to the server after a break in the connection
+    * The ability to limit the maximum download speed used for all downloads
+      as well as for selected downloads
+    * The ability to limit the number of simultainious connections to any
+      given server
+    * The keeping of a log of each download
+    * Support for "Drag and Drop", for example from Netscape
+    * The ability to add a new download by means of teh command line
+    * monitor clipboard
+    * The keeping of a main log which may be written to a file
+    * Automatic preservation of all configuration options and interfaces
+    * The ability to configure the appearence of the columns in the
+      download queue
+    * The ability to configure the button bar
+    * Internationalization (translation) into 14 languages
+    * Extensive configurability
+    * The ability to download one file in several streams (mass download)
+    * Startup without the X interface, from the command line
+
+1.3 Installing the Program
+
+If you have RedHat Linux 6.1 installed on your machine and it is an x86
+compatible computer, you can simply install the program from an RPM file
+which you may obtain from the programs home page at:
+
+    http://www.krasu.ru/soft/chuchelo/
+
+If you have an older version of RedHat Linux, then you can make an RPM
+file from the .src.rpm file (which you can find in the same place).  In
+order to do this, use the command:
+
+$ rpm --rebuild lalala.src.rpm
+
+where "lalala.src.rpm" is the name of the program's source RPM file.
+For owners of other versions of Linux and for owners of other Unix variants,
+it is necessary to install the program from the source, which is described in
+the README file which comes in the tar.gz archive which may be obtained from
+the same place.  If you have the GNOME or Afterstep desktop shell, then after
+the installation of the program it will become possible to launch it from the
+cooresponding menu.  (The program's name for launching it from the command line
+is "nt".)
+
+1.4 Usage Example
+
+Launch the program and press the key combination Ctrl-N.  In the window that
+appears, on the "URL" line, enter the the address of the file (or directory)
+which you wish to fetch on the line labeled "URL".  On the next line,
+indicate the folder into which you wish the file to be deposited.  Having done
+that, you may simply press the "OK" button.  You will notice that a new line
+appears in the main window.  It is various information about the current status
+of the downloading of the file.
+
+2. The Program's Main Window
+
+After launching the program, hopefully you will see the program's main window.
+It contains the main menu, buttons bar, download queue listing, main log,
+and status line.
+
+2.1 The Menus
+
+Through the main menu you can gain access to almost all of the functions of the
+program.
+
+2.2 Button Bar
+
+The button bar is intended for quick access to the most frequently used
+functions of the program.  The functions of the buttons (from left to right)
+are:
+
+* Add downloads
+* Add downloads using the contents of the cut-and-paste buffer
+* Remove the selected downloads
+* Start or restart the selected downloads
+* Stop the selected downloads
+* Remove finished
+* Move the selected downloads to the front of the queue
+* Move the selected downloads to the end of the queue
+* Open the log window for the selected download
+* Three buttons for limiting speed
+* Purge the download queue
+* Write the queue listing to a file
+* Toggle the Drag-n-Drop basket on and off
+
+You may choose which buttons will be visible by means of the main menu (see
+section 6).  Pressing the right mouse button on a button of writing queue
+will record its present state in a file which is loaded at program start.
+
+2.3 The Download Queue
+
+Any download added in Downloader for X enters the Download Queue.  The process
+of loading the file begins only if it would not cause the user-established
+limits to be exceeded.  These include the number of simultainious downloads,
+the limit on connections to the server, and the start time.  Otherwise, the
+download will "wait" for an easing of the limits, for example, the halting of
+other downloads (in case of their completion, a communications error connection breaks , or a
+user action).  The queue listing may have a maximum of 13 columns:
+
+* Status - Here little pictograms displays the current status of
+  the download.
+* File Name
+* File Type (Directory, File, link, device)
+* File Size
+* Downloaded Size - size of the part of the file already loaded
+* Remainder - size of the part of the file yet to be loaded
+* Percent - the percentage of the loaded part of the file as compared to the whole
+* Speed - Average download speed
+* Elapsed Time
+* Estimated Time - time remaining until completion
+* Time of Pause - the amount of time that has elapsed from the moment of reading
+  data (This becomes visible only after 30 seconds.)
+* Number of Attempts - the number of attempts to fetch the file made so far
+* URL - full address of the file
+
+Any column may be turned off in "Program Configuration" in the section "Columns".
+By default ALL columns are presented.  The formats for representing time and sizes
+are changed there too.
+
+You may likewise press the right mouse button over a download in the queue
+listing in order to get quick access to these key functions: Modify, Move Up,
+Move Down, Start, Stop, Set Limits, Open Log.
+
+In order to move the selected downloads up or down you can use the following
+key combinations:
+
+Shift+Up - up by one
+
+Shift+Down - down by one
+
+Shift+PageUp - to the very top of the queue
+
+Shift+PageDown - to the very bottom of the queue
+
+Double clicking the left mouse button on a download line will call up the log
+for that download.  The will likewise be opened if one presses the Enter key.
+
+The user can add a download simply dragging a link from somewhere and
+dropping it directly into this queue.
+
+
+2.4 Main Log
+
+The main log serves to descibe events which occur in the program, for example
+the completion of a download.  The log may be written to a file.  To do this,
+indicate the name of the file in the Program Options in the section "Main Log".
+There one may turn on the output of all messages  (to produced detailed 
+information). You can remove a line from the main log (but not from the file
+in which it is written).  Press the right mouse button on the desired line,
+choosing "Remove line".  In order to copy a line from the log, simply double
+click on the line and select the line in the dialog box that appears.
+Access to this dialog box may also be obtained through the menu that
+appears when the right mouse button is pressed on the line.
+
+2.5 Status Line
+
+The Status Line serves to bring out auxiliary program information.  It is
+divided into four parts:
+
+I The file name of the last download
+
+II The total number of bytes read, starting from the launching of the program,
+and the current speed in bytes per second
+
+III Percent completed of the selected download
+
+IV Speed Graph, depicted in four colors.  By default:  the color black represents
+tops , dark gray average speed, light gray the speed of the selected download.
+
+3. Options Dialog
+
+Most configuration of the program is performed by means of the options
+dialog which may be opened by choosing Options/General  from the main menu or
+by pressing Ctrl-C.
+
+3.1 General Options
+
+"Use title" - with regard to the title of the main window
+
+"Use title for information" - Present information about the selected download
+in the title of the main window.
+
+"Display queue statistics too" - in addition, queue statistics will
+be displayed
+
+"Scroll Title" - scrolling the title.
+
+"Automatically remove completed downloads" - Upon completion of the download
+it will be automatically removed from the queue of downloads.
+
+"Automatically remove failed downloads" - Same as above but if the
+download didn't succeed.
+
+"Optimize recursion" - If you fetch a directory through FTP, then when this
+option is enabled the program will not determine the size and other information
+for each file in the directory separately.  
+
+"Restart if download won't resume" - Even if the server does not support
+resuming, attempt to download the file anew. 
+
+"Open a window for Drag-n-Drop" - If you want the program to open a window
+for adding a new download when drag-n-drop is used, depress this option.
+
+"Iconify window on close" - If you attempt to close the program's main window,
+it will be iconified instead.
+
+"Save download listing every N minutes" - Is that completely clear?
+
+"Take date from server" - Set the file's date and time to what they were on
+the server.
+
+"Take file permissions from server (FTP only)" -  file permissions, for
+dirctories permission by execute will be added automaticaly, read, and write permissions for the owner.
+
+"Monitor clipboard" - If you want the program to automatically present a window
+for adding a new download whenever a reference appears in the cut-and-past
+buffer (for instance if you have copied a reference from Netscape), then choose
+this option.
+
+"Draw a graph in reverse order" - by default a chart in the lower
+right corner of the main window advancing from right to left.
+
+"Default file permissions" - when downloading by the HTTP the program will
+set up these permissions on files.
+
+"Show the 'Basket'" - this is the same as the far right button on the
+button bar in the main window.
+
+"Exit if nothing happens for N minutes" - If there are no waiting or active
+downloads, then exit after the indicated amount of time.
+
+3.2 Limitation
+
+In this section the user may establish parameters which the program will use
+as defaults for all downloads, though they may later be modified for each
+download.
+
+"Maximum number of active downloads" - maximum number of simulataineously
+"activated" downloads.  The program will NEVER activate more downloads than
+you specify in this spot.
+
+"Delay before retrying a connection (in seconds)" - this parameter specifies
+the amount of time which the program will wait before connecting to the server
+again.
+
+"Timeout for reading from socket (in seconds)" - This parameter indicates how
+long to wait for data from the server.  The program will automatically
+break the connection if this limit exceeded.
+
+"Maximum lines in log" - I hope it's self described
+
+"Number of attempts (0 unlimited)" - how many times to attempt to to connect
+to the server in an attempt to fetch the file.
+
+"Rollback after reconnecting (in bytes)" - certain old modems (according
+to users) and defective proxy servers return garbage when the
+connection breaks.  In order to download sucessfully under these conditions,
+set this parameter to 2--10 kilobytes.  Then, during each new attempt the
+program will attempt to continue loading not from the very end of the file which
+has already been loaded, but with a step back toward the begining of the file.
+
+"Depth of recursion (0 unlimited, 1 no recursion)" - this one speaks for
+itself.
+
+3.3 Other Options
+
+"Save downloads to this folder" - the directory in which downloads will
+be saved by default
+
+"Execute this on exit" - enter a command line which should be executed on
+program exit.  For example, a pppdown script.
+
+"File name for saving if it is unknown" - In a number of circumstances,
+the program will not know the name of the file being downloaded (for instance,
+if you entered http://www.linux.org/).  Enter here the desired file name for
+such situations.  By default "index.html".
+
+"User-Agent for HTTP requests" - If you want to program to present itself as
+something other than "Downloader for X" when downloading by HTTP, replace
+the parameter "%version", which is the default.
+
+"Skip these extensions in the clipboard" - When the "Monitor Clipboard"
+function is in use, almost all links passing through it are simply unnecessary
+and a hindrance.  In this space enter, separated by blanks, a list of
+extensions which you want to "not notice" when using "monitoring".
+
+"Use passive mode for FTP" - The name speaks for itself.
+Behind Some firewalls permit only passive mode FTP connections to pass.
+
+"Remember passwords" - If you want the program to remember passwords from the
+password input field, and make a record of them, choose this option.  But
+then all of the lines for the entry of passwords begin to show the entered
+information and not the symbol "*".
+
+3.4 Main Log Options
+
+In case you have to write the log to a file, you can, in this portion of the
+options, indicate the file into which the log should be written.  Likewise you
+can require the keeping of a "detailed" log, in which case you will get much
+more detailed information.  The log may likewise be appended to the file or
+be written anew each time.  This pertains to restarts of the program, that
+is if you instruct it to overwrite the log, then at every program launch
+the log file will be truncated.
+
+3.5 Selecting Columns to Display
+
+In this section of the tunables, you can setup the representation of the
+columns and likewise the format of the sizes and times which will be
+represented in them.
+
+3.6 Settings of Proxy Servers
+
+In the proxy server settings, you can designate proxy servers for the FTP
+and HTTP protocols separately.  And you can specify whether a username and
+password are required, and if required, the username and password.  A number of
+FTP proxy servers known to the author do not require a password.
+
+3.7 Confirmation Options
+
+Here you can indicate whether the program will ask you to confirm various
+"dangerous" actions:
+
+* Exiting the program
+* Removal of a queue entry
+* Removal of completed queue entries
+* Removal of failed queue entries
+* Removing all queue entries
+
+3.8 Speed
+
+In this section of the options you can set two parameters:  the first and
+second speed levels.  These speeds set the read and yellow buttons on the
+button bar.
+
+4. Limits Window
+
+This window is called up from the program's main menu.  Choose "Limits" from
+the "Options" menu.  Before you there will appear a window with an empty list
+consisting of three columns.  If you want to establish a limit on number of
+connections with respect to any given server, press the "Add" button and, in the
+window that appears, enter the address of the server, the port number, and
+the maximum permissible number of simultaineous downloads.  After you press
+the "OK" button, a line with the information will appear in the limits window.
+In the last column, the number of current connections to the server at any
+given time will be indicated.  You can modify a limit by double clicking
+the mouse on the line with the limit.  In order to remove a limit, select the
+line to be removed and press the "Delete" button.
+
+5. Default Password
+
+The program permits one to specify for any server a user name and password
+which are used by default.  To enter these parameters, go to the main menu
+in the submenu "Options" and choose "Passwords".  In the window that appears,
+press the "Add" button in order to enter a new default password.
+You will notice that for any one server there can be only one
+username-password pair.  In order to edit an existing entry, press the mouse
+button two times quickly over the cooresponding line.
+
+The program will use the default password only if you do not enter a password
+when adding the download to the queue.
+
+6. Drag-n-Drop Basket
+
+This is a separate window which is always above  all windows (or at least 
+ought to be there).  Into this little window you can drag and drop links,
+for instance from Netscape or from the Gnome desktop.  A double mouse click on
+this little window calls up the program's main window or hides it if it is
+currently visible.  You can likewise relocate the window by holding the mouse
+button on it and dragging to desired location.  Clicking the left mouse button
+brings up a menu, for quick access to certain functions.  Clicking the middle
+button of the mouse on the basket brings up a dialog box for adding new
+downloads.
+
+6.1 Basket Menu
+
+By means of this menu the user receives access to next functions of the
+program:
+
+* Adding downloads
+* Adding downloads from the cut buffer
+* Alteration of speed limits
+* Opening configuration dialog
+* Exiting the Program
+
+7. Interface Options
+
+In addition to the fact that one may set up columns for the presentation
+of information in the download queue (3.5) one may likewise adjust the
+button bar.  To do that go to the menu "Options" and in the sub-menu "Buttons"
+select the desired button.
+
+8. Command Line Parameters
+
+In the version of the program here discribed, the following command line
+parameters work:
+
+--help, -h  Display the full list of command line parameters and exit.
+
+--version, -v Display the name of the program and the version number and exit.
+
+--info, -i Display statistics about downloads if the program has already been
+  started.
+
+--speed, -s print the current speed (that is, the speed at the given instant)
+
+-t1, --traffic-low - activate the lowest download speed limit, equivelent to
+pressing the red button.  This parameter works even if the program has already
+been started.
+
+-t2, --traffic-medium - the same except the middle limit.  Equivelent to the
+yellow button on the buttons bar.
+
+-t3, --traffic-high - no speed limit.  Equivelent to the green button on the
+button bar.
+
+-d,--directory - set the directory for a download added by from the command
+line, by default it is the same as for downloading from the main window.
+
+-c,--delete-completed - Remove completed downloads from the queue.  This option
+works only if the program is already running.
+
+-m,--max-running - set the maximum number of simultaineously running downloads.
+
+-w,--without-gui - Launch the program without its graphical user interface,
+in command line mode, with this option the program will continue to accept
+commands for example, from a gnome-applet.
+
+-r, --rerun-failed - restart all failed downloads.
+
+In order to add a download by means of the command line, simply type:
+
+nt address_of_file
+
+One may specify serveral addresses by using blanks.  An address is
+differentiated from an option in that it does not begin with a dash.
+
+9. Appending a New Download
+
+A new download can be appended through a couple different facilities:  through
+the menu or through the button bar.  In such a case, there will appear on the
+screen a download editing window in which one may set all the parameters
+of the download.
+
+9.1 Dialog for Appending Downloads
+
+The download editing dialog, which appears in particular when you add a download,
+is divided into four parts, each of which is presented as a tabbed layer.  I
+will not here discribe the "Proxy" and "Other" tabs because they duplicate
+certain functions of the tunables.  I describe only the first layer "Main" and
+the last "Time".
+
+On the first line "URL" enter the address of a file (or directory) for
+downloading on the second - the path to the directory into which the fail
+is to be written.  Downloader for X will attempt to create the folder (and any
+intervening folders) if they do not exist.  If you wish to write the download
+into a file with a name different from the original, then on the following
+line indicate the file name.  The line User-Agent is for the HTTP
+requests , If you do not know what this is, leave it unmodified.
+If a site needs a password then go on and enter it too.  If you do not want
+the download to be started automatically after it is added to the queue,
+then check the last checkbox under the "Main" tab - "Pause immediately
+after adding".
+
+9.2 Other Ways to Add Downloads
+
+In addition to adding by means of the menu and button bar, the user can
+add downloads by the following means:
+
+* Through the command line (7)
+
+* By dragging links from another program and dropping them somewhere in the
+middle of the download queue (2.3)
+
+* Or through the special "basket" which can be turned on from options (3.1) orr from the buttons bar (2.2)
+
+10. Conclusion
+
+The program Downloader for X is under continual developement, so if you don't
+find a necessary feature, it most likely it will appear soon.  The author
+appeals to all users with new feature ideas to carefully read through
+this document before sending suggestions about new features.  It is possible
+that what you want to do can already be done by using an available features.
+Likewise it does not make sense to send a suggestion for a feature not required
+for the simple management of downloads, for example MP3 playing or archives
+management. :)  Such features have already been implemented in various other
+programs.
+

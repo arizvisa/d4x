@@ -69,4 +69,5 @@ void stop_downloads(...);
 void delete_downloads(...);
 void continue_downloads(...);
 void my_main_quit(...);
+char *old_clipboard_content();
 #endif

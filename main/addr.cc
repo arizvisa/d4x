@@ -16,17 +16,62 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "dbc.h"
 
 struct tProtoInfo{
 	char *name;
 	int port;
+	int proto;
+};
+
+tProtoInfo begin_protos[]={
+	{"cid:",0,D_PROTO_UNKNOWN},
+	{"clsid:",0,D_PROTO_UNKNOWN},
+	{"file:",0,D_PROTO_UNKNOWN},
+	{"finger:",0,D_PROTO_UNKNOWN},
+	{"ftp:",21,D_PROTO_FTP},
+	{"gopher:",0,D_PROTO_UNKNOWN},
+	{"hdl:",0,D_PROTO_UNKNOWN},
+	{"http:",80,D_PROTO_HTTP},
+	{"https:",0,D_PROTO_UNKNOWN},
+	{"ilu:",0,D_PROTO_UNKNOWN},
+	{"ior:",0,D_PROTO_UNKNOWN},
+	{"irc:",0,D_PROTO_UNKNOWN},
+	{"java:",0,D_PROTO_UNKNOWN},
+	{"javascript:",0,D_PROTO_UNKNOWN},
+	{"lifn:",0,D_PROTO_UNKNOWN},
+	{"mail:",0,D_PROTO_UNKNOWN},
+	{"mailto:",0,D_PROTO_UNKNOWN},
+	{"mid:",0,D_PROTO_UNKNOWN},
+	{"news:",0,D_PROTO_UNKNOWN},
+	{"nntp:",0,D_PROTO_UNKNOWN},
+	{"path:",0,D_PROTO_UNKNOWN},
+	{"prospero:",0,D_PROTO_UNKNOWN},
+	{"rlogin:",0,D_PROTO_UNKNOWN},
+	{"service:",0,D_PROTO_UNKNOWN},
+	{"shttp:",0,D_PROTO_UNKNOWN},
+	{"snews:",0,D_PROTO_UNKNOWN},
+	{"stanf:",0,D_PROTO_UNKNOWN},
+	{"telnet:",0,D_PROTO_UNKNOWN},
+	{"tn3270:",0,D_PROTO_UNKNOWN},
+	{"wais:",0,D_PROTO_UNKNOWN},
+	{"whois++:",0,D_PROTO_UNKNOWN}
 };
 
 tProtoInfo proto_infos[]={
-	{"?",0},
-	{"ftp",21},
-	{"http",80},
-	{"https",0} //not supported yet
+	{"?",0,D_PROTO_UNKNOWN},
+	{"ftp",21,D_PROTO_FTP},
+	{"http",80,D_PROTO_HTTP}
+};
+
+int global_url(char *url) {
+	DBC_RETVAL_IF_FAIL(url!=NULL,0);
+	for (unsigned int i=0;i<sizeof(begin_protos)/sizeof(tProtoInfo);i++){
+		if (begin_string_uncase(url,begin_protos[i].name)){
+			return(1);
+		};
+	};
+	return(0);
 };
 
 /* parsing url */
@@ -113,20 +158,28 @@ tAddr::tAddr() {
 
 tAddr::tAddr(char *str){
 	char *host1=NULL,*username1=NULL,*pass1=NULL,*path1=NULL,*file1=NULL;
+	char *proto_name=NULL;
 	proto=D_PROTO_UNKNOWN;
 	port=0;
 	mask=0;
 	if (str==NULL) return;
-	char *what=copy_string(str);
-	tTwoStrings pair;
-	split_string(what,"://",&pair);
-	if (pair.one) {
-		proto=get_proto_by_name(pair.one);
-		delete (pair.one);
-	} else {
-		proto=get_proto_by_string(pair.two);
+	for (unsigned int i=0;i<sizeof(begin_protos)/sizeof(tProtoInfo);i++){
+		if (begin_string_uncase(str,begin_protos[i].name)){
+			proto_name=begin_protos[i].name;
+			port=begin_protos[i].port;
+			proto=begin_protos[i].proto;
+			break;
+		};
 	};
-	host1=pair.two;
+	if (proto_name) {
+		char *tmp=str+strlen(proto_name);
+		while (*tmp=='/') tmp+=1;
+		host1=copy_string(tmp);
+	} else {
+		proto=get_proto_by_string(str);
+		host1=copy_string(str);
+	};
+	tTwoStrings pair;
 	if (!host1) {
 		return;
 	};

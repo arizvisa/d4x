@@ -1,3 +1,4 @@
+
 /*	WebDownloader for X-Window
  *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
@@ -158,7 +159,7 @@ tDownload::tDownload() {
 	finfo.type=T_NONE;
 	DIR=NULL;
 	finfo.perm=S_IWUSR | S_IRUSR;
-	Start=Pause=0;
+	Start=Pause=Difference=0;
 	Percent.clear();
 	Attempt.clear();
 	Status.clear();
@@ -559,7 +560,7 @@ void tDownload::convert_list_to_dir2(tStringList *dir) {
 	tString *temp=dir->last();
 	char *URL=info->url();
 	while (temp) {
-		if (!global_url(temp->body) && !begin_string_uncase(temp->body,"javascript:")) {
+		if (!global_url(temp->body)) {
 			tAddr *addrnew=new tAddr;
 			tDownload *onenew=new tDownload;
 			char *quest=index(temp->body,'?');
@@ -725,6 +726,8 @@ void tDownload::check_local_file_time(){
 
 void tDownload::download_completed(int type) {
 	who->done();
+	if (split==NULL)
+		WL->truncate();
 	switch (type){
 	case D_PROTO_HTTP:{
 		recurse_http();
@@ -737,8 +740,6 @@ void tDownload::download_completed(int type) {
 	};
 	WL->log(LOG_OK,_("Downloading was successefully completed!"));
 	make_file_visible();
-	if (split==NULL)
-		WL->truncate();
 	set_date_file();
 	status=DOWNLOAD_COMPLETE;
 };
@@ -830,13 +831,14 @@ void tDownload::download_http() {
 	};
 	check_local_file_time();
 	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
-	status=DOWNLOAD_GO;
 	Start=Pause=time(NULL);
+	Difference=0;
+	status=DOWNLOAD_GO;
 	if (who->download(SIZE_FOR_DOWNLOAD)) {
 		download_failed();
 		return;
 	};
-	recurse_http();
+//	recurse_http();
 	download_completed(D_PROTO_HTTP);
 };
 
@@ -903,8 +905,9 @@ void tDownload::download_ftp(){
 	who->set_loaded(CurentSize);
 	if (split) WL->shift(CurentSize);
 	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
-	status=DOWNLOAD_GO;
 	Start=Pause=time(NULL);
+	Difference=0;
+	status=DOWNLOAD_GO;
 	if (who->download(SIZE_FOR_DOWNLOAD)) {
 		download_failed();
 		return;

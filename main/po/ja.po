@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: nt\n"
 "POT-Creation-Date: 1999-10-25 15:00+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Kei Kodera <kkodera@iae.kyoto-u.ac.jp>\n"
+"Last-Translator: 小寺 慶(Kodera Kei) <kkodera@iae.kyoto-u.ac.jp>\n"
 "Language-Team: Japanese <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=euc-jp\n"
@@ -182,7 +182,7 @@ msgstr "停止中。"
 #: ftpd.cc:297
 #, c-format
 msgid "Length is %i"
-msgstr "ファイルの大きさは%iです。"
+msgstr "ファイルの大きさは%i バイトです。"
 
 #: ftpd.cc:302
 msgid "This is a directory!"
@@ -227,7 +227,7 @@ msgstr "lseek()に問題が発生。"
 #: ftpd.cc:399
 #, c-format
 msgid "%i bytes loaded."
-msgstr "%i バイト のロードが完了しました。"
+msgstr "%i バイトのロードが完了しました。"
 
 #: hproxy.cc:140
 msgid "Connection to the internet via proxy"
@@ -285,11 +285,11 @@ msgstr "ダウンロードサイズは%i バイトです。"
 
 #: httpd.cc:355
 msgid "Sending HTTP request..."
-msgstr "httpリクエストを送っています...。"
+msgstr "HTTPリクエストを送っています...。"
 
 #: httpd.cc:381
 msgid "It is seemed REGET not supported! Loading from begin.."
-msgstr "ファイルの再取得をサポートしていないようです。はじめからダウンロードし直します。"
+msgstr "ファイルの再取得をサポートしていないようです!はじめからダウンロードし直します。"
 
 #: main.cc:184
 msgid "Normally started"
@@ -352,7 +352,7 @@ msgstr "%sの%sからのダウンロードを追加しました。 [by user]"
 
 #: main.cc:970 main.cc:1208
 msgid "Downloading was successefully completed!"
-msgstr "ダウンロードが完了しました。"
+msgstr "ダウンロードが完了しました!"
 
 #: main.cc:977
 msgid "Downloading was failed..."
@@ -561,7 +561,7 @@ msgstr "再帰取得する深さ (0 無制限、1 再帰取得しない)"
 
 #: face/edit.cc:359 face/prefs.cc:407
 msgid "Use passive mode for FTP"
-msgstr "ftpでpassive modeを使う"
+msgstr "FTPでpassive modeを使う"
 
 #: face/edit.cc:362 face/prefs.cc:218
 msgid "Get permissions of the file from server (FTP only)"
@@ -573,7 +573,7 @@ msgstr "日時をサーバーから取得する"
 
 #: face/edit.cc:368 face/prefs.cc:214
 msgid "Retry if resuming is not supported"
-msgstr "レジュームをサポートしていない場合再び始めからダウンロード"
+msgstr "レジュームを未サポートの場合始めからダウンロード"
 
 #: face/edit.cc:371 face/edit.cc:460 face/prefs.cc:376 face/prefs.cc:441
 msgid "Other"
@@ -629,7 +629,7 @@ msgstr "ファイルの選択"
 
 #: face/edit.cc:725
 msgid "FTP proxy type"
-msgstr "ftpプロキシのタイプ"
+msgstr "FTPプロキシのタイプ"
 
 #: face/edit.cc:736
 msgid "FTP (wingate)"
@@ -637,7 +637,7 @@ msgstr "FTP (wingate)"
 
 #: face/edit.cc:750
 msgid "Use this proxy for FTP"
-msgstr "指定したプロキシをftpで利用する"
+msgstr "指定したプロキシをFTPで利用する"
 
 #: face/edit.cc:759 face/edit.cc:814
 msgid "port"
@@ -653,7 +653,7 @@ msgstr "ユーザーネーム"
 
 #: face/edit.cc:805
 msgid "Use this proxy for HTTP"
-msgstr "指定したプロキシをhttpで利用する"
+msgstr "指定したプロキシをHTTPで利用する"
 
 #: face/limface.cc:54
 msgid "Limitation for the host"
@@ -745,11 +745,11 @@ msgstr "/ダウンロード/_ダウンロードの再開"
 
 #: face/list.cc:149
 msgid "/Download/Delete completed"
-msgstr "/ダウンロード/ダウンロードの完了したキューの削除"
+msgstr "/ダウンロード/取得の完了したキューの削除"
 
 #: face/list.cc:150
 msgid "/Download/Delete failed"
-msgstr "/ダウンロード/ダウンロードに失敗したキューの削除"
+msgstr "/ダウンロード/取得に失敗したキューの削除"
 
 #: face/list.cc:151
 msgid "/_Options"
@@ -797,7 +797,7 @@ msgstr "ダウンロードに失敗したファイルのキューを削除しますか?"
 
 #: face/list.cc:706
 msgid "Ready to go ????"
-msgstr "準備完了 ????"
+msgstr ""
 
 #: face/list.cc:829
 #, c-format
@@ -927,7 +927,7 @@ msgstr "タイトルをスクロールさせる"
 
 #: face/prefs.cc:232
 msgid "Open dialog for Drag-n-Drop"
-msgstr "ドラッグアンドドロップでダイアログを開く"
+msgstr "ドラッグ＆ドロップでダイアログを開く"
 
 #: face/prefs.cc:234
 msgid "Revert drawing graph of speeds"
@@ -1103,11 +1103,11 @@ msgstr "了解"
 
 #: face/prefs.cc:
 msgid "Show DnD basket"
-msgstr "ドラック＆ドロップ トラッシュを表示する"
+msgstr "ドラック＆ドロップ バスケットを表示"
 
 #: face/buttons.cc:
 msgid " DnD basket "
-msgstr "ドラック＆ドロップ トラッシュ"
+msgstr "ドラック＆ドロップ バスケット"
 
 #: main.cc:
 msgid "Downloader exited normaly"
@@ -1151,7 +1151,7 @@ msgstr "現在の速度: %d\n"
 
 #: config.cc:
 msgid "Usage: nt [OPTION] ... [URL]"
-msgstr ""
+msgstr "使用法: nt [オプション] ... [URL]"
 
 #: config.cc:
 msgid "print this page and exit"
@@ -1284,120 +1284,120 @@ msgstr "デフォルト"
 
 #main.cc
 msgid "Adding downloading via control socket [%s]"
-msgstr ""
+msgstr "コントロールソケットからダウンロードを追加しました。[%s]"
 
 #cookie.cc
 msgid "Can't open cookies file!"
-msgstr ""
+msgstr "cookieのファイルを開けません!"
 
 #cookie.cc
 msgid "%i cookies loaded"
-msgstr ""
+msgstr "%iのcookieをロードしました。"
 
 #cookie.cc
 msgid "Loading cookies"
-msgstr ""
+msgstr "cookieをロード中。"
 
 #face/prefs.cc
 msgid "Monitor clipboard"
-msgstr ""
+msgstr "クリップボードを監視"
 
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr ""
+msgstr "無視するファイルの拡張子"
 
 #: face/dndtrash.cc
 msgid "/Speed"
-msgstr ""
+msgstr "/スピード"
 
 #: face/dndtrash.cc
 msgid "/Speed/Lowest"
-msgstr ""
+msgstr "/スピード/低速"
 
 #: face/dndtrash.cc
 msgid "/Speed/Middle"
-msgstr ""
+msgstr "/スピード/中速"
 
 #: face/dndtrash.cc
 msgid "/Speed/Unlimited"
-msgstr ""
+msgstr "/スピード/無制限"
 
 #: face/list.cc
 msgid "/Options/Speed"
-msgstr ""
+msgstr "/オプション/スピード"
 
 #: face/list.cc
 msgid "/Options/Speed/Lowest"
-msgstr ""
+msgstr "/オプション/スピード/低速"
 
 #: face/list.cc
 msgid "/Options/Speed/Middle"
-msgstr ""
+msgstr "/オプション/スピード/中速"
 
 #: face/list.cc
 msgid "/Options/Speed/Unlimited"
-msgstr ""
+msgstr "/オプション/スピード/無制限"
 #: face/list.cc
 msgid "/Options/Buttons"
-msgstr ""
+msgstr "/オプション/ボタン"
 
 #: face/list.cc
 msgid "/Options/Buttons/Manipulating"
-msgstr ""
+msgstr "/オプション/ボタン/操作ボタン"
 
 #: face/list.cc
 msgid "/Options/Buttons/Speed buttons"
-msgstr ""
+msgstr "/オプション/ボタン/スピード ボタン"
 
 #: face/list.cc
 msgid "/Options/Buttons/Misc buttons"
-msgstr ""
+msgstr "/オプション/ボタン/その他のボタン"
 
 #: face/list.cc
 msgid "/Options/Buttons/Add buttons"
-msgstr ""
+msgstr "/オプション/ボタン/追加ボタン"
 
 #:main.cc
 msgid "[control socket]"
-msgstr ""
+msgstr "[コントロールソケット]"
 
 # face/list.cc
 msgid "/Download/Unselect all"
-msgstr ""
+msgstr "/ダウンロード/全てを不選択"
 
 # face/list.cc
 msgid "/Download/-"
-msgstr ""
+msgstr "/ダウンロード/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
-msgstr ""
+msgstr "リストに追加時に停止"
 
 #face/list.cc:
 msgid "/Download/Select all"
-msgstr ""
+msgstr "/ダウンロード/全てを選択"
 
 # face/list.cc
 msgid "/Download/Invert selection"
-msgstr ""
+msgstr "/ダウンロード/選択を反転"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via FTP"
-msgstr ""
+msgstr "FTPでシンボリックリンクをファイルとしてダウンロード"
 
 # face/list.cc
 msgid "/Options/Passwords"
-msgstr ""
+msgstr "/オプション/パスワード"
 
 # face/passwords.cc
 msgid "protocol"
-msgstr ""
+msgstr "プロトコル"
 
 
 #face/passface.cc:
 msgid "Default passwords and usernames"
-msgstr ""
+msgstr "デフォルトのパスワードとユーザー名"
 
 #main.cc:
 msgid "Redirection from [%z] to nowhere!"
@@ -1405,227 +1405,227 @@ msgstr ""
 
 # config.cc:
 msgid "set directory for saving files"
-msgstr ""
+msgstr "ファイルをセーブするディレクトリを指定"
 
 msgid "delete completed if already run"
-msgstr ""
+msgstr "取得完了したファイルのキューを削除"
 
 msgid "set maximum active downloads"
-msgstr ""
+msgstr "同時にダウロードするファイルの最大数を指定"
 
 #face/edit.cc
 msgid "Allow leave this server while recursing via HTTP"
-msgstr ""
+msgstr "HTTPで他のサーバからの再帰取得を許可する"
 
 msgid "/Download/Rerun failed"
-msgstr ""
+msgstr "/ダウンロード/失敗したキューの再試行"
 
 msgid "You have no permissions to create file at path %s"
-msgstr ""
+msgstr "%sへのファイルの作成はパーミッションで禁止されています。"
 
 msgid "You have no space at path %s for creating file"
-msgstr ""
+msgstr "%sへのファイルを作成するスペースがありません。"
 
 #face/edit.cc:
 msgid "Only subdirs"
-msgstr ""
+msgstr "サブディレクトリのみ"
 
 # face/edit.cc
 msgid "Restart this download from begining"
-msgstr ""
+msgstr "再起動時にダウンロードを再開"
 
 # config.cc
 msgid "restart all failed downloads"
-msgstr ""
+msgstr "取得に失敗していたファイルのキューを再スタート"
 
 msgid "run program without X interface"
-msgstr ""
+msgstr "Xインターフェイスなしで起動"
 
 #main.cc
 msgid "Set speed limitation to %s %s"
-msgstr ""
+msgstr "$sに%sのスピード制限をセット。"
 
 #var.cc
 msgid "low"
-msgstr ""
+msgstr "低速"
 
 msgid "middle"
-msgstr ""
+msgstr "中速"
 
 msgid "unlimited"
-msgstr ""
+msgstr "無制限"
 
 #main.cc:
 msgid "Can't run new thread for downloading!"
-msgstr ""
+msgstr "ダウンロードのための新しいスレッドを走らせられません!"
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
+msgstr "メインログのファイルサイズが制限に達しました!ファイルを切り捨てます。"
 
 #face/prefs.cc:
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr ""
+msgstr "メインログの最大サイズ (キロバイト)"
 
 # face/list.cc:
 msgid "/File/Find links in file"
-msgstr ""
+msgstr "/ファイル/ファイル中のリンクを探す"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
-msgstr ""
+msgstr "ログに fixed フォントを使う"
 
 # face/edit.cc:
 msgid "Number of parts for spliting this download"
-msgstr ""
+msgstr "複数の部分に分けてダウンロード"
 
 
 # face/saveload.cc
 msgid "Find links in txt file"
-msgstr ""
+msgstr "テキストファイル中のリンクを探す"
 
 # face/prefs.cc:
 msgid "Color for picks"
-msgstr ""
+msgstr "ピーク スピード"
 
 # face/prefs.cc:
 msgid "Color for total speed"
-msgstr ""
+msgstr "全体のスピード"
 
 # face/prefs.cc:
 msgid "Color for speed of selected"
-msgstr ""
+msgstr "選択したファイルのスピード"
 
 # face/prefs.cc:
 msgid "Background color"
-msgstr ""
+msgstr "背景"
 
 # face/mywidget.cc:
 msgid "Select"
-msgstr ""
+msgstr "選択"
 
 # face/mywidget.cc:
 msgid "Select color"
-msgstr ""
+msgstr "色の選択"
 #face/prefs.cc
 msgid "Reset to default"
-msgstr ""
+msgstr "デフォルトに設定"
 
 msgid "Colors for graph"
-msgstr ""
+msgstr "グラフの色"
 
 #face/limface.cc
 msgid "Default limitation for all hosts (0 without limits)"
-msgstr ""
+msgstr "全ホストのデフォルトの制限 (0 制限なし)"
 
 
 #face/lod.cc
 msgid "Continue open log windows?"
-msgstr ""
+msgstr "ログ ウインドウを開き続けますか？"
 
 #face/lod.cc
 msgid "Don't get from cache"
-msgstr ""
+msgstr "キャッシュを利用しない"
 
 #config.cc
 msgid "run in minimized mode"
-msgstr ""
+msgstr "最小化して起動"
 
 #face/prefs.cc
 msgid "Confirm opening large amount of windows"
-msgstr ""
+msgstr "多数のウインドウを開くとき確認する"
 
 
 #face/about.cc
 msgid "Special thanks to"
-msgstr ""
+msgstr "スペシャルサンクス"
 
 
 #face/prefs.cc
 msgid "Clipboard"
-msgstr ""
+msgstr "クリップボード"
 
 msgid "Catch these extensions in clipboard"
-msgstr ""
+msgstr "取得するファイルの拡張子"
 
 msgid "Allow to user force run downloads"
-msgstr ""
+msgstr "ユーザーのダウンロード強制開始を許可"
 
 #face/saveload.cc
 msgid "Loading"
-msgstr ""
+msgstr "ロード中"
 
 #main.cc
 msgid "%lu bytes loaded during the session"
-msgstr ""
+msgstr "セッション中に%luバイトをダウンロード。"
 
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr ""
+msgstr "%sの後、%i分後に動作してない場合ダウンローダーを終了。"
 
 msgid "Exiting if nothing to do is switched off"
 msgstr ""
 
 #face/edit.cc
 msgid "Timeout for reading from socket"
-msgstr ""
+msgstr "ソケット読み込みからのタイムアウトまでの時間"
 
 msgid "Maximum attempts"
-msgstr ""
+msgstr "最大同時ダウンロード数"
 
 msgid "Timeout before reconnection"
-msgstr ""
+msgstr "再接続までの時間"
 
 msgid "Rollback after reconnecting"
-msgstr ""
+msgstr "再接続時に巻き戻し"
 
 msgid "Depth of recursing for HTTP"
-msgstr ""
+msgstr "HTTPでの再帰取得の深さ"
 
 msgid "Depth of recursing for FTP"
-msgstr ""
+msgstr "FTPでの再帰取得の深さ"
 
 msgid "Speed limitation"
-msgstr ""
+msgstr "スピード制限"
 
 msgid "Unselect all"
-msgstr ""
+msgstr "全て不選択"
 
 msgid "Select all"
-msgstr ""
+msgstr "全て選択"
 
 msgid "Select properties"
-msgstr ""
+msgstr "プロパティの選択"
 
 #face/lmenu.cc
 msgid "Common properties"
-msgstr ""
+msgstr "全体のプロパティ"
 
 #config.cc
 msgid "set timeout for exiting if nothing to do"
-msgstr ""
+msgstr "自動終了までの時間を指定"
 
 msgid "You should specify number as parameter for '--exit-time' option"
-msgstr ""
+msgstr "自動終了までの時間をオプション '--exit-time'のパラメータで設定できます。"
 
 #face/prefs.cc
 msgid "Output FTP dirs in logs"
-msgstr ""
+msgstr "FTPのディレクトリをログに出力"
 
 #main.cc
 msgid "Setup maximum active downloads to"
-msgstr ""
+msgstr "最大同時ダウンロード数"
 
 msgid "Restarting failed downloads"
-msgstr ""
+msgstr "取得に失敗したファイルの再ダウンロード"
 
 # face/prefs.cc, face/edit.cc
 msgid "Don't send QUIT command (FTP)"
-msgstr ""
+msgstr "QUITコマンドを送らない (FTP)"
 
 #:download.cc
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr ""
+msgstr "サーバーにより新しいファイルがある場合、再ダウンロード。\n"
 
 #:face/dndtrash.cc
 msgid "/Delete completed"
-msgstr ""
+msgstr "全てのキューを削除"

@@ -527,6 +527,19 @@ int parse_command_line_preload(int argc,char **argv){
 	return rvalue;
 };
 
+static void _remote_set_directory_(tMsgClient *clt,char *param){
+	char temp[MAX_LEN];
+	*temp=0;
+	if (*param!='/' && getcwd(temp,MAX_LEN)!=NULL){
+		char *path=sum_strings(temp,"/",param,NULL);
+		normalize_path(path);
+		clt->send_command(PACKET_SET_SAVE_PATH,path,strlen(path));
+		delete(path);
+	}else{
+		clt->send_command(PACKET_SET_SAVE_PATH,param,strlen(param));
+	};
+};
+
 int parse_command_line_already_run(int argv,char **argc){
 	int rvalue=1;
 	if (argv>1){
@@ -582,7 +595,7 @@ int parse_command_line_already_run(int argv,char **argc){
 					rvalue=0;
 					if (argv>i+1){
 						i+=1;
-						clt->send_command(PACKET_SET_SAVE_PATH,argc[i],strlen(argc[i]));
+						_remote_set_directory_(clt,argc[i]);
 					}else
 						printf("%s\n",_(downloader_args_errors[OPT_SET_DIRECTORY]));
 					break;

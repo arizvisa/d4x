@@ -282,7 +282,7 @@ void my_gtk_graph_recalc(MyGtkGraph *graph){
 				if (value>0 || value2>0){
 					if (value>value2) {
 						int y=YSize;
-						for (y=YSize;y>=Y2;y--) {
+						for (y=YSize;y>Y2;y--) {
 							graph->rgb_data[y*XSize+x]=graph->rgb_data[y*XSize+x-1]=2;
 						};
 						if (value2>0)

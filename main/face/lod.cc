@@ -10,6 +10,7 @@
  */
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
+#include <stdlib.h>
 #include "lod.h"
 #include "log.h"
 #include "buttons.h"
@@ -23,7 +24,7 @@
 #include "../locstr.h"
 #include "../main.h"
 #include "../var.h"
-#include "stdlib.h"
+#include "myclist.h"
 
 GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
 tDialogWidget *AskOpening=(tDialogWidget *)NULL;
@@ -106,6 +107,12 @@ tDownload *list_of_downloads_last_selected() {
 		return temp;
 	};
 	return((tDownload *)NULL);
+};
+
+void list_of_downloads_set_percent(int row,int column,float percent){
+	int real_col=ListColumns[column].enum_index;	
+	if (real_col<ListColumns[NOTHING_COL].enum_index)
+		my_gtk_clist_set_progress(GTK_CLIST(ListOfDownloads),row,real_col,percent);
 };
 
 void list_of_downloads_change_data(int row,int column,gchar *data) {
@@ -452,14 +459,22 @@ void list_dnd_drop_internal(GtkWidget *widget,
 				selection_data->data[len-1] = 0;
 			// add the new download
 			char *str = (char*)selection_data->data;
+			int sbd=0;//should be deleted flag
+			char *ent=index(str,'\n');
+			if (ent) *ent=0;
 			/* check for gmc style URL */
 			const char *gmc_url="file:/#ftp:";
-			if (begin_string((char*)selection_data->data,gmc_url))
-				str = (char*)selection_data->data + strlen(gmc_url);
+			if (begin_string((char*)selection_data->data,gmc_url)){
+				str = sum_strings("ftp://",
+						  (char*)selection_data->data + strlen(gmc_url),
+						  NULL);
+				sbd=1;
+			};
 			if (CFG.NEED_DIALOG_FOR_DND)
 				init_add_dnd_window(str);
 			else
 				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL);
+			if (sbd) delete(str);
 			if (!GTK_IS_SCROLLED_WINDOW(widget))
 				dnd_trash_animation();
 		}
@@ -551,7 +566,7 @@ void list_of_downloads_init() {
 	char *RealListTitles[NOTHING_COL+1];
 	for (int i=0;i<ListColumns[NOTHING_COL].enum_index;i++)
 		RealListTitles[i]=ListColumns[i].name;
-	ListOfDownloads = gtk_clist_new_with_titles( ListColumns[NOTHING_COL].enum_index, RealListTitles);
+	ListOfDownloads = my_gtk_clist_new_with_titles( ListColumns[NOTHING_COL].enum_index, RealListTitles);
 	gtk_signal_connect(GTK_OBJECT(ListOfDownloads), "select_row",
 	                   GTK_SIGNAL_FUNC(select_download),NULL);
 	gtk_signal_connect(GTK_OBJECT(ListOfDownloads), "event",
@@ -590,7 +605,7 @@ void list_of_downloads_init() {
 	gtk_clist_set_vadjustment(GTK_CLIST(ListOfDownloads),(GtkAdjustment *)NULL);
 
 	my_gtk_clist_set_column_justification (ListOfDownloads, FULL_SIZE_COL, GTK_JUSTIFY_RIGHT);
-	my_gtk_clist_set_column_justification (ListOfDownloads, PERCENT_COL, GTK_JUSTIFY_RIGHT);
+	my_gtk_clist_set_column_justification (ListOfDownloads, PERCENT_COL, GTK_JUSTIFY_CENTER);
 	my_gtk_clist_set_column_justification (ListOfDownloads, DOWNLOADED_SIZE_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, REMAIN_SIZE_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, TREAT_COL, GTK_JUSTIFY_RIGHT);

@@ -21,6 +21,10 @@ GtkWidget *AboutWindow=(GtkWidget *)NULL;
 GtkWidget *AboutTLabel,*AboutSLabel;
 
 char *TRANSLATORS[]={
+	"Vittorio Rebecchi",
+	"Enrico Manfredini",
+	"Seung-young Oh",
+	"Lubosh Holichka",
 	"Jerome Couderc",
 	"Kyritsis Athanasios",
 	"Felix Knecht",
@@ -30,7 +34,6 @@ char *TRANSLATORS[]={
 	"Dirk Moebius",
 	"Legnar WinShadow",
 	"Paulo Henrique",
-	"Vittorio Rebecchi",
 	"A.J.",
 	"Josef Jahn",
 	"Marlin [TLC-ML]",

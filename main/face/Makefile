@@ -1,6 +1,6 @@
 all:list.o colors.o addd.o graph.o edit.o log.o prefs.o lmenu.o \
 	buttons.o about.o saveload.o limface.o misc.o lod.o columns.o \
-	dndtrash.o passface.o mywidget.o
+	dndtrash.o passface.o mywidget.o myclist.o
 
 clean:
 	-rm -f *.o *~

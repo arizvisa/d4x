@@ -1,20 +1,28 @@
-pause download just after adding in common options
-symbolic link as file in common options
-[DONE] implement <META http-equiv="refresh" content="">
-[DONE] support for Content-Type: multipart/x-byteranges; boundary=multipart-boundary
--------------------------------------------------
-"Hot list" (ability to define URLs for automatic download by d4x)
+-------- for version 1.21 -----------------------
+real queue for thread ordering while log updatings 
+option for configuring persentage in queue of downloads
+description column and getting description from Mozilla's drops
+Descript.ion file in directory
+resuming splited downloads
+history for "port" field in proxy settings
 ftp search capabilities
+'--ls URL' command line option
+ability to save logs in file
+------------------------------------------------
+add sounds (in integraition with gnome)
+[????] stand_data_connection() should try another way to set it up
+[????] regular expressions in URLs
+[????] change "remove" to "remove from queue"
+pause download just after adding in common options
+autofilling "filename for saving" field by data from URL
+"Hot list" (ability to define URLs for automatic download by d4x)
 sheduller for various actions
 selecting by mask in queue of downloads
 automate adding new downloads in queue (e.g ftp/pub/something.r0[0-3])
-[????] regular expressions in URLs
-[????] change "remove" to "remove from queue"
 check for maximum redirections
 double click on error message in mainlog open log with this error
 SOCKS support
 searching in queue
-add sounds (in integraition with gnome)
 "tree" window for displaiyng tree structure of a site(s)
 check free space on disk to prevent empty it
 mask support via http
@@ -86,3 +94,6 @@ Auto detection of best proxy.
 [DONE] "Show ftp directory listing in logs" option
 [DONE] redirections should work for splited downloads
 ************************** end to ver 1.19 *******************************
+[DONE] symbolic link as file in common options
+[DONE] implement <META http-equiv="refresh" content="">
+[DONE] support for Content-Type: multipart/x-byteranges; boundary=multipart-boundary

@@ -158,6 +158,7 @@ struct tMainCfg{
 /* SPECIAL THINGS
  */
 	int WITHOUT_FACE;
+	int DND_NEED_POPUP;
 };
 
 extern tMLog *MainLog;

@@ -1,4 +1,4 @@
-%define ver      1.20pre
+%define ver      1.20
 %define prefix   /usr
 
 Name: nt
@@ -49,6 +49,8 @@ cp -f main/nt "${RPM_BUILD_ROOT}"%prefix/bin/
 cp -f nt.wmconfig "${RPM_BUILD_ROOT}"/etc/X11/wmconfig/nt
 cp -f nt.desktop "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet/nt.desktop
 cp -f nt.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.xpm
+cp -f nt-mini.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-mini.xpm
+cp -f nt.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.png
 cp -f nt.1 "${RPM_BUILD_ROOT}"%prefix/man/man1/nt.1
 
 %clean
@@ -58,8 +60,14 @@ rm -rf ${RPM_BUILD_ROOT}
 %defattr(-, root, root)
 %doc ChangeLog FAQ FAQ.* INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.* INSTALL.*
 %prefix/bin/nt
-%prefix/man/man1/nt.1
+%prefix/man/man1/*
 /etc/X11/wmconfig/nt
 %prefix/share/gnome/apps/Internet/nt.desktop
 %prefix/share/pixmaps/nt.xpm
+%prefix/share/pixmaps/nt-mini.xpm
+%prefix/share/pixmaps/nt.png
 %{prefix}/share/locale/*/*/*
+
+%changelog
+* Mon Oct 30 2000 Maxim Koshelev <mdem@chat.ru>
+- fixed building under RH-70 or Mandrake-7x

@@ -20,6 +20,7 @@ void init_buttons_bar();
 void prepare_buttons();
 void set_dndtrash_button();
 void set_speed_buttons();
+void buttons_speed_set_text();
 void buttons_cfg_init();
 
 enum {

@@ -11,6 +11,7 @@
 #ifndef THREAD_MANGER
 #define THREAD_MANGER
 #include "dlist.h"
+#include <pthread.h>
 
 void init_signal_handler();
 void real_stop_thread(tDownload *what);
@@ -18,6 +19,7 @@ int stop_thread(tDownload *what);
 void my_pthread_key_init();
 tDownload **my_pthread_key_get();
 void my_pthread_key_set(tDownload *what);
+void my_pthreads_mutex_init(pthread_mutex_t *lock);
 void download_set_block(int a);
 
 #endif

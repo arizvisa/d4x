@@ -281,6 +281,8 @@ int tHttpDownload::download(int len) {
 			print_error(ERROR_FILE_UPDATED);
 			first=0;
 			LOADED=0;
+			LOG->shift(0);
+			LOG->truncate();
 		};
 		while (first || get_size()>=0) {
 			if (!ReGet) {

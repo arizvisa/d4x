@@ -31,7 +31,7 @@
 #include "face/log.h"
 #include "var.h"
 #include "ntlocale.h"
-
+#include "signal.h"
 
 tLogString::tLogString():tString(){
 	time=0;
@@ -54,7 +54,7 @@ tLogString::~tLogString() {
 };
 //******************************************//
 tLog::tLog():tStringList(){
-	pthread_mutex_init(&mutex,NULL);
+	my_pthreads_mutex_init(&mutex);
 	start=time(NULL);
 	Window=NULL;
 	for (int i=0;i<4;i++)

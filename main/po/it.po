@@ -22,40 +22,40 @@ msgstr ""
 
 #: client.cc:65
 msgid "Timeout when socket read!"
-msgstr "!Timeout per le letture dal socket!"
+msgstr "Timeout per le letture dal socket!"
 
 #: client.cc:70
 msgid "Error when reading from socket!"
-msgstr "¡Errore durante la lettura da socket!"
+msgstr "Errore durante la lettura da socket!"
 
 #: client.cc:79
 msgid "Trying to connect..."
-msgstr "Connessione in corso ..."
+msgstr "Connessione in corso..."
 
 #: client.cc:81
 msgid "Socket was opened!"
-msgstr "Socket aperto !"
+msgstr "Socket aperto!"
 
 #: client.cc:86
 msgid "Host not found!"
-msgstr "Host non trovato !"
+msgstr "Host non trovato!"
 
 #: client.cc:91
 msgid "Can't allocate socket"
-msgstr "Non posso creare il socket"
+msgstr "Non riesco a creare il socket"
 
 #: client.cc:96
 msgid "Can't connect"
-msgstr "Non posso connettermi"
+msgstr "Non riesco a connettermi"
 
 #: config.cc:317
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
-msgstr "¡¡¡ ATTENZIONE !!! ¡ Non rilevata la variabile HOME! ¡Non posso procedere alla lettura della configurazione!"
+msgstr "ATTENZIONE!!! Non rilevata la variabile HOME! Non posso leggere la configurazione!"
 
 #: config.cc:334
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
-msgstr "Non posso aprie il file di cfg in '%s'\n"
+msgstr "Non posso aprire il file di config. in '%s'\n"
 
 #: config.cc:335
 msgid "Use default cfg :))...\n"
@@ -63,7 +63,7 @@ msgstr "Utilizzo la configurazione di base :))...\n"
 
 #: config.cc:367
 msgid "WARNING!!! Can't find HOME variable! So can't write config!"
-msgstr "¡¡¡ATTENZIONE!!! ¡La variabile HOME non e' presente! ¡Non posso scrivere la configurazione!"
+msgstr "ATTENZIONE!!! La variabile HOME non è presente! Non posso scrivere la configurazione!"
 
 #: config.cc:562
 msgid "bad read\n"
@@ -71,16 +71,16 @@ msgstr "Lettura errata\n"
 
 #: config.cc:567
 msgid "Can't open file of limits!!!\n"
-msgstr "¡¡¡Non posso aprire il file dei limiti!!!\n"
+msgstr "Non posso aprire il file dei limiti!!!\n"
 
 #: config.cc:592
 msgid "Can't write limits to file!!!\n"
-msgstr "¡¡¡Non posso scrivere sul file dei limiti!!!\n"
+msgstr "Non posso scrivere sul file dei limiti!!!\n"
 
 #: dlist.cc:307
 msgid ""
 "***WARN***!!!Attempt to delete download from list which does'nt contain it!"
-msgstr "¡¡¡***ATTENZIONE***!!! ¡Tentativo di cancellare uno scaricamento dalla lista che non lo contiene!"
+msgstr "***ATTENZIONE***!!! Tentativo di cancellare uno scaricamento da una lista che non lo contiene!"
 
 #: download.cc:96
 msgid "Trying to create a file"
@@ -88,15 +88,15 @@ msgstr "Tentativo di creazione di un file"
 
 #: download.cc:101
 msgid "Can't create file at the path:"
-msgstr "Non posso creare il file nel percorso:"
+msgstr "Non riesco a creare il file nel percorso:"
 
 #: download.cc:103
 msgid "which has name:"
-msgstr "con nome:"
+msgstr "chiamato:"
 
 #: download.cc:108
 msgid "File was created!"
-msgstr "¡Il file e' stato creato!"
+msgstr "¡Il file è stato creato!"
 
 #: download.cc:113
 msgid "Trying to create a dir"
@@ -104,11 +104,11 @@ msgstr "Tentativo di creare una directory"
 
 #: download.cc:119
 msgid "Can't create directory!"
-msgstr "¡Non posso creare una directory!"
+msgstr "Non riesco a creare la directory!"
 
 #: download.cc:122
 msgid "Directory already created!:))"
-msgstr "¡Directory gia' creata! :))"
+msgstr "Directory già creata! :))"
 
 #: download.cc:128
 msgid "Trying to create a link"
@@ -116,19 +116,19 @@ msgstr "Tentativo di creazione di un collegamento"
 
 #: download.cc:132
 msgid "Can't create link"
-msgstr "Non posso creare il collegamento"
+msgstr "Non riesco a creare il collegamento"
 
 #: download.cc:135
 msgid "Link already created!:))"
-msgstr "¡Collegamento giÁ creato! :))"
+msgstr "Collegamento già creato! :))"
 
 #: download.cc:141
 msgid "Downloader can't create devices..."
-msgstr "Downloader non puÔ creare devices..."
+msgstr "Downloader non può creare device..."
 
 #: download.cc:145
 msgid "Warning! Probably you found the BUG!!!"
-msgstr "¡Attenzione! ¡¡¡Probabilmente hai trovato un BUG!!!"
+msgstr "Attenzione! Probabilmente hai trovato un BUG!!!"
 
 #: download.cc:146
 msgid "If you see this message please report to mdem@chat.ru"
@@ -140,19 +140,19 @@ msgstr "Accettazione fallita"
 
 #: ftp.cc:47
 msgid "Timeout send through control socket."
-msgstr "Timeout avvenuto nel socket di controllo."
+msgstr "Inviato timeout nel socket di controllo."
 
 #: ftp.cc:48
 msgid "Control connection is lost"
-msgstr "La connessione di controllo É andata perduta"
+msgstr "La connessione di controllo è andata perduta"
 
 #: ftp.cc:57
 msgid "Data socket is lost!"
-msgstr "¡Il socket dei dati É andato perduto!"
+msgstr "Il socket dei dati è andato perduto!"
 
 #: ftp.cc:65
 msgid "Control socket lost!"
-msgstr "¡Il socket di controllo É andato perduto!"
+msgstr "Il socket di controllo è andato perduto!"
 
 #: ftp.cc:174
 #, c-format
@@ -161,7 +161,7 @@ msgstr "tentativo di connessione a %i,%i,%i,%i,%i,%i"
 
 #: ftp.cc:177
 msgid "Cant stand data connection"
-msgstr "Non posso mantenere al connessione dei dati"
+msgstr "Non riesco a mantenere la connessione dei dati"
 
 #: ftp.cc:254
 msgid "Data connection closed."
@@ -169,15 +169,15 @@ msgstr "Connessione dei dati chiusa."
 
 #: ftp.cc:259 http.cc:132
 msgid "Can't write to file"
-msgstr "Non posso scrivere su file"
+msgstr "Non riesco a scrivere sul file"
 
 #: ftpd.cc:138
 msgid "Reget is not supported!!!"
-msgstr "¡¡¡Comando Reget non supportato!!!"
+msgstr "Comando Reget non supportato!!!"
 
 #: ftpd.cc:183
 msgid "Server refused login probably too many users of your class"
-msgstr "Il server rifiuta la connessione, probabilmente vi sono troppy utenti"
+msgstr "Il server rifiuta la connessione: probabilmente vi sono troppi utenti"
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
@@ -191,7 +191,7 @@ msgstr "Tentativo %i ..."
 
 #: ftpd.cc:191 httpd.cc:81
 msgid "Max amount of retries was reached!"
-msgstr "¡Il numero massimo di tentativi É stato raggiunto!"
+msgstr "È stato raggiunto il numero massimo di tentativi!"
 
 #: ftpd.cc:197 httpd.cc:87
 msgid "Sleeping"
@@ -200,23 +200,23 @@ msgstr "Sospeso..."
 #: ftpd.cc:301
 #, c-format
 msgid "Length is %i"
-msgstr "Lunghezza %i"
+msgstr "Lunghezza: %i"
 
 #: ftpd.cc:306
 msgid "This is a directory!"
-msgstr "¡Questa e' una directory!"
+msgstr "Questa è una directory!"
 
 #: ftpd.cc:317
 msgid "Couldn't get size :(("
-msgstr "Non posso acquisire la lunghezza :(("
+msgstr "Non riesco a ottenere la lunghezza :(("
 
 #: ftpd.cc:319 ftpd.cc:361 ftpd.cc:411
 msgid "Can't establish data connection"
-msgstr "Non posso stabilire una connessione dati"
+msgstr "Non riesco a stabilire una connessione dati"
 
 #: ftpd.cc:325
 msgid "Can't change dir!"
-msgstr "¡Non posso cambiare la directory!"
+msgstr "Non riesco a cambiare la directory!"
 
 #: ftpd.cc:354
 msgid "Listing was loaded"
@@ -228,7 +228,7 @@ msgstr "Lista non completamente caricata"
 
 #: ftpd.cc:364 ftpd.cc:414
 msgid "Can't change directory"
-msgstr "Non posso cambiare directory"
+msgstr "Non riesco a cambiare directory"
 
 #: ftpd.cc:381
 msgid "Loading directory..."
@@ -245,7 +245,7 @@ msgstr "Problemi con lseek()"
 #: ftpd.cc:403
 #, c-format
 msgid "%i bytes loaded."
-msgstr "%i bytes caricati."
+msgstr "%i byte caricati."
 
 #: hproxy.cc:136
 msgid "Connection to the internet via proxy"
@@ -253,7 +253,7 @@ msgstr "Connessione a internet attraverso un proxy"
 
 #: hproxy.cc:137
 msgid "Sending request to proxy"
-msgstr "Manda richieste al proxy"
+msgstr "Invio della richiesta al proxy"
 
 #: hproxy.cc:141 httpd.cc:220
 msgid "Answer read ok"
@@ -261,15 +261,15 @@ msgstr "Risposta affermativa"
 
 #: hproxy.cc:151 httpd.cc:230
 msgid "Could'nt get normal answer!"
-msgstr "¡Non posso ricevere una risposta normale!"
+msgstr "Non riesco a ricevere una risposta normale!"
 
 #: http.cc:43
 msgid "Socket lost!"
-msgstr "¡Socket perduto!"
+msgstr "Socket perduto!"
 
 #: http.cc:58
 msgid "It is not HTTP server!!!"
-msgstr "¡¡¡Non e' un server HTTP!!!"
+msgstr "Non è un server HTTP!!!"
 
 #: http.cc:63
 msgid "All ok, reading file"
@@ -277,7 +277,7 @@ msgstr "Tutto a posto, leggo il file"
 
 #: http.cc:67
 msgid "Redirect detected..."
-msgstr "Individuata una redirezione ..."
+msgstr "Individuata una redirezione..."
 
 #: http.cc:73
 msgid "It seems to me that you need a password :)"
@@ -299,15 +299,15 @@ msgstr "Tentativo %i"
 #: httpd.cc:143
 #, c-format
 msgid "Size for download is %i bytes"
-msgstr "Dimensione dello scaricamento e' %i bytes"
+msgstr "Dimensione dello scaricamento è %i bytes"
 
 #: httpd.cc:216
 msgid "Sending HTTP request..."
-msgstr "Mando richiesta http..."
+msgstr "Invio richiesta HTTP..."
 
 #: httpd.cc:242
 msgid "It is seemed REGET not supported! Loading from begin.."
-msgstr "¡Sembra che REGET non sia supportato! Riscarico dall'inizio..."
+msgstr "Sembra che REGET non sia supportato! Riscarico dall'inizio..."
 
 #: main.cc:145
 msgid "Normally started"
@@ -315,12 +315,12 @@ msgstr "Inizio normale"
 
 #: main.cc:202
 msgid "Clear queue of downloads"
-msgstr "Lista degli scaricamenti pulita"
+msgstr "Lista degli scaricamenti cancellata"
 
 #: main.cc:340
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
-msgstr "Lo scaricamento del file %s da %s É terminato [dall'utente]"
+msgstr "Lo scaricamento del file %s da %s è stato concluso [dall'utente]"
 
 #: main.cc:383
 #, c-format
@@ -355,20 +355,20 @@ msgstr "dispositivo"
 #: main.cc:637
 #, c-format
 msgid "Downloading of directory %z was completed"
-msgstr "Scaricamento della directory %z"
+msgstr "Completato scaricamento della directory %z"
 
 #: main.cc:641
 #, c-format
 msgid ""
 "Downloading of file %z (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "Scaricamento del file %z (%i bytes) alla "
-"velocita' di %i bytes/secondo"
+msgstr "File %z (%i bytes) scaricato completamente, alla "
+"velocità di %i bytes/secondo"
 
 #: main.cc:664
 #, c-format
 msgid "Downloading of file %z was terminated by fatal error"
-msgstr "Lo scaricamento del file %z e' terminato a causa di un errore fatale"
+msgstr "Lo scaricamento del file %z è terminato a causa di un errore fatale"
 
 #: main.cc:809
 #, c-format
@@ -377,27 +377,27 @@ msgstr "Aggiunto lo scaricamento del file %s da %s [dall'utente]"
 
 #: main.cc:874 main.cc:951
 msgid "It is strange that we can't delete file which just created..."
-msgstr "E' strano che non possiamo cancellare file che abbiamo appena creato ..."
+msgstr "Non riesco a cancellare un file che ho appena creato. Strano..."
 
 #: main.cc:878 main.cc:955 main.cc:1043
 msgid "File not found"
-msgstr "Fichero no encontrado"
+msgstr "File non trovato"
 
 #: main.cc:964
 msgid "We can redirect from proxy!"
-msgstr "¡Non posso redirigere al proxy!"
+msgstr "Istradamento riuscito tramite proxy!"
 
 #: main.cc:999
 msgid "Can't open messages queue!"
-msgstr "¡Non posso aprire la coda dei messaggi!"
+msgstr "Non riesco ad aprire l'elenco dei messaggi!"
 
 #: main.cc:1016
 msgid "Was Started!"
-msgstr "¡Inizio!"
+msgstr "Inizio!"
 
 #: main.cc:1019
 msgid "It is a link and we already load it"
-msgstr "E' un collegamento e l'abbiamo appena caricato"
+msgstr "È un collegamento, e l'ho già caricato"
 
 #: mainlog.cc:99
 msgid "Can't write to file interrupting write to file"
@@ -406,30 +406,29 @@ msgstr "Non posso scrivere su file interrompendo una scrittura :)"
 #: mainlog.cc:138
 #, c-format
 msgid "row number %i of main log"
-msgstr "linea numero %i del registro principale"
+msgstr "riga numero %i del registro principale"
 
 #: mainlog.cc:166
 msgid "Can't open file for saving log"
-msgstr "Non posso aprire il file per salvare il registro"
+msgstr "Non riesco ad aprire il file per salvare il registro"
 
 #: nt.cc:39
 #, c-format
 msgid "%s probably is already running\n"
-msgstr "%s probabilmente sta gia' scricanto\n"
+msgstr "%s probabilmente è già in esecuzione\n"
 
 #: savelog.cc:61
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
-msgstr "¡¡¡Non posso salvare la lista degli scaricamenti!!! "
-"Non trovo la variabile HOME!!!"
+msgstr "Non riesco a salvare l'elenco degli scaricamenti: non trovo la variabile HOME!!!"
 
 #: savelog.cc:72
 msgid "Can't save default list of downloads!!!"
-msgstr "¡¡¡Non posso salvare la lista base di scricamenti!!!"
+msgstr "Non riesco a salvare la lista base degli scaricamenti!!!"
 
 #: savelog.cc:108
 msgid "Can't load default list of downloads!!!"
-msgstr "¡¡¡Non posso caricare la lista base di scaricamenti!!!"
+msgstr "Non posso caricare la lista base degli scaricamenti!!!"
 
 #: signal.cc:43
 msgid "Download  was stopped by user"
@@ -437,7 +436,7 @@ msgstr "Scaricamento interrotto dall'utente"
 
 #: face/about.cc:34
 msgid "About"
-msgstr "Riguardo a"
+msgstr "Versione"
 
 #: face/about.cc:40
 msgid "Author: Koshelev Maxim"
@@ -454,15 +453,15 @@ msgstr "Aggiungi nuovo scaricamento"
 
 #: face/buttons.cc:58
 msgid "Delete ALL downloads?"
-msgstr "¿Cancella tutti gli scaricamenti?"
+msgstr "Cancellare tutti gli scaricamenti?"
 
 #: face/buttons.cc:58
 msgid "Delete all?"
-msgstr "¿Cancella tutto?"
+msgstr "Cancellare tutto?"
 
 #: face/buttons.cc:117
 msgid " Add new download "
-msgstr " Aggiungi uno nuovo scaricamento "
+msgstr " Aggiungi un nuovo scaricamento "
 
 #: face/buttons.cc:119
 msgid " Paste from clipboard "
@@ -470,31 +469,31 @@ msgstr " Preleva dalla clipboard "
 
 #: face/buttons.cc:121
 msgid " Del downloads "
-msgstr " Cancella scaricamenti "
+msgstr " Elimina scaricamenti selezionati"
 
 #: face/buttons.cc:124
 msgid " Continue/restart downloads "
-msgstr " Continua/rilancia scaricamento "
+msgstr " Continua/ricomincia scaricamento "
 
 #: face/buttons.cc:126
 msgid " Stop downloads "
-msgstr " Ferma scaricamento "
+msgstr " Interrompi scaricamento "
 
 #: face/buttons.cc:128
 msgid " Del Completed downloads "
-msgstr " Cancella scaricamento completato "
+msgstr " Elimina scaricamenti completati "
 
 #: face/buttons.cc:130
 msgid " Move up "
-msgstr " Muovi su"
+msgstr " Sposta su"
 
 #: face/buttons.cc:132
 msgid " Move down "
-msgstr " Muovi giu' "
+msgstr " Sposta giù "
 
 #: face/buttons.cc:134
 msgid " View log "
-msgstr " Guarda Registro "
+msgstr " Visualizza Registro "
 
 #: face/buttons.cc:137
 msgid " Options "
@@ -502,19 +501,19 @@ msgstr " Opzioni "
 
 #: face/buttons.cc:140
 msgid " Speed level one "
-msgstr " Livello di velocita' 1 (bassa)"
+msgstr " Livello di velocità 1 (bassa)"
 
 #: face/buttons.cc:142
 msgid " Speed level two "
-msgstr " Livello di velocita' 2 (media)"
+msgstr " Livello di velocità 2 (media)"
 
 #: face/buttons.cc:144
 msgid " Unlimited speed "
-msgstr " VelocitÁ illimitata "
+msgstr " Velocità illimitata "
 
 #: face/buttons.cc:149
 msgid " Delete all downloads "
-msgstr " Cancella tutti gli scaricamenti "
+msgstr " Elimina tutti gli scaricamenti "
 
 #: face/edit.cc:20
 msgid "Timeout for reading from socket (in seconds)"
@@ -526,15 +525,15 @@ msgstr "Tempo di attesa per la riconnessione (in secondi)"
 
 #: face/edit.cc:22
 msgid "Maximum attempts (0 for unlimited)"
-msgstr "Numero massimo di tentativi (0 per illimitato)"
+msgstr "Numero massimo di tentativi (0 = illimitato)"
 
 #: face/edit.cc:23
 msgid "Use passive mode for FTP"
-msgstr "Usa modalita' passiva per ftp"
+msgstr "Usa modalità passiva per ftp"
 
 #: face/edit.cc:24
 msgid "Retry if resuming is not supported"
-msgstr "Ricomincia se non puoi riprendere lo scaricamento"
+msgstr "Ricomincia se non si può riprendere lo scaricamento"
 
 #: face/edit.cc:25
 msgid "Get date from the server"
@@ -550,7 +549,7 @@ msgstr "Edita scaricamento"
 
 #: face/edit.cc:200
 msgid "Save download to folder"
-msgstr "Guarda gli scaricamenti nella directory"
+msgstr "Salva il file da scaricare nella directory:"
 
 #: face/edit.cc:201 face/edit.cc:646 face/edit.cc:699
 msgid "password"
@@ -591,15 +590,15 @@ msgstr "Giorno"
 
 #: face/edit.cc:335
 msgid "Hours"
-msgstr "Ora"
+msgstr "Ore"
 
 #: face/edit.cc:342
 msgid "Minutes"
-msgstr "Minuto"
+msgstr "Minuti"
 
 #: face/edit.cc:355
 msgid "Start this downloading at:"
-msgstr "Comincia lo scaricamento a :"
+msgstr "Comincia lo scaricamento il:"
 
 #: face/edit.cc:374
 msgid "Download"
@@ -623,7 +622,7 @@ msgstr "Tipo di proxy"
 
 #: face/edit.cc:611
 msgid "Use this proxy for FTP"
-msgstr "Usa questo proxy per ftp"
+msgstr "Usa questo proxy per FTP"
 
 #: face/edit.cc:620 face/edit.cc:675
 msgid "port"
@@ -639,7 +638,7 @@ msgstr "nome utente"
 
 #: face/edit.cc:666
 msgid "Use this proxy for HTTP"
-msgstr "Usa questo proxy per http"
+msgstr "Usa questo proxy per HTTP"
 
 #: face/limface.cc:55
 msgid "Limitation for the host"
@@ -667,7 +666,7 @@ msgstr "Server"
 
 #: face/limface.cc:282
 msgid "N"
-msgstr "Numero di connessioni"
+msgstr "Max connessioni"
 
 #: face/limface.cc:296
 msgid "Add new"
@@ -675,7 +674,7 @@ msgstr "Aggiungi"
 
 #: face/limface.cc:297
 msgid "Delete"
-msgstr "Cancella"
+msgstr "Rimuovi"
 
 #: face/list.cc:70
 msgid "File"
@@ -687,7 +686,7 @@ msgstr "Tipo"
 
 #: face/list.cc:70
 msgid "Full Size"
-msgstr "Dimensione completa"
+msgstr "Dimen. totale"
 
 #: face/list.cc:70
 msgid "Downloaded"
@@ -695,7 +694,7 @@ msgstr "Scaricato"
 
 #: face/list.cc:70 face/prefs.cc:471 face/prefs.cc:492
 msgid "Speed"
-msgstr "Velocita'"
+msgstr "Velocità"
 
 #: face/list.cc:70
 msgid "Remaining"
@@ -770,11 +769,11 @@ msgstr ""
 
 #: face/list.cc:141
 msgid "/Download/Delete completed"
-msgstr "/Scaricamento/Cancella i completi"
+msgstr "/Scaricamento/Elimina scaricamenti completati"
 
 #: face/list.cc:142
 msgid "/Download/Delete failed"
-msgstr "/Scaricamento/Cancella i fallimenti"
+msgstr "/Scaricamento/Elimina scaricamenti falliti"
 
 #: face/list.cc:143
 msgid "/_Options"
@@ -794,35 +793,35 @@ msgstr "/_Aiuto"
 
 #: face/list.cc:147
 msgid "/_Help/About"
-msgstr "/Aiuto/_Riguardo a ..."
+msgstr "/Aiuto/_Versione..."
 
 #: face/list.cc:226
 msgid "Do you really want to quit?"
-msgstr "¿Vuoi veramente uscire?"
+msgstr "Vuoi veramente uscire?"
 
 #: face/list.cc:226
 msgid "Quit?"
-msgstr "¿Abbandona?"
+msgstr "Abbandonare?"
 
 #: face/list.cc:243
 msgid "Delete selected downloads?"
-msgstr "¿Cancellare gli scaricamenti selezionati?"
+msgstr "Cancellare gli scaricamenti selezionati?"
 
 #: face/list.cc:243 face/list.cc:252 face/list.cc:261
 msgid "Delete?"
-msgstr "¿Cancella?"
+msgstr "Eliminare?"
 
 #: face/list.cc:252
 msgid "Do you wish delete completed downloads?"
-msgstr "¿Vuoi cancellare gli scaricamenti completi?"
+msgstr "Vuoi cancellare gli scaricamenti completi?"
 
 #: face/list.cc:261
 msgid "Do you wish delete failed downloads?"
-msgstr "¿Vuoi cancellare gli scaricamenti falliti?"
+msgstr "Vuoi cancellare gli scaricamenti non riusciti?"
 
 #: face/list.cc:667
 msgid "Ready to go ????"
-msgstr "¿¿¿ Pronto a partire ???"
+msgstr "Pronto a partire ???"
 
 #: face/list.cc:768
 #, c-format
@@ -839,31 +838,31 @@ msgstr "Ferma"
 
 #: face/lmenu.cc:82
 msgid "Continue downloads"
-msgstr "Contonua gli scaricamenti"
+msgstr "Riprendi selezionati"
 
 #: face/lmenu.cc:91
 msgid "Properties"
-msgstr "Proprieta'"
+msgstr "Proprietà"
 
 #: face/lmenu.cc:97
 msgid "Delete downloads"
-msgstr "Cancella gli scaricamenti"
+msgstr "Elimina selezionati"
 
 #: face/lmenu.cc:103
 msgid "Delete completed"
-msgstr "Cancella completati"
+msgstr "Elimina completati"
 
 #: face/lmenu.cc:109
 msgid "Delete failed"
-msgstr "Cancella fallimenti"
+msgstr "Elimina non riusciti"
 
 #: face/lmenu.cc:119
 msgid "Move up"
-msgstr "Muovi su"
+msgstr "Sposta su"
 
 #: face/lmenu.cc:125
 msgid "Move down"
-msgstr "Muovi giù"
+msgstr "Sposta giù"
 
 #: face/lmenu.cc:131
 msgid "Set limitation"
@@ -912,7 +911,7 @@ msgstr "Ottimizza gli scaricamenti ricorsivi"
 
 #: face/prefs.cc:201
 msgid "Use title of main window for info"
-msgstr "Usa il titolo della finestra principale per le informazioni"
+msgstr "Usa il titolo della finestra principale per dare informazioni"
 
 #: face/prefs.cc:204
 msgid "Display queue statistics too"
@@ -932,7 +931,7 @@ msgstr "Salva la lista degli scaricamenti ogni "
 
 #: face/prefs.cc:221
 msgid "minutes"
-msgstr "Minuti"
+msgstr "minuti"
 
 #: face/prefs.cc:228
 msgid "Common"
@@ -948,27 +947,27 @@ msgstr "Numero massimo di scaricamenti attivi"
 
 #: face/prefs.cc:290
 msgid "Maximum lines in log"
-msgstr "Numero massimo di linee nel registro"
+msgstr "Numero massimo di righe nel registro"
 
 #: face/prefs.cc:300
 msgid "Maximum lines in MAIN log"
-msgstr "Numero massimo di linee nel registro principale"
+msgstr "Numero massimo di righe nel registro principale"
 
 #: face/prefs.cc:338
 msgid "Save downloads to folder"
-msgstr "Salva i download nella cartella"
+msgstr "Salva i file scaricati nella cartella:"
 
 #: face/prefs.cc:347
 msgid "Save main log into file"
-msgstr "Salva il registro principale nel file"
+msgstr "Salva il registro principale nel file:"
 
 #: face/prefs.cc:366
 msgid "Append to file"
-msgstr "Appendi al file"
+msgstr "Accoda al file"
 
 #: face/prefs.cc:369
 msgid "Overwrite file"
-msgstr "Riscrittura del file"
+msgstr "Sovrascrivi il file"
 
 #: face/prefs.cc:382
 msgid "Size format"
@@ -1008,11 +1007,11 @@ msgstr "Conferma dell'uscita dal programma"
 
 #: face/prefs.cc:474
 msgid "bytes/sec speed level one (red button)"
-msgstr " bytes/secondo Livello di velocita' 1 (Bottone rosso)"
+msgstr " byte/secondo Livello di velocità 1 (Bottone rosso)"
 
 #: face/prefs.cc:481
 msgid "bytes/sec speed level two (yellow button)"
-msgstr " bytes/secondo Livello di velocita' 2 (Bottone giallo)"
+msgstr " byte/secondo Livello di velocità 2 (Bottone giallo)"
 
 #: face/saveload.cc:78
 msgid "Save list"
@@ -1024,19 +1023,19 @@ msgstr "Carica Lista"
 
 #: face/edit.cc:218
 msgid "Save download to file"
-msgstr "Salva lo scaricamento nel file"
+msgstr "Salva il file da scaricare come:"
 
 #: face/prefs.cc:218
 msgid "Revert drawing graph of speeds"
-msgstr "Disegno inverso del grafico della velocita'"
+msgstr "Disegno inverso del grafico della velocità"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr "Profondita' della ricorsione (0 illimitato, 1 nessuna ricorsione)"
+msgstr "Profondità di ricorsione (0 illimitato, 1 nessuna ricorsione)"
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
-msgstr "Nome del file se e' sconosciuto"
+msgstr "Nome del file se è sconosciuto:"
 
 #: face/about.cc:44
 msgid "Translators team"
@@ -1080,7 +1079,7 @@ msgstr "percentuale"
 
 #: face/columns.cc:22
 msgid "speed"
-msgstr "velocita'"
+msgstr "velocità"
 
 #: face/columns.cc:22
 msgid "elapsed time"
@@ -1092,7 +1091,7 @@ msgstr "tempo stimato"
 
 #: face/columns.cc:22
 msgid "time of pause"
-msgstr "tempo di pausa"
+msgstr "tempo in pausa"
 
 #: face/columns.cc:22
 msgid "number of attempts"
@@ -1104,11 +1103,11 @@ msgstr "colonne mostrate"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr "Ripresa dopo la rconessione (in bytes)"
+msgstr "Margine di sicurezza da riscaricare alla riconnessione (byte)"
 
 #: download.cc:
 msgid "Can't do rollback!"
-msgstr "Non Posso continuare!"
+msgstr "Impossibile riscaricare margine di sicurezza!"
 
 #: main.cc:
 msgid "Redirect from %z"
@@ -1120,11 +1119,11 @@ msgstr "Ok"
 
 #: face/prefs.cc:
 msgid "Show DnD basket"
-msgstr "Mostra la spazzatura per il DnD"
+msgstr "Mostra Recipiente D-n-D"
 
 #: face/buttons.cc:
 msgid " DnD basket "
-msgstr " spazzatura DnD "
+msgstr " Recipiente D-n-D "
 
 #: main.cc:
 msgid "Downloader exited normaly"
@@ -1132,15 +1131,15 @@ msgstr "Downloader terminato"
 
 #: face/dndtrash.cc:
 msgid "/Drop link here"
-msgstr "/Metti il link."
+msgstr "/Rilascia QUI il link."
 
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
-msgstr "Limite di velocita' in Bytes/sec (0 per illimitato)"
+msgstr "Limite di velocità in byte/s (0 = illimitata)"
 
 #: log.cc:
 msgid "Log was started!"
-msgstr "Il Log e' iniziato!"
+msgstr "Inizio del registro!"
 
 #: config.cc:
 msgid "Run downloads: %d\n"
@@ -1164,7 +1163,7 @@ msgstr "Totale: %d\n"
 
 #: config.cc:
 msgid "Current speed: %d\n"
-msgstr "Velocita' attuale: %d\n"
+msgstr "Velocità attuale: %d\n"
 
 #: config.cc:
 msgid "Usage: nt [OPTION] ... [URL]"
@@ -1180,15 +1179,15 @@ msgstr "mostra la versione ed esci"
 
 #: config.cc:
 msgid "show information if already run"
-msgstr "mostra informazioni se e' gia' in esecuzione"
+msgstr "mostra informazioni se è già in esecuzione"
 
 #: config.cc:
 msgid "show current speed if already run"
-msgstr "mostra velocita' attuale di scaricamento se e' gia' in esecuzione"
+msgstr "mostra velocità attuale di scaricamento se è già in esecuzione"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
-msgstr "Esci se non deve fare altro"
+msgstr "Esci se inattivo per"
 
 #: prefs.cc:
 msgid "Main log"
@@ -1208,11 +1207,11 @@ msgstr "Esegui nuovo thread per %z"
 
 #: main.cc
 msgid "%z was deleted from queue of downloads as completed download"
-msgstr "%z e' stato cancellato dalla coda degli scaricamenti perche' completo"
+msgstr "%z è stato cancellato dalla coda degli scaricamenti perché completo"
 
 #: main.cc
 msgid "%z was deleted from queue of downloads as failed download"
-msgstr "%z e' stato cancellato dalla coda degli scaricamenti perche' fallito"
+msgstr "%z è stato cancellato dalla coda degli scaricamenti perché fallito"
 
 #: main.cc
 msgid "Delete completed downloads"
@@ -1228,7 +1227,7 @@ msgstr "Carica lista base di scaricamenti"
 
 #:main.cc:
 msgid "Append list to current queue of downloads"
-msgstr "Aggancia la lista di scaricamenti alla coda attuale di scaricamenti"
+msgstr "Accoda la lista degli scaricamenti alla lista attuale"
 
 #: face/dndtrash.cc
 msgid "/New Download"
@@ -1248,7 +1247,7 @@ msgstr "/Esci"
 
 #: face/prefs.cc:
 msgid "User-Agent for HTTP requests"
-msgstr "User-Agent per le richieste http"
+msgstr "'User-Agent' nelle richieste HTTP:"
 
 #: face/columns.cc
 msgid "rest"
@@ -1260,15 +1259,15 @@ msgstr "Resto"
 
 #: config.cc:
 msgid "set lower speed limitation"
-msgstr "imposta limitazione di velocita' bassa"
+msgstr "imposta limite di velocità basso"
 
 #: config.cc:
 msgid "set medium speed limitation"
-msgstr "imposta limitazione di velocita' media"
+msgstr "imposta limite di velocità medio"
 
 #: config.cc:
 msgid "set unlimited speed"
-msgstr "imposta velocita' illimitata"
+msgstr "imposta velocità illimitata"
 
 #: http.cc
 msgid "Request was sent, waiting for the answer"
@@ -1276,11 +1275,11 @@ msgstr "Richiesta inoltrata, in attesa di risposta"
 
 #: config.cc:
 msgid "unknown option:"
-msgstr "opzionie sconosciuta:"
+msgstr "opzione sconosciuta:"
 
 #: face/prefs.cc:
 msgid "Run this on exit"
-msgstr "Esegui questo all'uscita"
+msgstr "Comando da eseguire all'uscita:"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
@@ -1301,7 +1300,7 @@ msgstr "Aggiungi scaricamento via socket di controllo [%s]"
 
 #cookie.cc
 msgid "Can't open cookies file!"
-msgstr "Non posso aprire il file dei cookies"
+msgstr "Non riesco ad aprire il file dei cookies"
 
 #cookie.cc
 msgid "%i cookies loaded"
@@ -1313,44 +1312,44 @@ msgstr "Caricamento cookies"
 
 #face/prefs.cc
 msgid "Monitor clipboard"
-msgstr "Monitor appunti"
+msgstr "Tieni controllato il contenuto degli appunti"
 
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr "Salta le estensioni negli appunti"
+msgstr "Ignora questi suffissi negli appunti"
 
 #: face/dndtrash.cc
 msgid "/Speed"
-msgstr "/Velocita'"
+msgstr "/Velocità"
 
 #: face/dndtrash.cc
 msgid "/Speed/Lowest"
-msgstr "/Velocita'/Bassa"
+msgstr "/Velocità/Bassa"
 
 #: face/dndtrash.cc
 msgid "/Speed/Middle"
-msgstr "/Velocita'/Media"
+msgstr "/Velocità/Media"
 
 #: face/dndtrash.cc
 msgid "/Speed/Unlimited"
-msgstr "/Velocita'/Illimitata"
+msgstr "/Velocità/Illimitata"
 
 #: face/list.cc
 msgid "/Options/Speed"
-msgstr "/Opzioni/Velocita'"
+msgstr "/Opzioni/Velocità"
 
 #: face/list.cc
 msgid "/Options/Speed/Lowest"
-msgstr "/Opzioni/Velocita'/Bassa"
+msgstr "/Opzioni/Velocità/Bassa"
 
 #: face/list.cc
 msgid "/Options/Speed/Middle"
-msgstr "/Opzioni/Velocita'/Media"
+msgstr "/Opzioni/Velocità/Media"
 
 #: face/list.cc
 msgid "/Options/Speed/Unlimited"
-msgstr "/Opzioni/Velocita'/Illimitata"
+msgstr "/Opzioni/Velocità/Illimitata"
 
 #: face/list.cc
 msgid "/Options/Buttons"
@@ -1362,7 +1361,7 @@ msgstr "/Opzioni/Bottoni/Bottoni di manipolazione"
 
 #: face/list.cc
 msgid "/Options/Buttons/Speed buttons"
-msgstr "/Opzioni/Bottoni/Bottoni delle velocita'"
+msgstr "/Opzioni/Bottoni/Bottoni delle velocità"
 
 #: face/list.cc
 msgid "/Options/Buttons/Misc buttons"
@@ -1370,7 +1369,7 @@ msgstr "/Opzioni/Bottoni/Bottoni vari"
 
 #: face/list.cc
 msgid "/Options/Buttons/Add buttons"
-msgstr "/Opzioni/Bottoni/Bottoni per aggiunte"
+msgstr "/Opzioni/Bottoni/Bottoni d'inserimento"
 
 #:main.cc
 msgid "[control socket]"
@@ -1386,7 +1385,7 @@ msgstr "/Scaricamento/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
-msgstr "Metti in pausa questo dopo averlo aggiunto"
+msgstr "Metti in pausa subito dopo l'inserimento"
 
 #face/list.cc:
 msgid "/Download/Select all"
@@ -1398,11 +1397,11 @@ msgstr "/Scaricamento/Inverti selezione"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via FTP"
-msgstr "Prova a caricare i link simbolici come file via FTP"
+msgstr "Prova a scaricare i link simbolici come file via FTP"
 
 # face/list.cc
 msgid "/Options/Passwords"
-msgstr "/Opzioni/Password"
+msgstr "/Opzioni/Elenco Password"
 
 # face/passwords.cc
 msgid "protocol"
@@ -1415,7 +1414,7 @@ msgstr "Password e nome utente standard"
 
 #main.cc:
 msgid "Redirection from [%z] to nowhere!"
-msgstr "Redirezione da [%z] a niente !"
+msgstr "Redirezione da [%z] verso niente!"
 
 # config.cc:
 msgid "set directory for saving files"
@@ -1429,20 +1428,20 @@ msgstr "imposta il numero massimo di scaricamenti attivi"
 
 #face/edit.cc
 msgid "Allow leave this server while recursing via HTTP"
-msgstr "Permetti di lasciare il server mentre sta ricorrendo via http"
+msgstr "Consenti alla ricorsione HTTP di allontanarsi dal server iniziale"
 
 msgid "/Download/Rerun failed"
-msgstr "/Scaricamento/Riesegui scaricamenti falliti"
+msgstr "/Scaricamento/Riavvia scaricamenti falliti"
 
 msgid "You have no permissions to create file at path %s"
 msgstr "Non hai i permessi per creare file nel percorso %s"
 
 msgid "You have no space at path %s for creating file"
-msgstr "Non hai spazio nel percorso %s per creare file"
+msgstr "Non c'è spazio nel percorso %s per creare file"
 
 #face/edit.cc:
 msgid "Only subdirs"
-msgstr "Solo sottodirectories"
+msgstr "Solo sottodirectory"
 
 # face/edit.cc
 msgid "Restart this download from begining"
@@ -1450,14 +1449,14 @@ msgstr "Ricomincia questo scaricamento dall'inizio"
 
 # config.cc
 msgid "restart all failed downloads"
-msgstr "riesegui tutti gli scaricamenti falliti"
+msgstr "riprendi tutti gli scaricamenti falliti"
 
 msgid "run program without X interface"
 msgstr "esegui il programma senza interfaccia X"
 
 #main.cc
 msgid "Set speed limitation to %s %s"
-msgstr "Imposta limite di velocita' a %s %s"
+msgstr "Imposta limite di velocità a %s %s"
 
 #var.cc
 msgid "low"
@@ -1471,66 +1470,68 @@ msgstr "illimitata"
 
 #main.cc:
 msgid "Can't run new thread for downloading!"
-msgstr "Non posso eseguire un nuovo thread per lo scaricamento"
+msgstr "Non riesco ad eseguire un nuovo thread per lo scaricamento!"
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr "Limitazione per la dimensione del  registro principale raggiunta! Il file verra' troncato."
+msgstr "Raggiunto il limite di dimensione del registro principale! Il file verrà troncato."
 
 #face/prefs.cc:
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr "Dimensione massima del file del registro principale (in Kytes)"
+msgstr "Dimensione massima del file del registro principale (in Kbyte)"
 
 # face/list.cc:
 msgid "/File/Find links in file"
-msgstr ""
+msgstr "/File/Estrai collegamenti da file"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
-msgstr ""
+msgstr "Nei registri usa font a spaziatura fissa"
 
 # face/edit.cc:
 msgid "Number of parts for spliting this download"
-msgstr ""
+msgstr "Numero di parti in cui suddividere lo scaricamento"
 
 
 # face/saveload.cc
 msgid "Find links in txt file"
-msgstr ""
+msgstr "Estrai collegamenti da file di testo"
 
 # face/prefs.cc:
 msgid "Color for picks"
-msgstr ""
+msgstr "Colore picchi di velocità"
+# picks = peaks?
 
 # face/prefs.cc:
 msgid "Color for total speed"
-msgstr ""
+msgstr "Colore velocità totale"
 
 # face/prefs.cc:
 msgid "Color for speed of selected"
-msgstr ""
+msgstr "Colore velocità selezionati"
 
 # face/prefs.cc:
 msgid "Background color"
-msgstr ""
+msgstr "Colore sfondo"
 
 # face/mywidget.cc:
 msgid "Select"
-msgstr ""
+msgstr "Seleziona"
 
 # face/mywidget.cc:
 msgid "Select color"
-msgstr ""
+msgstr "Seleziona colore"
+
 #face/prefs.cc
 msgid "Reset to default"
-msgstr ""
+msgstr "Ripristina predefiniti"
 
 msgid "Colors for graph"
-msgstr ""
+msgstr "Colori del grafico"
 
 #face/limface.cc
 msgid "Default limitation for all hosts (0 without limits)"
-msgstr ""
+msgstr "Limitazione predefinita per tutti i server (0 = senza limiti)"
 
 
 #face/lod.cc
@@ -1539,107 +1540,107 @@ msgstr ""
 
 #face/lod.cc
 msgid "Don't get from cache"
-msgstr ""
+msgstr "Non leggere dalla cache"
 
 #config.cc
 msgid "run in minimized mode"
-msgstr ""
+msgstr "esegui ridotto"
 
 #face/prefs.cc
 msgid "Confirm opening large amount of windows"
-msgstr ""
+msgstr "Conferma dell'apertura di un gran numero di finestre"
 
 
 #face/about.cc
 msgid "Special thanks to"
-msgstr ""
+msgstr "Ringraziamenti particolari a"
 
 
 #face/prefs.cc
 msgid "Clipboard"
-msgstr ""
+msgstr "Appunti"
 
 msgid "Catch these extensions in clipboard"
-msgstr ""
+msgstr "Cattura questi suffissi dagli appunti"
 
 msgid "Allow to user force run downloads"
-msgstr ""
+msgstr "Permetti all'utente di forzare l'esecuzione degli scaricamenti"
 
 #face/saveload.cc
 msgid "Loading"
-msgstr ""
+msgstr "Caricamento"
 
 #main.cc
 msgid "%lu bytes loaded during the session"
-msgstr ""
+msgstr "%lu byte scaricati nel corso di questa sessione"
 
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr ""
+msgstr "Downloader esce se inattivo per %i minuti %s"
 
 msgid "Exiting if nothing to do is switched off"
-msgstr ""
+msgstr "Uscita automatica se \"inattivo\" disabilitata"
 
 #face/edit.cc
 msgid "Timeout for reading from socket"
-msgstr ""
+msgstr "Termine di tempo per la lettura dal socket"
 
 msgid "Maximum attempts"
-msgstr ""
+msgstr "N. massimo di tentativi"
 
 msgid "Timeout before reconnection"
-msgstr ""
+msgstr "Intervallo prima di riconnettersi"
 
 msgid "Rollback after reconnecting"
-msgstr ""
+msgstr "Rilettura margine di sicurezza alla riconnessione"
 
 msgid "Depth of recursing for HTTP"
-msgstr ""
+msgstr "Livelli ricorsione HTTP"
 
 msgid "Depth of recursing for FTP"
-msgstr ""
+msgstr "Livelli ricorsione FTP"
 
 msgid "Speed limitation"
-msgstr ""
+msgstr "Limite di velocità"
 
 msgid "Unselect all"
-msgstr ""
+msgstr "Deseleziona tutto"
 
 msgid "Select all"
-msgstr ""
+msgstr "Seleziona tutto"
 
 msgid "Select properties"
-msgstr ""
+msgstr "Seleziona proprietà"
 
 #face/lmenu.cc
 msgid "Common properties"
-msgstr ""
+msgstr "Proprietà in comune"
 
 #config.cc
 msgid "set timeout for exiting if nothing to do"
-msgstr ""
+msgstr "imposta tempo di inattività per l'uscita automatica"
 
 msgid "You should specify number as parameter for '--exit-time' option"
-msgstr ""
+msgstr "È necessario specificare un numero come parametro per l'opzione '--exit-time'"
 
 #face/prefs.cc
 msgid "Output FTP dirs in logs"
-msgstr ""
+msgstr "Trascrivi nei registri le directory FTP"
 
 #main.cc
 msgid "Setup maximum active downloads to"
-msgstr ""
+msgstr "Imposta il N. massimo di scaricamenti attivi a"
 
 msgid "Restarting failed downloads"
-msgstr ""
+msgstr "Riavvio degli scaricamenti non riusciti"
 
 # face/prefs.cc, face/edit.cc
 msgid "Don't send QUIT command (FTP)"
-msgstr ""
+msgstr "Non inviare il comando QUIT (FTP)"
 
 #:download.cc
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr ""
+msgstr "Il file sul server è più recente della copia locale. Riavvio dall'inizio\n"
 
 #:face/dndtrash.cc
 msgid "/Delete completed"
-msgstr ""
+msgstr "/Elimina i completati"

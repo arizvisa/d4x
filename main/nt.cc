@@ -24,10 +24,11 @@
 #include "ntlocale.h"
 #include "ftpd.h"
 #include <signal.h>
+#include "segments.h"
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.20pre";
+char *VERSION_NAME="WebDownloader for X 1.20";
 char *LOCK_FILE;
 
 static void init_string_variables(){

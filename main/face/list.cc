@@ -1,4 +1,4 @@
-;/*	WebDownloader for X-Window
+/*	WebDownloader for X-Window
  *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
@@ -38,7 +38,6 @@
 #include "dndtrash.h"
 #include "passface.h"
 #include "colors.h"
-
 
 GtkWidget *MainMenu;
 GtkAdjustment *ProgressBarValues;
@@ -130,6 +129,12 @@ char *main_menu_inames[]={
 	"/Options/Buttons/Misc buttons",
 	"/_Help",
 	"/_Help/About"
+};
+
+char *old_clipboard_content(){
+	if (CFG.CLIPBOARD_MONITOR)
+		return(OLD_CLIPBOARD_CONTENT);
+	return(NULL);
 };
 
 
@@ -645,7 +650,7 @@ void init_status_bar() {
 	 * %u - upper range value */
 	gtk_widget_set_usize(ProgressOfDownload,180,-1);
 	gtk_progress_set_format_string (GTK_PROGRESS (ProgressOfDownload),
-	                                "%p%%(%v/%u)");
+	                                "0%%(%v/%u)");
 	gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),FALSE);
 	MainStatusBar=gtk_statusbar_new();
 	ReadedBytesStatusBar=gtk_statusbar_new();
@@ -662,11 +667,14 @@ void init_status_bar() {
 void update_progress_bar() {
 	tDownload *temp=list_of_downloads_last_selected();
 	GtkAdjustment *adj=GTK_PROGRESS(ProgressOfDownload)->adjustment;
+	char data[MAX_LEN];
 	if (adj){
 		if(temp && (temp->finfo.size>0 || temp->Size.curent>0)){
 			adj->lower=0;
 			adj->upper = temp->finfo.size>temp->Size.curent ? temp->finfo.size : temp->Size.curent;
 			gtk_progress_set_value(GTK_PROGRESS(ProgressOfDownload),temp->Size.curent);
+			gtk_progress_set_format_string (GTK_PROGRESS (ProgressOfDownload),
+							"%p%%(%v/%u)");
 			gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),TRUE);
 		}else{
 			adj->lower=0;
@@ -676,7 +684,6 @@ void update_progress_bar() {
 		};
 	};
 	gtk_widget_show(ProgressOfDownload);
-	char data[MAX_LEN];
 	char data1[MAX_LEN];
 	make_number_nicel(data,GVARS.READED_BYTES);
 	sprintf(data1,"%s(%iB/s)",data,GlobalMeter->last_value());
@@ -803,16 +810,19 @@ void update_mainwin_title() {
 		mainwin_title_state=1;
 		tDownload *temp=list_of_downloads_last_selected();
 		char data[MAX_LEN];
-		if (temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {
-			char data2[MAX_LEN];
-			char data3[MAX_LEN];
+		char data2[MAX_LEN];
+		char data3[MAX_LEN];
+		if (temp){
 			make_number_nice(data2,temp->Size.curent);
 			if (temp->finfo.size>=0)
 				make_number_nice(data3,temp->finfo.size);
 			else
 				sprintf(data3,"???");
-			sprintf(data,"%i%c %s/%s %s ",temp->Percent.curent,'%',data2,data3,temp->info->file.get());
+			sprintf(data,"%i%% %s/%s %s ",temp->Percent.curent,data2,data3,temp->info->file.get());
 			dnd_trash_set_tooltip(data);
+		}else
+			dnd_trash_set_tooltip(_("Drop link here"));
+		if (temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {
 			tmp_scroll_title(data,ROLL_STAT);
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 		} else {
@@ -823,7 +833,6 @@ void update_mainwin_title() {
 				gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 			} else{
 				gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
-				dnd_trash_set_tooltip(_("Drop link here"));
 			};
 		};
 	} else{

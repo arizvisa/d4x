@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include "gtk/gtk.h"
+#include <gtk/gtk.h>
 #include "list.h"
 #include "edit.h"
 #include "misc.h"

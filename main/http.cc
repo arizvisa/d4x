@@ -108,11 +108,14 @@ int tHttpClient::read_answer(tStringList *list) {
 		delete str1;
 		delete str2;
 		delete last;
+		int num_str=32;
 		do{
+			num_str-=1;
 			if (read_string(&CtrlSocket,list,MAX_LEN)) return -1;
 			last=list->last();
 			LOG->log(LOG_FROM_SERVER,last->body);
-		}while (!empty_string(last->body));
+			/*limit strings in answer to 32*/
+		}while (!empty_string(last->body) && num_str>0);
 		return rvalue;
 	};
 	return -1;

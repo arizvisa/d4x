@@ -235,7 +235,12 @@ gint log_window_button(GtkWidget *button,int a){
 		if (withlog->LOG->Window) break;
 		withlog=withlog->split->next_part;
 	};
-	if (withlog==NULL || withlog->LOG->Window==NULL) return FALSE;
+	if (what->split==NULL){
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
+		return FALSE;
+	};
+	if (withlog==NULL || withlog->LOG->Window==NULL)
+		return FALSE;
 	tDownload *forlog=what;
 	while (forlog){
 		a-=1;
@@ -366,7 +371,10 @@ void log_window_init(tDownload *what) {
 		if (CFG.FIXED_LOG_FONT){
 			GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->clist)));
 			gdk_font_unref(current_style->font);
-			current_style->font = gdk_font_load("-*-fixed-medium-r-*-*-*-120-*-*-*-*-*-*");;
+			current_style->font = gdk_fontset_load("-*-fixed-medium-r-*-*-*-120-*-*-*-*-*-*");;
+			if (current_style->font==NULL){
+				current_style->font = gdk_fontset_load("-*-*-medium-r-*-*-*-120-*-*-m-*-*-*");;
+			};
 			gtk_widget_set_style(GTK_WIDGET(temp->clist), current_style);
 		};
 

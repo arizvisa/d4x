@@ -227,7 +227,8 @@ void tDownloader::print_error(int error_code){
 tDownloader::tDownloader(){
 	LOG=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
-	StartSize=D_FILE.size=D_FILE.type=0;
+	StartSize=-1;
+	D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
 	local_filetime=0;
 };

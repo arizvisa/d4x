@@ -80,7 +80,7 @@ char *my_xclipboard_get() {
 
 	buf = XFetchBytes(GDK_DISPLAY(), &buf_size);
 	if (buf_size == 0) {
-		XFree(buf);
+// buf is null		
 		return NULL;
 	}
 	return buf;

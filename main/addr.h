@@ -35,11 +35,11 @@ enum D_PROTOS{
 	D_PROTO_UNKNOWN,
 	D_PROTO_FTP,
 	D_PROTO_HTTP,
-	D_PROTO_HTTPS,
 	D_PROTO_LAST
 };
 
 int get_proto_by_name(char *str);
 int get_port_by_proto(int proto);
 char *get_name_by_proto(int proto);
+int global_url(char *url);
 #endif
