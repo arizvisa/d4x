@@ -956,7 +956,7 @@ void update_progress_bar() {
 		char b[100];
 		d4x_percent_str(temp->Percent, b, sizeof(b));
 		sprintf(data, "%s%(%lli/%lli)",b,temp->Size.curent,temp->finfo.size);
-		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ProgressOfDownload),temp->Percent/100.0);
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ProgressOfDownload),(temp->Percent>100?100:temp->Percent)/100.0);
 		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(ProgressOfDownload),data);
 	}else{
 		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ProgressOfDownload),1);

@@ -935,6 +935,13 @@ void d4xQueueView::init_select_window(int type){
 				      GTK_WINDOW (MainWindow));
 };
 
+static void _foreach_changelog_(GtkTreeModel *model,GtkTreePath *path,
+			      GtkTreeIter *iter,gpointer p){
+	d4xQueueView *qv=(d4xQueueView *)p;
+	tDownload *tmp=qv->get_download(iter);
+	d4x_main_switch_log(tmp);
+};
+
 int list_event_callback(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
 	GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
 	GdkEventButton *bevent=(GdkEventButton *)event;
@@ -1032,6 +1039,34 @@ int list_event_callback(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
 			default:
 				break;
 			};
+		}else{
+		};
+	};
+	return FALSE;
+};
+
+
+int list_event_callback_first(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
+	GdkEventKey *kevent=(GdkEventKey *)event;
+	if (event->type == GDK_KEY_PRESS && (kevent->state & GDK_SHIFT_MASK)==0) {
+		switch (kevent->keyval) {
+		case GDK_KP_Page_Up:
+		case GDK_Page_Up:
+		case GDK_KP_Page_Down:
+		case GDK_Page_Down:
+		case GDK_KP_Up:
+		case GDK_Up:
+		case GDK_KP_Down:
+		case GDK_Down:{
+			GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
+		        GtkWidgetClass *tree_view_klass=(GtkWidgetClass *)gtk_type_class(gtk_tree_view_get_type());
+			tree_view_klass->key_press_event(GTK_WIDGET(view),kevent);
+			GtkTreeIter first;
+			gtk_tree_selection_selected_foreach(sel,
+							    _foreach_changelog_,
+							    qv);
+			return TRUE;
+		};
 		};
 	};
 	return FALSE;
@@ -1463,6 +1498,8 @@ void d4xQueueView::init() {
 	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(ListOfDownloads));
 	gtk_tree_selection_set_mode (sel,GTK_SELECTION_MULTIPLE);
 	gtk_tree_selection_set_select_function(sel,select_download,this,NULL);
+	g_signal_connect(G_OBJECT(ListOfDownloads), "event",
+			 G_CALLBACK(list_event_callback_first),this);
 	g_signal_connect(G_OBJECT(ListOfDownloads), "event",
 			 G_CALLBACK(list_event_callback),this);
 //	ListOfDownloads = my_gtk_clist_new_with_titles( prefs.cols[NOTHING_COL].enum_index, RealListTitles);

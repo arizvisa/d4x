@@ -2,11 +2,11 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: d4x 2.4rc2\n"
+"Project-Id-Version: d4x 2.5rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-28 06:14+0700\n"
-"PO-Revision-Date: 2002-12-08 14:49+0100\n"
-"Last-Translator: Sa'ndor Pinte'r <jimmycime@mailbox.hu>\n"
+"POT-Creation-Date: 2004-01-05 21:27+0700\n"
+"PO-Revision-Date: 2003-12-30 12:26-0100\n"
+"Last-Translator: Pinte'r Sa'ndor <jimmycime@mailbox.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -34,7 +34,7 @@ msgstr "Kapcsolódás..."
 
 #: main/client.cc:464
 msgid "Socket was opened!"
-msgstr "SOCKET megnyitva!"
+msgstr "SOCKET meg volt nyitva!"
 
 #: main/client.cc:469
 msgid "Host not found!"
@@ -140,7 +140,7 @@ msgstr "Jelenlegi sebesség: %d\n"
 
 #: main/config.cc:790
 msgid "Added from command line"
-msgstr ""
+msgstr "Parancssorból hozzáadva"
 
 #: main/config.cc:871
 msgid "Usage: nt [OPTION] ... [URL]"
@@ -160,7 +160,7 @@ msgstr "információ kiírása, ha már fut"
 
 #: main/config.cc:875
 msgid "show current speed if already run"
-msgstr "aktuális sebesség kiírása, ha már fut"
+msgstr "jelenlegi sebesség kiírása, ha már fut"
 
 #: main/config.cc:876
 msgid "run in minimized mode"
@@ -168,7 +168,7 @@ msgstr "minimalizált módban futtat"
 
 #: main/config.cc:877
 msgid "set timeout for exiting if nothing to do"
-msgstr "Kilépési idő beállítása, ha nincs más dolga"
+msgstr "kilépési idő beállítása, ha nincs más dolga"
 
 #: main/config.cc:878
 msgid "set directory for saving files"
@@ -184,7 +184,7 @@ msgstr "közepes sebesség-korlátozás beállítása"
 
 #: main/config.cc:881
 msgid "set unlimited speed"
-msgstr "maximális sebesség beállítása"
+msgstr "korlátlan sebesség beállítása"
 
 #: main/config.cc:882
 msgid "delete completed if already run"
@@ -228,7 +228,7 @@ msgstr "fő ablak előnyös méretének és helyének beállítása"
 
 #: main/config.cc:892
 msgid "open \"Add new download\" dialog for the URL"
-msgstr " Új letöltés hozzáadása"
+msgstr "\" Új letöltés hozzáadása\" dialógus megnyitása az URL-hez"
 
 #: main/cookie.cc:318
 msgid "Loading cookies"
@@ -346,7 +346,7 @@ msgstr "Átirányítás..."
 
 #: main/dlist.cc:1316 main/dlist.cc:1331
 msgid "Size detection only!"
-msgstr ""
+msgstr "Csak méretdetektálás!"
 
 #: main/dlist.cc:1385
 msgid ""
@@ -401,7 +401,7 @@ msgstr "Ez egy link, és már letöltöttük"
 msgid "Trying to work without CWD"
 msgstr "Megpróbálom CWD nélkül"
 
-#: main/dlist.cc:1790
+#: main/dlist.cc:1797
 msgid "Can't split file to specified number of parts!"
 msgstr "Nem tudom a megadott számban feldarabolni a fájlt!"
 
@@ -534,7 +534,7 @@ msgstr " Lista betöltése "
 
 #: main/face/buttons.cc:67
 msgid " DnD basket "
-msgstr " DnD szemetes "
+msgstr " DnD kosár "
 
 #: main/face/buttons.cc:68
 msgid " Switch percentage mode to"
@@ -655,7 +655,7 @@ msgstr "/Kilépés"
 
 #: main/face/dndtrash.cc:402
 msgid "DnD basket"
-msgstr " DnD szemetes"
+msgstr " DnD kosár"
 
 #: main/face/dndtrash.cc:557
 msgid "Drop link here"
@@ -1096,31 +1096,28 @@ msgid "remove"
 msgstr "eltávolít"
 
 #: main/face/fsface.cc:209
-#, fuzzy
 msgid "Filename"
-msgstr "fájl név"
+msgstr "Fájl név"
 
 #: main/face/fsface.cc:210 main/face/fsface.cc:284
-#, fuzzy
 msgid "Size"
-msgstr "Teljes méret"
+msgstr "Méret"
 
 #: main/face/fsface.cc:211
 msgid "Count"
-msgstr ""
+msgstr "Darab"
 
 #: main/face/fsface.cc:252
-#, fuzzy
 msgid "Found during FTP-search"
-msgstr "FTP-kereső motor betöltése"
+msgstr "Találat az FTP-keresés közben"
 
 #: main/face/fsface.cc:274
 msgid "Ping"
-msgstr ""
+msgstr "Ping"
 
 #: main/face/fsface.cc:294
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: main/face/list.cc:167
 msgid "/_File"
@@ -1327,9 +1324,8 @@ msgid "Ready to go ????"
 msgstr "Kész van ???"
 
 #: main/face/list.cc:1262 main/face/list.cc:1519
-#, fuzzy
 msgid "Downloads"
-msgstr "Letöltés"
+msgstr "Letöltések"
 
 #: main/face/list.cc:1263 main/face/list.cc:1311 main/face/prefs.cc:627
 #: main/face/prefs.cc:1270 main/face/prefs.cc:1531
@@ -1341,18 +1337,16 @@ msgid "URL-manager"
 msgstr "URL-kezelő"
 
 #: main/face/list.cc:1265 main/face/list.cc:1325
-#, fuzzy
 msgid "FTP-search"
-msgstr "FTP keresés"
+msgstr "FTP-keresés"
 
 #: main/face/list.cc:1329
-#, fuzzy
 msgid "Filename:"
-msgstr "fájl név"
+msgstr "Fájlnév:"
 
 #: main/face/list.cc:1541
 msgid "Offline/Online"
-msgstr ""
+msgstr "Offline/Online"
 
 #: main/face/list.cc:1658
 #, c-format
@@ -1460,7 +1454,7 @@ msgstr "Wildcard beírása"
 msgid "Unselect"
 msgstr "Kiválasztás megszüntet"
 
-#: main/face/lod.cc:1363
+#: main/face/lod.cc:1398
 msgid "Status"
 msgstr "Állapot"
 
@@ -1486,28 +1480,24 @@ msgid "Edit properties of Rule"
 msgstr "Szabályok tulajdonságának szerkesztése"
 
 #: main/face/mywidget.cc:364 main/face/mywidget.cc:747
-#, fuzzy
 msgid "Protocol"
-msgstr "protokoll"
+msgstr "Protokoll"
 
 #: main/face/mywidget.cc:381 main/face/mywidget.cc:747
-#, fuzzy
 msgid "Host"
-msgstr "host"
+msgstr "Host"
 
 #: main/face/mywidget.cc:390 main/face/mywidget.cc:747
-#, fuzzy
 msgid "Path"
-msgstr "Út:"
+msgstr "Út"
 
 #: main/face/mywidget.cc:408
 msgid "?"
 msgstr "?"
 
 #: main/face/mywidget.cc:417 main/face/mywidget.cc:747
-#, fuzzy
 msgid "Tag"
-msgstr "tag"
+msgstr "Tag"
 
 #: main/face/mywidget.cc:468
 msgid "include"
@@ -1546,13 +1536,12 @@ msgid "Add"
 msgstr "Hozzáad"
 
 #: main/face/mywidget.cc:1326
-#, fuzzy
 msgid "proxy type"
-msgstr "FTP Proxy Tipus"
+msgstr "proxy tipus"
 
 #: main/face/mywidget.cc:1341
 msgid "Use different proxy for this alternate"
-msgstr ""
+msgstr "Használj másik proxyt ehhez a változathoz"
 
 #: main/face/passface.cc:322
 msgid "Add new URL to URL-manager"
@@ -1764,7 +1753,7 @@ msgstr "Hostok száma a listában"
 
 #: main/face/prefs.cc:802
 msgid "Number of links per searching engine"
-msgstr ""
+msgstr "Linkek száma keresőmotoronként"
 
 #: main/face/prefs.cc:843
 msgid "search engine to use"
@@ -1784,11 +1773,11 @@ msgstr "Fixált fontok használata a naplóban"
 
 #: main/face/prefs.cc:862
 msgid "Display graph on DnD-basket"
-msgstr ""
+msgstr "Grafikon mutatása a DnD-kosárban"
 
 #: main/face/prefs.cc:863
 msgid "Display current speed value on DnD-basket"
-msgstr ""
+msgstr "Jelenlegi sebesség mutatása a DnD-kosárban"
 
 #: main/face/prefs.cc:889 main/face/prefs.cc:1295 main/face/prefs.cc:1447
 msgid "Graph"
@@ -1811,9 +1800,8 @@ msgid "Color for total speed"
 msgstr "Teljessebesség színe"
 
 #: main/face/prefs.cc:901
-#, fuzzy
 msgid "Color for current speed value"
-msgstr "Teljessebesség színe"
+msgstr "Jelenlegi sebesség színe"
 
 #: main/face/prefs.cc:902
 msgid "Background color"
@@ -1940,9 +1928,8 @@ msgid "Time format"
 msgstr "Idő formátum"
 
 #: main/face/qtree.cc:610
-#, fuzzy
 msgid "Speed format"
-msgstr "Méret formátum"
+msgstr "Sebesség formátuma"
 
 #: main/face/qtree.cc:694
 msgid "Name of the queue"
@@ -2313,11 +2300,11 @@ msgstr "A(z) %s fájl letöltése a(z) %s címről hozzáadva a listához"
 
 #: main/main.cc:1746
 msgid "Downloader is in offline mode now"
-msgstr ""
+msgstr "Letöltő most offline módban van"
 
 #: main/main.cc:1749
 msgid "Offline mode is turned off"
-msgstr ""
+msgstr "Offline mód kikapcsolva"
 
 #: main/main.cc:1780
 #, c-format
@@ -2367,13 +2354,13 @@ msgstr "Nem lehet megnyitni a fájlt a napló mentésére"
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "BUG: Rosz Iseek mód!\n"
 
-#: main/nt.cc:146
+#: main/nt.cc:148
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "FIGYELEM!!! A HOME változó nem található! Így a konfigurációt nem lehet "
 "beolvasni!"
 
-#: main/nt.cc:159
+#: main/nt.cc:161
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s valószínűleg már fut\n"
@@ -2401,7 +2388,7 @@ msgstr "Nem lehet menteni a alapértelmezett letöltési listát!!!"
 msgid "Can't load default list of downloads!!!"
 msgstr "Nem lehet betölteni az alapértelmezett letöltési listát!!!"
 
-#: main/signal.cc:53 main/signal.cc:72
+#: main/signal.cc:53 main/signal.cc:73
 msgid "Download  was stopped by user"
 msgstr "A felhasználó megszakította a letöltést"
 
@@ -2416,78 +2403,3 @@ msgstr "közepes"
 #: main/var.cc:102
 msgid "unlimited"
 msgstr "végtelen"
-
-#~ msgid "path"
-#~ msgstr "út"
-
-#~ msgid "Color for speed of selected"
-#~ msgstr "Kiválasztott sebességének színe"
-
-#~ msgid "Ok"
-#~ msgstr "OK"
-
-#~ msgid "Cancel"
-#~ msgstr "Mégsem"
-
-#~ msgid "Apply"
-#~ msgstr "Alkalmaz"
-
-#~ msgid "Add new"
-#~ msgstr "Új hozzáadása"
-
-#~ msgid "Edit"
-#~ msgstr "Szerkesztés"
-
-#~ msgid "Remove"
-#~ msgstr "Eltávolít"
-
-#~ msgid "New"
-#~ msgstr "Új"
-
-#~ msgid "Find"
-#~ msgstr "Keres"
-
-#~ msgid "Up"
-#~ msgstr "Fel"
-
-#~ msgid "Add rule"
-#~ msgstr "Szabály hozzáadása"
-
-#~ msgid "Down"
-#~ msgstr "Le"
-
-#~ msgid "Delete"
-#~ msgstr "Törlés"
-
-#~ msgid "Percentage to render"
-#~ msgstr "Használt kereső motor"
-
-#~ msgid "Link to tDownload"
-#~ msgstr "Linkből tLetöltés"
-
-#~ msgid "Continue open log windows?"
-#~ msgstr "Folytassam a napló ablak megnyitását?"
-
-#~ msgid "Open logs?"
-#~ msgstr "Napló megnyitása?"
-
-#~ msgid "Erorr!"
-#~ msgstr "Hiba!"
-
-#~ msgid "Warning!"
-#~ msgstr "Figyelem!"
-
-#~ msgid "Message to server"
-#~ msgstr "Üzenet a szervernek"
-
-#~ msgid "All ok"
-#~ msgstr "Minden rendben"
-
-#~ msgid "Total"
-#~ msgstr "Összesen"
-
-#~ msgid "Wait"
-#~ msgstr "Vár"
-
-#~ msgid "Run"
-#~ msgstr "Futtat"

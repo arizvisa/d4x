@@ -91,14 +91,20 @@ int tSocket::constr_name(char *host,guint16 port) {
 #else
 			gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
 #endif
-			if (temp_variable) return -1;
+			if (temp_variable){
+				download_set_block(0);
+				return -1;
+			};
 			memcpy((char *)&info.sin_addr,hpr->h_addr_list[0],(size_t) hpr->h_length);
 #else /* !(defined(BSD) && (BSD >= 199306)) */
 /* It seems that reentrant variant
    of gethostbyname is not available under BSD
 */
 			hostent *hpa=gethostbyname(host);
-			if (!hpa) return -1;
+			if (!hpa){
+				download_set_block(0);
+				return -1;
+			};
 			memcpy((char *)&info.sin_addr,hpa->h_addr_list[0],(size_t) hpa->h_length);
 #endif /* !(defined(BSD) && (BSD >= 199306)) */
 			download_set_block(0);

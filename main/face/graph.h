@@ -12,12 +12,14 @@
 #define MY_GTK_GRAPH
 
 #include "../meter.h"
+#include <gtk/gtk.h>
 
 struct MyGtkGraph{
 	GtkWidget widget;
 	GdkColor TextColor;
 	GdkRgbCmap *cmap;
 	tMeter *LocalM,*GlobalM;
+	PangoFontDescription *font_desc;
 	guchar *rgb_data;
 	int show_speed;
 };

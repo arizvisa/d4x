@@ -194,9 +194,9 @@ CLEANFILES = *~
 DEFAULT_INCLUDES = -I$(top_builddir)
 
 bin_PROGRAMS = nt
+@EXTRA_OPTIMIZE_FALSE@nt_SOURCES = $(nt_SOURCES_LIST)
 
 @EXTRA_OPTIMIZE_TRUE@nt_SOURCES = nt.all_cc.cc
-@EXTRA_OPTIMIZE_FALSE@nt_SOURCES = $(nt_SOURCES_LIST)
 
 #
 # HINT: c note from face/Makefile.am
@@ -246,14 +246,14 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = nt$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am__nt_SOURCES_DIST = nt.all_cc.cc $(strip addr.cc eff.cc log.cc \
-	schedule.cc alt.cc filter.cc main.cc segments.cc autoadd.cc \
-	fsearch.cc mainlog.cc signal.cc base64.cc ftp.cc memwl.cc sm.cc \
-	client.cc ftpd.cc meter.cc sndserv.cc xml.cc history.cc \
-	msgqueue.cc socket.cc config.cc hproxy.cc mutex.cc socks.cc \
-	cookie.cc html.cc nt.cc sort.cc db.cc http.cc ping.cc speed.cc \
-	dlist.cc httpd.cc queue.cc srvclt.cc download.cc liststr.cc \
-	savedvar.cc var.cc dqueue.cc locstr.cc savelog.cc recode.cc )
+am__nt_SOURCES_DIST = $(strip addr.cc eff.cc log.cc schedule.cc alt.cc \
+	filter.cc main.cc segments.cc autoadd.cc fsearch.cc mainlog.cc \
+	signal.cc base64.cc ftp.cc memwl.cc sm.cc client.cc ftpd.cc \
+	meter.cc sndserv.cc xml.cc history.cc msgqueue.cc socket.cc \
+	config.cc hproxy.cc mutex.cc socks.cc cookie.cc html.cc nt.cc \
+	sort.cc db.cc http.cc ping.cc speed.cc dlist.cc httpd.cc \
+	queue.cc srvclt.cc download.cc liststr.cc savedvar.cc var.cc \
+	dqueue.cc locstr.cc savelog.cc recode.cc ) nt.all_cc.cc
 am__objects_1 = addr.$(OBJEXT) eff.$(OBJEXT) log.$(OBJEXT) \
 	schedule.$(OBJEXT) alt.$(OBJEXT) filter.$(OBJEXT) \
 	main.$(OBJEXT) segments.$(OBJEXT) autoadd.$(OBJEXT) \

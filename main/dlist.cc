@@ -1777,7 +1777,14 @@ void tDownload::prepare_splits(){
 	DBC_RETURN_IF_FAIL(segments!=NULL);
 	tSegment *holes=segments->to_holes(finfo.size);
 	tSegment *tmp;
-//	printf("split to %i parts\n",split->NumOfParts);
+/*
+	printf("split to %i parts[holes->offest_in_file=%i]\n",split->NumOfParts,holes->offset_in_file);
+	tmp=holes;
+	while(tmp){
+		printf("L[%i]:%li %li\n",holes->offset_in_file,holes->begin,holes->end);
+		tmp=tmp->next;
+	};
+*/
 	while(split->NumOfParts>holes->offset_in_file){
 		tSegment *largest=holes;
 		tmp=holes->next;
@@ -1825,6 +1832,7 @@ void tDownload::prepare_splits(){
 	int alt_num=1;
 	while(holes){
 		tmp=holes->next;
+//		printf("H:%li %li\n",holes->begin,holes->end);
 		if (parent->split->thread_num<newsplit->NumOfParts){
 			if (newsplit->next_part==NULL)
 				newsplit->next_part=new tDownload;
@@ -1843,7 +1851,7 @@ void tDownload::prepare_splits(){
 			parent=temp;
 			temp->split->FirstByte=holes->begin;
 			temp->split->LastByte=holes->end;
-//		printf("%li %li\n",newsplit->FirstByte,newsplit->LastByte);
+//			printf("%li %li\n",newsplit->FirstByte,newsplit->LastByte);
 			temp->segments=segments;
 			if (temp->config==NULL) temp->config=new tCfg;
 			temp->config->copy(config);

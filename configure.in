@@ -195,8 +195,8 @@ if test "$enable_esd" = "yes"; then
     AC_SUBST(ESD_LIBS)
 fi
 
-AM_PATH_GLIB_2_0(2.0.6,, AC_MSG_ERROR([*** GLIB >= 2.0.6 not installed! ***]))
-AM_PATH_GTK_2_0(2.0.6,, AC_MSG_ERROR([*** GTK >= 2.0.6 not installed! ***]))
+AM_PATH_GLIB_2_0(2.2.0,, AC_MSG_ERROR([*** GLIB >= 2.2.0 not installed! ***]))
+AM_PATH_GTK_2_0(2.2.0,, AC_MSG_ERROR([*** GTK >= 2.2.0 not installed! ***]))
 #PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.6 glib-2.0 >= 2.0.6)
 
 # POSIX threads should be always present...

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-28 06:14+0700\n"
+"POT-Creation-Date: 2004-01-05 21:27+0700\n"
 "PO-Revision-Date: 1999-08-24 17:12+07\n"
 "Last-Translator: Koshelev Maxim <chuchelo@krasu.ru>\n"
 "Language-Team: Russian <chuchelo@krasu.ru>\n"
@@ -435,7 +435,7 @@ msgstr "Это ссылка и она уже загружена"
 msgid "Trying to work without CWD"
 msgstr "Пытаюсь работать без CWD"
 
-#: main/dlist.cc:1790
+#: main/dlist.cc:1797
 msgid "Can't split file to specified number of parts!"
 msgstr "Не могу разделить файл на указаное количество частей!"
 
@@ -1544,7 +1544,7 @@ msgstr "Ввидите маску"
 msgid "Unselect"
 msgstr "Снять выделение"
 
-#: main/face/lod.cc:1363
+#: main/face/lod.cc:1398
 msgid "Status"
 msgstr "Статус"
 
@@ -2497,11 +2497,11 @@ msgstr "Не удается открыть файл для записи лога
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "БАГ: неправильный режим lseek!\n"
 
-#: main/nt.cc:146
+#: main/nt.cc:148
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr "ВНИМАНИЕ!!! Переменная HOME не найдена! Настройки не прочитаны!"
 
-#: main/nt.cc:159
+#: main/nt.cc:161
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s возможно уже запущен\n"
@@ -2528,7 +2528,7 @@ msgstr "Не удается сохранить список закачек!"
 msgid "Can't load default list of downloads!!!"
 msgstr "Не удается загрузить список закачек!"
 
-#: main/signal.cc:53 main/signal.cc:72
+#: main/signal.cc:53 main/signal.cc:73
 msgid "Download  was stopped by user"
 msgstr "Закачка остановлена пользователем"
 

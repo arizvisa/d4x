@@ -46,7 +46,7 @@ static void init_string_variables(){
 		CFG.EXEC_WHEN_QUIT=copy_string("");
 	if (!CFG.GLOBAL_SAVE_PATH) {
 		if (HOME_VARIABLE)
-			CFG.GLOBAL_SAVE_PATH=sum_strings(HOME_VARIABLE,"/MyDownloads");
+			CFG.GLOBAL_SAVE_PATH=sum_strings(HOME_VARIABLE,"/MyDownloads",NULL);
 		else
 			CFG.GLOBAL_SAVE_PATH=copy_string("/");
 	};
@@ -114,7 +114,9 @@ void test_segments(){
 	tSegmentator segments;
 	printf("0-1500:%i\n",segments.insert(0,1500));
 	segments.print();
-	printf("1500-3000:%i\n",segments.insert(1500,3000));
+	printf("0-1500:%i\n",segments.insert(0,1500));
+	segments.print();
+	printf("1500-1600:%i\n",segments.insert(1500,1600));
 	segments.print();
 	printf("1100-1200:%i\n",segments.insert(1100,1200));
 	segments.print();

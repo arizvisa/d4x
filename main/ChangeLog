@@ -1,3 +1,18 @@
+2004-01-05  Maximka  <max@localhost.localdomain>
+
+	* face/lod.cc: fixed changing current log when browsing in queue using keys;
+	* segments.cc: fixed adding 0-xxx segment twice;
+	* face/mywidget.cc: fixed selecting color in some cases;
+	* main.cc: fixed proceeding next item in queue when multithreaded download was failed;
+
+2004-01-04  Maxim Koshelev  <max@localhost.localdomain>
+
+	* socket.cc: fixed stopping thread after exiting from gethostbyname;
+
+2004-01-02  Maxim Koshelev  <max@localhost.localdomain>
+
+	* nt.cc: fixed segfault when there is no configuration files found;
+
 2003-12-27  Maxim Koshelev  <max@localhost.localdomain>
 
 	* ftp.cc: fixed non-UTF string in logs of FTP downloads;

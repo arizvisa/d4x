@@ -1,3 +1,13 @@
+2.5.0rc2
+	Fixed canging current log in Main Window when browsing using keys;
+	Fixed some GTK runtime assertions;
+	Fixed stoping thread just after exiting from gethostbyname;
+	Fixed segfault when no configuration files are found;
+	Fixed downloading in number of threads after stopping onethreaded downloading;
+	Fixed changing colors of graph;
+	Fixed continuing next item in queue when multithreaded download has failed;
+	Updated Hungarian translation (thanks to Sa'ndor Pinte'r);
+	
 2.5.0rc1
 	Added ability to specify different proxy per alternates;
 	Added ability to select speed format per queue;

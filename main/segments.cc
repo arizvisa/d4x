@@ -111,7 +111,7 @@ int tSegmentator::insert(unsigned long int begin, unsigned long int end){
 	if (FIRST){
 		tSegment *cur=FIRST;
 		tSegment *prev=NULL;
-		while(cur && cur->end<begin-1){
+		while(cur && cur->end+1<begin){
 			prev=cur;
 			cur=cur->next;
 		};

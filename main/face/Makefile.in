@@ -191,9 +191,9 @@ CLEANFILES = *~
 EXTRA_DIST = pixmaps pixmaps2
 
 noinst_LIBRARIES = libface.a
+@EXTRA_OPTIMIZE_FALSE@libface_a_SOURCES = $(libface_a_SOURCES_LIST)
 
 @EXTRA_OPTIMIZE_TRUE@libface_a_SOURCES = libface_a.all_cc.cc
-@EXTRA_OPTIMIZE_FALSE@libface_a_SOURCES = $(libface_a_SOURCES_LIST)
 
 libface_a_SOURCES_LIST = $(strip      \
   about.cc     fsched.cc  misc.cc     \
@@ -225,11 +225,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libface_a_AR = $(AR) cru
 libface_a_LIBADD =
-am__libface_a_SOURCES_DIST = libface_a.all_cc.cc $(strip about.cc \
-	fsched.cc misc.cc addd.cc fsface.cc mywidget.cc buttons.cc \
-	graph.cc passface.cc colors.cc list.cc prefs.cc filtrgui.cc \
-	lmenu.cc qtree.cc dndtrash.cc lod.cc saveload.cc edit.cc log.cc \
-	)
+am__libface_a_SOURCES_DIST = $(strip about.cc fsched.cc misc.cc addd.cc \
+	fsface.cc mywidget.cc buttons.cc graph.cc passface.cc colors.cc \
+	list.cc prefs.cc filtrgui.cc lmenu.cc qtree.cc dndtrash.cc \
+	lod.cc saveload.cc edit.cc log.cc ) libface_a.all_cc.cc
 am__objects_1 = about.$(OBJEXT) fsched.$(OBJEXT) misc.$(OBJEXT) \
 	addd.$(OBJEXT) fsface.$(OBJEXT) mywidget.$(OBJEXT) \
 	buttons.$(OBJEXT) graph.$(OBJEXT) passface.$(OBJEXT) \

@@ -1024,7 +1024,7 @@ void tMain::check_split(tDownload *dwn){
 			return;
 		stop_download(grandparent);
 		grandparent->action=ACTION_FAILED;
-		main_circle_first(dwn);
+		main_circle_second(dwn);
 		return;
 	};
 	if (grandparent->split->prepared){

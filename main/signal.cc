@@ -53,6 +53,7 @@ void download_set_block(int a){
 			(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
 			D4X_UPDATE.add(*temp,DOWNLOAD_REAL_STOP);
 			pthread_exit(NULL);
+			return;
 		};
 		(*temp)->BLOCKED=a;
 	};

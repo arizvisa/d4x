@@ -160,9 +160,9 @@ static void my_gtk_colorsel_expose(GtkWidget *widget,GdkEventExpose *event,MyGtk
 	for (int y=0;y<h;y++){
 		for (int x=0;x<w;x++){
 			buf[i]=0;
-			buf[i++]=colsel->color.red/0xff;
-			buf[i++]=colsel->color.green/0xff;
-			buf[i++]=colsel->color.blue/0xff;
+			buf[i++]=colsel->color.red>>8;
+			buf[i++]=colsel->color.green>>8;
+			buf[i++]=colsel->color.blue>>8;
 		};
 	};
 	gdk_draw_rgb_image(widget->window,widget->style->black_gc,
@@ -271,17 +271,17 @@ guint my_gtk_colorsel_get_type(){
 
 gint my_gtk_colorsel_get_color(MyGtkColorsel *colsel){
 	gint color=0;
-	color=((gint(colsel->color.blue/0xff))&0xff)+
-	      (((gint(colsel->color.green/0xff))&0xff)<<8)+
-	      (((gint(colsel->color.red/0xff))&0xff)<<16);
+	color=((gint(colsel->color.blue>>8))&0xff)+
+		(((gint(colsel->color.green>>8))&0xff)<<8)+
+		(((gint(colsel->color.red>>8))&0xff)<<16);
 	return color;
 };
 
 void my_gtk_colorsel_set_color(MyGtkColorsel *colsel, gint color){
 	g_return_if_fail(colsel!=NULL);
-	colsel->color.blue=(color&0xff)*0xff;
-	colsel->color.green=((color>>8)&0xff)*0xff;
-	colsel->color.red=((color>>16)&0xff)*0xff;
+	colsel->color.blue=((color&0xff)<<8)+(color&0xff);
+	colsel->color.green=(((color>>8)&0xff)<<8)+((color>>8)&0xff);
+	colsel->color.red=(((color>>16)&0xff)<<8)+((color>>16)&0xff);
 	if (GTK_WIDGET_VISIBLE(colsel))
 		gtk_widget_queue_draw (colsel->preview); 
 };
