@@ -47,6 +47,7 @@ struct tCfg{
  */
 	int proxy_port;
 	int proxy_type;
+	int proxy_no_cache;
 	tPStr proxy_host;
 	tPStr proxy_user;
 	tPStr proxy_pass;
@@ -63,7 +64,7 @@ struct tCfg{
 	~tCfg();
 };
 
-struct tAddr;
+#include "addr.h"
 
 class tDownloader{
     protected:
@@ -71,10 +72,8 @@ class tDownloader{
     tWriterLoger *LOG;
     int RetrNum;
     int Status;
-    char *HOST,*USER,*PASS,*D_PATH;
+    tAddr ADDR;
     tFileInfo D_FILE;
-    int D_PORT;
-    int MASK;
     int StartSize;
     int LOADED;
  public:

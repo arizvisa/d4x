@@ -26,7 +26,7 @@
 
 tCfg::tCfg() {
 	speed=0;
-	proxy_type=0;
+	proxy_no_cache=proxy_type=0;
 	link_as_file=leave_server=0;
 	dont_leave_dir=0;
 	restart_from_begin=0;
@@ -53,6 +53,7 @@ void tCfg::copy_ints(tCfg *src){
 	rollback = src->rollback;
 	link_as_file = src->link_as_file;
 	leave_server = src->leave_server;
+	proxy_no_cache = src->proxy_no_cache;
 };
 
 int tCfg::get_flags(){
@@ -98,6 +99,7 @@ void tCfg::save_to_config(int fd){
 			write_named_string(fd,"Proxy_user:",proxy_user.get());
 		};
 	};
+	write_named_integer(fd,"proxy_no_cache:",proxy_no_cache);
 	if (user_agent.get() && *(user_agent.get()))
 		write_named_string(fd,"User_agent:",user_agent.get());
 		
@@ -151,7 +153,8 @@ int tCfg::load_from_config(int fd){
 		"save_path:",//21
 		"dont_leave_dir:",//22
 		"referer:",//23
-		"EndCfg:" //24
+		"proxy_no_cache:",//24
+		"EndCfg:" //25
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){
@@ -281,6 +284,11 @@ int tCfg::load_from_config(int fd){
 			break;
 		};
 		case 24:{
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&proxy_no_cache);
+			break;
+		};		
+		case 25:{
 			return 0;
 		};
 		};
@@ -334,7 +342,6 @@ void tDownloader::print_error(int error_code){
 
 tDownloader::tDownloader(){
 	LOG=NULL;
-	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
@@ -363,9 +370,8 @@ int tDownloader::rollback(){
 };
 
 void tDownloader::init_download(char *path,char *file) {
-	D_FILE.name.set(file);
-	if (D_PATH) delete(D_PATH);
-	D_PATH=copy_string(path);
+	ADDR.file.set(file);
+	ADDR.path.set(path);
 };
 
 void tDownloader::set_loaded(int a) {
@@ -390,9 +396,9 @@ int tDownloader::get_start_size() {
 
 void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 	char *temp;
-	temp=sum_strings(".",D_FILE.name.get(),NULL);
+	temp=sum_strings(".",ADDR.file.get(),NULL);
 	*name=compose_path(path,temp);
-	*guess=compose_path(path,D_FILE.name.get());
+	*guess=compose_path(path,ADDR.file.get());
 	delete temp;
 };
 

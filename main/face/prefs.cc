@@ -85,11 +85,13 @@ GtkWidget *prefs_log_length;
 GtkWidget *prefs_log_fsize,*prefs_log_fslabel;
 GtkWidget *prefs_log_detailed;
 
-GtkWidget *prefs_columns_nums_button1,*prefs_columns_nums_button2,*prefs_columns_nums_button3;
+GtkWidget *prefs_columns_nums_button1,*prefs_columns_nums_button2,*prefs_columns_nums_button3,*prefs_columns_nums_button4;
 GtkWidget *prefs_columns_time_button1,*prefs_columns_time_button2;
 tColumnsPrefs prefs_columns_order;
 
-GtkWidget *prefs_confirm_delete,*prefs_confirm_delete_all,*prefs_confirm_delete_completed,*prefs_confirm_delete_fataled,*prefs_confirm_exit;
+GtkWidget *prefs_confirm_delete,*prefs_confirm_delete_all;
+GtkWidget *prefs_confirm_delete_completed,*prefs_confirm_delete_fataled;
+GtkWidget *prefs_confirm_exit,*prefs_confirm_opening_many;
 
 GtkWidget *prefs_speed_limit_1,*prefs_speed_limit_2;
 GtkWidget *prefs_speed_color_back;
@@ -191,12 +193,12 @@ void init_options_window(...) {
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_retry_if_noreget,0,1,3,4);
 	prefs_common_window_lower=gtk_check_button_new_with_label(_("Iconify main window when closing"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_window_lower,0,1,4,5);
-	prefs_common_ftp_permisions=gtk_check_button_new_with_label(_("Get permisions of the file from server (FTP only)"));
+	prefs_common_ftp_permisions=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_ftp_permisions,0,1,5,6);
 	prefs_common_use_title=gtk_check_button_new_with_label(_("Use title of main window for info"));
 	//    gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_use_title,1,2,0,1);
 	gtk_signal_connect(GTK_OBJECT(prefs_common_use_title),"clicked",GTK_SIGNAL_FUNC(options_toggle_title),NULL);
-	prefs_common_use_title2=gtk_check_button_new_with_label(_("Display queue statistc too"));
+	prefs_common_use_title2=gtk_check_button_new_with_label(_("Display queue statistics too"));
 	//    gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_use_title2,1,2,1,2);
 	prefs_common_scroll_title=gtk_check_button_new_with_label(_("Scroll title"));
 	gtk_box_pack_start(GTK_BOX(prefs_common_vbox2),prefs_common_use_title,FALSE,FALSE,0);
@@ -227,7 +229,7 @@ void init_options_window(...) {
 
 	prefs_common_default_permisions=gtk_entry_new();
 	gtk_widget_set_usize(prefs_common_default_permisions,30,-1);
-	GtkWidget *prefs_common_default_permisions_label=gtk_label_new(_("Default permisions of file"));
+	GtkWidget *prefs_common_default_permisions_label=gtk_label_new(_("Default permissions of file"));
 	GtkWidget *prefs_common_default_permisions_box=gtk_hbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_default_permisions_box),prefs_common_default_permisions,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_default_permisions_box),prefs_common_default_permisions_label,FALSE,FALSE,0);
@@ -399,7 +401,7 @@ void init_options_window(...) {
 	prefs_other_exec=my_gtk_filesel_new(ALL_HISTORIES[EXEC_HISTORY]);
 	MY_GTK_FILESEL(prefs_other_exec)->modal=GTK_WINDOW(options_window);
 	text_to_combo(MY_GTK_FILESEL(prefs_other_exec)->combo,CFG.EXEC_WHEN_QUIT);
-	prefs_other_elabel=gtk_label_new(_("Run this when exit"));
+	prefs_other_elabel=gtk_label_new(_("Run this on exit"));
 	gtk_box_pack_start(GTK_BOX(prefs_other_ebox),prefs_other_elabel,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_other_ebox),prefs_other_exec,TRUE,TRUE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ebox,0,2,1,2);
@@ -485,7 +487,7 @@ void init_options_window(...) {
 	prefs_log_append=gtk_radio_button_new_with_label((GSList *)NULL,_("Append to file"));
 	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_log_append,FALSE,FALSE,0);
 	GSList *other_group=gtk_radio_button_group(GTK_RADIO_BUTTON(prefs_log_append));
-	prefs_log_rewrite=gtk_radio_button_new_with_label(other_group,_("Rewrite file"));
+	prefs_log_rewrite=gtk_radio_button_new_with_label(other_group,_("Overwrite file"));
 	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_log_rewrite,FALSE,FALSE,0);
 	GTK_TOGGLE_BUTTON(prefs_log_append)->active=CFG.APPEND_REWRITE_LOG;
 	GTK_TOGGLE_BUTTON(prefs_log_rewrite)->active=!CFG.APPEND_REWRITE_LOG;
@@ -520,7 +522,12 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(columns_vbox1),prefs_columns_nums_button2,FALSE,FALSE,0);
 	prefs_columns_nums_button3=gtk_radio_button_new_with_label(
 	                               gtk_radio_button_group(GTK_RADIO_BUTTON(prefs_columns_nums_button2)),"123K");
+	prefs_columns_nums_button3=gtk_radio_button_new_with_label(
+	                               gtk_radio_button_group(GTK_RADIO_BUTTON(prefs_columns_nums_button2)),"123K");
 	gtk_box_pack_start(GTK_BOX(columns_vbox1),prefs_columns_nums_button3,FALSE,FALSE,0);
+	prefs_columns_nums_button4=gtk_radio_button_new_with_label(
+	                               gtk_radio_button_group(GTK_RADIO_BUTTON(prefs_columns_nums_button3)),"123'456");
+	gtk_box_pack_start(GTK_BOX(columns_vbox1),prefs_columns_nums_button4,FALSE,FALSE,0);
 
 	switch(CFG.NICE_DEC_DIGITALS.curent) {
 		case 1:
@@ -531,6 +538,11 @@ void init_options_window(...) {
 		case 2:
 			{
 				gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_columns_nums_button3),TRUE);
+				break;
+			};
+		case 3:
+			{
+				gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_columns_nums_button4),TRUE);
 				break;
 			};
 		default:
@@ -582,17 +594,20 @@ void init_options_window(...) {
 	prefs_confirm_delete=gtk_check_button_new_with_label(_("Confirm delete selected downloads"));
 	prefs_confirm_delete_all=gtk_check_button_new_with_label(_("Confirm delete all downloads"));
 	prefs_confirm_delete_completed=gtk_check_button_new_with_label(_("Confirm delete completed downloads"));
-	prefs_confirm_delete_fataled=gtk_check_button_new_with_label(_("Confirm delete fataled downloads"));
+	prefs_confirm_delete_fataled=gtk_check_button_new_with_label(_("Confirm delete failed downloads"));
+	prefs_confirm_opening_many=gtk_check_button_new_with_label(_("Confirm opening large amount of windows"));
 	prefs_confirm_exit=gtk_check_button_new_with_label(_("Confirm exit from program"));
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_confirm_delete),CFG.CONFIRM_DELETE);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_confirm_delete_completed),CFG.CONFIRM_DELETE_COMPLETED);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_confirm_delete_fataled),CFG.CONFIRM_DELETE_FATALED);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_confirm_delete_all),CFG.CONFIRM_DELETE_ALL);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_confirm_opening_many),CFG.CONFIRM_OPENING_MANY);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_confirm_exit),CFG.CONFIRM_EXIT);
 	gtk_box_pack_start(GTK_BOX(vbox),prefs_confirm_delete,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),prefs_confirm_delete_all,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),prefs_confirm_delete_completed,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),prefs_confirm_delete_fataled,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),prefs_confirm_opening_many,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),prefs_confirm_exit,FALSE,FALSE,0);
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),frame,gtk_label_new(_("Confirmation")));
 	/* Speed
@@ -637,9 +652,10 @@ void init_options_window(...) {
 	GtkWidget *button_reset=gtk_button_new_with_label(_("Reset to default"));
 	gtk_signal_connect(GTK_OBJECT(button_reset),"clicked",GTK_SIGNAL_FUNC(options_window_reset_colors),NULL);
 	gtk_box_pack_start(GTK_BOX(vbox_colors),button_reset,FALSE,FALSE,0);
-	GtkWidget *frame_colors=gtk_frame_new(_("Graph colors"));
+	GtkWidget *frame_colors=gtk_frame_new(_("Colors for graph"));
 	gtk_container_border_width(GTK_CONTAINER(frame_colors),5);
 	gtk_container_add(GTK_CONTAINER(frame_colors),vbox_colors);
+	gtk_container_border_width(GTK_CONTAINER(vbox_colors),5);
 	GtkWidget *hbox_colors=gtk_hbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox_colors),frame_colors,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox_colors),gtk_hbox_new(FALSE,0),FALSE,FALSE,0);
@@ -700,6 +716,7 @@ void options_window_ok() {
 	CFG.CONFIRM_DELETE_COMPLETED=GTK_TOGGLE_BUTTON(prefs_confirm_delete_completed)->active;
 	CFG.CONFIRM_DELETE_FATALED=GTK_TOGGLE_BUTTON(prefs_confirm_delete_fataled)->active;
 	CFG.CONFIRM_EXIT=GTK_TOGGLE_BUTTON(prefs_confirm_exit)->active;
+	CFG.CONFIRM_OPENING_MANY=GTK_TOGGLE_BUTTON(prefs_confirm_opening_many)->active;
 	CFG.GRAPH_ORDER=GTK_TOGGLE_BUTTON(prefs_common_graph_order)->active;
 	CFG.DND_TRASH=GTK_TOGGLE_BUTTON(prefs_common_dnd_trash)->active;
 	CFG.EXIT_COMPLETE=GTK_TOGGLE_BUTTON(prefs_common_exit_complete)->active;
@@ -711,14 +728,9 @@ void options_window_ok() {
 
 	prefs_proxy->apply_changes();
 
-	if (GTK_TOGGLE_BUTTON(prefs_columns_nums_button2)->active)
-		CFG.NICE_DEC_DIGITALS.curent=1;
-	else {
-		if (GTK_TOGGLE_BUTTON(prefs_columns_nums_button3)->active)
-			CFG.NICE_DEC_DIGITALS.curent=2;
-		else
-			CFG.NICE_DEC_DIGITALS.curent=0;
-	};
+	CFG.NICE_DEC_DIGITALS.curent=(GTK_TOGGLE_BUTTON(prefs_columns_nums_button2)->active?1:0)+
+		(GTK_TOGGLE_BUTTON(prefs_columns_nums_button3)->active?2:0)+
+		(GTK_TOGGLE_BUTTON(prefs_columns_nums_button4)->active?3:0);
 	if (CFG.DELETE_COMPLETED) aa.del_completed();
 	if (CFG.DELETE_FATAL) aa.del_fataled();
 	int  temp=0;

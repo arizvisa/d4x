@@ -106,6 +106,7 @@ tLimitDialog::~tLimitDialog() {
 
 //-------------------------------------------------------------------------------
 static void face_limits_ok(GtkWidget *widget, tFaceLimits *parent) {
+	parent->set_default();
 	parent->close();
 };
 
@@ -149,32 +150,12 @@ static int face_limits_list_event_callback(GtkWidget *widget,GdkEvent *event,tFa
 	return FALSE;
 };
 
-int calc_curent_run(char *host,int port) {
-	tDownload *temp=DOWNLOAD_QUEUES[DL_RUN]->last();
-	int count=0;
-	while(temp) {
-		if (strcmp(host,temp->info->host.get())==0 && port==temp->info->port){
-			count+=1;
-			if (temp->split){
-				tDownload *temp1=temp->split->next_part;
-				while (temp1){
-					count+=1;
-					temp1=temp1->split->next_part;
-				};
-			};
-		};
-		temp=DOWNLOAD_QUEUES[DL_RUN]->next();
-	};
-	return count;
-};
-
 tFaceLimits::tFaceLimits() {
 	window=NULL;
 	dialog=NULL;
 	size1=CFG.FACE_LIMITS_SIZE1;
 	size2=CFG.FACE_LIMITS_SIZE2;
 };
-
 
 void tFaceLimits::apply_dialog() {
 	if (!dialog) return;
@@ -189,6 +170,7 @@ void tFaceLimits::apply_dialog() {
 	tSortString *temp=LimitsForHosts->find(host,port);
 	if (temp) {
 		temp->upper=limit;
+		temp->flag=0;
 		if (dialog->oldhost!=NULL && dialog->oldport!=port && (temp=LimitsForHosts->find(dialog->oldhost,dialog->oldport))) {
 			LimitsForHosts->del(temp);
 			delete temp;
@@ -289,16 +271,18 @@ void tFaceLimits::redraw() {
 	gtk_clist_clear(GTK_CLIST(clist));
 	tSortString *temp=LimitsForHosts->last();
 	while(temp) {
-		char data1[MAX_LEN];
-		char data2[MAX_LEN];
-		char data3[MAX_LEN];
-		sprintf(data1,"%s:%i",temp->body,temp->key);
-		sprintf(data2,"%i",temp->upper);
-		sprintf(data3,"%i",temp->curent);
-		char *data[]={data1,data2,data3};
-		int row=gtk_clist_append(GTK_CLIST(clist),data);
-       		gtk_clist_set_row_data(GTK_CLIST(clist),row,temp);
-		temp->row=row;
+		if (temp->flag==0){
+			char data1[MAX_LEN];
+			char data2[MAX_LEN];
+			char data3[MAX_LEN];
+			sprintf(data1,"%s:%i",temp->body,temp->key);
+			sprintf(data2,"%i",temp->upper);
+			sprintf(data3,"%i",temp->curent);
+			char *data[]={data1,data2,data3};
+			int row=gtk_clist_append(GTK_CLIST(clist),data);
+			gtk_clist_set_row_data(GTK_CLIST(clist),row,temp);
+			temp->row=row;
+		};
 		temp=LimitsForHosts->next();
 	};
 	gtk_clist_thaw(GTK_CLIST(clist));
@@ -343,6 +327,16 @@ void tFaceLimits::init() {
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
+	GtkWidget *tmphbox=gtk_hbox_new(FALSE,0);
+	GtkWidget *label=gtk_label_new(_("Default limitation for all hosts (0 without limits)"));
+	default_entry=gtk_entry_new_with_max_length(2);
+	gtk_widget_set_usize(default_entry,40,-1);
+	char data[MAX_LEN];
+	sprintf(data,"%i",LimitsForHosts->get_default_limit());
+	gtk_entry_set_text(GTK_ENTRY(default_entry),data);
+	gtk_box_pack_start(GTK_BOX(tmphbox),default_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(tmphbox),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),tmphbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),add_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),del_button,FALSE,FALSE,0);
@@ -356,6 +350,12 @@ void tFaceLimits::init() {
 	gtk_signal_connect(GTK_OBJECT(del_button),"clicked",GTK_SIGNAL_FUNC(face_limits_del),this);
 	gtk_signal_connect(GTK_OBJECT(add_button),"clicked",GTK_SIGNAL_FUNC(face_limits_add),this);
 	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(face_limits_delete), this);
+};
+
+void tFaceLimits::set_default(){
+	int limit=0;
+	if (sscanf(gtk_entry_get_text(GTK_ENTRY(default_entry)),"%i",&limit))
+		LimitsForHosts->set_default_limit(limit);
 };
 
 tFaceLimits::~tFaceLimits() {

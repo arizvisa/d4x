@@ -48,7 +48,7 @@ GtkWidget *ContainerForCList=(GtkWidget *)NULL;
 GdkGC *MainWindowGC;
 GtkWidget *BoxForGraph;
 GtkItemFactory *main_menu_item_factory;
-GtkWidget *MainLogList,*MAIN_PANED;
+GtkWidget *MainLogList,*MAIN_PANED=(GtkWidget *)NULL;
 int main_log_mask;
 unsigned int ScrollShift[2];
 int mainwin_title_state;
@@ -72,6 +72,7 @@ pthread_mutex_t MAIN_GTK_MUTEX=(pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 
 int FirstConfigureEvent;
 int UpdateTitleCycle=0;
+int MAIN_PANED_HEIGHT=0;
 char *OLD_CLIPBOARD_CONTENT=NULL;
 enum{
 	ROLL_STAT=0,
@@ -345,7 +346,7 @@ void my_main_quit(...) {
 	if (FaceForPasswords)
 		delete (FaceForPasswords);
 	if (CFG.WITHOUT_FACE==0){
-		add_window_cancel();
+		delete(list_for_adding);
 		options_window_cancel();
 		destroy_about_window();
 		gtk_widget_destroy(MainWindow);
@@ -405,7 +406,7 @@ void stop_downloads(...) {
 void ask_exit(...) {
 	if (CFG.CONFIRM_EXIT) {
 		if (!AskExit) AskExit=new tDialogWidget;
-		if (AskExit->init(_("Do you realy want to quit?"),_("Quit?")))
+		if (AskExit->init(_("Do you really want to quit?"),_("Quit?")))
 			gtk_signal_connect(GTK_OBJECT(AskExit->ok_button),"clicked",GTK_SIGNAL_FUNC(my_main_quit),NULL);
 		AskExit->set_modal(MainWindow);
 	} else
@@ -483,7 +484,7 @@ void continue_downloads(...) {
 
 /* ******************************************************************** */
 void init_status_bar() {
-	ProgressBarValues = (GtkAdjustment *) gtk_adjustment_new (0, 1, 200 , 0, 0, 0);
+	ProgressBarValues = (GtkAdjustment *) gtk_adjustment_new (0, 1, 0 , 0, 0, 0);
 	ProgressOfDownload = gtk_progress_bar_new_with_adjustment(ProgressBarValues);
 	/* Set the format of the string that can be displayed in the
 	 * trough of the progress bar:
@@ -491,10 +492,10 @@ void init_status_bar() {
 	 * %v - value
 	 * %l - lower range value
 	 * %u - upper range value */
-	gtk_widget_set_usize(ProgressOfDownload,110,-1);
+	gtk_widget_set_usize(ProgressOfDownload,180,-1);
 	gtk_progress_set_format_string (GTK_PROGRESS (ProgressOfDownload),
-	                                "%p%%");
-	gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),TRUE);
+	                                "%p%%(%v/%u)");
+	gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),FALSE);
 	MainStatusBar=gtk_statusbar_new();
 	ReadedBytesStatusBar=gtk_statusbar_new();
 	StatusBarContext=gtk_statusbar_get_context_id(
@@ -509,20 +510,20 @@ void init_status_bar() {
 
 void update_progress_bar() {
 	tDownload *temp=list_of_downloads_last_selected();
-/*
 	GtkAdjustment *adj=GTK_PROGRESS(ProgressOfDownload)->adjustment;
 	if (adj){
-		adj->lower=0;
-		adj->upper = temp->finfo.size>0 ? temp->finfo.size : 1;
-		gtk_progress_bar_update((GtkProgressBar *)ProgressOfDownload,
-				adj->upper? temp->Size.curent/adj->upper: 0);
-	}else{
-*/
-	int percent=temp!=NULL?temp->Percent.curent:0;
-	if (percent>100) percent=100;
-	if (percent<0) percent=0;
-	gtk_progress_bar_update((GtkProgressBar *)ProgressOfDownload,
-				float(float(percent)/float(100)));
+		if(temp && (temp->finfo.size>0 || temp->Size.curent>0)){
+			adj->lower=0;
+			adj->upper = temp->finfo.size>temp->Size.curent ? temp->finfo.size : temp->Size.curent;
+			gtk_progress_set_value(GTK_PROGRESS(ProgressOfDownload),temp->Size.curent);
+			gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),TRUE);
+		}else{
+			adj->lower=0;
+			adj->upper = 1;
+			gtk_progress_set_value(GTK_PROGRESS(ProgressOfDownload),1);
+			gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),FALSE);
+		};
+	};
 	gtk_widget_show(ProgressOfDownload);
 	char data[MAX_LEN];
 	char data1[MAX_LEN];
@@ -562,13 +563,23 @@ static void cb_page_size( GtkAdjustment *get) {
 		main_log_value=get->value;
 }
 
+void list_of_downloads_allocation(GtkWidget *paned,GtkAllocation *allocation){
+	if (MAIN_PANED_HEIGHT && allocation->height!=MAIN_PANED_HEIGHT){
+		float ratio=(float)CFG.WINDOW_CLIST_HEIGHT/(float)(MAIN_PANED_HEIGHT-GTK_PANED(MAIN_PANED)->gutter_size);
+		CFG.WINDOW_CLIST_HEIGHT=int(ratio*(float)(allocation->height-GTK_PANED(MAIN_PANED)->gutter_size));
+		list_of_downloads_set_height();
+	};
+	MAIN_PANED_HEIGHT=allocation->height;
+	list_of_downloads_get_height();
+};
+
 void init_main_window() {
 	GtkWidget *hbox=gtk_hbox_new(FALSE,1);
 	MainHBox=hbox;
 	gtk_box_pack_start (GTK_BOX (hbox), MainStatusBar, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), ReadedBytesStatusBar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), ProgressOfDownload, FALSE, FALSE, 0);
-	gtk_widget_set_usize(hbox,-1,20);
+	gtk_box_pack_start (GTK_BOX (hbox), ReadedBytesStatusBar, FALSE, FALSE, 0);
+	gtk_widget_set_usize(hbox,-1,21);
 
 	MainLogList=gtk_clist_new(3);
 	gtk_clist_set_column_width (GTK_CLIST(MainLogList),0,1);
@@ -622,10 +633,11 @@ void init_main_window() {
 	gdk_window_move_resize(MainWindow->window,	gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION),
 												gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
 	graph_init();
-	//    gtk_widget_set_usize(ListOfDownloads,-1,-1);
 	gtk_signal_connect(GTK_OBJECT(TEMP), "expose_event",
 	                   GTK_SIGNAL_FUNC(graph_expose_event_handler),
 	                   NULL);
+	gtk_signal_connect (GTK_OBJECT (MAIN_PANED), "size_allocate",
+	                    GTK_SIGNAL_FUNC (list_of_downloads_allocation), NULL);
 };
 
 /* ******************************************************************* */
@@ -693,7 +705,7 @@ int time_for_logs_refresh(void *a) {
 	if (MainTimer==0) {
 		time_for_refresh(NULL);
 		MainTimer=(GLOBAL_SLEEP_DELAY*1000)/100;
-		get_mainwin_sizes(MainWindow);
+//		get_mainwin_sizes(MainWindow);
 	};
 	return 1;
 };

@@ -268,7 +268,7 @@ int tDownload::create_file() {
 	case T_DIR:
 	{ //this is a directory
 		WL->log(LOG_WARNING,_("Trying to create a dir"));
-		if (strlen(D_FILE->name.get())==0){
+		if (strlen(info->file.get())==0){
 			who->print_error(ERROR_DIRECTORY);
 			break;
 		};
@@ -512,6 +512,7 @@ void tDownload::convert_list_to_dir2(tStringList *dir) {
 		DIR->init(0);
 	};
 	tString *temp=dir->last();
+	char *URL=info->url();
 	while (temp) {
 		if (!global_url(temp->body) && !begin_string_uncase(temp->body,"javascript:")) {
 			tAddr *addrnew=new tAddr;
@@ -521,7 +522,17 @@ void tDownload::convert_list_to_dir2(tStringList *dir) {
 				addrnew->params.set(quest+1);
 				*quest=0;
 			};
-			char *tmp=rindex(temp->body,'/');
+			if (info->proto==D_PROTO_FTP){
+				quest=index(temp->body,';');
+				if (quest)
+					*quest=0;
+			};
+			/* %xx -> CHAR */
+			char *tmp=parse_percents(temp->body);
+			delete(temp->body);
+			temp->body=tmp;
+			/* end of small hack */
+			tmp=rindex(temp->body,'/');
 			onenew->config.save_path.set(config.save_path.get());
 			if (tmp) {
 				addrnew->file.set(tmp+1);
@@ -553,32 +564,41 @@ void tDownload::convert_list_to_dir2(tStringList *dir) {
 			onenew->config.copy(&config);
 			onenew->config.http_recurse_depth = config.http_recurse_depth ? config.http_recurse_depth-1 : 0;
 			onenew->config.ftp_recurse_depth = config.ftp_recurse_depth;
+			onenew->config.referer.set(URL);
 
 			if (addrnew->is_valid() && http_check_settings(addrnew))
 				DIR->insert(onenew);
 			else
 				delete(onenew);
 		}else{
-			if (begin_string_uncase(temp->body,"http://")){
-					tAddr *addrnew=new tAddr(temp->body);
-					if (addrnew->is_valid() && http_check_settings(addrnew)){
-						tDownload *onenew=new tDownload;
-						onenew->config.save_path.set(config.save_path.get());
-						onenew->config.http_recursing=1;
-						onenew->info=addrnew;
-
-						onenew->config.copy(&config);
-						onenew->config.http_recurse_depth = config.http_recurse_depth ? config.http_recurse_depth-1 : 0;
-						onenew->config.ftp_recurse_depth = config.ftp_recurse_depth;
+			if (begin_string_uncase(temp->body,"http://") ||
+			    begin_string_uncase(temp->body,"ftp://")){
+				tAddr *addrnew=new tAddr(temp->body);
+				if (info->proto==D_PROTO_FTP && addrnew->proto==D_PROTO_FTP){
+					char *quest=index(addrnew->file.get(),';');
+					if (quest)
+						*quest=0;
+				};
+				if (addrnew->is_valid() && http_check_settings(addrnew)){
+					tDownload *onenew=new tDownload;
+					onenew->config.save_path.set(config.save_path.get());
+					onenew->config.http_recursing=1;
+					onenew->info=addrnew;
+					
+					onenew->config.copy(&config);
+					onenew->config.referer.set(URL);
+					onenew->config.http_recurse_depth = config.http_recurse_depth ? config.http_recurse_depth-1 : 0;
+					onenew->config.ftp_recurse_depth = config.ftp_recurse_depth;
 						DIR->insert(onenew);
-					}else
-						delete addrnew;
+				}else
+					delete addrnew;
 			};
 		};
 		dir->del(temp);
 		delete temp;
 		temp=dir->last();
 	};
+	delete(URL);
 };
 
 void tDownload::save_to_config(int fd){
@@ -786,11 +806,7 @@ void tDownload::download_ftp(){
 		download_failed();
 		return;
 	};
-	char *tmp_path=parse_percents(info->path.get());
-	char *tmp_file=parse_percents(info->file.get());
-	who->init_download(tmp_path,tmp_file);
-	delete(tmp_file);
-	delete(tmp_path);
+	who->init_download(info->path.get(),info->file.get());
 	if (finfo.size<0) {
 		status=DOWNLOAD_SIZE_WAIT;
 		int size=who->get_size();

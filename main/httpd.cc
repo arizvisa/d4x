@@ -44,7 +44,6 @@ char *http_answers[]={
 
 tHttpDownload::tHttpDownload() {
 	LOG=NULL;
-	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
@@ -70,21 +69,17 @@ int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	LOG=log;
 	HTTP=new tHttpClient;
 	RetrNum=0;
-	HOST=hostinfo->host.get();
-	USER=hostinfo->username.get();
-	PASS=hostinfo->pass.get();
-	PARAMS=hostinfo->params.get();
-	D_PORT=hostinfo->port;
+	ADDR.copy(hostinfo);
 	answer=NULL;
 	ETag=NULL;
 	Auth=NULL;
 	D_FILE.type=T_FILE; //we don't know any other when download via http
 	config.copy_ints(cfg);
-	HTTP->init(HOST,LOG,D_PORT,config.timeout);
+	HTTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
 	config.user_agent.set(cfg->user_agent.get());
 	config.referer.set(cfg->referer.get());
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
-	HTTP->registr(USER,PASS);
+	HTTP->registr(ADDR.username.get(),ADDR.pass.get());
 	return reconnect();
 };
 
@@ -226,18 +221,24 @@ int tHttpDownload::analize_answer() {
 };
 
 char *tHttpDownload::make_name(){
-	char *rvalue=new char[strlen(D_PATH)+strlen(D_FILE.name.get())+
-			     (PARAMS ? strlen(PARAMS)+1:0)+strlen("//")+1];
+	char *parsed_name=unparse_percents(ADDR.file.get());
+	char *parsed_path=unparse_percents(ADDR.path.get());
+	char *rvalue=new char[strlen(parsed_path)+strlen(parsed_name)+
+			     (ADDR.params.get() ? strlen(ADDR.params.get())+1:0)+
+			     strlen("//")+1];
 	*rvalue=0;
 	strcat(rvalue,"/");
-	strcat(rvalue,D_PATH);
-	if (D_PATH[0]!=0 && D_PATH[strlen(D_PATH)-1]!='/')
+	strcat(rvalue,parsed_path);
+	int len=strlen(parsed_path);
+	if (*parsed_path!=0 && len && parsed_path[len-1]!='/')
 		strcat(rvalue,"/");
-	strcat(rvalue,D_FILE.name.get());
-	if (PARAMS){
+	strcat(rvalue,parsed_name);
+	if (ADDR.params.get()){
 		strcat(rvalue,"?");
-		strcat(rvalue,PARAMS);
+		strcat(rvalue,ADDR.params.get());
 	};
+	delete(parsed_path);
+	delete(parsed_name);
 	return rvalue;
 };
 
@@ -329,34 +330,30 @@ int tHttpDownload::reget() {
 
 void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) {
 	char *full_path;
-	char *parsed_path=parse_percents(D_PATH);
-	char *parsed_name=parse_percents(D_FILE.name.get());
-	int flag=strlen(parsed_name);
+	int flag=strlen(ADDR.file.get());
 	if (config.http_recursing){
 		if (config.leave_server){
-			char *tmp=compose_path(path,HOST);
-			full_path=compose_path(tmp,parsed_path);
+			char *tmp=compose_path(path,ADDR.host.get());
+			full_path=compose_path(tmp,ADDR.path.get());
 			delete tmp;
 		}else
-			full_path=compose_path(path,parsed_path);
+			full_path=compose_path(path,ADDR.path.get());
 	}else
 		full_path=copy_string(path);
 	char *temp;
 	if (flag){
-		temp=(config.http_recursing && PARAMS)?
-			sum_strings(".",parsed_name,"?",PARAMS,NULL):
-			sum_strings(".",parsed_name,NULL);
+		temp=(config.http_recursing && ADDR.params.get())?
+			sum_strings(".",ADDR.file.get(),"?",ADDR.params.get(),NULL):
+			sum_strings(".",ADDR.file.get(),NULL);
 		*name=compose_path(full_path,temp);
-		*guess=compose_path(full_path,parsed_name);
+		*guess=compose_path(full_path,ADDR.file.get());
 	}else{
-		temp=(config.http_recursing && PARAMS)?
-			sum_strings(".",CFG.DEFAULT_NAME,"?",PARAMS,NULL):
+		temp=(config.http_recursing && ADDR.params.get())?
+			sum_strings(".",CFG.DEFAULT_NAME,"?",ADDR.params.get(),NULL):
 			sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
 		*guess=compose_path(full_path,CFG.DEFAULT_NAME);
 	};
-	delete parsed_name;
-	delete parsed_path;
 	delete full_path;
 	delete temp;
 };
@@ -364,18 +361,14 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
 	char *temp=sum_strings(".",another_name,NULL);
 	char *full_path=NULL;
-	char *parsed_path=parse_percents(D_PATH);
-	char *parsed_name=parse_percents(D_FILE.name.get());
 	if (config.http_recursing)
-		full_path=compose_path(path,parsed_path);
+		full_path=compose_path(path,ADDR.path.get());
 	else
 		full_path=copy_string(path);
 	char *question_sign=index(full_path,'?');
 	if (question_sign) *question_sign=0;
 	*name=compose_path(full_path,temp);
 	*guess=compose_path(full_path,another_name);
-	delete parsed_name;
-	delete parsed_path;
 	delete full_path;
 	delete temp;
 };
@@ -390,7 +383,6 @@ tHttpDownload::~tHttpDownload() {
 	if (ETag) delete ETag;
 	if (OldETag) delete(OldETag);
 	if (Auth) delete Auth;
-	if (D_PATH) delete D_PATH;
 	if (answer) delete(answer);
 	if (content_type) delete (content_type);
 };

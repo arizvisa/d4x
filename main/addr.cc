@@ -155,7 +155,11 @@ tAddr::tAddr(char *str){
 				*prom=0;
 			};
 		};
-		char *prom=rindex(file1,'/');
+/* parsing %xx -> CHAR and vice verse */
+		char *prom=parse_percents(file1);
+		delete(file1);
+		file1=prom;
+		prom=rindex(file1,'/');
 		if (prom) {
 			path1=copy_string(prom+1);
 			*prom=0;
@@ -289,6 +293,12 @@ void tAddr::make_url(char *where){
 	strcat(where,file.get());
 };
 
+char *tAddr::pathfile(){
+	if (*(path.get()))
+		return(sum_strings("/",path.get(),"/",file.get(),NULL));
+	return(sum_strings("/",file.get(),NULL));
+};
+
 char *tAddr::url() {
 	int params_len=(params.get()?strlen(params.get())+1:0);
 	int port_len=port==proto_infos[proto].port?0:(int_to_strin_len(port)+1);
@@ -326,6 +336,14 @@ void tAddr::copy_host(tAddr *what){
 	username.set(what->username.get());
 	proto=what->proto;
 	port=what->port;
+};
+
+void tAddr::copy(tAddr *what){
+	copy_host(what);
+	file.set(what->file.get());
+	path.set(what->path.get());
+	params.set(what->params.get());
+	mask=what->mask;
 };
 
 tAddr::~tAddr() {

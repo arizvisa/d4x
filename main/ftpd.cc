@@ -195,13 +195,13 @@ void tFtpDownload::print_error(int error_code){
 int tFtpDownload::change_dir() {
 	int rvalue=0;
 	if (CWDFlag) return 0;
-	if (!equal(USER,DEFAULT_USER)){
+	if (!equal(ADDR.username.get(),DEFAULT_USER)){
 		if ((rvalue=FTP->change_dir("/"))){
 			print_error(ERROR_CWD);
 			return(rvalue);
 		};
 	};
-	if ((rvalue=FTP->change_dir(D_PATH))){
+	if ((rvalue=FTP->change_dir(ADDR.path.get()))){
 		print_error(ERROR_CWD);
 		return(rvalue);
 	};
@@ -212,7 +212,6 @@ int tFtpDownload::change_dir() {
 //****************************************/
 tFtpDownload::tFtpDownload() {
 	LOG=NULL;
-	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
@@ -244,8 +243,16 @@ int tFtpDownload::reconnect() {
 			}
 			else return -1;
 		};
-		if (FTP->reinit()==0 && FTP->connect()==0) {
+		if (FTP->reinit()==0){
 			success=0;
+			if (config.proxy_user.get() && config.proxy_pass.get()){
+				FTP->registr(config.proxy_user.get(), config.proxy_pass.get());
+				success=FTP->connect();
+			};
+			if (success==0){
+				FTP->registr(ADDR.username.get(),ADDR.pass.get());
+				success=FTP->connect();
+			};
 		};
 	};
 	CWDFlag=0;
@@ -256,34 +263,31 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	LOG=log;
 	FTP=new tFtpClient;
 	RetrNum=0;
-	HOST=hostinfo->host.get();
-	if (hostinfo->username.get())
-		USER=copy_string(hostinfo->username.get());
-	else
-		USER=copy_string(DEFAULT_USER);
-	if (hostinfo->pass.get())
-		PASS=copy_string(hostinfo->pass.get());
-	else
-		PASS=copy_string(DEFAULT_PASS);
-	D_PORT=hostinfo->port;
+	ADDR.copy(hostinfo);
+	if (ADDR.username.get()==NULL)
+		ADDR.username.set(DEFAULT_USER);
+	if (ADDR.pass.get()==NULL)
+		ADDR.pass.set(DEFAULT_PASS);
 	DIR=NULL;
 	list=NULL;
-	MASK=hostinfo->mask;
 
 	config.copy_ints(cfg);
 	config.proxy_host.set(cfg->proxy_host.get());
+	config.proxy_user.set(cfg->proxy_user.get());
+	config.proxy_pass.set(cfg->proxy_pass.get());
 
 	if (config.proxy_host.get() && config.proxy_port) {
 		FTP->init(config.proxy_host.get(),LOG,config.proxy_port,config.timeout);
 		char port[MAX_LEN];
 		port[0]=0;
-		if (D_PORT!=21) sprintf(port,":%i",D_PORT);
-		char *temp=sum_strings(USER,"@",HOST,port,NULL);
-		delete USER;
-		USER=temp;
+		if (ADDR.port!=get_port_by_proto(D_PROTO_FTP))
+			sprintf(port,":%i",ADDR.port);
+		char *temp=sum_strings(ADDR.username.get(),"@",
+				       ADDR.host.get(),port,NULL);
+		ADDR.username.set(temp);
+		delete(temp);
 	} else
-		FTP->init(HOST,LOG,D_PORT,config.timeout);
-	FTP->registr(USER,PASS);
+		FTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
 	FTP->set_passive(config.passive);
 	return reconnect();
 };
@@ -301,10 +305,10 @@ int tFtpDownload::get_size() {
 		if (!change_dir()) {
 			if (!FTP->stand_data_connection()) {
 				int a=0;
-				if (MASK)
+				if (ADDR.mask)
 					a=FTP->get_size(NULL,list);
 				else
-					a=FTP->get_size(D_FILE.name.get(),list);
+					a=FTP->get_size(ADDR.file.get(),list);
 				if (a==0 && list->count()<=2) {
 					tString *last=list->last();
 					if (!last) {
@@ -367,10 +371,10 @@ int tFtpDownload::download_dir() {
 						DIR->done();
 					};
 					Status=D_DOWNLOAD;
-					if (MASK)
+					if (ADDR.mask)
 						ind=FTP->get_size(NULL,DIR);
 					else
-						ind=FTP->get_size(D_FILE.name.get(),DIR);
+						ind=FTP->get_size(ADDR.file.get(),DIR);
 					if (ind==0) {
 						LOG->log(LOG_OK,_("Listing was loaded"));
 						return 0;
@@ -415,7 +419,7 @@ int tFtpDownload::download(int len) {
 					StartSize=rollback();
 					Status=D_DOWNLOAD;
 					int to_load=len>0?length_to_load-LOADED:0;
-					ind=FTP->get_file_from(D_FILE.name.get(),LOADED,to_load);
+					ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
 					if (!FTP->test_reget())
 						StartSize=LOADED=0;
 					if (ind>0) {
@@ -478,9 +482,6 @@ void tFtpDownload::done() {
 
 tFtpDownload::~tFtpDownload() {
 	if (FTP) delete(FTP);
-	if (USER) delete(USER);
-	if (PASS) delete(PASS);
-	if (D_PATH) delete(D_PATH);
 	if (DIR) delete(DIR);
 	if (list) delete(list);
 };

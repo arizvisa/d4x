@@ -16,9 +16,10 @@
 class tHProxyClient:public tHttpClient{
 	char *real_host;
 	char *cookie_path;
+	int no_cache;
 	public:
 		tHProxyClient();
-		void setup_host(char *host);
+		void setup_data(char *host,int cache);
 		void set_cookie_search(char *what);
 		int get_size(char *filename,tStringList *list);
 		~tHProxyClient();

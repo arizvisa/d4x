@@ -17,7 +17,7 @@
 
 struct tSortString: public tSortNode{
 	char *body;
-	int curent,upper,row;
+	int curent,upper,row,flag;
 	tSortString();
 	tSortString(char *what,int len);
 	void print();
@@ -39,6 +39,7 @@ class tStrSortTree:public tAbstractSortTree{
 class tHostsLimits:public tQueue{
  protected:
 	int Size;
+	int default_limit;
 	tStrSortTree *tree;
  public:
 	tHostsLimits();
@@ -47,6 +48,8 @@ class tHostsLimits:public tQueue{
 	tSortString *find(char *what,int key);
 	void del(tSortString *what);
 	void decrement(tDownload *what);
+	void set_default_limit(int limit);
+	int get_default_limit();
     	tSortString *last();
     	tSortString *first();
     	tSortString *next();

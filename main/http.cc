@@ -125,10 +125,10 @@ int tHttpClient::get_size(char *filename,tStringList *list) {
 		sprintf(data,"%i",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
-	if (referer)
-		send_request("Referer: ",referer,"\r\n");
-	else
-		send_request("Referer: ",HOME_PAGE,"\r\n");
+	if (referer==NULL){
+		referer=sum_strings("http://",hostname,filename,NULL);
+	};
+	send_request("Referer: ",referer,"\r\n");
 	if (user_agent && strlen(user_agent)){
 		if (equal(user_agent,"%version"))
 			send_request("User-Agent: ",VERSION_NAME,"\r\n");

@@ -13,8 +13,8 @@
 #include "misc.h"
 #include "../ntlocale.h"
 
-static GtkWidgetClass *parent_class = NULL;
-static GtkWidgetClass *color_parent_class = NULL;
+static GtkWidgetClass *parent_class = (GtkWidgetClass *)NULL;
+static GtkWidgetClass *color_parent_class = (GtkWidgetClass *)NULL;
 
 static void my_gtk_filesel_destroy_browser(MyGtkFilesel *filesel){
 	if (filesel->browser){
@@ -42,7 +42,7 @@ static gint my_gtk_filesel_cancel(GtkButton *button,MyGtkFilesel *filesel){
 };
 
 static gint my_gtk_filesel_delete(GtkWidget *window,GdkEvent *event, MyGtkFilesel *filesel) {
-	my_gtk_filesel_cancel(NULL,filesel);
+	my_gtk_filesel_cancel((GtkButton *)NULL,filesel);
 	return TRUE;
 };
 
@@ -95,7 +95,7 @@ static void my_gtk_filesel_init(MyGtkFilesel *filesel){
 	filesel->browser=(GtkWidget *)NULL;
 	filesel->combo=gtk_combo_new();
 	filesel->only_dirs=0;
-	filesel->modal=NULL;
+	filesel->modal=(GtkWindow *)NULL;
 	GtkWidget *button=gtk_button_new_with_label(_("Browse"));
 	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(my_gtk_filesel_init_browser),filesel);
 	gtk_combo_set_case_sensitive(GTK_COMBO(filesel->combo),TRUE);
@@ -160,7 +160,7 @@ static gint my_gtk_colorsel_ok(GtkButton *button,MyGtkColorsel *colsel){
 		gtk_color_selection_get_color(GTK_COLOR_SELECTION(GTK_COLOR_SELECTION_DIALOG(colsel->browser)->colorsel),
 					      colsel->color);
 		my_gtk_colorsel_update(colsel);
-		gtk_widget_draw (colsel->preview, NULL); 
+		gtk_widget_draw (colsel->preview, (GdkRectangle *)NULL); 
 		my_gtk_colorsel_destroy_browser(colsel);
 	};
 
@@ -174,7 +174,7 @@ static gint my_gtk_colorsel_cancel(GtkButton *button,MyGtkColorsel *colsel){
 };
 
 static gint my_gtk_colorsel_delete(GtkWidget *window,GdkEvent *event,  MyGtkColorsel *colsel) {
-	my_gtk_colorsel_cancel(NULL,colsel);
+	my_gtk_colorsel_cancel((GtkButton *)NULL,colsel);
 	return TRUE;
 };
 
@@ -192,6 +192,7 @@ static gint my_gtk_colorsel_init_browser(GtkButton *button, MyGtkColorsel *colse
 				   "clicked",GTK_SIGNAL_FUNC(my_gtk_colorsel_cancel),colsel);
 		gtk_signal_connect(GTK_OBJECT(&(GTK_COLOR_SELECTION_DIALOG(colsel->browser)->window)),
 				   "delete_event",GTK_SIGNAL_FUNC(my_gtk_colorsel_delete),colsel);
+		gtk_widget_destroy(GTK_COLOR_SELECTION_DIALOG(colsel->browser)->help_button);
 		gtk_widget_show(colsel->browser);
 		if (colsel->modal){
 			gtk_window_set_modal (GTK_WINDOW(colsel->browser),TRUE);
@@ -265,7 +266,7 @@ void my_gtk_colorsel_set_color(MyGtkColorsel *colsel, gint color){
 	colsel->color[0]=double((color>>16)&0xff)/double(0xff);
 	my_gtk_colorsel_update(colsel);
 	if (GTK_WIDGET_VISIBLE(colsel))
-		gtk_widget_draw (colsel->preview, NULL); 
+		gtk_widget_draw (colsel->preview, (GdkRectangle *)NULL); 
 };
 
 GtkWidget *my_gtk_colorsel_new(gint color,gchar *title){

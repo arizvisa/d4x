@@ -18,13 +18,15 @@
 #include "../ntlocale.h"
 
 GtkWidget *AboutWindow=(GtkWidget *)NULL;
+GtkWidget *AboutTLabel,*AboutSLabel;
+
 char *TRANSLATORS[]={
 	"Jerome Couderc",
+	"Kyritsis Athanasios",
 	"Felix Knecht",
 	"Vicente Aguilar",
 	"Grzegorz Kowal",
 	"Robin Verduijn",
-	"Kyritsis Athanasios",
 	"Dirk Moebius",
 	"Legnar WinShadow",
 	"Paulo Henrique",
@@ -38,6 +40,24 @@ char *TRANSLATORS[]={
 	"Kei Kodera",
 	"Guiliano Rangel Alves",
 	"Pavel Janousek"
+};
+
+char *SPECIAL_THANKS[]={
+	"Gene Schiavone",
+	"Brian Trapp"
+};
+int ABOUT_CURRENT_NAME;
+
+static gint about_window_change_names(void *noneed){
+	if (AboutWindow){
+		gtk_label_set_text(GTK_LABEL(AboutTLabel),
+				   TRANSLATORS[ABOUT_CURRENT_NAME%(sizeof(TRANSLATORS)/sizeof(char*))]);
+		gtk_label_set_text(GTK_LABEL(AboutSLabel),
+				   SPECIAL_THANKS[ABOUT_CURRENT_NAME%(sizeof(SPECIAL_THANKS)/sizeof(char*))]);
+		ABOUT_CURRENT_NAME+=1;
+		return 1;
+	};
+	return 0;
 };
 
 static gint about_window_esc_handler(GtkWidget *window,GdkEvent *event){
@@ -67,6 +87,7 @@ void init_about_window(...) {
 		gdk_window_show(AboutWindow->window);
 		return;
 	};
+	ABOUT_CURRENT_NAME=0;
 	AboutWindow = gtk_window_new(GTK_WINDOW_DIALOG);
 	//    gtk_widget_set_usize( GTK_WIDGET (AboutWindow), 400, 105);
 	gtk_window_set_policy (GTK_WINDOW(AboutWindow), FALSE,FALSE,FALSE);
@@ -82,16 +103,23 @@ void init_about_window(...) {
 	gtk_frame_set_shadow_type(GTK_FRAME(frame),GTK_SHADOW_IN);
 	GtkWidget *box1=gtk_vbox_new(FALSE,0);
 	gtk_container_add(GTK_CONTAINER(frame),box1);
-	for (unsigned int i=0;i<sizeof(TRANSLATORS)/sizeof(char *);i++){
-		GtkWidget *label=gtk_label_new(TRANSLATORS[i]);
-		gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	};
+	AboutTLabel=gtk_label_new(TRANSLATORS[0]);
+	gtk_box_pack_start(GTK_BOX(box1),AboutTLabel,FALSE,FALSE,0);
+
+	GtkWidget *frame1=gtk_frame_new(_("Special thanks to"));
+	gtk_frame_set_shadow_type(GTK_FRAME(frame1),GTK_SHADOW_IN);
+	box1=gtk_vbox_new(FALSE,0);
+	gtk_container_add(GTK_CONTAINER(frame1),box1);
+	AboutSLabel=gtk_label_new(SPECIAL_THANKS[0]);
+	gtk_box_pack_start(GTK_BOX(box1),AboutSLabel,FALSE,FALSE,0);
+
 	GtkWidget *Button=gtk_button_new_with_label(_("Ok"));
 	gtk_box_pack_start(GTK_BOX(box),label1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label2,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label3,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label4,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),frame,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(box),frame1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),Button,FALSE,FALSE,0);
 	gtk_container_add(GTK_CONTAINER(AboutWindow),box);
 	gtk_signal_connect(GTK_OBJECT(Button),"clicked",
@@ -107,6 +135,7 @@ void init_about_window(...) {
 	gtk_window_set_transient_for (GTK_WINDOW (AboutWindow), GTK_WINDOW (MainWindow));
 //	gtk_widget_show(AboutWindow);
 	gtk_widget_set_sensitive(MainWindow,FALSE);
+	gtk_timeout_add (1500, about_window_change_names , NULL);
 };
 
 /* ------------------------------------------------------------

@@ -66,10 +66,31 @@ int amount_of_downloads_in_queues(){
 		num+=DOWNLOAD_QUEUES[i]->count();
 	return num;
 };
+
+int calc_curent_run(char *host,int port) {
+	tDownload *temp=DOWNLOAD_QUEUES[DL_RUN]->last();
+	int count=0;
+	while(temp) {
+		if (strcmp(host,temp->info->host.get())==0 && port==temp->info->port){
+			count+=1;
+			if (temp->split){
+				tDownload *temp1=temp->split->next_part;
+				while (temp1){
+					count+=1;
+					temp1=temp1->split->next_part;
+				};
+			};
+		};
+		temp=DOWNLOAD_QUEUES[DL_RUN]->next();
+	};
+	return count;
+};
+
 //**********************************************/
 
 
 void tMain::init() {
+	prev_speed_limit=0;
 	for (int i=DL_ALONE+1;i<DL_TEMP;i++){
 		DOWNLOAD_QUEUES[i]=new tDList(i);
 		DOWNLOAD_QUEUES[i]->init(0);
@@ -81,6 +102,7 @@ void tMain::init() {
 	LocalMeter->init(METER_LENGTH);
 	
 	LimitsForHosts=new tHostsLimits;
+	LimitsForHosts->set_default_limit(CFG.DEFAULT_HOST_LIMIT);
 	PasswordsForHosts=load_passwords();
 	read_limits();
 	SpeedScheduler=new tSpeedQueue;
@@ -552,7 +574,7 @@ void tMain::print_info(tDownload *what) {
 		};
 		int temp;
 		if (REAL_SIZE!=0)
-			temp=int((float(what->Size.curent)/float(REAL_SIZE))*100);
+			temp=int((double(what->Size.curent)*double(100))/double(REAL_SIZE));
 		else
 			temp=100;
 /* setting new title of log*/
@@ -709,7 +731,6 @@ void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 
 void tMain::case_download_completed(tDownload *what){
 	prepare_for_stoping(what,DOWNLOAD_QUEUES[DL_RUN]);
-	printf("here");
 	if (what->finfo.type==T_REDIRECT) {
 		MainLog->myprintf(LOG_OK,_("Redirect from %z"),what);
 		redirect(what);
@@ -821,7 +842,7 @@ void tMain::main_circle_second(){
 		int status=temp->status;
 		if (temp->split){
 			status=DOWNLOAD_GO;
-			if (temp->split->status==0){
+			if (temp->status!=DOWNLOAD_FATAL && temp->split->status==0){
 				try_to_run_split(temp);
 			}else{
 				status=get_status_split(temp);
@@ -1079,9 +1100,12 @@ void tMain::speed() {
 				SPEED_LIMIT=0;
 		};
 	};
-	if (SPEED_LIMIT-bytes>0)
-		SPEED_LIMIT+=SPEED_LIMIT-bytes;
-	SpeedScheduler->schedule(SPEED_LIMIT);
+	if (prev_speed_limit && prev_speed_limit>bytes){
+		SPEED_LIMIT+=prev_speed_limit-bytes;
+		SpeedScheduler->schedule(SPEED_LIMIT,1);
+	}else
+		SpeedScheduler->schedule(SPEED_LIMIT,0);
+	prev_speed_limit=SPEED_LIMIT;
 };
 
 void tMain::run_msg_server(){

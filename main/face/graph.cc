@@ -18,6 +18,7 @@
 #include "graph.h"
 guchar graph_rgb_data[100*16*4];
 static GdkRgbCmap *cmap;
+#define GRAPH_HEIGHT 17
 
 /*GtkWidget *graph_widget;*/
 
@@ -28,7 +29,7 @@ gint graph_expose_event_handler(GtkWidget *widget,GdkEventExpose *event) {
 
 int graph_draw() {
 	int XSize=2*(METER_LENGTH);
-	int YSize=16;
+	int YSize=GRAPH_HEIGHT;
 	int WX,WY;
 	gdk_window_get_size(MainWindow->window,&WX,&WY);
 	gdk_draw_indexed_image(MainWindow->window,MainWindowGC,WX-2-XSize,WY-2-YSize,XSize,YSize,
@@ -41,7 +42,7 @@ int graph_draw() {
 void graph_recalc() {
 	if (!GlobalMeter) return;
 	int XSize=2*(METER_LENGTH);
-	int YSize=16;
+	int YSize=GRAPH_HEIGHT;
 	int WX,WY;
 	gdk_window_get_size(MainWindow->window,&WX,&WY);
 	memset(graph_rgb_data,3,XSize*YSize);
@@ -52,49 +53,63 @@ void graph_recalc() {
 	int NUM=GlobalMeter->count();
 	if (NUM>XSize) NUM=XSize;
 	if (MAX>0) {
-		int value=(YSize*GlobalMeter->last_value())/MAX;
-		int value2=(YSize*LocalMeter->last_value())/MAX;
+		float value=float((YSize*GlobalMeter->last_value())/float(MAX));
+		float value2=float((YSize*LocalMeter->last_value())/float(MAX));
 		if (CFG.GRAPH_ORDER) {
 			for (int x=XSize-1;x>0;x-=2) {
-				int Y1=YSize-value;
-				int Y2=YSize-value2;
-				if (Y1<Y2) {
-					for (int y=YSize-1;y>=Y2;y--) {
-						graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+				int Y1=YSize-int(value);
+				int Y2=YSize-int(value2);
+				if (value>0 || value2>0){
+					if (value>value2) {
+						int y=YSize;
+						for (y=YSize;y>Y2;y--) {
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+						};
+						if (value2>0)
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+						else
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=1;
+						for (y=Y2-1;y>Y1;y--) {
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=1;
+						};
+						graph_rgb_data[Y1*XSize+x]=graph_rgb_data[Y1*XSize+x-1]=0;
+					} else {
+						for (int y=YSize;y>Y2;y--) {
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+						};
+						graph_rgb_data[Y2*XSize+x]=graph_rgb_data[Y2*XSize+x-1]=0;
 					};
-					for (int y=Y2-1;y>Y1;y--) {
-						graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=1;
-					};
-					graph_rgb_data[Y1*XSize+x]=graph_rgb_data[Y1*XSize+x-1]=0;
-				} else {
-					for (int y=YSize-1;y>Y2;y--) {
-						graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
-					};
-					graph_rgb_data[Y2*XSize+x]=graph_rgb_data[Y2*XSize+x-1]=0;
 				};
-				value=(YSize*GlobalMeter->next_value())/MAX;
-				value2=(YSize*LocalMeter->next_value())/MAX;
+				value=float((YSize*GlobalMeter->next_value())/float(MAX));
+				value2=float((YSize*LocalMeter->next_value())/float(MAX));
 			};
 		} else {
 			for (int x=1;x<XSize;x+=2) {
-				int Y1=YSize-value;
-				int Y2=YSize-value2;
-				if (Y1<Y2) {
-					for (int y=YSize-1;y>=Y2;y--) {
-						graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+				int Y1=YSize-int(value);
+				int Y2=YSize-int(value2);
+				if (value>0 || value2>0){
+					if (value>value2) {
+						int y=YSize;
+						for (y=YSize;y>=Y2;y--) {
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+						};
+						if (value2>0)
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+						else
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=1;
+						for (y=Y2-1;y>Y1;y--) {
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=1;
+						};
+						graph_rgb_data[Y1*XSize+x]=graph_rgb_data[Y1*XSize+x-1]=0;
+					} else {
+						for (int y=YSize;y>Y2;y--) {
+							graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
+						};
+						graph_rgb_data[Y2*XSize+x]=graph_rgb_data[Y2*XSize+x-1]=0;
 					};
-					for (int y=Y2-1;y>Y1;y--) {
-						graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=1;
-					};
-					graph_rgb_data[Y1*XSize+x]=graph_rgb_data[Y1*XSize+x-1]=0;
-				} else {
-					for (int y=YSize-1;y>Y2;y--) {
-						graph_rgb_data[y*XSize+x]=graph_rgb_data[y*XSize+x-1]=2;
-					};
-					graph_rgb_data[Y2*XSize+x]=graph_rgb_data[Y2*XSize+x-1]=0;
 				};
-				value=(YSize*GlobalMeter->next_value())/MAX;
-				value2=(YSize*LocalMeter->next_value())/MAX;
+				value=float((YSize*GlobalMeter->next_value())/float(MAX));
+				value2=float((YSize*LocalMeter->next_value())/float(MAX));
 			};
 		};
 	};
@@ -124,7 +139,7 @@ void graph_init() {
 	colors[3]=CFG.GRAPH_BACK;
 	
 	int XSize=2*(METER_LENGTH);
-	int YSize=16;
+	int YSize=GRAPH_HEIGHT;
 	int WX,WY;
 	gdk_window_get_size(MainWindow->window,&WX,&WY);
 

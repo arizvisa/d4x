@@ -12,6 +12,7 @@
 #include "face/list.h"
 #include <string.h>
 #include <stdio.h>
+#include "main.h"
 
 tSortString::tSortString() {
 	body=NULL;
@@ -85,6 +86,7 @@ tSortString *tStrSortTree::find(char *what,int key) {
 tHostsLimits::tHostsLimits() {
 	init(0);
 	Size=0;
+	default_limit=0;
 	tree=new tStrSortTree;
 };
 
@@ -96,6 +98,7 @@ void tHostsLimits::add(char *str,int port,int curent,int upper) {
 	ins->key=port;
 	ins->curent=curent;
 	ins->upper=upper;
+	ins->flag=0;
 	tree->add(ins);
 };
 
@@ -143,8 +146,30 @@ void tHostsLimits::dispose() {
 };
 
 tSortString *tHostsLimits::find(char *host,int port) {
-	return tree->find(host,port);
+	tSortString *tmp=tree->find(host,port);
+	if (tmp==NULL && default_limit!=0){
+		add(host,port,calc_curent_run(host,port),default_limit);
+		tmp=tree->find(host,port);
+		tmp->flag=1;
+	};
+	if (default_limit==0 && tmp && tmp->flag){
+		del(tmp);
+		delete(tmp);
+		tmp=NULL;
+	};
+	return(tmp);
 };
+
+void tHostsLimits::set_default_limit(int limit){
+	default_limit=limit;
+	if (default_limit<0) default_limit=0;
+	if (default_limit>49) default_limit=49;
+};
+
+int tHostsLimits::get_default_limit(){
+	return default_limit;
+};
+
 
 tHostsLimits::~tHostsLimits() {
 	delete tree;

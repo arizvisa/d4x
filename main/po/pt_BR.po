@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: nt\n"
 "POT-Creation-Date: 1999-08-28 15:06+0800\n"
 "PO-Revision-Date: 2000-04-08 11:13+01\n"
-"Last-Translator: <elinux@linuxbox.com>\n"
+"Last-Translator: Evandro Fernandes Giovanini <elinux@linuxbox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -536,15 +536,15 @@ msgstr "Usando modo passivo de ftp"
 
 #: face/edit.cc:24
 msgid "Retry if resuming is not supported"
-msgstr "Recomeçar se o suporta para continuar não for suportado"
+msgstr "Recomeçar se não for possível recontinuar"
 
 #: face/edit.cc:25
 msgid "Get date from the server"
 msgstr "Obter data do servidor"
 
 #: face/edit.cc:26
-msgid "Get permisions of the file from server (FTP only)"
-msgstr "Obeter permissão do arquivo do servidor (somente FTP)"
+msgid "Get permissions of the file from server (FTP only)"
+msgstr "Obter permissão do arquivo do servidor (somente FTP)"
 
 #: face/edit.cc:106
 msgid "Edit download"
@@ -799,7 +799,7 @@ msgid "/_Help/About"
 msgstr "/Ajuda/_Sobre..."
 
 #: face/list.cc:226
-msgid "Do you realy want to quit?"
+msgid "Do you really want to quit?"
 msgstr "Quer mesmo sair?"
 
 #: face/list.cc:226
@@ -910,27 +910,28 @@ msgstr "Apagar automaticamente downloads mal sucedidos"
 
 #: face/prefs.cc:195
 msgid "Optimize recursive downloads"
-msgstr "Optimizar downlods recursivos"
+msgstr "Otimizar downlods recursivos"
 
 #: face/prefs.cc:201
 msgid "Use title of main window for info"
-msgstr "usar o título da janela principal para informação"
+msgstr "Usar o título da janela principal para informação"
 
 #: face/prefs.cc:204
-msgid "Display queue statistc too"
+msgid "Display queue statistics too"
 msgstr "Mostra também estatísticas"
 
 #: face/prefs.cc:211
 msgid "Open dialog for Drag-n-Drop"
-msgstr "Abrir dialogo para Drag-n-Drop"
+msgstr "Abrir diálogo para Drag-n-Drop"
 
 #: face/prefs.cc:213
 msgid "Iconify main window when closing"
-msgstr "Minimizar janela principal quando mandar fechar"
+msgstr "Minimizar janela principal ao fechar"
 
 #: face/prefs.cc:215
+
 msgid "Save list of downloads every"
-msgstr "Salvar listas de downloads sempre "
+msgstr "Salvar listas de downloads a cada"
 
 #: face/prefs.cc:221
 msgid "minutes"
@@ -969,7 +970,7 @@ msgid "Append to file"
 msgstr "Adicionar para arquivo"
 
 #: face/prefs.cc:369
-msgid "Rewrite file"
+msgid "Overwrite file"
 msgstr "Sobrescrever arquivo"
 
 #: face/prefs.cc:382
@@ -990,31 +991,31 @@ msgstr "Confirmações"
 
 #: face/prefs.cc:451
 msgid "Confirm delete selected downloads"
-msgstr "Confirmar apagar download selecionado"
+msgstr "Confirmar para apagar downloads selecionados"
 
 #: face/prefs.cc:452
 msgid "Confirm delete all downloads"
-msgstr "Confirmar apagar todos os downloads"
+msgstr "Confirmar para apagar todos os downloads"
 
 #: face/prefs.cc:453
 msgid "Confirm delete completed downloads"
-msgstr "Confirmar apagar downloads concluídos"
+msgstr "Confirmar para apagar downloads concluídos"
 
 #: face/prefs.cc:454
-msgid "Confirm delete fataled downloads"
-msgstr "Confirmar apagar downloads mal sucedidos"
+msgid "Confirm delete failed downloads"
+msgstr "Confirmar para apagar downloads mal sucedidos"
 
 #: face/prefs.cc:455
 msgid "Confirm exit from program"
-msgstr "Confirmar saida do programa"
+msgstr "Confirmar para sair do programa"
 
 #: face/prefs.cc:474
 msgid "bytes/sec speed level one (red button)"
-msgstr " bytes/segundo no nível um de velocidade (botão vermelho)"
+msgstr "bytes/segundo no nível um de velocidade (botão vermelho)"
 
 #: face/prefs.cc:481
 msgid "bytes/sec speed level two (yelown button)"
-msgstr " bytes/segundo no nível dois de velocidade (botão amarelo)"
+msgstr "bytes/segundo no nível dois de velocidade (botão amarelo)"
 
 #: face/saveload.cc:78
 msgid "Save list"
@@ -1046,18 +1047,18 @@ msgstr "Definição de Recursividade(0 ilimitado, 1 não recursiva)"
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
-msgstr "Nome do arquivo a ser salvo se esse for desconhecido"
+msgstr "Nome do arquivo a ser salvo quando desconhecido"
 
 #: face/about.cc:44
 msgid "Translators team"
-msgstr "Grupo de Tradutores"
+msgstr "Equipe de Tradutores"
 
 #: face/prefs.cc:
 msgid "Scroll title"
 msgstr "Lista Título"
 
 #: face/prefs.cc:
-msgid "Default permisions of file"
+msgid "Default permissions of file"
 msgstr "Permissão padrão para o arquivo"
 
 #: face/buttons.cc:
@@ -1066,31 +1067,31 @@ msgstr " Salvar Lista"
 
 #: face/columns.cc:22
 msgid "status"
-msgstr "Estatus"
+msgstr "status"
 
 #: face/columns.cc:22
 msgid "file name"
-msgstr " nome do arquivo"
+msgstr "nome do arquivo"
 
 #: face/columns.cc:22
 msgid "type of file"
-msgstr " tipo do arquivo"
+msgstr "tipo do arquivo"
 
 #: face/columns.cc:22
 msgid "size of file"
-msgstr " tamanhao do arquivo"
+msgstr "tamanho do arquivo"
 
 #: face/columns.cc:22
 msgid "downloaded size"
-msgstr " tamanho já baixado"
+msgstr "baixados"
 
 #: face/columns.cc:22
 msgid "percent"
-msgstr " por cento"
+msgstr "porcentagem"
 
 #: face/columns.cc:22
 msgid "speed"
-msgstr " velocidade"
+msgstr "velocidade"
 
 #: face/columns.cc:22
 msgid "elapsed time"
@@ -1098,27 +1099,27 @@ msgstr "tempo decorrido"
 
 #: face/columns.cc:22
 msgid "estimated time"
-msgstr " tempo estimado"
+msgstr "tempo estimado"
 
 #: face/columns.cc:22
 msgid "time of pause"
-msgstr " tempo parado"
+msgstr "tempo de pausa"
 
 #: face/columns.cc:22
 msgid "number of attempts"
-msgstr " numero de tentativas"
+msgstr "número de tentativas"
 
 #: face/columns.cc:22
 msgid "Showed columns"
-msgstr " Colunas mostradas"
+msgstr "Colunas mostradas"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr " Voltar quantos bytes(roolback) apos a reconexão"
+msgstr "Voltar após reconexão (em bytes)"
 
 #: download.cc:
 msgid "Can't do rollback!"
-msgstr " Não consigo voltar na contagem dos bytes(Roolback)"
+msgstr " Não consigo voltar na contagem dos bytes"
 
 #: main.cc:
 msgid "Redirect from %z"
@@ -1182,19 +1183,19 @@ msgstr "Uso: nt [OPÇÕES] ... [URL]"
 
 #: config.cc:
 msgid "print this page and exit"
-msgstr "Mostra esta página e termina"
+msgstr "mostra esta página e termina"
 
 #: config.cc:
 msgid "show version information and exit"
-msgstr "Mostra informações sobre a versão e termina"
+msgstr "mostra informações sobre a versão e termina"
 
 #: config.cc:
 msgid "show information if already run"
-msgstr "Mostra informação se já esta executando"
+msgstr "mostra informação se já esta executando"
 
 #: config.cc:
 msgid "show current speed if already run"
-msgstr "Mostra a velocidade atual se estiver rodando"
+msgstr "mostra a velocidade atual se estiver rodando"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
@@ -1258,7 +1259,7 @@ msgstr "/Sair"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
-msgstr "Usuário-representane para requisições http"
+msgstr "User-Agent para requisições http"
 
 #: face/columns.cc
 
@@ -1290,8 +1291,8 @@ msgid "unknown option:"
 msgstr "opção desconhecida:"
 
 #: face/prefs.cc:
-msgid "Run this when exit"
-msgstr "Executar isto quando sair"
+msgid "Run this on exit"
+msgstr "Executar quando sair"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
@@ -1329,7 +1330,7 @@ msgstr "Monitorando área de transferência"
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr "Ignorar esta estas extenções da área de transferência"
+msgstr "Ignorar estas extensões da área de transferência"
 
 #: face/dndtrash.cc
 msgid "/Speed"
@@ -1442,42 +1443,42 @@ msgid "Allow leave this server while recursing via http"
 msgstr "Permitir deixar este servidor quando recursing via http"
 
 msgid "/Download/Rerun failed"
-msgstr ""
+msgstr "/Download/Tentar os que falharam"
 
 msgid "You have no permissions to create file at path %s"
-msgstr ""
+msgstr "Você não tem permissões para criar arquivo em %s"
 
 msgid "You have no space at path %s for creating file"
-msgstr ""
+msgstr "Você não tem espaço em %s para criar arquivo"
 
 #face/edit.cc:
 msgid "Only subdirs"
-msgstr ""
+msgstr "Apenas subdirs"
 
 # face/edit.cc
 msgid "Restart this download from begining"
-msgstr ""
+msgstr "Reiniciar este download do início"
 
 # config.cc
 msgid "restart all failed downloads"
-msgstr ""
+msgstr "reiniciar todos downloads que falharam"
 
 msgid "run program without X interface"
-msgstr ""
+msgstr "rodar o programa sem interface X"
 
 #main.cc
 msgid "Set speed limitation to %s %s"
-msgstr ""
+msgstr "Configurar limite de velocidade para %s %s"
 
 #var.cc
 msgid "low"
-msgstr ""
+msgstr "baixo"
 
 msgid "middle"
-msgstr ""
+msgstr "meio"
 
 msgid "unlimited"
-msgstr ""
+msgstr "ilimitado"
 
 #main.cc:
 msgid "Can't run new thread for downloading!"
@@ -1485,28 +1486,28 @@ msgstr ""
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
+msgstr "Limite máximo de tamanho para log principal alcançado! Arquivo truncado."
 
 #face/prefs.cc:
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr ""
+msgstr "Tamanho máximo para arquivo do log principal (em KBytes"
 
 # face/list.cc:
 msgid "/File/Find links in file"
-msgstr ""
+msgstr "/Arquivo/Encontrar links em arquivo"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
-msgstr ""
+msgstr "Usar fonte fixed nos logs"
 
 # face/edit.cc:
 msgid "Number of parts for spliting this download"
-msgstr ""
+msgstr "Número de partes para dividir este download"
 
 
 # face/saveload.cc
 msgid "Find links in txt file"
-msgstr ""
+msgstr "Encontrar links em arquivo txt"
 
 # face/prefs.cc:
 msgid "Color for picks"
@@ -1514,20 +1515,49 @@ msgstr ""
 
 # face/prefs.cc:
 msgid "Color for total speed"
-msgstr ""
+msgstr "Cor para velocidade total"
 
 # face/prefs.cc:
 msgid "Color for speed of selected"
-msgstr ""
+msgstr "Cor para velocidade de selecionado"
 
 # face/prefs.cc:
 msgid "Background color"
-msgstr ""
+msgstr "Cor de fundo"
 
 # face/mywidget.cc:
 msgid "Select"
-msgstr ""
+msgstr "Selecionar"
 
 # face/mywidget.cc:
 msgid "Select color"
+msgstr "Selecionar cor"
+
+msgid "Reset to Default"
+msgstr "Usar padrões"
+
+#face/limface.cc
+msgid "Default limitation for all hosts (0 without limits)"
+msgstr "Limite padrão para todos hosts (0 sem limtes)"
+
+#face/lod.cc
+msgid "Continue open log windows?"
 msgstr ""
+
+#face/lod.cc
+msgid "Don't get from cache"
+msgstr "Não usar cache"
+
+#config.cc
+msgid "run in minimized mode"
+msgstr "executar em modo minimizado"
+
+#face/prefs.cc
+msgid "Confirm opening large amount of windows"
+msgstr "Confirmar abertura de um grande número de janelas"
+
+
+#face/about.cc
+msgid "Special thanks to"
+msgstr "Agradecimentos especiais a"
+

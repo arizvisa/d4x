@@ -1,3 +1,89 @@
+Fri Jun  9 08:39:27 2000
+	*nt.cc: releasing new version;
+	*config.cc: fixed type of no_cache option;
+	*po/: spanish and brazilian translation is updated;
+
+Thu Jun  8 09:48:32 2000
+	*ftpd.cc: fixed something was changed yesterday;
+	*face/prefs.cc: minor interface cleanups;
+	*po/: greek,french and chinese translations are updated;
+	*face/list.cc: change size of status bar;
+	*face/graph.cc: more precise graph drawing;
+
+Wed Jun  7 21:29:10 2000
+	*ftpd.cc: implemented authorisation on ftp proxy;
+	*face/about.cc: changed about dialog;
+
+Mon Jun  5 15:50:47 2000
+	*httpd.cc: change default referer field;
+	*[number of files]: added ability don't get from cache when download
+	via ftp proxy;
+	*ftpd.cc: minor code cleanups;
+
+Sun Jun  4 15:16:14 2000
+	*face/addd.cc[h],face/list.cc: added ability to open many "add new"
+	windows; code cleanups;
+	*face/log.cc: fixed remembering geometry of log window if it is closed
+	by ESC button;
+
+Sat Jun  3 15:16:14 2000
+	*face/lod.cc: fixed geting position of log windows;
+	*ftpd.cc: fixed default password for ftp;
+
+Fri Jun  2 14:09:53 2000
+	*face/list.cc: real proportional resizing!;
+
+Thu Jun  1 11:11:54 2000
+	*face/mywidget.cc: remove "Help" button from color selection dialog;
+	*face/lod.cc: changed method of getting height of clist;
+	*face/list.cc: heights of mainlog and of list will change proportionaly
+	after resizing main window;
+
+Wed May 31 12:19:17 2000
+	*dlist.cc,httpd.cc,addr.cc: optimized parsing percents;
+	*locstr.cc: continue fixes in parse_persents();
+
+Tue May 30 18:10:13 2000
+	*[number of files]: spell fixes;
+	*po/pt_BR.po: updated;
+	*dlist.cc: fixed ftp recursnig via http proxy;
+
+Sat May 27 13:41:00 2000
+	*speed.cc[h],main.cc: continue changing traffic shaper;
+
+Fri May 26 15:22:19 2000
+	*dlist.cc: fixed segfaulting after yesterday's changes;
+
+Thu May 25 15:22:19 2000
+	*[download engine's files]: code cleanups and minor fixes;
+	*locstr.cc: fixed working parse_persents();
+	*main.cc: coninue changing traffic shaper algorithm;
+	fixed stopid splited downloads when first thread goes fail;
+	*addr.cc: parsing-unparsing '%' before creating addr;
+
+Wed May 24 19:10:29 2000
+	*face/prefs.cc,locstr.cc: added new format for size fields;
+	*config.cc[h]: option to run in minimized state;
+	*face/edit.cc,face/addd.cc: closing add new dialog by ESC button;
+
+Tue May 23 10:44:35 2000
+	*var.cc[h],config.cc,face/lod.cc, face/prefs.cc: added confirmation
+	for opening large amount of windows;
+	*speed.cc: changed algorithm of traffic shaper;
+
+Mon May 22 19:19:21 2000
+	*face/list.cc: changed layer of status bar and info in pogress bar;
+	*main.cc: removed debug printf;
+	*dlist.cc: valid referer after recursing;
+	*po/: Chinese translation updated;
+
+Sun May 21 16:21:56 2000
+	*face/buttons.cc: code cleanups, opening properties of downloads
+	by right clicking on "Options" button;
+
+Fri May 19 13:09:53 2000
+	*[number of files]: added ability to setup default limitation;
+
 Wed May 17 13:21:56 2000
 	*face/prefs.cc: added button for reseting colors to defaults;
 	*main.cc[h]: code cleanups, user can run download manualy if

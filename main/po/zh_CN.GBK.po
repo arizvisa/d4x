@@ -362,7 +362,7 @@ msgstr "Çå³ıÏÂÔØ¶ÓÁĞ"
 #: main.cc:340
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
-msgstr "ÎÄ¼şÏÂÔØ %s £¨´Ó %s£©±»ÓÃ»§ÖÕÖ¹¡£"
+msgstr "ÏÂÔØÎÄ¼ş %s (%s) ±»ÓÃ»§ÖÕÖ¹¡£"
 
 #: main.cc:383
 #, c-format
@@ -372,7 +372,7 @@ msgstr "´ÓÏÂÔØ¶ÓÁĞÉ¾³ıÎÄ¼şÏî %s"
 #: main.cc:430
 #, c-format
 msgid "Continue downloading of file %s from %s..."
-msgstr "¼ÌĞøÏÂÔØÎÄ¼ş %s ´Ó %s ..."
+msgstr "¼ÌĞøÏÂÔØÎÄ¼ş %s (´Ó%sÏÂÔØ) ..."
 
 #: main.cc:454
 msgid "file"
@@ -404,7 +404,7 @@ msgstr "Ä¿Â¼ %z ÏÂÔØÍê³É"
 msgid ""
 "Downloading of file %z (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "ÎÄ¼ş %z ÏÂÔØÍê³É, ËÙ¶È: %i ×Ö½Ú/Ãë"
+msgstr "ÎÄ¼ş %z ÏÂÔØÍê³É, ËÙ¶ÈÎª: %i ×Ö½Ú/Ãë"
 
 #: main.cc:664
 #, c-format
@@ -414,7 +414,7 @@ msgstr "ÑÏÖØ´íÎóµ¼ÖÂÏÂÔØÎÄ¼ş %z ÖÕÖ¹"
 #: main.cc:809
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
-msgstr "ÓÃ»§Ìí¼ÓÏÂÔØÎÄ¼ş %s ´ÓµØÖ· %s"
+msgstr "Ìí¼ÓÏÂÔØÎÄ¼ş %s ´ÓµØÖ· %s"
 
 #: main.cc:874 main.cc:951
 msgid "It is strange that we can't delete file which just created..."
@@ -422,11 +422,11 @@ msgstr "Ææ¹Ö, ÎÒ²»ÄÜÉ¾³ı¸Õ½¨Á¢µÄÎÄ¼ş..."
 
 #: main.cc:878 main.cc:955 main.cc:1043
 msgid "File not found"
-msgstr "ÎÄ¼şÃ»ÓĞÕÒµ½"
+msgstr "Ã»ÓĞÕÒµ½ÎÄ¼ş"
 
 #: main.cc:964
 msgid "We can redirect from proxy!"
-msgstr "ÎÒÃÇ²»ÄÜ´Ó´úÀí·şÎñÆ÷ÖØ¶¨Ïò!"
+msgstr "ÎŞ·¨´Ó´úÀí·şÎñÆ÷ÖØ¶¨Ïò!"
 
 #: main.cc:999
 msgid "Can't open messages queue!"
@@ -490,11 +490,11 @@ msgstr "È¡Ïû"
 
 #: face/addd.cc:71
 msgid "Add new download"
-msgstr "Ìí¼ÓÏÂÔØÁ´½Ó"
+msgstr "Ìí¼ÓĞÂµÄÏÂÔØ×÷Òµ"
 
 #: face/buttons.cc:58
 msgid "Delete ALL downloads?"
-msgstr "É¾³ıËùÓĞÏÂÔØÁ´½Ó?"
+msgstr "É¾³ıËùÓĞÏÂÔØ×÷Òµ?"
 
 #: face/buttons.cc:58
 msgid "Delete all?"
@@ -502,15 +502,15 @@ msgstr "È«²¿É¾³ı?"
 
 #: face/buttons.cc:117
 msgid " Add new download "
-msgstr "Ìí¼ÓÏÂÔØÁ´½Ó "
+msgstr "Ìí¼ÓĞÂµÄÏÂÔØ×÷Òµ "
 
 #: face/buttons.cc:119
 msgid " Paste from clipboard "
-msgstr " ´ÓÕ³Ìù°åÕ³ÌùÁ´½Ó "
+msgstr " ´ÓÕ³Ìù°åÈ¡µÃÏÂÔØÁ´½Ó "
 
 #: face/buttons.cc:121
 msgid " Del downloads "
-msgstr " É¾³ıÏÂÔØ "
+msgstr " É¾³ıÏÂÔØ×÷Òµ "
 
 #: face/buttons.cc:124
 msgid " Continue/restart downloads "
@@ -522,7 +522,7 @@ msgstr " Í£Ö¹ÏÂÔØ "
 
 #: face/buttons.cc:128
 msgid " Del Completed downloads "
-msgstr " É¾³ıÒÑÍê³ÉµÄÏÂÔØ "
+msgstr " Çå³ıÒÑÍê³ÉµÄÏÂÔØ×÷Òµ "
 
 #: face/buttons.cc:130
 msgid " Move up "
@@ -581,7 +581,7 @@ msgid "Get date from the server"
 msgstr "´Ó·şÎñÆ÷»ñµÃÊ±¼ä"
 
 #: face/edit.cc:26
-msgid "Get permisions of the file from server (FTP only)"
+msgid "Get permissions of the file from server (FTP only)"
 msgstr "´Ó·şÎñÆ÷»ñµÃÎÄ¼şÈ¨ÏŞ(½öÏŞFTP)"
 
 #: face/edit.cc:106
@@ -763,7 +763,7 @@ msgstr "/ÎÄ¼ş/±£´æÁĞ±í"
 
 #: face/list.cc:131
 msgid "/File/_New Download"
-msgstr "/ÎÄ¼ş/Ìí¼ÓÏÂÔØÁ´½Ó"
+msgstr "/ÎÄ¼ş/ĞÂ½¨ÏÂÔØ×÷Òµ"
 
 #: face/list.cc:129
 msgid "/File/_Load List"
@@ -775,7 +775,7 @@ msgstr "/ÎÄ¼ş/sep1"
 
 #: face/list.cc:132
 msgid "/File/_Paste Download"
-msgstr "/ÎÄ¼ş/Õ³ÌùÏÂÔØÁ´½Ó"
+msgstr "/ÎÄ¼ş/Õ³ÌùÏÂÔØµØÖ·"
 
 #: face/list.cc:134
 msgid "/File/Exit"
@@ -802,7 +802,7 @@ msgstr "/ÏÂÔØ/±à¼­ÏÂÔØÊôĞÔ"
 
 #: face/list.cc:139
 msgid "/Download/_Delete downloads"
-msgstr "/ÏÂÔØ/É¾³ıÏÂÔØÁ´½Ó"
+msgstr "/ÏÂÔØ/É¾³ıÏÂÔØ×÷Òµ"
 
 #: face/list.cc:140
 msgid ""
@@ -810,11 +810,11 @@ msgstr "/Unknown"
 
 #: face/list.cc:141
 msgid "/Download/Delete completed"
-msgstr "/ÏÂÔØ/É¾³ıÒÑÍê³ÉµÄÏÂÔØÁ´½Ó"
+msgstr "/ÏÂÔØ/Çå³ıÒÑÍê³ÉµÄÏÂÔØ×÷Òµ"
 
 #: face/list.cc:142
 msgid "/Download/Delete failed"
-msgstr "/ÏÂÔØ/É¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó"
+msgstr "/ÏÂÔØ/Çå³ıÊ§°ÜµÄÏÂÔØÁ´½Ó"
 
 #: face/list.cc:143
 msgid "/_Options"
@@ -837,28 +837,28 @@ msgid "/_Help/About"
 msgstr "/°ïÖú/¹ØÓÚ"
 
 #: face/list.cc:226
-msgid "Do you realy want to quit?"
-msgstr "ÊÇ·ñÈ·¶¨ÒªÍË³ö£¿"
+msgid "Do you really want to quit?"
+msgstr "È·¶¨ÒªÍË³öÂğ£¿"
 
 #: face/list.cc:226
 msgid "Quit?"
-msgstr "ÍË³ö£"
+msgstr "ÍË³öÂğ?"
 
 #: face/list.cc:243
 msgid "Delete selected downloads?"
-msgstr "É¾³ı±»Ñ¡ÖĞµÄÏÂÔØÁ´½Ó£¿"
+msgstr "É¾³ı±»Ñ¡ÖĞµÄÏÂÔØ×÷Òµ£¿"
 
 #: face/list.cc:243 face/list.cc:252 face/list.cc:261
 msgid "Delete?"
-msgstr "É¾³ı£¿"
+msgstr "É¾³ıÂğ£¿"
 
 #: face/list.cc:252
 msgid "Do you wish delete completed downloads?"
-msgstr "ÄúÊÇ·ñÏ£ÍûÉ¾³ıÒÑÍê³ÉµÄÏÂÔØÁ´½Ó£¿"
+msgstr "ÊÇ·ñÇå³ıÒÑÍê³ÉµÄÏÂÔØ×÷Òµ£¿"
 
 #: face/list.cc:261
 msgid "Do you wish delete failed downloads?"
-msgstr "ÄúÊÇ·ñÏ£ÍûÉ¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó£¿"
+msgstr "ÊÇ·ñÇå³ıÊ§°ÜµÄÏÂÔØ×÷Òµ£¿"
 
 #: face/list.cc:667
 msgid "Ready to go ????"
@@ -887,15 +887,15 @@ msgstr "ÊôĞÔ"
 
 #: face/lmenu.cc:97
 msgid "Delete downloads"
-msgstr "É¾³ıÏÂÔØ"
+msgstr "É¾³ıÏÂÔØ×÷Òµ"
 
 #: face/lmenu.cc:103
 msgid "Delete completed"
-msgstr "É¾³ıÒÑÍê³ÉµÄ"
+msgstr "Çå³ıÒÑÍê³ÉµÄ×÷Òµ"
 
 #: face/lmenu.cc:109
 msgid "Delete failed"
-msgstr "É¾³ıÊ§°ÜµÄ"
+msgstr "Çå³ıÊ§°ÜµÄ×÷Òµ"
 
 #: face/lmenu.cc:119
 msgid "Move up"
@@ -940,11 +940,11 @@ msgstr "Ê¹ÓÃ±êÌâ"
 
 #: face/prefs.cc:191
 msgid "Automatically delete completed downloads"
-msgstr "×Ô¶¯É¾³ıÒÑ¾­Íê³ÉµÄÏÂÔØÁ´½Ó"
+msgstr "×Ô¶¯É¾³ıÒÑ¾­Íê³ÉµÄÏÂÔØ×÷Òµ"
 
 #: face/prefs.cc:193
 msgid "Automatically delete failed downloads"
-msgstr "×Ô¶¯É¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó"
+msgstr "×Ô¶¯É¾³ıÊ§°ÜµÄÏÂÔØ×÷Òµ"
 
 #: face/prefs.cc:195
 msgid "Optimize recursive downloads"
@@ -955,7 +955,7 @@ msgid "Use title of main window for info"
 msgstr "Ê¹ÓÃÖ÷´°¿Ú±êÌâÏÔÊ¾ĞÅÏ¢"
 
 #: face/prefs.cc:204
-msgid "Display queue statistc too"
+msgid "Display queue statistics too"
 msgstr "Í¬Ê±ÏÔÊ¾¶ÓÁĞ×´Ì¬"
 
 #: face/prefs.cc:211
@@ -1007,7 +1007,7 @@ msgid "Append to file"
 msgstr "×·¼Óµ½ÎÄ¼ş"
 
 #: face/prefs.cc:369
-msgid "Rewrite file"
+msgid "Overwrite file"
 msgstr "¸²¸ÇÎÄ¼ş"
 
 #: face/prefs.cc:382
@@ -1028,19 +1028,19 @@ msgstr "È·ÈÏ"
 
 #: face/prefs.cc:451
 msgid "Confirm delete selected downloads"
-msgstr "È·ÈÏÉ¾³ıÑ¡ÖĞµÄÏÂÔØÁ´½Ó"
+msgstr "È·ÈÏÉ¾³ıÑ¡ÖĞµÄÏÂÔØ×÷Òµ"
 
 #: face/prefs.cc:452
 msgid "Confirm delete all downloads"
-msgstr "È·ÈÏÉ¾³ıËùÓĞÏÂÔØÁ´½Ó"
+msgstr "È·ÈÏÉ¾³ıËùÓĞÏÂÔØ×÷Òµ"
 
 #: face/prefs.cc:453
 msgid "Confirm delete completed downloads"
-msgstr "È·ÈÏÉ¾³ıÍê³ÉµÄÏÂÔØÁ´½Ó"
+msgstr "È·ÈÏÉ¾³ıÍê³ÉµÄÏÂÔØ×÷Òµ"
 
 #: face/prefs.cc:454
-msgid "Confirm delete fataled downloads"
-msgstr "È·ÈÏÉ¾³ıÊ§°ÜµÄÏÂÔØÁ´½Ó"
+msgid "Confirm delete failed downloads"
+msgstr "È·ÈÏÉ¾³ıÊ§°ÜµÄÏÂÔØ×÷Òµ"
 
 #: face/prefs.cc:455
 msgid "Confirm exit from program"
@@ -1095,7 +1095,7 @@ msgid "Scroll title"
 msgstr "¹ö¶¯±êÌâ"
 
 #: face/prefs.cc:
-msgid "Default permisions of file"
+msgid "Default permissions of file"
 msgstr "Ä¬ÈÏÎÄ¼şÈ¨ÏŞ"
 
 #: face/buttons.cc:
@@ -1178,6 +1178,10 @@ msgstr "ÍÏ·ÅÏä"
 msgid "Downloader exited normaly"
 msgstr "Õı³£ÍË³ö"
 
+#: face/edit.cc
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "ËÙ¶ÈÏŞÖÆ(×Ö½Ú/Ãë), 0 Îª²»ÏŞÖÆ"
+
 #: face/dndtrash.cc:
 msgid "Drop link here"
 msgstr "½«Á´½ÓÍÏ·Åµ½ÕâÀï"
@@ -1248,23 +1252,23 @@ msgstr "×¼±¸Í£Ö¹ [%z]"
 
 #: main.cc
 msgid "Run new thread for %z"
-msgstr "Îª %z ÔËĞĞĞÂµÄÏß³Ì"
+msgstr "Îª %z Æô¶¯ĞÂÏÂÔØÏß³Ì"
 
 #: main.cc
 msgid "%z was deleted from queue of downloads as completed download"
-msgstr "É¾³ıÁË¶ÓÁĞÖĞµÄÒÑÍê³ÉÏÂÔØ %z "
+msgstr "É¾³ıÒÑÍê³ÉµÄÏÂÔØ %z "
 
 #: main.cc
 msgid "%z was deleted from queue of downloads as failed download"
-msgstr "É¾³ıÁË¶ÓÁĞÖĞµÄÊ§°ÜÏÂÔØ %z "
+msgstr "É¾³ıÊ§°ÜµÄÏÂÔØ %z "
 
 #: main.cc
 msgid "Delete completed downloads"
-msgstr "É¾³ıÍê³ÉµÄÏÂÔØ"
+msgstr "Çå³ıÍê³ÉµÄÏÂÔØ"
 
 #: main.cc
 msgid "Delete failed downloads"
-msgstr "É¾³ıÊ§°ÜµÄÏÂÔØ"
+msgstr "Çå³ıÊ§°ÜµÄÏÂÔØ"
 
 #:main.cc:
 msgid "Loading default list of downloads"
@@ -1321,10 +1325,10 @@ msgstr "ÇëÇóÒÑ±»·¢ËÍ£¬µÈ´ıÓ¦´ğ"
 
 #: config.cc:
 msgid "unknown option:"
-msgstr "Î´ÖªµÄÑ¡Ïî£º"
+msgstr "Î´ÖªÑ¡Ïî£º"
 
 #: face/prefs.cc:
-msgid "Run this when exit"
+msgid "Run this on exit"
 msgstr "ÍË³öÊ±ÔËĞĞ´Ë³ÌĞò"
 
 #: face/prefs.cc:
@@ -1342,226 +1346,252 @@ msgstr "Ä¬ÈÏ"
 
 #main.cc
 msgid "Adding downloading via control socket [%s]"
-msgstr ""
+msgstr "´Ó¿ØÖÆ½Ó¿ÚÌí¼ÓÏÂÔØ"
 
 #cookie.cc
 msgid "Can't open cookies file!"
-msgstr ""
+msgstr "²»ÄÜ´ò¿ª cookie ÎÄ¼ş"
 
 #cookie.cc
 msgid "%i cookies loaded"
-msgstr ""
+msgstr "¼ÓÔØÁË %i ¸ö cookie"
 
 #cookie.cc
 msgid "Loading cookies"
-msgstr ""
+msgstr "ÕıÔÚ¼ÓÔØ cookie"
 
 #face/prefs.cc
 msgid "Monitor clipboard"
-msgstr ""
+msgstr "¼àÊÓÕ³Ìù°å"
 
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr ""
+msgstr "Ìø¹ıÕâĞ©Õ³Ìù°åÖĞµÄÀ©Õ¹"
 
 #: face/dndtrash.cc
 msgid "/Speed"
-msgstr ""
+msgstr "/ËÙ¶È"
 
 #: face/dndtrash.cc
 msgid "/Speed/Lowest"
-msgstr ""
+msgstr "/ËÙ¶È/µÍËÙ"
 
 #: face/dndtrash.cc
 msgid "/Speed/Middle"
-msgstr ""
+msgstr "/ËÙ¶È/ÖĞËÙ"
 
 #: face/dndtrash.cc
 msgid "/Speed/Unlimited"
-msgstr ""
+msgstr "/ËÙ¶È/ÎŞÏŞËÙ"
 
 #: face/list.cc
 msgid "/Options/Speed"
-msgstr ""
+msgstr "/Ñ¡Ïî/ËÙ¶È"
 
 #: face/list.cc
 msgid "/Options/Speed/Lowest"
-msgstr ""
+msgstr "/Ñ¡Ïî/ËÙ¶È/µÍËÙ"
 
 #: face/list.cc
 msgid "/Options/Speed/Middle"
-msgstr ""
+msgstr "/Ñ¡Ïî/ËÙ¶È/ÖĞËÙ"
 
 #: face/list.cc
 msgid "/Options/Speed/Unlimited"
-msgstr ""
+msgstr "/Ñ¡Ïî/ËÙ¶È/ÎŞÏŞËÙ"
 #: face/list.cc
 msgid "/Options/Buttons"
-msgstr ""
+msgstr "/Ñ¡Ïî/°´Å¥"
 
 #: face/list.cc
 msgid "/Options/Buttons/Manipulating"
-msgstr ""
+msgstr "/Ñ¡Ïî/°´Å¥/¿ØÖÆ°´Å¥"
 
 #: face/list.cc
 msgid "/Options/Buttons/Speed buttons"
-msgstr ""
+msgstr "/Ñ¡Ïî/°´Å¥/ËÙ¶È°´Å¥"
 
 #: face/list.cc
 msgid "/Options/Buttons/Misc buttons"
-msgstr ""
+msgstr "/Ñ¡Ïî/°´Å¥/ÆäËü°´Å¥"
 
 #: face/list.cc
 msgid "/Options/Buttons/Add buttons"
-msgstr ""
+msgstr "/Ñ¡Ïî/°´Å¥/Ìí¼Ó°´Å¥"
 
 #:main.cc
 msgid "[control socket]"
-msgstr ""
+msgstr "[¿ØÖÆ½Ó¿Ú]"
 
 # face/list.cc
 msgid "/Download/Unselect all"
-msgstr ""
+msgstr "/ÏÂÔØ/Çå³ıÑ¡Ôñ"
 
 # face/list.cc
 msgid "/Download/-"
-msgstr ""
+msgstr "/ÏÂÔØ/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
-msgstr ""
+msgstr "ÔİÍ£¸Õ¸Õ¼ÓÈëµÄ"
 
 #face/list.cc:
 msgid "/Download/Select all"
-msgstr ""
+msgstr "ÏÂÔØ/Ñ¡ÔñÈ«²¿"
 
 # face/list.cc
 msgid "/Download/Invert selection"
-msgstr ""
+msgstr "ÏÂÔØ/·´ÏòÑ¡Ôñ"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via ftp"
-msgstr ""
+msgstr "³¢ÊÔ½«ÎÄ¼şÁ´½Ó×÷ÎªÎÄ¼ş½øĞĞFTPÏÂÔØ"
 
 # face/list.cc
 msgid "/Options/Passwords"
-msgstr ""
+msgstr "/Ñ¡Ïî/¿ÚÁî"
 
 # face/passwords.cc
 msgid "protocol"
-msgstr ""
+msgstr "Ğ­Òé"
 
 
 #face/passface.cc:
 msgid "Default passwords and usernames"
-msgstr ""
+msgstr "Ä¬ÈÏ¿ÚÁîºÍÎÄ¼şÃû"
 
 #main.cc:
 msgid "Redirection from [%z] to nowhere!"
-msgstr ""
+msgstr "´Ó [%z] ÖØ¶¨Ïòµ½¿ÕµØÖ·"
 
 # config.cc:
 msgid "set directory for saving files"
-msgstr ""
+msgstr "ÉèÖÃÎÄ¼ş´æ·ÅÄ¿Â¼"
 
 msgid "delete completed if already run"
-msgstr ""
+msgstr "Èç¹ûÒÑ¾­ÔËĞĞ, É¾³ıÒÑ¾­Íê³ÉµÄ"
 
 msgid "set maximum active downloads"
-msgstr ""
+msgstr "ÉèÖÃ×î´ó»î¶¯ÏÂÔØÊıÄ¿"
 
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
-msgstr ""
+msgstr "ÔÚÍ¨¹ıhttp±éÀúÊ±, ÔÊĞíÀë¿ª´Ë·şÎñÆ÷"
 
 msgid "/Download/Rerun failed"
-msgstr ""
+msgstr "/ÏÂÔØ/ÖØĞÂÔËĞĞÊ§°ÜµÄÏÂÔØ"
 
 msgid "You have no permissions to create file at path %s"
-msgstr ""
+msgstr "ÄãÃ»ÓĞÔÚÄ¿Â¼ %s ÖĞ´´½¨ÎÄ¼şµÄÈ¨ÏŞ"
 
 msgid "You have no space at path %s for creating file"
-msgstr ""
+msgstr "ÄãÃ»ÓĞ×ã¹»µÄ¿Õ¼äÔÚÄ¿Â¼ %s ÖĞ´´½¨ÎÄ¼ş."
 
 #face/edit.cc:
 msgid "Only subdirs"
-msgstr ""
+msgstr "½öÏŞ×ÓÄ¿Â¼"
 
 # face/edit.cc
 msgid "Restart this download from begining"
-msgstr ""
+msgstr "´Ó¿ªÊ¼ÖØĞÂÏÂÔØ"
 
 # config.cc
 msgid "restart all failed downloads"
-msgstr ""
+msgstr "ÖØĞÂÏÂÔØËùÓĞÊ§°ÜµÄÁ¬½Ó"
 
 msgid "run program without X interface"
-msgstr ""
+msgstr "ÃüÁîĞĞ·½Ê½ÔËĞĞ´Ë³ÌĞò"
 
 #main.cc
 msgid "Set speed limitation to %s %s"
-msgstr ""
+msgstr "ÉèÖÃÏŞÖÆËÙ¶ÈÎª %s %s"
 
 #var.cc
 msgid "low"
-msgstr ""
+msgstr "µÍ"
 
 msgid "middle"
-msgstr ""
+msgstr "ÖĞ"
 
 msgid "unlimited"
-msgstr ""
+msgstr "¸ß"
 
 #main.cc:
 msgid "Can't run new thread for downloading!"
-msgstr ""
+msgstr "²»ÄÜÆô¶¯ĞÂµÄÏÂÔØÏß³Ì"
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
+msgstr "´ïµ½Ö÷¼ÇÂ¼ÎÄ¼şµÄ³¤¶ÈÏŞÖÆ£¬ÎÄ¼ş±»½Ø¶Ï¡£"
 
 #face/prefs.cc:
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr ""
+msgstr "Ö÷¼ÇÂ¼ÎÄ¼şµÄ×î´ó³¤¶È(KB)"
 
 # face/list.cc:
 msgid "/File/Find links in file"
-msgstr ""
+msgstr "ÎÄ¼ş/²éÕÒÎÄ¼şÖĞµÄÁ´½Ó"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
-msgstr ""
+msgstr "ÔÚ¼ÇÂ¼ÖĞÊ¹ÓÃ¹Ì¶¨×ÖÌå"
 
 # face/edit.cc:
 msgid "Number of parts for spliting this download"
-msgstr ""
+msgstr "½øĞĞÇĞ·ÖÏÂÔØµÄÊıÄ¿(0Îª²»ÇĞ·Ö)"
 
 
 # face/saveload.cc
 msgid "Find links in txt file"
-msgstr ""
+msgstr "ÔÚÎÄ±¾ÎÄ¼şÖĞÑ°ÕÒÁ´½Ó"
 
 # face/prefs.cc:
 msgid "Color for picks"
-msgstr ""
+msgstr "·åÖµËÙ¶ÈÑÕÉ«"
 
 # face/prefs.cc:
 msgid "Color for total speed"
-msgstr ""
+msgstr "×ÜËÙ¶ÈµÄÑÕÉ«"
 
 # face/prefs.cc:
 msgid "Color for speed of selected"
-msgstr ""
+msgstr "±»Ñ¡ÏÂÔØËÙ¶ÈµÄÑÕÉ«"
 
 # face/prefs.cc:
 msgid "Background color"
-msgstr ""
+msgstr "±³¾°ÑÕÉ«"
 
 # face/mywidget.cc:
 msgid "Select"
-msgstr ""
+msgstr "Ñ¡Ôñ"
 
 # face/mywidget.cc:
 msgid "Select color"
-msgstr ""
+msgstr "Ñ¡ÔñÑÕÉ«"
+
+#face/lod.cc
+msgid "Continue open log windows?"
+msgstr "¼ÌĞø´ò¿ª¼ÇÂ¼´°¿Ú?"
+
+#face/limface.cc
+msgid "Default limitation for all hosts (0 without limits)"
+msgstr "Ä¬ÈÏµÄËÙ¶ÈÏŞÖÆ(ÓÃÓÚËùÓĞÕ¾µã, 0 Îª²»ÏŞÖÆ)"
+
+#face/lod.cc
+msgid "Don't get from cache"
+msgstr "²»´Ó»º´æÖĞ¶ÁÈ¡"
+
+#config.cc
+msgid "run in minimized mode"
+msgstr "×îĞ¡»¯ÔËĞĞ"
+
+#face/prefs.cc
+msgid "Confirm opening large amount of windows"
+msgstr "È·ÈÏ´ò¿ª´óÊıÁ¿µÄ´°¿Ú"
+
+
+#face/about.cc
+msgid "Special thanks to"
+msgstr "ÌØ±ğ¸ĞĞ»:"
+

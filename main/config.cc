@@ -52,7 +52,8 @@ tOption downloader_parsed_args[]={
 	{"-r",			OPT_RERUN_FAILED},
 	{"--rerun-failed",	OPT_RERUN_FAILED},
 	{"-w",			OPT_WITHOUT_FACE},
-	{"--without-face",	OPT_WITHOUT_FACE}
+	{"--without-face",	OPT_WITHOUT_FACE},
+	{"--minimized",		OPT_RUN_MINIMIZED}
 };
 
 char *downloader_args_errors[]={
@@ -100,6 +101,7 @@ tConfigVariable config_variables[]={
 	{"http_proxy_pass",	CV_TYPE_STRING,	&(CFG.HTTP_PROXY_PASS)},
 	{"ftp_proxy_port",	CV_TYPE_INT,	&(CFG.FTP_PROXY_PORT)},
 	{"http_proxy_port",	CV_TYPE_INT,	&(CFG.HTTP_PROXY_PORT)},
+	{"proxy_no_cache",	CV_TYPE_BOOL,	&(CFG.PROXY_NO_CACHE)},
 	{"need_pass_http_proxy",CV_TYPE_BOOL,	&(CFG.NEED_PASS_HTTP_PROXY)},
 	{"need_pass_ftp_proxy",	CV_TYPE_BOOL,	&(CFG.NEED_PASS_FTP_PROXY)},
 	{"use_proxy_for_ftp",	CV_TYPE_BOOL,	&(CFG.USE_PROXY_FOR_FTP)},
@@ -134,6 +136,7 @@ tConfigVariable config_variables[]={
 	{"confirm_delete_all",	CV_TYPE_BOOL,	&(CFG.CONFIRM_DELETE_ALL)},
 	{"confirm_delete_completed",CV_TYPE_BOOL,&(CFG.CONFIRM_DELETE_COMPLETED)},
 	{"confirm_delete_fataled",CV_TYPE_BOOL,	&(CFG.CONFIRM_DELETE_FATALED)},
+	{"confirm_opening_many",CV_TYPE_BOOL,	&(CFG.CONFIRM_OPENING_MANY)},
 	{"speed_limit",		CV_TYPE_INT,	&(CFG.SPEED_LIMIT)},
 	{"speed_limit_one",	CV_TYPE_INT,	&(CFG.SPEED_LIMIT_1)},
 	{"speed_limit_two",	CV_TYPE_INT,	&(CFG.SPEED_LIMIT_2)},
@@ -178,7 +181,8 @@ tConfigVariable config_variables[]={
 	{"buttons_speed",	CV_TYPE_BOOL,	&(CFG.BUTTONS_SPEED)},
 	{"buttons_misc",	CV_TYPE_BOOL,	&(CFG.BUTTONS_MISC)},
 	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)},
-	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)}
+	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)},
+	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -314,6 +318,7 @@ void save_config() {
 	if (fd>=0) {
 		list_of_downloads_get_height();
 		list_of_downloads_get_sizes();
+		CFG.DEFAULT_HOST_LIMIT=LimitsForHosts->get_default_limit();
 		if (FaceForLimits) {
 			FaceForLimits->get_sizes();
 		};
@@ -449,12 +454,14 @@ void save_limits() {
 	if (fd>=0) {
 		tSortString *tmp=LimitsForHosts->first();
 		while (tmp) {
-			char data[MAX_LEN];
-			f_wstr_lf(fd,tmp->body);
-			sprintf(data,"%i",tmp->key);
-			f_wstr_lf(fd,data);
-			sprintf(data,"%i",tmp->upper);
-			f_wstr_lf(fd,data);
+			if (tmp->flag==0){
+				char data[MAX_LEN];
+				f_wstr_lf(fd,tmp->body);
+				sprintf(data,"%i",tmp->key);
+				f_wstr_lf(fd,data);
+				sprintf(data,"%i",tmp->upper);
+				f_wstr_lf(fd,data);
+			};
 			tmp=LimitsForHosts->prev();
 		};
 		close(fd);
@@ -614,6 +621,9 @@ void parse_command_line_postload(int argv,char **argc){
 			i+=1;
 			break;
 		};
+		case OPT_RUN_MINIMIZED:
+			main_window_iconify();
+			break;
 		case OPT_SET_DIRECTORY:{
 			if (argv>i+1){
 				if (CFG.GLOBAL_SAVE_PATH) delete(CFG.GLOBAL_SAVE_PATH);
@@ -646,6 +656,7 @@ void help_print(){
 	help_print_args(OPT_VERSION);printf(_("show version information and exit"));printf("\n");
 	help_print_args(OPT_INFO);printf(_("show information if already run"));printf("\n");
 	help_print_args(OPT_SPEED);printf(_("show current speed if already run"));printf("\n");
+	help_print_args(OPT_RUN_MINIMIZED);printf(_("run in minimized mode"));printf("\n");
 	help_print_args(OPT_TRAFFIC_LOW);printf(_("set lower speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set middle speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_HIGH);printf(_("set unlimited speed"));printf("\n");

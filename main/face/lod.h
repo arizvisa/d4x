@@ -72,7 +72,7 @@ void list_of_downloads_update(tDownload *what);
 void list_of_downloads_del_list(GList *list);
 void list_of_downloads_freeze();
 void list_of_downloads_unfreeze();
-void list_of_downloads_get_height();
+gint list_of_downloads_get_height();
 void list_of_downloads_set_height();
 void init_columns_info();
 

@@ -32,7 +32,7 @@ class tSpeedQueue:public tQueue{
 		virtual tSpeed *first();
 		virtual tSpeed *next();
 		virtual tSpeed *prev();
-		void schedule(int a);
+		void schedule(int a,int flag);
 		~tSpeedQueue();
 };
 #endif

@@ -1,4 +1,4 @@
-%define ver      1.16.1
+%define ver      1.17
 %define prefix   /usr
 
 Name: nt

@@ -22,7 +22,6 @@ class tHttpDownload:public tDownloader{
 	int ReGet,MustNoReget,ETagChanged;
 	char *content_type,*FULL_NAME_TEMP;
 	char *ETag,*OldETag,*Auth;
-	char *PARAMS;
 	int analize_answer();
 	char *make_name();
 	virtual void print_error(int error_code);

@@ -47,12 +47,9 @@ int tFtpClient::accepting() {
 int  tFtpClient::send_command(char * comm,char *argv) {
 	char *data=NULL;
 	if (argv && strlen(argv)){
-		data=sum_strings(comm," ",argv,"\r\n",NULL);//new char[strlen(argv)+strlen(comm)+strlen(" \r\n")+1];
-//		sprintf(data,"%s %s\r\n",comm,argv);
+		data=sum_strings(comm," ",argv,"\r\n",NULL);
 	}else{
 		data=sum_strings(comm,"\r\n",NULL);
-//		data=new char[strlen(comm)+strlen("\r\n")+1];
-//		sprintf(data,"%s\r\n",comm);
 	};
 	if (equal_uncase(comm,"PASS"))
 		LOG->log(LOG_TO_SERVER,"PASS ***");

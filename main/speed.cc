@@ -94,15 +94,33 @@ tSpeed *tSpeedQueue::prev() {
 	return (tSpeed *)(tQueue::prev());
 };
 
-void tSpeedQueue::schedule(int a) {
+void tSpeedQueue::schedule(int a,int flag) {
 	if (Num==0) return;
 	if (a){
 		int part=a / Num;
 		if (part<=0) part=1;
 		tSpeed *temp=last();
+		tSpeed *tmpbeg=NULL;
+		int remain=0;
+		int size=Num;
 		while (temp) {
-			temp->init(part);
-			temp=next();
+			tSpeed *tmpnext=next();
+			if (temp->bytes<0 && flag){
+				del(temp);
+				temp->next=tmpbeg;
+				tmpbeg=temp;
+			}else{
+				remain+=temp->init(part);
+			};
+			temp=tmpnext;
+		};
+		if (size-Num>0)
+			part+=remain/(size-Num);
+		while(tmpbeg){
+			tSpeed *tmpnext=(tSpeed *)(tmpbeg->next);
+			tmpbeg->init(part);
+			insert(tmpbeg);
+			tmpbeg=tmpnext;
 		};
 	}else{
 		tSpeed *temp=last();

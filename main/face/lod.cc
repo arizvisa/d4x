@@ -17,12 +17,14 @@
 #include "lmenu.h"
 #include "addd.h"
 #include "misc.h"
+#include "about.h"
 #include "../ntlocale.h"
 #include "../locstr.h"
 #include "../main.h"
 #include "../var.h"
 
 GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
+tDialogWidget *AskOpening=(tDialogWidget *)NULL;
 
 GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
 GdkBitmap *list_of_downloads_bitmaps[PIX_UNKNOWN];
@@ -134,9 +136,7 @@ void list_of_downloads_print_size(tDownload *what){
 };
 
 void list_of_downloads_set_filename(tDownload *what){
-	char *parsed_name=parse_percents(what->info->file.get());
-	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,parsed_name);
-	delete(parsed_name);
+	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
 };
 
 void list_of_downloads_add(tDownload *what) {
@@ -520,17 +520,13 @@ void list_of_downloads_init() {
 	gtk_container_add(GTK_CONTAINER(ContainerForCList),ListOfDownloads);
 };
 
-void list_of_downloads_get_height() {
-	if (!ListOfDownloads) return;
+gint list_of_downloads_get_height() {
+/*	if (!ListOfDownloads) return;
 	gint x=0;
 	gint y=0;
 	gdk_window_get_size(ListOfDownloads->window,&x,&y);
 	CFG.WINDOW_CLIST_HEIGHT=int(y);
 	if (ContainerForCList){
-		/*
-		gdk_window_get_size(ContainerForCList->window,&x,&y);
-		CFG.WINDOW_CLIST_HEIGHT=int(y);
-		*/
 		y=0;
 		if (GTK_SCROLLED_WINDOW(ContainerForCList)->hscrollbar &&
 		    GTK_SCROLLED_WINDOW(ContainerForCList)->hscrollbar->window){
@@ -538,10 +534,15 @@ void list_of_downloads_get_height() {
 		};
 		CFG.WINDOW_CLIST_HEIGHT+=int(y)+3;
 	};
+*/
+	if (!MAIN_PANED) return FALSE;
+	CFG.WINDOW_CLIST_HEIGHT=GTK_PANED(MAIN_PANED)->child1_size;
+	return FALSE;
 };
 
 void list_of_downloads_set_height() {
-	gtk_widget_set_usize(ListOfDownloads,-1,gint(CFG.WINDOW_CLIST_HEIGHT));
+//	gtk_widget_set_usize(ListOfDownloads,-1,gint(CFG.WINDOW_CLIST_HEIGHT));
+	gtk_paned_set_position(GTK_PANED(MAIN_PANED),gint(CFG.WINDOW_CLIST_HEIGHT));
 };
 
 /* Setting pixmaps functions;
@@ -600,12 +601,36 @@ int list_of_downloads_sel(){
 
 /* Various additional functions
  */
+
+
+static void _continue_opening_logs(){
+	GList *select=GTK_CLIST(ListOfDownloads)->selection;
+	while (select) {
+		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
+		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
+		if (temp->LOG->Window==NULL)
+			log_window_init(temp);
+		select=select->next;
+	};
+	if (AskOpening)
+		AskOpening->done();
+};
+
 void list_of_downloads_open_logs(...) {
 	GList *select=GTK_CLIST(ListOfDownloads)->selection;
+	int a=5;
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
 		log_window_init(temp);
 		select=select->next;
+		a-=1;
+		if (a<0 && select && CFG.CONFIRM_OPENING_MANY){
+			if (!AskOpening) AskOpening=new tDialogWidget;
+			if (AskOpening->init(_("Continue open log windows?"),_("Open logs?")))
+				gtk_signal_connect(GTK_OBJECT(AskOpening->ok_button),"clicked",GTK_SIGNAL_FUNC(_continue_opening_logs),NULL);
+			AskOpening->set_modal(MainWindow);
+			break;
+		};
 	};
 };

@@ -22,8 +22,10 @@ struct tAddr{
 	void compose_path(char *aa,char *bb);
 	void file_del_sq();
 	void make_url(char *where);
+	char *pathfile();
 	char *url();
 	void copy_host(tAddr *what);
+	void copy(tAddr *what);
 	void save_to_config(int fd);
 	int is_valid();
 	~tAddr();

@@ -21,6 +21,7 @@ struct tProxyWidget{
 	GtkWidget *http_proxy_host,*http_proxy_port,*http_proxy_pass,*http_proxy_user,*http_proxy_user_check,*http_proxy_check;
 	GtkWidget *ftp_proxy_host,*ftp_proxy_port,*ftp_proxy_pass,*ftp_proxy_user,*ftp_proxy_user_check,*ftp_proxy_check;
 	GtkWidget *ftp_proxy_type_ftp,*ftp_proxy_type_http;
+	GtkWidget *no_cache;
 	void init();
 	void init_state();
 	void init_state(tCfg *cfg,int proto);

@@ -205,14 +205,15 @@ char *parse_percents(char *what) {
 	while (*old) {
 		switch (*old){
 		case '%':{
-			int num=-1;
-			old++;
-			num=convert_from_hex(*old);
-			if (num>=0 && *old) {
-				old++;
-				num=num *16 + convert_from_hex(*old);
-				*where=char(num);
-				break;
+			int num=convert_from_hex(old[1]);
+			if (num>=0 && old[2]) {
+				int num1=convert_from_hex(old[2]);
+				if (num1>=0){
+					num=num *16 + num1;
+					*where=char(num);
+					old+=2;
+					break;
+				};
 			};
 		};
 		default:{
@@ -243,11 +244,12 @@ void convert_to_hex(char what,char *where) {
 char *unparse_percents(char *what) {
 	g_return_val_if_fail(what!=NULL,NULL);
 	const char *true_chars=".-+%";
+	const char *false_chars=":<>~";
 	char *temp=what;
 	int unparsed_len=0;
 
 	while (*temp){
-		if ((*temp<'/' || *temp>'z') && index(true_chars,*temp)==NULL)
+		if ((*temp<'/' || *temp>'z' || index(false_chars,*temp)!=NULL) && index(true_chars,*temp)==NULL)
 			unparsed_len+=3;
 		else
 			unparsed_len+=1;
@@ -257,7 +259,7 @@ char *unparse_percents(char *what) {
 	char *cur=rvalue;
 	temp=what;
 	while (*temp){
-		if ((*temp<'/' || *temp>'z') && index(true_chars,*temp)==NULL){
+		if ((*temp<'/' || *temp>'z'|| index(false_chars,*temp)!=NULL) && index(true_chars,*temp)==NULL){
 			*cur='%';
 			cur+=1;
 			convert_to_hex(*temp,cur);
@@ -291,14 +293,16 @@ void del_crlf(char *what) {
 void make_number_nice(char *where,int num) {
 	g_return_if_fail(where!=NULL);
 	switch (CFG.NICE_DEC_DIGITALS.curent) {
-		case 1:	{
+		case 1:
+		case 3:{
 				sprintf(where,"%i",num);
 				int len=strlen(where);
 				if (len<4) return;
 				for (int i=len-3;i>0;i-=3,len++) {
 					for (int a=len-1;a>=i;a--)
 						where[a+1]=where[a];
-					where[i]=' ';
+					if (CFG.NICE_DEC_DIGITALS.curent==1) where[i]=' ';
+					else where[i]='\'';
 				};
 				where[len]=0;
 				break;

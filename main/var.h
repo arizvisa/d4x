@@ -55,6 +55,7 @@ struct tMainCfg{
 	int FTP_RECURSE_DEPTH;
 	int HTTP_RECURSE_DEPTH;
 	int ROLLBACK;
+	int DEFAULT_HOST_LIMIT;
 /* Log
  */
 	int MAX_MAIN_LOG_LENGTH;
@@ -120,6 +121,7 @@ struct tMainCfg{
 	int USE_PROXY_FOR_HTTP;
 	int NEED_PASS_HTTP_PROXY;
 	int NEED_PASS_FTP_PROXY;
+	int PROXY_NO_CACHE;
 /*  Confirmation
  */
 	int CONFIRM_DELETE;
@@ -127,6 +129,7 @@ struct tMainCfg{
 	int CONFIRM_DELETE_ALL;
 	int CONFIRM_DELETE_COMPLETED;
 	int CONFIRM_DELETE_FATALED;
+	int CONFIRM_OPENING_MANY;
 /* Speeds
  */
  	int SPEED_LIMIT;

@@ -18,6 +18,7 @@
 #include "srvclt.h"
 
 class tMain{
+	int prev_speed_limit;
 	unsigned int LastTime;
 	GList *list_to_delete;
 	int MsgQueue;
@@ -78,6 +79,7 @@ class tMain{
 void *download_last(void *);
 int get_port_by_proto(char *proto);
 int amount_of_downloads_in_queues();
+int calc_curent_run(char *host,int port);
 
 extern tMLog *MainLog;
 extern tMeter *GlobalMeter;

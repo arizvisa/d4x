@@ -1,12 +1,14 @@
-force download by start button;
-default limitation to the host;
+#################### to version 1.18 ####################################
+check time of local file and file on a server to avoid broken downloads
+parse date in DOS style ftp listing
+"Hot list" (ability to define urls for automatic download by d4x)
+################### end of todo to 1.18 #################################
 check for redirection to the same URL and set maximum redirections
 double click on error message in mainlog open log with this error
 SOCKS support
 "conditions" system (user can setup conditions for starting download e.g. "time" is one type of conditions)
 searching in queue
 add sounds (in integraition with gnome)
-"Hot list" (ability to define urls for automatic download by d4x)
 "tree" window for displaiyng tree structure of a site 
 check free space on disk to prevent empty it
 mask support via http
@@ -15,6 +17,8 @@ ability to hide main window
 uploading files to server
 ftp search capabilities
 Auto detection of best proxy.
+[DONE] force download by start button;
+[DONE] default limitation to the host;
 [DONE] ability to select colors for graph of speeds
 [DONE] ability to download one file in more than one threads
 [DONE] Ability to download files only in defined subdirectories;
@@ -39,3 +43,16 @@ Auto detection of best proxy.
 [DONE] grab window (which is always on top like gozilla and getsmart)
 [DONE] loading server via http (directories will be created from virtual root directory)
 [NEVER] saving urls of completed downloads into special file
+######### TO version 1.17 ####################
+[DONE] change about dialog
+[DONE] option for skiping http-proxy's cache
+[DONE] opening more than one adding window
+[DONE] fix moving down of log windows after closing and opening again
+[DONE] resizing main window resize Mainlog and queue of downloads proportionaly
+[DONE] "Add new" dialog closing by ESC
+[DONE] option for run in mimimized mode
+[DONE] confirmation for opening many windows (log,prefs)
+[DONE] change algrithm of managing traffic besides downloads
+[DONE] right clicking on options button open preferences of downloads
+[DONE] more info on progress bar
+############ END OF LIST #####################

@@ -20,6 +20,7 @@
 #include "../locstr.h"
 #include "../main.h"
 #include "../ntlocale.h"
+#include <gdk/gdkkeysyms.h>
 
 extern tMain aa;
 void edit_window_cancel(GtkWidget *parent,tDEdit *where);
@@ -93,6 +94,20 @@ GtkWidget *my_gtk_combo_new_month() {
 };
 
 /******************************************************/
+static gint _edit_window_event_handler(GtkWidget *window,GdkEvent *event,tDEdit *where){
+	if (event && event->type == GDK_KEY_PRESS) {
+		GdkEventKey *kevent=(GdkEventKey *)event;
+		switch(kevent->keyval) {
+		case GDK_Escape:{
+			if (where) delete(where);
+			return TRUE;
+			break;
+		};
+		};
+	};
+	return FALSE;
+};
+
 void init_edit_window(tDownload *what) {
 	if (!what) return;
 	if (what->editor) {
@@ -106,6 +121,8 @@ void init_edit_window(tDownload *what) {
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(edit_window_cancel),what->editor);
 	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_window_ok),what->editor);
 	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(edit_window_delete), what->editor);
+	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
+			   (GtkSignalFunc)_edit_window_event_handler, what->editor);
 };
 
 void edit_window_cancel(GtkWidget *parent,tDEdit *where) {
@@ -138,6 +155,7 @@ static void edit_window_password(GtkWidget *parent,tDEdit *where) {
 static void edit_time_check_clicked(GtkWidget *parent,tDEdit *where) {
 	where->toggle_time();
 };
+
 /******************************************************/
 
 tDEdit::tDEdit() {
@@ -368,7 +386,7 @@ void tDEdit::init_other(tDownload *who) {
 	ftp_passive_check=gtk_check_button_new_with_label(_("Use passive mode for ftp"));
 	GTK_TOGGLE_BUTTON(ftp_passive_check)->active=who->config.passive;
 	gtk_box_pack_start(GTK_BOX(other_vbox),ftp_passive_check,FALSE,FALSE,0);
-	permisions_check=gtk_check_button_new_with_label(_("Get permisions of the file from server (FTP only)"));
+	permisions_check=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
 	GTK_TOGGLE_BUTTON(permisions_check)->active=who->config.permisions;
 	gtk_box_pack_start(GTK_BOX(other_vbox),permisions_check,FALSE,FALSE,0);
 	get_date_check=gtk_check_button_new_with_label(_("Get date from the server"));
@@ -802,7 +820,6 @@ void tProxyWidget::init() {
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
 
-
 	hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hbox),3);
 	gtk_box_pack_start(GTK_BOX(hbox),proxy_frame1,FALSE,0,0);
@@ -811,6 +828,8 @@ void tProxyWidget::init() {
 	gtk_box_pack_start(GTK_BOX(vbox_temp),hbox,FALSE,0,0);
 	gtk_container_add(GTK_CONTAINER(frame),vbox_temp);
 
+	no_cache=gtk_check_button_new_with_label(_("Don't get from cache"));
+	gtk_box_pack_start(GTK_BOX(vbox_temp),no_cache,FALSE,0,0);
 
 	vbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(vbox),2);
@@ -900,6 +919,7 @@ void tProxyWidget::init_state() {
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active=TRUE;
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_http)->active=FALSE;
 	};
+	GTK_TOGGLE_BUTTON(no_cache)->active=CFG.PROXY_NO_CACHE;
 };
 
 void tProxyWidget::init_state(tCfg *cfg,int proto) {
@@ -948,6 +968,7 @@ void tProxyWidget::init_state(tCfg *cfg,int proto) {
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active=TRUE;
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_http)->active=FALSE;
 	};
+	GTK_TOGGLE_BUTTON(no_cache)->active=cfg->proxy_no_cache;
 };
 
 
@@ -990,6 +1011,7 @@ void tProxyWidget::apply_changes() {
 		if (CFG.FTP_PROXY_PASS  && strlen(CFG.FTP_PROXY_PASS))
 			ALL_HISTORIES[PASS_HISTORY]->add(CFG.FTP_PROXY_PASS);
 	};
+	CFG.PROXY_NO_CACHE=GTK_TOGGLE_BUTTON(no_cache)->active;
 };
 
 void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
@@ -1025,4 +1047,5 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 		cfg->proxy_type=0;
 	else
 		cfg->proxy_type=1;
+	cfg->proxy_no_cache=GTK_TOGGLE_BUTTON(no_cache)->active;
 };

@@ -21,7 +21,7 @@
 extern tMain aa;
 
 extern GtkWidget *MainMenu;
-extern GtkWidget *MainLogList;
+extern GtkWidget *MainLogList,*MAIN_PANED;
 extern GtkAdjustment *ProgressBarValues;
 extern GtkWidget *ProgressOfDownload;
 extern GtkWidget *MainStatusBar;

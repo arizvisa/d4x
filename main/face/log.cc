@@ -72,6 +72,16 @@ void init_pixmaps_for_log() {
 	log_warning_pixmap=make_pixmap_from_xpm(&log_warning_mask,warning_xpm);
 };
 
+void log_window_remember_geometry(GtkWidget *window, tLogWindow *temp){
+	if (window->window) {
+		int a[4];
+		gdk_window_get_root_origin(window->window,&a[0],&a[1]);
+		gdk_window_get_size(window->window,&a[2],&a[3]);
+		if (temp->papa && temp->papa->LOG)
+			temp->papa->LOG->store_geometry(a);
+	};
+};
+
 void log_window_destroy_by_log(void *a) {
 	tLog *log=(tLog *) a;
 	if (log==NULL) return;
@@ -82,6 +92,7 @@ void log_window_destroy_by_log(void *a) {
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
 		}else{
 			log->Window=NULL;
+			log_window_remember_geometry(temp->window,temp);
 			gtk_widget_destroy(GTK_WIDGET(temp->window));
 			delete (temp);
 		};
@@ -93,13 +104,7 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 		tLogWindow *temp=(tLogWindow *)log->Window;
 		if (temp) {
 			log->Window=NULL;
-			if (window->window) {
-				int a[4];
-				gdk_window_get_position(window->window,&a[0],&a[1]);
-				gdk_window_get_size(window->window,&a[2],&a[3]);
-				if (temp->papa && temp->papa->LOG)
-					temp->papa->LOG->store_geometry(a);
-			};
+			log_window_remember_geometry(window,temp);
 			gtk_widget_destroy(GTK_WIDGET(window));
 			delete (temp);
 		};
@@ -251,6 +256,8 @@ gint log_window_button(GtkWidget *button,int a){
 				   "delete_event",
 		                   (GtkSignalFunc)log_window_destroy,
 				   forlog->LOG);
+		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
+		                   (GtkSignalFunc)log_window_event_handler, forlog->LOG);
 		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
 	};
 	if (forlog==NULL)

@@ -1,0 +1,25 @@
+MANUAL DE INSTALAÇÃO
+
+1.0	O que é preciso para compilar este programa?
+
+Para compilar este programa você precisa da biblioteca GTK 1.2.0 ou mais nova,
+biblioteca com safethreads (ex: libc6) e também o código-fonte do programa.
+Eu (autor) testei o programa em sistemas RedHat 5.x RedHat 6.0 e Slackware 3.6;
+
+1.1	Compilando o programa.
+
+Entre no diretório com os fontes (main/) e digite 'make install' como usuário root;
+Se tiver problemas compilando o programa, verifique se:
+-possui os pacotes de desenvolvimento da libc6 (glibc 2.0 ou posterior)
+-possui os pacotes de desenvolvimento da GTK+ 1.2.0 ou posterior (www.gtk.org)
+-possui o gettext (se não o tiver, remova uma entrada no arquivo Makefile)
+
+1.2	Onde encontro o binário após compilar?
+
+  No diretório 'main' do código-fonte. Ele terá o nome 'nt'.
+O 'make install' colocará o binário  em /usr/local/bin
+e traduções em  /user/local/share/locale. Se você não precisa de internacionalização, apenas o /usr/local/bin é necessário...
+
+1.3	Como usar este programa?
+
+Rode o programa e você entenderá o que deve fazer. Leia também o FAQ.

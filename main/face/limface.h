@@ -35,6 +35,7 @@ class tFaceLimits{
 	GtkWidget *button;
 	GtkWidget *add_button;
 	GtkWidget *del_button;
+	GtkWidget *default_entry;
 	tLimitDialog *dialog;
 	int size1,size2;
 	public:
@@ -47,6 +48,7 @@ class tFaceLimits{
 		void update_row(int row);
 		void open_row(int row);
 		void delete_rows();
+		void set_default();
 		void get_sizes();
 		void close();
 		~tFaceLimits();
