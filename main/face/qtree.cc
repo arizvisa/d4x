@@ -78,6 +78,13 @@ static void _create_delete_(GtkWidget *window,GdkEvent *event,d4xQsTree *qt){
 	qt->create_cancel();
 };
 
+static void _create_changed_(GtkWidget *entry,GtkWidget *ok_button){
+	if (strlen(text_from_combo(entry)))
+		gtk_widget_set_sensitive(ok_button,TRUE);
+	else
+		gtk_widget_set_sensitive(ok_button,FALSE);
+};
+
 void d4xQsTree::create_ok(){
 	d4xDownloadQueue *papa=NULL;
 	if (create_mode)
@@ -116,9 +123,12 @@ void d4xQsTree::create_init(int mode){
 	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
+	gtk_widget_set_sensitive(ok_button,FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
+	gtk_signal_connect (GTK_OBJECT (dialog_entry),"changed",
+			    (GtkSignalFunc)_create_changed_, ok_button);
 	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",
 			   GTK_SIGNAL_FUNC(_create_ok_),this);
 	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",

@@ -1,3 +1,181 @@
+2002-08-27 12:09  max
+
+	* main/: dlist.cc, ftp.h, socket.cc: fixed sending QUIT command
+	after completing loading via FTP fixed "follow symbolic links"
+	during recursion via FTP
+
+2002-08-26 09:29  max
+
+	* main/dlist.cc: fixed loading links as file from recursion
+
+2002-08-21 17:45  max
+
+	* share/themes/old_theme.xml: slightly chaged to demostrate new
+	abilities
+
+2002-08-21 17:42  max
+
+	* main/: fsearch.cc, locstr.cc, locstr.h, xml.cc: code cleanups;
+	it's possible now use &gt; &lt; codes in xml files;
+
+2002-08-21 16:46  max
+
+	* share/themes/: glass2.xml, glass2/dnd1.png, glass2/dnd2.png:
+	added modified 'The Glass' theme
+
+2002-08-21 15:48  max
+
+	* ChangeLog, NEWS: updated
+
+2002-08-21 14:00  max
+
+	* main/: config.cc, config.h: added '-a' command line switch
+
+2002-08-20 13:12  max
+
+	* configure.in, main/client.cc, main/client.h, main/dlist.cc,
+	main/download.cc, main/download.h, main/ftp.cc, main/ftp.h,
+	main/ftpd.cc, main/http.cc, main/http.h, main/httpd.cc,
+	main/locstr.cc, main/main.cc, main/savedvar.cc, main/savedvar.h,
+	main/speed.h, main/var.cc, main/var.h: fixed working with BIG files
+	(over 2.1GB) loading via FTP was tested loading via HTTP not yet
+	testet due problems with apache I do not know yet what to do with
+	SIGFSX
+
+2002-08-19 16:24  max
+
+	* NEWS: updated again :-)
+
+2002-08-19 15:57  max
+
+	* main/: alt.cc, alt.h, dlist.cc, dlist.h, fsearch.cc, main.cc,
+	main.h, face/lmenu.cc, face/mywidget.cc, face/mywidget.h:
+	FTP-search in context menu do not arrange alternates any more added
+	"Find" button to "alternates" dialog
+
+2002-08-19 13:22  max
+
+	* NEWS: updated too :-)
+
+2002-08-19 13:13  max
+
+	* ChangeLog: updated
+
+2002-08-17 13:11  max
+
+	* main/fsearch.cc: fixed segfaults after reping
+
+2002-08-16 15:04  max
+
+	* ChangeLog, Makefile.am, configure.in, main/dqueue.cc,
+	main/main.cc, main/face/qtree.cc: fixed reping on FTP-search
+	cleanuped queues tree interface
+
+2002-08-15 21:42  max
+
+	* main/dlist.cc, main/fsearch.cc, main/locstr.cc,
+	share/ftpsearch.xml: fixed str_replace_regex added more ftp-search
+	engines
+
+2002-08-15 18:50  max
+
+	* main/: alt.cc, dlist.cc: fixed search when ftpsearch.xml file not
+	found
+
+2002-08-15 17:50  max
+
+	* main/: dlist.cc, dlist.h, fsearch.cc, fsearch.h, main.cc,
+	face/prefs.cc: extended number of FTP-search engines
+
+2002-08-15 17:46  max
+
+	* share/ftpsearch.xml: added two more engines
+
+2002-08-15 16:21  max
+
+	* share/: Makefile.am, ftpsearch.xml: added file describing
+	FTP-search engines;
+
+2002-08-13 19:02  max
+
+	* po/: hu.po, fuzzy/hu.po: Hungarian translation updated thanks to
+	Sandor Pinter.
+
+2002-08-01 15:17  max
+
+	* main/: client.cc, client.h, dlist.cc, dlist.h, main.cc,
+	face/addd.cc, face/buttons.cc, face/edit.cc, face/list.cc,
+	face/lod.cc, face/lod.h, face/passface.cc: move "restar from begin"
+	out from default scope; fixed compilation with --enable-debug;
+	"Shift+continue download" now restart downloads from begin;
+
+2002-07-30 09:01  max
+
+	* main/: recode.cc, recode.h: forget to add :-)
+
+2002-07-19 08:52  max
+
+	* main/: main.cc, main.h, face/addd.cc: fixed displaying the
+	download which is already added when 'stop after adding' was
+	selected
+
+2002-07-18 17:32  max
+
+	* share/themes/old_theme/dnd1.png: slightly changed old DND-Basket
+
+2002-07-18 16:22  max
+
+	* configure.in: increment version number
+
+2002-07-18 15:08  max
+
+	* main/: Makefile.am, face/edit.cc, face/edit.h: implemented recode
+	from cp1251 to koi8r of filenames
+
+2002-07-16 08:36  zaufi
+
+	* reconf: use -q instead /dev/null
+
+2002-07-06 03:55  zaufi
+
+	* configure.in: Fix case when no optimiztations req
+
+2002-07-03 23:29  max
+
+	* po/ru.po: typos fixing
+
+2002-06-29 08:45  zaufi
+
+	* configure.in: Fix compiling of included get text + fix default
+	mode to release
+
+2002-06-27 10:55  zaufi
+
+	* Makefile.am: Fixed dist-hook
+
+2002-06-27 10:47  zaufi
+
+	* DOC/Makefile.am: Missing READMEs fixed
+
+2002-06-27 10:37  zaufi
+
+	* Makefile.am, configure.in, DOC/Makefile.am, main/Makefile.am,
+	main/face/Makefile.am, po/bg.po, po/de.po, po/es.po, po/fr.po,
+	po/it.po, po/ru.po, po/uk.po, share/Makefile.am: Fixed support for
+	building with $srcdir != $builddir
+
+2002-06-24 08:58  max
+
+	* main/ftpd.cc: fixed getting date of the file from ftp.gnome.org
+
+2002-06-22 20:16  max
+
+	* po/ru.po: Updated Russian translation
+
+2002-06-22 20:11  max
+
+	* ChangeLog, NEWS, TODO: prepare to release 2.02
+
 2002-06-21 12:01  max
 
 	* main/: config.cc, main.cc, nt.cc, var.cc, var.h, face/buttons.cc,

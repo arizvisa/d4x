@@ -307,9 +307,9 @@ void log_window_set_split_info(tDownload *what){
 			};
 			char text[100];
 			if (temp->current->thread_id)
-				sprintf(text," %li-%li (%li)",begin,size,loaded);
+				sprintf(text," %lli-%lli (%lli)",begin,size,loaded);
 			else
-				sprintf(text," %li-%li (not active)",begin,size);
+				sprintf(text," %lli-%lli (not active)",begin,size);
 			gtk_label_set_text(GTK_LABEL(temp->label),text);
 		};
 	};

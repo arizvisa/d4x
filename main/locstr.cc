@@ -194,6 +194,35 @@ void convert_int_to_2(int what,char *where) {
 	strcat(where,tmp);
 };
 
+/* str_replace();
+   params: string, string to search, string to put on the place of second string
+   return: new allocated string
+   action: replace all occurrences of the second parameter in the first paramter by the third parameter
+ */
+
+char *str_replace(const char *str,const char *where,const char *what){
+	char *a=NULL;
+	int len1=strlen(where);
+	int len2=strlen(what);
+	int len3=strlen(str);
+	char *rval=copy_string(str);
+	char *cur=rval;
+	while ((a=strstr(cur,where))){
+		int len=len3-len1+len2;
+		char *old=rval;
+		rval=new char[len+1];
+		int l=a-old;
+		memcpy(rval,old,l);
+		memcpy(rval+l,what,len2);
+		cur=rval+l+len2;
+		memcpy(rval+l+len2,a+len1,len3-l-len1);
+		len3+=len2-len1;
+		rval[len3]=0;
+		delete[]old;
+	};
+	return rval;
+};
+
 /* convert_time();
     params: number of seconds, pointer to buffer
     return: none
@@ -345,7 +374,7 @@ char *parse_percents(char *what) {
 char *unparse_percents(char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	const char *true_chars=".-+%";
-	const char *false_chars=":<>~";
+	const char *false_chars=":<>~ ";
 	char *temp=what;
 	int unparsed_len=0;
 
@@ -459,7 +488,7 @@ void make_number_nice(char *where,fsize_t num,int NICE_DEC_DIGITALS) {
 	switch (NICE_DEC_DIGITALS) {
 		case 1:
 		case 3:{
-				sprintf(where,"%li",num);
+				sprintf(where,"%lli",num);
 				int len=strlen(where);
 				if (len<4) return;
 				for (int i=len-3;i>0;i-=3,len++) {
@@ -472,23 +501,29 @@ void make_number_nice(char *where,fsize_t num,int NICE_DEC_DIGITALS) {
 				break;
 			};
 		case 2:	{
-				int megs;
+				fsize_t gigs,megs;
 				megs=num/(1024*1024);
-				int kils=num/1024;
-				if (megs==0 && kils<1000) {
-					int bytes=((num-kils*1024)*10)/1024;
-					if (kils==0 && bytes<1000)
-						sprintf(where,"%li",num);
-					else
-						sprintf(where,"%i.%iK",kils,bytes);
-				} else{
-					int bytes=((num-megs*1024*1024)*10)/(1024*1024);
-					sprintf(where,"%i.%iM",megs,bytes);
+				gigs=megs/1024;
+				if (gigs==0 && megs<1000){
+					fsize_t kils=num/1024;
+					if (megs==0 && kils<1000) {
+						fsize_t bytes=((num-kils*1024)*10)/1024;
+						if (kils==0 && bytes<1000)
+							sprintf(where,"%lli",num);
+						else
+							sprintf(where,"%lli.%lliK",kils,bytes);
+					} else{
+						fsize_t bytes=((num-megs*1024*1024)*10)/(1024*1024);
+						sprintf(where,"%lli.%lliM",megs,bytes);
+					};
+				}else{
+					fsize_t bytes=((num-gigs*1024*1024*1024)*10)/(1024*1024*1024);
+					sprintf(where,"%lli.%lliG",gigs,bytes);
 				};
 				break;
 			};
 		default:
-			sprintf(where,"%li",num);
+			sprintf(where,"%lli",num);
 	};
 };
 
@@ -1090,6 +1125,15 @@ int write_named_time(int fd,char *name,time_t when){
 	if (f_wstr_lf(fd,name)<0) return(-1);
 	char str[MAX_LEN];
 	g_snprintf(str,MAX_LEN,"%ld",(long int)(when));
+	if (f_wstr_lf(fd,str)<0) return(-1);
+	return 0;
+};
+
+int write_named_fsize(int fd,char *name,fsize_t size){
+	if (name==NULL) return(0);
+	if (f_wstr_lf(fd,name)<0) return(-1);
+	char str[MAX_LEN];
+	g_snprintf(str,MAX_LEN,"%lli",size);
 	if (f_wstr_lf(fd,str)<0) return(-1);
 	return 0;
 };

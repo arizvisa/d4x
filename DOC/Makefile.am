@@ -1,11 +1,10 @@
 #
-# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.6 2002/03/13 04:33:48 zaufi Exp $
+# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.8 2002/06/27 02:47:49 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 
-pkgdata_DATA = INSTALL* FAQ* THANKS LICENSE NAMES TROUBLES
-EXTRA_DIST = $(pkgdata_DATA)
+pkgdata_DATA = $(shell ls $(srcdir)/INSTALL.* $(srcdir)/FAQ* $(srcdir)/README*) LICENSE NAMES TROUBLES
 
 # Prefix 'dist_' mean that man page gets in a distrubution
 dist_man_MANS = nt.1

@@ -25,6 +25,8 @@ void d4xOldSocket::print(){
 };
 
 d4xOldSocket::~d4xOldSocket(){
+	if (info && info->proto==D_PROTO_FTP && sock)
+		sock->direct_send("QUIT\r\n");
 	if (sock) delete(sock);
 	if (info) delete(info);
 };

@@ -32,7 +32,7 @@ class tHttpClient:public tClient{
 	void set_offset(fsize_t a);
 	int registr(char *user,char *password);
 	fsize_t get_size(char *filename,tStringList *list);
-	int get_file_from(char *what,unsigned int begin,fsize_t len);
+	int get_file_from(char *what,fsize_t begin,fsize_t len);
 	void down();
         void done();
         ~tHttpClient();

@@ -50,6 +50,7 @@ class tSocket{
 	virtual int open_port(char * host,guint16 port);
 	virtual int open_port(guint32 host,guint16 port);
 	int open_port(int *ftp_addr);
+	int direct_send(char *what);
 	int send_string(char *what,int timeout);
 	int rec_string(char * where,fsize_t len,int timeout);
 	void flush();

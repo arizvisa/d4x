@@ -91,7 +91,7 @@ tFileInfo *tDownloader::get_file_info() {
 	return(&D_FILE);
 };
 
-int tDownloader::rollback(){
+fsize_t tDownloader::rollback(){
 	LOADED = LOADED<config.rollback ? 0 : LOADED-config.rollback;
 	LOG->shift(LOADED);
 	if (config.rollback>0)

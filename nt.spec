@@ -1,4 +1,4 @@
-%define version	2.02
+%define version	2.03
 %define name	d4x
 %define prefix	/usr
 
@@ -75,6 +75,7 @@ cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
 %{_datadir}/pixmaps/nt-wm.png
 %{_datadir}/d4x/sounds/*
 %{_datadir}/d4x/themes/*
+%{_datadir}/d4x/ftpsearch.xml
 
 %changelog
 

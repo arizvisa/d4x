@@ -110,7 +110,7 @@ struct d4xLinksSel{
 	GtkWindow window;
 	GtkCList *clist;
 	GtkWidget *hbbox;
-	GtkWidget *ok,*cancel,*remove,*add;
+	GtkWidget *ok,*cancel,*remove,*find;
 };
 
 struct d4xLinksSelClass{

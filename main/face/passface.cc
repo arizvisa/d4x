@@ -474,7 +474,7 @@ void tFacePass::set_cfg(tDownload *what){
 		if (dwn->config){
 			if (what->config==NULL) what->config=new tCfg;
 			what->config->copy(dwn->config);
-			what->config->restart_from_begin=dwn->config->restart_from_begin;
+			what->restart_from_begin=dwn->restart_from_begin;
 			what->config->referer.set(dwn->config->referer.get());
 			what->config->save_path.set(dwn->config->save_path.get());
 			what->config->log_save_path.set(dwn->config->log_save_path.get());

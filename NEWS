@@ -1,3 +1,22 @@
+Wed Aug 28 12:53:28 2002
+    Added recode button into "Download's properties" dialog
+    Added ability to restart downloads by Shift+"continue download"
+    Added many FPT-search engines
+    Added ability to describe FTP-search engines in special file
+    Added '-a' command line parameter
+    Many fixes and improvements in configure scripts (thanks to zaufi)
+    Fixed some problems with getting date of the files via FTP
+    Fixed crash during "reping"
+    Fixed work with LARGE files
+    Fixed sending QUIT command when downloading via FTP has been completed
+    Fixed "follow symbolic links" and "load links as file" during recursion
+    Slightly changed DnD-basket of old theme
+    "restart from begin" property is not in default scope any more
+    FTP-search do only search, alternates can be found via apropriate button in "Alternates" dialog
+    Send QUIT command before closing stored FTP-sockets
+    Updated Hungarian translation (thanks to Sandor Pinter)
+    Some interface cleanups
+
 Sat Jun 22 19:00:45 2002
     Added support for queues' icons into themes
     Added ability to change themes' directory

@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/main/Makefile.am,v 1.7 2002/05/21 11:19:30 zaufi Exp $
+# $Header: /var/cvs/d4x/main/Makefile.am,v 1.9 2002/07/18 07:08:37 max Exp $
 #
 
 SUBDIRS = face
@@ -8,15 +8,14 @@ MAINTAINERCLEANFILES = Makefile.in
 CLEANFILES = *~
 
 # FIXME: We override 'default' value used by automake to avoid headers conflict
-DEFAULT_INCLUDES = -I$(top_srcdir)
+DEFAULT_INCLUDES = -I$(top_builddir)
 
 bin_PROGRAMS = nt
 
 #
 # HINT: c note from face/Makefile.am
 #       I suppose it can be applied here too... :)
-#       (with little modification of couse :)
-
+#
 # List of C++ modules (got from `ls -w50 -q *.cc
 nt_SOURCES = $(strip                                \
   addr.cc      eff.cc      log.cc       schedule.cc \
@@ -30,7 +29,7 @@ nt_SOURCES = $(strip                                \
   db.cc        http.cc     ping.cc      speed.cc    \
   dlist.cc     httpd.cc    queue.cc     srvclt.cc   \
   download.cc  liststr.cc  savedvar.cc  var.cc      \
-  dqueue.cc    locstr.cc   savelog.cc               \
+  dqueue.cc    locstr.cc   savelog.cc   recode.cc   \
 )
 
 # List of headers (got from `ls -w50 -q *.h`)
@@ -45,9 +44,9 @@ noinst_HEADERS = $(strip                            \
   cookie.h    html.h     ping.h      srvclt.h       \
   dbc.h       httpd.h    queue.h     var.h          \
   db.h        http.h     savedvar.h  xml.h          \
-  dlist.h     liststr.h  savelog.h                  \
+  dlist.h     liststr.h  savelog.h   recode.h       \
   download.h  locstr.h   schedule.h                 \
   dqueue.h    log.h      segments.h                 \
 )
 
-nt_LDADD = $(srcdir)/face/libface.a
+nt_LDADD = $(top_builddir)/main/face/libface.a

@@ -165,7 +165,7 @@ public:
 
 	void stop_downloads();
 	void delete_downloads(int flag=0);
-	void continue_downloads();
+	void continue_downloads(int from_begin=0);
 	void inv_protect_flag();
 	void save_to_config(int fd);
 	int load_from_config(int fd);

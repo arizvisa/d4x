@@ -147,7 +147,7 @@ fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
-		sprintf(data,"%li",Offset);
+		sprintf(data,"%lli",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
 	if (referer && *referer){
@@ -175,7 +175,7 @@ fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 };
 
 
-int tHttpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
+int tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	DSize=0;
 	fsize_t llen=len;
 	do{
@@ -183,15 +183,15 @@ int tHttpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 			char *str=read_string(CtrlSocket,MAX_LEN);
 			if (str){
 //				LOG->log(LOG_FROM_SERVER,str);
-				long int l=0;
-				sscanf(str,"%lx",&l);
+				fsize_t l=0;
+				sscanf(str,"%llx",&l);
 				llen=l;
 				delete[] str;
 			}else{
 				LOG->log(LOG_ERROR,_("Wrong chunk size!"));
 				return(0);
 			};
-			LOG->log_printf(LOG_OK,_("Chunk size %i"),llen);
+			LOG->log_printf(LOG_OK,_("Chunk size %lli"),llen);
 			if (!llen){
 				LOG->log(LOG_OK,_("It's last chunk!"));
 				/*skip for last string*/

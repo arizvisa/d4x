@@ -28,7 +28,7 @@ void lmenu_alternates(){
 	if (tmp){
 		if (tmp->ALTS==NULL)
 			tmp->ALTS=new d4xAltList;
-		tmp->ALTS->init_edit();
+		tmp->ALTS->init_edit(tmp);
 	};
 };
 
@@ -127,6 +127,7 @@ void init_list_menu() {
 		       "Move up",
 		       "Move down",
 		       "Set limitation",
+		       "Alternates",
 		       "FTP search"
 	};
 	for(unsigned int i=0;i<sizeof(names)/sizeof(char *);i++){

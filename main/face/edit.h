@@ -111,6 +111,7 @@ public:
 	void disable_time();
 	void auto_fill_log();
 	void disable_save_name();
+	void file_recode_from_url();
 	~tDEdit();
 };
 

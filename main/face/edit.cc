@@ -24,6 +24,7 @@
 #include "../main.h"
 #include "../ntlocale.h"
 #include "../filter.h"
+#include "../recode.h"
 #include <gdk/gdkkeysyms.h>
 
 enum EDIT_OPTIONS_ENUM{
@@ -352,6 +353,17 @@ void tDEdit::file_check(){
 	};
 };
 
+void tDEdit::file_recode_from_url(){
+	char *a=text_from_combo(url_entry);
+	if (a && *a){
+		tAddr *adr=new tAddr(a);
+		char *tmp=recode_from_cp1251((unsigned char*)(adr->file.get()));
+		text_to_combo(MY_GTK_FILESEL(file_entry)->combo,tmp);
+		delete[] tmp;
+		delete(adr);
+	};
+};
+
 static void edit_browser_file_focus(GtkWidget *widget,
 				    GdkEvent *event,
 				    tDEdit *edit){
@@ -362,6 +374,10 @@ static void edit_browser_file_un_focus(GtkWidget *widget,
 				    GdkEvent *event,
 				    tDEdit *edit){
 	edit->file_check();
+};
+
+static void edit_browser_file_recode(GtkWidget *widget,tDEdit *edit){
+	edit->file_recode_from_url();
 };
 
 void tDEdit::init_main(tDownload *who) {
@@ -430,6 +446,8 @@ void tDEdit::init_main(tDownload *who) {
 	GtkWidget *desc_vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *pass_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *user_box=gtk_hbox_new(FALSE,0);
+	GtkWidget *file_recode=gtk_button_new_with_label(_("CP1251->KOI8"));
+	gtk_signal_connect(GTK_OBJECT(file_recode),"clicked",GTK_SIGNAL_FUNC(edit_browser_file_recode),this);
 	gtk_box_set_spacing(GTK_BOX(url_box),5);
 	gtk_box_set_spacing(GTK_BOX(path_vbox),2);
 	gtk_box_set_spacing(GTK_BOX(file_vbox),2);
@@ -441,6 +459,7 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(desc_vbox),desc_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(desc_vbox),desc_entry,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(path_entry),path_set_as_default,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(file_entry),file_recode,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(file_vbox),file_label,FALSE,FALSE,0);
@@ -493,7 +512,7 @@ void tDEdit::init_main(tDownload *who) {
 		GTK_TOGGLE_BUTTON(pause_check)->active=1;
 	else
 		GTK_TOGGLE_BUTTON(pause_check)->active=CFG.PAUSE_AFTER_ADDING;
-	GTK_TOGGLE_BUTTON(restart_from_begin_check)->active=who->config->restart_from_begin;
+	GTK_TOGGLE_BUTTON(restart_from_begin_check)->active=who->restart_from_begin;
 	gtk_box_pack_start(GTK_BOX(vbox),pause_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),tmp_hbox,FALSE,FALSE,0);
 	GtkWidget *frame=gtk_frame_new(_("Download"));
@@ -1045,7 +1064,7 @@ int tDEdit::apply_changes() {
 	parent->config->leave_server=GTK_TOGGLE_BUTTON(leave_server_check)->active;
 	parent->config->ihate_etag=GTK_TOGGLE_BUTTON(ihate_etag_check)->active;
 	parent->config->dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
-	parent->config->restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
+	parent->restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
 	parent->config->sleep_before_complete=GTK_TOGGLE_BUTTON(sleep_check)->active;
 	parent->config->change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
 	parent->config->http_recursing=parent->config->http_recurse_depth==1?0:1;
@@ -1098,7 +1117,7 @@ int tDEdit::apply_changes() {
 
 void tDEdit::toggle_isdefault() {
 	int a=!GTK_TOGGLE_BUTTON(isdefault_check)->active;
-	gtk_widget_set_sensitive(restart_from_begin_check,a);
+//	gtk_widget_set_sensitive(restart_from_begin_check,a);
 	gtk_widget_set_sensitive(proxy->frame,a);
 	gtk_widget_set_sensitive(path_entry,a);
 	gtk_widget_set_sensitive(timeout_entry,a);
@@ -1385,7 +1404,7 @@ void tDEdit::apply_enabled_changes(){
 	if (GTK_WIDGET_SENSITIVE(leave_dir_check))
 		parent->config->dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
 	if (GTK_WIDGET_SENSITIVE(restart_from_begin_check))
-		parent->config->restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
+		parent->restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
 	if (GTK_WIDGET_SENSITIVE(sleep_check))
 		parent->config->sleep_before_complete=GTK_TOGGLE_BUTTON(sleep_check)->active;
 	if (GTK_WIDGET_SENSITIVE(check_time_check))

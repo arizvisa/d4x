@@ -16,6 +16,8 @@
 #include "locstr.h"
 #include "var.h"
 #include "ntlocale.h"
+#include "main.h"
+extern tMain aa;
 
 d4xAltList::d4xAltList(){
 	FIRST=END=NULL;
@@ -81,6 +83,7 @@ void d4xAltList::clear(){
 };
 
 void d4xAltList::fill_from_ftpsearch(tDownload *fs){
+	if (fs->DIR==NULL) return;
 	lock.lock();
 	clear();
 	tDownload *tmp=fs->DIR->first();
@@ -92,6 +95,11 @@ void d4xAltList::fill_from_ftpsearch(tDownload *fs){
 	};
 	lock.unlock();
 };
+
+static void d4x_alt_find(GtkWidget *button,tDownload *papa){
+	aa.ftp_search(papa,1);
+};
+
 
 static void d4x_alt_remove(GtkWidget *button,d4xAltList *alt){
 	alt->edit_remove();
@@ -138,7 +146,7 @@ static void d4d_alt_dblclick(GtkWidget *clist, gint row, gint column,
 	};
 };
 
-void d4xAltList::init_edit(){
+void d4xAltList::init_edit(tDownload *papa){
 	if (edit){
 		gdk_window_show(GTK_WIDGET(edit)->window);
 		return;
@@ -153,6 +161,9 @@ void d4xAltList::init_edit(){
 	gtk_signal_connect(GTK_OBJECT(edit->remove),"clicked",
 			   GTK_SIGNAL_FUNC(d4x_alt_remove),
 			   this);
+	gtk_signal_connect(GTK_OBJECT(edit->find),"clicked",
+			   GTK_SIGNAL_FUNC(d4x_alt_find),
+			   papa);
 	gtk_signal_connect(GTK_OBJECT(edit),"delete_event",
 			   GTK_SIGNAL_FUNC(d4x_alt_delete),
 			   this);

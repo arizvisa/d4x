@@ -140,6 +140,7 @@ int tSocket::open_port(char *host, guint16 port) {
 //	setsockopt(fd,SOL_SOCKET,SO_RCVBUF,(char *)&sl,sizeof(sl));
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
 		return(SOCKET_CANT_CONNECT);
+	con_flag=1;
 	return 0;
 }
 int tSocket::open_port(int *ftp_addr) {
@@ -249,6 +250,10 @@ int tSocket::accepting(char * host) {
 	};
 	con_flag=1;
 	return 0;
+};
+
+int tSocket::direct_send(char *what){
+	return(send(fd,what,strlen(what),0));
 };
 
 int tSocket::send_string(char * what,int timeout) {

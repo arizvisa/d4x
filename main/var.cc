@@ -65,7 +65,7 @@ void var_check_limits_int(int lower_value,int upper_value,int *value){
 	if (*value<lower_value) *value=lower_value;
 };
 
-void var_check_limits_long(long int lower_value,long int upper_value,long int *value){
+void var_check_limits_long(long long lower_value,long long upper_value,long long *value){
 	if (*value>upper_value) *value=upper_value;
 	if (*value<lower_value) *value=lower_value;
 };
@@ -76,7 +76,7 @@ void var_check_all_limits(){
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.number_of_attempts);
 	var_check_limits_int(30,999,&CFG.DEFAULT_CFG.timeout);
 	var_check_limits_int(100,9999,&CFG.MAX_MAIN_LOG_LENGTH);
-	var_check_limits_int(0,5000,&CFG.DEFAULT_CFG.rollback);
+	var_check_limits_long(0,5000,&CFG.DEFAULT_CFG.rollback);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.ftp_recurse_depth);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.http_recurse_depth);
 	var_check_limits_int(100,99999,&CFG.SPEED_LIMIT_1);

@@ -271,7 +271,9 @@ void d4xDownloadQueue::inherit_settings(d4xDownloadQueue *papa){
 	NICE_DEC_DIGITALS=papa->NICE_DEC_DIGITALS;
 	AUTODEL_COMPLETED=papa->AUTODEL_COMPLETED;
 	AUTODEL_FAILED=papa->AUTODEL_FAILED;
-	save_path.set(papa->save_path.get());
+	char *p=sum_strings(papa->save_path.get(),"/",name.get(),NULL);
+	save_path.set(p);
+	delete[] p;
 	qv.inherit_settings(&(papa->qv));
 };
 

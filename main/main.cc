@@ -332,8 +332,7 @@ int tMain::run_new_thread(tDownload *what) {
 	}else
 		what->SpeedLimit->base = what->config->speed;
 	if (CFG.SPEED_LIMIT<3 && CFG.SPEED_LIMIT>0){
-		int count=(what->myowner &&  what->myowner->PAPA)?what->myowner->PAPA->count(DL_RUN)+1:1;
-		what->SpeedLimit->set(((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2) * GLOBAL_SLEEP_DELAY)/count);
+		what->SpeedLimit->set((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2)/50+1);
 	};
 	SpeedScheduler->insert(what->SpeedLimit);
 	if (what->editor) what->editor->disable_ok_button();
@@ -657,7 +656,7 @@ void tMain::print_info(tDownload *what) {
 /* setting new title of log*/
 		if (CFG.USE_MAINWIN_TITLE){
 			char title[MAX_LEN];
-			sprintf(title,"%2.0f%% %li/%li %s",what->Percent,what->Size.curent,REAL_SIZE,what->info->file.get());
+			sprintf(title,"%2.0f%% %lli/%lli %s",what->Percent,what->Size.curent,REAL_SIZE,what->info->file.get());
 			log_window_set_title(what,title);
 			log_window_set_split_info(what);
 		};
@@ -676,7 +675,7 @@ void tMain::print_info(tDownload *what) {
 			if (tmp>0) {
 				what->Speed.set(int(tmp/what->Difference));
 				if (what->Speed.change()) {
-					sprintf(data,"%li",what->Speed.curent);
+					sprintf(data,"%lli",what->Speed.curent);
 					DQV(what).change_data(row,SPEED_COL,data);
 					what->Speed.reset();
 				};
@@ -738,9 +737,9 @@ void tMain::print_info(tDownload *what) {
 	if (what->Attempt.change()) {
 		what->Attempt.reset();
 		if (what->config->number_of_attempts > 0)
-			sprintf(data,"%li/%i",what->Attempt.curent, what->config->number_of_attempts);
+			sprintf(data,"%lli/%i",what->Attempt.curent, what->config->number_of_attempts);
 		else
-			sprintf(data,"%li",what->Attempt.curent);
+			sprintf(data,"%lli",what->Attempt.curent);
 		DQV(what).change_data(row,TREAT_COL,data);
 	};
 	what->finfo.oldtype=what->finfo.type;
@@ -1281,12 +1280,13 @@ void tMain::check_for_remote_commands(){
 	};
 };
 //**********************************************/
-void tMain::ftp_search(tDownload *what){
+void tMain::ftp_search(tDownload *what,int type){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	if (what->info->file.get()){
 		tDownload *tmp=new tDownload;
 		tmp->info=new tAddr;
 		tmp->config=new tCfg;
+		tmp->fsearch=type;
 		tmp->set_default_cfg();
 		tmp->info->copy(what->info);
 		tmp->finfo.size=what->finfo.size;
@@ -1349,23 +1349,23 @@ int tMain::add_downloading(tDownload *what,int to_top) {
 	return 0;
 };
 
-void tMain::add_downloading_to(tDownload *what,int to_top) {
-	DBC_RETURN_IF_FAIL(what!=NULL);	
+tDownload *tMain::add_downloading_to(tDownload *what,int to_top) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);	
 	int owner=what->status;
 	if (what->ScheduleTime){
 		MainScheduler->add_scheduled(what);
-		return;
+		return NULL;
 	};
 	if (owner>DL_ALONE && owner<DL_TEMP){
 		DONTRY2RUN=1;
 		if (add_downloading(what,to_top)){
 			tDownload *dwn=ALL_DOWNLOADS->find(what);
-			if (dwn && CFG.WITHOUT_FACE==0 && CFG.NEED_DIALOG_FOR_DND==0){
-				D4X_QVT->move_to(dwn);
-			};
+//			if (dwn && CFG.WITHOUT_FACE==0 && CFG.NEED_DIALOG_FOR_DND==0){
+//				D4X_QVT->move_to(dwn);
+//			};
 			delete (what);
 			DONTRY2RUN=0;;
-			return;
+			return dwn;
 		};
 		switch(owner){
 		case DL_RUN:{
@@ -1397,6 +1397,7 @@ void tMain::add_downloading_to(tDownload *what,int to_top) {
 	}else{
 		delete(what);
 	};
+	return(NULL);
 };
 
 int tMain::add_downloading(char *adr,char *where,char *name,char *desc) {
@@ -1505,6 +1506,8 @@ void tMain::run(int argv,char **argc) {
 	server->run_thread();
 	LastTime=get_precise_time();
 	var_check_all_limits();
+	MainLog->add(_("Loading FTP-Search engines"),LOG_WARNING);
+	D4X_SEARCH_ENGINES.load();
 	MainLog->add(_("Normally started"),LOG_WARNING);
 	check_for_remote_commands();
 	GlobalMeter->set_mode(CFG.GRAPH_MODE);

@@ -78,6 +78,14 @@ d4xXmlField *d4xXmlObject::get_attr(char *name){
 d4xXmlObject *d4xXmlObject::find_obj(char *name){
 	return(d4x_xml_find_obj(&objects,name));
 };
+
+char *xml_replace_entities(const char *a){
+	char *tmp=str_replace(a,"&lt;","<");
+	char *rval=str_replace(tmp,"&gt;",">");
+	delete[] tmp;
+	return rval;
+};
+
 /*************************************************************/
 
 int d4x_xml_skip_for(int fd,char *b){
@@ -205,6 +213,11 @@ int d4x_xml_read_fields(int fd,d4xXmlObject *obj){
 				delete(fld);
 				return(-1);
 			};
+			if (fld->value.get()){
+				char *tmp=xml_replace_entities(fld->value.get());
+				fld->value.set(tmp);
+				delete[] tmp;
+			};
 			obj->fields.insert(fld);
 		};
 	};
@@ -219,6 +232,12 @@ int d4x_xml_read_obj_body(int fd,d4xXmlObject *obj){
 	obj->value.set("");
 	do {
 		d4x_xml_read_grow(fd,&(obj->value),b,"<>");
+		if (obj->value.get()){
+			char *tmp=xml_replace_entities(obj->value.get());
+			obj->value.set(tmp);
+			delete[] tmp;
+		};
+
 		if (*b=='>' || *b==0) break;
 		if (*b=='<'){
 			d4xXmlObject *chld=d4x_xml_read_tag(fd);

@@ -18,9 +18,9 @@ class tFtpClient:public tClient{
 	int passive;
 	fsize_t TEMP_SIZE,OLD_SIZE;
 	fsize_t CUR_REST;
-	int log_flag;
 	int DONT_SEND_QUIT;
 	int RETRY_IF_NO_REGET;
+	int log_flag;
 	/* to avoid memory leaks next variable is global */
 	char *FIRST_REPLY;
 	tStringList *CTRL;
@@ -33,7 +33,7 @@ class tFtpClient:public tClient{
 	int accepting();
 	int last_answer(char *first);
 	int is_valid_answer(char *what);
-	int rest(int offset);
+	int rest(fsize_t offset);
 	void vdisconnect();
  public:
 	int METHOD_TO_LIST;
@@ -49,7 +49,7 @@ class tFtpClient:public tClient{
         int stand_data_connection();
 	int change_dir(char *where);
 	fsize_t get_size(char *filename,tStringList *list);
-	int get_file_from(char *what,unsigned int begin,fsize_t len);
+	int get_file_from(char *what,fsize_t begin,fsize_t len);
         int read_block(char *where,int size);
 	void quit();
 	void down();

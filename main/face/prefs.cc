@@ -30,8 +30,6 @@
 #include "../xml.h"
 #include "lod.h"
 
-const int SEARCH_NUMBER_OF_ENGINES=2;
-
 extern tMain aa;
 GtkWidget *d4x_prefs_window=(GtkWidget *)NULL;
 GtkWidget *d4x_prefs_frame=(GtkWidget *)NULL;
@@ -806,23 +804,24 @@ void d4x_prefs_search(){
 	gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
 
-	char *labels[]={
-		"archie.is.co.za",
-		"www.filesearch.ru"
-	};
+	int count=D4X_SEARCH_ENGINES.count();
+	if (count==0) count++;
+	char **labels=new char*[count];
+	D4X_SEARCH_ENGINES.names2array(labels);
 	D4XPWS.search_host=gtk_option_menu_new();
 	GtkWidget *menu=gtk_menu_new ();
 	GtkWidget *menu_item;
 	GSList *group=(GSList *)NULL;
 	gint i;
-	for (i = 0; (unsigned int)i <sizeof(labels)/sizeof(char*); i++){
+	for (i = 0; (unsigned int)i <count; i++){
 		menu_item = gtk_radio_menu_item_new_with_label (group, labels[i]);
 		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
 		gtk_menu_append (GTK_MENU (menu), menu_item);
 		if (i==TMPCFG.SEARCH_HOST)
-			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-		gtk_widget_show (menu_item);
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+		gtk_widget_show(menu_item);
 	};
+	delete[] labels;
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (D4XPWS.search_host), menu);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (D4XPWS.search_host),TMPCFG.SEARCH_HOST);
 
@@ -1026,6 +1025,7 @@ static int d4x_themes_rescan(){
 		closedir(d);
 	};
 	delete[] path;
+	return(0);
 };
 
 void d4x_prefs_themes(){
@@ -1457,7 +1457,8 @@ void d4x_prefs_apply_tmp(){
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.search_ping_times)),"%u",&TMPCFG.SEARCH_PING_TIMES);
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.search_entries)),"%u",&TMPCFG.SEARCH_ENTRIES);
 		GSList *group=gtk_radio_menu_item_group((GtkRadioMenuItem *)((GtkOptionMenu *)D4XPWS.search_host)->menu_item);
-		int i=SEARCH_NUMBER_OF_ENGINES-1;
+		int i=D4X_SEARCH_ENGINES.count()-1;
+		if (i<0) i=0;
 		while(group && !((GtkCheckMenuItem *)(group->data))->active){
 			group = group->next;
 			i--;

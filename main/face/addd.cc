@@ -58,9 +58,11 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 	};
 	if (tmp){
 		what->status=DL_PAUSE;
-		aa.add_downloading_to(what,to_top);
+		tDownload *dwn=aa.add_downloading_to(what,to_top);
 		SOUND_SERVER->add_event(SND_ADD);
 		D4X_QUEUE=tmpq;
+		if (dwn)
+			D4X_QVT->move_to(dwn);
 	}else{
 		if (aa.add_downloading(what,to_top)){
 			D4X_QUEUE=tmpq;
@@ -140,7 +142,7 @@ void d4x_automated_ok(GtkWidget *widget, tDownload *what) {
 		if (what->config->isdefault==0){
 			dwn->config=new tCfg;
 			dwn->config->copy(what->config);
-			dwn->config->restart_from_begin=what->config->restart_from_begin;
+			dwn->restart_from_begin=what->restart_from_begin;
 			dwn->config->referer.set(what->config->referer.get());
 			dwn->Name2Save.set(what->Name2Save.get());
 			dwn->config->save_path.set(what->config->save_path.get());

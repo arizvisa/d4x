@@ -52,6 +52,22 @@ void tWriterLoger::log_printf(int type,const char *fmt,...){
 				g_snprintf(cur,MAX_LEN-(cur-str),"%i",va_arg(ap,int));
 				break;
 			};
+			case 'l':{
+				fmt+=1;
+				switch(*fmt){
+				case 'i':
+					g_snprintf(cur,MAX_LEN-(cur-str),"%li",va_arg(ap,long int));
+					break;
+				case 'l':
+					g_snprintf(cur,MAX_LEN-(cur-str),"%lli",va_arg(ap,long long));
+					break;
+				default:
+					*cur='l';
+					cur[1]=*fmt;
+					cur[2]=0;
+				};
+				break;
+			};
 			default:{
 				*cur=*fmt;
 				cur+=1;
@@ -122,7 +138,6 @@ tCfg::tCfg() {
 	proxy_no_cache=proxy_type=0;
 	follow_link=leave_server=0;
 	dont_leave_dir=0;
-	restart_from_begin=0;
 	sleep_before_complete=0;
 	socks_port=0;
 	ftp_dirontop=0;
@@ -238,8 +253,6 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"ihate_etag:",ihate_etag);
 	if (con_limit)
 		write_named_integer(fd,"con_limit:",con_limit);
-	if (restart_from_begin)
-		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
 	if (save_path.get() && *(save_path.get()))
 		write_named_string(fd,"save_path:",save_path.get());
 	if (referer.get())
@@ -275,7 +288,7 @@ int tCfg::load_from_config(int fd){
 		{"number_of_attempts:",SV_TYPE_INT,&number_of_attempts},
 		{"ftp_recurse_depth:",SV_TYPE_INT,&ftp_recurse_depth},
 		{"http_recurse_depth:",SV_TYPE_INT,&http_recurse_depth},
-		{"rollback:",	SV_TYPE_INT,	&rollback},
+		{"rollback:",	SV_TYPE_LINT,	&rollback},
 		{"speed:",	SV_TYPE_INT,	&speed},
 		{"passive:",	SV_TYPE_INT,	&passive},
 		{"dont_send_quit:",	SV_TYPE_INT,	&dont_send_quit},
@@ -292,7 +305,6 @@ int tCfg::load_from_config(int fd){
 		{"cookie:",	SV_TYPE_PSTR,	&cookie},
 		{"proxy_no_cache:",SV_TYPE_INT,	&proxy_no_cache},
 		{"EndCfg:",	SV_TYPE_END,	NULL},
-		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin},
 		{"check_time:",	SV_TYPE_INT,	&check_time},
 		{"change_links:",SV_TYPE_INT,	&change_links},
 		{"con_limit:",	SV_TYPE_INT,	&con_limit},

@@ -81,8 +81,8 @@ class tMain{
         void continue_download(tDownload *what);
     	int add_downloading(char *adr,char *where=(char *)NULL,char *name=(char *)NULL,char *desc=(char *)NULL);
 	int add_downloading(tDownload *what,int to_top=0);
-	void ftp_search(tDownload *what);
-	void add_downloading_to(tDownload *what,int to_top=0);
+	tDownload *add_downloading_to(tDownload *what,int to_top=0);
+	void ftp_search(tDownload *what,int type=0);
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	int set_auto_run(int a);

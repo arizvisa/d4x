@@ -15,7 +15,7 @@
 #include <pthread.h>
 #include "mutex.h"
 
-typedef long int fsize_t;
+typedef long long fsize_t;
 
 struct tSpeed: public tNode{
 	private:

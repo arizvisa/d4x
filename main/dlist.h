@@ -97,9 +97,13 @@ struct d4xDwnLink:public tNode{
 	void print(){};
 };
 
+struct d4xSearchEngine;
+
 struct tDownload:public tAbstractSortNode{
 	tCfg *config;
 	tPStr Name2Save;
+	int restart_from_begin;
+	char fsearch; // 0 - just search, not 0 - arrange alternates
 	tFileInfo finfo;
 	tAddr *info;
 	tDownloader *who;
@@ -135,7 +139,7 @@ struct tDownload:public tAbstractSortNode{
 	void print_error(int err);
 	void prepare_splits();
 	char *make_path_to_file();
-	void remove_links();
+	void remove_links(d4xSearchEngine *engine);
 	void sort_links();
 	void http_check_redirect();
 	void ftp_search_sizes();
@@ -199,6 +203,7 @@ public:
 	tDList();
 	tDList(int key);
 	int get_key();
+	tDownload *find(tAddr *addr);
 	void insert(tDownload *what);
 	void init_pixmap(int a);
 	void insert_before(tDownload *what,tDownload *where);

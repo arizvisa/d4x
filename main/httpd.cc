@@ -89,7 +89,7 @@ d4xContentDisposition::d4xContentDisposition(char *httpstr){
 				r_date=ctime_to_time(value);
 				break;
 			case CDE_SIZE:
-				sscanf(value,"%li",&size);
+				sscanf(value,"%lli",&size);
 				break;
 			};
 			delete[] value;
@@ -299,7 +299,7 @@ fsize_t tHttpDownload::analize_answer() {
 			break;
 		};
 		case H_CONTENT_LENGTH:{
-			sscanf(temp->body+strlen(STR),"%li",&rvalue);
+			sscanf(temp->body+strlen(STR),"%lli",&rvalue);
 			break;
 		};
 		case H_CONTENT_RANGE:{
@@ -310,8 +310,8 @@ fsize_t tHttpDownload::analize_answer() {
 					a+=1;
 			}else
 				a=temp->body+strlen(STR);
-			int b[3];
-			if (sscanf(a,"%i-%i/%i",&b[0],&b[1],&b[2])==3){
+			fsize_t b[3];
+			if (sscanf(a,"%lli-%lli/%lli",&b[0],&b[1],&b[2])==3){
 				ReGet=1;
 				rvalue=b[2]-b[0];
 			};
@@ -476,7 +476,7 @@ int tHttpDownload::download(fsize_t len) {
 			fsize_t ind=HTTP->get_file_from(NULL,LOADED,to_load);
 			if (ind>=0) {
 				LOADED+=ind;
-				LOG->log_printf(LOG_OK,_("%i bytes loaded."),ind);
+				LOG->log_printf(LOG_OK,_("%ll bytes loaded."),ind);
 			};
 			break;
 		};

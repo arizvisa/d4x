@@ -22,7 +22,7 @@ struct tSimplyCfg{
 	int sleep_before_complete;
 	int number_of_attempts;
 	int ftp_recurse_depth,http_recurse_depth;
-	int rollback;
+	fsize_t rollback;
 	int speed;
 	int con_limit; //used only by URL-manager
 /* flags
@@ -36,7 +36,6 @@ struct tSimplyCfg{
 	int get_date;
 	int full_server_loading;
 	int follow_link; //ftp only: 0-normal loading,1-follow symlinks,2-load as file
-	int restart_from_begin;
 	int dont_send_quit;
 	int check_time;
 	int ftp_dirontop;
@@ -120,7 +119,7 @@ public:
     	virtual void down()=0;
     	virtual int registr(char *user,char *password)=0;
     	virtual fsize_t get_size(char *filename,tStringList *list)=0;
-	virtual int get_file_from(char *what,unsigned int begin,fsize_t len)=0;
+	virtual int get_file_from(char *what,fsize_t begin,fsize_t len)=0;
     	int get_status();
     	int test_reget();
     	virtual void done()=0;

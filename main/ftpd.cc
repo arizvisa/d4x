@@ -107,6 +107,9 @@ time_t ftp_date_from_str(char *src) {
 	tmp=extract_string(src,data,5);
 	if (is_string(data)){
 		tmp=extract_string(tmp,data);
+		if (!is_string(data)){
+			tmp=extract_string(src,data,4);
+		};
 	};
 
 	time_t NOW=time(NULL);
@@ -176,11 +179,11 @@ void ftp_cut_string_list(char *src,tFileInfo *dst,int flag) {
 		char *tmp;
 		if (!is_string(str1)){
 			tmp=skip_strings(rsrc,8);
-			sscanf(rsrc,"%s %u %s %s %li %s %u %s %s",
+			sscanf(rsrc,"%s %u %s %s %lli %s %u %s %s",
 	       		str1,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
 		}else{
 			tmp=skip_strings(rsrc,7);
-			sscanf(rsrc,"%s %u %s %li %s %u %s %s",
+			sscanf(rsrc,"%s %u %s %lli %s %u %s %s",
 	       		str1,&par1,str1,&dst->size,str1,&par1,str1,name);
 		};
 		dst->type=ftp_type_from_str(rsrc);
@@ -212,7 +215,7 @@ void ftp_cut_string_list(char *src,tFileInfo *dst,int flag) {
 				dst->type=T_DIR;
 				dst->perm=0775;
 			}else{
-				sscanf(str1,"%li",&(dst->size));
+				sscanf(str1,"%lli",&(dst->size));
 				dst->type=T_FILE;
 				dst->perm=0664;
 			};
@@ -442,7 +445,7 @@ fsize_t tFtpDownload::ls_answer_short(){
 		return 0;
 	};
 	ftp_cut_string_list(last->body,&D_FILE,1);
-	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
+	LOG->log_printf(LOG_OK,_("Length is %ll"),D_FILE.size);
 	return D_FILE.size;
 };
 
@@ -468,7 +471,7 @@ fsize_t tFtpDownload::ls_answer_long(){
 		return(-1);
 	};
 	ftp_cut_string_list(last->body,&D_FILE,0);
-	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
+	LOG->log_printf(LOG_OK,_("Length is %ll"),D_FILE.size);
 	D_FILE.type=T_FILE;
 	return(D_FILE.size);
 };
@@ -588,7 +591,7 @@ int tFtpDownload::download(fsize_t len) {
 					};
 					if (ind>0) {
 						LOADED+=ind;
-						LOG->log_printf(LOG_OK,_("%i bytes loaded."),ind);
+						LOG->log_printf(LOG_OK,_("%ll bytes loaded."),ind);
 					};
 					if (!FTP->get_status()) {
 						rvalue=0;

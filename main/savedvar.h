@@ -20,6 +20,7 @@ struct tSavedVar{
 
 enum SV_TYPES{
 	SV_TYPE_INT,
+	SV_TYPE_LINT,
 	SV_TYPE_PSTR,
 	SV_TYPE_SPLIT,
 	SV_TYPE_CFG,

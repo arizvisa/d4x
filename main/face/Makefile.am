@@ -1,11 +1,11 @@
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.6 2002/05/21 11:19:30 zaufi Exp $
+# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.7 2002/06/27 02:37:02 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 CLEANFILES = *~
 
-EXTRA_DIST           = $(srcdir)/pixmaps $(srcdir)/pixmaps2
+EXTRA_DIST           = pixmaps pixmaps2
 noinst_LIBRARIES     = libface.a
 
 libface_a_SOURCES = $(strip           \
@@ -39,9 +39,4 @@ noinst_HEADERS = $(strip              \
 #
 # this helps us to avoid maintain 2 lists (long lists :) of files
 # and exclude possible errors (i.e. unsyncronized lists)
-#
-# Moreover to define sources we can use smth like this:
-# libface_a_SOURCES = ($shell ls *.cc)
-#
-# If all source files should be compiled into one target...
 #

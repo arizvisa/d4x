@@ -9,6 +9,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <string.h>
 #include "fsearch.h"
 #include "dbc.h"
 #include "signal.h"
@@ -16,7 +17,206 @@
 #include "face/fsface.h"
 #include "face/lod.h"
 #include "main.h"
+#include "xml.h"
+#include "ntlocale.h"
 
+d4xEnginesList D4X_SEARCH_ENGINES;
+
+char *cut_string(const char *str,int a,int b){
+	if (b<a) return NULL;
+	char *rval=new char[b-a+1];
+	memcpy(rval,str+a,b-a);
+	rval[b-a]=0;
+	return(rval);
+};
+
+char *str_regex_replace(const char *str){
+	char *badchars="[]\\.(){}:=";
+	int len=strlen(str);
+	const char *c=str;
+	while(*c){
+		if (index(badchars,*c))
+			len++;
+		c++;
+	};
+	char *rval=new char[len+1];
+	char *b=rval;
+	c=str;
+	while(*c){
+		if (index(badchars,*c)){
+			*b='\\';
+			b++;
+		};
+		*b=*c;
+		b++;
+		c++;
+	};
+	*b=0;
+	return(rval);
+};
+
+/****************************************************************/
+
+void d4xSearchEngine::prepare_url(tAddr *adr,int size,const char *file,int num){
+	char data[100];
+	char *tmp=NULL,*tmp1;
+	char *f=unparse_percents((char*)file);
+	sprintf(data,"%i",num);
+	if (size>0){
+		tmp=str_replace(urlsize.get(),"[:num:]",data);
+		sprintf(data,"%li",size);
+		tmp1=str_replace(tmp,"[:size:]",data);
+		delete[] tmp;
+		tmp=str_replace(tmp1,"[:file:]",f);
+	}else{
+		tmp=str_replace(urlnosize.get(),"[:num:]",data);
+		tmp1=str_replace(tmp,"[:file:]",f);
+		delete[] tmp;
+		tmp=tmp1;
+	};
+	delete[] f;
+	adr->from_string(tmp);
+	delete[] tmp;
+};
+
+d4xSearchEngine *d4xEnginesList::first(){
+	return((d4xSearchEngine*)(tQueue::first()));
+};
+
+d4xSearchEngine *d4xEnginesList::next(){
+	return((d4xSearchEngine*)(tQueue::next()));
+};
+
+d4xSearchEngine *d4xEnginesList::prev(){
+	return((d4xSearchEngine*)(tQueue::prev()));
+};
+
+int d4xEnginesList::load(){
+	char *tmp=sum_strings(D4X_SHARE_PATH,"/ftpsearch.xml",NULL);
+	tQueue *data=d4x_xml_parse_file(tmp);
+	delete[] tmp;
+	if (data){
+		d4xXmlObject *obj=NULL;
+		while ((obj=(d4xXmlObject *)(data->first()))){
+			data->del(obj);
+			if (equal_uncase(obj->name.get(),"ftpsearch")){
+				d4xXmlField *fld=obj->get_attr("name");
+				d4xXmlObject *urlsize=obj->find_obj("urlsize");
+				d4xXmlObject *urlnosize=obj->find_obj("urlnosize");
+				d4xXmlObject *match=obj->find_obj("match");
+				if (fld && urlsize && urlnosize && match){
+					d4xSearchEngine *engine=new d4xSearchEngine;
+					engine->name.set(fld->value.get());
+					engine->urlsize.set(urlsize->value.get());
+					engine->urlnosize.set(urlnosize->value.get());
+					engine->match.set(match->value.get());
+					d4xFtpRegex test;
+					regex_t regs[2];
+					if (test.compile(match->value.get(),"test") &&
+					    test.compile_regexes(regs)){
+						insert(engine);
+						regfree(regs);
+						regfree(regs+1);
+					}else
+						delete(engine);
+				};
+			};
+			delete(obj);
+		};
+	};
+	return(0);
+};
+
+d4xSearchEngine *d4xEnginesList::get_by_num(int num){
+	tNode *a=First;
+	while(a && num>0){
+		num--;
+		a=a->prev;
+	};
+	return((d4xSearchEngine*)a);
+};
+
+void d4xEnginesList::names2array(char **arr){
+	if (First){
+		int i=0;
+		tNode *a=First;
+		while(a){
+			arr[i++]=((d4xSearchEngine*)a)->name.get();
+			a=a->prev;
+		};
+		
+	}else{
+		arr[0]=_("Check your installation of the Downloader");
+	};
+};
+
+/****************************************************************/
+
+d4xFtpRegex::d4xFtpRegex():left(NULL),center(NULL),right(NULL){};
+
+int d4xFtpRegex::compile(const char *str,const char *file){
+	char *f=str_regex_replace(file);
+	char *s=str_replace(str,"[:file:]",f);
+	delete[] f;
+	char *a=strstr(s,"(:");
+	if (!a){
+		delete[] s;
+		return(0);
+	};
+	char *b=strstr(a+2,":)");
+	if (!b){
+			delete[] s;
+			return(0);
+	};
+	free();
+	left=cut_string(s,0,a-s);
+	center=cut_string(s,a-s+2,b-s);
+	right=cut_string(s,b-s+2,strlen(s));
+	delete[] s;
+	return(1);
+};
+
+int d4xFtpRegex::compile_regexes(regex_t *regs){
+	if (regcomp(regs,left,0))
+		return(0);
+	if (regcomp(regs+1,center,0)){
+		regfree(regs);
+		return(0);
+	};
+	return(1);
+};
+
+char *d4xFtpRegex::cut(const char *str,regex_t *regs){
+	regmatch_t rval[10];
+	regmatch_t rval2[10];
+	if (regexec(regs,str,10,rval,0)==0){
+		for (int i=0;i<100;i++){
+			if (rval[i].rm_so==-1) break;
+			if (regexec(regs+1,str+rval[i].rm_eo,10,rval2,0)==0){
+				if (rval2[0].rm_so==0)
+					return(cut_string(str+rval[i].rm_eo,0,rval2[0].rm_eo));
+			};
+		};
+	};
+	return(NULL);
+};
+
+void d4xFtpRegex::print(){
+	printf("%s\n%s\n%s\n",left,center,right);
+};
+
+void d4xFtpRegex::free(){
+	if (left) delete[] left;
+	if (right) delete[] right;
+	if (center) delete[] center;
+	left=right=center=NULL;
+};
+
+d4xFtpRegex::~d4xFtpRegex(){
+	free();
+};
+
+/****************************************************************/
 tFtpSearchCtrl::tFtpSearchCtrl(){
 	for (int i=0;i<DL_FS_LAST;i++){
 		queues[i]=new tDList(i);
@@ -49,6 +249,10 @@ void tFtpSearchCtrl::add(tDownload *what){
 void tFtpSearchCtrl::reping(tDownload *what){
 	what->action=ACTION_REPING;
 	what->myowner->del(what);
+	if (what->config==NULL){
+		what->config=new tCfg;
+		what->set_default_cfg();
+	};
 	queues[DL_FS_WAIT]->insert(what);
 	fs_list_set_icon(clist,what,PIX_WAIT);
 };
@@ -105,13 +309,15 @@ void tFtpSearchCtrl::cycle(){
 					switch (tmp->status){
 					case DOWNLOAD_COMPLETE:{
 						fs_list_set_icon(clist,tmp,PIX_COMPLETE);
-						tDownload *a=ALL_DOWNLOADS->find(tmp);
-						if (a){
-							if (a->ALTS==NULL) a->ALTS=new d4xAltList;
-							a->ALTS->fill_from_ftpsearch(tmp);
-							remove_from_clist(tmp);
-							delete(tmp);
-							tmp=NULL;
+						if (tmp->fsearch){
+							tDownload *a=ALL_DOWNLOADS->find(tmp);
+							if (a){
+								if (a->ALTS==NULL) a->ALTS=new d4xAltList;
+								a->ALTS->fill_from_ftpsearch(tmp);
+								remove_from_clist(tmp);
+								delete(tmp);
+								tmp=NULL;
+							};
 						};
 						break;
 					};

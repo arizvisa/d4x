@@ -871,7 +871,10 @@ void delete_downloads(gint flag) {
 };
 
 void continue_downloads(...) {
-	D4X_QUEUE->qv.continue_downloads();
+	GdkModifierType mask;
+	gint x,y;
+	gdk_window_get_pointer(MainWindow->window,&x,&y,&mask);
+	D4X_QUEUE->qv.continue_downloads(mask & GDK_SHIFT_MASK);
 	prepare_buttons();
 };
 

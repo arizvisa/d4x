@@ -74,11 +74,13 @@ int f_wstr_lf(int fd,char *str);
 int write_named_string(int fd,char *name,char *str);
 int write_named_integer(int fd,char *name,int num);
 int write_named_time(int fd,char *name,time_t when);
+int write_named_fsize(int fd,char *name,fsize_t size);
 int int_to_strin_len(int num);
 int sscanf_int(char *str,int *where);
 char *parse_save_path(const char *str,char *file);
 char *index_mult(char *str,const char *what);
 int file_copy(char *from,char *to,char *buf,int size);
+char *str_replace(const char *str,const char *where,const char *what);
 
 //**************************************************/
 #endif

@@ -42,7 +42,7 @@ public:
 	void init_add();
 	void add_edit_destroy();
 	void add_edit_ok();
-	void init_edit();
+	void init_edit(tDownload *papa);
 	void print2edit();
 	void edit_destroy();
 	void edit_remove();

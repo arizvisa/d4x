@@ -53,7 +53,7 @@ class tDownloader{
      	virtual char *get_new_url();
      	virtual fsize_t another_way_get_size()=0;
 
-	int rollback();
+	fsize_t rollback();
 	virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
 	virtual void make_full_pathes(const char *path,char **name,char **guess);
 	virtual void print_error(int error_code);

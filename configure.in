@@ -1,13 +1,13 @@
 # -*-m4-*-
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.47 $)
+AC_REVISION($Revision: 1.54 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
 # Initialize environment
 # -----------------------------------------------------------------------------
-AC_INIT([d4x],[2.02],[chuchelo@krasu.ru])
+AC_INIT([d4x],[2.03],[chuchelo@krasu.ru])
 
 AC_CONFIG_SRCDIR([nt.spec.in])
 AC_CONFIG_AUX_DIR([admin])
@@ -20,9 +20,9 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-dnl Automake 1.5 doesn't ready for this feature yet...
-dnl AM_INIT_AUTOMAKE([gnu])
-dnl ... so use an old fashioned call.
+# Automake 1.5 doesn't ready for this feature yet...
+# AM_INIT_AUTOMAKE([gnu])
+# ... so use an old fashioned call.
 AM_INIT_AUTOMAKE($PACKAGE_NAME, $PACKAGE_VERSION)
 
 AC_PREFIX_DEFAULT(/usr/local)
@@ -31,21 +31,29 @@ AC_PREFIX_DEFAULT(/usr/local)
 # Parse some configuration keys
 # -----------------------------------------------------------------------------
 
-dnl NOTE: Automatic Makefiles rebuild works ONLY in maintainer mode!!!
+# NOTE: Automatic Makefiles rebuild works ONLY in maintainer mode!!!
 AM_MAINTAINER_MODE
 
+# --disable-release flags... i.e. no optimized code
+# (to allow debuggers show/trace source code properly)
 CXXFLAGS="-O0"
+
+# Optimization options
 AC_ARG_ENABLE(extra-optimize,
     AC_HELP_STRING([--enable-extra-optimize],
                    [Such as --enable-release + compile with maximum optimizations]),
     [if test "x$enable_extra_optimize" = "xyes"; then
-	CXXFLAGS="-O3" 
+	CXXFLAGS="-O3"
     fi])
+# *** Default mode: release ***
 AC_ARG_ENABLE(release, 
-    AC_HELP_STRING([--enable-release], [Compile with usual optimization level without debug code]),
-    [if test "x$enable_release" = "xyes"; then
-	CXXFLAGS="-O2" 
-    fi])
+    AC_HELP_STRING([--enable-release], [Compile with usual optimization level without debug code (default)]),,
+    [enable_release="yes"])
+if test "x$enable_release" = "xyes"; then
+    CXXFLAGS="-O2"
+fi
+
+# Maintainer helpers
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debug info and some debugging code to be compiled]),
     [if test "x$enable_debug" = "xyes"; then
@@ -57,6 +65,8 @@ AC_ARG_ENABLE(warnings,
     [if test "x$enable_warnings" = "xyes"; then
 	CXXFLAGS=$CXXFLAGS" -Wall"
     fi])
+
+# Extra features options
 AC_ARG_ENABLE(esd,
     AC_HELP_STRING([--disable-esd], [Disable esound output (default=enabled)]),,
     enable_esd="yes")
@@ -68,12 +78,12 @@ AC_ARG_ENABLE(oss,
 # Checks for arch/OS
 # -----------------------------------------------------------------------------
 
-dnl Check for OS
+# Check for OS
 case ${host} in
     *-linux*)
     ;;
     *-solaris*)
-	dnl From original Makefile: SOLARIS_TYPECASTED_X11_HEADERS
+	# From original Makefile: SOLARIS_TYPECASTED_X11_HEADERS
 	OS_INCLUDES="-I/var/tmp/src"
 	AC_DEFINE(_POSIX_THREADS_SEMANTICS, ,[Needed for Solaris reentrant code])
     ;;
@@ -86,10 +96,10 @@ case ${host} in
     ;;
 esac
 
-dnl check for CPU
+# check for CPU
 dnl
-dnl I know exactly that on Intel and ADM CPUs this improve code
-dnl but 'bout others I can say nothing...
+# I know exactly that on Intel and ADM CPUs this improve code
+# but 'bout others I can say nothing...
 dnl
 am_intel_amd_common="-fexpensive-optimizations -malign-loops=4 -malign-jumps=4 -malign-functions=4 -fomit-frame-pointer"
 ac_pthread_strict_check="yes"
@@ -123,11 +133,11 @@ AM_PROG_INSTALL_STRIP
 AC_PROG_AWK
 AC_PROG_RANLIB
 
-dnl Set of available languages (look at /po dir instead of static list).
+# Set of available languages (look at /po dir instead of static list).
 ALL_LINGUAS=`(cd ${srcdir}/po && ls *.po | sed -e 's/\.po$//')`
 
-dnl Workaround for bug in gettext version 0.10.38 (and maybe below)
-dnl (wich is doesn't aware with new autoconf)
+# Workaround for bug in gettext version 0.10.38 (and maybe below)
+# (wich is doesn't aware with new autoconf)
 test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
 
 AM_GNU_GETTEXT
@@ -135,7 +145,7 @@ AM_GNU_GETTEXT
 # -----------------------------------------------------------------------------
 # Checks for libraries.
 # -----------------------------------------------------------------------------
-dnl Should we check for esound?
+# Should we check for esound?
 if test "x$enable_esd" = xyes; then
     AM_PATH_ESD(,[have_esd=yes AC_DEFINE(HAVE_ESD,,[Define if have libesd])], have_esd=no)
 else
@@ -147,13 +157,13 @@ AM_PATH_GLIB(1.2.10,, AC_MSG_ERROR([*** GLIB >= 1.2.10 not installed! ***]))
 AM_PATH_GTK(1.2.10,, AC_MSG_ERROR([*** GTK >= 1.2.10 not installed! ***]))
 AM_PATH_GDK_PIXBUF(,, AC_MSG_ERROR([*** GdkPixbuf not installed! ***]))
 
-dnl POSIX threads should be always present...
+# POSIX threads should be always present...
 if test "x$ac_pthread_strict_check" = "xyes"; then
     AC_CHECK_LIB([pthread], [pthread_testcancel],, AC_MSG_ERROR([*** POSIX threads not found! ***]))
 fi
 
-dnl Choose regex library
-dnl AM_WITH_RX
+# Choose regex library
+# AM_WITH_RX
 
 # -----------------------------------------------------------------------------
 # Checks for header files.
@@ -202,15 +212,15 @@ AC_CHECK_FUNCS([strerror strncasecmp strstr utime flock pthread_testcancel])
 # Additianal actions before produce output files
 # -----------------------------------------------------------------------------
 
-dnl It's time to define $prefix if it was ommited...
+# It's time to define $prefix if it was ommited...
 if test "x$prefix" = "xNONE"; then
   prefix=$ac_default_prefix
   ac_configure_args="$ac_configure_args --prefix $prefix"
 fi
 
-dnl Make gettext > 0.10.35 work
-dnl GMSGFMT="OLD_PO_FILE_INPUT=yes $GMSGFMT"
-dnl MSGFMT="OLD_PO_FILE_INPUT=yes $MSGFMT"
+# Make gettext > 0.10.35 work
+# GMSGFMT="OLD_PO_FILE_INPUT=yes $GMSGFMT"
+# MSGFMT="OLD_PO_FILE_INPUT=yes $MSGFMT"
 localedir=${prefix}/share/locale
 AC_SUBST(localedir)
 
@@ -223,26 +233,55 @@ AC_DEFINE_UNQUOTED(D4X_SHARE_PATH,
 
 AC_DEFINE(_REENTRANT, , [Enable reenrant code of glibc])
 
-dnl Prepare all requiered flags
+# Prepare all requiered flags
 CXXFLAGS="${CXXFLAGS} ${OS_CXXFLAGS}"
-CPPFLAGS='-include $(top_srcdir)/config.h'" ${CPPFLAGS} ${ESD_CFLAGS} ${GLIB_CFLAGS} ${GTK_CFLAGS} ${GDK_PIXBUF_CFLAGS} ${OS_INCLUDES}"
+CPPFLAGS="${CPPFLAGS} ${ESD_CFLAGS} ${GLIB_CFLAGS} ${GTK_CFLAGS} ${GDK_PIXBUF_CFLAGS} ${OS_INCLUDES}"
 LIBS="${LIBS} ${ESD_LIBS} ${GLIB_LIBS} ${GTK_LIBS} ${GDK_PIXBUF_LIBS} ${LIBRX}"
 
-dnl Remove duplicates from options
+# Remove duplicates from options
 CPPFLAGS=`echo $CPPFLAGS | $AWK -f ${srcdir}/admin/strip.awk`
 LIBS=`echo $LIBS | $AWK -f ${srcdir}/admin/strip.awk`
 
-dnl Remove -lpthread for some OS'es
+# Remove -lpthread for some OS'es
 if test "x$ac_pthread_strict_check" = "xno"; then
     LIBS=`echo $LIBS | sed 's/\(-lpthread\)//'`
 fi
 
+# Force config.h be included before every module compilation
+if test "x$ac_config_headers" != "x"; then
+    CPPFLAGS="${CPPFLAGS} "'-include $(CONFIG_HEADER)'
+fi
+
+# Schedule commands to execute after Makefiles creation
+# (included gettext doesn't need our CPPFLAGS, moreover
+# it is not define CONFIG_HEADER in itsown Makefile so
+# we get a compile errors 'bcouse incorrect command line)
+AC_CONFIG_COMMANDS(fixer,
+[
+    # The following command will be executed by config.status
+    # with `pwd` == $top_builddir...
+    if test -f intl/Makefile; then
+	cat intl/Makefile \
+	| sed 's/^CPPFLAGS *=.*/CPPFLAGS = /' > intl/Makefile.tmp
+	mv -f intl/Makefile.tmp intl/Makefile
+    fi
+])
+
+# Make #include guards for config.h
+AH_TOP([
+#ifdef __D4X_CONFIG_H
+# error Do not include this file directly! All needed actions already done by configure script.
+#else /* __D4X_CONFIG_H */
+# define __D4X_CONFIG_H
+])
+AH_BOTTOM([#endif /* !__D4X_CONFIG_H */])
+
 # -----------------------------------------------------------------------------
 # Create output files
 # -----------------------------------------------------------------------------
-AC_CONFIG_FILES([Makefile \
+AC_CONFIG_FILES([Makefile  po/Makefile.in \
                  DOC/Makefile \
-		 intl/Makefile \
+		 \
                  main/Makefile \
                  main/face/Makefile \
                  po/Makefile.in \

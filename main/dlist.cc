@@ -309,6 +309,8 @@ tSplitInfo::~tSplitInfo(){
 
 /**********************************************/
 tDownload::tDownload() {
+	fsearch=0;
+	restart_from_begin=0;
 	regex_match=NULL;
 	config=NULL;
 	next2stop=prev2update=next2update=NULL;
@@ -541,12 +543,12 @@ fsize_t tDownload::create_file() {
 	};
 	case T_FILE:{ //this is a file
 		WL->log(LOG_WARNING,_("Trying to create a file"));
-		if (config->restart_from_begin){
+		if (restart_from_begin){
 			fdesc=open(guess,O_RDWR|O_TRUNC,S_IRUSR | S_IWUSR );
 		}else
 			fdesc=open(guess,O_RDWR,S_IRUSR | S_IWUSR );
 		if (fdesc<0) {
-			if (config->restart_from_begin){
+			if (restart_from_begin){
 				fdesc=open(name,O_RDWR|O_CREAT|O_TRUNC,S_IRUSR | S_IWUSR );
 			}else
 				fdesc=open(name,O_RDWR|O_CREAT,S_IRUSR | S_IWUSR );
@@ -573,7 +575,7 @@ fsize_t tDownload::create_file() {
 		}else{
 			need_to_rename=0;
 		};
-		config->restart_from_begin=0;
+		restart_from_begin=0;
 		WL->log(LOG_OK,_("File was created!"));
 		rvalue=init_segmentator(fdesc,lseek(fdesc,0,SEEK_END),name);
 		break;
@@ -704,7 +706,7 @@ void tDownload::copy(tDownload *dwn){
 	if (dwn->config){
 		if (config==NULL) config=new tCfg;
 		config->copy(dwn->config);
-		config->restart_from_begin=dwn->config->restart_from_begin;
+		restart_from_begin=dwn->restart_from_begin;
 		config->referer.set(dwn->config->referer.get());
 		Name2Save.set(dwn->Name2Save.get());
 		config->save_path.set(dwn->config->save_path.get());
@@ -832,7 +834,24 @@ void tDownload::convert_list_to_dir() {
 				onenew->finfo.date=prom->date;
 				if (config->permisions) onenew->finfo.perm=prom->perm;
 				if (onenew->finfo.type==T_LINK) {
-					onenew->finfo.body.set(prom->body.get());
+					if (config->follow_link==1){
+						onenew->finfo.type=T_NONE;
+						char *tmppath=compose_path(onenew->info->path.get(),prom->body.get());
+						char *a=rindex(tmppath,'/');
+						if (a){
+							*a=0;
+							onenew->info->file.set(a+1);
+							onenew->info->path.set(tmppath);
+						}else{
+							onenew->info->file.set(tmppath);
+							onenew->info->path.set("");
+						};
+						delete[] tmppath;
+						onenew->finfo.size=0; //follow symbolik link size is unknown yet
+						onenew->finfo.date=0; //date is unknown too :-(
+					}else{
+						onenew->finfo.body.set(prom->body.get());
+					};
 				};
 			};
 			if (addrnew->is_valid()){
@@ -952,9 +971,9 @@ void tDownload::save_to_config(int fd){
 		write_named_time(fd,"Time:",ScheduleTime);
 	write_named_integer(fd,"State:",owner());
 	if (finfo.size>0){
-		write_named_time(fd,"size:",finfo.size);
+		write_named_fsize(fd,"size:",finfo.size);
 		if (Size.curent>0)
-			write_named_time(fd,"loaded:",Size.curent);
+			write_named_fsize(fd,"loaded:",Size.curent);
 	};
 	if (Description.get())
 		write_named_string(fd,"Description:",Description.get());
@@ -964,6 +983,8 @@ void tDownload::save_to_config(int fd){
 		write_named_integer(fd,"protect:",protect);
 	if (ALTS)
 		ALTS->save_to_config(fd);
+	if (restart_from_begin)
+		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
 	f_wstr_lf(fd,"EndDownload:");
 };
 
@@ -976,11 +997,12 @@ int tDownload::load_from_config(int fd){
 		{"SavePath:",	SV_TYPE_PSTR,	&(config->save_path)},
 		{"SaveName:",	SV_TYPE_PSTR,	&(Name2Save)},
 		{"SplitTo:",	SV_TYPE_SPLIT,	&(split)},
-		{"size:",	SV_TYPE_TIME,	&(finfo.size)},
-		{"loaded:",	SV_TYPE_TIME,	&(Size.curent)},
+		{"size:",	SV_TYPE_LINT,	&(finfo.size)},
+		{"loaded:",	SV_TYPE_LINT,	&(Size.curent)},
 		{"protect:",	SV_TYPE_INT,	&(protect)},
 		{"Description:",SV_TYPE_PSTR,	&(Description)},
 		{"Alt:",	SV_TYPE_ALT,	&(ALTS)},
+		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin},
 		{"EndDownload:",SV_TYPE_END,	NULL}
 	};
 	char buf[MAX_LEN];
@@ -1299,7 +1321,7 @@ void tDownload::download_http() {
 	who->set_loaded(CurentSize);
 	CurentSize=who->rollback();
 	
-	int size=who->get_size();
+	fsize_t size=who->get_size();
 	/* In the case if file already loaded
 	 */
 	if (size==CurentSize && size>0 && config->rollback==0) {
@@ -1347,7 +1369,7 @@ void tDownload::download_http() {
 			split->LastByte=size;
 	};
 	check_local_file_time();
-	int SIZE_FOR_DOWNLOAD=who->reget()?size-CurentSize:size;
+	fsize_t SIZE_FOR_DOWNLOAD=who->reget()?size-CurentSize:size;
 	SIZE_FOR_DOWNLOAD=(split && split->LastByte>0)?split->LastByte-split->FirstByte:SIZE_FOR_DOWNLOAD;
 	Start=Pause=time(NULL);
 	Difference=0;
@@ -1361,17 +1383,33 @@ void tDownload::download_http() {
 	download_completed(D_PROTO_HTTP);
 };
 
-void tDownload::remove_links(){
+void tDownload::remove_links(d4xSearchEngine *engine){
+	d4xFtpRegex ftpr;
+	regex_t regs[2];
+	ftpr.compile(engine->match.get(),info->file.get());
+	ftpr.compile_regexes(regs);
 	tDownload *tmp=DIR->last();
+	tDList *nDIR=new tDList;
 	while(tmp){
-		tDownload *nexttmp=DIR->next();
-		if (equal(tmp->info->file.get(),info->file.get())==0 ||
-		    tmp->info->proto!=D_PROTO_FTP){
-			DIR->del(tmp);
+		DIR->del(tmp);
+		char *url=tmp->info->url();
+		char *a=ftpr.cut(url,regs);
+		delete[] url;
+		if (a){
+//			printf("%s\n",a);
+			tmp->info->from_string(a);
+			delete[] a;
+			if (nDIR->find(tmp->info))
+				delete(tmp);
+			else
+				nDIR->insert(tmp);
+		}else{
 			delete(tmp);
 		};
-		tmp=nexttmp;
+		tmp=DIR->last();
 	};
+	delete(DIR);
+	DIR=nDIR;
 };
 
 static void _tmp_sort_free_(void *buf){
@@ -1388,7 +1426,7 @@ static int _cmp_pinged_hosts_(tNode *a,tNode *b){
 };
 
 void tDownload::sort_links(){
-	if (DIR->count()==0) return;
+	if (DIR==NULL || DIR->count()<=0) return;
 	WL->log(LOG_OK,_("Sorting started"));
 	int i=0;
 	while (i<CFG.SEARCH_PING_TIMES){
@@ -1450,44 +1488,13 @@ void tDownload::ftp_search_sizes(){
 
 void tDownload::ftp_search() {
 	/* FIXME: prepare new url for ftp search */
-	if (action!=ACTION_REPING){
+	d4xSearchEngine *engine;
+	engine=D4X_SEARCH_ENGINES.get_by_num(CFG.SEARCH_HOST);
+	if (action!=ACTION_REPING && engine!=NULL){
 		tAddr *tmpinfo=new tAddr;
 		pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
-		tmpinfo->proto=D_PROTO_HTTP;
-		tmpinfo->port=get_port_by_proto(tmpinfo->proto);
 		config->change_links=0;
-		char data[MAX_LEN];
-		switch (CFG.SEARCH_HOST){
-		case 1:
-			tmpinfo->host.set("www.filesearch.ru");
-			tmpinfo->path.set("cgi-bin");
-			tmpinfo->file.set("s");
-			if (finfo.size>0)
-				sprintf(data,"q=%s&w=a&t=f&e=on&m=%i&o=n&s1=%li&s2=%li&d=&p=&p2=&x=24&y=12",
-					info->file.get(),
-					CFG.SEARCH_ENTRIES,
-					finfo.size,finfo.size);
-			else
-				sprintf(data,"q=%s&w=a&t=f&e=on&m=%i&o=n&d=&p=&p2=&x=24&y=12",
-					info->file.get(),
-					CFG.SEARCH_ENTRIES);
-			tmpinfo->params.set(data);
-			break;
-		default:
-			tmpinfo->host.set("archie.is.co.za");
-			tmpinfo->path.set("");
-			tmpinfo->file.set("ftpsearch");
-			if (finfo.size>0)
-				sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=%i&limsize1=%li&limsize2=%li",
-					info->file.get(),
-					CFG.SEARCH_ENTRIES,
-					finfo.size,finfo.size);
-			else
-				sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=%i",
-					info->file.get(),
-					CFG.SEARCH_ENTRIES);
-			tmpinfo->params.set(data);
-		};
+		engine->prepare_url(tmpinfo,finfo.size,info->file.get(),CFG.SEARCH_ENTRIES);
 		if (who->init(tmpinfo,config)) {
 			download_failed();
 			return;
@@ -1508,14 +1515,19 @@ void tDownload::ftp_search() {
 			download_failed();
 			return;
 		};
-		pthread_cleanup_pop(1);
 		config->http_recurse_depth=2;
 		config->leave_server=1;
+		download_set_block(1);
+		tAddr *a=info;
+		info=tmpinfo;
 		http_recurse();
+		info=a;
+		download_set_block(0);
+		pthread_cleanup_pop(1);
 		who->done();
-		remove_links();
+		remove_links(engine);
 	};
-	if (finfo.size<0 && DIR->count()>0)
+	if (finfo.size<0 && DIR!=NULL && DIR->count()>0)
 		ftp_search_sizes();
 	sort_links();
 	WL->log(LOG_OK,_("Search had been completed!"));
@@ -1527,7 +1539,7 @@ void tDownload::download_ftp(){
 	WL->log(LOG_WARNING,_("Was Started!"));
 	if (!who) who=new tFtpDownload(WL);
 
-	if (finfo.type==T_LINK) {
+	if (finfo.type==T_LINK && config->follow_link!=2) {
 		WL->log(LOG_WARNING,_("It is a link and we already load it"));
 		who->init_download(NULL,info->file.get());
 		who->set_file_info(&finfo);
@@ -1548,7 +1560,7 @@ void tDownload::download_ftp(){
 	who->init_download(info->path.get(),info->file.get());
 	if (finfo.size<0 || finfo.type==T_NONE) {
 		status=DOWNLOAD_SIZE_WAIT;
-		int size=who->get_size();
+		fsize_t size=who->get_size();
 		if (size<0) {
 			WL->log(LOG_ERROR,_("File not found"));
 			if (info->mask){
@@ -1572,7 +1584,7 @@ void tDownload::download_ftp(){
 			i->type=finfo.type=T_FILE;
 		};
 	};
-	int CurentSize=0;
+	fsize_t CurentSize=0;
 	if (info->mask==0){
 		CurentSize=create_file();
 		//if it was link
@@ -1603,7 +1615,7 @@ void tDownload::download_ftp(){
 	check_local_file_time();
 	who->set_loaded(CurentSize);
 	if (split) WL->shift(CurentSize);
-	int SIZE_FOR_DOWNLOAD= (split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
+	fsize_t SIZE_FOR_DOWNLOAD=(split && split->LastByte>0)?split->LastByte-split->FirstByte:0;
 	Start=Pause=time(NULL);
 	Difference=0;
 	status=DOWNLOAD_GO;
@@ -1612,7 +1624,7 @@ void tDownload::download_ftp(){
 		return;
 	};
 	if (config->dont_send_quit) export_socket(who);
-	if (config->follow_link && finfo.type==T_LINK)
+	if (config->follow_link==1 && finfo.type==T_LINK)
 		finfo.type=T_REDIRECT;
 	download_completed(D_PROTO_FTP);
 };
@@ -1859,6 +1871,15 @@ void tDList::backward(tDownload *what) {
 			Last=what;
 		what->next->prev=what;
 	};
+};
+
+tDownload *tDList::find(tAddr *addr){
+	tNode *a=First;
+	while(a){
+		if (((tDownload*)a)->info->cmp(addr)) return((tDownload*)a);
+		a=a->prev;
+	};
+	return(NULL);
 };
 
 void tDList::dispose(){

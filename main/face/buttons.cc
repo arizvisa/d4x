@@ -485,10 +485,10 @@ void init_buttons_bar() {
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	pixmaps_array[BUTTON_CONTINUE]=new_pixmap(continue_xpm,"continue");
 	buttons_array[BUTTON_CONTINUE]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_CONTINUE]), "", pixmaps_array[BUTTON_CONTINUE],
-	                                        GTK_SIGNAL_FUNC (continue_downloads), NULL);
+								GTK_SIGNAL_FUNC (continue_downloads), NULL);
 	pixmaps_array[BUTTON_STOP]=new_pixmap(stop_bar_xpm,"stop");
 	buttons_array[BUTTON_STOP]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_STOP]) , "", pixmaps_array[BUTTON_STOP],
-	                                    GTK_SIGNAL_FUNC (stop_downloads), NULL);
+							    GTK_SIGNAL_FUNC (stop_downloads), NULL);
 	pixmaps_array[BUTTON_DEL_COMPLETED]=new_pixmap(del_com_xpm,"delcompleted");
 	buttons_array[BUTTON_DEL_COMPLETED]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "",_(BUTTONS_TEXT[BUTTON_DEL_COMPLETED]) , "", pixmaps_array[BUTTON_DEL_COMPLETED],
 	                  GTK_SIGNAL_FUNC (ask_delete_completed_downloads), NULL);

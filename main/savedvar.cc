@@ -25,6 +25,11 @@ int sv_parse_file(int fd,tSavedVar *var,char *buf,int bufsize){
 		sscanf(buf,"%d",(int *)(var->where));
 		break;
 	};
+	case SV_TYPE_LINT:{
+		if (f_rstr(fd,buf,bufsize)<0) return -1;
+		sscanf(buf,"%lli",(long long int*)(var->where));
+		break;
+	};
 	case SV_TYPE_PSTR:{
 		if (f_rstr(fd,buf,bufsize)<0) return -1;
 		((tPStr *)(var->where))->set(buf);

@@ -61,7 +61,7 @@ struct tMainCfg{
 	int SAVE_MAIN_LOG;
 	int APPEND_REWRITE_LOG;
 	char *SAVE_LOG_PATH;
-	long int MAIN_LOG_FILE_LIMIT;
+	long long MAIN_LOG_FILE_LIMIT;
 	int WRITE_DESCRIPTION;
 /* List
  */

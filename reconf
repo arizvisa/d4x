@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Header: /var/cvs/d4x/reconf,v 1.12 2002/03/20 02:28:40 zaufi Exp $
+# $Header: /var/cvs/d4x/reconf,v 1.13 2002/07/16 00:36:14 zaufi Exp $
 #
 
 #
@@ -8,7 +8,7 @@
 # (only when maintainer-mode configured)
 #
 if test -f Makefile; then
-    cat Makefile | grep "MAINT = #" > /dev/null || make maintainer-clean
+    cat Makefile | grep -q "MAINT = #" || make maintainer-clean
 fi
 
 # If this script will be started by usual user

@@ -1306,11 +1306,13 @@ void d4xQueueView::delete_downloads(int flag){
 	unfreeze();
 };
 
-void d4xQueueView::continue_downloads(){
+void d4xQueueView::continue_downloads(int from_begin){
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
+		if (from_begin)
+			temp->restart_from_begin=1;
 		aa.continue_download(temp);
 		select=select->next;
 	};

@@ -61,7 +61,8 @@ tOption downloader_parsed_args[]={
 	{"--del",		OPT_DEL},
 	{"--stop",		OPT_STOP},
 	{"--color",		OPT_COLOR},
-	{"-geometry",		OPT_GEOMETRY}
+	{"-geometry",		OPT_GEOMETRY},
+	{"-a",			OPT_ADD_OPEN}
 };
 
 char *downloader_args_errors[]={
@@ -85,7 +86,8 @@ char *downloader_args_errors[]={
 	(char *)N_("Expect URL as parameter for '--del' option"),
 	(char *)N_("Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"),
 	(char *)N_("Expect URL as parameter for '--stop' option"),
-	(char *)NULL
+	(char *)NULL,
+	(char *)N_("Expect URL as parameter for '-a' option")
 };
 
 
@@ -729,6 +731,16 @@ int parse_command_line_already_run(int argv,char **argc){
 					};
 					break;
 				};
+				case OPT_ADD_OPEN:{
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						clt->send_command(PACKET_ADD_OPEN,argc[i],strlen(argc[i]));
+					}else{
+						opt_error=1;
+					};
+					break;
+				};
 				};
 			};
 			if (opt_error && downloader_args_errors[option])
@@ -844,5 +856,6 @@ void help_print(){
 	help_print_args(OPT_STOP);printf(_("stop a download"));printf("\n");
 	help_print_args(OPT_COLOR);printf(_("using colors if run without interface"));printf("\n");
 	help_print_args(OPT_GEOMETRY);printf(_("specifies preferred size and position of main window"));printf("\n");
+	help_print_args(OPT_ADD_OPEN);printf(_("open \"Add new download\" dialog for the URL"));printf("\n");
 	printf("\n");
 };

@@ -172,11 +172,11 @@ int tFtpClient::last_answer(char *first) {
 	return 0;
 };
 
-int tFtpClient::rest(int offset) {
+int tFtpClient::rest(fsize_t offset) {
 	ReGet=1;
 	if (offset || CUR_REST!=0) {
 		char data[MAX_LEN];
-		sprintf(data,"%i",offset);
+		sprintf(data,"%lli",offset);
 		send_command("REST",data);
 		int a=analize_ctrl(1,&FTP_REST_OK);
 		if (a==RVALUE_TIMEOUT) return(a);
@@ -392,13 +392,10 @@ fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 	return(rvalue);
 };
 
-int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
+int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,RVALUE_OK);
 	int rvalue=0;;
 	FileLoaded=begin;
-	char data[25];
-	data[0]=0;
-	sprintf(data,"%u",begin);
 	send_command("TYPE","I");
 	if ((rvalue=analize_ctrl(1,&FTP_PORT_OK))) return(rvalue);
 	if ((rvalue=rest(begin))) return rvalue;
@@ -434,7 +431,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 	if (Status) return RVALUE_TIMEOUT;
 	DSize=0;
 	int complete;
-	int llen=len;
+	fsize_t llen=len;
 	do {
 		if ((complete=tClient::read_data(BLOCK_READ))<0) {
 			LOG->log(LOG_WARNING,_("Data connection closed."));

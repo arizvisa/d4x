@@ -937,7 +937,6 @@ static void d4x_links_sel_init(d4xLinksSel *sel){
 	gtk_box_pack_start(GTK_BOX(vbox),sel->hbbox,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->ok,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->remove,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->cancel,FALSE,FALSE,0);
 	gtk_container_add(GTK_CONTAINER(sel),vbox);
 	gtk_window_set_default(GTK_WINDOW(sel),sel->ok);
 };
@@ -970,6 +969,10 @@ guint d4x_links_sel_get_type(){
 
 GtkWidget *d4x_links_sel_new_with_add(){
 	d4xLinksSel *sel=(d4xLinksSel *)gtk_type_new(d4x_links_sel_get_type());
+	sel->find=gtk_button_new_with_label(_("Find"));
+	GTK_WIDGET_SET_FLAGS(sel->find,GTK_CAN_DEFAULT);
+	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->find,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->cancel,FALSE,FALSE,0);
 	GList *c=gtk_container_children(GTK_CONTAINER(sel->cancel));
 	GtkLabel *label=(GtkLabel *)(c->data);
 	gtk_label_set_text(label,_("Add"));
@@ -980,6 +983,7 @@ GtkWidget *d4x_links_sel_new_with_add(){
 
 GtkWidget *d4x_links_sel_new(){
 	d4xLinksSel *sel=(d4xLinksSel *)gtk_type_new(d4x_links_sel_get_type());
+	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->cancel,FALSE,FALSE,0);
 	gtk_signal_connect(GTK_OBJECT(sel),"delete_event",
 			   GTK_SIGNAL_FUNC(d4x_links_sel_delete), sel);
 	gtk_signal_connect(GTK_OBJECT(sel->remove),"clicked",
