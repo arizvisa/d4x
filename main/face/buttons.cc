@@ -10,6 +10,7 @@
  */
 
 #include <gtk/gtk.h>
+#include "themes.h"
 #include "list.h"
 #include "saveload.h"
 #include "addd.h"
@@ -76,6 +77,7 @@ GtkWidget *buttons_array[BUTTON_LAST];
 GtkWidget *pixmaps_array[BUTTON_LAST];
 GdkPixmap *progress_pixmap[3]={NULL,NULL,NULL};
 GdkBitmap *progress_bitmap[3]={NULL,NULL,NULL};
+GdkPixbuf *progress_pixbuf[3]={NULL,NULL,NULL};
 
 GtkWidget *BConfigWindow=(GtkWidget *)NULL;
 GtkWidget *BConfigButtons[BUTTON_LAST];
@@ -196,7 +198,7 @@ void buttons_configure(){
 	d4x_eschandler_init(BConfigWindow,NULL);
 	gtk_widget_show_all(BConfigWindow);
 };
-
+/*
 static int bb_new_pixmap_from_theme(char *themename,GdkPixmap **pixmap,GdkBitmap **mask){
 	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"buttonsbar");
 	if (xmlobj) xmlobj=xmlobj->find_obj(themename);
@@ -216,15 +218,11 @@ static int bb_new_pixmap_from_theme(char *themename,GdkPixmap **pixmap,GdkBitmap
 	if (file) delete[] file;
 	return(-1);
 };
-
+*/
 GtkWidget *new_pixmap(char **xpm, char *themename) {
-	GdkBitmap *mask;
-	GdkPixmap *pixmap;
-	if (themename==NULL || bb_new_pixmap_from_theme(themename,&pixmap,&mask))
-		pixmap=make_pixmap_from_xpm(&mask,xpm);
-	GtkWidget *rval=gtk_image_new_from_pixmap(pixmap,mask);
-	gdk_pixmap_unref(pixmap);
-	gdk_bitmap_unref(mask);
+	char *path=sum_strings("buttonsbar ",themename,">file",NULL);
+	GtkWidget *rval=gtk_image_new_from_pixbuf(pixbuf_from_theme(path,(const char**)xpm));
+	delete[] path;
 	return (rval);
 };
 
@@ -351,9 +349,8 @@ void buttons_progress_set_text(){
 	char *text=sum_strings(_(BUTTONS_TEXT[BUTTON_PROGRESS])," ",data,NULL);
 	gtk_tool_item_set_tooltip(GTK_TOOL_ITEM(buttons_array[BUTTON_PROGRESS]),
 				  GTK_TOOLBAR(ButtonsBar)->tooltips,text,NULL);
-	gtk_image_set_from_pixmap(GTK_IMAGE(pixmaps_array[BUTTON_PROGRESS]),
-				  progress_pixmap[CFG.PROGRESS_MODE],
-				  progress_bitmap[CFG.PROGRESS_MODE]);
+	gtk_image_set_from_pixbuf(GTK_IMAGE(pixmaps_array[BUTTON_PROGRESS]),
+				  progress_pixbuf[CFG.PROGRESS_MODE]);
 	
 	delete[] text;
 };
@@ -389,25 +386,15 @@ static void bb_reinit_progress_pixs(){
 		if (progress_bitmap[i])
 			gdk_bitmap_unref(progress_bitmap[i]);
 	};
-	if (bb_new_pixmap_from_theme("progress1",&progress_pixmap[0],&progress_bitmap[0]))
-		progress_pixmap[0]=make_pixmap_from_xpm(&progress_bitmap[0],percent1_xpm,MainWindow);
-	if (bb_new_pixmap_from_theme("progress2",&progress_pixmap[1],&progress_bitmap[1]))
-		progress_pixmap[1]=make_pixmap_from_xpm(&progress_bitmap[1],percent2_xpm,MainWindow);
-	if (bb_new_pixmap_from_theme("progress3",&progress_pixmap[2],&progress_bitmap[2]))
-		progress_pixmap[2]=make_pixmap_from_xpm(&progress_bitmap[2],percent3_xpm,MainWindow);
+	progress_pixbuf[0]=pixbuf_from_theme("buttonsbar progress1>file",(const char**)percent1_xpm);
+	progress_pixbuf[1]=pixbuf_from_theme("buttonsbar progress2>file",(const char**)percent2_xpm);
+	progress_pixbuf[2]=pixbuf_from_theme("buttonsbar progress3>file",(const char**)percent3_xpm);
 };
 
 static void bb_button_change_pix(GtkWidget *pix,char *themename,char **xpm){
-	GdkBitmap *mask;
-	GdkPixmap *pixmap;
-	if (bb_new_pixmap_from_theme(themename,&pixmap,&mask)==0){
-		gtk_image_set_from_pixmap(GTK_IMAGE(pix),pixmap,mask);
-	}else{
-		pixmap=make_pixmap_from_xpm(&mask,xpm,MainWindow);
-		gtk_image_set_from_pixmap(GTK_IMAGE(pix),pixmap,mask);
-	};
-	gdk_pixmap_unref(pixmap);
-	gdk_bitmap_unref(mask);
+	char *btnname=sum_strings("buttonsbar ",themename,">file",NULL);
+	gtk_image_set_from_pixbuf(GTK_IMAGE(pix),pixbuf_from_theme(btnname,(const char**)xpm));
+	delete[] btnname;
 };
 
 void bb_theme_changed(){
@@ -562,7 +549,7 @@ void init_buttons_bar() {
 	pixmaps_array[BUTTON_LOAD]=new_pixmap(load_xpm,"load");
 	buttons_array[BUTTON_LOAD]=d4x_gtk_toolbar_append_button(ButtonsBar,pixmaps_array[BUTTON_LOAD],_(BUTTONS_TEXT[BUTTON_LOAD]),G_CALLBACK(init_load_list));
 
-	pixmaps_array[BUTTON_PROGRESS]=gtk_image_new_from_pixmap(progress_pixmap[0],progress_bitmap[0]);
+	pixmaps_array[BUTTON_PROGRESS]=gtk_image_new_from_pixbuf(progress_pixbuf[0]);
 	buttons_array[BUTTON_PROGRESS]=d4x_gtk_toolbar_append_button(ButtonsBar,pixmaps_array[BUTTON_PROGRESS],
 								     _(BUTTONS_TEXT[BUTTON_PROGRESS]),G_CALLBACK(buttons_progress_toggle));
 	pixmaps_array[BUTTON_DND_TRASH]=new_pixmap (dndtrash_bar_xpm,"dnd");

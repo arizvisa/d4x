@@ -396,13 +396,19 @@ fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 
 fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,RVALUE_OK);
+#ifdef DEBUG_ALL
+	LOG->log_printf(LOG_OK,"tFtpClient::get_file_from(%s,%ll,%ll)",what,begin,len);
+#endif //DEBUG ALL
 	fsize_t rvalue=0;;
 	FileLoaded=begin;
 	send_command("TYPE","I");
 	if ((rvalue=analize_ctrl(1,&FTP_PORT_OK))) return(rvalue);
 	if ((rvalue=rest(begin))) return rvalue;
 	if (!ReGet) {
-		if (!RETRY_IF_NO_REGET) return(-1);
+#ifdef DEBUG_ALL
+		LOG->log_printf(LOG_OK,"Warning! problems with resuming!",what,begin,len);
+#endif //DEBUG ALL
+		if (!RETRY_IF_NO_REGET) return(RVALUE_UNSPEC_ERR);
 		begin=0;
 		LOG->shift(0);
 		FileLoaded=0;
@@ -421,7 +427,7 @@ fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	if (OLD_SIZE && OLD_SIZE>TEMP_SIZE){
 		LOG->log(LOG_WARNING,_("Probably file was changed on server!"));
 		ReGet=0;
-		if (!RETRY_IF_NO_REGET) return(-1);
+		if (!RETRY_IF_NO_REGET) return(RVALUE_UNSPEC_ERR);
 		send_command("REST","0");
 		LOG->shift(0);
 		FileLoaded=0;
@@ -471,12 +477,23 @@ fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 		};
 	} while (complete!=0);
 	if (complete==0) LOG->log(LOG_WARNING,_("EOF recieved from server!"));
+#ifdef DEBUG_ALL
+	LOG->log_printf(LOG_OK,"Out of the cicle with DSize=%ll",DSize);
+#endif //DEBUG ALL
 	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team
 	LOG->log_printf(LOG_WARNING,"loading end. loaded %ll bytes",DSize);
-	if (Status) return DSize;
+	if (Status){
+#ifdef DEBUG_ALL
+		LOG->log_printf(LOG_OK,"exiting from tFtpDownload with %ll",DSize);
+#endif //DEBUG ALL
+		return DSize;
+	};
 	analize_ctrl(1,&FTP_READ_OK);
 //	if (analize_ctrl(1,&FTP_READ_OK) &&  (len==0 || llen))
 //		return(RVALUE_UNSPEC_ERR);
+#ifdef DEBUG_ALL
+	LOG->log_printf(LOG_OK,"exiting from tFtpDownload with %ll",DSize);
+#endif //DEBUG ALL
 	return DSize;
 };
 

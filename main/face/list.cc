@@ -80,6 +80,8 @@ GtkWidget *D4X_TOOL_CONTAINER;
 GtkWidget *D4X_TOOL_UP;
 GtkWidget *D4X_TOOL_DOWN;
 GtkWidget *D4X_TOOL_BUTTON_FIND;
+GtkWidget *D4X_VTOOLBAR_CONTAINER;
+GtkWidget *d4x_vtoolbar_pixmaps[6];
 
 d4xDisplayLogInfo D4X_LOG_DISPLAY;
 
@@ -1246,6 +1248,29 @@ static gint d4x_main_fsearch_click(GtkWidget *button,GtkWidget *entry){
 	return (d4x_main_fsearch_activate(entry));
 };
 
+void d4x_vertical_toolbar_change_theme(){
+#include "pixmaps/dndtrash.xpm"
+#include "pixmaps/clocks.xpm"
+#include "pixmaps/queues.xpm"
+#include "pixmaps/filters.xpm"
+#include "pixmaps/ftpsearch.xpm"
+#include "pixmaps/mainlog.xpm"
+#include "pixmaps/urlmng.xpm"
+#include "pixmaps/down.xpm"
+#include "pixmaps/up.xpm"
+	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[0]),pixbuf_from_theme("toolbar queues>file",(const char**)queues_xpm));
+	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[1]),pixbuf_from_theme("toolbar mainlog>file",(const char**)mainlog_xpm));
+	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[2]),pixbuf_from_theme("toolbar urlmng>file",(const char**)urlmng_xpm));
+	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[3]),pixbuf_from_theme("toolbar ftpsearch>file",(const char**)ftpsearch_xpm));
+	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[4]),pixbuf_from_theme("toolbar filters>file",(const char**)filters_xpm));
+	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[5]),pixbuf_from_theme("toolbar scheduler>file",(const char**)clocks_xpm));
+//	gint w,h;
+//	gtk_widget_get_size_request(d4x_vtoolbar_pixmaps[0],&w,&h);
+//	gtk_widget_set_size_request(D4X_VTOOLBAR_CONTAINER,w,-1);
+	gtk_widget_set_size_request(D4X_VTOOLBAR_CONTAINER,-1,-1);
+};
+
+
 GtkWidget *init_vertical_toolbar(){
 #include "pixmaps/dndtrash.xpm"
 #include "pixmaps/clocks.xpm"
@@ -1258,13 +1283,12 @@ GtkWidget *init_vertical_toolbar(){
 #include "pixmaps/up.xpm"
 	GtkWidget *vbox1=gtk_vbox_new(FALSE,1);
 	GtkWidget *vbox=gtk_vbox_new(FALSE,1);
-	GtkWidget *pixmaps[6];
-	pixmaps[0] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar queues>file",(const char**)queues_xpm));
-	pixmaps[1] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar mainlog>file",(const char**)mainlog_xpm));
-	pixmaps[2] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar urlmng>file",(const char**)urlmng_xpm));
-	pixmaps[3] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar ftpsearch>file",(const char**)ftpsearch_xpm));
-	pixmaps[4] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar filters>file",(const char**)filters_xpm));
-	pixmaps[5] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar scheduler>file",(const char**)clocks_xpm));
+	d4x_vtoolbar_pixmaps[0] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar queues>file",(const char**)queues_xpm));
+	d4x_vtoolbar_pixmaps[1] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar mainlog>file",(const char**)mainlog_xpm));
+	d4x_vtoolbar_pixmaps[2] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar urlmng>file",(const char**)urlmng_xpm));
+	d4x_vtoolbar_pixmaps[3] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar ftpsearch>file",(const char**)ftpsearch_xpm));
+	d4x_vtoolbar_pixmaps[4] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar filters>file",(const char**)filters_xpm));
+	d4x_vtoolbar_pixmaps[5] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar scheduler>file",(const char**)clocks_xpm));
 	GtkWidget *buttons[6];
 	GtkStyle  *tmpstyle = gtk_widget_get_style(MainWindow);
 	GdkColor tmpcolor=tmpstyle->bg[GTK_STATE_NORMAL];
@@ -1274,7 +1298,7 @@ GtkWidget *init_vertical_toolbar(){
 	for (int i=0;i<6;i++){
 		buttons[i]=gtk_button_new();
 		gtk_button_set_relief(GTK_BUTTON(buttons[i]),GTK_RELIEF_NONE);
-		gtk_container_add(GTK_CONTAINER(buttons[i]),pixmaps[i]);
+		gtk_container_add(GTK_CONTAINER(buttons[i]),d4x_vtoolbar_pixmaps[i]);
 		gtk_box_pack_start (GTK_BOX (vbox), buttons[i], FALSE, FALSE, 0);
 		gtk_widget_modify_bg (buttons[i],GTK_STATE_PRELIGHT,&tmpcolor);
 		gtk_widget_modify_bg (buttons[i],GTK_STATE_ACTIVE,&tmpcolor);
@@ -1306,7 +1330,7 @@ GtkWidget *init_vertical_toolbar(){
 	gtk_widget_modify_bg (stupid_gtk,GTK_STATE_NORMAL,&tmpcolor);
 	gtk_container_add(GTK_CONTAINER(stupid_gtk),vbox);
 	
-	GtkWidget *sw=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
+	GtkWidget *sw=D4X_VTOOLBAR_CONTAINER=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),GTK_SHADOW_NONE);
 	GtkWidget *viewport=gtk_viewport_new((GtkAdjustment *)NULL,
 					     (GtkAdjustment *)NULL);
@@ -1834,7 +1858,7 @@ void my_get_xselection(GtkWidget *window, GdkEvent *event) {
 int time_for_draw_graph(void *a) {
 /* clipboard monitoring */
 	if (CFG.CLIPBOARD_MONITOR) {
-		gtk_selection_convert(MainWindow, GDK_SELECTION_PRIMARY,
+		gtk_selection_convert(MainWindow, GDK_SELECTION_CLIPBOARD,
 				      GDK_TARGET_STRING,
 				      GDK_CURRENT_TIME);
 	}
@@ -1913,7 +1937,7 @@ void main_window_move(int x,int y){
 static char *D4X_CLIPBOARD=NULL;
 
 char *d4x_mw_clipboard_get(){
-	if (gdk_selection_owner_get(GDK_SELECTION_PRIMARY)==MainWindow->window){
+	if (gdk_selection_owner_get(GDK_SELECTION_CLIPBOARD)==MainWindow->window){
 		return(D4X_CLIPBOARD);
 	};
 	return(NULL);
@@ -1923,7 +1947,7 @@ void d4x_mw_clipboard_set(char *str){
 	if (D4X_CLIPBOARD) delete[] D4X_CLIPBOARD;
 	D4X_CLIPBOARD=copy_string(str);
 	gtk_selection_owner_set (MainWindow,
-				 GDK_SELECTION_PRIMARY,
+				 GDK_SELECTION_CLIPBOARD,
 				 GDK_CURRENT_TIME);
 };
 

@@ -555,6 +555,9 @@ int tFtpDownload::download_dir() {
 
 int tFtpDownload::download(fsize_t len) {
 	int rvalue=0;
+#ifdef DEBUG_ALL
+	LOG->log_printf(LOG_OK,"tFtpDownload::download(%ll)",len);
+#endif //DEBUG ALL
 	switch (D_FILE.type){
 	case T_DIR: {
 		rvalue=download_dir();
@@ -589,6 +592,9 @@ int tFtpDownload::download(fsize_t len) {
 						ind=FTP->get_file_from(TMP_FILEPATH,LOADED,to_load);
 					}else
 						ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
+#ifdef DEBUG_ALL
+					LOG->log_printf(LOG_OK,"return to tFtpDownload::download with ind=%ll",ind);
+#endif //DEBUG ALL
 					if (!FTP->test_reget()){
 						if (config.retry==0) break;
 						StartSize=LOADED=0;
@@ -621,6 +627,9 @@ int tFtpDownload::download(fsize_t len) {
 		};
 	};
 	};
+#ifdef DEBUG_ALL
+	LOG->log_printf(LOG_OK,"exit from tFtpDownload::download with %i",rvalue);
+#endif //DEBUG ALL
 	return rvalue;
 };
 

@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/share/Makefile.am,v 1.11 2003/04/24 23:47:04 zaufi Exp $
+# $Header: /home/cvs/d4x/share/Makefile.am,v 1.1.1.1 2004/07/01 15:37:55 max Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in

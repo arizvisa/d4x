@@ -384,6 +384,7 @@ void dnd_trash_init(){
     
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
 	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_stick(GTK_WINDOW(dnd_trash_window));
 //	gtk_window_set_type_hint (GTK_WINDOW(dnd_trash_window),
 //				  GDK_WINDOW_TYPE_HINT_DIALOG);
 //	gtk_window_set_type_hint (GTK_WINDOW(dnd_trash_window),
@@ -406,8 +407,10 @@ void dnd_trash_init(){
 	 */
 	gint width=0,height=0;
 	gtk_widget_realize(dnd_trash_window);
+	gtk_window_set_keep_above (GTK_WINDOW(dnd_trash_window),TRUE);
 	gtk_window_set_skip_taskbar_hint (GTK_WINDOW(dnd_trash_window),TRUE);
-	gtk_window_set_skip_pager_hint (GTK_WINDOW(dnd_trash_window),TRUE);
+	gtk_window_set_skip_pager_hint(GTK_WINDOW(dnd_trash_window),TRUE);
+	gtk_window_set_accept_focus(GTK_WINDOW(dnd_trash_window),FALSE);
 //	wm_skip_window(dnd_trash_window);
 	if (dnd_trash_pixbuf1==NULL){
 		dnd_trash_pixbuf1=pixbuf_from_theme("dndbasket icon>file",(const char**)dndtrash_xpm);
@@ -425,7 +428,7 @@ void dnd_trash_init(){
 	/* Create the main window, and attach delete_event signal to terminate
 	 * the application.  Note that the main window will not have a titlebar
 	 * since we're making it a popup. */
-	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
+//	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),width,height);
 //	gtk_widget_set_events(dnd_trash_window,GDK_ALL_EVENTS_MASK);
 	g_signal_connect(G_OBJECT (dnd_trash_window), "delete_event",

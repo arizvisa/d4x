@@ -24,7 +24,7 @@ tSegment::tSegment(){
 };
 
 void tSegment::print(){
-	printf("%.12li %.12li\n",begin,end);
+	printf("%.12Lu %.12Lu\n",begin,end);
 };
 
 int tSegment::save(int fd){
@@ -85,10 +85,10 @@ void tSegmentator::print(){
 		tmp->print();
 		tmp=tmp->next;
 	};
-	printf("total %li -----------------\n",total);
+	printf("total %Lu -----------------\n",total);
 };
 
-unsigned long int tSegmentator::get_total(){
+segoff_t tSegmentator::get_total(){
 	return(total);
 };
 
@@ -98,7 +98,7 @@ unsigned long int tSegmentator::get_total(){
       non zero - if it overlaps :-)
  */
 
-int tSegmentator::insert(unsigned long int begin, unsigned long int end){
+int tSegmentator::insert(segoff_t begin, segoff_t end){
 	if (begin>=end) return(0); //simple case :-)
 	//FIXME: overlapping only below, overlapping above is not overlapping;
 	//    [100-200] + [201-300] = not overlapped
@@ -128,7 +128,7 @@ int tSegmentator::insert(unsigned long int begin, unsigned long int end){
 				add->end=end;
 				total+=end-begin;
 			}else{
-				int dec=cur->end-cur->begin;
+				segoff_t dec=cur->end-cur->begin;
 				if ((cur->begin>=begin && cur->begin<end)||
 				    cur->end>end)
 					rval=1;
@@ -188,7 +188,7 @@ int tSegmentator::one_segment(){
 };
 
 
-void tSegmentator::truncate(unsigned long int shift){
+void tSegmentator::truncate(segoff_t shift){
 	lock();
 	tSegment *tmp=FIRST;
 	total=0;
@@ -258,7 +258,7 @@ tSegmentator::~tSegmentator(){
 int tSegmentator::load(){
 	DBC_RETVAL_IF_FAIL(fd>=0,-1);
 	lseek(fd,0,SEEK_SET);
-	unsigned long int begin,end;
+	segoff_t begin,end;
 	while(read(fd,&begin,sizeof(begin))==sizeof(begin) &&
 	      read(fd,&end,sizeof(end))==sizeof(end)){
 		insert(begin,end);
@@ -278,7 +278,7 @@ int tSegmentator::save(){
 	return(0);
 };
 
-tSegment *tSegmentator::to_holes(unsigned long int size){
+tSegment *tSegmentator::to_holes(segoff_t size){
 	lock();
 	tSegment *tmp=FIRST;
 	tSegment *rvalue=NULL;

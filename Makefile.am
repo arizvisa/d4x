@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.41 2003/04/30 10:45:24 vav Exp $
+# $Header: /home/cvs/d4x/Makefile.am,v 1.1.1.1 2004/07/01 15:37:55 max Exp $
 #
 
 ACLOCAL_AMFLAGS = -I m4

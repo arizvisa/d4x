@@ -554,7 +554,10 @@ static GtkWidget *my_option_menu (char *labels[],
 static void my_gtk_aeditor_destroy(GtkObject *widget){
 	g_return_if_fail(widget!=NULL);
 	MyGtkAEditor *editor=MY_GTK_AEDITOR(widget);
-	if (editor->dwn) delete(editor->dwn);
+	if (editor->dwn){
+		delete(editor->dwn);
+		editor->dwn=NULL;
+	};
 	if (editor->action) editor->action->lock=0;
 	if (GTK_OBJECT_CLASS (parent_class2)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class2)->destroy) (widget);
@@ -697,11 +700,15 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 };
 
 static void my_gtk_aeditor_cancel(GtkWidget *widget,GtkWidget *editor){
+	printf("my_gtk_aeditor_cancel\n");
 	gtk_widget_destroy(editor);
+	printf("/my_gtk_aeditor_cancel\n");
 };
 
 static void my_gtk_aeditor_close(GtkWidget *widget,GdkEvent *event,GtkWidget *editor){
+	printf("my_gtk_aeditor_close\n");
 	gtk_widget_destroy(editor);
+	printf("/my_gtk_aeditor_close\n");
 };
 
 static void my_gtk_aeditor_retry_cb(GtkWidget *widget,MyGtkAEditor *editor){

@@ -1,0 +1,2506 @@
+# Srpski prevod za Preuzimač za Iks/Serbian Translation file for D4X(NT)
+# Puno hvala članovima grupe Naše pismo na konstruktivnim kritikama
+# Copyright (C) 2003 Free Software Foundation, Inc.
+# This file is distributed under the same license as the d4x package.
+# Branislav Jovanović <fangorn@eunet.yu>, 2003.
+# 
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nt 2.5.0rc4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-07-17 19:38+0800\n"
+"PO-Revision-Date: 2004-07-04 12:27+0200\n"
+"Last-Translator: Branislav Jovanović <fangorn@eunet.yu>\n"
+"Language-Team: Serbian (sr) <sr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: main/alt.cc:274
+msgid "Add new alternate"
+msgstr "Dodaj novu alternativu"
+
+#: main/alt.cc:380
+msgid "Modify alternate"
+msgstr "Promeni alternativu"
+
+#: main/client.cc:448
+msgid "Timeout while reading from socket!"
+msgstr "Isteklo je vreme pri čitanju sa utičnice!"
+
+#: main/client.cc:453
+msgid "Error while reading from socket!"
+msgstr "Greška pri čitanju sa utičnice"
+
+#: main/client.cc:462
+msgid "Trying to connect..."
+msgstr "Pokušavam da se povežem..."
+
+#: main/client.cc:464
+msgid "Socket was opened!"
+msgstr "Utičnica je bila otvorena!"
+
+#: main/client.cc:469
+msgid "Host not found!"
+msgstr "Domaćin nije pronađen"
+
+#: main/client.cc:474
+msgid "Can't allocate socket"
+msgstr "Ne mogu da odvojim utičnicu!"
+
+#: main/client.cc:479
+msgid "Can't connect"
+msgstr "Ne mogu da se povežem"
+
+#: main/config.cc:77
+msgid "You forgot to specify directory."
+msgstr "Zaboravili ste da odredite direktorijum"
+
+#: main/config.cc:79
+msgid "You must specify number as second parameter for '-m' option"
+msgstr "Drugi argument opcije '-m' mora biti broj"
+
+#: main/config.cc:83
+msgid "You must specify number as parameter for '--exit-time' option"
+msgstr "Za opciju '--exit-time' kao argument morate navesti broj"
+
+#: main/config.cc:84
+msgid "Expect URL as parameter for '--ls' option"
+msgstr "Očekujem URL kao argument '--ls' opcije"
+
+#: main/config.cc:86
+msgid "Expect URL as parameter for '--del' option"
+msgstr "Očekujem URL kao argument '--del' opcije"
+
+#: main/config.cc:87
+msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
+msgstr ""
+"Očekujem string u formatu ŠIRINAxVISINA+H+Y kao argument za '--geometry'"
+
+#: main/config.cc:88
+msgid "Expect URL as parameter for '--stop' option"
+msgstr "Očekujem URL kao argument '--stop' opcije"
+
+#: main/config.cc:90
+msgid "Expect URL as parameter for '-a' option"
+msgstr "Očekujem URL kao argument '--a' opcije"
+
+#: main/config.cc:281
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr "Ne mogu da otvorim cfg datoteku na '%s'\n"
+
+#: main/config.cc:282
+msgid "Use default cfg :))...\n"
+msgstr "Koristi podrazumevani cfg :))...\n"
+
+#: main/config.cc:513
+msgid "unknown option:"
+msgstr "nepoznata opcija:"
+
+#: main/config.cc:587
+msgid "List of queues:\n"
+msgstr "Lista redova:\n"
+
+#: main/config.cc:642
+#, c-format
+msgid "Run downloads: %d\n"
+msgstr "Pokreni preuzimanje: %d\n"
+
+#: main/config.cc:644
+#, c-format
+msgid "Paused downloads: %d\n"
+msgstr "Pauzirana preuzimanja: %d\n"
+
+#: main/config.cc:646
+#, c-format
+msgid "Failed downloads: %d\n"
+msgstr "Neuspela preuzimanja: %d\n"
+
+#: main/config.cc:648
+#, c-format
+msgid "Completed downloads: %d\n"
+msgstr "Završena preuzimanja: %d\n"
+
+#: main/config.cc:651
+#, c-format
+msgid "Total: %d\n"
+msgstr "Ukupno: %d\n"
+
+#: main/config.cc:653
+#, c-format
+msgid "Total bytes loaded: %d\n"
+msgstr "Ukupno bajtova učitano: %d\n"
+
+#: main/config.cc:655
+#, c-format
+msgid "Current speed: %d\n"
+msgstr "Trenutna brzina: %d\n"
+
+#: main/config.cc:661
+#, c-format
+msgid "Curent speed: %d\n"
+msgstr "Trenutna brzina: %d\n"
+
+#: main/config.cc:790
+msgid "Added from command line"
+msgstr "Dodato sa komandne linije"
+
+#: main/config.cc:871
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr "Upotreba: nt [OPCIJA] ... [URL]"
+
+#: main/config.cc:872
+msgid "print this page and exit"
+msgstr "Ispiši ovu stranu i završi"
+
+#: main/config.cc:873
+msgid "show version information and exit"
+msgstr "pokaži podatke o verziji i izađi"
+
+#: main/config.cc:874
+msgid "show information if already run"
+msgstr "pokaži informacije ako je već pokrenut"
+
+#: main/config.cc:875
+msgid "show current speed if already run"
+msgstr "pokaži trenutnu brzinu ako je već pokrenut"
+
+#: main/config.cc:876
+msgid "run in minimized mode"
+msgstr "pokreni umanjeno"
+
+#: main/config.cc:877
+msgid "set timeout for exiting if nothing to do"
+msgstr "postavi vreme za izlaz ako nema šta da se radi"
+
+#: main/config.cc:878
+msgid "set directory for saving files"
+msgstr "postavi direktorijum za snimanje dokumenata"
+
+#: main/config.cc:879
+msgid "set lower speed limitation"
+msgstr "odredi donju brzinsku granicu"
+
+#: main/config.cc:880
+msgid "set medium speed limitation"
+msgstr "odredi srednju brzinu"
+
+#: main/config.cc:881
+msgid "set unlimited speed"
+msgstr "odredi neograničenu brzinu"
+
+#: main/config.cc:882
+msgid "delete completed if already run"
+msgstr "obriši skinuto ako je već pokrenut"
+
+#: main/config.cc:883
+msgid "set maximum active downloads"
+msgstr "postavi najviše aktivnih preuzimanja"
+
+#: main/config.cc:884
+msgid "restart all failed downloads"
+msgstr "ponovo pokreni sva neuspela preuzimanja"
+
+#: main/config.cc:885
+msgid "run program without X interface"
+msgstr "pokreni program bez Iks sučelja"
+
+#: main/config.cc:886
+msgid "display info about URL in queue of downloads"
+msgstr "pokaži informacije o URL-u u redu za preuzimanje"
+
+#: main/config.cc:887
+msgid "change current default queue"
+msgstr "promeni trenutni podrazumevani red"
+
+#: main/config.cc:888
+msgid "remove a download from queue"
+msgstr "ukloni preuzimanje iz reda"
+
+#: main/config.cc:889
+msgid "stop a download"
+msgstr "zaustavi preuzimanje"
+
+#: main/config.cc:890
+msgid "using colors if run without interface"
+msgstr "koristi boje ako je pokrenut bez sučelja"
+
+#: main/config.cc:891
+msgid "specifies preferred size and position of main window"
+msgstr "određuje poželjnu veličinu i mesto glavnog prozora"
+
+#: main/config.cc:892
+msgid "open \"Add new download\" dialog for the URL"
+msgstr "otvori \"Dodaj novo preuzimanje\" dijalog za URL"
+
+#: main/cookie.cc:318
+msgid "Loading cookies"
+msgstr "Učitavam kolačiće"
+
+#: main/cookie.cc:324
+#, c-format
+msgid "%i cookies loaded from browsers' files"
+msgstr "%i kolačića učitano iz datoteka pregledača"
+
+#: main/cookie.cc:326
+#, c-format
+msgid "Can't open cookies file %s!"
+msgstr "Ne mogu da otvorim datoteku sa kolačićima %s!"
+
+#: main/cookie.cc:336
+#, c-format
+msgid "%i cookies loaded"
+msgstr "%i kolačića učitano"
+
+#: main/dlist.cc:117
+msgid "Can't write to file"
+msgstr "Ne mogu da pišem u datoteku"
+
+#: main/dlist.cc:144
+msgid "File is already opened by another download!"
+msgstr "Dokument je već otvoren u drugom preuzimanju!"
+
+# BUG? - na šta se odnosi advisory
+#: main/dlist.cc:147
+msgid "Filesystem do not support advisory record locking!"
+msgstr "Sistem datoteka ne podržava advisori zaključavanje rekorda!"
+
+#: main/dlist.cc:148
+msgid "Will proceed without it but beware that you might have problems."
+msgstr "Nastaviću bez toga ali budite svesni da to može uzrokovati probleme."
+
+#: main/dlist.cc:396
+#, c-format
+msgid "You have no permissions to create file at path %s"
+msgstr "Nemate ovlašćenja da napravite datoteku na putanji %s"
+
+#: main/dlist.cc:401
+#, c-format
+msgid "You have no space at path %s for creating file"
+msgstr "Na putanji %s nemate mesta za pravljenje datoteke"
+
+#: main/dlist.cc:406
+msgid "Directory already created!:))"
+msgstr "Direktorijum je već napravljen!:))"
+
+#: main/dlist.cc:525
+msgid "Trying to create a link"
+msgstr "Pokušavam da napravim vezu"
+
+#: main/dlist.cc:530
+msgid "Link already created!:))"
+msgstr "Veza je već napravljena!:))"
+
+#: main/dlist.cc:536
+msgid "Can't create link"
+msgstr "Ne mogu da napravim vezu"
+
+#: main/dlist.cc:545
+msgid "Trying to create a file"
+msgstr "Pokušavam da napravim datoteku"
+
+#: main/dlist.cc:566
+msgid "Can't create file at the path:"
+msgstr "Ne mogu da napravim datoteku na putanji:"
+
+#: main/dlist.cc:568
+msgid "which has name:"
+msgstr "pod imenom:"
+
+#: main/dlist.cc:579
+msgid "File was created!"
+msgstr "Dokument je napravljen!"
+
+#: main/dlist.cc:584
+msgid "Trying to create a dir"
+msgstr "Pokušavam da napravim direktorijum"
+
+#: main/dlist.cc:594
+msgid "Can't create directory!"
+msgstr "Ne mogu da napravim direktorijum!"
+
+#: main/dlist.cc:604
+msgid "Downloader can't create devices..."
+msgstr "Preuzimač ne može da napravi uređaje..."
+
+#: main/dlist.cc:1068
+#, c-format
+msgid "Trying to copy %s to %s due 'Content-Disposition'"
+msgstr "Pokušavam da preslikam %s na %s zbog 'Content-Disposition'"
+
+#: main/dlist.cc:1071
+msgid "Error during copying!"
+msgstr "Greška prilikom preslikavanja!"
+
+#: main/dlist.cc:1106
+msgid "Downloading was successefully completed!"
+msgstr "Preuzimanje je uspešno završeno!"
+
+#: main/dlist.cc:1159
+msgid "Downloading was failed..."
+msgstr "Preuzimanje nije uspelo..."
+
+#: main/dlist.cc:1306
+msgid "Redirection blocked by filter"
+msgstr "Preusmeravanje je blokirao filter"
+
+#: main/dlist.cc:1312
+msgid "Redirect detected..."
+msgstr "Detektovano preusmeravanje..."
+
+#: main/dlist.cc:1316 main/dlist.cc:1331
+msgid "Size detection only!"
+msgstr "Samo detekcija veličine!"
+
+#: main/dlist.cc:1385
+msgid ""
+"Multithreaded downloading is not possible due to server limitations "
+"(resuming not supported)"
+msgstr ""
+"Višenitno preuzimanje nije moguće zbog ograničenja servera (nastavljanje "
+"nije moguće)"
+
+#: main/dlist.cc:1396
+msgid "Local file is seems to be equal to remote one"
+msgstr "Čini se da je lokalna datoteka ista kao udaljena"
+
+#: main/dlist.cc:1417
+msgid "It is strange that we can't delete file which just created..."
+msgstr "Čudno je da ne možemo da obrišemo upravo napravljenu datoteku..."
+
+#: main/dlist.cc:1421 main/dlist.cc:1673
+msgid "File not found"
+msgstr "Dokument nije pronađen"
+
+#: main/dlist.cc:1495
+msgid "Sorting started"
+msgstr "Sortiranje započeto"
+
+#: main/dlist.cc:1498
+#, c-format
+msgid "Pinging (atempt %i of %i)"
+msgstr "Pingujem (pokušaj %i od %i)"
+
+#: main/dlist.cc:1526
+msgid "Trying to determine filesizes"
+msgstr "Pokušavam da odredim veličine datoteka"
+
+#: main/dlist.cc:1579
+msgid "Searching failed"
+msgstr "Pretraga nije uspela"
+
+#: main/dlist.cc:1636
+msgid "Search had been completed!"
+msgstr "Pretraga je završena!"
+
+#: main/dlist.cc:1642
+msgid "Was Started!"
+msgstr "Bila je pokrenuta!"
+
+#: main/dlist.cc:1651
+msgid "It is a link and we already load it"
+msgstr "To je veza i već je preuzimamo"
+
+#: main/dlist.cc:1678
+msgid "Trying to work without CWD"
+msgstr "Pokušavam da radim bez CWD"
+
+#: main/dlist.cc:1810
+msgid "Can't split file to specified number of parts!"
+msgstr "Ne mogu da podelim datoteku na zadati broj delova!"
+
+#: main/download.cc:34
+msgid "Maximum number of retries reached!"
+msgstr "Dostignut je maksimalan broj pokušaja!"
+
+#: main/download.cc:39
+#, c-format
+msgid "Retry %i of %i...."
+msgstr "Pokušaj %i od %i...."
+
+#: main/download.cc:41
+#, c-format
+msgid "Retry %i ..."
+msgstr "Pokušaj %i"
+
+#: main/download.cc:45
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr "Datoteka na serveru je novija od one u lokalu. Počinjem od početka\n"
+
+#: main/download.cc:49
+#, c-format
+msgid "Error code %i"
+msgstr "Broj greške %i"
+
+# BUBA ILI GREŠKA ZA BUG?
+#: main/download.cc:50
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "Upozorenje! Verovatno ste našli BUBU!!!"
+
+#: main/download.cc:51
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr "Ako vidite ovu poruku molim prijavite je na mdem@chat.ru"
+
+#: main/face/about.cc:141
+msgid "About"
+msgstr "O"
+
+#: main/face/about.cc:153
+msgid "Author: Maxim Koshelev"
+msgstr "Autor: Maxim Koshelev"
+
+#: main/face/about.cc:155
+msgid "Autoconf: Zaufi"
+msgstr "Autoconf: Zaufi"
+
+#: main/face/about.cc:156
+msgid "Translators team"
+msgstr "Prevodilački tim:"
+
+#: main/face/about.cc:180
+msgid "Special thanks to"
+msgstr "Posebne zahvalnice"
+
+#: main/face/about.cc:311
+msgid "Don't ask next time"
+msgstr "Ne pitaj sledeći put"
+
+#: main/face/addd.cc:95 main/face/addd.cc:247
+msgid "Add new download"
+msgstr "Dodaj novo preuzimanje"
+
+#: main/face/addd.cc:184 main/face/dndtrash.cc:615
+msgid "Automated adding"
+msgstr "Automatizovano dodavanje"
+
+#: main/face/buttons.cc:54
+msgid " Add new download "
+msgstr "Dodaj novo preuzimanje "
+
+#: main/face/buttons.cc:55
+msgid " Paste from clipboard "
+msgstr "Ubaci iz klipborda "
+
+#: main/face/buttons.cc:56
+msgid " Del downloads "
+msgstr " Obriši preuzimanja "
+
+#: main/face/buttons.cc:57
+msgid " Stop downloads "
+msgstr " Zaustavi preuzimanja "
+
+#: main/face/buttons.cc:58
+msgid " Continue/restart downloads "
+msgstr " Nastavi/ponovo pokreni preuzimanja "
+
+#: main/face/buttons.cc:59
+msgid " Del Completed downloads "
+msgstr " Obriši završena preuzimanja "
+
+#: main/face/buttons.cc:60
+msgid " Move up "
+msgstr "Pomeri gore "
+
+#: main/face/buttons.cc:61
+msgid " Move down "
+msgstr " Pomeri dole "
+
+#: main/face/buttons.cc:62
+msgid " View log "
+msgstr " Pogledaj dnevnik "
+
+#: main/face/buttons.cc:63 main/face/buttons.cc:254
+msgid " Speed level one "
+msgstr " Nivo brzine jedan "
+
+#: main/face/buttons.cc:64 main/face/buttons.cc:257
+msgid " Speed level two "
+msgstr " Nivo brzine dva"
+
+#: main/face/buttons.cc:65
+msgid " Unlimited speed "
+msgstr " Neograničena brzina "
+
+#: main/face/buttons.cc:66
+msgid " Options "
+msgstr " Opcije "
+
+#: main/face/buttons.cc:67
+msgid " Delete all downloads "
+msgstr " Obriši sva preuzimanja "
+
+#: main/face/buttons.cc:68
+msgid " Save list "
+msgstr " Sačuvaj listu "
+
+#: main/face/buttons.cc:69
+msgid " Load list "
+msgstr " Učitaj listu "
+
+#: main/face/buttons.cc:70
+msgid " DnD basket "
+msgstr " PiS košara"
+
+#: main/face/buttons.cc:71
+msgid " Switch percentage mode to"
+msgstr " Promeni mod procenata u "
+
+#: main/face/buttons.cc:72
+msgid " Configure buttons "
+msgstr " Podesi dugmad "
+
+#: main/face/buttons.cc:243
+msgid "Delete ALL downloads?"
+msgstr "Obriši SVA preuzimanja?"
+
+#: main/face/buttons.cc:243
+msgid "Delete all?"
+msgstr "Obriši sve?"
+
+#: main/face/columns.cc:21
+msgid "status"
+msgstr "status"
+
+#: main/face/columns.cc:22
+msgid "file name"
+msgstr "naziv datoteke"
+
+#: main/face/columns.cc:23
+msgid "type of file"
+msgstr "tip datoteke"
+
+#: main/face/columns.cc:24
+msgid "size of file"
+msgstr "veličina datoteke"
+
+#: main/face/columns.cc:25
+msgid "downloaded size"
+msgstr "veličina preuzetog"
+
+#: main/face/columns.cc:26
+msgid "rest"
+msgstr "ostalo"
+
+#: main/face/columns.cc:27
+msgid "percent"
+msgstr "procenat"
+
+#: main/face/columns.cc:28
+msgid "speed"
+msgstr "brzina"
+
+#: main/face/columns.cc:29
+msgid "elapsed time"
+msgstr "proteklo vreme"
+
+#: main/face/columns.cc:30
+msgid "estimated time"
+msgstr "procenjeno vreme"
+
+#: main/face/columns.cc:31
+msgid "time of pause"
+msgstr "trajanje pauze"
+
+#: main/face/columns.cc:32
+msgid "number of attempts"
+msgstr "broj pokušaja"
+
+#: main/face/columns.cc:33
+msgid "description"
+msgstr "opis"
+
+#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1081
+#: main/face/mywidget.cc:1340
+msgid "URL"
+msgstr "URL"
+
+#: main/face/columns.cc:72
+msgid "Showed columns"
+msgstr "Pokazane kolone"
+
+#: main/face/dndtrash.cc:394
+msgid "DnD basket"
+msgstr "PiS košara"
+
+#: main/face/dndtrash.cc:526
+msgid "Drop link here"
+msgstr "Ubaci vezu ovde"
+
+#: main/face/dndtrash.cc:612 main/face/list.cc:488 main/face/lod.cc:52
+msgid "Speed"
+msgstr "Brzina"
+
+#: main/face/dndtrash.cc:613
+msgid "New Download"
+msgstr "Novo Preuzimanje"
+
+#: main/face/dndtrash.cc:614
+msgid "Paste Download"
+msgstr "Ubaci Preuzimanje"
+
+#: main/face/dndtrash.cc:616 main/face/lmenu.cc:180
+msgid "Delete completed"
+msgstr "Obriši završena"
+
+#: main/face/dndtrash.cc:617
+msgid "General options"
+msgstr "Opšte opcije"
+
+#: main/face/dndtrash.cc:618
+msgid "Exit"
+msgstr "Izlaz"
+
+#: main/face/dndtrash.cc:621
+msgid "Low"
+msgstr "niska"
+
+#: main/face/dndtrash.cc:622
+msgid "Medium"
+msgstr "srednja"
+
+#: main/face/dndtrash.cc:623
+msgid "Unlimited"
+msgstr "neograničena"
+
+#: main/face/edit.cc:65 main/face/edit.cc:464
+msgid "Use password for this site"
+msgstr "Koristi lozinku za ovo mesto"
+
+#: main/face/edit.cc:66 main/face/edit.cc:431
+msgid "Save download to folder"
+msgstr "Snimi preuzimanje u direktorijum"
+
+#: main/face/edit.cc:67 main/face/edit.cc:491
+msgid "Restart this download from begining"
+msgstr "Pokreni ovo preuzimanje ispočetka"
+
+#: main/face/edit.cc:68
+msgid "Timeout for reading from socket"
+msgstr "Isteklo je vreme za čitanje sa utičnice"
+
+#: main/face/edit.cc:69
+msgid "Speed limitation"
+msgstr "Ograničavanje brzine"
+
+#: main/face/edit.cc:70
+msgid "Maximum attempts"
+msgstr "Najveći broj pokušaja"
+
+#: main/face/edit.cc:71
+msgid "Timeout before reconnection"
+msgstr "Vreme pre ponovnog povezivanja"
+
+#: main/face/edit.cc:72
+msgid "Rollback after reconnecting"
+msgstr "Vrati nazad pri ponovnom povezivanju"
+
+#: main/face/edit.cc:73 main/face/edit.cc:563 main/face/prefs.cc:242
+msgid "Get date from the server"
+msgstr "Uzmi datum od servera"
+
+#: main/face/edit.cc:74 main/face/edit.cc:567 main/face/prefs.cc:246
+msgid "Retry if resuming is not supported"
+msgstr "Pokušaj ponovo ako nije podržano nastavljanje"
+
+#: main/face/edit.cc:75 main/face/edit.cc:558
+msgid "Number of parts for spliting this download"
+msgstr "Broj delova za podelu ovog preuzimanja"
+
+#: main/face/edit.cc:76 main/face/edit.cc:605 main/face/prefs.cc:347
+msgid "Use passive mode for FTP"
+msgstr "Koristi pasivni mod za FTP"
+
+#: main/face/edit.cc:77 main/face/edit.cc:611 main/face/prefs.cc:355
+msgid "Get permissions of the file from server (FTP only)"
+msgstr "Ovlašćenja za datoteku preslikaj sa servera (samo za FTP)"
+
+#: main/face/edit.cc:78 main/face/edit.cc:608 main/face/prefs.cc:351
+msgid "Don't send QUIT command (FTP)"
+msgstr "Ne šalji QUIT komandu (FTP)"
+
+#: main/face/edit.cc:79 main/face/edit.cc:626 main/face/prefs.cc:371
+msgid "Put directories on the top of queue during recursion"
+msgstr "Postavi direktorijume na početak reda pri rekurziji"
+
+#: main/face/edit.cc:80 main/face/edit.cc:575 main/face/prefs.cc:262
+msgid "Compare date/time of remote file with local one"
+msgstr "Uporedi datum/vreme udaljene datoteke sa onim kod lokalne"
+
+#: main/face/edit.cc:81 main/face/edit.cc:571 main/face/prefs.cc:250
+msgid "Sleep before completing"
+msgstr "Odmori pre završetka"
+
+#: main/face/edit.cc:82 main/face/edit.cc:614 main/face/prefs.cc:359
+msgid "Follow symbolic links"
+msgstr "Prati simboličke veze"
+
+#: main/face/edit.cc:83
+msgid "Depth of recursing for FTP"
+msgstr "Dubina rekurzije za FTP"
+
+#: main/face/edit.cc:84
+msgid "Depth of recursing for HTTP"
+msgstr "Dubina rekurzije za HTTP"
+
+#: main/face/edit.cc:85 main/face/edit.cc:654 main/face/prefs.cc:449
+msgid "Only subdirs"
+msgstr "Samo poddirektorijumi"
+
+#: main/face/edit.cc:86 main/face/edit.cc:655 main/face/prefs.cc:450
+msgid "Allow leave this server while recursing via HTTP"
+msgstr "Dopusti napuštanje ovog servera prilikom rekurzije preko HTTP"
+
+#: main/face/edit.cc:87 main/face/edit.cc:656 main/face/prefs.cc:451
+msgid "Change links in HTML file to local"
+msgstr "Preusmeri veze u HTML datoteci ka lokalnim datotekama"
+
+#: main/face/edit.cc:88 main/face/edit.cc:657 main/face/prefs.cc:452
+msgid "Ignore ETag field in reply"
+msgstr "Ignoriši ETag polje u odgovoru"
+
+#: main/face/edit.cc:89 main/face/edit.cc:658
+msgid "Use '_' instead of '?' in stored filenames"
+msgstr "Koristi '_' umesto '?' u sačuvanim imenima datoteka"
+
+#: main/face/edit.cc:90 main/face/edit.cc:684 main/face/prefs.cc:470
+msgid "User-Agent"
+msgstr "User-Agent"
+
+#: main/face/edit.cc:91 main/face/edit.cc:693
+msgid "Referer"
+msgstr "Referer"
+
+#: main/face/edit.cc:92 main/face/edit.cc:704
+msgid "Cookie"
+msgstr "Kolačić"
+
+#: main/face/edit.cc:93 main/face/edit.cc:809 main/face/edit.cc:812
+#: main/face/prefs.cc:506 main/face/prefs.cc:1286 main/face/prefs.cc:1420
+msgid "Proxy"
+msgstr "Proksi"
+
+#: main/face/edit.cc:94 main/face/edit.cc:727 main/face/edit.cc:770
+#: main/face/fsched.cc:203 main/face/lod.cc:53
+msgid "Time"
+msgstr "Vreme"
+
+#: main/face/edit.cc:182 main/face/edit.cc:201
+msgid "Edit download"
+msgstr "Uredi preuzimanje"
+
+#: main/face/edit.cc:430 main/face/lod.cc:57
+msgid "Description"
+msgstr "Opis"
+
+#: main/face/edit.cc:432
+msgid "Save download to file"
+msgstr "Savučaj preuzimanje u datoteku"
+
+#: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
+#: main/face/edit.cc:1683 main/face/mywidget.cc:1396
+msgid "password"
+msgstr "lozinka"
+
+#: main/face/edit.cc:434
+msgid "user name"
+msgstr "korisničko ime"
+
+#: main/face/edit.cc:437
+msgid "Default"
+msgstr "Podrazumevano"
+
+#: main/face/edit.cc:447
+msgid "CP1251->UTF8"
+msgstr "CP1251->UTF8"
+
+#: main/face/edit.cc:483
+msgid "Connections limit:"
+msgstr "Ograničenje veza:"
+
+#: main/face/edit.cc:490 main/face/prefs.cc:258
+msgid "Pause this just after adding"
+msgstr "Pauziraj ovo odmah posle dodavanja"
+
+#: main/face/edit.cc:496
+msgid "Add to top of queue"
+msgstr "Dodaj na početak reda"
+
+#: main/face/edit.cc:509 main/face/lod.cc:291 main/face/prefs.cc:240
+#: main/face/prefs.cc:1277 main/face/prefs.cc:1362
+msgid "Download"
+msgstr "Preuzimanje"
+
+#: main/face/edit.cc:512 main/face/prefs.cc:718 main/face/prefs.cc:1268
+#: main/face/prefs.cc:1522
+msgid "Main"
+msgstr "Glavne"
+
+#: main/face/edit.cc:528 main/face/prefs.cc:299
+msgid "Timeout for reading from socket (in seconds)"
+msgstr "Vreme za čitanje sa utičnice (u sekundama)"
+
+#: main/face/edit.cc:534 main/face/prefs.cc:305
+msgid "Timeout before reconnection (in seconds)"
+msgstr "Vreme pre ponovnog povezivanja (u sekundama)"
+
+#: main/face/edit.cc:540 main/face/prefs.cc:311
+msgid "Maximum attempts (0 for unlimited)"
+msgstr "Najveći broj pokušaja (0 za neograničeno)"
+
+#: main/face/edit.cc:546 main/face/prefs.cc:317
+msgid "Rollback after reconnecting (in bytes)"
+msgstr "Vrati nazad posle ponovnog povezivanja (u bajtovima)"
+
+#: main/face/edit.cc:552 main/face/prefs.cc:323
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "Ograničenje brzine u bajtovima/sekundi (0 za neograničeno)"
+
+#: main/face/edit.cc:579
+msgid "Save log to file"
+msgstr "Sačuvaj dnevnik u datoteku"
+
+#: main/face/edit.cc:588
+msgid "Auto"
+msgstr "Automatski"
+
+#: main/face/edit.cc:595 main/face/edit.cc:598
+msgid "Common"
+msgstr "Obično"
+
+#: main/face/edit.cc:618 main/face/prefs.cc:363
+msgid "Load links as links"
+msgstr "Učitaj veze kao veze"
+
+#: main/face/edit.cc:622 main/face/prefs.cc:367
+msgid "Load links as file"
+msgstr "Učitaj veze kao datoteke"
+
+#: main/face/edit.cc:632 main/face/edit.cc:649 main/face/prefs.cc:377
+#: main/face/prefs.cc:464
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr "Dubina rekurzije (0 za neograničeno, 1 bez rekurzije)"
+
+#: main/face/edit.cc:675 main/face/prefs.cc:493
+msgid "Filter"
+msgstr "Filter"
+
+#: main/face/edit.cc:676 main/face/lod.cc:928 main/face/mywidget.cc:250
+#: main/face/prefs.cc:494
+msgid "Select"
+msgstr "Obeleži"
+
+#: main/face/edit.cc:741
+msgid "Hours"
+msgstr "Sati"
+
+#: main/face/edit.cc:749
+msgid "Minutes"
+msgstr "Minuta"
+
+#: main/face/edit.cc:762
+msgid "Start this downloading at:"
+msgstr "Pokreni ovo preuzimanje u:"
+
+#: main/face/edit.cc:822
+msgid "Use default settings"
+msgstr "Koristi podrazumevana podešavanja"
+
+#: main/face/edit.cc:1519
+msgid "FTP proxy type"
+msgstr "tip FTP proksija"
+
+#: main/face/edit.cc:1530 main/face/mywidget.cc:1346
+msgid "FTP (wingate)"
+msgstr "FTP (wingate)"
+
+#: main/face/edit.cc:1543
+msgid "Use this proxy for FTP"
+msgstr "Koristi ovaj proksi za FTP"
+
+#: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
+#: main/face/mywidget.cc:1369
+msgid "port"
+msgstr "port"
+
+#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1375
+msgid "need password"
+msgstr "lozinka je obavezna"
+
+#: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
+#: main/face/mywidget.cc:1382
+msgid "username"
+msgstr "korisničko ime"
+
+#: main/face/edit.cc:1599
+msgid "Don't get from cache"
+msgstr "Ne uzimaj iz keša"
+
+#: main/face/edit.cc:1605
+msgid "Use this proxy for HTTP"
+msgstr "Koristi ovaj proksi za HTTP"
+
+#: main/face/edit.cc:1653
+msgid "Use SOCKS5 proxy"
+msgstr "Koristi SOCKS5 proksi"
+
+#: main/face/edit.cc:1659
+msgid "host"
+msgstr "domaćin"
+
+#: main/face/edit.cc:2039
+msgid "Select properties"
+msgstr "Izaberi osobine"
+
+#: main/face/edit.cc:2084
+msgid "Unselect all"
+msgstr "Poništi sve izbore"
+
+#: main/face/edit.cc:2090
+msgid "Select all"
+msgstr "Izaberi sve"
+
+#: main/face/filtrgui.cc:164 main/face/mywidget.cc:908
+msgid "filter name"
+msgstr "ime filtera"
+
+#: main/face/filtrgui.cc:187 main/face/list.cc:1323
+msgid "Filters"
+msgstr "Filteri"
+
+#: main/face/fsched.cc:33
+msgid "limit speed"
+msgstr "ograniči brzinu"
+
+#: main/face/fsched.cc:34
+msgid "popup main window"
+msgstr "izbaci glavni prozor"
+
+#: main/face/fsched.cc:35
+msgid "exit"
+msgstr "izađi"
+
+#: main/face/fsched.cc:36
+msgid "remove completed"
+msgstr "ukloni završena"
+
+#: main/face/fsched.cc:37
+msgid "remove failed"
+msgstr "ukloni neuspela"
+
+#: main/face/fsched.cc:38
+msgid "restart download"
+msgstr "ponovo pokreni preuzimanje"
+
+#: main/face/fsched.cc:39
+msgid "stop download"
+msgstr "zaustavi preuzimanje"
+
+#: main/face/fsched.cc:40
+msgid "remove download"
+msgstr "ukloni preuzimanje"
+
+#: main/face/fsched.cc:41
+msgid "remove download if completed"
+msgstr "ukloni preuzimanje ako je završeno"
+
+#: main/face/fsched.cc:42
+msgid "add download"
+msgstr "dodaj preuzimanje"
+
+#: main/face/fsched.cc:43
+msgid "save list"
+msgstr "snimi listu"
+
+#: main/face/fsched.cc:44
+msgid "execute command"
+msgstr "izvrši komandu"
+
+#: main/face/fsched.cc:203 main/face/fsched.cc:791
+msgid "Action"
+msgstr "Akcija"
+
+#: main/face/fsched.cc:203
+msgid "Info"
+msgstr "Informacije"
+
+#: main/face/fsched.cc:239 main/face/list.cc:1324
+msgid "Scheduler"
+msgstr "Rokovnik"
+
+#: main/face/fsched.cc:315 main/face/mywidget.cc:68
+msgid "Select file"
+msgstr "Odaberi datoteku"
+
+#: main/face/fsched.cc:447
+msgid "Command:"
+msgstr "Komanda:"
+
+#: main/face/fsched.cc:451 main/face/fsched.cc:473 main/face/mywidget.cc:112
+msgid "Browse"
+msgstr "Pregledaj"
+
+#: main/face/fsched.cc:469
+msgid "Path:"
+msgstr "Putanja:"
+
+#: main/face/fsched.cc:488
+msgid "This action has no properties"
+msgstr "Ova akcija nema posebne osobine"
+
+#: main/face/fsched.cc:736
+msgid "Start time(hour:min:sec)"
+msgstr "Početno vreme(sati:minuta:sekundi)"
+
+#: main/face/fsched.cc:763
+msgid "Retry this action"
+msgstr "Pokušaj ovu akciju ponovo"
+
+#: main/face/fsched.cc:771
+msgid "times to repeat (-1 unlimited)"
+msgstr "ponavljanja (-1 beskonačno)"
+
+#: main/face/fsched.cc:775
+msgid "period (day/hour:min)"
+msgstr "period (dan/sat:minut)"
+
+#: main/face/fsched.cc:799 main/face/lmenu.cc:130 main/face/qtree.cc:492
+#: main/mainlog.cc:202
+msgid "Properties"
+msgstr "Osobine"
+
+#: main/face/fsched.cc:819
+msgid "Edit scheduled action"
+msgstr "Uredi zakazane akcije"
+
+#: main/face/fsface.cc:77
+msgid "bytes"
+msgstr "bajtova"
+
+#: main/face/fsface.cc:89
+msgid "nothing found"
+msgstr "ništa nije nađeno"
+
+#: main/face/fsface.cc:93
+msgid "searching"
+msgstr "tražim"
+
+#: main/face/fsface.cc:102
+msgid "reping"
+msgstr "ponovo ping"
+
+#: main/face/fsface.cc:106
+msgid "cumulative reping"
+msgstr "kumulativni ponovljeni ping"
+
+#: main/face/fsface.cc:112
+msgid "remove"
+msgstr "ukloni"
+
+#: main/face/fsface.cc:209
+msgid "Filename"
+msgstr "Ime datoteke"
+
+#: main/face/fsface.cc:210 main/face/fsface.cc:284
+msgid "Size"
+msgstr "Veličina"
+
+#: main/face/fsface.cc:211
+msgid "Count"
+msgstr "Broj"
+
+#: main/face/fsface.cc:252
+msgid "Found during FTP-search"
+msgstr "Nađeno prilikom FTP-pretrage"
+
+#: main/face/fsface.cc:274
+msgid "Ping"
+msgstr "Ping"
+
+#: main/face/fsface.cc:294
+msgid "Url"
+msgstr "Url"
+
+#: main/face/list.cc:484
+msgid "_File"
+msgstr "_Datoteka"
+
+#: main/face/list.cc:485
+msgid "_Download"
+msgstr "_Preuzimanje"
+
+#: main/face/list.cc:486
+msgid "_Queue"
+msgstr "_Red"
+
+#: main/face/list.cc:487
+msgid "_Options"
+msgstr "_Opcije"
+
+#: main/face/list.cc:489
+msgid "_Help"
+msgstr "_Pomoć"
+
+#: main/face/list.cc:490
+msgid "_Save List"
+msgstr "_Snimi listu"
+
+#: main/face/list.cc:491
+msgid "_Load List"
+msgstr "Učitaj _listu"
+
+#: main/face/list.cc:492
+msgid "_Find links in file"
+msgstr "Pronađi veze u datoteci"
+
+#: main/face/list.cc:493
+msgid "_New Download"
+msgstr "_Novo Preuzimanje"
+
+#: main/face/list.cc:494
+msgid "_Paste Download"
+msgstr "_Ubaci Preuzimanje"
+
+#: main/face/list.cc:495
+msgid "_Automated adding"
+msgstr "_Automatizovano dodavanje"
+
+#: main/face/list.cc:496
+msgid "_Exit"
+msgstr "Izlaz"
+
+#: main/face/list.cc:497
+msgid "_View Log"
+msgstr "Pregledaj dne_vnik"
+
+#: main/face/list.cc:498
+msgid "_Stop downloads"
+msgstr "Zau_stavi preuzimanja "
+
+#: main/face/list.cc:499
+msgid "_Edit downloads"
+msgstr "Ur_edi preuzimanje"
+
+#: main/face/list.cc:500
+msgid "_Delete downloads"
+msgstr "Obriši preuzimanja"
+
+#: main/face/list.cc:501
+msgid "_Continue downloads"
+msgstr "Nastavi preuzimanja"
+
+#: main/face/list.cc:502
+msgid "Delete Completed"
+msgstr "Obriši završena"
+
+#: main/face/list.cc:503
+msgid "Delete _Failed"
+msgstr "Obriši neuspela"
+
+#: main/face/list.cc:504
+msgid "_Rerun failed"
+msgstr "Ponavljanje nije uspelo"
+
+#: main/face/list.cc:505 main/face/lmenu.cc:159
+msgid "(Un)Protect"
+msgstr "(Od)Štiti"
+
+#: main/face/list.cc:506
+msgid "_Unselect All"
+msgstr "Poništi sve izbore"
+
+#: main/face/list.cc:507
+msgid "Select _All"
+msgstr "Iz_aberi sve"
+
+#: main/face/list.cc:508
+msgid "_Invert selection"
+msgstr "Obrni _izbor"
+
+#: main/face/list.cc:509
+msgid "_Create new queue"
+msgstr "Napravi novi red"
+
+#: main/face/list.cc:510
+msgid "Create new _Subqueue"
+msgstr "Napravi novi podred"
+
+#: main/face/list.cc:511
+msgid "_Remove this queue"
+msgstr "Ukloni ovaj _red"
+
+#: main/face/list.cc:512
+msgid "_Properties"
+msgstr "Osobine"
+
+#: main/face/list.cc:513
+msgid "_Scheduler"
+msgstr "Rokovnik"
+
+#: main/face/list.cc:514
+msgid "_URL-manager"
+msgstr "_URL-upravljač"
+
+#: main/face/list.cc:515
+msgid "_General"
+msgstr "Opšte"
+
+#: main/face/list.cc:516
+msgid "_Filters"
+msgstr "_Filteri"
+
+#: main/face/list.cc:517
+msgid "_Buttons"
+msgstr "Dugmad"
+
+#: main/face/list.cc:518
+msgid "_About"
+msgstr "_O"
+
+#: main/face/list.cc:521
+msgid "_Low"
+msgstr "niska"
+
+#: main/face/list.cc:522
+msgid "_Medium"
+msgstr "srednja"
+
+#: main/face/list.cc:523
+msgid "_Unlimited"
+msgstr "neograničena"
+
+#: main/face/list.cc:868
+msgid "Do you really want to quit?"
+msgstr "Da li stvarno želite da izađete?"
+
+#: main/face/list.cc:868
+msgid "Quit?"
+msgstr "Izađi?"
+
+#: main/face/list.cc:897
+msgid "Delete selected downloads?"
+msgstr "Obriši obeležena preuzimanja?"
+
+#: main/face/list.cc:897 main/face/list.cc:915 main/face/list.cc:933
+msgid "Delete?"
+msgstr "Obriši?"
+
+#: main/face/list.cc:915
+msgid "Do you wish delete completed downloads?"
+msgstr "Da li želite da obrišete završena preuzimanja?"
+
+#: main/face/list.cc:933
+msgid "Do you wish delete failed downloads?"
+msgstr "Da li želite da obrišete neuspela preuzimanja?"
+
+#: main/face/list.cc:980
+msgid "Ready to go ????"
+msgstr "Spremni za pokret ????"
+
+#: main/face/list.cc:1319 main/face/list.cc:1584
+msgid "Downloads"
+msgstr "Preuzimanja"
+
+#: main/face/list.cc:1320 main/face/list.cc:1368 main/face/prefs.cc:628
+#: main/face/prefs.cc:1271 main/face/prefs.cc:1532
+msgid "Main log"
+msgstr "Glavni dnevnik"
+
+#: main/face/list.cc:1321 main/face/passface.cc:428
+msgid "URL-manager"
+msgstr "URL-upravljač"
+
+#: main/face/list.cc:1322 main/face/list.cc:1382
+msgid "FTP-search"
+msgstr "FTP-pretraga"
+
+#: main/face/list.cc:1386
+msgid "Filename:"
+msgstr "Ime datoteke:"
+
+#: main/face/list.cc:1606
+msgid "Offline/Online"
+msgstr "Prekini vezu/Poveži se"
+
+#: main/face/list.cc:1723
+#, c-format
+msgid "[%s] %i-running %i-completed %i-total "
+msgstr "[%s] %i-ide %i-završeno %i-ukupno"
+
+#: main/face/lmenu.cc:136
+msgid "View log"
+msgstr "Pregledaj dnevnik"
+
+#: main/face/lmenu.cc:142
+msgid "Stop"
+msgstr "Zaustavi"
+
+#: main/face/lmenu.cc:148
+msgid "Continue downloads"
+msgstr "Nastavi preuzimanja"
+
+#: main/face/lmenu.cc:154
+msgid "Copy"
+msgstr "Umnoži"
+
+#: main/face/lmenu.cc:168
+msgid "Common properties"
+msgstr "Prosta podešavanja"
+
+#: main/face/lmenu.cc:174
+msgid "Delete downloads"
+msgstr "Obriši preuzimanja"
+
+#: main/face/lmenu.cc:186
+msgid "Delete failed"
+msgstr "Obriši neuspela"
+
+#: main/face/lmenu.cc:196
+msgid "Move up"
+msgstr "Pomeri gore"
+
+#: main/face/lmenu.cc:202
+msgid "Move down"
+msgstr "Pomeri dole"
+
+#: main/face/lmenu.cc:207
+msgid "Alternates"
+msgstr "Alternative"
+
+#: main/face/lmenu.cc:212 main/face/prefs.cc:783 main/face/prefs.cc:1274
+#: main/face/prefs.cc:1501
+msgid "FTP search"
+msgstr "FTP pretraga"
+
+#: main/face/lod.cc:46 main/face/mywidget.cc:410 main/face/mywidget.cc:764
+msgid "File"
+msgstr "Datoteka"
+
+#: main/face/lod.cc:47
+msgid "Type"
+msgstr "Tip"
+
+#: main/face/lod.cc:48
+msgid "Full Size"
+msgstr "Puna veličina"
+
+#: main/face/lod.cc:49
+msgid "Downloaded"
+msgstr "Preuzeto"
+
+#: main/face/lod.cc:50
+msgid "Rest"
+msgstr "Ostalo"
+
+#: main/face/lod.cc:54
+msgid "Remaining"
+msgstr "Do kraja"
+
+#: main/face/lod.cc:55
+msgid "Pause"
+msgstr "Pauzirano"
+
+#: main/face/lod.cc:56
+msgid "Attempt"
+msgstr "Pokušaja"
+
+#: main/face/lod.cc:285
+msgid "Percent"
+msgstr "Procenata"
+
+#: main/face/lod.cc:899
+msgid "Enter wildcard"
+msgstr "Unesi džoker"
+
+#: main/face/lod.cc:926
+msgid "Unselect"
+msgstr "Ukini sve izbore"
+
+#: main/face/lod.cc:1399
+msgid "Status"
+msgstr "Status"
+
+#: main/face/log.cc:193
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr "Red broj %i [dnevnik za %s]"
+
+#: main/face/log.cc:441
+msgid "Log: "
+msgstr "Dnevnik:"
+
+#: main/face/mywidget.cc:65
+msgid "Select directory"
+msgstr "Odaberi direktorijum"
+
+#: main/face/mywidget.cc:208
+msgid "Select color"
+msgstr "Odaberi boju"
+
+#: main/face/mywidget.cc:355
+msgid "Edit properties of Rule"
+msgstr "Uredi osobine Pravila"
+
+#: main/face/mywidget.cc:367 main/face/mywidget.cc:764
+msgid "Protocol"
+msgstr "protokol"
+
+#: main/face/mywidget.cc:392 main/face/mywidget.cc:764
+msgid "Host"
+msgstr "domaćin"
+
+#: main/face/mywidget.cc:401 main/face/mywidget.cc:764
+msgid "Path"
+msgstr "Putanja:"
+
+#: main/face/mywidget.cc:419
+msgid "?"
+msgstr "?"
+
+#: main/face/mywidget.cc:428 main/face/mywidget.cc:764
+msgid "Tag"
+msgstr "tag"
+
+#: main/face/mywidget.cc:485
+msgid "include"
+msgstr "uključi"
+
+#: main/face/mywidget.cc:487
+msgid "exclude"
+msgstr "isključi"
+
+#: main/face/mywidget.cc:756
+msgid "Modify filter"
+msgstr "Uredi filter"
+
+#: main/face/mywidget.cc:798
+msgid "include by default"
+msgstr "podrazumevano uključi"
+
+#: main/face/mywidget.cc:800
+msgid "exclude by default"
+msgstr "podrazumevano isključi"
+
+#: main/face/mywidget.cc:805
+msgid "Name of filter"
+msgstr "Naziv filtera"
+
+#: main/face/mywidget.cc:899
+msgid "Select filter"
+msgstr "Odaberi filter"
+
+#: main/face/mywidget.cc:1072
+msgid "List of links"
+msgstr "Lista veza"
+
+#: main/face/mywidget.cc:1144
+msgid "Add"
+msgstr "Dodaj"
+
+#: main/face/mywidget.cc:1343
+msgid "proxy type"
+msgstr "tip proksija"
+
+#: main/face/mywidget.cc:1358
+msgid "Use different proxy for this alternate"
+msgstr "Koristi drugi proksi za ovu alternativu"
+
+#: main/face/passface.cc:322
+msgid "Add new URL to URL-manager"
+msgstr "Dodaj novi URL u URL-upravljač"
+
+#: main/face/passface.cc:377
+msgid "Edit default preferences"
+msgstr "Uredi podrazumevana podešavanja"
+
+#: main/face/passface.cc:396
+msgid "limit"
+msgstr "ograničenje"
+
+#: main/face/passface.cc:396
+msgid "con."
+msgstr "vez."
+
+#: main/face/prefs.cc:254
+msgid "Optimize recursive downloads"
+msgstr "Optimizuj rekurzivna preuzimanja"
+
+#: main/face/prefs.cc:269
+msgid "Default permissions of local file"
+msgstr "Podrazumevana ovlašćenja za lokalnu datoteku"
+
+#: main/face/prefs.cc:280
+msgid "Save downloads to folder"
+msgstr "Snimi preuzimanja u filter"
+
+#: main/face/prefs.cc:289 main/face/prefs.cc:1280 main/face/prefs.cc:1375
+msgid "Limits"
+msgstr "Ograničenja"
+
+#: main/face/prefs.cc:329
+msgid "Number of parts to split files"
+msgstr "Broj delova za podelu datoteke"
+
+#: main/face/prefs.cc:337
+msgid "Maximum lines in log"
+msgstr "Najveći broj linija u dnevniku"
+
+#: main/face/prefs.cc:345 main/face/prefs.cc:1282 main/face/prefs.cc:1385
+msgid "FTP"
+msgstr "FTP"
+
+#: main/face/prefs.cc:382
+msgid "Output FTP dirs in logs"
+msgstr "Prikaži FTP direktorijume u dnevniku"
+
+#: main/face/prefs.cc:393
+msgid "default anonymous password"
+msgstr "podrazumevana lozinka za anonimni pristup"
+
+#: main/face/prefs.cc:447 main/face/prefs.cc:1284 main/face/prefs.cc:1402
+msgid "HTTP"
+msgstr "HTTP"
+
+#: main/face/prefs.cc:483
+msgid "Filename for saving if it is unknown"
+msgstr "Ime datoteke za snimanje ako nije poznato"
+
+#: main/face/prefs.cc:521 main/face/prefs.cc:1292 main/face/prefs.cc:1431
+msgid "Main window"
+msgstr "Glavni prozor"
+
+#: main/face/prefs.cc:523
+msgid "Using title"
+msgstr "Korišćenje naslova"
+
+#: main/face/prefs.cc:527
+msgid "Use title of main window for info"
+msgstr "Koristi naslov glavnog prozora za informacije"
+
+#: main/face/prefs.cc:532
+msgid "Display queue statistics too"
+msgstr "Prikaži i statistike reda"
+
+#: main/face/prefs.cc:533
+msgid "Scroll title"
+msgstr "Klizaj naslov"
+
+#: main/face/prefs.cc:538
+msgid "Iconfiy main window instead of closing"
+msgstr "Umanji glavni prozor umesto izlaska"
+
+#: main/face/prefs.cc:540
+msgid "Do not remember position of the main window"
+msgstr "Nemoj da pamtiš poziciju glavnog prozora"
+
+#: main/face/prefs.cc:553 main/face/prefs.cc:1294 main/face/prefs.cc:1439
+msgid "Confirmation"
+msgstr "Potvrda"
+
+#: main/face/prefs.cc:555
+msgid "Confirm delete selected downloads"
+msgstr "Potvrdi brisanje obeleženih preuzimanja"
+
+#: main/face/prefs.cc:556
+msgid "Confirm delete all downloads"
+msgstr "Potvrdi brisanje svih preuzimanja"
+
+#: main/face/prefs.cc:557
+msgid "Confirm delete completed downloads"
+msgstr "Potvrdi brisanje završenih preuzimanja"
+
+#: main/face/prefs.cc:558
+msgid "Confirm delete failed downloads"
+msgstr "Povrdi brisanje neuspelih preuzimanja"
+
+#: main/face/prefs.cc:559
+msgid "Confirm opening large amount of windows"
+msgstr "Potvrdi otvaranje velikog broja prozora"
+
+#: main/face/prefs.cc:560
+msgid "Confirm exit from program"
+msgstr "Potvrdi izlazak iz programa"
+
+#: main/face/prefs.cc:585 main/face/prefs.cc:1306 main/face/prefs.cc:1490
+msgid "Clipboard"
+msgstr "Klipbord"
+
+#: main/face/prefs.cc:587
+msgid "Monitor clipboard"
+msgstr "Prati klipbord"
+
+#: main/face/prefs.cc:597
+msgid "Skip these extensions in clipboard"
+msgstr "Preskoči ove ekstenzije u klipbordu"
+
+#: main/face/prefs.cc:605
+msgid "Catch these extensions in clipboard"
+msgstr "Uhvati ove ekstenzije u klipbordu"
+
+#: main/face/prefs.cc:633
+msgid "Maximum lines in MAIN log"
+msgstr "Najveći broj linija u GLAVNOM dnevniku"
+
+#: main/face/prefs.cc:637
+msgid "Output detailed information"
+msgstr "Upiši detaljne podatke"
+
+#: main/face/prefs.cc:641
+msgid "Save main log into file"
+msgstr "Snimi glavni dnevnik u datoteku"
+
+#: main/face/prefs.cc:660
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "Najveća veličina datoteke za glavni dnevnik (u kilobajtima)"
+
+#: main/face/prefs.cc:665
+msgid "Append to file"
+msgstr "Dodaj u datoteku"
+
+#: main/face/prefs.cc:668
+msgid "Overwrite file"
+msgstr "Prepiši preko datoteke"
+
+#: main/face/prefs.cc:683 main/face/prefs.cc:1303 main/face/prefs.cc:1481
+msgid "Integration"
+msgstr "Integracija"
+
+#: main/face/prefs.cc:685
+msgid "Exit if nothing to do after"
+msgstr "Izađi ako nema više šta da se radi posle"
+
+#: main/face/prefs.cc:690 main/face/prefs.cc:727
+msgid "minutes"
+msgstr "minuta"
+
+#: main/face/prefs.cc:701
+msgid "Run this on exit"
+msgstr "Pokreni ovo prilikom izlaska"
+
+#: main/face/prefs.cc:706
+msgid "Open dialog for Drag-n-Drop"
+msgstr "Otvori dijalog za Prevuci-i-Spusti"
+
+#: main/face/prefs.cc:722
+msgid "Save list of downloads every"
+msgstr "Snimi listu preuzimanja svakih"
+
+#: main/face/prefs.cc:734
+msgid "Allow to user force run downloads"
+msgstr "Dozvoli da korisnik forsira pokretanje preuzimanja"
+
+#: main/face/prefs.cc:735
+msgid "Remember passwords"
+msgstr "Zapamti lozinke"
+
+#: main/face/prefs.cc:736
+msgid "Write Descript.ion file"
+msgstr "Piši Descript.ion datoteku"
+
+#: main/face/prefs.cc:746
+msgid "bytes/sec speed level one (red button)"
+msgstr "bajtova/sekundi prvi nivo brzine (crveno dugme)"
+
+#: main/face/prefs.cc:753
+msgid "bytes/sec speed level two (yellow button)"
+msgstr "bajtova/sekundi drugi nivo brzine (žuto dugme)"
+
+#: main/face/prefs.cc:788
+msgid "Number of attempts to ping hosts"
+msgstr "Broj pokušaja za pingovanje domaćina"
+
+#: main/face/prefs.cc:795
+msgid "Number of hosts in list"
+msgstr "Broj domaćina u listi"
+
+#: main/face/prefs.cc:803
+msgid "Number of links per searching engine"
+msgstr "Broj veza po mašini za pretraživanje"
+
+#: main/face/prefs.cc:844
+msgid "search engine to use"
+msgstr "koristi mašinu za pretraživanje"
+
+#: main/face/prefs.cc:859 main/face/prefs.cc:1289 main/face/prefs.cc:1424
+msgid "Interface"
+msgstr "Sučelje"
+
+#: main/face/prefs.cc:861
+msgid "Show DnD basket"
+msgstr "Pokaži PiS košaru"
+
+#: main/face/prefs.cc:862
+msgid "Use fixed font in logs"
+msgstr "Koristi fontove fiksne širine u dnevniku"
+
+#: main/face/prefs.cc:863
+msgid "Display graph on DnD-basket"
+msgstr "Prikaži grafik na PiS-košari"
+
+#: main/face/prefs.cc:864
+msgid "Display current speed value on DnD-basket"
+msgstr "Prikaži trenutnu brzinu na PiS-košari"
+
+#: main/face/prefs.cc:890 main/face/prefs.cc:1296 main/face/prefs.cc:1448
+msgid "Graph"
+msgstr "Grafik"
+
+#: main/face/prefs.cc:892
+msgid "Revert drawing graph of speeds"
+msgstr "Obrni crtanje grafika brzina"
+
+#: main/face/prefs.cc:895
+msgid "Compressed mode"
+msgstr "Kompresovani mod"
+
+#: main/face/prefs.cc:900
+msgid "Color for picks"
+msgstr "Boja za vrhunce"
+
+#: main/face/prefs.cc:901
+msgid "Color for total speed"
+msgstr "Boja za ukupnu brzinu"
+
+#: main/face/prefs.cc:902
+msgid "Color for current speed value"
+msgstr "Boja za trenutnu brzinu"
+
+#: main/face/prefs.cc:903
+msgid "Background color"
+msgstr "Boja pozadine"
+
+#: main/face/prefs.cc:912
+msgid "Reset to default"
+msgstr "Vrati na podrazumevano"
+
+#: main/face/prefs.cc:915
+msgid "Colors for graph"
+msgstr "Boje za grafik"
+
+#: main/face/prefs.cc:940 main/face/prefs.cc:1298 main/face/prefs.cc:1457
+msgid "Sounds"
+msgstr "Zvuci"
+
+#: main/face/prefs.cc:943
+msgid "enable sounds"
+msgstr "omogući zvuke"
+
+#: main/face/prefs.cc:948
+msgid "output via ESD"
+msgstr "zvuk preko ESD-a"
+
+#: main/face/prefs.cc:955
+msgid "Startup"
+msgstr "Pokretanje"
+
+#: main/face/prefs.cc:957
+msgid "Adding a download"
+msgstr "Dodavanje preuzimanja"
+
+#: main/face/prefs.cc:959
+msgid "Downloading completed"
+msgstr "Završeno preuzimanje"
+
+#: main/face/prefs.cc:961
+msgid "Downloading failed"
+msgstr "Neuspelo preuzimanje"
+
+#: main/face/prefs.cc:963
+msgid "Downloading of queue is completed"
+msgstr "Preuzimanje reda je završeno"
+
+#: main/face/prefs.cc:965
+msgid "Drag'n'Drop event"
+msgstr "Prevuci i Spusti događaj"
+
+#: main/face/prefs.cc:1003 main/face/prefs.cc:1004
+msgid "No info about this theme."
+msgstr "Nema informacija o ovoj temi."
+
+#: main/face/prefs.cc:1024
+msgid "Default theme"
+msgstr "Podrazumevana tema"
+
+#: main/face/prefs.cc:1055 main/face/prefs.cc:1300
+msgid "Themes"
+msgstr "Teme"
+
+#: main/face/prefs.cc:1062
+msgid "Themes' directory"
+msgstr "Direktorijum za teme"
+
+#: main/face/prefs.cc:1063
+msgid "Rescan"
+msgstr "Pogledaj ponovo"
+
+#: main/face/prefs.cc:1072
+msgid "Name"
+msgstr "Naziv"
+
+#: main/face/prefs.cc:1219
+msgid "Options"
+msgstr "Opcije"
+
+#: main/face/qtree.cc:110 main/face/qtree.cc:489
+msgid "Create new queue"
+msgstr "Napravi novi red"
+
+#: main/face/qtree.cc:490
+msgid "Create new subqueue"
+msgstr "Napravi novi podred"
+
+#: main/face/qtree.cc:491
+msgid "Delete queue"
+msgstr "Ukloni red"
+
+#: main/face/qtree.cc:589
+msgid "Queue properties"
+msgstr "Osobine reda"
+
+#: main/face/qtree.cc:600
+msgid "Maximum active downloads"
+msgstr "Najveći broj aktivnih preuzimanja"
+
+#: main/face/qtree.cc:604
+msgid "Automatically delete completed downloads"
+msgstr "Automatski obriši završena preuzimanja"
+
+#: main/face/qtree.cc:605
+msgid "Automatically delete failed downloads"
+msgstr "Automatski obriši neuspela preuzimanja"
+
+#: main/face/qtree.cc:615
+msgid "Default folder to save downloaded files"
+msgstr "Podrazumevani direktorijum za snimanje skinutih datoteka"
+
+#: main/face/qtree.cc:622
+msgid "Size format"
+msgstr "Format za veličinu"
+
+#: main/face/qtree.cc:623
+msgid "Time format"
+msgstr "Format za vreme"
+
+#: main/face/qtree.cc:624
+msgid "Speed format"
+msgstr "Format za brzinu"
+
+#: main/face/qtree.cc:708
+msgid "Name of the queue"
+msgstr "Naziv reda"
+
+#: main/face/saveload.cc:88
+msgid "Loading"
+msgstr "Učitavam"
+
+#: main/face/saveload.cc:139
+msgid "Save list"
+msgstr "Snimi listu"
+
+#: main/face/saveload.cc:181
+msgid "Load list"
+msgstr "Učitaj listu"
+
+#: main/face/saveload.cc:223
+msgid "Find links in txt file"
+msgstr "Pronađi veze u tekstualnoj datoteci"
+
+#: main/fsearch.cc:156
+msgid "Check your installation of the Downloader"
+msgstr "Proverite vašu instalaciju Preuzimača"
+
+#: main/ftp.cc:50
+msgid "Accepting faild"
+msgstr "Prihvataj faild"
+
+#: main/ftp.cc:73
+msgid "Timeout while sending through control socket."
+msgstr "Vreme za prekid prilikom slanja kroz kontrolnu utičnicu."
+
+#: main/ftp.cc:74
+msgid "Control connection lost"
+msgstr "Kontrolna veza se prekinula"
+
+#: main/ftp.cc:85
+msgid "Data connection lost!"
+msgstr "Veza za podatke se prekinula"
+
+#: main/ftp.cc:95
+msgid "Control connection lost!"
+msgstr "Kontrolna veza se prekinula!"
+
+#: main/ftp.cc:187
+msgid "Reget is not supported!!!"
+msgstr "Reget nije podržan!!!"
+
+#: main/ftp.cc:300
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr "pokušaj da se povežeš na %i,%i,%i,%i,%i,%i"
+
+#: main/ftp.cc:428
+msgid "Probably file was changed on server!"
+msgstr "Najverovatnije je datoteka promenjena na serveru!"
+
+#: main/ftp.cc:446 main/http.cc:232
+msgid "Data connection closed."
+msgstr "Veza za podatke zatvorena."
+
+#: main/ftp.cc:452 main/http.cc:238
+msgid "Error have happened during writing buffer to disk!"
+msgstr "Desila se greška prilikom upisa bafera na disk!"
+
+#: main/ftp.cc:459 main/http.cc:245
+msgid "Requested size was loaded"
+msgstr "Tražena veličina je učitana"
+
+# BUG: je BIO ili samo JE????
+#: main/ftp.cc:471 main/http.cc:250
+msgid "Segment was loaded! Complete this thread."
+msgstr "Segment je bio učitan! Završi ovu nit."
+
+#: main/ftp.cc:479 main/http.cc:256
+msgid "EOF recieved from server!"
+msgstr "EOF primljen od servera!"
+
+#: main/ftpd.cc:237
+msgid "Can't establish data connection"
+msgstr "Ne mogu da uspostavim vezu za podatke"
+
+#: main/ftpd.cc:240
+msgid "Can't change directory"
+msgstr "Ne mogu da promenim direktorijum"
+
+#: main/ftpd.cc:243
+msgid "Server refused login, perhaps there are too many users of your class"
+msgstr "Server je odbio prijavu, možda već ima previše korisnika vaše klase"
+
+#: main/ftpd.cc:313 main/httpd.cc:228
+msgid "Sleeping"
+msgstr "Spava"
+
+#: main/ftpd.cc:423
+msgid "Empty answer. Trying to change directory to determine file type."
+msgstr ""
+"Prazan odgovor. Pokušavam da promenim direktorijum da bih odredio tip "
+"datoteke."
+
+#: main/ftpd.cc:448 main/ftpd.cc:474
+msgid "Length is %ll"
+msgstr "Dužina je %ll"
+
+#: main/ftpd.cc:460
+msgid "This is a directory!"
+msgstr "Ovo je direktorijum!"
+
+#: main/ftpd.cc:470
+msgid "No such file or directory!"
+msgstr "Ne postoji takva datoteka ili direktorijum!"
+
+#: main/ftpd.cc:505
+msgid "Couldn't get size :(("
+msgstr "Nisam uspeo da dobijem veličinu :(("
+
+#: main/ftpd.cc:520
+msgid "Loading directory..."
+msgstr "Učitavam direktorijum..."
+
+#: main/ftpd.cc:534
+msgid "Listing was loaded"
+msgstr "Listing je učitan"
+
+#: main/ftpd.cc:537
+msgid "Listing not loaded completelly"
+msgstr "Listing nije potpuno učitan"
+
+#: main/ftpd.cc:567
+msgid "Link was loaded :))"
+msgstr "Veza je učitana :))"
+
+#: main/hproxy.cc:199 main/hproxy.cc:232
+#, c-format
+msgid "Sending request to proxy (%s:%i)"
+msgstr "Šaljem zahtev proksiju (%s:%i)"
+
+#: main/hproxy.cc:203 main/hproxy.cc:236 main/httpd.cc:425 main/httpd.cc:454
+msgid "Answer read ok"
+msgstr "Odgovor je glasio ok"
+
+#: main/hproxy.cc:211 main/hproxy.cc:247
+msgid "File not found on the server"
+msgstr "Datoteka nije nađena na serveru"
+
+#: main/hproxy.cc:250
+msgid "Probably it's problem of proxy server, retrying"
+msgstr "Najvrovantije problem sa proksi serverom, pokušavam ponovo"
+
+#: main/http.cc:68
+msgid "Socket lost!"
+msgstr "Utičnica izgubljena!"
+
+#: main/http.cc:78
+msgid "Request was sent, waiting for the answer"
+msgstr "Zahtev poslat, čekam odgovor"
+
+#: main/http.cc:93
+msgid "It is not HTTP server!!!"
+msgstr "To nije HTTP server!!!"
+
+#: main/http.cc:101
+msgid "All ok, reading file"
+msgstr "Sve u redu, čitam datoteku"
+
+#: main/http.cc:112
+msgid "It seems to me that you need a password :)"
+msgstr "Čini mi se da vam treba lozinka :)"
+
+#: main/http.cc:118
+msgid "Server return bad answer:(("
+msgstr "Server je vratio loš odgovor:(("
+
+#: main/http.cc:210
+msgid "Wrong chunk size!"
+msgstr "Pogrešna veličina parčeta!"
+
+#: main/http.cc:213
+msgid "Chunk size %ll"
+msgstr "Veličina parčeta %ll"
+
+#: main/http.cc:215
+msgid "It's last chunk!"
+msgstr "To je poslednje parče!"
+
+#: main/httpd.cc:178
+msgid "Couldn't get normal answer!"
+msgstr "Nisam uspeo da dobijem normalan odgovor!"
+
+#: main/httpd.cc:381
+#, c-format
+msgid "Size for download is %i bytes"
+msgstr "Veličina za preuzimanje je %i bajtova"
+
+#: main/httpd.cc:421 main/httpd.cc:450
+msgid "Sending HTTP request..."
+msgstr "Šaljem HTTP zahtev..."
+
+#: main/httpd.cc:498
+msgid "It is seemed REGET not supported! Loading from begin.."
+msgstr "Čini se da REGET nije podržan! Učitavam od početka.."
+
+#: main/httpd.cc:501
+msgid "ETag was changed, restarting again..."
+msgstr "ETag je promenjen, počinjem ponovo..."
+
+#: main/httpd.cc:516
+msgid "%ll bytes loaded."
+msgstr "%ll bajtova učitano."
+
+#: main/log.cc:64
+msgid "Log was started!"
+msgstr "Dnevnik je započet!"
+
+#: main/main.cc:144
+msgid "Can't init control socket!\n"
+msgstr "Ne mogu da inicijalizujem kontrolnu utičnicu!\n"
+
+#: main/main.cc:192
+msgid "Loading default list of downloads"
+msgstr "Učitavam podrazumevanu listu preuzimanja"
+
+#: main/main.cc:272 main/main.cc:1309
+msgid "Delete completed downloads"
+msgstr "Obriši završena preuzimanja"
+
+#: main/main.cc:285
+msgid "Delete failed downloads"
+msgstr "Obriši neuspela preuzimanja"
+
+#: main/main.cc:302
+msgid "Clear queue of downloads"
+msgstr "Očisti red preuzimanja"
+
+#: main/main.cc:359
+msgid "Run new thread for %z"
+msgstr "Pokreni novu nit za %z"
+
+#: main/main.cc:365
+msgid "Can't run new thread for downloading!"
+msgstr "Ne mogu da pokrenem novu nit za preuzimanje!"
+
+#: main/main.cc:424
+#, c-format
+msgid "Downloading of file %s from %s was terminated [by user]"
+msgstr "Preuzimanje datoteke %s sa %s je prekinuto [od strane korisnika]"
+
+#: main/main.cc:467
+#, c-format
+msgid "Delete file %s from queue of downloads"
+msgstr "Obriši datoteku %s iz reda za preuzimanje"
+
+#: main/main.cc:562
+#, c-format
+msgid "Continue downloading of file %s from %s..."
+msgstr "Nastavi preuzimanje datoteke %s sa %s..."
+
+#: main/main.cc:653
+msgid "file"
+msgstr "datoteka"
+
+#: main/main.cc:737
+msgid "dir"
+msgstr "direktorijum"
+
+#: main/main.cc:742
+msgid "link"
+msgstr "veza"
+
+#: main/main.cc:747
+msgid "device"
+msgstr "uređaj"
+
+#: main/main.cc:780
+msgid "Too many redirections!"
+msgstr "Previše preusmeravanja!"
+
+#: main/main.cc:798
+msgid "Redirection from [%z] to the same location!"
+msgstr "Preusmeravanje sa [%z] na istu lokaciju!"
+
+#: main/main.cc:834
+msgid "Redirection from [%z] to nowhere!"
+msgstr "Preusmeravanje sa [%z] u nigde!"
+
+#: main/main.cc:860
+msgid "Prepare thread %i of [%z] for stoping"
+msgstr "Pripremi nit %i od [%z] za zaustavljanje"
+
+#: main/main.cc:886
+msgid "Redirect from %z"
+msgstr "Preusmeravanje sa %z"
+
+#: main/main.cc:893
+msgid "Downloading of directory %z was completed"
+msgstr "Preuzimanje direktorijuma %z je završeno"
+
+#: main/main.cc:897
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+msgstr ""
+"Preuzimanje datoteke %z (%i bajtova) je završeno brzinom od %i bajtova/"
+"sekundi"
+
+#: main/main.cc:904
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%z je obrisana iz reda za preuzimanje kao završeno preuzimanje"
+
+#: main/main.cc:915
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "Preuzimanje datoteke %z je prekinuto fatalnom greškom"
+
+#: main/main.cc:917
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%z je obrisana iz reda za preuzimanje kao neuspelo preuzimanje"
+
+#: main/main.cc:1251
+msgid "Restarting failed downloads"
+msgstr "Ponovo pokrećem neuspela preuzimanja"
+
+#: main/main.cc:1251 main/main.cc:1287 main/main.cc:1304 main/main.cc:1309
+#: main/main.cc:1314 main/main.cc:1327 main/main.cc:1332
+msgid "[control socket]"
+msgstr "[kontrolna utičnica]"
+
+#: main/main.cc:1269
+#, c-format
+msgid "Remove the download via control socket [%s]"
+msgstr "Ukloni skidanje preko kontrolne utičnice [%s]"
+
+#: main/main.cc:1277
+#, c-format
+msgid "Adding downloading via control socket [%s]"
+msgstr "Dodajem preuzimanje preko kontrolne utičnice [%s]"
+
+#: main/main.cc:1285
+#, c-format
+msgid "Set speed limitation to %s %s"
+msgstr "Postavi ograničenje brzine na %s %s"
+
+#: main/main.cc:1304
+msgid "Setup maximum active downloads to"
+msgstr "Postavi najveći broj aktivnih preuzimanja na"
+
+#: main/main.cc:1327
+msgid "Exiting if nothing to do is switched off"
+msgstr "Izlaz ako nema šta da se radi je isključen"
+
+#: main/main.cc:1332
+#, c-format
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr "Preuzimač će izaći ako nema šta da radi posle %i minuta %s"
+
+#: main/main.cc:1345
+#, c-format
+msgid "Default queue is '%s' now."
+msgstr "'%s' je sada podrazumevani red."
+
+#: main/main.cc:1645
+msgid "Loading FTP-Search engines"
+msgstr "Učitavam FTP mašine za pretraživanje"
+
+#: main/main.cc:1647
+msgid "Normally started"
+msgstr "Pokrenuto normalno"
+
+#: main/main.cc:1705
+#, c-format
+msgid "Added downloading of file %s from %s [by user]"
+msgstr "Dodato preuzimanje datoteke %s sa %s [od strane korisnika]"
+
+#: main/main.cc:1756
+msgid "Downloader is in offline mode now"
+msgstr "Preuzimač sada nije na liniji"
+
+#: main/main.cc:1763
+msgid "Offline mode is turned off"
+msgstr "Ofline mod je isključen"
+
+#: main/main.cc:1794
+#, c-format
+msgid "%lu bytes loaded during the session"
+msgstr "%lu bajtova učitano tokom sesije"
+
+#: main/main.cc:1795
+msgid "Downloader exited normaly"
+msgstr "Preuzimač je izašao normalno"
+
+#: main/main.cc:1835
+#, c-format
+msgid "Can't open '%s' to save log"
+msgstr "Ne mogu da otvorim '%s' za snimanje dnevnika"
+
+#: main/main.cc:1866
+msgid "Such protocol is not supported!"
+msgstr "Takav protokol nije podržan!"
+
+#: main/mainlog.cc:146
+msgid ""
+"Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ""
+"Dostignuta je granica za veličinu datoteke za glavni dnevnik! Datoteka je "
+"potkresana."
+
+#: main/mainlog.cc:155
+msgid "Can't write to file interrupting write to file"
+msgstr "Ne mogu da pišem u datoteku prekidam pisanje u datoteku"
+
+#: main/mainlog.cc:196
+msgid "Open a row"
+msgstr "Otvori red"
+
+#: main/mainlog.cc:199
+msgid "Clear log"
+msgstr "Očisti dnevnik"
+
+#: main/mainlog.cc:255
+#, c-format
+msgid "row number %i of main log"
+msgstr "%i. red glavnog dnevnika"
+
+#: main/mainlog.cc:299
+msgid "Can't open file for saving log"
+msgstr "Ne mogu da otvorim datoteku za snimanje dnevnika"
+
+#: main/memwl.cc:74
+msgid "BUG: Wrong mode of lseek!\n"
+msgstr "GREŠKA: Pogrešan mod za lseek!\n"
+
+#: main/nt.cc:156
+msgid "WARNING!!! Can't find HOME variable! So can't read config!"
+msgstr ""
+"UPOZORENjE!!! Ne mogu da pronađen promenljivu HOME! Stoga ne mogu da "
+"pročitam konfiguraciju!"
+
+#: main/nt.cc:172
+#, c-format
+msgid "%s probably is already running\n"
+msgstr "%s verovatno već ide\n"
+
+#: main/ping.cc:50
+msgid "Resolving hosts..."
+msgstr "Razlučujem domaćina"
+
+#: main/ping.cc:79
+msgid "Pinging  (it takes 30 seconds maximum)..."
+msgstr "Pingujem (to traje najviše 30 sekundi)..."
+
+#: main/savelog.cc:42
+msgid ""
+"Can't save default list of downloads!!! Becouse can't find HOME variable"
+msgstr ""
+"Ne mogu da snimim podrazumevanu listu za preuzimanje!!! Zato što ne mogu da "
+"pronađem promenljivu HOME"
+
+#: main/savelog.cc:48
+msgid "Can't save default list of downloads!!!"
+msgstr "Ne mogu da snimim podrazumevanu listu preuzimanja!!!"
+
+#: main/savelog.cc:83
+msgid "Can't load default list of downloads!!!"
+msgstr "Ne mogu da učitam podrazumevanu listu preuzimanja!!!"
+
+#: main/signal.cc:53 main/signal.cc:73
+msgid "Download  was stopped by user"
+msgstr "Preuzimanje je prekinuo korisnik"
+
+#: main/var.cc:100
+msgid "low"
+msgstr "nisko"
+
+#: main/var.cc:101
+msgid "medium"
+msgstr "srednja"
+
+#: main/var.cc:102
+msgid "unlimited"
+msgstr "neograničena"
+
+#~ msgid "/Automated adding"
+#~ msgstr "/Automatizovano dodavanje"
+
+#~ msgid "/Delete completed"
+#~ msgstr "/Obriši završena"
+
+#~ msgid "/Speed"
+#~ msgstr "/Brzina"
+
+#~ msgid "/Speed/Low"
+#~ msgstr "/Brzina/Niska"
+
+#~ msgid "/Speed/Medium"
+#~ msgstr "/Brzina/Srednja"
+
+#~ msgid "/Speed/Unlimited"
+#~ msgstr "/Brzina/Neograničena"
+
+#~ msgid "/File/_Save List"
+#~ msgstr "/Datoteka/_Snimi Listu"
+
+#~ msgid "/File/_Load List"
+#~ msgstr "/Datoteka/_Učitaj Listu"
+
+#~ msgid "/File/Find links in file"
+#~ msgstr "/Datoteka/Nađi veze u datoteci"
+
+#~ msgid "/File/_New Download"
+#~ msgstr "/Datoteka/_Novo Preuzimanje"
+
+#~ msgid "/File/_Paste Download"
+#~ msgstr "/Datoteka/Ubaci _Preuzimanje"
+
+#~ msgid "/File/_Automated adding"
+#~ msgstr "/Datoteka/_Automatizovano dodavanje"
+
+#~ msgid "/File/Exit"
+#~ msgstr "/Datoteka/Izlaz"
+
+#~ msgid "/File/sep1"
+#~ msgstr "/Datoteka/sep1"
+
+#~ msgid "/Download/View _Log"
+#~ msgstr "/Preuzimanje/Pregledaj _Dnevnik"
+
+#~ msgid "/Download/_Stop downloads"
+#~ msgstr "/Preuzimanje/_Zaustavi preuzimanje"
+
+#~ msgid "/Download/Edit download"
+#~ msgstr "/Preuzimanje/Uredi preuzimanje"
+
+#~ msgid "/Download/_Delete downloads"
+#~ msgstr "/Preuzimanje/_Obriši preuzimanja"
+
+#~ msgid "/Download/Continue downloads"
+#~ msgstr "/Preuzimanje/Nastavi preuzimanja"
+
+#~ msgid "/Download/Delete completed"
+#~ msgstr "/Preuzimanje/Obriši završena"
+
+#~ msgid "/Download/Delete failed"
+#~ msgstr "/Preuzimanje/Obriši neuspela"
+
+#~ msgid "/Download/Rerun failed"
+#~ msgstr "/Preuzimanje/Ponovo pokreni neuspela"
+
+#~ msgid "/Download/(Un)Protect"
+#~ msgstr "/Preuzimanje/(Od)Štiti"
+
+#~ msgid "/Download/Unselect all"
+#~ msgstr "/Preuzimanje/Ukini sve izbore"
+
+#~ msgid "/Download/Select all"
+#~ msgstr "/Preuzimanje/Izaberi sve"
+
+#~ msgid "/Download/-"
+#~ msgstr "/Preuzimanje/-"
+
+#~ msgid "/Queue/Create new queue"
+#~ msgstr "/Red/Napravi novi red"
+
+#~ msgid "/Queue/Create new subqueue"
+#~ msgstr "/Red/Napravi novi podred"
+
+#~ msgid "/Queue/Properties"
+#~ msgstr "/Red/Osobine"
+
+#~ msgid "/Options/Scheduler"
+#~ msgstr "/Opcije/Rokovnik"
+
+#~ msgid "/Options/URL-manager"
+#~ msgstr "/Opcije/URL-upravljač"
+
+#~ msgid "/Options/General"
+#~ msgstr "/Opcije/Opšte"
+
+#~ msgid "/Options/Filters"
+#~ msgstr "/Opcije/Filteri"
+
+#~ msgid "/Options/Speed"
+#~ msgstr "/Opcije/Brzina"
+
+#~ msgid "/Options/Speed/Low"
+#~ msgstr "/Opcije/Brzina/Mala"
+
+#~ msgid "/Options/Speed/Medium"
+#~ msgstr "/Opcije/Brzina/Srednja"
+
+#~ msgid "/Options/Speed/Unlimited"
+#~ msgstr "/Opcije/Brzina/Neograničena"
+
+#~ msgid "/Options/Buttons"
+#~ msgstr "/Opcije/Dugmad"
+
+#~ msgid "/Options/Buttons/Add buttons"
+#~ msgstr "/Opcije/Dugmad/Dodaj dugmad"
+
+#~ msgid "/Options/Buttons/Manipulating"
+#~ msgstr "/Opcije/Dugmad/Manipulacija"
+
+#~ msgid "/Options/Buttons/Speed buttons"
+#~ msgstr "/Opcije/Dugmad/Dugmad za brzinu"
+
+#~ msgid "/Options/Buttons/Misc buttons"
+#~ msgstr "/Opcije/Dugmad/Razna dugmad"
+
+#~ msgid "/_Help/About"
+#~ msgstr "/_Pomoć/O programu"
+
+#~ msgid "/Create new queue"
+#~ msgstr "/Napravi novi red"
+
+#~ msgid "/Properties"
+#~ msgstr "/Osobine"
+
+#~ msgid "path"
+#~ msgstr "putanja"
+
+#~ msgid "Color for speed of selected"
+#~ msgstr "Boja za brzinu obeleženog"

@@ -453,6 +453,9 @@
 /* Version number of package */
 #undef VERSION
 
+/* To support files over 2GB */
+#undef _FILE_OFFSET_BITS
+
 /* Needed for Solaris reentrant code */
 #undef _POSIX_THREADS_SEMANTICS
 

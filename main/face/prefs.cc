@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include "../xml.h"
 #include "lod.h"
+#include "list.h"
 
 GtkWidget *d4x_prefs_window=(GtkWidget *)NULL;
 GtkWidget *d4x_prefs_frame=(GtkWidget *)NULL;
@@ -1581,6 +1582,7 @@ void d4x_prefs_apply(){
 		D4X_THEME_DATA=NULL;
 	if (need_reinit_dnd){
 		bb_theme_changed();
+		d4x_vertical_toolbar_change_theme();
 		dnd_trash_real_destroy();
 		dnd_trash_destroy_theme();
 		CFG.DND_TRASH=TMPCFG.DND_TRASH;

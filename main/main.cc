@@ -446,6 +446,15 @@ int tMain::delete_download(tDownload *what,int flag) {
 	if (what->protect) return 0;
 	if (what->owner()==DL_RUN)
 		stop_download(what);
+	d4xDownloadQueue *papa=what->myowner->PAPA;
+	if (papa->is_first(DL_SIZEQUERY,what)){
+		papa->del(what);
+		stop_thread(what);
+		papa->add(what,DL_STOPWAIT);
+		what->action=ACTION_DELETE;
+		sizequery_run_first(papa);
+		return(0);
+	};
 	if (what->owner()==DL_STOPWAIT){
 		if (flag)
 			what->action=ACTION_REAL_DELETE;
@@ -683,7 +692,7 @@ void tMain::print_info(tDownload *what) {
 		};
 		what->Percent=100;
 		if (REAL_SIZE!=0)
-			what->Percent=(float(what->Size.curent)*float(100))/float(REAL_SIZE);
+			what->Percent=float((double(what->Size.curent)*double(100))/double(REAL_SIZE));
 /* setting new title of log*/
 		if (CFG.USE_MAINWIN_TITLE){
 			char title[MAX_LEN];

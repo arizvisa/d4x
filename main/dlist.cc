@@ -44,7 +44,7 @@ void tTriger::clear() {
 	curent=0;
 };
 
-void tTriger::set(int a ) {
+void tTriger::set(fsize_t a ) {
 	curent=a;
 };
 
@@ -1566,7 +1566,7 @@ void tDownload::ftp_search() {
 			engine->prepare_url(tmpinfo,finfo.size,info->file.get(),CFG.SEARCH_PERSERVER);
 			pthread_cleanup_pop(0);
 			if (who->init(tmpinfo,config)) {
-				printf("1\n");
+				delete(tmpinfo);
 				download_failed();
 				return;
 			};
@@ -1577,7 +1577,7 @@ void tDownload::ftp_search() {
 			pthread_cleanup_pop(0);
 			if (size<=-1) {
 				WL->log(LOG_WARNING,_("Searching failed"));
-				printf("2\n");
+				delete(tmpinfo);
 				download_failed();
 				return;
 			};
@@ -1589,7 +1589,7 @@ void tDownload::ftp_search() {
 			who_download_status=who->download(0);
 			pthread_cleanup_pop(0);
 			if (who_download_status) {
-				printf("3\n");
+				delete(tmpinfo);
 				download_failed();
 				return;
 			};

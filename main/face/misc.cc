@@ -329,5 +329,5 @@ GtkWidget *my_gtk_set_header_style(GtkWidget *widget){
 };
 
 gchar *d4x_menu_translate_func(const gchar *label,gpointer data){
-	return _(label);
+	return (gchar*)_(label);
 };

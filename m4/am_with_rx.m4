@@ -1,5 +1,5 @@
 ##
-## $Header: /var/cvs/d4x/m4/am_with_rx.m4,v 1.1 2003/04/24 23:47:04 zaufi Exp $
+## $Header: /home/cvs/d4x/m4/am_with_rx.m4,v 1.1.1.1 2004/07/01 15:37:55 max Exp $
 ##
 ##
 ## 20/02/2002 by Zaufi

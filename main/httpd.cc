@@ -33,7 +33,8 @@ enum HTTP_ANSWERS_ENUM{
 	H_LAST_MODIFIED,
 	H_SET_COOKIE,
 	H_TRANSFER_ENCODING,
-	H_CONNECTION
+	H_CONNECTION,
+	H_PROXY_CONNECTION
 };
 
 char *http_answers[]={
@@ -47,7 +48,8 @@ char *http_answers[]={
 	"last-modified:",
 	"set-cookie:",
 	"transfer-encoding:",
-	"connection:"
+	"connection:",
+	"proxy-connection:"
 };
 
 
@@ -365,6 +367,7 @@ fsize_t tHttpDownload::analize_answer() {
 			};
 			break;
 		};
+		case H_PROXY_CONNECTION:
 		case H_CONNECTION:{
 			if (strstr(temp->body,"close")){
 				Persistent=0;

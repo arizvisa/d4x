@@ -1,5 +1,5 @@
 ##
-## $Header: /var/cvs/d4x/m4/gcc_check_obsolete_option.m4,v 1.1 2003/04/24 23:47:04 zaufi Exp $
+## $Header: /home/cvs/d4x/m4/gcc_check_obsolete_option.m4,v 1.1.1.1 2004/07/01 15:37:55 max Exp $
 ##
 ## Sun 10 Nov 2002 12:45:02 AM MSK by Zaufi
 ##

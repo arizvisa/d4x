@@ -30,7 +30,7 @@ class tDEdit;
 struct tTriger{
 	fsize_t curent,old;
 	void reset();
-	void set(int a);
+	void set(fsize_t a);
 	void clear();
 	void update();
 	int change();

@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.11 2003/01/22 20:03:24 zaufi Exp $
+# $Header: /home/cvs/d4x/main/face/Makefile.am,v 1.1.1.1 2004/07/01 15:41:41 max Exp $
 #
 
 include $(top_srcdir)/admin/Makefile.addons

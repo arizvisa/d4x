@@ -14,9 +14,10 @@
 
 #include "mutex.h"
 #include "queue.h"
+typedef unsigned long long segoff_t;
 
 struct tSegment{
-	unsigned long int begin,end;
+	segoff_t  begin,end;
 	long offset_in_file;
 	tSegment *next,*prev;
 	tSegment();
@@ -32,7 +33,7 @@ class tSegmentator{
 	d4xMutex lockmutex;
 	int fd;
 	char *filename;
-	unsigned long int total;
+	segoff_t total;
 	int load();
 	void lock();
 	void unlock();
@@ -43,12 +44,12 @@ class tSegmentator{
 	tSegmentator(char *path);
 	void init(char *path);
 	void print();
-	int insert(unsigned long int begin, unsigned long int end);
-	void truncate(unsigned long int shift);
+	int insert(segoff_t begin, segoff_t end);
+	void truncate(segoff_t shift);
 	tSegment *get_first();
-	tSegment *to_holes(unsigned long int size);
+	tSegment *to_holes(segoff_t size);
 	int one_segment();
-	unsigned long int get_total();
+	segoff_t get_total();
 	void done();
 	int save();
 	void complete();

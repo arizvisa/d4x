@@ -510,6 +510,7 @@ gboolean _lod_redraw_icons_(GtkTreeModel *model, GtkTreePath *path,
 			    GtkTreeIter *iter, gpointer data){
 	d4xQueueView *qv=(d4xQueueView *)data;
 	qv->redraw_pixmap(iter);
+	return(FALSE);
 };
 
 void d4xQueueView::redraw_pixmap(GtkTreeIter *iter){
