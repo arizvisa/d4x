@@ -171,4 +171,21 @@ void wm_skip_window(GtkWidget *widget){
 			1);
 };
 
-
+/* write to buffer "nice" string representation of percentage:
+ * %2.1f	- if 99 <= percent < 100
+ * 100		- if percent >= 100
+ * %2.0f		- overwise
+ * (plus stuff to avoid unneeded "100.0" because of rounding...
+ */
+void d4x_percent_str(float percent, char *buf, int bufsize) {
+	if (percent >= 99) {
+		if (percent < 99.9)
+			g_snprintf(buf, bufsize, "%2.1f", percent);
+		else if (percent < 100)
+			g_snprintf(buf, bufsize, "%2.1f", 99.9);
+		else
+			g_snprintf(buf, bufsize, "100");
+	} else {
+		g_snprintf(buf, bufsize, "%2.0f", percent);
+	}
+}

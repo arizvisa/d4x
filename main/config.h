@@ -41,7 +41,8 @@ enum CONFIG_VARIABLE_TYPES{
 	CV_TYPE_HEX,
 	CV_TYPE_GINT,
 	CV_TYPE_BOOL,
-	CV_TYPE_LONG
+	CV_TYPE_LONG,
+	CV_TYPE_FLOAT
 };
 
 extern tOption downloader_parsed_args[];

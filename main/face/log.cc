@@ -217,7 +217,7 @@ static void my_gtk_auto_scroll( GtkAdjustment *get,tLogWindow *temp){
 	if (temp->value==get->value && get->value<get->upper-get->page_size) {
 		get->value=get->upper-get->page_size;
 		temp->value=get->value;
-		gtk_signal_emit_by_name (GTK_OBJECT (get), "changed");
+		gtk_signal_emit_by_name (GTK_OBJECT (get), "value_changed");
 	} else
 		temp->value=get->value;
 }
@@ -263,7 +263,7 @@ gint log_window_button(GtkWidget *button,int a){
 				   forlog->LOG);
 		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
 		                   (GtkSignalFunc)log_window_event_handler, forlog->LOG);
-		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
+		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "value_changed");
 	};
 	if (forlog==NULL || forlog->LOG==NULL){
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
@@ -435,7 +435,6 @@ GList *log_window_unfreeze(GList *list){
 	what->freezed_flag=0;
 	if (temp){
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
-//		gtk_signal_emit_by_name(GTK_OBJECT(temp->adj),"changed");
 		gtk_widget_queue_draw(temp->clist);
 	};
 	return(next);

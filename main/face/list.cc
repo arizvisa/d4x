@@ -41,6 +41,7 @@
 #include "fsface.h"
 #include "fsched.h"
 #include "filtrgui.h"
+#include "../autoadd.h"
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -90,7 +91,7 @@ enum{
 };
 
 enum MAIN_MENU_ENUM{
-	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_TXT, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
+	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_TXT, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_AUTO, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
 	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
 	MM_OPTIONS, MM_OPTIONS_SCHEDULER, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON, MM_OPTIONS_FILTERS,
@@ -106,6 +107,7 @@ char *main_menu_inames[]={
 	N_("/File/Find links in file"),
 	N_("/File/_New Download"),
 	N_("/File/_Paste Download"),
+	N_("/File/_Automated adding"),
 	N_("/File/Exit"),
 	N_("/File/sep1"),
 	N_("/_Download"),
@@ -153,6 +155,71 @@ static void open_passwords_window(...) {
 
 static void open_limits_window(...) {
 	FaceForLimits->init();
+};
+
+static GtkWidget *d4x_auto_window=(GtkWidget *)NULL;;
+static GtkWidget *d4x_auto_entry;
+
+
+
+static void d4x_auto_delete(){
+	gtk_widget_destroy(d4x_auto_window);
+	d4x_auto_window=NULL;
+};
+
+static void d4x_auto_ok_click(GtkWidget *button){
+	d4xAutoGenerator *gen=new d4xAutoGenerator;
+	if (gen->init(text_from_combo(d4x_auto_entry))){
+		delete(gen);
+		return;
+	};
+//	gen->print();
+	d4x_auto_delete();
+	int i=0;
+	char *tmp=gen->first();
+	while(tmp){
+//		printf("%s\n",tmp);
+		aa.add_downloading(tmp);
+		delete[] tmp;
+		i+=1;
+		tmp=gen->next();
+		if (i>1000) break;
+	};
+	delete(gen);
+};
+
+static void d4x_auto_cancel_click(GtkWidget *button){
+	d4x_auto_delete();
+};
+
+void d4x_automated_add(){
+	if (d4x_auto_window){
+		gdk_window_show(d4x_auto_window->window);
+		return;
+	};
+	d4x_auto_window = gtk_window_new(GTK_WINDOW_DIALOG);
+	d4x_auto_entry = gtk_entry_new();
+	gtk_widget_set_usize(d4x_auto_entry,250,-1);
+	gtk_window_set_wmclass(GTK_WINDOW(d4x_auto_window),
+			       "D4X_AutoAddDialog","D4X");
+	gtk_container_border_width(GTK_CONTAINER(d4x_auto_window),5);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	gtk_window_set_title(GTK_WINDOW (d4x_auto_window),_("Enter expression"));
+	GtkWidget *hbox=gtk_hbutton_box_new();
+	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
+	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
+	gtk_box_pack_end(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),d4x_auto_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
+	gtk_container_add(GTK_CONTAINER(d4x_auto_window),vbox);
+	gtk_window_set_default(GTK_WINDOW(d4x_auto_window),cancel_button);
+	gtk_widget_show_all(d4x_auto_window);
+	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",GTK_SIGNAL_FUNC(d4x_auto_ok_click),NULL);
+	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(d4x_auto_cancel_click),NULL);
+	gtk_signal_connect(GTK_OBJECT(d4x_auto_window),"delete_event",GTK_SIGNAL_FUNC(d4x_auto_delete), NULL);
 };
 
 void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mouse_button,guint32 time) {
@@ -335,6 +402,7 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,  (GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_FILE_NEW]),	"<control>N",	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_FILE_PASTE]),	"<control>P",	(GtkItemFactoryCallback)init_add_clipboard_window,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_AUTO]),	"<control><alt>A",	(GtkItemFactoryCallback)d4x_automated_add,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_FILE_EXIT]),	"<alt>X",	(GtkItemFactoryCallback)ask_exit,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD]),     	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
@@ -462,6 +530,8 @@ void my_main_quit(...) {
 		gtk_timeout_remove(MainTimer);
 		gtk_timeout_remove(LogsTimer);
 		gtk_timeout_remove(GraphTimer);
+		GtkAdjustment *adj=gtk_clist_get_vadjustment(GTK_CLIST(ListOfDownloads));
+		CFG.CLIST_SHIFT=adj->value;
 	};
 	save_list();
 	save_limits();
@@ -628,12 +698,14 @@ void delete_downloads(gint flag) {
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
 	list_of_downloads_freeze();
 	while (select) {
+		GList *next=select->next;
 		gint row=GPOINTER_TO_INT(select->data);
 		gtk_clist_unselect_row(GTK_CLIST(ListOfDownloads),row,-1);
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 			GTK_CLIST(ListOfDownloads),row);
 		aa.delete_download(temp,flag);
-		select=((GtkCList *)ListOfDownloads)->selection;
+//		select=((GtkCList *)ListOfDownloads)->selection;
+		select=next;
 	};
 	gtk_clist_unselect_all(GTK_CLIST(ListOfDownloads));
 	list_of_downloads_unfreeze();
@@ -687,10 +759,9 @@ void update_progress_bar() {
 	char data[MAX_LEN];
 	if (adj){
 		if(temp && (temp->finfo.size>0 || temp->Size.curent>0)){
-			if (temp->Percent>99 && temp->Percent<100)
-				sprintf(data,"%2.1f%%%%(%%v/%%u)",temp->Percent);
-			else
-				sprintf(data,"%2.0f%%%%(%%v/%%u)",temp->Percent);
+			char b[100];
+			d4x_percent_str(temp->Percent, b, sizeof(b));
+			sprintf(data, "%s%%%%(%%v/%%u)",b);
 			adj->lower=0;
 			adj->upper = temp->finfo.size>temp->Size.curent ? temp->finfo.size : temp->Size.curent;
 			gtk_progress_set_value(GTK_PROGRESS(ProgressOfDownload),temp->Size.curent);
@@ -712,22 +783,22 @@ void update_progress_bar() {
 	gtk_statusbar_push(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext,data1);
 };
 /* ******************************************************************** */
-static void main_window_normalize_coords(){
+void d4x_normalize_coords(gint *x,gint *y){
 	int temp,w,h;
 	gdk_window_get_geometry((GdkWindow *)NULL,&temp,&temp,&w,&h,&temp);
-	if (CFG.WINDOW_X_POSITION<0){
-		while (CFG.WINDOW_X_POSITION<0)
-			CFG.WINDOW_X_POSITION+=w;
+	if (*x<0){
+		while (*x<0)
+			*x+=w;
 	}else{
-		while (CFG.WINDOW_X_POSITION>w)
-			CFG.WINDOW_X_POSITION-=w;
+		while (*x>w)
+			*x-=w;
 	};
-	if (CFG.WINDOW_Y_POSITION<0){
-		while (CFG.WINDOW_Y_POSITION<0)
-			CFG.WINDOW_Y_POSITION+=h;
+	if (*y<0){
+		while (*y<0)
+			*y+=h;
 	}else{
-		while (CFG.WINDOW_Y_POSITION>h)
-			CFG.WINDOW_Y_POSITION-=h;
+		while (*y>h)
+			*y-=h;
 	};
 };
 
@@ -854,7 +925,9 @@ void update_mainwin_title() {
 				make_number_nice(data3,temp->finfo.size);
 			else
 				sprintf(data3,"???");
-			sprintf(data,"%2.0f%% %s/%s %s ",temp->Percent,data2,data3,temp->info->file.get());
+			char b[100];
+			d4x_percent_str(temp->Percent,b,sizeof(b));
+			sprintf(data,"%s%% %s/%s %s ",b,data2,data3,temp->info->file.get());
 			dnd_trash_set_tooltip(data);
 		}else
 			dnd_trash_set_tooltip(_("Drop link here"));
@@ -895,6 +968,7 @@ int time_for_refresh(void *a) {
 	my_gtk_graph_recalc(GLOBAL_GRAPH);
 	return 1;
 };
+
 
 int time_for_logs_refresh(void *a) {
 	aa.redraw_logs();
@@ -1121,7 +1195,7 @@ void init_face(int argc, char *argv[]) {
 	gtk_init(&argc, &argv);
 	gdk_rgb_init();
 	init_columns_info();
-	main_window_normalize_coords();
+	d4x_normalize_coords(&(CFG.WINDOW_X_POSITION),&(CFG.WINDOW_Y_POSITION));
 	MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(MainWindow),"D4X_Main", "D4X");
 	d4x_mw_set_targets();

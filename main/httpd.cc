@@ -255,21 +255,24 @@ fsize_t tHttpDownload::get_size() {
 		HTTP->set_offset(LOADED);
 		LOG->log(LOG_OK,_("Sending HTTP request..."));
 		int temp=HTTP->get_size(REQUESTED_URL,answer);
-		if (temp==0) {
+		switch (temp){
+		case 0:{ // all ok
 			LOG->log(LOG_OK,_("Answer read ok"));
 			D_FILE.size=analize_answer();
 			if (ReGet && D_FILE.size>=0)
 				D_FILE.size+=LOADED;
 			return D_FILE.size;
 		};
-		if (temp==1){
+		case -2: // bad error code
+			print_error(ERROR_BAD_ANSWER);
+			return -2;
+		case -1: // timeout
+			break;
+		case 1: // redirection
 			return -1;
 		};
-		if (HTTP->get_status()!=STATUS_TIMEOUT &&
-		    HTTP->get_status()!=STATUS_BAD_ANSWER) break;
 		if (reconnect()) break;
 	};
-	print_error(ERROR_BAD_ANSWER);
 	return -2;
 };
 

@@ -28,6 +28,7 @@
 #include "../var.h"
 #include "myclist.h"
 #include "../sndserv.h"
+#include "colors.h"
 
 GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
 tConfirmedDialog *AskOpening=(tConfirmedDialog *)NULL;
@@ -167,6 +168,21 @@ void list_of_downloads_change_data(int row,int column,gchar *data) {
 		gtk_clist_set_text(GTK_CLIST(ListOfDownloads),row,real_col,data);
 };
 
+void list_of_downloads_set_color(tDownload *what,int row){
+	if (what->protect)
+		gtk_clist_set_foreground(GTK_CLIST(ListOfDownloads),row,gdk_color_copy(&RED));
+	else{
+		GtkStyle *style=gtk_widget_get_style(ListOfDownloads);
+		if (style)
+			gtk_clist_set_foreground(GTK_CLIST(ListOfDownloads),row,
+						 gdk_color_copy(&(style->fg[GTK_STATE_NORMAL])));
+//		GdkGCValues values;
+//		gtk_gc_get_values(style->fg_gc,&values);
+//		gtk_clist_set_foreground(GTK_CLIST(ListOfDownloads),row,
+//					 values->foreground);
+	};
+};
+
 void list_of_downloads_update(tDownload *what) {
 	char *URL=what->info->url();
 	gint row=list_of_downloads_row(what);
@@ -226,6 +242,8 @@ void list_of_downloads_add(tDownload *what) {
 	list_of_downloads_set_desc(row,what);
 
 	list_of_downloads_set_pixmap(row,PIX_WAIT);
+	list_of_downloads_set_color(what,row);
+	if (what->protect)
 	if (row==0) gtk_clist_select_row(GTK_CLIST(ListOfDownloads),0,-1);
 	delete[] URL;
 };
@@ -260,6 +278,7 @@ void list_of_downloads_add(tDownload *what,int row) {
 		data[i]=(gchar *)NULL;
 	gtk_clist_insert(GTK_CLIST(ListOfDownloads),row,data);
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),row,what);
+	list_of_downloads_set_color(what,row);
 	char *URL=what->info->url();
 	list_of_downloads_change_data(row,URL_COL,URL);
 	delete[] URL;
@@ -706,11 +725,13 @@ static int _cmp_whole_size_(GtkCList *clist,
 	return(-1);
 };
 
-static int _cmp_whole_size_i_(GtkCList *clist,
-			    gconstpointer ptr1,
-			    gconstpointer ptr2){
-	return(_cmp_whole_size_(clist,ptr2,ptr1));
-};
+#define CLIST_CMP_I(arg) static int arg##i_(GtkCList *clist, \
+					     gconstpointer ptr1, \
+					     gconstpointer ptr2){ \
+   return (arg(clist,ptr2,ptr1)); \
+}
+
+CLIST_CMP_I(_cmp_whole_size_);
 
 static int _cmp_whole_percent_(GtkCList *clist,
 			    gconstpointer ptr1,
@@ -726,11 +747,7 @@ static int _cmp_whole_percent_(GtkCList *clist,
 	return(-1);
 };
 
-static int _cmp_whole_percent_i_(GtkCList *clist,
-			    gconstpointer ptr1,
-			    gconstpointer ptr2){
-	return(_cmp_whole_percent_(clist,ptr2,ptr1));
-};
+CLIST_CMP_I(_cmp_whole_percent_);
 
 static int _cmp_whole_file_(GtkCList *clist,
 			    gconstpointer ptr1,
@@ -746,11 +763,7 @@ static int _cmp_whole_file_(GtkCList *clist,
 	return(-1);
 };
 
-static int _cmp_whole_file_i_(GtkCList *clist,
-			      gconstpointer ptr1,
-			      gconstpointer ptr2){
-	return(_cmp_whole_file_(clist,ptr2,ptr1));
-};
+CLIST_CMP_I(_cmp_whole_file_);
 
 static void list_of_downloads_sort(GtkWidget *widget,int how){
 	int count=DOWNLOAD_QUEUES[DL_RUN]->count();
@@ -849,11 +862,7 @@ static int _cmp_whole_status_(GtkCList *clist,
 	return(-1);
 };
 
-static int _cmp_whole_status_i_(GtkCList *clist,
-			      gconstpointer ptr1,
-			      gconstpointer ptr2){
-	_cmp_whole_status_(clist,ptr2,ptr1);
-};
+CLIST_CMP_I(_cmp_whole_status_);
 
 static void list_of_downloads_sort_status(GtkWidget *button){
 	GdkModifierType mask;
@@ -1111,5 +1120,13 @@ void list_of_downloads_open_logs(...) {
 			AskOpening->set_modal(MainWindow);
 			break;
 		};
+	};
+};
+
+void list_of_downloads_set_shift(float shift){
+	GtkAdjustment *adj=gtk_clist_get_vadjustment(GTK_CLIST(ListOfDownloads));
+	if (adj->upper>shift){
+		adj->value=shift;
+		gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
 	};
 };

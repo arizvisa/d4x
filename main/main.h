@@ -76,9 +76,9 @@ class tMain{
         int delete_download(tDownload *what,int flag=0);
         void continue_download(tDownload *what);
     	int add_downloading(char *adr,char *where=(char *)NULL,char *name=(char *)NULL,char *desc=(char *)NULL);
-	int add_downloading(tDownload *what);
+	int add_downloading(tDownload *what,int to_top=0);
 	void ftp_search(tDownload *what);
-	void add_downloading_to(tDownload *what);
+	void add_downloading_to(tDownload *what,int to_top=0);
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	void run_after_quit();

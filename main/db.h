@@ -21,6 +21,7 @@ class tDownloadTree:public tAbstractSortTree{
 
 struct tStringHostNode:public tAbstractSortNode{
 	char *body;
+	int port;
 	int filled_num;
 	tDownloadTree *nodes[256];
 	tStringHostNode();
@@ -32,7 +33,7 @@ struct tStringHostNode:public tAbstractSortNode{
 class tHostTree:public tAbstractSortTree{
 	protected:
 	public:
-		tStringHostNode *find(char *what);
+		tStringHostNode *find(char *what,int port);
 };
 
 class tDB{

@@ -76,6 +76,7 @@ int write_named_time(int fd,char *name,time_t when);
 int int_to_strin_len(int num);
 int sscanf_int(char *str,int *where);
 char *parse_save_path(const char *str,char *file);
+char *index_mult(char *str,const char *what);
 
 //**************************************************/
 #endif

@@ -97,6 +97,7 @@ struct tMainCfg{
 	int EXIT_COMPLETE,EXIT_COMPLETE_TIME;
 	int FIXED_LOG_FONT;
 	int PROGRESS_MODE;
+	float CLIST_SHIFT;
 /* Clipboard
  */
 	int CLIPBOARD_MONITOR;

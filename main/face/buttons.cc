@@ -352,6 +352,8 @@ void init_buttons_bar() {
 #include "pixmaps/load.xpm"
 
 	ButtonsBar=gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_ICONS);
+//	gtk_toolbar_set_space_style(GTK_TOOLBAR(ButtonsBar), GTK_TOOLBAR_SPACE_LINE);
+//	gtk_toolbar_set_button_relief(GTK_TOOLBAR(ButtonsBar), GTK_RELIEF_NONE);
 
 	buttons_array[BUTTON_ADD]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(BUTTONS_TEXT[BUTTON_ADD]), "", new_pixmap (add_xpm),
 							   GTK_SIGNAL_FUNC (init_add_window), NULL);
@@ -432,6 +434,7 @@ void init_buttons_bar() {
 
 	buttons_array[BUTTON_CONFIGURE] = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (buttons_array[BUTTON_CONFIGURE]), GTK_RELIEF_NONE);
+	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(buttons_array[BUTTON_CONFIGURE]), GTK_CAN_FOCUS);
 	gtk_container_add(GTK_CONTAINER(buttons_array[BUTTON_CONFIGURE]),new_pixmap (cfgbt_xpm));
 	gtk_widget_show_all(buttons_array[BUTTON_CONFIGURE]);
 	gtk_toolbar_append_widget(GTK_TOOLBAR (ButtonsBar),

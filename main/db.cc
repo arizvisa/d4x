@@ -18,16 +18,19 @@
 tStringHostNode::tStringHostNode(){
 	body=NULL;
 	filled_num=0;
+	port=0;
 	for (int i=0;i<256;i++)
 		nodes[i]=NULL;
 };
 
 void tStringHostNode::print(){
-	if (body) puts(body);
+	if (body) printf("%s:",body);
+	printf("%i\n",port);
 };
 
 int tStringHostNode::cmp(tAbstractSortNode *b){
-	return strcmp(body,((tStringHostNode*)b)->body);
+	int a=strcmp(body,((tStringHostNode*)b)->body);
+	return(a?a:((tStringHostNode*)b)->port-port);
 };
 
 tStringHostNode::~tStringHostNode(){
@@ -36,10 +39,11 @@ tStringHostNode::~tStringHostNode(){
 /* tHostTree
  */
 
-tStringHostNode *tHostTree::find(char *what){
+tStringHostNode *tHostTree::find(char *what,int port){
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	tStringHostNode temp;
 	temp.body=what;
+	temp.port=port;
 	tStringHostNode *rvalue=(tStringHostNode *)tAbstractSortTree::find((tAbstractSortNode *)(&temp));
 	temp.body=NULL;
 	return rvalue;
@@ -81,10 +85,11 @@ tDownloadTree **tDB::hash(tStringHostNode *temp,tDownload *what){
 void tDB::insert(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	lock();
-	tStringHostNode *temp=tree->find(what->info->host.get());
+	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
 	if (!temp){
 		temp=new tStringHostNode;
 		temp->body=copy_string(what->info->host.get());
+		temp->port=what->info->port;
 		tree->add(temp);
 	};
 	tDownloadTree **point=hash(temp,what);
@@ -109,7 +114,7 @@ tDownload *tDB::find(tAddr *addr){
 tDownload *tDB::find(tDownload *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	DBC_RETVAL_IF_FAIL(what->info!=NULL,NULL);
-	tStringHostNode *temp=tree->find(what->info->host.get());
+	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
 	if (temp){
 		tDownloadTree **point=hash(temp,what);
 		if (*point){
@@ -123,7 +128,7 @@ void tDB::del(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	DBC_RETURN_IF_FAIL(what->info!=NULL);
 	lock();
-	tStringHostNode *temp=tree->find(what->info->host.get());
+	tStringHostNode *temp=tree->find(what->info->host.get(),what->info->port);
 	if (temp){
 		tDownloadTree **point=hash(temp,what);
 		if (*point){

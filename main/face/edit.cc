@@ -286,6 +286,7 @@ tDEdit::tDEdit() {
 	proxy=NULL;
 	filter_sel=NULL;
 	parent_in_db=0;
+	add_or_edit=0;
 };
 
 void tDEdit::popup() {
@@ -458,10 +459,20 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
 	pause_check=gtk_check_button_new_with_label(_("Pause this just after adding"));
 	restart_from_begin_check=gtk_check_button_new_with_label(_("Restart this download from begining"));
+	GtkWidget *tmp_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(tmp_hbox),restart_from_begin_check,
+			   FALSE,FALSE,0);
+	if (add_or_edit){
+		to_top_check=gtk_check_button_new_with_label(_("Add to top of queue"));
+		gtk_box_pack_end(GTK_BOX(tmp_hbox),to_top_check,
+				 FALSE,FALSE,0);
+	}else
+		to_top_check=NULL;
+
 	GTK_TOGGLE_BUTTON(pause_check)->active=CFG.PAUSE_AFTER_ADDING;
 	GTK_TOGGLE_BUTTON(restart_from_begin_check)->active=who->config.restart_from_begin;
 	gtk_box_pack_start(GTK_BOX(vbox),pause_check,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),restart_from_begin_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),tmp_hbox,FALSE,FALSE,0);
 	GtkWidget *frame=gtk_frame_new(_("Download"));
 	gtk_container_border_width(GTK_CONTAINER(frame),5);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
@@ -878,6 +889,12 @@ void tDEdit::auto_fill_log(){
 
 int tDEdit::get_pause_check(){
 	return(GTK_TOGGLE_BUTTON(pause_check)->active);
+};
+
+int tDEdit::get_to_top_check(){
+	if (to_top_check)
+		return(GTK_TOGGLE_BUTTON(to_top_check)->active);
+	return(0);
 };
 
 void tDEdit::disable_ok_button() {
@@ -1385,6 +1402,45 @@ static void proxy_toggle_socks(GtkWidget *parent,tProxyWidget *where) {
 	gtk_widget_set_sensitive(where->socks_host,GTK_TOGGLE_BUTTON(parent)->active);
 };
 
+static void _ftp_host_changed_(GtkEntry *entry,tProxyWidget *parent){
+	char *tmp=gtk_entry_get_text(entry);
+	tmp=index(tmp,':');
+	if (tmp){
+		int a=0;
+		if (sscanf(tmp+1,"%i",&a)==1){
+			char str[100];
+			sprintf(str,"%i",a);
+			gtk_entry_set_text(GTK_ENTRY(parent->ftp_proxy_port),str);
+		};
+	};
+};
+
+static void _http_host_changed_(GtkEntry *entry,tProxyWidget *parent){
+	char *tmp=gtk_entry_get_text(entry);
+	tmp=index(tmp,':');
+	if (tmp){
+		int a=0;
+		if (sscanf(tmp+1,"%i",&a)==1){
+			char str[100];
+			sprintf(str,"%i",a);
+			gtk_entry_set_text(GTK_ENTRY(parent->http_proxy_port),str);
+		};
+	};
+};
+
+static void _socks_host_changed_(GtkEntry *entry,tProxyWidget *parent){
+	char *tmp=gtk_entry_get_text(entry);
+	tmp=index(tmp,':');
+	if (tmp){
+		int a=0;
+		if (sscanf(tmp+1,"%i",&a)==1){
+			char str[100];
+			sprintf(str,"%i",a);
+			gtk_entry_set_text(GTK_ENTRY(parent->socks_port),str);
+		};
+	};
+};
+
 void tProxyWidget::init() {
 //	frame=gtk_frame_new(_("Proxy"));
 	GtkWidget *proxy_frame1=gtk_frame_new("FTP");
@@ -1418,6 +1474,9 @@ void tProxyWidget::init() {
 
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_check,FALSE,0,0);
 	ftp_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
+	gtk_signal_connect (GTK_OBJECT (GTK_COMBO(ftp_proxy_host)->entry),
+			    "changed",
+			    (GtkSignalFunc) _ftp_host_changed_, this);
 	gtk_widget_set_usize(ftp_proxy_host,120,-1);
 
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_host,FALSE,0,0);
@@ -1480,6 +1539,9 @@ void tProxyWidget::init() {
 
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_check,FALSE,0,0);
 	http_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
+	gtk_signal_connect (GTK_OBJECT (GTK_COMBO(http_proxy_host)->entry),
+			    "changed",
+			    (GtkSignalFunc) _http_host_changed_, this);
 	gtk_widget_set_usize(http_proxy_host,120,-1);
 
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_host,FALSE,0,0);
@@ -1529,6 +1591,9 @@ void tProxyWidget::init() {
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	label=gtk_label_new(_("host"));
 	socks_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
+	gtk_signal_connect (GTK_OBJECT (GTK_COMBO(socks_host)->entry),
+			    "changed",
+			    (GtkSignalFunc) _socks_host_changed_, this);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),socks_host,FALSE,0,0);
 	label=gtk_label_new(_("port"));
@@ -1694,6 +1759,27 @@ void tProxyWidget::init_state(tCfg *cfg,int proto) {
 };
 
 
+static void make_proxy_host(const char *host,int port){
+	char *tmp=new char[strlen(host)+10];
+	char *b=tmp;
+	while(*host!=':' && *host){
+		*b=*host;
+		host++;
+		b++;
+	};
+	*b=':';
+	b++;
+	sprintf(b,"%i",port);
+	if (*tmp!=':' && *tmp)
+		ALL_HISTORIES[PROXY_HISTORY]->add(tmp);
+	delete[] tmp;
+};
+
+#define REMOVE_SC_FROM_HOST(host) if (host){ \
+   char *sc=index(host,':');\
+   if (sc) *sc=0; \
+  };
+
 void tProxyWidget::apply_changes(tMainCfg *cfg) {
 	cfg->NEED_PASS_FTP_PROXY=GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active;
 	cfg->NEED_PASS_HTTP_PROXY=GTK_TOGGLE_BUTTON(http_proxy_user_check)->active;
@@ -1721,12 +1807,14 @@ void tProxyWidget::apply_changes(tMainCfg *cfg) {
 		cfg->FTP_PROXY_TYPE=0;
 	} else
 		cfg->FTP_PROXY_TYPE=1;
-	if (strlen(cfg->FTP_PROXY_HOST)) ALL_HISTORIES[PROXY_HISTORY]->add(cfg->FTP_PROXY_HOST);
-	if (strlen(cfg->HTTP_PROXY_HOST)) ALL_HISTORIES[PROXY_HISTORY]->add(cfg->HTTP_PROXY_HOST);
-	if (strlen(text_from_combo(ftp_proxy_host)))
-		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(ftp_proxy_host));
-	if (strlen(text_from_combo(http_proxy_host)))
-		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(http_proxy_host));
+	if (strlen(text_from_combo(ftp_proxy_host))){
+		make_proxy_host(text_from_combo(ftp_proxy_host),
+				cfg->FTP_PROXY_PORT);
+	};
+	if (strlen(text_from_combo(http_proxy_host))){
+		make_proxy_host(text_from_combo(http_proxy_host),
+				cfg->HTTP_PROXY_PORT);
+	};
 	if (cfg->REMEMBER_PASS){
 		if (cfg->HTTP_PROXY_PASS && strlen(cfg->HTTP_PROXY_PASS))
 			ALL_HISTORIES[PASS_HISTORY]->add(cfg->HTTP_PROXY_PASS);
@@ -1738,9 +1826,11 @@ void tProxyWidget::apply_changes(tMainCfg *cfg) {
 		if (cfg->SOCKS_HOST) delete[] cfg->SOCKS_HOST;
 		if (cfg->SOCKS_PASS) delete[] cfg->SOCKS_PASS;
 		if (cfg->SOCKS_USER) delete[] cfg->SOCKS_USER;
+		sscanf(text_from_combo(socks_port),"%i",&(cfg->SOCKS_PORT));
 		char *tmp=text_from_combo(socks_host);
 		if (tmp && *tmp){
-			ALL_HISTORIES[PROXY_HISTORY]->add(tmp);
+			make_proxy_host(tmp,
+					cfg->SOCKS_PORT);
 			cfg->SOCKS_HOST=copy_string(tmp);
 		}else{
 			cfg->SOCKS_HOST=NULL;
@@ -1755,7 +1845,6 @@ void tProxyWidget::apply_changes(tMainCfg *cfg) {
 			cfg->SOCKS_USER=copy_string(tmp);
 		else
 			cfg->SOCKS_USER=NULL;
-		sscanf(text_from_combo(socks_port),"%i",&(cfg->SOCKS_PORT));
 	}else{
 		if (cfg->SOCKS_HOST) delete[] cfg->SOCKS_HOST;
 		if (cfg->SOCKS_PASS) delete[] cfg->SOCKS_PASS;
@@ -1764,6 +1853,10 @@ void tProxyWidget::apply_changes(tMainCfg *cfg) {
 		cfg->SOCKS_USER=NULL;
 		cfg->SOCKS_PASS=NULL;
 	};
+	/* remove ':' from proxies hosts */
+	REMOVE_SC_FROM_HOST(cfg->SOCKS_HOST);
+	REMOVE_SC_FROM_HOST(cfg->HTTP_PROXY_HOST);
+	REMOVE_SC_FROM_HOST(cfg->FTP_PROXY_HOST);
 };
 
 void tProxyWidget::apply_changes() {
@@ -1776,6 +1869,8 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 		if (GTK_TOGGLE_BUTTON(ftp_proxy_check)->active) {
 			cfg->proxy_host.set(text_from_combo(ftp_proxy_host));
 			sscanf(gtk_entry_get_text(GTK_ENTRY(ftp_proxy_port)),"%i",&(cfg->proxy_port));
+			make_proxy_host(text_from_combo(ftp_proxy_host),
+					cfg->proxy_port);
 			if (GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active) {
 				cfg->proxy_user.set(text_from_combo(ftp_proxy_user));
 				cfg->proxy_pass.set(text_from_combo(ftp_proxy_pass));
@@ -1785,6 +1880,8 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 		if (GTK_TOGGLE_BUTTON(http_proxy_check)->active) {
 			cfg->proxy_host.set(text_from_combo(http_proxy_host));
 			sscanf(gtk_entry_get_text(GTK_ENTRY(http_proxy_port)),"%i",&(cfg->proxy_port));
+			make_proxy_host(text_from_combo(http_proxy_host),
+					cfg->proxy_port);
 			if (GTK_TOGGLE_BUTTON(http_proxy_user_check)->active) {
 				cfg->proxy_user.set(text_from_combo(http_proxy_user));
 				cfg->proxy_pass.set(text_from_combo(http_proxy_pass));
@@ -1795,10 +1892,6 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 		ALL_HISTORIES[USER_HISTORY]->add(text_from_combo(ftp_proxy_user));
 	if (strlen(text_from_combo(http_proxy_user)))
 		ALL_HISTORIES[USER_HISTORY]->add(text_from_combo(http_proxy_user));
-	if (strlen(text_from_combo(ftp_proxy_host)))
-		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(ftp_proxy_host));
-	if (strlen(text_from_combo(http_proxy_host)))
-		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(http_proxy_host));
 	if (GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active)
 		cfg->proxy_type=0;
 	else
@@ -1829,6 +1922,8 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 		cfg->socks_pass.set(NULL);
 		cfg->socks_host.set(NULL);
 	};
+	REMOVE_SC_FROM_HOST(cfg->socks_host.get());
+	REMOVE_SC_FROM_HOST(cfg->proxy_host.get());
 };
 
 /*****************************************************************/

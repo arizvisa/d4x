@@ -8,31 +8,20 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef MY_GTK_LIST_MENU
-#define MY_GTK_LIST_MENU
+#ifndef _D4X_AUTOADD_HEADER_
+#define _D4X_AUTOADD_HEADER_
 
-extern GtkWidget *ListMenu;
-extern GtkWidget *ListMenuArray[];
-GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,int size);
-void init_list_menu();
-void list_menu_prepare();
+#include "queue.h"
 
-enum {
-	LM_LOG,
-	LM_STOP,
-	LM_CONTINUE,
-	LM_COPY,
-	LM_PROTECT,
-	LM_EDIT,
-	LM_EDIT_COMMON,
-	LM_DEL,
-	LM_MOVEUP,
-	LM_MOVEDOWN,
-	LM_SET_LIMIT,
-	LM_DELC,
-	LM_DELF,
-	LM_SEARCH,
-	LM_LAST
+class d4xAutoGenerator{
+	tQueue list;
+public:
+	d4xAutoGenerator();
+	int init(char *str);
+	char *first();
+	char *next();
+	void print();
+	~d4xAutoGenerator();
 };
 
 #endif

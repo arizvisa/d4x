@@ -153,6 +153,12 @@ static int dnd_trash_no_expose(){
 	return TRUE;
 };
 
+static int dnd_trash_configure(GtkWidget *window){
+	gdk_window_get_root_origin (window->window, &(CFG.DND_TRASH_X),
+				    &(CFG.DND_TRASH_Y));
+	return(FALSE);
+};
+
 void dnd_trash_init(){
 	CFG.DND_TRASH=1;
 	CFG.DND_NEED_POPUP=1;
@@ -172,8 +178,7 @@ void dnd_trash_init(){
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
 	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_DnDBasket", "D4X_DnDBasket");
 //	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
-	if (CFG.DND_TRASH_X>gdk_screen_width()) CFG.DND_TRASH_X=0;
-	if (CFG.DND_TRASH_Y>gdk_screen_height()) CFG.DND_TRASH_Y=0;
+	d4x_normalize_coords(&(CFG.DND_TRASH_X),&(CFG.DND_TRASH_Y));
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
 	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
 //	gtk_widget_set_events(dnd_trash_window,GDK_ALL_EVENTS_MASK);
@@ -265,6 +270,9 @@ void dnd_trash_init(){
 	gdk_window_resize(dnd_trash_window->window,50,50);
 	set_dndtrash_button();
 	wm_skip_window(dnd_trash_window);
+	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "configure_event",
+	                   GTK_SIGNAL_FUNC(dnd_trash_configure),
+	                   NULL);
 };
 
 void dnd_trash_menu_prepare(){

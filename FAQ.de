@@ -38,7 +38,9 @@ Weitere Fragen
     zusammen bricht. Was kann ich machen, damit der Download gutgeht?
 3.6 Ich habe auf der Konsole (oder im Terminal) eine URL. Wie kann ich sie
     "Downloader for X" uebergeben?
-
+3.7 Ich sehe nur Müll im Protokollfenster und keinen lesbaren Text!
+3.8 Wenn ich Dateien lade, legt D4X die komplette Verzeichnisstruktur an.
+    Wie schalte ich das aus?
 
 
 *******************************************************************************
@@ -198,6 +200,22 @@ bytes.
 Ab Version 1.08 kann man D4X mit einer URL als Parameter aufrufen, auch wenn
 das Programm schon gestartet war. (> nt "URL")
 
+3.7 Ich sehe nur Müll im Protokollfenster und keinen lesbaren Text!
 
+Das ist kein Fehler im Downloader. Es gibt zwei Wege das Ganze zu reparieren:
+Setze in der Datei XF86Config den Verzeichniseintrag deiner Fixed-Fonts
+über den Misc-Eintrag. z.B.:
+FontPath    "/usr/X11R6/lib/X11/fonts/75dpi:unscaled"
+FontPath    "/usr/X11R6/lib/X11/fonts/misc:unscaled"
+
+Oder stelle in D4X die Option "Benutze Fixed-Fonts im Protokoll" ab.
+
+
+3.8 Wenn ich Dateien lade, legt D4X die komplette Verzeichnisstruktur an.
+    Wie schalte ich das aus?
+
+Das pasiert beim rekursiven Download via HTTP (z.B. HTTP-Proxy). Man kann
+die Rekursion (und damit auch das Anlegen von Verzeichnissen) abschalten,
+indem die "Rekursionstiefe" auf 1 (keine Rekursion) stellt.
 
 

@@ -32,6 +32,8 @@ More questions
     do for successful downloading?
 3.6 I found an URL in console, how can I add it in Downloader?
 3.7 I see garbage in log windows instead of readable text!
+3.8 When I download files Downloader creates full directory structure!
+How can I turn this feature off.
 
 *******************************************************************************
 Answers:
@@ -168,3 +170,11 @@ FontPath    "/usr/X11R6/lib/X11/fonts/75dpi:unscaled"
 FontPath    "/usr/X11R6/lib/X11/fonts/misc:unscaled"
 
 Second: turn off Downloader's option "use fixed font in logs".
+
+3.8 When I download files Downloader creates full directory structure!
+How can I turn this feature off.
+
+To avoid rewriting downloaded files Downloader creates directory structure
+when it downloads via HTTP protocol (e.g HTTP proxy) You can turn off
+recursion for HTTP (and creation of directories) by setting "recurse depth"
+for HTTP to '1' (no recursion).

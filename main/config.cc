@@ -196,7 +196,7 @@ tConfigVariable config_variables[]={
 	{"buttons_flags",	CV_TYPE_HEX,	&(CFG.BUTTONS_FLAGS)},
 	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)},
 	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)},
-	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)},
+	{"default_host_limit",	CV_TYPE_INT,	&(CFG.DEFAULT_HOST_LIMIT)},
 	{"allow_force_run",	CV_TYPE_BOOL,	&(CFG.ALLOW_FORCE_RUN)},
 	{"ftp_dir_in_log",	CV_TYPE_BOOL,	&(CFG.FTP_DIR_IN_LOG)},
 	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_send_quit)},
@@ -223,7 +223,8 @@ tConfigVariable config_variables[]={
 	{"sound_add",		CV_TYPE_STRING,	&(CFG.SOUND_ADD)},
 	{"sound_dnd_drop",	CV_TYPE_STRING,	&(CFG.SOUND_DND_DROP)},
 	{"sound_queue_finish",	CV_TYPE_STRING,	&(CFG.SOUND_QUEUE_FINISH)},
-	{"sound_startup",	CV_TYPE_STRING,	&(CFG.SOUND_STARTUP)}
+	{"sound_startup",	CV_TYPE_STRING,	&(CFG.SOUND_STARTUP)},
+	{"clist_shift",		CV_TYPE_FLOAT,	&(CFG.CLIST_SHIFT)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -244,6 +245,11 @@ void set_config(char *line){
 	for (int i=0;i<cv_list_len;i++){
 		if (equal(config_variables[i].name,temp)){
 			switch(config_variables[i].type){
+			case CV_TYPE_FLOAT:{
+				extract_string(next_word,temp);
+				sscanf(temp,"%f",(float *)(config_variables[i].pointer));
+				break;
+			};
 			case CV_TYPE_LONG:{
 				extract_string(next_word,temp);
 				sscanf(temp,"%li",(long int *)(config_variables[i].pointer));
@@ -326,7 +332,7 @@ void read_config() {
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.05");
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");
 };
-
+	
 static void save_integer_to_config(int fd,char *name,int num) {
 	DBC_RETURN_IF_FAIL(name!=NULL);
 	char data[MAX_LEN];
@@ -338,6 +344,13 @@ static void save_long_to_config(int fd,char *name,long int num) {
 	DBC_RETURN_IF_FAIL(name!=NULL);
 	char data[MAX_LEN];
 	sprintf(data,"%s %li\n\n",name,num);
+	f_wstr(fd,data);
+};
+
+static void save_float_to_config(int fd,char *name,float num) {
+	DBC_RETURN_IF_FAIL(name!=NULL);
+	char data[MAX_LEN];
+	sprintf(data,"%s %f\n\n",name,num);
 	f_wstr(fd,data);
 };
 	
@@ -382,6 +395,11 @@ void save_config() {
 		int cv_list_len=sizeof(config_variables)/sizeof(struct tConfigVariable);
 		for (int i=0;i<cv_list_len;i++){
 			switch(config_variables[i].type){
+			case CV_TYPE_FLOAT:{
+				float *cv_tmp=(float *)(config_variables[i].pointer);
+				save_float_to_config(fd,config_variables[i].name,*cv_tmp);
+				break;
+			};
 			case CV_TYPE_LONG:{
 				long int *cv_tmp=(long int *)(config_variables[i].pointer);
 				save_long_to_config(fd,config_variables[i].name,*cv_tmp);

@@ -364,6 +364,7 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NU
 	if (s){
 		FTP->import_ctrl_socket(s);
 		CWDFlag=0;
+		RetrNum=1;
 		return(0);
 	};
 	return reconnect();
@@ -386,13 +387,19 @@ int tFtpDownload::ftp_get_size(tStringList *l){
 	return(FTP->get_size(ADDR.file.get(),l));
 };
 
+int tFtpDownload::is_dir(){
+	if (FTP->change_dir(ADDR.file.get())==0)
+		return(1);
+	return(0);
+};
+
 fsize_t tFtpDownload::ls_answer_short(){
 	tString *last=list->last();
 	if (!last) {
 		LOG->log(LOG_WARNING,_("Empty answer. Trying to change directory to determine file type."));
 		D_FILE.perm=S_IRUSR|S_IWUSR;
 		/* try to CWD */
-		if (FTP->change_dir(ADDR.file.get())==0){
+		if (is_dir()){
 			D_FILE.type=T_DIR;
 			char *a=compose_path(ADDR.path.get(),ADDR.file.get());
 			ADDR.path.set(a);
@@ -401,7 +408,7 @@ fsize_t tFtpDownload::ls_answer_short(){
 		}else
 			D_FILE.type=T_FILE;
 		return 0;
-					};
+	};
 	D_FILE.type=T_FILE;
 	D_FILE.size=0;
 	if (equal_first(last->body,"total")) {
@@ -418,6 +425,29 @@ fsize_t tFtpDownload::ls_answer_short(){
 	return D_FILE.size;
 };
 
+fsize_t tFtpDownload::ls_answer_long(tStringList *list){
+	tString *last=list->last();
+	while(last){
+		if (strstr(last->body,ADDR.file.get()))
+			break;
+		last=(tString*)(last->next);
+	};
+	if (last==NULL || is_dir()){
+		LOG->log(LOG_WARNING,_("This is a directory!"));
+		D_FILE.size=1;
+		if (DIR) delete DIR;
+		DIR=list;
+		list=NULL;
+		D_FILE.type=T_DIR;
+		D_FILE.perm=S_IRUSR|S_IWUSR;
+		return 1;
+	};
+	ftp_cut_string_list(last->body,&D_FILE,0);
+	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
+	D_FILE.type=T_FILE;
+	return(D_FILE.size);
+};
+
 fsize_t tFtpDownload::get_size() {
 	if (!list) {
 		list=new tStringList;
@@ -430,31 +460,17 @@ fsize_t tFtpDownload::get_size() {
 				if (a==0 && list->count()<=2)
 					return(ls_answer_short());
 				if (a==0 && list->count()>2) {
-					LOG->log(LOG_WARNING,_("This is a directory!"));
-					D_FILE.size=1;
-					if (DIR) delete DIR;
-					DIR=list;
-					list=NULL;
-					D_FILE.type=T_DIR;
-					D_FILE.perm=S_IRUSR|S_IWUSR;
-					return 1;
+					return(ls_answer_long(list));
 				};
 				LOG->log(LOG_WARNING,_("Couldn't get size :(("));
 			} else {
 				print_error(ERROR_DATA_CONNECT);
 			};
-/*
-  } else {
-  int s=FTP->get_status();
-  if (s!=STATUS_TIMEOUT)
-  break;
-*/
-		}else{
-			if (FTP->get_status()==STATUS_CMD_ERR ||
-			    FTP->get_status()==STATUS_UNSPEC_ERR){
-				D_FILE.type=T_FILE;
-				break; //can't change dir;
-			};
+		};
+		if (FTP->get_status()==STATUS_CMD_ERR ||
+		    FTP->get_status()==STATUS_UNSPEC_ERR){
+			D_FILE.type=T_FILE;
+			break; //an error occured
 		};
 		if (reconnect())
 			break;

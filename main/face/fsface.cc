@@ -15,6 +15,7 @@
 #include "addd.h"
 #include "../ntlocale.h"
 #include "../var.h"
+#include "misc.h"
 
 static GtkWidget *fs_list_menu_to_destroy=(GtkWidget *)NULL;
 
@@ -57,8 +58,10 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 		if (tmp){
 			while (tmp){
 				char a[MAX_LEN];
+				char b[100];
 				float p=tmp->Percent/tmp->Attempt.curent;
-				sprintf(a,"%2.1f%% %s",p,tmp->info->host.get());
+				d4x_percent_str(p,b,sizeof(b));
+				sprintf(a,"%s%% %s",b,tmp->info->host.get());
 				menu_item=gtk_menu_item_new_with_label(a);
 //				menu_item=gtk_menu_item_new_with_label(tmp->info->host.get());
 				gtk_menu_append(GTK_MENU(menu),menu_item);

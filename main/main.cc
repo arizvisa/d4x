@@ -161,6 +161,8 @@ void tMain::load_defaults() {
 	append_list(list);
 	delete(list);
 	read_list();
+	if (!CFG.WITHOUT_FACE)
+		list_of_downloads_set_shift(CFG.CLIST_SHIFT);
 };
 
 void tMain::append_list(tStringList *what) {
@@ -247,7 +249,8 @@ void tMain::redraw_logs() {
 
 void tMain::absolute_delete_download(tDList *where,tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	list_of_downloads_remove(what);
+	if (CFG.WITHOUT_FACE==0)
+		list_of_downloads_remove(what);
 	if (where) where->del(what);
 	ALL_DOWNLOADS->del(what);
 	delete(what);
@@ -280,8 +283,10 @@ void tMain::del_all_from_list(tDList *list){
 	 * will be recalculated
 	 */
 	while (temp) {
-		absolute_delete_download(list,temp);
-		temp=list->first();
+		tDownload *next=(tDownload *)(temp->prev);
+		if (!temp->protect)
+			absolute_delete_download(list,temp);
+		temp=next;
 	};
 };
 
@@ -295,7 +300,8 @@ void tMain::del_all() {
 	};
 	temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->first();
 	while (temp) {
-		temp->action=ACTION_DELETE;
+		if (!temp->protect)
+			temp->action=ACTION_DELETE;
 		temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->prev();
 	};
 	del_all_from_list(DOWNLOAD_QUEUES[DL_PAUSE]);
@@ -417,6 +423,7 @@ void tMain::stop_download(tDownload *what) {
 
 int tMain::delete_download(tDownload *what,int flag=0) {
 	if (!what) return 0;
+	if (what->protect) return 0;
 	switch (what->owner) {
 		case DL_ALONE:{
 				puts("WARN!!! Found alone download");
@@ -877,7 +884,7 @@ void tMain::case_download_completed(tDownload *what){
 				add_dir(what);
 		};
 		real_stop_thread(what);
-		if (CFG.DELETE_COMPLETED ) {
+		if (CFG.DELETE_COMPLETED && what->protect==0) {
 			MainLog->myprintf(LOG_WARNING|LOG_DETAILED,_("%z was deleted from queue of downloads as completed download"),what);
 			absolute_delete_download(NULL,what);
 		} else {
@@ -891,7 +898,7 @@ void tMain::case_download_failed(tDownload *what){
 	prepare_for_stoping(what,DOWNLOAD_QUEUES[DL_RUN]);
 	MainLog->myprintf(LOG_ERROR,_("Downloading of file %z was terminated by fatal error"),what);
 	real_stop_thread(what);
-	if (CFG.DELETE_FATAL) {
+	if (CFG.DELETE_FATAL && what->protect==0) {
 		MainLog->myprintf(LOG_WARNING|LOG_DETAILED,_("%z was deleted from queue of downloads as failed download"),what);
 		absolute_delete_download(NULL,what);
 	} else {
@@ -1198,7 +1205,7 @@ void tMain::schedule_download(tDownload *what){
 	MainScheduler->add_scheduled(what);
 };
 
-int tMain::add_downloading(tDownload *what) {
+int tMain::add_downloading(tDownload *what,int to_top=0) {
 	if (ALL_DOWNLOADS->find(what) || !what->info->is_valid()) 
 		return 1;
 	if (what->ScheduleTime){
@@ -1214,13 +1221,21 @@ int tMain::add_downloading(tDownload *what) {
 		};
 	};
 	ALL_DOWNLOADS->insert(what);
-	if (CFG.WITHOUT_FACE==0)
-		list_of_downloads_add(what);
-	DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
+	if (CFG.WITHOUT_FACE==0){
+		if (to_top)
+			list_of_downloads_add(what,0);
+		else
+			list_of_downloads_add(what);
+	};
+	if (to_top)
+		DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,
+							DOWNLOAD_QUEUES[DL_WAIT]->first());
+	else
+		DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
 	return 0;
 };
 
-void tMain::add_downloading_to(tDownload *what) {
+void tMain::add_downloading_to(tDownload *what,int to_top=0) {
 	DBC_RETURN_IF_FAIL(what!=NULL);	
 	int owner=what->owner;
 	if (what->ScheduleTime){
@@ -1228,7 +1243,7 @@ void tMain::add_downloading_to(tDownload *what) {
 		return;
 	};
 	if (owner>DL_ALONE && owner<DL_TEMP){
-		if (add_downloading(what)){
+		if (add_downloading(what,to_top)){
 			delete (what);
 			return;
 		};

@@ -175,18 +175,24 @@ fsize_t tProxyDownload::get_size() {
 
 		LOG->log(LOG_OK,_("Sending request to proxy"));
 		fsize_t temp=HTTP->get_size(REQUESTED_URL,answer);
-		if (temp==0) {
+		switch (temp){
+		case 0:{
 			LOG->log(LOG_OK,_("Answer read ok"));
 			D_FILE.size=analize_answer();
 			if (ReGet && D_FILE.size>=0)
 				D_FILE.size+=LOADED;
 			return D_FILE.size;
 		};
-		if (temp==1) return -1;
-		if (HTTP->get_status()!=STATUS_TIMEOUT) break;
+		case 1: // redirection
+			return -1;
+		case -2: // bad answer
+			LOG->log(LOG_OK,_("Probably it's problem of proxy server, retrying"));
+			break;
+		case -1: // timout
+			break;
+		};
 		if (reconnect()) break;
 	};
-	print_error(ERROR_BAD_ANSWER);
 	return -2;
 };
 

@@ -253,6 +253,17 @@ void string_to_low(char *what,char delim) {
 	};
 };
 
+char *index_mult(char *str,const char *what){
+	DBC_RETVAL_IF_FAIL(str!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
+	while (*str){
+		char *a=index(what,*str);
+		if (a) return(str);
+		str++;
+	};
+	return(NULL);
+};
+
 /* convert_from_hex()
     params: char
     return: integer equal to value in hexademal notation

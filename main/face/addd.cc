@@ -44,13 +44,14 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 	if (what->editor->apply_changes()) return;
 	list_for_adding->del(what);
 	int tmp=what->editor->get_pause_check();
+	int to_top=what->editor->get_to_top_check();
 	what->delete_editor();
 	if (tmp){
 		what->owner=DL_PAUSE;
-		aa.add_downloading_to(what);
+		aa.add_downloading_to(what,to_top);
 		SOUND_SERVER->add_event(SND_ADD);
 	}else{
-		if (aa.add_downloading(what)){
+		if (aa.add_downloading(what,to_top)){
 			delete(what);
 		}else{
 			aa.add_download_message(what);
@@ -99,6 +100,7 @@ void init_add_window(...) {
 	what->config.proxy_type=CFG.FTP_PROXY_TYPE;
 
 	what->editor=new tDEdit;
+	what->editor->add_or_edit=1;
 	what->editor->init(what);
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Add new download"));
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);

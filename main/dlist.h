@@ -97,6 +97,7 @@ struct tDownload:public tAbstractSortNode{
 	int status,owner,action;
 	int NanoSpeed;
 	int BLOCKED;
+	int protect;
 	float Percent;
 	tTriger Size,Attempt,Status,Speed,Remain;
 	fsize_t StartSize;

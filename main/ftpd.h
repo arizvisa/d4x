@@ -16,19 +16,21 @@
 #include "download.h"
 
 class tFtpDownload:public tDownloader{
-    protected:
-    tFtpClient *FTP;
-    tStringList *DIR,*list;
-    char *TMP_FILEPATH;
-    int CWDFlag;
-    int DONT_CWD;
-    int change_dir();
-    int reconnect();
-    int download_dir();
-    int ftp_get_size(tStringList *l);
-    void print_error(int error_code);
-    fsize_t ls_answer_short();
-    public:
+protected:
+	tFtpClient *FTP;
+	tStringList *DIR,*list;
+	char *TMP_FILEPATH;
+	int CWDFlag;
+	int DONT_CWD;
+	int change_dir();
+	int reconnect();
+	int download_dir();
+	int ftp_get_size(tStringList *l);
+	void print_error(int error_code);
+	fsize_t ls_answer_short();
+	fsize_t ls_answer_long(tStringList *list);
+	int is_dir();
+public:
     	tFtpDownload();
     	int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL);
 	void init_download(char *path,char *file);

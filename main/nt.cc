@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "main.h"
 #include "config.h"
 #include "face/list.h"
@@ -23,12 +24,12 @@
 #include "locstr.h"
 #include "ntlocale.h"
 #include "ftpd.h"
-#include <signal.h>
 #include "segments.h"
+#include "srvclt.h"
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.27";
+char *VERSION_NAME="WebDownloader for X 1.28";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -63,6 +64,11 @@ static void init_string_variables(){
 		CFG.SOUND_QUEUE_FINISH=sum_strings(D4X_SHARE_PATH,"/sounds/finish.wav",NULL);
 	if (!CFG.SOUND_STARTUP)
 		CFG.SOUND_STARTUP=sum_strings(D4X_SHARE_PATH,"/sounds/startup.wav",NULL);
+};
+
+static void send_popup(){
+	tMsgClient *clt=new tMsgClient;
+	clt->send_command(PACKET_POPUP,NULL,0);
 };
 
 #ifdef DEBUG_ALL
@@ -100,6 +106,7 @@ int main(int argc,char **argv) {
 #ifdef ENABLE_NLS
 	bindtextdomain("nt", LOCALE);
 	textdomain("nt");
+	setlocale(LC_ALL,"");
 #endif
 
 #ifdef DEBUG_ALL
@@ -123,6 +130,8 @@ int main(int argc,char **argv) {
 	if (LOCK_FILE<0 || lockf(LOCK_FILE_D,F_TLOCK,0)) {
 		if (parse_command_line_already_run(argc,argv))
 			printf(_("%s probably is already running\n"),VERSION_NAME);
+		if (argc==1)
+			send_popup();
 		return 0;
 	};
 	if (aa.init()) return(1);

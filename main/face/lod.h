@@ -74,6 +74,7 @@ void list_of_downloads_change_data(int row,int column,gchar *data);
 void list_of_downloads_update(tDownload *what);
 void list_of_downloads_set_percent(int row,int col,float percent);
 void list_of_downloads_remove(tDownload *what);
+void list_of_downloads_set_color(tDownload *what,int row);
 
 void list_of_downloads_freeze();
 void list_of_downloads_unfreeze();
@@ -98,5 +99,6 @@ gint list_of_downloads_row(tDownload *what);
 tDownload *list_of_downloads_last_selected();
 
 void list_of_downloads_open_logs(...);
+void list_of_downloads_set_shift(float shift);
 
 #endif

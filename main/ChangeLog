@@ -1,3 +1,56 @@
+Tue Jul 31 20:00:49 2001
+	*manyfiles: interface cleanups from Anton Voloshin and
+	from Leandro A. F. Pereira;
+
+Thu Jul 19 13:37:25 2001
+	*face/log.cc: code cleanups;
+	*ftpd.cc: imroved FTP workarounds for buggy servers;
+	*autoadd.cc: extended "autoadd" abilities;
+
+Wed Jul 18 15:36:54 2001
+	*main.cc,face/lod.cc[h],face/list.cc,config.cc[h],var.cc[h]: storing
+	current visible part of list of downloads;
+	*ftpd.cc: fixed getting size, code cleanups;
+	*nt.cc: fixed setting locale;
+	*autoadd.cc: extended "autoadd" ability;
+
+Mon Jul 16 16:06:19 2001
+	*sm.cc[h],sndserv.cc[h]: added copyrights;
+	*autoadd.cc[h],face/list.cc: added ability to add many downloads using
+	only one expression;
+
+Sun Jul 15 02:25:09 2001
+	*face/list.cc[h]: code cleanups;
+	*face/dndtrash.cc: fixed problems with positioning DnD basket; 
+	*main.cc: fixed deleting downloads when work without interface;
+
+Tue Jul 10 00:43:23 2001
+	*nt.cc: popup main window if D4X is already run;
+	*ftpd.cc: retries number begin from 1 for downloads which use
+	already opened socket;
+
+Mon Jul  9 00:36:26 2001
+	*main.cc[h],face/edit.cc[h],face/add.cc: added ability to add download
+	to the top of queue of downlods;
+
+Sun Jul  8 00:24:15 2001
+	*db.cc[h]: fixed redirection to the same host but with different port;
+	*main.cc,dlist.cc[h],face/lod.cc[h],face/lmenu.cc: added ability to
+	protect downloads from be deleted from a queue;
+
+Mon Jul  2 00:29:15 2001
+	*po/uk.po: Ukrainian translation from Olexander Kuntytsa;
+
+Sat Jun 30 14:15:07 2001
+	*face/edit.cc: port of proxy server is stored in history now;
+	*config.cc: fixed storing default limitation of number of connection
+	to the host;
+
+Thu Jun 28 10:32:04 2001
+	*face/lod.cc: code cleanups;
+	*hproxy.cc,http.cc,httpd.cc: bad error codes from HTTP-proxy are non
+	fatal now;
+
 Sat Jun 23 14:09:52 2001
 	*face/about.cc: added one more translator;
 	*nt.cc: release 1.27;

@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "../var.h"
 #include "../dlist.h"
+#include "misc.h"
 
 #ifdef FLT_ROUNDS
 #undef FLT_ROUNDS
@@ -366,11 +367,8 @@ static void my_cell_size_request (GtkCList       *clist,
 		break;
 	case GTK_CELL_PROGRESS:
 		char tmptext[100];
-		if (GTK_CELL_PROGRESS(clist_row->cell[column])->value<100 &&
-		    GTK_CELL_PROGRESS(clist_row->cell[column])->value>99)
-			g_snprintf(tmptext,100,"%2.1f",GTK_CELL_PROGRESS(clist_row->cell[column])->value);
-		else
-			g_snprintf(tmptext,100,"%2.0f",GTK_CELL_PROGRESS(clist_row->cell[column])->value);
+		d4x_percent_str(GTK_CELL_PROGRESS(clist_row->cell[column])->value,
+			       tmptext,sizeof(tmptext));
 		requisition->width = gdk_string_width (style->font,
 						       tmptext);
 		requisition->height = style->font->ascent + style->font->descent;
@@ -552,13 +550,8 @@ static void my_draw_row (GtkCList     *clist,
 		gint offset = 0;
 		gint row_center_offset;
 		char tmptext[100];
-		if (clist_row->cell[i].type==(GtkCellType)GTK_CELL_PROGRESS){
-			if (GTK_CELL_PROGRESS(clist_row->cell[i])->value<100 &&
-			    GTK_CELL_PROGRESS(clist_row->cell[i])->value>99)
-				g_snprintf(tmptext,100,"%2.1f",GTK_CELL_PROGRESS(clist_row->cell[i])->value);
-			else
-				g_snprintf(tmptext,100,"%2.0f",GTK_CELL_PROGRESS(clist_row->cell[i])->value);
-		};
+		if (clist_row->cell[i].type==(GtkCellType)GTK_CELL_PROGRESS)
+			d4x_percent_str(GTK_CELL_PROGRESS(clist_row->cell[i])->value, tmptext, sizeof(tmptext));
 
 		if (!clist->column[i].visible)
 			continue;

@@ -99,13 +99,13 @@ int tHttpClient::read_answer(tStringList *list) {
 			if (begin_string(last->body,"401") ||
 			    begin_string(last->body,"403"))
 				LOG->log(LOG_WARNING,_("It seems to me that you need a password :)"));
-			rvalue = -1;
+			rvalue = -2;
 			break;
 		};
 		default:{
 			Status=STATUS_BAD_ANSWER;
 			LOG->log(LOG_ERROR,_("Server return bad answer:(("));
-			rvalue = -1;
+			rvalue = -2;
 		};
 		};
 		list->del(last);

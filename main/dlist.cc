@@ -251,6 +251,7 @@ tSplitInfo::~tSplitInfo(){
 
 /**********************************************/
 tDownload::tDownload() {
+	protect=0;
 	next=prev=NULL;
 	split=NULL;
 	who=NULL;
@@ -834,6 +835,8 @@ void tDownload::save_to_config(int fd){
 		if (Size.curent>0)
 			write_named_time(fd,"loaded:",Size.curent);
 	};
+	if (protect)
+		write_named_integer(fd,"protect:",protect);
 	f_wstr_lf(fd,"EndDownload:");
 };
 
@@ -850,6 +853,7 @@ int tDownload::load_from_config(int fd){
 		{"Filter:",	SV_TYPE_PSTR,	&(Filter)},
 		{"size:",	SV_TYPE_TIME,	&(finfo.size)},
 		{"loaded:",	SV_TYPE_TIME,	&(Size.curent)},
+		{"protect:",	SV_TYPE_INT,	&(protect)},
 		{"EndDownload:",SV_TYPE_END,	NULL}
 	};
 	char buf[MAX_LEN];

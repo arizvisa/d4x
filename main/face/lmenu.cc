@@ -73,6 +73,20 @@ GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bi
 	return menu_item;
 };
 
+/* FIXME: rewrite next routine */
+
+void lm_inv_protect_flag(){
+	GList *select=((GtkCList *)ListOfDownloads)->selection;
+	while (select) {
+		int row=GPOINTER_TO_INT(select->data);
+		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
+			GTK_CLIST(ListOfDownloads),row);
+		temp->protect=!temp->protect;
+		list_of_downloads_set_color(temp,row);
+		select=select->next;
+	};
+};
+
 void init_list_menu() {
 #include "pixmaps/stopmini.xpm"
 #include "pixmaps/logmini.xpm"
@@ -89,6 +103,7 @@ void init_list_menu() {
 	char *names[]={"View log",
 		       "Stop",
 		       "Continue downloads",
+		       "Copy",
 		       "Properties",
 		       "Common properties",
 		       "Delete downloads",
@@ -126,12 +141,17 @@ void init_list_menu() {
 	ListMenuArray[LM_CONTINUE]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(continue_downloads),NULL);
 
-	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
+//	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
 	menu_item=make_menu_item(_("Copy"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_COPY]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(copy_download_to_clipboard),NULL);
 
+	menu_item=make_menu_item(_("(Un)Protect"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
+	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	ListMenuArray[LM_PROTECT]=menu_item;
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lm_inv_protect_flag),NULL);
+	
 	menu_item=gtk_menu_item_new();
 	gtk_widget_set_sensitive(menu_item,FALSE);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
