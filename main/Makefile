@@ -9,7 +9,7 @@ CXXFLAGS=-Wall -O2 $(SOLARIS_TYPECASTED_X11_HEADERS)
 endif
 
 CXXFLAGS+=-D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS $(SOLARIS_TYPECASTED_X11_HEADERS)
-# -DDEBUG_ALL
+#-DDEBUG_ALL
 # -ggdb
 
 export CXXFLAGS LOCALEDIR
@@ -59,14 +59,14 @@ MODULES1=base64.o addr.o queue.o liststr.o dlist.o mdlist.o locstr.o \
 	log.o  sort.o meter.o socket.o history.o  speed.o srvclt.o html.o \
 	client.o ftp.o http.o download.o ftpd.o httpd.o hproxy.o signal.o \
 	main.o config.o savelog.o mainlog.o var.o sortstr.o db.o cookie.o \
-	pass.o eff.o segments.o memwl.o fsearch.o msgqueue.o
+	pass.o eff.o segments.o memwl.o fsearch.o msgqueue.o ping.o
 MODULES = $(FACE) $(MODULES1)
 
 all:
 	-rm -f nt
 	$(MAKE) nt
 	[ -z "$(NLS)" ] || $(MAKE) -C po
-#	$(MAKE) strip
+	$(MAKE) strip
 
 $(FACE):
 	$(MAKE) -C face

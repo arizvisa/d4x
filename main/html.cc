@@ -385,7 +385,8 @@ void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tStringList *list){
 	tHtmlTagField *field=(tHtmlTagField *)(where->prev);
 	while (field){
 		char *tmp=NULL;
-		if (field->name && field->value && equal_uncase(field->name,HTML_FIELDS_NAMES[HF_CONTENT]))
+		if (field->name && field->value &&
+		    equal_uncase(field->name,HTML_FIELDS_NAMES[HF_CONTENT]))
 			tmp=extract_from_icommas(field->value);
 		if (tmp){
 			char *url=strstr(tmp,"url=");

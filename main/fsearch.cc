@@ -21,9 +21,9 @@ tFtpSearchCtrl::tFtpSearchCtrl(){
 		queues[i]=new tDList(i);
 		queues[i]->init(0);
 	};
-	clist=NULL;
-	parent=NULL;
-	log=NULL;
+	clist=(GtkCList*)NULL;
+	parent=(tMain*)NULL;
+	log=(tMLog*)NULL;
 };
 
 void tFtpSearchCtrl::init(GtkCList *list, tMain *papa,tMLog *mylog){
@@ -36,11 +36,20 @@ void tFtpSearchCtrl::init(GtkCList *list, tMain *papa,tMLog *mylog){
 void tFtpSearchCtrl::add(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	what->info->proto=D_PROTO_SEARCH;
+	what->action=ACTION_NONE; //reping only flag
+	what->Status.curent=0; //cumulative reping flag
 	queues[DL_FS_WAIT]->insert(what);
 	if (clist){
 		fs_list_add(clist,what);
 		fs_list_show();
 	};
+};
+
+void tFtpSearchCtrl::reping(tDownload *what){
+	what->action=ACTION_REPING;
+	queues[what->owner]->del(what);
+	queues[DL_FS_WAIT]->insert(what);
+	fs_list_set_icon(clist,what,PIX_WAIT);
 };
 
 void tFtpSearchCtrl::remove(tDownload *what){

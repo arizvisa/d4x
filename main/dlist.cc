@@ -30,6 +30,7 @@
 #include <unistd.h>
 #include <strings.h>
 #include "signal.h"
+#include "ping.h"
 
 extern tMain aa;
 
@@ -281,7 +282,7 @@ void tDownload::remove_tmp_files(){
 			};
 		};
 		if (info->params.get()){
-			char *tmp=sum_strings(name,"?",info->params.get());
+			char *tmp=sum_strings(name,"?",info->params.get(),NULL);
 			delete(name);
 			name=tmp;
 		};
@@ -320,14 +321,43 @@ void tDownload::make_file_names(char **name, char **guess){
 		who->make_full_pathes(config.save_path.get(),name,guess);
 };
 
-long int tDownload::create_file() {
+fsize_t tDownload::init_segmentator(int fdesc,fsize_t cursize,char *name){
+	fsize_t rvalue=cursize;
+	im_first=0;
+	if (segments==NULL){
+		segments=new tSegmentator;
+		char *segname=sum_strings(name,".segments",NULL);
+		segments->init(segname);
+		delete(segname);
+		im_first=1;
+		tSegment *first_seg=segments->get_first();
+		if (first_seg && (unsigned long int)rvalue<first_seg->end){
+			WL->log(LOG_WARNING,"Segmentation info is wrong!");
+			rvalue=0;
+			ftruncate(fdesc,0);
+			segments->truncate(0);
+		}else{
+			if ((first_seg==NULL || first_seg->next==NULL) &&
+			    rvalue>0){
+				segments->insert(0,(unsigned long int)rvalue);
+			};
+		};
+		first_seg=segments->get_first();
+		rvalue=first_seg?first_seg->end:0;
+		StartSize=segments->get_total();
+	};
+	((tDefaultWL*)(WL))->set_segments(segments);
+	return rvalue;
+};
+
+fsize_t tDownload::create_file() {
 	if (!who) return -1;
 	tFileInfo *D_FILE=who->get_file_info();
 	if (D_FILE->type==T_LINK && config.link_as_file)
 		D_FILE->type=T_FILE;
 	int fdesc=-1;
-	int rvalue=0;
-	char *name,*guess,*segname;
+	fsize_t rvalue=0;
+	char *name,*guess;
 	make_file_names(&name,&guess);
 
 	make_dir_hier_without_last(name);
@@ -388,32 +418,8 @@ long int tDownload::create_file() {
 		};
 		config.restart_from_begin=0;
 		WL->log(LOG_OK,_("File was created!"));
-		rvalue=lseek(fdesc,0,SEEK_END);
-		im_first=0;
-		if (segments==NULL){
-			segments=new tSegmentator;
-			segname=sum_strings(name,".segments",NULL);
-			segments->init(segname);
-			delete(segname);
-			im_first=1;
-			tSegment *first_seg=segments->get_first();
-			if (first_seg && (unsigned long int)rvalue<first_seg->end){
-				WL->log(LOG_WARNING,"Segmentation info is wrong!");
-				rvalue=0;
-				ftruncate(fdesc,0);
-				segments->truncate(0);
-			}else{
-				if (first_seg)
-					rvalue=first_seg->end;
-				else{
-					if (rvalue>0)
-						segments->insert(0,(unsigned long int)rvalue);
-				};
-			};
-			StartSize=segments->get_total();
-		};
+		rvalue=init_segmentator(fdesc,lseek(fdesc,0,SEEK_END),name);
 		((tDefaultWL*)(WL))->set_fd(fdesc);
-		((tDefaultWL*)(WL))->set_segments(segments);
 		break;
 	};
 	case T_DIR:{ //this is a directory
@@ -978,41 +984,39 @@ void tDownload::remove_links(){
 	};
 };
 
-struct tDTmpServ{
-	sockaddr_in info;
-	hostent hp;
-	tDownload *dwn;
-	int status;
-};
-
 static void _tmp_sort_free_(void *buf){
-	delete(buf);
+	d4xPing *tmp=(d4xPing *)buf;
+	delete(tmp);
 };
 
 void tDownload::sort_links(){
-	if (DIR->count()<=0) return;
-	char *buf=new char[MAX_LEN];
-	int i=0;
-	int psize=DIR->count();
-	pthread_cleanup_push(_tmp_sort_free_,buf);
-	tDTmpServ *sinf=new tDTmpServ[psize];
-	pthread_cleanup_push(_tmp_sort_free_,sinf);
-	tDownload *tmp=DIR->last();
-	while (tmp){
-		int r;
-		sinf[i].status=my_get_host_by_name(tmp->info->host.get(),
-						   tmp->info->port,
-						   &(sinf[i].info),
-						   &(sinf[i].hp),
-						   buf,MAX_LEN,&r);
-		if (sinf[i].status<0) psize-=1;
-		sinf[i].dwn=tmp;
-		tmp->status=0;
-		i+=1;
-		tmp=DIR->next();
+	WL->log(LOG_OK,_("Sorting started"));
+	if (!Status.curent){ //clear previous percentage for non comulative ping
+		tDownload *a=DIR->last();
+		while(a){
+			a->Percent=0;
+			a->Attempt.curent=0;
+			a=DIR->next();
+		};
 	};
+	d4xPing *tmp=new d4xPing;
+	pthread_cleanup_push(_tmp_sort_free_,tmp);
+	tmp->run(DIR,WL);
 	pthread_cleanup_pop(1);
-	pthread_cleanup_pop(1);
+	download_set_block(1);
+	tDownload *a=DIR->first();
+	WL->log(LOG_OK,"Sorting");
+	while (a && a->prev){
+		tDownload *prev=(tDownload *)(a->prev);
+		if (a->Percent/a->Attempt.curent>prev->Percent/prev->Attempt.curent){
+			DIR->del(a);
+			DIR->insert(a);
+			a=DIR->first();
+		}else{
+			a=prev;
+		};
+	};
+	download_set_block(0);
 };
 
 static void _tmp_info_remove_(void *addr){
@@ -1021,46 +1025,47 @@ static void _tmp_info_remove_(void *addr){
 };
 
 void tDownload::ftp_search() {
-	if (!who) who=new tHttpDownload;
 	/* FIXME: prepare new url for ftp search */
-	tAddr *tmpinfo=new tAddr;
-	pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
-	tmpinfo->proto=D_PROTO_HTTP;
-	tmpinfo->port=get_port_by_proto(tmpinfo->proto);
-	tmpinfo->host.set("ftpsearch.lycos.com");
-	tmpinfo->path.set("cgi-bin");
-	tmpinfo->file.set("search");
-	char data[MAX_LEN];
-	sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=15&limsize1=%li&limsize2=%li",
-		info->file.get(),finfo.size,finfo.size);
-	tmpinfo->params.set(data);
-	if (who->init(tmpinfo,WL,&(config))) {
-		download_failed();
-		return;
+	if (action!=ACTION_REPING){
+		tAddr *tmpinfo=new tAddr;
+		pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
+		tmpinfo->proto=D_PROTO_HTTP;
+		tmpinfo->port=get_port_by_proto(tmpinfo->proto);
+		tmpinfo->host.set("ftpsearch.lycos.com");
+		tmpinfo->path.set("cgi-bin");
+		tmpinfo->file.set("search");
+		char data[MAX_LEN];
+		sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=15&limsize1=%li&limsize2=%li",
+			info->file.get(),finfo.size,finfo.size);
+		tmpinfo->params.set(data);
+		if (who->init(tmpinfo,WL,&(config))) {
+			download_failed();
+			return;
+		};
+		who->init_download(tmpinfo->path.get(),tmpinfo->file.get());
+		who->set_loaded(0);
+		int size=who->get_size();
+		if (size<=-1) {
+			WL->log(LOG_WARNING,_("Searching failed"));
+			download_failed();
+			return;
+		};
+		finfo.type=T_FILE;
+		Start=Pause=time(NULL);
+		Difference=0;
+		status=DOWNLOAD_GO;
+		if (who->download(0)) {
+			download_failed();
+			return;
+		};
+		pthread_cleanup_pop(1);
+		config.http_recurse_depth=2;
+		config.leave_server=1;
+		recurse_http();
+		who->done();
+		remove_links();
 	};
-	who->init_download(tmpinfo->path.get(),tmpinfo->file.get());
-	who->set_loaded(0);
-	int size=who->get_size();
-	if (size<=-1) {
-		WL->log(LOG_WARNING,_("Error in ftp search"));
-		download_failed();
-		return;
-	};
-	finfo.type=T_FILE;
-	Start=Pause=time(NULL);
-	Difference=0;
-	status=DOWNLOAD_GO;
-	if (who->download(0)) {
-		download_failed();
-		return;
-	};
-	pthread_cleanup_pop(1);
-	config.http_recurse_depth=2;
-	config.leave_server=1;
-	recurse_http();
-	who->done();
-	remove_links();
-//	sort_links();
+	sort_links();
 	WL->log(LOG_OK,_("Search had been completed!"));
 	status=DOWNLOAD_COMPLETE;
 };

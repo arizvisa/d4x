@@ -41,6 +41,14 @@ GList *tColumnsPrefs::find_by_data(GList *where, char *what){
 	return list;
 };
 
+tColumnsPrefs::tColumnsPrefs(){
+	tmp_apply_flag=0;
+};
+
+void tColumnsPrefs::reset(){
+	tmp_apply_flag=0;
+};
+
 void tColumnsPrefs::init(){
 	int vsize=(NOTHING_COL+1)/2;
 	box=gtk_table_new(vsize,2,FALSE);
@@ -48,10 +56,14 @@ void tColumnsPrefs::init(){
 		columns[i]=gtk_check_button_new_with_label(_(columns_names[i]));
 		int temp=i<vsize?i:i-vsize;
 		gtk_table_attach_defaults(GTK_TABLE(box),columns[i],i/vsize,i/vsize+1,temp,temp+1);
-		if (ListColumns[i].enum_index<ListColumns[NOTHING_COL].enum_index)
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),TRUE);
-		else
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),FALSE);
+		if (tmp_apply_flag){
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),tmp_apply[i]);
+		}else{
+			if (ListColumns[i].enum_index<ListColumns[NOTHING_COL].enum_index)
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),TRUE);
+			else
+				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),FALSE);
+		};
 	};
 	frame=gtk_frame_new(_("Showed columns"));
 	gtk_container_add(GTK_CONTAINER(frame),box);
@@ -87,12 +99,20 @@ void tColumnsPrefs::add_to_list(tDList *list){
 		};
 };
 
+void tColumnsPrefs::apply_changes_tmp(){
+	tmp_apply_flag=1;
+	for (int i=0;i<NOTHING_COL;i++){
+		tmp_apply[i]=GTK_TOGGLE_BUTTON(columns[i])->active;
+	};
+};
+
 void tColumnsPrefs::apply_changes(){
+	if (tmp_apply_flag==0) return;
 	tColumn temp[NOTHING_COL+1];
 	temp[NOTHING_COL].type=temp[NOTHING_COL].enum_index=NOTHING_COL;
 	int a=0;
 	for (int i=0;i<NOTHING_COL;i++){
-		if (!(GTK_TOGGLE_BUTTON(columns[i])->active)){
+		if (!tmp_apply[i]){
 //move "down" NOTHING_COL
 			temp[temp[NOTHING_COL].enum_index-1].type=NOTHING_COL;
 			temp[NOTHING_COL].enum_index-=1;
@@ -134,6 +154,7 @@ void tColumnsPrefs::apply_changes(){
 			add_to_list(DOWNLOAD_QUEUES[i]);
 		list_of_downloads_set_height();
 	};
+	tmp_apply_flag=0;
 };
 
 GtkWidget *tColumnsPrefs::body(){

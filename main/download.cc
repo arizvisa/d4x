@@ -46,6 +46,8 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	link_as_file = src->link_as_file;
 	leave_server = src->leave_server;
 	sleep_before_complete = src->sleep_before_complete;
+	
+	check_time = src->check_time;
 };
 
 /* ---------------------------------------- */
@@ -130,6 +132,7 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"link_as_file:",link_as_file);
 	write_named_integer(fd,"leave_server:",leave_server);
 	write_named_integer(fd,"dont_leave_dir:",dont_leave_dir);
+	write_named_integer(fd,"check_time:",check_time);
 	if (restart_from_begin)
 		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
 	if (save_name.get() && *(save_name.get()))
@@ -174,6 +177,7 @@ int tCfg::load_from_config(int fd){
 		{"proxy_no_cache:",SV_TYPE_INT,	&proxy_no_cache},
 		{"EndCfg:",	SV_TYPE_END,	NULL},
 		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin},
+		{"check_time:",SV_TYPE_INT,&check_time},
 		{"log_save_path:",SV_TYPE_PSTR,	&log_save_path}
 	};
 	char buf[MAX_LEN];
@@ -280,7 +284,7 @@ void tDownloader::set_local_filetime(time_t lt){
 };
 
 int tDownloader::remote_file_changed(){
-	if (local_filetime && local_filetime<D_FILE.date)
+	if (config.check_time && local_filetime && local_filetime<D_FILE.date)
 		return 1;
 	return 0;
 };

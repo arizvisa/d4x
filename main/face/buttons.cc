@@ -188,7 +188,7 @@ void init_buttons_bar() {
 	                                   GTK_SIGNAL_FUNC (list_of_downloads_open_logs), NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	buttons_array[BUTTON_OPTIONS]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Options "), "", new_pixmap (prefs_xpm),
-	                                       GTK_SIGNAL_FUNC (init_options_window), NULL);
+	                                       GTK_SIGNAL_FUNC (d4x_prefs_init), NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	buttons_array[BUTTON_SPEED1]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
 	             GTK_TOOLBAR_CHILD_RADIOBUTTON,

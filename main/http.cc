@@ -23,7 +23,7 @@ tHttpClient::tHttpClient():tClient(){
 
 void tHttpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
-	BuffSize=MAX_LEN;
+	BuffSize=BLOCK_READ;
 	buffer=new char[BuffSize];
 };
 

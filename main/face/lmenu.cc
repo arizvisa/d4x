@@ -186,12 +186,18 @@ void init_list_menu() {
 };
 
 void list_menu_prepare() {
-	if (list_of_downloads_sel()) {
+	tDownload *dwn=list_of_downloads_last_selected();
+	if (dwn==NULL) {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],FALSE);
 		
+		gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],FALSE);
 	} else {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],TRUE);
+		if (dwn->finfo.size>0 && dwn->info->file.get())
+			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],TRUE);
+		else
+			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],FALSE);
 	};
 };

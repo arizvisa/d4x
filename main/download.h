@@ -45,6 +45,7 @@ struct tSimplyCfg{
 	int link_as_file;
 	int restart_from_begin;
 	int dont_send_quit;
+	int check_time;
 	int split; //temporary flag
 	void copy_ints(tSimplyCfg *src);
 };

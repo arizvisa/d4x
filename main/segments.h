@@ -27,6 +27,7 @@ struct tSegment{
 
 class tSegmentator{
 	tSegment *FIRST,*LAST;
+	tSegment *HEAP;
 	pthread_mutex_t lockmutex;
 	int fd;
 	char *filename;
@@ -38,6 +39,8 @@ class tSegmentator{
 	int join(tSegment *what);
 	void remove(tSegment *what);
 	void save_from(tSegment *what);
+	tSegment *seg_alloc();
+	void seg_free(tSegment *seg);
  public:
 	tSegmentator();
 	tSegmentator(char *path);

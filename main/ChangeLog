@@ -1,3 +1,44 @@
+Tue Feb 13 09:39:09 2001
+	*segments.cc: fixed segmentation of file if last part is already
+	downloaded;
+
+Mon Feb 12 09:39:09 2001
+	*ping.cc,face/fsface.cc,dlist.cc: ftp search was improved;
+
+Tue Feb  6 19:45:20 2001
+	*face/fsface.cc,ping.cc: more preicise pinging;
+
+Mon Feb  5 12:55:28 2001
+	*face/edit.cc,face/prefs.cc,download.cc[h],config.cc: added option
+	for enabling/disabling checking time of remote file;
+
+Sun Feb  4 21:53:01 2001
+	*dlist.cc,segments.cc: imrovements with segmentation;
+
+Sat Feb  3 11:35:56 2001
+	*ping.cc[h],dlist.cc,face/fsface.cc: implement sorting by access
+	speed for ftpsearch (yesterday's test version merged);
+	*main.cc: using proxy in ftp search if it was set;
+
+Thu Feb  1 10:51:09 2001
+	*var.cc,segment.cc[h]: greatly improving perfomance of downloading;
+	*face/edit.cc: code cleanups;
+	*face/prefs.cc,var.cc[h],config.cc: added "pause after adding" option
+	into main preferences;
+	*face/lmenu.cc: disabling FTP-search menu item if it is unnaccessible;
+	*dlist.cc: fixed segfault in tDList::remove_tmp_files();
+
+Wed Jan 31 13:51:40 2001
+	*dlist.cc[h]: code cleanups;
+
+Tue Jan 30 13:51:40 2001
+	*face/prefs.cc[h]: preferences dialog has been fully rewriten;
+	*config.cc: more default downloading options in config;
+	*face/edit.cc[h]: added "Auto" button for path to save log;
+
+Mon Jan 29 13:51:40 2001
+	*po/: Slovak and Polish translations is uptodate
+
 Fri Jan 26 13:59:06 2001
 	*many files,po/*.po: spell fixes;
 	*config.cc: improved --ls option;

@@ -81,6 +81,7 @@ class tMain{
 	void prepare_for_stoping(tDownload *what,tDList *list);
 	int run_new_thread(tDownload *what);
 	void ftp_search_remove(tDownload *what);
+	void ftp_search_reping(tDownload *what);
 };
 
 void *download_last(void *);

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "POT-Creation-Date: Te Dec 7 1999 20:59:48+0200\n"
-"PO-Revision-Date: Su Nov 12 2000 21:41:36+0200\n"
+"PO-Revision-Date: Sa Jan 27 2001 21:41:36+0200\n"
 "Last-Translator: Lubo¹ Holièka  <kamasko@ba.telecom.sk>\n"
 "Language-Team: LANGUAGE <ll@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,8 +51,7 @@ msgstr "Nemô¾em sa pripoji»"
 
 #: config.cc:317
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
-msgstr "Upozornenie! Nemô¾em nájs» premennú HOME! Preto nemô¾em preèíta» "
-"konfiguraèný súbor."
+msgstr "Upozornenie! Nemô¾em nájs» premennú HOME! Preto nemô¾em preèíta» konfiguraèný súbor."
 
 #: config.cc:334
 #, c-format
@@ -65,8 +64,7 @@ msgstr "Pou¾ijem prednastavenú konfiguráciu :))...\n"
 
 #: config.cc:367
 msgid "WARNING!!! Can't find HOME variable! So can't write config!"
-msgstr "Upozornenie! Nemô¾em nájs» premennú HOME! Preto nemô¾em zapísa» "
-"konfiguraèný súbor."
+msgstr "Upozornenie! Nemô¾em nájs» premennú HOME! Preto nemô¾em zapísa» konfiguraèný súbor."
 
 
 #: config.cc:562
@@ -84,7 +82,7 @@ msgstr "Nemô¾em zapísa» limity do súboru!!!\n"
 #: dlist.cc:307
 msgid ""
 "***WARN***!!!Attempt to delete download from list which does'nt contain it!"
-msgstr "***VAROVANIE*** Pokus zmaza» ulohu zo zoznamu v ktorom nie je uvedená!"
+msgstr "***VAROVANIE*** Pokus zmaza» úlohu zo zoznamu v ktorom nie je uvedená!"
 
 #: download.cc:96
 msgid "Trying to create a file"
@@ -177,7 +175,7 @@ msgstr "Reget nie je podporovaný!!!"
 
 #: ftpd.cc:183
 msgid "Server refused login, perhaps there are too many users of your class"
-msgstr "Server odmietol pripojenie."
+msgstr "Server odmietol pripojenie, asi je tam veµa u¾ívateµov..."
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
@@ -257,7 +255,7 @@ msgstr "Posielam ¾iados» na proxy"
 
 #: hproxy.cc:141 httpd.cc:220
 msgid "Answer read ok"
-msgstr "Odpoved preèitaná v poriadku..."
+msgstr "Odpoveï preèítaná v poriadku..."
 
 #: hproxy.cc:151 httpd.cc:230
 msgid "Couldn't get normal answer!"
@@ -273,11 +271,11 @@ msgstr "To nie je HTTP server!"
 
 #: http.cc:63
 msgid "All ok, reading file"
-msgstr "V¹etko v poriadku, naèítam soubor..."
+msgstr "V¹etko v poriadku, naèítam súbor..."
 
 #: http.cc:67
 msgid "Redirect detected..."
-msgstr "Detekované presmerovanie..."
+msgstr "Zistené presmerovanie..."
 
 #: http.cc:73
 msgid "It seems to me that you need a password :)"
@@ -311,7 +309,7 @@ msgstr "Vyzerá to ¾e REGET nie je podporovány! Naèítavam od zaèiatku."
 
 #: main.cc:145
 msgid "Normally started"
-msgstr "©tandartný ¹tart."
+msgstr "Normálny ¹tart"
 
 #: main.cc:202
 msgid "Clear queue of downloads"
@@ -325,7 +323,7 @@ msgstr "S»ahovanie súboru %s zo %s bolo preru¹ené [u¾ívateµom]"
 #: main.cc:383
 #, c-format
 msgid "Delete file %s from queue of downloads"
-msgstr "Zmazaný súbor %s zo s»ahovacej rady"
+msgstr "Zmazaný súbor %s zo s»ahovacej fronty"
 
 #: main.cc:430
 #, c-format
@@ -420,8 +418,7 @@ msgstr "%s u¾ je pravdepodobne spustený...\n"
 #: savelog.cc:61
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
-msgstr "Nemô¾em ulo¾i» predvolený zoznam pre s»ahovanie, preto¾e nemô¾em nájs»"
-" premennú HOME!!!"
+msgstr "Nemô¾em ulo¾i» predvolený zoznam pre s»ahovanie, preto¾e nemô¾em nájs» premennú HOME!!!"
 
 #: savelog.cc:72
 msgid "Can't save default list of downloads!!!"
@@ -462,15 +459,15 @@ msgstr "Zmaza» v¹etko?"
 
 #: face/buttons.cc:117
 msgid " Add new download "
-msgstr " Pridat nové s»ahovanie "
+msgstr " Prida» nové s»ahovanie "
 
 #: face/buttons.cc:119
 msgid " Paste from clipboard "
-msgstr " Vlo¾it s»ahovanie zo schránky "
+msgstr " Vlo¾i» s»ahovanie zo schránky "
 
 #: face/buttons.cc:121
 msgid " Del downloads "
-msgstr " Zmaza» s»ahovanie "
+msgstr " Zmaza» s»ahovania "
 
 #: face/buttons.cc:124
 msgid " Continue/restart downloads "
@@ -478,11 +475,11 @@ msgstr " Pokraèova»/re¹tarova» s»ahovanie "
 
 #: face/buttons.cc:126
 msgid " Stop downloads "
-msgstr " Zastavi» s»ahovanie "
+msgstr " Zastavi» s»ahovania "
 
 #: face/buttons.cc:128
 msgid " Del Completed downloads "
-msgstr " Smaza» ukonèené s»ahovanie "
+msgstr " Smaza» ukonèené s»ahovania "
 
 #: face/buttons.cc:130
 msgid " Move up "
@@ -643,11 +640,11 @@ msgstr "Pou¾i toto proxy pre HTTP"
 
 #: face/limface.cc:55
 msgid "Limitation for the host"
-msgstr "Obmedzenie pre hostiteµa"
+msgstr "Obmedzenie pre host"
 
 #: face/limface.cc:61
 msgid "Host:"
-msgstr "Hostiteµ:"
+msgstr "Host:"
 
 #: face/limface.cc:62
 msgid "Port:"
@@ -659,11 +656,11 @@ msgstr "Maximálny poèet spojení:"
 
 #: face/limface.cc:278
 msgid "Limitations for the hosts"
-msgstr "Obmedzenie pre hostiteµa"
+msgstr "Obmedzenie pre host"
 
 #: face/limface.cc:282
 msgid "Host"
-msgstr "Hostiteµ:"
+msgstr "Host"
 
 #: face/limface.cc:282
 msgid "N"
@@ -778,15 +775,15 @@ msgstr "/S»ahovanie/Zmazanie neúspe¹ného s»ahovania"
 
 #: face/list.cc:143
 msgid "/_Options"
-msgstr "/_Mo¾nosti"
+msgstr "/_Voµby"
 
 #: face/list.cc:144
 msgid "/Options/Limitations"
-msgstr "/Mo¾nosti/_Obmedzenia"
+msgstr "/Voµby/_Obmedzenia"
 
 #: face/list.cc:145
 msgid "/Options/Common"
-msgstr "/Mo¾nosti/_Nastavenie"
+msgstr "/Voµby/_Nastavenie"
 
 #: face/list.cc:146
 msgid "/_Help"
@@ -892,7 +889,7 @@ msgstr "Vyberte súbor"
 
 #: face/prefs.cc:165 face/prefs.cc:182
 msgid "Options"
-msgstr "Nastavenie"
+msgstr "Voµby"
 
 #: face/prefs.cc:183
 msgid "Using title"
@@ -1044,7 +1041,7 @@ msgstr "Håbka rekurzie (0 neobmedzene, 1 bez rekurzie)"
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
-msgstr "Názov súboru ktorý chcete ulo¾i» ak je názov neznámy:"
+msgstr "Názov súboru ktorý chcete ulo¾i», ak je názov neznámy:"
 
 #: face/about.cc:44
 msgid "Translators team"
@@ -1108,11 +1105,11 @@ msgstr "poèet pokusov"
 
 #: face/columns.cc:22
 msgid "Showed columns"
-msgstr "zobrazované stlpce"
+msgstr "zobrazované ståpce"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr "návrat spä» po obnove spojenia (v bajtoch)"
+msgstr "Návrat spä» po obnove spojenia (v bajtoch)"
 
 #: download.cc:
 msgid "Can't do rollback!"
@@ -1136,7 +1133,7 @@ msgstr " Zobraz/skry Tahaj-a-pus» ko¹ "
 
 #: main.cc:
 msgid "Downloader exited normaly"
-msgstr "Downloader ¹tandardne ukonèený"
+msgstr "Downloader bol normálne ukonèený"
 
 #: face/dndtrash.cc:
 msgid "Drop link here"
@@ -1176,7 +1173,7 @@ msgstr "Aktuálna rýchlos»: %d\n"
 
 #: config.cc:
 msgid "Usage: nt [OPTION] ... [URL]"
-msgstr "Pouzitie: nt [VO¥BY] ... [URL]"
+msgstr "Pou¾itie: nt [VO¥BY] ... [URL]"
 
 #: config.cc:
 msgid "print this page and exit"
@@ -1212,15 +1209,15 @@ msgstr "Pripravujem [%z] k preru¹eniu"
 
 #: main.cc
 msgid "Run new thread for %z"
-msgstr "Spú¹»am nové vlákno pre %z"
+msgstr "Spú¹»am nový thread pre %z"
 
 #: main.cc
 msgid "%z was deleted from queue of downloads as completed download"
-msgstr "%z bol zmazaný zo s»ahovacej rady lebo s»ahovanie bolo dokonèené"
+msgstr "%z bol zmazaný zo s»ahovacej fronty lebo s»ahovanie bolo dokonèené"
 
 #: main.cc
 msgid "%z was deleted from queue of downloads as failed download"
-msgstr "%z bol smazaný zo s»ahovacej rady lebo s»ahovanie bolo neúspe¹né"
+msgstr "%z bol smazaný zo s»ahovacej fronty lebo s»ahovanie bolo neúspe¹né"
 
 #: main.cc
 msgid "Delete completed downloads"
@@ -1248,15 +1245,15 @@ msgstr "/Vlo¾enie s»ahovania"
 
 #: face/dndtrash.cc
 msgid "/General options"
-msgstr "/©tandardné mo¾nosti"
+msgstr "/V¹eobecné voµby"
 
 #: face/dndtrash.cc
 msgid "/Exit"
-msgstr "/Koniec programu"
+msgstr "/Skonèi»"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
-msgstr "User-Agent for http requests:"
+msgstr "User-Agent pre http po¾iadavky"
 
 #: face/columns.cc
 msgid "rest"
@@ -1457,7 +1454,7 @@ msgstr "Re¹tartuj toto s»ahovanie od zaèiatku"
 
 # config.cc
 msgid "restart all failed downloads"
-msgstr "Re¹tartuj v¹etky neuspe¹né s»ahovania"
+msgstr "Re¹tartuj v¹etky neúspe¹né s»ahovania"
 
 msgid "run program without X interface"
 msgstr "Spusti program bez grafického rozhrania"
@@ -1478,12 +1475,11 @@ msgstr "neobmedzene"
 
 #main.cc:
 msgid "Can't run new thread for downloading!"
-msgstr "Nemô¾em spusti» nové vlákno pre s»ahovanie"
+msgstr "Nemô¾em spusti» nový thread pre s»ahovanie"
 
 #mainlog.cc:
 msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr "Obmedzenie pre veµkos» súboru hlavného protokolu dosiahnuté. Súbor "
-"bude skrátený!"
+msgstr "Obmedzenie pre veµkos» súboru hlavného protokolu dosiahnuté. Súbor bude skrátený!"
 
 #face/prefs.cc:
 msgid "Maximum size for file of main log (in KBytes)"
@@ -1528,7 +1524,7 @@ msgstr "Výber"
 
 # face/mywidget.cc:
 msgid "Select color"
-msgstr "Vyber farbu"
+msgstr "Vybra» farbu"
 
 #face/prefs.cc
 msgid "Reset to default"
@@ -1572,18 +1568,18 @@ msgid "Catch these extensions in clipboard"
 msgstr "Zachyti» tieto roz¹írenia v schránke"
 
 msgid "Allow to user force run downloads"
-msgstr "Povoli» u¾ivateµovi zasahova» poèas s»ahovania"
+msgstr "Povoli» u¾ívateµovi zasahova» poèas s»ahovania"
 
 #face/saveload.cc
 msgid "Loading"
-msgstr "Naèítávam"
+msgstr "Nahrávam"
 
 #main.cc
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bajtov nahratých poèas sedenia"
 
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr "Downloader chce skonèit ak je neèinny po %i min. %s"
+msgstr "Downloader chce skonèi» ak je neèinný po %i min. %s"
 
 msgid "Exiting if nothing to do is switched off"
 msgstr "Ukonèenie pri neèinnosti je vypnuté"
@@ -1655,37 +1651,67 @@ msgstr "/Zmazanie ukonèené"
 
 #:face/fsface.cc
 msgid "nothing found"
-msgstr ""
+msgstr "niè nebolo nájdené"
 
 msgid "searching"
-msgstr ""
+msgstr "vyhµadávanie"
 
 msgid "remove"
-msgstr ""
+msgstr "odstráni»"
 
 #:face/prefs.cc
 msgid "Write Descript.ion file"
-msgstr ""
+msgstr "Zapísa» súbor Descript.ion"
 
 #:face/columns.cc
 msgid "description"
-msgstr ""
+msgstr "popis"
 
 #:face/lod.cc
 msgid "Description"
-msgstr ""
+msgstr "Popis"
 
 #:dlist.cc:
 msgid "Search has been completed!"
-msgstr ""
+msgstr "Vyhµadávanie bolo ukonèené"
 
 #:config.cc:
 msgid "Expect URL as parameter for '--ls' option"
-msgstr ""
+msgstr "Oèakáva» URL ako parameter pre voµbu '--ls'"
 
 msgid "display info about URL in queue of downloads"
-msgstr ""
+msgstr "zobraz info o URL vo fronte s»ahovaní"
 
 #: face/edit.cc
 msgid "Sleep before completing"
+msgstr "Spa» pred dokonèením"
+
+#: ping.cc
+msgid "Resolving hosts..."
+msgstr ""
+
+msgid "Pinging  (it takes 30 seconds maximum)..."
+msgstr ""
+
+#: face/prefs.cc
+msgid "Compare date/time of remote file with local one"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+#: dlist.cc
+msgid "Searching failed"
+msgstr ""
+
+
+#face/fsface.cc
+msgid "reping"
+msgstr ""
+
+msgid "cumulative reping"
+msgstr ""
+
+#: dlist.cc
+msgid "Sorting started"
 msgstr ""

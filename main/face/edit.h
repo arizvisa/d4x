@@ -16,6 +16,8 @@
 #include "../dlist.h"
 #include "../history.h"
 
+struct tMainCfg;
+
 struct tProxyWidget{
 	GtkWidget *frame;
 	GtkWidget *http_proxy_host,*http_proxy_port,*http_proxy_pass,*http_proxy_user,*http_proxy_user_check,*http_proxy_check;
@@ -24,8 +26,10 @@ struct tProxyWidget{
 	GtkWidget *no_cache;
 	void init();
 	void init_state();
+	void init_state(tMainCfg *cfg);
 	void init_state(tCfg *cfg,int proto);
 	void apply_changes();
+	void apply_changes(tMainCfg *cfg);
 	void apply_changes(tCfg *cfg,int proto);
 };
 
@@ -43,6 +47,7 @@ class tDEdit{
 	GtkWidget *time_check;
 	GtkWidget *pause_check;
 	GtkWidget *sleep_check;
+	GtkWidget *check_time_check;
 	GtkWidget *split_entry;
 	GtkWidget *calendar,*hour_entry,*minute_entry;
 	GtkWidget *log_save_entry;
@@ -77,6 +82,7 @@ class tDEdit{
 		void done();
 		void popup();
 		void disable_items(int *array);
+		void auto_fill_log();
 		~tDEdit();
 };
 

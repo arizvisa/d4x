@@ -1,23 +1,24 @@
-pause before completed option
+various modes of progress bar for splited downloads
+ability to change links in html files after recursion
+sheduller for various actions
+browser for ftp and http
+SOCKS support
 add sounds (in integraition with gnome)
 history for "port" field in proxy settings
-pause download just after adding in common options
 profiles
 autofilling "filename for saving" field by data from URL
 "Hot list" (ability to define URLs for automatic download by d4x)
-sheduller for various actions
 selecting by mask in queue of downloads
 automate adding new downloads in queue (e.g ftp/pub/something.r0[0-3])
 check for maximum redirections
 double click on error message in mainlog open log with this error
-SOCKS support
 searching in queue
 "tree" window for displaiyng tree structure of a site(s)
 check free space on disk to prevent empty it
 mask support via http
-browser for ftp and http
 uploading files to server
 Auto detection of best proxy.
+[????] do not use .segments file for downloading in one thread
 [????] option for configuring persentage in queue of downloads
 [????] stand_data_connection() should try another way to set it up
 [????] regular expressions in URLs
@@ -99,4 +100,13 @@ Auto detection of best proxy.
 [DONE] real queue for thread ordering while log updatings 
 [DONE] description column and getting description from Mozilla's drops
 [DONE] Descript.ion file in a directory with downloaded file
+[DONE] pause before completing option
 ------------------------------------------------
+---------------------- for 1.22 -----------------------------------
+[DONE] optimize segmentator and other CPU issues
+[DONE] "do not check date/time of file" option
+[DONE] preferences dialog need to be rewritten
+[DONE] "auto" button in "Save log to file" option
+[DONE] pause download just after adding in common options
+[DONE] sorting urls after ftp search by access time
+-------------------------------------------------------------------

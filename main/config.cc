@@ -201,7 +201,12 @@ tConfigVariable config_variables[]={
 	{"ftp_dir_in_log",	CV_TYPE_BOOL,	&(CFG.FTP_DIR_IN_LOG)},
 	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_send_quit)},
 	{"link_as_file",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.link_as_file)},
-	{"write_description",	CV_TYPE_BOOL,	&(CFG.WRITE_DESCRIPTION)}
+	{"http_leave_server",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.leave_server)},
+	{"http_leave_dir",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_leave_dir)},
+	{"sleep_before_complete",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.sleep_before_complete)},
+	{"write_description",	CV_TYPE_BOOL,	&(CFG.WRITE_DESCRIPTION)},
+	{"check_time",		CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.check_time)},
+	{"pause_after_adding",	CV_TYPE_BOOL,	&(CFG.PAUSE_AFTER_ADDING)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);

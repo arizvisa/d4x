@@ -37,7 +37,7 @@ static gint list_menu_clear_main_log(GtkWidget *widget, tMLog *Log) {
 };
 
 static gint list_menu_open_properties(GtkWidget *widget, tMLog *Log){
-	init_options_window_page(PREFS_PAGE_MAINLOG);
+	d4x_prefs_init_page(PREFS_PAGE_MAINLOG);
 	return TRUE;
 };
 

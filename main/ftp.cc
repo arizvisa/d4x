@@ -200,7 +200,7 @@ tFtpClient::tFtpClient():tClient(){
 void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
 	DSFlag=0;
-	BuffSize=MAX_LEN;
+	BuffSize=BLOCK_READ;
 	passive=0;
 	buffer=new char[BuffSize];
 	vdisconnect();

@@ -37,6 +37,7 @@ class tFtpSearchCtrl{
 	void cycle();
 	void add(tDownload *what);
 	void remove(tDownload *what);
+	void reping(tDownload *what);
 	~tFtpSearchCtrl();
 };
 

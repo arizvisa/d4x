@@ -101,6 +101,7 @@ struct tDownload:public tAbstractSortNode{
 	void remove_links();
 	char *make_path_to_file();
 	void sort_links();
+	fsize_t init_segmentator(int fdesc,fsize_t cursize,char *name);
 	public:
 	//------------------------------------
 	tDList *DIR;
@@ -127,7 +128,7 @@ struct tDownload:public tAbstractSortNode{
 	/*file manipulations*/
 	void make_file_visible();
 	void set_date_file();
-	long int create_file();
+	fsize_t create_file();
 	int delete_file();
 	void remove_tmp_files();
 	int file_type();
@@ -184,6 +185,7 @@ enum {
 	ACTION_CONTINUE,
 	ACTION_STOP,
 	ACTION_FAILED,
-	ACTION_REAL_DELETE
+	ACTION_REAL_DELETE,
+	ACTION_REPING
 };
 #endif

@@ -17,18 +17,22 @@
 
 class tColumnsPrefs{
 	protected:
+	int tmp_apply[NOTHING_COL];
+	int tmp_apply_flag;
 	GtkWidget *box;
 	GtkWidget *frame;
-	GtkWidget *columns[12];
+	GtkWidget *columns[NOTHING_COL];
 	int first;
 	GList *sort_list;
 	GList *find_by_data(GList *where, char *what);	
 	void add_to_list(tDList *list);
 	void add_to_sort(tDownload *what);
 	public:
-		tColumnsPrefs(){};
+		tColumnsPrefs();
 		void init();
 		void apply_changes();
+		void apply_changes_tmp();
+		void reset();
 		GtkWidget *body();
 		~tColumnsPrefs(){};
 };

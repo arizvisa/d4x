@@ -31,6 +31,16 @@ void fs_list_delete(GtkWidget *widget,tDownload *what){
 	aa.ftp_search_remove(what);
 };
 
+void fs_list_reping(GtkWidget *widget,tDownload *what){
+	what->Status.curent=0;
+	aa.ftp_search_reping(what);
+};
+
+void fs_list_cumulative_reping(GtkWidget *widget,tDownload *what){
+	what->Status.curent=1;
+	aa.ftp_search_reping(what);
+};
+
 void fs_list_add_download(GtkWidget *widget,tDownload *what){
 	char *url=what->info->url();
 	init_add_dnd_window(url,what->info->host.get());
@@ -46,9 +56,11 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 		tDownload *tmp=what->DIR==NULL?(tDownload *)NULL:what->DIR->last();
 		if (tmp){
 			while (tmp){
-//				char a[MAX_LEN];
-//				sprintf(a,"%i %s",tmp->status,tmp->info->host.get());
-				menu_item=gtk_menu_item_new_with_label(tmp->info->host.get());
+				char a[MAX_LEN];
+				float p=tmp->Percent/tmp->Attempt.curent;
+				sprintf(a,"%2.1f%% %s",p,tmp->info->host.get());
+				menu_item=gtk_menu_item_new_with_label(a);
+//				menu_item=gtk_menu_item_new_with_label(tmp->info->host.get());
 				gtk_menu_append(GTK_MENU(menu),menu_item);
 				gtk_signal_connect(GTK_OBJECT(menu_item),
 						   "activate",
@@ -67,6 +79,18 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 	
 	menu_item=gtk_menu_item_new();
 	gtk_menu_append(GTK_MENU(menu),menu_item);
+
+	if (what->status==DOWNLOAD_COMPLETE && what->owner==DL_FS_STOP
+	    && what->DIR && what->DIR->count()>0){
+		menu_item=gtk_menu_item_new_with_label(_("reping"));
+		gtk_menu_append(GTK_MENU(menu),menu_item);
+		gtk_signal_connect(GTK_OBJECT(menu_item),"activate",
+				   GTK_SIGNAL_FUNC(fs_list_reping),what);
+		menu_item=gtk_menu_item_new_with_label(_("cumulative reping"));
+		gtk_menu_append(GTK_MENU(menu),menu_item);
+		gtk_signal_connect(GTK_OBJECT(menu_item),"activate",
+				   GTK_SIGNAL_FUNC(fs_list_cumulative_reping),what);
+	};
 
 	menu_item=gtk_menu_item_new_with_label(_("remove"));
 	gtk_menu_append(GTK_MENU(menu),menu_item);

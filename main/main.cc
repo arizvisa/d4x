@@ -1117,6 +1117,11 @@ void tMain::ftp_search(tDownload *what){
 	};
 };
 
+void tMain::ftp_search_reping(tDownload *what){
+	if (ftpsearch)
+		ftpsearch->reping(what);
+};
+
 void tMain::ftp_search_remove(tDownload *what){
 	if (ftpsearch)
 		ftpsearch->remove(what);
@@ -1447,6 +1452,12 @@ void *download_last(void *nothing) {
 		};
 		switch(addr->proto){
 		case D_PROTO_SEARCH:
+			if (what->who==NULL){
+				if (what->config.proxy_host.get())
+					what->who=new tProxyDownload;
+				else
+					what->who=new tHttpDownload;
+			};
 			what->ftp_search();
 			break;
 		case D_PROTO_HTTP:

@@ -32,7 +32,7 @@ int tSegment::save(int fd){
 	DBC_RETVAL_IF_FAIL(fd>=0,-1);
 	DBC_RETVAL_IF_FAIL(offset_in_file>=0,-1);
 //	printf("savin %li %li\n",begin,end);
-	lseek(fd,offset_in_file,SEEK_SET);
+//	lseek(fd,offset_in_file,SEEK_SET);
 	if (write(fd,&begin,sizeof(begin))<int(sizeof(begin)) ||
 	    write(fd,&end,sizeof(end))<int(sizeof(end)))
 		return(-1);
@@ -46,19 +46,33 @@ tSegment::~tSegment(){
 /*************** Segmentator *************************************/
 
 tSegmentator::tSegmentator(){
-	FIRST=LAST=NULL;
+	FIRST=LAST=HEAP=NULL;
 	my_pthreads_mutex_init(&lockmutex);
 	fd=-1;
 	filename=NULL;
 };
 
 tSegmentator::tSegmentator(char *path){
-	FIRST=LAST=NULL;
+	FIRST=LAST=HEAP=NULL;
 	my_pthreads_mutex_init(&lockmutex);
 	filename=NULL;
 	fd=-1;
 	total=0;
 	init(path);
+};
+
+tSegment *tSegmentator::seg_alloc(){
+	if (HEAP){
+		tSegment *rval=HEAP;
+		HEAP=HEAP->next;
+		return(rval);
+	};
+	return(new tSegment);
+};
+
+void tSegmentator::seg_free(tSegment *seg){
+	seg->next=HEAP;
+	HEAP=seg;
 };
 
 void tSegmentator::init(char *path){
@@ -69,6 +83,7 @@ void tSegmentator::init(char *path){
 	load();
 	lock();
 	save();
+//	print();
 	unlock();
 };
 
@@ -95,17 +110,18 @@ void tSegmentator::remove(tSegment *what){
 
 void tSegmentator::save_from(tSegment *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
+	lseek(fd,what->offset_in_file,SEEK_SET);
 	what->save(fd);
 	tSegment *tmp=what->next;
-	long offset_in_file=lseek(fd,0,SEEK_CUR);
-	ftruncate(fd,offset_in_file);
+	unsigned long int offset_in_file=what->offset_in_file+2*sizeof(unsigned long int);
 	while(tmp){
 		tmp->offset_in_file=offset_in_file;
 		if (tmp->save(fd))
 			break;
-		offset_in_file=lseek(fd,0,SEEK_CUR);
+		offset_in_file+=2*sizeof(unsigned long int);
    		tmp=tmp->next;
 	};
+	ftruncate(fd,offset_in_file);
 };
 
 unsigned long int tSegmentator::get_total(){
@@ -161,7 +177,7 @@ void tSegmentator::insert(unsigned long int begin, unsigned long int end){
 		while (tmp){
 			if (begin<tmp->begin){
 				/* adding before */
-				tSegment *a=new tSegment;
+				tSegment *a=seg_alloc();
 				a->begin=begin;
 				a->end=end;
 				a->next=tmp;
@@ -182,7 +198,7 @@ void tSegmentator::insert(unsigned long int begin, unsigned long int end){
 			tmp=tmp->next;
 		};
 		/* adding to the end */
-		tmp=new tSegment;
+		tmp=seg_alloc();
 		tmp->prev=prev;
 		prev->next=tmp;
 		tmp->next=NULL;
@@ -194,7 +210,7 @@ void tSegmentator::insert(unsigned long int begin, unsigned long int end){
 		if (join(tmp))
 			save_from(tmp);
 	}else{
-		FIRST=new tSegment;
+		FIRST=seg_alloc();
 		FIRST->next=FIRST->prev=NULL;
 		FIRST->begin=begin;
 		FIRST->end=end;
@@ -219,7 +235,7 @@ void tSegmentator::truncate(unsigned long int shift){
 				tmp->prev->next=NULL;
 			else
 				FIRST=NULL;
-			delete(tmp);
+			seg_free(tmp);
 		}else{
 			if (tmp->end>=shift)
 				tmp->end=shift;
@@ -240,7 +256,7 @@ void tSegmentator::done(){
 	};
 	while(FIRST){
 		tSegment *tmp=(tSegment*)FIRST->next;
-		delete(FIRST);
+		seg_free(FIRST);
 		FIRST=tmp;
 	};
 	if (fd>=0) close(fd);
@@ -256,6 +272,11 @@ void tSegmentator::complete(){
 
 tSegmentator::~tSegmentator(){
 	done();
+	while(HEAP){
+		tSegment *tmp=HEAP->next;
+		delete(HEAP);
+		HEAP=tmp;
+	};
 	if (filename) delete(filename);
 	pthread_mutex_destroy(&lockmutex);
 };
@@ -268,7 +289,7 @@ int tSegmentator::load(){
 	long offset_in_file=0;
 	while(read(fd,&begin,sizeof(begin))==sizeof(begin) &&
 	      read(fd,&end,sizeof(end))==sizeof(end)){
-		tSegment *tmp=new tSegment;
+		tSegment *tmp=seg_alloc();
 	    	tmp->begin=begin;
 	        tmp->end=end;
 	        tmp->prev=tmp;
@@ -302,9 +323,8 @@ int tSegmentator::save(){
 	while(tmp){
 		total+=tmp->end-tmp->begin;
 		tmp->offset_in_file=offset_in_file;
-		if (tmp->save(fd))
-			return(-1);
-		offset_in_file=lseek(fd,0,SEEK_CUR);
+		if (tmp->save(fd)) return(-1);
+		offset_in_file+=2*sizeof(unsigned long int);
 		tmp=tmp->next;
 	};
 	return(0);
@@ -315,7 +335,7 @@ tSegment *tSegmentator::to_holes(unsigned long int size){
 	tSegment *tmp=FIRST;
 	tSegment *rvalue=NULL;
 	int i=0;
-	while(tmp){
+	while(tmp && tmp->end<size){
 		tSegment *tmp1=new tSegment;
 		tmp1->begin=tmp->end;
 		if (tmp->next){
