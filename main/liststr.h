@@ -16,7 +16,7 @@ struct tString:public tNode{
     char *body;
     int temp;
     tString();
-    tString(char *what,int len);
+    tString(const char *what,int len);
     void print();
     int size();
     ~tString();
@@ -30,8 +30,8 @@ class tStringList:public tQueue{
     public:
     	tStringList();
     	virtual void print();
-    	virtual void add(char *str,int len);
-    	virtual void add(char *str);
+    	virtual void add(const char *str,int len);
+    	virtual void add(const char *str);
     	void dispose();
     	void done();
     	int size();

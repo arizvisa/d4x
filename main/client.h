@@ -13,7 +13,17 @@
 
 #include "socket.h"
 #include "liststr.h"
-#include "log.h"
+
+class tWriterLoger{
+ public:
+	tWriterLoger();
+	virtual int write(const void *buf,int len)=0;
+	virtual int shift(int shift)=0;
+	virtual void log(int type,const char *str)=0;
+	virtual void log_printf(int type, const char *format,...);
+	virtual char *cookie(const char *host, const char *path);
+	virtual ~tWriterLoger();
+};
 
 class tClient{
     protected:
@@ -26,25 +36,36 @@ class tClient{
     tSocket CtrlSocket;
     unsigned int BuffSize;
     char *buffer;
-    tLog *LOG;
+    tWriterLoger *LOG;
 //-----------------------------------------------
     int read_string(tSocket *sock,tStringList *list,int maxlen);
     int socket_err_handler(int err);
     virtual int read_data();
     virtual int read_data(char *dst,int len)=0;
-    int write_buffer(int fd);
+    int write_buffer();
     public:
     	tClient();
     	int get_readed();
-    	virtual void init(char *host,tLog *log,int prt,int time_out);
+    	virtual void init(char *host,tWriterLoger *log,int prt,int time_out);
         virtual int reinit();
     	virtual void down()=0;
     	virtual int registr(char *user,char *password)=0;
     	virtual int get_size(char *filename,tStringList *list)=0;
+	virtual int get_file_from(char *what,unsigned int begin,int len)=0;
     	int get_status();
     	int test_reget();
     	virtual void done()=0;
     	virtual ~tClient();
+};
+
+
+enum NT_LOG_STRING_TYPES{
+	LOG_OK=0,
+	LOG_WARNING,
+	LOG_FROM_SERVER,
+	LOG_TO_SERVER,
+	LOG_ERROR,
+	LOG_DETAILED=64
 };
 
 #define RVALUE_COMPLETED 1

@@ -1,3 +1,25 @@
+Thu Apr 20 09:19:47 2000
+	Added ability to rerun all failed downloads;
+	Added ability to restart download from begining;
+	Added option for recurse only in subdirectories for http recursing;
+	Added ability to run program without X interface;
+	Added ability to limit file size of main log;
+	Added some new command line parameters;
+	More detailed messages about errors while file creation;
+	Ftp improvements (now send 'LIST' if 'LIST -la' was not understood);
+	Man page now included (thanks to Julien BLACHE);
+	Translation to Spanish is uptodate (thanks to Vicente Aguilar);
+	Translation to Dutch is uptodate (thanks to Robin Verduijn);
+	Translation to French is uptodate (thanks to Jerome Courdec);
+	Translation to Russian is uptodate (of course thanks to me);
+	Format for size in columns printed in new way;
+	Fixed memory leak when failed create symlink;
+	Fixed myprintf() in logs;
+	Fixed parsing %xx in urls;
+	Fixed spelling errors in English;
+	Various fixes in ftp protocol;
+	Total rewritings downloading code for OOP style;
+
 Fri Mar 31 11:00:23 2000
 	Added ability to leave server while recursing via http;
 	Added ability to save queue of downloads into default file by clicking right mouse button on "Save" button;

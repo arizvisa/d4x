@@ -1,0 +1,33 @@
+MANUEL D'INSTALLATION
+
+1.0	Ce dont vous avez besoin pour compiler ce programme:
+
+Pour la compilation, vous avez besoin de la librairie GTK version 1.2.0
+(ou supérieure), de la librairie de "thread" saine (par exemple libc6),
+et bien sûr, des sources du programme.
+J'ai testé (l'auteur) ce programme sur les distributions RedHat 5.x,
+RedHat 6.0 et Slackware 3.6.
+
+1.1	Compilation du programme:
+
+  Entrez dans le répertoire où vous avez copié les sources et tapez
+'make install' en tant que root bien sûr;
+Si vous avez des problèmes lors de la compilation, assurez vous que:
+- vous avez la librairie libc6 ou supérieure,
+- vous avez la librairie GTK version 1.2.0 ou supérieure (www.gtk.org),
+- vous avez le support gettext (si vous ne l'avez pas supprimez la 
+  ligne concernée dans le fichier Makefile).
+
+1.2	Où se trouve l'exécutable après la compilation ?
+
+  Dans le répertoire 'main' de l'arborescence des sources. Et il aura
+pour nom 'nt'.
+La commande 'make install' place également tous les fichiers nécessaires
+dans les répertoires /usr/local/bin et /usr/local/share/locale et vous
+pouvez exécuter le programme à partir de /usr/local/bin.
+Si vous n'avez pas besoin du fichier d'internationalisation, vous pouvez
+utiliser seulement l'exécutable...
+
+1.3	Comment utiliser ce programme ?
+
+Lancez-le, inspectez-le, vous devriez tout comprendre naturellement.

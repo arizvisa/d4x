@@ -12,7 +12,6 @@
 #include "http.h"
 #include "locstr.h"
 #include "liststr.h"
-#include "log.h"
 #include "var.h"
 #include "stdio.h"
 #include "base64.h"
@@ -23,7 +22,7 @@ tHttpClient::tHttpClient() {
 	user_agent=NULL;
 };
 
-void tHttpClient::init(char *host,tLog *log,int prt,int time_out) {
+void tHttpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
 	BuffSize=MAX_LEN;
 	buffer=new char[BuffSize];
@@ -38,7 +37,7 @@ void tHttpClient::set_offset(int a) {
 };
 
 int tHttpClient::send_request(char *what) {
-	LOG->add(what,LOG_TO_SERVER);
+	LOG->log(LOG_TO_SERVER,what);
 	return CtrlSocket.send_string(what,timeout);
 };
 
@@ -52,7 +51,7 @@ int tHttpClient::send_request(char *begin, char *center,char *end){
 int tHttpClient::read_data(char *where,int len) {
 	int all=CtrlSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
-		LOG->add(_("Socket lost!"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Socket lost!"));
 		return RVALUE_TIMEOUT;
 	};
 	return all;
@@ -61,23 +60,23 @@ int tHttpClient::read_data(char *where,int len) {
 int tHttpClient::read_answer(tStringList *list) {
 	list->done();
 	int rvalue=0;
-	LOG->add(_("Request was sent, waiting for the answer"),LOG_OK);
+	LOG->log(LOG_OK,_("Request was sent, waiting for the answer"));
 	if (read_string(&CtrlSocket,list,MAX_LEN)!=0) return -1;
 	tString *last=list->last();
 	if (last) {
-		LOG->add(last->body,LOG_FROM_SERVER);
+		LOG->log(LOG_FROM_SERVER,last->body);
 		char *str1=new char[strlen(last->body)+1];
 		char *str2=new char[strlen(last->body)+1];
 		sscanf(last->body,"%s %s",str1,str2);
 		if (!equal_first("HTTP",str1)) {
-			LOG->add(_("It is not HTTP server!!!"),LOG_WARNING);
+			LOG->log(LOG_WARNING,_("It is not HTTP server!!!"));
 			delete str1;
 			delete str2;
 			return -1;
 		};
 		switch (str2[0]) {
 			case '2':{
-					LOG->add(_("All ok, reading file"),LOG_OK);
+					LOG->log(LOG_OK,_("All ok, reading file"));
 					break;
 				};
 			case '3':{
@@ -86,12 +85,12 @@ int tHttpClient::read_answer(tStringList *list) {
 				};
 			case '4':{
 					if (equal_first("401",str2)) {
-						LOG->add(_("It seems to me that you need a password :)"),LOG_WARNING);
+						LOG->log(LOG_WARNING,_("It seems to me that you need a password :)"));
 					};
 				};
 			default:{
 					Status=STATUS_BAD_ANSWER;
-					LOG->add(_("Server return bad answer:(("),LOG_ERROR);
+					LOG->log(LOG_ERROR,_("Server return bad answer:(("));
 					rvalue = -1;
 				};
 		};
@@ -102,7 +101,7 @@ int tHttpClient::read_answer(tStringList *list) {
 		do{
 			if (read_string(&CtrlSocket,list,MAX_LEN)) return -1;
 			last=list->last();
-			LOG->add(last->body,LOG_FROM_SERVER);
+			LOG->log(LOG_FROM_SERVER,last->body);
 		}while (!empty_string(last->body));
 		return rvalue;
 	};
@@ -110,26 +109,11 @@ int tHttpClient::read_answer(tStringList *list) {
 };
 
 void tHttpClient::send_cookies(char *host,char *path){
-	tCookie *temp=COOKIES->find(host);
-	int need_send=0;
-	char *request_string=copy_string("Cookie: ");
-	while (temp){
-		if (begin_string(path,temp->get_path())){
-			need_send=1;
-			char *tmp=request_string;
-			request_string=sum_strings(tmp, temp->get_name(),
-						   "=", temp->get_value(),
-						   ";", NULL);
-			delete(tmp);
-		};
-		temp=COOKIES->find((tCookie **)&(temp->less),host);
+	char *request_string=LOG->cookie(host,path);
+	if (request_string){
+		send_request("Cookie: ",request_string,"\r\n");
+		delete(request_string);
 	};
-	if (need_send){
-		char *tmp=request_string;
-		request_string=sum_strings(tmp,"\r\n",NULL);
-		send_request(request_string);
-	};
-	delete(request_string);
 };
 
 int tHttpClient::get_size(char *filename,tStringList *list) {
@@ -164,20 +148,28 @@ int tHttpClient::get_size(char *filename,tStringList *list) {
 };
 
 
-int tHttpClient::get_file_from(char *what,unsigned int begin,unsigned int len,int fd) {
+int tHttpClient::get_file_from(char *what,unsigned int begin,int len) {
 	DSize=0;
 	int complete=1;
 	FileLoaded=begin;
+	int llen=len;
 	do {
 		if ((complete=tClient::read_data())<0) {
-			LOG->add(_("Connection closed."),LOG_ERROR);
+			LOG->log(LOG_WARNING,_("Data connection closed."));
 			break;
 		};
+		if (len && FillSize>llen) FillSize=llen;
 		FileLoaded+=complete;
-		if (write_buffer(fd)) {
-			LOG->add(_("Can't write to file"),LOG_ERROR);
+		if (write_buffer()) {
 			Status=STATUS_FATAL;
 			break;
+		};
+		if (len){
+			llen -=FillSize;
+			if (llen==0){
+				LOG->log(LOG_OK,_("Requested size was loaded"));
+				break;
+			};
 		};
 	} while (complete!=0);
 	return DSize;

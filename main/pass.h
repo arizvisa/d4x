@@ -12,18 +12,13 @@
 #define DOWNLOADER_H_PASS
 
 #include "sort.h"
+#include "locstr.h"
 
 class tUserPass:public tAbstractSortNode{
-	char *host,*user,*pass;
  public:
+	tPStr host,user,pass;
 	int proto;
 	tUserPass();
-	void set_host(char *a);
-	void set_user(char *a);
-	void set_pass(char *a);
-	char *get_host();
-	char *get_user();
-	char *get_pass();
 	void print();
 	void save(int fd);
 	int load(int fd);

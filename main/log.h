@@ -18,7 +18,7 @@ struct tLogString:public tString{
 	int type;
 	time_t time;
 	tLogString();
-	tLogString(char *where, int len,int tp);
+	tLogString(const char *where, int len,int tp);
 	void print();
 	~tLogString();
 };
@@ -38,11 +38,10 @@ class tLog:public tStringList{
 		void store_geometry(int *a);
 		void get_geometry(int *a);
 		void print();
-		void add(char *str,int len,int type);
-		void add(char *str,int type);
-		void add(char *str);
+		void add(const char *str,int len,int type);
+		void add(const char *str,int type);
+		void add(const char *str);
 		void insert(tNode *what);
-		virtual void myprintf(int type,char *fmt,...);
 		void dispose();
 		void lock();
 		void unlock();
@@ -58,12 +57,4 @@ struct mbuf{
 	tLog *which;
 };
 
-enum{
-	LOG_OK=0,
-	LOG_WARNING,
-	LOG_FROM_SERVER,
-	LOG_TO_SERVER,
-	LOG_ERROR,
-	LOG_DETAILED=64
-};
 #endif

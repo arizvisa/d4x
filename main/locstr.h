@@ -10,7 +10,17 @@
  */
 #ifndef LOC_STRING
 #define LOC_STRING
-#include "dlist.h"
+
+#include <time.h>
+
+class tPStr{
+	char *a;
+ public:
+	tPStr();
+	void set(char *a);
+	char *get(){return a;};
+	~tPStr();
+};
 
 char *copy_string(const char *dest);
 char *copy_string(const char *dest,int len);
@@ -46,7 +56,7 @@ int get_permisions_from_int(int a);
 char *subtract_path(const char *a,const char *b);
 int reallocate_string(char **what, int len);
 int is_string(char *what);
-int string_ended(char *ended, char *what);
+int string_ended(const char *ended, const char *what);
 char *skip_spaces(char *src);
 int f_rstr(int fd,char *where,int max);
 int f_wstr(int fd,char *str);

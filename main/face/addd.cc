@@ -54,15 +54,15 @@ void init_add_window(...) {
 	tDownload *what=OneDownload=new tDownload;
 	tAddr *info=new tAddr("ftp://somesite.org");
 	what->info=info;
-	what->config.set_save_path(CFG.GLOBAL_SAVE_PATH);
+	what->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
 	what->set_default_cfg();
 
 	if (CFG.USE_PROXY_FOR_FTP) {
-		what->config.set_proxy_host(CFG.FTP_PROXY_HOST);
+		what->config.proxy_host.set(CFG.FTP_PROXY_HOST);
 		what->config.proxy_port=CFG.FTP_PROXY_PORT;
 		if (CFG.NEED_PASS_FTP_PROXY) {
-			what->config.set_proxy_user(CFG.FTP_PROXY_USER);
-			what->config.set_proxy_pass(CFG.FTP_PROXY_PASS);
+			what->config.proxy_user.set(CFG.FTP_PROXY_USER);
+			what->config.proxy_pass.set(CFG.FTP_PROXY_PASS);
 		};
 	};
 	what->config.proxy_type=CFG.FTP_PROXY_TYPE;

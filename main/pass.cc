@@ -20,46 +20,25 @@
 #include "var.h"
 
 tUserPass::tUserPass(){
-	host=user=pass=NULL;
 	proto=D_PROTO_UNKNOWN;
 };
 
 tUserPass::~tUserPass(){
-	if (host) delete(host);
-	if (user) delete(user);
-	if (pass) delete(pass);
 };
-
-void tUserPass::set_host(char *a){
-	if (host) delete (host);
-	host=copy_string(a);
-};
-void tUserPass::set_user(char *a){
-	if (user) delete (user);
-	user=copy_string(a);
-};
-void tUserPass::set_pass(char *a){
-	if (pass) delete (pass);
-	pass=copy_string(a);
-};
-
-char *tUserPass::get_host(){return(host);};
-char *tUserPass::get_pass(){return(pass);};
-char *tUserPass::get_user(){return(user);};
 
 void tUserPass::print(){
-	if (host) printf("host:%s://%s\n",get_name_by_proto(proto),host);
-	if (user) printf("user:%s\n",user);
-	if (pass) printf("pass:%s\n",pass);
+	if (host.get()) printf("host:%s://%s\n",get_name_by_proto(proto),host.get());
+	if (user.get()) printf("user:%s\n",user.get());
+	if (pass.get()) printf("pass:%s\n",pass.get());
 };
 
 void tUserPass::save(int fd){
-	write(fd,"NewHost:\n",strlen("NewHost:\n"));
+	f_wstr_lf(fd,"NewHost:");
 	write_named_integer(fd,"proto:",proto);
-	write_named_string(fd,"host:",host);
-	write_named_string(fd,"user:",user);
-	write_named_string(fd,"pass:",pass);
-	write(fd,"EndHost:\n",strlen("EndHost:\n"));
+	write_named_string(fd,"host:",host.get());
+	write_named_string(fd,"user:",user.get());
+	write_named_string(fd,"pass:",pass.get());
+	f_wstr_lf(fd,"EndHost:");
 };
 
 int tUserPass::load(int fd){
@@ -79,17 +58,17 @@ int tUserPass::load(int fd){
 		switch(i){
 		case 0:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_host(buf);
+			host.set(buf);
 			break;
 		};
 		case 1:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_user(buf);
+			user.set(buf);
 			break;
 		};
 		case 2:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_pass(buf);
+			pass.set(buf);
 			break;
 		};
 		case 3:{
@@ -108,7 +87,7 @@ int tUserPass::load(int fd){
  */
 
 int tUserPassTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	int r=strcmp(((tUserPass*)a)->get_host(),((tUserPass*)b)->get_host());
+	int r=strcmp(((tUserPass*)a)->host.get(),((tUserPass*)b)->host.get());
 	if (r) return r;
 	return(((tUserPass*)a)->proto - ((tUserPass*)b)->proto);
 };
@@ -127,7 +106,7 @@ void tUserPassTree::fill_face_node(tUserPass *node,tFacePass *a){
 
 tUserPass *tUserPassTree::find(int proto,char *host){
 	tUserPass *tmp=new tUserPass;
-	tmp->set_host(host);
+	tmp->host.set(host);
 	tmp->proto=proto;
 	tUserPass *found=(tUserPass *)(tAbstractSortTree::find(tmp));
 	delete(tmp);

@@ -14,6 +14,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <pthread.h>
 #include <string.h>
+#include <unistd.h>
 #include "../dlist.h"
 #include "../main.h"
 #include "../var.h"
@@ -47,7 +48,7 @@ GtkWidget *ContainerForCList=(GtkWidget *)NULL;
 GdkGC *MainWindowGC;
 GtkWidget *BoxForGraph;
 GtkItemFactory *main_menu_item_factory;
-GtkWidget *MainLogList;
+GtkWidget *MainLogList,*MAIN_PANED;
 int main_log_mask;
 unsigned int ScrollShift[2];
 int mainwin_title_state;
@@ -81,7 +82,7 @@ enum{
 enum MAIN_MENU_ENUM{
 	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
-	MM_DOWNLOAD_DEL_F, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
+	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
 	MM_OPTIONS, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON,
 	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
 	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
@@ -104,6 +105,7 @@ char *main_menu_inames[]={
 	"/Download/Continue downloads",
 	"/Download/Delete completed",
 	"/Download/Delete failed",
+	"/Download/Rerun failed",
 	"/Download/Unselect all",
 	"/Download/Select all",
 	"/Download/Invert selection",
@@ -161,6 +163,10 @@ void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mou
 		       (GtkMenuPositionFunc)NULL,
 		       pos,
 		       mouse_button,time);
+};
+
+void _rerun_failed_downloads(){
+	aa.rerun_failed();
 };
 
 void main_menu_speed_calback(gpointer data,guint action,GtkWidget *widget){
@@ -232,6 +238,7 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_C]),(gchar *)NULL,	ask_delete_completed_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),(gchar *)NULL,	ask_delete_fataled_downloads,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_RERUN]),(gchar *)NULL,	(GtkItemFactoryCallback)_rerun_failed_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_unselect_all,	100+MM_DOWNLOAD_UNSELECT_ALL, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_select_all,	100+MM_DOWNLOAD_SELECT_ALL, (gchar *)NULL},
@@ -284,6 +291,13 @@ gint main_menu_prepare(){
 		else
 			gtk_widget_set_sensitive(menu_item,FALSE);
 	};
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_RERUN]));
+	if (menu_item){
+		if (DOWNLOAD_QUEUES[DL_STOP]->count())
+			gtk_widget_set_sensitive(menu_item,TRUE);
+		else
+			gtk_widget_set_sensitive(menu_item,FALSE);
+	};
 	if (GTK_CLIST(ListOfDownloads)->selection){
 		for (int i=MM_DOWNLOAD_LOG;i<=MM_DOWNLOAD_RUN;i++){
 			menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
@@ -314,9 +328,11 @@ gint main_menu_prepare(){
 };
 
 void my_main_quit(...) {
-	gtk_timeout_remove(MainTimer);
-	gtk_timeout_remove(LogsTimer);
-	gtk_timeout_remove(GraphTimer);
+	if (CFG.WITHOUT_FACE==0){
+		gtk_timeout_remove(MainTimer);
+		gtk_timeout_remove(LogsTimer);
+		gtk_timeout_remove(GraphTimer);
+	};
 	save_list();
 	save_limits();
 	save_passwords(PasswordsForHosts);
@@ -326,25 +342,32 @@ void my_main_quit(...) {
 		delete (FaceForLimits);
 	if (FaceForPasswords)
 		delete (FaceForPasswords);
-	add_window_cancel();
-	options_window_cancel();
-	destroy_about_window();
-	gtk_widget_destroy(MainWindow);
-	if (AskDelete) delete(AskDelete);
-	if (AskDeleteCompleted) delete(AskDeleteCompleted);
-	if (AskDeleteFataled) delete(AskDeleteFataled);
-	if (AskExit) delete(AskExit);
-	dnd_trash_real_destroy();
-	load_save_list_cancel();
+	if (CFG.WITHOUT_FACE==0){
+		add_window_cancel();
+		options_window_cancel();
+		destroy_about_window();
+		gtk_widget_destroy(MainWindow);
+		if (AskDelete) delete(AskDelete);
+		if (AskDeleteCompleted) delete(AskDeleteCompleted);
+		if (AskDeleteFataled) delete(AskDeleteFataled);
+		if (AskExit) delete(AskExit);
+		dnd_trash_real_destroy();
+		load_save_list_cancel();
+	};
 	for (int i=0;i<LAST_HISTORY;i++)
 		delete(ALL_HISTORIES[i]);
-	gtk_main_quit();
+	if (CFG.WITHOUT_FACE==0)
+		gtk_main_quit();
+	else{
+		aa.run_after_quit();
+		exit(0);
+	};
 };
 
 void set_limit_to_download() {
 	tDownload *temp=list_of_downloads_last_selected();
 	if (temp)
-		FaceForLimits->add(temp->info->get_host(),temp->info->port);
+		FaceForLimits->add(temp->info->host.get(),temp->info->port);
 };
 
 void open_edit_for_selected(...) {
@@ -556,6 +579,7 @@ void init_main_window() {
 	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), 2, GTK_JUSTIFY_LEFT);
 
 	GtkWidget *hpaned=gtk_vpaned_new();
+	MAIN_PANED=hpaned;
 	main_log_adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
 	main_log_value=0.0;
 	gtk_signal_connect (GTK_OBJECT (main_log_adj), "changed",
@@ -624,7 +648,7 @@ void update_mainwin_title() {
 				make_number_nice(data3,temp->finfo.size);
 			else
 				sprintf(data3,"???");
-			sprintf(data,"%i%c %s/%s %s ",temp->Percent.curent,'%',data2,data3,temp->info->get_file());
+			sprintf(data,"%i%c %s/%s %s ",temp->Percent.curent,'%',data2,data3,temp->info->file.get());
 			tmp_scroll_title(data,ROLL_STAT);
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 		} else {
@@ -681,6 +705,11 @@ int get_mainwin_sizes(GtkWidget *window) {
 		gint x,y,w,h;
 		gdk_window_get_position(window->window,&x,&y);
 		gdk_window_get_size(window->window,&w,&h);
+		/*
+		if (CFG.WINDOW_HEIGHT != int(h)){
+			printf("changed from %i to %i!\n",CFG.WINDOW_HEIGHT,h);
+		};
+		*/
 		CFG.WINDOW_X_POSITION=int(x);
 		CFG.WINDOW_Y_POSITION=int(y);
 		CFG.WINDOW_HEIGHT=int(h);

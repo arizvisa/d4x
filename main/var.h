@@ -62,6 +62,7 @@ struct tMainCfg{
 	int SAVE_MAIN_LOG;
 	int APPEND_REWRITE_LOG;
 	char *SAVE_LOG_PATH;
+	long int MAIN_LOG_FILE_LIMIT;
 /* List
  */
 	int SAVE_LIST_INTERVAL;
@@ -140,6 +141,9 @@ struct tMainCfg{
 	int BUTTONS_MAN;
 	int BUTTONS_SPEED;
 	int BUTTONS_MISC;
+/* SPECIAL THINGS
+ */
+	int WITHOUT_FACE;
 };
 
 extern tMLog *MainLog;
@@ -202,4 +206,5 @@ void var_check_all_limits();
 extern const char *CFG_FILE;
 extern const char *CFG_DIR;
 
+extern char *SPEED_LIMITATIONS_NAMES[];
 #endif

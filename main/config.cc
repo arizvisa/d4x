@@ -48,7 +48,11 @@ tOption downloader_parsed_args[]={
 	{"-c",			OPT_DEL_COMPLETED},
 	{"--delete-completed",	OPT_DEL_COMPLETED},
 	{"-m",			OPT_SET_MAX_THREADS},
-	{"--max-running",	OPT_SET_MAX_THREADS}
+	{"--max-running",	OPT_SET_MAX_THREADS},
+	{"-r",			OPT_RERUN_FAILED},
+	{"--rerun-failed",	OPT_RERUN_FAILED},
+	{"-w",			OPT_WITHOUT_FACE},
+	{"--without-face",	OPT_WITHOUT_FACE}
 };
 
 char *downloader_args_errors[]={
@@ -172,7 +176,8 @@ tConfigVariable config_variables[]={
 	{"buttons_add",		CV_TYPE_BOOL,	&(CFG.BUTTONS_ADD)},
 	{"buttons_man",		CV_TYPE_BOOL,	&(CFG.BUTTONS_MAN)},
 	{"buttons_speed",	CV_TYPE_BOOL,	&(CFG.BUTTONS_SPEED)},
-	{"buttons_misc",	CV_TYPE_BOOL,	&(CFG.BUTTONS_MISC)}
+	{"buttons_misc",	CV_TYPE_BOOL,	&(CFG.BUTTONS_MISC)},
+	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -192,6 +197,11 @@ void set_config(char *line){
 	for (int i=0;i<cv_list_len;i++){
 		if (equal(config_variables[i].name,temp)){
 			switch(config_variables[i].type){
+			case CV_TYPE_LONG:{
+				extract_string(next_word,temp);
+				sscanf(temp,"%li",(long int *)(config_variables[i].pointer));
+				break;
+			};
 			case CV_TYPE_INT:{
 				extract_string(next_word,temp);
 				sscanf(temp,"%i",(int *)(config_variables[i].pointer));
@@ -270,6 +280,12 @@ static void save_integer_to_config(int fd,char *name,int num) {
 	f_wstr(fd,data);
 };
 
+static void save_long_to_config(int fd,char *name,long int num) {
+	char data[MAX_LEN];
+	sprintf(data,"%s %li\n\n",name,num);
+	f_wstr(fd,data);
+};
+	
 static void save_hex_integer_to_config(int fd,char *name,int num) {
 	char data[MAX_LEN];
 	sprintf(data,"%s 0x%06x\n\n",name,num);
@@ -307,6 +323,11 @@ void save_config() {
 		int cv_list_len=sizeof(config_variables)/sizeof(struct tConfigVariable);
 		for (int i=0;i<cv_list_len;i++){
 			switch(config_variables[i].type){
+			case CV_TYPE_LONG:{
+				long int *cv_tmp=(long int *)(config_variables[i].pointer);
+				save_long_to_config(fd,config_variables[i].name,*cv_tmp);
+				break;
+			};
 			case CV_TYPE_INT:{
 				int *cv_tmp=(int *)(config_variables[i].pointer);
 				save_integer_to_config(fd,config_variables[i].name,*cv_tmp);
@@ -425,7 +446,7 @@ void save_limits() {
 	char *path=compose_path(HOME_VARIABLE,".ntrc/limits");
 	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (fd>=0) {
-		tSortString *tmp=LimitsForHosts->last();
+		tSortString *tmp=LimitsForHosts->first();
 		while (tmp) {
 			char data[MAX_LEN];
 			f_wstr_lf(fd,tmp->body);
@@ -433,7 +454,7 @@ void save_limits() {
 			f_wstr_lf(fd,data);
 			sprintf(data,"%i",tmp->upper);
 			f_wstr_lf(fd,data);
-			tmp=LimitsForHosts->next();
+			tmp=LimitsForHosts->prev();
 		};
 		close(fd);
 	} else {
@@ -471,6 +492,10 @@ int parse_command_line_preload(int argc,char **argv){
 			}
 			break;
 		};
+		case OPT_WITHOUT_FACE:{
+			CFG.WITHOUT_FACE=1;
+			break;
+		};
 		};
 	};
 	return rvalue;
@@ -503,7 +528,7 @@ int parse_command_line_already_run(int argv,char **argc){
 					clt->send_command(PACKET_ASK_READED_BYTES,NULL,0);
 					printf(_("Total bytes loaded: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_SPEED,NULL,0);
-					printf(_("Curent speed: %d\n"),clt->get_answer_int());
+					printf(_("Current speed: %d\n"),clt->get_answer_int());
 					break;
 				};
 				case OPT_SPEED:{
@@ -548,6 +573,11 @@ int parse_command_line_already_run(int argv,char **argc){
 						clt->send_command(PACKET_SET_MAX_THREADS,argc[i],strlen(argc[i]));
 					}else
 						printf("%s\n",_(downloader_args_errors[OPT_SET_MAX_THREADS]));
+					break;
+				};
+				case OPT_RERUN_FAILED:{
+					rvalue=0;
+					clt->send_command(PACKET_RERUN_FAILED,NULL,0);
 					break;
 				};
 				};
@@ -614,12 +644,14 @@ void help_print(){
 	help_print_args(OPT_HELP);printf(_("print this page and exit"));printf("\n");
 	help_print_args(OPT_VERSION);printf(_("show version information and exit"));printf("\n");
 	help_print_args(OPT_INFO);printf(_("show information if already run"));printf("\n");
-	help_print_args(OPT_SPEED);printf(_("show curent speed if already run"));printf("\n");
+	help_print_args(OPT_SPEED);printf(_("show current speed if already run"));printf("\n");
 	help_print_args(OPT_TRAFFIC_LOW);printf(_("set lower speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set middle speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_HIGH);printf(_("set unlimited speed"));printf("\n");
 	help_print_args(OPT_SET_DIRECTORY);printf(_("set directory for saving files"));printf("\n");
 	help_print_args(OPT_DEL_COMPLETED);printf(_("delete completed if already run"));printf("\n");
 	help_print_args(OPT_SET_MAX_THREADS);printf(_("set maximum active downloads"));printf("\n");
+	help_print_args(OPT_RERUN_FAILED);printf(_("restart all failed downloads"));printf("\n");
+	help_print_args(OPT_WITHOUT_FACE);printf(_("run program without X interface"));printf("\n");
 	printf("\n");
 };

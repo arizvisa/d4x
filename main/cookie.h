@@ -13,24 +13,17 @@
 
 #include "sort.h"
 #include <time.h>
+#include "locstr.h"
 
 struct tCookie:public tAbstractSortNode{
 	protected:
-	char *host,*path,*name,*value;
 	time_t time_of_life;
 	public:
+	tPStr host,path,name,value;
 	tCookie();
 	void set_time(char *what);
-	void set_host(char *what);
-	void set_path(char *what);
-	void set_name(char *what);
-	void set_value(char *what);
 	void init(char *a,char *b,char *c,char *d);
 	time_t get_time();
-	char *get_host();
-	char *get_name();
-	char *get_path();
-	char *get_value();
 	void print();
 	~tCookie();
 };
@@ -39,8 +32,8 @@ class tCookiesTree:public tAbstractSortTree{
  protected:
 	int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b);
  public:
-	tCookie *find(char *path);
-	tCookie *find(tCookie **begin,char *path);
+	tCookie *find(const char *path);
+	tCookie *find(tCookie **begin,const char *path);
 	void load_cookies();
 	~tCookiesTree();
 };

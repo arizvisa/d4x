@@ -73,6 +73,7 @@ tSpeed::~tSpeed() {
 /*------------------------------------------------------------
  */
 tSpeedQueue::tSpeedQueue() {
+	First=Last=Curent;
 	MaxNum=0;
 	Num=0;
 };

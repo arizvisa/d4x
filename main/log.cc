@@ -39,7 +39,7 @@ tLogString::tLogString() {
 	type=LOG_FROM_SERVER;
 };
 
-tLogString::tLogString(char *where,int len,int tp):tString(where,len) {
+tLogString::tLogString(const char *where,int len,int tp):tString(where,len) {
 	time=::time(NULL);
 	type=tp;
 };
@@ -81,6 +81,7 @@ void tLog::get_geometry(int *a) {
 
 void tLog::send_msg(int type,tLogString *what) {
 	MaxNum=CFG.MAX_LOG_LENGTH;
+//	if (what) printf("%s", what->body);
 	if (Window) {
 		mbuf Msg;
 		Msg.mtype=type;
@@ -107,7 +108,7 @@ void tLog::insert(tNode *what){
 	tQueue::insert(what);
 };
 
-void tLog::add(char *str,int len,int type) {
+void tLog::add(const char *str,int len,int type) {
 	tLogString *temp=new tLogString(str,len,type);
 	temp->time=time(NULL);
 	lock();
@@ -117,7 +118,7 @@ void tLog::add(char *str,int len,int type) {
 	send_msg(1,temp);
 };
 
-void tLog::add(char *str,int type) {
+void tLog::add(const char *str,int type) {
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,type);
 	lock();
@@ -127,7 +128,7 @@ void tLog::add(char *str,int type) {
 	send_msg(1,ins);
 };
 
-void tLog::add(char *str) {
+void tLog::add(const char *str) {
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,LOG_FROM_SERVER);
 	lock();
@@ -148,44 +149,6 @@ void tLog::unlock() {
 
 void tLog::lock() {
     pthread_mutex_lock(&mutex);
-};
-
-void tLog::myprintf(int type,char *fmt,...){
-	char str[MAX_LEN+1];
-	char *cur=str;
-	va_list ap;
-	va_start(ap,fmt);
-	*cur=0;
-	while (*fmt && cur-str<MAX_LEN){
-		if (*fmt=='%'){
-			fmt+=1;
-			switch(*fmt){
-			case 's':{
-				char *s=va_arg(ap,char *);
-				g_snprintf(cur,MAX_LEN-(str-cur),"%s",s);
-				break;
-			};
-			case 'i':{
-				g_snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
-				break;
-			};
-			default:{
-				*cur=*fmt;
-				cur+=1;
-				*cur=0;			       
-			};
-			};
-			if (*fmt==0) break;
-			while(*cur) cur+=1;
-		}else{
-			*cur=*fmt;
-			cur+=1;
-			*cur=0;
-		};
-		fmt+=1;
-	};
-	va_end(ap);
-	add(str,type);
 };
 
 tLogString *tLog::last() {

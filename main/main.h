@@ -12,13 +12,9 @@
 #define T_MAIN
 #include <pthread.h>
 #include <time.h>
-#include "download.h"
-#include "liststr.h"
 #include "dlist.h"
-#include "mdlist.h"
 #include "meter.h"
 #include "mainlog.h"
-#include "speed.h"
 #include "srvclt.h"
 
 class tMain{
@@ -41,6 +37,8 @@ class tMain{
 	void del_all_from_list(tDList *list);
 	unsigned int get_precise_time();
 	void run_msg_server();
+	void speed_calculation(tDownload *what);
+	void run_without_face();
  public:
     	void init();
     	void init_main_log();
@@ -50,6 +48,7 @@ class tMain{
         void del_completed();
 	void del_fataled();
         void del_all();
+	void rerun_failed();
         void load_defaults();
 	void check_for_remote_commands();
         void append_list(tStringList *what);

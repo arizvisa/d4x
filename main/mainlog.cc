@@ -75,7 +75,9 @@ void tMLog::add_to_list() {
 	data[ML_COL_NUM] = line_number;
 	data[ML_COL_TIME] = useful;
 	data[ML_COL_STRING] = str->body;
-	int row=gtk_clist_append(list,data);
+	int row=0;
+	if (list)
+		row=gtk_clist_append(list,data);
 	GdkColor color;
 	char str_type;
 	switch (str->type & (LOG_DETAILED-1)) {
@@ -106,11 +108,24 @@ void tMLog::add_to_list() {
 			str_type=' ';
 			color=BLACK;
 	};
-	GdkColormap *colormap = gtk_widget_get_colormap (MainWindow);
-	gdk_color_alloc (colormap, &color);
-	gtk_clist_set_foreground(list,row,&color);
+	if (list){
+		GdkColormap *colormap = gtk_widget_get_colormap (MainWindow);
+		gdk_color_alloc (colormap, &color);
+		gtk_clist_set_foreground(list,row,&color);
+	};
+	strftime(useful,MAX_LEN,"%T %d %b %Y ",&msgtime);
+	if (CFG.WITHOUT_FACE)
+		printf("%c %s %s\n",str_type,useful,str->body);
 	if (fd) {
-		strftime(useful,MAX_LEN,"%T %d %b %Y ",&msgtime);
+		if (CFG.MAIN_LOG_FILE_LIMIT){
+			struct stat finfo;
+			fstat(fd,&finfo);
+			if (finfo.st_size>(CFG.MAIN_LOG_FILE_LIMIT*1024)){
+				ftruncate(fd,0);
+				lseek(fd,0,SEEK_SET);
+				add(_("Limitation for size of file of mainlog reached! File have been truncated."),LOG_ERROR);
+			};
+		};
 		if (write(fd,&str_type,sizeof(str_type))<0 ||
 		    write(fd,useful,strlen(useful))<0 ||
 		    write(fd,str->body,strlen(str->body))<0 ||
@@ -244,18 +259,18 @@ void tMLog::myprintf(int type,char *fmt,...){
 			switch(*fmt){
 			case 's':{
 				char *s=va_arg(ap,char *);
-				g_snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
 				break;
 			};
 			case 'z':{
 				tDownload *temp=va_arg(ap,tDownload *);
 				char *s=temp->info->url();
-				g_snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
 				delete(s);
 				break;
 			};
 			case 'i':{
-				g_snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
+				g_snprintf(cur,MAX_LEN-(cur-str),"%i",va_arg(ap,int));
 				break;
 			};
 			default:{
@@ -278,7 +293,8 @@ void tMLog::myprintf(int type,char *fmt,...){
 };
 
 void tMLog::dispose() {
-	gtk_clist_remove(list,0);
+	if (!CFG.WITHOUT_FACE)
+		gtk_clist_remove(list,0);
 	tStringList::dispose();
 };
 
@@ -295,5 +311,6 @@ tLogString *tMLog::first() {
 };
 
 tMLog::~tMLog() {
+	done();
 	if (string) delete(string);
 };

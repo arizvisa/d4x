@@ -1,4 +1,4 @@
-%define ver      1.14
+%define ver      1.15
 %define prefix   /usr
 
 Name: nt
@@ -38,6 +38,7 @@ mkdir -p "${RPM_BUILD_ROOT}"%prefix/doc
 mkdir -p "${RPM_BUILD_ROOT}"/etc/X11/wmconfig
 mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet
 mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/pixmaps
+mkdir -p "${RPM_BUILD_ROOT}"%prefix/man/man1
 for i in main/po/*.gmo; do
     j=`basename $i .gmo`
     mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/locale/$j/LC_MESSAGES
@@ -47,14 +48,16 @@ cp -f main/nt "${RPM_BUILD_ROOT}"%prefix/bin/
 cp -f nt.wmconfig "${RPM_BUILD_ROOT}"/etc/X11/wmconfig/nt
 cp -f nt.desktop "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet/nt.desktop
 cp -f nt.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.xpm
+cp -f nt.1 "${RPM_BUILD_ROOT}"%prefix/man/man1/nt.1
 
 %clean
 rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(-, root, root)
-%doc ChangeLog FAQ FAQ.es FAQ.fr FAQ.gr INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.ru README.gr INSTALL.gr
+%doc ChangeLog FAQ FAQ.es FAQ.de FAQ.fr FAQ.gr INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.ru README.gr README.es INSTALL.gr INSTALL.es 
 %prefix/bin/nt
+%prefix/man/man1/nt.1
 /etc/X11/wmconfig/nt
 %prefix/share/gnome/apps/Internet/nt.desktop
 %prefix/share/pixmaps/nt.xpm

@@ -29,19 +29,27 @@ tQueue::tQueue() {
 	Num=0;
 };
 
-
-void tQueue::init(int n) {
-	MaxNum=n;
-	Num=0;
-//	Curent=First=Last=NULL;
-};
-
-void tQueue::insert(tNode *what) {
-	if (what==NULL) return;
+void tQueue::free_to_limit(){
 	if (MaxNum && Num>=MaxNum) {
 		while (Num>=MaxNum)
 			dispose();
 	};
+};
+
+void tQueue::init(int n) {
+	MaxNum=n;
+	tNode *tmp=First;
+	Num=0;
+	while (tmp){
+		Num+=1;
+		tmp=tmp->prev;
+	};
+	free_to_limit();
+};
+
+void tQueue::insert(tNode *what) {
+	if (what==NULL) return;
+	free_to_limit();
 	Num+=1;
 	what->prev=NULL;
 	if ((what->next=Last)) {
@@ -58,10 +66,7 @@ void tQueue::insert_before(tNode *what,tNode *where) {
 	 * if First than .next==NULL
 	 * if Last than .prev==NULL
 	 */
-	if (MaxNum && Num==MaxNum) {
-		while (Num>=MaxNum)
-			dispose();
-	};
+	free_to_limit();
 	Num+=1;
 	if ((what->next=where->next))
 		what->next->prev=what;
@@ -103,12 +108,14 @@ void tQueue::del(tNode *what) {
 };
 
 void tQueue::dispose() {
-	if(First->prev) First->prev->next=NULL;
-	else Last=NULL;
-	tNode *prom=First;
-	First=First->prev;
-	delete prom;
-	Num-=1;
+	if (First){
+		tNode *prom = First;
+		First = First->prev;
+		delete prom;
+		if (First) First->next = NULL;
+		else Last = NULL;
+		Num -= 1;
+	};
 };
 
 int tQueue::count() {

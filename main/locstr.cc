@@ -206,11 +206,11 @@ char *parse_percents(char *what) {
 		switch (*old){
 		case '%':{
 			int num=-1;
-			num=convert_from_hex(*old);
 			old++;
+			num=convert_from_hex(*old);
 			if (num>=0 && *old) {
-				num=num *16 + convert_from_hex(*old);
 				old++;
+				num=num *16 + convert_from_hex(*old);
 				*where=char(num);
 				break;
 			};
@@ -308,12 +308,15 @@ void make_number_nice(char *where,int num) {
 				megs=num/(1024*1024);
 				if (megs==0) {
 					int kils=num/1024;
+					int bytes=((num-kils*1024)*10)/1024;
 					if (kils==0)
 						sprintf(where,"%i",num);
 					else
-						sprintf(where,"%iK",kils);
-				} else
-					sprintf(where,"%iM",megs);
+						sprintf(where,"%i.%iK",kils,bytes);
+				} else{
+					int bytes=((num-megs*1024*1024)*10)/(1024*1024);
+					sprintf(where,"%i.%iM",megs,bytes);
+				};
 				break;
 			};
 		default:
@@ -337,6 +340,7 @@ int is_string(char *what){
  * given the string '  aa  blala'
  * extracted value will be 'aa'
  */
+
 char *my_space_locate(char *what){
 	g_return_val_if_fail(what!=NULL,NULL);
 	char *tmp=what;
@@ -378,7 +382,6 @@ char *extract_from_prefixed_string(char *str,char *begin){
 	char *tmp=str+strlen(begin);
 	while (isspace(*tmp)) tmp+=1;
 	char *rvalue=copy_string(tmp);
-	del_crlf(rvalue);
 	return rvalue;
 };
 
@@ -504,10 +507,52 @@ void normalize_path(char *src) {
 	};
 };
 
+/* FIXME: compose_path() should be rewritten!!!
+ */
+
 char *compose_path(const char *left,const char *right) {
 	g_return_val_if_fail(left!=NULL,NULL);
 	g_return_val_if_fail(right!=NULL,NULL);
-/*	if (left==NULL || right==NULL) return NULL; */
+	char *newpath=NULL;
+	int len=strlen(left);
+	if (*right!='/' && (len==0 || left[len-1]!='/'))
+		newpath=sum_strings(left,"/",right, NULL);
+	else
+		newpath=sum_strings(left,right, NULL);
+	len=strlen("/../");
+	char *up=strstr(newpath,"/../");
+	while (up){
+		while (up>newpath && *(up-1)=='/') up-=1;
+		*up=0;
+		char *tmp=rindex(newpath,'/');
+		*up='/';
+		if (tmp){
+			while (tmp>newpath && *(tmp-1)=='/') tmp-=1;
+			memmove(tmp+1,up+len,strlen(up+len)+1);
+		}else{
+			memmove(newpath,up+len-1,strlen(up+len)+2);
+		};
+		up=strstr(newpath,"/../");
+	};
+	if (!string_ended("/..",newpath)){
+		char *tmp=newpath+strlen(newpath)-3;
+		while (tmp>newpath && *(tmp-1)=='/') tmp-=1;
+		*tmp=0;
+		tmp=rindex(newpath,'/');
+		if (tmp){
+			*tmp=0;
+		}else{
+			*newpath=0;
+		};
+	};
+//	printf("%s + %s -> %s\n",left,right,newpath);
+	return(newpath);
+};
+
+/*
+char *compose_path(const char *left,const char *right) {
+	g_return_val_if_fail(left!=NULL,NULL);
+	g_return_val_if_fail(right!=NULL,NULL);
 	unsigned int ll=strlen(left);
 	unsigned int rl=strlen(right);
 	char *updir="../";
@@ -534,6 +579,8 @@ char *compose_path(const char *left,const char *right) {
 		return(sum_strings(left,"/",right,NULL));
 	return(sum_strings(left,right,NULL));
 };
+
+*/
 
 char *subtract_path(const char *a,const char *b){
 	g_return_val_if_fail(a!=NULL,NULL);
@@ -599,12 +646,12 @@ int get_permisions_from_int(int a){
   ended by 'edned', less than 0 if 'what' less than 'ended'
   or greater than 0 if vice versa
  */
-int string_ended(char *ended, char *what){
+int string_ended(const char *ended, const char *what){
 	if (ended==NULL || what==NULL) return 0;
 	int a=strlen(ended);
 	int b=strlen(what);
-	char *aa=ended+a;
-	char *bb=what+b;
+	char *aa=(char *)(ended+a);
+	char *bb=(char *)(what+b);
 	while (aa!=ended && bb!=what){
 		if (*aa!=*bb) return(*aa>*bb?-1:1);
 		aa-=1;
@@ -671,3 +718,21 @@ int write_named_time(int fd,char *name,time_t when){
 	return 0;
 };
 
+
+/* tPStr
+   Protected String
+ */
+
+tPStr::tPStr(){
+	a=NULL;
+};
+
+void tPStr::set(char *b){
+	if (a) delete(a);
+	a=copy_string(b);
+};
+
+tPStr::~tPStr(){
+	if (a)
+		delete(a);
+};

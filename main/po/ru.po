@@ -92,7 +92,7 @@ msgid "Can't create file at the path:"
 msgstr "Не удается создать файл по пути:"
 
 #: download.cc:103
-msgid "wich has name:"
+msgid "which has name:"
 msgstr "который имеет имя:"
 
 #: download.cc:108
@@ -1166,7 +1166,7 @@ msgid "Total: %d\n"
 msgstr "Всего: %d\n"
 
 #: config.cc:
-msgid "Curent speed: %d\n"
+msgid "Current speed: %d\n"
 msgstr "Текущая скорость: %d\n"
 
 #: config.cc:
@@ -1186,7 +1186,7 @@ msgid "show information if already run"
 msgstr "показать статистику если уже запущен"
 
 #: config.cc:
-msgid "show curent speed if already run"
+msgid "show current speed if already run"
 msgstr "показать текущую скорость если уже запущен"
 
 #: prefs.cc:
@@ -1230,7 +1230,7 @@ msgid "Loading default list of downloads"
 msgstr "Загрузка сохраненного списка закачек"
 
 #:main.cc:
-msgid "Append list to curent queue of downloads"
+msgid "Append list to current queue of downloads"
 msgstr "Добавление списка к текущей очереди закачек"
 
 #: face/dndtrash.cc
@@ -1387,7 +1387,7 @@ msgstr "/Закачка/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
-msgstr "Останвить сразу после добавления"
+msgstr "Остановить сразу после добавления"
 
 #face/list.cc:
 msgid "/Download/Select all"
@@ -1430,3 +1430,53 @@ msgstr "установить максимум одновременно качающих"
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
 msgstr "Разрешить покидать сервер при рекурсии через http"
+
+msgid "/Download/Rerun failed"
+msgstr "/Закачка/Перезапустить неудачные"
+
+msgid "You have no permissions to create file at path %s"
+msgstr "У вас недостаточно прав чтобы создать файл в %s"
+
+msgid "You have no space at path %s for creating file"
+msgstr "У вас недостаточно места на %s чтобы создать файл"
+
+#face/edit.cc:
+msgid "Only subdirs"
+msgstr "Только поддиректории"
+
+# face/edit.cc
+msgid "Restart this download from begining"
+msgstr "Перезапустить эту закачку с начала"
+
+# config.cc
+msgid "restart all failed downloads"
+msgstr "перезапустить все неудачные закачки"
+
+msgid "run program without X interface"
+msgstr "запустить программу без X интерфейса"
+
+#main.cc
+msgid "Set speed limitation to %s %s"
+msgstr "Устанвливаю ограничение скорости в %s %s"
+
+#var.cc
+msgid "low"
+msgstr "минимум"
+
+msgid "middle"
+msgstr "среднее"
+
+msgid "unlimited"
+msgstr "неограниченное"
+
+#main.cc:
+msgid "Can't run new thread for downloading!"
+msgstr "Не могу запустить новый поток для закачки!"
+
+#mainlog.cc:
+msgid "Limitation for size of file of mainlog reached! File have been truncated."
+msgstr "Ограничение на размер файла главного лога достигнуто! Файл был обсечен."
+
+#face/prefs.cc:
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "Максимальный размер файла главного лога (в КБайтах)"

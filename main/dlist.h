@@ -11,11 +11,11 @@
 #ifndef LIST_DONWLOAD
 #define LIST_DONWLOAD
 
+#include "download.h"
 #include "queue.h"
 #include "sort.h"
 #include "liststr.h"
 #include "log.h"
-#include "download.h"
 #include "speed.h"
 #include <time.h>
 #include <pthread.h>
@@ -32,29 +32,45 @@ struct tTriger{
 	int change();
 };
 
+class tDefaultWL:public tWriterLoger{
+	int fd;
+	tLog *LOG;
+ public:
+	tDefaultWL();
+	void set_fd(int newfd);
+	int get_fd();
+	void set_log(tLog *log);
+	int write(const void *buff, int len);
+	int shift(int shift);
+	char *cookie(const char *host, const char *path);
+	void log(int type, const char *str);
+	~tDefaultWL();
+};
+
 class tDList;
 
 struct tDownload:public tAbstractSortNode{
-    tCfg config;
-    tFileInfo finfo;
-    tAddr *info;
-    tDownloader *who;
-    tLog *LOG;
-    tDEdit *editor;
-    //------------------------------------
-    time_t Start,Pause;
-    pthread_t thread_id;
-    int status,owner,action;
-    int NanoSpeed;
-    int GTKCListRow;
-    tTriger Percent,Size,Attempt,Status,Speed,Remain;
+	tCfg config;
+	tFileInfo finfo;
+	tAddr *info;
+	tDownloader *who;
+	tLog *LOG;
+	tWriterLoger *WL;
+	tDEdit *editor;
+	//------------------------------------
+	time_t Start,Pause;
+	pthread_t thread_id;
+	int status,owner,action;
+	int NanoSpeed;
+	int GTKCListRow;
+	tTriger Percent,Size,Attempt,Status,Speed,Remain;
 	//------------------------------------
 //	tQueue *conditions;
-private:
+	private:
 	char *create_new_file_path();
 	char *create_new_save_path();
-public:
-    //------------------------------------
+	public:
+	//------------------------------------
 	tDList *DIR;
 	tSpeed *SpeedLimit;
 	time_t ScheduleTime;
@@ -65,12 +81,24 @@ public:
 	void set_default_cfg();
 	void print();
 	void convert_list_to_dir();
-	void convert_list_to_dir2();
+	void convert_list_to_dir2(tStringList *dir);
+	/* downloading functions*/
+	int http_check_settings(tAddr *what);
+	void delete_who();
+	void download_completed();
+	void download_failed();
+	void recurse_http();
+	void download_ftp();
+	void download_http();
+	/*file manipulations*/
 	void make_file_visible();
+	void set_date_file();
 	int create_file();
+	int delete_file();
+	int file_type();
+
 	void save_to_config(int fd);
 	int load_from_config(int fd);
-	void set_date_file();
 	void update_trigers();
 	~tDownload();
 };
@@ -97,6 +125,7 @@ class tDList:public tQueue{
 };
 
 void make_dir_hier(char *path);
+void make_dir_hier_without_last(char *path);
 
 enum {
     DL_ALONE=0,

@@ -81,6 +81,7 @@ GtkWidget *prefs_log_save;
 GtkWidget *prefs_log_append,*prefs_log_rewrite;
 GtkWidget *prefs_log_save_path;
 GtkWidget *prefs_log_length;
+GtkWidget *prefs_log_fsize,*prefs_log_fslabel;
 GtkWidget *prefs_log_detailed;
 
 GtkWidget *prefs_columns_nums_button1,*prefs_columns_nums_button2,*prefs_columns_nums_button3;
@@ -162,6 +163,8 @@ static void options_browser_open2() {
 
 static void options_toggle_save_log(GtkWidget *parent) {
 	gtk_widget_set_sensitive(prefs_log_append,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_log_fsize,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_log_fslabel,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(prefs_log_rewrite,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(prefs_log_save_path,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(dir_browser_button2,GTK_TOGGLE_BUTTON(parent)->active);
@@ -501,7 +504,7 @@ void init_options_window(...) {
 	GtkWidget *prefs_limits_mllabel=gtk_label_new(_("Maximum lines in MAIN log"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),prefs_limits_mllabel,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_limits_mlbox,0,1,0,1);
-
+	
 	prefs_log_detailed=gtk_check_button_new_with_label(_("Output detailed information"));
 	GTK_TOGGLE_BUTTON(prefs_log_detailed)->active=CFG.MAIN_LOG_DETAILED;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_log_detailed,0,1,1,2);
@@ -520,7 +523,17 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(hboxtemp),dir_browser_button2,FALSE,FALSE,0);
 	if (CFG.SAVE_LOG_PATH)
 		text_to_combo(prefs_log_save_path,CFG.SAVE_LOG_PATH);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),hboxtemp,0,1,3,4);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),hboxtemp,0,1,4,5);
+
+	GtkWidget *prefs_log_mlfbox=gtk_hbox_new(FALSE,0);
+	prefs_log_fsize=gtk_entry_new_with_max_length(9);
+	gtk_widget_set_usize(prefs_log_fsize,80,-1);
+	sprintf(temp,"%li",CFG.MAIN_LOG_FILE_LIMIT);
+	gtk_entry_set_text(GTK_ENTRY(prefs_log_fsize),temp);
+	gtk_box_pack_start(GTK_BOX(prefs_log_mlfbox),prefs_log_fsize,FALSE,FALSE,0);
+	prefs_log_fslabel=gtk_label_new(_("Maximum size for file of main log (in KBytes)"));
+	gtk_box_pack_start(GTK_BOX(prefs_log_mlfbox),prefs_log_fslabel,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_log_mlfbox,0,1,3,4);
 
 	hboxtemp=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hboxtemp),5);
@@ -531,7 +544,7 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_log_rewrite,FALSE,FALSE,0);
 	GTK_TOGGLE_BUTTON(prefs_log_append)->active=CFG.APPEND_REWRITE_LOG;
 	GTK_TOGGLE_BUTTON(prefs_log_rewrite)->active=!CFG.APPEND_REWRITE_LOG;
-	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),hboxtemp,0,1,4,5);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),hboxtemp,0,1,5,6);
 	options_toggle_save_log(prefs_log_save);
 
 	GtkWidget *prefs_log_box=gtk_vbox_new(FALSE,0);
@@ -768,6 +781,7 @@ void options_window_ok() {
 				 ALL_HISTORIES[SKIP_HISTORY]);
 /* Main log settings */
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_log_length)),"%u",&CFG.MAX_MAIN_LOG_LENGTH);
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_log_fsize)),"%li",&CFG.MAIN_LOG_FILE_LIMIT);
 	CFG.MAIN_LOG_DETAILED=GTK_TOGGLE_BUTTON(prefs_log_detailed)->active;
 	CFG.APPEND_REWRITE_LOG=GTK_TOGGLE_BUTTON(prefs_log_append)->active;
  	if (CFG.SAVE_LOG_PATH==NULL || strcmp(CFG.SAVE_LOG_PATH,text_from_combo(prefs_log_save_path)) || 

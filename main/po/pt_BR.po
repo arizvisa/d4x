@@ -2,9 +2,6 @@
 
 # Portuguese translation file for WebDownloader (nt)
 # Copyright (C) 1999  Free Software Foundation, Inc.
-# Guiliano Rangel Alves <Legnar@mailbr.com.br>, 1999.
-#                 ICQ: 30813693
-#                 http://linuxredhat.cjb.net
 #
 #: face/about.cc:167 face/buttons.cc:117 face/buttons.cc:119
 #: face/buttons.cc:121 face/buttons.cc:124 face/buttons.cc:126
@@ -18,19 +15,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "POT-Creation-Date: 1999-08-28 15:06+0800\n"
-"PO-Revision-Date: 1999-08-28 11:13+01\n"
-"Last-Translator: <legnar@mailbr.com.br>\n"
+"PO-Revision-Date: 2000-04-08 11:13+01\n"
+"Last-Translator: <elinux@linuxbox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 
 #: client.cc:65
 msgid "Timeout when socket read!"
-msgstr "Tempo de espera para conecção acabou!"
+msgstr "Tempo de espera para conexão acabou!"
 
 #: client.cc:70
 msgid "Error when reading from socket!"
-msgstr "Erro ao abrir conecção.!"
+msgstr "Erro ao abrir conexão.!"
 
 #: client.cc:79
 msgid "Trying to connect..."
@@ -38,7 +35,7 @@ msgstr "Tentando conectar..."
 
 #: client.cc:81
 msgid "Socket was opened!"
-msgstr "Conecção foi iniciada!"
+msgstr "Conexão foi iniciada!"
 
 #: client.cc:86
 msgid "Host not found!"
@@ -46,7 +43,7 @@ msgstr "Servidor não encontrado!"
 
 #: client.cc:91
 msgid "Can't allocate socket"
-msgstr "Não consigo reservar uma conecção"
+msgstr "Não consigo reservar uma conexão"
 
 #: client.cc:96
 msgid "Can't connect"
@@ -96,8 +93,8 @@ msgid "Can't create file at the path:"
 msgstr "Não consigo cirar o arquivo no caminho:"
 
 #: download.cc:103
-msgid "wich has name:"
-msgstr "Com nome:"
+msgid "which has name:"
+msgstr "Com o nome:"
 
 #: download.cc:108
 msgid "File was created!"
@@ -121,7 +118,7 @@ msgstr "Tentando criar um link"
 
 #: download.cc:132
 msgid "Can't create link"
-msgstr "Não posso criar o link"
+msgstr "Não posso criar um link"
 
 #: download.cc:135
 msgid "Link already created!:))"
@@ -133,7 +130,7 @@ msgstr "Downloader não pode criar  dispositivos..."
 
 #: download.cc:145
 msgid "Warning! Probably you found the BUG!!!"
-msgstr "Atenção!!! Provavélmente você achou um BUG!!!"
+msgstr "Atenção!!! Provavelmente você achou um BUG!!!"
 
 #: download.cc:146
 msgid "If you see this message please report to mdem@chat.ru"
@@ -149,7 +146,7 @@ msgstr "Fim do tempo para o controle do socket."
 
 #: ftp.cc:48
 msgid "Control connection is lost"
-msgstr "O controle da conecção foi perdido"
+msgstr "O controle da conexão foi perdido"
 
 #: ftp.cc:57
 msgid "Data socket is lost!"
@@ -166,11 +163,11 @@ msgstr "tentando conectar em %i,%i,%i,%i,%i,%i"
 
 #: ftp.cc:177
 msgid "Cant stand data connection"
-msgstr "Não posso manter a conecção de dados"
+msgstr "Não posso manter a conexão de dados"
 
 #: ftp.cc:254
 msgid "Data connection closed."
-msgstr "Conecção de dados fechada."
+msgstr "Conexão de dados fechada."
 
 #: ftp.cc:259 http.cc:132
 msgid "Can't write to file"
@@ -178,11 +175,11 @@ msgstr "Não posso escrever no arquivo"
 
 #: ftpd.cc:138
 msgid "Reget is not supported!!!"
-msgstr "Não é possivél continuar uma conecção perdida!!!"
+msgstr "Não é possivél continuar uma conexão perdida!!!"
 
 #: ftpd.cc:183
 msgid "Server refused login probably too many users of your class"
-msgstr "O servidor recusou o acesso, provavélmente exitem muitos usuários da sua classe"
+msgstr "O servidor recusou o acesso, provavelmente exitem muitos usuários da sua classe"
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
@@ -217,7 +214,7 @@ msgstr "Não posso obter o tamanho.:(("
 
 #: ftpd.cc:319 ftpd.cc:361 ftpd.cc:411
 msgid "Can't establish data connection"
-msgstr "Não posso estabelecer uma conecção de dados"
+msgstr "Não posso estabelecer uma conexão de dados"
 
 #: ftpd.cc:325
 msgid "Can't change dir!"
@@ -262,7 +259,7 @@ msgstr "Enviando requisição para proxy"
 
 #: hproxy.cc:141 httpd.cc:220
 msgid "Answer read ok"
-msgstr "Responsta afirmativa"
+msgstr "Resposta afirmativa"
 
 #: hproxy.cc:151 httpd.cc:230
 msgid "Could'nt get normal answer!"
@@ -294,7 +291,7 @@ msgstr "O servidor retornou uma resposta incorreta :(("
 
 #: http.cc:127
 msgid "Connection closed."
-msgstr "Conecção encerrada."
+msgstr "Conexao encerrada."
 
 #: httpd.cc:78
 #, c-format
@@ -312,7 +309,7 @@ msgstr "Enviando requisição http..."
 
 #: httpd.cc:242
 msgid "It is seemed REGET not supported! Loading from begin.."
-msgstr "Suporta para continuar conecção interrompinda não é suportado! Baixando desde o inicio..."
+msgstr "Suporta para continuar conexão interrompinda não é suportado! Baixando desde o inicio..."
 
 #: main.cc:145
 msgid "Normally started"
@@ -420,7 +417,7 @@ msgstr "Não consigo abrir o arquivo de log salvado"
 #: nt.cc:39
 #, c-format
 msgid "%s probably is already running\n"
-msgstr "%s Provávelmete já exite uma copia do programa na memória.\n"
+msgstr "%s Provavelmete já exite uma cópia do programa na memória.\n"
 
 #: savelog.cc:61
 msgid ""
@@ -487,7 +484,7 @@ msgstr " Parar downloads "
 
 #: face/buttons.cc:128
 msgid " Del Completed downloads "
-msgstr " Apagar downloads comcluídos "
+msgstr " Apagar downloads concluídos "
 
 #: face/buttons.cc:130
 msgid " Move up "
@@ -636,7 +633,7 @@ msgstr "porta"
 
 #: face/edit.cc:627 face/edit.cc:681
 msgid "need password"
-msgstr "Precisa de senha"
+msgstr "Senha requerida"
 
 #: face/edit.cc:635 face/edit.cc:689
 msgid "username"
@@ -660,7 +657,7 @@ msgstr "Porta:"
 
 #: face/limface.cc:63
 msgid "Maximum connections:"
-msgstr "Número máximo número de conecções:"
+msgstr "Número máximo número de conexões:"
 
 #: face/limface.cc:278
 msgid "Limitations for the hosts"
@@ -672,7 +669,7 @@ msgstr "Servidor"
 
 #: face/limface.cc:282
 msgid "N"
-msgstr "Número de conecções"
+msgstr "Número de conexões"
 
 #: face/limface.cc:296
 msgid "Add new"
@@ -692,7 +689,7 @@ msgstr "Tipo"
 
 #: face/list.cc:70
 msgid "Full Size"
-msgstr "Tam."
+msgstr "Tamanho"
 
 #: face/list.cc:70
 msgid "Downloaded"
@@ -716,7 +713,7 @@ msgstr "Tentativas"
 
 #: face/list.cc:70
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: face/list.cc:126
 msgid "/_File"
@@ -779,7 +776,7 @@ msgstr "/Download/Apagar concl_uídos"
 
 #: face/list.cc:142
 msgid "/Download/Delete failed"
-msgstr "/Download/Apaga_r mal sucedidos"
+msgstr "/Download/Apagar mal sucedidos"
 
 #: face/list.cc:143
 msgid "/_Options"
@@ -803,7 +800,7 @@ msgstr "/Ajuda/_Sobre..."
 
 #: face/list.cc:226
 msgid "Do you realy want to quit?"
-msgstr "Quer fechar o programa realmente?"
+msgstr "Quer mesmo sair?"
 
 #: face/list.cc:226
 msgid "Quit?"
@@ -811,7 +808,7 @@ msgstr "Sair?"
 
 #: face/list.cc:243
 msgid "Delete selected downloads?"
-msgstr "Apagar downloads seleicionados?"
+msgstr "Apagar downloads selecionados?"
 
 #: face/list.cc:243 face/list.cc:252 face/list.cc:261
 msgid "Delete?"
@@ -921,7 +918,7 @@ msgstr "usar o título da janela principal para informação"
 
 #: face/prefs.cc:204
 msgid "Display queue statistc too"
-msgstr "Mostra também estatiticas"
+msgstr "Mostra também estatísticas"
 
 #: face/prefs.cc:211
 msgid "Open dialog for Drag-n-Drop"
@@ -1085,7 +1082,7 @@ msgstr " tamanhao do arquivo"
 
 #: face/columns.cc:22
 msgid "downloaded size"
-msgstr " tamanaho já baixado"
+msgstr " tamanho já baixado"
 
 #: face/columns.cc:22
 msgid "percent"
@@ -1117,7 +1114,7 @@ msgstr " Colunas mostradas"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr " Voltar quantos bytes(roolback) apos a reconecção"
+msgstr " Voltar quantos bytes(roolback) apos a reconexão"
 
 #: download.cc:
 msgid "Can't do rollback!"
@@ -1145,7 +1142,7 @@ msgstr " Donwload terminou normalmente"
 
 #: face/dndtrash.cc:
 msgid "Drop link here"
-msgstr " Arraste um link para aqui."
+msgstr " Arraste um link aqui"
 
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
@@ -1176,7 +1173,7 @@ msgid "Total: %d\n"
 msgstr "Total: %d\n"
 
 #: config.cc:
-msgid "Curent speed: %d\n"
+msgid "Current speed: %d\n"
 msgstr "Velocidade atual: %d\n"
 
 #: config.cc:
@@ -1196,7 +1193,7 @@ msgid "show information if already run"
 msgstr "Mostra informação se já esta executando"
 
 #: config.cc:
-msgid "show curent speed if already run"
+msgid "show current speed if already run"
 msgstr "Mostra a velocidade atual se estiver rodando"
 
 #: prefs.cc:
@@ -1240,7 +1237,7 @@ msgid "Loading default list of downloads"
 msgstr "Lendo lista padrão de downloads"
 
 #:main.cc:
-msgid "Append list to curent queue of downloads"
+msgid "Append list to current queue of downloads"
 msgstr "Atualizando lista atual de downloads"
 
 #: face/dndtrash.cc
@@ -1266,11 +1263,11 @@ msgstr "Usuário-representane para requisições http"
 #: face/columns.cc
 
 msgid "rest"
-msgstr "restão"
+msgstr "restam"
 
 #: face/lod.cc
 msgid "Rest"
-msgstr "Restão"
+msgstr "Restam"
 
 #: config.cc:
 msgid "set lower speed limitation"
@@ -1371,7 +1368,7 @@ msgstr "/Opções/Botões"
 
 #: face/list.cc
 msgid "/Options/Buttons/Manipulating"
-msgstr "/Options/Buttons/Manipulating"
+msgstr "/Opções/Botões/Manipulando"
 
 #: face/list.cc
 msgid "/Options/Buttons/Speed buttons"
@@ -1399,7 +1396,7 @@ msgstr "/Download/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
-msgstr "Parar este logo apos adicionar"
+msgstr "Parar este logo após adicionar"
 
 #face/list.cc:
 msgid "/Download/Select all"
@@ -1411,35 +1408,85 @@ msgstr "/Download/Inverter seleção"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via ftp"
-msgstr ""
+msgstr "Tentar carregar ligação simbólica como arquivo via ftp"
 
 # face/list.cc
 msgid "/Options/Passwords"
-msgstr ""
+msgstr "/Opções/Senhas"
 
 # face/passwords.cc
 msgid "protocol"
-msgstr ""
+msgstr "protocolo"
 
 
 #face/passface.cc:
 msgid "Default passwords and usernames"
-msgstr ""
+msgstr "Senhas e nomes de usuários padrões"
 
 #main.cc:
 msgid "Redirection from [%z] to nowhere!"
-msgstr ""
+msgstr "Redireção de [%z] para nenhum lugar!"
 
 # config.cc:
 msgid "set directory for saving files"
-msgstr ""
+msgstr "setar diretório para salvar arquivos"
 
 msgid "delete completed if already run"
-msgstr ""
+msgstr "deletar completados se já executados"
 
 msgid "set maximum active downloads"
-msgstr ""
+msgstr "setar máximo de downloads ativos"
 
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
+msgstr "Permitir deixar este servidor quando recursing via http"
+
+msgid "/Download/Rerun failed"
+msgstr ""
+
+msgid "You have no permissions to create file at path %s"
+msgstr ""
+
+msgid "You have no space at path %s for creating file"
+msgstr ""
+
+#face/edit.cc:
+msgid "Only subdirs"
+msgstr ""
+
+# face/edit.cc
+msgid "Restart this download from begining"
+msgstr ""
+
+# config.cc
+msgid "restart all failed downloads"
+msgstr ""
+
+msgid "run program without X interface"
+msgstr ""
+
+#main.cc
+msgid "Set speed limitation to %s %s"
+msgstr ""
+
+#var.cc
+msgid "low"
+msgstr ""
+
+msgid "middle"
+msgstr ""
+
+msgid "unlimited"
+msgstr ""
+
+#main.cc:
+msgid "Can't run new thread for downloading!"
+msgstr ""
+
+#mainlog.cc:
+msgid "Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ""
+
+#face/prefs.cc:
+msgid "Maximum size for file of main log (in KBytes)"
 msgstr ""

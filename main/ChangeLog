@@ -1,3 +1,82 @@
+Thu Apr 20 09:28:27 2000
+	*nt.cc: Releasing new version 1.15;
+	*Makefile: some reorganizations;
+
+Wed Apr 19 10:02:25 2000
+	*dlist.cc: fixed leaving server when recursing via http;
+	*face/prefs.cc: new option is togled now by button above it;
+
+Tue Apr 18 09:05:24 2000
+	*httpd.cc: some fixes in ETag checking;
+	*mainlog.cc,var.h[cc],face/prefs.cc: added ability to limit size of
+	file of main log;
+
+Sun Apr 16 18:19:29 2000	a_voloshin@mail.ru
+	*Makefile,face/Makefile,po/Makefile: total optimization of Makefile;
+	*mainlog.cc,ftp.cc,main.cc: segfaulting fixed;
+
+Thu Apr 13 11:00:51 2000
+	*addr.cc: cosmetic fix; 
+	*httpd.cc,dlist.cc: fixed segfaulting while http recursing;
+	*main.cc: i18n fixes;
+
+Wed Apr 12 11:00:51 2000
+	*[many files]: unnessessary #include was removed;
+	*client.cc,mainlog.cc: fixed *printf function in logs realisations;
+	*config.cc: fixed saving order of limitations;
+	*main.cc: code cleanups, fixed saving list in period of time;
+	*face/edit.cc: fixed initing checks;
+	*httpd.cc,dlist.cc: removed make_dir_hier from generic code;
+	added make_dit_hier_withou_last routine;
+
+Tue Apr 11 09:41:05 2000
+	*main.cc: completed ability to run without X :); fixed
+	loading ny different users from one machine in one time;
+	*locstr.cc: trying to fix compose_path();
+	*face/edit.cc,download.cc[h],dlist.cc: added ability to restart download
+	from begining;
+
+Mon Apr  10 20:23:26 2000
+	*main.cc,var.cc[h]: added ability to run without face;
+	*config.cc[h],srvclt.cc[h],main.cc: added ability to rerun failed
+	downloads via control socket;
+	*httpd.cc,ftpd.cc: fix downloading part of file;
+
+Sun Apr  9 20:23:26 2000
+	*httpd.cc: fixed retrying when ETag field is changed;
+	*ftpd.cc: fixed downloading separate part of file;
+
+Sat Apr  8 16:50:16 2000
+	*face/edit.cc[h]: face for new option;
+	*locstr.cc: compose_path() was totaly rewritten;
+	*download.cc[h],dlist.cc[h]: added one option for http recursion;
+	*main.cc: some fixes;
+
+Thu Apr  6 10:58:13 2000
+	*[many files]: continue conversion...;
+
+Wed Apr  5 19:10:29 2000
+	*ftp.cc: ftp improvements;
+	*po/de.po: updated; 
+	*httpd.cc: added some skipped 'break's;
+	*[all files]: total conversion to library architecture;
+
+Tue Apr  4 08:26:27 2000
+	*locstr.cc: fixed parsing %xx in urls... [:) too more cleanups];
+	new format of numbers for size;
+	*po/es.po: updated for version 1.14;
+	*client.cc[h]: begin to develop new method to loging and writing;
+
+Mon Apr  3 12:20:54 2000
+	*main.cc,face/list.cc: added ability to rerun all failed downloads;
+	*download.cc[h]: extra error messages was added, fixed memory leak
+	when can't create symlink;
+	*queue.cc,dlist.cc,speed.cc: some cleanups in queue realisation;
+
+Fri Mar 31 11:42:20 2000
+	*[almost all files]: get_something(), set_something replaced
+	to tPStr::get() and tPStr::set();
+
 Thu Mar 30 11:42:20 2000
 	*download.cc: continuing code cleanups;
 	*po/: Dutch and Greek translations updated;

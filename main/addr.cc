@@ -100,14 +100,13 @@ static void rsplit_string(char *what,char delim,tTwoStrings *out) {
 /*------------------ end of temporary functions ------------ */
 
 tAddr::tAddr() {
-	host=username=pass=path=file=NULL;
 	proto=D_PROTO_UNKNOWN;
 	port=0;
 	mask=0;
 };
 
 tAddr::tAddr(char *str){
-	host=username=pass=path=file=NULL;
+	char *host1=NULL,*username1=NULL,*pass1=NULL,*path1=NULL,*file1=NULL;
 	proto=D_PROTO_UNKNOWN;
 	port=0;
 	mask=0;
@@ -121,142 +120,138 @@ tAddr::tAddr(char *str){
 	} else {
 		proto=get_proto_by_string(pair.two);
 	};
-	host=pair.two;
-	if (!host) {
+	host1=pair.two;
+	if (!host1) {
 		return;
 	};
-	split_string(host,"/",&pair);
+	split_string(host1,"/",&pair);
 	if (pair.one) {
-		host=pair.one;
-		file=pair.two;
+		host1=pair.one;
+		file1=pair.two;
 	} else {
-		host=pair.two;
-		file=pair.one;
+		host1=pair.two;
+		file1=pair.one;
 	};
-	rsplit_string(host,'@',&pair);
-	host=pair.two;
-	username=pair.one;
-	if (username) {
-		split_string(username,":",&pair);
-		username=pair.one;
-		pass=pair.two;
+	rsplit_string(host1,'@',&pair);
+	host1=pair.two;
+	username1=pair.one;
+	if (username1) {
+		split_string(username1,":",&pair);
+		username1=pair.one;
+		pass1=pair.two;
 	} else {
-		username=NULL;
-		pass=NULL;
+		username1=NULL;
+		pass1=NULL;
 	};
-	if (file) {
-		char *tmp=parse_percents(file);
+	if (file1) {
+		char *tmp=parse_percents(file1);
 		if (tmp) {
-			delete file;
-			file=tmp;
+			delete file1;
+			file1=tmp;
 		} else
 			delete tmp;
-		char *prom=rindex(file,'/');
+		char *prom=rindex(file1,'/');
 		if (prom) {
-			path=copy_string(prom+1);
+			path1=copy_string(prom+1);
 			*prom=0;
-			prom=path;
-			path=copy_string(file);
-			delete file;
-			file=prom;
+			prom=path1;
+			path1=copy_string(file1);
+			delete file1;
+			file1=prom;
 		};
 	} else {
-		file=copy_string("");
+		file1=copy_string("");
 	};
-	if (!path) path=copy_string("");
-	split_string(host,":",&pair);
+	if (!path1) path1=copy_string("");
+	split_string(host1,":",&pair);
 	if (pair.one) {
 		sscanf(pair.two,"%i",&port);
 		delete pair.two;
-		host=pair.one;
+		host1=pair.one;
 	} else {
 		port=0;
-		host=pair.two;
+		host1=pair.two;
 	};
-	if (proto==D_PROTO_FTP  && index(file,'*'))
+	if (proto==D_PROTO_FTP  && index(file1,'*'))
 		mask=1;
 	/* Parse # in http urls
 	 */
-	if (proto==D_PROTO_HTTP && file!=NULL) {
-		char *tmp=index(file,'#');
+	if (proto==D_PROTO_HTTP && file1!=NULL) {
+		char *tmp=index(file1,'#');
 		if (tmp) {
 			*tmp=0;
-			tmp=file;
-			file=copy_string(tmp);
+			tmp=file1;
+			file1=copy_string(tmp);
 			delete(tmp);
 		};
 	};
 	if (port==0)
 		port=proto_infos[proto].port;
+	host.set(host1);if (host1) delete(host1);
+	username.set(username1);if (username1) delete(username1);
+	pass.set(pass1);if (pass1) delete(pass1);
+	path.set(path1);if (path1) delete(path1);
+	file.set(file1);if (file1) delete(file1);
 };
 
 void tAddr::print() {
         printf("protocol: %s\n",proto_infos[proto].name);
-	if (host) printf("host: %s\n",host);
-	if (path) printf("path: %s\n",path);
-	if (file) printf("file: %s\n",file);
-	if (username) printf("username: %s\n",username);
-	if (pass) printf("pass: %s\n",pass);
+	if (host.get()) printf("host: %s\n",host.get());
+	if (path.get()) printf("path: %s\n",path.get());
+	if (file.get()) printf("file: %s\n",file.get());
+	if (username.get()) printf("username: %s\n",username.get());
+	if (pass.get()) printf("pass: %s\n",pass.get());
 	printf("port: %i\n",port);
+};
+
+static int _str_first_char(const char *a,char b){
+	if (a && *a==b) return 1;
+	return 0;
+};
+
+static int _str_last_char(const char *a,char b){
+	if (a){
+		int len=strlen(a);
+		if (len && a[len-1]==b) return 1;
+	};
+	return 0;
 };
 
 void tAddr::save_to_config(int fd){
 	f_wstr_lf(fd,"URL:");
 	f_wstr(fd,proto_infos[proto].name);
 	f_wstr(fd,"://");
-	if (username && !equal(username,DEFAULT_USER)){
-		f_wstr(fd,username);
+	if (username.get() && !equal(username.get(),DEFAULT_USER)){
+		f_wstr(fd,username.get());
 		f_wstr(fd,":");
-		f_wstr(fd,pass);
+		f_wstr(fd,pass.get());
 		f_wstr(fd,"@");
 	};
-	f_wstr(fd,host);
+	f_wstr(fd,host.get());
 	char port_str[MAX_LEN];
 	g_snprintf(port_str,MAX_LEN,"%d",port);
 	f_wstr(fd,":");
 	f_wstr(fd,port_str);
-	if (path && *path!='/')
+	if (!_str_first_char(path.get(),'/'))
 		f_wstr(fd,"/");
-	int temp=path==NULL ? 0:strlen(path);
-	write(fd,path,temp);
-	if (path && temp && path[temp-1]!='/')
+	if (path.get())
+		f_wstr(fd,path.get());
+	if (!_str_last_char(path.get(),'/'))
 		f_wstr(fd,"/");
-	f_wstr_lf(fd,file);
+	f_wstr_lf(fd,file.get());
 };
 
-void tAddr::set_host(char *what){
-	if (host) delete(host);
-	host=copy_string(what);
-};
-void tAddr::set_username(char *what){	
-	if (username) delete(username);
-	username=copy_string(what);
-};
-void tAddr::set_pass(char *what){	
-	if (pass) delete(pass);
-	pass=copy_string(what);
-};
-void tAddr::set_path(char *what){	
-	if (path) delete(path);
-	path=copy_string(what);
-};
-void tAddr::set_file(char *what){	
-	if (file) delete(file);
-	file=copy_string(what);
-};
 
 void tAddr::compose_path(char *aa, char *bb){
-	if (path) delete(path);
-	path=::compose_path(aa,bb);
+	char *tmp=::compose_path(aa,bb);
+	path.set(tmp);
+	if (tmp) delete(tmp);
 };
 
 void tAddr::file_del_sq(){
-	char *tmp=index(file,'#');
+	char *tmp=index(file.get(),'#');
 	if (tmp) {
 		*tmp=0;
-		tmp=file;
-		file=copy_string(tmp);
-		delete(tmp);
 	};
 };
 
@@ -264,58 +259,56 @@ void tAddr::make_url(char *where){
 	*where=0;
 	strcat(where,proto_infos[proto].name);
 	strcat(where,"://");
-	if (username && !equal(username,"anonymous")) {
-		strcat(where,username);
+	if (username.get() && !equal(username.get(),DEFAULT_USER)) {
+		strcat(where,username.get());
 		strcat(where,":");
-		if (pass) strcat(where,pass);
+		if (pass.get()) strcat(where,pass.get());
 		strcat(where,"@");
 	};
-	strcat(where,host);
+	strcat(where,host.get());
 	if (port!=proto_infos[proto].port){
 		char data[MAX_LEN];
 		sprintf(data,":%i",port);
 		strcat(where,data);
 	};
-	strcat(where,path);
-	if (path[strlen(path)-1]!='/')
+	strcat(where,path.get());
+	if (!_str_last_char(path.get(),'/'))
 		strcat(where,"/");
-	strcat(where,file);
+	strcat(where,file.get());
 };
 
 char *tAddr::url() {
-	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host)+
-	                   strlen(path)+strlen(file)+7];
+	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
+	                   strlen(path.get())+strlen(file.get())+7];
 	*URL=0;
 	/* Easy way to make URL from info  field
 	 */
 	strcat(URL,proto_infos[proto].name);
 	strcat(URL,"://");
-	if (host) strcat(URL,host);
-	if (path){
-		if (path[0]!='/') strcat(URL,"/");
-		strcat(URL,path);
-		int len=strlen(path);
-		if (len>0 && path[len-1]!='/')
-			strcat(URL,"/");
+	if (host.get()) strcat(URL,host.get());
+	if (path.get()){
+		if (!_str_first_char(path.get(),'/')) strcat(URL,"/");
+		strcat(URL,path.get());
+		if (!_str_last_char(URL,'/')) strcat(URL,"/");
 	};
-	if (file) strcat(URL,file);
+	if (file.get()) strcat(URL,file.get());
 	return URL;
 };
 
+int tAddr::is_valid(){
+	if (host.get()==NULL || path.get()==NULL || file.get()==NULL) return 0;
+	return 1;
+};
+
 void tAddr::copy_host(tAddr *what){
-	set_host(what->host);
-	set_pass(what->pass);
-	set_username(what->username);
+	host.set(what->host.get());
+	pass.set(what->pass.get());
+	username.set(what->username.get());
 	proto=what->proto;
 	port=what->port;
 };
 
 tAddr::~tAddr() {
-	if (path) delete(path);
-	if (pass) delete(pass);
-	if (username) delete(username);
-	if (host) delete(host);
-	if (file) delete(file);
 };
 
 /**********************************************/

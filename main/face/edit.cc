@@ -208,18 +208,18 @@ void tDEdit::init_main(tDownload *who) {
 	text_to_combo(url_entry,URL);
 	delete URL;
 
-	text_to_combo(path_entry,who->config.get_save_path());
-	if (who->config.get_save_name())
-		text_to_combo(file_entry,who->config.get_save_name());
+	text_to_combo(path_entry,who->config.save_path.get());
+	if (who->config.save_name.get())
+		text_to_combo(file_entry,who->config.save_name.get());
 	else text_to_combo(file_entry,"");
-	if (who->info->get_pass())
-		text_to_combo(pass_entry,who->info->get_pass());
+	if (who->info->pass.get())
+		text_to_combo(pass_entry,who->info->pass.get());
 	else
 		text_to_combo(pass_entry,"");
-	if (who->info->get_username())
-		text_to_combo(user_entry,who->info->get_username());
-	if (who->config.get_user_agent())
-		text_to_combo(user_agent_entry,who->config.get_user_agent());
+	if (who->info->username.get())
+		text_to_combo(user_entry,who->info->username.get());
+	if (who->config.user_agent.get())
+		text_to_combo(user_agent_entry,who->config.user_agent.get());
 	/* initing labels
 	 */
 	GtkWidget *url_label=gtk_label_new("URL:");
@@ -274,7 +274,7 @@ void tDEdit::init_main(tDownload *who) {
 
 	button=gtk_check_button_new_with_label(_("Use password for this site"));
 	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(edit_window_password),this);
-	if (who->info->get_username())
+	if (who->info->username.get())
 		GTK_TOGGLE_BUTTON(button)->active=TRUE;
 	else
 		GTK_TOGGLE_BUTTON(button)->active=FALSE;
@@ -289,8 +289,11 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
 	pause_check=gtk_check_button_new_with_label(_("Pause this just after adding"));
+	restart_from_begin_check=gtk_check_button_new_with_label(_("Restart this download from begining"));
 	GTK_TOGGLE_BUTTON(pause_check)->active=FALSE;
+	GTK_TOGGLE_BUTTON(restart_from_begin_check)->active=FALSE;
 	gtk_box_pack_start(GTK_BOX(vbox),pause_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),restart_from_begin_check,FALSE,FALSE,0);
 	GtkWidget *frame=gtk_frame_new(_("Download"));
 	gtk_container_border_width(GTK_CONTAINER(frame),5);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
@@ -398,9 +401,15 @@ void tDEdit::init_other(tDownload *who) {
 	link_as_file_check=gtk_check_button_new_with_label(_("Try to load simbolyc link as file via ftp"));
 	GTK_TOGGLE_BUTTON(link_as_file_check)->active=who->config.link_as_file;
 	gtk_box_pack_start(GTK_BOX(other_vbox),link_as_file_check,FALSE,FALSE,0);
+	
+	other_hbox=gtk_hbox_new(FALSE,0);
+	leave_dir_check=gtk_check_button_new_with_label(_("Only subdirs"));
 	leave_server_check=gtk_check_button_new_with_label(_("Allow leave this server while recursing via http"));
 	GTK_TOGGLE_BUTTON(leave_server_check)->active=who->config.leave_server;
-	gtk_box_pack_start(GTK_BOX(other_vbox),leave_server_check,FALSE,FALSE,0);
+	GTK_TOGGLE_BUTTON(leave_dir_check)->active=who->config.dont_leave_dir;
+	gtk_box_pack_start(GTK_BOX(other_hbox),leave_server_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_hbox),leave_dir_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 	GtkWidget *other_frame=gtk_frame_new(_("Other"));
 	gtk_container_border_width(GTK_CONTAINER(other_frame),5);
 	gtk_container_add(GTK_CONTAINER(other_frame),other_vbox);
@@ -618,22 +627,22 @@ int tDEdit::apply_changes() {
 	char *pass_string=text_from_combo(pass_entry);
 	if (GTK_TOGGLE_BUTTON(button)->active) {
 		if (strlen(text_from_combo(user_entry)) && strlen(pass_string)) {
-			parent->info->set_username(text_from_combo(user_entry));
-			ALL_HISTORIES[USER_HISTORY]->add(parent->info->get_username());
-			parent->info->set_pass(pass_string);
+			parent->info->username.set(text_from_combo(user_entry));
+			ALL_HISTORIES[USER_HISTORY]->add(parent->info->username.get());
+			parent->info->pass.set(pass_string);
 			if (CFG.REMEMBER_PASS)
 				ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
 		};
 	};
-	parent->config.set_save_path(text_from_combo(path_entry));
-	parent->config.set_save_name(NULL);
+	parent->config.save_path.set(text_from_combo(path_entry));
+	parent->config.save_name.set(NULL);
 	if (strlen(text_from_combo(file_entry)))
-		parent->config.set_save_name(text_from_combo(file_entry));
-	if (parent->config.get_save_name())
-		ALL_HISTORIES[FILE_HISTORY]->add(parent->config.get_save_name());
-	normalize_path(parent->config.get_save_path());
+		parent->config.save_name.set(text_from_combo(file_entry));
+	if (parent->config.save_name.get())
+		ALL_HISTORIES[FILE_HISTORY]->add(parent->config.save_name.get());
+	normalize_path(parent->config.save_path.get());
 	parent->status=0;
-	if (strlen(parent->info->get_file())==0) {
+	if (strlen(parent->info->file.get())==0) {
 		parent->finfo.type=T_DIR;
 		parent->finfo.size=0;
 	} else {
@@ -643,7 +652,7 @@ int tDEdit::apply_changes() {
 	/* change histories
 	 */
 	char *URL=parent->info->url();
-	parent->config.set_user_agent(text_from_combo(user_agent_entry));
+	parent->config.user_agent.set(text_from_combo(user_agent_entry));
 	ALL_HISTORIES[PATH_HISTORY]->add(text_from_combo(path_entry));
 	ALL_HISTORIES[URL_HISTORY]->add(URL);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add(text_from_combo(user_agent_entry));
@@ -651,7 +660,7 @@ int tDEdit::apply_changes() {
 	 */
 	if (parent->GTKCListRow > 0) {
 		list_of_downloads_change_data(parent->GTKCListRow,URL_COL,URL);
-		list_of_downloads_change_data(parent->GTKCListRow,FILE_COL,parent->info->get_file());
+		list_of_downloads_change_data(parent->GTKCListRow,FILE_COL,parent->info->file.get());
 		for (int i=FILE_TYPE_COL;i<URL_COL;i++)
 			list_of_downloads_change_data(parent->GTKCListRow,i,"");
 	};
@@ -679,6 +688,8 @@ int tDEdit::apply_changes() {
 	parent->config.retry=GTK_TOGGLE_BUTTON(retry_check)->active;
 	parent->config.link_as_file=GTK_TOGGLE_BUTTON(link_as_file_check)->active;
 	parent->config.leave_server=GTK_TOGGLE_BUTTON(leave_server_check)->active;
+	parent->config.dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
+	parent->config.restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
 
 	if (GTK_TOGGLE_BUTTON(time_check)->active) {
@@ -962,36 +973,36 @@ void tProxyWidget::init_state() {
 
 void tProxyWidget::init_state(tCfg *cfg,int proto) {
 	if (proto) {
-		if (cfg->get_proxy_host()) {
-			text_to_combo(ftp_proxy_host,cfg->get_proxy_host());
+		if (cfg->proxy_host.get()) {
+			text_to_combo(ftp_proxy_host,cfg->proxy_host.get());
 			GTK_TOGGLE_BUTTON(ftp_proxy_check)->active=TRUE;
 			if (cfg->proxy_port) {
 				char data[MAX_LEN];
 				sprintf(data,"%i",cfg->proxy_port);
 				gtk_entry_set_text(GTK_ENTRY(ftp_proxy_port),data);
 			};
-			if (cfg->get_proxy_user() && cfg->get_proxy_pass()) {
+			if (cfg->proxy_user.get() && cfg->proxy_pass.get()) {
 				GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active=TRUE;
-				text_to_combo(ftp_proxy_user,cfg->get_proxy_user());
-				text_to_combo(ftp_proxy_pass,cfg->get_proxy_pass());
+				text_to_combo(ftp_proxy_user,cfg->proxy_user.get());
+				text_to_combo(ftp_proxy_pass,cfg->proxy_pass.get());
 			}else
 				GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active=FALSE;
 		} else
 			GTK_TOGGLE_BUTTON(ftp_proxy_check)->active=FALSE;
 		proxy_toggle_pass_ftp(ftp_proxy_user_check,this);
 	} else {
-		if (cfg->get_proxy_host()) {
-			text_to_combo(http_proxy_host,cfg->get_proxy_host());
+		if (cfg->proxy_host.get()) {
+			text_to_combo(http_proxy_host,cfg->proxy_host.get());
 			GTK_TOGGLE_BUTTON(http_proxy_check)->active=TRUE;
 			if (cfg->proxy_port) {
 				char data[MAX_LEN];
 				sprintf(data,"%i",cfg->proxy_port);
 				gtk_entry_set_text(GTK_ENTRY(http_proxy_port),data);
 			};
-			if (cfg->get_proxy_user() && cfg->get_proxy_pass()) {
+			if (cfg->proxy_user.get() && cfg->proxy_pass.get()) {
 				GTK_TOGGLE_BUTTON(http_proxy_user_check)->active=TRUE;
-				text_to_combo(http_proxy_user,cfg->get_proxy_user());
-				text_to_combo(http_proxy_pass,cfg->get_proxy_pass());
+				text_to_combo(http_proxy_user,cfg->proxy_user.get());
+				text_to_combo(http_proxy_pass,cfg->proxy_pass.get());
 			}else
 				GTK_TOGGLE_BUTTON(http_proxy_user_check)->active=FALSE;
 		} else{
@@ -1054,20 +1065,20 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 	cfg->reset_proxy();
 	if (proto) {
 		if (GTK_TOGGLE_BUTTON(ftp_proxy_check)->active) {
-			cfg->set_proxy_host(text_from_combo(ftp_proxy_host));
+			cfg->proxy_host.set(text_from_combo(ftp_proxy_host));
 			sscanf(gtk_entry_get_text(GTK_ENTRY(ftp_proxy_port)),"%i",&(cfg->proxy_port));
 			if (GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active) {
-				cfg->set_proxy_user(text_from_combo(ftp_proxy_user));
-				cfg->set_proxy_pass(text_from_combo(ftp_proxy_pass));
+				cfg->proxy_user.set(text_from_combo(ftp_proxy_user));
+				cfg->proxy_pass.set(text_from_combo(ftp_proxy_pass));
 			};
 		};
 	} else {
 		if (GTK_TOGGLE_BUTTON(http_proxy_check)->active) {
-			cfg->set_proxy_host(text_from_combo(http_proxy_host));
+			cfg->proxy_host.set(text_from_combo(http_proxy_host));
 			sscanf(gtk_entry_get_text(GTK_ENTRY(http_proxy_port)),"%i",&(cfg->proxy_port));
 			if (GTK_TOGGLE_BUTTON(http_proxy_user_check)->active) {
-				cfg->set_proxy_user(text_from_combo(http_proxy_user));
-				cfg->set_proxy_pass(text_from_combo(http_proxy_pass));
+				cfg->proxy_user.set(text_from_combo(http_proxy_user));
+				cfg->proxy_pass.set(text_from_combo(http_proxy_pass));
 			};
 		};
 	};

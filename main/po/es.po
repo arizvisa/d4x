@@ -7,14 +7,14 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WebDownloader for X 1.11\n"
+"Project-Id-Version: WebDownloader for X 1.13\n"
 "POT-Creation-Date: 1999-12-29 15:29+0100\n"
-"PO-Revision-Date: 2000-01-30 16:46+0100\n"
+"PO-Revision-Date: 2000-03-09 09:41+0100\n"
 "Last-Translator: Vicente Aguilar <vaguilar@linuxfreak.com>\n"
-"Language-Team: es\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: ../client.cc:69 client.cc:65
 msgid "Timeout when socket read!"
@@ -94,7 +94,7 @@ msgid "Can't create file at the path:"
 msgstr "No se pudo crear el fichero en:"
 
 #: ../download.cc:221 download.cc:103
-msgid "wich has name:"
+msgid "which has name:"
 msgstr "con nombre:"
 
 #: ../download.cc:227 download.cc:108
@@ -1233,7 +1233,7 @@ msgstr "Total ................... %d\n"
 # config.cc:
 #: ../config.cc:824 ../config.cc:830
 #, c-format
-msgid "Curent speed: %d\n"
+msgid "Current speed: %d\n"
 msgstr "Velocidad actual ........ %d\n"
 
 # config.cc:
@@ -1258,7 +1258,7 @@ msgstr "mostrar información si ya se está ejecutando"
 
 # config.cc:
 #: ../config.cc:894
-msgid "show curent speed if already run"
+msgid "show current speed if already run"
 msgstr "mostrar la velocidad actual si ya se está ejecutando"
 
 # prefs.cc:
@@ -1317,7 +1317,7 @@ msgstr "Cargando lista de descargas por defecto"
 
 # main.cc:
 #: ../main.cc:134
-msgid "Append list to curent queue of downloads"
+msgid "Append list to current queue of downloads"
 msgstr "Añadir la lista a la cola de descargas actual"
 
 # face/dndtrash.cc
@@ -1437,110 +1437,160 @@ msgstr "Ignorar estas extensiones al monitorizar el portapapeles"
 
 #: face/dndtrash.cc
 msgid "/Speed"
-msgstr ""
+msgstr "/Velocidad"
 
 #: face/dndtrash.cc
 msgid "/Speed/Lowest"
-msgstr ""
+msgstr "/Velocidad/Mínima"
 
 #: face/dndtrash.cc
 msgid "/Speed/Middle"
-msgstr ""
+msgstr "/Velocidad/Media"
 
 #: face/dndtrash.cc
 msgid "/Speed/Unlimited"
-msgstr ""
+msgstr "/Velocidad/Ilimitada"
 
 #: face/list.cc
 msgid "/Options/Speed"
-msgstr ""
+msgstr "/Opciones/Velocidad"
 
 #: face/list.cc
 msgid "/Options/Speed/Lowest"
-msgstr ""
+msgstr "/Opciones/Velocidad/Mínima"
 
 #: face/list.cc
 msgid "/Options/Speed/Middle"
-msgstr ""
+msgstr "/Opciones/Velocidad/Media"
 
 #: face/list.cc
 msgid "/Options/Speed/Unlimited"
-msgstr ""
+msgstr "/Opciones/Velocidad/Ilimitada"
 #: face/list.cc
 msgid "/Options/Buttons"
-msgstr ""
+msgstr "/Opciones/Botones"
 
 #: face/list.cc
 msgid "/Options/Buttons/Manipulating"
-msgstr ""
+msgstr "/Opciones/Botones/Manipulación"
 
 #: face/list.cc
 msgid "/Options/Buttons/Speed buttons"
-msgstr ""
+msgstr "/Opciones/Botones/Velocidad"
 
 #: face/list.cc
 msgid "/Options/Buttons/Misc buttons"
-msgstr ""
+msgstr "/Opciones/Botones/Varios"
 
 #: face/list.cc
 msgid "/Options/Buttons/Add buttons"
-msgstr ""
+msgstr "/Opciones/Botones/Descargas"
 
 #:main.cc
 msgid "[control socket]"
-msgstr ""
+msgstr "[socket de control]"
 
 # face/list.cc
 msgid "/Download/Unselect all"
-msgstr ""
+msgstr "/Descargas/Deseleccionar Todos"
 
 # face/list.cc
 msgid "/Download/-"
-msgstr ""
+msgstr "/Descargas/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
-msgstr ""
+msgstr "Detener justo tras añadir"
 
 #face/list.cc:
 msgid "/Download/Select all"
-msgstr ""
+msgstr "/Descargas/Seleccionar Todos"
 
 # face/list.cc
 msgid "/Download/Invert selection"
-msgstr ""
+msgstr "/Descargas/Invertir selección"
 
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via ftp"
-msgstr ""
+msgstr "Tratar de seguir los enlaces simbólicos en FTP"
 
 # face/list.cc
 msgid "/Options/Passwords"
-msgstr ""
+msgstr "/Opciones/Contraseñas"
 
 # face/passwords.cc
 msgid "protocol"
-msgstr ""
+msgstr "protocolo"
 
 
 #face/passface.cc:
 msgid "Default passwords and usernames"
-msgstr ""
+msgstr "Contraseñas y usuarios por defecto"
 
 #main.cc:
 msgid "Redirection from [%z] to nowhere!"
-msgstr ""
+msgstr "¡Redirección desde [%z] a ningún sitio!"
 
 # config.cc:
 msgid "set directory for saving files"
-msgstr ""
+msgstr "directorio para guardar los ficheros"
 
 msgid "delete completed if already run"
-msgstr ""
+msgstr "borrar completadas si ya se está ejecutando"
 
 msgid "set maximum active downloads"
-msgstr ""
+msgstr "máximo número de descargas activas"
 
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
-msgstr ""
+msgstr "Permitir abandonar este servidor en descargas recursivas por http"
+
+msgid "/Download/Rerun failed"
+msgstr "/Descargas/Reintentar fracasadas"
+
+msgid "You have no permissions to create file at path %s"
+msgstr "No tiene permisos para crear un fichero en la ruta %s"
+
+msgid "You have no space at path %s for creating file"
+msgstr "No tiene espacio libre para crear el fichero en la ruta %s"
+
+#face/edit.cc:
+msgid "Only subdirs"
+msgstr "Sólo subdirectorios"
+
+# face/edit.cc
+msgid "Restart this download from begining"
+msgstr "Reiniciar esta descarga desde el principio"
+
+# config.cc
+msgid "restart all failed downloads"
+msgstr "reiniciar todas las descargas fracasadas"
+
+msgid "run program without X interface"
+msgstr "ejecutar el programa sin el interfaz X"
+
+#main.cc
+msgid "Set speed limitation to %s %s"
+msgstr "Activar nivel de velocidad %s %s"
+
+#var.cc
+msgid "low"
+msgstr "bajo"
+
+msgid "middle"
+msgstr "medio"
+
+msgid "unlimited"
+msgstr "ilimitado"
+
+#main.cc:
+msgid "Can't run new thread for downloading!"
+msgstr "¡No se pudo iniciar un nuevo hilo de ejecución para la descarga!"
+
+#mainlog.cc:
+msgid "Limitation for size of file of mainlog reached! File have been truncated."
+msgstr "¡Tamaño límite del fichero bitácora principal alcanzado! El fichero ha sido truncado."
+
+#face/prefs.cc:
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr " Tamaño máximo para el fichero bitácora principal (en Kilobytes)"

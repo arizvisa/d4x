@@ -58,16 +58,25 @@ int save_list_to_file(char *path) {
 	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (fd<0) return -1;
 	int i=0;
-	tDownload *temp=get_download_from_clist(i);
-	while (temp) {
-		i++;
-		temp->save_to_config(fd);
-		temp=get_download_from_clist(i);
+	if (CFG.WITHOUT_FACE){
+		for (int i=DL_ALONE+1;i<=DL_COMPLETE;i++){
+			tDownload *temp=DOWNLOAD_QUEUES[i]->first();
+			while(temp){
+				temp->save_to_config(fd);
+				temp=DOWNLOAD_QUEUES[i]->prev();
+			};
+		};
+	}else{
+		tDownload *temp=get_download_from_clist(i);
+		while (temp) {
+			i++;
+			temp->save_to_config(fd);
+			temp=get_download_from_clist(i);
+		};
 	};
 	close(fd);
 	return 0;
 };
-
 
 void read_list(tStringList *where) {
 	if (!HOME_VARIABLE) return;

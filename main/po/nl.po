@@ -94,7 +94,7 @@ msgid "Can't create file at the path:"
 msgstr "Kan bestand niet aanmaken in:"
 
 #: download.cc:103
-msgid "wich has name:"
+msgid "which has name:"
 msgstr "met de naam:"
 
 #: download.cc:108
@@ -411,7 +411,7 @@ msgstr "Kan niet schrijven naar bestand waar al naartoe geschreven wordt"
 #: mainlog.cc:138
 #, c-format
 msgid "row number %i of main log"
-msgstr "Regel %i van main log"
+msgstr "Regel %i van hoofdlog"
 
 #: mainlog.cc:166
 msgid "Can't open file for saving log"
@@ -964,7 +964,7 @@ msgstr "Downloads opslaan in folder"
 
 #: face/prefs.cc:347
 msgid "Save main log into file"
-msgstr "Main log opslaan in bestand"
+msgstr "Hoofdlog opslaan in bestand"
 
 #: face/prefs.cc:366
 msgid "Append to file"
@@ -1175,7 +1175,7 @@ msgid "Total: %d\n"
 msgstr "Totaal: %d\n"
 
 #: config.cc:
-msgid "Curent speed: %d\n"
+msgid "Current speed: %d\n"
 msgstr "Huidige snelheid: %d\n"
 
 #: config.cc:
@@ -1195,7 +1195,7 @@ msgid "show information if already run"
 msgstr "laat informatie zien indien al opgestart"
 
 #: config.cc:
-msgid "show curent speed if already run"
+msgid "show current speed if already run"
 msgstr "laat huidige snelheid zien indien al opgestart"
 
 #: prefs.cc:
@@ -1239,7 +1239,7 @@ msgid "Loading default list of downloads"
 msgstr "Standaard lijst van downloads aan het inladen"
 
 #:main.cc:
-msgid "Append list to curent queue of downloads"
+msgid "Append list to current queue of downloads"
 msgstr "Voeg lijst to aan huidige lijst van downloads"
 
 #: face/dndtrash.cc
@@ -1442,3 +1442,53 @@ msgstr "zet maximum aantal simultane downloads"
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
 msgstr "Sta switchen van server toe tijdens http recursie"
+
+msgid "/Download/Rerun failed"
+msgstr "/Download/Herhaal mislukte"
+
+msgid "You have no permissions to create file at path %s"
+msgstr "Je hebt geen permissie om het bestand in %s aan te maken"
+
+msgid "You have no space at path %s for creating file"
+msgstr "Je hebt niet genoeg ruimte in %s om het bestand aan te maken"
+
+#face/edit.cc:
+msgid "Only subdirs"
+msgstr "Alleen subfolders"
+
+# face/edit.cc
+msgid "Restart this download from begining"
+msgstr "Herhaal deze download vanaf het begin"
+
+# config.cc
+msgid "restart all failed downloads"
+msgstr "herhaal alle mislukte downloads"
+
+msgid "run program without X interface"
+msgstr "start programma zonder X interface"
+
+#main.cc
+msgid "Set speed limitation to %s %s"
+msgstr "Zet snelheidslimiet op %s %s"
+
+#var.cc
+msgid "low"
+msgstr "langzaam"
+
+msgid "middle"
+msgstr "normaal"
+
+msgid "unlimited"
+msgstr "onbeperkt"
+
+#main.cc:
+msgid "Can't run new thread for downloading!"
+msgstr "Kan geen nieuwe thread aanmaken voor download!"
+
+#mainlog.cc:
+msgid "Limitation for size of file of mainlog reached! File have been truncated."
+msgstr "Limiet voor grootte hoofdlog bereikt! Bestand is ingekort."
+
+#face/prefs.cc:
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "Maximale grootte voor hoofdlog (in KBytes)"

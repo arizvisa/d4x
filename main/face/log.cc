@@ -194,7 +194,7 @@ static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
 		tLogWindow *temp=(tLogWindow *)(log->Window);
 		if (temp->string==NULL) temp->string=new tStringDialog;
 		char data[MAX_LEN];
-		sprintf(data,_("Row number %i [log of %s]"),row+1,what->info->get_file());
+		sprintf(data,_("Row number %i [log of %s]"),row+1,what->info->file.get());
 		char *text;
 		gtk_clist_get_text(GTK_CLIST(clist),row,L_COL_STRING,&text);
 		temp->string->init(text,data);
@@ -241,7 +241,7 @@ void log_window_init(tDownload *what) {
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
-		strcat(title,what->info->get_file());
+		strcat(title,what->info->file.get());
 		gtk_window_set_title(GTK_WINDOW (temp->window), title);
 		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
 		                   (GtkSignalFunc)log_window_event_handler, what->LOG);

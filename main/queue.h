@@ -22,6 +22,7 @@ class tQueue{
     protected:
     int MaxNum,Num;
     tNode *First,*Last,*Curent;
+    void free_to_limit();
     public:
     	tQueue();
     	virtual void init(int n);

@@ -76,9 +76,6 @@ int stop_thread(tDownload *what) {
 void real_stop_thread(tDownload *what) {
 	int *rc;
 	pthread_join(what->thread_id,(void **)&rc);
-	if (what->who) {
-		delete(what->who);
-		what->who=NULL;
-	};
+	what->delete_who();
 	what->thread_id=0;
 };

@@ -1,0 +1,115 @@
+about.o: about.cc list.h ../dlist.h ../download.h ../queue.h \
+ ../liststr.h ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h \
+ ../sort.h ../log.h ../speed.h ../addr.h ../main.h ../mdlist.h \
+ ../meter.h ../mainlog.h ../face/about.h ../srvclt.h limface.h about.h \
+ lod.h ../var.h ../history.h ../sortstr.h ../pass.h ../face/passface.h \
+ ../face/../pass.h ../db.h ../cookie.h ../ntlocale.h
+addd.o: addd.cc ../main.h ../download.h ../queue.h ../liststr.h \
+ ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h ../dlist.h \
+ ../sort.h ../log.h ../speed.h ../addr.h ../mdlist.h ../meter.h \
+ ../mainlog.h ../face/about.h ../srvclt.h ../var.h ../history.h \
+ ../sortstr.h ../pass.h ../face/passface.h ../face/../pass.h ../db.h \
+ ../cookie.h edit.h list.h limface.h about.h lod.h ../ntlocale.h
+buttons.o: buttons.cc list.h ../dlist.h ../download.h ../queue.h \
+ ../liststr.h ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h \
+ ../sort.h ../log.h ../speed.h ../addr.h ../main.h ../mdlist.h \
+ ../meter.h ../mainlog.h ../face/about.h ../srvclt.h limface.h about.h \
+ lod.h saveload.h addd.h prefs.h ../history.h buttons.h misc.h \
+ colors.h dndtrash.h ../var.h ../sortstr.h ../pass.h \
+ ../face/passface.h ../face/../pass.h ../db.h ../cookie.h ../savelog.h \
+ ../ntlocale.h pixmaps/add.xpm pixmaps/add_clipboard.xpm \
+ pixmaps/del.xpm pixmaps/stop_bar.xpm pixmaps/continue.xpm \
+ pixmaps/del_com.xpm pixmaps/prefs.xpm pixmaps/openlog.xpm \
+ pixmaps/del_all.xpm pixmaps/up_bar.xpm pixmaps/down_bar.xpm \
+ pixmaps/speed1.xpm pixmaps/speed2.xpm pixmaps/speed3.xpm \
+ pixmaps/save.xpm pixmaps/dndtrash_bar.xpm
+colors.o: colors.cc colors.h
+columns.o: columns.cc columns.h lod.h ../dlist.h ../download.h \
+ ../queue.h ../liststr.h ../locstr.h ../client.h ../socket.h \
+ /usr/include/fcntl.h ../sort.h ../log.h ../speed.h ../addr.h misc.h \
+ ../ntlocale.h ../main.h ../mdlist.h ../meter.h ../mainlog.h \
+ ../face/about.h ../srvclt.h ../var.h ../history.h ../sortstr.h \
+ ../pass.h ../face/passface.h ../face/../pass.h ../db.h ../cookie.h
+dndtrash.o: dndtrash.cc dndtrash.h misc.h prefs.h ../history.h \
+ ../liststr.h ../queue.h lod.h ../dlist.h ../download.h ../locstr.h \
+ ../client.h ../socket.h /usr/include/fcntl.h ../sort.h ../log.h \
+ ../speed.h ../addr.h addd.h list.h ../main.h ../mdlist.h ../meter.h \
+ ../mainlog.h ../face/about.h ../srvclt.h limface.h about.h buttons.h \
+ colors.h ../var.h ../sortstr.h ../pass.h ../face/passface.h \
+ ../face/../pass.h ../db.h ../cookie.h ../ntlocale.h \
+ pixmaps/dndtrash.xpm
+edit.o: edit.cc edit.h ../dlist.h ../download.h ../queue.h \
+ ../liststr.h ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h \
+ ../sort.h ../log.h ../speed.h ../addr.h ../history.h list.h ../main.h \
+ ../mdlist.h ../meter.h ../mainlog.h ../face/about.h ../srvclt.h \
+ limface.h about.h lod.h misc.h ../var.h ../sortstr.h ../pass.h \
+ ../face/passface.h ../face/../pass.h ../db.h ../cookie.h \
+ ../ntlocale.h
+graph.o: graph.cc list.h ../dlist.h ../download.h ../queue.h \
+ ../liststr.h ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h \
+ ../sort.h ../log.h ../speed.h ../addr.h ../main.h ../mdlist.h \
+ ../meter.h ../mainlog.h ../face/about.h ../srvclt.h limface.h about.h \
+ lod.h ../var.h ../history.h ../sortstr.h ../pass.h ../face/passface.h \
+ ../face/../pass.h ../db.h ../cookie.h ../ntlocale.h graph.h
+limface.o: limface.cc limface.h about.h ../var.h ../history.h \
+ ../liststr.h ../queue.h ../mainlog.h ../log.h ../face/about.h \
+ ../dlist.h ../download.h ../locstr.h ../client.h ../socket.h \
+ /usr/include/fcntl.h ../sort.h ../speed.h ../addr.h ../sortstr.h \
+ ../pass.h ../face/passface.h ../face/../pass.h ../db.h ../cookie.h \
+ ../ntlocale.h ../main.h ../mdlist.h ../meter.h ../srvclt.h
+list.o: list.cc ../dlist.h ../download.h ../queue.h ../liststr.h \
+ ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h ../sort.h \
+ ../log.h ../speed.h ../addr.h ../main.h ../mdlist.h ../meter.h \
+ ../mainlog.h ../face/about.h ../srvclt.h ../var.h ../history.h \
+ ../sortstr.h ../pass.h ../face/passface.h ../face/../pass.h ../db.h \
+ ../cookie.h ../savelog.h ../config.h ../ntlocale.h log.h addd.h \
+ list.h limface.h about.h lod.h prefs.h buttons.h graph.h edit.h \
+ lmenu.h saveload.h misc.h dndtrash.h passface.h pixmaps/dndtrash.xpm
+lmenu.o: lmenu.cc list.h ../dlist.h ../download.h ../queue.h \
+ ../liststr.h ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h \
+ ../sort.h ../log.h ../speed.h ../addr.h ../main.h ../mdlist.h \
+ ../meter.h ../mainlog.h ../face/about.h ../srvclt.h limface.h about.h \
+ lod.h lmenu.h misc.h ../ntlocale.h pixmaps/stopmini.xpm \
+ pixmaps/logmini.xpm pixmaps/delmini.xpm pixmaps/runmini.xpm \
+ pixmaps/delcommini.xpm pixmaps/upmini.xpm pixmaps/downmini.xpm
+lod.o: lod.cc lod.h ../dlist.h ../download.h ../queue.h ../liststr.h \
+ ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h ../sort.h \
+ ../log.h ../speed.h ../addr.h log.h buttons.h list.h ../main.h \
+ ../mdlist.h ../meter.h ../mainlog.h ../face/about.h ../srvclt.h \
+ limface.h about.h lmenu.h addd.h misc.h ../ntlocale.h ../var.h \
+ ../history.h ../sortstr.h ../pass.h ../face/passface.h \
+ ../face/../pass.h ../db.h ../cookie.h pixmaps/wait_xpm.xpm \
+ pixmaps/run_xpm.xpm pixmaps/run_bad.xpm pixmaps/run_part.xpm \
+ pixmaps/stop_xpm.xpm pixmaps/stop_wait.xpm pixmaps/paused.xpm \
+ pixmaps/complete.xpm
+log.o: log.cc ../dlist.h ../download.h ../queue.h ../liststr.h \
+ ../locstr.h ../client.h ../socket.h /usr/include/fcntl.h ../sort.h \
+ ../log.h ../speed.h ../addr.h ../var.h ../history.h ../mainlog.h \
+ ../face/about.h ../sortstr.h ../pass.h ../face/passface.h \
+ ../face/../pass.h ../db.h ../cookie.h ../ntlocale.h list.h ../main.h \
+ ../mdlist.h ../meter.h ../srvclt.h limface.h about.h lod.h colors.h \
+ misc.h pixmaps2/ok.xpm pixmaps2/from_server.xpm \
+ pixmaps2/to_server.xpm pixmaps2/error.xpm pixmaps2/warning.xpm
+misc.o: misc.cc
+passface.o: passface.cc passface.h about.h ../pass.h ../sort.h \
+ ../queue.h ../locstr.h ../face/passface.h misc.h ../addr.h \
+ ../ntlocale.h ../var.h ../history.h ../liststr.h ../mainlog.h \
+ ../log.h ../face/about.h ../dlist.h ../download.h ../client.h \
+ ../socket.h /usr/include/fcntl.h ../speed.h ../sortstr.h ../db.h \
+ ../cookie.h
+prefs.o: prefs.cc prefs.h ../history.h ../liststr.h ../queue.h edit.h \
+ ../dlist.h ../download.h ../locstr.h ../client.h ../socket.h \
+ /usr/include/fcntl.h ../sort.h ../log.h ../speed.h ../addr.h colors.h \
+ misc.h columns.h lod.h buttons.h dndtrash.h graph.h ../var.h \
+ ../mainlog.h ../face/about.h ../sortstr.h ../pass.h \
+ ../face/passface.h ../face/../pass.h ../db.h ../cookie.h ../main.h \
+ ../mdlist.h ../meter.h ../srvclt.h ../config.h ../ntlocale.h \
+ pixmaps/speed1.xpm pixmaps/speed2.xpm
+saveload.o: saveload.cc /usr/include/gtk/gtk.h list.h ../dlist.h \
+ ../download.h ../queue.h ../liststr.h ../locstr.h ../client.h \
+ ../socket.h /usr/include/fcntl.h ../sort.h ../log.h ../speed.h \
+ ../addr.h ../main.h ../mdlist.h ../meter.h ../mainlog.h \
+ ../face/about.h ../srvclt.h limface.h about.h lod.h edit.h \
+ ../history.h misc.h ../savelog.h ../var.h ../sortstr.h ../pass.h \
+ ../face/passface.h ../face/../pass.h ../db.h ../cookie.h \
+ ../ntlocale.h

@@ -12,7 +12,6 @@
 #include "locstr.h"
 #include "var.h"
 #include "base64.h"
-#include "dlist.h"
 #include "ntlocale.h"
 
 tHProxyClient::tHProxyClient() {
@@ -76,40 +75,35 @@ tProxyDownload::tProxyDownload() {
 	LOG=NULL;
 	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
-	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
+	StartSize=D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
 	FULL_NAME_TEMP=NULL;
 	D_PROTO=NULL;
 	answer=NULL;
 };
 
-int tProxyDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
+int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	LOG=log;
 	HTTP=new tHProxyClient;
 	RetrNum=0;
-	HOST=hostinfo->get_host();
-	USER=hostinfo->get_username();
-	PASS=hostinfo->get_pass();
+	HOST=hostinfo->host.get();
+	USER=hostinfo->username.get();
+	PASS=hostinfo->pass.get();
 	D_PORT=hostinfo->port;
 	answer=NULL;
 	ETag=NULL;
 	Auth=NULL;
 	D_PATH=NULL;
-	D_FILE.fdesc=0;
 	D_FILE.type=T_FILE; //we don't know any other when download via http
-	data=0;
-	first=1;
 	config.copy_ints(cfg);
-	config.set_proxy_host(cfg->get_proxy_host());
-	config.set_proxy_user(cfg->get_proxy_user());
-	config.set_proxy_pass(cfg->get_proxy_pass());
-	config.set_save_path(cfg->get_save_path());
-	config.set_save_name(cfg->get_save_name());
+	config.proxy_host.set(cfg->proxy_host.get());
+	config.proxy_user.set(cfg->proxy_user.get());
+	config.proxy_pass.set(cfg->proxy_pass.get());
 	D_PROTO=copy_string(get_name_by_proto(hostinfo->proto));
-	HTTP->init(config.get_proxy_host(),LOG,config.proxy_port,config.timeout);
-	config.set_user_agent(cfg->get_user_agent());
-	HTTP->set_user_agent(config.get_user_agent());
-	HTTP->registr(config.get_proxy_user(),config.get_proxy_pass());
+	HTTP->init(config.proxy_host.get(),LOG,config.proxy_port,config.timeout);
+	config.user_agent.set(cfg->user_agent.get());
+	HTTP->set_user_agent(config.user_agent.get());
+	HTTP->registr(config.proxy_user.get(),config.proxy_pass.get());
 	((tHProxyClient *)(HTTP))->setup_host(HOST);
 	return reconnect();
 };
@@ -120,16 +114,16 @@ int tProxyDownload::get_size() {
 	FULL_NAME_TEMP=NULL;
 	if (D_PATH[0]!=0 && D_PATH[strlen(D_PATH)-1]!='/'){
 		if (USER && PASS)
-			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",USER,":",PASS,"@",HOST,"/",D_PATH,"/",D_FILE.get_name(),NULL);
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",USER,":",PASS,"@",HOST,"/",D_PATH,"/",D_FILE.name.get(),NULL);
 		else
-			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",HOST,"/",D_PATH,"/",D_FILE.get_name(),NULL);
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",HOST,"/",D_PATH,"/",D_FILE.name.get(),NULL);
 	}else{
 		if (USER && PASS)
-			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",USER,":",PASS,"@",HOST,"/",D_PATH,D_FILE.get_name(),NULL);
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",USER,":",PASS,"@",HOST,"/",D_PATH,D_FILE.name.get(),NULL);
 		else
-			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",HOST,"/",D_PATH,D_FILE.get_name(),NULL);
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",HOST,"/",D_PATH,D_FILE.name.get(),NULL);
 	};
-	((tHProxyClient *)HTTP)->set_cookie_search(sum_strings("/",D_PATH,"/",D_FILE.get_name(),NULL));
+	((tHProxyClient *)HTTP)->set_cookie_search(sum_strings("/",D_PATH,"/",D_FILE.name.get(),NULL));
 	//begin request
 	if (!answer) {
 		answer=new tStringList;
@@ -137,15 +131,16 @@ int tProxyDownload::get_size() {
 	};
 	while (1) {
 		answer->done();
-		HTTP->set_offset(data);
-		LOG->add(_("Connection to the internet via proxy"),LOG_OK);
-		LOG->add(_("Sending request to proxy"),LOG_OK);
+		HTTP->set_offset(LOADED);
+		LOG->log(LOG_OK,_("Connection to the internet via proxy"));
+
+		LOG->log(LOG_OK,_("Sending request to proxy"));
 		int temp=HTTP->get_size(FULL_NAME_TEMP,answer);
 		if (temp==0) {
-			LOG->add(_("Answer read ok"),LOG_OK);
+			LOG->log(LOG_OK,_("Answer read ok"));
 			D_FILE.size=analize_answer();
 			if (ReGet && D_FILE.size>=0)
-				D_FILE.size+=data;
+				D_FILE.size+=LOADED;
 			return D_FILE.size;
 		};
 		if (temp==1) return -1;

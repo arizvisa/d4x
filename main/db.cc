@@ -29,10 +29,10 @@ tStringHostNode::~tStringHostNode(){
 /* tHostTree
  */
 int tDownloadTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
-	int r=strcmp(((tDownload*)a)->info->get_file(),((tDownload*)b)->info->get_file());
+	int r=strcmp(((tDownload*)a)->info->file.get(),((tDownload*)b)->info->file.get());
 	if (r)
 		return r;
-	return strcmp(((tDownload*)a)->info->get_path(),((tDownload*)b)->info->get_path());
+	return strcmp(((tDownload*)a)->info->path.get(),((tDownload*)b)->info->path.get());
 };
 
 int tHostTree::compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b){
@@ -70,13 +70,13 @@ int tDB::empty(){
 };
 
 void tDB::insert(tDownload *what) {
-	tStringHostNode *temp=tree->find(what->info->get_host());
+	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (!temp){
 		temp=new tStringHostNode;
-		temp->body=copy_string(what->info->get_host());
+		temp->body=copy_string(what->info->host.get());
 		tree->add(temp);
 	};
-	unsigned char *a=(unsigned char *)(what->info->get_file());
+	unsigned char *a=(unsigned char *)(what->info->file.get());
 	if (temp->nodes[*a]==NULL){
 		temp->nodes[*a]=new tDownloadTree;
 		temp->filled_num+=1;
@@ -85,9 +85,9 @@ void tDB::insert(tDownload *what) {
 };
 
 tDownload *tDB::find(tDownload *what) {
-	tStringHostNode *temp=tree->find(what->info->get_host());
+	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
-		unsigned char *a=(unsigned char *)(what->info->get_file());
+		unsigned char *a=(unsigned char *)(what->info->file.get());
 		if (temp->nodes[*a]){
 			return (tDownload*)(temp->nodes[*a]->find(what));
 		};
@@ -96,9 +96,9 @@ tDownload *tDB::find(tDownload *what) {
 };
 
 void tDB::del(tDownload *what) {
-	tStringHostNode *temp=tree->find(what->info->get_host());
+	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
-		unsigned char *file=(unsigned char *)(what->info->get_file());
+		unsigned char *file=(unsigned char *)(what->info->file.get());
 		if (temp->nodes[file[0]]){
 			temp->nodes[file[0]]->del(what);
 			if (temp->nodes[file[0]]->empty()){

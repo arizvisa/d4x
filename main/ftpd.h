@@ -14,8 +14,6 @@
 #include "liststr.h"
 #include "ftp.h"
 #include "download.h"
-#include "log.h"
-#include "dlist.h"
 
 class tFtpDownload:public tDownloader{
     protected:
@@ -25,25 +23,24 @@ class tFtpDownload:public tDownloader{
     int change_dir();
     int reconnect();
     int download_dir();
-    void check_for_repeated(tStringList *LIST);
     void print_error(int error_code);
     public:
     	tFtpDownload();
-    	int get_start_size();
-    	int init(tAddr *hostinfo,tLog *log,tCfg *cfg);
-    	void set_passive(int a);
-    	int download(unsigned int from,unsigned int len);
+    	int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
+    	int download(int len);
     	int get_size();
+    	void done();
+
+    	int get_start_size();
     	int get_readed();
     	int get_child_status();
     	int reget();
      	int another_way_get_size();
-    	void done();
     	tStringList *dir();
     	~tFtpDownload();
 };
 
-int type_from_str(char *data);
-void extract_link(char *src,char *dst);
-void cut_string_list(char *src,tFileInfo *dst,int flag);
+int ftp_type_from_str(char *data);
+void ftp_extract_link(char *src,char *dst);
+void ftp_cut_string_list(char *src,tFileInfo *dst,int flag);
 #endif

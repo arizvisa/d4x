@@ -196,9 +196,9 @@ void tFacePass::edit_row(int row) {
 		open_dialog();
 		dialog->data=tmp;
 		dialog->row=row;
-		gtk_entry_set_text(GTK_ENTRY(dialog->host_entry),tmp->get_host());
-		gtk_entry_set_text(GTK_ENTRY(dialog->user_entry),tmp->get_user());
-		gtk_entry_set_text(GTK_ENTRY(dialog->pass_entry),tmp->get_pass());
+		gtk_entry_set_text(GTK_ENTRY(dialog->host_entry),tmp->host.get());
+		gtk_entry_set_text(GTK_ENTRY(dialog->user_entry),tmp->user.get());
+		gtk_entry_set_text(GTK_ENTRY(dialog->pass_entry),tmp->pass.get());
 		text_to_combo(dialog->proto_select,get_name_by_proto(proto));
 	};
 };
@@ -210,10 +210,10 @@ void tFacePass::apply_dialog() {
 	dialog->data=NULL;
 	tUserPass *a=new tUserPass;
 	a->proto=get_proto_by_name(text_from_combo(dialog->proto_select));
-	a->set_host(gtk_entry_get_text(GTK_ENTRY(dialog->host_entry)));
-	a->set_user(gtk_entry_get_text(GTK_ENTRY(dialog->user_entry)));
-	a->set_pass(gtk_entry_get_text(GTK_ENTRY(dialog->pass_entry)));
-	tUserPass *tmp=PasswordsForHosts->find(a->proto,a->get_host());
+	a->host.set(gtk_entry_get_text(GTK_ENTRY(dialog->host_entry)));
+	a->user.set(gtk_entry_get_text(GTK_ENTRY(dialog->user_entry)));
+	a->pass.set(gtk_entry_get_text(GTK_ENTRY(dialog->pass_entry)));
+	tUserPass *tmp=PasswordsForHosts->find(a->proto,a->host.get());
 	if (tmp){
 		PasswordsForHosts->del(tmp);
 		PasswordsForHosts->add(a);
@@ -223,8 +223,8 @@ void tFacePass::apply_dialog() {
 		PasswordsForHosts->add(a);
 		if (dialog->row>=0){
 			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,0,get_name_by_proto(a->proto));
-			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,1,a->get_host());
-			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,2,a->get_user());
+			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,1,a->host.get());
+			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,2,a->user.get());
 		}else
 			add(a);
 	};
@@ -289,6 +289,6 @@ void tFacePass::close() {
 };
 
 void tFacePass::add(tUserPass *a){
-	char *row[]={get_name_by_proto(a->proto),a->get_host(),a->get_user()};
+	char *row[]={get_name_by_proto(a->proto),a->host.get(),a->user.get()};
 	gtk_clist_append(GTK_CLIST(clist),row);
 };

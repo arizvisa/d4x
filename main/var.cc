@@ -20,7 +20,7 @@ int LOCK_FILE_D=0;
 
 tMainCfg CFG={
     5,100,100,1,300,NULL,NULL,NULL,NULL,2,1,0,
-    100,0,0,0,NULL,
+    100,0,0,0,NULL,0,
     5,0,
     1,1,0,0,0,1,1,600,
     {0,0},0,1,0,0,40,40,500,400,300,1,150,50,0,1,0,20,30,0,5,1,NULL,
@@ -29,7 +29,8 @@ tMainCfg CFG={
     1,1,1,1,1,
     3,1024,10*1024,
     NULL,0,
-    1,1,1,1
+    1,1,1,1,
+    0
 };
 
 char *DEFAULT_PROTO="ftp";
@@ -51,6 +52,11 @@ void var_check_limits_int(int lower_value,int upper_value,int *value){
 	if (*value<lower_value) *value=lower_value;
 };
 
+void var_check_limits_long(long int lower_value,long int upper_value,long int *value){
+	if (*value>upper_value) *value=upper_value;
+	if (*value<lower_value) *value=lower_value;
+};
+
 void var_check_all_limits(){
 	var_check_limits_int(1,50,&CFG.MAX_THREADS);
 	var_check_limits_int(100,999,&CFG.MAX_LOG_LENGTH);
@@ -65,7 +71,15 @@ void var_check_all_limits(){
 	var_check_limits_int(100,99999,&CFG.SPEED_LIMIT_2);
 	var_check_limits_int(1,999,&CFG.SAVE_LIST_INTERVAL);
 	var_check_limits_int(1,999,&CFG.EXIT_COMPLETE_TIME);
+	var_check_limits_long(0,99999,&CFG.MAIN_LOG_FILE_LIMIT);
 };
 
 const char *CFG_FILE=".ntrc/config";
 const char *CFG_DIR=".ntrc";
+
+char *SPEED_LIMITATIONS_NAMES[]={
+	"",
+	"low",
+	"middle",
+	"unlimited"
+};

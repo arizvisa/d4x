@@ -13,24 +13,16 @@
 
 #include "queue.h"
 #include "liststr.h"
-#include "log.h"
+#include "locstr.h"
+#include "client.h"
 
 class tFileInfo{
- private:
-	char *name;
-	char *body;
  public:
-	tFileInfo();
-	void set_name(char *what);
-	void set_body(char *what);
-	char *get_name();
-	char *get_body();
+	tPStr name,body;
 	int size;
 	int type,oldtype;
-	int fdesc;
 	int perm;
 	int date;
-	~tFileInfo();
 };
 
 struct tCfg{
@@ -43,37 +35,24 @@ struct tCfg{
 /* flags
  */
 	int http_recursing; //temporary flag
-	int leave_server;
+	int leave_server,dont_leave_dir;
 	int passive;
 	int retry;
 	int permisions;
 	int get_date;
 	int full_server_loading;
 	int link_as_file;
+	int restart_from_begin;
 /* proxy
  */
 	int proxy_port;
 	int proxy_type;
-private:
-	char *proxy_host;
-	char *proxy_user;
-	char *proxy_pass;
-	char *user_agent;
-	char *save_name,*save_path;
-public:
+	tPStr proxy_host;
+	tPStr proxy_user;
+	tPStr proxy_pass;
+	tPStr user_agent;
+	tPStr save_name,save_path;
 	tCfg();
-	void set_proxy_user(char *what);
-	void set_proxy_host(char *what);
-	void set_proxy_pass(char *what);
-	void set_user_agent(char *what);
-	void set_save_name(char *what);
-	void set_save_path(char *what);
-	char *get_proxy_user(){return(proxy_user);};
-	char *get_proxy_host(){return(proxy_host);};
-	char *get_proxy_pass(){return(proxy_pass);};
-	char *get_user_agent(){return(user_agent);};
-	char *get_save_name(){return(save_name);};
-	char *get_save_path(){return(save_path);};
 	int get_flags();
 	void set_flags(int what);
 	void reset_proxy();
@@ -89,7 +68,7 @@ struct tAddr;
 class tDownloader{
     protected:
     tCfg config;
-    tLog *LOG;
+    tWriterLoger *LOG;
     int RetrNum;
     int Status;
     char *HOST,*USER,*PASS,*D_PATH;
@@ -97,38 +76,34 @@ class tDownloader{
     int D_PORT;
     int MASK;
     int StartSize;
-    int data;
-    int rollback(int offset);
-    virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
-    virtual void make_full_pathes(const char *path,char **name,char **guess);
-    virtual void print_error(int error_code);
+    int LOADED;
  public:
     	tDownloader();
     	int treat();
      	int get_status();
      	virtual int get_start_size();
      	virtual void init_download(char *file,char *path);
-     	void set_data(int a);
-     	void short_init(tLog *log,tCfg *cfg);
-     	virtual int reconnect()=0;
-    	virtual int init(tAddr *hostinfo,tLog *log,tCfg *cfg)=0;
-    	void make_file_visible();
-    	virtual int create_file();
-    	virtual int delete_file();
-    	virtual void set_date_file();
-    	virtual int get_readed()=0;
-    	virtual int file_type();
+     	void set_loaded(int a);
     	virtual void set_file_info(tFileInfo *what);
+    	virtual tFileInfo *get_file_info();
+     	virtual char *get_new_url();
+     	virtual int another_way_get_size();
+
+	int rollback();
+	virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+	virtual void make_full_pathes(const char *path,char **name,char **guess);
+	virtual void print_error(int error_code);
+
+     	virtual int reconnect()=0;
+    	virtual int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg)=0;
+    	virtual int get_readed()=0;
     	virtual int get_child_status()=0;
     	virtual int get_size()=0;
-	virtual	void rollback_before();
-     	virtual char *get_new_url();
      	virtual int reget()=0;
 	virtual tStringList *dir()=0;
-     	virtual int another_way_get_size();
-     	virtual char *get_real_name();
-    	virtual int download(unsigned int from,unsigned int len)=0;
+    	virtual int download(int len)=0;
     	virtual void done()=0;
+
     	virtual ~tDownloader();
 };
 
@@ -161,6 +136,8 @@ enum ERROR_CODES{
 	ERROR_ATTEMPT,
 	ERROR_REGET,
 	ERROR_TOO_MANY_USERS,
-	ERROR_DIRECTORY
+	ERROR_DIRECTORY,
+	ERROR_ACCESS,
+	ERROR_NO_SPACE
 };
 #endif

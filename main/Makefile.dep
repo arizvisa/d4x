@@ -1,0 +1,137 @@
+addr.o: addr.cc addr.h locstr.h var.h history.h liststr.h queue.h \
+ mainlog.h log.h face/about.h dlist.h download.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h sortstr.h pass.h face/passface.h \
+ face/../pass.h db.h cookie.h
+base64.o: base64.cc base64.h
+client.o: client.cc socket.h /usr/include/fcntl.h liststr.h queue.h \
+ client.h var.h history.h mainlog.h log.h face/about.h dlist.h \
+ download.h locstr.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h ntlocale.h
+cond.o: cond.cc cond.h queue.h dlist.h download.h liststr.h locstr.h \
+ client.h socket.h /usr/include/fcntl.h sort.h log.h speed.h addr.h \
+ var.h history.h mainlog.h face/about.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h
+config.o: config.cc var.h history.h liststr.h queue.h mainlog.h log.h \
+ face/about.h dlist.h download.h locstr.h client.h socket.h sort.h \
+ speed.h addr.h sortstr.h pass.h face/passface.h face/../pass.h db.h \
+ cookie.h config.h face/list.h face/../dlist.h face/../main.h \
+ face/../meter.h face/../sort.h face/../queue.h face/../mainlog.h \
+ face/../srvclt.h face/../liststr.h face/limface.h face/lod.h \
+ ntlocale.h srvclt.h
+cookie.o: cookie.cc cookie.h sort.h queue.h locstr.h var.h history.h \
+ liststr.h mainlog.h log.h face/about.h dlist.h download.h client.h \
+ socket.h /usr/include/fcntl.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h ntlocale.h
+db.o: db.cc db.h queue.h dlist.h download.h liststr.h locstr.h \
+ client.h socket.h /usr/include/fcntl.h sort.h log.h speed.h addr.h
+dlist.o: dlist.cc dlist.h download.h queue.h liststr.h locstr.h \
+ client.h socket.h /usr/include/fcntl.h sort.h log.h speed.h addr.h \
+ ftpd.h ftp.h html.h face/lod.h face/../dlist.h face/edit.h \
+ face/../history.h face/../liststr.h var.h history.h mainlog.h \
+ face/about.h sortstr.h pass.h face/passface.h face/../pass.h db.h \
+ cookie.h ntlocale.h main.h meter.h srvclt.h httpd.h http.h
+download.o: download.cc var.h history.h liststr.h queue.h mainlog.h \
+ log.h face/about.h dlist.h download.h locstr.h client.h socket.h \
+ sort.h speed.h addr.h sortstr.h pass.h face/passface.h face/../pass.h \
+ db.h cookie.h ntlocale.h
+ftp.o: ftp.cc ftp.h client.h socket.h /usr/include/fcntl.h liststr.h \
+ queue.h locstr.h var.h history.h mainlog.h log.h face/about.h dlist.h \
+ download.h sort.h speed.h addr.h sortstr.h pass.h face/passface.h \
+ face/../pass.h db.h cookie.h ntlocale.h
+ftpd.o: ftpd.cc ftpd.h liststr.h queue.h ftp.h client.h socket.h \
+ /usr/include/fcntl.h download.h locstr.h var.h history.h mainlog.h \
+ log.h face/about.h dlist.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h ntlocale.h
+history.o: history.cc history.h liststr.h queue.h locstr.h
+hproxy.o: hproxy.cc hproxy.h http.h client.h socket.h \
+ /usr/include/fcntl.h liststr.h queue.h httpd.h download.h locstr.h \
+ var.h history.h mainlog.h log.h face/about.h dlist.h sort.h speed.h \
+ addr.h sortstr.h pass.h face/passface.h face/../pass.h db.h cookie.h \
+ base64.h ntlocale.h
+html.o: html.cc html.h liststr.h queue.h locstr.h var.h history.h \
+ mainlog.h log.h face/about.h dlist.h download.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h
+http.o: http.cc http.h client.h socket.h /usr/include/fcntl.h \
+ liststr.h queue.h locstr.h var.h history.h mainlog.h log.h \
+ face/about.h dlist.h download.h sort.h speed.h addr.h sortstr.h \
+ pass.h face/passface.h face/../pass.h db.h cookie.h base64.h \
+ ntlocale.h
+httpd.o: httpd.cc httpd.h download.h queue.h liststr.h locstr.h \
+ client.h socket.h /usr/include/fcntl.h http.h ftpd.h ftp.h var.h \
+ history.h mainlog.h log.h face/about.h dlist.h sort.h speed.h addr.h \
+ sortstr.h pass.h face/passface.h face/../pass.h db.h cookie.h \
+ ntlocale.h
+liststr.o: liststr.cc liststr.h queue.h var.h history.h mainlog.h \
+ log.h face/about.h dlist.h download.h locstr.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h
+locstr.o: locstr.cc var.h history.h liststr.h queue.h mainlog.h log.h \
+ face/about.h dlist.h download.h locstr.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h
+log.o: log.cc log.h liststr.h queue.h dlist.h download.h locstr.h \
+ client.h socket.h /usr/include/fcntl.h sort.h speed.h addr.h \
+ face/log.h var.h history.h mainlog.h face/about.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h ntlocale.h
+main.o: main.cc var.h history.h liststr.h queue.h mainlog.h log.h \
+ face/about.h dlist.h download.h locstr.h client.h socket.h sort.h \
+ speed.h addr.h sortstr.h pass.h face/passface.h face/../pass.h db.h \
+ cookie.h ftpd.h ftp.h httpd.h http.h hproxy.h main.h meter.h srvclt.h \
+ mdlist.h signal.h savelog.h face/list.h face/../dlist.h \
+ face/../main.h face/limface.h face/lod.h face/buttons.h face/log.h \
+ face/edit.h face/../history.h face/addd.h config.h ntlocale.h
+mainlog.o: mainlog.cc mainlog.h log.h liststr.h queue.h face/about.h \
+ var.h history.h dlist.h download.h locstr.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h face/colors.h \
+ face/list.h face/../dlist.h face/../main.h face/../meter.h \
+ face/../sort.h face/../queue.h face/../mainlog.h face/../srvclt.h \
+ face/../liststr.h face/limface.h face/lod.h face/lmenu.h ntlocale.h
+mdlist.o: mdlist.cc mdlist.h dlist.h download.h queue.h liststr.h \
+ locstr.h client.h socket.h /usr/include/fcntl.h sort.h log.h speed.h \
+ addr.h
+meter.o: meter.cc meter.h sort.h queue.h
+nt.o: nt.cc main.h dlist.h download.h queue.h liststr.h locstr.h \
+ client.h socket.h sort.h log.h speed.h addr.h meter.h mainlog.h \
+ face/about.h srvclt.h config.h face/list.h face/../dlist.h \
+ face/../main.h face/limface.h face/lod.h var.h history.h sortstr.h \
+ pass.h face/passface.h face/../pass.h db.h cookie.h ntlocale.h ftpd.h \
+ ftp.h
+pass.o: pass.cc pass.h sort.h queue.h locstr.h face/passface.h \
+ face/about.h face/../pass.h addr.h var.h history.h liststr.h \
+ mainlog.h log.h dlist.h download.h client.h socket.h speed.h \
+ sortstr.h db.h cookie.h
+queue.o: queue.cc queue.h var.h history.h liststr.h mainlog.h log.h \
+ face/about.h dlist.h download.h locstr.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h
+savelog.o: savelog.cc dlist.h download.h queue.h liststr.h locstr.h \
+ client.h socket.h sort.h log.h speed.h addr.h config.h var.h \
+ history.h mainlog.h face/about.h sortstr.h pass.h face/passface.h \
+ face/../pass.h db.h cookie.h savelog.h ntlocale.h main.h meter.h \
+ srvclt.h
+signal.o: signal.cc dlist.h download.h queue.h liststr.h locstr.h \
+ client.h socket.h /usr/include/fcntl.h sort.h log.h speed.h addr.h \
+ face/log.h var.h history.h mainlog.h face/about.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h ntlocale.h
+socket.o: socket.cc socket.h var.h history.h liststr.h queue.h \
+ mainlog.h log.h face/about.h dlist.h download.h locstr.h client.h \
+ sort.h speed.h addr.h sortstr.h pass.h face/passface.h face/../pass.h \
+ db.h cookie.h signal.h
+sort.o: sort.cc sort.h queue.h /usr/include/stdio.h
+sortstr.o: sortstr.cc sortstr.h liststr.h queue.h sort.h dlist.h \
+ download.h locstr.h client.h socket.h /usr/include/fcntl.h log.h \
+ speed.h addr.h face/list.h face/../dlist.h face/../main.h \
+ face/../meter.h face/../sort.h face/../queue.h face/../mainlog.h \
+ face/../log.h face/../liststr.h face/../face/about.h face/../srvclt.h \
+ face/limface.h face/about.h face/lod.h
+speed.o: speed.cc speed.h queue.h
+srvclt.o: srvclt.cc srvclt.h liststr.h queue.h var.h history.h \
+ mainlog.h log.h face/about.h dlist.h download.h locstr.h client.h \
+ socket.h /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h main.h meter.h
+var.o: var.cc var.h history.h liststr.h queue.h mainlog.h log.h \
+ face/about.h dlist.h download.h locstr.h client.h socket.h \
+ /usr/include/fcntl.h sort.h speed.h addr.h sortstr.h pass.h \
+ face/passface.h face/../pass.h db.h cookie.h

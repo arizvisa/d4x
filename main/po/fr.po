@@ -13,9 +13,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: nt-1.13.6\n"
+"Project-Id-Version: nt-1.14.4\n"
 "POT-Creation-Date: 1999-08-24 15:06+0800\n"
-"PO-Revision-Date: 2000-03-5 13:20+0100\n"
+"PO-Revision-Date: 2000-04-12 11:34+0100\n"
 "Last-Translator: Jerome COUDERC <j.couderc@ifrance.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgid "Can't create file at the path:"
 msgstr "Impossible de créer le fichier :"
 
 #: download.cc:103
-msgid "wich has name:"
+msgid "which has name:"
 msgstr "qui porte le nom:"
 
 #: download.cc:108
@@ -775,6 +775,25 @@ msgstr "/Download/Supprimer les downloads terminés"
 msgid "/Download/Delete failed"
 msgstr "/Download/Supprimer les downloads échoués"
 
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr "/Download/Tout désélectionner"
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr "/Download/Tout sélectionner"
+
+# face/list.cc
+msgid "/Download/Invert selection"
+msgstr "/Download/Inverser la sélection"
+
+# face/list.cc
+msgid "/Download/-"
+msgstr "/Download/-"
+
+msgid "/Download/Rerun failed"
+msgstr "/Download/Relancer les downloads échoués"
+
 #: face/list.cc:143
 msgid "/_Options"
 msgstr "/_Options"
@@ -783,9 +802,49 @@ msgstr "/_Options"
 msgid "/Options/Limitations"
 msgstr "/Options/Limitations"
 
+# face/list.cc
+msgid "/Options/Passwords"
+msgstr "/Options/Mots de Passe"
+
 #: face/list.cc:145
 msgid "/Options/Common"
 msgstr "/Options/Générales"
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr "/Options/Vitesse"
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr "/Options/Vitesse/Lente"
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr "/Options/Vitesse/Moyenne"
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr "/Options/Vitesse/Illimitée"
+
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr "/Options/Boutons"
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr "/Options/Boutons/Manipulation"
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/Options/Boutons/Vitesse"
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/Options/Boutons/Divers"
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr "/Options/Boutons/Ajout"
 
 #: face/list.cc:146
 msgid "/_Help"
@@ -1170,7 +1229,7 @@ msgid "Total: %d\n"
 msgstr "Total: %d\n"
 
 #: config.cc:
-msgid "Curent speed: %d\n"
+msgid "Current speed: %d\n"
 msgstr "Vitesse courante: %d\n"
 
 #: config.cc:
@@ -1190,7 +1249,7 @@ msgid "show information if already run"
 msgstr "afficher les informations (si le programme est lancé)"
 
 #: config.cc:
-msgid "show curent speed if already run"
+msgid "show current speed if already run"
 msgstr "afficher la vitesse courante (si prog. lancé)"
 
 #: config.cc:
@@ -1257,7 +1316,7 @@ msgid "Loading default list of downloads"
 msgstr "Chargement de la liste par défaut des downloads"
 
 #:main.cc:
-msgid "Append list to curent queue of downloads"
+msgid "Append list to current queue of downloads"
 msgstr "Ajout de la liste à la queue actuelle des downloads"
 
 #: face/dndtrash.cc
@@ -1354,74 +1413,17 @@ msgstr "/Vitesse/Moyenne"
 msgid "/Speed/Unlimited"
 msgstr "/Vitesse/Illimitée"
 
-#: face/list.cc
-msgid "/Options/Speed"
-msgstr "/Options/Vitesse"
-
-#: face/list.cc
-msgid "/Options/Speed/Lowest"
-msgstr "/Options/Vitesse/Lente"
-
-#: face/list.cc
-msgid "/Options/Speed/Middle"
-msgstr "/Options/Vitesse/Moyenne"
-
-#: face/list.cc
-msgid "/Options/Speed/Unlimited"
-msgstr "/Options/Vitesse/Illimitée"
-
-#: face/list.cc
-msgid "/Options/Buttons"
-msgstr "/Options/Boutons"
-
-#: face/list.cc
-msgid "/Options/Buttons/Manipulating"
-msgstr "/Options/Boutons/Manipulation"
-
-#: face/list.cc
-msgid "/Options/Buttons/Speed buttons"
-msgstr "/Options/Boutons/Vitesse"
-
-#: face/list.cc
-msgid "/Options/Buttons/Misc buttons"
-msgstr "/Options/Boutons/Divers"
-
-#: face/list.cc
-msgid "/Options/Buttons/Add buttons"
-msgstr "/Options/Boutons/Ajout"
-
 #:main.cc
 msgid "[control socket]"
 msgstr "[contrôle de socket]"
-
-# face/list.cc
-msgid "/Download/Unselect all"
-msgstr "/Download/Tout désélectionner"
-
-#face/list.cc:
-msgid "/Download/Select all"
-msgstr "/Download/Tout sélectionner"
-
-# face/list.cc
-msgid "/Download/Invert selection"
-msgstr "/Download/Inverser la sélection"
-
-# face/list.cc
-msgid "/Download/-"
-msgstr "/Download/-"
 
 #: face/edit.cc:
 msgid "Pause this just after adding"
 msgstr "Ne pas lancer le download après l'avoir ajouté à la liste"
 
-
 #face/edit.cc:
 msgid "Try to load simbolyc link as file via ftp"
 msgstr "Essayer de charger les liens symboliques comme des fichiers en ftp"
-
-# face/list.cc
-msgid "/Options/Passwords"
-msgstr "/Options/Mots de Passe"
 
 # face/passwords.cc
 msgid "protocol"
@@ -1438,3 +1440,50 @@ msgstr "Redirection de [%z] vers nulle part!"
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
 msgstr "Autoriser à quitter ce serveur lors d'un parcours récursif en http"
+
+msgid "You have no permissions to create file at path %s"
+msgstr "Vous n'avez pas les permissions requises pour créer le fichier dans %s"
+
+msgid "You have no space at path %s for creating file"
+msgstr "Vous n'avez plus d'espace libre dans %s pour créer le fichier"
+
+#face/edit.cc:
+msgid "Only subdirs"
+msgstr "Seulement les sous-répertoires"
+
+# face/edit.cc
+msgid "Restart this download from begining"
+msgstr "Recommencer le téléchargement de ce 'download' depuis le début"
+
+# config.cc
+msgid "restart all failed downloads"
+msgstr "relancer tous les downloads échoués"
+
+msgid "run program without X interface"
+msgstr "exécuter le programme sans l'interface X"
+
+#main.cc
+msgid "Set speed limitation to %s %s"
+msgstr "Limitation de vitesse réglée sur %s %s"
+
+#var.cc
+msgid "low"
+msgstr "lente"
+
+msgid "middle"
+msgstr "moyenne"
+
+msgid "unlimited"
+msgstr "illimitée"
+
+#main.cc:
+msgid "Can't run new thread for downloading!"
+msgstr "Impossible de lancer un nouveau processus pour le téléchargement!"
+
+#face/prefs.cc:
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr " Taille maximale pour le fichier du log principal (en koctets)"
+
+#mainlog.cc:
+msgid "Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ""

@@ -93,7 +93,7 @@ msgid "Can't create file at the path:"
 msgstr "Δεν μπορώ να δημιουργήσω αρχείο στο path:"
 
 #: download.cc:103
-msgid "wich has name:"
+msgid "which has name:"
 msgstr "το οποίο έχει όνομα:"
 
 #: download.cc:108
@@ -1167,7 +1167,7 @@ msgid "Total: %d\n"
 msgstr "Συνολικά: %d\n"
 
 #: config.cc:
-msgid "Curent speed: %d\n"
+msgid "Current speed: %d\n"
 msgstr "Τρέχουσα ταχύτητα: %d\n"
 
 #: config.cc:
@@ -1187,7 +1187,7 @@ msgid "show information if already run"
 msgstr "δείχνε πληροφορίες αν ήδη τρέχεις"
 
 #: config.cc:
-msgid "show curent speed if already run"
+msgid "show current speed if already run"
 msgstr "δείξε τρέχουσα ταχύτητα αν ήδη τρέχεις"
 
 #: prefs.cc:
@@ -1231,7 +1231,7 @@ msgid "Loading default list of downloads"
 msgstr "Φόρτωμα της εξ ορισμού λίστας με τα κατεβάσματα"
 
 #:main.cc:
-msgid "Append list to curent queue of downloads"
+msgid "Append list to current queue of downloads"
 msgstr "Προσθήκη λίστας στην τρέχουσα ουρά με τα κατεβάσματα"
 
 #: face/dndtrash.cc
@@ -1431,3 +1431,53 @@ msgstr "καθορισμός μέγιστου αριθμού ενεργών κατεβασμάτων"
 #face/edit.cc
 msgid "Allow leave this server while recursing via http"
 msgstr "Αγνόησε αυτόν τον server ενώ κάνεις recursing μέσω http"
+
+msgid "/Download/Rerun failed"
+msgstr ""
+
+msgid "You have no permissions to create file at path %s"
+msgstr ""
+
+msgid "You have no space at path %s for creating file"
+msgstr ""
+
+#face/edit.cc:
+msgid "Only subdirs"
+msgstr ""
+
+# face/edit.cc
+msgid "Restart this download from begining"
+msgstr ""
+
+# config.cc
+msgid "restart all failed downloads"
+msgstr ""
+
+msgid "run program without X interface"
+msgstr ""
+
+#main.cc
+msgid "Set speed limitation to %s %s"
+msgstr ""
+
+#var.cc
+msgid "low"
+msgstr ""
+
+msgid "middle"
+msgstr ""
+
+msgid "unlimited"
+msgstr ""
+
+#main.cc:
+msgid "Can't run new thread for downloading!"
+msgstr ""
+
+#mainlog.cc:
+msgid "Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ""
+
+#face/prefs.cc:
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr ""

@@ -14,6 +14,57 @@
 #include "client.h"
 #include "var.h"
 #include "ntlocale.h"
+#include <unistd.h>
+#include <stdarg.h>
+#include <sys/types.h>
+
+tWriterLoger::tWriterLoger(){};
+tWriterLoger::~tWriterLoger(){};
+
+void tWriterLoger::log_printf(int type,const char *fmt,...){
+	char str[MAX_LEN+1];
+	char *cur=str;
+	va_list ap;
+	va_start(ap,fmt);
+	*cur=0;
+	while (*fmt && cur-str<MAX_LEN){
+		if (*fmt=='%'){
+			fmt+=1;
+			switch(*fmt){
+			case 's':{
+				char *s=va_arg(ap,char *);
+				g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+				break;
+			};
+			case 'i':{
+				g_snprintf(cur,MAX_LEN-(cur-str),"%i",va_arg(ap,int));
+				break;
+			};
+			default:{
+				*cur=*fmt;
+				cur+=1;
+				*cur=0;			       
+			};
+			};
+			if (*fmt==0) break;
+			while(*cur) cur+=1;
+		}else{
+			*cur=*fmt;
+			cur+=1;
+			*cur=0;
+		};
+		fmt+=1;
+	};
+	va_end(ap);
+	log(type,str);
+};
+
+char * tWriterLoger::cookie(const char *host, const char *path){
+	return NULL;
+};
+
+/* tClient 
+ */
 
 tClient::tClient() {
 	hostname=username=userword=buffer=NULL;
@@ -23,7 +74,7 @@ tClient::tClient() {
 tClient::~tClient() {
 };
 
-void tClient::init(char *host,tLog *log,int prt,int time_out) {
+void tClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	Status=0;
 	LOG=log;
 	port=prt;
@@ -66,12 +117,12 @@ int tClient::read_string(tSocket *sock,tStringList *list,int maxlen) {
 int tClient::socket_err_handler(int err) {
 	if (err==STATUS_TIMEOUT) {
 		Status=STATUS_TIMEOUT;
-		LOG->add(_("Timeout when socket read!"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Timeout when socket read!"));
 		return RVALUE_TIMEOUT;
 	};
 	if (err<0) {
 		Status=STATUS_TRIVIAL;
-		LOG->add(_("Error when reading from socket!"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Error when reading from socket!"));
 		return RVALUE_TIMEOUT;
 	};
 	return RVALUE_OK;
@@ -80,24 +131,24 @@ int tClient::socket_err_handler(int err) {
 int tClient::reinit() {
 	Status=0;
 	int err=-1;
-	LOG->add(_("Trying to connect..."),LOG_OK);
+	LOG->log(LOG_OK,_("Trying to connect..."));
 	if (hostname && (err=CtrlSocket.open_port(hostname,port))==0) {
-		LOG->add(_("Socket was opened!"),LOG_WARNING);
+		LOG->log(LOG_WARNING,_("Socket was opened!"));
 		return RVALUE_OK;
 	};
 	switch (err) {
 	case SOCKET_UNKNOWN_HOST:{
-		LOG->add(_("Host not found!"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Host not found!"));
 		Status=STATUS_FATAL;
 		break;
 	};
 	case SOCKET_CANT_ALLOCATE:{
-		LOG->add(_("Can't allocate socket"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Can't allocate socket"));
 		Status=STATUS_FATAL;
 		break;
 	};
 	case SOCKET_CANT_CONNECT:{
-		LOG->add(_("Can't connect"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Can't connect"));
 		Status=STATUS_TRIVIAL;
 		break;
 	};
@@ -105,8 +156,8 @@ int tClient::reinit() {
 	return RVALUE_TIMEOUT;
 };
 
-int tClient::write_buffer(int fd) {
-	return (FillSize-write(fd,buffer,FillSize));
+int tClient::write_buffer() {
+	return (FillSize-LOG->write(buffer,FillSize));
 };
 
 

@@ -30,5 +30,5 @@ void tHistory::insert(tNode *what) {
 };
 
 tHistory::~tHistory() {
-	// done(); will be used by tStringList::~tStringList();
+	done();
 };

@@ -1,0 +1,54 @@
+.TH NT 1 "March 26th, 2000"
+.SH NAME
+nt - A download manager for X
+.SH SYNOPSYS
+\fBnt\fP [OPTIONS] ... [URL]
+.SH DESCRIPTION
+\fBnt\fP is a linux graphic program for downloading files through the internet which supports both FTP and HTTP (not completed yet but curent realisation is quite enough for downloading) protocols. Program also supports RESUMING if server side supports it too. It is like kget for Linux and ReGet or GetRight for Windows (tm).
+.SH OPTIONS
+Options different from URLs only that they begined from \fBminus sign\fP, you can specify any number of options and URLs. Command line will be parsed from left to right.
+.TP
+\fBnt\fP accepts the following options:
+.TP
+\fBURL\fP
+Add the file to the download queue. If nt is already running, it will add it and prompt you for the path of the local file. If nt isn't currently running, it will start it and ask for the path of the local file.
+.TP
+\fB-h, --help\fP
+Print help informations and exit.
+.TP
+\fB-v, --version\fP
+Show version informations and exit.
+.TP
+\fB-i, --info\fP
+Show informations if already running.
+.TP
+\fB-s, --speed\fP
+Show current speed if already running.
+.TP
+\fB-t1, --traffic-low\fP
+Set lower speed limitation.
+.TP
+\fB-t2, --traffic-middle\fP
+Set middle speed limitation.
+.TP
+\fB-t3, --traffic-high\fP
+Set unlimited speed.
+.TP
+\fB-d, --directory\fP
+Set directory for saving files. This option works only for files added
+via control socket (e.g. from command line)
+.TP
+\fB-c, --delete-completed\fP
+Delete completed if already running.
+.TP
+\fB-m, --max-running\fP
+Set maximum active downloads.
+.SH COPYRIGHT
+Copyright (C) 1999-2000, Maxim Koshelev <chuchelo@krasu.ru>
+This program is free sources but not GPL!!!!!
+You can't modify sources without agreement with author but can distribute unmodified sources.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.SH SUGGESTIONS AND BUG REPORTS
+Go to http://www.krasu.ru/soft/chuchelo/
+.SH AUTHOR
+This manual page was written by Julien BLACHE <j.blache@rmcnet.fr>, for the Debian GNU/Linux system (but may be used by others).

@@ -14,7 +14,6 @@
 #include "locstr.h"
 #include "var.h"
 #include "ntlocale.h"
-#include "html.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -47,12 +46,12 @@ tHttpDownload::tHttpDownload() {
 	LOG=NULL;
 	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
-	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
+	StartSize=D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
 
 	answer=NULL;
 	HTTP=NULL;
-	ETag=Auth=NULL;
+	OldETag=ETag=Auth=NULL;
 	content_type=NULL;
 	FULL_NAME_TEMP=NULL;
 };
@@ -60,45 +59,31 @@ tHttpDownload::tHttpDownload() {
 void tHttpDownload::print_error(int error_code){
 	switch(error_code){
 	case ERROR_BAD_ANSWER:
-		LOG->add(_("Could'nt get normal answer!"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Could'nt get normal answer!"));
 		break;
 	default:
 		tDownloader::print_error(error_code);
 	};
 };
 
-int tHttpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
+int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	LOG=log;
 	HTTP=new tHttpClient;
 	RetrNum=0;
-	HOST=hostinfo->get_host();
-	USER=hostinfo->get_username();
-	PASS=hostinfo->get_pass();
+	HOST=hostinfo->host.get();
+	USER=hostinfo->username.get();
+	PASS=hostinfo->pass.get();
 	D_PORT=hostinfo->port;
 	answer=NULL;
 	ETag=NULL;
 	Auth=NULL;
-	D_FILE.fdesc=0;
 	D_FILE.type=T_FILE; //we don't know any other when download via http
-	data=0;
-	first=1;
 	config.copy_ints(cfg);
 	HTTP->init(HOST,LOG,D_PORT,config.timeout);
-	config.set_user_agent(cfg->get_user_agent());
-	config.set_save_path(cfg->get_save_path());
-	config.set_save_name(cfg->get_save_name());
-	HTTP->set_user_agent(config.get_user_agent());
+	config.user_agent.set(cfg->user_agent.get());
+	HTTP->set_user_agent(config.user_agent.get());
 	HTTP->registr(USER,PASS);
 	return reconnect();
-};
-
-void tHttpDownload::init_download(char *path,char *file) {
-	tDownloader::init_download(path,file);
-	char *tmp=parse_percents(D_FILE.get_name());
-	if (config.get_save_name()==NULL && tmp &&
-	    !equal(tmp,D_FILE.get_name()))
-		config.set_save_name(tmp);
-	if (tmp) delete(tmp);
 };
 
 int tHttpDownload::reconnect() {
@@ -107,16 +92,16 @@ int tHttpDownload::reconnect() {
 	while (success) {
 		RetrNum++;
 //		if (HTTP->get_status()==STATUS_FATAL) return -1;
-		print_error(ERROR_ATTEMPT);
 		if (config.number_of_attempts &&
 		    RetrNum>=config.number_of_attempts+1) {
 			print_error(ERROR_ATTEMPT_LIMIT);
 			return -1;
 		};
+		print_error(ERROR_ATTEMPT);
 		HTTP->down();
 		if (RetrNum>1) {
 			if (HTTP->test_reget() || config.retry) {
-				LOG->add(_("Sleeping"),LOG_WARNING);
+				LOG->log(LOG_WARNING,_("Sleeping"));
 				sleep(config.time_for_sleep+1);
 			}
 			else return -1;
@@ -133,16 +118,13 @@ char * tHttpDownload::get_new_url() {
 	while(temp) {
 		string_to_low(temp->body,':');
 		if (begin_string(temp->body,LOCATION)) {
-			return(extract_from_prefixed_string(temp->body,LOCATION));
+			char *str=extract_from_prefixed_string(temp->body,LOCATION);
+			del_crlf(str);
+			return(str);
 		};
 		temp=answer->next();
 	};
 	return NULL;
-};
-
-void tHttpDownload::analize_html() {
-	tHtmlParser html;
-	html.parse(D_FILE.fdesc,answer);
 };
 
 tStringList *tHttpDownload::dir() {
@@ -157,6 +139,8 @@ int tHttpDownload::analize_answer() {
 	 *	Last-Modified: 
 	 */
 	ETagChanged=0;
+	OldETag=ETag;
+	ETag=NULL;
 	tString *temp=answer->last();
 	if (!temp) return -1;
 	int rvalue=0;
@@ -170,6 +154,7 @@ int tHttpDownload::analize_answer() {
 			if (begin_string_uncase(temp->body,STR))
 				break;
 		};
+//		printf("i=%i\n",i);
 		switch(i){
 		case H_CONTENT_TYPE:{
 			if (content_type) delete (content_type);
@@ -190,7 +175,7 @@ int tHttpDownload::analize_answer() {
 			if (a){
 				ReGet=1;
 				int b[3];
-				if (sscanf(a+strlen("bytes"),"%d-%d/%d",&b[0],&b[1],&b[2])==3){
+				if (sscanf(a+strlen("bytes"),"%i-%i/%i",&b[0],&b[1],&b[2])==3){
 					rvalue=b[2]-b[0];
 				};
 			};
@@ -205,54 +190,36 @@ int tHttpDownload::analize_answer() {
 			break;
 		};
 		case H_ETAG:{
-			char *ETag1=extract_from_prefixed_string(temp->body,STR);
-			char *tmp=index(ETag1,':');
+			ETag=extract_from_prefixed_string(temp->body,STR);
+			char *tmp=index(ETag,':');
 			if (tmp) *tmp=0;
-			if (ETag) {
-				if (!equal(ETag,ETag1)) {
+			if (OldETag) {
+				if (!equal(OldETag,ETag)) {
 					MustNoReget=ETagChanged=1;
-					delete ETag;
-					ETag=ETag1;
-				} else delete(ETag1);
-			} else {
-				ETag=ETag1;
-			};
-		};
-		case H_CONTENT_DISPOSITION:{
-			char *point=strstr(temp->body,"filename");
-			if (point) {
-				point+=strlen("filename");
-				point=index(point,'=');
-				if (point) {
-					point++;
-					if (config.get_save_name()==NULL){
-						char *N=copy_string(point);
-						int len=strlen(N);
-						N[len-2]=0;
-						point=rindex(N,'/');
-						if (point) {
-							char *tmp=copy_string(point+1);
-							delete(N);
-							N=tmp;
-						};
-						config.set_save_name(N);
-						delete(N);
-					};
 				};
 			};
+			break;
+		};
+		case H_CONTENT_DISPOSITION:{
+			break;
 		};
 		case  H_WWW_AUTHENTICATE:{
 			if (!Auth) {
 				Auth=extract_from_prefixed_string(temp->body,STR);
 			};
+			break;
 		};
 		};
 		temp=answer->next();
 	};
 	if (rvalue>0)
-		LOG->myprintf(LOG_OK,_("Size for download is %i bytes"),rvalue);
-	if (StartSize==0) ReGet=1;
+		LOG->log_printf(LOG_OK,_("Size for download is %i bytes"),rvalue);
+	if (LOADED==0) ReGet=1;
 	if (MustNoReget) ReGet=0;
+	if (OldETag){ /* if etag disappeared */
+		delete(OldETag);
+		OldETag=NULL;
+	};
 	return rvalue;
 };
 
@@ -260,23 +227,23 @@ int tHttpDownload::get_size() {
 	if (FULL_NAME_TEMP) delete (FULL_NAME_TEMP);
 	FULL_NAME_TEMP=NULL;
 	if (D_PATH[0]!=0 && D_PATH[strlen(D_PATH)-1]!='/')
-		FULL_NAME_TEMP=sum_strings("/",D_PATH,"/",D_FILE.get_name(),NULL);
+		FULL_NAME_TEMP=sum_strings("/",D_PATH,"/",D_FILE.name.get(),NULL);
 	else
-		FULL_NAME_TEMP=sum_strings("/",D_PATH,D_FILE.get_name(),NULL);
+		FULL_NAME_TEMP=sum_strings("/",D_PATH,D_FILE.name.get(),NULL);
 	if (!answer) {
 		answer=new tStringList;
 		answer->init(0);
 	};
 	while (1) {
 		answer->done();
-		HTTP->set_offset(data);
-		LOG->add(_("Sending http request..."),LOG_OK);
+		HTTP->set_offset(LOADED);
+		LOG->log(LOG_OK,_("Sending http request..."));
 		int temp=HTTP->get_size(FULL_NAME_TEMP,answer);
 		if (temp==0) {
-			LOG->add(_("Answer read ok"),LOG_OK);
+			LOG->log(LOG_OK,_("Answer read ok"));
 			D_FILE.size=analize_answer();
 			if (ReGet && D_FILE.size>=0)
-				D_FILE.size+=data;
+				D_FILE.size+=LOADED;
 			return D_FILE.size;
 		};
 		if (temp==1){
@@ -289,45 +256,42 @@ int tHttpDownload::get_size() {
 	return -2;
 };
 
-void tHttpDownload::rollback_before(){
-	StartSize=data=rollback(data);
-};
-
-int tHttpDownload::download(unsigned int from,unsigned int len) {
+int tHttpDownload::download(int len) {
 	int success=1;
-	int offset=from;
-	first=1;
+	int first=1;
+	int length_to_load=len>0?LOADED+len:0;
 	while(success) {
-		if (!first) StartSize=offset=data=rollback(offset);
-		HTTP->set_offset(offset);
+		StartSize=LOADED;
+		if (!first) StartSize=rollback();
+		HTTP->set_offset(LOADED);
 		while (first || get_size()>=0) {
 			if (!ReGet) {
-				if (offset) LOG->add(_("It is seemed REGET not supported! Loading from begin.."),LOG_WARNING);
-				StartSize=data=offset=0;
-				lseek(D_FILE.fdesc,0,SEEK_SET);
-				if (ETagChanged) break;
+				if (LOADED)
+					LOG->log(LOG_WARNING,_("It is seemed REGET not supported! Loading from begin.."));
+				if (ETagChanged && LOADED!=0){
+					LOG->log(LOG_WARNING,_("ETag was changed, restarting again..."));
+					StartSize=LOADED=0;
+					LOG->shift(0);
+					break;
+				};
+				StartSize=LOADED=0;
+				LOG->shift(0);
 			};
 			Status=D_DOWNLOAD;
-			int ind=HTTP->get_file_from(NULL,offset,len,D_FILE.fdesc);
+			int to_load=len>0?length_to_load-LOADED:0;
+			int ind=HTTP->get_file_from(NULL,LOADED,to_load);
 			if (ind>=0) {
-				offset+=ind;
-				len-=ind;
-/*				if (HTTP->get_status()==0) {
-					if (D_FILE.size!=0 && offset==D_FILE.size) return 0;
-					if (D_FILE.size==0) return 0;
-				};
-*/
+				LOADED+=ind;
+				LOG->log_printf(LOG_OK,_("%i bytes loaded."),ind);
 			};
 			break;
 		};
-//		data=offset;
 		first=0;
-		if (HTTP->get_status()==STATUS_FATAL) return -1;
-		if (offset==D_FILE.size && D_FILE.size!=0) break;
+//		if (HTTP->get_status()==STATUS_FATAL) return -1;
+		if (LOADED==D_FILE.size && D_FILE.size!=0) break;
 		if (HTTP->get_status()==0 && D_FILE.size==0) break;
 		if (reconnect()) return -1;
 	};
-	fchmod(D_FILE.fdesc,D_FILE.perm);
 	return 0;
 };
 
@@ -336,12 +300,7 @@ int tHttpDownload::get_child_status() {
 };
 
 int tHttpDownload::get_readed() {
-	return HTTP->get_readed();
-};
-
-char *tHttpDownload::get_real_name() {
-	if (config.get_save_name()) return config.get_save_name();
-	return D_FILE.get_name();
+	return (HTTP->get_readed());
 };
 
 char *tHttpDownload::get_content_type() {
@@ -354,7 +313,7 @@ int tHttpDownload::reget() {
 };
 
 void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) {
-	int flag=strlen(D_FILE.get_name());
+	int flag=strlen(D_FILE.name.get());
 	char *full_path;
 	if (config.http_recursing){
 		if (config.leave_server){
@@ -369,15 +328,14 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 	char *question_sign=index(full_path,'?');
 	if (question_sign) *question_sign=0;
 	if (flag){
-		temp=sum_strings(".",D_FILE.get_name(),NULL);
+		temp=sum_strings(".",D_FILE.name.get(),NULL);
 		*name=compose_path(full_path,temp);
-		*guess=compose_path(full_path,D_FILE.get_name());
+		*guess=compose_path(full_path,D_FILE.name.get());
 	}else{
 		temp=sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
 		*guess=compose_path(full_path,CFG.DEFAULT_NAME);
 	};
-	make_dir_hier(full_path);
 	delete full_path;
 	delete temp;
 };
@@ -393,26 +351,21 @@ void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **
 	if (question_sign) *question_sign=0;
 	*name=compose_path(full_path,temp);
 	*guess=compose_path(full_path,another_name);
-	make_dir_hier(full_path);
 	delete full_path;
 	delete temp;
 };
 
 void tHttpDownload::done() {
 	HTTP->done();
-	if (D_FILE.fdesc) {
-		close(D_FILE.fdesc);
-		D_FILE.fdesc=0;
-	};
 };
 
 tHttpDownload::~tHttpDownload() {
 	if (FULL_NAME_TEMP) delete(FULL_NAME_TEMP);
 	if (HTTP) delete HTTP;
 	if (ETag) delete ETag;
+	if (OldETag) delete(OldETag);
 	if (Auth) delete Auth;
 	if (D_PATH) delete D_PATH;
-	if (D_FILE.fdesc) close(D_FILE.fdesc);
 	if (answer) delete(answer);
 	if (content_type) delete (content_type);
 };

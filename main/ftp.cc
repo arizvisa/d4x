@@ -38,7 +38,7 @@ int tFtpClient::accepting() {
 	DSFlag=1;
 	if (DataSocket.accepting(hostname)) {
 		Status=STATUS_TRIVIAL;
-		LOG->add(_("Accepting faild"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Accepting faild"));
 		return RVALUE_TIMEOUT;
 	};
 	return RVALUE_OK;
@@ -47,22 +47,23 @@ int tFtpClient::accepting() {
 int  tFtpClient::send_command(char * comm,char *argv) {
 	char *data=NULL;
 	if (argv && strlen(argv)){
-		data=new char[strlen(argv)+strlen(comm)+strlen(" \r\n")+1];
-		sprintf(data,"%s %s\r\n",comm,argv);
+		data=sum_strings(comm," ",argv,"\r\n",NULL);//new char[strlen(argv)+strlen(comm)+strlen(" \r\n")+1];
+//		sprintf(data,"%s %s\r\n",comm,argv);
 	}else{
-		data=new char[strlen(comm)+strlen("\r\n")+1];
-		sprintf(data,"%s\r\n",comm);
+		data=sum_strings(comm,"\r\n",NULL);
+//		data=new char[strlen(comm)+strlen("\r\n")+1];
+//		sprintf(data,"%s\r\n",comm);
 	};
 	if (equal_uncase(comm,"PASS"))
-		LOG->add("PASS ***",LOG_TO_SERVER);
+		LOG->log(LOG_TO_SERVER,"PASS ***");
 	else
-		LOG->add(data,LOG_TO_SERVER);
+		LOG->log(LOG_TO_SERVER,data);
 	Status=CtrlSocket.send_string(data,timeout);
 	delete data;
 	if (Status) {
 		if (Status==STATUS_TIMEOUT)
-			LOG->add(_("Timeout send through control socket."),LOG_ERROR);
-		LOG->add(_("Control connection is lost"),LOG_WARNING);
+			LOG->log(LOG_ERROR,_("Timeout send through control socket."));
+		LOG->log(LOG_ERROR,_("Control connection is lost"));
 		return RVALUE_TIMEOUT;
 	};
 	return RVALUE_OK;
@@ -71,22 +72,24 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 int tFtpClient::read_data(char *where,int len) {
 	int all=DataSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
-		LOG->add(_("Data socket is lost!"),LOG_WARNING);
+		LOG->log(LOG_WARNING,_("Data socket is lost!"));
 		return RVALUE_TIMEOUT;
 	};
 	return all;
 };
 
 int tFtpClient::read_control() {
-	if (read_string(&CtrlSocket,LOG,MAX_LEN)<0) {
-		LOG->add(_("Control socket lost!"),LOG_WARNING);
+	if (read_string(&CtrlSocket,CTRL,MAX_LEN)<0) {
+		LOG->log(LOG_WARNING,_("Control socket lost!"));
 		return RVALUE_TIMEOUT;
 	};
+	tString *log=CTRL->last();
+	if (log) LOG->log(LOG_FROM_SERVER,log->body);
 	return RVALUE_OK;
 };
 
 int tFtpClient::analize(char *how) {
-	tLogString *log=LOG->last();
+	tString *log=CTRL->last();
 	if (log) {
 		int ind=0;
 		while(how[ind]!=0) {
@@ -129,8 +132,8 @@ int tFtpClient::is_valid_answer(char *what) {
 };
 
 int tFtpClient::last_answer() {
-	tLogString *test=LOG->last();
-	if (test->body && strlen(test->body)>=3 &&
+	tString *test=CTRL->last();
+	if (test && test->body && strlen(test->body)>=3 &&
 	    isspace(test->body[3]) && is_valid_answer(test->body)) return 1;
 	return 0;
 };
@@ -144,7 +147,7 @@ int tFtpClient::rest(int offset) {
 		if (a==RVALUE_TIMEOUT) return(a);
 		if (a!=RVALUE_OK){
 			ReGet=0;
-			LOG->add(_("Reget is not supported!!!"),LOG_WARNING);
+			LOG->log(LOG_WARNING,_("Reget is not supported!!!"));
 		}else
 			ReGet=1;
 	};
@@ -156,9 +159,11 @@ tFtpClient::tFtpClient() {
 	hostname=userword=username=buffer=NULL;
 	passive=0;
 	TEMP_SIZE=0;
+	CTRL=new tStringList;
+	CTRL->init(2);
 };
 
-void tFtpClient::init(char *host,tLog *log,int prt,int time_out) {
+void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
 	DSFlag=0;
 	BuffSize=MAX_LEN;
@@ -200,11 +205,12 @@ int tFtpClient::stand_data_connection() {
 			passive=0;
 			return -1;
 		};
-		tLogString *log=LOG->last();
+		tString *log=CTRL->last();
+		if (log == NULL) return -1;
 		int PASSIVE_ADDR[6]={0,0,0,0,0,0};
 		if (index(log->body,'(')!=NULL)
 			sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
-		LOG->myprintf(LOG_OK,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
+		LOG->log_printf(LOG_OK,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
 		if (DataSocket.open_port(PASSIVE_ADDR)) {
 			Status=STATUS_TRIVIAL;
 			passive=0;
@@ -252,7 +258,14 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 	if ((rvalue=rest(list->size()))) return(rvalue);
 	if (!ReGet) list->done();
 	send_command("LIST -la",filename);
-	if ((rvalue=analize_ctrl(1,&FTP_RETR_OK))) return(rvalue);
+	if ((rvalue=analize_ctrl(1,&FTP_RETR_OK))){
+		if (Status==STATUS_UNSPEC_ERR || Status==STATUS_CMD_ERR){
+			send_command("LIST",filename);
+			if ((rvalue=analize_ctrl(1,&FTP_RETR_OK)))
+				return(rvalue);
+		}else
+			return(rvalue);
+	};
 	if ((rvalue=accepting())) return(rvalue);
 	while (1) {
 		int a=read_string(&DataSocket,list,MAX_LEN);
@@ -266,7 +279,7 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 	return (analize_ctrl(1,&FTP_READ_OK));
 };
 
-int tFtpClient::get_file_from(char *what,unsigned int begin,int fd) {
+int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
 	int rvalue=0;;
 	FileLoaded=begin;
 	char data[25];
@@ -276,13 +289,13 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int fd) {
 	if ((rvalue=analize_ctrl(1,&FTP_PORT_OK))) return(rvalue);
 	if ((rvalue=rest(begin))) return rvalue;
 	if (!ReGet) {
-		lseek(fd,0,SEEK_SET);
+		LOG->shift(0);
 		FileLoaded=0;
 	};
 	send_command("RETR",what);
 	if ((rvalue=analize_ctrl(1,&FTP_RETR_OK))) return(rvalue);
 	// Trying to determine file size
-	tLogString *log=LOG->last();
+	tString *log=CTRL->last();
 	TEMP_SIZE=0;
 	if (log) {
 		char *str=rindex(log->body,'(');
@@ -293,21 +306,32 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int fd) {
 	if (Status) return RVALUE_TIMEOUT;
 	DSize=0;
 	int complete;
+	int llen=len;
 	do {
 		if ((complete=tClient::read_data())<0) {
-			LOG->add(_("Data connection closed."),LOG_WARNING);
+			LOG->log(LOG_WARNING,_("Data connection closed."));
 			break;
 		};
+		if (len && FillSize>llen) FillSize=llen;
 		FileLoaded+=complete;
-		if (write_buffer(fd)) {
-			LOG->add(_("Can't write to file"),LOG_ERROR);
+		if (write_buffer()) {
 			Status=STATUS_FATAL;
 			break;
+		};
+		if (len){
+			llen -=FillSize;
+			if (llen==0){
+				LOG->log(LOG_OK,_("Requested size was loaded"));
+				break;
+			};
 		};
 	} while (complete!=0);
 	DataSocket.down(); // to prevent next ideas from guys of wu-ftpd's team
 	if (Status) return DSize;
-	if (analize_ctrl(1,&FTP_READ_OK)) return(RVALUE_UNSPEC_ERR);
+	if (analize_ctrl(1,&FTP_READ_OK)){
+		if (len && llen==0) return DSize;
+		return(RVALUE_UNSPEC_ERR);
+	};
 	return DSize;
 };
 
@@ -341,4 +365,5 @@ tFtpClient::~tFtpClient() {
 	hostname=userword=username=buffer=NULL;
 	passive=0;
 	TEMP_SIZE=0;
+	delete(CTRL);
 };

@@ -19,29 +19,25 @@ class tHttpDownload:public tDownloader{
 	protected:
 	tHttpClient *HTTP;
 	tStringList *answer;
-	int ReGet,MustNoReget,first,ETagChanged;
+	int ReGet,MustNoReget,ETagChanged;
 	char *content_type,*FULL_NAME_TEMP;
-	char *ETag,*Auth;
+	char *ETag,*OldETag,*Auth;
 	int analize_answer();
 	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
    	void make_full_pathes(const char *path,char **name,char **guess);
 	void print_error(int error_code);
 	public:
 		tHttpDownload();
-		void init_download(char *path,char *file);
-		void analize_html();
 		int reconnect();
-		int init(tAddr *hostinfo,tLog *log,tCfg *cfg);
+		int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
 		int get_size();
-		char *get_real_name();
 		int get_readed();
 		int get_child_status();
 		char *get_new_url();
 		int reget();
-		void rollback_before();
 		char *get_content_type();
 		tStringList *dir();
-		int download(unsigned int from,unsigned int len);
+		int download(int len);
 		void done();
 		~tHttpDownload();
 };

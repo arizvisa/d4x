@@ -10,32 +10,22 @@
  */
 #ifndef _MY_T_ADDR
 #define _MY_T_ADDR
+#include "locstr.h"
 
 struct tAddr{
-	private:
-	char *host,*username,*pass,*path,*file;
-	public:
+	tPStr host,username,pass,path,file;
 	int proto,port;
 	int mask;
 	tAddr();
 	tAddr(char *str);
 	void print();
-	void set_host(char *what);
-	void set_username(char *what);
-	void set_pass(char *what);
-	void set_path(char *what);
-	void set_file(char *what);
 	void compose_path(char *aa,char *bb);
-	char *get_host(){return host;};
-	char *get_pass(){return pass;};
-	char *get_username(){return username;};
-	char *get_path(){return path;};
-	char *get_file(){return file;};
 	void file_del_sq();
 	void make_url(char *where);
 	char *url();
 	void copy_host(tAddr *what);
 	void save_to_config(int fd);
+	int is_valid();
 	~tAddr();
 };
 enum D_PROTOS{

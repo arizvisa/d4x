@@ -26,7 +26,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.14";
+char *VERSION_NAME="WebDownloader for X 1.15";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -48,6 +48,7 @@ static void init_string_variables(){
 };
 
 int main(int argc,char **argv) {
+//	free(malloc(10)); //hack for electricFence which does not work with threads :(
 #ifdef ENABLE_NLS
 	bindtextdomain("nt", LOCALE);
 	textdomain("nt");

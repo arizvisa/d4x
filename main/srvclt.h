@@ -66,6 +66,7 @@ enum {
 	PACKET_MSG,
 	PACKET_ADD_OPEN,
 	PACKET_ASK_FULLAMOUNT,	// amount of all downloads
+	PACKET_RERUN_FAILED,
 	PACKET_UNKNOWN
 };
 

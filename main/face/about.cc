@@ -20,11 +20,11 @@
 GtkWidget *AboutWindow=(GtkWidget *)NULL;
 char *TRANSLATORS[]={
 	"Jerome Couderc",
-	"Kyritsis Athanasios",
+	"Vicente Aguilar",
 	"Robin Verduijn",
+	"Kyritsis Athanasios",
 	"Dirk Moebius",
 	"Legnar WinShadow",
-	"Vicente Aguilar",
 	"Paulo Henrique",
 	"Vittorio Rebecchi",
 	"A.J.",

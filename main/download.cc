@@ -22,70 +22,14 @@
 #include "locstr.h"
 #include "ntlocale.h"
 
-tFileInfo::tFileInfo(){
-	name=body=NULL;
-};
-
-void tFileInfo::set_name(char *what){
-	if (name) delete(name);
-	name=copy_string(what);
-};
-
-void tFileInfo::set_body(char *what){
-	if (body) delete(body);
-	body=copy_string(what);
-};
-
-char *tFileInfo::get_name(){
-	return name;
-};
-
-char *tFileInfo::get_body(){
-	return body;
-};
-
-tFileInfo::~tFileInfo(){
-	if (name) delete(name);
-	if (body) delete(body);
-};
 /* ---------------------------------------- */
 
 tCfg::tCfg() {
-	proxy_host = proxy_user = proxy_pass = user_agent = NULL;
-	save_path = save_name = NULL;
 	speed=0;
 	proxy_type=0;
 	link_as_file=leave_server=0;
-};
-
-void tCfg::set_proxy_user(char *what) {
-	if (proxy_user)	delete(proxy_user);
-	proxy_user=copy_string(what);
-};
-
-void tCfg::set_proxy_host(char *what) {
-	if (proxy_host)	delete(proxy_host);
-	proxy_host=copy_string(what);
-};
-
-void tCfg::set_proxy_pass(char *what) {
-	if (proxy_pass)	delete(proxy_pass);
-	proxy_pass=copy_string(what);
-};
-
-void tCfg::set_user_agent(char *what) {
-	if (user_agent)	delete(user_agent);
-	user_agent=copy_string(what);
-};
-
-void tCfg::set_save_name(char *what) {
-	if (save_name)	delete(save_name);
-	save_name=copy_string(what);
-};
-
-void tCfg::set_save_path(char *what) {
-	if (save_path)	delete(save_path);
-	save_path=copy_string(what);
+	dont_leave_dir=0;
+	restart_from_begin=0;
 };
 
 void tCfg::copy_ints(tCfg *src){
@@ -102,6 +46,7 @@ void tCfg::copy_ints(tCfg *src){
 	get_date = src->get_date;
 	retry = src->retry;
 	full_server_loading=src->full_server_loading;
+	dont_leave_dir=src->dont_leave_dir;
 
 	proxy_type = src->proxy_type;
 	proxy_port = src->proxy_port;
@@ -130,32 +75,31 @@ void tCfg::set_flags(int what){
 
 void tCfg::copy(tCfg *src) {
 	copy_ints(src);
-	set_proxy_host(src->proxy_host);
-	set_proxy_user(src->proxy_user);
-	set_proxy_pass(src->proxy_pass);
-	set_user_agent(src->user_agent);
+	proxy_host.set(src->proxy_host.get());
+	proxy_user.set(src->proxy_user.get());
+	proxy_pass.set(src->proxy_pass.get());
+	user_agent.set(src->user_agent.get());
 };
 
 void tCfg::reset_proxy() {
-	if (proxy_user) delete(proxy_user);
-	if (proxy_pass) delete(proxy_pass);
-	if (proxy_host) delete(proxy_host);
-	proxy_user=proxy_pass=proxy_host=NULL;
+	proxy_user.set(NULL);
+	proxy_pass.set(NULL);
+	proxy_host.set(NULL);
 };
 
 void tCfg::save_to_config(int fd){
 	f_wstr_lf(fd,"Cfg:");
-	if (proxy_host){
-		write_named_string(fd,"Proxy:",proxy_host);
+	if (proxy_host.get()){
+		write_named_string(fd,"Proxy:",proxy_host.get());
 		write_named_integer(fd,"proxy_port:",proxy_port);
 		write_named_integer(fd,"proxy_type:",proxy_type);
-		if(proxy_pass!=NULL && proxy_user!=NULL){
-			write_named_string(fd,"Proxy_pass:",proxy_pass);
-			write_named_string(fd,"Proxy_user:",proxy_user);
+		if(proxy_pass.get()!=NULL && proxy_user.get()!=NULL){
+			write_named_string(fd,"Proxy_pass:",proxy_pass.get());
+			write_named_string(fd,"Proxy_user:",proxy_user.get());
 		};
 	};
-	if (user_agent && *user_agent)
-		write_named_string(fd,"User_agent:",user_agent);
+	if (user_agent.get() && *(user_agent.get()))
+		write_named_string(fd,"User_agent:",user_agent.get());
 		
 	write_named_integer(fd,"Timeout:",timeout);
 	write_named_integer(fd,"time_for_sleep:",time_for_sleep);
@@ -171,10 +115,11 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"http_recursing:",http_recursing);
 	write_named_integer(fd,"link_as_file:",link_as_file);
 	write_named_integer(fd,"leave_server:",leave_server);
-	if (save_name && *save_name)
-		write_named_string(fd,"save_name:",save_name);
-	if (save_path && *save_path)
-		write_named_string(fd,"save_path:",save_path);
+	write_named_integer(fd,"dont_leave_dir:",dont_leave_dir);
+	if (save_name.get() && *(save_name.get()))
+		write_named_string(fd,"save_name:",save_name.get());
+	if (save_path.get() && *(save_path.get()))
+		write_named_string(fd,"save_path:",save_path.get());
 	f_wstr_lf(fd,"EndCfg:");
 };
 
@@ -202,7 +147,8 @@ int tCfg::load_from_config(int fd){
 		"leave_server:",//19
 		"save_name:",//20
 		"save_path:",//21
-		"EndCfg:" //22
+		"dont_leave_dir:",//22
+		"EndCfg:" //23
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){
@@ -213,22 +159,22 @@ int tCfg::load_from_config(int fd){
 		switch(i){
 		case 0:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_user_agent(buf);
+			user_agent.set(buf);
 			break;
 		};
 		case 1:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_proxy_host(buf);
+			proxy_host.set(buf);
 			break;
 		};
 		case 2:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_proxy_pass(buf);
+			proxy_pass.set(buf);
 			break;
 		};
 		case 3:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_proxy_user(buf);
+			proxy_user.set(buf);
 			break;
 		};
 		case 4:{
@@ -313,15 +259,20 @@ int tCfg::load_from_config(int fd){
 		};		
 		case 20:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_save_name(buf);
+			save_name.set(buf);
 			break;
 		};
 		case 21:{
 			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-			set_save_path(buf);
+			save_path.set(buf);
 			break;
 		};
 		case 22:{
+			if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&dont_leave_dir);
+			break;
+		};		
+		case 23:{
 			return 0;
 		};
 		};
@@ -330,34 +281,44 @@ int tCfg::load_from_config(int fd){
 };
 
 tCfg::~tCfg() {
-	reset_proxy();
-	if (user_agent) delete(user_agent);
-	if (save_name) delete(save_name);
-	if (save_path) delete(save_path);
 };
-/* Downloader::
+
+/* End config functions.
+   Begin tDownloader's functions.
  */
 
 void tDownloader::print_error(int error_code){
 	switch(error_code){
 	case ERROR_ATTEMPT_LIMIT:{
-		LOG->add(_("Max amount of retries was reached!"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Max amount of retries was reached!"));
 		break;
 	};
 	case ERROR_ATTEMPT:{
 		if (config.number_of_attempts)
-			LOG->myprintf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
+			LOG->log_printf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
 		else
-			LOG->myprintf(LOG_OK,_("Retrying %i ..."),RetrNum);
+			LOG->log_printf(LOG_OK,_("Retrying %i ..."),RetrNum);
 		break;
 	};
 	case ERROR_DIRECTORY:{
-		LOG->add(_("Directory already created!:))"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Directory already created!:))"));
+		break;
+	};
+	case ERROR_ACCESS:{
+		LOG->log_printf(LOG_ERROR,
+			      _("You have no permissions to create file at path %s"),
+			      config.save_path.get());
+		break;
+	};
+	case ERROR_NO_SPACE:{
+		LOG->log_printf(LOG_ERROR,
+			      _("You have no space at path %s for creating file"),
+			      config.save_path.get());
 		break;
 	};
 	default:{
-		LOG->add(_("Warning! Probably you found the BUG!!!"),LOG_ERROR);
-		LOG->add(_("If you see this message please report to mdem@chat.ru"),LOG_ERROR);
+		LOG->log(LOG_ERROR,_("Warning! Probably you found the BUG!!!"));
+		LOG->log(LOG_ERROR,_("If you see this message please report to mdem@chat.ru"));
 		break;
 	};
 	};
@@ -367,24 +328,9 @@ tDownloader::tDownloader(){
 	LOG=NULL;
 	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
-	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
+	StartSize=D_FILE.size=D_FILE.type=0;
 	Status=D_NOTHING;
 };
-
-void tDownloader::short_init(tLog *log,tCfg *cfg) {
-	LOG=log;
-	config.set_save_name(cfg->get_save_name());
-	config.set_save_path(cfg->get_save_path());
-};
-
-int tDownloader::file_type() {
-	return D_FILE.type;
-};
-
-char *tDownloader::get_real_name() {
-	return D_FILE.get_name();
-};
-
 
 char * tDownloader::get_new_url() {
 	return NULL;
@@ -393,25 +339,29 @@ char * tDownloader::get_new_url() {
 void tDownloader::set_file_info(tFileInfo *what) {
 	D_FILE.type=what->type;
 	if (D_FILE.type==T_LINK)
-		D_FILE.set_body(what->get_body());
+		D_FILE.body.set(what->body.get());
 	D_FILE.perm=what->perm;
 	D_FILE.date=what->date;
 };
 
-int tDownloader::rollback(int offset){
-	int curent_offset=lseek(D_FILE.fdesc,0,SEEK_CUR);
-	int real_roll_back = curent_offset - (curent_offset<config.rollback?curent_offset:config.rollback);
-	lseek(D_FILE.fdesc,real_roll_back,SEEK_SET);
-	return real_roll_back;
+tFileInfo *tDownloader::get_file_info() {
+	return(&D_FILE);
+};
+
+int tDownloader::rollback(){
+	LOADED = LOADED<config.rollback ? 0 : LOADED-config.rollback;
+	LOG->shift(LOADED);
+	return(LOADED);
 };
 
 void tDownloader::init_download(char *path,char *file) {
-	D_FILE.set_name(file);
+	D_FILE.name.set(file);
+	if (D_PATH) delete(D_PATH);
 	D_PATH=copy_string(path);
 };
 
-void tDownloader::set_data(int a) {
-	data=a;
+void tDownloader::set_loaded(int a) {
+	LOADED=a;
 };
 
 int tDownloader::treat() {
@@ -432,9 +382,9 @@ int tDownloader::get_start_size() {
 
 void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 	char *temp;
-	temp=sum_strings(".",D_FILE.get_name(),NULL);
+	temp=sum_strings(".",D_FILE.name.get(),NULL);
 	*name=compose_path(path,temp);
-	*guess=compose_path(path,D_FILE.get_name());
+	*guess=compose_path(path,D_FILE.name.get());
 	delete temp;
 };
 
@@ -444,147 +394,6 @@ void tDownloader::make_full_pathes(const char *path,char *another_name,char **na
 	*guess=compose_path(path,another_name);
 	delete temp;
 };
-
-int tDownloader::create_file() {
-	if (D_FILE.type==T_LINK && config.link_as_file)
-		D_FILE.type=T_FILE;
-	int rvalue=0;
-	make_dir_hier(config.get_save_path());
-	char *name;
-	char *guess;
-	if (config.get_save_name() && strlen(config.get_save_name()))
-		make_full_pathes(config.get_save_path(),
-				 config.get_save_name(),
-				 &name,&guess);
-	else
-		make_full_pathes(config.get_save_path(),&name,&guess);
-	switch (D_FILE.type) {
-		case T_LINK:
-			{ //this is a link
-				LOG->add(_("Trying to create a link"),LOG_WARNING);
-				int err=symlink(D_FILE.get_body(),guess);
-				if (err) {
-					if (errno!=EEXIST) {
-						LOG->add(_("Can't create link"),LOG_ERROR);
-						return -1;
-					};
-					LOG->add(_("Link already created!:))"),LOG_ERROR);
-				};
-				chmod(guess,D_FILE.perm  | S_IWUSR);
-				break;
-			};
-		case T_FILE:
-			{ //this is a file
-				LOG->add(_("Trying to create a file"),LOG_WARNING);
-				D_FILE.fdesc=open(guess,O_RDWR,S_IRUSR | S_IWUSR );
-				if (D_FILE.fdesc<0) {
-					D_FILE.fdesc=open(name,O_RDWR|O_CREAT,S_IRUSR | S_IWUSR );
-					if (D_FILE.fdesc<0) {
-						LOG->add(_("Can't create file at the path:"),LOG_ERROR);
-						LOG->add(config.get_save_path(),LOG_ERROR);
-						LOG->add(_("wich has name:"),LOG_ERROR);
-						LOG->add(name,LOG_ERROR);
-						rvalue=-1;
-						break;
-					};
-				};
-				LOG->add(_("File was created!"),LOG_OK);
-				rvalue=StartSize=lseek(D_FILE.fdesc,0,SEEK_END);
-				break;
-			};
-		case T_DIR:
-			{ //this is a directory
-				LOG->add(_("Trying to create a dir"),LOG_WARNING);
-				if (strlen(D_FILE.get_name())==0){
-					print_error(ERROR_DIRECTORY);
-					break;
-				};
-				int temp=0;
-				if (strlen(guess))
-					temp=mkdir(guess,S_IRWXU);
-				if (temp) {
-					if (errno!=EEXIST) {
-						LOG->add(_("Can't create directory!"),LOG_OK);
-						rvalue=-1;
-						break;
-					};
-					print_error(ERROR_DIRECTORY);
-				};
-				chmod(guess,D_FILE.perm | S_IWUSR |S_IXUSR);
-				break;
-			};
-		case T_DEVICE:
-			{ //this is device
-				LOG->add(_("Downloader can't create devices..."),LOG_WARNING);
-				break;
-			};
-		default:{
-			print_error(ERROR_UNKNOWN);
-		};
-	};
-	delete name;
-	delete guess;
-	return rvalue;
-};
-
-void tDownloader::rollback_before(){
-	//do nothing
-};
-
-
-void tDownloader::make_file_visible() {
-	if (D_FILE.type==T_FILE) {
-		char *oldname,*newname;
-		if (config.get_save_name() && strlen(config.get_save_name())){
-			make_full_pathes(config.get_save_path(),
-					 config.get_save_name(),
-					 &oldname,&newname);
-		} else {
-			make_full_pathes(config.get_save_path(),
-					 &oldname,&newname);
-		};
-		rename(oldname,newname);
-		delete oldname;
-		delete newname;
-	};
-};
-
-void tDownloader::set_date_file() {
-	if (config.get_date) {
-		char *name,*guess;
-		if (config.get_save_name() && strlen(config.get_save_name()))
-			make_full_pathes(config.get_save_path(),
-					 config.get_save_name(),
-					 &name,&guess);
-		else
-			make_full_pathes(config.get_save_path(),&name,&guess);
-		struct utimbuf dates;
-		dates.actime=D_FILE.date;
-		dates.modtime=D_FILE.date;
-		utime(name,&dates);
-		utime(guess,&dates);
-		delete name;
-		delete guess;
-	};
-};
-
-int tDownloader::delete_file() {
-	int rvalue=0;
-	if (D_FILE.type==T_FILE) {
-		char *name,*guess;
-		make_full_pathes(config.get_save_path(),&name,&guess);
-		if (D_FILE.fdesc>0) {
-			close(D_FILE.fdesc);
-			D_FILE.fdesc=0;
-		};
-		if (remove(guess) && remove(name))
-			rvalue=-1;
-		delete name;
-		delete guess;
-	};
-	return rvalue;
-};
-
 
 tDownloader::~tDownloader() {
 	// do nothing

@@ -13,38 +13,38 @@
 #include "client.h"
 
 class tFtpClient:public tClient{
-    protected:
-    int DSFlag;
-    int passive;
-    int TEMP_SIZE;
-/*    int PASSIVE_ADDR[6];*/
-    tSocket DataSocket;
-    int send_command(char *comm,char *argv);
-    int read_data(char *where,int len);
-    int read_control();
-    int analize_ctrl(int argc,char **argv);
-    int analize(char *how);
-    int accepting();
-    int last_answer();
-    int is_valid_answer(char *what);
-    int rest(int offset);
-    public:
-		tFtpClient();
-		void init(char *host,tLog *log,int prt,int time_out);
-		void set_passive(int a);
-		int reinit();
-        int connect();
-		int registr(char *user,char *password);
+ protected:
+	int DSFlag;
+	int passive;
+	int TEMP_SIZE;
+	tStringList *CTRL;
+	tSocket DataSocket;
+	int send_command(char *comm,char *argv);
+	int read_data(char *where,int len);
+	int read_control();
+	int analize_ctrl(int argc,char **argv);
+	int analize(char *how);
+	int accepting();
+	int last_answer();
+	int is_valid_answer(char *what);
+	int rest(int offset);
+ public:
+	tFtpClient();
+	void init(char *host,tWriterLoger *log,int prt,int time_out);
+	void set_passive(int a);
+	int reinit();
+	int connect();
+	int registr(char *user,char *password);
         int stand_data_connection();
-		int change_dir(char *where);
-		int get_size(char *filename,tStringList *list);
-		int get_file_from(char *what,unsigned int begin,int fd);
+	int change_dir(char *where);
+	int get_size(char *filename,tStringList *list);
+	int get_file_from(char *what,unsigned int begin,int len);
         int read_block(char *where,int size);
-		void quit();
-		void down();
+	void quit();
+	void down();
     	void done();
-		int another_way_get_size();
-		~tFtpClient();
+	int another_way_get_size();
+	~tFtpClient();
 };
 
 extern char *FTP_SERVER_OK;

@@ -18,7 +18,7 @@ tString::tString() {
 	temp=0;
 };
 
-tString::tString(char *what,int len) {
+tString::tString(const char *what,int len) {
 	body=new char[len+1];
 	strncpy(body,what,len);
 	body[len]=0;
@@ -89,13 +89,13 @@ int tStringList::add_strings(char *what,int len) {
 	return(length-1);
 };
 
-void tStringList::add(char *str,int len) {
+void tStringList::add(const char *str,int len) {
 	tString *ins=new tString(str,len);
 	insert(ins);
 	Size+=len;
 };
 
-void tStringList::add(char *str) {
+void tStringList::add(const char *str) {
 	int len=strlen(str);
 	tString *ins=new tString(str,len);
 	insert(ins);
