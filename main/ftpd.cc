@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "ftpd.h"
 #include "ftp.h"
 #include "client.h"
@@ -336,7 +336,7 @@ void tFtpDownload::init_download(char *path,char *file) {
 		ADDR.path.set(path);
 };
 
-int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
+int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	FTP=new tFtpClient(cfg);
 	RetrNum=0;
 	ADDR.copy(hostinfo);
@@ -449,7 +449,7 @@ fsize_t tFtpDownload::ls_answer_long(){
 			break;
 		last=(tString*)(last->next);
 	};
-	if (last==NULL || is_dir()){
+	if (is_dir()){
 		LOG->log(LOG_WARNING,_("This is a directory!"));
 		D_FILE.size=1;
 		if (DIR) delete DIR;
@@ -458,6 +458,10 @@ fsize_t tFtpDownload::ls_answer_long(){
 		D_FILE.type=T_DIR;
 		D_FILE.perm=S_IRUSR|S_IWUSR;
 		return 1;
+	};
+	if (last==NULL){
+		LOG->log(LOG_WARNING,_("No such file or directory!"));
+		return(-1);
 	};
 	ftp_cut_string_list(last->body,&D_FILE,0);
 	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);

@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <stdio.h>
 #include <sys/stat.h>
 #include "passface.h"
@@ -307,6 +307,8 @@ void tFacePass::set_cfg(tDownload *what){
 			what->config->log_save_path.set(dwn->config->log_save_path.get());
 			what->config->isdefault=0;
 		};
+		what->info->pass.set(dwn->info->pass.get());
+		what->info->username.set(dwn->info->username.get());
 		if (dwn->split==NULL && what->split)
 			delete(what->split);
 		if (dwn->split){

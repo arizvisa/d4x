@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
 #endif
@@ -47,11 +47,11 @@ int my_get_host_by_name(char *host,int port,
 			*rvalbuf=0;
 #if !(defined(BSD) && (BSD >= 199306))
 #if (defined(__sparc__) || defined(__mips__)) && !(defined(__linux__))
-			gethostbyname_r(host,hp,buf,bufsize,rvalbuf);
+			int tmpr=gethostbyname_r(host,hp,buf,bufsize,rvalbuf);
 #else /* (defined(__sparc__) || defined(__mips__)) && !(defined(__linux__)) */
-			gethostbyname_r(host,hp,buf,bufsize,&hpr,rvalbuf);
+			int tmpr=gethostbyname_r(host,hp,buf,bufsize,&hpr,rvalbuf);
 #endif
-			if (*rvalbuf) return -1;
+			if (tmpr!=0 && *rvalbuf) return -1;
 			memcpy((char *)&(info->sin_addr),hpr->h_addr_list[0],
 			       (size_t) hpr->h_length);
 #else /* !(defined(BSD) && (BSD >= 199306)) */

@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "dlist.h"
 #include "ftpd.h"
 #include "locstr.h"
@@ -155,7 +155,7 @@ void tDefaultWL::fd_close(){
 	};
 };
 
-void tDefaultWL::set_fd(int newfd,int lockstate=0){
+void tDefaultWL::set_fd(int newfd,int lockstate){
 	if (fd>=0) fd_close();
 	fdlock=lockstate;
 	fd=newfd;
@@ -866,7 +866,7 @@ void make_dir_hier_without_last(char *path) {
 };
 
 static int is_subdir(char *path, char *subdir){
-	if (begin_string(path,subdir)){
+	if (begin_string(subdir,path)){
 		int len=strlen(path);
 		if (subdir[len]=='/' || subdir[len]==0)
 			return(1);
@@ -879,7 +879,7 @@ int tDownload::http_check_settings(tAddr *what){
 	if (!equal(what->host.get(),info->host.get())){
 		return (config->leave_server);
 	};
-	if (config->dont_leave_dir==0 || is_subdir(what->path.get(),info->path.get()))
+	if (config->dont_leave_dir==0 || is_subdir(info->path.get(),what->path.get()))
 		return 1;
 	return 0;
 };
@@ -1070,7 +1070,14 @@ void tDownload::download_completed(int type) {
 		int fd=open(desc,O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR );
 		delete[] desc;
 		lseek(fd,0,SEEK_END);
-		lockf(fd,F_LOCK,0);
+		/* locking file exclusively */
+		struct flock a;
+		a.l_type=F_WRLCK;
+		a.l_whence=SEEK_SET;
+		a.l_start=0;
+		a.l_len=1;
+		fcntl(fd,F_SETLKW,&a);
+		/* writing file */
 		if (Name2Save.get())
 			f_wstr(fd,Name2Save.get());
 		else
@@ -1085,7 +1092,9 @@ void tDownload::download_completed(int type) {
 			info->save_to_description(fd);
 		};
 		f_wchar(fd,'\n');
-		lockf(fd,F_ULOCK,0);
+		/* unlocking file */
+		a.l_type=F_UNLCK;
+		fcntl(fd,F_SETLK,&a);
 		close(fd);
 		download_set_block(0);
 	};
@@ -1594,6 +1603,10 @@ void tDownload::prepare_splits(){
 		tmp->next=largest->next;
 		largest->next=tmp;
 		holes->offset_in_file+=1;
+	};
+	if (holes->next && holes->end==holes->next->begin){
+		holes->end+=(holes->end-holes->begin)/10;
+		holes->next->begin=holes->end;
 	};
 	split->cond=new d4xCondition;
 //	if (split->NumOfParts<holes->offset_in_file)

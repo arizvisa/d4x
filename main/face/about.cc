@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <stdio.h>
@@ -267,7 +267,7 @@ static void string_dialog_ok_clicked(GtkWidget *widget,tStringDialog *parent) {
 tStringDialog::tStringDialog():tDialog(){
 };
 
-int tStringDialog::init(char *str,char *title,char *frame_title=NULL) {
+int tStringDialog::init(char *str,char *title,char *frame_title) {
 	if (window) {
 		gtk_entry_set_text(GTK_ENTRY(entry),str);
 		gtk_window_set_title(GTK_WINDOW (window), title);

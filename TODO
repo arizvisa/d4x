@@ -1,10 +1,15 @@
 ------------ to Version 2.0 --------------------------
-Fix working without interface
 Menuitem 'File/Create new queue for download'
 [PARTIALY] Change icons
-Keybinds:
-    [????] Shift+PgDwn/PgUp replace by Shift+End/Home
-    [DONE] Store keybinds
+[DONE] Add support for one more non RFC FTP-server
+[DONE] Add loaded info for splited downloads in log window
+[DONE] Store keybinds
+[DONE] gethostbyname_r return zero on success
+[DONE] Disable "common properties" if only one selected
+[DONE] Move "properties" in right click menu to the top
+[DONE] Fix "compare date of the file with local one" setting
+[DONE] Fix working without interface
+[DONE] First part of splited download should to be slightly larger than other
 [DONE] Fix --ls command line parameter
 [DONE] Tip color of buttons bar in theme file
 [DONE] Fix sound playing on bigendian machines
@@ -23,6 +28,8 @@ Keybinds:
 [DONE] rewrite split-ed downloading
 [DONE] rewrite face/lod.cc[h] in OO style
 ------------------------------------------------------
+download using exactly specified number of parts
+store size in segments file
 [????] Scale DnDBasket for different resolutions [code implemented but scaled dnd-basket looks bad :(]
 add mask for MIME type in a rule of a filter
 ability to do FTP-search in case insensitive mode

@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <stdlib.h>
@@ -559,7 +559,7 @@ static gint _select_delete_(GtkWidget *window,GdkEvent *event,
   items in queue of downloads by wildcart
 */
 
-void d4xQueueView::init_select_window(int type=0){
+void d4xQueueView::init_select_window(int type){
 	if (LoDSelectWindow){
 		gdk_window_show(LoDSelectWindow->window);
 		return;
@@ -1212,7 +1212,7 @@ void d4xQueueView::stop_downloads(){
 	aa.set_auto_run(olda);
 };
 
-void d4xQueueView::delete_downloads(int flag=0){
+void d4xQueueView::delete_downloads(int flag){
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
 	freeze();
 	while (select) {

@@ -14,7 +14,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.4 2002/03/14 01:21:54 zaufi Exp $
+# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.5 2002/04/06 23:36:35 zaufi Exp $
 #
 
 SHELL = @SHELL@
@@ -140,7 +140,7 @@ noinst_HEADERS = $(strip              \
 
 subdir = main/face
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/package_config.h
+CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LIBRARIES = $(noinst_LIBRARIES)
 
@@ -386,7 +386,7 @@ uninstall-am: uninstall-info-am
 
 
 # HINT:
-# We can use fact that all files in that directory
+# We can use fact that all files in this directory
 # have the same name for 2 extensions (*.cc | *.h)
 # and use this in the following trick:
 #
@@ -394,6 +394,11 @@ uninstall-am: uninstall-info-am
 #
 # this helps us to avoid maintain 2 lists (long lists :) of files
 # and exclude possible errors (i.e. unsyncronized lists)
+#
+# Moreover to define sources we can use smth like this:
+# libface_a_SOURCES = ($shell ls *.cc)
+#
+# If all source files should be compiled into one target...
 #
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

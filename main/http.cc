@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "http.h"
 #include "locstr.h"
 #include "liststr.h"
@@ -22,7 +22,7 @@ tHttpClient::tHttpClient():tClient(){
 	user_agent=NULL;
 };
 
-tHttpClient::tHttpClient(tCfg *cfg,tSocket *ctrl=NULL):tClient(cfg,ctrl){
+tHttpClient::tHttpClient(tCfg *cfg,tSocket *ctrl):tClient(cfg,ctrl){
 	user_agent=NULL;
 };
 

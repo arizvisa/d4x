@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -42,7 +42,9 @@ struct tLogWindow {
 	GtkAdjustment *adj;
 	GtkWidget *button;
 	GtkWidget *toolbar;
+	GtkWidget *label;
 	tDownload *papa; // :))
+	tDownload *current;
 	float value;
 	tStringDialog *string;
 	tLogWindow();
@@ -271,7 +273,7 @@ static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log
 				break;
 			};
 		};
-		if (num){
+		if (num && wnd->toolbar){
 			GList *list=GTK_TOOLBAR(wnd->toolbar)->children;
 			int a=1;
 			while (list && num>a){
@@ -290,6 +292,27 @@ static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log
 		};
 	};
 	return FALSE;
+};
+
+void log_window_set_split_info(tDownload *what){
+	if (what && what->split && what->who && what->CurrentLog && what->CurrentLog->Window){
+		tLogWindow *temp=(tLogWindow *)what->CurrentLog->Window;
+		if (temp && temp->current && temp->label){
+			fsize_t loaded=0,begin=0,size=0;
+			if (temp->current->who)
+				loaded=temp->current->who->get_readed();
+			if (temp->current->split){
+				size=temp->current->split->LastByte;
+				begin=temp->current->split->FirstByte;
+			};
+			char text[100];
+			if (temp->current->thread_id)
+				sprintf(text," %li-%li (%li)",begin,size,loaded);
+			else
+				sprintf(text," %li-%li (not active)",begin,size);
+			gtk_label_set_text(GTK_LABEL(temp->label),text);
+		};
+	};
 };
 
 gint log_window_button(GtkWidget *button,int a){
@@ -319,6 +342,7 @@ gint log_window_button(GtkWidget *button,int a){
 		withlog->LOG->Window=NULL;
 		withlog->LOG->unlock();
 		tLogWindow *temp=(tLogWindow *)(forlog->LOG->Window);
+		temp->current=forlog;
 		gtk_object_set_user_data(GTK_OBJECT(temp->window),forlog->LOG);
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		gtk_clist_clear(GTK_CLIST(temp->clist));
@@ -338,6 +362,7 @@ gint log_window_button(GtkWidget *button,int a){
 		/* GTK is buggy if we 'thaw' list after sending signal */
 		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
+		log_window_set_split_info(temp->papa);
 	};
 	if (forlog==NULL || forlog->LOG==NULL){
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
@@ -376,7 +401,7 @@ void log_window_init(tDownload *what) {
 		};
 		what->LOG->lock();
 		tLogWindow *temp=new tLogWindow;
-		temp->papa=what;
+		temp->papa=temp->current=what;
 		temp->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_window_set_wmclass(GTK_WINDOW(temp->window),
 				       "D4X_Log","D4X");
@@ -433,11 +458,15 @@ void log_window_init(tDownload *what) {
 				};
 				gtk_object_set_user_data(GTK_OBJECT(tmpbutton),what);
 			};
+			temp->label=gtk_label_new("");
+			gtk_toolbar_append_widget(GTK_TOOLBAR (buttonsbar),temp->label,NULL,NULL);
 			GtkWidget *tmpvbox=gtk_vbox_new(FALSE,0);
 			gtk_box_pack_start(GTK_BOX(tmpvbox),buttonsbar,FALSE,FALSE,0);
 			gtk_box_pack_end(GTK_BOX(tmpvbox),swindow,TRUE,TRUE,0);
 			gtk_container_add(GTK_CONTAINER(temp->window),tmpvbox);
 		}else{
+			temp->toolbar=NULL;
+			temp->label=NULL;
 			gtk_container_add(GTK_CONTAINER(temp->window),swindow);
 		};
 
@@ -475,6 +504,7 @@ void log_window_init(tDownload *what) {
 		}else{
 			what->LOG->last_log=1;
 		};
+		log_window_set_split_info(what);
 	};
 };
 

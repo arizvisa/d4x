@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "fsched.h"
 #include "../schedule.h"
 #include "../var.h"
@@ -817,7 +817,7 @@ guint my_gtk_aeditor_get_type(){
 };
 
 
-GtkWidget *my_gtk_aeditor_new(d4xSchedAction *action=(d4xSchedAction *)NULL){
+GtkWidget *my_gtk_aeditor_new(d4xSchedAction *action){
 	MyGtkAEditor *editor=(MyGtkAEditor *)gtk_type_new(my_gtk_aeditor_get_type());
 	char data[MAX_LEN];
 	if (action){

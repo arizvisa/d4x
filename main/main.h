@@ -42,7 +42,7 @@ class tMain{
 	void add_dir(tDownload *parent);
 	void print_info(tDownload *what);
 	void redirect(tDownload *what,d4xDownloadQueue *dq);
-	void del_all_from_list(int list,d4xDownloadQueue *queue=NULL);
+	void del_all_from_list(int list,d4xDownloadQueue *queue=(d4xDownloadQueue *)NULL);
 	unsigned int get_precise_time();
 	void run_msg_server();
 	void speed_calculation(tDownload *what);
@@ -50,7 +50,7 @@ class tMain{
 	void main_circle_first(tDownload *dw);
 	void main_circle_second(tDownload *dwn);
 	void insert_into_wait_list(tDownload *what,d4xDownloadQueue *dq);
-	void init_qtree(tQueue *list,d4xDownloadQueue *papa=NULL);
+	void init_qtree(tQueue *list,d4xDownloadQueue *papa=(d4xDownloadQueue *)NULL);
 	void stop_all(tQueue *q);
 	int try_to_switch_split(tDownload *dwn,tDownload *gp);
 	int try_to_switch(tDownload *dwn);
@@ -61,8 +61,8 @@ class tMain{
         void main_circle();
 	void main_circle_nano1();
 	void main_circle_nano2();
-        void del_completed(d4xDownloadQueue *queue=NULL);
-	void del_fataled(d4xDownloadQueue *queue=NULL);
+        void del_completed(d4xDownloadQueue *queue=(d4xDownloadQueue *)NULL);
+	void del_fataled(d4xDownloadQueue *queue=(d4xDownloadQueue *)NULL);
         void del_all();
 	void rerun_failed();
         void load_defaults();
@@ -103,7 +103,7 @@ class tMain{
 void *download_last(void *);
 int get_port_by_proto(char *proto);
 int calc_curent_run(char *host,int port);
-void create_new_queue(char *name,d4xDownloadQueue *papa=NULL);
+void create_new_queue(char *name,d4xDownloadQueue *papa=(d4xDownloadQueue *)NULL);
 int d4x_only_one_queue();
 
 extern tMLog *MainLog;

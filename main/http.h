@@ -26,7 +26,7 @@ class tHttpClient:public tClient{
 	int CHUNKED,HTTP_VER,HTTP_SUBVER;
 	int ERROR_CODE;
 	tHttpClient();
-	tHttpClient(tCfg *cfg,tSocket *ctrl=NULL);
+	tHttpClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_user_agent(char *agent,char *refer);
 	void set_offset(fsize_t a);

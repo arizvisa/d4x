@@ -26,7 +26,7 @@ class tSocksSocket:public tSocket{
 	int socks_bind_reply();
  public:
 	tSocksSocket();
-	tSocksSocket(char *host,guint16 port,char *use=NULL,char *pas=NULL);
+	tSocksSocket(char *host,guint16 port,char *use=(char *)NULL,char *pas=(char *)NULL);
 	int open_any(char * host);
 	int open_any(guint32 host);
 	int accepting(char * host);

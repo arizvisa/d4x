@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -682,11 +682,8 @@ void my_main_quit(...) {
 		d4x_save_accelerators();
 	};
 	save_list();
-	FaceForPasswords->save();
 	save_config();
 	aa.done();
-	if (FaceForPasswords)
-		delete (FaceForPasswords);
 	if (CFG.WITHOUT_FACE==0){
 		dnd_trash_real_destroy();
 		if (list_for_adding){
@@ -904,7 +901,7 @@ void update_progress_bar() {
 	gtk_statusbar_push(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext,data1);
 };
 /* ******************************************************************** */
-void d4x_normalize_coords(gint *x,gint *y,gint width=0,gint heigh=0){
+void d4x_normalize_coords(gint *x,gint *y,gint width,gint heigh){
 	int temp,w,h;
 	gdk_window_get_geometry((GdkWindow *)NULL,&temp,&temp,&w,&h,&temp);
 	if (*x+width<w && *y+heigh<h && *x+width>0 && *y+width>0) return;
@@ -1510,8 +1507,6 @@ void init_face(int argc, char *argv[]) {
  */
 	for (int i=0;i<ROLL_LAST;i++)
 		ScrollShift[i]=0;
-	FaceForPasswords=new tFacePass;
-	FaceForPasswords->load();
 #include "pixmaps/main.xpm"
 	GdkBitmap *bitmap;
 	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,main_xpm);

@@ -1,3 +1,198 @@
+2002-04-29 21:34  max
+
+	* NEWS, configure.in: Prepare to release new version
+
+2002-04-29 18:56  max
+
+	* main/: ftp.h, ftpd.h, hproxy.h, http.h, httpd.h, socks.h: fixed
+	compilation with gcc3.0.4
+
+2002-04-29 18:54  max
+
+	* main/: main.h, face/about.h, face/qtree.h: fixed compiling with
+	gcc3.0.4
+
+2002-04-29 10:53  max
+
+	* NEWS: Updated NEWS file
+
+2002-04-29 10:18  max
+
+	* main/face/pixmaps/: add.xpm, add_clipboard.xpm, continue.xpm,
+	delcommini.xpm, delmini.xpm, downmini.xpm, logmini.xpm,
+	runmini.xpm, stop_bar.xpm, stopmini.xpm, upmini.xpm: Toolbar's
+	icons have been cleanuped Menu icons was replaced
+
+2002-04-28 11:29  max
+
+	* main/main.h: fixed compilation under gcc-3.0.4
+
+2002-04-27 16:08  max
+
+	* share/themes/glass/: dnd1.png, dnd2.png: cleanup Glass theme
+
+2002-04-27 16:06  max
+
+	* main/: main.cc, face/log.cc: show 'not active' state in the log
+	window for parts of splited download which are stopped
+
+2002-04-23 21:13  max
+
+	* main/main.cc: fixed '-d' command line parameter
+
+2002-04-18 14:08  max
+
+	* main/main.cc: decreased number of started/stopped downloads per
+	second to 5-10
+
+2002-04-14 16:18  max
+
+	* main/: main.cc, face/log.cc: fixed creating 'Main' queue at first
+	run without face.  fixed segfault by Ctrl+NUM in log window of
+	single threaded download.
+
+2002-04-10 14:45  max
+
+	* main/face/passface.cc: fixed setting user/password by URL-manager
+
+2002-04-07 07:53  zaufi
+
+	* Makefile.am: Update list of maintainder-clean files (I'm already
+	use automake 1.6)
+
+2002-04-07 07:42  zaufi
+
+	* configure.in: Move all -D compiler options as defines in config.h
+
+2002-04-07 07:36  zaufi
+
+	* main/face/Makefile.am: ... maybe we need to use some tricks? :)
+
+2002-04-07 06:35  zaufi
+
+	* configure.in: Use .po files list to define ALL_LINGUAS instead of
+	static list
+
+2002-04-06 13:24  max
+
+	* NEWS: prepare to release RC3
+
+2002-04-05 16:07  max
+
+	* ChangeLog: updated using cvs2pl
+
+2002-04-05 16:06  max
+
+	* configure.in: prepare to RC3
+
+2002-04-04 10:03  max
+
+	* main/: cookie.cc, dlist.cc, dqueue.cc, ftp.cc, ftpd.cc,
+	hproxy.cc, http.cc, main.cc, socks.cc, srvclt.cc, face/about.cc,
+	face/fsched.cc, face/list.cc, face/lod.cc, face/qtree.cc: removed
+	default parameters from *.cc files if them was declared in *.h
+
+2002-04-04 09:02  max
+
+	* PLANS: updated plans
+
+2002-04-04 08:33  max
+
+	* po/bg.po: updated Bulgarian translation by Miroslav Iordanov
+
+2002-04-02 09:48  max
+
+	* main/dlist.cc: removed debug code
+
+2002-04-02 09:46  max
+
+	* main/dlist.cc: fixed "only subdirs" option
+
+2002-04-01 16:05  max
+
+	* main/main.cc: fix last fix :-)
+
+2002-04-01 16:03  max
+
+	* main/main.cc: fixed transform DnD-basket to menu for one queue
+	with many subqueues
+
+2002-03-30 23:40  max
+
+	* TODO, main/dlist.cc, main/ftpd.cc, main/locstr.cc: replaced
+	lockf() by fcntl() call when lock Descript.ion file remove spaces
+	from then end of the strings in the log support one more nonRFC
+	FTP-server
+
+2002-03-30 19:12  max
+
+	* main/face/log.cc: interface cleanups
+
+2002-03-29 05:39  zaufi
+
+	* .cvsignore: Fix ignore list
+
+2002-03-28 16:40  max
+
+	* main/: addr.cc, alt.cc, autoadd.cc, base64.cc, client.cc,
+	config.cc, cookie.cc, db.cc, dlist.cc, download.cc, dqueue.cc,
+	eff.cc, filter.cc, fsearch.cc, ftp.cc, ftpd.cc, history.cc,
+	hproxy.cc, html.cc, http.cc, httpd.cc, liststr.cc, locstr.cc,
+	log.cc, main.cc, mainlog.cc, memwl.cc, meter.cc, msgqueue.cc,
+	mutex.cc, nt.cc, ping.cc, queue.cc, savedvar.cc, savelog.cc,
+	schedule.cc, segments.cc, signal.cc, sm.cc, sndserv.cc, socket.cc,
+	socks.cc, sort.cc, speed.cc, srvclt.cc, var.cc, xml.cc,
+	face/about.cc, face/addd.cc, face/buttons.cc, face/colors.cc,
+	face/columns.cc, face/dndtrash.cc, face/edit.cc, face/filtrgui.cc,
+	face/fsched.cc, face/fsface.cc, face/graph.cc, face/list.cc,
+	face/lmenu.cc, face/lod.cc, face/log.cc, face/misc.cc,
+	face/myclist.cc, face/mywidget.cc, face/passface.cc, face/prefs.cc,
+	face/qtree.cc, face/saveload.cc: remove #include <package_config.h>
+
+2002-03-28 16:29  max
+
+	* TODO: updated
+
+2002-03-28 15:43  zaufi
+
+	* configure.in: Fix for format of maintainer spam under MDK 8.2
+
+2002-03-28 15:25  zaufi
+
+	* Makefile.am, configure.in: Fix uncompilable included gettext
+
+2002-03-28 14:03  max
+
+	* main/: main.cc, face/log.cc, face/log.h: show additional info in
+	log window for splited downloads
+
+2002-03-28 12:18  max
+
+	* main/: dlist.cc, socket.cc, face/edit.cc, face/lmenu.cc: first
+	part of splited download is always larger than other check for
+	returned value of "gethostbyname_r" rearranged right mouse click
+	menu of queue dim "common properties" if only one download selected
+	fixed applying "compare date of remote file with local one"
+
+2002-03-28 11:25  max
+
+	* main/: main.cc, face/list.cc: fixed stoping splited downloads
+	(manualy or at exiting) fixed run without interface fixed info
+	about running download when run with '-w'
+
+2002-03-28 09:56  max
+
+	* TODO: add some bugs to fix, some features to implement
+
+2002-03-24 06:13  zaufi
+
+	* Makefile.am: Remove files from EXTRA_DIST wich is duplicates of
+	std distributed files (automake take care bout this)
+
+2002-03-22 14:17  max
+
+	* ChangeLog, NEWS, configure.in: prepare to release 2.0RC2
+
 2002-03-22 12:28  max
 
 	* main/autoadd.cc: fixed generating URLs by "autoadding" if autoadd

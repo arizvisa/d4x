@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -65,7 +65,7 @@ int calc_curent_run(char *host,int port) {
 };
 
 int d4x_only_one_queue(){
-	if (D4X_QTREE.count()>1 && D4X_QTREE.first()) return(0);
+	if (D4X_QTREE.count()>1 || D4X_QTREE.first()==NULL) return(0);
 	return(1);
 };
 
@@ -125,10 +125,12 @@ int tMain::init() {
 		delete(server);
 		return(-1);
 	};
+	FaceForPasswords=new tFacePass;
+	FaceForPasswords->load();
 	return(0);
 };
 
-void create_new_queue(char *name,d4xDownloadQueue *papa=NULL){
+void create_new_queue(char *name,d4xDownloadQueue *papa){
 	d4xDownloadQueue *q=new d4xDownloadQueue;
 	q->name.set(name);
 	if (papa){
@@ -141,10 +143,12 @@ void create_new_queue(char *name,d4xDownloadQueue *papa=NULL){
 		q->init_pixmaps();
 		D4X_QVT->add(q,papa);
 		if (!D4X_QUEUE) D4X_QVT->switch_to(q);
+	}else{
+		if (!D4X_QUEUE) D4X_QUEUE=q;
 	};
 };
 
-void tMain::init_qtree(tQueue *list,d4xDownloadQueue *papa=NULL){
+void tMain::init_qtree(tQueue *list,d4xDownloadQueue *papa){
 	d4xDownloadQueue *q=(d4xDownloadQueue *)(list->first());
 	while(q){
 		q->parent=papa;
@@ -230,7 +234,7 @@ void tMain::absolute_delete_download(tDownload *what) {
 };
 
 
-void tMain::del_completed(d4xDownloadQueue *queue=NULL) {
+void tMain::del_completed(d4xDownloadQueue *queue) {
 	MainLog->add(_("Delete completed downloads"),LOG_OK|LOG_DETAILED);
 	del_all_from_list(DL_COMPLETE,queue);
 };
@@ -243,12 +247,12 @@ void tMain::rerun_failed(){
 	};
 };
 
-void tMain::del_fataled(d4xDownloadQueue *queue=NULL){
+void tMain::del_fataled(d4xDownloadQueue *queue){
 	MainLog->add(_("Delete failed downloads"),LOG_OK|LOG_DETAILED);
 	del_all_from_list(DL_STOP,queue);
 };
 
-void tMain::del_all_from_list(int list,d4xDownloadQueue *queue=NULL){
+void tMain::del_all_from_list(int list,d4xDownloadQueue *queue){
 	tDownload *temp=queue?queue->first(list):D4X_QUEUE->first(list);
 	while (temp) {
 		tDownload *next=(tDownload *)(temp->prev);
@@ -397,7 +401,7 @@ void tMain::stop_download(tDownload *what) {
 	};
 };
 
-int tMain::delete_download(tDownload *what,int flag=0) {
+int tMain::delete_download(tDownload *what,int flag) {
 	if (!what) return 0;
 	if (what->protect) return 0;
 	if (what->owner()==DL_RUN)
@@ -467,16 +471,20 @@ int tMain::try_to_run_download(tDownload *what){
 
 void tMain::insert_into_wait_list(tDownload *what,
 				  d4xDownloadQueue *dq){
-	tDownload *temp=dq->last(DL_WAIT);
-	if (!temp || dq->qv.get_row(temp) < dq->qv.get_row(what))
+	if (CFG.WITHOUT_FACE){
 		dq->add(what);
-	else {
-		temp=dq->first(DL_WAIT);
-		while (temp && dq->qv.get_row(temp) < dq->qv.get_row(what))
-			temp=(tDownload*)(temp->prev);
-		dq->insert_before(what,temp);
+	}else{
+		tDownload *temp=dq->last(DL_WAIT);
+		if (!temp || dq->qv.get_row(temp) < dq->qv.get_row(what))
+			dq->add(what);
+		else {
+			temp=dq->first(DL_WAIT);
+			while (temp && dq->qv.get_row(temp) < dq->qv.get_row(what))
+				temp=(tDownload*)(temp->prev);
+			dq->insert_before(what,temp);
+		};
+		D4X_QVT->update(dq);
 	};
-	D4X_QVT->update(dq);
 };
 
 void tMain::continue_download(tDownload *what) {
@@ -544,7 +552,7 @@ void tMain::speed_calculation(tDownload *what){
 		int REAL_SIZE=what->finfo.size;
 		if (REAL_SIZE==0 && what->who!=NULL)
 			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
-		if (what->who) what->Size.set(what->who->get_readed());
+		if (what->who) what->Size.set(what->get_loaded());
 		what->Remain.set(REAL_SIZE-what->Size.curent);
 		if (what->Difference!=0 && what->who) {
 			float tmp=float(what->Size.curent-what->start_size());
@@ -558,8 +566,11 @@ void tMain::speed_calculation(tDownload *what){
 
 void tMain::print_info(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
+	if (CFG.WITHOUT_FACE){
+		speed_calculation(what);
+		return;
+	};
 	d4xDownloadQueue *PAPA=what->myowner->PAPA;
-	if (CFG.WITHOUT_FACE) return;
 	char data[MAX_LEN];
 	int downloading_started=0;
 	if (what->who) {
@@ -629,6 +640,7 @@ void tMain::print_info(tDownload *what) {
 			char title[MAX_LEN];
 			sprintf(title,"%2.0f%% %li/%li %s",what->Percent,what->Size.curent,REAL_SIZE,what->info->file.get());
 			log_window_set_title(what,title);
+			log_window_set_split_info(what);
 		};
 		DQV(what).set_run_icon(what);
 
@@ -811,6 +823,7 @@ void tMain::prepare_for_stoping(tDownload *what) {
 	};
 	if (what->split){
 		what->split->grandparent->split->stopcount+=1;
+//		what->split->run=0;
 	};
 };
 
@@ -1032,7 +1045,8 @@ void tMain::main_circle_nano2(){
 	D4X_UPDATE.lock_s();
 	main_circle_nano1();
 	int i=0;
-	while (D4X_UPDATE.first_s && i<10){
+//	while (D4X_UPDATE.first_s && i<10){
+	if (D4X_UPDATE.first_s){
 		tDownload *dwn=D4X_UPDATE.first_s;
 		tDownload *gp=dwn;
 		D4X_UPDATE.del_s();
@@ -1048,7 +1062,7 @@ void tMain::main_circle_nano2(){
 			main_circle_second(gp);
 			break;
 		case DL_STOPWAIT:
-			main_circle_first(gp);
+			main_circle_first(dwn);
 			break;
 		default:
 			break;
@@ -1096,8 +1110,6 @@ void tMain::try_to_run_wait(d4xDownloadQueue *papa){
 
 void tMain::main_circle() {
 	if (ftpsearch) ftpsearch->cycle();
-/* look for run new */
-/* various stuff */
 	speed();
 	MainScheduler->run(this);
 	if (CFG.WITHOUT_FACE==0){
@@ -1268,7 +1280,7 @@ void tMain::schedule_download(tDownload *what){
 	MainScheduler->add_scheduled(what);
 };
 
-int tMain::add_downloading(tDownload *what,int to_top=0) {
+int tMain::add_downloading(tDownload *what,int to_top) {
 	tDownload *tdwn=NULL;
 	if ((tdwn=ALL_DOWNLOADS->find(what)) || !what->info->is_valid()) {
 		if (TO_WAIT_IF_HERE && tdwn && tdwn->owner()!=DL_RUN)
@@ -1295,7 +1307,7 @@ int tMain::add_downloading(tDownload *what,int to_top=0) {
 	return 0;
 };
 
-void tMain::add_downloading_to(tDownload *what,int to_top=0) {
+void tMain::add_downloading_to(tDownload *what,int to_top) {
 	DBC_RETURN_IF_FAIL(what!=NULL);	
 	int owner=what->status;
 	if (what->ScheduleTime){
@@ -1345,7 +1357,7 @@ void tMain::add_downloading_to(tDownload *what,int to_top=0) {
 	};
 };
 
-int tMain::add_downloading(char *adr,char *where=NULL,char *name=NULL,char *desc=NULL) {
+int tMain::add_downloading(char *adr,char *where,char *name,char *desc) {
 	if (adr==NULL) return -1;
 	tAddr *addr=new tAddr(adr);
 //	if (!addr->is_valid()) return -1;
@@ -1355,6 +1367,7 @@ int tMain::add_downloading(char *adr,char *where=NULL,char *name=NULL,char *desc
 		whatadd->config=new tCfg;
 		whatadd->set_default_cfg();
 		whatadd->config->save_path.set(where);
+		whatadd->config->isdefault=0;
 	};
 	if (strlen(addr->file.get())==0) {
 		whatadd->finfo.type=T_DIR;
@@ -1468,9 +1481,8 @@ void tMain::run_without_face(){
 	int i=0;
 	while(1){
 		check_for_remote_commands();
-		main_circle_nano1();
 		main_circle_nano2();
-		if (i>=5){
+		if (i++>=5){
 			main_circle();
 			i=0;
 		};
@@ -1565,6 +1577,9 @@ void tMain::done() {
 	MainLog->add(_("Downloader exited normaly"),LOG_OK);
 	delete(MainLog);
 	delete(SpeedScheduler);
+	FaceForPasswords->save();
+	if (FaceForPasswords)
+		delete (FaceForPasswords);
 
 	close(LOCK_FILE_D);
 	delete (server);

@@ -44,7 +44,7 @@ public:
 	tHttpDownload();
 	tHttpDownload(tWriterLoger *log);
 	int reconnect();
-	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL);
+	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
 	fsize_t get_size();
 	fsize_t get_readed();
 	fsize_t another_way_get_size();

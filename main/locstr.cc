@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <string.h>
 #include <strings.h>
 #include <stdio.h>
@@ -426,6 +426,11 @@ void str_non_print_replace(char *what,char symbol){
 	while (*temp){
 		if (*temp<' ') *temp=(unsigned char )symbol;
 		temp+=1;
+	};
+	while (temp >= (unsigned char *)what){
+		temp--;
+		if (*temp==' ') *temp=0;
+		else break;
 	};
 };
 

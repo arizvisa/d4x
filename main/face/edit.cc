@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
@@ -1024,6 +1024,7 @@ int tDEdit::apply_changes() {
 	parent->config->change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
 	parent->config->http_recursing=parent->config->http_recurse_depth==1?0:1;
 	parent->config->ftp_dirontop=GTK_TOGGLE_BUTTON(ftp_dirontop_check)->active;
+	parent->config->check_time=GTK_TOGGLE_BUTTON(check_time_check)->active;
 
 	temp1=0;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(split_entry)),"%u",&temp1);

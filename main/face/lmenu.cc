@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "list.h"
 #include "lmenu.h"
 #include "misc.h"
@@ -137,6 +137,11 @@ void init_list_menu() {
 	MAX_STR_LENGTH+=10;
 		
 	ListMenu=gtk_menu_new();
+	menu_item=make_menu_item(_("Properties"),"Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
+	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	ListMenuArray[LM_EDIT]=menu_item;
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(open_edit_for_selected),NULL);
+
 	pixmap=make_pixmap_from_xpm(&bitmap,logmini_xpm);
 	menu_item=make_menu_item(_("View log"),(char *)NULL,pixmap,bitmap,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
@@ -170,11 +175,6 @@ void init_list_menu() {
 	menu_item=gtk_menu_item_new();
 	gtk_widget_set_sensitive(menu_item,FALSE);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
-
-	menu_item=make_menu_item(_("Properties"),"Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
-	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
-	ListMenuArray[LM_EDIT]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(open_edit_for_selected),NULL);
 
 	menu_item=make_menu_item(_("Common properties"),"Ctrl+Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
@@ -255,5 +255,8 @@ void list_menu_prepare() {
 			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],FALSE);
 			gtk_widget_set_sensitive(ListMenuArray[LM_ALT],FALSE);
 		};
+		GList *tmp=GTK_CLIST(D4X_QUEUE->qv.ListOfDownloads)->selection;
+		if (tmp->next==NULL)
+			gtk_widget_set_sensitive(ListMenuArray[LM_EDIT_COMMON],FALSE);
 	};
 };

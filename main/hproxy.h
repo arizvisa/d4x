@@ -20,7 +20,7 @@ class tHProxyClient:public tHttpClient{
 	int no_cache;
 	public:
 		tHProxyClient();
-		tHProxyClient(tCfg *cfg,tSocket *ctrl=NULL);
+		tHProxyClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
 		void setup_data(char *host,int cache);
 		void set_cookie_search(char *what);
 		fsize_t get_size(char *filename,tStringList *list);
@@ -34,7 +34,7 @@ class tProxyDownload:public tHttpDownload{
 public:
 	tProxyDownload();
 	tProxyDownload(tWriterLoger *log);
-	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL);
+	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
 	fsize_t get_size();
 	~tProxyDownload();
 };

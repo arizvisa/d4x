@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "qtree.h"
 #include "list.h"
 #include "misc.h"
@@ -92,7 +92,7 @@ void d4xQsTree::create_cancel(){
 	dialog=NULL;
 };
 
-void d4xQsTree::create_init(int mode=0){
+void d4xQsTree::create_init(int mode){
 	if (dialog){
 		gdk_window_show(dialog->window);
 		return;
@@ -285,7 +285,7 @@ void d4xQsTree::init(){
 	menu1=menu2=dialog=prefs=NULL;
 };
 
-void d4xQsTree::add(d4xDownloadQueue *what,d4xDownloadQueue *papa=NULL){
+void d4xQsTree::add(d4xDownloadQueue *what,d4xDownloadQueue *papa){
 	char *text[4];
 	text[0]=what->name.get();
 	char data1[10],data2[10],data3[10];

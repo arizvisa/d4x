@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.4 2002/03/14 01:21:54 zaufi Exp $
+# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.5 2002/04/06 23:36:35 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
@@ -30,7 +30,7 @@ noinst_HEADERS = $(strip              \
 )
 
 # HINT:
-# We can use fact that all files in that directory
+# We can use fact that all files in this directory
 # have the same name for 2 extensions (*.cc | *.h)
 # and use this in the following trick:
 #
@@ -38,4 +38,9 @@ noinst_HEADERS = $(strip              \
 #
 # this helps us to avoid maintain 2 lists (long lists :) of files
 # and exclude possible errors (i.e. unsyncronized lists)
+#
+# Moreover to define sources we can use smth like this:
+# libface_a_SOURCES = ($shell ls *.cc)
+#
+# If all source files should be compiled into one target...
 #

@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "dqueue.h"
 #include "dbc.h"
 #include "face/list.h"
@@ -43,7 +43,7 @@ void d4xDownloadQueue::done(){
 		queues[i]->done();
 };
 
-int d4xDownloadQueue::count(int q=DL_ALONE){
+int d4xDownloadQueue::count(int q){
 	if (q!=DL_ALONE){
 		return(queues[q]->count());
 	};

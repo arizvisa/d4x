@@ -29,7 +29,7 @@ struct d4xQsTree{
 	int create_mode;
 	void init();
 	void init_menus();
-	void add(d4xDownloadQueue *what,d4xDownloadQueue *papa=NULL);
+	void add(d4xDownloadQueue *what,d4xDownloadQueue *papa=(d4xDownloadQueue *)NULL);
 	void del(d4xDownloadQueue *what);
 	void update(d4xDownloadQueue *what);
 	void switch_to(d4xDownloadQueue *what);

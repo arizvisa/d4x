@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "cookie.h"
 #include "locstr.h"
 #include "var.h"
@@ -245,7 +245,7 @@ tCookie *tCookiesTree::find(tCookie *begin,const char *what) {
 
 char *D4X_COOKIES_FILE="cookies.txt";
 
-void tCookiesTree::load_from_file(int fd,int myown=0){
+void tCookiesTree::load_from_file(int fd,int myown){
 	char temp[MAX_LEN];
 	while (f_rstr(fd,temp,MAX_LEN)){
 		if (*temp!='#'){

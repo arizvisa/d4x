@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "socks.h"
 #include "dbc.h"
 #include <sys/types.h>
@@ -60,8 +60,7 @@ tSocksSocket::tSocksSocket():tSocket(){
 };
 
 tSocksSocket::tSocksSocket(char *host,unsigned short int port,
-			   char *use=NULL,
-			   char *pas=NULL):tSocket(){
+			   char *use,char *pas):tSocket(){
 	user.set(use);
 	pass.set(pas);
 	socks_host.set(host);

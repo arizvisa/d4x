@@ -38,7 +38,7 @@ struct tStringDialog:public tDialog{
 	GtkWidget *entry;
 	GtkWidget *frame;
 	tStringDialog();
-	int init(char *str,char *title,char *frame_title=NULL);
+	int init(char *str,char *title,char *frame_title=(char *)NULL);
 	~tStringDialog();
 };
 

@@ -1,4 +1,4 @@
-/* package_config.h.in.  Generated automatically from configure.in by autoheader.  */
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
 
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
    systems. This function is required for `alloca.c' support on those systems.
@@ -13,6 +13,9 @@
 
 /* Define if OSS enabled */
 #undef D4X_WITH_OSS
+
+/* Activate debug code */
+#undef DEBUG_ALL
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
@@ -333,6 +336,12 @@
 
 /* Version number of package */
 #undef VERSION
+
+/* Needed for Solaris reentrant code */
+#undef _POSIX_THREADS_SEMANTICS
+
+/* Enable reenrant code of glibc */
+#undef _REENTRANT
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const

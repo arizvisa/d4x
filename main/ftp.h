@@ -38,7 +38,7 @@ class tFtpClient:public tClient{
  public:
 	int METHOD_TO_LIST;
 	tFtpClient();
-	tFtpClient(tCfg *cfg,tSocket *ctrl=NULL);
+	tFtpClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_passive(int a);
 	void set_retry(int a);

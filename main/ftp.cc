@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include <unistd.h>
 #include <ctype.h>
 #include <strings.h>
@@ -208,7 +208,7 @@ tFtpClient::tFtpClient():tClient(){
 	CUR_REST=0;
 };
 
-tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl=NULL):tClient(cfg,ctrl){
+tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl):tClient(cfg,ctrl){
 	passive=cfg->passive;
 	TEMP_SIZE=OLD_SIZE=0;
 	CTRL=new tStringList;

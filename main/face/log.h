@@ -18,6 +18,7 @@ int  log_window_destroy(void *a);
 void log_window_destroy_by_log(void *a);
 void del_first_from_log(tLog *what);
 void log_window_set_title(tDownload *what,char *title);
+void log_window_set_split_info(tDownload *what);
 
 GList *log_window_unfreeze(GList *list);
 GList *log_window_freeze(GList *list,tLog *what);

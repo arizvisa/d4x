@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "hproxy.h"
 #include "locstr.h"
 #include "var.h"
@@ -20,7 +20,7 @@ tHProxyClient::tHProxyClient():tHttpClient(){
 	cookie_path=NULL;
 };
 
-tHProxyClient::tHProxyClient(tCfg *cfg,tSocket *ctrl=NULL):tHttpClient(cfg,ctrl){
+tHProxyClient::tHProxyClient(tCfg *cfg,tSocket *ctrl):tHttpClient(cfg,ctrl){
 	real_host=NULL;
 	cookie_path=NULL;
 };

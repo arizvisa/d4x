@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#include <package_config.h>
+
 #include "srvclt.h"
 #include "var.h"
 #include "main.h"
@@ -110,7 +110,7 @@ void tMsgServer::cmd_ack(){
 	cmd_return_int(0);
 };
 
-void tMsgServer::write_dwn_status(tDownload *dwn,int full=0){
+void tMsgServer::write_dwn_status(tDownload *dwn,int full){
 	tPacketStatus status;
 	if (dwn){
 		if (full) status.url=dwn->info->url();
