@@ -15,19 +15,19 @@
 #include <pthread.h>
 
 class tMsgServer{
-    tStringList *list;
-    char *file;
-    pthread_mutex_t lock;
-    int fd,newfd; /* socket descriptor */
-    void cmd_add(int len,int type);
-    void cmd_ack();
-    void cmd_return_int(int what);
-    public:
-		tMsgServer();
-		void init();
+	tStringList *list;
+	char *file;
+	pthread_mutex_t lock;
+	int fd,newfd; /* socket descriptors */
+	void cmd_add(int len,int type);
+	void cmd_ack();
+	void cmd_return_int(int what);
+ public:
+	tMsgServer();
+	void init();
         void run();
-		tString *get_string();
-		~tMsgServer();
+	tString *get_string();
+	~tMsgServer();
 };
 
 class tMsgClient{
@@ -48,16 +48,16 @@ struct tPacket{
 };
 
 enum {
-    PACKET_NOP=0,
-    PACKET_ACK,
-    PACKET_ADD,
-    PACKET_ASK_SPEED,
-    PACKET_ASK_RUN,
-    PACKET_ASK_STOP,
-    PACKET_ASK_PAUSE,
-    PACKET_ASK_COMPLETE,
+	PACKET_NOP=0,
+	PACKET_ACK,
+	PACKET_ADD,
+	PACKET_ASK_SPEED,
+	PACKET_ASK_RUN,
+	PACKET_ASK_STOP,
+	PACKET_ASK_PAUSE,
+	PACKET_ASK_COMPLETE,
 	PACKET_SET_SPEED_LIMIT,
-    PACKET_UNKNOWN
+	PACKET_UNKNOWN
 };
 
 void *server_thread_run(void *what);

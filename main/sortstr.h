@@ -17,10 +17,12 @@
 
 struct tSortString: public tSortNode{
 	char *body;
-	int curent,upper;
+	int curent,upper,row;
 	tSortString();
 	tSortString(char *what,int len);
 	void print();
+	void increment();
+	void decrement();
 	int size();
 	~tSortString();
 };
@@ -35,20 +37,20 @@ class tStrSortTree:public tAbstractSortTree{
 
 
 class tHostsLimits:public tQueue{
-	protected:
+ protected:
 	int Size;
 	tStrSortTree *tree;
-	public:
-		tHostsLimits();
+ public:
+	tHostsLimits();
     	virtual void add(char *str,int port,int curent,int upper);
     	void dispose();
-		tSortString *find(char *what,int key);
-		void del(tSortString *what);
-		void decrement(tDownload *what);
+	tSortString *find(char *what,int key);
+	void del(tSortString *what);
+	void decrement(tDownload *what);
     	tSortString *last();
     	tSortString *first();
     	tSortString *next();
     	tSortString *prev();
-		~tHostsLimits();
+	~tHostsLimits();
 };
 #endif

@@ -20,14 +20,14 @@
 #include <time.h>
 #include <pthread.h>
 
-
 struct tAddr{
-    char *protocol,*host,*username,*pass,*path,*file;
-    int port;
-    int mask;
-    tAddr();
-    void print();
-    ~tAddr();
+	char *protocol,*host,*username,*pass,*path,*file;
+	int port;
+	int mask;
+	tAddr();
+	void print();
+	void copy_host(tAddr *what);
+	~tAddr();
 };
 
 class tDEdit;

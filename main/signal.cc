@@ -22,7 +22,7 @@ static pthread_once_t THREADS_KEY_ONCE=PTHREAD_ONCE_INIT;
 
 static void my_pthread_key_destroy(void *key) {
 	char *temp=(char *)key;
-	delete (temp);
+	if (temp) delete (temp);
 };
 
 static void my_pthread_key_alloc() {
@@ -40,10 +40,12 @@ tDownload **my_pthread_key_get() {
 };
 
 void signal_handler(int num) {
-	tDownload *temp=*(my_pthread_key_get());
-	temp->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
-	//	temp->who->done();
-	temp->status=DOWNLOAD_REAL_STOP;
+	tDownload **temp=(my_pthread_key_get());
+	if (temp){
+		(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
+		//	temp->who->done();
+		(*temp)->status=DOWNLOAD_REAL_STOP;
+	};
 	pthread_exit(NULL);
 };
 

@@ -15,6 +15,13 @@
 #include "http.h"
 #include "liststr.h"
 
+struct tHtmlTeg{
+	char *tag,*field,*closetag;
+	int mod;
+};
+
+extern tHtmlTeg HTML_TEGS[];
+
 class tHttpDownload:public tDownloader{
 	protected:
 	tHttpClient *HTTP;
@@ -24,7 +31,8 @@ class tHttpDownload:public tDownloader{
 	char *ETag,*Auth;
 	int analize_answer();
 	char *get_field(char *field);
-    void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+	void skip_for_tag(char *tag);
+	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
    	void make_full_pathes(const char *path,char **name,char **guess);
 	public:
 		tHttpDownload();
@@ -33,7 +41,7 @@ class tHttpDownload:public tDownloader{
 		int reconnect();
 		int create_file(char *where,char *another_name);
 		int delete_file(char *where);
-    	int init(tAddr *hostinfo,tLog *log,tCfg *cfg);
+		int init(tAddr *hostinfo,tLog *log,tCfg *cfg);
 		int get_size();
 		int get_readed();
 		int get_child_status();

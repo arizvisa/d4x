@@ -10,6 +10,7 @@
  */
 #ifndef LOC_STRING
 #define LOC_STRING
+#include "dlist.h"
 
 char *copy_string(const char *dest);
 char *copy_string(const char *dest,int len);
@@ -40,10 +41,12 @@ void scroll_string_left(char *str,unsigned int shift);
 char *extract_from_prefixed_string(char *str,char *begin);
 char *extract_string(char *src,char *dst);
 char *extract_string(char *src,char *dst,int num);
+char *skip_strings(char *src,int num);
 int get_permisions_from_int(int a);
 char *subtract_path(const char *a,const char *b);
 int reallocate_string(char **what, int len);
 int is_string(char *what);
+tAddr *make_addr_from_url(char *what);
 
 //**************************************************/
 #endif

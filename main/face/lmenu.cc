@@ -88,7 +88,7 @@ void init_list_menu() {
 	gtk_widget_set_sensitive(menu_item,FALSE);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 
-	menu_item=make_menu_item(_("Properties"),"Alt+E",NULL,NULL);
+	menu_item=make_menu_item(_("Properties"),"Alt+E",(GdkPixmap *)NULL,(GdkPixmap *)NULL);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_EDIT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(open_edit_for_selected),NULL);
@@ -106,7 +106,7 @@ void init_list_menu() {
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_completed_downloads),NULL);
 
 
-	menu_item=make_menu_item(_("Delete failed"),(char *)NULL,NULL,NULL);
+	menu_item=make_menu_item(_("Delete failed"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_DELF]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_fataled_downloads),NULL);
@@ -128,7 +128,7 @@ void init_list_menu() {
 	ListMenuArray[LM_MOVEDOWN]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_selected_down),NULL);
 
-	menu_item=make_menu_item(_("Set limitation"),(char *)NULL,NULL,NULL);
+	menu_item=make_menu_item(_("Set limitation"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_SET_LIMIT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(set_limit_to_download),NULL);

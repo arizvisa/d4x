@@ -198,7 +198,7 @@ void tDownloader::make_full_pathes(const char *path,char *another_name,char **na
 
 int tDownloader::create_file(char *where,char *another_name) {
 	int rvalue=0;
-	mkdir(where,S_IRWXU);
+	make_dir_hier(where);
 	char *name;
 	char *guess;
 	if (another_name && strlen(another_name)){

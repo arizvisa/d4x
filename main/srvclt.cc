@@ -42,8 +42,7 @@ tMsgServer::tMsgServer(){
     list=new tStringList;
     list->init(0);
     file=NULL;
-    fd=0;
-    newfd=0;
+    fd=newfd=0;
     pthread_mutex_init(&lock,NULL);
 };
 
@@ -57,27 +56,27 @@ tMsgServer::~tMsgServer(){
 };
 
 void tMsgServer::init(){
-    struct sigaction action,old_action;
-    action.sa_handler=server_thread_stop;
-    action.sa_flags=0;
-    sigaction(SIGUSR2,&action,&old_action);
+	struct sigaction action,old_action;
+	action.sa_handler=server_thread_stop;
+	action.sa_flags=0;
+	sigaction(SIGUSR2,&action,&old_action);
 
-    sigset_t oldmask,newmask;
-    sigemptyset(&newmask);
-    sigaddset(&newmask,SIGINT);
-    sigaddset(&newmask,SIGUSR1);
-    pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
+	sigset_t oldmask,newmask;
+	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGINT);
+	sigaddset(&newmask,SIGUSR1);
+	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
 
-    struct sockaddr_un saddr;
-    if ((fd=socket(AF_UNIX,SOCK_STREAM,0)) != -1){
+	struct sockaddr_un saddr;
+	if ((fd=socket(AF_UNIX,SOCK_STREAM,0)) != -1){
 		saddr.sun_family = AF_UNIX;
-        sprintf(saddr.sun_path, "%s/downloader_for_x_sock_%s", g_get_tmp_dir(), g_get_user_name());
+		sprintf(saddr.sun_path, "%s/downloader_for_x_sock_%s", g_get_tmp_dir(), g_get_user_name());
 		unlink(saddr.sun_path);
 		file=copy_string(saddr.sun_path);
 		if (bind(fd,(struct sockaddr *)&saddr,sizeof(saddr)) != -1){
-	    	listen(fd,5);
+			listen(fd,5);
 		};
-    };
+	};
 };
 
 void tMsgServer::cmd_return_int(int what){
@@ -100,8 +99,8 @@ void tMsgServer::cmd_add(int len,int type){
 		newstr->temp=type;
 		pthread_mutex_lock(&lock);
 		list->insert(newstr);
-        pthread_mutex_unlock(&lock);
-        cmd_ack();
+		pthread_mutex_unlock(&lock);
+		cmd_ack();
 	}else
 		delete temp;
 };

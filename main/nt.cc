@@ -25,8 +25,23 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.09";
+char *VERSION_NAME="WebDownloader for X 1.1";
 char *LOCK_FILE;
+
+static void init_string_variables(){
+	if (CFG.DEFAULT_NAME==NULL)
+		CFG.DEFAULT_NAME=copy_string("index.html");
+	if (CFG.USER_AGENT==NULL)
+		CFG.USER_AGENT=copy_string("%version");
+	if (CFG.EXEC_WHEN_QUIT==NULL)
+		CFG.EXEC_WHEN_QUIT=copy_string("");
+	if (!CFG.GLOBAL_SAVE_PATH) {
+		CFG.GLOBAL_SAVE_PATH=copy_string(HOME_VARIABLE);
+		if (!CFG.GLOBAL_SAVE_PATH) {
+			CFG.GLOBAL_SAVE_PATH=copy_string("/");
+		};
+	};
+};
 
 int main(int argc,char **argv) {
 #ifdef ENABLE_NLS
@@ -43,18 +58,7 @@ int main(int argc,char **argv) {
 	for (int i=0;i<LAST_HISTORY;i++)
 		ALL_HISTORIES[i]=new tHistory;
 	read_config();
-	if (CFG.DEFAULT_NAME==NULL)
-		CFG.DEFAULT_NAME=copy_string("index.html");
-	if (CFG.USER_AGENT==NULL)
-		CFG.USER_AGENT=copy_string("%version");
-	if (CFG.EXEC_WHEN_QUIT==NULL)
-		CFG.EXEC_WHEN_QUIT=copy_string("");
-	if (!CFG.GLOBAL_SAVE_PATH) {
-		CFG.GLOBAL_SAVE_PATH=copy_string(HOME_VARIABLE);
-		if (!CFG.GLOBAL_SAVE_PATH) {
-			CFG.GLOBAL_SAVE_PATH=copy_string("/");
-		};
-	};
+	init_string_variables();
 	LOCK_FILE_D=open(LOCK_FILE,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (LOCK_FILE<0 || lockf(LOCK_FILE_D,F_TLOCK,0)) {
 		if (parse_command_line_already_run(argc,argv))

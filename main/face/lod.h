@@ -79,8 +79,8 @@ void list_of_downloads_set_pixmap(int row,int type);
 
 void move_download_up();
 void move_download_down();
-void list_of_downloads_move_selected_down();
-void list_of_downloads_move_selected_up();
+int list_of_downloads_move_selected_down();
+int list_of_downloads_move_selected_up();
 
 tDownload *get_download_from_clist(int row);
 tDownload *list_of_downloads_last_selected();

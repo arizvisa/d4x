@@ -68,14 +68,14 @@ void tColumnsPrefs::add_to_sort(tDownload *what){
 		};
 	}else{
 		sort_list=newone;
-		sort_list->next=sort_list->prev=NULL;
+		sort_list->next=sort_list->prev=(tSortRows *)NULL;
 	};
 	while(sort_list && sort_list->download->GTKCListRow==first){
 		list_of_downloads_add(sort_list->download,sort_list->download->GTKCListRow);
 		first+=1;
 		tSortRows *temp=sort_list;
 		sort_list=(tSortRows *)(sort_list->next);
-		if (sort_list) sort_list->prev=NULL;
+		if (sort_list) sort_list->prev=(tSortRows *)NULL;
 		delete temp;
 	};
 };
@@ -130,7 +130,7 @@ void tColumnsPrefs::apply_changes(){
 		init_columns_info();
 		list_of_downloads_init();
 		first=0;
-		sort_list=NULL;
+		sort_list=(tSortRows *)NULL;
 		add_to_list(RunList);
 		add_to_list(CompleteList);
 		add_to_list(PausedList);

@@ -21,14 +21,6 @@
 #include "speed.h"
 #include "srvclt.h"
 
-struct tTwoStrings{
-    char *one;
-    char *two;
-    tTwoStrings();
-    void zero();
-    ~tTwoStrings();
-};
-
 class tMain{
 	unsigned int LastTime;
 	int MsgQueue;
@@ -36,10 +28,10 @@ class tMain{
 	pthread_t server_thread_id;
 	tSpeedQueue *SpeedScheduler;
 	int LastReadedBytes;
-	void split_string(char *what,char *delim,tTwoStrings *out);
 	void case_download_completed(tDownload *what);
 	void case_download_failed(tDownload *what);
 	int run_new_thread(tDownload *what);
+	int try_to_run_download(tDownload *what);
 	int complete();
 	void add_dir(tDownload *parent);
 	void print_info(tDownload *what);
@@ -53,7 +45,6 @@ class tMain{
     	void init();
     	void init_main_log();
     	void speed();
-    	tAddr *analize(char *what);
         void main_circle();
         void del_completed();
 	void del_fataled();

@@ -60,7 +60,9 @@ class tDEdit{
 		void enable_ok_button();
 		void setup_entries();
 		void toggle_time();
+		void set_path_as_default();
 		void paste_url();
+		tDownload *get_parent();
 		void select_url();
 		void clear_url();
 		void set_url(char *a);

@@ -37,7 +37,7 @@ struct tLogWindow {
 };
 
 tLogWindow::tLogWindow() {
-	string=NULL;
+	string=(tStringDialog *)NULL;
 };
 
 tLogWindow::~tLogWindow() {
@@ -94,7 +94,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	char a[MAX_LEN],useless[MAX_LEN],useful[MAX_LEN];
 	sprintf(a,"%s ",ctime(&str->time));
 	sscanf(a,"%s %s %s %s",useless,useless,useless,useful);
-	char *data[]={NULL,useful,str->body};
+	char *data[]={(char *)NULL,useful,str->body};
 	int row=gtk_clist_append(GTK_CLIST(temp->clist),data);
 	GdkColor color,back_color;
 	switch (str->type) {
@@ -216,7 +216,7 @@ void log_window_init(tDownload *what) {
 
 		GtkAdjustment *adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
 
-		temp->swindow=gtk_scrolled_window_new(NULL,adj);
+		temp->swindow=gtk_scrolled_window_new((GtkAdjustment*)NULL,adj);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (temp->swindow),
 		                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 		gtk_container_add(GTK_CONTAINER(temp->swindow),temp->clist);

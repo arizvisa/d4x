@@ -36,11 +36,11 @@ void extract_link(char *src,char *dst) {
 };
 
 int type_from_str(char *data) {
-	if (index(data,'d'))
+	if (*data=='d')
 		return T_DIR;
-	if (index(data,'l'))
+	if (*data=='l')
 		return T_LINK;
-	if (index(data,'c') ||index(data,'b'))
+	if (*data=='c' || *data=='b')
 		return T_DEVICE;
 	return T_FILE;
 };
@@ -62,22 +62,20 @@ int permisions_from_str(char *a) {
 
 int date_from_str(char *src) {
 	char *data=new char[strlen(src)+1];
-	char *tmp=src;
+	char *tmp;
+	int month,day;
 
-	char *str1=new char[strlen(src)];
-	extract_string(src,str1,4);
-	int to_scan=is_string(str1)?4:5;
-	delete(str1);
-
-	for (int i=0;i<to_scan;i++) {
-		tmp=index(tmp,' ');
-		if (tmp) while (*tmp==' ') tmp++;
-		else break;
+	tmp=extract_string(src,data,5);
+	if (is_string(data)){
+		tmp=extract_string(tmp,data);
 	};
+
 	time_t NOW=time(NULL);
 	struct tm date;
 	localtime_r(&NOW,&date);
 	date.tm_isdst=-1;
+	month=date.tm_mon;
+	day=date.tm_mday;
 	if (tmp && *tmp) {
 		tmp=extract_string(tmp,data);
 		date.tm_mon=convert_month(data);
@@ -90,6 +88,8 @@ int date_from_str(char *src) {
 		extract_string(tmp,data);
 		if (index(data,':')) {
 			sscanf(data,"%i:%i",&date.tm_hour,&date.tm_min);
+			if (month<date.tm_mon || (month==date.tm_mon && day<date.tm_mday))
+				date.tm_year-=1;
 		} else {
 			sscanf(data,"%i",&date.tm_year);
 			date.tm_year-=1900;
@@ -99,34 +99,36 @@ int date_from_str(char *src) {
 	return mktime(&date);
 };
 
+/* parsing string of LIST -la command
+   char *src - string for parsing
+   tFileInfo *dst - where put result
+   int flag - need put strings (name and name of link) to result or not
+ */
 void cut_string_list(char *src,tFileInfo *dst,int flag) {
-	int srclen=strlen(src);
+	if (src==NULL || dst==NULL) return;
+	int srclen=strlen(src)+1;
 	char *str1=new char[srclen];
 	char *name=new char[srclen];
-	char *attr=new char[srclen];
-	*attr=0;
 	*str1=0;
 	*name=0;
 	int par1;
 	extract_string(src,str1,5);
 	if (strlen(str1)){
 // unix style listing
-		if (!is_string(str1))
+		char *tmp;
+		if (!is_string(str1)){
+			tmp=skip_strings(src,8);
 			sscanf(src,"%s %u %s %s %u %s %u %s %s",
-	       		attr,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
-		else
+	       		str1,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
+		}else{
+			tmp=skip_strings(src,7);
 			sscanf(src,"%s %u %s %u %s %u %s %s",
-	       		attr,&par1,str1,&dst->size,str1,&par1,str1,name);
-		dst->type=type_from_str(attr);
-		if (dst->type!=T_DEVICE) {
-			dst->perm=permisions_from_str(attr);
-			dst->date=date_from_str(src);
+	       		str1,&par1,str1,&dst->size,str1,&par1,str1,name);
 		};
-		char *tmp=src;
-		for (int i=0;i<8;i++) {
-			tmp=index(tmp,' ');
-			if (tmp) while (*tmp==' ') tmp++;
-			else break;
+		dst->type=type_from_str(src);
+		if (dst->type!=T_DEVICE) {
+			dst->perm=permisions_from_str(src);
+			dst->date=date_from_str(src);
 		};
 		if (flag) {
 			if (tmp) dst->name=copy_string(tmp);
@@ -143,31 +145,27 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 		} else dst->body=NULL;
 	}else{
 // dos style listing
+// we don't get date and time because they are not Y2K
 		char *new_src=extract_string(src,str1);
-		new_src=extract_string(new_src,attr);
-//		dst->date=dos_date_from_strs(str1,attr);
-		time_t NOW=time(NULL);
-		dst->date=NOW;
-		
-		new_src=extract_string(new_src,attr);
-		if (is_string(attr)){
+		new_src=extract_string(new_src,str1);
+		dst->date=time(NULL);
+		new_src=extract_string(new_src,str1);
+
+		if (is_string(str1)){
 			dst->type=T_DIR;
 			dst->perm=0775;
 		}else{
-			sscanf(attr,"%u",&(dst->size));
+			sscanf(str1,"%u",&(dst->size));
 			dst->type=T_FILE;
 			dst->perm=0664;
 		};
 		
-		if (flag) {
-			if (new_src){
-				while (*new_src==' ') new_src+=1;
-				dst->name=copy_string(new_src);
-			}else
-				dst->name=copy_string("");
+		if (flag && new_src && *new_src) {
+			while (*new_src==' ') new_src+=1;
+			dst->name=copy_string(new_src);
 			del_crlf(dst->name);
+			dst->body=NULL;
 		};
-		dst->body=NULL;
 	};
 
 	/* Next cycle extract name from string of
@@ -175,7 +173,6 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 	 */
 	delete str1;
 	delete name;
-	delete attr;
 };
 //****************************************/
 
@@ -236,9 +233,9 @@ int tFtpDownload::reconnect() {
 			LOG->add(_("Server refused login probably too many users of your class"),LOG_WARNING);
 		};
 		if (config.number_of_attempts)
-			sprintf(data,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
+			snprintf(data,MAX_LEN,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
 		else
-			sprintf(data,_("Retrying %i ..."),RetrNum);
+			snprintf(data,MAX_LEN,_("Retrying %i ..."),RetrNum);
 		LOG->add(data,LOG_OK);
 		if (RetrNum==config.number_of_attempts) {
 			LOG->add(_("Max amount of retries was reached!"),LOG_ERROR);
@@ -287,13 +284,12 @@ int tFtpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 		char port[MAX_LEN];
 		port[0]=0;
 		if (D_PORT!=21) sprintf(port,":%i",D_PORT);
-		char *temp=new char[strlen(USER)+strlen(config.get_proxy_host())+strlen("@")+strlen(port)+1];
+		char *temp=new char[strlen(USER)+strlen(HOST)+strlen("@")+strlen(port)+1];
 		*temp=0;
 		strcat(temp,USER);
 		strcat(temp,"@");
 		strcat(temp,HOST);
-		if (D_PORT!=21)
-			strcat(temp,port);
+		strcat(temp,port);
 		delete USER;
 		USER=temp;
 	} else

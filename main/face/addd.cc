@@ -20,12 +20,12 @@
 
 extern tMain aa;
 
-tDownload *OneDownload=NULL;
+tDownload *OneDownload=(tDownload *)NULL;
 
 void add_window_cancel() {
 	if (OneDownload){
-		delete OneDownload;
-		OneDownload=NULL;
+		delete(OneDownload);
+		OneDownload=(tDownload *)NULL;
 	};
 };
 
@@ -40,7 +40,7 @@ void add_window_ok() {
 		aa.add_download_message(OneDownload);
 		ALL_DOWNLOADS->insert(OneDownload);
 	};
-	OneDownload=NULL;
+	OneDownload=(tDownload *)NULL;
 };
 
 
@@ -51,7 +51,7 @@ void init_add_window(...) {
 	};
 	tDownload *what=OneDownload=new tDownload;
 	char *temp=copy_string("ftp://somesite");
-	tAddr *info=aa.analize(temp);
+	tAddr *info=make_addr_from_url(temp);
 	what->info=info;
 	what->set_SavePath(CFG.GLOBAL_SAVE_PATH);
 	what->set_default_cfg();

@@ -28,7 +28,7 @@ GtkWidget *HandleBox;
 extern gint SelectedRow;
 extern gint SizeListOfDownloads;
 
-tDialogWidget *AskDeleteAll=NULL;
+tDialogWidget *AskDeleteAll=(tDialogWidget *)NULL;
 
 
 GtkWidget *new_pixmap(char **xpm) {
@@ -149,13 +149,13 @@ void init_buttons_bar() {
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	buttons_array[BUTTON_SPEED1]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
 	             GTK_TOOLBAR_CHILD_RADIOBUTTON,
-	             NULL,
+	             (GtkWidget *)NULL,
 	             "",
 	             _(" Speed level one "),
 	             "",
 	             new_pixmap (speed1_xpm),
 	             GTK_SIGNAL_FUNC (set_speed_limit),
-	             NULL);
+	             (GtkWidget *)NULL);
 	buttons_array[BUTTON_SPEED2]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
 	             GTK_TOOLBAR_CHILD_RADIOBUTTON,
 	             buttons_array[BUTTON_SPEED1],
@@ -164,7 +164,7 @@ void init_buttons_bar() {
 	             "",
 	             new_pixmap (speed2_xpm),
 	             GTK_SIGNAL_FUNC (set_speed_limit),
-	             NULL);
+	             (GtkWidget *)NULL);
 	buttons_array[BUTTON_SPEED3]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
 	             GTK_TOOLBAR_CHILD_RADIOBUTTON,
 	             buttons_array[BUTTON_SPEED2],
@@ -173,7 +173,7 @@ void init_buttons_bar() {
 	             "",
 	             new_pixmap (speed3_xpm),
 	             GTK_SIGNAL_FUNC (set_speed_limit),
-	             NULL);
+	             (GtkWidget *)NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
@@ -184,13 +184,13 @@ void init_buttons_bar() {
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	buttons_array[BUTTON_DND_TRASH]=gtk_toolbar_append_element (GTK_TOOLBAR (ButtonsBar),
 	             GTK_TOOLBAR_CHILD_TOGGLEBUTTON,
-	             NULL,
+	             (GtkWidget *)NULL,
 	             "",
 	             _(" DnD trash "),
 	             "",
 	             new_pixmap (dndtrash_bar_xpm),
 	             GTK_SIGNAL_FUNC (dnd_trash_toggle),
-	             NULL);
+	             (GtkWidget *)NULL);
 	set_speed_buttons();
 	set_dndtrash_button();
 	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;

@@ -127,6 +127,7 @@ struct tMainCfg{
 /* Session
  */
 	char *EXEC_WHEN_QUIT;
+	int REMEMBER_PASS;
 };
 
 extern tMLog *MainLog;
@@ -151,6 +152,7 @@ enum HISTORIES_ENUM{
 	LOAD_SAVE_HISTORY,
 	USER_AGENT_HISTORY,
 	EXEC_HISTORY,
+	PASS_HISTORY,
 	LAST_HISTORY
 };
 
@@ -173,5 +175,10 @@ extern int BLOCK_READ;
 extern char *HOME_VARIABLE;
 extern char *LOCK_FILE;
 extern int LOCK_FILE_D;
+/*time for sleep in secs from previous update of
+  interface to next one
+ */
+extern int GLOBAL_SLEEP_DELAY; 
+
 extern tDB *ALL_DOWNLOADS;
 #endif

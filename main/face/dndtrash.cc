@@ -31,11 +31,15 @@ GtkWidget *dnd_trash_menu=(GtkWidget *)NULL;
 GtkTooltips *dnd_trash_tooltips;
 int dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
 
-void dnd_trash_destroy(){
+void dnd_trash_real_destroy(){
 	if (dnd_trash_window)gtk_widget_destroy(dnd_trash_window);
-	dnd_trash_window=NULL;
+	dnd_trash_window=(GtkWidget *)NULL;
 	CFG.DND_TRASH=0;
-    set_dndtrash_button();
+};
+
+void dnd_trash_destroy(){
+	dnd_trash_real_destroy();
+	set_dndtrash_button();
 };
 
 void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
@@ -43,7 +47,7 @@ void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 		motion_notify_get_coords(event);
 		gint mx,my;
 		GdkModifierType modmask;
-		gdk_window_get_pointer(NULL, &mx, &my, &modmask);
+		gdk_window_get_pointer((GdkWindow *)NULL, &mx, &my, &modmask);
 		CFG.DND_TRASH_X+=mx-dnd_trash_x;
 		CFG.DND_TRASH_Y+=my-dnd_trash_y;
 		gdk_window_move(widget->window,CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
@@ -55,15 +59,20 @@ void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 
 int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 	if (event->button==3) {
-    	gtk_menu_popup(GTK_MENU(dnd_trash_menu),NULL,NULL,NULL,NULL,event->button,event->time);
+		gtk_menu_popup(GTK_MENU(dnd_trash_menu),
+			       (GtkWidget *)NULL,
+			       (GtkWidget *)NULL,
+			       (GtkMenuPositionFunc)NULL,
+			       (gpointer)NULL,
+			       event->button,event->time);
 	}else{
 		if (event->type==GDK_2BUTTON_PRESS)
 			main_window_popup();
 		else{
 			dnd_trash_moveable=1;
-	    	GdkModifierType modmask;
-	    	gdk_window_get_pointer(NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
-	    };
+			GdkModifierType modmask;
+			gdk_window_get_pointer((GdkWindow *)NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
+		};
 	};
 	return 1;
 }; 
@@ -78,7 +87,7 @@ int dnd_trash_button_release(GtkWidget *widget,GdkEventButton *event){
 int dnd_trash_refresh(){
 	gint mx,my,newx,newy;
 	GdkModifierType modmask;
-	gdk_window_get_pointer(NULL, &mx, &my, &modmask);
+	gdk_window_get_pointer((GdkWindow *)NULL, &mx, &my, &modmask);
 	if (!(modmask&(GDK_BUTTON1_MASK | GDK_BUTTON2_MASK| GDK_BUTTON3_MASK)))
 		dnd_trash_moveable=0;
 	if (dnd_trash_moveable && dnd_trash_window){
@@ -162,7 +171,7 @@ void dnd_trash_init(){
 	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
 	gtk_widget_set_style(dnd_trash_tooltips->tip_window, current_style);
 
-	gtk_tooltips_set_tip(dnd_trash_tooltips,dnd_trash_window,_("Drop link here"),NULL);
+	gtk_tooltips_set_tip(dnd_trash_tooltips,dnd_trash_window,_("Drop link here"),(const gchar *)NULL);
 	gtk_tooltips_enable(dnd_trash_tooltips);
     /* This masks out everything except for the image itself */
     gtk_widget_shape_combine_mask( dnd_trash_window, mask, 0, 0 );

@@ -15,7 +15,16 @@
 //for messages queue
 #include <sys/types.h>
 #include <sys/ipc.h>
+
+#if (defined(__unix__) || defined(unix)) && !defined(USG)
+#include <sys/param.h>
+#endif
+
+#if (defined(BSD) && (BSD >= 199306))
+#include <sys/msgbuf.h>
+#else
 #include <sys/msg.h>
+#endif
 
 #include "dlist.h"
 #include "face/log.h"

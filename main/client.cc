@@ -86,24 +86,21 @@ int tClient::reinit() {
 		return RVALUE_OK;
 	};
 	switch (err) {
-		case SOCKET_UNKNOWN_HOST:
-			{
-				LOG->add(_("Host not found!"),LOG_ERROR);
-				Status=STATUS_FATAL;
-				break;
-			};
-		case SOCKET_CANT_ALLOCATE:
-			{
-				LOG->add(_("Can't allocate socket"),LOG_ERROR);
-				Status=STATUS_FATAL;
-				break;
-			};
-		case SOCKET_CANT_CONNECT:
-			{
-				LOG->add(_("Can't connect"),LOG_ERROR);
-				Status=STATUS_TRIVIAL;
-				break;
-			};
+	case SOCKET_UNKNOWN_HOST:{
+		LOG->add(_("Host not found!"),LOG_ERROR);
+		Status=STATUS_FATAL;
+		break;
+	};
+	case SOCKET_CANT_ALLOCATE:{
+		LOG->add(_("Can't allocate socket"),LOG_ERROR);
+		Status=STATUS_FATAL;
+		break;
+	};
+	case SOCKET_CANT_CONNECT:{
+		LOG->add(_("Can't connect"),LOG_ERROR);
+		Status=STATUS_TRIVIAL;
+		break;
+	};
 	};
 	return RVALUE_TIMEOUT;
 };

@@ -40,9 +40,9 @@ GtkWidget *MainMenu;
 GtkAdjustment *ProgressBarValues;
 GtkWidget *ProgressOfDownload;
 GtkWidget *MainStatusBar,*ReadedBytesStatusBar;
-GtkWidget *MainWindow=NULL;
+GtkWidget *MainWindow=(GtkWidget *)NULL;
 GtkWidget *MainHBox;
-GtkWidget *ContainerForCList=NULL;
+GtkWidget *ContainerForCList=(GtkWidget *)NULL;
 GdkGC *MainWindowGC;
 GtkWidget *BoxForGraph;
 GtkItemFactory *main_menu_item_factory;
@@ -55,17 +55,17 @@ GtkAdjustment *main_log_adj;
 
 GtkItemFactory *list_menu_itemfact;
 
-tDialogWidget *AskDelete=NULL;
-tDialogWidget *AskDeleteCompleted=NULL;
-tDialogWidget *AskDeleteFataled=NULL;
-tDialogWidget *AskExit=NULL;
+tDialogWidget *AskDelete=(tDialogWidget *)NULL;
+tDialogWidget *AskDeleteCompleted=(tDialogWidget *)NULL;
+tDialogWidget *AskDeleteFataled=(tDialogWidget *)NULL;
+tDialogWidget *AskExit=(tDialogWidget *)NULL;
 
-tFaceLimits *FaceForLimits=NULL;
+tFaceLimits *FaceForLimits=(tFaceLimits *)NULL;
 
 gint StatusBarContext,RBStatusBarContext;
 int MainTimer,LogsTimer,GraphTimer,ListTimer;
 int SAVE_LIST_INTERVAL,EXIT_COMPLETE_INTERVAL;
-pthread_mutex_t MAIN_GTK_MUTEX=PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t MAIN_GTK_MUTEX=(pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 
 int FirstConfigureEvent;
 int UpdateTitleCycle=0;
@@ -102,32 +102,37 @@ void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mou
 	}
 	pos->x=x;
 	pos->y=y;
-	gtk_menu_popup(GTK_MENU(ifactory->widget),NULL,NULL,NULL,pos,mouse_button,time);
+	gtk_menu_popup(GTK_MENU(ifactory->widget),
+		       (GtkWidget *)NULL,
+		       (GtkWidget *)NULL,
+		       (GtkMenuPositionFunc)NULL,
+		       pos,
+		       mouse_button,time);
 };
 
 void init_main_menu() {
 	GtkItemFactoryEntry menu_items[] = {
-		{_("/_File"),         		NULL,         NULL, 0, "<Branch>"},
-		{_("/File/_Save List"),     	"<control>S", init_save_list, 0, NULL},
-		{_("/File/_Load List"),     	"<control>L", init_load_list, 0, NULL},
-		{_("/File/sep1"),     		NULL,         NULL, 0, "<Separator>"},
-		{_("/File/_New Download"),	"<control>N", init_add_window, 0, NULL},
-		{_("/File/_Paste Download"), 	"<control>P", init_add_clipboard_window, 0, NULL},
-		{_("/File/sep1"),     		NULL,         NULL, 0, "<Separator>"},
-		{_("/File/Exit"),     		"<alt>X", ask_exit, 0, NULL},
-		{_("/_Download"),      		NULL,         NULL, 0, "<Branch>"},
-		{_("/Download/View _Log"),  	NULL,  open_log_for_selected, 0, NULL},
-		{_("/Download/_Stop downloads"),"<alt>S",  stop_downloads, 0, NULL},
-		{_("/Download/Edit download"),	"<alt>E",  open_edit_for_selected,	0, NULL},
-		{_("/Download/_Delete downloads"),"<alt>C",  ask_delete_download, 0, NULL},
-		{_("/Download/Continue downloads"),"<alt>A",  continue_downloads, 0, NULL},
-		{_("/Download/Delete completed"),NULL,  ask_delete_completed_downloads, 0, NULL},
-		{_("/Download/Delete failed"),	NULL,  ask_delete_fataled_downloads, 0, NULL},
-		{_("/_Options"),      		NULL,         NULL, 0, "<Branch>"},
-		{_("/Options/Limitations"),	NULL,       open_limits_window, 0, NULL},
-		{_("/Options/Common"),		"<control>C",       init_options_window, 0, NULL},
-		{_("/_Help"),         		NULL,         NULL, 0, "<LastBranch>"},
-		{_("/_Help/About"),   		NULL,         init_about_window, 0, NULL},
+		{_("/_File"),         			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_("/File/_Save List"),     		"<control>S",	init_save_list,			0, (gchar *)NULL},
+		{_("/File/_Load List"),     		"<control>L",	init_load_list,			0, (gchar *)NULL},
+		{_("/File/sep1"),     			(gchar *)NULL,  (GtkItemFactoryCallback)NULL,	0, "<Separator>"},
+		{_("/File/_New Download"),		"<control>N",	init_add_window,		0, (gchar *)NULL},
+		{_("/File/_Paste Download"), 		"<control>P",	init_add_clipboard_window,	0, (gchar *)NULL},
+		{_("/File/sep1"),     			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
+		{_("/File/Exit"),     			"<alt>X",	ask_exit,			0, (gchar *)NULL},
+		{_("/_Download"),      			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_("/Download/View _Log"),  		(gchar *)NULL,	open_log_for_selected,		0, (gchar *)NULL},
+		{_("/Download/_Stop downloads"),	"<alt>S",	stop_downloads,			0, (gchar *)NULL},
+		{_("/Download/Edit download"),		"<alt>E",	open_edit_for_selected,		0, (gchar *)NULL},
+		{_("/Download/_Delete downloads"),	"<alt>C",	ask_delete_download,		0, (gchar *)NULL},
+		{_("/Download/Continue downloads"),	"<alt>A",	continue_downloads,		0, (gchar *)NULL},
+		{_("/Download/Delete completed"),	(gchar *)NULL,	ask_delete_completed_downloads,	0, (gchar *)NULL},
+		{_("/Download/Delete failed"),		(gchar *)NULL,	ask_delete_fataled_downloads,	0, (gchar *)NULL},
+		{_("/_Options"),      			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_("/Options/Limitations"),		(gchar *)NULL,	open_limits_window,		0, (gchar *)NULL},
+		{_("/Options/Common"),			"<control>C",	init_options_window,		0, (gchar *)NULL},
+		{_("/_Help"),         			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<LastBranch>"},
+		{_("/_Help/About"),   			(gchar *)NULL,	init_about_window,		0, (gchar *)NULL},
 	};
 	int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
 	GtkAccelGroup *accel_group;
@@ -189,6 +194,7 @@ void my_main_quit(...) {
 	if (AskDeleteCompleted) delete(AskDeleteCompleted);
 	if (AskDeleteFataled) delete(AskDeleteFataled);
 	if (AskExit) delete(AskExit);
+	dnd_trash_real_destroy();
 	load_save_list_cancel();
 	for (int i=0;i<LAST_HISTORY;i++)
 		delete(ALL_HISTORIES[i]);
@@ -358,7 +364,7 @@ void update_progress_bar() {
 /* ******************************************************************** */
 static void main_window_normalize_coords(){
 	int temp,w,h;
-	gdk_window_get_geometry(NULL,&temp,&temp,&w,&h,&temp);
+	gdk_window_get_geometry((GdkWindow *)NULL,&temp,&temp,&w,&h,&temp);
 	if (CFG.WINDOW_X_POSITION<0){
 		while (CFG.WINDOW_X_POSITION<0)
 			CFG.WINDOW_X_POSITION+=w;
@@ -405,7 +411,7 @@ void init_main_window() {
 	main_log_value=0.0;
 	gtk_signal_connect (GTK_OBJECT (main_log_adj), "changed",
 	                    GTK_SIGNAL_FUNC (cb_page_size), NULL);
-	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,main_log_adj);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,main_log_adj);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),MainLogList);
@@ -509,7 +515,7 @@ int time_for_logs_refresh(void *a) {
 	dnd_trash_refresh();
 	if (MainTimer==0) {
 		time_for_refresh(NULL);
-		MainTimer=2000/100;
+		MainTimer=(GLOBAL_SLEEP_DELAY*1000)/100;
 		get_mainwin_sizes(MainWindow);
 	};
 	return 1;
@@ -560,7 +566,7 @@ void init_timeouts() {
 	ListTimer = gtk_timeout_add (60000, time_for_save_list , NULL);
 	GraphTimer = gtk_timeout_add (250, time_for_draw_graph , NULL);
 	LogsTimer = gtk_timeout_add (100, time_for_logs_refresh , NULL);
-	MainTimer=2000/100;
+	MainTimer=(GLOBAL_SLEEP_DELAY*1000)/100;
 	FirstConfigureEvent=1;
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "configure_event",
 	                   GTK_SIGNAL_FUNC(get_mainwin_sizes),
@@ -602,7 +608,7 @@ void init_face(int argc, char *argv[]) {
 #include "pixmaps/dndtrash.xpm"
 	GdkBitmap *bitmap;
 	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,dndtrash_xpm);
-	gdk_window_set_icon(MainWindow->window,NULL,pixmap,bitmap);
+	gdk_window_set_icon(MainWindow->window,(GdkWindow *)NULL,pixmap,bitmap);
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "delete_event",
 	                   GTK_SIGNAL_FUNC(ask_exit2),
 	                   NULL);

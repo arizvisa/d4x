@@ -12,7 +12,17 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ipc.h>
+
+#if (defined(BSD) && (BSD >= 199306))
+#include <sys/msgbuf.h>
+#else
 #include <sys/msg.h>
+#endif
+
+#if (defined(__unix__) || defined(unix)) && !defined(USG)
+#include <sys/param.h>
+#endif
+
 #include <sys/timeb.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -40,25 +50,6 @@
 #include "face/edit.h"
 #include "config.h"
 #include "ntlocale.h"
-
-tTwoStrings::tTwoStrings() {
-	one=two=NULL;
-};
-
-void tTwoStrings::zero() {
-	one=two=NULL;
-};
-
-tTwoStrings::~tTwoStrings() {}
-;
-
-int get_port_by_proto(char *proto) {
-	if (proto) {
-		if (equal_uncase(proto,"ftp")) return 21;
-		if (equal_uncase(proto,"http")) return 80;
-	};
-	return 21;
-};
 
 int amount_of_downloads_in_queues(){
 	return RunList->count()+StopList->count()+CompleteList->count()+PausedList->count()+WaitList->count()+WaitStopList->count();
@@ -144,38 +135,28 @@ void tMain::append_list(tStringList *what) {
 					download->config.set_flags(temp2->temp);
 					switch (temp->temp) {
 						case 0: break; //wait list
-						case 1:
-							{ //completed
+						case 1:	{ //completed
 								WaitList->del(download);
 								CompleteList->insert(download);
 								break;
 							};
 						case 2:
-						default:
-							{ //stopped
+						default:{ //stopped
 								WaitList->del(download);
 								PausedList->insert(download);
 								break;
 							};
-						case 3:
-							{ //failed
+						case 3:	{ //failed
 								WaitList->del(download);
 								StopList->insert(download);
 								break;
 							};
-						case 4:
-							{ //runing
-								time_t NOW;
-								time(&NOW);
-								if (RunList->count()<CFG.MAX_THREADS && download->ScheduleTime<=NOW) {
-									tSortString *tmp=LimitsForHosts->find(download->info->host,download->info->port);
-									if ((tmp==NULL || tmp->curent<tmp->upper) && run_new_thread(download)==0) {
-										if (tmp) tmp->curent+=1;
-										WaitList->del(download);
-										RunList->insert(download);
-									};
+						case 4:	{ //runing
+								if (try_to_run_download(download)) {
+									WaitList->del(download);
+									RunList->insert(download);
 								};
-							};
+						};
 					};
 				};
 			};
@@ -212,20 +193,6 @@ void tMain::redraw_logs() {
 			    del_first_from_log(Msg.which);
 		};
 	};
-};
-
-void tMain::split_string(char *what,char *delim,tTwoStrings *out) {
-	char * where=strstr(what,delim);
-	if (where) {
-		int len=strlen(where),len1=strlen(delim);
-		out->two=copy_string(where+len1);
-		len1=strlen(what)-len;
-		out->one=copy_string(what,len1);
-	} else {
-		out->two=copy_string(what);
-		out->one=NULL;
-	};
-	delete(what);
 };
 
 void tMain::absolute_delete_download(tDList *where,tDownload *what) {
@@ -279,85 +246,6 @@ void tMain::del_all() {
 	};
 };
 
-tAddr *tMain::analize(char *what) {
-	tTwoStrings pair;
-	split_string(what,"://",&pair);
-	tAddr *out=new tAddr;
-	if (pair.one) {
-		out->protocol=pair.one;
-	} else {
-		out->protocol=copy_string(DEFAULT_PROTO);
-	};
-	out->host=pair.two;
-	if (!out->host) {
-		delete(out);
-		return NULL;
-	};
-	split_string(out->host,"/",&pair);
-	if (pair.one) {
-		out->host=pair.one;
-		out->file=pair.two;
-	} else {
-		out->host=pair.two;
-		out->file=pair.one;
-	};
-	split_string(out->host,"@",&pair);
-	out->host=pair.two;
-	out->username=pair.one;
-	if (out->username) {
-		split_string(out->username,":",&pair);
-		out->username=pair.one;
-		out->pass=pair.two;
-	} else {
-		out->username=NULL;
-		out->pass=NULL;
-	};
-	if (out->file) {
-		char *tmp=parse_percents(out->file);
-		if (tmp) {
-			delete out->file;
-			out->file=tmp;
-		} else
-			delete tmp;
-		char *prom=rindex(out->file,'/');
-		if (prom) {
-			out->path=copy_string(prom+1);
-			*prom=0;
-			prom=out->path;
-			out->path=sum_strings("/",out->file);
-			delete out->file;
-			out->file=prom;
-		};
-	} else {
-		out->file=copy_string("");
-	};
-	if (!out->path) out->path=copy_string("/");
-	split_string(out->host,":",&pair);
-	if (pair.one) {
-		sscanf(pair.two,"%i",&out->port);
-		delete pair.two;
-		out->host=pair.one;
-	} else {
-		out->port=0;
-		out->host=pair.two;
-	};
-	if (equal_uncase(out->protocol,"ftp") && index(out->file,'*'))
-		out->mask=1;
-	/* Parse # in http urls
-	 */
-	if (equal_uncase(out->protocol,"http") && out->file!=NULL) {
-		char *tmp=index(out->file,'#');
-		if (tmp) {
-			*tmp=0;
-			tmp=out->file;
-			out->file=copy_string(tmp);
-			delete(tmp);
-		};
-	};
-	if (out->port==0)
-		out->port=get_port_by_proto(out->protocol);
-	return out;
-};
 
 int tMain::run_new_thread(tDownload *what) {
 	pthread_attr_t attr_p;
@@ -369,7 +257,7 @@ int tMain::run_new_thread(tDownload *what) {
 	what->update_trigers();
 
 	what->SpeedLimit=new tSpeed;
-	what->SpeedLimit->base=2 * what->config.speed;
+	what->SpeedLimit->base=GLOBAL_SLEEP_DELAY * what->config.speed;
 	SpeedScheduler->insert(what->SpeedLimit);
 	if (what->editor) what->editor->disable_ok_button();
 
@@ -451,6 +339,19 @@ int tMain::delete_download(tDownload *what) {
 	return 1;
 };
 
+int tMain::try_to_run_download(tDownload *what){
+	tSortString *tmp=LimitsForHosts->find(what->info->host,what->info->port);
+	time_t NOW;
+	time(&NOW);
+	if (RunList->count()<CFG.MAX_THREADS && what->ScheduleTime<=NOW
+	    && (tmp==NULL || tmp->curent<tmp->upper)
+	    && run_new_thread(what)==0) {
+		if (tmp) tmp->increment();
+		return 1;
+	};
+	return 0;
+};
+
 void tMain::continue_download(tDownload *what) {
 	if (WaitStopList->owner(what)) {
 		if (what->action!=ACTION_DELETE) what->action=ACTION_CONTINUE;
@@ -469,14 +370,10 @@ void tMain::continue_download(tDownload *what) {
 	MainLog->add(data,LOG_OK);
 
 	if (PausedList->owner(what)) 	PausedList->del(what);
-	if (StopList->owner(what)) 		StopList->del(what);
+	if (StopList->owner(what))	StopList->del(what);
 	if (CompleteList->owner(what)) 	CompleteList->del(what);
-	if (WaitList->owner(what))		WaitList->del(what);
-	tSortString *tmp=LimitsForHosts->find(what->info->host,what->info->port);
-	time_t NOW;
-	time(&NOW);
-	if (RunList->count()<CFG.MAX_THREADS && what->ScheduleTime<=NOW && (tmp==NULL || tmp->curent<tmp->upper) && run_new_thread(what)==0) {
-		if (tmp) tmp->curent+=1;
+	if (WaitList->owner(what))	WaitList->del(what);
+	if (try_to_run_download(what)) {
 		RunList->insert(what);
 	} else {
 		tDownload *temp=WaitList->last();
@@ -675,7 +572,7 @@ void tMain::redirect(tDownload *what) {
 			WaitList->insert_before(what,temp);
 		else
 			WaitList->insert(what);
-		tAddr *addr=aa.analize(newurl);
+		tAddr *addr=make_addr_from_url(newurl);
 		ALL_DOWNLOADS->del(what);
 		if (what->info) delete (what->info);
 		what->info=addr;
@@ -818,14 +715,8 @@ void tMain::main_circle() {
 	check_for_remote_commands();
 /* look for run new */
 	temp=WaitList->first();
-	time_t NOW;
-	time(&NOW);
 	while(temp && RunList->count()<CFG.MAX_THREADS) {
-		tSortString *tmp=LimitsForHosts->find(temp->info->host,temp->info->port);
-		if (temp->ScheduleTime<=NOW && (tmp==NULL || tmp->curent<tmp->upper)) {
-			if (tmp) tmp->curent+=1;
-			if (run_new_thread(temp))
-				break;
+		if (try_to_run_download(temp)) {
 			WaitList->del(temp);
 			RunList->insert(temp);
 			temp=WaitList->first();
@@ -864,7 +755,7 @@ void tMain::check_for_remote_commands(){
 int tMain::add_downloading(char *adr,char *where,char *name) {
 	if (adr==NULL) return -1;
 	char *temp=copy_string(adr);
-	tAddr *addr=analize(temp);
+	tAddr *addr=make_addr_from_url(temp);
 	if (!addr) return -1;
 	tDownload *whatadd=new tDownload;
 	whatadd->info=addr;
@@ -917,9 +808,15 @@ int tMain::add_downloading(char *adr,char *where,char *name) {
 };
 
 unsigned int tMain::get_precise_time(){
+#if (defined(BSD) && (BSD >= 199306))
+	struct timeval tp;
+	gettimeofday(&tp, NULL);
+	return(tp.tv_sec*1000+tp.tv_usec);
+#else
 	struct timeb tp;
 	ftime(&tp);
 	return(tp.time*1000+tp.millitm);
+#endif
 };
 
 void tMain::speed() {
@@ -936,11 +833,11 @@ void tMain::speed() {
 	int SPEED_LIMIT=0;
 	switch (CFG.SPEED_LIMIT) {
 		case 1:	{
-				SPEED_LIMIT=CFG.SPEED_LIMIT_1;
+				SPEED_LIMIT=GLOBAL_SLEEP_DELAY*CFG.SPEED_LIMIT_1;
 				break;
 			};
 		case 2:	{
-				SPEED_LIMIT=CFG.SPEED_LIMIT_2;
+				SPEED_LIMIT=GLOBAL_SLEEP_DELAY*CFG.SPEED_LIMIT_2;
 				break;
 			};
 		case 3:
@@ -973,6 +870,7 @@ void tMain::run(int argv,char **argc) {
 	init_main_log();
 	load_defaults();
 	list_of_downloads_set_height();
+	prepare_buttons();
 	init_timeouts();
 	parse_command_line_postload(argv,argc);
 	run_msg_server();

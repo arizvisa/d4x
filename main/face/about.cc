@@ -16,12 +16,12 @@
 #include "about.h"
 #include "../ntlocale.h"
 
-GtkWidget *AboutWindow=NULL;
+GtkWidget *AboutWindow=(GtkWidget *)NULL;
 
 void destroy_about_window() {
 	if (AboutWindow){
 		gtk_widget_destroy(AboutWindow);
-		AboutWindow=NULL;
+		AboutWindow=(GtkWidget *)NULL;
 		gtk_widget_set_sensitive(MainWindow,TRUE);
 	};
 };
@@ -98,13 +98,13 @@ void init_about_window(...) {
  * ------------------------------------------------------------
  */
 tDialog::tDialog() {
-	window=NULL;
+	window=(GtkWidget *)NULL;
 };
 
 void tDialog::done() {
 	if (!window) return;
 	gtk_widget_destroy(window);
-	window=NULL;
+	window=(GtkWidget *)NULL;
 };
 
 tDialog::~tDialog() {

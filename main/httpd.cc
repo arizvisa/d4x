@@ -19,6 +19,17 @@
 #include <fcntl.h>
 #include <string.h>
 
+tHtmlTeg HTML_TEGS[]={
+	{"a",		"href",		(char *)NULL,	0},
+	{"!--",		(char *)NULL,	"--!",		0},
+	{"img",		"src",		(char *)NULL,	0},
+	{"link",	"href",		(char *)NULL,	0},
+	{"base",	"target",	(char *)NULL,	1},
+	{"frame",	"src",		(char *)NULL,	0},
+	{"/base>",	(char *)NULL,	(char *)NULL,	1}
+};
+const int HTML_TEGS_NUM=sizeof(HTML_TEGS)/sizeof(tHtmlTeg);
+
 tHttpDownload::tHttpDownload() {
 	LOG=NULL;
 	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
@@ -113,28 +124,35 @@ char *tHttpDownload::get_field(char *field) {
 	int buff_len=MAX_LEN;
 	char *buff=new char [buff_len+1];
 	int len=strlen(field);
-	if (read(D_FILE.fdesc,buff,len-1)<len-1) return NULL;
-	buff[len-1]=0;
-	char *close_bracket=index(buff,'>');
-	if (close_bracket){
-		lseek(D_FILE.fdesc,(buff-close_bracket)+(len-1),SEEK_CUR);
-		delete buff;
-		return NULL;
+	int failed=0;
+	for (int i=0;i<len-1;i++){
+		if (read(D_FILE.fdesc,buff+i,1)<1)
+			failed=1;
+		if (buff[i]=='>')
+			failed=1;
+		if (failed){
+			delete(buff);return NULL;
+		};
 	};
+	failed=0;
+	buff[len-1]=0;
 	while(read(D_FILE.fdesc,buff+len-1,1)>0) {
 		buff[len]=0;
 		string_to_low(buff);
 		if (equal(field,buff)) {
 			do {
-				if (read(D_FILE.fdesc,buff,1)<=0) return NULL;
+				if (read(D_FILE.fdesc,buff,1)<=0){
+					delete buff;return NULL;
+				};
 			} while(*buff!='=');
 			char *cur=buff;
 			char close_symbol='>';
 			do {
-				if (read(D_FILE.fdesc,buff,1)<=0) return NULL;
+				if (read(D_FILE.fdesc,buff,1)<=0){
+					delete buff;return NULL;
+				};
 				if (*buff=='>'){
-					delete buff;
-					return NULL;
+					delete buff;return NULL;
 				};
 				if (*buff=='\"'){
 					close_symbol='\"';
@@ -154,89 +172,63 @@ char *tHttpDownload::get_field(char *field) {
 				if (*cur==close_symbol || *cur<=' ' || *cur=='>') break;
 				cur+=1;
 				if (cur-buff>buff_len){ //reallocate buffer
-					delete buff;
-					return NULL; //field too long
-//					buff_len = reallocate_string(&buff,buff_len+1) - 1;
+					delete buff;return NULL; //field too long
 				};
 			};
 			*cur=0;
 			char *rvalue=copy_string(buff);
-			delete buff;
-			return rvalue;
+			delete buff;return rvalue;
 		};
 		if (buff[len-1]=='>') {
-			delete buff;
-			return NULL;
+			delete buff;return NULL;
 		};
 		for (int i=0;i<=len;i++)
 			buff[i]=buff[i+1];
 	};
-	delete buff;
-	return NULL;
+	delete buff;return NULL;
 };
 
+void tHttpDownload::skip_for_tag(char *tag) {
+	if (tag==NULL || *tag==0) return;
+	char buff[MAX_LEN];
+	int len=strlen(tag);
+	while (read(D_FILE.fdesc,buff+len,1)==1) {
+		buff[len]=0;
+		if (equal(tag,buff)) break;
+		for (int i=0;i<len;i++) buff[i]=buff[i+1];
+	};
+};
 
 void tHttpDownload::analize_html() {
-	char *teg3="a "; //2
-	char *teg7="!--"; //3
-	char *teg1="img "; //4
-	char *teg2="link "; //5
-	char *teg5="base "; //5
-	char *teg4="frame "; //6
-	char *teg6="/base>"; //6
 	char buff[MAX_LEN];
 	char *base=NULL;
+	int MAX_TAG_LEN=6;
 	answer->done();
 	answer->init(0);
 	lseek(D_FILE.fdesc,0,SEEK_SET);
 	while(read(D_FILE.fdesc,buff,1)>0) {
 		if (*buff=='<') {
-			if (read(D_FILE.fdesc,buff,6)<6)
-				break;
-			buff[6]=0;
-			string_to_low(buff);
+			if (read(D_FILE.fdesc,buff,MAX_TAG_LEN)<MAX_TAG_LEN) break;
+			buff[MAX_TAG_LEN]=0;
 			char *link=NULL;
-			if (equal_first(buff,teg3)) {
-				lseek(D_FILE.fdesc,-4,SEEK_CUR);
-				link=get_field("href");
-			} else
-				if (equal_first(buff,teg2)) {
-					lseek(D_FILE.fdesc,-1,SEEK_CUR);
-					link=get_field("href");
-				} else
-					if (equal_first(buff,teg1)) {
-						lseek(D_FILE.fdesc,-2,SEEK_CUR);
-						link=get_field("src");
-					} else
-						if (equal_first(buff,teg4)) {
-							link=get_field("src");
-						} else
-							//skip coments
-							if (equal_first(buff,teg7)) {
-								lseek(D_FILE.fdesc,-3,SEEK_CUR);
-								if (read(D_FILE.fdesc,buff,2)!=2) break;
-								while (read(D_FILE.fdesc,buff+2,1)==1) {
-									buff[3]=0;
-									if (equal("-->",buff)) break;
-									for (int i=0;i<3;i++)
-										buff[i]=buff[i+1];
-								};
-							} else
-								// <base>
-								if (equal_first(buff,teg5)) {
-									char *newbase=get_field("target");
-									if (newbase) {
-										if (base) delete(base);
-										base=newbase;
-									};
-								} else
-									//</base>
-									if (equal_first(buff,teg6)) {
-										delete base;
-										base=NULL;
-									} else {
-										lseek(D_FILE.fdesc,-6,SEEK_CUR);
-									};
+			int not_found=0;
+			for (int i=0;i<HTML_TEGS_NUM;i++){
+				if (begin_string_uncase(buff,HTML_TEGS[i].tag) && buff[strlen(HTML_TEGS[i].tag)]<=' '){
+					lseek(D_FILE.fdesc,strlen(HTML_TEGS[i].tag)-MAX_TAG_LEN,SEEK_CUR);
+					if (HTML_TEGS[i].field)
+						link=get_field(HTML_TEGS[i].field);
+					else
+						skip_for_tag(HTML_TEGS[i].closetag);
+					if (HTML_TEGS[i].mod){
+						if (base) delete(base);
+						base=link;
+						link=NULL;
+					};
+					not_found=1;
+				};
+			};
+			if (not_found)
+				lseek(D_FILE.fdesc,-MAX_TAG_LEN,SEEK_CUR);
 			if (link) {
 				if (base && !global_url(link)) {
 					char *tmp;
@@ -249,12 +241,12 @@ void tHttpDownload::analize_html() {
 			};
 		};
 	};
+	if (base) delete(base);
 };
 
 tStringList *tHttpDownload::dir() {
 	return answer;
 };
-
 
 int tHttpDownload::analize_answer() {
 	/*  Here we need few analisation of http answer
@@ -401,8 +393,8 @@ int tHttpDownload::download(unsigned int from,unsigned int len) {
 			if (!ReGet) {
 				if (offset) LOG->add(_("It is seemed REGET not supported! Loading from begin.."),LOG_WARNING);
 				StartSize=data=offset=0;
-				if (ETagChanged) break;
 				lseek(D_FILE.fdesc,0,SEEK_SET);
+				if (ETagChanged) break;
 			};
 			Status=D_DOWNLOAD;
 			int ind=HTTP->get_file_from(NULL,offset,len,D_FILE.fdesc);

@@ -47,7 +47,7 @@ int tHProxyClient::get_size(char *filename,tStringList *list) {
 	send_request(data);
 	sprintf(data,"Host: %s\r\n",real_host);
 	send_request(data);
-	if (Auth && username && userword) {
+	if (username && userword) {
 		char *tmp=sum_strings(username,":",userword);
 		char *pass=string_to_base64(tmp);
 		delete tmp;

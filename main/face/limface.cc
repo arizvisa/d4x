@@ -93,6 +93,11 @@ int tLimitDialog::init() {
 	return 1;
 };
 
+void tLimitDialog::done(){
+	tDialog::done();
+	reset_old();
+};
+
 tLimitDialog::~tLimitDialog() {
 	reset_old();
 };
@@ -248,6 +253,21 @@ void tFaceLimits::delete_rows() {
 	redraw();
 };
 
+void tFaceLimits::update_row(int row) {
+	if (!window) return;
+	char data1[MAX_LEN];
+	char data2[MAX_LEN];
+	char data3[MAX_LEN];
+	tSortString *temp=(tSortString *)gtk_clist_get_row_data(GTK_CLIST(clist),row);
+	if (temp==NULL || temp->row!=row) return;
+	sprintf(data1,"%s:%i",temp->body,temp->key);
+	sprintf(data2,"%i",temp->upper);
+	sprintf(data3,"%i",temp->curent);
+	gtk_clist_set_text(GTK_CLIST(clist),row,0,data1); 
+	gtk_clist_set_text(GTK_CLIST(clist),row,1,data2); 
+	gtk_clist_set_text(GTK_CLIST(clist),row,2,data3); 
+};
+
 void tFaceLimits::redraw() {
 	if (!window) return;
 	gtk_clist_freeze(GTK_CLIST(clist));
@@ -256,11 +276,14 @@ void tFaceLimits::redraw() {
 	while(temp) {
 		char data1[MAX_LEN];
 		char data2[MAX_LEN];
+		char data3[MAX_LEN];
 		sprintf(data1,"%s:%i",temp->body,temp->key);
 		sprintf(data2,"%i",temp->upper);
-		char *data[]={data1,data2};
+		sprintf(data3,"%i",temp->curent);
+		char *data[]={data1,data2,data3};
 		int row=gtk_clist_append(GTK_CLIST(clist),data);
-		gtk_clist_set_row_data(GTK_CLIST(clist),row,temp);
+       		gtk_clist_set_row_data(GTK_CLIST(clist),row,temp);
+		temp->row=row;
 		temp=LimitsForHosts->next();
 	};
 	gtk_clist_thaw(GTK_CLIST(clist));
@@ -282,14 +305,13 @@ void tFaceLimits::init() {
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_widget_set_usize(window,-1,400);
 	gtk_container_border_width(GTK_CONTAINER(window),5);
-	gchar *titles[]={_("Host"),_("N")};
-	clist = gtk_clist_new_with_titles(2, titles);
+	gchar *titles[]={_("Host"),_("N"),_("Now")};
+	clist = gtk_clist_new_with_titles(3, titles);
 	gtk_signal_connect(GTK_OBJECT(clist),"select_row",GTK_SIGNAL_FUNC(face_limits_clist_handler),this);
 	gtk_clist_set_shadow_type (GTK_CLIST(clist), GTK_SHADOW_IN);
 	gtk_clist_set_column_width (GTK_CLIST(clist), 0 , size1);
 	gtk_clist_set_column_width (GTK_CLIST(clist), 1 , size2);
 	gtk_clist_set_column_auto_resize(GTK_CLIST(clist),2,TRUE);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(clist),3,TRUE);
 	gtk_clist_set_selection_mode(GTK_CLIST(clist),GTK_SELECTION_EXTENDED);
 	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),

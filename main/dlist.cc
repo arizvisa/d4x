@@ -42,6 +42,14 @@ void tAddr::print() {
 	printf("port: %i\n",port);
 };
 
+void tAddr::copy_host(tAddr *what){
+	protocol=copy_string(what->protocol);
+	host=copy_string(what->host);
+	pass=copy_string(what->pass);
+	username=copy_string(what->username);
+	port=what->port;
+};
+
 tAddr::~tAddr() {
 	if (protocol) delete(protocol);
 	if (path) delete(path);
@@ -232,19 +240,12 @@ void tDownload::convert_list_to_dir() {
 	};
 	char *path,*savepath;
 	if (info->mask==0) {
-		int len=strlen(info->path);
-		/* Here we make new file's path
-		 */
 		path=compose_path(info->path,info->file);
-		/* Here we make new path where files will be saved
-		 */
 		if (SavePath) {
-			len=strlen(SavePath);
 			if (SaveName && strlen(SaveName))
 				savepath=compose_path(SavePath,SaveName);
-			else {
+			else 
 				savepath=compose_path(SavePath,info->file);
-			};
 		} else {
 			if (SaveName && strlen(SaveName))
 				savepath=copy_string(SaveName);
@@ -258,21 +259,21 @@ void tDownload::convert_list_to_dir() {
 		normalize_path(path);
 	};
 	temp=dir->last();
-	while (temp && !begin_string(temp->body,"total")) {
+	while (temp) {
 		tFileInfo prom;
 		prom.name=NULL;
 		prom.body=NULL;
 		cut_string_list(temp->body,&prom,1);
-		if (!equal(prom.name,".") && !equal(prom.name,"..") && (prom.type!=T_DIR || config.ftp_recurse_depth!=2)
-		        && (prom.type==T_DIR || info->mask==0 || check_mask(prom.name,info->file))) {
+		if (prom.name && !equal(prom.name,".") && !equal(prom.name,"..")
+		    && (prom.type!=T_DIR || config.ftp_recurse_depth!=2)
+		    && (prom.type==T_DIR || info->mask==0 || check_mask(prom.name,info->file))) {
 			tAddr *addrnew=new tAddr;
 			tDownload *onenew=new tDownload;
-			if (prom.type==T_DIR && info->mask && prom.name) {
+			if (prom.type==T_DIR && info->mask) {
 				addrnew->path=compose_path(path,prom.name);
 				addrnew->file=copy_string(info->file);
 				onenew->SavePath=compose_path(savepath,prom.name);
 				delete prom.name;
-				prom.name=NULL;
 				mkdir(onenew->SavePath,prom.perm);
 				addrnew->mask=info->mask;
 			} else {
@@ -280,11 +281,7 @@ void tDownload::convert_list_to_dir() {
 				addrnew->file=prom.name;
 				onenew->SavePath=copy_string(savepath);
 			};
-			addrnew->protocol=copy_string(info->protocol);
-			addrnew->host=copy_string(info->host);
-			addrnew->pass=copy_string(info->pass);
-			addrnew->username=copy_string(info->username);
-			addrnew->port=info->port;
+			addrnew->copy_host(info);
 
 			onenew->info=addrnew;
 
@@ -299,10 +296,10 @@ void tDownload::convert_list_to_dir() {
 				if (config.permisions) onenew->finfo.perm=prom.perm;
 				if (onenew->finfo.type==T_LINK) {
 					onenew->finfo.body=prom.body;
+					prom.body=NULL;
 				};
-			} else {
-				if (prom.body) delete prom.body;
 			};
+			if (prom.body) delete prom.body;
 			DIR->insert(onenew);
 		} else {
 			if (prom.name) delete(prom.name);
@@ -352,11 +349,10 @@ void tDownload::convert_list_to_dir2() {
 			if (tmp) {
 				addrnew->file=copy_string(tmp+1);
 				*tmp=0;
-				if (temp->body[0]=='/'){
+				if (temp->body[0]=='/')
 					addrnew->path=copy_string(temp->body);
-				}else{
+				else
 					addrnew->path=compose_path(info->path,temp->body);
-				};
 				*tmp='/';
 			} else {
 				addrnew->path=copy_string(info->path);
@@ -375,11 +371,7 @@ void tDownload::convert_list_to_dir2() {
 				delete(tmp);
 			};
 			normalize_path(onenew->SavePath);
-			addrnew->protocol=copy_string(info->protocol);
-			addrnew->host=copy_string(info->host);
-			addrnew->pass=copy_string(info->pass);
-			addrnew->username=copy_string(info->username);
-			addrnew->port=info->port;
+			addrnew->copy_host(info);
 
 			onenew->config.http_recursing=1;
 			onenew->info=addrnew;
@@ -392,7 +384,7 @@ void tDownload::convert_list_to_dir2() {
 		}else{
 			if (begin_string_uncase(temp->body,"http://")){
 					char *tmp=copy_string(temp->body);
-					tAddr *addrnew=aa.analize(tmp);
+					tAddr *addrnew=make_addr_from_url(tmp);
 					if (equal(addrnew->host,info->host) && addrnew->port==info->port){
 						tDownload *onenew=new tDownload;
 						onenew->SavePath=copy_string(SavePath);

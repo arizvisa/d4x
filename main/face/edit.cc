@@ -118,8 +118,14 @@ gint edit_window_delete(GtkObject *parent) {
 };
 
 void edit_window_ok(GtkWidget *which,tDEdit *where) {
-	if (where->apply_changes()) return;
+	if (where->apply_changes())
+		return;
+	aa.continue_download(where->get_parent());
 	delete where;
+};
+
+static void edit_browser_path_set_as_default(GtkWidget *parent,tDEdit *where){
+	where->set_path_as_default();
 };
 
 static void edit_browser_open(GtkWidget *parent,tDEdit *where) {
@@ -178,22 +184,30 @@ void tDEdit::popup() {
 		gdk_window_show(window->window);
 };
 
+tDownload *tDEdit::get_parent(){
+	return parent;
+};
+
+void tDEdit::set_path_as_default(){
+	if (CFG.GLOBAL_SAVE_PATH)
+		delete(CFG.GLOBAL_SAVE_PATH);
+	CFG.GLOBAL_SAVE_PATH=copy_string(text_from_combo(path_entry));
+};
+
 void tDEdit::init_main(tDownload *who) {
 	/* initing entries
 	 */
 	user_entry=my_gtk_combo_new(ALL_HISTORIES[USER_HISTORY]);
-	pass_entry=gtk_entry_new_with_max_length(MAX_LEN);
+	if (CFG.REMEMBER_PASS)
+		pass_entry=my_gtk_combo_new(ALL_HISTORIES[PASS_HISTORY]);
+	else{
+		pass_entry=gtk_entry_new_with_max_length(MAX_LEN);
+		gtk_entry_set_visibility(GTK_ENTRY(pass_entry),FALSE);
+	};
 	path_entry=my_gtk_combo_new(ALL_HISTORIES[PATH_HISTORY]);
 	file_entry=my_gtk_combo_new(ALL_HISTORIES[FILE_HISTORY]);
 	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
 	user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
-
-	gtk_widget_set_usize(GTK_COMBO(path_entry)->entry,370,-1);
-	gtk_widget_set_usize(GTK_COMBO(file_entry)->entry,370,-1);
-	gtk_widget_set_usize(GTK_COMBO(url_entry)->entry,391,-1);
-	gtk_widget_set_usize(GTK_COMBO(user_agent_entry)->entry,370,-1);
-	gtk_widget_set_usize(pass_entry,120,-1);
-	gtk_widget_set_usize(user_entry,120,-1);
 
 //	char temp[MAX_LEN];
 //	make_url_from_download(who,temp);
@@ -206,12 +220,13 @@ void tDEdit::init_main(tDownload *who) {
 	if (who->get_SaveName()) text_to_combo(file_entry,who->get_SaveName());
 	else text_to_combo(file_entry,"");
 	if (who->info->pass)
-		gtk_entry_set_text(GTK_ENTRY(pass_entry),who->info->pass);
+		text_to_combo(pass_entry,who->info->pass);
+	else
+		text_to_combo(pass_entry,"");
 	if (who->info->username)
 		text_to_combo(user_entry,who->info->username);
 	if (who->config.get_user_agent())
 		text_to_combo(user_agent_entry,who->config.get_user_agent());
-	gtk_entry_set_visibility(GTK_ENTRY(pass_entry),FALSE);
 	/* initing labels
 	 */
 	GtkWidget *url_label=gtk_label_new("URL:");
@@ -220,6 +235,10 @@ void tDEdit::init_main(tDownload *who) {
 	GtkWidget *pass_label=gtk_label_new(_("password"));
 	GtkWidget *user_label=gtk_label_new(_("user name"));
 	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
+	/* set as default button
+	 */
+	GtkWidget *path_set_as_default=gtk_button_new_with_label(_("Default"));
+	gtk_signal_connect(GTK_OBJECT(path_set_as_default),"clicked",GTK_SIGNAL_FUNC(edit_browser_path_set_as_default),this);
 	/* initing boxes
 	 */
 	GtkWidget *url_box=gtk_hbox_new(FALSE,0);
@@ -227,9 +246,9 @@ void tDEdit::init_main(tDownload *who) {
 	GtkWidget *path_vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *file_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *file_vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
 	GtkWidget *pass_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *user_box=gtk_hbox_new(FALSE,0);
-	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
 	GtkWidget *dir_browser_button=gtk_button_new_with_label(_("Browse"));
 	GtkWidget *dir_browser_button2=gtk_button_new_with_label(_("Browse"));
 	gtk_signal_connect(GTK_OBJECT(dir_browser_button),"clicked",GTK_SIGNAL_FUNC(edit_browser_open),this);
@@ -243,12 +262,13 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_set_spacing(GTK_BOX(pass_box),5);
 	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
 	gtk_box_pack_start(GTK_BOX(url_box),url_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(url_box),url_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(url_box),url_entry,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(path_box),path_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(path_box),path_entry,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(path_box),dir_browser_button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(path_box),path_set_as_default,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_box,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(file_box),file_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(file_box),file_entry,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(file_box),dir_browser_button2,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(file_vbox),file_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(file_vbox),file_box,FALSE,FALSE,0);
@@ -257,7 +277,7 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(user_box),user_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_box),user_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_entry,TRUE,TRUE,0);
 
 	button=gtk_check_button_new_with_label(_("Use password for this site"));
 	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(edit_window_password),this);
@@ -570,7 +590,7 @@ void tDEdit::done_browser2() {
 int tDEdit::apply_changes() {
 	char *temp=copy_string(text_from_combo(url_entry));
 	del_crlf(temp);
-	tAddr *addr=aa.analize(temp);
+	tAddr *addr=make_addr_from_url(temp);
 	if (!addr) return 1;
 	delete (parent->info);
 	parent->info=addr;
@@ -578,13 +598,16 @@ int tDEdit::apply_changes() {
 		proxy->apply_changes(&(parent->config),1);
 	else
 		proxy->apply_changes(&(parent->config),0);
+	char *pass_string=text_from_combo(pass_entry);
 	if (GTK_TOGGLE_BUTTON(button)->active) {
-		if (strlen(text_from_combo(user_entry)) && gtk_entry_get_text(GTK_ENTRY(pass_entry))) {
+		if (strlen(text_from_combo(user_entry)) && strlen(pass_string)) {
 			if (parent->info->pass) delete(parent->info->pass);
 			if (parent->info->username) delete(parent->info->username);
 			parent->info->username=copy_string(text_from_combo(user_entry));
 			ALL_HISTORIES[USER_HISTORY]->add(parent->info->username);
-			parent->info->pass=copy_string(gtk_entry_get_text(GTK_ENTRY(pass_entry)));
+			parent->info->pass=copy_string(pass_string);
+			if (CFG.REMEMBER_PASS)
+				ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
 		};
 	};
 	parent->set_SavePath(text_from_combo(path_entry));
@@ -670,7 +693,7 @@ void tDEdit::toggle_time() {
 
 
 void tDEdit::setup_entries() {
-	gtk_entry_set_editable(GTK_ENTRY(pass_entry),GTK_TOGGLE_BUTTON(button)->active);
+	set_editable_for_combo(pass_entry,GTK_TOGGLE_BUTTON(button)->active);
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(user_entry)->entry),GTK_TOGGLE_BUTTON(button)->active);
 	gtk_widget_set_sensitive(user_entry,GTK_TOGGLE_BUTTON(button)->active);
 	gtk_widget_set_sensitive(pass_entry,GTK_TOGGLE_BUTTON(button)->active);
@@ -731,14 +754,14 @@ tDEdit::~tDEdit() {
 /*******************************************************/
 
 void proxy_toggle_pass_ftp(GtkWidget *parent,tProxyWidget *where) {
-	gtk_entry_set_editable(GTK_ENTRY(where->ftp_proxy_pass),GTK_TOGGLE_BUTTON(parent)->active);
+	set_editable_for_combo(where->ftp_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(where->ftp_proxy_user)->entry),GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->ftp_proxy_user,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->ftp_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
 };
 
 void proxy_toggle_pass_http(GtkWidget *parent,tProxyWidget *where) {
-	gtk_entry_set_editable(GTK_ENTRY(where->http_proxy_pass),GTK_TOGGLE_BUTTON(parent)->active);
+	set_editable_for_combo(where->http_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(where->http_proxy_user)->entry),GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->http_proxy_user,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->http_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
@@ -804,8 +827,12 @@ void tProxyWidget::init() {
 	gtk_box_pack_start(GTK_BOX(hbox),ftp_proxy_user,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
-	ftp_proxy_pass=gtk_entry_new();
-	gtk_entry_set_visibility(GTK_ENTRY(ftp_proxy_pass),FALSE);
+	if (CFG.REMEMBER_PASS)
+		ftp_proxy_pass=my_gtk_combo_new(ALL_HISTORIES[PASS_HISTORY]);
+	else{
+		ftp_proxy_pass=gtk_entry_new();
+		gtk_entry_set_visibility(GTK_ENTRY(ftp_proxy_pass),FALSE);
+	};
 	gtk_widget_set_usize(ftp_proxy_pass,100,-1);
 
 	label=gtk_label_new(_("password"));
@@ -847,7 +874,7 @@ void tProxyWidget::init() {
 
 	gtk_signal_connect(GTK_OBJECT(http_proxy_user_check),"clicked",GTK_SIGNAL_FUNC(proxy_toggle_pass_http),this);
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_user_check,FALSE,0,0);
-	//    http_proxy_user=gtk_entry_new();
+
 	http_proxy_user=my_gtk_combo_new(ALL_HISTORIES[USER_HISTORY]);
 	gtk_widget_set_usize(http_proxy_user,100,-1);
 
@@ -857,8 +884,12 @@ void tProxyWidget::init() {
 	gtk_box_pack_start(GTK_BOX(hbox),http_proxy_user,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
-	http_proxy_pass=gtk_entry_new();
-	gtk_entry_set_visibility(GTK_ENTRY(http_proxy_pass),FALSE);
+	if (CFG.REMEMBER_PASS)
+		http_proxy_pass=my_gtk_combo_new(ALL_HISTORIES[PASS_HISTORY]);
+	else{
+		http_proxy_pass=gtk_entry_new();
+		gtk_entry_set_visibility(GTK_ENTRY(http_proxy_pass),FALSE);
+	};
 	gtk_widget_set_usize(http_proxy_pass,100,-1);
 
 	label=gtk_label_new(_("password"));
@@ -883,7 +914,9 @@ void tProxyWidget::init_state() {
 	if (CFG.FTP_PROXY_HOST)
 		text_to_combo(ftp_proxy_host,CFG.FTP_PROXY_HOST);
 	if (CFG.FTP_PROXY_PASS)
-		gtk_entry_set_text(GTK_ENTRY(ftp_proxy_pass),CFG.FTP_PROXY_PASS);
+		text_to_combo(ftp_proxy_pass,CFG.FTP_PROXY_PASS);
+	else
+		text_to_combo(ftp_proxy_pass,"");
 	GTK_TOGGLE_BUTTON(http_proxy_user_check)->active=CFG.NEED_PASS_HTTP_PROXY;
 	GTK_TOGGLE_BUTTON(http_proxy_check)->active=CFG.USE_PROXY_FOR_HTTP;
 	if (CFG.HTTP_PROXY_HOST)
@@ -896,7 +929,7 @@ void tProxyWidget::init_state() {
 	if (CFG.HTTP_PROXY_USER)
 		text_to_combo(http_proxy_user,CFG.HTTP_PROXY_USER);
 	if (CFG.HTTP_PROXY_PASS)
-		gtk_entry_set_text(GTK_ENTRY(http_proxy_pass),CFG.HTTP_PROXY_PASS);
+		text_to_combo(http_proxy_pass,CFG.HTTP_PROXY_PASS);
 	proxy_toggle_pass_ftp(ftp_proxy_user_check,this);
 	proxy_toggle_pass_http(http_proxy_user_check,this);
 	if (CFG.FTP_PROXY_TYPE) {
@@ -921,8 +954,9 @@ void tProxyWidget::init_state(tCfg *cfg,int proto) {
 			if (cfg->get_proxy_user() && cfg->get_proxy_pass()) {
 				GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active=TRUE;
 				text_to_combo(ftp_proxy_user,cfg->get_proxy_user());
-				gtk_entry_set_text(GTK_ENTRY(ftp_proxy_pass),cfg->get_proxy_pass());
-			};
+				text_to_combo(ftp_proxy_pass,cfg->get_proxy_pass());
+			}else
+				GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active=FALSE;
 		} else
 			GTK_TOGGLE_BUTTON(ftp_proxy_check)->active=FALSE;
 		proxy_toggle_pass_ftp(ftp_proxy_user_check,this);
@@ -938,10 +972,12 @@ void tProxyWidget::init_state(tCfg *cfg,int proto) {
 			if (cfg->get_proxy_user() && cfg->get_proxy_pass()) {
 				GTK_TOGGLE_BUTTON(http_proxy_user_check)->active=TRUE;
 				text_to_combo(http_proxy_user,cfg->get_proxy_user());
-				gtk_entry_set_text(GTK_ENTRY(http_proxy_pass),cfg->get_proxy_pass());
-			};
-		} else
+				text_to_combo(http_proxy_pass,cfg->get_proxy_pass());
+			}else
+				GTK_TOGGLE_BUTTON(http_proxy_user_check)->active=FALSE;
+		} else{
 			GTK_TOGGLE_BUTTON(http_proxy_check)->active=FALSE;
+		};
 		proxy_toggle_pass_http(http_proxy_user_check,this);
 	};
 	if (cfg->proxy_type) {
@@ -966,7 +1002,7 @@ void tProxyWidget::apply_changes() {
 	if (CFG.FTP_PROXY_USER) delete CFG.FTP_PROXY_USER;
 	CFG.FTP_PROXY_USER=copy_string(text_from_combo(ftp_proxy_user));
 	if (CFG.FTP_PROXY_PASS) delete CFG.FTP_PROXY_PASS;
-	CFG.FTP_PROXY_PASS=copy_string(gtk_entry_get_text(GTK_ENTRY(ftp_proxy_pass)));
+	CFG.FTP_PROXY_PASS=copy_string(text_from_combo(ftp_proxy_pass));
 
 	if (CFG.HTTP_PROXY_HOST) delete CFG.HTTP_PROXY_HOST;
 	CFG.HTTP_PROXY_HOST=copy_string(text_from_combo(http_proxy_host));
@@ -974,7 +1010,7 @@ void tProxyWidget::apply_changes() {
 	if (CFG.HTTP_PROXY_USER) delete CFG.HTTP_PROXY_USER;
 	CFG.HTTP_PROXY_USER=copy_string(text_from_combo(http_proxy_user));
 	if (CFG.HTTP_PROXY_PASS) delete CFG.HTTP_PROXY_PASS;
-	CFG.HTTP_PROXY_PASS=copy_string(gtk_entry_get_text(GTK_ENTRY(http_proxy_pass)));
+	CFG.HTTP_PROXY_PASS=copy_string(text_from_combo(http_proxy_pass));
 	if (strlen(CFG.HTTP_PROXY_USER)) ALL_HISTORIES[USER_HISTORY]->add(CFG.HTTP_PROXY_USER);
 	if (strlen(CFG.FTP_PROXY_USER)) ALL_HISTORIES[USER_HISTORY]->add(CFG.FTP_PROXY_USER);
 	if (GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active) {
@@ -987,19 +1023,24 @@ void tProxyWidget::apply_changes() {
 		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(ftp_proxy_host));
 	if (strlen(text_from_combo(http_proxy_host)))
 		ALL_HISTORIES[PROXY_HISTORY]->add(text_from_combo(http_proxy_host));
+	if (CFG.REMEMBER_PASS){
+		if (CFG.HTTP_PROXY_PASS && strlen(CFG.HTTP_PROXY_PASS))
+			ALL_HISTORIES[PASS_HISTORY]->add(CFG.HTTP_PROXY_PASS);
+		if (CFG.FTP_PROXY_PASS  && strlen(CFG.FTP_PROXY_PASS))
+			ALL_HISTORIES[PASS_HISTORY]->add(CFG.FTP_PROXY_PASS);
+	};
 };
 
 void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
+	cfg->reset_proxy();
 	if (proto) {
 		if (GTK_TOGGLE_BUTTON(ftp_proxy_check)->active) {
 			cfg->set_proxy_host(text_from_combo(ftp_proxy_host));
 			sscanf(gtk_entry_get_text(GTK_ENTRY(ftp_proxy_port)),"%i",&(cfg->proxy_port));
-			if (GTK_TOGGLE_BUTTON(http_proxy_user_check)->active) {
+			if (GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active) {
 				cfg->set_proxy_user(text_from_combo(ftp_proxy_user));
-				cfg->set_proxy_pass(gtk_entry_get_text(GTK_ENTRY(ftp_proxy_pass)));
+				cfg->set_proxy_pass(text_from_combo(ftp_proxy_pass));
 			};
-		} else {
-			cfg->reset_proxy();
 		};
 	} else {
 		if (GTK_TOGGLE_BUTTON(http_proxy_check)->active) {
@@ -1007,10 +1048,8 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 			sscanf(gtk_entry_get_text(GTK_ENTRY(http_proxy_port)),"%i",&(cfg->proxy_port));
 			if (GTK_TOGGLE_BUTTON(http_proxy_user_check)->active) {
 				cfg->set_proxy_user(text_from_combo(http_proxy_user));
-				cfg->set_proxy_pass(gtk_entry_get_text(GTK_ENTRY(http_proxy_pass)));
+				cfg->set_proxy_pass(text_from_combo(http_proxy_pass));
 			};
-		} else {
-			cfg->reset_proxy();
 		};
 	};
 	if (strlen(text_from_combo(ftp_proxy_user)))

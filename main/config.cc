@@ -38,11 +38,11 @@ tOption downloader_parsed_args[]={
 	{"--speed",		OPT_SPEED},
 	{"-s",			OPT_SPEED},
 	{"-t1",			OPT_TRAFFIC_LOW},
-	{"--trafic-low",	OPT_TRAFFIC_LOW},
+	{"--traffic-low",	OPT_TRAFFIC_LOW},
 	{"-t2",			OPT_TRAFFIC_MIDDLE},
-	{"--trafic-middle",	OPT_TRAFFIC_MIDDLE},
+	{"--traffic-middle",	OPT_TRAFFIC_MIDDLE},
 	{"-t3",			OPT_TRAFFIC_HIGH},
-	{"--trafic-high",	OPT_TRAFFIC_HIGH}
+	{"--traffic-high",	OPT_TRAFFIC_HIGH}
 };
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
 
@@ -462,6 +462,10 @@ void set_config(char *line) {
 			CFG.EXEC_WHEN_QUIT=copy_string(line+strlen("exec_when_quit")+1);
 			return;
 		};
+		if (equal(temp,"remember_pass")) {
+			CFG.REMEMBER_PASS=prom;
+			return;
+		};
 	};
 };
 
@@ -481,7 +485,7 @@ void read_config() {
 	if (!HOME_VARIABLE)	return;
 	char *cfgpath=compose_path(HOME_VARIABLE,CFG_FILE);
 	int fd=open(cfgpath,O_RDONLY);
-	if (fd>0) {
+	if (fd>=0) {
 		char temp[MAX_LEN];
 		init_columns_info();
 		while(read_string(fd,temp,MAX_LEN)) {
@@ -503,6 +507,8 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[FILE_HISTORY],".ntrc/history7",0);
 	load_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8",0);
 	load_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9",0);
+	if (CFG.REMEMBER_PASS) 
+		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");	
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.05");	
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");	
@@ -538,7 +544,7 @@ void save_config() {
 		delete cfg_dir;
 	};
 	char data[MAX_LEN];
-	if (fd>0) {
+	if (fd>=0) {
 		save_integer_to_config(fd,"max_threads",CFG.MAX_THREADS);
 		save_integer_to_config(fd,"max_log",CFG.MAX_LOG_LENGTH);
 		save_integer_to_config(fd,"max_main_log",CFG.MAX_MAIN_LOG_LENGTH);
@@ -645,6 +651,7 @@ void save_config() {
 		save_hex_integer_to_config(fd,"graph_fore2",CFG.GRAPH_FORE2);
 		save_hex_integer_to_config(fd,"graph_pick",CFG.GRAPH_PICK);
 		save_string_to_config(fd,"exec_when_quit",CFG.EXEC_WHEN_QUIT);
+		save_integer_to_config(fd,"remember_pass",CFG.REMEMBER_PASS);
 		close(fd);
 	} else {
 		if (MainLog) {
@@ -662,6 +669,7 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[FILE_HISTORY],".ntrc/history7");
 	save_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8");
 	save_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9");
+	save_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10");
 	delete cfgpath;
 };
 
@@ -688,7 +696,7 @@ void load_strlist(tStringList *where,char *what,int normalize) {
 	char *path=compose_path(HOME_VARIABLE,what);
 	int fd=open(path,O_RDONLY);
 	where->done();
-	if (fd>0) {
+	if (fd>=0) {
 		char temp[MAX_LEN];
 		char *cur=temp;
 		int len=0;
@@ -715,7 +723,7 @@ void read_limits() {
 	if (!HOME_VARIABLE) return;
 	char *path=compose_path(HOME_VARIABLE,".ntrc/limits");
 	int fd=open(path,O_RDONLY);
-	if (fd>0) {
+	if (fd>=0) {
 		char temp[MAX_LEN];
 		while (read_string(fd,temp,MAX_LEN)) {
 			char temp1[MAX_LEN];
@@ -739,7 +747,7 @@ void save_limits() {
 	if (!HOME_VARIABLE) return;
 	char *path=compose_path(HOME_VARIABLE,".ntrc/limits");
 	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
-	if (fd>0) {
+	if (fd>=0) {
 		tSortString *tmp=LimitsForHosts->last();
 		while (tmp) {
 			char data[MAX_LEN];

@@ -1,3 +1,65 @@
+Mon Jan 17 08:42:32 2000
+	*Makefile: minor cleanups;
+	*httpd.cc: fixed http parsing;
+	*config.cc: fixed reading config;
+	*main.cc,face/lod.cc,face/edit.cc,face/prefs.cc: minor fixes;
+
+Sat Jan 15 09:25:16 2000
+	*httpd.cc: fixed some memory leaks in parsing htmls;
+	*signal.cc: fixed probablility of segfaulting on old pthreads;
+	*po/: fr.po updated;
+
+Fri Jan 14 14:41:42 2000
+	*main/*.*: codecleanups, fixed some memory leaks when parsing
+	    html files;
+
+Thu Jan 13 09:56:12 2000
+	*face/edit.cc: fixed initialisation and handling proxy dialog;
+	*hproxy.cc: fixed authorisation via proxy;
+
+Wed Jan 12 16:10:03 2000
+	*main.cc,sortstr.cc[h],face/limface.cc[h]: added one column to dialog
+	    of limits;
+	*po/ru.po: spell checkings;
+	*ftpd.cc: fixed memory boundaries when downloading via ftp proxy;
+	*face/limface.cc: fixed adding new limitation when user just 
+	    change another one;
+
+Tue Jan 11 09:40:10 2000
+	*main.cc,log.cc,socket.cc: some BSD related changes from patches of
+	    Ying-Chieh Liao <ijliao@csie.nctu.edu.tw>;
+	*main.cc,config.cc,var.cc[h],face/prefs.cc,face/misc.cc,face/edit.cc:
+	    added ability to remember passwords;
+	*locstr.cc: slightly changed time displaying;
+	*face/edit.cc: now downloads will automaticaly start after
+	    editing;
+	*face/lod.cc[h]: added Shift+PageUp/PageDown keys handlers; 
+
+Tue Jan 11 00:24:56 2000
+	*main.cc[h],locstr.cc: code cleanups;
+	*httpd.cc: probably fix resuming via http when ETag was changes;
+
+Sun Jan  9 14:19:39 2000
+	*face/list.cc,var.cc[h],main.cc: new global variable GLOBAL_SLEEP_DELAY;
+	*nt.cc: code cleanups;
+	*ftpd.cc: fixed parsing time from server;
+
+Sat Jan  8 09:38:09 2000
+	*po/: updated es.po;
+	*base64.cc: remove unneccessary remarks;
+	*mainlog.cc: codecleanups;
+
+Fri Jan  7 17:55:20 2000
+	*face/list.cc,face/dndtrash.cc[h]:destroying dnd_trash window before
+	    exiting;
+	*main/*.*: merge patch for warnings free while compilation with gcc;
+
+Thu Jan  6 15:11:22 2000
+	*po/: fr.po is updated;
+
+Wed Dec 29 09:12:47 1999
+	*po/: nl.po is uptodate;
+
 Tue Dec 28 09:40:49 1999
 	*main/*.*: code cleanups and optimisations which are related 
 	    with histories;

@@ -34,7 +34,7 @@ static gint list_menu_clear_main_log(GtkWidget *widget, tMLog *Log) {
 	return TRUE;
 };
 
-static void main_log_event_handler(	GtkWidget *clist, gint row, gint column,
+static void main_log_event_handler( GtkWidget *clist, gint row, gint column,
                                     GdkEventButton *event,tMLog *parent) {
 	if (event) {
 		if (event->type==GDK_2BUTTON_PRESS && event->button==1) {
@@ -62,10 +62,9 @@ void tMLog::reinit(int a) {
 
 void tMLog::add_to_list() {
 	tLogString *str=(tLogString *)Last;
-	char a[MAX_LEN],useless[MAX_LEN],useful[MAX_LEN];
-	sprintf(a,"%s ",ctime(&str->time));
-	del_crlf(a);
-	sscanf(a,"%s %s %s %s",useless,useless,useless,useful);
+	struct tm *msgtime=gmtime(&(str->time));
+	char useful[MAX_LEN];
+	strftime(useful,MAX_LEN,"%T",msgtime);
 	char *data[]={useful,str->body};
 	int row=gtk_clist_append(list,data);
 	GdkColor color;
@@ -102,10 +101,8 @@ void tMLog::add_to_list() {
 	gdk_color_alloc (colormap, &color);
 	gtk_clist_set_foreground(list,row,&color);
 	if (fd) {
-		*useful=0;
-		strcat(useful,index(a,' ')+1);
-		strcat(useful," ");
-		if (write(fd,&str_type,1)<0 || write(fd,useful,strlen(useful))<0 || write(fd,str->body,strlen(str->body))<0 || write(fd,"\n",strlen("\n"))<0) {
+		strftime(useful,MAX_LEN,"%T %d %b %Y ",msgtime);
+		if (write(fd,&str_type,sizeof(str_type))<0 || write(fd,useful,strlen(useful))<0 || write(fd,str->body,strlen(str->body))<0 || write(fd,"\n",strlen("\n"))<0) {
 			close(fd);
 			fd=0;
 			add(_("Can't write to file interrupting write to file"),LOG_ERROR);

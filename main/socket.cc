@@ -9,6 +9,9 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#if (defined(__unix__) || defined(unix)) && !defined(USG)
+#include <sys/param.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,6 +40,7 @@ int tSocket::constr_name(char *host,int port) {
 		if (!buffer) buffer=new char[MAX_LEN];
 		hostent *hpr=&hp;
 		temp_variable=0;
+#if !(defined(BSD) && (BSD >= 199306))
 #ifdef __sparc__
 		gethostbyname_r(host,&hp,buffer,MAX_LEN,&temp_variable);
 #else
@@ -44,11 +48,14 @@ int tSocket::constr_name(char *host,int port) {
 #endif
 		if (temp_variable) return -1;
 		memcpy((char *)&info.sin_addr,(char *)hpr->h_addr,hpr->h_length);
-		/*
+#else /* !(defined(BSD) && (BSD >= 199306)) */
+/* It seems that reentrant variant
+   of gethostbyname is not available under BSD
+ */
 		hostent *hp=gethostbyname(host);
 		if (!hp) return -1;
 		memcpy((char *)&info.sin_addr,(char *)hp->h_addr,hp->h_length);
-		*/
+#endif /* !(defined(BSD) && (BSD >= 199306)) */
 	} else info.sin_addr.s_addr=INADDR_ANY;
 	info.sin_port=htons(port);
 	return sizeof(info);

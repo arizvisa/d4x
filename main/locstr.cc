@@ -145,12 +145,12 @@ void convert_time(int what,char *where) {
 	char tmp[MAX_LEN];
 	*where=0;
 	if (hours>0) {
-		convert_int_to_2(hours,tmp);
-		strcat(where,tmp);
+		sprintf(where,"%i",hours);
 		strcat(where,":");
-	};
-	convert_int_to_2(mins,tmp);
-	strcat(where,tmp);
+		convert_int_to_2(mins,tmp);
+		strcat(where,tmp);
+	}else
+		sprintf(where,"%i",mins);
 	if (!CFG.TIME_FORMAT) {
 		strcat(where,":");
 		convert_int_to_2(secs,tmp);
@@ -170,14 +170,10 @@ void string_to_low(char *what) {
 void string_to_low(char *what,char delim) {
 	if (what==NULL) return;
 	char *temp=index(what,delim);
-	if (temp) {
-		while (what!=temp) {
-			if (*what>='A' && *what<='Z')
-				*what+='a'-'A';
-			what+=1;
-		};
-	} else {
-		string_to_low(what);
+	while (*what && what!=temp) {
+		if (*what>='A' && *what<='Z')
+			*what+='a'-'A';
+		what+=1;
 	};
 };
 
@@ -195,7 +191,7 @@ char *parse_percents(char *what) {
 	/* In the case if string not needed to correct
 	 */
 	if (what==NULL || index(what,'%')==NULL) return NULL;
-	/* Next string is too ugly because I use "new" in separate thread;
+	/* Next string is too ugly because I use "new" in separate threads;
 	 */
 	char *temp=new char[strlen(what)];
 	char *percent,*where=temp,*old=what;
@@ -235,26 +231,30 @@ void convert_to_hex(char what,char *where) {
 
 char *unparse_percents(char *what) {
 	if (what==NULL) return NULL;
-	char *true_chars=".-+";
-	int len=strlen(what);
+	const char *true_chars=".-+";
+	char *temp=what;
 	int unparsed_len=0;
-	for (int i=0;i<len;i++){
-		if ((what[i]<'/' || what[i]>'z') && index(true_chars,what[i])==NULL)
+
+	while (*temp){
+		if ((*temp<'/' || *temp>'z') && index(true_chars,*temp)==NULL)
 			unparsed_len+=3;
 		else
 			unparsed_len+=1;
+		temp+=1;
 	};
 	char *rvalue=new char[unparsed_len+1];
 	char *cur=rvalue;
-	for (int i=0;i<len;i++){
-		if ((what[i]<'/' || what[i]>'z') && index(true_chars,what[i])==NULL){
+	temp=what;
+	while (*temp){
+		if ((*temp<'/' || *temp>'z') && index(true_chars,*temp)==NULL){
 			*cur='%';
 			cur+=1;
-			convert_to_hex(what[i],cur);
+			convert_to_hex(*temp,cur);
 			cur+=1;
 		}else
-			*cur=what[i];
+			*cur=*temp;
 		cur+=1;
+		temp+=1;
 	};
 	*cur=0;
 	return rvalue;
@@ -270,8 +270,7 @@ void del_crlf(char *what) {
 
 void make_number_nice(char *where,int num) {
 	switch (CFG.NICE_DEC_DIGITALS.curent) {
-		case 1:
-			{
+		case 1:	{
 				sprintf(where,"%i",num);
 				int len=strlen(where);
 				if (len<4) return;
@@ -283,12 +282,11 @@ void make_number_nice(char *where,int num) {
 				where[len]=0;
 				break;
 			};
-		case 2:
-			{
-				int megs,kils;
-				kils=num/1024;
-				megs=kils/1024;
+		case 2:	{
+				int megs;
+				megs=num/(1024*1024);
 				if (megs==0) {
+					int kils=num/1024;
 					if (kils==0)
 						sprintf(where,"%i",num);
 					else
@@ -302,13 +300,6 @@ void make_number_nice(char *where,int num) {
 	};
 };
 
-/*
- * This function extract string from string with spaces
- * for example:
- * given the string '  aa  '
- * extracted value will be 'aa'
- */
-
 int is_string(char *what){
 	if (!what) return 0;
 	char *curent=what;
@@ -319,27 +310,24 @@ int is_string(char *what){
 	return 0;
 };
 
+/*
+ * This function extract string from string with spaces
+ * for example:
+ * given the string '  aa  blala'
+ * extracted value will be 'aa'
+ */
+
 char *extract_string(char *src,char *dst) {
 	if (!src || !dst) return src;
 	char *tmp=src;
 	while (*tmp==' ') tmp++;
 	char *space=index(tmp,' ');
-	if (space) {
-		while (tmp!=space) {
-			*dst=*tmp;
-			dst++;
-			tmp++;
-		};
-		*dst=0;
-	} else {
-		int a=strlen(tmp);
-		for (int i=0;i<a;i++) {
-			*dst=*tmp;
-			dst++;
-			tmp++;
-		};
-		*dst=0;
+	while (*tmp && tmp!=space) {
+		*dst=*tmp;
+		dst++;
+		tmp++;
 	};
+	*dst=0;
 	return tmp;
 };
 
@@ -358,6 +346,18 @@ char *extract_from_prefixed_string(char *str,char *begin){
 	del_crlf(rvalue);
 	return rvalue;
 };
+
+char *skip_strings(char *src,int num){
+	char *tmp=src;
+	for (int i=0;i<num;i++) {
+		char *tmp1=index(tmp,' ');
+		if (tmp1) while (*tmp1==' ') tmp1++;
+		else break;
+		tmp=tmp1;
+	};
+	return tmp;
+};
+
 
 int convert_month(char *src) {
 	if (!src) return 0;
@@ -456,8 +456,7 @@ void normalize_path(char *src) {
 		src[len-1]=0;
 		//		len=strlen(src);
 		len-=1;
-	}
-	;
+	};
 };
 
 char *compose_path(const char *left,const char *right) {
@@ -546,3 +545,124 @@ int get_permisions_from_int(int a){
 	return rvalue;
 };
 
+/* parsing url */
+struct tTwoStrings{
+    char *one;
+    char *two;
+    tTwoStrings();
+    void zero();
+    ~tTwoStrings();
+};
+
+tTwoStrings::tTwoStrings() {
+	one=two=NULL;
+};
+
+void tTwoStrings::zero() {
+	one=two=NULL;
+};
+
+tTwoStrings::~tTwoStrings() {};
+
+int get_port_by_proto(char *proto) {
+	if (proto) {
+		if (equal_uncase(proto,"ftp")) return 21;
+		if (equal_uncase(proto,"http")) return 80;
+	};
+	return 21;
+};
+
+void split_string(char *what,char *delim,tTwoStrings *out) {
+	char * where=strstr(what,delim);
+	if (where) {
+		int len=strlen(where),len1=strlen(delim);
+		out->two=copy_string(where+len1);
+		len1=strlen(what)-len;
+		out->one=copy_string(what,len1);
+	} else {
+		out->two=copy_string(what);
+		out->one=NULL;
+	};
+	delete(what);
+};
+
+
+tAddr *make_addr_from_url(char *what) {
+	tTwoStrings pair;
+	split_string(what,"://",&pair);
+	tAddr *out=new tAddr;
+	if (pair.one) {
+		out->protocol=pair.one;
+	} else {
+		out->protocol=copy_string(DEFAULT_PROTO);
+	};
+	out->host=pair.two;
+	if (!out->host) {
+		delete(out);
+		return NULL;
+	};
+	split_string(out->host,"/",&pair);
+	if (pair.one) {
+		out->host=pair.one;
+		out->file=pair.two;
+	} else {
+		out->host=pair.two;
+		out->file=pair.one;
+	};
+	split_string(out->host,"@",&pair);
+	out->host=pair.two;
+	out->username=pair.one;
+	if (out->username) {
+		split_string(out->username,":",&pair);
+		out->username=pair.one;
+		out->pass=pair.two;
+	} else {
+		out->username=NULL;
+		out->pass=NULL;
+	};
+	if (out->file) {
+		char *tmp=parse_percents(out->file);
+		if (tmp) {
+			delete out->file;
+			out->file=tmp;
+		} else
+			delete tmp;
+		char *prom=rindex(out->file,'/');
+		if (prom) {
+			out->path=copy_string(prom+1);
+			*prom=0;
+			prom=out->path;
+			out->path=sum_strings("/",out->file);
+			delete out->file;
+			out->file=prom;
+		};
+	} else {
+		out->file=copy_string("");
+	};
+	if (!out->path) out->path=copy_string("/");
+	split_string(out->host,":",&pair);
+	if (pair.one) {
+		sscanf(pair.two,"%i",&out->port);
+		delete pair.two;
+		out->host=pair.one;
+	} else {
+		out->port=0;
+		out->host=pair.two;
+	};
+	if (equal_uncase(out->protocol,"ftp") && index(out->file,'*'))
+		out->mask=1;
+	/* Parse # in http urls
+	 */
+	if (equal_uncase(out->protocol,"http") && out->file!=NULL) {
+		char *tmp=index(out->file,'#');
+		if (tmp) {
+			*tmp=0;
+			tmp=out->file;
+			out->file=copy_string(tmp);
+			delete(tmp);
+		};
+	};
+	if (out->port==0)
+		out->port=get_port_by_proto(out->protocol);
+	return out;
+};

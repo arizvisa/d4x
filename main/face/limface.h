@@ -23,6 +23,7 @@ struct tLimitDialog:public tDialog{
 	tLimitDialog();
 	int init();
 	void set_old(char *host,int port);
+	void done();
 	void reset_old();
 	~tLimitDialog();
 };
@@ -43,6 +44,7 @@ class tFaceLimits{
 		void open_dialog();
 		void redraw();
 		void apply_dialog();
+		void update_row(int row);
 		void open_row(int row);
 		void delete_rows();
 		void get_sizes();

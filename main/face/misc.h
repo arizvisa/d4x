@@ -17,5 +17,6 @@ GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm);
 GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm,GtkWidget *parent);
 gchar *text_from_combo(GtkWidget *combo);
 void text_to_combo(GtkWidget *combo,gchar *text);
+void set_editable_for_combo(GtkWidget *widget,gboolean flag);
 void motion_notify_get_coords(GdkEventMotion * event);
 #endif

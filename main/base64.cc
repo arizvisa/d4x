@@ -24,12 +24,6 @@ char Table64[64]={  'A','B','C','D','E','F','G','H',
 };
 
 void three_to_four(unsigned char *what,unsigned char *where) {
-	/*
-		*where=*what & 63;
-		*(where+1)=(((*what >> 6) & 3) | (*(what+1) << 2)) & 63;
-		*(where+2)=(((*(what+1) >> 4) & 15) | (*(what+2) << 4)) &63;
-		*(where+3)=(*(what+2) >> 2) & 63;
-	*/
 	*where=(*what >> 2) & 63;
 	*(where+1)=((*what << 4) | (*(what+1) >> 4)) & 63;
 	*(where+2)=((*(what+1) << 2) | (*(what+2) >> 6)) & 63;

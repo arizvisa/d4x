@@ -35,11 +35,26 @@ GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm) {
 };
 
 gchar *text_from_combo(GtkWidget *combo) {
-	return(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry)));
+	if (GTK_IS_COMBO(combo))
+		return(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry)));
+	else
+		return(gtk_entry_get_text(GTK_ENTRY(combo)));
 };
 
-void text_to_combo(GtkWidget *combo,gchar *text) {
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(combo)->entry),text);
+void text_to_combo(GtkWidget *widget,gchar *text) {
+	if (GTK_IS_COMBO(widget))
+		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(widget)->entry),text);
+	else
+		if (GTK_IS_ENTRY(widget))
+			gtk_entry_set_text(GTK_ENTRY(widget),text);
+};
+
+void set_editable_for_combo(GtkWidget *widget,gboolean flag){
+	if (GTK_IS_COMBO(widget))
+		gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),flag);
+	else
+		if (GTK_IS_ENTRY(widget))
+			gtk_entry_set_editable(GTK_ENTRY(widget),flag);
 };
 
 void motion_notify_get_coords(GdkEventMotion * event){

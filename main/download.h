@@ -77,14 +77,14 @@ class tDownloader{
     int Status;
     char *HOST,*USER,*PASS,*D_PATH;
     tFileInfo D_FILE;
-	int D_PORT;
-	int MASK;
-	int StartSize;
+    int D_PORT;
+    int MASK;
+    int StartSize;
     int data;
     int rollback(int offset);
-	virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
-	virtual void make_full_pathes(const char *path,char **name,char **guess);
-    public:
+    virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+    virtual void make_full_pathes(const char *path,char **name,char **guess);
+ public:
     	tDownloader();
     	int treat();
      	int get_status();
@@ -105,7 +105,7 @@ class tDownloader{
     	virtual int get_size()=0;
      	virtual char *get_new_url();
      	virtual int reget()=0;
-		virtual tStringList *dir()=0;
+	virtual tStringList *dir()=0;
      	virtual int another_way_get_size();
      	virtual char *get_real_name();
     	virtual int download(unsigned int from,unsigned int len)=0;

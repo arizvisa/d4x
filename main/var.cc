@@ -27,8 +27,8 @@ tMainCfg CFG={
     0xFFFFFF,0x555555,0xAAAAAA,0,
     NULL,0,NULL,NULL,1,NULL,0,NULL,NULL,0,0,0,0,
     1,1,1,1,1,
-    3,2*1024,20*1024,
-    NULL
+    3,1024,10*1024,
+    NULL,0
 };
 
 char *DEFAULT_PROTO="ftp";
@@ -41,3 +41,4 @@ tHistory *ALL_HISTORIES[LAST_HISTORY];
 tHostsLimits *LimitsForHosts=NULL;
 tDB *ALL_DOWNLOADS;
 char *HOME_VARIABLE=NULL;
+int GLOBAL_SLEEP_DELAY=2;

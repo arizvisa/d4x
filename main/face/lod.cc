@@ -21,31 +21,31 @@
 #include "../main.h"
 #include "../var.h"
 
-GtkWidget *ListOfDownloads=NULL;
+GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
 
 GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
 GdkBitmap *list_of_downloads_bitmaps[PIX_UNKNOWN];
 
 GdkBitmap *wait_mask,*stop_mask,*pause_mask,*complete_mask,*run_mask,*part_run_mask,*run_bad_mask,*stop_wait_mask;
-GdkPixmap *wait_pixmap=NULL,*stop_pixmap=NULL,*pause_pixmap=NULL,*complete_pixmap=NULL;
-GdkPixmap *run_pixmap=NULL,*part_run_pixmap=NULL,*run_bad_pixmap=NULL,*stop_wait_pixmap=NULL;
+GdkPixmap *wait_pixmap=(GdkPixmap *)NULL,*stop_pixmap=(GdkPixmap *)NULL,*pause_pixmap=(GdkPixmap *)NULL,*complete_pixmap=(GdkPixmap *)NULL;
+GdkPixmap *run_pixmap=(GdkPixmap *)NULL,*part_run_pixmap=(GdkPixmap *)NULL,*run_bad_pixmap=(GdkPixmap *)NULL,*stop_wait_pixmap=(GdkPixmap *)NULL;
 
 gint SizeListOfDownloads;
 gchar *ListTitles[]={" ","File","Type","Full Size","Downloaded","Rest","%","Speed","Time","Remaining","Pause","Attempt","URL"," "};
-tColumn ListColumns[]={	{STATUS_COL,STATUS_COL,NULL,25},
-						{FILE_COL,FILE_COL,NULL,100},
-						{FILE_TYPE_COL,FILE_TYPE_COL,NULL,40},
-						{FULL_SIZE_COL,FULL_SIZE_COL,NULL,70},
-						{DOWNLOADED_SIZE_COL,DOWNLOADED_SIZE_COL,NULL,70},
-						{REMAIN_SIZE_COL,REMAIN_SIZE_COL,NULL,70},
-						{PERCENT_COL,PERCENT_COL,NULL,30},
-						{SPEED_COL,SPEED_COL,NULL,60},
-						{TIME_COL,TIME_COL,NULL,60},
-						{ELAPSED_TIME_COL,ELAPSED_TIME_COL,NULL,60},
-						{PAUSE_COL,PAUSE_COL,NULL,40},
-						{TREAT_COL,TREAT_COL,NULL,40},
-						{URL_COL,URL_COL,NULL,500},
-						{NOTHING_COL,NOTHING_COL,NULL,0}};
+tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
+						{FILE_COL,FILE_COL,				(char *)NULL,100},
+						{FILE_TYPE_COL,FILE_TYPE_COL,			(char *)NULL,40},
+						{FULL_SIZE_COL,FULL_SIZE_COL,			(char *)NULL,70},
+						{DOWNLOADED_SIZE_COL,DOWNLOADED_SIZE_COL,	(char *)NULL,70},
+						{REMAIN_SIZE_COL,REMAIN_SIZE_COL,		(char *)NULL,70},
+						{PERCENT_COL,PERCENT_COL,			(char *)NULL,30},
+						{SPEED_COL,SPEED_COL,				(char *)NULL,60},
+						{TIME_COL,TIME_COL,				(char *)NULL,60},
+						{ELAPSED_TIME_COL,ELAPSED_TIME_COL,		(char *)NULL,60},
+						{PAUSE_COL,PAUSE_COL,				(char *)NULL,40},
+						{TREAT_COL,TREAT_COL,				(char *)NULL,40},
+						{URL_COL,URL_COL,				(char *)NULL,500},
+						{NOTHING_COL,NOTHING_COL,			(char *)NULL,0}};
 
 /******************************************************************
     This part of code for DnD (Drag-n-Drop) support added by
@@ -96,7 +96,7 @@ tDownload *list_of_downloads_last_selected() {
 		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
 		return temp;
 	};
-	return NULL;
+	return((tDownload *)NULL);
 };
 
 void list_of_downloads_change_data(int row,int column,gchar *data) {
@@ -133,7 +133,7 @@ void list_of_downloads_add(tDownload *what) {
 void list_of_downloads_add(tDownload *what,int row) {
 	gchar *data[NOTHING_COL+1];
 	for (int i=STATUS_COL;i<=URL_COL;i++)
-		data[i]=NULL;
+		data[i]=(gchar *)NULL;
 	gtk_clist_insert(GTK_CLIST(ListOfDownloads),row,data);
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),row,what);
 	list_of_downloads_change_data(row,FILE_COL,what->info->file);
@@ -221,14 +221,14 @@ static gint compare_nodes2(gconstpointer a,gconstpointer b){
     return 1;
 };
 
-void list_of_downloads_move_selected_up(){
+int list_of_downloads_move_selected_up(){
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
-	if (select==NULL) return;
+	if (select==NULL) return 0;
 	select=((GtkCList *)ListOfDownloads)->selection;
 	GList *sorted_select=g_list_copy(select);
 	sorted_select=g_list_sort(sorted_select,compare_nodes1);
 	select=sorted_select;
-	if (GPOINTER_TO_INT(select->data)<=0) return;
+	if (GPOINTER_TO_INT(select->data)<=0) return 0;
 	list_of_downloads_freeze();
 	while (select) {
 		move_download_up(GPOINTER_TO_INT(select->data));
@@ -236,16 +236,17 @@ void list_of_downloads_move_selected_up(){
 	};
 	list_of_downloads_unfreeze();
 	g_list_free(sorted_select);
+	return 1;
 };
 
-void list_of_downloads_move_selected_down(){
+int list_of_downloads_move_selected_down(){
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
-	if (select==NULL) return;
+	if (select==NULL) return 0;
 	select=((GtkCList *)ListOfDownloads)->selection;
 	GList *sorted_select=g_list_copy(select);
 	sorted_select=g_list_sort(sorted_select,compare_nodes2);
 	select=sorted_select;
-	if (GPOINTER_TO_INT(select->data)>=SizeListOfDownloads-1) return;
+	if (GPOINTER_TO_INT(select->data)>=SizeListOfDownloads-1) return 0;
 	list_of_downloads_freeze();
 	while (select) {
 		move_download_down(GPOINTER_TO_INT(select->data));
@@ -253,8 +254,16 @@ void list_of_downloads_move_selected_down(){
 	};
 	list_of_downloads_unfreeze();
 	g_list_free(sorted_select);
+	return 1;
 };
 
+void list_of_downloads_move_selected_home(){
+	while (list_of_downloads_move_selected_up());
+};
+
+void list_of_downloads_move_selected_end(){
+	while (list_of_downloads_move_selected_down());
+};
 
 void list_of_downloads_del(tDownload *what) {
 	gtk_clist_remove(GTK_CLIST(ListOfDownloads),what->GTKCListRow);
@@ -287,7 +296,7 @@ int list_event_callback(GtkWidget *widget,GdkEvent *event) {
 		GdkEventButton *bevent=(GdkEventButton *)event;
 		if (bevent->button==3) {
 			int row;
-			if (gtk_clist_get_selection_info(GTK_CLIST(widget),int(bevent->x),int(bevent->y),&row,NULL)) {
+			if (gtk_clist_get_selection_info(GTK_CLIST(widget),int(bevent->x),int(bevent->y),&row,(gint *)NULL)) {
 				GList *select=((GtkCList *)widget)->selection;
 				gint sel_row=-1;
 				/*
@@ -313,39 +322,46 @@ int list_event_callback(GtkWidget *widget,GdkEvent *event) {
 			};
 			gint x,y;
 			GdkModifierType modmask;
-			gdk_window_get_pointer(NULL,&x,&y, &modmask);
+			gdk_window_get_pointer((GdkWindow *)NULL,&x,&y, &modmask);
 			//          util_item_factory_popup(list_menu_itemfact,x,y,3,GDK_CURRENT_TIME);
 			list_menu_prepare();
-			gtk_menu_popup(GTK_MENU(ListMenu),NULL,NULL,NULL,NULL,bevent->button,bevent->time);
+			gtk_menu_popup(GTK_MENU(ListMenu),(GtkWidget *)NULL,(GtkWidget *)NULL,(GtkMenuPositionFunc)NULL,(gpointer)NULL,bevent->button,bevent->time);
 			return TRUE;
 		};
 	};
 	if (event->type == GDK_KEY_PRESS) {
 		GdkEventKey *kevent=(GdkEventKey *)event;
 		switch(kevent->keyval) {
-			case GDK_Delete:
-			case GDK_KP_Delete:
-				{
-					ask_delete_download();
-					return TRUE;
-				};
+		case GDK_Delete:
+		case GDK_KP_Delete:{
+			ask_delete_download();
+			return TRUE;
+		};
 		};
 		if (kevent->state & GDK_SHIFT_MASK) {
 			switch (kevent->keyval) {
-				case GDK_KP_Up:
-				case GDK_Up:
-					{
-						list_of_downloads_move_selected_up();
-						return TRUE;
-					};
-				case GDK_KP_Down:
-				case GDK_Down:
-					{
-						list_of_downloads_move_selected_down();
-						return TRUE;
-					};
-				default:
-					break;
+			case GDK_KP_Up:
+			case GDK_Up:{
+				list_of_downloads_move_selected_up();
+				return TRUE;
+			};
+			case GDK_KP_Down:
+			case GDK_Down:{
+				list_of_downloads_move_selected_down();
+				return TRUE;
+			};
+			case GDK_KP_Page_Up:
+			case GDK_Page_Up:{
+				list_of_downloads_move_selected_home();
+				return TRUE;
+			};
+			case GDK_KP_Page_Down:
+			case GDK_Page_Down:{
+				list_of_downloads_move_selected_end();
+				return TRUE;
+			};
+			default:
+				break;
 			};
 		};
 	};
@@ -408,7 +424,7 @@ void list_of_downloads_init() {
 		gtk_clist_set_column_width (GTK_CLIST(ListOfDownloads),ListColumns[ListColumns[i].type].enum_index,gint(ListColumns[i].size));
 	gtk_clist_set_shadow_type (GTK_CLIST(ListOfDownloads), GTK_SHADOW_IN);
 	gtk_clist_set_selection_mode(GTK_CLIST(ListOfDownloads),GTK_SELECTION_EXTENDED);
-	if (ContainerForCList==NULL) ContainerForCList=gtk_scrolled_window_new(NULL,NULL);
+	if (ContainerForCList==NULL) ContainerForCList=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (ContainerForCList),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 
@@ -432,8 +448,8 @@ void list_of_downloads_init() {
 	    End of second part of DnD code
 	 ****************************************************************/
 
-	gtk_clist_set_hadjustment(GTK_CLIST(ListOfDownloads),NULL);
-	gtk_clist_set_vadjustment(GTK_CLIST(ListOfDownloads),NULL);
+	gtk_clist_set_hadjustment(GTK_CLIST(ListOfDownloads),(GtkAdjustment *)NULL);
+	gtk_clist_set_vadjustment(GTK_CLIST(ListOfDownloads),(GtkAdjustment *)NULL);
 
 	my_gtk_clist_set_column_justification (ListOfDownloads, FULL_SIZE_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, PERCENT_COL, GTK_JUSTIFY_RIGHT);

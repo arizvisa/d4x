@@ -1,13 +1,24 @@
-CC = gcc
 CCPLUS = c++
 
 NLS=-DENABLE_NLS # Remove or comment this line to disable gettext
+ifeq ($(DEST),)
 DEST=/usr/local
+endif
 LOCALEDIR=$(DEST)/share/locale
-LIBS=-lpthread
+PTHREAD=-lpthread
+GTKCONFIG=gtk-config
+GLIBCONFIG=glib-config
+
+#next strings were added for BSD support
+ifeq ($(OSTYPE),BSD)
+PTHREAD=-pthread
+GTKCONFIG=gtk12-config
+endif
+
 CFLAGS=-Wall -O2 -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS
-GTKLIBS=`gtk-config --libs` 
-GTKFLAGS=`gtk-config --cflags` `glib-config --cflags`
+GTKLIBS=`$(GTKCONFIG) --libs` 
+GTKFLAGS=`$(GTKCONFIG) --cflags` `$(GLIBCONFIG) --cflags`
+LIBS=$(PTHREAD) $(GTKLIBS)
 
 EXECC=$(CCPLUS) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
 
@@ -20,7 +31,7 @@ face/columns.o face/dndtrash.o
 MAKE=make
 
 all:
-	cd face && NLS=$(NLS) $(MAKE)
+	cd face && NLS=$(NLS) EXECC="$(EXECC)" GTKFLAGS="$(GTKFLAGS)" $(MAKE)
 	rm -f nt || test -z ""
 	$(MAKE) nt
 	if [ "$(NLS)" != "" ] ; then \
@@ -28,10 +39,8 @@ all:
 	fi
 	$(MAKE) strip
 
-
 nt: nt.cc $(MODULES) $(MODULES2) var.h
-	$(EXECC)  $(LIBS) nt.cc $(MODULES) $(MODULES2) \
-	 $(FACE) -o nt $(GTKLIBS)
+	$(EXECC)  $(LIBS) nt.cc $(MODULES) $(MODULES2) $(FACE) -o nt
 
 strip: nt
 	strip nt
@@ -135,5 +144,5 @@ tags:
 	etags *.{cc,h} face/*.{cc,h}
 
 uninstall:
-	rm -f $(DEST)/bin/nt || test -z ""
+	rm -f $(DEST)/bin/nt >/dev/null || test -z ""
 	cd po && make uninstall

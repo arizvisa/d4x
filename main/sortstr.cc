@@ -9,6 +9,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 #include "sortstr.h"
+#include "face/list.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -18,6 +19,18 @@ tSortString::tSortString() {
 
 void tSortString::print(){
 	if (body) printf("%i \t %s",key,body);
+};
+
+void tSortString::increment(){
+	curent+=1;
+	if (FaceForLimits)
+		FaceForLimits->update_row(row);
+};
+
+void tSortString::decrement(){
+	curent-=1;
+	if (FaceForLimits)
+		FaceForLimits->update_row(row);
 };
 
 int tSortString::size(){
@@ -101,7 +114,7 @@ void tHostsLimits::del(tSortString *what) {
 
 void tHostsLimits::decrement(tDownload *what){
 	tSortString *tmp=find(what->info->host,what->info->port);
-	if (tmp) tmp->curent-=1;
+	if (tmp) tmp->decrement();
 };
 
 tSortString *tHostsLimits::last() {
