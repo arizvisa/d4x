@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -1429,9 +1429,9 @@ void tDownload::ftp_search() {
 			tmpinfo->params.set(data);
 			break;
 		default:
-			tmpinfo->host.set("download.lycos.com");
-			tmpinfo->path.set("swadv");
-			tmpinfo->file.set("AdvResults.asp");
+			tmpinfo->host.set("archie.is.co.za");
+			tmpinfo->path.set("");
+			tmpinfo->file.set("ftpsearch");
 			if (finfo.size>0)
 				sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=%i&limsize1=%li&limsize2=%li",
 					info->file.get(),

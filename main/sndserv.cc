@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -132,7 +132,12 @@ int d4xWaveFile::read_long(long *len){
 	if (fread(buf, 1, 4, file) != 4)
 		return 0;
 
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
 	*len =(buf[3] << 24) | (buf[2] << 16) | (buf[1] << 8) | buf[0];
+#elif
+	*len =(buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
+#endif
+
 	return 1;
 };
 
@@ -140,7 +145,11 @@ int d4xWaveFile::read_short(short *val){
 	unsigned char buf[2];
 	if (fread(buf, 1, 2, file) != 2)
 		return 0;
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
 	*val = (buf[1] << 8) | buf[0];
+#elif
+	*val = (buf[0] << 8) | buf[1];
+#endif
 	return 1;
 }
 

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -27,6 +27,8 @@ class tMsgServer{
 	void cmd_ack();
 	void cmd_return_int(int what);
 	void write_dwn_status(tDownload *dwn,int full=0);
+	void cmd_lstree();
+	void cmd_lstree_sub(tQueue *q);
  public:
 	tMsgServer();
 	int init();
@@ -51,18 +53,19 @@ struct tPacketStatus{
 };
 
 class tMsgClient{
-    int fd;
-    char *buf;
-    int bufsize;
-    public:
-		tMsgClient();
-		int init();
-		int send_command(int cmd,char *data,int len);
-		int send_command_short(int cmd,char *data,int len);
-		int get_answer_int();
-		int get_answer_status(tPacketStatus *status);
-		void done();
-		~tMsgClient();
+	int fd;
+	char *buf;
+	int bufsize;
+public:
+	tMsgClient();
+	int init();
+	int send_command(int cmd,char *data,int len);
+	int send_command_short(int cmd,char *data,int len);
+	int get_answer_int();
+	int get_answer_status(tPacketStatus *status);
+	int readdata(void *buf,int len);
+	void done();
+	~tMsgClient();
 };
 
 struct tPacket{
@@ -94,7 +97,14 @@ enum {
 	PACKET_LS,
 	PACKET_DEL,
 	PACKET_STOP,
+	PACKET_LSTREE,
 	PACKET_UNKNOWN
+};
+
+enum {
+	LST_QUEUE,
+	LST_SUBQUEUE,
+	LST_UPQUEUE
 };
 
 #endif

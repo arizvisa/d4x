@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -236,7 +236,7 @@ void edit_window_ok(GtkWidget *which,tDEdit *where) {
 		delete(dwn->config);
 		dwn->config=NULL;
 	};
-	D4X_QUEUE->qv.update(dwn);
+	DQV(dwn).update(dwn);;
 	if (!where->get_pause_check() && where->parent_in_db)
 		aa.continue_download(dwn);
 	delete where;

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -58,7 +58,6 @@ class tDownloader{
 	virtual void make_full_pathes(const char *path,char **name,char **guess);
 	virtual void print_error(int error_code);
 
-     	virtual int reconnect()=0;
     	virtual int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket*)NULL)=0;
     	virtual fsize_t get_readed()=0;
     	virtual fsize_t get_size()=0;
@@ -67,6 +66,7 @@ class tDownloader{
 	virtual tStringList *dir()=0;
     	virtual int download(fsize_t len)=0;
     	virtual void done()=0;
+	virtual int reconnect();
 	virtual tSocket *export_ctrl_socket()=0;
 
     	virtual ~tDownloader();

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -22,6 +22,7 @@
 #include "locstr.h"
 #include "ntlocale.h"
 #include "savedvar.h"
+#include "signal.h"
 
 /* End config functions.
    Begin tDownloader's functions.
@@ -120,6 +121,21 @@ int tDownloader::remote_file_changed(){
 int tDownloader::treat() {
 	return RetrNum;
 };
+
+int tDownloader::reconnect(){
+	tDownload **download=my_pthread_key_get();
+	if (download!=NULL && *download!=NULL){
+		if ((*download)->split)
+			download=&((*download)->split->grandparent);
+		if (*download){
+			if ((*download)->Attempt.curent<RetrNum)
+				(*download)->Attempt.set(RetrNum);
+			D4X_UPDATE.add(*download);
+		};
+	};
+	return(0);
+};
+
 
 int tDownloader::get_status() {
 	return(Status);

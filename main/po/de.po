@@ -1,454 +1,462 @@
-# SOME DESCRIPTIVE TITLE.
+# German Translation for Downloader for X
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Felix Knecht <felixknecht@gmx.net>, 2001
+# Thomas R. Koll <tomk32@tomk32.de>, 2002
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "POT-Creation-Date: 2002-02-13 22:08+0700\n"
-"PO-Revision-Date: 1999-08-24 17:12+07\n"
-"Last-Translator: Koshelev Maxim <mdem@chat.ru>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=koi8-r\n"
+"PO-Revision-Date: 2002-02-14 21:41+0100\n"
+"Last-Translator: Thomas R. Koll <tomk32@tomk32.de>\n"
+"Language-Team: de@li.org\n"
+"MIME-Version: .\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: ../client.cc:410
 msgid "Timeout while reading from socket!"
-msgstr "Таймаут во время чтения из сокета"
+msgstr "Timeout beim Lesen des Sockets aufgetreten!"
 
 #: ../client.cc:415
 msgid "Error while reading from socket!"
-msgstr "Ошибка во время чтения из сокета"
+msgstr "Fehler beim Lesen des Sockets aufgetreten!"
 
 #: ../client.cc:424
 msgid "Trying to connect..."
-msgstr "Пытаюсь подсоедениться..."
+msgstr "Verbindung aufbauen..."
 
 #: ../client.cc:426
 msgid "Socket was opened!"
-msgstr "Удалось открыть сокет!"
+msgstr "Socket geЖffnet!"
 
 #: ../client.cc:431
 msgid "Host not found!"
-msgstr "Хост не найден!"
+msgstr "Host nicht gefunden!"
 
 #: ../client.cc:436
 msgid "Can't allocate socket"
-msgstr "Не удается выделить сокет"
+msgstr "Kann Socket nicht reservieren"
 
 #: ../client.cc:441
 msgid "Can't connect"
-msgstr "Не удается соединиться"
+msgstr "Verbindung fehlgeschlagen"
 
 #: ../config.cc:74
 msgid "You forgot to specify directory."
-msgstr "Вы забыли указать директорию."
+msgstr "Das Verzeichnis wurde nicht angegeben."
 
 #: ../config.cc:76
 msgid "You must specify number as second parameter for '-m' option"
-msgstr "Вы должны указать число как второй параметр к опции '-m'"
+msgstr "Du musst die Nummer als zweiten Parameter bei der '-m' Option angeben"
 
 #: ../config.cc:80
 msgid "You must specify number as parameter for '--exit-time' option"
-msgstr "Вы должны указать число как параметр для опции '--exit-time'"
+msgstr "Du musst die Nummer als Parameter fЭr die Option '--exit-time' angeben"
 
 # config.cc:
 #: ../config.cc:81
 msgid "Expect URL as parameter for '--ls' option"
-msgstr "Ожидается АДРЕС как параметр для команды --ls"
+msgstr "Erwarte URL als Parameter fЭr '--ls' Option"
 
 # config.cc:
 #: ../config.cc:83
 msgid "Expect URL as parameter for '--del' option"
-msgstr "Ожидается АДРЕС как параметр для команды --del"
+msgstr "Erwarte URL als Parameter fЭr '--del' Option"
 
 #: ../config.cc:84
 msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
-msgstr "Ожидаю строку в формате ШИРИНАxВЫСОТА+X+Y как параметр для '-geometry'"
+msgstr "Erwarte Zeichkette in der Form von BREITExHжHE+X+Y als Parameter fЭr '-geometry'"
 
 # config.cc:
 #: ../config.cc:85
 msgid "Expect URL as parameter for '--stop' option"
-msgstr "Ожидается АДРЕС как параметр для команды --stop"
+msgstr "Erwarte URL als Parameter fЭr '--stop' Option"
 
 #: ../config.cc:270
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
-msgstr "Не удается открыть конфигурационный файл по пути '%s'\n"
+msgstr "Kann Konfigurationsdatei in '%s' nicht Жffnen\n"
 
 #: ../config.cc:271
 msgid "Use default cfg :))...\n"
-msgstr "Используются настройки по умолчанию...\n"
+msgstr "Benutze Standardkonfiguration :))...\n"
 
 # config.cc:
 #: ../config.cc:481
 msgid "unknown option:"
-msgstr "неизвестный параметр:"
+msgstr "Unbekannte Option:"
 
 # config.cc:
 #: ../config.cc:528
 #, c-format
 msgid "Run downloads: %d\n"
-msgstr "Запущеных закачек: %d\n"
+msgstr "Laufende Downloads: %d\n"
 
 # config.cc:
 #: ../config.cc:530
 #, c-format
 msgid "Paused downloads: %d\n"
-msgstr "Остановленных закачек: %d\n"
+msgstr "Angehaltene Downloads: %d\n"
 
 # config.cc:
 #: ../config.cc:532
 #, c-format
 msgid "Failed downloads: %d\n"
-msgstr "Неудачных закачек: %d\n"
+msgstr "Fehlgeschlagene Downloads: %d\n"
 
 # config.cc:
 #: ../config.cc:534
 #, c-format
 msgid "Completed downloads: %d\n"
-msgstr "Завершенных закачек: %d\n"
+msgstr "Fertige Downloads: %d\n"
 
 # config.cc:
 #: ../config.cc:537
 #, c-format
 msgid "Total: %d\n"
-msgstr "Всего: %d\n"
+msgstr "Gesamt: %d\n"
 
 #: ../config.cc:539
 #, c-format
 msgid "Total bytes loaded: %d\n"
-msgstr "Всего байт загружено: %d\n"
+msgstr "%d bytes geladen.\n"
 
 # config.cc:
 #: ../config.cc:541
 #, c-format
 msgid "Current speed: %d\n"
-msgstr "Текущая скорость: %d\n"
+msgstr "Momentane Geschwindigkeit: %d\n"
 
 # config.cc:
 #: ../config.cc:547
 #, c-format
 msgid "Curent speed: %d\n"
-msgstr "Текущая скорость: %d\n"
+msgstr "Momentane Geschwindigkeit: %d\n"
 
 # config.cc:
 #: ../config.cc:761
 msgid "Usage: nt [OPTION] ... [URL]"
-msgstr "Использование: nt [ОПЦИЯ] ... [АДРЕС]"
+msgstr "Benutzung: nt [Optionen] ... [URL]"
 
 # config.cc:
 #: ../config.cc:762
 msgid "print this page and exit"
-msgstr "вывести эту страницу и выйти"
+msgstr "Hilfe anzeigen und beenden"
 
 # config.cc:
 #: ../config.cc:763
 msgid "show version information and exit"
-msgstr "показать версию и выйти"
+msgstr "Versionsinformationen anzeigen und beenden"
 
 # config.cc:
 #: ../config.cc:764
 msgid "show information if already run"
-msgstr "показать статистику если уже запущен"
+msgstr "zeige Informationen Эber laufenden Prozess"
 
 # config.cc:
 #: ../config.cc:765
 msgid "show current speed if already run"
-msgstr "показать текущую скорость если уже запущен"
+msgstr "Zeige aktuelle Geschwindigkeit (bei schon laufendem Prozess)"
 
 # config.cc
 #: ../config.cc:766
 msgid "run in minimized mode"
-msgstr "запустить в минимизированном состоянии"
+msgstr "minimiert laufen lassen"
 
 # config.cc
 #: ../config.cc:767
 msgid "set timeout for exiting if nothing to do"
-msgstr "установить таймаут для выхода если нечего делать"
+msgstr "setze Timeout zum automatischen Verlassen wenn nichts zu tun ist"
 
 # config.cc:
 #: ../config.cc:768
 msgid "set directory for saving files"
-msgstr "установить директорию для записи файлов"
+msgstr "setze das Verzeichnis zum Speichern"
 
 # config.cc:
 #: ../config.cc:769
 msgid "set lower speed limitation"
-msgstr "установить нижний предел скорости"
+msgstr "Setze langsame Geschwindigkeitsbegrenzung"
 
 # config.cc:
 #: ../config.cc:770
 msgid "set medium speed limitation"
-msgstr "установить средний предел скорости"
+msgstr "Setze mittlere Geschwindigkeitsbegrenzung"
 
 # config.cc:
 #: ../config.cc:771
 msgid "set unlimited speed"
-msgstr "установить не ограниченную скорость"
+msgstr "Setze unbegrenzte Geschwindigkeit"
 
 #: ../config.cc:772
 msgid "delete completed if already run"
-msgstr "удалить завершенные если уже запущен"
+msgstr "lЖsche fertige Downloads wenn schon ausgefЭhrt"
 
 #: ../config.cc:773
 msgid "set maximum active downloads"
-msgstr "установить максимум одновременно качающих"
+msgstr "setze max. aktive Downloads"
 
 # config.cc
 #: ../config.cc:774
 msgid "restart all failed downloads"
-msgstr "перезапустить все неудачные закачки"
+msgstr "starte alle fehlgeschlagenen Downloads neu"
 
 #: ../config.cc:775
 msgid "run program without X interface"
-msgstr "запустить программу без X интерфейса"
+msgstr "starte Programm ohne das X-Interface"
 
 #: ../config.cc:776
 msgid "display info about URL in queue of downloads"
-msgstr "отобразить информацию о АДРЕСЕ в очереди закачек"
+msgstr "Info Эber URL in der Downloadliste anzeigen"
 
 #: ../config.cc:777
 msgid "remove a download from queue"
-msgstr "удалить закачку из очереди"
+msgstr "entferne Download von der Liste"
 
 #: ../config.cc:778
 msgid "stop a download"
-msgstr "остановить закачку"
+msgstr "stoppt einen Download"
 
 #: ../config.cc:779
 msgid "using colors if run without interface"
-msgstr "использовать цвета если запущена без интерфейса"
+msgstr "benutze Farben, wenn ohne Interface gestartet"
 
 #: ../config.cc:780
 msgid "specifies preferred size and position of main window"
-msgstr "указывает предпочтительный размер и расположение главного окна"
+msgstr "setzt die bevorzugte GrЖъe und Position des Hauptfensters fest"
 
 # cookie.cc
 #: ../cookie.cc:316
 msgid "Loading cookies"
-msgstr "Загрузка cookie"
+msgstr "Lade Cookies"
 
 # cookie.cc
 #: ../cookie.cc:322
+#, c-format
 msgid "%i cookies loaded from browsers' files"
-msgstr "%i cookie загружено из файлов браузера"
+msgstr "%i Cookies aus den Browserdateien geladen"
 
 # cookie.cc
 #: ../cookie.cc:324
+#, c-format
 msgid "Can't open cookies file %s!"
-msgstr "Не могу открыть файл с cookie: %s!"
+msgstr "Kann Cookies-Datei nicht Жffnen! %s"
 
 # cookie.cc
 #: ../cookie.cc:334
 #, c-format
 msgid "%i cookies loaded"
-msgstr "%i cookie загружено"
+msgstr "%i Cookies geladen"
 
 #: ../dlist.cc:112
 msgid "Can't write to file"
-msgstr "Не удается записать в файл"
+msgstr "Kann nicht in Datei schreiben"
 
 # dlist.cc
 #: ../dlist.cc:137
 msgid "File is already opened by another download!"
-msgstr "Файл уже открыт другой закачкой!"
+msgstr "Datei ist schon von einem anderen Download geЖffnet!"
 
 #: ../dlist.cc:140
 msgid "Filesystem do not support advisory record locking!"
-msgstr "Файловая система не поддерживает блокировки!"
+msgstr "Dateisystem unterstЭtzt kein advisory-record-locking!"
 
 #: ../dlist.cc:141
 msgid "Will proceed without it but beware that you might have problems."
-msgstr ""
-"Буду продолжать без них, но остерегайтесь, так как могут быть проблемы."
+msgstr "Werde ohne weiter machen, aber seien Sie auf Fehler vorbereitet."
 
 #: ../dlist.cc:390
 #, c-format
 msgid "You have no permissions to create file at path %s"
-msgstr "У вас недостаточно прав чтобы создать файл в %s"
+msgstr "Sie haben keine Rechte die Datei im Pfad %s zu erzeugen"
 
 #: ../dlist.cc:395
 #, c-format
 msgid "You have no space at path %s for creating file"
-msgstr "У вас недостаточно места на %s чтобы создать файл"
+msgstr "Sie haben nicht genug Platz um die Datei im Pfad %s zu erzeugen"
 
 #: ../dlist.cc:400
 msgid "Directory already created!:))"
-msgstr "Директория уже создана!:))"
+msgstr "Verzeichnis existiert bereits!:))"
 
 #. this is a link
 #: ../dlist.cc:520
 msgid "Trying to create a link"
-msgstr "Пытаюсь создать ссылку"
+msgstr "Versuche Link zu erstellen"
 
 #: ../dlist.cc:525
 msgid "Link already created!:))"
-msgstr "Ссылка уже создана!:))"
+msgstr "Link existiert bereits!:))"
 
 #: ../dlist.cc:531
 msgid "Can't create link"
-msgstr "Не удается создать ссылку"
+msgstr "Link konnte nicht erstellt werden"
 
 #. this is a file
 #: ../dlist.cc:540
 msgid "Trying to create a file"
-msgstr "Пытаюсь создать файл"
+msgstr "Versuche Datei zu erstellen."
 
+# download.cc:
 #: ../dlist.cc:561
 msgid "Can't create file at the path:"
-msgstr "Не удается создать файл по пути:"
+msgstr "Datei konnte nicht erstellt werden in Verzeichnis:"
 
 #: ../dlist.cc:563
 msgid "which has name:"
-msgstr "который имеет имя:"
+msgstr "mit dem Namen:"
 
 #: ../dlist.cc:574
 msgid "File was created!"
-msgstr "Файл создан!"
+msgstr "Datei wurde erstellt!"
 
 #. this is a directory
 #: ../dlist.cc:579
 msgid "Trying to create a dir"
-msgstr "Пытаюсь создать директорию"
+msgstr "Versuche Verzeichnis zu erstellen"
 
 #: ../dlist.cc:589
 msgid "Can't create directory!"
-msgstr "Не удается создать директорию"
+msgstr "Verzeichnis konnte nicht erstellt werden!"
 
 #. this is device
 #: ../dlist.cc:599
 msgid "Downloader can't create devices..."
-msgstr "Downloader не может качать/создавать файлы устройств..."
+msgstr "Downloader kann keine GerДte erstellen..."
 
 #: ../dlist.cc:1028
 #, c-format
 msgid "Trying to copy %s to %s due 'Content-Disposition'"
-msgstr "Пытаюсь скопировать %s в %s из-за 'Content-Disposition'"
+msgstr "Versuch wegen 'Content-Disposition' %s nach %s zu kopieren"
 
 #: ../dlist.cc:1031
 msgid "Error during copying!"
-msgstr "Ошибка во время копирования!"
+msgstr "Fehler wДhrend des Kopiervorganges!"
 
 #: ../dlist.cc:1062
 msgid "Downloading was successefully completed!"
-msgstr "Закачка была успешно завершена"
+msgstr "Download erfolgreich beendet!"
 
 #: ../dlist.cc:1104
 msgid "Downloading was failed..."
-msgstr "Закачка не удалась..."
+msgstr "Download fehlgeschlagen..."
 
 #: ../dlist.cc:1221
 msgid "Redirection blocked by filter"
-msgstr "Перенаправление блокировано фильтром"
+msgstr "Weiterleitung durch Filter blockiert"
 
 #: ../dlist.cc:1227
 msgid "Redirect detected..."
-msgstr "Перенаправление..."
+msgstr "Umleitung gefunden..."
 
 #: ../dlist.cc:1285
 msgid "It is strange that we can't delete file which just created..."
-msgstr "Не удается удалить только что созданный файл..."
+msgstr ""
+"Komisch, ich kann eine Datei nicht lЖschen, welche ich gerade erzeugt "
+"habe..."
 
 #: ../dlist.cc:1289 ../dlist.cc:1508
 msgid "File not found"
-msgstr "Файл не найден"
+msgstr "Datei nicht gefunden"
 
 # dlist.cc
 #: ../dlist.cc:1347
 msgid "Sorting started"
-msgstr "Сортировка началась"
+msgstr "Sortierung gestartet"
 
 #: ../dlist.cc:1350
 #, c-format
 msgid "Pinging (atempt %i of %i)"
-msgstr "Пингуем (попытка %i из %i)"
+msgstr "Pinging (Versuch %i von %i)"
 
 #: ../dlist.cc:1378
 msgid "Trying to determine filesizes"
-msgstr "Пытаюсь определить размеры файлов"
+msgstr "Versuche DateigrЖъen zu erstellen."
 
 # dlist.cc
 #: ../dlist.cc:1454
 msgid "Searching failed"
-msgstr "Поиск не удался"
+msgstr "Suche fehlgeschlagen"
 
 # dlist.cc:
 #: ../dlist.cc:1476
 msgid "Search had been completed!"
-msgstr "Поиск завершен"
+msgstr "Suche ist abgeschlossen!"
 
 #: ../dlist.cc:1482
 msgid "Was Started!"
-msgstr "Закачка начата!"
+msgstr "wurde gestartet!"
 
 #: ../dlist.cc:1486
 msgid "It is a link and we already load it"
-msgstr "Это ссылка и она уже загружена"
+msgstr "Das ist ein Link und er wird bereits geladen"
 
 #: ../dlist.cc:1513
 msgid "Trying to work without CWD"
-msgstr "Пытаюсь работать без CWD"
+msgstr "Versuche ohne CWD zu arbeiten"
 
 #: ../dlist.cc:1584
 msgid "Can't split file to specified number of parts!"
-msgstr "Не могу разделить файл на указаное количество частей!"
+msgstr "Kann die Datei nicht in die angegebene Anzahl teilen!"
 
 #: ../download.cc:33
 msgid "Maximum number of retries reached!"
-msgstr "Достигнуто максимальное количество попыток!"
+msgstr "Die maximale Anzahl an Wiederholversuchen wurde erreicht!"
 
 #: ../download.cc:38
 #, c-format
 msgid "Retry %i of %i...."
-msgstr "Попытка %i из %i...."
+msgstr "Wiederhole Versuch %i von %i...."
 
 #: ../download.cc:40
 #, c-format
 msgid "Retry %i ..."
-msgstr "Попытка %i ..."
+msgstr "Wiederhole %i ..."
 
 # download.cc
 #: ../download.cc:44
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr "Файл на сервере новее чем локальный. Начинаем сначала\n"
+msgstr "Datai auf Server ist neuer als auf Lokalrechner. Starte neu\n"
 
 #: ../download.cc:48
 #, c-format
 msgid "Error code %i"
-msgstr ""
+msgstr "Fehler-Code %i"
 
 #: ../download.cc:49
 msgid "Warning! Probably you found the BUG!!!"
-msgstr "Внимание! Возможно вы нашли ошибку!!!"
+msgstr "Achtung! MЖglicherweise haben Sie den BUG gefunden!!!"
 
 #: ../download.cc:50
 msgid "If you see this message please report to mdem@chat.ru"
-msgstr "Если Вы видите это сообщение пожалуйста сообщите на mdem@chat.ru"
+msgstr ""
+"Falls Sie diese Nachricht sehen, melden Sie dies bitte per email an  "
+"mdem@chat.ru"
 
 #: ../ftp.cc:50
 msgid "Accepting faild"
-msgstr "Операция accept не удалась"
+msgstr "Annahme fehlgeschlagen"
 
 #: ../ftp.cc:73
 msgid "Timeout while sending through control socket."
-msgstr "Таймаут передачи через контрольный сокет"
+msgstr "Beim senden durch das Control Socket trat ein Timeout-Fehler auf."
 
 #: ../ftp.cc:74
 msgid "Control connection lost"
-msgstr "Контрольное соединение потреряно"
+msgstr "Control-Verbindung unterbrochen"
 
 #: ../ftp.cc:85
 msgid "Data connection lost!"
-msgstr "Сокет данных потерян!"
+msgstr "Daten-Socket zusammengebrochen!"
 
 #: ../ftp.cc:95
 msgid "Control connection lost!"
-msgstr "Контрольное соединение потреряно"
+msgstr "Control-Verbindung unterbrochen"
 
 #: ../ftp.cc:185
 msgid "Reget is not supported!!!"
-msgstr "Докачка не поддерживается!!!"
+msgstr "Fortsetzen (reget) nicht unterstЭtzt!!!"
 
 #.
 #. if (index(log->body,'(')!=NULL)
@@ -457,440 +465,449 @@ msgstr "Докачка не поддерживается!!!"
 #: ../ftp.cc:293
 #, c-format
 msgid "try to connect to %i,%i,%i,%i,%i,%i"
-msgstr "Пытаюсь подключиться к %i,%i,%i,%i,%i,%i"
+msgstr "Verbindungsaufbau mit %i,%i,%i,%i,%i,%i"
 
 #: ../ftp.cc:418
 msgid "Probably file was changed on server!"
-msgstr "Возможно файл был изменён на сервере"
+msgstr "Wahrscheinlich wurde die Datei auf dem Server verДndert!"
 
 #: ../ftp.cc:435 ../http.cc:213
 msgid "Data connection closed."
-msgstr "Соединение данных закрыто"
+msgstr "Datenverbindung beendet."
 
 #: ../ftp.cc:447 ../http.cc:225
 msgid "Requested size was loaded"
-msgstr "Требуемый размер загружен"
+msgstr "Angegebene GrЖъe geladen"
 
 #: ../ftpd.cc:234
 msgid "Can't establish data connection"
-msgstr "Не удается установить соединене для данных"
+msgstr "Datenverbindung konnte nicht aufgebaut werden"
 
 #: ../ftpd.cc:237
 msgid "Can't change directory"
-msgstr "Не удается сменить директорию"
+msgstr "Konnte Verzeichnis nicht wechseln"
 
 #: ../ftpd.cc:240
 msgid "Server refused login, perhaps there are too many users of your class"
-msgstr "Сервер отказал в доступе, возможно слишком много пользователей"
+msgstr ""
+"Server hat Login verweigert. MЖglicherweise sind bereits zuviele User "
+"eingeloggt"
 
 #: ../ftpd.cc:309 ../httpd.cc:223
 msgid "Sleeping"
-msgstr "Спим..."
+msgstr "Warte"
 
 #: ../ftpd.cc:414
 msgid "Empty answer. Trying to change directory to determine file type."
-msgstr "Пустой ответ. Пытаемся сменить директорию чтобы определить тип файла."
+msgstr ""
+"Leere Antwort. Versuche Verzeichnis zu wechseln, um den Dateityp "
+"festzustellen."
 
 #: ../ftpd.cc:439 ../ftpd.cc:461
 #, c-format
 msgid "Length is %i"
-msgstr "Длина %i"
+msgstr "LДnge ist %i"
 
 #: ../ftpd.cc:451
 msgid "This is a directory!"
-msgstr "Это директория"
+msgstr "Das ist ein Verzeichnis!"
 
 #: ../ftpd.cc:488
 msgid "Couldn't get size :(("
-msgstr "Не удается определить размер"
+msgstr "Konnte GrЖъe nicht ermitteln :(("
 
 #: ../ftpd.cc:503
 msgid "Loading directory..."
-msgstr "Загружаю директорию"
+msgstr "Lade Verzeichnis..."
 
 #: ../ftpd.cc:517
 msgid "Listing was loaded"
-msgstr "Листинг загружен"
+msgstr "Liste geladen"
 
 #: ../ftpd.cc:520
 msgid "Listing not loaded completelly"
-msgstr "Листинг не загружен полностью"
+msgstr "Liste wurde nicht vollstДndig geladen"
 
 #: ../ftpd.cc:547
 msgid "Link was loaded :))"
-msgstr "Ссылка загружена :))"
+msgstr "Link geladen :))"
 
 #: ../ftpd.cc:581 ../httpd.cc:477
 #, c-format
 msgid "%i bytes loaded."
-msgstr "%i байт загружено"
+msgstr "%i bytes geladen."
 
 #: ../hproxy.cc:190
 #, c-format
 msgid "Sending request to proxy (%s:%i)"
-msgstr "Посылается запрос к прокси (%s:%i)"
+msgstr "Sende Anfrage an Proxy (%s:%i)"
 
 #. all ok
 #: ../hproxy.cc:194 ../httpd.cc:419
 msgid "Answer read ok"
-msgstr "Ответ прочитан"
+msgstr "Antwort ok"
 
 #: ../hproxy.cc:205
 msgid "File not found on the server"
-msgstr "Файл не найден на сервере"
+msgstr "Datei nicht auf dem Server gefunden"
 
 #: ../hproxy.cc:208
 msgid "Probably it's problem of proxy server, retrying"
-msgstr "Возможно проблемы с прокси, повторяем"
+msgstr "Wahrscheinlich ein Problem mit dem Proxy, versuche erneut"
 
 #: ../http.cc:62
 msgid "Socket lost!"
-msgstr "Сокет потерян!"
+msgstr "Socket zusammengebrochen!"
 
 # http.cc
 #: ../http.cc:72
 msgid "Request was sent, waiting for the answer"
-msgstr "Запрос послан, жду ответ"
+msgstr "Anfrage wurde gesendet, warte auf Antwort"
 
 #: ../http.cc:87
 msgid "It is not HTTP server!!!"
-msgstr "Это не HTTP сервер!!!"
+msgstr "Das ist kein HTTP Server!!!"
 
 #: ../http.cc:95
 msgid "All ok, reading file"
-msgstr "Все ОК, файл закачивается"
+msgstr "Alles ok, lese Datei"
 
 #: ../http.cc:106
 msgid "It seems to me that you need a password :)"
-msgstr "Кажется необходим пароль :)"
+msgstr "Sieht so aus als ob Sie ein Passwort brauchen :)"
 
 #: ../http.cc:112
 msgid "Server return bad answer:(("
-msgstr "Сервер возвратил плохой ответ :("
+msgstr "Fehlerhafte Antwort erhalten:("
 
 #: ../http.cc:191
 msgid "Wrong chunk size!"
-msgstr "Не правильный размер куска"
+msgstr "Falsche PaketgrЖъe"
 
 #: ../http.cc:194
 #, c-format
 msgid "Chunk size %i"
-msgstr "Размер куска %i"
+msgstr "PaketgrЖъe: %i"
 
 #: ../http.cc:196
 msgid "It's last chunk!"
-msgstr "Последний кусок!"
+msgstr "Es ist das letzte Paket!"
 
+# hproxy.cc: httpd.cc:23
 #: ../httpd.cc:175
 msgid "Couldn't get normal answer!"
-msgstr "Не удается получить нормальный ответ!"
+msgstr "Keine normale Antwort erhalten!"
 
 #: ../httpd.cc:375
 #, c-format
 msgid "Size for download is %i bytes"
-msgstr "Размер для закачки %i байт"
+msgstr "DownloadgrЖъe %i bytes"
 
 #: ../httpd.cc:415
 msgid "Sending HTTP request..."
-msgstr "Посылаю http запрос..."
+msgstr "Sende HTTP Anfrage..."
 
 #: ../httpd.cc:459
 msgid "It is seemed REGET not supported! Loading from begin.."
-msgstr "Кажется докачка не поддерживается! Качаю с начала.."
+msgstr "Fortsetzen (REGET) nicht unterstЭtzt! Fange von vorne an.."
 
 #: ../httpd.cc:462
 msgid "ETag was changed, restarting again..."
-msgstr "ETag изменился, начинаем сначала..."
+msgstr "ETag wurde geДndert, starte neu..."
 
 # log.cc:
 #: ../log.cc:64
 msgid "Log was started!"
-msgstr "Лог начат!"
+msgstr "Protokoll gestartet!"
 
 # main.cc
 #: ../main.cc:119
 msgid "Can't init control socket!\n"
-msgstr "Не могу инициализировать контрольный сокет!\n"
+msgstr "Kann Kontrollsocket nicht initialisieren!\n"
 
 # main.cc:
 #: ../main.cc:162
 msgid "Loading default list of downloads"
-msgstr "Загрузка сохраненного списка закачек"
+msgstr "Lade Default-Download-Liste"
 
 # main.cc
 #: ../main.cc:229 ../main.cc:1178
 msgid "Delete completed downloads"
-msgstr "Удаление завершенных закачек"
+msgstr "LЖsche fertige Downloads"
 
 # main.cc
 #: ../main.cc:242
 msgid "Delete failed downloads"
-msgstr "Удаление неудачных закачек"
+msgstr "LЖsche fehlgeschlagene Downloads"
 
 #: ../main.cc:259
 msgid "Clear queue of downloads"
-msgstr "Очистка очереди закачек"
+msgstr "LЖsche Download-Liste"
 
 # main.cc
 #: ../main.cc:316
 msgid "Run new thread for %z"
-msgstr "Запускаю новый поток для %z"
+msgstr "Starte neuen Thread fЭr %z"
 
 # main.cc:
 #: ../main.cc:322
 msgid "Can't run new thread for downloading!"
-msgstr "Не могу запустить новый поток для закачки!"
+msgstr "Kann keinen neuen Download-Thread starten!"
 
 #: ../main.cc:377
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
-msgstr "Загрузка файла %s из %s остановлена пользователем"
+msgstr "Download der Datei %s von %s wurde vom Benutzer gestoppt"
 
 #: ../main.cc:407
 #, c-format
 msgid "Delete file %s from queue of downloads"
-msgstr "Удаляю файл %s из очереди закачек"
+msgstr "LЖsche Datei %s aus Download-Liste"
 
 #: ../main.cc:491
 #, c-format
 msgid "Continue downloading of file %s from %s..."
-msgstr "Продолжаю загрузку файла %s из %s..."
+msgstr "Setze Download von %s von %s fort..."
 
 #: ../face/mywidget.cc:389 ../face/mywidget.cc:695 ../main.cc:581
 msgid "file"
-msgstr "файл"
+msgstr "datei"
 
 #: ../main.cc:679
 msgid "dir"
-msgstr "дир."
+msgstr "verz."
 
 #: ../main.cc:684
 msgid "link"
-msgstr "линк"
+msgstr "link"
 
 #: ../main.cc:689
 msgid "device"
-msgstr "устр."
+msgstr "GerДt"
 
 #: ../main.cc:725
 msgid "Too many redirections!"
-msgstr "Слишком много перенаправлений!"
+msgstr "Zu viele Umleitungen!"
 
 # main.cc:
 #: ../main.cc:743
 msgid "Redirection from [%z] to the same location!"
-msgstr "Перенаправление из [%z] на тот же адрес!"
+msgstr "Von [%z] zur selben URL umgeleitet!"
 
 # main.cc:
 #: ../main.cc:779
 msgid "Redirection from [%z] to nowhere!"
-msgstr "Перенаправление из [%z] в никуда!"
+msgstr "Von [%z] ins Nirgendwo umgeleitet!"
 
 # main.cc
 #: ../main.cc:805
 msgid "Prepare thread %i of [%z] for stoping"
-msgstr "Подготавливаю поток %i of [%z] к останову"
+msgstr "Eintrag %i von [%z] wird fЭr den Stop vorbereitet"
 
 # main.cc:
 #: ../main.cc:823
 msgid "Redirect from %z"
-msgstr "Перенаправление с %z"
+msgstr "Umleitung von %z"
 
 #: ../main.cc:830
 msgid "Downloading of directory %z was completed"
-msgstr "Загрузка директории %z завершена"
+msgstr "Download des Verzeichnisses %z beendet"
 
 #: ../main.cc:834
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
-msgstr "Загрузка файла %z (%i байт) завершена при скорости %i байт/сек"
+msgstr "Download der Datei %z (%i bytes) beended. Geschwindigkeit war %i bps"
 
 # main.cc
 #: ../main.cc:841
 msgid "%z was deleted from queue of downloads as completed download"
-msgstr "%z была удалена из очереди закачек как завершенная"
+msgstr "%z wurde als fertiger Download von der Download-Liste gelЖscht"
 
 #: ../main.cc:852
 msgid "Downloading of file %z was terminated by fatal error"
-msgstr "Загрузка файла %z остановлена из-за ошибки"
+msgstr "Download von %z wegen kritischem Fehler abgebrochen"
 
 # main.cc
 #: ../main.cc:854
 msgid "%z was deleted from queue of downloads as failed download"
-msgstr "%z была удалена из очереди закачек как неудачная"
+msgstr "%z wurde als fehlerhafter Download von der Download-Liste gelЖscht "
 
 #: ../main.cc:1122
 msgid "Restarting failed downloads"
-msgstr "Перезапуск неудавшихся закачек"
+msgstr "Wiederhole fehlgeschlagene Downloads"
 
 # main.cc
 #: ../main.cc:1122 ../main.cc:1158 ../main.cc:1174 ../main.cc:1178
 #: ../main.cc:1183 ../main.cc:1196 ../main.cc:1201
 msgid "[control socket]"
-msgstr "[контрольный сокет]"
+msgstr "[control socket]"
 
 # main.cc
 #: ../main.cc:1140
 #, c-format
 msgid "Remove the download via control socket [%s]"
-msgstr "Удаление закачки через контрольный сокет [%s]"
+msgstr "Download via Kontrollsocket [%s] entfernen"
 
 # main.cc
 #: ../main.cc:1148
 #, c-format
 msgid "Adding downloading via control socket [%s]"
-msgstr "Добавление закачки через контрольный сокет [%s]"
+msgstr "Download via Control Socket [%s] angefЭgt"
 
 # main.cc
 #: ../main.cc:1156
 #, c-format
 msgid "Set speed limitation to %s %s"
-msgstr "Устанвливаю ограничение скорости в %s %s"
+msgstr "Setze Geschwindigkeit auf %s %s"
 
 # main.cc
 #: ../main.cc:1174
 msgid "Setup maximum active downloads to"
-msgstr "Максимум качающих установлено в"
+msgstr "Setze maximum der aktiven Downloads zu"
 
 #: ../main.cc:1196
 msgid "Exiting if nothing to do is switched off"
-msgstr "вызод если нечего делать отключен"
+msgstr "Das automatische Beenden wenn nichts zu tun ist, wurde abgeschaltet"
 
 #: ../main.cc:1201
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr "Downloader выйдет если нечего делать через %i минут %s"
+msgstr ""
+"Downloader wird sich nach %i Minuten %s beenden, wenn nichts zu tun ist"
 
 #: ../main.cc:1443
 msgid "Normally started"
-msgstr "Нормальный запуск"
+msgstr "Normal gestartet"
 
 #: ../main.cc:1492
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
-msgstr "Добавлена закачка файла %s из %s"
+msgstr "FЭge Datei %s von %s zur Liste hinzu"
 
 # main.cc
 #: ../main.cc:1545
 #, c-format
 msgid "%lu bytes loaded during the session"
-msgstr "%lu байт загружено за сессию"
+msgstr "%lu Bytes in dieser Sitzung geladen"
 
 # main.cc:
 #: ../main.cc:1546
 msgid "Downloader exited normaly"
-msgstr "Нормальный выход"
+msgstr "Downloader normal beendet"
 
 #: ../main.cc:1584
 #, c-format
 msgid "Can't open '%s' to save log"
-msgstr "Не удается открыть файл '%s' для записи лога"
+msgstr "Kann '%s' nicht Жffnen um das Protokoll zu speichern"
 
 #: ../main.cc:1615
 msgid "Such protocol is not supported!"
-msgstr "Этот протокол не поддерживается!"
+msgstr "Ein solches Protokoll wird nicht unterstЭtzt!"
 
 # mainlog.cc:
 #: ../mainlog.cc:162
 msgid ""
 "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
-"Ограничение на размер файла главного лога достигнуто! Файл был обсечен."
+msgstr "Die maximale GrЖъe des Hauptprotokolls wurde erreicht! Datei wurde gekЭrzt."
 
 #: ../mainlog.cc:171
 msgid "Can't write to file interrupting write to file"
-msgstr "Не удается записать в файл, запись в файл прекращена"
+msgstr "Kann nicht in eine Datei schreiben in welche schon geschrieben wird"
 
 #: ../mainlog.cc:213
 msgid "Open a row"
-msgstr "Открыть строку"
+msgstr "Zeile Жffnen"
 
+# face/lmenu.cc:
 #: ../mainlog.cc:216
 msgid "Clear log"
-msgstr "Очистить лог"
+msgstr "Protokoll lЖschen"
 
 #: ../face/fsched.cc:771 ../face/lmenu.cc:173 ../mainlog.cc:219
 msgid "Properties"
-msgstr "Свойства"
+msgstr "Eigenschaften"
 
 #: ../mainlog.cc:250
 #, c-format
 msgid "row number %i of main log"
-msgstr "строка %i главного лога"
+msgstr "Zeile %i vom Haupt-Protokoll"
 
 #: ../mainlog.cc:290
 msgid "Can't open file for saving log"
-msgstr "Не удается открыть файл для записи лога"
+msgstr "Kann Protokoll-Datei nicht speichern"
 
 #: ../nt.cc:121
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
-msgstr "ВНИМАНИЕ!!! Переменная HOME не найдена! Настройки не прочитаны!"
+msgstr ""
+"WARNUNG!!! HOME-Variable wurde nicht gefunden, daher konnte Konfiguration "
+"nicht geladen werden!"
 
 #: ../nt.cc:134
 #, c-format
 msgid "%s probably is already running\n"
-msgstr "%s возможно уже запущен\n"
+msgstr "%s lДuft wahrscheinlich schon\n"
 
 #: ../savelog.cc:43
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
-msgstr "Не удается сохранить список закачек! Переменной HOME нет!"
+msgstr ""
+"Kann Downloadliste nicht speichern!!! Die HOME Variable wurde nicht gefunden"
 
 #: ../savelog.cc:49
 msgid "Can't save default list of downloads!!!"
-msgstr "Не удается сохранить список закачек!"
+msgstr "Kann Downloadliste nicht speichern!!!"
 
 #: ../savelog.cc:84
 msgid "Can't load default list of downloads!!!"
-msgstr "Не удается загрузить список закачек!"
+msgstr "Kann Downloadliste nicht laden!!!"
 
 #: ../signal.cc:53 ../signal.cc:72
 msgid "Download  was stopped by user"
-msgstr "Закачка остановлена пользователем"
+msgstr "Download wurde vom Benutzer gestoppt"
 
 #: ../memwl.cc:73
 msgid "BUG: Wrong mode of lseek!\n"
-msgstr "БАГ: неправильный режим lseek!\n"
+msgstr "BUG: Falscher lseek-Modus!\n"
 
 # ping.cc
 #: ../ping.cc:49
 msgid "Resolving hosts..."
-msgstr "Определяем адреса..."
+msgstr "LЖse Hosts auf..."
 
 #: ../ping.cc:78
 msgid "Pinging  (it takes 30 seconds maximum)..."
-msgstr "Пингуем (это займет максимум 30 секунд)..."
+msgstr "Pinging (dauert maximal 30 Sekunden)..."
 
 # var.cc
 #: ../var.cc:97
 msgid "low"
-msgstr "минимум"
+msgstr "niedrig"
 
 #: ../var.cc:98
 msgid "medium"
-msgstr "среднее"
+msgstr "mittel"
 
 #: ../var.cc:99
 msgid "unlimited"
-msgstr "неограниченное"
+msgstr "unbegrenzt"
 
 #: ../face/about.cc:109
 msgid "About"
-msgstr "О программе"
+msgstr "Programminfo"
 
 #: ../face/about.cc:119
 msgid "Author: Koshelev Maxim"
-msgstr "Автор: Кошелев Максим"
+msgstr "Author: Koshelev Maxim"
 
 #: ../face/about.cc:121
 msgid "Translators team"
-msgstr "Команда переводчиков"
+msgstr "эbersetzerteam"
 
 # face/about.cc
 #: ../face/about.cc:128
 msgid "Special thanks to"
-msgstr "Отдельное спасибо"
+msgstr "Vielen Dank an"
 
-# face/:
+# face/
 #: ../face/about.cc:135 ../face/about.cc:204 ../face/about.cc:287
 #: ../face/buttons.cc:168 ../face/edit.cc:801 ../face/edit.cc:2048
 #: ../face/filtrgui.cc:167 ../face/fsched.cc:201 ../face/fsched.cc:777
@@ -900,8 +917,9 @@ msgstr "Отдельное спасибо"
 #: ../face/qtree.cc:104 ../face/qtree.cc:551 ../face/saveload.cc:161
 #: ../face/saveload.cc:204 ../face/saveload.cc:246
 msgid "Ok"
-msgstr "Ок"
+msgstr "Ok"
 
+# face/about.cc: face/edit.cc:24 face/limface.cc:77 face/prefs.cc:
 #: ../face/about.cc:205 ../face/buttons.cc:170 ../face/edit.cc:802
 #: ../face/fsched.cc:778 ../face/lod.cc:582 ../face/mywidget.cc:460
 #: ../face/mywidget.cc:827 ../face/mywidget.cc:927 ../face/mywidget.cc:1024
@@ -909,1079 +927,1080 @@ msgstr "Ок"
 #: ../face/qtree.cc:552 ../face/saveload.cc:163 ../face/saveload.cc:206
 #: ../face/saveload.cc:248
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "Abbrechen"
 
 #: ../face/about.cc:246
 msgid "Don't ask next time"
-msgstr "Не спрашивать в следующий раз"
+msgstr "Nicht mehr nachfragen"
 
 #: ../face/addd.cc:87 ../face/addd.cc:233
 msgid "Add new download"
-msgstr "Добавить закачку"
+msgstr "Download hinzufЭgen"
 
 #: ../face/addd.cc:172
 msgid "Automated adding"
-msgstr "Автодобавление"
+msgstr "Automatisches hinzufЭgen"
 
 #: ../face/buttons.cc:50
 msgid " Add new download "
-msgstr " Добавить закачку "
+msgstr " Download hinzufЭgen "
 
 #: ../face/buttons.cc:51
 msgid " Paste from clipboard "
-msgstr " Добавить закачку из буфера "
+msgstr " Von Zwischenablage einfЭgen "
 
 #: ../face/buttons.cc:52
 msgid " Del downloads "
-msgstr " Удалить закачки "
+msgstr " Downloads lЖschen "
 
 #: ../face/buttons.cc:53
 msgid " Stop downloads "
-msgstr " Остановить закачки "
+msgstr " Downloads stoppen "
 
 #: ../face/buttons.cc:54
 msgid " Continue/restart downloads "
-msgstr " Продолжить/перезапустить закачки"
+msgstr " Downloads fortfЭhren/neustarten"
 
 #: ../face/buttons.cc:55
 msgid " Del Completed downloads "
-msgstr " Удалить завершенные "
+msgstr " Beendete Downloads lЖschen "
 
 #: ../face/buttons.cc:56
 msgid " Move up "
-msgstr " Сдвинуть вверх "
+msgstr " Nach oben "
 
 #: ../face/buttons.cc:57
 msgid " Move down "
-msgstr " Сдвинуть вниз "
+msgstr " Nach unten "
 
 #: ../face/buttons.cc:58
 msgid " View log "
-msgstr " Открыть лог "
+msgstr " Protokoll einsehen "
 
 #: ../face/buttons.cc:59 ../face/buttons.cc:248
 msgid " Speed level one "
-msgstr " Уровень скорости 1 "
+msgstr " Geschwindigkeitsbegrenzung  "
 
 #: ../face/buttons.cc:60 ../face/buttons.cc:252
 msgid " Speed level two "
-msgstr " Уровень скорости 2 "
+msgstr " Geschwindigkeitsbegrenzung 2 "
 
 #: ../face/buttons.cc:61
 msgid " Unlimited speed "
-msgstr " Не ограниченная скорость "
+msgstr " Keine Geschwindigkeitsbegrenzung "
 
 #: ../face/buttons.cc:62
 msgid " Options "
-msgstr " Настройки "
+msgstr " Einstellungen "
 
 #: ../face/buttons.cc:63
 msgid " Delete all downloads "
-msgstr " Удалить все закачки "
+msgstr " Alle Downloads lЖschen "
 
 # face/buttons.cc:
 #: ../face/buttons.cc:64
 msgid " Save list "
-msgstr " Сохранить список "
+msgstr " Liste speichern "
 
 #: ../face/buttons.cc:65
 msgid " Load list "
-msgstr " Загрузить список "
+msgstr " Liste Laden "
 
 # face/buttons.cc:
 #: ../face/buttons.cc:66
 msgid " DnD basket "
-msgstr " Корзина для DnD "
+msgstr " DnD Papierkorb "
 
 #: ../face/buttons.cc:67
 msgid " Switch percentage mode to"
-msgstr " Переключить проценты в"
+msgstr " Setze Prozentual-Modus auf"
 
 #: ../face/buttons.cc:68
 msgid " Configure buttons "
-msgstr " Настроить кнопки "
+msgstr " Buttons konfigurieren "
 
 #: ../face/buttons.cc:169 ../face/prefs.cc:1220
 msgid "Apply"
-msgstr "Применить"
+msgstr "эbernehmen"
 
 #: ../face/buttons.cc:237
 msgid "Delete ALL downloads?"
-msgstr "Удалить ВСЕ закачки?"
+msgstr "ALLE Downloads lЖschen?"
 
 #: ../face/buttons.cc:237
 msgid "Delete all?"
-msgstr "Удалить все?"
+msgstr "Alles lЖschen?"
 
 #: ../face/columns.cc:20
 msgid "status"
-msgstr "статус"
+msgstr "Status"
 
 #: ../face/columns.cc:21
 msgid "file name"
-msgstr "имя файла"
+msgstr "Dateiname"
 
 #: ../face/columns.cc:22
 msgid "type of file"
-msgstr "тип файла"
+msgstr "Dateityp"
 
 #: ../face/columns.cc:23
 msgid "size of file"
-msgstr "размер файла"
+msgstr "DateigrЖъe"
 
 #: ../face/columns.cc:24
 msgid "downloaded size"
-msgstr "размер загруженного"
+msgstr "Download GrЖъe"
 
 # face/columns.cc
 #: ../face/columns.cc:25
 msgid "rest"
-msgstr "остаток"
+msgstr "Rest"
 
 #: ../face/columns.cc:26
 msgid "percent"
-msgstr "проценты"
+msgstr "Prozent"
 
 #: ../face/columns.cc:27
 msgid "speed"
-msgstr "скорость"
+msgstr "Geschw."
 
 #: ../face/columns.cc:28
 msgid "elapsed time"
-msgstr "прошедшее время"
+msgstr "Bisherige Zeit"
 
 #: ../face/columns.cc:29
 msgid "estimated time"
-msgstr "оценочное время"
+msgstr "GeschДtzte Zeit"
 
 #: ../face/columns.cc:30
 msgid "time of pause"
-msgstr "время паузы"
+msgstr "Pausenzeit"
 
 #: ../face/columns.cc:31
 msgid "number of attempts"
-msgstr "число попыток"
+msgstr "Anzahl Versuche"
 
 # face/columns.cc
 #: ../face/columns.cc:32
 msgid "description"
-msgstr "описание"
+msgstr "Beschreibung"
 
 #: ../face/columns.cc:33 ../face/lod.cc:55 ../face/mywidget.cc:915
 msgid "URL"
-msgstr "Адрес"
+msgstr "URL"
 
 #: ../face/columns.cc:71
 msgid "Showed columns"
-msgstr "Отображаемые столбцы"
+msgstr "Angezeigte Spalten"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:44
 msgid "/New Download"
-msgstr "/Новая закачка"
+msgstr "/Neuer Download"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:45
 msgid "/Paste Download"
-msgstr "/Добавить из буффера"
+msgstr "/Download einfЭgen"
 
 #: ../face/dndtrash.cc:46
 msgid "/Automated adding"
-msgstr "/Автодобавление"
+msgstr "/Automatisches hinzufЭgen"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:47
 msgid "/Delete completed"
-msgstr "/Удалить завершенные"
+msgstr "/LЖschen beendet"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:48
 msgid "/General options"
-msgstr "/Настройки программы"
+msgstr "/Allgemeine Einstellungen"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:49
 msgid "/Speed"
-msgstr "/Скорость"
+msgstr "/Geschwindigkeit"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:50
 msgid "/Speed/Low"
-msgstr "/Скорость/Минимальная"
+msgstr "/Geschwindigkeit/Langsamste"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:51
 msgid "/Speed/Medium"
-msgstr "/Скорость/Средняя"
+msgstr "/Geschwindigkeit/Mittel"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:52
 msgid "/Speed/Unlimited"
-msgstr "/Скорость/Неограниченная"
+msgstr "/Geschwindigkeit/Unbegrenzt"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:53
 msgid "/Exit"
-msgstr "/Выход"
+msgstr "/Beenden"
 
 # face/buttons.cc:
 #: ../face/dndtrash.cc:266
 msgid "DnD basket"
-msgstr "Корзина для DnD"
+msgstr "DnD Papierkorb"
 
 # face/dndtrash.cc:
 #: ../face/dndtrash.cc:399
 msgid "Drop link here"
-msgstr "Брось сюда ссылку"
+msgstr "Hier Dateien fallenlassen"
 
 #: ../face/edit.cc:62 ../face/edit.cc:449
 msgid "Use password for this site"
-msgstr "Использовать пароль для сайта"
+msgstr "Passwort verwenden"
 
 #: ../face/edit.cc:63 ../face/edit.cc:413
 msgid "Save download to folder"
-msgstr "Сохранить закачку в папке"
+msgstr "Download speichern in Verzeichnis"
 
 # face/edit.cc
 #: ../face/edit.cc:64 ../face/edit.cc:466
 msgid "Restart this download from begining"
-msgstr "Перезапустить эту закачку с начала"
+msgstr "Fange mit dem Download von vorne an"
 
 # face/edit.cc
 #: ../face/edit.cc:65
 msgid "Timeout for reading from socket"
-msgstr "Таймаут чтения из сокета"
+msgstr "Zeit bis zum Lese-Socket Timeout"
 
 #: ../face/edit.cc:66
 msgid "Speed limitation"
-msgstr "Ограничение скорости"
+msgstr "GeschwindigkeitsbeschrДnkung"
 
 #: ../face/edit.cc:67
 msgid "Maximum attempts"
-msgstr "Количество попыток"
+msgstr "Maximale Versuche"
 
 #: ../face/edit.cc:68
 msgid "Timeout before reconnection"
-msgstr "Таймаут до повторного соединения"
+msgstr "Timeout vor Verbindungswiederholung"
 
 #: ../face/edit.cc:69
 msgid "Rollback after reconnecting"
-msgstr "Откат после обрыва"
+msgstr "Rollback nach Verbindungswiederholung"
 
 #: ../face/edit.cc:70 ../face/edit.cc:543 ../face/prefs.cc:233
 msgid "Get date from the server"
-msgstr "Устанавливать дату как на сервере"
+msgstr "Datum von Server benutzen"
 
 #: ../face/edit.cc:71 ../face/edit.cc:547 ../face/prefs.cc:237
 msgid "Retry if resuming is not supported"
-msgstr "Повторять если докачка не поддерживается"
+msgstr "Wiederholen falls RESUME/REGET nicht unterstЭtzt"
 
 # face/edit.cc:
 #: ../face/edit.cc:72 ../face/edit.cc:538
 msgid "Number of parts for spliting this download"
-msgstr "Количество потоков для закачивания"
+msgstr "Anzahl der Teile, in die der Download geteilt werden soll"
 
 #: ../face/edit.cc:73 ../face/edit.cc:585 ../face/prefs.cc:347
 msgid "Use passive mode for FTP"
-msgstr "Использовать пассивный режим для ftp"
+msgstr "Benutze passiven FTP-Modus"
 
 #: ../face/edit.cc:74 ../face/edit.cc:591 ../face/prefs.cc:355
 msgid "Get permissions of the file from server (FTP only)"
-msgstr "Устанавливать права файла как на сервере (только FTP)"
+msgstr "Dateiattribute von Server setzen (nur FTP)"
 
 # face/prefs.cc, face/edit.cc
 #: ../face/edit.cc:75 ../face/edit.cc:588 ../face/prefs.cc:351
 msgid "Don't send QUIT command (FTP)"
-msgstr "Не посылать комманду QUIT (ftp)"
+msgstr "Sende das QUIT Kommando nicht (FTP)"
 
 #: ../face/edit.cc:76 ../face/edit.cc:597 ../face/prefs.cc:363
 msgid "Put directories on the top of queue during recursion"
-msgstr "Помещать директории на верх очереди во время рекурсии"
+msgstr "Verzeichnisse wДhrend Rekursion an den Anfang der Downloadliste setzen"
 
 # face/prefs.cc
 #: ../face/edit.cc:77 ../face/edit.cc:555 ../face/prefs.cc:253
 msgid "Compare date/time of remote file with local one"
-msgstr "Сравнить дату файла на сервере с локальным"
+msgstr "Vergleiche Datum/Zeit des Downloads mit der lokalen Datei"
 
 # face/edit.cc
 #: ../face/edit.cc:78 ../face/edit.cc:551 ../face/prefs.cc:241
 msgid "Sleep before completing"
-msgstr "Спать перед завершением"
+msgstr "Warte vorm Beenden"
 
 #: ../face/edit.cc:79 ../face/edit.cc:594 ../face/prefs.cc:359
 msgid "Follow symbolic links"
-msgstr "Следовать символьным ссылкам"
+msgstr "Folge symbolischen Verweisen"
 
 #: ../face/edit.cc:80
 msgid "Depth of recursing for FTP"
-msgstr "Глубина рекурсии для FTP"
+msgstr "Tiefe des rekursiven Downloads mit FTP"
 
 #: ../face/edit.cc:81
 msgid "Depth of recursing for HTTP"
-msgstr "Глубина рекурсии для HTTP"
+msgstr "Tiefe des rekursiven Downloads mit HTTP"
 
 # face/edit.cc:
 #: ../face/edit.cc:82 ../face/edit.cc:626 ../face/prefs.cc:450
 msgid "Only subdirs"
-msgstr "Только поддиректории"
+msgstr "Nur Unterverzeichnisse"
 
 # face/edit.cc
 #: ../face/edit.cc:83 ../face/edit.cc:627 ../face/prefs.cc:451
 msgid "Allow leave this server while recursing via HTTP"
-msgstr "Разрешить покидать сервер при рекурсии через http"
+msgstr "Erlaube das Verlassen des Server beim rekursiven Download via HTTP"
 
 #: ../face/edit.cc:84 ../face/edit.cc:628 ../face/prefs.cc:452
 msgid "Change links in HTML file to local"
-msgstr "Изменить ссылки в HTML файле на локальные"
+msgstr "Wandle Links in HTML-Datei in lokale Links um"
 
 #: ../face/edit.cc:85 ../face/edit.cc:629 ../face/prefs.cc:453
 msgid "Ignore ETag field in reply"
-msgstr "Игнорировать ETag в ответе серевера"
+msgstr "Ignoriere ETag Feld in Antworten"
 
 #: ../face/edit.cc:86 ../face/edit.cc:654 ../face/prefs.cc:472
 msgid "User-Agent"
-msgstr ""
+msgstr "Browser"
 
 #: ../face/edit.cc:87 ../face/edit.cc:664
 msgid "Referer"
-msgstr ""
+msgstr "Referer"
 
 #: ../face/edit.cc:88 ../face/edit.cc:676
 msgid "Cookie"
-msgstr ""
+msgstr "Cookie"
 
 #: ../face/edit.cc:89 ../face/edit.cc:783 ../face/edit.cc:786
 #: ../face/prefs.cc:510 ../face/prefs.cc:1132 ../face/prefs.cc:1319
 msgid "Proxy"
-msgstr "Прокси"
+msgstr "Proxy"
 
 #. Init time
 #.
 #: ../face/edit.cc:90 ../face/edit.cc:700 ../face/edit.cc:743
 #: ../face/fsched.cc:186 ../face/lod.cc:50
 msgid "Time"
-msgstr "Время"
+msgstr "Zeit"
 
 #: ../face/edit.cc:191 ../face/edit.cc:209
 msgid "Edit download"
-msgstr "Редактировать"
+msgstr "Download bearbeiten"
 
 # face/lod.cc
 #: ../face/edit.cc:412 ../face/lod.cc:54
 msgid "Description"
-msgstr "Описание"
+msgstr "Beschreibung"
 
 #: ../face/edit.cc:414
 msgid "Save download to file"
-msgstr "Писать закачку в файл"
+msgstr "Download speichern als"
 
 #: ../face/edit.cc:415 ../face/edit.cc:1555 ../face/edit.cc:1622
 #: ../face/edit.cc:1663 ../face/passface.cc:69
 msgid "password"
-msgstr "пароль"
+msgstr "Passwort"
 
 #: ../face/edit.cc:416
 msgid "user name"
-msgstr "пользователь"
+msgstr "Username"
 
 # face/edit.cc:
 #. set as default button
 #.
 #: ../face/edit.cc:419
 msgid "Default"
-msgstr "По умолчанию"
+msgstr "Vorgabe"
 
 # face/edit.cc:
 #: ../face/edit.cc:465 ../face/prefs.cc:249
 msgid "Pause this just after adding"
-msgstr "Остановить сразу после добавления"
+msgstr "Nach dem HinzufЭgen sofort anhalten"
 
 #: ../face/edit.cc:471
 msgid "Add to top of queue"
-msgstr "Добавить на верх"
+msgstr "Am Beginn der Downloadliste einfЭgen"
 
 #: ../face/edit.cc:484 ../face/prefs.cc:231 ../face/prefs.cc:1108
 #: ../face/prefs.cc:1266
 msgid "Download"
-msgstr "Закачка"
+msgstr "Download"
 
 #: ../face/edit.cc:487 ../face/prefs.cc:725 ../face/prefs.cc:1192
 #: ../face/prefs.cc:1410
 msgid "Main"
-msgstr "Главное"
+msgstr "Allgemein"
 
 #: ../face/edit.cc:503 ../face/prefs.cc:292
 msgid "Timeout for reading from socket (in seconds)"
-msgstr "Таймаут чтения из сокета (в секундах)"
+msgstr "Zeit bis zum Socket Lese-Timeout (in Sekunden)"
 
 #: ../face/edit.cc:510 ../face/prefs.cc:299
 msgid "Timeout before reconnection (in seconds)"
-msgstr "Таймаут до повторного соединения (в секундах)"
+msgstr "Zeit bis Verbindungswiederholung (in Sekunden)"
 
 #: ../face/edit.cc:517 ../face/prefs.cc:306
 msgid "Maximum attempts (0 for unlimited)"
-msgstr "Количество попыток (0 не ограничено)"
+msgstr "Maximale Anzahl an Versuchen (0 fЭr unendlich)"
 
 # face/refs.cc:
 #: ../face/edit.cc:524 ../face/prefs.cc:313
 msgid "Rollback after reconnecting (in bytes)"
-msgstr "Откат после обрыва (в байтах)"
+msgstr "Rollback nach Verbindungswiederholung (in Bytes)"
 
 # face/edit.cc
 #: ../face/edit.cc:531 ../face/prefs.cc:320
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
-msgstr "Ограничение скорости в Байт/сек (0 не ограничено)"
+msgstr "Geschwindigkeitsbegrenzung in Bytes/Sek. (0 fЭr unbegrenzt)"
 
 #: ../face/edit.cc:559
 msgid "Save log to file"
-msgstr "Записывать лог в файл"
+msgstr "Protokoll in Datei speichern"
 
 #: ../face/edit.cc:569
 msgid "Auto"
-msgstr "Авто"
+msgstr "Automatisch"
 
 #: ../face/edit.cc:576 ../face/edit.cc:579
 msgid "Common"
-msgstr "Общее"
+msgstr "Allgemein"
 
 #: ../face/edit.cc:604 ../face/edit.cc:621 ../face/prefs.cc:370
 #: ../face/prefs.cc:466
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr "Глубина рекурсии (0 неограничено,1 без рекурсии)"
+msgstr "Rekursionstiefe (0 unbegrenzt,1 keine Rekursion)"
 
 #: ../face/edit.cc:645 ../face/prefs.cc:497
 msgid "Filter"
-msgstr "Фильтр"
+msgstr "Filter"
 
 # face/mywidget.cc:
 #: ../face/edit.cc:646 ../face/lod.cc:601 ../face/mywidget.cc:238
 #: ../face/prefs.cc:498
 msgid "Select"
-msgstr "Выбрать"
+msgstr "AuswДhlen"
 
 #: ../face/edit.cc:715
 msgid "Hours"
-msgstr "Часы"
+msgstr "Stunde"
 
 #: ../face/edit.cc:723
 msgid "Minutes"
-msgstr "Минуты"
+msgstr "Minute"
 
 #: ../face/edit.cc:735
 msgid "Start this downloading at:"
-msgstr "Запустить эту закачку в:"
+msgstr "Download starten am:"
 
 #: ../face/edit.cc:796
 msgid "Use default settings"
-msgstr "Использовать настройки по умолчанию"
+msgstr "Benutze Standardkonfiguration"
 
 #: ../face/edit.cc:1485
 msgid "FTP proxy type"
-msgstr "тип ftp прокси"
+msgstr "FTP Proxy Typ"
 
 #: ../face/edit.cc:1496
 msgid "FTP (wingate)"
-msgstr ""
+msgstr "FTP (wingate)"
 
 #: ../face/edit.cc:1510
 msgid "Use this proxy for FTP"
-msgstr "Прокси для ftp"
+msgstr "Benutze diesen Proxy fЭr FTP"
 
 #: ../face/edit.cc:1525 ../face/edit.cc:1594 ../face/edit.cc:1644
 msgid "port"
-msgstr "порт"
+msgstr "Port"
 
 #: ../face/edit.cc:1532 ../face/edit.cc:1600
 msgid "need password"
-msgstr "нужен пароль"
+msgstr "benЖtigt Passwort"
 
 #: ../face/edit.cc:1540 ../face/edit.cc:1608 ../face/edit.cc:1656
 #: ../face/passface.cc:68 ../face/passface.cc:250
 msgid "username"
-msgstr "пользователь"
+msgstr "Username"
 
 # face/lod.cc
 #: ../face/edit.cc:1572
 msgid "Don't get from cache"
-msgstr "Не брать из кэша"
+msgstr "Nicht aus dem Cache holen"
 
 #: ../face/edit.cc:1579
 msgid "Use this proxy for HTTP"
-msgstr "Прокси для http"
+msgstr "Benutze diesen Proxy fЭr http"
 
 #. SOCKS settings
 #: ../face/edit.cc:1630
 msgid "Use SOCKS5 proxy"
-msgstr "Использовать SOCKS5 прокси"
+msgstr "Benutze SOCKS5 proxy"
 
 #: ../face/edit.cc:1637 ../face/mywidget.cc:375 ../face/mywidget.cc:695
 msgid "host"
-msgstr "хост"
+msgstr "Host"
 
 #: ../face/edit.cc:2029
 msgid "Select properties"
-msgstr "Выберите свойства"
+msgstr "Eigenschaften wДhlen"
 
 #: ../face/edit.cc:2054
 msgid "Unselect all"
-msgstr "Ничего"
+msgstr "Alle deselektieren"
 
 #: ../face/edit.cc:2060
 msgid "Select all"
-msgstr "Выбрать все"
+msgstr "Alle auswДhlen"
 
 #: ../face/list.cc:104
 msgid "/_File"
-msgstr "/Файл"
+msgstr "/_Datei"
 
 #: ../face/list.cc:105
 msgid "/File/_Save List"
-msgstr "/Файл/Сохранить очередь"
+msgstr "/Datei/Liste _Speichern"
 
 #: ../face/list.cc:106
 msgid "/File/_Load List"
-msgstr "/Файл/Загрузить очередь"
+msgstr "/Datei/Liste _Laden"
 
 # face/list.cc:
 #: ../face/list.cc:107
 msgid "/File/Find links in file"
-msgstr "/Файл/Найти ссылки в файле"
+msgstr "/Datei/Finde Links in Datei"
 
 #: ../face/list.cc:108
 msgid "/File/_New Download"
-msgstr "/Файл/Новая закачка"
+msgstr "/Datei/_Neuer Download"
 
 #: ../face/list.cc:109
 msgid "/File/_Paste Download"
-msgstr "/Файл/Добавить из буфера"
+msgstr "/Datei/Download _EinfЭgen"
 
 #: ../face/list.cc:110
 msgid "/File/_Automated adding"
-msgstr "/Файл/Авто добавление"
+msgstr "/Datei/_Automatisches hinzufЭgen"
 
 #: ../face/list.cc:111
 msgid "/File/Exit"
-msgstr "/Файл/Выход"
+msgstr "/Datei/_Ende"
 
 #: ../face/list.cc:112
 msgid "/File/sep1"
-msgstr "/Файл/sep1"
+msgstr "/Datei/sep1"
 
 #: ../face/list.cc:113
 msgid "/_Download"
-msgstr "/Закачка"
+msgstr "/_Download"
 
 #: ../face/list.cc:114
 msgid "/Download/View _Log"
-msgstr "/Закачка/Открыть лог"
+msgstr "/Download/_Log einsehen"
 
 #: ../face/list.cc:115
 msgid "/Download/_Stop downloads"
-msgstr "/Закачка/Остановить"
+msgstr "/Download/Downloads _Stoppen"
 
 #: ../face/list.cc:116
 msgid "/Download/Edit download"
-msgstr "/Закачка/Редактировать"
+msgstr "/Download/Downloads _Bearbeiten"
 
 #: ../face/list.cc:117
 msgid "/Download/_Delete downloads"
-msgstr "/Закачка/Удалить"
+msgstr "/Download/Downloads _LЖschen"
 
 #: ../face/list.cc:118
 msgid "/Download/Continue downloads"
-msgstr "/Закачка/Продолжить"
+msgstr "/Download/Downloads _FortfЭhren"
 
 #: ../face/list.cc:119
 msgid "/Download/Delete completed"
-msgstr "/Закачка/Удалить завершенные"
+msgstr "/Download/Fertige lЖschen"
 
 #: ../face/list.cc:120
 msgid "/Download/Delete failed"
-msgstr "/Закачка/Удалить неудачные"
+msgstr "/Download/Fehlgeschlagene lЖschen"
 
 #: ../face/list.cc:121
 msgid "/Download/Rerun failed"
-msgstr "/Закачка/Перезапустить неудачные"
+msgstr "/Download/Fehlgeschlagene neustarten"
 
 # face/list.cc
 #: ../face/list.cc:122
 msgid "/Download/(Un)Protect"
-msgstr "/Закачка/(Раз)Блокировать"
+msgstr "/Download/(Un-)GeschЭtzt"
 
 # face/list.cc
 #: ../face/list.cc:123
 msgid "/Download/Unselect all"
-msgstr "/Закачка/Сбросить выделение"
+msgstr "/Download/Nichts auswДhlen"
 
 # face/list.cc:
 #: ../face/list.cc:124
 msgid "/Download/Select all"
-msgstr "/Закачка/Выделить все"
+msgstr "/Download/Alles auswДhlen"
 
 # face/list.cc
 #: ../face/list.cc:125
 msgid "/Download/Invert selection"
-msgstr "/Закачка/Инвертировать выделение"
+msgstr "/Download/Auswahl umkehren"
 
 # face/list.cc
 #: ../face/list.cc:126
 msgid "/Download/-"
-msgstr "/Закачка/-"
+msgstr "/Download/-"
 
 #: ../face/list.cc:127
 msgid "/_Options"
-msgstr "/Настройки"
+msgstr "/_Einstellungen"
 
 # face/list.cc
 #: ../face/list.cc:128
 msgid "/Options/Scheduler"
-msgstr "/Настройки/Планировщик"
+msgstr "/Einstellungen/Scheduler"
 
 # face/list.cc
 #: ../face/list.cc:129
 msgid "/Options/Passwords"
-msgstr "/Настройки/Пароли"
+msgstr "/Einstellungen/PasswЖrter"
 
 #: ../face/list.cc:130
 msgid "/Options/General"
-msgstr "/Настройки/Общие"
+msgstr "/Einstellungen/Allgemein"
 
 # face/list.cc
 #: ../face/list.cc:131
 msgid "/Options/Filters"
-msgstr "/Настройки/Фильтры"
+msgstr "/Einstellungen/Filter"
 
 # face/list.cc
 #: ../face/list.cc:132
 msgid "/Options/Speed"
-msgstr "/Настройки/Скорость"
+msgstr "/Einstellungen/Geschwindigkeit"
 
 # face/list.cc
 #: ../face/list.cc:133
 msgid "/Options/Speed/Low"
-msgstr "/Настройки/Скорость/Минимальная"
+msgstr "/Einstellungen/Geschwindigkeit/Langsamste"
 
 # face/list.cc
 #: ../face/list.cc:134
 msgid "/Options/Speed/Medium"
-msgstr "/Настройки/Скорость/Средняя"
+msgstr "/Einstellungen/Geschwindigkeit/Mittel"
 
 # face/list.cc
 #: ../face/list.cc:135
 msgid "/Options/Speed/Unlimited"
-msgstr "/Настройки/Скорость/Неограниченная"
+msgstr "/Einstellungen/Geschwindigkeit/Unbegrenzt"
 
 # face/list.cc
 #: ../face/list.cc:136
 msgid "/Options/Buttons"
-msgstr "/Настройки/Кнопки"
+msgstr "/Einstellungen/Toolbar"
 
 # face/list.cc
 #: ../face/list.cc:137
 msgid "/Options/Buttons/Add buttons"
-msgstr "/Настройки/Кнопки/Добавление"
+msgstr "/Einstellungen/Toolbar/Leiste HinzufЭgen"
 
 # face/list.cc
 #: ../face/list.cc:138
 msgid "/Options/Buttons/Manipulating"
-msgstr "/Настройки/Кнопки/Операции"
+msgstr "/Einstellungen/Toolbar/Leiste Manipulation"
 
 # face/list.cc
 #: ../face/list.cc:139
 msgid "/Options/Buttons/Speed buttons"
-msgstr "/Настройки/Кнопки/Скорость"
+msgstr "/Einstellungen/Toolbar/Leiste Geschwindigkeit"
 
 # face/list.cc
 #: ../face/list.cc:140
 msgid "/Options/Buttons/Misc buttons"
-msgstr "/Настройки/Кнопки/Дополнительные"
+msgstr "/Einstellungen/Toolbar/Leiste Verschiedenes"
 
 #: ../face/list.cc:141
 msgid "/_Help"
-msgstr "/Помощь"
+msgstr "/_Hilfe"
 
 #: ../face/list.cc:142
 msgid "/_Help/About"
-msgstr "/Помощь/О программе"
+msgstr "/_Hilfe/Programminfo"
 
 #: ../face/list.cc:564
 msgid "Do you really want to quit?"
-msgstr "Действительно хочешь выйти?"
+msgstr "MЖchten Sie das Programm wirklich beenden?"
 
 #: ../face/list.cc:564
 msgid "Quit?"
-msgstr "Выйти?"
+msgstr "Beenden?"
 
 #: ../face/list.cc:593
 msgid "Delete selected downloads?"
-msgstr "Удалить выбранные закачки?"
+msgstr "GewДhlte Downloads lЖschen?"
 
 #: ../face/list.cc:593 ../face/list.cc:611 ../face/list.cc:629
 msgid "Delete?"
-msgstr "Удалить?"
+msgstr "LЖschen?"
 
 #: ../face/list.cc:611
 msgid "Do you wish delete completed downloads?"
-msgstr "Хотите удалить завершенные закачки?"
+msgstr "MЖchten Sie die fertigen Downloads lЖschen?"
 
 #: ../face/list.cc:629
 msgid "Do you wish delete failed downloads?"
-msgstr "Хотите удалить неудачные закачки?"
+msgstr "MЖchten Sie die fehlgeschlagenen Downloads lЖschen?"
 
 #: ../face/list.cc:674
 msgid "Ready to go ????"
-msgstr "Готов ???"
+msgstr "Fertig ???"
 
 #: ../face/list.cc:992
+#, c-format
 msgid "[%s] %i-running %i-completed %i-total "
-msgstr "[%s] %i-запущено %i-завершено %i-всего "
+msgstr "[%s] %i: laufen  %i: fertig  %i: gesamt "
 
 #: ../face/lmenu.cc:140
 msgid "View log"
-msgstr "Открыть лог"
+msgstr "Protokoll einsehen"
 
 #: ../face/lmenu.cc:146
 msgid "Stop"
-msgstr "Остановить"
+msgstr "Stop"
 
 #: ../face/lmenu.cc:153
 msgid "Continue downloads"
-msgstr "Продолжить"
+msgstr "Fortfahren"
 
 #. 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
 #: ../face/lmenu.cc:159
 msgid "Copy"
-msgstr "Скопировать"
+msgstr "Kopieren"
 
 #: ../face/lmenu.cc:164
 msgid "(Un)Protect"
-msgstr "(Раз)Блокировать"
+msgstr "(Un-)GeschЭtzt"
 
 # face/lmenu.cc
 #: ../face/lmenu.cc:178
 msgid "Common properties"
-msgstr "Общие свойства"
+msgstr "Allgemeine Einstellungen"
 
 #: ../face/lmenu.cc:184
 msgid "Delete downloads"
-msgstr "Удалить"
+msgstr "Downloads lЖschen"
 
 #: ../face/lmenu.cc:190
 msgid "Delete completed"
-msgstr "Удалить завершенные"
+msgstr "Fertige lЖschen"
 
 #: ../face/lmenu.cc:196
 msgid "Delete failed"
-msgstr "Удалить неудачные"
+msgstr "Fehlgeschlagene lЖschen"
 
 #: ../face/lmenu.cc:206
 msgid "Move up"
-msgstr "Сдвинуть вверх"
+msgstr "Nach oben"
 
 #: ../face/lmenu.cc:212
 msgid "Move down"
-msgstr "Сдвинуть вниз"
+msgstr "Nach unten"
 
 #: ../face/lmenu.cc:218
 msgid "Alternates"
-msgstr "Альтернативы"
+msgstr "Alternativen"
 
 #: ../face/lmenu.cc:223 ../face/prefs.cc:777 ../face/prefs.cc:1207
 #: ../face/prefs.cc:1398
 msgid "FTP search"
-msgstr "FTP поиск"
+msgstr "FTP-Suche"
 
 #: ../face/lod.cc:43
 msgid "File"
-msgstr "Файл"
+msgstr "Datei"
 
 #: ../face/lod.cc:44
 msgid "Type"
-msgstr "Тип"
+msgstr "Typ"
 
 #: ../face/lod.cc:45
 msgid "Full Size"
-msgstr "Размер"
+msgstr "GrЖъe"
 
 #: ../face/lod.cc:46
 msgid "Downloaded"
-msgstr "Загружено"
+msgstr "эbertragen"
 
 # face/lod.cc
 #: ../face/lod.cc:47
 msgid "Rest"
-msgstr "Остаток"
+msgstr "Rest"
 
 #: ../face/lod.cc:49
 msgid "Speed"
-msgstr "Скорость"
+msgstr "Geschw."
 
 #: ../face/lod.cc:51
 msgid "Remaining"
-msgstr "Осталось"
+msgstr "эbrig"
 
 #: ../face/lod.cc:52
 msgid "Pause"
-msgstr "Пауза"
+msgstr "Pause"
 
 #: ../face/lod.cc:53
 msgid "Attempt"
-msgstr "Попытка"
+msgstr "Versuch"
 
 #: ../face/lod.cc:571
 msgid "Enter wildcard"
-msgstr "Ввидите маску"
+msgstr "Wildcard eingeben"
 
 #: ../face/lod.cc:599
 msgid "Unselect"
-msgstr "Снять выделение"
+msgstr "Deselektieren"
 
 # face/lod.cc
 #: ../face/lod.cc:1170
 msgid "Continue open log windows?"
-msgstr "Продолжить открытие логов?"
+msgstr "Wirklich alle Protokollfenster Жffnen?"
 
 #: ../face/lod.cc:1170
 msgid "Open logs?"
-msgstr "Открывать логи?"
+msgstr "Protokolle Жffnen?"
 
+# face/log.cc:
 #: ../face/log.cc:193
 #, c-format
 msgid "Row number %i [log of %s]"
-msgstr "Строка %i лога %s"
+msgstr "Zeile %i [Protokoll von %s]"
 
 #: ../face/log.cc:371
 msgid "Log: "
-msgstr "Лог: "
+msgstr "Protokoll: "
 
 #: ../face/mywidget.cc:61
 msgid "Select directory"
-msgstr "Выберите папку"
+msgstr "Verzeichnis wДhlen"
 
 #: ../face/fsched.cc:291 ../face/mywidget.cc:64
 msgid "Select file"
-msgstr "Выберите файл"
+msgstr "Datei wДhlen"
 
 #: ../face/fsched.cc:432 ../face/fsched.cc:455 ../face/mywidget.cc:108
 msgid "Browse"
-msgstr "Выбрать"
+msgstr "Dateiliste"
 
 # face/mywidget.cc:
 #: ../face/mywidget.cc:198
 msgid "Select color"
-msgstr "Выбери цвет"
+msgstr "WДhle eine Farbe"
 
 #: ../face/mywidget.cc:354
 msgid "Edit properties of Rule"
-msgstr "Редактирование правила"
+msgstr "Bearbeite Regeleigenschaften"
 
 # face/passwords.cc
 #: ../face/mywidget.cc:357 ../face/mywidget.cc:695 ../face/passface.cc:57
 msgid "protocol"
-msgstr "протокол"
+msgstr "Protokoll"
 
 #: ../face/mywidget.cc:382 ../face/mywidget.cc:695
 msgid "path"
-msgstr "путь"
+msgstr "Pfad"
 
 #: ../face/mywidget.cc:396
 msgid "?"
-msgstr ""
+msgstr "?"
 
 #: ../face/mywidget.cc:403 ../face/mywidget.cc:695
 msgid "tag"
-msgstr "тэг"
+msgstr "Marke"
 
 #: ../face/mywidget.cc:452
 msgid "include"
-msgstr "включать"
+msgstr "einschliessen"
 
 #: ../face/mywidget.cc:454
 msgid "exclude"
-msgstr "исключать"
+msgstr "ausschliessen"
 
 #: ../face/mywidget.cc:691
 msgid "Modify filter"
-msgstr "Изменить фильтр"
+msgstr "Filter verДndern"
 
 #: ../face/mywidget.cc:714
 msgid "include by default"
-msgstr "включить по умолчанию"
+msgstr "per Standart einschliessen"
 
 # face/prefs.cc
 #: ../face/mywidget.cc:716
 msgid "exclude by default"
-msgstr "исключить по умолчанию"
+msgstr "per Standart ausschliessen"
 
 #: ../face/mywidget.cc:722
 msgid "Name of filter"
-msgstr "Имя фильтра"
+msgstr "Filtername"
 
 #: ../face/mywidget.cc:728
 msgid "Up"
-msgstr "Вверх"
+msgstr "Hoch"
 
 #: ../face/mywidget.cc:729
 msgid "Add rule"
-msgstr "Добавить правило"
+msgstr "Regel hinzufЭgen"
 
 #: ../face/mywidget.cc:730
 msgid "Down"
-msgstr "Вниз"
+msgstr "Runter"
 
 #: ../face/filtrgui.cc:170 ../face/fsched.cc:204 ../face/mywidget.cc:739
 #: ../face/mywidget.cc:926
 msgid "Remove"
-msgstr "Удалить"
+msgstr "Entfernen"
 
 # face/dndtrash.cc
 #: ../face/filtrgui.cc:169 ../face/fsched.cc:203 ../face/fsched.cc:413
 #: ../face/mywidget.cc:740
 msgid "Edit"
-msgstr "Изменить"
+msgstr "Editieren"
 
 #: ../face/mywidget.cc:815
 msgid "Select filter"
-msgstr "Выберите фильтр"
+msgstr "Filter wДhlen"
 
 #: ../face/filtrgui.cc:154 ../face/mywidget.cc:817
 msgid "filter name"
-msgstr "имя фильтра"
+msgstr "Filtername"
 
 #: ../face/mywidget.cc:913
 msgid "List of links"
-msgstr "Список ссылок"
+msgstr "Liste von Verweisen"
 
 #: ../face/mywidget.cc:974
 msgid "Add"
-msgstr "Добавить"
+msgstr "HinzufЭgen"
 
 # face/passface.cc:
 #: ../face/passface.cc:42
 msgid "Password and username"
-msgstr "Пароль и имя пользователя"
+msgstr "Passwort und Benutzername"
 
 #: ../face/passface.cc:58 ../face/passface.cc:250
 msgid "Host"
-msgstr "Хост"
+msgstr "Host"
 
 # face/passface.cc:
 #: ../face/passface.cc:246
 msgid "Default passwords and usernames"
-msgstr "Пароли по умолчанию"
+msgstr "Standart PasswЖrter und Benutzernamen"
 
 #: ../face/passface.cc:250
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: ../face/filtrgui.cc:168 ../face/passface.cc:265
 msgid "Add new"
-msgstr "Добавить"
+msgstr "HinzufЭgen"
 
 #: ../face/passface.cc:266
 msgid "Delete"
-msgstr "Удалить"
+msgstr "LЖschen"
 
 #: ../face/prefs.cc:245
 msgid "Optimize recursive downloads"
-msgstr "Оптимизировать рекурсию"
+msgstr "Rekursive Downloads optimieren"
 
-# face/prefs.cc:
 #: ../face/prefs.cc:261
 msgid "Default permissions of local file"
-msgstr "Права файла по умолчанию"
+msgstr "Standard Dateirechte der lokalen Datei"
 
 #: ../face/prefs.cc:272
 msgid "Save downloads to folder"
-msgstr "Сохранять закачки в папке"
+msgstr "Downloads speichern im Verzeichnis"
 
 #: ../face/prefs.cc:281 ../face/prefs.cc:1117 ../face/prefs.cc:1279
 msgid "Limits"
-msgstr "Ограничения"
+msgstr "Limits"
 
 #: ../face/prefs.cc:337
 msgid "Maximum lines in log"
-msgstr "Максимум строк в логах"
+msgstr "Maximale Anzahl Zeilen im Protokoll"
 
 #: ../face/prefs.cc:345 ../face/prefs.cc:1122 ../face/prefs.cc:1288
 msgid "FTP"
-msgstr ""
+msgstr "FTP"
 
 # face/prefs.cc
 #: ../face/prefs.cc:375
 msgid "Output FTP dirs in logs"
-msgstr "Выводить ftp директории в логах"
+msgstr "FTP Verzeichnisse in Protokolle ausgeben"
 
 #: ../face/prefs.cc:386
 msgid "default anonymous password"
-msgstr "пароль для пользователя anonymous"
+msgstr "Standartpasswort fЭr anonymen FTP "
 
 #: ../face/prefs.cc:448 ../face/prefs.cc:1127 ../face/prefs.cc:1301
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:486
 msgid "Filename for saving if it is unknown"
-msgstr "Имя файла если оно не известно"
+msgstr "Dateiname beim Speichern wenn unbekannt"
 
 #: ../face/prefs.cc:525 ../face/prefs.cc:1147 ../face/prefs.cc:1328
 msgid "Main window"
-msgstr "Главное окно"
+msgstr "Hauptfenster"
 
 #: ../face/prefs.cc:527
 msgid "Using title"
-msgstr "Использовать заголовок"
+msgstr "Benutze Name"
 
 #: ../face/prefs.cc:531
 msgid "Use title of main window for info"
-msgstr "Использовать заголовок для инфы"
+msgstr "Verwende Titel des Hauptfensters fЭr Info"
 
 #: ../face/prefs.cc:536
 msgid "Display queue statistics too"
-msgstr "Показывать статистику очереди"
+msgstr "Listenstatistik anzeigen"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:537
 msgid "Scroll title"
-msgstr "Прокручивать заголовок"
+msgstr "Titel rollen"
 
 #: ../face/prefs.cc:542
 msgid "Iconfiy main window instead of closing"
-msgstr "Сворачивать окно при закрытии"
+msgstr "Beim Schliessen als Icon anzeigen"
 
 #: ../face/prefs.cc:544
 msgid "Do not remember position of the main window"
-msgstr "Не запоминать позицию главного окна"
+msgstr "Die Position des Hauptfensters nicht speichern"
 
 #: ../face/prefs.cc:557 ../face/prefs.cc:1152 ../face/prefs.cc:1336
 msgid "Confirmation"
-msgstr "Подтверждения"
+msgstr "BestДtigungen"
 
 #: ../face/prefs.cc:559
 msgid "Confirm delete selected downloads"
-msgstr "Спрашивать удаление закачек"
+msgstr "GewДhlte Downloads lЖschen"
 
 #: ../face/prefs.cc:560
 msgid "Confirm delete all downloads"
-msgstr "Спрашивать удаление всех"
+msgstr "Alle Downloads lЖschen"
 
 #: ../face/prefs.cc:561
 msgid "Confirm delete completed downloads"
-msgstr "Спрашивать удаление завершенных"
+msgstr "Fertige Downloads lЖschen"
 
 #: ../face/prefs.cc:562
 msgid "Confirm delete failed downloads"
-msgstr "Спрашивать удаление неудачных"
+msgstr "Fehlgeschlagene Downloads lЖschen"
 
 # face/prefs.cc
 #: ../face/prefs.cc:563
 msgid "Confirm opening large amount of windows"
-msgstr "Подтверждать открытие большого количества окон"
+msgstr "BestДtigung beim Жffnen von vielen Fenstern"
 
 #: ../face/prefs.cc:564
 msgid "Confirm exit from program"
-msgstr "Спрашивать выход из программы"
+msgstr "Programm beenden"
 
 # face/prefs.cc
 #.
@@ -1991,555 +2010,436 @@ msgstr "Спрашивать выход из программы"
 #.
 #: ../face/prefs.cc:589 ../face/prefs.cc:1186 ../face/prefs.cc:1387
 msgid "Clipboard"
-msgstr "Буфер обмена"
+msgstr "Zwischenablage"
 
 # face/prefs.cc
 #: ../face/prefs.cc:591
 msgid "Monitor clipboard"
-msgstr "Слежение за буфером обмена"
+msgstr "эberwache Zwischenablage"
 
 # face/prefs.cc
 #: ../face/prefs.cc:601
 msgid "Skip these extensions in clipboard"
-msgstr "Пропускать эти расширения в буфере"
+msgstr "Ignorierte Erweiterungen in der Zwischenablage"
 
 #: ../face/prefs.cc:609
 msgid "Catch these extensions in clipboard"
-msgstr "Перехватывать эти расширения в буфере"
+msgstr "Diese Erweiterungen in der Zwischenablage beachten"
 
 # prefs.cc:
 #: ../face/prefs.cc:632 ../face/prefs.cc:1201 ../face/prefs.cc:1420
 msgid "Main log"
-msgstr "Главный лог"
+msgstr "Haupt-Protokoll"
 
 #: ../face/prefs.cc:638
 msgid "Maximum lines in MAIN log"
-msgstr "Максимум строк в главном логе"
+msgstr "Maximale Anzahl Zeilen im Haupt-Protokoll"
 
 # face/prefs.cc
 #: ../face/prefs.cc:642
 msgid "Output detailed information"
-msgstr "Выводить подробную информацию"
+msgstr "Detaillierte Informationen ausgeben"
 
 #: ../face/prefs.cc:646
 msgid "Save main log into file"
-msgstr "Записывать главный лог в файл"
+msgstr "Haupt-Protokoll speichern unter"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:665
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr "Максимальный размер файла главного лога (в КБайтах)"
+msgstr "Maximale GrЖъe des Haupt-Protokolls (in KBytes)"
 
 #: ../face/prefs.cc:671
 msgid "Append to file"
-msgstr "Добавлять к файлу"
+msgstr "AnhДngen"
 
 #: ../face/prefs.cc:674
 msgid "Overwrite file"
-msgstr "Переписывать файл"
+msgstr "эberschreiben"
 
 #: ../face/prefs.cc:689 ../face/prefs.cc:1173 ../face/prefs.cc:1378
 msgid "Integration"
-msgstr "Интеграция"
+msgstr "Integration"
 
 # prefs.cc:
 #: ../face/prefs.cc:691
 msgid "Exit if nothing to do after"
-msgstr "Выйти если ничего не происходит через"
+msgstr "Beenden wenn untДtig nach"
 
 #: ../face/prefs.cc:697 ../face/prefs.cc:736
 msgid "minutes"
-msgstr "минут(у)"
+msgstr "Minuten"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:708
 msgid "Run this on exit"
-msgstr "Запустить это во время выхода"
+msgstr "Beim Beenden ausfЭhren"
 
 #: ../face/prefs.cc:713
 msgid "Open dialog for Drag-n-Drop"
-msgstr "Открывать окно для Drag-n-Drop"
+msgstr "жffne Dialog fЭr Drag-n-Drop"
 
 #: ../face/prefs.cc:730
 msgid "Save list of downloads every"
-msgstr "Сохранять список закачек каждые"
+msgstr "Downloadliste speichern alle"
 
 #: ../face/prefs.cc:743
 msgid "Allow to user force run downloads"
-msgstr "Позволять форсировать запуск закачек"
+msgstr ""
+"Dem Benutzer das AusfЭhren von mehr als angegebenen Downloads erlauben"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:744
 msgid "Remember passwords"
-msgstr "Запоминать пароли"
+msgstr "PasswЖrter speichern"
 
 # face/prefs.cc
 #: ../face/prefs.cc:745
 msgid "Write Descript.ion file"
-msgstr "Писать файл Descript.ion"
+msgstr "Schreibe Descript.ion Datei"
 
 #: ../face/prefs.cc:755
 msgid "bytes/sec speed level one (red button)"
-msgstr "байт/сек скорость уровня 1 (красная кнопка)"
+msgstr "bytes/sek Geschwindigkeitsbegrenzung  (roter Button)"
 
 #: ../face/prefs.cc:763
 msgid "bytes/sec speed level two (yellow button)"
-msgstr "байт/сек скорость уровня 2 (желтая кнопка)"
+msgstr "bytes/sek Geschwindigkeitsbegrenzung 2 (gelber Button)"
 
 #: ../face/prefs.cc:783
 msgid "Number of attempts to ping hosts"
-msgstr "число попыток для пинга серверов"
+msgstr "Anzahl der Ping-Versuche"
 
 #: ../face/prefs.cc:791
 msgid "Number of hosts in list"
-msgstr "Число адресов в списке"
+msgstr "Anzahl der Hosts in der Liste"
 
 #: ../face/prefs.cc:817
 msgid "search engine to use"
-msgstr "поисковик для использования"
+msgstr "zu benutzende Suchmaschine"
 
 # face/prefs.cc
 #: ../face/prefs.cc:826 ../face/prefs.cc:1138 ../face/prefs.cc:1323
 msgid "Interface"
-msgstr "Интерфейс"
+msgstr "Interface"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:828
 msgid "Show DnD basket"
-msgstr "Показывать \"корзину\""
+msgstr "Zeige DnD Papierkorb an"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:829
 msgid "Use fixed font in logs"
-msgstr "Использовать fixed шрифт в логах"
+msgstr "Benutze Fixed-Fonts im Protokoll"
 
 #: ../face/prefs.cc:846 ../face/prefs.cc:1157 ../face/prefs.cc:1345
 msgid "Graph"
-msgstr "График"
+msgstr "Graph"
 
 #: ../face/prefs.cc:848
 msgid "Revert drawing graph of speeds"
-msgstr "Рисовать график в обратном порядке"
+msgstr "Geschwindigkeitsgrafik umdrehen"
 
 #: ../face/prefs.cc:851
 msgid "Compressed mode"
-msgstr "Сжатый режим"
+msgstr "Komprimiermodus"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:857
 msgid "Color for picks"
-msgstr "Цвет для пиков"
+msgstr "Farbe fЭr Selektierte"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:858
 msgid "Color for total speed"
-msgstr "Цвет для общей скорости"
+msgstr "Farbe fЭr Komplettgeschwindigkeit"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:859
 msgid "Color for speed of selected"
-msgstr "Цвет для скорости выбранной"
+msgstr "Farbe fЭr die Geschwindigkeit der Selektierten"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:860
 msgid "Background color"
-msgstr "Цвет фона"
+msgstr "Hintergrundfarbe"
 
 # face/prefs.cc
 #: ../face/prefs.cc:869
 msgid "Reset to default"
-msgstr "Сбросить в первоначальные"
+msgstr "Auf Standart setzten"
 
 #: ../face/prefs.cc:872
 msgid "Colors for graph"
-msgstr "Цвета для графика"
+msgstr "Farben fЭr Grafik"
 
 #: ../face/prefs.cc:898 ../face/prefs.cc:1162 ../face/prefs.cc:1354
 msgid "Sounds"
-msgstr "Звуки"
+msgstr "Sounds"
 
 #: ../face/prefs.cc:901
 msgid "enable sounds"
-msgstr "разрешить звуки"
+msgstr "Sounds aktivieren"
 
 #: ../face/prefs.cc:906
 msgid "output via ESD"
-msgstr "выводить через ESD"
+msgstr "Soundausgabe via ESD"
 
 #: ../face/prefs.cc:913
 msgid "Startup"
-msgstr "Запуск"
+msgstr "Programmstart"
 
 #: ../face/prefs.cc:915
 msgid "Adding a download"
-msgstr "Добавление закачки"
+msgstr "Download hinzufЭgen"
 
 #: ../face/prefs.cc:917
 msgid "Downloading completed"
-msgstr "Закачка завершена"
+msgstr "Download beendet"
 
 #: ../face/prefs.cc:919
 msgid "Downloading failed"
-msgstr "Закачка неудалась"
+msgstr "Download fehlgeschlagen"
 
 #: ../face/prefs.cc:921
 msgid "Downloading of queue is completed"
-msgstr "Загрузка очереди завершена"
+msgstr "Ganze Downloadliste fertig"
 
 #: ../face/prefs.cc:923
 msgid "Drag'n'Drop event"
-msgstr "Событие DnD"
+msgstr "Drag'n'Drop Ereignis"
 
 #: ../face/prefs.cc:953 ../face/prefs.cc:954
 msgid "No info about this theme."
-msgstr "Нет информации о этой теме"
+msgstr "Keine Informatioen zu diesem Theme"
 
 #: ../face/prefs.cc:963 ../face/prefs.cc:1167
 msgid "Themes"
-msgstr "Темы"
+msgstr "Themes"
 
 # face/edit.cc:
 #: ../face/prefs.cc:966
 msgid "Default theme"
-msgstr "Тема по умолчанию"
+msgstr "Standardtheme"
 
 #: ../face/prefs.cc:1067
 msgid "Options"
-msgstr "Настройки"
+msgstr "Einstellungen"
 
 # face/saveload.cc
 #: ../face/saveload.cc:89
 msgid "Loading"
-msgstr "Загрузка"
+msgstr "Lade"
 
 #: ../face/saveload.cc:142
 msgid "Save list"
-msgstr "Сохранить список"
+msgstr "Liste speichern"
 
 #: ../face/saveload.cc:185
 msgid "Load list"
-msgstr "Загрузить список"
+msgstr "Liste Laden"
 
 # face/saveload.cc
 #: ../face/saveload.cc:227
 msgid "Find links in txt file"
-msgstr "Найти ссылки в текстовом файле"
+msgstr "Finde Links in einer TXT-Datei"
 
 #: ../face/fsface.cc:70
 msgid "bytes"
-msgstr "байт"
+msgstr "bytes"
 
 # face/fsface.cc
 #: ../face/fsface.cc:82
 msgid "nothing found"
-msgstr "ничего не найдено"
+msgstr "nichts gefunden"
 
 #: ../face/fsface.cc:86
 msgid "searching"
-msgstr "идет поиск"
+msgstr "suche"
 
 # face/fsface.cc
 #: ../face/fsface.cc:95
 msgid "reping"
-msgstr "перепинговать"
+msgstr "neu pingen"
 
 #: ../face/fsface.cc:99
 msgid "cumulative reping"
-msgstr "перепинговать накопительно"
+msgstr "zusammen neu pingen"
 
 #: ../face/fsface.cc:105
 msgid "remove"
-msgstr "удалить"
+msgstr "entfernen"
 
 #: ../face/fsched.cc:30
 msgid "limit speed"
-msgstr "ограничить скорость"
+msgstr "Geschwindigkeit begrenzen"
 
 #: ../face/fsched.cc:31
 msgid "popup main window"
-msgstr "поднять главное окно"
+msgstr "Hauptfenster Жffnen"
 
 # face/dndtrash.cc
 #: ../face/fsched.cc:32
 msgid "exit"
-msgstr "выйти"
+msgstr "beenden"
 
 #: ../face/fsched.cc:33
 msgid "remove completed"
-msgstr "удалить завершенные"
+msgstr "Fertige Dwonloads entfernen"
 
 #: ../face/fsched.cc:34
 msgid "remove failed"
-msgstr "удалить неудачные"
+msgstr "Fehlgeschlagene Downloads entfernen"
 
 #: ../face/fsched.cc:35
 msgid "restart download"
-msgstr "перезапустить закачку"
+msgstr "Download neustarten"
 
 #: ../face/fsched.cc:36
 msgid "stop download"
-msgstr "остановить закачку"
+msgstr "Download stoppen"
 
 #: ../face/fsched.cc:37
 msgid "remove download"
-msgstr "удалить закачку"
+msgstr "Download entfernen"
 
 #: ../face/fsched.cc:38
 msgid "remove download if completed"
-msgstr "удалить закачку если завершена"
+msgstr "entfernen wenn der Download beendet ist"
 
 #: ../face/fsched.cc:39
 msgid "add download"
-msgstr "добавить закачку"
+msgstr "Download hinzufЭgen"
 
 #: ../face/fsched.cc:40
 msgid "save list"
-msgstr "сохранить список"
+msgstr "Liste speichern"
 
 #: ../face/fsched.cc:41
 msgid "execute command"
-msgstr "выполнить команду"
+msgstr "Befehl ausfЭhren"
 
-# face/list.cc
 #: ../face/fsched.cc:180
 msgid "Scheduler"
-msgstr "Планировщик"
+msgstr "Scheduler"
 
 #: ../face/fsched.cc:186 ../face/fsched.cc:763
 msgid "Action"
-msgstr "Действие"
+msgstr "Aktion"
 
 #: ../face/fsched.cc:186
 msgid "Info"
-msgstr "Инфо"
+msgstr "Info"
 
 # face/limface.cc:
 #: ../face/fsched.cc:202
 msgid "New"
-msgstr "Новый"
+msgstr "Neu"
 
 #: ../face/fsched.cc:428
 msgid "Command:"
-msgstr "Команда:"
+msgstr "Befehl:"
 
 #: ../face/fsched.cc:451
 msgid "Path:"
-msgstr "Путь:"
+msgstr "Pfad:"
 
 #: ../face/fsched.cc:470
 msgid "This action has no properties"
-msgstr "Это действие не имеет свойств"
+msgstr "Diese Aktion hat keine Eigenschaften"
 
 #: ../face/fsched.cc:704
 msgid "Start time(hour:min:sec)"
-msgstr "Начало (час:мин:сек)"
+msgstr "Starten um (Stunden:Minuten:Sekunden)"
 
 #: ../face/fsched.cc:733
 msgid "Retry this action"
-msgstr "Повторять это действие"
+msgstr "Wiederhole diese Aktion"
 
 #: ../face/fsched.cc:742
 msgid "times to repeat (-1 unlimited)"
-msgstr "количество попыток (-1 не ограничено)"
+msgstr "Maximale Anzahl an Versuchen (-1 fЭr unendlich)"
 
 #: ../face/fsched.cc:746
 msgid "period (day/hour:min)"
-msgstr "период (дней/час:мин)"
+msgstr "Periode (Tag/Stunde:Minute)"
 
 #: ../face/fsched.cc:791
 msgid "Edit scheduled action"
-msgstr "Редактировать действие"
+msgstr "Geplante Aktion bearbeiten"
 
 #: ../face/filtrgui.cc:148
 msgid "Filters"
-msgstr "Фильтры"
+msgstr "Filter"
 
 #: ../face/qtree.cc:94
 msgid "Create new queue"
-msgstr "Создать новую очередь"
+msgstr "Erstelle eine neue Downloadliste"
 
 #: ../face/qtree.cc:245
 msgid "Name"
-msgstr "Имя"
+msgstr "Name"
 
 # config.cc:
 #: ../face/qtree.cc:246
 msgid "Total"
-msgstr "Всего"
+msgstr "Gesamt"
 
 #: ../face/qtree.cc:247
 msgid "Wait"
-msgstr "Ждущие"
+msgstr "Warten"
 
 #: ../face/qtree.cc:248
 msgid "Run"
-msgstr "Запущеные"
+msgstr "Starten"
 
 #: ../face/qtree.cc:346 ../face/qtree.cc:352
 msgid "/Create new queue"
-msgstr "/Создать новую очередь"
+msgstr "/Erstelle neue Downloadliste"
 
 #: ../face/qtree.cc:347
 msgid "/Create new subqueue"
-msgstr "/Создать новую подочередь"
+msgstr "/Erstelle neue Sub-Downloadliste"
 
 # face/dndtrash.cc
 #: ../face/qtree.cc:348
 msgid "/Delete queue"
-msgstr "/Удалить очередь"
+msgstr "/LЖsche Downloadliste"
 
 #: ../face/qtree.cc:349
 msgid "/Properties"
-msgstr "/Свойства"
+msgstr "/Eigenschaften"
 
 #: ../face/qtree.cc:442
 msgid "Queue properties"
-msgstr "Свойства очереди"
+msgstr "Eigenschaften der Downloadliste"
 
 #: ../face/qtree.cc:451
 msgid "Maximum active downloads"
-msgstr "Количество качающих"
+msgstr "Maximale Anzahl Downloads"
 
 #: ../face/qtree.cc:455
 msgid "Automatically delete completed downloads"
-msgstr "Автоматически удалять завершенные"
+msgstr "Fertige Downloads automatisch lЖschen"
 
 #: ../face/qtree.cc:456
 msgid "Automatically delete failed downloads"
-msgstr "Автоматически удалять неудачные"
+msgstr "Fehlgeschlagene Downloads automatisch lЖschen"
 
 # main.cc
 #: ../face/qtree.cc:466
 msgid "Default folder to save downloaded files"
-msgstr "Папка по умолчанию для сохраниения загружаемых файлов"
+msgstr "Standardordner fЭr fertige Downloads"
 
 #: ../face/qtree.cc:474
 msgid "Size format"
-msgstr "Формат размера"
+msgstr "GrЖъenformat"
 
 #: ../face/qtree.cc:475
 msgid "Time format"
-msgstr "Формат времени"
+msgstr "Zeitformat"
 
 #: ../face/qtree.cc:544
 msgid "Name of the queue"
-msgstr "Имя очереди"
-
-#~ msgid "Can't open limits configuration file!\n"
-#~ msgstr "Не удается открыть файл ограничений!!!\n"
-
-#~ msgid "Can't write limits to file!!!\n"
-#~ msgstr "Не удается записать файл ограничений!!!\n"
-
-#~ msgid "Maximum active downloads is set to %i"
-#~ msgstr "Максимальное количество качающих установлено в %i"
-
-#~ msgid "Splited download [%z] was stopped because one of threads failed"
-#~ msgstr ""
-#~ "Разбитая закачка [%z] была остановлена поскольку один из потоков закончил "
-#~ "неудачно"
-
-#~ msgid " Mode of percentage "
-#~ msgstr " Режим процентов "
-
-# face/edit.cc:
-#~ msgid "Try to load symbolic link as file via FTP"
-#~ msgstr "Загружать символическую ссылку как файл (ftp)"
-
-#~ msgid "Limitation for the host"
-#~ msgstr "Ограниченя для хоста"
-
-#~ msgid "Host:"
-#~ msgstr "Хост:"
-
-#~ msgid "Port:"
-#~ msgstr "Порт:"
-
-#~ msgid "Maximum connections:"
-#~ msgstr "Максимум соединений:"
-
-#~ msgid "Limitations for the hosts"
-#~ msgstr "Ограниченя для хоста"
-
-#~ msgid "N"
-#~ msgstr "Количество"
-
-# face/limface.cc:
-#~ msgid "Now"
-#~ msgstr "Уже"
-
-# face/limface.cc
-#~ msgid "Default limitation for all hosts (0 without limits)"
-#~ msgstr "Ограничение по умолчанию ко всем хостам (0 без ограничений)"
-
-#~ msgid "/Options/Limitations"
-#~ msgstr "/Настройки/Ограничения"
-
-#~ msgid "Set limitation"
-#~ msgstr "Ограничить"
-
-#~ msgid "Columns"
-#~ msgstr "Столбцы"
-
-#~ msgid "Connection to the internet via proxy"
-#~ msgstr "Подсоединяюсь к интернету через прокси"
-
-# main.cc:
-#~ msgid "Append list to current queue of downloads"
-#~ msgstr "Добавление списка к текущей очереди закачек"
-
-#~ msgid "Enter expression"
-#~ msgstr "Введите выражение"
-
-#~ msgid "Queue complete"
-#~ msgstr "Очередь завершена"
-
-#~ msgid "WARNING!!! Can't find HOME variable! So can't write config!"
-#~ msgstr "ВНИМАНИЕ!!! Не найдена переменная HOME! Настройки не сохранены!"
-
-#~ msgid "bad read\n"
-#~ msgstr "плохой файл\n"
-
-#~ msgid ""
-#~ "***WARN***!!!Attempt to delete download from list which does'nt contain "
-#~ "it!"
-#~ msgstr ""
-#~ "*ВНИМАНИЕ*!!!Попытка удалить закачку из списка, который ее не содержит!"
-
-#~ msgid "Cant stand data connection"
-#~ msgstr "Не удается установить соединение для данных"
-
-#~ msgid "Can't change dir!"
-#~ msgstr "Не удается сменить директорию!"
-
-#~ msgid "Problems with lseek()"
-#~ msgstr "Проблема с lseek()"
-
-#~ msgid "Connection closed."
-#~ msgstr "Соединение закрыто"
-
-#~ msgid "Retry %i"
-#~ msgstr "Попытка %i"
-
-#~ msgid "Can't open messages queue!"
-#~ msgstr "Не удается открыть очередь сообщений!"
-
-#~ msgid "Other"
-#~ msgstr "Другое"
-
-#~ msgid "Year"
-#~ msgstr "Год"
-
-#~ msgid "Month"
-#~ msgstr "Месяц"
-
-#~ msgid "Day"
-#~ msgstr "День"
-
-# download.cc:
-#~ msgid "Can't do rollback!"
-#~ msgstr "Не могу сделать откат!"
-
-# face/prefs.cc:
-#~ msgid "User-Agent for HTTP requests"
-#~ msgstr "User-Agent для http запросов"
+msgstr "Name der Downloadliste"

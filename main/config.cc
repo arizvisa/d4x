@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -509,6 +509,83 @@ static void _remote_set_directory_(tMsgClient *clt,char *param){
 	};
 };
 
+static void _do_ls_(char *url,tMsgClient *clt){
+	tPacketStatus status;
+	clt->send_command_short(PACKET_LS,url,strlen(url));
+	while(clt->get_answer_status(&status)){
+		switch(status.Status){
+		case DL_RUN:
+			printf(">");
+			break;
+		case DL_STOP:
+			printf("X");
+			break;
+		case DL_WAIT:
+			printf("o");
+			break;
+		case DL_PAUSE:
+			printf("=");
+			break;
+		case DL_COMPLETE:
+			printf("+");
+			break;
+		case DL_STOPWAIT:
+			printf("-");
+			break;
+		default:
+			printf("?");
+			break;
+		};
+		if (status.url){
+			printf("%s",status.url);
+			delete[] status.url;
+			status.url=NULL;
+		};
+		printf(" %i/%i bytes %i B/s %i/%i attempts\n",
+		       status.Download,status.Size,
+		       status.Speed,
+		       status.Attempt,status.MaxAttempt);
+	};
+};
+
+static void _do_lstree_(tMsgClient *clt){
+	clt->send_command_short(PACKET_LSTREE,NULL,0);
+	char b;
+	int depth=-1;
+	printf(_("List of queues:\n"));
+	printf("-----------------------------\n");
+	int N=1;
+	while(clt->readdata(&b,sizeof(b))==sizeof(b)){
+		int len=0;
+		switch(b){
+		case LST_SUBQUEUE:
+			depth+=1;
+			break;
+		case LST_QUEUE:{
+			clt->readdata(&len,sizeof(len));
+			printf("[%i] ",N);
+			for (int i=0;i<depth;i++) printf("  ");
+			for (;len>0;len--){
+				clt->readdata(&b,sizeof(b));
+				printf("%c",b);
+			};
+			int num=0,run=0,maxrun=0,complete=0;
+			clt->readdata(&num,sizeof(num));
+			clt->readdata(&run,sizeof(run));
+			clt->readdata(&complete,sizeof(complete));
+			clt->readdata(&maxrun,sizeof(maxrun));
+			printf("\t %i %i %i/%i\n",num,run,complete,maxrun);
+			N++;
+			break;
+		};
+		case LST_UPQUEUE:{
+			depth-=1;
+			break;
+		};
+		};
+	};
+};
+
 int parse_command_line_already_run(int argv,char **argc){
 	int rvalue=1;
 	if (argv>1){
@@ -619,49 +696,16 @@ int parse_command_line_already_run(int argv,char **argc){
 					break;
 				};
 				case OPT_LS:{
-					tPacketStatus status;
 					rvalue=0;
 					char *which=NULL;
 					if (argv>i+1){
 						i+=1;
 						which=argc[i];
-					}else
-						which="";
-					clt->send_command_short(PACKET_LS,which,strlen(which));
-					while(clt->get_answer_status(&status)){
-						switch(status.Status){
-						case DL_RUN:
-							printf(">");
-							break;
-						case DL_STOP:
-							printf("X");
-							break;
-						case DL_WAIT:
-							printf("o");
-							break;
-						case DL_PAUSE:
-							printf("=");
-							break;
-						case DL_COMPLETE:
-							printf("+");
-							break;
-						case DL_STOPWAIT:
-							printf("-");
-							break;
-						default:
-							printf("?");
-							break;
-						};
-						if (status.url){
-							printf("%s",status.url);
-							delete[] status.url;
-							status.url=NULL;
-						};
-						printf(" %i/%i bytes %i B/s %i/%i attempts\n",
-						       status.Download,status.Size,
-						       status.Speed,
-						       status.Attempt,status.MaxAttempt);
 					};
+					if (which)
+						_do_ls_(which,clt);
+					else
+						_do_lstree_(clt);
 					break;
 				};
 				};

@@ -1,3 +1,35 @@
+Thu Feb 28 15:34:03  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/about.cc: replaced email;
+	* face/prefs.cc: output author info in theme's details;
+	* face/log.cc, face/about.h: message type in the string window;
+
+Wed Feb 27 10:38:12  Maxim Koshelev  <mdem@chat.ru>
+
+	* srvclt.cc: fixed '--ls' with URL as parameter;
+	* dlist.cc, face/prefs.cc: replaced 'ftpsearch.lycos.com' by 'archie.is.co.za';
+
+Tue Feb 26 14:01:35  Maxim Koshelev  <mdem@chat.ru>
+
+	* srvclt.cc, config.cc: fixed and improved '--ls' command line parameter;
+
+Fri Feb 22 14:58:46  Maxim Koshelev  <mdem@chat.ru>
+
+	* sndserv.cc: fix working on bigendian machines;
+
+Mon Feb 18 10:58:26  Maxim Koshelev  <mdem@chat.ru>
+
+	* download.*, httpd.cc, ftpd.cc, main.cc: fixed wrong attemtps
+	counter for splited downloads;
+	* po/de.po: updated German translation by Thomas R. Koll;
+	* main.cc: fixed one more problem when run with '-w';
+	* face/buttons.cc: fixed segfault when run with '-w' and with '-tX';
+
+Sun Feb 17 18:53:21  Maxim Koshelev  <mdem@chat.ru>
+	* main.cc: fixed wrong queue count after applying preferences;
+	* face/edit.cc: fixed segfault after pressing 'Ok' in preferences
+	of the download if queue of download is not current;
+
 Tue Feb 12 14:59:18  Maxim Koshelev  <mdem@chat.ru>
 
 	* main.cc: fixed selecting default queue in the tree; fixed segfault

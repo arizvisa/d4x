@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -257,6 +257,7 @@ void buttons_speed_set_text(){
 
 
 void set_speed_buttons() {
+	if (CFG.WITHOUT_FACE) return;
 	switch (CFG.SPEED_LIMIT) {
 		case 1:	{
 				gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_SPEED1]), "clicked");
@@ -588,12 +589,30 @@ void init_buttons_bar() {
 	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(tooltips->tip_window));
 	gdk_font_unref(current_style->font);
 	current_style->font = MainWindow->style->font;
-	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+	gdk_font_ref(current_style->font);
+	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"buttonsbar tipcolor");
+	if (xmlobj && xmlobj->value.get()){
+		gdk_color_parse(xmlobj->value.get(),&(current_style->bg[GTK_STATE_NORMAL]));
+	}else{
+		current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+	};
 	gtk_widget_set_style(tooltips->tip_window, current_style);
 	gtk_widget_show(ButtonsBar);
 	buttons_speed_set_text();
 	buttons_progress_set_text();
 	buttons_cfg_init();
+};
+
+void buttons_theme_changed(){
+	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;
+	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(tooltips->tip_window));
+	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"buttonsbar tipcolor");
+	if (xmlobj && xmlobj->value.get()){
+		gdk_color_parse(xmlobj->value.get(),&(current_style->bg[GTK_STATE_NORMAL]));
+	}else{
+		current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+	};
+	gtk_widget_set_style(tooltips->tip_window, current_style);
 };
 
 void buttons_cfg_init(){

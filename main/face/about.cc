@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -22,6 +22,7 @@ GtkWidget *AboutWindow=(GtkWidget *)NULL;
 GtkWidget *AboutTLabel,*AboutSLabel;
 
 char *TRANSLATORS[]={
+	"Thomas R. Koll",
 	"Gustavo D. Vranjes",
 	"Felix Knecht",
 	"Oren Held",
@@ -117,7 +118,7 @@ void init_about_window(...) {
 	gtk_entry_set_editable(GTK_ENTRY(label2),FALSE);
 	gtk_entry_set_text(GTK_ENTRY(label2),HOME_PAGE);
 	GtkWidget *label3=gtk_label_new(_("Author: Koshelev Maxim"));
-	GtkWidget *label4=gtk_label_new("e-mail: mdem@chat.ru");
+	GtkWidget *label4=gtk_label_new("e-mail: chuchelo@krasu.ru");
 	GtkWidget *frame=gtk_frame_new(_("Translators team"));
 	gtk_frame_set_shadow_type(GTK_FRAME(frame),GTK_SHADOW_IN);
 	GtkWidget *box1=gtk_vbox_new(FALSE,0);
@@ -266,11 +267,12 @@ static void string_dialog_ok_clicked(GtkWidget *widget,tStringDialog *parent) {
 tStringDialog::tStringDialog():tDialog(){
 };
 
-int tStringDialog::init(char *str,char *title) {
+int tStringDialog::init(char *str,char *title,char *frame_title=NULL) {
 	if (window) {
 		gtk_entry_set_text(GTK_ENTRY(entry),str);
 		gtk_window_set_title(GTK_WINDOW (window), title);
 		gtk_window_set_default(GTK_WINDOW(window),ok_button);
+		gtk_frame_set_label(GTK_FRAME(frame),frame_title?frame_title:"");
 		gdk_window_show(window->window);
 		return 0;
 	};
@@ -294,7 +296,7 @@ int tStringDialog::init(char *str,char *title) {
 	gtk_box_pack_start(GTK_BOX(vbox),entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
-	GtkWidget *frame=gtk_frame_new("");
+	frame=gtk_frame_new(frame_title?frame_title:"");
 	gtk_frame_set_shadow_type(GTK_FRAME(frame),GTK_SHADOW_OUT);
 	//	    gtk_container_border_width(GTK_CONTAINER(frame),5);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);

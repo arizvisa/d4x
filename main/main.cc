@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -471,6 +471,7 @@ void tMain::insert_into_wait_list(tDownload *what,
 			temp=(tDownload*)(temp->prev);
 		dq->insert_before(what,temp);
 	};
+	D4X_QVT->update(dq);
 };
 
 void tMain::continue_download(tDownload *what) {
@@ -701,9 +702,6 @@ void tMain::print_info(tDownload *what) {
 			DQV(what).change_data(row,DOWNLOADED_SIZE_COL,data);
 			what->Size.reset();
 		};				
-	};
-	if (what->who && what->split==NULL) {
-		what->Attempt.set(what->who->treat());
 	};
 	if (what->Attempt.change()) {
 		what->Attempt.reset();
@@ -1454,10 +1452,18 @@ void tMain::run(int argv,char **argc) {
 void tMain::run_without_face(){
 	int TIME_FOR_SAVING=CFG.SAVE_LIST_INTERVAL * 60;
 	int COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME * 60;
+	struct timespec ival={0,200000000};
+	int i=0;
 	while(1){
 		check_for_remote_commands();
-		main_circle();
-		sleep(1);
+		main_circle_nano1();
+		main_circle_nano2();
+		if (i>=5){
+			main_circle();
+			i=0;
+		};
+		nanosleep(&ival,NULL);
+//		sleep(1);
 		TIME_FOR_SAVING-=1;
 		if (!TIME_FOR_SAVING) {
 			if (CFG.SAVE_LIST) {
@@ -1526,13 +1532,15 @@ void tMain::done() {
 	   to avoid segfault at host-limit checks */
 	if (ftpsearch) delete(ftpsearch);
 	SOUND_SERVER->stop_thread();
-	D4X_QUEUE->qv.freeze();
+	if (CFG.WITHOUT_FACE==0)
+		D4X_QUEUE->qv.freeze();
 	stop_all(&D4X_QTREE);
 	while(not_all_stopped(&D4X_QTREE)){
 		main_circle_nano2();
 		sleep(1);
 	};
-	D4X_QUEUE->qv.unfreeze();
+	if (CFG.WITHOUT_FACE==0)
+		D4X_QUEUE->qv.unfreeze();
 	D4X_QUEUE->done();
 	MainScheduler->save();
 	delete(MainScheduler);

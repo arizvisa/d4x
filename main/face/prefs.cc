@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -793,7 +793,7 @@ void d4x_prefs_search(){
 	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
 
 	char *labels[]={
-		"ftpsearch.lycos.com",
+		"archie.is.co.za",
 		"www.filesearch.ru"
 	};
 	D4XPWS.search_host=gtk_option_menu_new();
@@ -944,10 +944,28 @@ static void d4x_prefs_themes_select_row(GtkWidget *clist, gint row, gint column,
 		delete[] path;
 		d4xXmlObject *info=d4x_xml_find_obj(q,"info");
 		gtk_text_backward_delete(GTK_TEXT(D4XPWS.theme_info),textlen);
-		if (info && info->value.get())
+		if (info && info->value.get()){
+			d4xXmlField *fld=info->get_attr("author");
+			if (fld && fld->value.get()){
+				gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
+						NULL,NULL,NULL,"Author: ",strlen("Author: "));
+				gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
+						NULL,NULL,NULL,fld->value.get(),strlen(fld->value.get()));
+				fld=info->get_attr("email");
+				if (fld && fld->value.get()){
+					gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
+							NULL,NULL,NULL," <",strlen(" <"));
+					gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
+							NULL,NULL,NULL,fld->value.get(),strlen(fld->value.get()));
+					gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
+							NULL,NULL,NULL,">",strlen(">"));
+				};
+				gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
+						NULL,NULL,NULL,"\n",strlen("\n"));
+			};
 			gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
 					NULL,NULL,NULL,info->value.get(),strlen(info->value.get()));
-		else
+		}else
 			gtk_text_insert(GTK_TEXT(D4XPWS.theme_info),
 					NULL,NULL,NULL,
 					_("No info about this theme."),
@@ -1470,6 +1488,7 @@ void d4x_prefs_apply(){
 		dnd_trash_destroy_theme();
 		CFG.DND_TRASH=TMPCFG.DND_TRASH;
 		gdk_window_show(d4x_prefs_window->window);
+		buttons_theme_changed();
 	};
 	if (CFG.DND_TRASH){
 		dnd_trash_init();

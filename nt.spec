@@ -1,4 +1,4 @@
-%define ver      2.0beta1
+%define ver      2.0beta2
 
 Name: nt
 Version: %ver

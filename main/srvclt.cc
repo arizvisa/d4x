@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -141,36 +141,89 @@ void tMsgServer::write_dwn_status(tDownload *dwn,int full=0){
 	};
 };
 
+static d4xDownloadQueue *_get_queue_sub_(tQueue *q,int &N){
+	d4xDownloadQueue *dq=(d4xDownloadQueue *)(q->first());
+	while(dq){
+		N--;
+		if (N==0) return(dq);
+		d4xDownloadQueue *rval=_get_queue_sub_(&(dq->child),N);
+		if (N<=0) return(rval);
+		dq=(d4xDownloadQueue *)(dq->prev);
+	};
+	return(NULL);
+};
+
+static d4xDownloadQueue *_get_queue_(int N){
+	return(_get_queue_sub_(&D4X_QTREE,N));
+};
+
 void tMsgServer::cmd_ls(int len,int type){
-	if (len){
-		char *temp=new char[len+1];
-		if (read(newfd,temp,len)==len){
-			temp[len]=0;
-			tDownload *dl=new tDownload;
-			dl->info=new tAddr(temp);
-			ALL_DOWNLOADS->lock();
-			tDownload *answer=ALL_DOWNLOADS->find(dl);
-			delete(dl);
-			write_dwn_status(answer);
-		};
+	if (!len) return;
+	char *temp=new char[len+1];
+	int N=0;
+	if (read(newfd,temp,len)!=len){
 		delete[] temp;
+		return;
+	};
+	temp[len]=0;
+	if (sscanf(temp,"%i",&N)!=1 || N<0){
+		tDownload *dl=new tDownload;
+		dl->info=new tAddr(temp);
+		ALL_DOWNLOADS->lock();
+		tDownload *answer=ALL_DOWNLOADS->find(dl);
+		delete(dl);
+		write_dwn_status(answer);
 	}else{ // output whole list
 		ALL_DOWNLOADS->lock();
-		/* FIXME: when implement many queues */
-		d4xWFNode *node=(d4xWFNode *)(D4X_QUEUE->qv.ListOfDownloadsWF.first());
-		while (node) {
-			d4xWFNode *next=(d4xWFNode *)(node->prev);
-			if (node->dwn){
-				write_dwn_status(node->dwn,1);
-				ALL_DOWNLOADS->lock();
+		d4xDownloadQueue *q=_get_queue_(N);
+		if (q!=NULL){
+			d4xWFNode *node=(d4xWFNode *)(q->qv.ListOfDownloadsWF.first());
+			while (node) {
+				d4xWFNode *next=(d4xWFNode *)(node->prev);
+				if (node->dwn){
+					write_dwn_status(node->dwn,1);
+					ALL_DOWNLOADS->lock();
+				};
+				if (next==NULL || next->next==node)
+					node=next;
+				else
+					break;
 			};
-			if (next==NULL || next->next==node)
-				node=next;
-			else
-				break;
 		};
 		ALL_DOWNLOADS->unlock();
 	};
+	delete[] temp;
+};
+
+void tMsgServer::cmd_lstree_sub(tQueue *q){
+	char b=LST_SUBQUEUE;
+	d4xDownloadQueue *dq=(d4xDownloadQueue *)(q->first());
+	write(newfd,&b,sizeof(b));
+	while(dq){
+		b=LST_QUEUE;
+		write(newfd,&b,sizeof(b));
+		int len=strlen(dq->name.get());
+		write(newfd,&len,sizeof(len));
+		write(newfd,dq->name.get(),len);
+		len=dq->count();
+		write(newfd,&len,sizeof(len));
+		len=dq->count(DL_RUN);
+		write(newfd,&len,sizeof(len));
+		len=dq->count(DL_COMPLETE);
+		write(newfd,&len,sizeof(len));
+		len=dq->MAX_ACTIVE;
+		write(newfd,&len,sizeof(len));
+		cmd_lstree_sub(&(dq->child));
+		dq=(d4xDownloadQueue *)(dq->prev);
+	};
+	b=LST_UPQUEUE;
+	write(newfd,&b,sizeof(b));
+};
+
+void tMsgServer::cmd_lstree(){
+	ALL_DOWNLOADS->lock();
+	cmd_lstree_sub(&D4X_QTREE);
+	ALL_DOWNLOADS->unlock();
 };
 
 void tMsgServer::cmd_add(int len,int type){
@@ -254,6 +307,10 @@ void tMsgServer::run(){
 				};
 				case PACKET_LS:{
 					cmd_ls(packet.len,packet.type);
+					break;
+				};
+				case PACKET_LSTREE:{
+					cmd_lstree();
 					break;
 				};
 				default:
@@ -378,6 +435,10 @@ void tMsgClient::done(){
 		close(fd);
 		fd=0;
 	};
+};
+
+int tMsgClient::readdata(void *buf,int len){
+	return(read(fd,buf,len));
 };
 
 tMsgClient::~tMsgClient(){

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -181,6 +181,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	gdk_color_alloc (colormap, &back_color);
 	gtk_clist_set_foreground(GTK_CLIST(temp->clist),row,&color);
 	gtk_clist_set_background(GTK_CLIST(temp->clist),row,&back_color);
+	gtk_clist_set_row_data(GTK_CLIST(temp->clist),row,GINT_TO_POINTER(str->type));
 };
 
 
@@ -193,7 +194,27 @@ static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
 		sprintf(data,_("Row number %i [log of %s]"),row+1,temp->papa->info->file.get());
 		char *text;
 		gtk_clist_get_text(GTK_CLIST(clist),row,L_COL_STRING,&text);
-		temp->string->init(text,data);
+		int err_code=GPOINTER_TO_INT(gtk_clist_get_row_data(GTK_CLIST(temp->clist),row));
+		char *error_name=NULL;
+		switch(err_code){
+		case LOG_ERROR:
+			error_name=_("Erorr!");
+			break;
+		case LOG_WARNING:
+			error_name=_("Warning!");
+			break;
+		case LOG_TO_SERVER:
+			error_name=_("Message to server");
+			break;
+		case LOG_FROM_SERVER:
+			error_name=_("Message from server");
+			break;
+		default:
+		case LOG_OK:
+			error_name=_("All ok");
+			break;
+		};
+		temp->string->init(text,data,error_name);
 		return TRUE;
 	};
 	return FALSE;

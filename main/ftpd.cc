@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999-2001 Koshelev Maxim
+ *	Copyright (C) 1999-2002 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified 
  *	program but you can distribute unmodified program.
@@ -305,6 +305,7 @@ int tFtpDownload::reconnect() {
 		};
 		RetrNum++;
 		print_error(ERROR_ATTEMPT);
+		tDownloader::reconnect();
 		if (RetrNum>1) {
 			LOG->log(LOG_OK,_("Sleeping"));
 			sleep(config.time_for_sleep+1);
