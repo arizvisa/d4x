@@ -22,10 +22,11 @@
 #include "var.h"
 #include "locstr.h"
 #include "ntlocale.h"
+#include "ftpd.h"
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.12";
+char *VERSION_NAME="WebDownloader for X 1.13";
 char *LOCK_FILE;
 
 static void init_string_variables(){

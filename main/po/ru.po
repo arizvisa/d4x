@@ -22,7 +22,7 @@ msgstr ""
 
 #: client.cc:65
 msgid "Timeout when socket read!"
-msgstr "Таймаут при чтении из сокета"
+msgstr "Таймаут во время чтения из сокета"
 
 #: client.cc:70
 msgid "Error when reading from socket!"
@@ -42,11 +42,11 @@ msgstr "Хост не найден!"
 
 #: client.cc:91
 msgid "Can't allocate socket"
-msgstr "Не могу выделить сокет"
+msgstr "Не удается выделить сокет"
 
 #: client.cc:96
 msgid "Can't connect"
-msgstr "Не могу подсоединиться"
+msgstr "Не удается соединиться"
 
 #: config.cc:317
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
@@ -55,11 +55,11 @@ msgstr "ВНИМАНИЕ!!! Переменная HOME не найдена! Настройки не прочитаны!"
 #: config.cc:334
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
-msgstr "Не могу открыть конфигурационный файл по пути '%s'\n"
+msgstr "Не удается открыть конфигурационный файл по пути '%s'\n"
 
 #: config.cc:335
 msgid "Use default cfg :))...\n"
-msgstr "Использую настройки по умолчанию :))...\n"
+msgstr "Используются настройки по умолчанию...\n"
 
 #: config.cc:367
 msgid "WARNING!!! Can't find HOME variable! So can't write config!"
@@ -72,11 +72,11 @@ msgstr "плохой файл\n"
 
 #: config.cc:567
 msgid "Can't open file of limits!!!\n"
-msgstr "Не могу открыть файл ограничений!!!\n"
+msgstr "Не удается открыть файл ограничений!!!\n"
 
 #: config.cc:592
 msgid "Can't write limits to file!!!\n"
-msgstr "Не могу записать файл ограничений!!!\n"
+msgstr "Не удается записать файл ограничений!!!\n"
 
 #: dlist.cc:307
 msgid ""
@@ -89,7 +89,7 @@ msgstr "Пытаюсь создать файл"
 
 #: download.cc:101
 msgid "Can't create file at the path:"
-msgstr "Не могу создать файл по пути:"
+msgstr "Не удается создать файл по пути:"
 
 #: download.cc:103
 msgid "wich has name:"
@@ -105,7 +105,7 @@ msgstr "Пытаюсь создать директорию"
 
 #: download.cc:119
 msgid "Can't create directory!"
-msgstr "Не могу создать директорию"
+msgstr "Не удается создать директорию"
 
 #: download.cc:122
 msgid "Directory already created!:))"
@@ -117,7 +117,7 @@ msgstr "Пытаюсь создать ссылку"
 
 #: download.cc:132
 msgid "Can't create link"
-msgstr "Не могу создать ссылку"
+msgstr "Не удается создать ссылку"
 
 #: download.cc:135
 msgid "Link already created!:))"
@@ -125,7 +125,7 @@ msgstr "Ссылка уже создана!:))"
 
 #: download.cc:141
 msgid "Downloader can't create devices..."
-msgstr "Не умею качать файлы устройств..."
+msgstr "Downloader не может качать/создавать файлы устройств..."
 
 #: download.cc:145
 msgid "Warning! Probably you found the BUG!!!"
@@ -162,7 +162,7 @@ msgstr "Пытаюсь подключиться к %i,%i,%i,%i,%i,%i"
 
 #: ftp.cc:177
 msgid "Cant stand data connection"
-msgstr "Не могу установить соединение для данных"
+msgstr "Не удается установить соединение для данных"
 
 #: ftp.cc:254
 msgid "Data connection closed."
@@ -170,7 +170,7 @@ msgstr "Соединение данных закрыто"
 
 #: ftp.cc:259 http.cc:132
 msgid "Can't write to file"
-msgstr "Не могу записать в файл"
+msgstr "Не удается записать в файл"
 
 #: ftpd.cc:138
 msgid "Reget is not supported!!!"
@@ -178,7 +178,7 @@ msgstr "Докачка не поддерживается!!!"
 
 #: ftpd.cc:183
 msgid "Server refused login probably too many users of your class"
-msgstr "Сервер не принял нас, возможно слишком много пользователей такого класса"
+msgstr "Сервер отказал в доступе, возможно слишком много пользователей"
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
@@ -209,15 +209,15 @@ msgstr "Это директория"
 
 #: ftpd.cc:317
 msgid "Couldn't get size :(("
-msgstr "Не могу определить размер :(("
+msgstr "Не удается определить размер"
 
 #: ftpd.cc:319 ftpd.cc:361 ftpd.cc:411
 msgid "Can't establish data connection"
-msgstr "Не могу установить соединене для данных"
+msgstr "Не удается установить соединене для данных"
 
 #: ftpd.cc:325
 msgid "Can't change dir!"
-msgstr "Не могу сменить директорию!"
+msgstr "Не удается сменить директорию!"
 
 #: ftpd.cc:354
 msgid "Listing was loaded"
@@ -229,7 +229,7 @@ msgstr "Листинг не загружен полностью"
 
 #: ftpd.cc:364 ftpd.cc:414
 msgid "Can't change directory"
-msgstr "Не могу сменить директорию"
+msgstr "Не удается сменить директорию"
 
 #: ftpd.cc:381
 msgid "Loading directory..."
@@ -250,11 +250,11 @@ msgstr "%i байт загружено"
 
 #: hproxy.cc:136
 msgid "Connection to the internet via proxy"
-msgstr "Подсоединяюсь к интернету через прокси"
+msgstr "Соединяюсь к интернету через прокси"
 
 #: hproxy.cc:137
 msgid "Sending request to proxy"
-msgstr "Посылаю запрос к прокси"
+msgstr "Посылается запрос к прокси"
 
 #: hproxy.cc:141 httpd.cc:220
 msgid "Answer read ok"
@@ -262,7 +262,7 @@ msgstr "Ответ прочитан"
 
 #: hproxy.cc:151 httpd.cc:230
 msgid "Could'nt get normal answer!"
-msgstr "Не могу получить нормальный ответ!"
+msgstr "Не удается получить нормальный ответ!"
 
 #: http.cc:43
 msgid "Socket lost!"
@@ -274,7 +274,7 @@ msgstr "Это не HTTP сервер!!!"
 
 #: http.cc:63
 msgid "All ok, reading file"
-msgstr "Все ОК, качаю файл"
+msgstr "Все ОК, файл закачивается"
 
 #: http.cc:67
 msgid "Redirect detected..."
@@ -282,7 +282,7 @@ msgstr "Перенаправление..."
 
 #: http.cc:73
 msgid "It seems to me that you need a password :)"
-msgstr "Мне кажется нужен пароль :)"
+msgstr "Кажется необходим пароль :)"
 
 #: http.cc:81
 msgid "Server return bad answer:(("
@@ -312,7 +312,7 @@ msgstr "Кажется докачка не поддерживается! Качаю с начала.."
 
 #: main.cc:145
 msgid "Normally started"
-msgstr "Стартанули нормально"
+msgstr "Нормальный запуск"
 
 #: main.cc:202
 msgid "Clear queue of downloads"
@@ -377,7 +377,7 @@ msgstr "Добавлена закачка файла %s из %s"
 
 #: main.cc:874 main.cc:951
 msgid "It is strange that we can't delete file which just created..."
-msgstr "Странно, не могу удалить файл который только что создал..."
+msgstr "Не удается удалить только что созданный файл..."
 
 #: main.cc:878 main.cc:955 main.cc:1043
 msgid "File not found"
@@ -385,7 +385,7 @@ msgstr "Файл не найден"
 
 #: main.cc:999
 msgid "Can't open messages queue!"
-msgstr "Не могу открыть очередь сообщений!"
+msgstr "Не удается открыть очередь сообщений!"
 
 #: main.cc:1016
 msgid "Was Started!"
@@ -393,11 +393,11 @@ msgstr "Закачка начата!"
 
 #: main.cc:1019
 msgid "It is a link and we already load it"
-msgstr "Это ссылка и мы ее уже загрузили"
+msgstr "Это ссылка и она уже загружена"
 
 #: mainlog.cc:99
 msgid "Can't write to file interrupting write to file"
-msgstr "Не могу записать в файл, прекращаю писать в файл"
+msgstr "Не удается записать в файл, запись в файл прекращена"
 
 #: mainlog.cc:138
 #, c-format
@@ -406,7 +406,7 @@ msgstr "строка %i главного лога"
 
 #: mainlog.cc:166
 msgid "Can't open file for saving log"
-msgstr "Не могу открыть файл для записи лога"
+msgstr "Не удается открыть файл для записи лога"
 
 #: nt.cc:39
 #, c-format
@@ -416,15 +416,15 @@ msgstr "%s возможно уже запущен\n"
 #: savelog.cc:61
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
-msgstr "Не могу сохранить список закачек!!! Переменной  HOME нет!"
+msgstr "Не удается сохранить список закачек! Переменной HOME нет!"
 
 #: savelog.cc:72
 msgid "Can't save default list of downloads!!!"
-msgstr "Не могу сохранить список закачек!!!"
+msgstr "Не удается сохранить список закачек!"
 
 #: savelog.cc:108
 msgid "Can't load default list of downloads!!!"
-msgstr "Не могу сохранить список закачек!!!"
+msgstr "Не удается загрузить список закачек!"
 
 #: signal.cc:43
 msgid "Download  was stopped by user"
@@ -489,7 +489,7 @@ msgstr " Сдвинуть вниз "
 
 #: face/buttons.cc:134
 msgid " View log "
-msgstr " Посмотреть лог "
+msgstr " Открыть лог "
 
 #: face/buttons.cc:137
 msgid " Options "
@@ -513,7 +513,7 @@ msgstr " Удалить все закачки "
 
 #: face/edit.cc:20
 msgid "Timeout for reading from socket (in seconds)"
-msgstr "Таймаут для чтения из сокета (в секундах)"
+msgstr "Таймаут чтения из сокета (в секундах)"
 
 #: face/edit.cc:21
 msgid "Timeout before reconnection (in seconds)"
@@ -533,11 +533,11 @@ msgstr "Повторять если докачка не поддерживается"
 
 #: face/edit.cc:25
 msgid "Get date from the server"
-msgstr "Брать дату с сервера"
+msgstr "Устанавливать дату как на сервере"
 
 #: face/edit.cc:26
 msgid "Get permisions of the file from server (FTP only)"
-msgstr "Брать права файла с сервера (только FTP)"
+msgstr "Устанавливать права файла как на сервере (только FTP)"
 
 #: face/edit.cc:106
 msgid "Edit download"
@@ -662,7 +662,7 @@ msgstr "Хост"
 
 #: face/limface.cc:282
 msgid "N"
-msgstr "Максимум"
+msgstr "Количество"
 
 #: face/limface.cc:296
 msgid "Add new"
@@ -1031,7 +1031,7 @@ msgstr "Закачка неудалась..."
 
 #: face/prefs.cc:218
 msgid "Revert drawing graph of speeds"
-msgstr "Рисовать граф в обратном порядке"
+msgstr "Рисовать график в обратном порядке"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
@@ -1191,7 +1191,7 @@ msgstr "показать текущую скорость если уже запущен"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
-msgstr "Выйти если нечего делать через"
+msgstr "Выйти если ничего не происходит через"
 
 #: prefs.cc:
 msgid "Main log"
@@ -1283,7 +1283,7 @@ msgstr "неизвестный параметр:"
 
 #: face/prefs.cc:
 msgid "Run this when exit"
-msgstr "Запустить это по выходу"
+msgstr "Запустить это во время выхода"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
@@ -1396,3 +1396,7 @@ msgstr "/Закачка/Выделить все"
 # face/list.cc
 msgid "/Download/Invert selection"
 msgstr "/Закачка/Инвертировать выделение"
+
+#face/edit.cc:
+msgid "Try to load simbolyc link as file via ftp"
+msgstr "Загружать символическую ссылку как файл (ftp)"

@@ -26,6 +26,7 @@ class tFtpClient:public tClient{
     int analize(char *how);
     int accepting();
     int last_answer();
+    int is_valid_answer(char *what);
     int rest(int offset);
     public:
 		tFtpClient();

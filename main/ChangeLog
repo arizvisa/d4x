@@ -1,3 +1,79 @@
+Fri Mar  3 09:29:43 2000
+	*po/ru.po: some spell fixes;
+	*socket.cc: some compilation fixes;
+
+Thu Mar  2 12:32:50 2000
+	*po/: added new message;
+	*hproxy.cc: fixed sending cokies via http; referer field in requests
+	to proxy now is equal to url :);
+
+Tue Feb 29 10:53:09 2000
+	*config.cc,mainlog.cc[h]: some code cleanups;
+
+Mon Feb 28 09:32:05 2000
+	*po/pt_Br.po: was updated;
+	*main.cc,download.cc,face/edit.cc: added ability to download link
+	as files;
+	*main.cc,srvclt.cc: added new command for adding via control socket
+	with popuping dialog;
+	*po/nl.po: is uptodate!
+
+Sat Feb 26 21:26:55 2000
+	*log.cc,mainlog.cc,locstr.cc,var.h: replaced snprintf by g_snprintf();
+	*locstr.cc: minor code cleanups;
+
+Fri Feb 25 12:59:59 2000
+	*srvclt.cc[h],main.cc: added ability to write message to the main log
+	from a control socket; some code cleanups;
+	*httpd.cc: fixed creating full path when user set another file name;
+
+Thu Feb 24 10:17:35 2000
+	*log.cc[h],face/log.cc: added row number column into logs;
+
+Wed Feb 23 08:58:52 2000
+	*main.cc: now stoping run downloads when delete all;
+	*addr.cc[h],dlist.cc[h]: remove all tAddr functions and definitions
+	to new file; 
+	*srvclt.cc[h],main.cc,face/list.cc[h]: added ability to popup and
+	iconify main window via socket;
+	*mainlog.cc[h],face/list.cc: added one new column into main log;
+	fixed minor bug related with brogress bar;
+
+Tue Feb 22 14:36:35 2000
+	*[many of files]: all string in tAddr now private;
+
+Mon Feb 21 09:30:29 2000
+	*main.cc: minor fix for BSD compilation; fixed memory leak when
+	redirected;
+	*http[d].cc[h], hproxy.cc: fixed authorisation;
+	*dlist.cc: now ~tAddr() will delete .file (memory leak);
+
+Sat Feb 19 13:43:00 2000
+	*ftp.cc,socket.cc: continue trying to working on sparc;
+	various fixes;
+	*locstr.cc: put g_return_..._if_fail() everywhere;
+
+Fri Feb 18 14:22:58 2000
+	*face/log.cc,locstr.cc: now using fixed font for logs;
+	*ftp[d].cc: continue ftp improvements;
+	*mainlog.cc: fixed time of messages in saved file;
+	*socket.cc: next attempt working on Sparc;
+	*face/about.cc: about window now is modal;
+	*face/list.cc, face/dndtrash.cc[h]: dndtrash moving rewrote;
+
+Thu Feb 17 16:37:52 2000
+	*ftp.cc: fixed BEGIENDIAN-LITTLEENDIAN problems, new method
+	to detect last string in ftp answers;
+
+Thu Feb 17 12:09:21 2000
+	*ftpd.cc[h],download.cc[h],httpd.cc[h],hproxy.cc: new function 
+	print_error() for centrlisation error output; minor fixes an cleanups
+	in ftp; fixed probability of segfault (mistyping 5 instead of 1);
+	*main.cc: fixed initing menu items at starting (now initing :);
+
+Wed Feb 16 18:40:50 2000
+	*http[d].cc,hproxy.cc,dlist.cc: fixed probability of segfaulting!
+
 Wed Feb 16 08:59:49 2000
 	*face/edit.cc: cosmetic fixes before releasing new version;
 	*ftp.cc: new way to change directory if user not anonymous;

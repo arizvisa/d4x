@@ -1,4 +1,4 @@
-%define ver      1.12
+%define ver      1.13
 %define prefix   /usr
 
 Name: nt
@@ -23,6 +23,7 @@ Main features:
     * recursive ftp and http downloading
     * mask support for ftp recursing
     * proxy support (ftp and http)
+    * support for traffic limitation
     * and other ...
 
 %prep

@@ -41,7 +41,7 @@ int tSocket::constr_name(char *host,int port) {
 		hostent *hpr=&hp;
 		temp_variable=0;
 #if !(defined(BSD) && (BSD >= 199306))
-#ifdef __sparc__
+#if defined(__sparc__) && !(defined(__linux__))
 		gethostbyname_r(host,&hp,buffer,MAX_LEN,&temp_variable);
 #else
 		gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
@@ -62,18 +62,19 @@ int tSocket::constr_name(char *host,int port) {
 };
 //***************************************************/
 
-int tSocket::get_addr() {
-	int my_addr;
+unsigned int tSocket::get_addr() {
+	unsigned int my_addr=0;
 	unsigned int len;
 	len = sizeof(info);
 	if (getsockname(fd, (struct sockaddr* )&info, &len) == -1)
-		return -1;
+		return 0;
 	memcpy(&my_addr, (char *)&info.sin_addr.s_addr,sizeof(my_addr));
+	my_addr=htonl(my_addr);
 	return my_addr;
 }
 
-int tSocket::get_port() {
-	return info.sin_port;
+unsigned short int tSocket::get_port() {
+	return htons(info.sin_port);
 };
 
 int tSocket::open_port(char *host, int port) {
@@ -87,8 +88,19 @@ int tSocket::open_port(char *host, int port) {
 		return(SOCKET_CANT_CONNECT);
 	return 0;
 }
+int tSocket::open_port(int *ftp_addr) {
+	unsigned char addr[6];
+	for (int i=0;i<6;i++) addr[i]=(unsigned char)(ftp_addr[i]&0xff);
+	unsigned long int host=0;
+	unsigned short int port=0;
+	memcpy((char *)&host,addr,4);
+	memcpy((char *)&port,addr+4,2);	      
+	return(open_port(host,port));
+}
 
-int tSocket::open_port(int host, int port) {
+int tSocket::open_port(unsigned long int host,unsigned short int port) {
+	port=htons(port);
+//	host=htonl(host);
 	int len=constr_name(NULL,port);
 	if (len<0) return SOCKET_UNKNOWN_HOST;
 	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));
@@ -115,8 +127,9 @@ int tSocket::open_any(char *host) {
 	return 0;
 };
 
-int tSocket::open_any(int host) {
+int tSocket::open_any(unsigned int host) {
 	constr_name(NULL,0);
+	host=htonl(host);
 	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
 		return(-1);

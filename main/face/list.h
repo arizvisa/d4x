@@ -52,6 +52,7 @@ void main_menu_del_completed_set_state(gint a);
 void main_menu_del_failed_set_state(gint a);
 void main_menu_prepare();
 
+void main_window_iconify();
 void main_window_popup();
 void update_progress_bar();
 void update_mainwin_title();

@@ -25,6 +25,7 @@ class tHttpDownload:public tDownloader{
 	int analize_answer();
 	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
    	void make_full_pathes(const char *path,char **name,char **guess);
+	void print_error(int error_code);
 	public:
 		tHttpDownload();
 		void init_download(char *path,char *file);

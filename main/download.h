@@ -15,14 +15,22 @@
 #include "liststr.h"
 #include "log.h"
 
-struct tFileInfo{
-    char *name;
-    char *body;
-    int size;
-    int type,oldtype;
-    int fdesc;
-    int perm;
-    int date;
+class tFileInfo{
+ private:
+	char *name;
+	char *body;
+ public:
+	tFileInfo();
+	void set_name(char *what);
+	void set_body(char *what);
+	char *get_name();
+	char *get_body();
+	int size;
+	int type,oldtype;
+	int fdesc;
+	int perm;
+	int date;
+	~tFileInfo();
 };
 
 struct tCfg{
@@ -40,6 +48,7 @@ struct tCfg{
 	int permisions;
 	int get_date;
 	int full_server_loading;
+	int link_as_file;
 /* proxy
  */
 	int proxy_port;
@@ -86,6 +95,7 @@ class tDownloader{
     int rollback(int offset);
     virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
     virtual void make_full_pathes(const char *path,char **name,char **guess);
+    virtual void print_error(int error_code);
  public:
     	tDownloader();
     	int treat();
@@ -133,5 +143,17 @@ enum{
 	D_QUERYING,
 	D_DOWNLOAD,
 	D_DOWNLOAD_BAD
+};
+
+enum ERROR_CODES{
+	ERROR_UNKNOWN,
+	ERROR_TIMEOUT,
+	ERROR_CWD,
+	ERROR_DATA_CONNECT,
+	ERROR_ATTEMPT_LIMIT,
+	ERROR_BAD_ANSWER,
+	ERROR_ATTEMPT,
+	ERROR_REGET,
+	ERROR_TOO_MANY_USERS
 };
 #endif

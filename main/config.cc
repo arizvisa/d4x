@@ -225,14 +225,19 @@ void set_config(char *line){
 
 int read_string(int fd,char *where,int max) {
 	char *cur=where;
-	int i=max;
-	while(read(fd,cur,1)>0 && i>0) {
-		i-=1;
-		if (*cur=='\n') break;
-		cur+=1;
+	max-=1;
+	if (max>0){
+		int i=max;
+		while(read(fd,cur,1)>0 && i>0) {
+			i-=1;
+			if (*cur=='\n') break;
+			cur+=1;
+		};
+		*cur=0;
+		return max-i;
 	};
-	*cur=0;
-	return max-i;
+	*where=0;
+	return 0;
 };
 
 void read_config() {
@@ -271,11 +276,11 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8",0);
 	load_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9",0);
 	load_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11",0);
-	if (CFG.REMEMBER_PASS) 
+	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
-	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");	
-	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.05");	
-	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");	
+	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
+	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.05");
+	ALL_HISTORIES[USER_AGENT_HISTORY]->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");
 };
 
 static void save_integer_to_config(int fd,char *name,int num) {

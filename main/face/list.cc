@@ -314,7 +314,7 @@ void my_main_quit(...) {
 void set_limit_to_download() {
 	tDownload *temp=list_of_downloads_last_selected();
 	if (temp)
-		FaceForLimits->add(temp->info->host,temp->info->port);
+		FaceForLimits->add(temp->info->get_host(),temp->info->port);
 };
 
 void open_edit_for_selected(...) {
@@ -358,9 +358,10 @@ void ask_exit(...) {
 		my_main_quit();
 };
 
+
 gint ask_exit2() {
 	if (CFG.WINDOW_LOWER)// gdk_window_lower(MainWindow->window);
-		my_gdk_window_iconify(MainWindow->window);
+		main_window_iconify();
 	else ask_exit();
 	return TRUE;
 };
@@ -430,14 +431,14 @@ void continue_downloads(...) {
 /* ******************************************************************** */
 void init_status_bar() {
 	ProgressBarValues = (GtkAdjustment *) gtk_adjustment_new (0, 1, 200 , 0, 0, 0);
-	ProgressOfDownload = gtk_progress_bar_new_with_adjustment( ProgressBarValues);
+	ProgressOfDownload = gtk_progress_bar_new_with_adjustment(ProgressBarValues);
 	/* Set the format of the string that can be displayed in the
 	 * trough of the progress bar:
 	 * %p - percentage
 	 * %v - value
 	 * %l - lower range value
 	 * %u - upper range value */
-	gtk_widget_set_usize(ProgressOfDownload,100,-1);
+	gtk_widget_set_usize(ProgressOfDownload,110,-1);
 	gtk_progress_set_format_string (GTK_PROGRESS (ProgressOfDownload),
 	                                "%p%%");
 	gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),TRUE);
@@ -455,10 +456,20 @@ void init_status_bar() {
 
 void update_progress_bar() {
 	tDownload *temp=list_of_downloads_last_selected();
-	int percent=0;
-	if (temp) percent=temp->Percent.curent;
+/*
+	GtkAdjustment *adj=GTK_PROGRESS(ProgressOfDownload)->adjustment;
+	if (adj){
+		adj->lower=0;
+		adj->upper = temp->finfo.size>0 ? temp->finfo.size : 1;
+		gtk_progress_bar_update((GtkProgressBar *)ProgressOfDownload,
+				adj->upper? temp->Size.curent/adj->upper: 0);
+	}else{
+*/
+	int percent=temp!=NULL?temp->Percent.curent:0;
 	if (percent>100) percent=100;
-	gtk_progress_bar_update((GtkProgressBar *)ProgressOfDownload,(gfloat)percent/100);
+	if (percent<0) percent=0;
+	gtk_progress_bar_update((GtkProgressBar *)ProgressOfDownload,
+				float(float(percent)/float(100)));
 	gtk_widget_show(ProgressOfDownload);
 	char data[MAX_LEN];
 	char data1[MAX_LEN];
@@ -506,11 +517,15 @@ void init_main_window() {
 	gtk_box_pack_start (GTK_BOX (hbox), ProgressOfDownload, FALSE, FALSE, 0);
 	gtk_widget_set_usize(hbox,-1,20);
 
-	MainLogList=gtk_clist_new(2);
-	gtk_clist_set_column_width (GTK_CLIST(MainLogList),0,100);
-	gtk_clist_set_column_width (GTK_CLIST(MainLogList),1,800);
-	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), 0, GTK_JUSTIFY_LEFT);
+	MainLogList=gtk_clist_new(3);
+	gtk_clist_set_column_width (GTK_CLIST(MainLogList),0,1);
+	gtk_clist_set_column_width (GTK_CLIST(MainLogList),1,100);
+	gtk_clist_set_column_width (GTK_CLIST(MainLogList),2,800);
+	for (int i=0;i<3;i++)
+		gtk_clist_set_column_auto_resize(GTK_CLIST(MainLogList),i,TRUE);
+	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), 0, GTK_JUSTIFY_RIGHT);
 	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), 1, GTK_JUSTIFY_LEFT);
+	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), 2, GTK_JUSTIFY_LEFT);
 
 	GtkWidget *hpaned=gtk_vpaned_new();
 	main_log_adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
@@ -581,7 +596,7 @@ void update_mainwin_title() {
 				make_number_nice(data3,temp->finfo.size);
 			else
 				sprintf(data3,"???");
-			sprintf(data,"%i%c %s/%s %s ",temp->Percent.curent,'%',data2,data3,temp->info->file);
+			sprintf(data,"%i%c %s/%s %s ",temp->Percent.curent,'%',data2,data3,temp->info->get_file());
 			tmp_scroll_title(data,ROLL_STAT);
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 		} else {
@@ -618,8 +633,9 @@ int time_for_refresh(void *a) {
 
 int time_for_logs_refresh(void *a) {
 	aa.redraw_logs();
+	aa.check_for_remote_commands();
 	MainTimer-=1;
-	dnd_trash_refresh();
+//	dnd_trash_refresh();
 	if (MainTimer==0) {
 		time_for_refresh(NULL);
 		MainTimer=(GLOBAL_SLEEP_DELAY*1000)/100;
@@ -718,6 +734,11 @@ void init_timeouts() {
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "configure_event",
 	                   GTK_SIGNAL_FUNC(get_mainwin_sizes),
 	                   MainWindow);
+};
+
+void main_window_iconify(){
+	if (MainWindow)
+		my_gdk_window_iconify(MainWindow->window);
 };
 
 void main_window_popup(){

@@ -23,7 +23,7 @@
 
 tHttpDownload::tHttpDownload() {
 	LOG=NULL;
-	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
+	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
 	Status=D_NOTHING;
@@ -37,18 +37,27 @@ tHttpDownload::tHttpDownload() {
 	FULL_NAME_TEMP=NULL;
 };
 
+void tHttpDownload::print_error(int error_code){
+	switch(error_code){
+	case ERROR_BAD_ANSWER:
+		LOG->add(_("Could'nt get normal answer!"),LOG_ERROR);
+		break;
+	default:
+		tDownloader::print_error(error_code);
+	};
+};
+
 int tHttpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	LOG=log;
 	HTTP=new tHttpClient;
 	RetrNum=0;
-	HOST=hostinfo->host;
-	USER=hostinfo->username;
-	PASS=hostinfo->pass;
+	HOST=hostinfo->get_host();
+	USER=hostinfo->get_username();
+	PASS=hostinfo->get_pass();
 	D_PORT=hostinfo->port;
 	answer=NULL;
 	ETag=NULL;
 	Auth=NULL;
-	D_FILE.name=NULL;
 	D_FILE.fdesc=0;
 	RealName=NewRealName=NULL;
 	data=0;
@@ -66,7 +75,7 @@ void tHttpDownload::init_download(char *path,char *file) {
 	NewRealName=NULL;
 	if (RealName) delete RealName;
 	RealName=NULL;
-	RealName=parse_percents(D_FILE.name);
+	RealName=parse_percents(D_FILE.get_name());
 };
 
 int tHttpDownload::reconnect() {
@@ -75,12 +84,10 @@ int tHttpDownload::reconnect() {
 	while (success) {
 		RetrNum++;
 //		if (HTTP->get_status()==STATUS_FATAL) return -1;
-		if (config.number_of_attempts)
-			LOG->myprintf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
-		else
-			LOG->myprintf(LOG_OK,_("Retrying %i ..."),RetrNum);
-		if (RetrNum==config.number_of_attempts) {
-			LOG->add(_("Max amount of retries was reached!"),LOG_ERROR);
+		print_error(ERROR_ATTEMPT);
+		if (config.number_of_attempts &&
+		    RetrNum>=config.number_of_attempts+1) {
+			print_error(ERROR_ATTEMPT_LIMIT);
 			return -1;
 		};
 		HTTP->down();
@@ -214,10 +221,10 @@ int tHttpDownload::analize_answer() {
 int tHttpDownload::get_size() {
 	if (FULL_NAME_TEMP) delete (FULL_NAME_TEMP);
 	FULL_NAME_TEMP=NULL;
-	if (D_PATH[strlen(D_PATH)-1]!='/')
-		FULL_NAME_TEMP=sum_strings("/",D_PATH,"/",D_FILE.name,NULL);
+	if (D_PATH[0]!=0 && D_PATH[strlen(D_PATH)-1]!='/')
+		FULL_NAME_TEMP=sum_strings("/",D_PATH,"/",D_FILE.get_name(),NULL);
 	else
-		FULL_NAME_TEMP=sum_strings("/",D_PATH,D_FILE.name,NULL);
+		FULL_NAME_TEMP=sum_strings("/",D_PATH,D_FILE.get_name(),NULL);
 	if (!answer) {
 		answer=new tStringList;
 		answer->init(0);
@@ -226,7 +233,6 @@ int tHttpDownload::get_size() {
 		answer->done();
 		HTTP->set_offset(data);
 		LOG->add(_("Sending http request..."),LOG_OK);
-		if (USER && PASS) HTTP->set_auth(1);
 		int temp=HTTP->get_size(FULL_NAME_TEMP,answer);
 		if (temp==0) {
 			LOG->add(_("Answer read ok"),LOG_OK);
@@ -241,7 +247,7 @@ int tHttpDownload::get_size() {
 		if (HTTP->get_status()!=STATUS_TIMEOUT) break;
 		if (reconnect()) break;
 	};
-	LOG->add(_("Could'nt get normal answer!"),LOG_ERROR);
+	print_error(ERROR_BAD_ANSWER);
 	return -2;
 };
 
@@ -298,7 +304,7 @@ int tHttpDownload::get_readed() {
 char *tHttpDownload::get_real_name() {
 	if (NewRealName) return NewRealName;
 	if (RealName)   return RealName;
-	return D_FILE.name;
+	return D_FILE.get_name();
 };
 
 char *tHttpDownload::get_content_type() {
@@ -311,7 +317,7 @@ int tHttpDownload::reget() {
 };
 
 void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) {
-	int flag=strlen(D_FILE.name);
+	int flag=strlen(D_FILE.get_name());
 	char *full_path;
 	if (config.http_recursing)
 		full_path=compose_path(path,D_PATH);
@@ -321,9 +327,9 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 	char *question_sign=index(full_path,'?');
 	if (question_sign) *question_sign=0;
 	if (flag){
-		temp=sum_strings(".",D_FILE.name,NULL);
+		temp=sum_strings(".",D_FILE.get_name(),NULL);
 		*name=compose_path(full_path,temp);
-		*guess=compose_path(full_path,D_FILE.name);
+		*guess=compose_path(full_path,D_FILE.get_name());
 	}else{
 		temp=sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
@@ -336,7 +342,11 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 
 void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
 	char *temp=sum_strings(".",another_name,NULL);
-	char *full_path=compose_path(path,D_PATH);
+	char *full_path=NULL;
+	if (config.http_recursing)
+		full_path=compose_path(path,D_PATH);
+	else
+		full_path=copy_string(path);
 	char *question_sign=index(full_path,'?');
 	if (question_sign) *question_sign=0;
 	*name=compose_path(full_path,temp);
@@ -352,20 +362,32 @@ int tHttpDownload::create_file(char *data,char *another_name) {
 		RealName=NewRealName;
 		NewRealName=NULL;
 	};
-	char *temp=D_FILE.name;
-	if (RealName) D_FILE.name=RealName;
+	char *temp=NULL;
+	if (RealName){
+		temp=copy_string(D_FILE.get_name());
+		D_FILE.set_name(RealName);
+	};
 	D_FILE.type=T_FILE;
 	int rvalue=tDownloader::create_file(data,another_name);
-	if (RealName) D_FILE.name=temp;
+	if (RealName){
+		D_FILE.set_name(temp);
+		delete(temp);
+	};
 	return rvalue;
 };
 
 
 int tHttpDownload::delete_file(char *data) {
-	char *temp=D_FILE.name;
-	if (RealName) D_FILE.name=RealName;
+	char *temp=NULL;
+	if (RealName){
+		temp=copy_string(D_FILE.get_name());
+		D_FILE.set_name(RealName);
+	};
 	int rvalue=tDownloader::delete_file(data);
-	if (RealName) D_FILE.name=temp;
+	if (RealName){
+		D_FILE.set_name(temp);
+		delete(temp);
+	};
 	return rvalue;
 };
 
@@ -386,7 +408,6 @@ tHttpDownload::~tHttpDownload() {
 	if (ETag) delete ETag;
 	if (Auth) delete Auth;
 	if (D_PATH) delete D_PATH;
-	if (D_FILE.name) delete (D_FILE.name);
 	if (D_FILE.fdesc) close(D_FILE.fdesc);
 	if (answer) delete(answer);
 	if (content_type) delete (content_type);

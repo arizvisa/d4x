@@ -27,7 +27,6 @@ void tHttpClient::init(char *host,tLog *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
 	BuffSize=MAX_LEN;
 	buffer=new char[BuffSize];
-	Auth=0;
 };
 
 void tHttpClient::set_user_agent(char *what){
@@ -89,9 +88,6 @@ int tHttpClient::read_answer(tStringList *list) {
 			case '4':{
 					if (equal_first("401",str2)) {
 						LOG->add(_("It seems to me that you need a password :)"),LOG_WARNING);
-						if (!Auth) {
-							Auth=1;
-						};
 					};
 				};
 			default:{
@@ -156,7 +152,7 @@ int tHttpClient::get_size(char *filename,tStringList *list) {
 	};
 
 	send_request("Host: ",hostname,"\r\n");
-	if (Auth && username && userword) {
+	if (username && userword) {
 		char *tmp=sum_strings(username,":",userword,NULL);
 		char *pass=string_to_base64(tmp);
 		delete tmp;
@@ -192,14 +188,6 @@ int tHttpClient::registr(char *user,char *password) {
 	username=user;
 	userword=password;
 	return 0;
-};
-
-void tHttpClient::set_auth(int what) {
-	Auth=what;
-};
-
-int tHttpClient::get_auth() {
-	return Auth;
 };
 
 void tHttpClient::down() {

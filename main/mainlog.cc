@@ -55,6 +55,7 @@ tMLog::tMLog() {
 	MaxNum=0;
 	Num=0;
 	string=NULL;
+	current_line=0;
 };
 
 void tMLog::reinit(int a) {
@@ -62,11 +63,18 @@ void tMLog::reinit(int a) {
 };
 
 void tMLog::add_to_list() {
+	current_line+=1;
 	tLogString *str=(tLogString *)Last;
-	struct tm *msgtime=gmtime(&(str->time));
+	struct tm msgtime;
+	localtime_r(&(str->time),&msgtime);
 	char useful[MAX_LEN];
-	strftime(useful,MAX_LEN,"%T",msgtime);
-	char *data[]={useful,str->body};
+	strftime(useful,MAX_LEN,"%T",&msgtime);
+	char line_number[MAX_LEN];
+	sprintf(line_number,"[%i]",current_line);
+	char *data[ML_COL_LAST];
+	data[ML_COL_NUM] = line_number;
+	data[ML_COL_TIME] = useful;
+	data[ML_COL_STRING] = str->body;
 	int row=gtk_clist_append(list,data);
 	GdkColor color;
 	char str_type;
@@ -102,8 +110,11 @@ void tMLog::add_to_list() {
 	gdk_color_alloc (colormap, &color);
 	gtk_clist_set_foreground(list,row,&color);
 	if (fd) {
-		strftime(useful,MAX_LEN,"%T %d %b %Y ",msgtime);
-		if (write(fd,&str_type,sizeof(str_type))<0 || write(fd,useful,strlen(useful))<0 || write(fd,str->body,strlen(str->body))<0 || write(fd,"\n",strlen("\n"))<0) {
+		strftime(useful,MAX_LEN,"%T %d %b %Y ",&msgtime);
+		if (write(fd,&str_type,sizeof(str_type))<0 ||
+		    write(fd,useful,strlen(useful))<0 ||
+		    write(fd,str->body,strlen(str->body))<0 ||
+		    write(fd,"\n",strlen("\n"))<0) {
 			close(fd);
 			fd=0;
 			add(_("Can't write to file interrupting write to file"),LOG_ERROR);
@@ -141,7 +152,6 @@ void tMLog::init_list(GtkCList *clist) {
 	list=clist;
 	gtk_signal_connect(GTK_OBJECT(list),"select_row",GTK_SIGNAL_FUNC(main_log_event_handler),this);
 	gtk_signal_connect(GTK_OBJECT(list),"event",GTK_SIGNAL_FUNC(main_log_event_handler2),this);
-	gtk_clist_set_column_auto_resize(list,1,TRUE);
 	/* Initing popup menu
 	 */
 	popup_menu=gtk_menu_new();
@@ -182,7 +192,7 @@ void tMLog::open_row(int row) {
 	char data[MAX_LEN];
 	sprintf(data,_("row number %i of main log"),row+1);
 	char *text;
-	gtk_clist_get_text(list,row,1,&text);
+	gtk_clist_get_text(list,row,ML_COL_STRING,&text);
 	if (!string)
 		string=new tStringDialog;
 	string->init(text,data);
@@ -234,17 +244,18 @@ void tMLog::myprintf(int type,char *fmt,...){
 			switch(*fmt){
 			case 's':{
 				char *s=va_arg(ap,char *);
-				snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				g_snprintf(cur,MAX_LEN-(str-cur),"%s",s);
 				break;
 			};
 			case 'z':{
-				char *s=make_simply_url(va_arg(ap,tDownload *));
-				snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				tDownload *temp=va_arg(ap,tDownload *);
+				char *s=temp->info->url();
+				g_snprintf(cur,MAX_LEN-(str-cur),"%s",s);
 				delete(s);
 				break;
 			};
 			case 'i':{
-				snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
+				g_snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
 				break;
 			};
 			default:{

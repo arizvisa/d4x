@@ -120,10 +120,14 @@ void tMsgServer::run(){
 			newfd=accept(fd,(sockaddr *)&addr,(socklen_t *)&tmp);
 			if (newfd>0 && read(newfd,&packet,sizeof (packet))>=0){
 				switch (packet.type){
+				case PACKET_ADD_OPEN:
 				case PACKET_SET_MAX_THREADS:
 				case PACKET_DEL_COMPLETED:
 				case PACKET_SET_SAVE_PATH:
 				case PACKET_SET_SPEED_LIMIT:
+				case PACKET_ICONIFY:
+				case PACKET_POPUP:
+				case PACKET_MSG:
 				case PACKET_ADD:{
 						cmd_add(packet.len,packet.type);
 						break;

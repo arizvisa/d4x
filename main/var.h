@@ -33,6 +33,7 @@ enum{
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <sys/types.h>
+#include <glib.h>
 #include "history.h"
 #include "mainlog.h"
 #include "dlist.h"

@@ -15,14 +15,23 @@
 #include <pthread.h>
 #include <string.h>
 
-
 #include "../dlist.h"
+#include "../locstr.h"
 #include "../var.h"
 #include "../ntlocale.h"
 #include "list.h"
 #include "colors.h"
 #include "about.h"
 #include "misc.h"
+
+enum LOG_COLUMNS{
+	L_COL_TYPE,
+	L_COL_NUM,
+	L_COL_TIME,
+	L_COL_STRING,
+	L_COL_LAST
+};
+
 
 GdkBitmap *log_ok_mask,*log_warning_mask,*log_error_mask,*log_from_mask,*log_to_mask;
 GdkPixmap *log_ok_pixmap,*log_warning_pixmap,*log_error_pixmap,*log_from_pixmap,*log_to_pixmap;
@@ -92,17 +101,30 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 void log_window_add_string(tLog *log,tLogString *str) {
 	tLogWindow *temp=(tLogWindow *)log->Window;
 	if (!temp) return;
-	char a[MAX_LEN],useless[MAX_LEN],useful[MAX_LEN];
-	sprintf(a,"%s ",ctime(&str->time));
-	sscanf(a,"%s %s %s %s",useless,useless,useless,useful);
-	char *data[]={(char *)NULL,useful,str->body};
+	char useful[MAX_LEN+1];
+	struct tm msgtime;
+	localtime_r(&(str->time),&msgtime);
+	strftime(useful,MAX_LEN,"%T",&msgtime);
+	/* replace all nonprint symbols by space */
+	char *str_temp=copy_string(str->body);
+	str_non_print_replace(str_temp,' ');
+	char *data[L_COL_LAST];
+	data[L_COL_TYPE]=NULL;
+	data[L_COL_TIME]=useful;
+	data[L_COL_STRING]=str_temp;
+
+	char row_num[MAX_LEN];
+	sprintf(row_num,"[%i]",str->temp);
+	data[L_COL_NUM]=row_num;
+
 	int row=gtk_clist_append(GTK_CLIST(temp->clist),data);
+	delete (str_temp);
 	GdkColor color,back_color;
 	switch (str->type) {
 		case LOG_OK:
 			{
 				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      0, log_ok_pixmap, log_ok_mask);
+				                      L_COL_TYPE, log_ok_pixmap, log_ok_mask);
 				color=BLACK;
 				back_color=WHITE;
 				break;
@@ -110,7 +132,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 		case LOG_TO_SERVER:
 			{
 				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      0, log_to_pixmap, log_to_mask);
+				                      L_COL_TYPE, log_to_pixmap, log_to_mask);
 				color=CYAN;
 				back_color=LCYAN;
 				break;
@@ -118,7 +140,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 		case LOG_FROM_SERVER:
 			{
 				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      0, log_from_pixmap, log_from_mask);
+				                      L_COL_TYPE, log_from_pixmap, log_from_mask);
 				color=BLUE;
 				back_color=LBLUE;
 				break;
@@ -126,7 +148,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 		case LOG_WARNING:
 			{
 				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      0, log_warning_pixmap, log_warning_mask);
+				                      L_COL_TYPE, log_warning_pixmap, log_warning_mask);
 				color=GREEN;
 				back_color=LGREEN;
 				break;
@@ -134,7 +156,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 		case LOG_ERROR:
 			{
 				gtk_clist_set_pixmap (GTK_CLIST (temp->clist), row,
-				                      0, log_error_pixmap, log_error_mask);
+				                      L_COL_TYPE, log_error_pixmap, log_error_mask);
 				color=RED;
 				back_color=LRED;
 				break;
@@ -172,9 +194,9 @@ static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
 		tLogWindow *temp=(tLogWindow *)(log->Window);
 		if (temp->string==NULL) temp->string=new tStringDialog;
 		char data[MAX_LEN];
-		sprintf(data,_("Row number %i [log of %s]"),row+1,what->info->file);
+		sprintf(data,_("Row number %i [log of %s]"),row+1,what->info->get_file());
 		char *text;
-		gtk_clist_get_text(GTK_CLIST(clist),row,2,&text);
+		gtk_clist_get_text(GTK_CLIST(clist),row,L_COL_STRING,&text);
 		temp->string->init(text,data);
 		return TRUE;
 	};
@@ -193,7 +215,9 @@ static void my_gtk_auto_scroll( GtkAdjustment *get,tLog *log){
 }
 
 void log_window_init(tDownload *what) {
-	gchar *titles[]={"","",""};
+	gchar *titles[L_COL_LAST];
+	for (int i=0;i<L_COL_LAST;i++)
+		titles[i]="";
 	if (what) {
 		if (what->LOG==NULL){
 			what->LOG=new tLog;
@@ -217,21 +241,23 @@ void log_window_init(tDownload *what) {
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
-		strcat(title,what->info->file);
+		strcat(title,what->info->get_file());
 		gtk_window_set_title(GTK_WINDOW (temp->window), title);
 		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
 		                   (GtkSignalFunc)log_window_event_handler, what->LOG);
 		gtk_signal_connect(GTK_OBJECT(temp->window), "delete_event",
 		                   (GtkSignalFunc)log_window_destroy, what->LOG);
 
-		temp->clist = gtk_clist_new_with_titles( 3, titles);
+		temp->clist = gtk_clist_new_with_titles(L_COL_LAST, titles);
 		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_list_event_handler),what);
 		gtk_clist_column_titles_hide(GTK_CLIST(temp->clist));
 		gtk_clist_set_shadow_type (GTK_CLIST(temp->clist), GTK_SHADOW_IN);
-		gtk_clist_set_column_width (GTK_CLIST(temp->clist), 0 , 16);
-		gtk_clist_set_column_width (GTK_CLIST(temp->clist), 1 , 50);
-		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),2,TRUE);
-		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),3,TRUE);
+		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TYPE , 16);
+		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_NUM , 16);
+		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TIME , 50);
+		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_NUM,TRUE);
+		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_TIME,TRUE);
+		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_STRING,TRUE);
 
 		GtkAdjustment *adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
 
@@ -244,12 +270,20 @@ void log_window_init(tDownload *what) {
 		what->LOG->Window=temp;
 
 		gtk_object_set_user_data(GTK_OBJECT(temp->window),what->LOG);
-		gtk_widget_show_all(temp->window);
 //		if (a[3]!=0 && a[2]!=0)
 //			gdk_window_move_resize(temp->window->window,a[0],a[1],a[2],a[3]);
 
+		GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->clist)));
+		gdk_font_unref(current_style->font);
+		current_style->font = gdk_font_load("-*-fixed-medium-*-*-*-*-120-*-*-*-*-*-*");;
+		gtk_widget_set_style(GTK_WIDGET(temp->clist), current_style);
+
+		gtk_widget_show_all(temp->window);
+		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		what->LOG->print();
 		what->LOG->unlock();
+		gtk_clist_thaw(GTK_CLIST(temp->clist));
+
 		gtk_signal_connect (GTK_OBJECT(adj), "changed",GTK_SIGNAL_FUNC(my_gtk_auto_scroll), what->LOG);
 		adj->value=adj->upper-adj->page_size;
 		temp->value=adj->value;

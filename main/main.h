@@ -40,7 +40,6 @@ class tMain{
 	void del_all_from_list(tDList *list);
 	unsigned int get_precise_time();
 	void run_msg_server();
-	void check_for_remote_commands();
  public:
     	void init();
     	void init_main_log();
@@ -51,6 +50,7 @@ class tMain{
 	void del_fataled();
         void del_all();
         void load_defaults();
+	void check_for_remote_commands();
         void append_list(tStringList *what);
         void redraw_logs();
         void reinit_main_log();

@@ -37,14 +37,15 @@ class tSocket{
 	int wait_for_write(int len); 
  public:
 	tSocket();
-	int get_addr();
-	int get_port();
+	unsigned int get_addr();
+	unsigned short int get_port();
 	int readed_bytes();
 	int open_any(char * host);
-	int open_any(int host);
+	int open_any(unsigned int host);
 	int accepting(char * host);
 	int open_port(char * host,int port);
-	int open_port(int host,int port);
+	int open_port(unsigned long int host,unsigned short int port);
+	int open_port(int *ftp_addr);
 	int send_string(char *what,int timeout);
 	int rec_string(char * where,int len,int timeout);    
 	void down();

@@ -19,6 +19,7 @@
 
 class tMLog:public tStringList{
 	protected:
+	int current_line;
 	time_t start;
 	GtkCList *list;
 	GtkWidget *open_row_item;
@@ -45,6 +46,13 @@ class tMLog:public tStringList{
 		tLogString *next();
 		tLogString *first();
 		~tMLog();
+};
+
+enum MAIN_LOG_COLUMNS{
+	ML_COL_NUM,
+	ML_COL_TIME,
+	ML_COL_STRING,
+	ML_COL_LAST
 };
 
 #endif

@@ -195,6 +195,7 @@ void init_buttons_bar() {
 	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;
 	gtk_tooltips_force_window(tooltips);
 	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(tooltips->tip_window));
+	gdk_font_unref(current_style->font);
 	current_style->font = MainWindow->style->font;
 	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
 	gtk_widget_set_style(tooltips->tip_window, current_style);

@@ -71,32 +71,35 @@ int date_from_str(char *src) {
 	};
 
 	time_t NOW=time(NULL);
-	struct tm date;
-	localtime_r(&NOW,&date);
-	date.tm_isdst=-1;
-	month=date.tm_mon;
-	day=date.tm_mday;
+	struct tm *date=new tm;
+	localtime_r(&NOW,date);
+	date->tm_isdst=-1;
+	month=date->tm_mon;
+	day=date->tm_mday;
 	if (tmp && *tmp) {
 		tmp=extract_string(tmp,data);
-		date.tm_mon=convert_month(data);
+		date->tm_mon=convert_month(data);
 	};
 	if (tmp && *tmp) {
 		tmp=extract_string(tmp,data);
-		sscanf(data,"%i",&date.tm_mday);
+		sscanf(data,"%i",&(date->tm_mday));
 	};
 	if (tmp && *tmp) {
 		extract_string(tmp,data);
 		if (index(data,':')) {
-			sscanf(data,"%i:%i",&date.tm_hour,&date.tm_min);
-			if (month<date.tm_mon || (month==date.tm_mon && day<date.tm_mday))
-				date.tm_year-=1;
+			sscanf(data,"%i:%i",&(date->tm_hour),&(date->tm_min));
+			if (month<date->tm_mon ||
+			    (month==date->tm_mon && day<date->tm_mday))
+				date->tm_year-=1;
 		} else {
-			sscanf(data,"%i",&date.tm_year);
-			date.tm_year-=1900;
+			sscanf(data,"%i",&(date->tm_year));
+			date->tm_year-=1900;
 		};
 	};
+	NOW=mktime(date);
+	delete date;
 	delete data;
-	return mktime(&date);
+	return NOW;
 };
 
 /* parsing string of LIST -la command
@@ -131,21 +134,21 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 			dst->date=date_from_str(src);
 		};
 		if (flag) {
-			if (tmp) dst->name=copy_string(tmp);
-			else dst->name=copy_string(name);
-			del_crlf(dst->name);
+			if (tmp) dst->set_name(tmp);
+			else dst->set_name(name);
+			del_crlf(dst->get_name());
 		};
 		if (dst->type==T_LINK) {
 			extract_link(src,name);
-			dst->body=copy_string(name);
+			dst->set_body(name);
 			if (flag) {
-				tmp=strstr(dst->name," -> ");
+				tmp=strstr(dst->get_name()," -> ");
 				if (tmp) *tmp=0;
 			};
-		} else dst->body=NULL;
+		}else dst->set_body(NULL);
 	}else{
 // dos style listing
-// we don't get date and time because they are not Y2K
+// we don't get date and time because they are not Y2K compilance
 		char *new_src=extract_string(src,str1);
 		new_src=extract_string(new_src,str1);
 		dst->date=time(NULL);
@@ -162,9 +165,9 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 		
 		if (flag && new_src && *new_src) {
 			while (*new_src==' ') new_src+=1;
-			dst->name=copy_string(new_src);
-			del_crlf(dst->name);
-			dst->body=NULL;
+			dst->set_name(new_src);
+			del_crlf(dst->get_name());
+			dst->set_body(NULL);
 		};
 	};
 
@@ -175,22 +178,38 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 	delete name;
 };
 //****************************************/
+void tFtpDownload::print_error(int error_code){
+	switch(error_code){
+	case ERROR_DATA_CONNECT:
+		LOG->add(_("Can't establish data connection"),LOG_ERROR);
+		break;
+	case ERROR_CWD:
+		LOG->add(_("Can't change directory"),LOG_ERROR);
+		break;
+	case ERROR_TOO_MANY_USERS:
+		LOG->add(_("Server refused login probably too many users of your class"),LOG_WARNING);
+		break;
+	default:
+		tDownloader::print_error(error_code);
+		break;
+	};
+};
 
 int tFtpDownload::change_dir() {
 	int rvalue=0;
 	if (CWDFlag) return 0;
 	if (!equal(USER,DEFAULT_USER)){
-		if ((rvalue=FTP->change_dir("/"))) return(rvalue);
+		if ((rvalue=FTP->change_dir("/"))){
+			print_error(ERROR_CWD);
+			return(rvalue);
+		};
 	};
-	if ((rvalue=FTP->change_dir(D_PATH))) return(rvalue);
+	if ((rvalue=FTP->change_dir(D_PATH))){
+		print_error(ERROR_CWD);
+		return(rvalue);
+	};
 	CWDFlag=1;
 	return RVALUE_OK;
-};
-
-void tFtpDownload::print_reget(int offset) {
-	if (!FTP->test_reget()) {
-		LOG->add(_("Reget is not supported!!!"),LOG_WARNING);
-	};
 };
 
 void tFtpDownload::check_for_repeated(tStringList *LIST) {
@@ -214,12 +233,11 @@ void tFtpDownload::check_for_repeated(tStringList *LIST) {
 //****************************************/
 tFtpDownload::tFtpDownload() {
 	LOG=NULL;
-	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
+	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
 	Status=D_NOTHING;
 
-	D_FILE.body=NULL;
 	FTP=NULL;
 	DIR=list=NULL;
 	RetrNum=0;
@@ -231,14 +249,12 @@ int tFtpDownload::reconnect() {
 	while (success) {
 		RetrNum++;
 		if (FTP->get_status()!=STATUS_TIMEOUT && FTP->get_status()!=0) {
-			LOG->add(_("Server refused login probably too many users of your class"),LOG_WARNING);
+			print_error(ERROR_TOO_MANY_USERS);
 		};
-		if (config.number_of_attempts)
-			LOG->myprintf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
-		else
-			LOG->myprintf(LOG_OK,_("Retrying %i ..."),RetrNum);
-		if (RetrNum==config.number_of_attempts) {
-			LOG->add(_("Max amount of retries was reached!"),LOG_ERROR);
+		print_error(ERROR_ATTEMPT);
+		if (config.number_of_attempts &&
+		    RetrNum>=config.number_of_attempts+1) {
+			print_error(ERROR_ATTEMPT_LIMIT);
 			return -1;
 		};
 		FTP->down();
@@ -261,13 +277,13 @@ int tFtpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	LOG=log;
 	FTP=new tFtpClient;
 	RetrNum=0;
-	HOST=hostinfo->host;
-	if (hostinfo->username)
-		USER=copy_string(hostinfo->username);
+	HOST=hostinfo->get_host();
+	if (hostinfo->get_username())
+		USER=copy_string(hostinfo->get_username());
 	else
 		USER=copy_string(DEFAULT_USER);
-	if (hostinfo->pass)
-		PASS=copy_string(hostinfo->pass);
+	if (hostinfo->get_pass())
+		PASS=copy_string(hostinfo->get_pass());
 	else
 		PASS=copy_string(DEFAULT_PASS);
 	D_PORT=hostinfo->port;
@@ -284,8 +300,7 @@ int tFtpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 		char port[MAX_LEN];
 		port[0]=0;
 		if (D_PORT!=21) sprintf(port,":%i",D_PORT);
-		char *temp=new char[strlen(USER)+strlen(HOST)+strlen("@")+strlen(port)+1];
-		sprintf(temp,"%s@%s%s",USER,HOST,port);
+		char *temp=sum_strings(USER,"@",HOST,port,NULL);
 		delete USER;
 		USER=temp;
 	} else
@@ -308,36 +323,29 @@ int tFtpDownload::get_size() {
 	while (1) {
 		if (!change_dir()) {
 			if (!FTP->stand_data_connection()) {
-				int a;
+				int a=0;
 				if (MASK)
 					a=FTP->get_size(NULL,list);
 				else
-					a=FTP->get_size(D_FILE.name,list);
+					a=FTP->get_size(D_FILE.get_name(),list);
 				if (a==0 && list->count()<=2) {
 					tString *last=list->last();
 					if (!last) {
 						D_FILE.type=T_FILE;
 						D_FILE.size=0;
-						D_FILE.body=NULL;
 						D_FILE.perm=S_IRUSR|S_IWUSR;
 						return 0;
 					};
 					if (equal_first(last->body,"total")) {
 						D_FILE.type=T_DIR;
 						D_FILE.size=1;
+						if (DIR) delete (DIR);
 						DIR=list;
 						list=NULL;
-						D_FILE.body=NULL;
 						D_FILE.perm=S_IRUSR|S_IWUSR|S_IXUSR;
 						return 0;
 					};
-					tFileInfo temp;
-					cut_string_list(last->body,&temp,0);
-					D_FILE.type=temp.type;
-					D_FILE.body=temp.body;
-					D_FILE.size=temp.size;
-					D_FILE.perm=temp.perm;
-					D_FILE.date=temp.date;
+					cut_string_list(last->body,&D_FILE,0);
 					LOG->myprintf(LOG_OK,_("Length is %i"),D_FILE.size);
 					return D_FILE.size;
 				};
@@ -355,12 +363,11 @@ int tFtpDownload::get_size() {
 				needcheck=1;
 				LOG->add(_("Couldn't get size :(("),LOG_WARNING);
 			} else {
-				LOG->add(_("Can't establish data connection"),LOG_ERROR);
+				print_error(ERROR_DATA_CONNECT);
 			};
 		} else {
-			LOG->add(_("Can't change dir!"),LOG_ERROR);
 			int s=FTP->get_status();
-			if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR))
+			if (s!=STATUS_TIMEOUT)
 				break;
 		};
 		if (reconnect())
@@ -372,6 +379,7 @@ int tFtpDownload::get_size() {
 int tFtpDownload::download_dir() {
 	unsigned int offset=0;
 	int ind=0,needcheck=0;
+	LOG->add(_("Loading directory..."),LOG_OK);
 	if (!DIR) {
 		DIR=new tStringList;
 		DIR->init(0);
@@ -379,7 +387,6 @@ int tFtpDownload::download_dir() {
 		while(1) {
 			if (!change_dir()) {
 				if (!FTP->stand_data_connection()) {
-					print_reget(offset);
 					if (!FTP->test_reget()) {
 						offset=0;
 						DIR->done();
@@ -388,7 +395,7 @@ int tFtpDownload::download_dir() {
 					if (MASK)
 						ind=FTP->get_size(NULL,DIR);
 					else
-						ind=FTP->get_size(D_FILE.name,DIR);
+						ind=FTP->get_size(D_FILE.get_name(),DIR);
 					if (ind==0) {
 						LOG->add(_("Listing was loaded"),LOG_OK);
 						if (needcheck) check_for_repeated(DIR);
@@ -397,10 +404,9 @@ int tFtpDownload::download_dir() {
 					LOG->add(_("Listing not loaded completelly"),LOG_WARNING);
 					needcheck=1;
 				} else {
-					LOG->add(_("Can't establish data connection"),LOG_ERROR);
+					print_error(ERROR_DATA_CONNECT);
 				};
 			} else {
-				LOG->add(_("Can't change directory"),LOG_ERROR);
 				int s=FTP->get_status();
 				if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR))
 					return -1;
@@ -414,50 +420,57 @@ int tFtpDownload::download_dir() {
 };
 
 int tFtpDownload::download(unsigned int from,unsigned int len) {
-	unsigned int length=0,offset=from;
-	int ind=0;
-	if (D_FILE.type==T_DIR) {
-		LOG->add(_("Loading directory..."),LOG_OK);
-		return(download_dir());
+	int rvalue=0;
+	switch (D_FILE.type){
+	case T_DIR: {
+		rvalue=download_dir();
+		break;
 	};
-	if (D_FILE.type==T_LINK) {
+	case T_LINK: {
 		LOG->add(_("Link was loaded :))"),LOG_OK);
-		return 0;
+		rvalue=0;
+		break;
 	};
-	while(1) {
-		if (!change_dir()) {
-			if (!FTP->stand_data_connection()) {
-				int real_offset=rollback(offset);
-				print_reget(real_offset);
-//				if (config.rollback)
+	default:{
+		unsigned int length=0,offset=from;
+		int ind=0;
+		while(1) {
+			if (!change_dir()) {
+				if (!FTP->stand_data_connection()) {
+					int real_offset=rollback(offset);
 					StartSize=offset=real_offset;
-				if (!FTP->test_reget())
-					StartSize=offset=0;
-				Status=D_DOWNLOAD;
-				ind=FTP->get_file_from(D_FILE.name,offset,D_FILE.fdesc);
-				if (ind>0) {
-					length+=ind;
-					offset+=ind;
-					LOG->myprintf(LOG_OK,_("%i bytes loaded."),length);
-				};
-				if (!FTP->get_status()) {
-					if (config.permisions) fchmod(D_FILE.fdesc,D_FILE.perm);
-					return 0;
+					Status=D_DOWNLOAD;
+					ind=FTP->get_file_from(D_FILE.get_name(),offset,D_FILE.fdesc);
+					if (!FTP->test_reget())
+						StartSize=offset=0;
+					if (ind>0) {
+						length+=ind;
+						offset+=ind;
+						LOG->myprintf(LOG_OK,_("%i bytes loaded."),length);
+					};
+					if (!FTP->get_status()) {
+						if (config.permisions) fchmod(D_FILE.fdesc,D_FILE.perm);
+						rvalue=0;
+						break;
+					};					
+				} else {
+					print_error(ERROR_DATA_CONNECT);
 				};
 			} else {
-				LOG->add(_("Can't establish data connection"),LOG_ERROR);
+				int s=FTP->get_status();
+				if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)){
+					rvalue=-1;
+					break;
+				};
 			};
-		} else {
-			LOG->add(_("Can't change directory"),LOG_ERROR);
-			int s=FTP->get_status();
-			if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR))
-				return -1;
-		};
-		if (reconnect()) {
-			return -1;
+			if (reconnect()) {
+				rvalue=-1;
+				break;
+			};
 		};
 	};
-	return 0;
+	};
+	return rvalue;
 };
 
 void tFtpDownload::set_passive(int a) {
@@ -468,8 +481,8 @@ void tFtpDownload::set_passive(int a) {
 
 int tFtpDownload::get_readed() {
 	if (D_FILE.type==T_FILE) return (FTP->get_readed());
-	if (list) return list->size();
 	if (DIR) return DIR->size();
+	if (list) return list->size();
 	return 0;
 };
 
@@ -505,8 +518,6 @@ tFtpDownload::~tFtpDownload() {
 	if (USER) delete(USER);
 	if (PASS) delete(PASS);
 	if (D_PATH) delete(D_PATH);
-	if (D_FILE.name) delete(D_FILE.name);
-	if (D_FILE.body) delete D_FILE.body;
 	if (DIR) delete(DIR);
 	if (list) delete(list);
 };

@@ -82,7 +82,7 @@ void select_download(GtkWidget *clist, gint row, gint column,
 	gtk_statusbar_pop(GTK_STATUSBAR(MainStatusBar),StatusBarContext);
 	tDownload *temp=list_of_downloads_last_selected();
 	if (temp)
-		gtk_statusbar_push(GTK_STATUSBAR(MainStatusBar),StatusBarContext,temp->info->file);
+		gtk_statusbar_push(GTK_STATUSBAR(MainStatusBar),StatusBarContext,temp->info->get_file());
 	else
 		gtk_statusbar_push(GTK_STATUSBAR(MainStatusBar),StatusBarContext,"");
 	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1)
@@ -106,8 +106,8 @@ void list_of_downloads_change_data(int row,int column,gchar *data) {
 };
 
 void list_of_downloads_update(tDownload *what) {
-	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file);
-	char *URL=make_simply_url(what);
+	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->get_file());
+	char *URL=what->info->url();
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
 	delete(URL);
 };
@@ -134,14 +134,12 @@ void list_of_downloads_print_size(tDownload *what){
 
 void list_of_downloads_add(tDownload *what) {
 	gchar *data[NOTHING_COL+1];
-	char *temp;
-	char *URL=make_simply_url(what);
+	char *URL=what->info->url();
 	for (int i=STATUS_COL;i<=NOTHING_COL;i++)
 		data[ListColumns[i].enum_index]="";
-	temp=what->info->file;
 	what->GTKCListRow=gtk_clist_append(GTK_CLIST(ListOfDownloads),data);
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
-	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,temp);
+	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->get_file());
 	list_of_downloads_print_size(what);
 
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),what->GTKCListRow,gpointer(what));
@@ -173,8 +171,8 @@ void list_of_downloads_add(tDownload *what,int row) {
 		data[i]=(gchar *)NULL;
 	gtk_clist_insert(GTK_CLIST(ListOfDownloads),row,data);
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),row,what);
-	list_of_downloads_change_data(row,FILE_COL,what->info->file);
-	char *URL=make_simply_url(what);
+	list_of_downloads_change_data(row,FILE_COL,what->info->get_file());
+	char *URL=what->info->url();
 	list_of_downloads_change_data(row,URL_COL,URL);
 	delete (URL);
 	switch (what->owner) {

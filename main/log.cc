@@ -34,7 +34,6 @@
 
 
 tLogString::tLogString() {
-	puts("tLogString::tLogString()");
 	// body initialized by tString constructor
 	time=0;
 	type=LOG_FROM_SERVER;
@@ -51,7 +50,8 @@ void tLogString::print() {
 };
 
 tLogString::~tLogString() {
-	// body will be deleted by tString destructor
+	if (body) delete body;
+	body=NULL;
 };
 //******************************************//
 tLog::tLog() {
@@ -62,6 +62,7 @@ tLog::tLog() {
 		geometry[i]=0;
 
 /* next string should be added quiet */
+	current_row=0;
 	char *msg=_("Log was started!");
 	tLogString *temp=new tLogString(msg,strlen(msg),LOG_OK);
 	temp->time=time(NULL);
@@ -100,6 +101,11 @@ void tLog::print() {
 //	unlock();
 };
 
+void tLog::insert(tNode *what){
+	current_row+=1;
+	((tLogString *)what)->temp=current_row;
+	tQueue::insert(what);
+};
 
 void tLog::add(char *str,int len,int type) {
 	tLogString *temp=new tLogString(str,len,type);
@@ -156,11 +162,11 @@ void tLog::myprintf(int type,char *fmt,...){
 			switch(*fmt){
 			case 's':{
 				char *s=va_arg(ap,char *);
-				snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				g_snprintf(cur,MAX_LEN-(str-cur),"%s",s);
 				break;
 			};
 			case 'i':{
-				snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
+				g_snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
 				break;
 			};
 			default:{
@@ -196,6 +202,6 @@ tLogString *tLog::first() {
 
 tLog::~tLog() {
 	log_window_destroy_by_log(this);
-	// done(); will be used by tStringList::~tStringList();
+	done();// will be used by tStringList::~tStringList();
 	pthread_mutex_destroy(&mutex);
 };

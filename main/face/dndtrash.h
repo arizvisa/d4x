@@ -16,7 +16,6 @@
 void dnd_trash_init();
 void dnd_trash_destroy();
 void dnd_trash_real_destroy();
-int dnd_trash_refresh();
 void dnd_trash_init_menu();
 void dnd_trash_menu_prepare();
 

@@ -1,0 +1,169 @@
+struct tAddr{
+	char *protocol,*host,*username,*pass,*path,*file;
+	int port;
+	int mask;
+	tAddr();
+	tAddr(char *str);
+	void print();
+	void copy_host(tAddr *what);
+	void save_to_config(int fd);
+	~tAddr();
+};
+
+
+void split_string(char *what,char *delim,tTwoStrings *out) {
+	if (what==NULL || delim==NULL) return;
+	char * where=strstr(what,delim);
+	if (where) {
+		int len=strlen(where),len1=strlen(delim);
+		out->two=copy_string(where+len1);
+		len1=strlen(what)-len;
+		out->one=copy_string(what,len1);
+	} else {
+		out->two=copy_string(what);
+		out->one=NULL;
+	};
+	delete(what);
+};
+
+tAddr::tAddr() {
+	protocol=host=username=pass=path=file=NULL;
+	port=0;
+	mask=0;
+};
+
+tAddr::tAddr(char *str){
+	protocol=host=username=pass=path=file=NULL;
+	port=0;
+	mask=0;
+	if (str==NULL) return;
+	char *what=copy_string(what1);
+	tTwoStrings pair;
+	split_string(what,"://",&pair);
+	if (pair.one) {
+		protocol=pair.one;
+	} else {
+		protocol=copy_string(DEFAULT_PROTO);
+	};
+	host=pair.two;
+	if (!host) {
+		return;
+	};
+	split_string(host,"/",&pair);
+	if (pair.one) {
+		host=pair.one;
+		file=pair.two;
+	} else {
+		host=pair.two;
+		file=pair.one;
+	};
+	split_string(host,"@",&pair);
+	host=pair.two;
+	username=pair.one;
+	if (username) {
+		split_string(username,":",&pair);
+		username=pair.one;
+		pass=pair.two;
+	} else {
+		username=NULL;
+		pass=NULL;
+	};
+	if (file) {
+		char *tmp=parse_percents(file);
+		if (tmp) {
+			delete file;
+			file=tmp;
+		} else
+			delete tmp;
+		char *prom=rindex(file,'/');
+		if (prom) {
+			path=copy_string(prom+1);
+			*prom=0;
+			prom=path;
+			path=copy_string(file);
+			delete file;
+			file=prom;
+		};
+	} else {
+		file=copy_string("");
+	};
+	if (!path) path=copy_string("");
+	split_string(host,":",&pair);
+	if (pair.one) {
+		sscanf(pair.two,"%i",&port);
+		delete pair.two;
+		host=pair.one;
+	} else {
+		port=0;
+		host=pair.two;
+	};
+	if (equal_uncase(protocol,"ftp") && index(file,'*'))
+		mask=1;
+	/* Parse # in http urls
+	 */
+	if (equal_uncase(protocol,"http") && file!=NULL) {
+		char *tmp=index(file,'#');
+		if (tmp) {
+			*tmp=0;
+			tmp=file;
+			file=copy_string(tmp);
+			delete(tmp);
+		};
+	};
+	if (port==0)
+		port=get_port_by_proto(protocol);
+};
+
+void tAddr::print() {
+	if (protocol) printf("protocol: %s\n",protocol);
+	if (host) printf("host: %s\n",host);
+	if (path) printf("path: %s\n",path);
+	if (file) printf("file: %s\n",file);
+	if (username) printf("username: %s\n",username);
+	if (pass) printf("pass: %s\n",pass);
+	printf("port: %i\n",port);
+};
+
+void tAddr::save_to_config(int fd){
+	write(fd,"URL:\n",strlen("URL:\n"));
+	write(fd,protocol,strlen(protocol));
+	write(fd,"://",strlen("://"));
+	if (username && !equal(username,DEFAULT_USER)){
+		write(fd,username,strlen(username));
+		write(fd,":",strlen(":"));
+		write(fd,pass,strlen(pass));
+		write(fd,"@",strlen("@"));
+	};
+	write(fd,host,strlen(host));
+	char port_str[MAX_LEN];
+	snprintf(port_str,MAX_LEN,"%d",port);
+	write(fd,":",strlen(":"));
+	write(fd,port_str,strlen(port_str));
+	if (path && *path!='/')
+		write(fd,"/",strlen("/"));
+	int temp=path==NULL ? 0:strlen(path);
+	write(fd,path,temp);
+	if (path && temp && path[temp-1]!='/')
+		write(fd,"/",strlen("/"));
+	write(fd,file,strlen(file));
+	write(fd,"\n",strlen("\n"));
+};
+
+
+
+void tAddr::copy_host(tAddr *what){
+	protocol=copy_string(what->protocol);
+	host=copy_string(what->host);
+	pass=copy_string(what->pass);
+	username=copy_string(what->username);
+	port=what->port;
+};
+
+tAddr::~tAddr() {
+	if (protocol) delete(protocol);
+	if (path) delete(path);
+	if (pass) delete(pass);
+	if (username) delete(username);
+	if (host) delete(host);
+	if (file) delete(file);
+};

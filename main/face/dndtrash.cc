@@ -94,6 +94,12 @@ int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 			dnd_trash_moveable=1;
 			GdkModifierType modmask;
 			gdk_window_get_pointer((GdkWindow *)NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
+			gtk_grab_add (widget);
+			gdk_pointer_grab (widget->window,TRUE,
+					  GDK_BUTTON_RELEASE_MASK |
+					  GDK_BUTTON_MOTION_MASK |
+					  GDK_POINTER_MOTION_HINT_MASK,
+					  NULL, NULL, 0);
 		};
 	};
 	return 1;
@@ -103,9 +109,11 @@ int dnd_trash_button_release(GtkWidget *widget,GdkEventButton *event){
 	gdk_pointer_ungrab(GDK_CURRENT_TIME);
         gdk_flush();
 	dnd_trash_moveable=0;
+	gtk_grab_remove (widget);
+	gdk_pointer_ungrab (0);
 	return 1;
 }; 
-
+/*
 int dnd_trash_refresh(){
 	gint mx,my,newx,newy;
 	GdkModifierType modmask;
@@ -126,7 +134,7 @@ int dnd_trash_refresh(){
 	};
 	return 1;
 };
-
+*/
 void dnd_trash_init(){
 	CFG.DND_TRASH=1;
 	if (dnd_trash_window) return;
@@ -148,7 +156,14 @@ void dnd_trash_init(){
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
 	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
 
-	gtk_widget_set_events(dnd_trash_window, GDK_FOCUS_CHANGE_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK);
+	gtk_widget_set_events(dnd_trash_window,
+			      gtk_widget_get_events(dnd_trash_window) |
+			      GDK_FOCUS_CHANGE_MASK |
+			      GDK_BUTTON_MOTION_MASK |
+			      GDK_POINTER_MOTION_HINT_MASK |
+			      GDK_BUTTON_PRESS_MASK |
+			      GDK_BUTTON_RELEASE_MASK |
+			      GDK_STRUCTURE_MASK);
 	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "delete_event",
 			    GTK_SIGNAL_FUNC (dnd_trash_destroy), NULL);
 	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "motion_notify_event",
@@ -191,6 +206,7 @@ void dnd_trash_init(){
 	gtk_tooltips_force_window(dnd_trash_tooltips);
 	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(dnd_trash_tooltips->tip_window));
 	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+	gdk_font_unref(current_style->font);
 	current_style->font = MainWindow->style->font;
 	gtk_widget_set_style(dnd_trash_tooltips->tip_window, current_style);
 

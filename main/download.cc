@@ -22,10 +22,39 @@
 #include "locstr.h"
 #include "ntlocale.h"
 #include "config.h"
+tFileInfo::tFileInfo(){
+	name=body=NULL;
+};
+
+void tFileInfo::set_name(char *what){
+	if (name) delete(name);
+	name=copy_string(what);
+};
+
+void tFileInfo::set_body(char *what){
+	if (body) delete(body);
+	body=copy_string(what);
+};
+
+char *tFileInfo::get_name(){
+	return name;
+};
+
+char *tFileInfo::get_body(){
+	return body;
+};
+
+tFileInfo::~tFileInfo(){
+	if (name) delete(name);
+	if (body) delete(body);
+};
+/* ---------------------------------------- */
 
 tCfg::tCfg() {
 	proxy_host = proxy_user = proxy_pass = user_agent = NULL;
 	speed=0;
+	proxy_type=0;
+	link_as_file=0;
 };
 
 void tCfg::set_proxy_user(char *what) {
@@ -66,6 +95,7 @@ void tCfg::copy_ints(tCfg *src){
 	proxy_type = src->proxy_type;
 	proxy_port = src->proxy_port;
 	rollback = src->rollback;
+	link_as_file = src->link_as_file;
 };
 
 int tCfg::get_flags(){
@@ -127,6 +157,7 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"permisions:",permisions);
 	write_named_integer(fd,"get_date:",get_date);
 	write_named_integer(fd,"http_recursing:",http_recursing);
+	write_named_integer(fd,"link_as_file:",link_as_file);
 
 	write(fd,"EndCfg:\n",strlen("EndCfg:\n"));
 };
@@ -151,7 +182,8 @@ int tCfg::load_from_config(int fd){
 		"permisions:", //15
 		"get_date:", //16
 		"http_recursing:",//17
-		"EndCfg:" //18
+		"link_as_file:",//18
+		"EndCfg:" //19
 	};
 	char buf[MAX_LEN];
 	while(read_string(fd,buf,MAX_LEN)>0){
@@ -251,6 +283,11 @@ int tCfg::load_from_config(int fd){
 			break;
 		};		
 		case 18:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&link_as_file);
+			break;
+		};		
+		case 19:{
 			return 0;
 		};
 		};
@@ -265,9 +302,30 @@ tCfg::~tCfg() {
 /* Downloader::
  */
 
+void tDownloader::print_error(int error_code){
+	switch(error_code){
+	case ERROR_ATTEMPT_LIMIT:{
+		LOG->add(_("Max amount of retries was reached!"),LOG_ERROR);
+		break;
+	};
+	case ERROR_ATTEMPT:{
+		if (config.number_of_attempts)
+			LOG->myprintf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
+		else
+			LOG->myprintf(LOG_OK,_("Retrying %i ..."),RetrNum);
+		break;
+	};
+	default:{
+		LOG->add(_("Warning! Probably you found the BUG!!!"),LOG_ERROR);
+		LOG->add(_("If you see this message please report to mdem@chat.ru"),LOG_ERROR);
+		break;
+	};
+	};
+};
+
 tDownloader::tDownloader(){
 	LOG=NULL;
-	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
+	HOST=USER=PASS=D_PATH=NULL;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
 	Status=D_NOTHING;
@@ -282,7 +340,7 @@ int tDownloader::file_type() {
 };
 
 char *tDownloader::get_real_name() {
-	return D_FILE.name;
+	return D_FILE.get_name();
 };
 
 
@@ -293,7 +351,7 @@ char * tDownloader::get_new_url() {
 void tDownloader::set_file_info(tFileInfo *what) {
 	D_FILE.type=what->type;
 	if (D_FILE.type==T_LINK)
-		D_FILE.body=copy_string(what->body);
+		D_FILE.set_body(what->get_body());
 	D_FILE.perm=what->perm;
 	D_FILE.date=what->date;
 };
@@ -306,7 +364,7 @@ int tDownloader::rollback(int offset){
 };
 
 void tDownloader::init_download(char *path,char *file) {
-	D_FILE.name=copy_string(file);
+	D_FILE.set_name(file);
 	D_PATH=copy_string(path);
 };
 
@@ -334,9 +392,9 @@ void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 //	int flag=strlen(D_FILE.name);
 	char *temp;
 //	if (flag){
-		temp=sum_strings(".",D_FILE.name,NULL);
+		temp=sum_strings(".",D_FILE.get_name(),NULL);
 		*name=compose_path(path,temp);
-		*guess=compose_path(path,D_FILE.name);
+		*guess=compose_path(path,D_FILE.get_name());
 /*
 	}else{
 		temp=sum_strings(".",CFG.DEFAULT_NAME,NULL);
@@ -354,6 +412,8 @@ void tDownloader::make_full_pathes(const char *path,char *another_name,char **na
 };
 
 int tDownloader::create_file(char *where,char *another_name) {
+	if (D_FILE.type==T_LINK && config.link_as_file)
+		D_FILE.type=T_FILE;
 	int rvalue=0;
 	make_dir_hier(where);
 	char *name;
@@ -364,6 +424,20 @@ int tDownloader::create_file(char *where,char *another_name) {
 		make_full_pathes(where,&name,&guess);
 	};
 	switch (D_FILE.type) {
+		case T_LINK:
+			{ //this is a link
+				LOG->add(_("Trying to create a link"),LOG_WARNING);
+				int err=symlink(D_FILE.get_body(),guess);
+				if (err) {
+					if (errno!=EEXIST) {
+						LOG->add(_("Can't create link"),LOG_ERROR);
+						return -1;
+					};
+					LOG->add(_("Link already created!:))"),LOG_ERROR);
+				};
+				chmod(guess,D_FILE.perm  | S_IWUSR);
+				break;
+			};
 		case T_FILE:
 			{ //this is a file
 				LOG->add(_("Trying to create a file"),LOG_WARNING);
@@ -402,30 +476,14 @@ int tDownloader::create_file(char *where,char *another_name) {
 				chmod(guess,D_FILE.perm | S_IWUSR |S_IXUSR);
 				break;
 			};
-		case T_LINK:
-			{ //this is a link
-				LOG->add(_("Trying to create a link"),LOG_WARNING);
-				int err=symlink(D_FILE.body,guess);
-				if (err) {
-					if (errno!=EEXIST) {
-						LOG->add(_("Can't create link"),LOG_ERROR);
-						return -1;
-					};
-					LOG->add(_("Link already created!:))"),LOG_ERROR);
-				};
-				chmod(guess,D_FILE.perm  | S_IWUSR);
-				break;
-			};
 		case T_DEVICE:
 			{ //this is device
 				LOG->add(_("Downloader can't create devices..."),LOG_WARNING);
 				break;
 			};
-		default:
-			{
-				LOG->add(_("Warning! Probably you found the BUG!!!"),LOG_ERROR);
-				LOG->add(_("If you see this message please report to mdem@chat.ru"),LOG_ERROR);
-			};
+		default:{
+			print_error(ERROR_UNKNOWN);
+		};
 	};
 	delete name;
 	delete guess;
@@ -488,5 +546,4 @@ int tDownloader::delete_file(char *where) {
 
 tDownloader::~tDownloader() {
 	// do nothing
-}
-;
+};

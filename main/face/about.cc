@@ -21,6 +21,8 @@ GtkWidget *AboutWindow=(GtkWidget *)NULL;
 char *TRANSLATORS[]={
 	"Jerome Couderc",
 	"Dirk Moebius",
+	"Robin Verduijn",
+	"Legnar WinShadow",
 	"Vicente Aguilar",
 	"Paulo Henrique",
 	"Vittorio Rebecchi",
@@ -29,7 +31,6 @@ char *TRANSLATORS[]={
 	"Marlin [TLC-ML]",
 	"Philippe Rigaux",
 	"Eric Seigne",
-	"Robin Verduijn",
 	"Priyadi Iman Nurcahyo",
 	"Kei Kodera",
 	"Guiliano Rangel Alves",
@@ -99,6 +100,8 @@ void init_about_window(...) {
 	GTK_WIDGET_SET_FLAGS(Button,GTK_CAN_DEFAULT);
 	gtk_window_set_default(GTK_WINDOW(AboutWindow),Button);
 	gtk_widget_show_all(AboutWindow);
+	gtk_window_set_modal (GTK_WINDOW(AboutWindow),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (AboutWindow), GTK_WINDOW (MainWindow));
 //	gtk_widget_show(AboutWindow);
 	gtk_widget_set_sensitive(MainWindow,FALSE);
 };

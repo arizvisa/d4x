@@ -22,7 +22,7 @@ LIBS=$(PTHREAD) $(GTKLIBS)
 
 EXECC=$(CXX) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
 
-MODULES=base64.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o srvclt.o html.o
+MODULES=base64.o addr.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o srvclt.o html.o
 MODULES2=client.o ftp.o http.o download.o ftpd.o httpd.o signal.o main.o config.o savelog.o mainlog.o var.o sortstr.o db.o cookie.o
 FACE=face/lmenu.o face/list.o face/addd.o face/graph.o face/log.o face/prefs.o face/buttons.o \
 face/about.o face/edit.o face/colors.o face/saveload.o face/limface.o face/misc.o face/lod.o \
@@ -134,6 +134,9 @@ srvclt.o: srvclt.cc srvclt.h
 
 db.o: db.cc db.h
 	$(EXECC) -c db.cc -o db.o
+
+addr.o: addr.cc addr.h
+	$(EXECC) -c addr.cc -o addr.o
 
 cookie.o: cookie.cc cookie.h
 	$(EXECC) -c cookie.cc -o cookie.o

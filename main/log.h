@@ -28,6 +28,7 @@ class tLog:public tStringList{
 	time_t start;
 	pthread_mutex_t mutex;
 	int key;
+	int current_row;
 	void send_msg(int type,tLogString *what);
 	int geometry[4];
 	public:
@@ -40,6 +41,7 @@ class tLog:public tStringList{
 		void add(char *str,int len,int type);
 		void add(char *str,int type);
 		void add(char *str);
+		void insert(tNode *what);
 		virtual void myprintf(int type,char *fmt,...);
 		void dispose();
 		void lock();

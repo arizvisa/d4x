@@ -17,7 +17,6 @@
 class tHttpClient:public tClient{
     protected:
     int Offset;
-    int Auth;
     int send_request(char *request);
     int send_request(char *begin, char *center,char *end);
     int read_data(char *where,int len);
@@ -32,8 +31,6 @@ class tHttpClient:public tClient{
 		int registr(char *user,char *password);
 		int get_size(char *filename,tStringList *list);
 		int get_file_from(char *what,unsigned int begin,unsigned int len,int fd);
-		void set_auth(int what);
-		int get_auth();
 		void down();
         void done();
         ~tHttpClient();

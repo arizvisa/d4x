@@ -51,8 +51,7 @@ void init_add_window(...) {
 		return;
 	};
 	tDownload *what=OneDownload=new tDownload;
-	char *temp=copy_string("ftp://somesite");
-	tAddr *info=make_addr_from_url(temp);
+	tAddr *info=new tAddr("ftp://somesite.org");
 	what->info=info;
 	what->set_SavePath(CFG.GLOBAL_SAVE_PATH);
 	what->set_default_cfg();

@@ -19,17 +19,7 @@
 #include "speed.h"
 #include <time.h>
 #include <pthread.h>
-
-struct tAddr{
-	char *protocol,*host,*username,*pass,*path,*file;
-	int port;
-	int mask;
-	tAddr();
-	void print();
-	void copy_host(tAddr *what);
-	void save_to_config(int fd);
-	~tAddr();
-};
+#include "addr.h"
 
 class tDEdit;
 
@@ -111,8 +101,6 @@ class tDList:public tQueue{
 		~tDList();
 };
 
-void make_url_from_download(tDownload *what,char *where);
-char * make_simply_url(tDownload *what);
 void make_dir_hier(char *path);
 
 enum {

@@ -25,8 +25,8 @@ class tFtpDownload:public tDownloader{
     int change_dir();
     int reconnect();
     int download_dir();
-    void print_reget(int offset);
     void check_for_repeated(tStringList *LIST);
+    void print_error(int error_code);
     public:
     	tFtpDownload();
     	int get_start_size();

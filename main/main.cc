@@ -48,6 +48,7 @@
 #include "face/buttons.h"
 #include "face/log.h"
 #include "face/edit.h"
+#include "face/addd.h"
 #include "config.h"
 #include "ntlocale.h"
 
@@ -170,7 +171,6 @@ void tMain::init_main_log() {
 	MainLog->reinit_file();
 	MainLog->add("----------------------------------------",LOG_FROM_SERVER);
 	MainLog->add(VERSION_NAME,LOG_WARNING);
-	MainLog->add(_("Normally started"),LOG_WARNING);
 };
 
 void tMain::redraw_logs() {
@@ -224,16 +224,20 @@ void tMain::del_all_from_list(tDList *list){
 void tMain::del_all() {
 	if (amount_of_downloads_in_queues())
 		MainLog->add(_("Clear queue of downloads"),LOG_ERROR);
-	del_all_from_list(DOWNLOAD_QUEUES[DL_WAIT]);
-	del_all_from_list(DOWNLOAD_QUEUES[DL_PAUSE]);
-	del_all_from_list(DOWNLOAD_QUEUES[DL_STOP]);
-	del_all_from_list(DOWNLOAD_QUEUES[DL_COMPLETE]);
-	del_all_from_list(DOWNLOAD_QUEUES[DL_RUN]);
-	tDownload *temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->first();
+	tDownload *temp=DOWNLOAD_QUEUES[DL_RUN]->first();
+	while (temp) {
+		stop_download(temp);
+		temp=DOWNLOAD_QUEUES[DL_RUN]->first();
+	};
+	temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->first();
 	while (temp) {
 		temp->action=ACTION_DELETE;
 		temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->prev();
 	};
+	del_all_from_list(DOWNLOAD_QUEUES[DL_PAUSE]);
+	del_all_from_list(DOWNLOAD_QUEUES[DL_WAIT]);
+	del_all_from_list(DOWNLOAD_QUEUES[DL_STOP]);
+	del_all_from_list(DOWNLOAD_QUEUES[DL_COMPLETE]);
 };
 
 
@@ -266,7 +270,7 @@ void tMain::stop_download(tDownload *what) {
 	};
 	if (DOWNLOAD_QUEUES[DL_RUN]->owner(what)) {
 		DOWNLOAD_QUEUES[DL_RUN]->del(what);
-		MainLog->myprintf(LOG_WARNING,_("Downloading of file %s from %s was terminated [by user]"),what->info->file,what->info->host);
+		MainLog->myprintf(LOG_WARNING,_("Downloading of file %s from %s was terminated [by user]"),what->info->get_file(),what->info->get_host());
 		if (!stop_thread(what)) {
 			DOWNLOAD_QUEUES[DL_STOPWAIT]->insert(what);
 		} else {
@@ -316,13 +320,13 @@ int tMain::delete_download(tDownload *what) {
 		case DL_WAIT:
 				DOWNLOAD_QUEUES[DL_WAIT]->del(what);
 	};
-	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info->file);
+	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info->get_file());
 	absolute_delete_download(NULL,what);
 	return 1;
 };
 
 int tMain::try_to_run_download(tDownload *what){
-	tSortString *tmp=LimitsForHosts->find(what->info->host,what->info->port);
+	tSortString *tmp=LimitsForHosts->find(what->info->get_host(),what->info->port);
 	time_t NOW;
 	time(&NOW);
 	if (DOWNLOAD_QUEUES[DL_RUN]->count()<CFG.MAX_THREADS && what->ScheduleTime<=NOW
@@ -347,7 +351,7 @@ void tMain::continue_download(tDownload *what) {
 		};
 	};
 
-	MainLog->myprintf(LOG_OK,_("Continue downloading of file %s from %s..."),what->info->file,what->info->host);
+	MainLog->myprintf(LOG_OK,_("Continue downloading of file %s from %s..."),what->info->get_file(),what->info->get_host());
 
 	DOWNLOAD_QUEUES[what->owner]->del(what);
 	if (try_to_run_download(what)) {
@@ -390,7 +394,7 @@ void tMain::print_info(tDownload *what) {
 				if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,_("file"));
 				int REAL_SIZE=what->finfo.size;
 				if (REAL_SIZE==0 && what->who!=NULL)
-					REAL_SIZE=what->who->another_way_get_size();
+					what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
 				make_number_nice(data,REAL_SIZE);
 				list_of_downloads_change_data(what->GTKCListRow,FULL_SIZE_COL,data);
 				if (what->who) what->Size.set(what->who->get_readed());
@@ -434,7 +438,7 @@ void tMain::print_info(tDownload *what) {
 /* setting new title of log*/
 				if (CFG.USE_MAINWIN_TITLE){
 					char title[MAX_LEN];
-					sprintf(title,"%i%% %i/%i %s",temp,what->Size.curent,REAL_SIZE,what->info->file);
+					sprintf(title,"%i%% %i/%i %s",temp,what->Size.curent,REAL_SIZE,what->info->get_file());
 					log_window_set_title(what,title);
 				};
 
@@ -521,15 +525,20 @@ void tMain::print_info(tDownload *what) {
 
 
 void tMain::redirect(tDownload *what) {
-	char *newurl;
-	newurl=what->who->get_new_url();
+	char *newurl=NULL;
+	if (what->who){
+		newurl = what->who->get_new_url();
+		delete(what->who);
+		what->who = NULL;
+	};
 	if (newurl) {
 		tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
 		if (temp)
 			DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,temp);
 		else
 			DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
-		tAddr *addr=make_addr_from_url(newurl);
+		tAddr *addr=new tAddr(newurl);
+		delete(newurl);
 		ALL_DOWNLOADS->del(what);
 		if (what->info) delete (what->info);
 		what->info=addr;
@@ -543,14 +552,12 @@ void tMain::redirect(tDownload *what) {
 		normalize_path(what->get_SavePath());
 		what->finfo.type=what->status=0;
 		what->finfo.size=-1;
-		char *URL=make_simply_url(what);
+		char *URL=what->info->url();
 		list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
 		delete (URL);
-		list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file);
+		list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->get_file());
 		for (int i=FILE_TYPE_COL;i<URL_COL;i++)
 			list_of_downloads_change_data(what->GTKCListRow,i,"");
-		if (what->who) delete what->who;
-		what->who=NULL;
 	} else {
 		DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
 		what->finfo.type=T_NONE;
@@ -586,7 +593,7 @@ void tMain::case_download_completed(tDownload *what){
 			MainLog->myprintf(LOG_WARNING|LOG_DETAILED,_("%z was deleteted from queue of downloads as completed download"),what);
 			absolute_delete_download(NULL,what);
 		} else {
-			if (what->who) delete(what->who);
+			if (what->who) delete what->who;
 			what->who=NULL;
 			DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
 			main_menu_del_completed_set_state(TRUE);
@@ -601,7 +608,7 @@ void tMain::case_download_failed(tDownload *what){
 		MainLog->myprintf(LOG_WARNING|LOG_DETAILED,_("%z was deleted from queue of downloads as failed download"),what);
 		absolute_delete_download(NULL,what);
 	} else {
-		if (what->who) delete(what->who);
+		if (what->who) delete what->who;
 		what->who=NULL;
 		DOWNLOAD_QUEUES[DL_STOP]->insert(what);
 		main_menu_del_failed_set_state(TRUE);
@@ -648,7 +655,7 @@ void tMain::main_circle() {
 		temp=temp1;
 	};
 /* look for added remotely */
-	check_for_remote_commands();
+//	check_for_remote_commands();
 /* look for run new */
 	temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
 	while(temp && DOWNLOAD_QUEUES[DL_RUN]->count()<CFG.MAX_THREADS) {
@@ -670,6 +677,10 @@ void tMain::check_for_remote_commands(){
 	int i=0;
 	while (addnew){
 		switch (addnew->temp){
+		case PACKET_ADD_OPEN:{
+			init_add_dnd_window(addnew->body);
+			break;
+		};
 		case PACKET_ADD:{
 			MainLog->myprintf(LOG_FROM_SERVER,_("Adding downloading via control socket [%s]"),addnew->body);
 			add_downloading(addnew->body,CFG.LOCAL_SAVE_PATH,NULL);
@@ -698,6 +709,15 @@ void tMain::check_for_remote_commands(){
 			del_all_from_list(DOWNLOAD_QUEUES[DL_COMPLETE]);
 			break;
 		};
+		case PACKET_MSG:
+			MainLog->myprintf(LOG_FROM_SERVER,"%s %s",addnew->body,_("[control socket]"));
+			break;
+		case PACKET_ICONIFY:
+			main_window_iconify();
+			break;
+		case PACKET_POPUP:
+			main_window_popup();
+			break;
 		};
 		delete(addnew);
 		i+=1;
@@ -752,19 +772,17 @@ void tMain::add_downloading_to(tDownload *what) {
 	};
 };
 
-
 int tMain::add_downloading(char *adr,char *where,char *name) {
 	if (adr==NULL) return -1;
-	char *temp=copy_string(adr);
-	tAddr *addr=make_addr_from_url(temp);
-	if (!addr) return -1;
+	tAddr *addr=new tAddr(adr);
+	if (!addr->get_host()) return -1;
 	tDownload *whatadd=new tDownload;
 	whatadd->info=addr;
 	if (where!=NULL && strlen(where)>0) {
 		whatadd->set_SavePath(where);
 	} else
 		whatadd->set_SavePath(CFG.GLOBAL_SAVE_PATH);
-	if (strlen(addr->file)==0) {
+	if (strlen(addr->get_file())==0) {
 		whatadd->finfo.type=T_DIR;
 		whatadd->finfo.size=0;
 	};
@@ -779,7 +797,7 @@ int tMain::add_downloading(char *adr,char *where,char *name) {
 		whatadd->set_SaveName(name);
 	whatadd->set_default_cfg();
 
-	if (equal_uncase(whatadd->info->protocol,"ftp")) {
+	if (equal_uncase(whatadd->info->get_proto(),"ftp")) {
 		if (CFG.USE_PROXY_FOR_FTP) {
 			whatadd->config.set_proxy_host(CFG.FTP_PROXY_HOST);
 			whatadd->config.proxy_port=CFG.FTP_PROXY_PORT;
@@ -870,11 +888,14 @@ void tMain::run(int argv,char **argc) {
 	load_defaults();
 	list_of_downloads_set_height();
 	prepare_buttons();
+	main_menu_prepare();
 	init_timeouts();
 	parse_command_line_postload(argv,argc);
 	run_msg_server();
 	LastTime=get_precise_time();
 	var_check_all_limits();
+	MainLog->add(_("Normally started"),LOG_WARNING);
+	check_for_remote_commands();
 	gtk_main();
 };
 
@@ -885,7 +906,7 @@ void tMain::run_after_quit(){
 
 void tMain::add_download_message(tDownload *what) {
 	if (!what) return;
-	MainLog->myprintf(LOG_OK,_("Added downloading of file %s from %s [by user]"),what->info->file,what->info->host);
+	MainLog->myprintf(LOG_OK,_("Added downloading of file %s from %s [by user]"),what->info->get_file(),what->info->get_host());
 };
 
 void tMain::done() {
@@ -972,7 +993,7 @@ void download_http(tDownload *what) {
 		download_failed(what);
 		return;
 	};
-	what->who->init_download(addr->path,addr->file);
+	what->who->init_download(addr->get_path(),addr->get_file());
 	/* We need to know size of already loaded file
 	 * but I think if file not found we need to delete it
 	 * because in http name of file may be specify 
@@ -1050,13 +1071,13 @@ void *download_last(void *nothing) {
 			pthread_exit(NULL);
 			return NULL;
 		};
-		if (what->config.get_proxy_host()  && (what->config.proxy_type || equal_uncase(addr->protocol,"http"))) {
+		if (what->config.get_proxy_host()  && (what->config.proxy_type || equal_uncase(addr->get_proto(),"http"))) {
 			what->who=new tProxyDownload;
 			download_http(what);
 			pthread_exit(NULL);
 			return NULL;
 		};
-		if (addr==NULL || equal_uncase(addr->protocol,"ftp")) {
+		if (addr==NULL || equal_uncase(addr->get_proto(),"ftp")) {
 			if (!what->who) what->who=new tFtpDownload;
 		} else {
 			download_http(what);
@@ -1065,10 +1086,10 @@ void *download_last(void *nothing) {
 		};
 		what->LOG->add(_("Was Started!"),LOG_WARNING);
 
-		if (what->finfo.type==T_LINK) {
+		if (what->finfo.type==T_LINK && !what->config.link_as_file) {
 			what->LOG->add(_("It is a link and we already load it"),LOG_WARNING);
 			what->who->short_init(what->LOG);
-			what->who->init_download(addr->path,addr->file);
+			what->who->init_download(addr->get_path(),addr->get_file());
 			what->who->set_file_info(&(what->finfo));
 			what->create_file();
 			what->set_date_file();
@@ -1081,7 +1102,7 @@ void *download_last(void *nothing) {
 			return NULL;
 		};
 
-		what->who->init_download(addr->path,addr->file);
+		what->who->init_download(addr->get_path(),addr->get_file());
 		if (what->finfo.size<0) {
 			what->status=DOWNLOAD_SIZE_WAIT;
 			int size=what->who->get_size();

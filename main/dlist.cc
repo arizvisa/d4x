@@ -27,106 +27,6 @@
 
 extern tMain aa;
 
-tAddr::tAddr() {
-	protocol=host=username=pass=path=file=NULL;
-	port=0;
-	mask=0;
-};
-
-void tAddr::print() {
-	if (protocol) printf("protocol: %s\n",protocol);
-	if (host) printf("host: %s\n",host);
-	if (path) printf("path: %s\n",path);
-	if (file) printf("file: %s\n",file);
-	if (username) printf("username: %s\n",username);
-	if (pass) printf("pass: %s\n",pass);
-	printf("port: %i\n",port);
-};
-
-void tAddr::save_to_config(int fd){
-	write(fd,"URL:\n",strlen("URL:\n"));
-	write(fd,protocol,strlen(protocol));
-	write(fd,"://",strlen("://"));
-	if (username && !equal(username,DEFAULT_USER)){
-		write(fd,username,strlen(username));
-		write(fd,":",strlen(":"));
-		write(fd,pass,strlen(pass));
-		write(fd,"@",strlen("@"));
-	};
-	write(fd,host,strlen(host));
-	char port_str[MAX_LEN];
-	snprintf(port_str,MAX_LEN,"%d",port);
-	write(fd,":",strlen(":"));
-	write(fd,port_str,strlen(port_str));
-	if (path && *path!='/')
-		write(fd,"/",strlen("/"));
-	int temp=path==NULL ? 0:strlen(path);
-	write(fd,path,temp);
-	if (path && temp && path[temp-1]!='/')
-		write(fd,"/",strlen("/"));
-	write(fd,file,strlen(file));
-	write(fd,"\n",strlen("\n"));
-};
-
-void tAddr::copy_host(tAddr *what){
-	protocol=copy_string(what->protocol);
-	host=copy_string(what->host);
-	pass=copy_string(what->pass);
-	username=copy_string(what->username);
-	port=what->port;
-};
-
-tAddr::~tAddr() {
-	if (protocol) delete(protocol);
-	if (path) delete(path);
-	if (pass) delete(pass);
-	if (username) delete(username);
-	if (host) delete(host);
-};
-
-/**********************************************/
-void make_url_from_download(tDownload *what,char *where) {
-	*where=0;
-	strcat(where,what->info->protocol);
-	strcat(where,"://");
-	if (what->info->username && !equal(what->info->username,"anonymous")) {
-		strcat(where,what->info->username);
-		strcat(where,":");
-		if (what->info->pass) strcat(where,what->info->pass);
-		strcat(where,"@");
-	};
-	strcat(where,what->info->host);
-	if ((equal_uncase(what->info->protocol,"ftp")  && what->info->port!=21) ||
-	        (equal_uncase(what->info->protocol,"http") && what->info->port!=80)) {
-		char data[MAX_LEN];
-		sprintf(data,":%i",what->info->port);
-		strcat(where,data);
-	};
-	strcat(where,what->info->path);
-	if (what->info->path[strlen(what->info->path)-1]!='/')
-		strcat(where,"/");
-	strcat(where,what->info->file);
-};
-
-char *make_simply_url(tDownload *what) {
-	char *URL=new char[strlen(what->info->protocol)+strlen(what->info->host)+
-	                   strlen(what->info->path)+strlen(what->info->file)+7];
-	*URL=0;
-	/* Easy way to make URL from info  field
-	 */
-	if (what->info->protocol) strcat(URL,what->info->protocol);
-	strcat(URL,"://");
-	if (what->info->host) strcat(URL,what->info->host);
-	if (what->info->path){
-		if (what->info->path[0]!='/') strcat(URL,"/");
-		strcat(URL,what->info->path);
-		if (what->info->path[strlen(what->info->path)-1]!='/')
-			strcat(URL,"/");
-	};
-	if (what->info->file) strcat(URL,what->info->file);
-	return URL;
-};
-/**********************************************/
 void tTriger::reset() {
 	old=curent;
 };
@@ -159,10 +59,8 @@ tDownload::tDownload() {
 	SaveName=SavePath=NULL;
 	config.ftp_recurse_depth=config.http_recurse_depth=1;
 	SpeedLimit=NULL;
-	finfo.body=NULL;
 	finfo.size=-1;
 	finfo.type=T_NONE;
-	finfo.body=NULL;
 	DIR=NULL;
 	finfo.perm=S_IWUSR | S_IRUSR;
 	Start=Pause=0;
@@ -249,8 +147,8 @@ void tDownload::set_default_cfg(){
 
 char *tDownload::create_new_file_path(){
 	if (info->mask==0) 
-		return (compose_path(info->path,info->file));
-	return(copy_string(info->path));
+		return (compose_path(info->get_path(),info->get_file()));
+	return(copy_string(info->get_path()));
 };
 
 char *tDownload::create_new_save_path(){
@@ -259,12 +157,12 @@ char *tDownload::create_new_save_path(){
 			if (SaveName && strlen(SaveName))
 				return(compose_path(SavePath,SaveName));
 			else 
-				return(compose_path(SavePath,info->file));
+				return(compose_path(SavePath,info->get_file()));
 		} else {
 			if (SaveName && strlen(SaveName))
 				return(copy_string(SaveName));
 			else
-				return(copy_string(info->file));
+				return(copy_string(info->get_file()));
 		};
 	};
 	return(copy_string(SavePath));
@@ -276,38 +174,36 @@ void tDownload::convert_list_to_dir() {
 	};
 	tFtpDownload *tmp=(tFtpDownload *)(who);
 	tStringList *dir=tmp->dir();
-	if (dir==NULL || dir->first()==NULL) {
-		return;
-	};
 	if (DIR) {
 		DIR->done();
 	} else {
 		DIR=new tDList(DL_TEMP);
 		DIR->init(0);
 	};
+	if (dir==NULL || dir->first()==NULL) {
+		return;
+	};
 	char *path=create_new_file_path();
 	char *savepath=create_new_save_path();
 	tString *temp=dir->last();
+	tFileInfo *prom=new tFileInfo;
 	while (temp) {
-		tFileInfo prom;
-		prom.name=NULL;
-		prom.body=NULL;
-		cut_string_list(temp->body,&prom,1);
-		if (prom.name && !equal(prom.name,".") && !equal(prom.name,"..")
-		    && (prom.type!=T_DIR || config.ftp_recurse_depth!=2)
-		    && (prom.type==T_DIR || info->mask==0 || check_mask(prom.name,info->file))) {
+		cut_string_list(temp->body,prom,1);
+		if (prom->get_name() && !equal(prom->get_name(),".")
+		    && !equal(prom->get_name(),"..")
+		    && (prom->type!=T_DIR || config.ftp_recurse_depth!=2)
+		    && (prom->type==T_DIR || info->mask==0 || check_mask(prom->get_name(),info->get_file()))) {
 			tAddr *addrnew=new tAddr;
 			tDownload *onenew=new tDownload;
-			if (prom.type==T_DIR && info->mask) {
-				addrnew->path=compose_path(path,prom.name);
-				addrnew->file=copy_string(info->file);
-				onenew->SavePath=compose_path(savepath,prom.name);
-				delete prom.name;
-				mkdir(onenew->SavePath,prom.perm);
+			if (prom->type==T_DIR && info->mask) {
+				addrnew->compose_path(path,prom->get_name());
+				addrnew->set_file(info->get_file());
+				onenew->SavePath=compose_path(savepath,prom->get_name());
+//				mkdir(onenew->SavePath,prom->perm);
 				addrnew->mask=info->mask;
 			} else {
-				addrnew->path=copy_string(path);
-				addrnew->file=prom.name;
+				addrnew->set_path(path);
+				addrnew->set_file(prom->get_name());
 				onenew->SavePath=copy_string(savepath);
 			};
 			addrnew->copy_host(info);
@@ -317,27 +213,24 @@ void tDownload::convert_list_to_dir() {
 			onenew->config.copy(&config);
 			onenew->config.ftp_recurse_depth = config.ftp_recurse_depth ? config.ftp_recurse_depth-1 : 0;
 			onenew->config.http_recurse_depth = config.http_recurse_depth;
-
 			if (CFG.RECURSIVE_OPTIMIZE) {
-				onenew->finfo.type=prom.type;
-				onenew->finfo.size=prom.size;
-				onenew->finfo.date=prom.date;
-				if (config.permisions) onenew->finfo.perm=prom.perm;
+				onenew->finfo.type=prom->type;
+				onenew->finfo.size=prom->size;
+				onenew->finfo.date=prom->date;
+				if (config.permisions) onenew->finfo.perm=prom->perm;
 				if (onenew->finfo.type==T_LINK) {
-					onenew->finfo.body=prom.body;
-					prom.body=NULL;
+					onenew->finfo.set_body(prom->get_body());
 				};
 			};
-			if (prom.body) delete prom.body;
 			DIR->insert(onenew);
-		} else {
-			if (prom.name) delete(prom.name);
-			if (prom.body) delete(prom.body);
 		};
 		dir->del(temp);
-		delete temp;
+		delete(temp);
 		temp=dir->last();
+		prom->set_name(NULL);
+		prom->set_body(NULL);
 	};
+	delete (prom);
 	delete (path);
 	delete (savepath);
 };
@@ -376,29 +269,26 @@ void tDownload::convert_list_to_dir2() {
 			char *tmp=rindex(temp->body,'/');
 			onenew->SavePath=copy_string(SavePath);
 			if (tmp) {
-				addrnew->file=copy_string(tmp+1);
+				addrnew->set_file(tmp+1);
 				*tmp=0;
 				if (temp->body[0]=='/')
-					addrnew->path=copy_string(temp->body);
-				else
-					addrnew->path=compose_path(info->path,temp->body);
+					addrnew->set_path(temp->body+1);
+				else{
+					addrnew->compose_path(info->get_path(),temp->body);
+				};
 				*tmp='/';
 			} else {
-				addrnew->path=copy_string(info->path);
-				addrnew->file=copy_string(temp->body);
+				addrnew->set_path(info->get_path());
+				addrnew->set_file(temp->body);
 			};
+/*
 			if (addrnew->path[0]!='/'){
 				tmp=compose_path("/",addrnew->path);
 				delete(addrnew->path);
 				addrnew->path=tmp;
 			};
-			tmp=index(addrnew->file,'#');
-			if (tmp) {
-				*tmp=0;
-				tmp=addrnew->file;
-				addrnew->file=copy_string(tmp);
-				delete(tmp);
-			};
+ */
+			addrnew->file_del_sq();
 			normalize_path(onenew->SavePath);
 			addrnew->copy_host(info);
 
@@ -412,9 +302,8 @@ void tDownload::convert_list_to_dir2() {
 			DIR->insert(onenew);
 		}else{
 			if (begin_string_uncase(temp->body,"http://")){
-					char *tmp=copy_string(temp->body);
-					tAddr *addrnew=make_addr_from_url(tmp);
-					if (equal(addrnew->host,info->host) && addrnew->port==info->port){
+					tAddr *addrnew=new tAddr(temp->body);
+					if (equal(addrnew->get_host(),info->get_host()) && addrnew->port==info->port){
 						tDownload *onenew=new tDownload;
 						onenew->SavePath=copy_string(SavePath);
 						onenew->config.http_recursing=1;
@@ -470,7 +359,7 @@ int tDownload::load_from_config(int fd){
 		case 0:{
 			if (read_string(fd,buf,MAX_LEN)<0) return -1;
 			if (info) delete(info);
-			info=make_addr_from_url(copy_string(buf));
+			info=new tAddr(buf);
 			break;
 		};
 		case 1:{
@@ -507,11 +396,10 @@ int tDownload::load_from_config(int fd){
 tDownload::~tDownload() {
 	if (who) delete who;
 	if (info) delete info;
-	if (LOG) delete LOG;
 	if (SavePath) delete SavePath;
 	if (SaveName) delete SaveName;
-	if (finfo.body) delete finfo.body;
 	if (editor) delete editor;
+	if (LOG) delete LOG;
 	if (DIR) delete DIR;
 };
 

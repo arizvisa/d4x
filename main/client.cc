@@ -50,7 +50,7 @@ int tClient::get_readed() {
 
 int tClient::read_string(tSocket *sock,tStringList *list,int maxlen) {
 	int rvalue;
-	char temp[maxlen];
+	char temp[maxlen+1];
 	char *cur=temp;
 	do {
 		*cur=0;

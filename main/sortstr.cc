@@ -114,7 +114,7 @@ void tHostsLimits::del(tSortString *what) {
 };
 
 void tHostsLimits::decrement(tDownload *what){
-	tSortString *tmp=find(what->info->host,what->info->port);
+	tSortString *tmp=find(what->info->get_host(),what->info->port);
 	if (tmp) tmp->decrement();
 };
 

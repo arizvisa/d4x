@@ -214,19 +214,19 @@ void tDEdit::init_main(tDownload *who) {
 //	char temp[MAX_LEN];
 //	make_url_from_download(who,temp);
 //	text_to_combo(url_entry,temp);
-	char *URL=make_simply_url(who);
+	char *URL=who->info->url();
 	text_to_combo(url_entry,URL);
 	delete URL;
 
 	text_to_combo(path_entry,who->get_SavePath());
 	if (who->get_SaveName()) text_to_combo(file_entry,who->get_SaveName());
 	else text_to_combo(file_entry,"");
-	if (who->info->pass)
-		text_to_combo(pass_entry,who->info->pass);
+	if (who->info->get_pass())
+		text_to_combo(pass_entry,who->info->get_pass());
 	else
 		text_to_combo(pass_entry,"");
-	if (who->info->username)
-		text_to_combo(user_entry,who->info->username);
+	if (who->info->get_username())
+		text_to_combo(user_entry,who->info->get_username());
 	if (who->config.get_user_agent())
 		text_to_combo(user_agent_entry,who->config.get_user_agent());
 	/* initing labels
@@ -283,7 +283,7 @@ void tDEdit::init_main(tDownload *who) {
 
 	button=gtk_check_button_new_with_label(_("Use password for this site"));
 	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(edit_window_password),this);
-	if (who->info->username)
+	if (who->info->get_username())
 		GTK_TOGGLE_BUTTON(button)->active=TRUE;
 	else
 		GTK_TOGGLE_BUTTON(button)->active=FALSE;
@@ -404,6 +404,9 @@ void tDEdit::init_other(tDownload *who) {
 	retry_check=gtk_check_button_new_with_label(_("Retry if resuming is not supported"));
 	GTK_TOGGLE_BUTTON(retry_check)->active=who->config.retry;
 	gtk_box_pack_start(GTK_BOX(other_vbox),retry_check,FALSE,FALSE,0);
+	link_as_file_check=gtk_check_button_new_with_label(_("Try to load simbolyc link as file via ftp"));
+	GTK_TOGGLE_BUTTON(link_as_file_check)->active=who->config.link_as_file;
+	gtk_box_pack_start(GTK_BOX(other_vbox),link_as_file_check,FALSE,FALSE,0);
 	GtkWidget *other_frame=gtk_frame_new(_("Other"));
 	gtk_container_border_width(GTK_CONTAINER(other_frame),5);
 	gtk_container_add(GTK_CONTAINER(other_frame),other_vbox);
@@ -490,7 +493,7 @@ void tDEdit::init(tDownload *who) {
 	proxy=new tProxyWidget;
 	proxy->init();
 	proxy->init_state();
-	if (equal_uncase("ftp",who->info->protocol))
+	if (equal_uncase("ftp",who->info->get_proto()))
 		proxy->init_state(&(who->config),1);
 	else
 		proxy->init_state(&(who->config),0);
@@ -599,22 +602,21 @@ void tDEdit::done_browser2() {
 int tDEdit::apply_changes() {
 	char *temp=copy_string(text_from_combo(url_entry));
 	del_crlf(temp);
-	tAddr *addr=make_addr_from_url(temp);
+	tAddr *addr=new tAddr(temp);
+	delete(temp);
 	if (!addr) return 1;
 	delete (parent->info);
 	parent->info=addr;
-	if (equal(parent->info->protocol,"ftp"))
+	if (equal(parent->info->get_proto(),"ftp"))
 		proxy->apply_changes(&(parent->config),1);
 	else
 		proxy->apply_changes(&(parent->config),0);
 	char *pass_string=text_from_combo(pass_entry);
 	if (GTK_TOGGLE_BUTTON(button)->active) {
 		if (strlen(text_from_combo(user_entry)) && strlen(pass_string)) {
-			if (parent->info->pass) delete(parent->info->pass);
-			if (parent->info->username) delete(parent->info->username);
-			parent->info->username=copy_string(text_from_combo(user_entry));
-			ALL_HISTORIES[USER_HISTORY]->add(parent->info->username);
-			parent->info->pass=copy_string(pass_string);
+			parent->info->set_username(text_from_combo(user_entry));
+			ALL_HISTORIES[USER_HISTORY]->add(parent->info->get_username());
+			parent->info->set_pass(pass_string);
 			if (CFG.REMEMBER_PASS)
 				ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
 		};
@@ -627,7 +629,7 @@ int tDEdit::apply_changes() {
 		ALL_HISTORIES[FILE_HISTORY]->add(parent->get_SaveName());
 	normalize_path(parent->get_SavePath());
 	parent->status=0;
-	if (strlen(parent->info->file)==0) {
+	if (strlen(parent->info->get_file())==0) {
 		parent->finfo.type=T_DIR;
 		parent->finfo.size=0;
 	} else {
@@ -636,7 +638,7 @@ int tDEdit::apply_changes() {
 	};
 	/* change histories
 	 */
-	char *URL=make_simply_url(parent);
+	char *URL=parent->info->url();
 	parent->config.set_user_agent(text_from_combo(user_agent_entry));
 	ALL_HISTORIES[PATH_HISTORY]->add(text_from_combo(path_entry));
 	ALL_HISTORIES[URL_HISTORY]->add(URL);
@@ -645,7 +647,7 @@ int tDEdit::apply_changes() {
 	 */
 	if (parent->GTKCListRow > 0) {
 		list_of_downloads_change_data(parent->GTKCListRow,URL_COL,URL);
-		list_of_downloads_change_data(parent->GTKCListRow,FILE_COL,parent->info->file);
+		list_of_downloads_change_data(parent->GTKCListRow,FILE_COL,parent->info->get_file());
 		for (int i=FILE_TYPE_COL;i<URL_COL;i++)
 			list_of_downloads_change_data(parent->GTKCListRow,i,"");
 	};
@@ -671,6 +673,7 @@ int tDEdit::apply_changes() {
 	parent->config.permisions=GTK_TOGGLE_BUTTON(permisions_check)->active;
 	parent->config.get_date=GTK_TOGGLE_BUTTON(get_date_check)->active;
 	parent->config.retry=GTK_TOGGLE_BUTTON(retry_check)->active;
+	parent->config.link_as_file=GTK_TOGGLE_BUTTON(link_as_file_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
 
 	if (GTK_TOGGLE_BUTTON(time_check)->active) {

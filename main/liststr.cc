@@ -19,7 +19,7 @@ tString::tString() {
 };
 
 tString::tString(char *what,int len) {
-	body=new char[len+2];
+	body=new char[len+1];
 	strncpy(body,what,len);
 	body[len]=0;
 };
@@ -127,4 +127,5 @@ void tStringList::dispose() {
 };
 
 tStringList::~tStringList() {
+	done();
 };
