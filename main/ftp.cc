@@ -440,6 +440,7 @@ int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 		if (len && FillSize>llen) FillSize=llen;
 		FileLoaded+=FillSize;
 		if (write_buffer()) {
+			LOG->log(LOG_ERROR,_("Error have happened during writing buffer to disk!"));
 			Status=STATUS_FATAL;
 			break;
 		};
@@ -447,7 +448,6 @@ int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 			llen -=FillSize;
 			if (llen==0){
 				LOG->log(LOG_OK,_("Requested size was loaded"));
-				send_command("ABOR",NULL);
 				DataSocket->flush(); /*read data in socket
 						      to avoid "brocken pipe"
 						      on linux;*/
@@ -459,12 +459,13 @@ int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 		};
 		if (LOG->is_overlaped()){
 			LOG->log(LOG_OK,_("Segment was loaded! Complete this thread."));
-			send_command("ABOR",NULL);
 			DataSocket->down();
+//			send_command("ABOR",NULL);
 			Status=0;
 			return DSize;
 		};
 	} while (complete!=0);
+	if (complete==0) LOG->log(LOG_WARNING,_("EOF recieved from server!"));
 	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team
 	if (Status) return DSize;
 	if (analize_ctrl(1,&FTP_READ_OK)){

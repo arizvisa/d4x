@@ -990,7 +990,7 @@ void tMain::check_split(tDownload *dwn){
 		// we need to check overlaping event here for splited downloads
 		// just find best part to download, and go! :-)
 		if (dwn->WL->is_overlaped() || dwn->status==DOWNLOAD_COMPLETE){
-			if (dwn->find_best_split()){
+			if (dwn->find_best_split() && dwn && dwn->who->reget()){
 				real_stop_thread(dwn);
 				prepare_for_stoping_pre(dwn);
 				dwn->split->cond->inc();
@@ -1226,8 +1226,10 @@ void tMain::check_for_remote_commands(){
 		};
 		case PACKET_SET_MAX_THREADS:{
 			sscanf(addnew->body,"%i",&(D4X_QUEUE->MAX_ACTIVE));
-			var_check_all_limits();
+			if (D4X_QUEUE->MAX_ACTIVE>50) D4X_QUEUE->MAX_ACTIVE=50;
+			if (D4X_QUEUE->MAX_ACTIVE<0) D4X_QUEUE->MAX_ACTIVE=0;
 			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,"%s %i %s",_("Setup maximum active downloads to"),D4X_QUEUE->MAX_ACTIVE,_("[control socket]"));
+			if (CFG.WITHOUT_FACE==0) D4X_QVT->update(D4X_QUEUE);
 			break;
 		};
 		case PACKET_DEL_COMPLETED:{
@@ -1641,7 +1643,9 @@ void tMain::done() {
 	*/
 	delete(SOUND_SERVER);
 	delete(GVARS.SOCKETS);
+	if (D4X_THEME_DATA) delete(D4X_THEME_DATA);
 	if (LOCK_FILE) remove(LOCK_FILE);
+	if (D4X_QVT) delete(D4X_QVT);
 };
 
 void tMain::reinit_main_log() {

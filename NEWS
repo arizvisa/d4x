@@ -1,3 +1,19 @@
+2.4beta2
+    Added ability to use '_' instead of '?' in filenames loaded via HTTP
+    Added support for libao (thanks to Julien BLACHE)
+    Fixed downloading one file in multiple threads;
+    Fixed adding new downloading task to the top of queue
+    Fixed storing and loading histories
+    Fixed memory leak in loading cookies
+    Fixed memory leak in xml parser
+    Fixed reseting multiple selection by right-mouse-button-click
+    Fixed displaing color in colorselection of graph's colors
+    Fixed popuping log window if it has been already opened
+    Fixed unselecting file in queue by mask (Ctrl+Keypad minus)
+    Changed method to display filenames in queue of downloads
+    Redisigned about dialog
+
+2.4beta
     Ported to GTK2
     "Number of parts to split" property is in defaults now
     Implemented new method for multithreaded downloading

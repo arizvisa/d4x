@@ -71,6 +71,24 @@ public:
 
 #endif //D4X_WITH_OSS
 
+
+#ifdef D4X_WITH_AO
+#include <ao/ao.h>
+
+class d4xAOAudio:public d4xAudio{
+        ao_device *snd_device;
+        ao_sample_format snd_format;
+        int ao_drv_id;
+ public:
+        d4xAOAudio();
+        ~d4xAOAudio();
+        int write(void *data, int length);
+        int open(int fmt, int rate, int nch);
+};
+
+#endif //D4X_WITH_AO
+
+
 class d4xSndFile{
 public:
 	d4xSndFile(){};
@@ -157,6 +175,8 @@ int d4xWaveFile::read_short(short *val){
 d4xWaveFile::d4xWaveFile(char *filename){
 #ifdef D4X_WITH_OSS
 	audio=new d4xOssAudio;
+#elif defined(D4X_WITH_AO)
+	audio=new d4xAOAudio;
 #else
 	audio=new d4xAudio;
 #endif
@@ -367,6 +387,54 @@ d4xOssAudio::~d4xOssAudio(){
 
 /***********************************************************/
 
+#ifdef D4X_WITH_AO
+
+int d4xAOAudio::open(int fmt, int rate, int nch){
+	switch (fmt){
+	case FMT_U8:
+	        snd_format.bits = 8;
+	        snd_format.byte_format = AO_FMT_LITTLE;
+		break;
+	case FMT_S16_LE:
+		snd_format.bits = 16;
+		snd_format.byte_format = AO_FMT_LITTLE;
+		break;
+	}
+
+	snd_format.rate = rate;
+	snd_format.channels = nch;
+
+	ao_drv_id = ao_default_driver_id();
+
+	if (ao_drv_id < 0)
+	  return 0;
+
+	snd_device = ao_open_live(ao_drv_id, &snd_format, NULL);
+
+	if (snd_device == NULL)
+	  return 0;
+
+	return 1;
+}
+
+int d4xAOAudio::write(void * data, int length){
+	return (ao_play(snd_device, (char *)data, length));
+}
+
+d4xAOAudio::d4xAOAudio(){
+  snd_device = NULL;
+  ao_drv_id = -1;
+};
+
+d4xAOAudio::~d4xAOAudio(){
+  if (snd_device != NULL)
+    ao_close(snd_device);
+};
+
+#endif //D4X_WITH_AO
+
+/***********************************************************/
+
 d4xSndServer *SOUND_SERVER;
 
 static void *_snd_serv_run_(void *serv){
@@ -392,6 +460,11 @@ d4xSndServer::d4xSndServer(){
 	queue=new tQueue;
 	thread_id=0;
 	pthread_cond_init(&cond,NULL);
+
+#ifdef D4X_WITH_AO
+	ao_initialize();
+#endif //D4X_WITH_AO
+
 };
 
 d4xSndServer::~d4xSndServer(){
@@ -399,6 +472,11 @@ d4xSndServer::~d4xSndServer(){
 	pthread_cond_destroy(&cond);
 	for (int i=0;i<SND_LAST;i++)
 		if (snd_table[i]) delete[] snd_table[i];
+
+#ifdef D4X_WITH_AO
+	ao_shutdown();
+#endif //D4X_WITH_AO
+
 };
 
 void d4xSndServer::stop_thread(){
@@ -501,6 +579,11 @@ void d4xSndServer::reinit_sounds(){
 	SND_REINIT(SND_ADD,CFG.SOUND_ADD);
 	SND_REINIT(SND_DND_DROP,CFG.SOUND_DND_DROP);
 	SND_REINIT(SND_QUEUE_FINISH,CFG.SOUND_QUEUE_FINISH);
+
+#ifdef D4X_WITH_AO
+       ao_shutdown();
+       ao_initialize();
+#endif //D4X_WITH_AO
 };
 
 void d4xSndServer::init_sounds(){

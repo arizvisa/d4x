@@ -123,6 +123,7 @@ int d4xEnginesList::load(){
 			};
 			delete(obj);
 		};
+		delete(data);
 	};
 	return(0);
 };

@@ -262,8 +262,9 @@ void d4x_xml_skip_for_str(int fd,char *str){
 	};
 	while(!equal(str,buf)){
 		memmove(buf,buf+1,len-1);
-		if (read(fd,buf+len-1,1)!=1) return;
+		if (read(fd,buf+len-1,1)!=1) break;
 	};
+	delete[] buf;
 };
 
 d4xXmlObject *d4x_xml_read_tag(int fd){

@@ -426,7 +426,7 @@ static gboolean prefs_filter_sel_select(GtkTreeView *view, GdkEventButton *event
 
 static void prefs_filter_sel_clicked(GtkWidget *parent){
 	if (D4XPWS.filter_sel){
-		gdk_window_show(GTK_WIDGET(D4XPWS.filter_sel)->window);
+		gtk_window_present(GTK_WINDOW(D4XPWS.filter_sel));
 		return;
 	};
 	D4XPWS.filter_sel=(d4xFilterSel*)d4x_filter_sel_new();
@@ -1172,7 +1172,7 @@ static void d4x_prefs_size_request(GtkWidget *widget,GtkRequisition *a,gpointer 
 
 void d4x_prefs_init_pre(){
 	if (d4x_prefs_window) {
-		gdk_window_show(d4x_prefs_window->window);
+		gtk_window_present(GTK_WINDOW(d4x_prefs_window));
 		return;
 	};
 	var_copy_cfg(&TMPCFG,&CFG);
@@ -1539,7 +1539,7 @@ void d4x_prefs_apply(){
 		dnd_trash_real_destroy();
 		dnd_trash_destroy_theme();
 		CFG.DND_TRASH=TMPCFG.DND_TRASH;
-		gdk_window_show(d4x_prefs_window->window);
+		gtk_window_present(GTK_WINDOW(d4x_prefs_window));
 		buttons_theme_changed();
 		lod_theme_changed();
 	};

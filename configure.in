@@ -1,13 +1,13 @@
 # -*-m4-*-
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.54.2.7 $)
+AC_REVISION($Revision: 1.54.2.17 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
 # Initialize environment
 # -----------------------------------------------------------------------------
-AC_INIT([d4x],[2.4beta],[chuchelo@krasu.ru])
+AC_INIT([d4x],[2.4beta2],[chuchelo@krasu.ru])
 
 AC_CONFIG_SRCDIR([nt.spec.in])
 AC_CONFIG_AUX_DIR([admin])
@@ -20,10 +20,7 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-# Automake 1.5 doesn't ready for this feature yet...
-# AM_INIT_AUTOMAKE([gnu])
-# ... so use an old fashioned call.
-AM_INIT_AUTOMAKE($PACKAGE_NAME, $PACKAGE_VERSION)
+AM_INIT_AUTOMAKE([1.6 gnu dist-bzip2])
 
 AC_PREFIX_DEFAULT(/usr/local)
 
@@ -36,52 +33,54 @@ AM_MAINTAINER_MODE
 
 # --disable-release flags... i.e. no optimized code
 # (to allow debuggers show/trace source code properly)
-CXXFLAGS="-O0"
+# ATTENTION: We shouldn't redefine CXXFLAGS! Possible config.site already loaded!
+OPTFLAGS="-O0"
 
 # Optimization options
 AC_ARG_ENABLE(extra-optimize,
     AC_HELP_STRING([--enable-extra-optimize],
                    [Such as --enable-release + compile with maximum optimizations]),
     [if test "x$enable_extra_optimize" = "xyes"; then
-	CXXFLAGS="-O3"
+	OPTFLAGS="-O3"
     fi])
-# *** Default mode: release ***
 AC_ARG_ENABLE(release, 
     AC_HELP_STRING([--enable-release], [Compile with usual optimization level without debug code (default)]),,
     [enable_release="yes"])
 if test "x$enable_release" = "xyes"; then
-    CXXFLAGS="-O2"
+    OPTFLAGS="-O2"
 fi
+CXXFLAGS="$CXXFLAGS $OPTFLAGS"
 
 # Maintainer helpers
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debug info and some debugging code to be compiled]),
     [if test "x$enable_debug" = "xyes"; then
-	CXXFLAGS=$CXXFLAGS" -ggdb"
+	CXXFLAGS="$CXXFLAGS -ggdb"
         AC_DEFINE(DEBUG_ALL, , [Activate debug code])
     fi])
 AC_ARG_ENABLE(warnings,
     AC_HELP_STRING([--enable-warnings], [Enable all warnings at compile time]),
     [if test "x$enable_warnings" = "xyes"; then
-	CXXFLAGS=$CXXFLAGS" -Wall"
+	CXXFLAGS="$CXXFLAGS -Wall"
     fi])
 
 # Extra features options
-#AC_ARG_ENABLE(esd,
-#    AC_HELP_STRING([--disable-esd], [Disable esound output (default=enabled)]),,
-#    enable_esd="yes")
+AC_ARG_ENABLE(esd,
+    AC_HELP_STRING([--disable-esd], [Disable esound output (default=enabled)]),,
+    enable_esd="yes")
 AC_ARG_ENABLE(oss,
     AC_HELP_STRING([--disable-oss], [Disable OSS sound output (default=enabled)]),,
     enable_oss="yes")
+AC_ARG_ENABLE(libao,
+    AC_HELP_STRING([--enable-libao], [Enables libao sound ouput (default=disabled)]),,
+    enable_libao="no")
 
 # -----------------------------------------------------------------------------
 # Checks for arch/OS
 # -----------------------------------------------------------------------------
 
 # Check for OS
-case ${host} in
-    *-linux*)
-    ;;
+case "$host" in
     *-solaris*)
 	# From original Makefile: SOLARIS_TYPECASTED_X11_HEADERS
 	OS_INCLUDES="-I/var/tmp/src"
@@ -97,25 +96,25 @@ case ${host} in
 esac
 
 # check for CPU
-dnl
+#
 # I know exactly that on Intel and ADM CPUs this improve code
 # but 'bout others I can say nothing...
-dnl
-am_intel_amd_common="-fexpensive-optimizations -malign-loops=4 -malign-jumps=4 -malign-functions=4 -fomit-frame-pointer"
+#
+am_intel_amd_common="-fexpensive-optimizations -fomit-frame-pointer"
 ac_pthread_strict_check="yes"
 
 AC_MSG_CHECKING(host CPU architecture) 
-case ${host} in
+case "$host" in
     i586-* | i686-*)
 	AC_MSG_RESULT([Intel x86])
 	if test "x$enable_extra_optimize" = "xyes"; then
-	    OS_CXXFLAGS=${am_intel_amd_common}
+	    OS_CXXFLAGS="$am_intel_amd_common"
 	fi
     ;;
     athlon-*)
 	AC_MSG_RESULT([AMD Athlon])
 	if test "x$enable_extra_optimize" = "xyes"; then
-	    OS_CXXFLAGS=${am_intel_amd_common}" -mcpu=athlon"
+	    OS_CXXFLAGS="$am_intel_amd_common -mcpu=athlon"
 	fi
     ;;
     *)
@@ -131,15 +130,8 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AM_PROG_INSTALL_STRIP
 AC_PROG_AWK
+#AC_PROG_LIBTOOL
 AC_PROG_RANLIB
-
-# Set of available languages (look at /po dir instead of static list).
-ALL_LINGUAS=`(cd ${srcdir}/po && ls *.po | sed -e 's/\.po$//')`
-
-# Workaround for bug in gettext version 0.10.38 (and maybe below)
-# (wich is doesn't aware with new autoconf)
-test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
-
 AM_GNU_GETTEXT
 
 # -----------------------------------------------------------------------------
@@ -147,28 +139,24 @@ AM_GNU_GETTEXT
 # -----------------------------------------------------------------------------
 # Should we check for esound?
 if test "x$enable_esd" = xyes; then
-#    AM_PATH_ESD(,[have_esd=yes AC_DEFINE(HAVE_ESD,,[Define if have libesd])], have_esd=no)
-    PKG_CHECK_MODULES(ESD, esound)
+#    PKG_CHECK_MODULES(ESD, esound)
+    AM_PATH_ESD(,[have_esd=yes AC_DEFINE(HAVE_ESD,,[Define if have libesd])], have_esd=no)
     AC_SUBST(ESD_CFLAGS)
     AC_SUBST(ESD_LIBS)
-    if test "x$ESD_CFLAGS" = "x" ; then
-	have_esd=no
-    else
-	ESD_CFLAGS="$ESD_CFLAGS -DHAVE_ESD"
-	have_esd=yes
-    fi
-else
-    have_esd=no
 fi
+# Should we check for ao?
+if test "x$enable_libao" = xyes; then
+    D4X_PATH_AO([have_ao=yes AC_DEFINE(D4X_WITH_AO,,[Define if libao should be used])], have_ao=no)
+#    XIPH_PATH_AO([have_ao=yes AC_DEFINE(D4X_WITH_AO,,[Define if libao should be used])], have_ao=no)
+    enable_esd=no
+    enable_oss=no
+fi
+AM_CONDITIONAL(D4X_WITH_AO, [test "x$have_ao" = xyes])
 
-#AM_CONDITIONAL(HAVE_ESD, [test "x$have_esd" = xyes])
 
-PKG_CHECK_MODULES(D4X, gdk-pixbuf-2.0 >= 2.0.6 gtk+-2.0 >= 2.0.6 glib-2.0 >= 2.0.6)
-AC_SUBST(D4X_CFLAGS)
-AC_SUBST(D4X_LIBS)
-#AM_PATH_GLIB(1.2.10,, AC_MSG_ERROR([*** GLIB >= 1.2.10 not installed! ***]))
-#AM_PATH_GTK(1.2.10,, AC_MSG_ERROR([*** GTK >= 1.2.10 not installed! ***]))
-#AM_PATH_GDK_PIXBUF(,, AC_MSG_ERROR([*** GdkPixbuf not installed! ***]))
+#AM_PATH_GLIB_2_0(2.0.6,, AC_MSG_ERROR([*** GLIB >= 2.0.6 not installed! ***]))
+#AM_PATH_GTK_2_0(2.0.6,, AC_MSG_ERROR([*** GTK >= 2.0.6 not installed! ***]))
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.6 glib-2.0 >= 2.0.6)
 
 # POSIX threads should be always present...
 if test "x$ac_pthread_strict_check" = "xyes"; then
@@ -231,29 +219,31 @@ if test "x$prefix" = "xNONE"; then
   ac_configure_args="$ac_configure_args --prefix $prefix"
 fi
 
-# Make gettext > 0.10.35 work
-# GMSGFMT="OLD_PO_FILE_INPUT=yes $GMSGFMT"
-# MSGFMT="OLD_PO_FILE_INPUT=yes $MSGFMT"
-localedir=${prefix}/share/locale
+# Define locales directory
+localedir=`eval "echo ${datadir}/locale"`
 AC_SUBST(localedir)
-
 AC_DEFINE_UNQUOTED(LOCALEDIR,
                    "$localedir",
                    [Location of locales])
+
+# Define package directory
+sharedir=`eval "echo ${datadir}"`
 AC_DEFINE_UNQUOTED(D4X_SHARE_PATH,
-                   "$prefix/share/d4x",
+                   "$sharedir/$PACKAGE",
                    [Location of architecture independed files])
 
+# Other needed defines
 AC_DEFINE(_REENTRANT, , [Enable reenrant code of glibc])
+AC_DEFINE(GTK_DISABLE_DEPRECATED, , [Enable warnings about deprecated functions usage])
 
 # Prepare all requiered flags
-CXXFLAGS="${CXXFLAGS} ${OS_CXXFLAGS}  -DGTK_DISABLE_DEPRECATED"
-CPPFLAGS="${CPPFLAGS} ${ESD_CFLAGS} ${D4X_CFLAGS} ${OS_INCLUDES}"
-LIBS="${LIBS} ${ESD_LIBS} ${D4X_LIBS} ${LIBRX}"
+CXXFLAGS="$CXXFLAGS $OS_CXXFLAGS"
+CPPFLAGS="$CPPFLAGS $ESD_CFLAGS $ESD_CFLAGS $GLIB_CFLAGS $GTK_CFLAGS $OS_INCLUDES ${AO_CFLAGS}"
+LIBS="$LIBS $ESD_LIBS $GLIB_LIBS $GTK_LIBS $LIBRX ${AO_LIBS}"
 
 # Remove duplicates from options
-#CPPFLAGS=`echo $CPPFLAGS | $AWK -f ${srcdir}/admin/strip.awk`
-#LIBS=`echo $LIBS | $AWK -f ${srcdir}/admin/strip.awk`
+CPPFLAGS=`echo $CPPFLAGS | $AWK -f ${srcdir}/admin/strip.awk`
+LIBS=`echo $LIBS | $AWK -f ${srcdir}/admin/strip.awk`
 
 # Remove -lpthread for some OS'es
 if test "x$ac_pthread_strict_check" = "xno"; then
@@ -262,7 +252,7 @@ fi
 
 # Force config.h be included before every module compilation
 if test "x$ac_config_headers" != "x"; then
-    CPPFLAGS="${CPPFLAGS} "'-include $(CONFIG_HEADER)'
+    CPPFLAGS="$CPPFLAGS -include \$(CONFIG_HEADER)"
 fi
 
 # Schedule commands to execute after Makefiles creation
@@ -292,13 +282,14 @@ AH_BOTTOM([#endif /* !__D4X_CONFIG_H */])
 # -----------------------------------------------------------------------------
 # Create output files
 # -----------------------------------------------------------------------------
-AC_CONFIG_FILES([Makefile  po/Makefile.in \
-                 DOC/Makefile \
-		 \
-                 main/Makefile \
+AC_CONFIG_FILES([Makefile           \
+                 DOC/Makefile       \
+		 intl/Makefile      \
+		 admin/Makefile     \
+                 main/Makefile      \
                  main/face/Makefile \
-                 po/Makefile.in \
-		 share/Makefile \
+                 po/Makefile.in     \
+		 share/Makefile     \
 		 nt.spec])
 AC_OUTPUT
 
@@ -306,16 +297,21 @@ AC_OUTPUT
 # Show our configuration
 # -----------------------------------------------------------------------------
 # 1) calculate all what we need to display
-cxx_version=`${CXX} --version`
-if test x${have_esd} = xno; then
+cxx_version=`${CXX} --version | head -1`
+if test x$have_esd = xno; then
     esd_spam="disabled"
 else
     esd_spam="yes"
 fi
-if test x${have_oss} = xyes; then
+if test x$have_oss = xyes; then
     oss_spam="yes"
 else
     oss_spam="disabled"
+fi
+if test x${have_ao} = xyes; then
+    ao_spam="enabled"
+else
+    ao_spam="disabled"
 fi
 acm="debug"
 if test "x$enable_extra_optimize" = "xyes"; then
@@ -325,32 +321,32 @@ if test "x$enable_release" = "xyes"; then
     acm="release"
 fi
 if test "x$USE_MAINTAINER_MODE" = "xyes"; then
-    acm=${acm}" (maintainer mode)"
+    acm="$acm (maintainer mode)"
 fi
 
 # 2) show config
 echo "------------------------------------------------------------------------------"
 cat << EOF
 
-         Configuration:    ${acm}
+         Configuration:    $acm
 
-      Host system type:    ${host}
-          Install path:    ${prefix}
-          C++ compiler:    ${CXX} (${cxx_version})
+      Host system type:    $host
+          Install path:    $prefix
+          C++ compiler:    $CXX ($cxx_version)
 
-            ESD output:    ${esd_spam}
-            OSS output:    ${oss_spam}
-
+            ESD output:    $esd_spam
+            OSS output:    $oss_spam
+          libao output:    $ao_spam
 EOF
 if test "x$USE_MAINTAINER_MODE" = "xyes"; then
     echo "    Preprocessor flags:"
-    echo ${CPPFLAGS} | fold -sw 50 | sed 's/\(.*\)/                           \1/'
+    echo $CPPFLAGS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
     echo "        Compiler flags:"
-    echo ${CXXFLAGS} | fold -sw 50 | sed 's/\(.*\)/                           \1/'
+    echo $CXXFLAGS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
     echo "          Linker flags:"
-    echo ${LDFLAGS} | fold -sw 50 | sed 's/\(.*\)/                           \1/'
+    echo $LDFLAGS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
     echo "       Addon libraries:"
-    echo ${LIBS} | fold -sw 50 | sed 's/\(.*\)/                           \1/'
+    echo $LIBS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
     echo
 fi
 echo "------------------------------------------------------------------------------"

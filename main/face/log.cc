@@ -371,9 +371,6 @@ gint log_window_button(GtkWidget *button,int a){
 
 
 void log_window_init(tDownload *what) {
-	gchar *titles[L_COL_LAST];
-	for (int i=0;i<L_COL_LAST;i++)
-		titles[i]="";
 	if (what) {
 		if (what->LOG==NULL){
 			what->LOG=new tLog;
@@ -382,7 +379,7 @@ void log_window_init(tDownload *what) {
 		};
 		if (what->LOG->Window) {
 			tLogWindow *temp=(tLogWindow *)what->LOG->Window;
-			gdk_window_show(temp->window->window);
+			gtk_window_present(GTK_WINDOW(temp->window));
 			return;
 		}else{
 			if (what->split){
@@ -390,7 +387,7 @@ void log_window_init(tDownload *what) {
 				while (next_part){
 					if (next_part->LOG && next_part->LOG->Window){
 						tLogWindow *temp=(tLogWindow *)(next_part->LOG->Window);
-						gdk_window_show(temp->window->window);
+						gtk_window_present(GTK_WINDOW(temp->window));
 						return;
 					};
 					next_part=next_part->split->next_part;
@@ -408,8 +405,8 @@ void log_window_init(tDownload *what) {
 		if (a[3]!=0 && a[2]!=0){
 			gtk_window_move(GTK_WINDOW(temp->window), a[0], a[1]);
 			gtk_window_set_default_size( GTK_WINDOW (temp->window), a[2], a[3]);
-		}else
-			gtk_widget_set_size_request( GTK_WIDGET (temp->window), 400, 200);
+		};
+		gtk_widget_set_size_request( GTK_WIDGET (temp->window), 400, 200);
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
@@ -452,14 +449,6 @@ void log_window_init(tDownload *what) {
 		gtk_tree_view_set_headers_visible(temp->view,FALSE);
 		gtk_tree_view_set_reorderable(temp->view,FALSE);
 		g_signal_connect(G_OBJECT(temp->view),"event",G_CALLBACK(log_list_event_handler),temp);
-/*		gtk_clist_set_shadow_type (GTK_CLIST(temp->clist), GTK_SHADOW_IN);
-		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TYPE , 18);
-		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_NUM , 16);
-		gtk_clist_set_column_width (GTK_CLIST(temp->clist), L_COL_TIME , 50);
-		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_NUM,TRUE);
-		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_TIME,TRUE);
-		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),L_COL_STRING,TRUE);
-*/
 
 		temp->adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
 

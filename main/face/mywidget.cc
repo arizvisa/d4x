@@ -156,6 +156,7 @@ static void my_gtk_colorsel_expose(GtkWidget *widget,GdkEventExpose *event,MyGtk
 	gint i=0;
 	for (int y=0;y<h;y++){
 		for (int x=0;x<w;x++){
+			buf[i]=0;
 			buf[i++]=colsel->color.red/0xff;
 			buf[i++]=colsel->color.green/0xff;
 			buf[i++]=colsel->color.blue/0xff;

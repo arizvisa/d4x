@@ -49,6 +49,7 @@ class tDEdit{
 	GtkWidget *load_link_check,*link_as_file_check;
 	GtkWidget *ftp_recurse_depth_entry,*http_recurse_depth_entry;
 	GtkWidget *ftp_dirontop_check;
+	GtkWidget *quest_sign_check;
 	GtkWidget *dont_send_quit_check;
 	GtkWidget *restart_from_begin_check,*to_top_check;
 	GtkWidget *speed_entry;

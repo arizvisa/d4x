@@ -124,6 +124,7 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	full_server_loading=src->full_server_loading;
 	dont_leave_dir=src->dont_leave_dir;
 	ftp_dirontop=src->ftp_dirontop;
+	quest_sign_replace=src->quest_sign_replace;
 
 	rollback = src->rollback;
 	follow_link = src->follow_link;
@@ -147,6 +148,7 @@ tCfg::tCfg() {
 	ftp_dirontop=0;
 	isdefault=1;
 	con_limit=0;
+	quest_sign_replace=0;
 };
 
 int tCfg::get_flags(){
@@ -255,6 +257,7 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"change_links:",change_links);
 	write_named_integer(fd,"ftp_dirontop:",ftp_dirontop);
 	write_named_integer(fd,"ihate_etag:",ihate_etag);
+	write_named_integer(fd,"quest_sign_replace:",quest_sign_replace);
 	if (con_limit)
 		write_named_integer(fd,"con_limit:",con_limit);
 	if (save_path.get() && *(save_path.get()))
@@ -303,6 +306,7 @@ int tCfg::load_from_config(int fd){
 		{"follow_link:",SV_TYPE_INT,	&follow_link},
 		{"leave_server:",SV_TYPE_INT,	&leave_server},
 		{"ihate_etag:",	SV_TYPE_INT,	&ihate_etag},
+		{"quest_sign_replace:",	SV_TYPE_INT,	&quest_sign_replace},
 		{"save_path:",	SV_TYPE_PSTR,	&save_path},
 		{"dont_leave_dir:",SV_TYPE_INT,	&dont_leave_dir},
 		{"referer:",	SV_TYPE_PSTR,	&referer},

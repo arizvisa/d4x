@@ -527,9 +527,14 @@ void d4xQueueView::set_desc(tDownload *what){
 };
 
 void d4xQueueView::set_filename(tDownload *what){
-	char *file_utf=unparse_percents(what->info->file.get());
-	change_data(what->list_iter,FILE_COL,file_utf);
-	delete[] file_utf;
+	char *file_utf=what->info->file.get();
+	if (g_utf8_validate(file_utf,-1,NULL)){
+		change_data(what->list_iter,FILE_COL,file_utf);
+	}else{
+		file_utf=g_convert_with_fallback(file_utf,-1,"UTF-8","ISO8859-1",NULL,NULL,NULL,NULL);
+		change_data(what->list_iter,FILE_COL,file_utf);
+		g_free(file_utf);
+	};
 };
 
 void d4xQueueView::set_percent(GtkTreeIter *iter,float percent){
@@ -661,7 +666,7 @@ void d4xQueueView::add_first(tDownload *what) {
 	LoDSortFlag=NOTHING_COL;
 	char *URL=what->info->url_parsed();
 	GtkTreeIter iter;
-	gtk_list_store_append(list_store, &iter);
+	gtk_list_store_prepend(list_store, &iter);
 	gtk_list_store_set(list_store, &iter,
 			   URL_COL, URL,
 			   NOTHING_COL, what,
@@ -817,7 +822,7 @@ static gboolean _real_select_by_wildcard_(GtkTreeModel *model,GtkTreePath *path,
 static gboolean _real_unselect_by_wildcard_(GtkTreeModel *model,GtkTreePath *path,
 					  GtkTreeIter *iter,gpointer data){
 	d4xQueueView *qv=(d4xQueueView *)data;
-	qv->select_by_wildcard(iter);
+	qv->unselect_by_wildcard(iter);
 };
 
 void d4xQueueView::real_select(int type,char *w){
@@ -917,7 +922,6 @@ int list_event_callback(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
 	if (event->type == GDK_BUTTON_PRESS) {
 		if (bevent->button==3) {
 			GtkTreePath *path=NULL;
-			gtk_tree_selection_unselect_all(sel);
 			if (gtk_tree_view_get_path_at_pos(view,int(bevent->x),int(bevent->y),&path,NULL,NULL,NULL)){
 				GtkTreeIter iter;
 				GtkTreeModel *model=gtk_tree_view_get_model(view);
@@ -932,7 +936,6 @@ int list_event_callback(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
 			gint x,y;
 			GdkModifierType modmask;
 			gdk_window_get_pointer((GdkWindow *)NULL,&x,&y, &modmask);
-			//          util_item_factory_popup(list_menu_itemfact,x,y,3,GDK_CURRENT_TIME);
 			list_menu_prepare();
 			gtk_menu_popup(GTK_MENU(ListMenu),(GtkWidget *)NULL,(GtkWidget *)NULL,(GtkMenuPositionFunc)NULL,(gpointer)NULL,bevent->button,bevent->time);
 			return TRUE;
@@ -1562,8 +1565,7 @@ static void _foreach_continue_logs_(GtkTreeModel *model,GtkTreePath *path,
 	gtk_tree_model_get_value(model,iter,NOTHING_COL,&val);
 	tDownload *temp=(tDownload *)g_value_peek_pointer(&val);
 	g_value_unset(&val);
-	if (temp && (temp->LOG==NULL || temp->LOG->Window==NULL))
-		log_window_init(temp);
+	if (temp) log_window_init(temp);
 };
 
 void d4xQueueView::continue_opening_logs(){

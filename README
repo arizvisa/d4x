@@ -1,11 +1,31 @@
+      * UPGRADE FROM 2.0x to 2.4 *
+Begining from version 2.4 Downloader for X uses .ntrc_2 directory in your
+home directory to store its configuration data, queues of downloads etc.
+The main reason to change default directory is switching from GTK1.x to GTK2.
+GTK2 is fully unicode library so D4X have to be unicode too. If you want to
+convert your old .ntrc data to new just recode them to utf8 code page.
+For example in my case I've used next command (bash):
+
+for i in ~/ntrc/*;do iconv -f koi8-r -t utf8 $i>~/ntrc_2/`basename $i';do
+
+You can use another codepage converting tool instead of 'iconv' and most of
+you have to use another codepage instead of 'koi8-r'
+
+
+      * DEVELOPER's INFO *
+
 To make this package you need the following tools/libs:
 
 
 Usual users
 ~~~~~~~~~~~
 
-gettext >= 0.10.39
+gettext >= 0.11.2
 http://www.gnu.org/software/gettext
+
+GTK+ 2.0.6
+http://www.gtk.org
+
 
 
 For package maintainers
@@ -14,6 +34,5 @@ For package maintainers
 autoconf >= 2.52
 http://www.gnu.org/software/autoconf
 
-automake >= 1.5
+automake >= 1.6
 http://www.gnu.org/software/automake
-* be ready for version 1.6 after d4x 2.0 relese :)

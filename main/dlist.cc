@@ -1209,7 +1209,7 @@ void tDownload::http_recurse() {
 			delete[] a;
 			html->out_fd=open(tmppath,O_RDWR|O_CREAT|O_TRUNC,S_IRUSR | S_IWUSR );
 			html->leave=config->leave_server;
-			html->parse(WL,dir,info);
+			html->parse(WL,dir,info,config->quest_sign_replace);
 			if (html->out_fd){
 				char *name,*guess;
 				make_file_names(&name,&guess);
@@ -1229,7 +1229,7 @@ void tDownload::http_recurse() {
 			delete[] tmppath;
 		}else{
 			html->out_fd=-1;
-			html->parse(WL,dir,info);
+			html->parse(WL,dir,info,config->quest_sign_replace);
 		};
 		pthread_cleanup_pop(1);
 		if (config->http_recurse_depth!=1){
@@ -1330,6 +1330,11 @@ void tDownload::download_http() {
 	CurentSize=who->rollback();
 	
 	fsize_t size=who->get_size();
+	if (!im_first && split && split->FirstByte>0 && who->reget()==0){
+		WL->log(LOG_WARNING,_("Multithreaded downloading not possible due to server limitations (resuming not supported)"));
+		download_completed(D_PROTO_HTTP);
+		return;
+	};
 	/* In the case if file already loaded
 	 */
 	if (size==CurentSize && size>0 && config->rollback==0) {
@@ -1650,12 +1655,15 @@ int tDownload::find_best_split(){
 		};
 		tmp=tmp->next;
 	};
+	split->FirstByte=split->LastByte=0;
 	// if this part is already loading by another thread then we
 	// need to load only part of this chunk
 	tDownload *gp=split->grandparent;
 	while (gp){
-		if ((gp->split->LastByte>=best->begin && gp->split->LastByte<=best->end) ||
-		    (gp->split->FirstByte>=best->begin && gp->split->FirstByte<=best->end))
+		if (gp!=this &&
+		    ((gp->split->LastByte>=best->begin && gp->split->LastByte<=best->end) ||
+		     (gp->split->FirstByte>=best->begin && gp->split->FirstByte<=best->end)||
+		     (gp->split->FirstByte<=best->begin && gp->split->LastByte>=best->end)))
 			break;
 		gp=gp->split->next_part;
 	};
@@ -1665,7 +1673,6 @@ int tDownload::find_best_split(){
 		split->FirstByte=best->begin;
 	};
 	split->LastByte=best->end;
-//	printf("Best part: %lli-%lli (%lli)\n",split->FirstByte,split->LastByte,split->LastByte-split->FirstByte);
 	int completed=0;
 	if (best->begin==0) completed=1;
 	while(holes){
@@ -1676,6 +1683,7 @@ int tDownload::find_best_split(){
 	if (split->LastByte-split->FirstByte>SPLIT_MINIMUM_PART*10 && completed==0){
 		return 1;
 	};
+	split->FirstByte=split->LastByte=0;
 	return 0;
 };
 
@@ -1793,6 +1801,9 @@ void tDownload::prepare_splits(){
 	};
 	if (ALTS)
 		ALTS->unlock_by_download();
+// to avoid broken downloads when we can't detect resuming support at first request
+// first thread always load from begining to end
+	if (split->FirstByte==0) split->LastByte=finfo.size;
 	split->prepared=1;
 };
 

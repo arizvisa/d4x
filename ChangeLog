@@ -1,3 +1,297 @@
+2002-10-24 21:50  max
+
+	* NEWS: updated
+
+2002-10-24 21:47  max
+
+	* main/face/about.cc: added pause before switching direction of
+	scrolling
+
+2002-10-24 16:34  max
+
+	* main/face/about.cc: redesigned about window
+
+2002-10-24 14:45  max
+
+	* main/face/prefs.cc: use gtk_window_present instead of
+	gdk_window_show
+
+2002-10-24 14:44  max
+
+	* main/face/mywidget.cc: real fix for displaying color :-)
+
+2002-10-24 14:40  max
+
+	* main/: log.cc, face/list.cc, face/lod.cc, face/log.cc,
+	face/mywidget.cc: fixed poping log window if it has been already
+	opened truncate files to save logs fixed displaing color in
+	selection widget
+
+2002-10-23 20:05  max
+
+	* README: added some info about upgrading from 2.0x to 2.4 with
+	storing data
+
+2002-10-23 14:44  max
+
+	* main/: dlist.cc, main.cc: fixed downloading from servers which
+	not support resuming
+
+2002-10-23 13:42  max
+
+	* NEWS, configure.in, main/dlist.cc, main/ftp.cc: added
+	GTK_DISABLE_DEPRECATED define to compilation stage do not send
+	'ABORT' command after breaking connection during downloading via
+	FTP fixed allocating best parts for download fixed loading if
+	resuming is not supported by server but we detected it in second
+	request
+
+2002-10-23 00:12  max
+
+	* configure.in, main/sndserv.cc: implemented libao patch from
+	Julien Blache
+
+2002-10-22 08:06  max
+
+	* configure.in, po/bg.po: fixed method to detect GTK2 (works fine
+	under RH8) updated bg.po
+
+2002-10-18 10:09  max
+
+	* configure.in: check for ESD via PKG_ macro
+
+2002-10-17 17:11  zaufi
+
+	* admin/cvs.sh: Fix missed backslash
+
+2002-10-17 17:11  max
+
+	* ChangeLog: updated
+
+2002-10-17 17:10  max
+
+	* NEWS: prepare to release 2.4beta2
+
+2002-10-17 17:00  max
+
+	* nt.spec.in: fixed requirements
+
+2002-10-17 16:59  max
+
+	* TODO: update
+
+2002-10-17 12:33  max
+
+	* main/client.cc: by default replacing '?' by '_' is turned off
+
+2002-10-17 12:22  max
+
+	* main/: client.cc, client.h, dlist.cc, html.cc, html.h, httpd.cc,
+	locstr.cc, locstr.h, face/edit.cc, face/edit.h: added option to use
+	'_' instead of '?' in stored filenames
+
+2002-10-16 17:26  max
+
+	* main/face/: list.cc, lod.cc, log.cc: use gtk_window_present in
+	some cases changed method to show utf-8 filenames in queue of
+	downloads
+
+2002-10-16 15:44  zaufi
+
+	* admin/.cvsignore: file .cvsignore was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-16 15:44  zaufi
+
+	* .cvsignore, admin/.cvsignore, po/.cvsignore: Added new files to
+	be ignored by CVS
+
+2002-10-16 14:03  max
+
+	* main/face/lod.cc: fixed unselecting all items on right mouse
+	button click
+
+2002-10-16 13:19  max
+
+	* main/: cookie.cc, db.cc, db.h, fsearch.cc, main.cc, sort.cc,
+	xml.cc: fixed memory leak in searching best cookie file code
+	cleanup memory before shutdown fixed memory leak in xml code
+
+2002-10-16 09:57  max
+
+	* main/config.cc: fixed storing and loading histories
+
+2002-10-16 09:27  zaufi
+
+	* admin/cvs.sh: Forget to remove unneeded flags for cvs2cl
+
+2002-10-16 09:25  zaufi
+
+	* Makefile.cvs, configure.in, admin/cvs.sh: Versions control coded
+	and tested
+
+2002-10-15 16:02  max
+
+	* main/face/lod.cc: fixed adding new download to the top of queue
+
+2002-10-14 14:24  zaufi
+
+	* admin/cvs.sh: Add gettext version checking
+
+2002-10-13 06:48  zaufi
+
+	* README: ...
+
+2002-10-13 06:44  zaufi
+
+	* Makefile.am, configure.in, admin/cvs.sh, po/.cvsignore,
+	po/Makevars, po/Makevars.in, po/NEW, po/REPLACE, share/Makefile.am:
+	Lot of fixes
+
+2002-10-13 06:44  zaufi
+
+	* po/Makevars: file Makevars was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/d4x_aqua.png: file d4x_aqua.png was initially added on
+	branch rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* admin/EXCLUDE: file EXCLUDE was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* admin/cvs.sh: file cvs.sh was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt-mini.xpm: file nt-mini.xpm was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt-gray.png: file nt-gray.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.png: file nt.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.wmconfig: file nt.wmconfig was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.desktop: file nt.desktop was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* po/Makevars.in: file Makevars.in was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt-wm.png: file nt-wm.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.xpm: file nt.xpm was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* Makefile.cvs: file Makefile.cvs was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* ChangeLog, EXCLUDE, Makefile.am, Makefile.cvs, PACK,
+	configure.in, d4x_aqua.png, nt-gray.png, nt-mini.xpm, nt-wm.png,
+	nt.desktop, nt.png, nt.wmconfig, nt.xpm, reconf, DOC/INSTALL,
+	DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr, DOC/INSTALL.gr,
+	DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR, DOC/Makefile.am,
+	admin/EXCLUDE, admin/cvs.sh, po/Makevars.in, po/POTFILES.in,
+	share/Makefile.am, share/d4x_aqua.png, share/nt-gray.png,
+	share/nt-mini.xpm, share/nt-wm.png, share/nt.desktop, share/nt.png,
+	share/nt.wmconfig, share/nt.xpm: We r ready for GTK+ 2 + some new
+	features started to be intergated
+
+2002-10-11 19:31  max
+
+	* main/: ftp.cc, http.cc, main.cc, nt.cc: Log cleanups
+
+2002-10-10 00:33  max
+
+	* TODO: update TODO
+
+2002-10-08 14:28  max
+
+	* main/dlist.cc: fixed holes in downloaded file
+
+2002-10-08 11:09  max
+
+	* main/segments.cc: fixed joining overlaped areas in segmentator
+
+2002-10-06 19:01  max
+
+	* configure.in: changed version from 2.4-beta to 2.4beta (due spec
+	file's limitations)
+
+2002-10-06 19:00  max
+
+	* Makefile.am: EXTRA_DIST updated
+
+2002-10-06 18:55  max
+
+	* main/var.cc, po/bg.po, po/de.po, po/es.po, po/fr.po, po/hu.po,
+	po/it.po, po/ru.po, po/uk.po: make update-po done, Hungarian
+	translation updated
+
+2002-10-04 18:11  max
+
+	* main/: main.cc, speed.h: reset speed statistics from time to time
+
+2002-10-04 17:17  max
+
+	* main/dlist.cc: change minimal part of multithreaded downloads
+
+2002-10-04 17:04  max
+
+	* main/: main.cc, face/log.cc: fixed non utf strings in log titles
+
+2002-10-04 16:56  max
+
+	* main/face/list.cc: only utf8 strings in windows title!
+
+2002-10-04 16:55  max
+
+	* main/face/lod.cc: fixed non UTF strings in status bar
+
+2002-10-04 16:41  max
+
+	* NEWS, main/addr.cc, main/addr.h, main/dlist.cc, main/main.cc,
+	main/mainlog.cc, main/socket.cc, main/face/edit.cc,
+	main/face/list.cc, main/face/lmenu.cc, main/face/lod.cc,
+	main/face/misc.cc, main/face/mywidget.cc: color selection in
+	'Graph' section of Common properties works now fixed various non
+	UTF-8 strings (e.g. if url contain non utf-8 strings) fixed speed
+	calculation again fixed recursion via http for multithreaded
+	downloads
+
+2002-10-04 10:40  max
+
+	* ChangeLog, NEWS: preparing to new release
+
 2002-10-04 10:18  max
 
 	* main/face/: lod.cc, qtree.cc: expand queue tree during loading
@@ -1046,6 +1340,10 @@
 	routine for easy getting value of a xml object related code
 	cleanups
 
+2002-03-20 22:15  zaufi
+
+	* admin/strip.awk: Fix for Slackware wich is have strange awk...
+
 2002-03-20 14:31  max
 
 	* po/: bg.po, de.po, es.po, fr.po, it.po, ru.po: po files after
@@ -1080,6 +1378,10 @@
 
 	* README: make it cleaner... but future update still req
 
+2002-03-20 08:56  zaufi
+
+	* admin/strip.awk: Improved version
+
 2002-03-20 08:46  max
 
 	* ChangeLog: Added changlog produced by cvs2pl
@@ -1108,6 +1410,10 @@
 	* configure.in: Add --enable-extra-optimize for highly optimize
 	code, --enable-release now produce -O2 optimized code
 
+2002-03-17 22:39  zaufi
+
+	* admin/acinclude.m4: fix comments
+
 2002-03-17 20:06  max
 
 	* configure.in, main/dqueue.cc, main/main.cc: changed default
@@ -1121,13 +1427,13 @@
 
 	* .cvsignore: Add ignore list
 
-2002-03-16 19:47  zaufi
-
-	* strip.awk: Move strip.awk to admin
-
 2002-03-16 19:45  zaufi
 
 	* configure.in: strip.awk moved to admin
+
+2002-03-16 19:44  zaufi
+
+	* admin/strip.awk, strip.awk: Move strip.awk to admin
 
 2002-03-16 15:46  max
 
@@ -1169,7 +1475,12 @@
 
 2002-03-14 13:33  zaufi
 
-	* configure.in: Little fixes
+	* configure.in, admin/acinclude.m4: Little fixes
+
+2002-03-14 13:12  zaufi
+
+	* admin/acinclude.m4: Add support to choose between gawk regex and
+	rx
 
 2002-03-14 13:12  zaufi
 
@@ -1704,7 +2015,7 @@
 	share/themes/old_theme/buttons/speedhigh.png,
 	share/themes/old_theme/buttons/speedlow.png,
 	share/themes/old_theme/buttons/speedmedium.png,
-	share/themes/old_theme/buttons/stop.png: Initial revision
+	share/themes/old_theme/buttons/stop.png: Downloader for X
 
 2002-03-06 09:23  max
 
@@ -1826,5 +2137,5 @@
 	share/themes/old_theme/buttons/speedhigh.png,
 	share/themes/old_theme/buttons/speedlow.png,
 	share/themes/old_theme/buttons/speedmedium.png,
-	share/themes/old_theme/buttons/stop.png: Downloader for X
+	share/themes/old_theme/buttons/stop.png: Initial revision
 

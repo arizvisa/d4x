@@ -122,7 +122,7 @@ void tLog::print() {
 int tLog::init_save(char *path){
 	if (fd>=0) close(fd);
 	if (path){
-		fd=open(path,O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR);
+		fd=open(path,O_WRONLY|O_CREAT|O_TRUNC,S_IRUSR | S_IWUSR);
 		if (fd<0)
 			return(-1);
 	}else

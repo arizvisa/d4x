@@ -41,6 +41,7 @@ struct tHtmlTag:public tNode{
 class tHtmlParser{
 	tWriterLoger *WL;
 	char *base;
+	int quest_sign_replace;
 	char *get_string_back(int len,int shift);
 	char *get_word(int shift);
 	char *get_word_o(int shift);
@@ -57,9 +58,9 @@ class tHtmlParser{
 	void write_left_fields(tHtmlTag *tag);
  public:
 	int out_fd,leave;
-	void parse(tWriterLoger *wl, tQueue *list,tAddr *papa);
+	void parse(tWriterLoger *wl, tQueue *list,tAddr *papa,int qsignreplace=0);
 };
 
-tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave);
+tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_replace=0);
 
 #endif

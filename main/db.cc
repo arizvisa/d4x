@@ -40,6 +40,21 @@ tStringHostNode::~tStringHostNode(){
 /* tHostTree
  */
 
+static void _tmp_delete_(tAbstractSortNode *node,
+			 tAbstractSortTree *tree,
+			 void *data){
+	tStringHostNode *hn=(tStringHostNode *)node;
+	for (int i=0;i<256;i++){
+		if (hn->nodes[i]) delete(hn->nodes[i]);
+		hn->nodes[i]=NULL;
+	};
+	delete(node);
+};
+
+tHostTree::~tHostTree(){
+	foreach(_tmp_delete_,NULL);
+};
+
 tStringHostNode *tHostTree::find(char *what,int port){
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	tStringHostNode temp;

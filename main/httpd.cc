@@ -530,22 +530,22 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 	char *temp;
 	if (flag){
 		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(".",ADDR.file.get(),"?",ADDR.params.get(),NULL):
+			sum_strings(".",ADDR.file.get(),config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
 			sum_strings(".",ADDR.file.get(),NULL);
 		*name=compose_path(full_path,temp);
 		delete[] temp;
 		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(ADDR.file.get(),"?",ADDR.params.get(),NULL):
+			sum_strings(ADDR.file.get(),config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
 			sum_strings(ADDR.file.get(),NULL);
 		*guess=compose_path(full_path,temp);
 	}else{
 		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(".",CFG.DEFAULT_NAME,"?",ADDR.params.get(),NULL):
+			sum_strings(".",CFG.DEFAULT_NAME,config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
 			sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
 		delete[] temp;
 		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(CFG.DEFAULT_NAME,"?",ADDR.params.get(),NULL):
+			sum_strings(CFG.DEFAULT_NAME,config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
 			sum_strings(CFG.DEFAULT_NAME,NULL);
 		*guess=compose_path(full_path,temp);
 	};

@@ -462,7 +462,7 @@ static void write_up_dirs(int out_fd,char *a){
 	};
 };
 
-tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
+tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_replace){
 	if (url==NULL || *url==0) return(NULL);
 	tAddr *info=NULL;
 	char *html_shift=NULL;
@@ -535,7 +535,7 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 				f_wchar(out_fd,'/');
 				f_wstr(out_fd,info->file.get());
 				if (info->params.get()){
-					f_wstr(out_fd,"%3f");
+					f_wstr(out_fd,quest_sign_replace?"%5f":"%3f");
 					f_wstr(out_fd,info->params.get());
 				};
 			}else{
@@ -570,7 +570,7 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 			};
 			f_wstr(out_fd,info->file.get());
 			if (info->params.get()){
-				f_wstr(out_fd,"%3f");
+				f_wstr(out_fd,quest_sign_replace?"%5f":"%3f");
 				f_wstr(out_fd,info->params.get());
 			};
 		};
@@ -584,7 +584,7 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 
 void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa,const char *tag){
 	if (out_fd>=0) f_wstr(out_fd,"=\"");
-	tAddr *info=fix_url_global(url,papa,out_fd,leave);
+	tAddr *info=fix_url_global(url,papa,out_fd,leave,quest_sign_replace);
 	if (out_fd>=0) f_wchar(out_fd,'\"');
 	if (info){
 		tHtmlUrl *node=new tHtmlUrl;
@@ -647,7 +647,8 @@ void tHtmlParser::look_for_meta_content(tHtmlTagField *where,
 	};
 };
 
-void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
+void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa,int qsignreplace){
+	quest_sign_replace=qsignreplace;
 	list->done();
 	list->init(0);
 	base=NULL;

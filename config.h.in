@@ -18,6 +18,9 @@
 /* Location of architecture independed files */
 #undef D4X_SHARE_PATH
 
+/* Define if libao should be used */
+#undef D4X_WITH_AO
+
 /* Define if OSS enabled */
 #undef D4X_WITH_OSS
 
@@ -27,6 +30,9 @@
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
 #undef ENABLE_NLS
+
+/* Enable warnings about deprecated functions usage */
+#undef GTK_DISABLE_DEPRECATED
 
 /* Define to 1 if you have the `alarm' function. */
 #undef HAVE_ALARM
@@ -44,15 +50,22 @@
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #undef HAVE_ARPA_INET_H
 
-/* Define to 1 if you have the `dcgettext' function. */
+/* Define if the GNU dcgettext() function is already present or preinstalled.
+   */
 #undef HAVE_DCGETTEXT
 
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
    */
 #undef HAVE_DIRENT_H
 
+/* Define to 1 if you have the `dlopen' function. */
+#undef HAVE_DLOPEN
+
 /* Define to 1 if you have the <errno.h> header file. */
 #undef HAVE_ERRNO_H
+
+/* Define if have libesd */
+#undef HAVE_ESD
 
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
@@ -77,6 +90,9 @@
 
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD
+
+/* Define to 1 if you have the `getc_unlocked' function. */
+#undef HAVE_GETC_UNLOCKED
 
 /* Define to 1 if you have the `getegid' function. */
 #undef HAVE_GETEGID
@@ -105,8 +121,12 @@
 /* Define if you have the iconv() function. */
 #undef HAVE_ICONV
 
-/* Define to 1 if you have the <inttypes.h> header file. */
+/* Define if <inttypes.h> exists and doesn't clash with <sys/types.h>. */
 #undef HAVE_INTTYPES_H
+
+/* Define if <inttypes.h> exists, doesn't clash with <sys/types.h>, and
+   declares uintmax_t. */
+#undef HAVE_INTTYPES_H_WITH_UINTMAX
 
 /* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
 #undef HAVE_LANGINFO_CODESET
@@ -202,6 +222,10 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
+/* Define if <stdint.h> exists, doesn't clash with <sys/types.h>, and declares
+   uintmax_t. */
+#undef HAVE_STDINT_H_WITH_UINTMAX
+
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
@@ -210,9 +234,6 @@
 
 /* Define to 1 if you have the `strcasecmp' function. */
 #undef HAVE_STRCASECMP
-
-/* Define to 1 if you have the `strchr' function. */
-#undef HAVE_STRCHR
 
 /* Define to 1 if you have the `strdup' function. */
 #undef HAVE_STRDUP
@@ -279,6 +300,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the unsigned long long type. */
+#undef HAVE_UNSIGNED_LONG_LONG
+
 /* Define to 1 if you have the `utime' function. */
 #undef HAVE_UTIME
 
@@ -312,6 +336,9 @@
 /* Define as const if the declaration of iconv() needs const. */
 #undef ICONV_CONST
 
+/* Define if integer division by zero raises signal SIGFPE. */
+#undef INTDIV0_RAISES_SIGFPE
+
 /* Location of locales */
 #undef LOCALEDIR
 
@@ -336,6 +363,9 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* Define if <inttypes.h> exists and defines unusable PRI* macros. */
+#undef PRI_MACROS_BROKEN
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #undef RETSIGTYPE
@@ -387,6 +417,10 @@
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 #undef uid_t
+
+/* Define to unsigned long or unsigned long long if <inttypes.h> and
+   <stdint.h> don't define. */
+#undef uintmax_t
 
 /* Define as `fork' if `vfork' does not work. */
 #undef vfork

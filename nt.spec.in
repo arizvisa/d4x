@@ -13,7 +13,7 @@ Summary:	FTP/HTTP download manager for X window system
 Source:		%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 Packager:	Anton Voloshin (vav@isv.ru)
-Requires:	gtk+ >= 2.0.6
+Requires:	gtk2 >= 2.0.6
 
 %description
 This program lets you download files from internet/intranet using
@@ -49,12 +49,12 @@ mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/d4x
 make prefix=${RPM_BUILD_ROOT}%{prefix} install
 cp -f main/nt $RPM_BUILD_ROOT%{_bindir}/
-cp -f nt.desktop $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet/nt.desktop
-cp -f nt.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.xpm
-cp -f nt-mini.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-mini.xpm
-cp -f nt-gray.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-gray.png
-cp -f nt.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.png
-cp -f nt-wm.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-wm.png
+cp -f share/nt.desktop $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet/nt.desktop
+cp -f share/nt.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.xpm
+cp -f share/nt-mini.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-mini.xpm
+cp -f share/nt-gray.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-gray.png
+cp -f share/nt.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.png
+cp -f share/nt-wm.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-wm.png
 cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
 
 %find_lang %{name}

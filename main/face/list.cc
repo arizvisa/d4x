@@ -400,7 +400,6 @@ void mmenu_invert_selection(){
 
 
 static void _mm_queue_menu_(gpointer *a,gint act){
-	printf("Queue menu %i\n",act);
 	switch(act-100){
 	case MM_QUEUE_NQ:
 		D4X_QVT->create_init();
@@ -418,6 +417,10 @@ static void _mm_queue_menu_(gpointer *a,gint act){
 };
 
 void init_main_menu() {
+#include "pixmaps/logmini.xpm"
+#include "pixmaps/stopmini.xpm"
+#include "pixmaps/delmini.xpm"
+#include "pixmaps/runmini.xpm"
 	d4x_load_accelerators();
 	GtkItemFactoryEntry menu_items[] = {
 		{_(main_menu_inames[MM_FILE]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
@@ -431,11 +434,11 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_FILE_EXIT]),	main_menu_kb[MM_FILE_EXIT],	(GtkItemFactoryCallback)ask_exit,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD]),     	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	main_menu_kb[MM_DOWNLOAD_LOG],	(GtkItemFactoryCallback)mmenu_open_logs,	100+MM_DOWNLOAD_LOG, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	main_menu_kb[MM_DOWNLOAD_STOP],	(GtkItemFactoryCallback)stop_downloads,		        100+MM_DOWNLOAD_STOP, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	main_menu_kb[MM_DOWNLOAD_EDIT],	(GtkItemFactoryCallback)open_edit_for_selected,		100+MM_DOWNLOAD_EDIT, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	main_menu_kb[MM_DOWNLOAD_DEL],	(GtkItemFactoryCallback)ask_delete_download,		100+MM_DOWNLOAD_DEL, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	main_menu_kb[MM_DOWNLOAD_RUN],	(GtkItemFactoryCallback)continue_downloads,		100+MM_DOWNLOAD_RUN, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	main_menu_kb[MM_DOWNLOAD_LOG],	(GtkItemFactoryCallback)mmenu_open_logs,	100+MM_DOWNLOAD_LOG, "<ImageItem>",logmini_xpm},
+		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	main_menu_kb[MM_DOWNLOAD_STOP],	(GtkItemFactoryCallback)stop_downloads,		100+MM_DOWNLOAD_STOP,"<ImageItem>",stopmini_xpm},
+		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	main_menu_kb[MM_DOWNLOAD_EDIT],	(GtkItemFactoryCallback)open_edit_for_selected,	100+MM_DOWNLOAD_EDIT, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	main_menu_kb[MM_DOWNLOAD_DEL],	(GtkItemFactoryCallback)ask_delete_download,	100+MM_DOWNLOAD_DEL, "<ImageItem>",delmini_xpm},
+		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	main_menu_kb[MM_DOWNLOAD_RUN],	(GtkItemFactoryCallback)continue_downloads,	100+MM_DOWNLOAD_RUN, "<ImageItem>",runmini_xpm},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_C]),main_menu_kb[MM_DOWNLOAD_DEL_C],	(GtkItemFactoryCallback)ask_delete_completed_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),main_menu_kb[MM_DOWNLOAD_DEL_F],	(GtkItemFactoryCallback)ask_delete_fataled_downloads,	0, (gchar *)NULL},
@@ -1438,12 +1441,12 @@ void init_timeouts() {
 
 void main_window_iconify(){
 	if (MainWindow)
-		my_gdk_window_iconify(MainWindow->window);
+		gtk_window_iconify(GTK_WINDOW(MainWindow));
 };
 
 void main_window_popup(){
 	if (MainWindow)
-		gdk_window_show(MainWindow->window);
+		gtk_window_present(GTK_WINDOW(MainWindow));
 };
 
 void main_window_toggle(){
@@ -1451,7 +1454,7 @@ void main_window_toggle(){
 		if (gdk_window_is_visible(MainWindow->window)){
 			gdk_window_hide(MainWindow->window);
 		}else{
-			gdk_window_show(MainWindow->window);
+			gtk_window_present(GTK_WINDOW(MainWindow));
 		};
 	};
 };

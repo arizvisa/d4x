@@ -216,6 +216,7 @@ int tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 			if (len && FillSize>llen) FillSize=llen;
 			FileLoaded+=FillSize;
 			if (write_buffer()) {
+				LOG->log(LOG_ERROR,_("Error have happened during writing buffer to disk!"));
 				Status=STATUS_FATAL;
 				break;
 			};
@@ -231,6 +232,10 @@ int tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 				return DSize;
 			};
 		} while (complete!=0);
+		if (complete==0){
+			LOG->log(LOG_WARNING,_("EOF recieved from server!"));
+			break;
+		};
 		if (CHUNKED) tClient::read_data(2);
 	}while(CHUNKED);
 	return DSize;

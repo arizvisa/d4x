@@ -199,6 +199,7 @@ void dnd_trash_switch_to_icon(){
 	gtk_widget_destroy(dnd_trash_overmenu);
 	gtk_container_add(GTK_CONTAINER(dnd_trash_window), dnd_trash_fixed);
 	gtk_container_set_border_width(GTK_CONTAINER(dnd_trash_window),0);
+	gtk_window_resize(GTK_WINDOW(dnd_trash_window),width,height);
 	gtk_widget_unref(dnd_trash_fixed);
 };
 
@@ -389,6 +390,9 @@ void dnd_trash_init(){
     
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
 	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_type_hint (GTK_WINDOW(dnd_trash_window),
+				  GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_window_set_resizable(GTK_WINDOW(dnd_trash_window),FALSE);
 	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_DnDBasket", "D4X_DnDBasket");
 	gtk_window_set_title(GTK_WINDOW (dnd_trash_window), _("DnD basket"));
 	gtk_widget_set_events(dnd_trash_window,
@@ -548,6 +552,7 @@ void dnd_trash_init(){
 	g_signal_connect(G_OBJECT(dnd_trash_window), "configure_event",
 			 G_CALLBACK(dnd_trash_configure),
 			 NULL);
+	gdk_window_set_functions(dnd_trash_window->window,GdkWMFunction(GDK_FUNC_MOVE|GDK_FUNC_CLOSE));
 };
 
 void dnd_trash_menu_prepare(){

@@ -52,6 +52,7 @@ enum EDIT_OPTIONS_ENUM{
 	EDIT_OPT_LEAVESERVER,
 	EDIT_OPT_CHANGE_LINKS,
 	EDIT_OPT_IHATEETAG,
+	EDIT_OPT_QUEST_SIGN,
 	EDIT_OPT_USERAGENT,
 	EDIT_OPT_REFERER,
 	EDIT_OPT_COOKIE,
@@ -85,6 +86,7 @@ char *edit_fields_labels[]={
 	N_("Allow leave this server while recursing via HTTP"),
 	N_("Change links in HTML file to local"),
 	N_("Ignore ETag field in reply"),
+	N_("Use '_' instead of '?' in stored filenames"),
 	N_("User-Agent"),
 	N_("Referer"),
 	N_("Cookie"),
@@ -677,14 +679,17 @@ void tDEdit::init_http(tDownload *who){
 	leave_server_check=gtk_check_button_new_with_label(_("Allow leave this server while recursing via HTTP"));
 	change_links_check=gtk_check_button_new_with_label(_("Change links in HTML file to local"));
 	ihate_etag_check=gtk_check_button_new_with_label(_("Ignore ETag field in reply"));
+	quest_sign_check=gtk_check_button_new_with_label(_("Use '_' instead of '?' in stored filenames"));;
 	GTK_TOGGLE_BUTTON(leave_server_check)->active=who->config->leave_server;
 	GTK_TOGGLE_BUTTON(leave_dir_check)->active=who->config->dont_leave_dir;
 	GTK_TOGGLE_BUTTON(change_links_check)->active=who->config->change_links;
 	GTK_TOGGLE_BUTTON(ihate_etag_check)->active=who->config->ihate_etag;
+	GTK_TOGGLE_BUTTON(quest_sign_check)->active=who->config->quest_sign_replace;
 	gtk_box_pack_start(GTK_BOX(http_vbox),leave_server_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(http_vbox),leave_dir_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(http_vbox),change_links_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(http_vbox),ihate_etag_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(http_vbox),quest_sign_check,FALSE,FALSE,0);
 
 	filter=gtk_entry_new();
 	gtk_editable_set_editable(GTK_EDITABLE(filter),FALSE);
@@ -1066,6 +1071,7 @@ int tDEdit::apply_changes() {
 	parent->config->sleep_before_complete=GTK_TOGGLE_BUTTON(sleep_check)->active;
 	parent->config->change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
 	parent->config->http_recursing=parent->config->http_recurse_depth==1?0:1;
+	parent->config->quest_sign_replace=GTK_TOGGLE_BUTTON(quest_sign_check)->active;
 	parent->config->ftp_dirontop=GTK_TOGGLE_BUTTON(ftp_dirontop_check)->active;
 	parent->config->check_time=GTK_TOGGLE_BUTTON(check_time_check)->active;
 
@@ -1273,6 +1279,8 @@ void tDEdit::disable_items(int *array){
 		gtk_widget_set_sensitive(change_links_check,FALSE);
 	if (array[EDIT_OPT_IHATEETAG]==0)
 		gtk_widget_set_sensitive(ihate_etag_check,FALSE);
+	if (array[EDIT_OPT_QUEST_SIGN]==0)
+		gtk_widget_set_sensitive(quest_sign_check,FALSE);
 	if (array[EDIT_OPT_RECURSEDEPTHFTP]==0)
 		gtk_widget_set_sensitive(ftp_recurse_depth_entry,FALSE);
 	if (array[EDIT_OPT_RECURSEDEPTHHTTP]==0)
@@ -1413,6 +1421,8 @@ void tDEdit::apply_enabled_changes(){
 		parent->config->change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
 	if (GTK_WIDGET_SENSITIVE(ihate_etag_check))
 		parent->config->ihate_etag=GTK_TOGGLE_BUTTON(ihate_etag_check)->active;
+	if (GTK_WIDGET_SENSITIVE(quest_sign_check))
+		parent->config->quest_sign_replace=GTK_TOGGLE_BUTTON(quest_sign_check)->active;
 	if (GTK_WIDGET_SENSITIVE(ftp_dirontop_check))
 		parent->config->ftp_dirontop=GTK_TOGGLE_BUTTON(ftp_dirontop_check)->active;
 	parent->config->http_recursing=parent->config->http_recurse_depth==1?0:1;

@@ -1072,12 +1072,12 @@ int f_wchar(int fd,char c){
 	return(write(fd,&c,sizeof(char)));
 };
 
-int f_wstr(int fd,char *str){
+int f_wstr(int fd,const char *str){
 	DBC_RETVAL_IF_FAIL(str!=NULL,0);
 	return(write(fd,str,strlen(str)));
 };
 
-int f_wstr_lf(int fd,char *str){
+int f_wstr_lf(int fd,const char *str){
 	DBC_RETVAL_IF_FAIL(str!=NULL,0);
 	int a=f_wstr(fd,str);
 	if (a<0) return a;

@@ -91,7 +91,8 @@ char *d4x_get_best_cookies(){
 	    (s.st_mtime>besttime || best==NULL)){
 		if (best) delete[] best;
 		best=tmppath;
-	};
+	}else
+		delete[] tmppath;
 	return(best);
 };
 /*******************************************************/
@@ -160,8 +161,8 @@ int tCookie::parse(char *str,char *srchost,char *srcpath){
 			if (equal_uncase(a,"domain")){
 				host.set(c);
 			};
-			delete(a);
-			delete(c);
+			delete[] a;
+			delete[] c;
 			*eq='=';
 		};
 		if (n){

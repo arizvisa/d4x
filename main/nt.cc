@@ -110,7 +110,6 @@ void segv_handler(int signum) {
 #include "xml.h"
 
 int main(int argc,char **argv) {
-//	free(malloc(10)); //hack for electricFence which does not work with threads :(
 #ifdef ENABLE_NLS
 	bindtextdomain("d4x", LOCALEDIR);
 	textdomain("d4x");

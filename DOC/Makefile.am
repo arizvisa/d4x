@@ -1,10 +1,10 @@
 #
-# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.8 2002/06/27 02:47:49 zaufi Exp $
+# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.8.2.1 2002/10/11 18:58:59 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 
-pkgdata_DATA = $(shell ls $(srcdir)/INSTALL.* $(srcdir)/FAQ* $(srcdir)/README*) LICENSE NAMES TROUBLES
+pkgdata_DATA = $(shell ls $(srcdir)/FAQ* $(srcdir)/README*) LICENSE TROUBLES
 
 # Prefix 'dist_' mean that man page gets in a distrubution
 dist_man_MANS = nt.1
@@ -27,3 +27,6 @@ install-data-hook:
 	  .gz)  gzip -f $(DESTDIR)/$(man1dir)/$(dist_man_MANS) ;; \
 	  .Z)   compress -f $(DESTDIR)/$(man1dir)/$(dist_man_MANS) ;; \
 	esac
+
+uninstall-hook:
+	rm -f $(DESTDIR)/$(man1dir)/$(dist_man_MANS).*

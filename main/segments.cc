@@ -134,7 +134,7 @@ int tSegmentator::join(tSegment *what){
 	tSegment *prev=what->prev;
 	int changed=0;
 	if (next){
-		if (what->end+1>=next->begin){
+		while (what->end+1>=next->begin){
 			changed=1;
 			total-=what->end-what->begin;
 			total-=next->end-next->begin;
@@ -142,7 +142,8 @@ int tSegmentator::join(tSegment *what){
 				what->end=next->end;
 			total+=what->end-what->begin;
 			remove(next);
-//			join(what);
+			next=what->next;
+			if (next==NULL) break;
 		};
 	};
 	if (prev){

@@ -32,9 +32,10 @@ struct tStringHostNode:public tAbstractSortNode{
 };
 
 class tHostTree:public tAbstractSortTree{
-	protected:
-	public:
-		tStringHostNode *find(char *what,int port);
+protected:
+public:
+	tStringHostNode *find(char *what,int port);
+	~tHostTree();
 };
 
 class tDB{
