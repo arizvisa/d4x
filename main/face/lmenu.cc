@@ -214,15 +214,15 @@ void init_list_menu() {
 	ListMenuArray[LM_SEARCH]=menu_item;
 	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lmenu_ftp_search_go),NULL);
 	
+/* FIXME: GTK2.4
 	GtkAccelGroup *accel_group = gtk_accel_group_new();
-/* FIXME: GTK2
 	gtk_accel_group_add(accel_group,GDK_E,
 			    GdkModifierType(GDK_CONTROL_MASK|GDK_MOD1_MASK),
 			    GtkAccelFlags(0),
 			    GTK_OBJECT(ListMenuArray[LM_EDIT_COMMON]),
 			    "activate");
-*/
 	_gtk_accel_group_attach(accel_group,G_OBJECT(MainWindow));
+*/
 
 	gtk_widget_show_all(ListMenu);
 };

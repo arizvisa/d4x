@@ -22,6 +22,7 @@
 #include "../queue.h"
 #include "misc.h"
 #include "colors.h"
+#include "../ntlocale.h"
 
 extern GtkWidget *MainWindow;
 
@@ -45,23 +46,26 @@ GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm) {
 };
 
 gchar *text_from_combo(GtkWidget *combo) {
-	if (GTK_IS_COMBO(combo))
-		return((gchar*)gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry)));
+	if (GTK_IS_COMBO_BOX(combo))
+		return((gchar*)gtk_entry_get_text(GTK_ENTRY (GTK_BIN (combo)->child)));
+//		return((gchar*)gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(combo)->entry)));
 	else
 		return((gchar*)gtk_entry_get_text(GTK_ENTRY(combo)));
 };
 
 void text_to_combo(GtkWidget *widget,const gchar *text) {
-	if (GTK_IS_COMBO(widget))
-		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(widget)->entry),text);
+	if (GTK_IS_COMBO_BOX(widget))
+		gtk_entry_set_text(GTK_ENTRY(GTK_BIN(widget)->child),text);
+//		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(widget)->entry),text);
 	else
 		if (GTK_IS_ENTRY(widget))
 			gtk_entry_set_text(GTK_ENTRY(widget),text);
 };
 
 void set_editable_for_combo(GtkWidget *widget,gboolean flag){
-	if (GTK_IS_COMBO(widget))
-		gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(widget)->entry),flag);
+	if (GTK_IS_COMBO_BOX(widget))
+		gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN (widget)->child),flag);
+//		gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(widget)->entry),flag);
 	else
 		if (GTK_IS_ENTRY(widget))
 			gtk_editable_set_editable(GTK_EDITABLE(widget),flag);
@@ -322,4 +326,8 @@ GtkWidget *my_gtk_set_header_style(GtkWidget *widget){
 	g_object_unref(G_OBJECT(tmpstyle));
 	g_object_unref (G_OBJECT (rc_style));
 	return (stupid_gtk);
+};
+
+gchar *d4x_menu_translate_func(const gchar *label,gpointer data){
+	return _(label);
 };

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-31 20:10+0800\n"
+"POT-Creation-Date: 2004-05-26 02:23+0800\n"
 "PO-Revision-Date: 2003-10-16 16:02+0200\n"
 "Last-Translator: Branislav Jovanović <fangorn@eunet.yu>\n"
 "Language-Team: Serbian (sr) <sr@li.org>\n"
@@ -369,44 +369,44 @@ msgstr "Чини се да је локална датотека иста као 
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Чудно је да не можемо да обришемо управо направљену датотеку..."
 
-#: main/dlist.cc:1421 main/dlist.cc:1660
+#: main/dlist.cc:1421 main/dlist.cc:1673
 msgid "File not found"
 msgstr "Документ није пронађен"
 
-#: main/dlist.cc:1494
+#: main/dlist.cc:1495
 msgid "Sorting started"
 msgstr "Сортирање започето"
 
-#: main/dlist.cc:1497
+#: main/dlist.cc:1498
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Пингујем (покушај %i од %i)"
 
-#: main/dlist.cc:1525
+#: main/dlist.cc:1526
 msgid "Trying to determine filesizes"
 msgstr "Покушам да одредим величине датотека"
 
-#: main/dlist.cc:1572
+#: main/dlist.cc:1579
 msgid "Searching failed"
 msgstr "Претрага није успела"
 
-#: main/dlist.cc:1623
+#: main/dlist.cc:1636
 msgid "Search had been completed!"
 msgstr "Претрага је завршена!"
 
-#: main/dlist.cc:1629
+#: main/dlist.cc:1642
 msgid "Was Started!"
 msgstr "Била је покренута!"
 
-#: main/dlist.cc:1638
+#: main/dlist.cc:1651
 msgid "It is a link and we already load it"
 msgstr "То је веза и већ је преузимамо"
 
-#: main/dlist.cc:1665
+#: main/dlist.cc:1678
 msgid "Trying to work without CWD"
 msgstr "Покушавам да радим без CWD"
 
-#: main/dlist.cc:1797
+#: main/dlist.cc:1810
 msgid "Can't split file to specified number of parts!"
 msgstr "Не могу да поделим датотеку на задати број делова!"
 
@@ -469,91 +469,91 @@ msgstr "Не питај следећи пут"
 msgid "Add new download"
 msgstr "Додај ново преузимање"
 
-#: main/face/addd.cc:184
+#: main/face/addd.cc:184 main/face/dndtrash.cc:612
 msgid "Automated adding"
 msgstr "Аутоматизовано додавање"
 
-#: main/face/buttons.cc:51
+#: main/face/buttons.cc:53
 msgid " Add new download "
 msgstr "Додај ново преузимање "
 
-#: main/face/buttons.cc:52
+#: main/face/buttons.cc:54
 msgid " Paste from clipboard "
 msgstr "Убаци из клипборда "
 
-#: main/face/buttons.cc:53
+#: main/face/buttons.cc:55
 msgid " Del downloads "
 msgstr " Обриши преузимања "
 
-#: main/face/buttons.cc:54
+#: main/face/buttons.cc:56
 msgid " Stop downloads "
 msgstr " Заустави преузимања "
 
-#: main/face/buttons.cc:55
+#: main/face/buttons.cc:57
 msgid " Continue/restart downloads "
 msgstr " Настави/поново покрени преузимања "
 
-#: main/face/buttons.cc:56
+#: main/face/buttons.cc:58
 msgid " Del Completed downloads "
 msgstr " Обриши завршена преузимања "
 
-#: main/face/buttons.cc:57
+#: main/face/buttons.cc:59
 msgid " Move up "
 msgstr "Помери горе "
 
-#: main/face/buttons.cc:58
+#: main/face/buttons.cc:60
 msgid " Move down "
 msgstr " Помери доле "
 
-#: main/face/buttons.cc:59
+#: main/face/buttons.cc:61
 msgid " View log "
 msgstr " Погледај дневник "
 
-#: main/face/buttons.cc:60 main/face/buttons.cc:253
+#: main/face/buttons.cc:62 main/face/buttons.cc:256
 msgid " Speed level one "
 msgstr " Ниво брзине један "
 
-#: main/face/buttons.cc:61 main/face/buttons.cc:257
+#: main/face/buttons.cc:63 main/face/buttons.cc:259
 msgid " Speed level two "
 msgstr " Ниво брзине два"
 
-#: main/face/buttons.cc:62
+#: main/face/buttons.cc:64
 msgid " Unlimited speed "
 msgstr " Неограничена брзина "
 
-#: main/face/buttons.cc:63
+#: main/face/buttons.cc:65
 msgid " Options "
 msgstr " Опције "
 
-#: main/face/buttons.cc:64
+#: main/face/buttons.cc:66
 msgid " Delete all downloads "
 msgstr " Обриши сва преузимања "
 
-#: main/face/buttons.cc:65
+#: main/face/buttons.cc:67
 msgid " Save list "
 msgstr " Сачувај листу "
 
-#: main/face/buttons.cc:66
+#: main/face/buttons.cc:68
 msgid " Load list "
 msgstr " Учитај листу "
 
-#: main/face/buttons.cc:67
+#: main/face/buttons.cc:69
 msgid " DnD basket "
 msgstr " ПиС кошара"
 
-#: main/face/buttons.cc:68
+#: main/face/buttons.cc:70
 msgid " Switch percentage mode to"
 msgstr " Промени мод процената у "
 
-#: main/face/buttons.cc:69
+#: main/face/buttons.cc:71
 msgid " Configure buttons "
 msgstr " Подеси дугмад "
 
-#: main/face/buttons.cc:242
+#: main/face/buttons.cc:245
 msgid "Delete ALL downloads?"
 msgstr "Обриши СВА преузимања?"
 
-#: main/face/buttons.cc:242
+#: main/face/buttons.cc:245
 msgid "Delete all?"
 msgstr "Обриши све?"
 
@@ -609,8 +609,8 @@ msgstr "број покушаја"
 msgid "description"
 msgstr "опис"
 
-#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1064
-#: main/face/mywidget.cc:1323
+#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1081
+#: main/face/mywidget.cc:1340
 msgid "URL"
 msgstr "УРЛ"
 
@@ -618,63 +618,66 @@ msgstr "УРЛ"
 msgid "Showed columns"
 msgstr "Показане колоне"
 
-#: main/face/dndtrash.cc:46
-msgid "/New Download"
-msgstr "/Ново Преузимање"
-
-#: main/face/dndtrash.cc:47
-msgid "/Paste Download"
-msgstr "/Убаци Преузимање"
-
-#: main/face/dndtrash.cc:48
-msgid "/Automated adding"
-msgstr "/Аутоматизовано додавање"
-
-#: main/face/dndtrash.cc:49
-msgid "/Delete completed"
-msgstr "/Обриши завршена"
-
-#: main/face/dndtrash.cc:50
-msgid "/General options"
-msgstr "/Опште опције"
-
-#: main/face/dndtrash.cc:51
-msgid "/Speed"
-msgstr "/Брзина"
-
-#: main/face/dndtrash.cc:52
-msgid "/Speed/Low"
-msgstr "/Брзина/Ниска"
-
-#: main/face/dndtrash.cc:53
-msgid "/Speed/Medium"
-msgstr "/Брзина/Средња"
-
-#: main/face/dndtrash.cc:54
-msgid "/Speed/Unlimited"
-msgstr "/Брзина/Неограничена"
-
-#: main/face/dndtrash.cc:55
-msgid "/Exit"
-msgstr "/Излаз"
-
-#: main/face/dndtrash.cc:403
+#: main/face/dndtrash.cc:393
 msgid "DnD basket"
 msgstr "ПиС кошара"
 
-#: main/face/dndtrash.cc:533
+#: main/face/dndtrash.cc:523
 msgid "Drop link here"
 msgstr "Убаци везу овде"
 
-#: main/face/edit.cc:65 main/face/edit.cc:477
+#: main/face/dndtrash.cc:609 main/face/list.cc:486 main/face/lod.cc:52
+msgid "Speed"
+msgstr "Брзина"
+
+#: main/face/dndtrash.cc:610
+#, fuzzy
+msgid "New Download"
+msgstr "/Ново Преузимање"
+
+#: main/face/dndtrash.cc:611
+#, fuzzy
+msgid "Paste Download"
+msgstr "/Убаци Преузимање"
+
+#: main/face/dndtrash.cc:613 main/face/lmenu.cc:180
+msgid "Delete completed"
+msgstr "Обриши завршена"
+
+#: main/face/dndtrash.cc:614
+#, fuzzy
+msgid "General options"
+msgstr "/Опште опције"
+
+#: main/face/dndtrash.cc:615
+#, fuzzy
+msgid "Exit"
+msgstr "/Излаз"
+
+#: main/face/dndtrash.cc:618
+#, fuzzy
+msgid "Low"
+msgstr "ниско"
+
+#: main/face/dndtrash.cc:619
+#, fuzzy
+msgid "Medium"
+msgstr "средња"
+
+#: main/face/dndtrash.cc:620
+#, fuzzy
+msgid "Unlimited"
+msgstr "неограничена"
+
+#: main/face/edit.cc:65 main/face/edit.cc:464
 msgid "Use password for this site"
 msgstr "Користи лозинку за ово место"
 
-#: main/face/edit.cc:66 main/face/edit.cc:444
+#: main/face/edit.cc:66 main/face/edit.cc:431
 msgid "Save download to folder"
 msgstr "Сними преузимање у директоријум"
 
-#: main/face/edit.cc:67 main/face/edit.cc:504
+#: main/face/edit.cc:67 main/face/edit.cc:491
 msgid "Restart this download from begining"
 msgstr "Покрени ово преузимање испочетка"
 
@@ -698,43 +701,43 @@ msgstr "Време пре поновног повезивања"
 msgid "Rollback after reconnecting"
 msgstr "Врати назад при поновном повезивању"
 
-#: main/face/edit.cc:73 main/face/edit.cc:576 main/face/prefs.cc:241
+#: main/face/edit.cc:73 main/face/edit.cc:563 main/face/prefs.cc:241
 msgid "Get date from the server"
 msgstr "Узми датум од сервера"
 
-#: main/face/edit.cc:74 main/face/edit.cc:580 main/face/prefs.cc:245
+#: main/face/edit.cc:74 main/face/edit.cc:567 main/face/prefs.cc:245
 msgid "Retry if resuming is not supported"
 msgstr "Покушај поново ако није подржано настављање"
 
-#: main/face/edit.cc:75 main/face/edit.cc:571
+#: main/face/edit.cc:75 main/face/edit.cc:558
 msgid "Number of parts for spliting this download"
 msgstr "Број делова за поделу овог преузимања"
 
-#: main/face/edit.cc:76 main/face/edit.cc:618 main/face/prefs.cc:346
+#: main/face/edit.cc:76 main/face/edit.cc:605 main/face/prefs.cc:346
 msgid "Use passive mode for FTP"
 msgstr "Користи пасивни мод за FTP"
 
-#: main/face/edit.cc:77 main/face/edit.cc:624 main/face/prefs.cc:354
+#: main/face/edit.cc:77 main/face/edit.cc:611 main/face/prefs.cc:354
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "Овлашћења за датотеку пресликај са сервера (само за FTP)"
 
-#: main/face/edit.cc:78 main/face/edit.cc:621 main/face/prefs.cc:350
+#: main/face/edit.cc:78 main/face/edit.cc:608 main/face/prefs.cc:350
 msgid "Don't send QUIT command (FTP)"
 msgstr "Не шаљи QUIT команду (FTP)"
 
-#: main/face/edit.cc:79 main/face/edit.cc:639 main/face/prefs.cc:370
+#: main/face/edit.cc:79 main/face/edit.cc:626 main/face/prefs.cc:370
 msgid "Put directories on the top of queue during recursion"
 msgstr "Постави директоријуме на почетак реда при рекурзији"
 
-#: main/face/edit.cc:80 main/face/edit.cc:588 main/face/prefs.cc:261
+#: main/face/edit.cc:80 main/face/edit.cc:575 main/face/prefs.cc:261
 msgid "Compare date/time of remote file with local one"
 msgstr "Упореди датум/време удаљене датотеке са оним код локалне"
 
-#: main/face/edit.cc:81 main/face/edit.cc:584 main/face/prefs.cc:249
+#: main/face/edit.cc:81 main/face/edit.cc:571 main/face/prefs.cc:249
 msgid "Sleep before completing"
 msgstr "Одмори пре завршетка"
 
-#: main/face/edit.cc:82 main/face/edit.cc:627 main/face/prefs.cc:358
+#: main/face/edit.cc:82 main/face/edit.cc:614 main/face/prefs.cc:358
 msgid "Follow symbolic links"
 msgstr "Прати симболичке везе"
 
@@ -746,228 +749,228 @@ msgstr "Дубина рекурзије за FTP"
 msgid "Depth of recursing for HTTP"
 msgstr "Дубина рекурзије за HTTP"
 
-#: main/face/edit.cc:85 main/face/edit.cc:667 main/face/prefs.cc:448
+#: main/face/edit.cc:85 main/face/edit.cc:654 main/face/prefs.cc:448
 msgid "Only subdirs"
 msgstr "Само поддиректоријуми"
 
-#: main/face/edit.cc:86 main/face/edit.cc:668 main/face/prefs.cc:449
+#: main/face/edit.cc:86 main/face/edit.cc:655 main/face/prefs.cc:449
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "Допусти напуштање овог сервера приликом рекурзије преко HTTP"
 
-#: main/face/edit.cc:87 main/face/edit.cc:669 main/face/prefs.cc:450
+#: main/face/edit.cc:87 main/face/edit.cc:656 main/face/prefs.cc:450
 msgid "Change links in HTML file to local"
 msgstr "Преусмери везе у HTML датотеци ка локалним датотекама"
 
-#: main/face/edit.cc:88 main/face/edit.cc:670 main/face/prefs.cc:451
+#: main/face/edit.cc:88 main/face/edit.cc:657 main/face/prefs.cc:451
 msgid "Ignore ETag field in reply"
 msgstr "Игнориши ETag поље у одговору"
 
-#: main/face/edit.cc:89 main/face/edit.cc:671
+#: main/face/edit.cc:89 main/face/edit.cc:658
 msgid "Use '_' instead of '?' in stored filenames"
 msgstr "Користи '_' уместо '?' у сачуваним именима датотека"
 
-#: main/face/edit.cc:90 main/face/edit.cc:697 main/face/prefs.cc:469
+#: main/face/edit.cc:90 main/face/edit.cc:684 main/face/prefs.cc:469
 msgid "User-Agent"
 msgstr "User-Agent"
 
-#: main/face/edit.cc:91 main/face/edit.cc:706
+#: main/face/edit.cc:91 main/face/edit.cc:693
 msgid "Referer"
 msgstr "Referer"
 
-#: main/face/edit.cc:92 main/face/edit.cc:717
+#: main/face/edit.cc:92 main/face/edit.cc:704
 msgid "Cookie"
 msgstr "Колачић"
 
-#: main/face/edit.cc:93 main/face/edit.cc:822 main/face/edit.cc:825
+#: main/face/edit.cc:93 main/face/edit.cc:809 main/face/edit.cc:812
 #: main/face/prefs.cc:505 main/face/prefs.cc:1285 main/face/prefs.cc:1419
 msgid "Proxy"
 msgstr "Прокси"
 
-#: main/face/edit.cc:94 main/face/edit.cc:740 main/face/edit.cc:783
+#: main/face/edit.cc:94 main/face/edit.cc:727 main/face/edit.cc:770
 #: main/face/fsched.cc:203 main/face/lod.cc:53
 msgid "Time"
 msgstr "Време"
 
-#: main/face/edit.cc:195 main/face/edit.cc:214
+#: main/face/edit.cc:182 main/face/edit.cc:201
 msgid "Edit download"
 msgstr "Уреди преузимање"
 
-#: main/face/edit.cc:443 main/face/lod.cc:57
+#: main/face/edit.cc:430 main/face/lod.cc:57
 msgid "Description"
 msgstr "Опис"
 
-#: main/face/edit.cc:445
+#: main/face/edit.cc:432
 msgid "Save download to file"
 msgstr "Савучај преузимање у датотеку"
 
-#: main/face/edit.cc:446 main/face/edit.cc:1598 main/face/edit.cc:1659
-#: main/face/edit.cc:1696 main/face/mywidget.cc:1379
+#: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
+#: main/face/edit.cc:1683 main/face/mywidget.cc:1396
 msgid "password"
 msgstr "лозинка"
 
-#: main/face/edit.cc:447
+#: main/face/edit.cc:434
 msgid "user name"
 msgstr "корисничко име"
 
-#: main/face/edit.cc:450
+#: main/face/edit.cc:437
 msgid "Default"
 msgstr "Подразумевано"
 
-#: main/face/edit.cc:460
+#: main/face/edit.cc:447
 msgid "CP1251->UTF8"
 msgstr "CP1251->UTF8"
 
-#: main/face/edit.cc:496
+#: main/face/edit.cc:483
 msgid "Connections limit:"
 msgstr "Ограничење веза:"
 
-#: main/face/edit.cc:503 main/face/prefs.cc:257
+#: main/face/edit.cc:490 main/face/prefs.cc:257
 msgid "Pause this just after adding"
 msgstr "Паузирај ово одмах после додавања"
 
-#: main/face/edit.cc:509
+#: main/face/edit.cc:496
 msgid "Add to top of queue"
 msgstr "Додај на почетак реда"
 
-#: main/face/edit.cc:522 main/face/lod.cc:291 main/face/prefs.cc:239
+#: main/face/edit.cc:509 main/face/lod.cc:291 main/face/prefs.cc:239
 #: main/face/prefs.cc:1276 main/face/prefs.cc:1361
 msgid "Download"
 msgstr "Преузимање"
 
-#: main/face/edit.cc:525 main/face/prefs.cc:717 main/face/prefs.cc:1267
+#: main/face/edit.cc:512 main/face/prefs.cc:717 main/face/prefs.cc:1267
 #: main/face/prefs.cc:1521
 msgid "Main"
 msgstr "Главне"
 
-#: main/face/edit.cc:541 main/face/prefs.cc:298
+#: main/face/edit.cc:528 main/face/prefs.cc:298
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "Време за читање са утичнице (у секундама)"
 
-#: main/face/edit.cc:547 main/face/prefs.cc:304
+#: main/face/edit.cc:534 main/face/prefs.cc:304
 msgid "Timeout before reconnection (in seconds)"
 msgstr "Време пре поновног повезивања (у секундама)"
 
-#: main/face/edit.cc:553 main/face/prefs.cc:310
+#: main/face/edit.cc:540 main/face/prefs.cc:310
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "Највећи број покушаја (0 за неограничено)"
 
-#: main/face/edit.cc:559 main/face/prefs.cc:316
+#: main/face/edit.cc:546 main/face/prefs.cc:316
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "Врати назад после поновног повезивања (у бајтовима)"
 
-#: main/face/edit.cc:565 main/face/prefs.cc:322
+#: main/face/edit.cc:552 main/face/prefs.cc:322
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "Ограничење брзине у бајтовима/секунди (0 за неограничено)"
 
-#: main/face/edit.cc:592
+#: main/face/edit.cc:579
 msgid "Save log to file"
 msgstr "Сачувај дневник у датотеку"
 
-#: main/face/edit.cc:601
+#: main/face/edit.cc:588
 msgid "Auto"
 msgstr "Аутоматски"
 
-#: main/face/edit.cc:608 main/face/edit.cc:611
+#: main/face/edit.cc:595 main/face/edit.cc:598
 msgid "Common"
 msgstr "Обично"
 
-#: main/face/edit.cc:631 main/face/prefs.cc:362
+#: main/face/edit.cc:618 main/face/prefs.cc:362
 msgid "Load links as links"
 msgstr "Учитај везе као везе"
 
-#: main/face/edit.cc:635 main/face/prefs.cc:366
+#: main/face/edit.cc:622 main/face/prefs.cc:366
 msgid "Load links as file"
 msgstr "Учитај везе као датотеке"
 
-#: main/face/edit.cc:645 main/face/edit.cc:662 main/face/prefs.cc:376
+#: main/face/edit.cc:632 main/face/edit.cc:649 main/face/prefs.cc:376
 #: main/face/prefs.cc:463
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "Дубина рекурзије (0 за неограничено, 1 без рекурзије)"
 
-#: main/face/edit.cc:688 main/face/prefs.cc:492
+#: main/face/edit.cc:675 main/face/prefs.cc:492
 msgid "Filter"
 msgstr "Филтер"
 
-#: main/face/edit.cc:689 main/face/lod.cc:927 main/face/mywidget.cc:247
+#: main/face/edit.cc:676 main/face/lod.cc:927 main/face/mywidget.cc:250
 #: main/face/prefs.cc:493
 msgid "Select"
 msgstr "Обележи"
 
-#: main/face/edit.cc:754
+#: main/face/edit.cc:741
 msgid "Hours"
 msgstr "Сати"
 
-#: main/face/edit.cc:762
+#: main/face/edit.cc:749
 msgid "Minutes"
 msgstr "Минута"
 
-#: main/face/edit.cc:775
+#: main/face/edit.cc:762
 msgid "Start this downloading at:"
 msgstr "Покрени ово преузимање у:"
 
-#: main/face/edit.cc:835
+#: main/face/edit.cc:822
 msgid "Use default settings"
 msgstr "Користи подразумевана подешавања"
 
-#: main/face/edit.cc:1532
+#: main/face/edit.cc:1519
 msgid "FTP proxy type"
 msgstr "тип FTP проксија"
 
-#: main/face/edit.cc:1543 main/face/mywidget.cc:1329
+#: main/face/edit.cc:1530 main/face/mywidget.cc:1346
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1556
+#: main/face/edit.cc:1543
 msgid "Use this proxy for FTP"
 msgstr "Користи овај прокси за FTP"
 
-#: main/face/edit.cc:1571 main/face/edit.cc:1633 main/face/edit.cc:1679
-#: main/face/mywidget.cc:1352
+#: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
+#: main/face/mywidget.cc:1369
 msgid "port"
 msgstr "порт"
 
-#: main/face/edit.cc:1577 main/face/edit.cc:1638 main/face/mywidget.cc:1358
+#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1375
 msgid "need password"
 msgstr "лозинка је обавезна"
 
-#: main/face/edit.cc:1585 main/face/edit.cc:1646 main/face/edit.cc:1690
-#: main/face/mywidget.cc:1365
+#: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
+#: main/face/mywidget.cc:1382
 msgid "username"
 msgstr "корисничко име"
 
-#: main/face/edit.cc:1612
+#: main/face/edit.cc:1599
 msgid "Don't get from cache"
 msgstr "Не узимај из кеша"
 
-#: main/face/edit.cc:1618
+#: main/face/edit.cc:1605
 msgid "Use this proxy for HTTP"
 msgstr "Користи овај прокси за HTTP"
 
-#: main/face/edit.cc:1666
+#: main/face/edit.cc:1653
 msgid "Use SOCKS5 proxy"
 msgstr "Користи SOCKS5 прокси"
 
-#: main/face/edit.cc:1672
+#: main/face/edit.cc:1659
 msgid "host"
 msgstr "домаћин"
 
-#: main/face/edit.cc:2052
+#: main/face/edit.cc:2039
 msgid "Select properties"
 msgstr "Изабери особине"
 
-#: main/face/edit.cc:2097
+#: main/face/edit.cc:2084
 msgid "Unselect all"
 msgstr "Поништи све изборе"
 
-#: main/face/edit.cc:2103
+#: main/face/edit.cc:2090
 msgid "Select all"
 msgstr "Изабери све"
 
-#: main/face/filtrgui.cc:164 main/face/mywidget.cc:891
+#: main/face/filtrgui.cc:164 main/face/mywidget.cc:908
 msgid "filter name"
 msgstr "име филтера"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1267
+#: main/face/filtrgui.cc:187 main/face/list.cc:1299
 msgid "Filters"
 msgstr "Филтери"
 
@@ -1019,7 +1022,7 @@ msgstr "сними листу"
 msgid "execute command"
 msgstr "изврши команду"
 
-#: main/face/fsched.cc:203 main/face/fsched.cc:773
+#: main/face/fsched.cc:203 main/face/fsched.cc:784
 msgid "Action"
 msgstr "Акција"
 
@@ -1027,7 +1030,7 @@ msgstr "Акција"
 msgid "Info"
 msgstr "Информације"
 
-#: main/face/fsched.cc:239 main/face/list.cc:1268
+#: main/face/fsched.cc:239 main/face/list.cc:1300
 msgid "Scheduler"
 msgstr "Роковник"
 
@@ -1051,27 +1054,28 @@ msgstr "Путања:"
 msgid "This action has no properties"
 msgstr "Ова акција нема посебне особине"
 
-#: main/face/fsched.cc:718
+#: main/face/fsched.cc:729
 msgid "Start time(hour:min:sec)"
 msgstr "Почетно време(сати:минута:секунди)"
 
-#: main/face/fsched.cc:745
+#: main/face/fsched.cc:756
 msgid "Retry this action"
 msgstr "Покушај ову акцију поново"
 
-#: main/face/fsched.cc:753
+#: main/face/fsched.cc:764
 msgid "times to repeat (-1 unlimited)"
 msgstr "понављања (-1 бесконачно)"
 
-#: main/face/fsched.cc:757
+#: main/face/fsched.cc:768
 msgid "period (day/hour:min)"
 msgstr "период (дан/сат:минут)"
 
-#: main/face/fsched.cc:781 main/face/lmenu.cc:130 main/mainlog.cc:202
+#: main/face/fsched.cc:792 main/face/lmenu.cc:130 main/face/qtree.cc:492
+#: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Особине"
 
-#: main/face/fsched.cc:801
+#: main/face/fsched.cc:812
 msgid "Edit scheduled action"
 msgstr "Уреди заказане акције"
 
@@ -1123,236 +1127,241 @@ msgstr "Пинг"
 msgid "Url"
 msgstr "Урл"
 
-#: main/face/list.cc:168
-msgid "/_File"
+#: main/face/list.cc:482
+#, fuzzy
+msgid "_File"
 msgstr "/_Датотека"
 
-#: main/face/list.cc:169
-msgid "/File/_Save List"
-msgstr "/Датотека/_Сними Листу"
-
-#: main/face/list.cc:170
-msgid "/File/_Load List"
-msgstr "/Датотека/_Учитај Листу"
-
-#: main/face/list.cc:171
-msgid "/File/Find links in file"
-msgstr "/Датотека/Нађи везе у датотеци"
-
-#: main/face/list.cc:172
-msgid "/File/_New Download"
-msgstr "/Датотека/_Ново Преузимање"
-
-#: main/face/list.cc:173
-msgid "/File/_Paste Download"
-msgstr "/Датотека/Убаци _Преузимање"
-
-#: main/face/list.cc:174
-msgid "/File/_Automated adding"
-msgstr "/Датотека/_Аутоматизовано додавање"
-
-#: main/face/list.cc:175
-msgid "/File/Exit"
-msgstr "/Датотека/Излаз"
-
-#: main/face/list.cc:176
-msgid "/File/sep1"
-msgstr "/Датотека/sep1"
-
-#: main/face/list.cc:177
-msgid "/_Download"
+#: main/face/list.cc:483
+#, fuzzy
+msgid "_Download"
 msgstr "/_Преузимање"
 
-#: main/face/list.cc:178
-msgid "/Download/View _Log"
-msgstr "/Преузимање/Прегледај _Дневник"
-
-#: main/face/list.cc:179
-msgid "/Download/_Stop downloads"
-msgstr "/Преузимање/_Заустави преузимање"
-
-#: main/face/list.cc:180
-msgid "/Download/Edit download"
-msgstr "/Преузимање/Уреди преузимање"
-
-#: main/face/list.cc:181
-msgid "/Download/_Delete downloads"
-msgstr "/Преузимање/_Обриши преузимањa"
-
-#: main/face/list.cc:182
-msgid "/Download/Continue downloads"
-msgstr "/Преузимање/Настави преузимањa"
-
-#: main/face/list.cc:183
-msgid "/Download/Delete completed"
-msgstr "/Преузимање/Обриши завршенa"
-
-#: main/face/list.cc:184
-msgid "/Download/Delete failed"
-msgstr "/Преузимање/Обриши неуспелa"
-
-#: main/face/list.cc:185
-msgid "/Download/Rerun failed"
-msgstr "/Преузимање/Поново покрени неуспела"
-
-#: main/face/list.cc:186
-msgid "/Download/(Un)Protect"
-msgstr "/Преузимање/(Од)Штити"
-
-#: main/face/list.cc:187
-msgid "/Download/Unselect all"
-msgstr "/Преузимање/Укини све изборе"
-
-#: main/face/list.cc:188
-msgid "/Download/Select all"
-msgstr "/Преузимање/Изабери све"
-
-#: main/face/list.cc:189
-msgid "/Download/Invert selection"
-msgstr "/Преузимање/Обрни избор"
-
-#: main/face/list.cc:190
-msgid "/Download/-"
-msgstr "/Преузимање/-"
-
-#: main/face/list.cc:191
-msgid "/_Queue"
+#: main/face/list.cc:484
+#, fuzzy
+msgid "_Queue"
 msgstr "/_Ред"
 
-#: main/face/list.cc:192
-msgid "/Queue/Create new queue"
-msgstr "/Ред/Направи нови ред"
-
-#: main/face/list.cc:193
-msgid "/Queue/Create new subqueue"
-msgstr "/Ред/Направи нови подред"
-
-#: main/face/list.cc:194
-msgid "/Queue/Remove this queue"
-msgstr "/Ред/Уклони овај ред"
-
-#: main/face/list.cc:195
-msgid "/Queue/Properties"
-msgstr "/Ред/Особине"
-
-#: main/face/list.cc:196
-msgid "/_Options"
+#: main/face/list.cc:485
+#, fuzzy
+msgid "_Options"
 msgstr "/_Опције"
 
-#: main/face/list.cc:197
-msgid "/Options/Scheduler"
-msgstr "/Опције/Роковник"
-
-#: main/face/list.cc:198
-msgid "/Options/URL-manager"
-msgstr "/Опције/УРЛ-управљач"
-
-#: main/face/list.cc:199
-msgid "/Options/General"
-msgstr "/Опције/Опште"
-
-#: main/face/list.cc:200
-msgid "/Options/Filters"
-msgstr "/Опције/Филтери"
-
-#: main/face/list.cc:201
-msgid "/Options/Speed"
-msgstr "/Опције/Брзина"
-
-#: main/face/list.cc:202
-msgid "/Options/Speed/Low"
-msgstr "/Опције/Брзина/Мала"
-
-#: main/face/list.cc:203
-msgid "/Options/Speed/Medium"
-msgstr "/Опције/Брзина/Средња"
-
-#: main/face/list.cc:204
-msgid "/Options/Speed/Unlimited"
-msgstr "/Опције/Брзина/Неограничена"
-
-#: main/face/list.cc:205
-msgid "/Options/Buttons"
-msgstr "/Опције/Дугмад"
-
-#: main/face/list.cc:206
-msgid "/Options/Buttons/Add buttons"
-msgstr "/Опције/Дугмад/Додај дугмад"
-
-#: main/face/list.cc:207
-msgid "/Options/Buttons/Manipulating"
-msgstr "/Опције/Дугмад/Манипулација"
-
-#: main/face/list.cc:208
-msgid "/Options/Buttons/Speed buttons"
-msgstr "/Опције/Дугмад/Дугмад за брзину"
-
-#: main/face/list.cc:209
-msgid "/Options/Buttons/Misc buttons"
-msgstr "/Опције/Дугмад/Разна дугмад"
-
-#: main/face/list.cc:210
-msgid "/_Help"
+#: main/face/list.cc:487
+#, fuzzy
+msgid "_Help"
 msgstr "/_Помоћ"
 
-#: main/face/list.cc:211
-msgid "/_Help/About"
-msgstr "/_Помоћ/О програму"
+#: main/face/list.cc:488
+#, fuzzy
+msgid "_Save List"
+msgstr "Сними листу"
 
-#: main/face/list.cc:834
+#: main/face/list.cc:489
+#, fuzzy
+msgid "_Load List"
+msgstr "Учитај листу"
+
+#: main/face/list.cc:490
+#, fuzzy
+msgid "_Find links in file"
+msgstr "Пронађи везе у текстуалној датотеци"
+
+#: main/face/list.cc:491
+#, fuzzy
+msgid "_New Download"
+msgstr "/Ново Преузимање"
+
+#: main/face/list.cc:492
+#, fuzzy
+msgid "_Paste Download"
+msgstr "/Убаци Преузимање"
+
+#: main/face/list.cc:493
+#, fuzzy
+msgid "_Automated adding"
+msgstr "Аутоматизовано додавање"
+
+#: main/face/list.cc:494
+#, fuzzy
+msgid "_Exit"
+msgstr "/Излаз"
+
+#: main/face/list.cc:495
+#, fuzzy
+msgid "_View Log"
+msgstr "Прегледај дневник"
+
+#: main/face/list.cc:496
+#, fuzzy
+msgid "_Stop downloads"
+msgstr " Заустави преузимања "
+
+#: main/face/list.cc:497
+#, fuzzy
+msgid "_Edit downloads"
+msgstr "Уреди преузимање"
+
+#: main/face/list.cc:498
+#, fuzzy
+msgid "_Delete downloads"
+msgstr "Обриши преузимања"
+
+#: main/face/list.cc:499
+#, fuzzy
+msgid "_Continue downloads"
+msgstr "Настави преузимања"
+
+#: main/face/list.cc:500
+#, fuzzy
+msgid "Delete Completed"
+msgstr "Обриши завршена"
+
+#: main/face/list.cc:501
+#, fuzzy
+msgid "Delete _Failed"
+msgstr "Обриши неуспела"
+
+#: main/face/list.cc:502
+#, fuzzy
+msgid "_Rerun failed"
+msgstr "Претрага није успела"
+
+#: main/face/list.cc:503 main/face/lmenu.cc:159
+msgid "(Un)Protect"
+msgstr "(Од)Штити"
+
+#: main/face/list.cc:504
+#, fuzzy
+msgid "_Unselect All"
+msgstr "Поништи све изборе"
+
+#: main/face/list.cc:505
+#, fuzzy
+msgid "Select _All"
+msgstr "Изабери све"
+
+#: main/face/list.cc:506
+#, fuzzy
+msgid "_Invert selection"
+msgstr "/Преузимање/Обрни избор"
+
+#: main/face/list.cc:507
+#, fuzzy
+msgid "_Create new queue"
+msgstr "Направи нови ред"
+
+#: main/face/list.cc:508
+#, fuzzy
+msgid "Create new _Subqueue"
+msgstr "/Направи нови подред"
+
+#: main/face/list.cc:509
+#, fuzzy
+msgid "_Remove this queue"
+msgstr "/Ред/Уклони овај ред"
+
+#: main/face/list.cc:510
+#, fuzzy
+msgid "_Properties"
+msgstr "Особине"
+
+#: main/face/list.cc:511
+#, fuzzy
+msgid "_Scheduler"
+msgstr "Роковник"
+
+#: main/face/list.cc:512
+#, fuzzy
+msgid "_URL-manager"
+msgstr "УРЛ-управљач"
+
+#: main/face/list.cc:513
+msgid "_General"
+msgstr ""
+
+#: main/face/list.cc:514
+#, fuzzy
+msgid "_Filters"
+msgstr "Филтери"
+
+#: main/face/list.cc:515
+msgid "_Buttons"
+msgstr ""
+
+#: main/face/list.cc:516
+#, fuzzy
+msgid "_About"
+msgstr "О"
+
+#: main/face/list.cc:519
+msgid "_Low"
+msgstr ""
+
+#: main/face/list.cc:520
+#, fuzzy
+msgid "_Medium"
+msgstr "средња"
+
+#: main/face/list.cc:521
+#, fuzzy
+msgid "_Unlimited"
+msgstr "неограничена"
+
+#: main/face/list.cc:866
 msgid "Do you really want to quit?"
 msgstr "Да ли стварно желите да изађете?"
 
-#: main/face/list.cc:834
+#: main/face/list.cc:866
 msgid "Quit?"
 msgstr "Изађи?"
 
-#: main/face/list.cc:863
+#: main/face/list.cc:895
 msgid "Delete selected downloads?"
 msgstr "Обриши обeлежена преузимања?"
 
-#: main/face/list.cc:863 main/face/list.cc:881 main/face/list.cc:899
+#: main/face/list.cc:895 main/face/list.cc:913 main/face/list.cc:931
 msgid "Delete?"
 msgstr "Обриши?"
 
-#: main/face/list.cc:881
+#: main/face/list.cc:913
 msgid "Do you wish delete completed downloads?"
 msgstr "Да ли желите да обришете завршена преузимања?"
 
-#: main/face/list.cc:899
+#: main/face/list.cc:931
 msgid "Do you wish delete failed downloads?"
 msgstr "Да ли желите да обришете неуспела преузимања?"
 
-#: main/face/list.cc:946
+#: main/face/list.cc:978
 msgid "Ready to go ????"
 msgstr "Спремни за покрет ????"
 
-#: main/face/list.cc:1263 main/face/list.cc:1520
+#: main/face/list.cc:1295 main/face/list.cc:1560
 msgid "Downloads"
 msgstr "Преузимања"
 
-#: main/face/list.cc:1264 main/face/list.cc:1312 main/face/prefs.cc:627
+#: main/face/list.cc:1296 main/face/list.cc:1344 main/face/prefs.cc:627
 #: main/face/prefs.cc:1270 main/face/prefs.cc:1531
 msgid "Main log"
 msgstr "Главни дневник"
 
-#: main/face/list.cc:1265 main/face/passface.cc:428
+#: main/face/list.cc:1297 main/face/passface.cc:428
 msgid "URL-manager"
 msgstr "УРЛ-управљач"
 
-#: main/face/list.cc:1266 main/face/list.cc:1326
+#: main/face/list.cc:1298 main/face/list.cc:1358
 msgid "FTP-search"
 msgstr "FTP-претрага"
 
-#: main/face/list.cc:1330
+#: main/face/list.cc:1362
 msgid "Filename:"
 msgstr "Име датотеке:"
 
-#: main/face/list.cc:1542
+#: main/face/list.cc:1582
 msgid "Offline/Online"
 msgstr "Прекини везу/Повежи се"
 
-#: main/face/list.cc:1659
+#: main/face/list.cc:1699
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-иде %i-завршено %i-укупно"
@@ -1373,10 +1382,6 @@ msgstr "Настави преузимања"
 msgid "Copy"
 msgstr "Умножи"
 
-#: main/face/lmenu.cc:159
-msgid "(Un)Protect"
-msgstr "(Од)Штити"
-
 #: main/face/lmenu.cc:168
 msgid "Common properties"
 msgstr "Проста подешавања"
@@ -1384,10 +1389,6 @@ msgstr "Проста подешавања"
 #: main/face/lmenu.cc:174
 msgid "Delete downloads"
 msgstr "Обриши преузимања"
-
-#: main/face/lmenu.cc:180
-msgid "Delete completed"
-msgstr "Обриши завршена"
 
 #: main/face/lmenu.cc:186
 msgid "Delete failed"
@@ -1410,7 +1411,7 @@ msgstr "Алтернативе"
 msgid "FTP search"
 msgstr "FTP претрага"
 
-#: main/face/lod.cc:46 main/face/mywidget.cc:399 main/face/mywidget.cc:747
+#: main/face/lod.cc:46 main/face/mywidget.cc:410 main/face/mywidget.cc:764
 msgid "File"
 msgstr "Датотека"
 
@@ -1429,10 +1430,6 @@ msgstr "Преузето"
 #: main/face/lod.cc:50
 msgid "Rest"
 msgstr "Rest"
-
-#: main/face/lod.cc:52
-msgid "Speed"
-msgstr "Брзина"
 
 #: main/face/lod.cc:54
 msgid "Remaining"
@@ -1467,7 +1464,7 @@ msgstr "Статус"
 msgid "Row number %i [log of %s]"
 msgstr "Ред број %i [дневник за %s]"
 
-#: main/face/log.cc:448
+#: main/face/log.cc:441
 msgid "Log: "
 msgstr "Дневник:"
 
@@ -1475,80 +1472,80 @@ msgstr "Дневник:"
 msgid "Select directory"
 msgstr "Одабери директоријум"
 
-#: main/face/mywidget.cc:205
+#: main/face/mywidget.cc:208
 msgid "Select color"
 msgstr "Одабери боју"
 
-#: main/face/mywidget.cc:352
+#: main/face/mywidget.cc:355
 msgid "Edit properties of Rule"
 msgstr "Уреди особине Правила"
 
-#: main/face/mywidget.cc:364 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:367 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Protocol"
 msgstr "протокол"
 
-#: main/face/mywidget.cc:381 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:392 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Host"
 msgstr "домаћин"
 
-#: main/face/mywidget.cc:390 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:401 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Path"
 msgstr "Путања:"
 
-#: main/face/mywidget.cc:408
+#: main/face/mywidget.cc:419
 msgid "?"
 msgstr "?"
 
-#: main/face/mywidget.cc:417 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:428 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Tag"
 msgstr "таг"
 
-#: main/face/mywidget.cc:468
+#: main/face/mywidget.cc:485
 msgid "include"
 msgstr "укључи"
 
-#: main/face/mywidget.cc:470
+#: main/face/mywidget.cc:487
 msgid "exclude"
 msgstr "искључи"
 
-#: main/face/mywidget.cc:739
+#: main/face/mywidget.cc:756
 msgid "Modify filter"
 msgstr "Уреди филтер"
 
-#: main/face/mywidget.cc:781
+#: main/face/mywidget.cc:798
 msgid "include by default"
 msgstr "подразумевано укључи"
 
-#: main/face/mywidget.cc:783
+#: main/face/mywidget.cc:800
 msgid "exclude by default"
 msgstr "подразумевано искључи"
 
-#: main/face/mywidget.cc:788
+#: main/face/mywidget.cc:805
 msgid "Name of filter"
 msgstr "Назив филтера"
 
-#: main/face/mywidget.cc:882
+#: main/face/mywidget.cc:899
 msgid "Select filter"
 msgstr "Одабери филтер"
 
-#: main/face/mywidget.cc:1055
+#: main/face/mywidget.cc:1072
 msgid "List of links"
 msgstr "Листа веза"
 
-#: main/face/mywidget.cc:1127
+#: main/face/mywidget.cc:1144
 msgid "Add"
 msgstr "Додај"
 
-#: main/face/mywidget.cc:1326
+#: main/face/mywidget.cc:1343
 #, fuzzy
 msgid "proxy type"
 msgstr "тип FTP проксија"
 
-#: main/face/mywidget.cc:1341
+#: main/face/mywidget.cc:1358
 msgid "Use different proxy for this alternate"
 msgstr ""
 
@@ -1890,60 +1887,54 @@ msgstr "Назив"
 msgid "Options"
 msgstr "Опције"
 
-#: main/face/qtree.cc:113
+#: main/face/qtree.cc:110 main/face/qtree.cc:489
 msgid "Create new queue"
 msgstr "Направи нови ред"
 
-#: main/face/qtree.cc:479 main/face/qtree.cc:485
-msgid "/Create new queue"
-msgstr "/Направи нови ред"
-
-#: main/face/qtree.cc:480
-msgid "/Create new subqueue"
+#: main/face/qtree.cc:490
+#, fuzzy
+msgid "Create new subqueue"
 msgstr "/Направи нови подред"
 
-#: main/face/qtree.cc:481
-msgid "/Delete queue"
+#: main/face/qtree.cc:491
+#, fuzzy
+msgid "Delete queue"
 msgstr "/Уклони ред"
 
-#: main/face/qtree.cc:482
-msgid "/Properties"
-msgstr "/Особине"
-
-#: main/face/qtree.cc:580
+#: main/face/qtree.cc:589
 msgid "Queue properties"
 msgstr "Особине реда"
 
-#: main/face/qtree.cc:591
+#: main/face/qtree.cc:600
 msgid "Maximum active downloads"
 msgstr "Највећи број активних преузимања"
 
-#: main/face/qtree.cc:595
+#: main/face/qtree.cc:604
 msgid "Automatically delete completed downloads"
 msgstr "Аутоматски обриши завршена преузимања"
 
-#: main/face/qtree.cc:596
+#: main/face/qtree.cc:605
 msgid "Automatically delete failed downloads"
 msgstr "Аутоматски обриши неуспела преузимања"
 
-#: main/face/qtree.cc:606
+#: main/face/qtree.cc:615
 msgid "Default folder to save downloaded files"
 msgstr "Подразумевани директоријум за снимање скинутих датотека"
 
-#: main/face/qtree.cc:613
+#: main/face/qtree.cc:622
 msgid "Size format"
 msgstr "Формат за величину"
 
-#: main/face/qtree.cc:614
+#: main/face/qtree.cc:623
 msgid "Time format"
 msgstr "Формат за време"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:624
 #, fuzzy
 msgid "Speed format"
 msgstr "Формат за величину"
 
-#: main/face/qtree.cc:699
+#: main/face/qtree.cc:708
 msgid "Name of the queue"
 msgstr "Назив реда"
 
@@ -1959,7 +1950,7 @@ msgstr "Сними листу"
 msgid "Load list"
 msgstr "Учитај листу"
 
-#: main/face/saveload.cc:222
+#: main/face/saveload.cc:223
 msgid "Find links in txt file"
 msgstr "Пронађи везе у текстуалној датотеци"
 
@@ -2315,25 +2306,25 @@ msgstr "Додато преузимање датотеке %s са %s [од ст
 msgid "Downloader is in offline mode now"
 msgstr "Преузимач сада није на линији"
 
-#: main/main.cc:1750
+#: main/main.cc:1754
 msgid "Offline mode is turned off"
 msgstr "Офлине мод је искључен"
 
-#: main/main.cc:1781
+#: main/main.cc:1785
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu бајтова учитано током сесије"
 
-#: main/main.cc:1782
+#: main/main.cc:1786
 msgid "Downloader exited normaly"
 msgstr "Преузимач је изашао нормално"
 
-#: main/main.cc:1822
+#: main/main.cc:1826
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Не могу да отворим '%s' за снимање дневника"
 
-#: main/main.cc:1853
+#: main/main.cc:1857
 msgid "Such protocol is not supported!"
 msgstr "Такав протокол није подржан!"
 
@@ -2369,13 +2360,13 @@ msgstr "Не могу да отворим датотеку за снимање �
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "ГРЕШКА: Погрешан мод за lseek!\n"
 
-#: main/nt.cc:148
+#: main/nt.cc:156
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "УПОЗОРЕЊЕ!!! Не могу да пронађен променљиву HOME! Стога не могу да прочитам "
 "конфигурацију!"
 
-#: main/nt.cc:164
+#: main/nt.cc:172
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s вероватно већ иде\n"
@@ -2418,6 +2409,141 @@ msgstr "средња"
 #: main/var.cc:102
 msgid "unlimited"
 msgstr "неограничена"
+
+#~ msgid "/Automated adding"
+#~ msgstr "/Аутоматизовано додавање"
+
+#~ msgid "/Delete completed"
+#~ msgstr "/Обриши завршена"
+
+#~ msgid "/Speed"
+#~ msgstr "/Брзина"
+
+#~ msgid "/Speed/Low"
+#~ msgstr "/Брзина/Ниска"
+
+#~ msgid "/Speed/Medium"
+#~ msgstr "/Брзина/Средња"
+
+#~ msgid "/Speed/Unlimited"
+#~ msgstr "/Брзина/Неограничена"
+
+#~ msgid "/File/_Save List"
+#~ msgstr "/Датотека/_Сними Листу"
+
+#~ msgid "/File/_Load List"
+#~ msgstr "/Датотека/_Учитај Листу"
+
+#~ msgid "/File/Find links in file"
+#~ msgstr "/Датотека/Нађи везе у датотеци"
+
+#~ msgid "/File/_New Download"
+#~ msgstr "/Датотека/_Ново Преузимање"
+
+#~ msgid "/File/_Paste Download"
+#~ msgstr "/Датотека/Убаци _Преузимање"
+
+#~ msgid "/File/_Automated adding"
+#~ msgstr "/Датотека/_Аутоматизовано додавање"
+
+#~ msgid "/File/Exit"
+#~ msgstr "/Датотека/Излаз"
+
+#~ msgid "/File/sep1"
+#~ msgstr "/Датотека/sep1"
+
+#~ msgid "/Download/View _Log"
+#~ msgstr "/Преузимање/Прегледај _Дневник"
+
+#~ msgid "/Download/_Stop downloads"
+#~ msgstr "/Преузимање/_Заустави преузимање"
+
+#~ msgid "/Download/Edit download"
+#~ msgstr "/Преузимање/Уреди преузимање"
+
+#~ msgid "/Download/_Delete downloads"
+#~ msgstr "/Преузимање/_Обриши преузимањa"
+
+#~ msgid "/Download/Continue downloads"
+#~ msgstr "/Преузимање/Настави преузимањa"
+
+#~ msgid "/Download/Delete completed"
+#~ msgstr "/Преузимање/Обриши завршенa"
+
+#~ msgid "/Download/Delete failed"
+#~ msgstr "/Преузимање/Обриши неуспелa"
+
+#~ msgid "/Download/Rerun failed"
+#~ msgstr "/Преузимање/Поново покрени неуспела"
+
+#~ msgid "/Download/(Un)Protect"
+#~ msgstr "/Преузимање/(Од)Штити"
+
+#~ msgid "/Download/Unselect all"
+#~ msgstr "/Преузимање/Укини све изборе"
+
+#~ msgid "/Download/Select all"
+#~ msgstr "/Преузимање/Изабери све"
+
+#~ msgid "/Download/-"
+#~ msgstr "/Преузимање/-"
+
+#~ msgid "/Queue/Create new queue"
+#~ msgstr "/Ред/Направи нови ред"
+
+#~ msgid "/Queue/Create new subqueue"
+#~ msgstr "/Ред/Направи нови подред"
+
+#~ msgid "/Queue/Properties"
+#~ msgstr "/Ред/Особине"
+
+#~ msgid "/Options/Scheduler"
+#~ msgstr "/Опције/Роковник"
+
+#~ msgid "/Options/URL-manager"
+#~ msgstr "/Опције/УРЛ-управљач"
+
+#~ msgid "/Options/General"
+#~ msgstr "/Опције/Опште"
+
+#~ msgid "/Options/Filters"
+#~ msgstr "/Опције/Филтери"
+
+#~ msgid "/Options/Speed"
+#~ msgstr "/Опције/Брзина"
+
+#~ msgid "/Options/Speed/Low"
+#~ msgstr "/Опције/Брзина/Мала"
+
+#~ msgid "/Options/Speed/Medium"
+#~ msgstr "/Опције/Брзина/Средња"
+
+#~ msgid "/Options/Speed/Unlimited"
+#~ msgstr "/Опције/Брзина/Неограничена"
+
+#~ msgid "/Options/Buttons"
+#~ msgstr "/Опције/Дугмад"
+
+#~ msgid "/Options/Buttons/Add buttons"
+#~ msgstr "/Опције/Дугмад/Додај дугмад"
+
+#~ msgid "/Options/Buttons/Manipulating"
+#~ msgstr "/Опције/Дугмад/Манипулација"
+
+#~ msgid "/Options/Buttons/Speed buttons"
+#~ msgstr "/Опције/Дугмад/Дугмад за брзину"
+
+#~ msgid "/Options/Buttons/Misc buttons"
+#~ msgstr "/Опције/Дугмад/Разна дугмад"
+
+#~ msgid "/_Help/About"
+#~ msgstr "/_Помоћ/О програму"
+
+#~ msgid "/Create new queue"
+#~ msgstr "/Направи нови ред"
+
+#~ msgid "/Properties"
+#~ msgstr "/Особине"
 
 #~ msgid "path"
 #~ msgstr "путања"

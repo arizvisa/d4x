@@ -98,6 +98,14 @@ void edit_window_cancel(GtkWidget *parent,tDEdit *where);
 gint edit_window_delete(GtkObject *parent);
 void edit_window_ok(GtkWidget *which,tDEdit *where);
 
+void history_to_combo_box_entry(tHistory *history,GtkWidget *combo){
+	tString *tmp=history->last();
+	while (tmp) {
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), tmp->body);
+		tmp=history->next();
+	};
+};
+
 GList *make_glist_from_mylist(tHistory *parent) {
 	GList *rvalue=NULL;
 	tString *tmp=parent->last();
@@ -109,6 +117,10 @@ GList *make_glist_from_mylist(tHistory *parent) {
 };
 
 GtkWidget *my_gtk_combo_new(tHistory *history) {
+	GtkWidget *combo=gtk_combo_box_entry_new_text();
+	history_to_combo_box_entry(history,combo);
+	return(combo);
+/*
 	GtkWidget *combo=gtk_combo_new();
 	GList *list=make_glist_from_mylist(history);
 	if (list){
@@ -117,60 +129,35 @@ GtkWidget *my_gtk_combo_new(tHistory *history) {
 	};
 	gtk_combo_set_case_sensitive(GTK_COMBO(combo),TRUE);
 	return combo;
+*/
 };
 
 GtkWidget *my_gtk_combo_new(int from,int to) {
-	GList *rvalue=NULL;
-	for (int i=from;i<=to;i++) {
-		char data[MAX_LEN];
+	GtkWidget *combo=gtk_combo_box_entry_new_text();
+	char data[MAX_LEN];
+	for (int i=from;i<=to;i++){
 		sprintf(data,"%i",i);
-		char *tmp=copy_string(data);
-		rvalue = g_list_append (rvalue,tmp);
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), data);
 	};
-	GtkWidget *combo=gtk_combo_new();
-	if (rvalue){
-		gtk_combo_set_popdown_strings (GTK_COMBO (combo), rvalue);
-		GList *tmplist=rvalue;
-		while(tmplist){
-			char *a=(char *)(tmplist->data);
-			delete[] a;
-			tmplist=tmplist->next;
-		};
-		g_list_free(rvalue);
-	};
-	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(combo)->entry),FALSE);
-	gtk_combo_set_case_sensitive(GTK_COMBO(combo),TRUE);
+	gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN (combo)->child),FALSE);
 	return combo;
 };
 
 GtkWidget *my_gtk_combo_new_month() {
-	GList *rvalue=NULL;
-	char *tmp=copy_string("Jan");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Feb");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Mar");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Apr");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("May");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Jun");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Jul");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Aug");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Sep");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Oct");
-	rvalue = g_list_append (rvalue,tmp);
-	tmp=copy_string("Nov");
-	rvalue = g_list_append (rvalue,tmp);
-	GtkWidget *combo=gtk_combo_new();
-	if (rvalue)
-		gtk_combo_set_popdown_strings (GTK_COMBO (combo), rvalue);
-	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(combo)->entry),FALSE);
+	GtkWidget *combo=gtk_combo_box_entry_new_text();
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Jan");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Feb");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Mar");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Apr");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "May");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Jun");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Jul");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Aug");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Sep");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Oct");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Nov");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), "Dec");
+	gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN (combo)->child),FALSE);
 	return combo;
 };
 
@@ -402,7 +389,7 @@ void tDEdit::init_main(tDownload *who) {
 	};
 	path_entry=my_gtk_filesel_new(ALL_HISTORIES[PATH_HISTORY]);//my_gtk_combo_new(ALL_HISTORIES[PATH_HISTORY]);
 	file_entry=my_gtk_filesel_new(ALL_HISTORIES[FILE_HISTORY]);//my_gtk_combo_new(ALL_HISTORIES[FILE_HISTORY]);
-	GtkWidget *tmp_object=GTK_COMBO(MY_GTK_FILESEL(file_entry)->combo)->entry;
+	GtkWidget *tmp_object=GTK_BIN (MY_GTK_FILESEL(file_entry)->combo)->child;
 	g_signal_connect(G_OBJECT(tmp_object),"focus_out_event",
 			 G_CALLBACK(edit_browser_file_un_focus),this);
 	g_signal_connect(G_OBJECT(tmp_object),"focus_in_event",
@@ -410,7 +397,7 @@ void tDEdit::init_main(tDownload *who) {
 	MY_GTK_FILESEL(path_entry)->modal=GTK_WINDOW(window);
 	MY_GTK_FILESEL(file_entry)->modal=GTK_WINDOW(window);
 	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
-	g_signal_connect(G_OBJECT(GTK_COMBO(url_entry)->entry), "activate",
+	g_signal_connect(G_OBJECT(GTK_BIN(url_entry)->child), "activate",
 			 G_CALLBACK(edit_window_url_activate), this);
 	MY_GTK_FILESEL(path_entry)->only_dirs=TRUE;
 	desc_entry=my_gtk_combo_new(ALL_HISTORIES[DESC_HISTORY]);
@@ -742,7 +729,7 @@ void tDEdit::init_time(tDownload *who){
 	GtkWidget *time_label,*time_vbox;
 	gtk_container_set_border_width(GTK_CONTAINER(time_frame),5);
 	calendar=gtk_calendar_new();
-	gtk_calendar_display_options(GTK_CALENDAR(calendar),
+	gtk_calendar_set_display_options(GTK_CALENDAR(calendar),
 				     GtkCalendarDisplayOptions(
 				     GTK_CALENDAR_WEEK_START_MONDAY |
 				     GTK_CALENDAR_SHOW_DAY_NAMES|
@@ -850,7 +837,7 @@ void tDEdit::init(tDownload *who) {
 	gtk_container_add(GTK_CONTAINER(window),vbox2);
 	gtk_window_set_default(GTK_WINDOW(window),ok_button);
 	gtk_widget_show_all(window);
-	gtk_widget_grab_focus(GTK_COMBO(url_entry)->entry);
+	gtk_widget_grab_focus(GTK_BIN(url_entry)->child);
 	setup_entries();
 };
 
@@ -1132,7 +1119,7 @@ void tDEdit::set_description(char *desc){
 
 void tDEdit::setup_entries() {
 	set_editable_for_combo(pass_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
-	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(user_entry)->entry),GTK_TOGGLE_BUTTON(use_pass_check)->active);
+	gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN(user_entry)->child),GTK_TOGGLE_BUTTON(use_pass_check)->active);
 	gtk_widget_set_sensitive(user_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
 	gtk_widget_set_sensitive(pass_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
 };
@@ -1173,12 +1160,12 @@ void  tDEdit::paste_url() {
 		set_url(old_clipboard_content());
 		return;
 	};
-	gtk_editable_paste_clipboard(GTK_EDITABLE(GTK_COMBO(url_entry)->entry));
+	gtk_editable_paste_clipboard(GTK_EDITABLE(GTK_BIN(url_entry)->child));
 //	printf("%s\n",text_from_combo(url_entry));
 };
 
 void tDEdit::select_url() {
-	gtk_editable_select_region(GTK_EDITABLE(GTK_COMBO(url_entry)->entry),0,strlen(text_from_combo(url_entry)));
+	gtk_editable_select_region(GTK_EDITABLE(GTK_BIN(url_entry)->child),0,strlen(text_from_combo(url_entry)));
 };
 
 void tDEdit::clear_url() {
@@ -1450,14 +1437,14 @@ tDEdit::~tDEdit() {
 
 static void proxy_toggle_pass_ftp(GtkWidget *parent,tProxyWidget *where) {
 	set_editable_for_combo(where->ftp_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
-	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(where->ftp_proxy_user)->entry),GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN(where->ftp_proxy_user)->child),GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->ftp_proxy_user,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->ftp_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
 };
 
 static void proxy_toggle_pass_http(GtkWidget *parent,tProxyWidget *where) {
 	set_editable_for_combo(where->http_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
-	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(where->http_proxy_user)->entry),GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN(where->http_proxy_user)->child),GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->http_proxy_user,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->http_proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
 };
@@ -1466,7 +1453,7 @@ static void proxy_toggle_socks(GtkWidget *parent,tProxyWidget *where) {
 	set_editable_for_combo(where->socks_port,GTK_TOGGLE_BUTTON(parent)->active);
 	set_editable_for_combo(where->socks_user,GTK_TOGGLE_BUTTON(parent)->active);
 	set_editable_for_combo(where->socks_pass,GTK_TOGGLE_BUTTON(parent)->active);
-	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(where->socks_host)->entry),GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN(where->socks_host)->child),GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->socks_user,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->socks_pass,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->socks_port,GTK_TOGGLE_BUTTON(parent)->active);
@@ -1557,7 +1544,7 @@ void tProxyWidget::init() {
 
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_check,FALSE,0,0);
 	ftp_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
-	g_signal_connect (G_OBJECT (GTK_COMBO(ftp_proxy_host)->entry),
+	g_signal_connect (G_OBJECT (GTK_BIN(ftp_proxy_host)->child),
 			  "changed",
 			  G_CALLBACK(_ftp_host_changed_), this);
 	gtk_widget_set_size_request(ftp_proxy_host,120,-1);
@@ -1567,7 +1554,7 @@ void tProxyWidget::init() {
 	g_signal_connect(G_OBJECT (ftp_proxy_port),
 			 "changed",
 			 G_CALLBACK(_proxy_port_changed_),
-			 GTK_COMBO(ftp_proxy_host)->entry);
+			 GTK_BIN(ftp_proxy_host)->child);
 	GtkWidget *label=gtk_label_new(_("port"));
 	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),ftp_proxy_port,FALSE,0,0);
@@ -1619,7 +1606,7 @@ void tProxyWidget::init() {
 
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_check,FALSE,0,0);
 	http_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
-	g_signal_connect (G_OBJECT (GTK_COMBO(http_proxy_host)->entry),
+	g_signal_connect (G_OBJECT (GTK_BIN(http_proxy_host)->child),
 			  "changed",
 			  G_CALLBACK(_http_host_changed_), this);
 	gtk_widget_set_size_request(http_proxy_host,120,-1);
@@ -1629,7 +1616,7 @@ void tProxyWidget::init() {
 	g_signal_connect(G_OBJECT (http_proxy_port),
 			 "changed",
 			 G_CALLBACK(_proxy_port_changed_),
-			 GTK_COMBO(http_proxy_host)->entry);
+			 GTK_BIN(http_proxy_host)->child);
 	label=gtk_label_new(_("port"));
 	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),http_proxy_port,FALSE,0,0);
@@ -1671,7 +1658,7 @@ void tProxyWidget::init() {
 	hbox=gtk_hbox_new(FALSE,5);
 	label=gtk_label_new(_("host"));
 	socks_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
-	g_signal_connect(G_OBJECT (GTK_COMBO(socks_host)->entry),
+	g_signal_connect(G_OBJECT (GTK_BIN(socks_host)->child),
 			 "changed",
 			 G_CALLBACK(_socks_host_changed_), this);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
@@ -1681,7 +1668,7 @@ void tProxyWidget::init() {
 	g_signal_connect (G_OBJECT (socks_port),
 			  "changed",
 			  G_CALLBACK(_proxy_port_changed_),
-			  GTK_COMBO(socks_host)->entry);
+			  GTK_BIN(socks_host)->child);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),socks_port,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox_temp),hbox,FALSE,0,0);

@@ -1741,12 +1741,16 @@ void tMain::stop_all_offline(tQueue *q){
 
 void tMain::switch_offline_mode(){
 	if (CFG.OFFLINE_MODE==0){
+		CFG.OFFLINE_MODE=1;
 		stop_all_offline(&D4X_QTREE);
 		ftpsearch->stop_all_offline();
-		CFG.OFFLINE_MODE=1;
 		MainLog->add(_("Downloader is in offline mode now"),LOG_WARNING|LOG_DETAILED);
 	}else{
 		CFG.OFFLINE_MODE=0;
+		int tmpfr=CFG.ALLOW_FORCE_RUN;
+		CFG.ALLOW_FORCE_RUN=1;
+		main_circle_nano2();
+		CFG.ALLOW_FORCE_RUN=tmpfr;
 		MainLog->add(_("Offline mode is turned off"),LOG_WARNING|LOG_DETAILED);
 	};
 };

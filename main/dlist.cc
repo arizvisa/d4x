@@ -1465,8 +1465,9 @@ void tDownload::remove_links(d4xSearchEngine *engine){
 			delete[] a;
 			if (nDIR->find(tmp->info))
 				delete(tmp);
-			else
+			else{
 				nDIR->insert(tmp);
+			};
 		}else{
 			delete(tmp);
 		};
@@ -1558,29 +1559,41 @@ void tDownload::ftp_search() {
 		tDList *TMP_DIR=NULL;
 		while(engine){
 			tAddr *tmpinfo=new tAddr;
+			fsize_t size=0;
+			int who_download_status=0;
 			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
 			config->change_links=0;
 			engine->prepare_url(tmpinfo,finfo.size,info->file.get(),CFG.SEARCH_PERSERVER);
+			pthread_cleanup_pop(0);
 			if (who->init(tmpinfo,config)) {
+				printf("1\n");
 				download_failed();
 				return;
 			};
+			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
 			who->init_download(tmpinfo->path.get(),tmpinfo->file.get());
 			who->set_loaded(0);
-			int size=who->get_size();
+			size=who->get_size();
+			pthread_cleanup_pop(0);
 			if (size<=-1) {
 				WL->log(LOG_WARNING,_("Searching failed"));
+				printf("2\n");
 				download_failed();
 				return;
 			};
+			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
 			finfo.type=T_FILE;
 			Start=Pause=time(NULL);
 			Difference=0;
 			status=DOWNLOAD_GO;
-			if (who->download(0)) {
+			who_download_status=who->download(0);
+			pthread_cleanup_pop(0);
+			if (who_download_status) {
+				printf("3\n");
 				download_failed();
 				return;
 			};
+			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
 			config->http_recurse_depth=2;
 			config->leave_server=1;
 			download_set_block(1);

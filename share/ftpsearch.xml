@@ -8,11 +8,6 @@
     <urlnosize>http://ftpsearch.rambler.ru/db/ftpsearch/search.html?ftype=5&words=[:file:]&what=0&t=e&cs=1&fo=1&pflx=&pfli=&dflx=&dfli=&sl=&sh=+&sort1=n&sort2=u</urlnosize>
     <match>http\://ftpsearch\.rambler\.ru/db/ftpsearch/go\.html?href\=(:ftp\://.*[:file:]:)</match>
 </ftpsearch>
-<ftpsearch name="AlltheWeb">
-    <urlsize>http://www.alltheweb.com/search?advanced=1&cat=ftp&q=[:file:]&jsact=&cs=iso-8859-1&ftype=6&ld=&lp=&ls1=[:size:]&ls2=[:size:]&hits=[:num:]&matches=&hitsprmatch=</urlsize>
-    <urlnosize>http://www.alltheweb.com/search?advanced=1&cat=ftp&q=[:file:]&jsact=&cs=iso-8859-1&ftype=6&ld=&lp=&ls1=&ls2=&hits=[:num:]&matches=&hitsprmatch=</urlnosize>
-    <match>(:ftp\://.*/[:file:]:)</match>
-</ftpsearch>
 <ftpsearch name="Latvian FTP search">
     <urlsize>http://www.ftpsearch.lv/ftpsearch.phtml?what=[:file:]&type=2&mcase=on&sfiles=on&minsize=[:size:]&maxsize=[:size:]&order=&rpp=[:num:]</urlsize>
     <urlnosize>http://www.ftpsearch.lv/ftpsearch.phtml?what=[:file:]&type=2&mcase=on&sfiles=on&minsize=&maxsize=&order=&rpp=[:num:]</urlnosize>
@@ -31,5 +26,10 @@
 <ftpsearch name="TomskNet FTPSearch">
     <urlsize>http://ftpsearch.tomsk.net/index.html?sAreaChange=0&sArea=ftp&query=[:file:]&x=13&y=10&w=t&ftpResPerPage=20&type=Exact+search&hits=99999&matches=&hitsprmatch=&limdom=&limpath=&limsize1=[:size:]&limsize2=[:size:]&f1=Count&f2=Type&f3=Size&f4=Time&f5=Host&f6=Path&header=none&sort=date&trlen=[:num:]</urlsize>
     <urlnosize>http://ftpsearch.tomsk.net/index.html?sAreaChange=0&sArea=ftp&query=[:file:]&x=0&y=0&w=t&ftpResPerPage=20&type=Exact+search&hits=99999&matches=&hitsprmatch=&limdom=&limpath=&limsize1=&limsize2=&f1=Count&f2=Type&f3=Size&f4=Time&f5=Host&f6=Path&header=none&sort=date&trlen=[:num:]</urlnosize>
+    <match>(:ftp\://.*/[:file:]:)</match>
+</ftpsearch>
+<ftpsearch name="FileWatcher">
+    <urlsize>http://www.filewatcher.com/?q=[:file:]&sd=1&cs=1&min[:size:]]=&max=[:size:]&pf=&df=&t=a&o=rd&mh=[:num:]&af=1</urlsize>
+    <urlnosize>http://www.filewatcher.com/?q=[:file:]&sd=1&cs=1&min=&max=&pf=&df=&t=a&o=rd&mh=[:num:]&af=1</urlnosize>
     <match>(:ftp\://.*/[:file:]:)</match>
 </ftpsearch>

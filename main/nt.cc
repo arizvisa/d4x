@@ -13,6 +13,8 @@
 #include <sys/file.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/resource.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -123,6 +125,12 @@ void test_segments(){
 };
 
 int main(int argc,char **argv) {
+	struct rlimit rl;
+	getrlimit(RLIMIT_FSIZE,&rl);
+	if (rl.rlim_cur<rl.rlim_max){
+		rl.rlim_cur=rl.rlim_max;
+		setrlimit(RLIMIT_FSIZE,&rl);
+	};
 #ifdef ENABLE_NLS
 	bindtextdomain("d4x", LOCALEDIR);
 	bind_textdomain_codeset (PACKAGE, "UTF-8");

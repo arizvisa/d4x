@@ -219,7 +219,7 @@ void init_about_window(...) {
 	gtk_window_set_transient_for (GTK_WINDOW (AboutWindow), GTK_WINDOW (MainWindow));
 //	gtk_widget_show(AboutWindow);
 	gtk_widget_set_sensitive(MainWindow,FALSE);
-	gtk_timeout_add (80, about_window_change_names , scroll_window);
+	g_timeout_add (80, about_window_change_names , scroll_window);
 };
 
 /* ------------------------------------------------------------

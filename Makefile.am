@@ -7,7 +7,7 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS         = DOC intl main po share
 
 # Extra files/dirs to be included in distribution
-EXTRA_DIST      = admin/config.rpath  admin/config.rpath              \
+EXTRA_DIST      = admin/config.rpath admin/mkinstalldirs  admin/config.rpath  admin/config.rpath              \
                   admin/mkinstalldirs             \
                   admin/strip.awk                 \
                   admin/Makefile.addons           \

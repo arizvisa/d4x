@@ -496,6 +496,8 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 };
 
 static void aeditor_select_mode(GtkWidget *widget,MyGtkAEditor *editor){
+	aeditor_select_mode_int(editor,gtk_combo_box_get_active(GTK_COMBO_BOX(widget)));
+/*	
 	GSList *group=gtk_radio_menu_item_get_group((GtkRadioMenuItem *)widget);
 	int i=0;
 	while(group && !((GtkCheckMenuItem *)(group->data))->active){
@@ -504,12 +506,20 @@ static void aeditor_select_mode(GtkWidget *widget,MyGtkAEditor *editor){
 	};
 	i=SACT_LAST-i-1;
 	aeditor_select_mode_int(editor,i);
+*/
 };
 
 static GtkWidget *my_option_menu (char *labels[],
 				  gint num_items,
 				  gint active,
 				  gpointer data){
+	GtkWidget *combo_box = gtk_combo_box_new_text ();
+	for (int i=0;i<num_items;i++){
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combo_box), _(labels[i]));
+	};
+	g_signal_connect(G_OBJECT(combo_box),"changed",(GtkSignalFunc)aeditor_select_mode,data);
+	return(combo_box);
+/*	
 	GtkWidget *omenu;
 	GtkWidget *menu;
 	GtkWidget *menu_item;
@@ -538,6 +548,7 @@ static GtkWidget *my_option_menu (char *labels[],
 	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), active);
 
 	return omenu;
+*/
 };
 
 static void my_gtk_aeditor_destroy(GtkObject *widget){
@@ -732,7 +743,7 @@ static void my_gtk_aeditor_init(MyGtkAEditor *editor){
 	GtkWidget *tmpvbox=gtk_vbox_new(FALSE,5);
 
 	editor->calendar=gtk_calendar_new();
-	gtk_calendar_display_options(GTK_CALENDAR(editor->calendar),
+	gtk_calendar_set_display_options(GTK_CALENDAR(editor->calendar),
 				     GtkCalendarDisplayOptions(
 				     GTK_CALENDAR_WEEK_START_MONDAY |
 				     GTK_CALENDAR_SHOW_DAY_NAMES|
@@ -857,7 +868,8 @@ GtkWidget *my_gtk_aeditor_new(d4xSchedAction *action){
 		};
 		
 		editor->action=action;
-		gtk_option_menu_set_history (GTK_OPTION_MENU (editor->omenu),action->type());
+//		gtk_option_menu_set_history (GTK_OPTION_MENU (editor->omenu),action->type());
+		gtk_combo_box_set_active(GTK_COMBO_BOX(editor->omenu),action->type());
 		aeditor_select_mode_int(editor,action->type());
 	}else{
 		time_t now=time((time_t*)NULL);
@@ -871,7 +883,8 @@ GtkWidget *my_gtk_aeditor_new(d4xSchedAction *action){
 		text_to_combo(editor->sec,data);
 		gtk_calendar_select_month(GTK_CALENDAR(editor->calendar),date.tm_mon,date.tm_year+1900);
 		gtk_calendar_select_day(GTK_CALENDAR(editor->calendar),date.tm_mday);
-		aeditor_select_mode_int(editor,0);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(editor->omenu),0);
+//		aeditor_select_mode_int(editor,0);
 		if (editor->action && editor->action->type()==SACT_SET_SPEED){
 			d4xSASpeed *act=(d4xSASpeed *)(editor->action);
 			if (act->speed==1)

@@ -474,8 +474,9 @@ fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team
 	LOG->log_printf(LOG_WARNING,"loading end. loaded %ll bytes",DSize);
 	if (Status) return DSize;
-	if (analize_ctrl(1,&FTP_READ_OK) &&  (len==0 || llen))
-		return(RVALUE_UNSPEC_ERR);
+	analize_ctrl(1,&FTP_READ_OK);
+//	if (analize_ctrl(1,&FTP_READ_OK) &&  (len==0 || llen))
+//		return(RVALUE_UNSPEC_ERR);
 	return DSize;
 };
 

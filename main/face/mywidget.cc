@@ -106,12 +106,12 @@ static void my_gtk_filesel_class_init(MyGtkFileselClass *klass){
 
 static void my_gtk_filesel_init(MyGtkFilesel *filesel){
 	filesel->browser=(GtkWidget *)NULL;
-	filesel->combo=gtk_combo_new();
+	filesel->combo=gtk_combo_box_entry_new_text();
 	filesel->only_dirs=0;
 	filesel->modal=(GtkWindow *)NULL;
 	GtkWidget *button=gtk_button_new_with_label(_("Browse"));
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(my_gtk_filesel_init_browser),filesel);
-	gtk_combo_set_case_sensitive(GTK_COMBO(filesel->combo),TRUE);
+//	gtk_combo_set_case_sensitive(GTK_COMBO(filesel->combo),TRUE);
 	gtk_box_set_spacing(GTK_BOX(filesel),5);
 	gtk_box_pack_start(GTK_BOX(filesel),filesel->combo,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(filesel),button,FALSE,FALSE,0);
@@ -136,11 +136,14 @@ guint my_gtk_filesel_get_type(){
 
 GtkWidget *my_gtk_filesel_new(tHistory *history){
 	MyGtkFilesel *filesel=(MyGtkFilesel *)g_object_new(my_gtk_filesel_get_type(),NULL);
+	history_to_combo_box_entry(history,filesel->combo);
+/*	
 	GList *list=make_glist_from_mylist(history);
 	if (list){
 		gtk_combo_set_popdown_strings (GTK_COMBO (filesel->combo), list);
 		g_list_free(list);
 	};
+*/
 	return GTK_WIDGET(filesel);
 };
 
@@ -366,7 +369,13 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_container_add(GTK_CONTAINER(align),label);
 	gtk_table_attach(GTK_TABLE(table),align,0,1,0,1,
 			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
-	
+
+	edit->proto=gtk_combo_box_entry_new_text();
+	set_editable_for_combo(edit->proto,FALSE);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (edit->proto),get_name_by_proto(D_PROTO_FTP));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (edit->proto),get_name_by_proto(D_PROTO_HTTP));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (edit->proto),"");
+/*	
 	edit->proto=gtk_combo_new();
 	GList *list=(GList*)NULL;
 	list = g_list_append (list, get_name_by_proto(D_PROTO_FTP));
@@ -375,6 +384,8 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_combo_set_popdown_strings (GTK_COMBO (edit->proto), list);
 	g_list_free(list);
 	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(edit->proto)->entry),FALSE);
+*/
+	
 	text_to_combo(edit->proto,"");
 	gtk_table_attach_defaults(GTK_TABLE(table),edit->proto,1,2,0,1);
 	
@@ -420,8 +431,6 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_table_attach(GTK_TABLE(table),align,0,1,5,6,
 			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
 	
-	edit->tag=gtk_combo_new();
-	list=(GList*)NULL;
 	char *tags[]={"",
 		      "a",
 		      "applet",
@@ -456,13 +465,21 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 		      "sound",
 		      "span"
 	};
+	/*
+	list=(GList*)NULL;
+	edit->tag=gtk_combo_new();
 	for (unsigned int i=0;i<sizeof(tags)/sizeof(char*);i++)
 		list = g_list_append (list, tags[i]);
 	gtk_combo_set_popdown_strings (GTK_COMBO (edit->tag), list);
 	g_list_free(list);
 	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(edit->tag)->entry),FALSE);
+	*/
+	edit->tag=gtk_combo_box_entry_new_text();
+	for (unsigned int i=0;i<sizeof(tags)/sizeof(char*);i++)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (edit->tag),tags[i]);
+	set_editable_for_combo(edit->tag,FALSE);
 	gtk_table_attach_defaults(GTK_TABLE(table),edit->tag,1,2,5,6);
-
+		
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	edit->include=gtk_radio_button_new_with_label((GSList *)NULL,
 						      _("include"));
@@ -1288,7 +1305,7 @@ static void _alt_proxy_toggle_(GtkWidget *parent,d4xAltEdit *where) {
 
 static void _alt_proxy_toggle_pass_(GtkWidget *parent,d4xAltEdit *where) {
 	set_editable_for_combo(where->proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
-	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(where->proxy_user)->entry),GTK_TOGGLE_BUTTON(parent)->active);
+	set_editable_for_combo(where->proxy_user,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->proxy_user,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(where->proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
 };
@@ -1345,7 +1362,7 @@ static void d4x_alt_edit_init(d4xAltEdit *sel){
 	sel->proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
 	text_to_combo(sel->proxy_host,"");
 	sel->proxy_port=my_gtk_entry_new_with_max_length(5,0);
-	g_signal_connect (G_OBJECT (GTK_COMBO(sel->proxy_host)->entry),
+	g_signal_connect (G_OBJECT (GTK_BIN(sel->proxy_host)->child),
 			  "changed",
 			  G_CALLBACK(_alt_proxy_host_changed_), sel);
 	gtk_box_pack_start(GTK_BOX(vboxproxy),sel->proxy_host,TRUE,FALSE,0);

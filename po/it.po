@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-31 20:10+0800\n"
+"POT-Creation-Date: 2004-05-26 02:23+0800\n"
 "PO-Revision-Date: 2003-01-22 23:23+0100\n"
 "Last-Translator: m4rt <m4rt@libero.it>\n"
 "Language-Team: italiano <it@li.org>\n"
@@ -402,47 +402,47 @@ msgstr "Il file locale sembra essere uguale a quello remoto"
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Non riesco a cancellare un file che ho appena creato. Strano..."
 
-#: main/dlist.cc:1421 main/dlist.cc:1660
+#: main/dlist.cc:1421 main/dlist.cc:1673
 msgid "File not found"
 msgstr "File non trovato"
 
 # dlist.cc
-#: main/dlist.cc:1494
+#: main/dlist.cc:1495
 msgid "Sorting started"
 msgstr "Inizio ordinamento"
 
-#: main/dlist.cc:1497
+#: main/dlist.cc:1498
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Eseguo Ping (tentativo %i di %i)"
 
-#: main/dlist.cc:1525
+#: main/dlist.cc:1526
 msgid "Trying to determine filesizes"
 msgstr "Tentativo di determinare le dimensioni dei file"
 
 # dlist.cc
-#: main/dlist.cc:1572
+#: main/dlist.cc:1579
 msgid "Searching failed"
 msgstr "Ricerca fallita"
 
 # dlist.cc:
-#: main/dlist.cc:1623
+#: main/dlist.cc:1636
 msgid "Search had been completed!"
 msgstr "Ricerca completata!"
 
-#: main/dlist.cc:1629
+#: main/dlist.cc:1642
 msgid "Was Started!"
 msgstr "Inizio!"
 
-#: main/dlist.cc:1638
+#: main/dlist.cc:1651
 msgid "It is a link and we already load it"
 msgstr "E' un collegamento, e l'ho gia' caricato"
 
-#: main/dlist.cc:1665
+#: main/dlist.cc:1678
 msgid "Trying to work without CWD"
 msgstr "Provo a procedere senza CWD"
 
-#: main/dlist.cc:1797
+#: main/dlist.cc:1810
 msgid "Can't split file to specified number of parts!"
 msgstr "Non posso suddividere il file nel numero specificato di parti!"
 
@@ -510,93 +510,93 @@ msgstr "Non mostrare piu' questo avviso"
 msgid "Add new download"
 msgstr "Aggiungi nuovo scaricamento"
 
-#: main/face/addd.cc:184
+#: main/face/addd.cc:184 main/face/dndtrash.cc:612
 msgid "Automated adding"
 msgstr "Aggiunta automatica"
 
-#: main/face/buttons.cc:51
+#: main/face/buttons.cc:53
 msgid " Add new download "
 msgstr " Aggiungi un nuovo scaricamento "
 
-#: main/face/buttons.cc:52
+#: main/face/buttons.cc:54
 msgid " Paste from clipboard "
 msgstr " Preleva dalla clipboard "
 
-#: main/face/buttons.cc:53
+#: main/face/buttons.cc:55
 msgid " Del downloads "
 msgstr " Elimina scaricamenti selezionati"
 
-#: main/face/buttons.cc:54
+#: main/face/buttons.cc:56
 msgid " Stop downloads "
 msgstr " Interrompi scaricamenti "
 
-#: main/face/buttons.cc:55
+#: main/face/buttons.cc:57
 msgid " Continue/restart downloads "
 msgstr " Continua/ricomincia scaricamento "
 
-#: main/face/buttons.cc:56
+#: main/face/buttons.cc:58
 msgid " Del Completed downloads "
 msgstr " Elimina scaricamenti completati "
 
-#: main/face/buttons.cc:57
+#: main/face/buttons.cc:59
 msgid " Move up "
 msgstr " Sposta su"
 
-#: main/face/buttons.cc:58
+#: main/face/buttons.cc:60
 msgid " Move down "
 msgstr " Sposta giu' "
 
-#: main/face/buttons.cc:59
+#: main/face/buttons.cc:61
 msgid " View log "
 msgstr " Visualizza Registro "
 
-#: main/face/buttons.cc:60 main/face/buttons.cc:253
+#: main/face/buttons.cc:62 main/face/buttons.cc:256
 msgid " Speed level one "
 msgstr " Livello di velocita' 1 (bassa)"
 
-#: main/face/buttons.cc:61 main/face/buttons.cc:257
+#: main/face/buttons.cc:63 main/face/buttons.cc:259
 msgid " Speed level two "
 msgstr " Livello di velocita' 2 (media)"
 
-#: main/face/buttons.cc:62
+#: main/face/buttons.cc:64
 msgid " Unlimited speed "
 msgstr " Velocita' illimitata "
 
-#: main/face/buttons.cc:63
+#: main/face/buttons.cc:65
 msgid " Options "
 msgstr " Opzioni "
 
-#: main/face/buttons.cc:64
+#: main/face/buttons.cc:66
 msgid " Delete all downloads "
 msgstr " Elimina tutti gli scaricamenti "
 
 # face/buttons.cc:
-#: main/face/buttons.cc:65
+#: main/face/buttons.cc:67
 msgid " Save list "
 msgstr " Salva Lista "
 
-#: main/face/buttons.cc:66
+#: main/face/buttons.cc:68
 msgid " Load list "
 msgstr "Carica Lista"
 
 # face/buttons.cc:
-#: main/face/buttons.cc:67
+#: main/face/buttons.cc:69
 msgid " DnD basket "
 msgstr " Recipiente D-n-D "
 
-#: main/face/buttons.cc:68
+#: main/face/buttons.cc:70
 msgid " Switch percentage mode to"
 msgstr "Cambia modalità percentuale a"
 
-#: main/face/buttons.cc:69
+#: main/face/buttons.cc:71
 msgid " Configure buttons "
 msgstr " Configura pulsanti "
 
-#: main/face/buttons.cc:242
+#: main/face/buttons.cc:245
 msgid "Delete ALL downloads?"
 msgstr "Cancellare TUTTI gli scaricamenti?"
 
-#: main/face/buttons.cc:242
+#: main/face/buttons.cc:245
 msgid "Delete all?"
 msgstr "Cancellare tutto?"
 
@@ -654,8 +654,8 @@ msgstr "numero di tentativi"
 msgid "description"
 msgstr "descrizione"
 
-#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1064
-#: main/face/mywidget.cc:1323
+#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1081
+#: main/face/mywidget.cc:1340
 msgid "URL"
 msgstr "URL"
 
@@ -663,75 +663,74 @@ msgstr "URL"
 msgid "Showed columns"
 msgstr "colonne mostrate"
 
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:46
-msgid "/New Download"
-msgstr "/Nuovo scaricamento"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:47
-msgid "/Paste Download"
-msgstr "/Incolla scaricamento"
-
-#: main/face/dndtrash.cc:48
-msgid "/Automated adding"
-msgstr "/Aggiunta automatica"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:49
-msgid "/Delete completed"
-msgstr "/Elimina i completati"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:50
-msgid "/General options"
-msgstr "/Opzioni comuni"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:51
-msgid "/Speed"
-msgstr "/Velocita'"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:52
-msgid "/Speed/Low"
-msgstr "/Velocita'/Bassa"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:53
-msgid "/Speed/Medium"
-msgstr "/Velocita'/Media"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:54
-msgid "/Speed/Unlimited"
-msgstr "/Velocita'/Illimitata"
-
-# face/dndtrash.cc
-#: main/face/dndtrash.cc:55
-msgid "/Exit"
-msgstr "/Esci"
-
 # face/buttons.cc:
-#: main/face/dndtrash.cc:403
+#: main/face/dndtrash.cc:393
 msgid "DnD basket"
 msgstr " Recipiente D-n-D "
 
 # face/dndtrash.cc:
-#: main/face/dndtrash.cc:533
+#: main/face/dndtrash.cc:523
 msgid "Drop link here"
 msgstr "Rilascia QUI il link."
 
-#: main/face/edit.cc:65 main/face/edit.cc:477
+#: main/face/dndtrash.cc:609 main/face/list.cc:486 main/face/lod.cc:52
+msgid "Speed"
+msgstr "Velocita'"
+
+# face/dndtrash.cc
+#: main/face/dndtrash.cc:610
+#, fuzzy
+msgid "New Download"
+msgstr "/Nuovo scaricamento"
+
+# face/dndtrash.cc
+#: main/face/dndtrash.cc:611
+#, fuzzy
+msgid "Paste Download"
+msgstr "/Incolla scaricamento"
+
+#: main/face/dndtrash.cc:613 main/face/lmenu.cc:180
+msgid "Delete completed"
+msgstr "Elimina completati"
+
+# face/dndtrash.cc
+#: main/face/dndtrash.cc:614
+#, fuzzy
+msgid "General options"
+msgstr "/Opzioni comuni"
+
+# face/dndtrash.cc
+#: main/face/dndtrash.cc:615
+#, fuzzy
+msgid "Exit"
+msgstr "/Esci"
+
+# face/limface.cc:
+#: main/face/dndtrash.cc:618
+#, fuzzy
+msgid "Low"
+msgstr "Adesso"
+
+#: main/face/dndtrash.cc:619
+#, fuzzy
+msgid "Medium"
+msgstr "media"
+
+#: main/face/dndtrash.cc:620
+#, fuzzy
+msgid "Unlimited"
+msgstr "illimitata"
+
+#: main/face/edit.cc:65 main/face/edit.cc:464
 msgid "Use password for this site"
 msgstr "Usa codice d'accesso per questo sito"
 
-#: main/face/edit.cc:66 main/face/edit.cc:444
+#: main/face/edit.cc:66 main/face/edit.cc:431
 msgid "Save download to folder"
 msgstr "Salva il file da scaricare nella directory:"
 
 # face/edit.cc
-#: main/face/edit.cc:67 main/face/edit.cc:504
+#: main/face/edit.cc:67 main/face/edit.cc:491
 msgid "Restart this download from begining"
 msgstr "Ricomincia questo scaricamento dall'inizio"
 
@@ -756,47 +755,47 @@ msgstr "Intervallo prima di riconnettersi"
 msgid "Rollback after reconnecting"
 msgstr "Rilettura margine di sicurezza alla riconnessione"
 
-#: main/face/edit.cc:73 main/face/edit.cc:576 main/face/prefs.cc:241
+#: main/face/edit.cc:73 main/face/edit.cc:563 main/face/prefs.cc:241
 msgid "Get date from the server"
 msgstr "Acquisisci la data dal server"
 
-#: main/face/edit.cc:74 main/face/edit.cc:580 main/face/prefs.cc:245
+#: main/face/edit.cc:74 main/face/edit.cc:567 main/face/prefs.cc:245
 msgid "Retry if resuming is not supported"
 msgstr "Ricomincia se non si puo' riprendere lo scaricamento"
 
 # face/edit.cc:
-#: main/face/edit.cc:75 main/face/edit.cc:571
+#: main/face/edit.cc:75 main/face/edit.cc:558
 msgid "Number of parts for spliting this download"
 msgstr "Numero di parti in cui suddividere lo scaricamento"
 
-#: main/face/edit.cc:76 main/face/edit.cc:618 main/face/prefs.cc:346
+#: main/face/edit.cc:76 main/face/edit.cc:605 main/face/prefs.cc:346
 msgid "Use passive mode for FTP"
 msgstr "Usa modalita' passiva per ftp"
 
-#: main/face/edit.cc:77 main/face/edit.cc:624 main/face/prefs.cc:354
+#: main/face/edit.cc:77 main/face/edit.cc:611 main/face/prefs.cc:354
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "Acquisisci i permessi del file dal server (solo FTP)"
 
 # face/prefs.cc, face/edit.cc
-#: main/face/edit.cc:78 main/face/edit.cc:621 main/face/prefs.cc:350
+#: main/face/edit.cc:78 main/face/edit.cc:608 main/face/prefs.cc:350
 msgid "Don't send QUIT command (FTP)"
 msgstr "Non inviare il comando QUIT (FTP)"
 
-#: main/face/edit.cc:79 main/face/edit.cc:639 main/face/prefs.cc:370
+#: main/face/edit.cc:79 main/face/edit.cc:626 main/face/prefs.cc:370
 msgid "Put directories on the top of queue during recursion"
 msgstr "Metti le directory in cima alla coda durante la ricorsione"
 
 # face/prefs.cc
-#: main/face/edit.cc:80 main/face/edit.cc:588 main/face/prefs.cc:261
+#: main/face/edit.cc:80 main/face/edit.cc:575 main/face/prefs.cc:261
 msgid "Compare date/time of remote file with local one"
 msgstr "Confronta la data del file remoto con uno locale"
 
 # face/edit.cc
-#: main/face/edit.cc:81 main/face/edit.cc:584 main/face/prefs.cc:249
+#: main/face/edit.cc:81 main/face/edit.cc:571 main/face/prefs.cc:249
 msgid "Sleep before completing"
 msgstr "Pausa prima di completare"
 
-#: main/face/edit.cc:82 main/face/edit.cc:627 main/face/prefs.cc:358
+#: main/face/edit.cc:82 main/face/edit.cc:614 main/face/prefs.cc:358
 msgid "Follow symbolic links"
 msgstr "Segui i link simbolici"
 
@@ -809,237 +808,237 @@ msgid "Depth of recursing for HTTP"
 msgstr "Livelli ricorsione HTTP"
 
 # face/edit.cc:
-#: main/face/edit.cc:85 main/face/edit.cc:667 main/face/prefs.cc:448
+#: main/face/edit.cc:85 main/face/edit.cc:654 main/face/prefs.cc:448
 msgid "Only subdirs"
 msgstr "Solo sottodirectory"
 
 # face/edit.cc
-#: main/face/edit.cc:86 main/face/edit.cc:668 main/face/prefs.cc:449
+#: main/face/edit.cc:86 main/face/edit.cc:655 main/face/prefs.cc:449
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "Consenti alla ricorsione HTTP di allontanarsi dal server iniziale"
 
-#: main/face/edit.cc:87 main/face/edit.cc:669 main/face/prefs.cc:450
+#: main/face/edit.cc:87 main/face/edit.cc:656 main/face/prefs.cc:450
 msgid "Change links in HTML file to local"
 msgstr "Cambia i link di un HTML da remoti a locali"
 
-#: main/face/edit.cc:88 main/face/edit.cc:670 main/face/prefs.cc:451
+#: main/face/edit.cc:88 main/face/edit.cc:657 main/face/prefs.cc:451
 msgid "Ignore ETag field in reply"
 msgstr "Ignora il campo ETag nella risposta"
 
-#: main/face/edit.cc:89 main/face/edit.cc:671
+#: main/face/edit.cc:89 main/face/edit.cc:658
 msgid "Use '_' instead of '?' in stored filenames"
 msgstr "Usa '_' invece di '?' nei nomi di file salvati"
 
-#: main/face/edit.cc:90 main/face/edit.cc:697 main/face/prefs.cc:469
+#: main/face/edit.cc:90 main/face/edit.cc:684 main/face/prefs.cc:469
 msgid "User-Agent"
 msgstr "User-Agent"
 
-#: main/face/edit.cc:91 main/face/edit.cc:706
+#: main/face/edit.cc:91 main/face/edit.cc:693
 msgid "Referer"
 msgstr "Riferimento"
 
-#: main/face/edit.cc:92 main/face/edit.cc:717
+#: main/face/edit.cc:92 main/face/edit.cc:704
 msgid "Cookie"
 msgstr ""
 
-#: main/face/edit.cc:93 main/face/edit.cc:822 main/face/edit.cc:825
+#: main/face/edit.cc:93 main/face/edit.cc:809 main/face/edit.cc:812
 #: main/face/prefs.cc:505 main/face/prefs.cc:1285 main/face/prefs.cc:1419
 msgid "Proxy"
 msgstr "Proxy"
 
-#: main/face/edit.cc:94 main/face/edit.cc:740 main/face/edit.cc:783
+#: main/face/edit.cc:94 main/face/edit.cc:727 main/face/edit.cc:770
 #: main/face/fsched.cc:203 main/face/lod.cc:53
 msgid "Time"
 msgstr "Tempo"
 
-#: main/face/edit.cc:195 main/face/edit.cc:214
+#: main/face/edit.cc:182 main/face/edit.cc:201
 msgid "Edit download"
 msgstr "Modifica scaricamento"
 
 # face/lod.cc
-#: main/face/edit.cc:443 main/face/lod.cc:57
+#: main/face/edit.cc:430 main/face/lod.cc:57
 msgid "Description"
 msgstr "Descrizione"
 
-#: main/face/edit.cc:445
+#: main/face/edit.cc:432
 msgid "Save download to file"
 msgstr "Salva il file da scaricare come:"
 
-#: main/face/edit.cc:446 main/face/edit.cc:1598 main/face/edit.cc:1659
-#: main/face/edit.cc:1696 main/face/mywidget.cc:1379
+#: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
+#: main/face/edit.cc:1683 main/face/mywidget.cc:1396
 msgid "password"
 msgstr "codice d'accesso"
 
-#: main/face/edit.cc:447
+#: main/face/edit.cc:434
 msgid "user name"
 msgstr "nome utente"
 
 # face/edit.cc:
-#: main/face/edit.cc:450
+#: main/face/edit.cc:437
 msgid "Default"
 msgstr "Standard"
 
-#: main/face/edit.cc:460
+#: main/face/edit.cc:447
 msgid "CP1251->UTF8"
 msgstr ""
 
-#: main/face/edit.cc:496
+#: main/face/edit.cc:483
 msgid "Connections limit:"
 msgstr "Limiti connessioni:"
 
 # face/edit.cc:
-#: main/face/edit.cc:503 main/face/prefs.cc:257
+#: main/face/edit.cc:490 main/face/prefs.cc:257
 msgid "Pause this just after adding"
 msgstr "Metti in pausa subito dopo l'inserimento"
 
-#: main/face/edit.cc:509
+#: main/face/edit.cc:496
 msgid "Add to top of queue"
 msgstr "Aggiungi in cima alla coda"
 
-#: main/face/edit.cc:522 main/face/lod.cc:291 main/face/prefs.cc:239
+#: main/face/edit.cc:509 main/face/lod.cc:291 main/face/prefs.cc:239
 #: main/face/prefs.cc:1276 main/face/prefs.cc:1361
 msgid "Download"
 msgstr "Scaricamento"
 
-#: main/face/edit.cc:525 main/face/prefs.cc:717 main/face/prefs.cc:1267
+#: main/face/edit.cc:512 main/face/prefs.cc:717 main/face/prefs.cc:1267
 #: main/face/prefs.cc:1521
 msgid "Main"
 msgstr "Principale"
 
-#: main/face/edit.cc:541 main/face/prefs.cc:298
+#: main/face/edit.cc:528 main/face/prefs.cc:298
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "Tempo massimo di attesa per la lettura dal socket (in secondi)"
 
-#: main/face/edit.cc:547 main/face/prefs.cc:304
+#: main/face/edit.cc:534 main/face/prefs.cc:304
 msgid "Timeout before reconnection (in seconds)"
 msgstr "Tempo di attesa per la riconnessione (in secondi)"
 
-#: main/face/edit.cc:553 main/face/prefs.cc:310
+#: main/face/edit.cc:540 main/face/prefs.cc:310
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "Numero massimo di tentativi (0 = illimitato)"
 
 # face/refs.cc:
-#: main/face/edit.cc:559 main/face/prefs.cc:316
+#: main/face/edit.cc:546 main/face/prefs.cc:316
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "Margine di sicurezza da riscaricare alla riconnessione (byte)"
 
 # face/edit.cc
-#: main/face/edit.cc:565 main/face/prefs.cc:322
+#: main/face/edit.cc:552 main/face/prefs.cc:322
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "Limite di velocita' in byte/s (0 = illimitata)"
 
-#: main/face/edit.cc:592
+#: main/face/edit.cc:579
 msgid "Save log to file"
 msgstr "Salva il registro principale nel file:"
 
-#: main/face/edit.cc:601
+#: main/face/edit.cc:588
 msgid "Auto"
 msgstr ""
 
-#: main/face/edit.cc:608 main/face/edit.cc:611
+#: main/face/edit.cc:595 main/face/edit.cc:598
 msgid "Common"
 msgstr "Comuni"
 
-#: main/face/edit.cc:631 main/face/prefs.cc:362
+#: main/face/edit.cc:618 main/face/prefs.cc:362
 msgid "Load links as links"
 msgstr "Scarica i link come link"
 
 # face/saveload.cc
-#: main/face/edit.cc:635 main/face/prefs.cc:366
+#: main/face/edit.cc:622 main/face/prefs.cc:366
 msgid "Load links as file"
 msgstr "Scarica i link come file"
 
-#: main/face/edit.cc:645 main/face/edit.cc:662 main/face/prefs.cc:376
+#: main/face/edit.cc:632 main/face/edit.cc:649 main/face/prefs.cc:376
 #: main/face/prefs.cc:463
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "Profondita' di ricorsione (0 illimitato, 1 nessuna ricorsione)"
 
-#: main/face/edit.cc:688 main/face/prefs.cc:492
+#: main/face/edit.cc:675 main/face/prefs.cc:492
 msgid "Filter"
 msgstr "Filtro"
 
 # face/mywidget.cc:
-#: main/face/edit.cc:689 main/face/lod.cc:927 main/face/mywidget.cc:247
+#: main/face/edit.cc:676 main/face/lod.cc:927 main/face/mywidget.cc:250
 #: main/face/prefs.cc:493
 msgid "Select"
 msgstr "Seleziona"
 
-#: main/face/edit.cc:754
+#: main/face/edit.cc:741
 msgid "Hours"
 msgstr "Ore"
 
-#: main/face/edit.cc:762
+#: main/face/edit.cc:749
 msgid "Minutes"
 msgstr "Minuti"
 
-#: main/face/edit.cc:775
+#: main/face/edit.cc:762
 msgid "Start this downloading at:"
 msgstr "Comincia lo scaricamento il:"
 
-#: main/face/edit.cc:835
+#: main/face/edit.cc:822
 msgid "Use default settings"
 msgstr "Utilizzo la configurazione di base"
 
-#: main/face/edit.cc:1532
+#: main/face/edit.cc:1519
 msgid "FTP proxy type"
 msgstr "Tipo di proxy FTP"
 
-#: main/face/edit.cc:1543 main/face/mywidget.cc:1329
+#: main/face/edit.cc:1530 main/face/mywidget.cc:1346
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1556
+#: main/face/edit.cc:1543
 msgid "Use this proxy for FTP"
 msgstr "Usa questo proxy per FTP"
 
-#: main/face/edit.cc:1571 main/face/edit.cc:1633 main/face/edit.cc:1679
-#: main/face/mywidget.cc:1352
+#: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
+#: main/face/mywidget.cc:1369
 msgid "port"
 msgstr "porta"
 
-#: main/face/edit.cc:1577 main/face/edit.cc:1638 main/face/mywidget.cc:1358
+#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1375
 msgid "need password"
 msgstr "necessita di codice d'accesso"
 
-#: main/face/edit.cc:1585 main/face/edit.cc:1646 main/face/edit.cc:1690
-#: main/face/mywidget.cc:1365
+#: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
+#: main/face/mywidget.cc:1382
 msgid "username"
 msgstr "nome utente"
 
 # face/lod.cc
-#: main/face/edit.cc:1612
+#: main/face/edit.cc:1599
 msgid "Don't get from cache"
 msgstr "Non leggere dalla cache"
 
-#: main/face/edit.cc:1618
+#: main/face/edit.cc:1605
 msgid "Use this proxy for HTTP"
 msgstr "Usa questo proxy per HTTP"
 
-#: main/face/edit.cc:1666
+#: main/face/edit.cc:1653
 msgid "Use SOCKS5 proxy"
 msgstr "Usa il proxy SOCKS5"
 
-#: main/face/edit.cc:1672
+#: main/face/edit.cc:1659
 msgid "host"
 msgstr ""
 
-#: main/face/edit.cc:2052
+#: main/face/edit.cc:2039
 msgid "Select properties"
 msgstr "Seleziona proprieta'"
 
-#: main/face/edit.cc:2097
+#: main/face/edit.cc:2084
 msgid "Unselect all"
 msgstr "Deseleziona tutto"
 
-#: main/face/edit.cc:2103
+#: main/face/edit.cc:2090
 msgid "Select all"
 msgstr "Seleziona tutto"
 
-#: main/face/filtrgui.cc:164 main/face/mywidget.cc:891
+#: main/face/filtrgui.cc:164 main/face/mywidget.cc:908
 msgid "filter name"
 msgstr "nome del filtro"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1267
+#: main/face/filtrgui.cc:187 main/face/list.cc:1299
 msgid "Filters"
 msgstr "Filtri"
 
@@ -1092,7 +1091,7 @@ msgstr "Salva lista"
 msgid "execute command"
 msgstr "esegui comando"
 
-#: main/face/fsched.cc:203 main/face/fsched.cc:773
+#: main/face/fsched.cc:203 main/face/fsched.cc:784
 msgid "Action"
 msgstr "Azioni"
 
@@ -1100,7 +1099,7 @@ msgstr "Azioni"
 msgid "Info"
 msgstr "Informazioni"
 
-#: main/face/fsched.cc:239 main/face/list.cc:1268
+#: main/face/fsched.cc:239 main/face/list.cc:1300
 msgid "Scheduler"
 msgstr "Tempo"
 
@@ -1124,27 +1123,28 @@ msgstr "Percorso:"
 msgid "This action has no properties"
 msgstr "Questa azione non ha opzioni"
 
-#: main/face/fsched.cc:718
+#: main/face/fsched.cc:729
 msgid "Start time(hour:min:sec)"
 msgstr "Ora di avvio(ore:min:sec)"
 
-#: main/face/fsched.cc:745
+#: main/face/fsched.cc:756
 msgid "Retry this action"
 msgstr "riprova questa azione"
 
-#: main/face/fsched.cc:753
+#: main/face/fsched.cc:764
 msgid "times to repeat (-1 unlimited)"
 msgstr "Numero massimo di tentativi (-1 = illimitato)"
 
-#: main/face/fsched.cc:757
+#: main/face/fsched.cc:768
 msgid "period (day/hour:min)"
 msgstr "periodo (giorni/ore:minuti)"
 
-#: main/face/fsched.cc:781 main/face/lmenu.cc:130 main/mainlog.cc:202
+#: main/face/fsched.cc:792 main/face/lmenu.cc:130 main/face/qtree.cc:492
+#: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Proprieta'"
 
-#: main/face/fsched.cc:801
+#: main/face/fsched.cc:812
 msgid "Edit scheduled action"
 msgstr "Modifica l'azione programmata"
 
@@ -1202,256 +1202,251 @@ msgstr ""
 msgid "Url"
 msgstr ""
 
-#: main/face/list.cc:168
-msgid "/_File"
+#: main/face/list.cc:482
+#, fuzzy
+msgid "_File"
 msgstr "/_File"
 
-#: main/face/list.cc:169
-msgid "/File/_Save List"
-msgstr "/File/_Salva Lista"
-
-#: main/face/list.cc:170
-msgid "/File/_Load List"
-msgstr "/File/_Carica Lista"
-
-# face/list.cc:
-#: main/face/list.cc:171
-msgid "/File/Find links in file"
-msgstr "/File/Estrai collegamenti da file"
-
-#: main/face/list.cc:172
-msgid "/File/_New Download"
-msgstr "/File/_Nuovo scaricamento"
-
-#: main/face/list.cc:173
-msgid "/File/_Paste Download"
-msgstr "/File/_Incolla scaricamento"
-
-#: main/face/list.cc:174
-msgid "/File/_Automated adding"
-msgstr "/File/_Aggiunta automatica"
-
-#: main/face/list.cc:175
-msgid "/File/Exit"
-msgstr "/File/Uscita"
-
-#: main/face/list.cc:176
-msgid "/File/sep1"
-msgstr "/File/sep1"
-
-#: main/face/list.cc:177
-msgid "/_Download"
+#: main/face/list.cc:483
+#, fuzzy
+msgid "_Download"
 msgstr "/_Scaricamento"
 
-#: main/face/list.cc:178
-msgid "/Download/View _Log"
-msgstr "/Scaricamento/Visualizza _Registro"
-
-#: main/face/list.cc:179
-msgid "/Download/_Stop downloads"
-msgstr "/Scaricamento/_Ferma scaricamento"
-
-#: main/face/list.cc:180
-msgid "/Download/Edit download"
-msgstr "/Scaricamento/Modifica scaricamento"
-
-#: main/face/list.cc:181
-msgid "/Download/_Delete downloads"
-msgstr "/Scaricamento/_Cancella scaricamento"
-
-#: main/face/list.cc:182
-msgid "/Download/Continue downloads"
-msgstr "/Scaricamento/Continua _Scaricamento"
-
-#: main/face/list.cc:183
-msgid "/Download/Delete completed"
-msgstr "/Scaricamento/Elimina scaricamenti completati"
-
-#: main/face/list.cc:184
-msgid "/Download/Delete failed"
-msgstr "/Scaricamento/Elimina scaricamenti falliti"
-
-#: main/face/list.cc:185
-msgid "/Download/Rerun failed"
-msgstr "/Scaricamento/Riavvia scaricamenti falliti"
-
-# face/list.cc
-#: main/face/list.cc:186
-msgid "/Download/(Un)Protect"
-msgstr "/Scaricamento/Proteggi-Sproteggi"
-
-# face/list.cc
-#: main/face/list.cc:187
-msgid "/Download/Unselect all"
-msgstr "/Scaricamento/Deseleziona tutti"
-
-# face/list.cc:
-#: main/face/list.cc:188
-msgid "/Download/Select all"
-msgstr "/Scaricamento/Seleziona tutti"
-
-# face/list.cc
-#: main/face/list.cc:189
-msgid "/Download/Invert selection"
-msgstr "/Scaricamento/Inverti selezione"
-
-# face/list.cc
-#: main/face/list.cc:190
-msgid "/Download/-"
-msgstr "/Scaricamento/-"
-
-#: main/face/list.cc:191
-msgid "/_Queue"
+#: main/face/list.cc:484
+#, fuzzy
+msgid "_Queue"
 msgstr "/_Coda"
 
-#: main/face/list.cc:192
-msgid "/Queue/Create new queue"
-msgstr "/Coda/Crea una nuova coda"
-
-#: main/face/list.cc:193
-msgid "/Queue/Create new subqueue"
-msgstr "/Coda/Crea una nuova sottocoda"
-
-#: main/face/list.cc:194
-msgid "/Queue/Remove this queue"
-msgstr "/Coda/Rimuovi coda"
-
-#: main/face/list.cc:195
-msgid "/Queue/Properties"
-msgstr "/Coda/Proprieta' coda"
-
-#: main/face/list.cc:196
-msgid "/_Options"
+#: main/face/list.cc:485
+#, fuzzy
+msgid "_Options"
 msgstr "/_Opzioni"
 
-# face/list.cc
-#: main/face/list.cc:197
-msgid "/Options/Scheduler"
-msgstr "/Opzioni/Tempo"
-
-#: main/face/list.cc:198
-msgid "/Options/URL-manager"
-msgstr "/Opzioni/_Gestione URL"
-
-#: main/face/list.cc:199
-msgid "/Options/General"
-msgstr "/Opzioni/_Comuni"
-
-#: main/face/list.cc:200
-msgid "/Options/Filters"
-msgstr "/Opzioni/_Filtri"
-
-# face/list.cc
-#: main/face/list.cc:201
-msgid "/Options/Speed"
-msgstr "/Opzioni/Velocita'"
-
-# face/list.cc
-#: main/face/list.cc:202
-msgid "/Options/Speed/Low"
-msgstr "/Opzioni/Velocita'/Bassa"
-
-# face/list.cc
-#: main/face/list.cc:203
-msgid "/Options/Speed/Medium"
-msgstr "/Opzioni/Velocita'/Media"
-
-# face/list.cc
-#: main/face/list.cc:204
-msgid "/Options/Speed/Unlimited"
-msgstr "/Opzioni/Velocita'/Illimitata"
-
-# face/list.cc
-#: main/face/list.cc:205
-msgid "/Options/Buttons"
-msgstr "/Opzioni/Bottoni"
-
-# face/list.cc
-#: main/face/list.cc:206
-msgid "/Options/Buttons/Add buttons"
-msgstr "/Opzioni/Bottoni/Bottoni d'inserimento"
-
-# face/list.cc
-#: main/face/list.cc:207
-msgid "/Options/Buttons/Manipulating"
-msgstr "/Opzioni/Bottoni/Bottoni di manipolazione"
-
-# face/list.cc
-#: main/face/list.cc:208
-msgid "/Options/Buttons/Speed buttons"
-msgstr "/Opzioni/Bottoni/Bottoni delle velocita'"
-
-# face/list.cc
-#: main/face/list.cc:209
-msgid "/Options/Buttons/Misc buttons"
-msgstr "/Opzioni/Bottoni/Bottoni vari"
-
-#: main/face/list.cc:210
-msgid "/_Help"
+#: main/face/list.cc:487
+#, fuzzy
+msgid "_Help"
 msgstr "/_Aiuto"
 
-#: main/face/list.cc:211
-msgid "/_Help/About"
-msgstr "/Aiuto/_Versione..."
+#: main/face/list.cc:488
+#, fuzzy
+msgid "_Save List"
+msgstr "Salva lista"
 
-#: main/face/list.cc:834
+#: main/face/list.cc:489
+#, fuzzy
+msgid "_Load List"
+msgstr "Carica Lista"
+
+# face/saveload.cc
+#: main/face/list.cc:490
+#, fuzzy
+msgid "_Find links in file"
+msgstr "Estrai collegamenti da file di testo"
+
+# face/dndtrash.cc
+#: main/face/list.cc:491
+#, fuzzy
+msgid "_New Download"
+msgstr "/Nuovo scaricamento"
+
+# face/dndtrash.cc
+#: main/face/list.cc:492
+#, fuzzy
+msgid "_Paste Download"
+msgstr "/Incolla scaricamento"
+
+#: main/face/list.cc:493
+#, fuzzy
+msgid "_Automated adding"
+msgstr "Aggiunta automatica"
+
+# face/dndtrash.cc
+#: main/face/list.cc:494
+#, fuzzy
+msgid "_Exit"
+msgstr "/Esci"
+
+#: main/face/list.cc:495
+#, fuzzy
+msgid "_View Log"
+msgstr "Visualizza registro"
+
+#: main/face/list.cc:496
+#, fuzzy
+msgid "_Stop downloads"
+msgstr " Interrompi scaricamenti "
+
+#: main/face/list.cc:497
+#, fuzzy
+msgid "_Edit downloads"
+msgstr "Modifica scaricamento"
+
+#: main/face/list.cc:498
+#, fuzzy
+msgid "_Delete downloads"
+msgstr "Elimina selezionati"
+
+#: main/face/list.cc:499
+#, fuzzy
+msgid "_Continue downloads"
+msgstr "Riprendi selezionati"
+
+#: main/face/list.cc:500
+#, fuzzy
+msgid "Delete Completed"
+msgstr "Elimina completati"
+
+#: main/face/list.cc:501
+#, fuzzy
+msgid "Delete _Failed"
+msgstr "Elimina non riusciti"
+
+# dlist.cc
+#: main/face/list.cc:502
+#, fuzzy
+msgid "_Rerun failed"
+msgstr "Ricerca fallita"
+
+#: main/face/list.cc:503 main/face/lmenu.cc:159
+msgid "(Un)Protect"
+msgstr "Proteggi/Sproteggi"
+
+#: main/face/list.cc:504
+#, fuzzy
+msgid "_Unselect All"
+msgstr "Deseleziona tutto"
+
+#: main/face/list.cc:505
+#, fuzzy
+msgid "Select _All"
+msgstr "Seleziona tutto"
+
+# face/list.cc
+#: main/face/list.cc:506
+#, fuzzy
+msgid "_Invert selection"
+msgstr "/Scaricamento/Inverti selezione"
+
+#: main/face/list.cc:507
+#, fuzzy
+msgid "_Create new queue"
+msgstr "Crea una nuova coda"
+
+#: main/face/list.cc:508
+#, fuzzy
+msgid "Create new _Subqueue"
+msgstr "/Crea una nuova sottocoda"
+
+#: main/face/list.cc:509
+#, fuzzy
+msgid "_Remove this queue"
+msgstr "/Coda/Rimuovi coda"
+
+#: main/face/list.cc:510
+#, fuzzy
+msgid "_Properties"
+msgstr "Proprieta'"
+
+#: main/face/list.cc:511
+#, fuzzy
+msgid "_Scheduler"
+msgstr "Tempo"
+
+#: main/face/list.cc:512
+#, fuzzy
+msgid "_URL-manager"
+msgstr "Gestione URL"
+
+#: main/face/list.cc:513
+msgid "_General"
+msgstr ""
+
+#: main/face/list.cc:514
+#, fuzzy
+msgid "_Filters"
+msgstr "Filtri"
+
+#: main/face/list.cc:515
+msgid "_Buttons"
+msgstr ""
+
+#: main/face/list.cc:516
+#, fuzzy
+msgid "_About"
+msgstr "Informazioni"
+
+#: main/face/list.cc:519
+msgid "_Low"
+msgstr ""
+
+#: main/face/list.cc:520
+#, fuzzy
+msgid "_Medium"
+msgstr "media"
+
+#: main/face/list.cc:521
+#, fuzzy
+msgid "_Unlimited"
+msgstr "illimitata"
+
+#: main/face/list.cc:866
 msgid "Do you really want to quit?"
 msgstr "Vuoi veramente uscire?"
 
-#: main/face/list.cc:834
+#: main/face/list.cc:866
 msgid "Quit?"
 msgstr "Abbandonare?"
 
-#: main/face/list.cc:863
+#: main/face/list.cc:895
 msgid "Delete selected downloads?"
 msgstr "Cancellare gli scaricamenti selezionati?"
 
-#: main/face/list.cc:863 main/face/list.cc:881 main/face/list.cc:899
+#: main/face/list.cc:895 main/face/list.cc:913 main/face/list.cc:931
 msgid "Delete?"
 msgstr "Eliminare?"
 
-#: main/face/list.cc:881
+#: main/face/list.cc:913
 msgid "Do you wish delete completed downloads?"
 msgstr "Vuoi cancellare gli scaricamenti completi?"
 
-#: main/face/list.cc:899
+#: main/face/list.cc:931
 msgid "Do you wish delete failed downloads?"
 msgstr "Vuoi cancellare gli scaricamenti non riusciti?"
 
-#: main/face/list.cc:946
+#: main/face/list.cc:978
 msgid "Ready to go ????"
 msgstr "Pronto a partire ???"
 
-#: main/face/list.cc:1263 main/face/list.cc:1520
+#: main/face/list.cc:1295 main/face/list.cc:1560
 #, fuzzy
 msgid "Downloads"
 msgstr "Scaricamento"
 
 # prefs.cc:
-#: main/face/list.cc:1264 main/face/list.cc:1312 main/face/prefs.cc:627
+#: main/face/list.cc:1296 main/face/list.cc:1344 main/face/prefs.cc:627
 #: main/face/prefs.cc:1270 main/face/prefs.cc:1531
 msgid "Main log"
 msgstr "Log principale"
 
-#: main/face/list.cc:1265 main/face/passface.cc:428
+#: main/face/list.cc:1297 main/face/passface.cc:428
 msgid "URL-manager"
 msgstr "Gestione URL"
 
-#: main/face/list.cc:1266 main/face/list.cc:1326
+#: main/face/list.cc:1298 main/face/list.cc:1358
 #, fuzzy
 msgid "FTP-search"
 msgstr "Ricerca FTP"
 
-#: main/face/list.cc:1330
+#: main/face/list.cc:1362
 #, fuzzy
 msgid "Filename:"
 msgstr "nome del file"
 
-#: main/face/list.cc:1542
+#: main/face/list.cc:1582
 msgid "Offline/Online"
 msgstr ""
 
-#: main/face/list.cc:1659
+#: main/face/list.cc:1699
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-attivi %i-completi %i-totale "
@@ -1472,10 +1467,6 @@ msgstr "Riprendi selezionati"
 msgid "Copy"
 msgstr "Copia"
 
-#: main/face/lmenu.cc:159
-msgid "(Un)Protect"
-msgstr "Proteggi/Sproteggi"
-
 # face/lmenu.cc
 #: main/face/lmenu.cc:168
 msgid "Common properties"
@@ -1484,10 +1475,6 @@ msgstr "Proprieta' in comune"
 #: main/face/lmenu.cc:174
 msgid "Delete downloads"
 msgstr "Elimina selezionati"
-
-#: main/face/lmenu.cc:180
-msgid "Delete completed"
-msgstr "Elimina completati"
 
 #: main/face/lmenu.cc:186
 msgid "Delete failed"
@@ -1510,7 +1497,7 @@ msgstr "nome del filtro"
 msgid "FTP search"
 msgstr "Ricerca FTP"
 
-#: main/face/lod.cc:46 main/face/mywidget.cc:399 main/face/mywidget.cc:747
+#: main/face/lod.cc:46 main/face/mywidget.cc:410 main/face/mywidget.cc:764
 msgid "File"
 msgstr "File"
 
@@ -1530,10 +1517,6 @@ msgstr "Scaricato"
 #: main/face/lod.cc:50
 msgid "Rest"
 msgstr "Resto"
-
-#: main/face/lod.cc:52
-msgid "Speed"
-msgstr "Velocita'"
 
 #: main/face/lod.cc:54
 msgid "Remaining"
@@ -1568,7 +1551,7 @@ msgstr "stato"
 msgid "Row number %i [log of %s]"
 msgstr "Riga numero %i [log di %s]"
 
-#: main/face/log.cc:448
+#: main/face/log.cc:441
 msgid "Log: "
 msgstr "Registro: "
 
@@ -1577,80 +1560,80 @@ msgid "Select directory"
 msgstr "Selezione directory"
 
 # face/mywidget.cc:
-#: main/face/mywidget.cc:205
+#: main/face/mywidget.cc:208
 msgid "Select color"
 msgstr "Seleziona colore"
 
-#: main/face/mywidget.cc:352
+#: main/face/mywidget.cc:355
 msgid "Edit properties of Rule"
 msgstr "Modifica le proprieta' delle regole"
 
 # face/passwords.cc
-#: main/face/mywidget.cc:364 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:367 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Protocol"
 msgstr "protocollo"
 
-#: main/face/mywidget.cc:381 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:392 main/face/mywidget.cc:764
 msgid "Host"
 msgstr "Host"
 
-#: main/face/mywidget.cc:390 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:401 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Path"
 msgstr "Percorso:"
 
-#: main/face/mywidget.cc:408
+#: main/face/mywidget.cc:419
 msgid "?"
 msgstr ""
 
-#: main/face/mywidget.cc:417 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:428 main/face/mywidget.cc:764
 msgid "Tag"
 msgstr ""
 
-#: main/face/mywidget.cc:468
+#: main/face/mywidget.cc:485
 msgid "include"
 msgstr "includi"
 
-#: main/face/mywidget.cc:470
+#: main/face/mywidget.cc:487
 msgid "exclude"
 msgstr "escludi"
 
-#: main/face/mywidget.cc:739
+#: main/face/mywidget.cc:756
 msgid "Modify filter"
 msgstr "Modifica filtro"
 
-#: main/face/mywidget.cc:781
+#: main/face/mywidget.cc:798
 msgid "include by default"
 msgstr "includi come predefinito"
 
 # face/prefs.cc
-#: main/face/mywidget.cc:783
+#: main/face/mywidget.cc:800
 msgid "exclude by default"
 msgstr "escludi come predefinito"
 
-#: main/face/mywidget.cc:788
+#: main/face/mywidget.cc:805
 msgid "Name of filter"
 msgstr "tipo di file"
 
-#: main/face/mywidget.cc:882
+#: main/face/mywidget.cc:899
 msgid "Select filter"
 msgstr "Seleziona filtro"
 
-#: main/face/mywidget.cc:1055
+#: main/face/mywidget.cc:1072
 msgid "List of links"
 msgstr "Lista dei link"
 
-#: main/face/mywidget.cc:1127
+#: main/face/mywidget.cc:1144
 msgid "Add"
 msgstr "Aggiungi"
 
-#: main/face/mywidget.cc:1326
+#: main/face/mywidget.cc:1343
 #, fuzzy
 msgid "proxy type"
 msgstr "Tipo di proxy FTP"
 
-#: main/face/mywidget.cc:1341
+#: main/face/mywidget.cc:1358
 msgid "Use different proxy for this alternate"
 msgstr ""
 
@@ -2018,62 +2001,56 @@ msgstr "Nome"
 msgid "Options"
 msgstr "Opzioni"
 
-#: main/face/qtree.cc:113
+#: main/face/qtree.cc:110 main/face/qtree.cc:489
 msgid "Create new queue"
 msgstr "Crea una nuova coda"
 
-#: main/face/qtree.cc:479 main/face/qtree.cc:485
-msgid "/Create new queue"
-msgstr "/Crea una nuova coda"
-
-#: main/face/qtree.cc:480
-msgid "/Create new subqueue"
+#: main/face/qtree.cc:490
+#, fuzzy
+msgid "Create new subqueue"
 msgstr "/Crea una nuova sottocoda"
 
 # face/dndtrash.cc
-#: main/face/qtree.cc:481
-msgid "/Delete queue"
+#: main/face/qtree.cc:491
+#, fuzzy
+msgid "Delete queue"
 msgstr "/Elimina i completati"
 
-#: main/face/qtree.cc:482
-msgid "/Properties"
-msgstr "Proprieta'"
-
-#: main/face/qtree.cc:580
+#: main/face/qtree.cc:589
 msgid "Queue properties"
 msgstr "Proprieta' coda"
 
-#: main/face/qtree.cc:591
+#: main/face/qtree.cc:600
 msgid "Maximum active downloads"
 msgstr "Numero massimo di scaricamenti attivi"
 
-#: main/face/qtree.cc:595
+#: main/face/qtree.cc:604
 msgid "Automatically delete completed downloads"
 msgstr "Cancella automaticamente gli scaricamenti completati"
 
-#: main/face/qtree.cc:596
+#: main/face/qtree.cc:605
 msgid "Automatically delete failed downloads"
 msgstr "Cancella automaticamente gli scaricamenti falliti"
 
 # main.cc
-#: main/face/qtree.cc:606
+#: main/face/qtree.cc:615
 msgid "Default folder to save downloaded files"
 msgstr "Cartella predefinita per il salvataggio dei file"
 
-#: main/face/qtree.cc:613
+#: main/face/qtree.cc:622
 msgid "Size format"
 msgstr "Formato della dimensione"
 
-#: main/face/qtree.cc:614
+#: main/face/qtree.cc:623
 msgid "Time format"
 msgstr "Formato del tempo"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:624
 #, fuzzy
 msgid "Speed format"
 msgstr "Formato della dimensione"
 
-#: main/face/qtree.cc:699
+#: main/face/qtree.cc:708
 msgid "Name of the queue"
 msgstr "Nome della coda"
 
@@ -2091,7 +2068,7 @@ msgid "Load list"
 msgstr "Carica Lista"
 
 # face/saveload.cc
-#: main/face/saveload.cc:222
+#: main/face/saveload.cc:223
 msgid "Find links in txt file"
 msgstr "Estrai collegamenti da file di testo"
 
@@ -2466,27 +2443,27 @@ msgstr "Aggiunto lo scaricamento del file %s da %s [dall'utente]"
 msgid "Downloader is in offline mode now"
 msgstr ""
 
-#: main/main.cc:1750
+#: main/main.cc:1754
 msgid "Offline mode is turned off"
 msgstr ""
 
 # main.cc
-#: main/main.cc:1781
+#: main/main.cc:1785
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu byte scaricati nel corso di questa sessione"
 
 # main.cc:
-#: main/main.cc:1782
+#: main/main.cc:1786
 msgid "Downloader exited normaly"
 msgstr "Downloader terminato normalmente"
 
-#: main/main.cc:1822
+#: main/main.cc:1826
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Non riesco ad aprire il file '%s' per salvare il registro"
 
-#: main/main.cc:1853
+#: main/main.cc:1857
 msgid "Such protocol is not supported!"
 msgstr "Questo protocollo non e' supportato!"
 
@@ -2523,13 +2500,13 @@ msgstr "Non riesco ad aprire il file per salvare il registro"
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "BUG: Metodo di ricerca errato!\n"
 
-#: main/nt.cc:148
+#: main/nt.cc:156
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "ATTENZIONE!!! Non rilevata la variabile HOME! Non posso leggere la "
 "configurazione!"
 
-#: main/nt.cc:164
+#: main/nt.cc:172
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s probabilmente e' gia' in esecuzione\n"
@@ -2574,6 +2551,161 @@ msgstr "media"
 #: main/var.cc:102
 msgid "unlimited"
 msgstr "illimitata"
+
+#~ msgid "/Automated adding"
+#~ msgstr "/Aggiunta automatica"
+
+# face/dndtrash.cc
+#~ msgid "/Delete completed"
+#~ msgstr "/Elimina i completati"
+
+# face/dndtrash.cc
+#~ msgid "/Speed"
+#~ msgstr "/Velocita'"
+
+# face/dndtrash.cc
+#~ msgid "/Speed/Low"
+#~ msgstr "/Velocita'/Bassa"
+
+# face/dndtrash.cc
+#~ msgid "/Speed/Medium"
+#~ msgstr "/Velocita'/Media"
+
+# face/dndtrash.cc
+#~ msgid "/Speed/Unlimited"
+#~ msgstr "/Velocita'/Illimitata"
+
+#~ msgid "/File/_Save List"
+#~ msgstr "/File/_Salva Lista"
+
+#~ msgid "/File/_Load List"
+#~ msgstr "/File/_Carica Lista"
+
+# face/list.cc:
+#~ msgid "/File/Find links in file"
+#~ msgstr "/File/Estrai collegamenti da file"
+
+#~ msgid "/File/_New Download"
+#~ msgstr "/File/_Nuovo scaricamento"
+
+#~ msgid "/File/_Paste Download"
+#~ msgstr "/File/_Incolla scaricamento"
+
+#~ msgid "/File/_Automated adding"
+#~ msgstr "/File/_Aggiunta automatica"
+
+#~ msgid "/File/Exit"
+#~ msgstr "/File/Uscita"
+
+#~ msgid "/File/sep1"
+#~ msgstr "/File/sep1"
+
+#~ msgid "/Download/View _Log"
+#~ msgstr "/Scaricamento/Visualizza _Registro"
+
+#~ msgid "/Download/_Stop downloads"
+#~ msgstr "/Scaricamento/_Ferma scaricamento"
+
+#~ msgid "/Download/Edit download"
+#~ msgstr "/Scaricamento/Modifica scaricamento"
+
+#~ msgid "/Download/_Delete downloads"
+#~ msgstr "/Scaricamento/_Cancella scaricamento"
+
+#~ msgid "/Download/Continue downloads"
+#~ msgstr "/Scaricamento/Continua _Scaricamento"
+
+#~ msgid "/Download/Delete completed"
+#~ msgstr "/Scaricamento/Elimina scaricamenti completati"
+
+#~ msgid "/Download/Delete failed"
+#~ msgstr "/Scaricamento/Elimina scaricamenti falliti"
+
+#~ msgid "/Download/Rerun failed"
+#~ msgstr "/Scaricamento/Riavvia scaricamenti falliti"
+
+# face/list.cc
+#~ msgid "/Download/(Un)Protect"
+#~ msgstr "/Scaricamento/Proteggi-Sproteggi"
+
+# face/list.cc
+#~ msgid "/Download/Unselect all"
+#~ msgstr "/Scaricamento/Deseleziona tutti"
+
+# face/list.cc:
+#~ msgid "/Download/Select all"
+#~ msgstr "/Scaricamento/Seleziona tutti"
+
+# face/list.cc
+#~ msgid "/Download/-"
+#~ msgstr "/Scaricamento/-"
+
+#~ msgid "/Queue/Create new queue"
+#~ msgstr "/Coda/Crea una nuova coda"
+
+#~ msgid "/Queue/Create new subqueue"
+#~ msgstr "/Coda/Crea una nuova sottocoda"
+
+#~ msgid "/Queue/Properties"
+#~ msgstr "/Coda/Proprieta' coda"
+
+# face/list.cc
+#~ msgid "/Options/Scheduler"
+#~ msgstr "/Opzioni/Tempo"
+
+#~ msgid "/Options/URL-manager"
+#~ msgstr "/Opzioni/_Gestione URL"
+
+#~ msgid "/Options/General"
+#~ msgstr "/Opzioni/_Comuni"
+
+#~ msgid "/Options/Filters"
+#~ msgstr "/Opzioni/_Filtri"
+
+# face/list.cc
+#~ msgid "/Options/Speed"
+#~ msgstr "/Opzioni/Velocita'"
+
+# face/list.cc
+#~ msgid "/Options/Speed/Low"
+#~ msgstr "/Opzioni/Velocita'/Bassa"
+
+# face/list.cc
+#~ msgid "/Options/Speed/Medium"
+#~ msgstr "/Opzioni/Velocita'/Media"
+
+# face/list.cc
+#~ msgid "/Options/Speed/Unlimited"
+#~ msgstr "/Opzioni/Velocita'/Illimitata"
+
+# face/list.cc
+#~ msgid "/Options/Buttons"
+#~ msgstr "/Opzioni/Bottoni"
+
+# face/list.cc
+#~ msgid "/Options/Buttons/Add buttons"
+#~ msgstr "/Opzioni/Bottoni/Bottoni d'inserimento"
+
+# face/list.cc
+#~ msgid "/Options/Buttons/Manipulating"
+#~ msgstr "/Opzioni/Bottoni/Bottoni di manipolazione"
+
+# face/list.cc
+#~ msgid "/Options/Buttons/Speed buttons"
+#~ msgstr "/Opzioni/Bottoni/Bottoni delle velocita'"
+
+# face/list.cc
+#~ msgid "/Options/Buttons/Misc buttons"
+#~ msgstr "/Opzioni/Bottoni/Bottoni vari"
+
+#~ msgid "/_Help/About"
+#~ msgstr "/Aiuto/_Versione..."
+
+#~ msgid "/Create new queue"
+#~ msgstr "/Crea una nuova coda"
+
+#~ msgid "/Properties"
+#~ msgstr "Proprieta'"
 
 #~ msgid "path"
 #~ msgstr "percorso:"
@@ -2709,10 +2841,6 @@ msgstr "illimitata"
 
 #~ msgid "Limitations for the hosts"
 #~ msgstr "Limiti per i server"
-
-# face/limface.cc:
-#~ msgid "Now"
-#~ msgstr "Adesso"
 
 # face/limface.cc
 #~ msgid "Default limitation for all hosts (0 without limits)"

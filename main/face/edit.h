@@ -119,6 +119,7 @@ public:
 void init_edit_window(tDownload *what);
 void init_edit_window_without_ok(tDownload *what,int flag=0);
 GList *make_glist_from_mylist(tHistory *parent);
+void history_to_combo_box_entry(tHistory *history,GtkWidget *combo);
 GtkWidget *my_gtk_combo_new(tHistory *history);
 void select_options_window_init();
 

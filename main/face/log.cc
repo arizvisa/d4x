@@ -240,53 +240,45 @@ static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log
 	if (event && event->type == GDK_KEY_PRESS) {
 		GdkEventKey *kevent=(GdkEventKey *)event;
 		tLogWindow *wnd=(tLogWindow *)log->Window;
-		int num=0;
+		int num=-1;
 		if (kevent->state & GDK_CONTROL_MASK){
 			switch(kevent->keyval) {
 			case GDK_1:
-				num=1;
+				num=0;
 				break;
 			case GDK_2:
-				num=2;
+				num=1;
 				break;
 			case GDK_3:
-				num=3;
+				num=2;
 				break;
 			case GDK_4:
-				num=4;
+				num=3;
 				break;
 			case GDK_5:
-				num=5;
+				num=4;
 				break;
 			case GDK_6:
-				num=6;
+				num=5;
 				break;
 			case GDK_7:
-				num=7;
+				num=6;
 				break;
 			case GDK_8:
-				num=8;
+				num=7;
 				break;
 			case GDK_9:
-				num=9;
+				num=8;
 				break;
 			case GDK_0:
-				num=10;
+				num=9;
 				break;
 			};
 		};
-		if (num && wnd->toolbar){
-			GList *list=GTK_TOOLBAR(wnd->toolbar)->children;
-			int a=1;
-			while (list && num>a){
-				list=list->next;
-				a++;
-			};
-			if (list){
-				GtkToolbarChild *chld=(GtkToolbarChild*)list->data;
-				if (GTK_IS_BUTTON(chld->widget))
-					g_signal_emit_by_name(G_OBJECT(chld->widget),"clicked",num);
-			};
+		gint max=gtk_toolbar_get_n_items(GTK_TOOLBAR(wnd->toolbar));
+		if (num>=0 && num<max-1 && wnd->toolbar){
+			GtkToolItem *item=gtk_toolbar_get_nth_item(GTK_TOOLBAR(wnd->toolbar),num);
+			gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(item),TRUE);
 		};
 		if (kevent->keyval==GDK_Escape){
 //			g_signal_emit_by_name(G_OBJECT(window),"delete_event");
@@ -313,7 +305,8 @@ void log_window_set_split_info(tDownload *what){
 				sprintf(text," %lli-%lli (%lli)",begin,size,loaded);
 			else
 				sprintf(text," %lli-%lli (not active)",begin,size);
-			gtk_label_set_text(GTK_LABEL(temp->label),text);
+			gtk_tool_button_set_label(GTK_TOOL_BUTTON(temp->label),text);
+//			gtk_label_set_text(GTK_LABEL(temp->label),text);
 		};
 	};
 };
@@ -326,7 +319,7 @@ gint log_window_button(GtkWidget *button,int a){
 		withlog=withlog->split->next_part;
 	};
 	if (what->split==NULL){
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
+		gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
 		return FALSE;
 	};
 	if (withlog==NULL || withlog->LOG->Window==NULL)
@@ -367,7 +360,7 @@ gint log_window_button(GtkWidget *button,int a){
 		log_window_set_split_info(temp->papa);
 	};
 	if (forlog==NULL || forlog->LOG==NULL){
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
+		gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
 		what->LOG->last_log=1;
 	};
 	return TRUE;
@@ -476,24 +469,29 @@ void log_window_init(tDownload *what) {
 			gtk_toolbar_set_orientation(GTK_TOOLBAR(buttonsbar),GTK_ORIENTATION_HORIZONTAL);
 			gtk_toolbar_set_style(GTK_TOOLBAR(buttonsbar),GTK_TOOLBAR_TEXT);
 			GtkWidget *tmpbutton=NULL;
+			GSList *group=NULL;
 			for (int i=1;i<=what->split->NumOfParts;i++){
 				char data[MAX_LEN];
 				char tip[MAX_LEN];
 				g_snprintf(data,MAX_LEN," %i ",i);
 				g_snprintf(tip,MAX_LEN,"Ctrl+%i",i);
-				tmpbutton=gtk_toolbar_append_element (GTK_TOOLBAR (buttonsbar),
-								      GTK_TOOLBAR_CHILD_RADIOBUTTON,
-								      (GtkWidget *)tmpbutton,
-								      data,tip,"",NULL,
-								      G_CALLBACK (log_window_button),
-								      GINT_TO_POINTER(i));
+				tmpbutton = GTK_WIDGET(gtk_radio_tool_button_new(group));
+				gtk_tool_button_set_label(GTK_TOOL_BUTTON(tmpbutton),data);
+				gtk_tool_item_set_tooltip(GTK_TOOL_ITEM(tmpbutton),GTK_TOOLBAR(buttonsbar)->tooltips,tip,NULL);
+				gtk_toolbar_insert(GTK_TOOLBAR(buttonsbar),GTK_TOOL_ITEM(tmpbutton),-1);
+				g_signal_connect(G_OBJECT(tmpbutton),"clicked",G_CALLBACK(log_window_button),GINT_TO_POINTER(i));
+				group=gtk_radio_tool_button_get_group(GTK_RADIO_TOOL_BUTTON(tmpbutton));
+				
 				if (what->LOG->last_log==i){
 					temp->button=tmpbutton;
 				};
+				
 				g_object_set_data(G_OBJECT(tmpbutton),"d4x_user_data",what);
 			};
-			temp->label=gtk_label_new("");
-			gtk_toolbar_append_widget(GTK_TOOLBAR (buttonsbar),temp->label,NULL,NULL);
+			temp->label=GTK_WIDGET(gtk_tool_button_new(NULL,""));
+			gtk_toolbar_insert(GTK_TOOLBAR(buttonsbar),GTK_TOOL_ITEM(temp->label),-1);
+//			temp->label=gtk_label_new("");
+//			gtk_toolbar_append_widget(GTK_TOOLBAR (buttonsbar),temp->label,NULL,NULL);
 			GtkWidget *tmpvbox=gtk_vbox_new(FALSE,0);
 			gtk_box_pack_start(GTK_BOX(tmpvbox),buttonsbar,FALSE,FALSE,0);
 			gtk_box_pack_end(GTK_BOX(tmpvbox),swindow,TRUE,TRUE,0);
@@ -531,7 +529,7 @@ void log_window_init(tDownload *what) {
 		g_signal_emit_by_name(G_OBJECT (temp->adj), "changed");
 		if (what->LOG->last_log>1 && what->split &&
 		    what->LOG->last_log<=what->split->NumOfParts){
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
+			gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(temp->button),TRUE);
 			log_window_button(temp->button,
 					  what->LOG->last_log);
 	

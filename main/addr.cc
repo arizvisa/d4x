@@ -162,6 +162,7 @@ tAddr::tAddr() {
 };
 
 void tAddr::from_string(char *str){
+	clear();
 	char *host1=NULL,*username1=NULL,*pass1=NULL,*path1=NULL,*file1=NULL;
 	char *proto_name=NULL;
 	proto=D_PROTO_UNKNOWN;

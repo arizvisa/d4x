@@ -50,22 +50,19 @@ static gint _event_queue_(GtkWidget *widget,GdkEventButton *event,d4xQsTree *q){
 	return FALSE;
 };
 
-static void _menu_event_(d4xQsTree *qt,guint action,GtkWidget *widget){
-	switch(action){
-	case 0:
-		qt->create_init();
-		break;
-	case 1:
-		qt->create_init(1);
-		break;
-	case 2:
-		qt->delete_queue();
-		break;
-	case 3:
-		qt->prefs_init();
-		break;
-	};
+static void _menu_event_nq_(GtkAction *action,d4xQsTree *qt){
+	qt->create_init();
 };
+static void _menu_event_nsq_(GtkAction *action,d4xQsTree *qt){
+	qt->create_init(1);
+};
+static void _menu_event_remove_(GtkAction *action,d4xQsTree *qt){
+	qt->delete_queue();
+};
+static void _menu_event_props_(GtkAction *action,d4xQsTree *qt){
+	qt->prefs_init();
+};
+
 
 static void _create_cancel_(GtkButton *button,d4xQsTree *qt){
 	qt->create_cancel();
@@ -474,28 +471,40 @@ void d4xQsTree::select_row(GtkTreeIter *iter){
 	if (q) switch_to(q);
 };
 
+
 void d4xQsTree::init_menus() {
-	GtkItemFactoryEntry menu_items1[] = {
-		{_("/Create new queue"),	(gchar *)NULL,	(GtkItemFactoryCallback)_menu_event_,	0, (gchar *)NULL},
-		{_("/Create new subqueue"),	(gchar *)NULL,	(GtkItemFactoryCallback)_menu_event_,	1, (gchar *)NULL},
-		{_("/Delete queue"),		(gchar *)NULL,	(GtkItemFactoryCallback)_menu_event_,	2,(gchar *)NULL},
-		{_("/Properties"),		(gchar *)NULL,	(GtkItemFactoryCallback)_menu_event_,	3, (gchar *)NULL}
+	static char *ui_info=
+		"  <popup name='Menu1'>"
+		"     <menuitem action='create' />"
+		"     <menuitem action='createsub' />"
+		"     <menuitem action='delete' />"
+		"     <menuitem action='props' />"
+		"  </popup>"
+		"  <popup name='Menu2'>"
+		"     <menuitem action='create' />"
+		"  </popup>";
+	static GtkActionEntry entries[] = {
+		{ "Menu1", NULL, "Menu1" },
+		{ "Menu2", NULL, "Menu2" },
+		{ "create", GTK_STOCK_NEW, N_("Create new queue"), NULL, "create new queue",  G_CALLBACK(_menu_event_nq_)},
+		{ "createsub", GTK_STOCK_ADD, N_("Create new subqueue"), NULL, "create new subqueue",  G_CALLBACK(_menu_event_nsq_)},
+		{ "delete", GTK_STOCK_REMOVE, N_("Delete queue"), NULL, "delete queue",  G_CALLBACK(_menu_event_remove_)},
+		{ "props", GTK_STOCK_PREFERENCES, N_("Properties"), NULL, "modify queue's properties",  G_CALLBACK(_menu_event_props_)}
 	};
-	GtkItemFactoryEntry menu_items2[] = {
-		{_("/Create new queue"),	(gchar *)NULL,	(GtkItemFactoryCallback)_menu_event_,	0, (gchar *)NULL}
-	};
-	int nmenu_items1 = sizeof(menu_items1) / sizeof(menu_items1[0]);
-	int nmenu_items2 = sizeof(menu_items2) / sizeof(menu_items2[0]);
-
-	GtkAccelGroup *accel_group = gtk_accel_group_new();
-	GtkItemFactory *item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<main>",accel_group);
-	gtk_item_factory_create_items(item_factory, nmenu_items1, menu_items1, this);
-	menu1 = gtk_item_factory_get_widget(item_factory, "<main>");
-
-	accel_group = gtk_accel_group_new();
-	item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<main>",accel_group);
-	gtk_item_factory_create_items(item_factory, nmenu_items2, menu_items2, this);
-	menu2 = gtk_item_factory_get_widget(item_factory, "<main>");
+	GtkActionGroup *action_group = gtk_action_group_new ("QueueActions");
+	gtk_action_group_set_translate_func(action_group,d4x_menu_translate_func,NULL,NULL);
+	GtkUIManager *ui_manager=gtk_ui_manager_new ();
+	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), this);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	GError *error = NULL;
+	if (!gtk_ui_manager_add_ui_from_string (ui_manager, ui_info, -1, &error))
+	{
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+		exit (EXIT_FAILURE);
+	}
+	menu1 = gtk_ui_manager_get_widget (ui_manager,"/Menu1");
+	menu2 = gtk_ui_manager_get_widget (ui_manager,"/Menu2");
 };
 
 void d4xQsTree::popup_menu(GdkEvent *event,int selected){

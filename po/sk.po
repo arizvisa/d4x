@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d4x.sk.po \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-31 20:10+0800\n"
+"POT-Creation-Date: 2004-05-26 02:23+0800\n"
 "PO-Revision-Date: 2003-12-08 21:21+0100\n"
 "Last-Translator: Zdenko Podobný <zdpo@mailbox.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -368,44 +368,44 @@ msgstr "Zdá sa, že lokálny a vzdialený súbor sú rovnaké"
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Je to zvláštne, že nie je možné zmazať práve vytvorený súbor..."
 
-#: main/dlist.cc:1421 main/dlist.cc:1660
+#: main/dlist.cc:1421 main/dlist.cc:1673
 msgid "File not found"
 msgstr "Súbor nenájdený"
 
-#: main/dlist.cc:1494
+#: main/dlist.cc:1495
 msgid "Sorting started"
 msgstr "Spustené triedenie"
 
-#: main/dlist.cc:1497
+#: main/dlist.cc:1498
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Pingovanie (pokus %i z %i)"
 
-#: main/dlist.cc:1525
+#: main/dlist.cc:1526
 msgid "Trying to determine filesizes"
 msgstr "Pokus o zistenie veľkosti súborov"
 
-#: main/dlist.cc:1572
+#: main/dlist.cc:1579
 msgid "Searching failed"
 msgstr "Hľadanie zlyhalo"
 
-#: main/dlist.cc:1623
+#: main/dlist.cc:1636
 msgid "Search had been completed!"
 msgstr "Prehladávanie bolo dokončené!"
 
-#: main/dlist.cc:1629
+#: main/dlist.cc:1642
 msgid "Was Started!"
 msgstr "Bolo spustené!"
 
-#: main/dlist.cc:1638
+#: main/dlist.cc:1651
 msgid "It is a link and we already load it"
 msgstr "Je to odkaz a už je načítaný"
 
-#: main/dlist.cc:1665
+#: main/dlist.cc:1678
 msgid "Trying to work without CWD"
 msgstr "Pokus o prácu bez CWD"
 
-#: main/dlist.cc:1797
+#: main/dlist.cc:1810
 msgid "Can't split file to specified number of parts!"
 msgstr "Nie je možné rozdeliť súbor na určený počet častí!"
 
@@ -468,91 +468,91 @@ msgstr "Nepýtať sa v budúcnosti"
 msgid "Add new download"
 msgstr "Pridať nové sťahovanie"
 
-#: main/face/addd.cc:184
+#: main/face/addd.cc:184 main/face/dndtrash.cc:612
 msgid "Automated adding"
 msgstr "Automatické pridávanie"
 
-#: main/face/buttons.cc:51
+#: main/face/buttons.cc:53
 msgid " Add new download "
 msgstr " Pridať nové sťahovanie "
 
-#: main/face/buttons.cc:52
+#: main/face/buttons.cc:54
 msgid " Paste from clipboard "
 msgstr " Vložiť zo schránky "
 
-#: main/face/buttons.cc:53
+#: main/face/buttons.cc:55
 msgid " Del downloads "
 msgstr " Zmazať sťahovania "
 
-#: main/face/buttons.cc:54
+#: main/face/buttons.cc:56
 msgid " Stop downloads "
 msgstr " Zastaviť sťahovania "
 
-#: main/face/buttons.cc:55
+#: main/face/buttons.cc:57
 msgid " Continue/restart downloads "
 msgstr " Pokračovať/znova spustiť sťahovania "
 
-#: main/face/buttons.cc:56
+#: main/face/buttons.cc:58
 msgid " Del Completed downloads "
 msgstr " Zmazať dokončené sťahovania "
 
-#: main/face/buttons.cc:57
+#: main/face/buttons.cc:59
 msgid " Move up "
 msgstr " Posunúť hore "
 
-#: main/face/buttons.cc:58
+#: main/face/buttons.cc:60
 msgid " Move down "
 msgstr " Posunúť hore "
 
-#: main/face/buttons.cc:59
+#: main/face/buttons.cc:61
 msgid " View log "
 msgstr " Zobraziť záznam "
 
-#: main/face/buttons.cc:60 main/face/buttons.cc:253
+#: main/face/buttons.cc:62 main/face/buttons.cc:256
 msgid " Speed level one "
 msgstr " Úroveň rýchlosti jedna "
 
-#: main/face/buttons.cc:61 main/face/buttons.cc:257
+#: main/face/buttons.cc:63 main/face/buttons.cc:259
 msgid " Speed level two "
 msgstr " Úroveň rýchlosti dva "
 
-#: main/face/buttons.cc:62
+#: main/face/buttons.cc:64
 msgid " Unlimited speed "
 msgstr " Neobmedzená rýchlosť "
 
-#: main/face/buttons.cc:63
+#: main/face/buttons.cc:65
 msgid " Options "
 msgstr " Voľby "
 
-#: main/face/buttons.cc:64
+#: main/face/buttons.cc:66
 msgid " Delete all downloads "
 msgstr " Zmazať všetky sťahovania "
 
-#: main/face/buttons.cc:65
+#: main/face/buttons.cc:67
 msgid " Save list "
 msgstr " Uložiť zoznam "
 
-#: main/face/buttons.cc:66
+#: main/face/buttons.cc:68
 msgid " Load list "
 msgstr " Načítať zoznam "
 
-#: main/face/buttons.cc:67
+#: main/face/buttons.cc:69
 msgid " DnD basket "
 msgstr " PaP kôš "
 
-#: main/face/buttons.cc:68
+#: main/face/buttons.cc:70
 msgid " Switch percentage mode to"
 msgstr " Prepnutie percentuálneho módu na"
 
-#: main/face/buttons.cc:69
+#: main/face/buttons.cc:71
 msgid " Configure buttons "
 msgstr " Nastaviť tlačítka "
 
-#: main/face/buttons.cc:242
+#: main/face/buttons.cc:245
 msgid "Delete ALL downloads?"
 msgstr "Zmazať všetky sťahovania?"
 
-#: main/face/buttons.cc:242
+#: main/face/buttons.cc:245
 msgid "Delete all?"
 msgstr "Zmazať všetko?"
 
@@ -608,8 +608,8 @@ msgstr "počet pokusov"
 msgid "description"
 msgstr "popis"
 
-#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1064
-#: main/face/mywidget.cc:1323
+#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1081
+#: main/face/mywidget.cc:1340
 msgid "URL"
 msgstr "URL"
 
@@ -617,63 +617,66 @@ msgstr "URL"
 msgid "Showed columns"
 msgstr "Zobrazené stĺpce"
 
-#: main/face/dndtrash.cc:46
-msgid "/New Download"
-msgstr "/Nové sťahovanie"
-
-#: main/face/dndtrash.cc:47
-msgid "/Paste Download"
-msgstr "/Vložiť sťahovanie"
-
-#: main/face/dndtrash.cc:48
-msgid "/Automated adding"
-msgstr "/Automatické sťahovanie"
-
-#: main/face/dndtrash.cc:49
-msgid "/Delete completed"
-msgstr "/Zmazať dokončené"
-
-#: main/face/dndtrash.cc:50
-msgid "/General options"
-msgstr "/Všeobecné nastavenia"
-
-#: main/face/dndtrash.cc:51
-msgid "/Speed"
-msgstr "/Rýchlosť"
-
-#: main/face/dndtrash.cc:52
-msgid "/Speed/Low"
-msgstr "/Rýchlosť/Pomalá"
-
-#: main/face/dndtrash.cc:53
-msgid "/Speed/Medium"
-msgstr "/Rýchlosť/Stredná"
-
-#: main/face/dndtrash.cc:54
-msgid "/Speed/Unlimited"
-msgstr "/Rýchlosť/Neobmedzená"
-
-#: main/face/dndtrash.cc:55
-msgid "/Exit"
-msgstr "/Koniec"
-
-#: main/face/dndtrash.cc:403
+#: main/face/dndtrash.cc:393
 msgid "DnD basket"
 msgstr "PnP kôš"
 
-#: main/face/dndtrash.cc:533
+#: main/face/dndtrash.cc:523
 msgid "Drop link here"
 msgstr "Pustite sem odkaz"
 
-#: main/face/edit.cc:65 main/face/edit.cc:477
+#: main/face/dndtrash.cc:609 main/face/list.cc:486 main/face/lod.cc:52
+msgid "Speed"
+msgstr "Rýchlosť"
+
+#: main/face/dndtrash.cc:610
+#, fuzzy
+msgid "New Download"
+msgstr "/Nové sťahovanie"
+
+#: main/face/dndtrash.cc:611
+#, fuzzy
+msgid "Paste Download"
+msgstr "/Vložiť sťahovanie"
+
+#: main/face/dndtrash.cc:613 main/face/lmenu.cc:180
+msgid "Delete completed"
+msgstr "Zmazať dokončené"
+
+#: main/face/dndtrash.cc:614
+#, fuzzy
+msgid "General options"
+msgstr "/Všeobecné nastavenia"
+
+#: main/face/dndtrash.cc:615
+#, fuzzy
+msgid "Exit"
+msgstr "/Koniec"
+
+#: main/face/dndtrash.cc:618
+#, fuzzy
+msgid "Low"
+msgstr "nízka"
+
+#: main/face/dndtrash.cc:619
+#, fuzzy
+msgid "Medium"
+msgstr "stredná"
+
+#: main/face/dndtrash.cc:620
+#, fuzzy
+msgid "Unlimited"
+msgstr "neobmedzená"
+
+#: main/face/edit.cc:65 main/face/edit.cc:464
 msgid "Use password for this site"
 msgstr "Použiť heslo pre tento server"
 
-#: main/face/edit.cc:66 main/face/edit.cc:444
+#: main/face/edit.cc:66 main/face/edit.cc:431
 msgid "Save download to folder"
 msgstr "Uložiť sťahovanie do priečinku"
 
-#: main/face/edit.cc:67 main/face/edit.cc:504
+#: main/face/edit.cc:67 main/face/edit.cc:491
 msgid "Restart this download from begining"
 msgstr "Znovu spustiť toto sťahovanie od začiatku"
 
@@ -697,43 +700,43 @@ msgstr "Časový limit pred opätovným spojením"
 msgid "Rollback after reconnecting"
 msgstr "Návrat po opätovnom spojení"
 
-#: main/face/edit.cc:73 main/face/edit.cc:576 main/face/prefs.cc:241
+#: main/face/edit.cc:73 main/face/edit.cc:563 main/face/prefs.cc:241
 msgid "Get date from the server"
 msgstr "Prevziať dátum zo servera"
 
-#: main/face/edit.cc:74 main/face/edit.cc:580 main/face/prefs.cc:245
+#: main/face/edit.cc:74 main/face/edit.cc:567 main/face/prefs.cc:245
 msgid "Retry if resuming is not supported"
 msgstr "Opäť skúsiť, ak pokračovanie nie je podporované"
 
-#: main/face/edit.cc:75 main/face/edit.cc:571
+#: main/face/edit.cc:75 main/face/edit.cc:558
 msgid "Number of parts for spliting this download"
 msgstr "Počet častí, na ktoré a rozdelí toto sťahovanie"
 
-#: main/face/edit.cc:76 main/face/edit.cc:618 main/face/prefs.cc:346
+#: main/face/edit.cc:76 main/face/edit.cc:605 main/face/prefs.cc:346
 msgid "Use passive mode for FTP"
 msgstr "Použiť pasívny mód pre FTP"
 
-#: main/face/edit.cc:77 main/face/edit.cc:624 main/face/prefs.cc:354
+#: main/face/edit.cc:77 main/face/edit.cc:611 main/face/prefs.cc:354
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "Prevziať práva súboru zo servera (iba pre FTP)"
 
-#: main/face/edit.cc:78 main/face/edit.cc:621 main/face/prefs.cc:350
+#: main/face/edit.cc:78 main/face/edit.cc:608 main/face/prefs.cc:350
 msgid "Don't send QUIT command (FTP)"
 msgstr "Neposielať príkaz QUIT (FTP)"
 
-#: main/face/edit.cc:79 main/face/edit.cc:639 main/face/prefs.cc:370
+#: main/face/edit.cc:79 main/face/edit.cc:626 main/face/prefs.cc:370
 msgid "Put directories on the top of queue during recursion"
 msgstr "Dať priečinky na vrchol frontu počas rekurzie"
 
-#: main/face/edit.cc:80 main/face/edit.cc:588 main/face/prefs.cc:261
+#: main/face/edit.cc:80 main/face/edit.cc:575 main/face/prefs.cc:261
 msgid "Compare date/time of remote file with local one"
 msgstr "Porovnať dátum/čas vzdialeného času s lokálnym"
 
-#: main/face/edit.cc:81 main/face/edit.cc:584 main/face/prefs.cc:249
+#: main/face/edit.cc:81 main/face/edit.cc:571 main/face/prefs.cc:249
 msgid "Sleep before completing"
 msgstr "Pred dokončením uspať"
 
-#: main/face/edit.cc:82 main/face/edit.cc:627 main/face/prefs.cc:358
+#: main/face/edit.cc:82 main/face/edit.cc:614 main/face/prefs.cc:358
 msgid "Follow symbolic links"
 msgstr "Sledovať symbolické odkazy"
 
@@ -745,228 +748,228 @@ msgstr "Hĺbka rekurzie pre FTP"
 msgid "Depth of recursing for HTTP"
 msgstr "Hĺbka rekurzie pre HTTP"
 
-#: main/face/edit.cc:85 main/face/edit.cc:667 main/face/prefs.cc:448
+#: main/face/edit.cc:85 main/face/edit.cc:654 main/face/prefs.cc:448
 msgid "Only subdirs"
 msgstr "Iba podpriečinky"
 
-#: main/face/edit.cc:86 main/face/edit.cc:668 main/face/prefs.cc:449
+#: main/face/edit.cc:86 main/face/edit.cc:655 main/face/prefs.cc:449
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "Povoliť opustenie servera počas rekurzie cez HTTP"
 
-#: main/face/edit.cc:87 main/face/edit.cc:669 main/face/prefs.cc:450
+#: main/face/edit.cc:87 main/face/edit.cc:656 main/face/prefs.cc:450
 msgid "Change links in HTML file to local"
 msgstr "Zmeniť linky v HTML súbore na lokálne"
 
-#: main/face/edit.cc:88 main/face/edit.cc:670 main/face/prefs.cc:451
+#: main/face/edit.cc:88 main/face/edit.cc:657 main/face/prefs.cc:451
 msgid "Ignore ETag field in reply"
 msgstr "Ignorovať ETag políčko v odpovedi"
 
-#: main/face/edit.cc:89 main/face/edit.cc:671
+#: main/face/edit.cc:89 main/face/edit.cc:658
 msgid "Use '_' instead of '?' in stored filenames"
 msgstr "Použiť '_' namiesto '?' v názvoch súborov"
 
-#: main/face/edit.cc:90 main/face/edit.cc:697 main/face/prefs.cc:469
+#: main/face/edit.cc:90 main/face/edit.cc:684 main/face/prefs.cc:469
 msgid "User-Agent"
 msgstr "Používateľ-Agent"
 
-#: main/face/edit.cc:91 main/face/edit.cc:706
+#: main/face/edit.cc:91 main/face/edit.cc:693
 msgid "Referer"
 msgstr "Odkaz"
 
-#: main/face/edit.cc:92 main/face/edit.cc:717
+#: main/face/edit.cc:92 main/face/edit.cc:704
 msgid "Cookie"
 msgstr "Cookie"
 
-#: main/face/edit.cc:93 main/face/edit.cc:822 main/face/edit.cc:825
+#: main/face/edit.cc:93 main/face/edit.cc:809 main/face/edit.cc:812
 #: main/face/prefs.cc:505 main/face/prefs.cc:1285 main/face/prefs.cc:1419
 msgid "Proxy"
 msgstr "Proxy"
 
-#: main/face/edit.cc:94 main/face/edit.cc:740 main/face/edit.cc:783
+#: main/face/edit.cc:94 main/face/edit.cc:727 main/face/edit.cc:770
 #: main/face/fsched.cc:203 main/face/lod.cc:53
 msgid "Time"
 msgstr "Čas"
 
-#: main/face/edit.cc:195 main/face/edit.cc:214
+#: main/face/edit.cc:182 main/face/edit.cc:201
 msgid "Edit download"
 msgstr "Upraviť sťahovanie"
 
-#: main/face/edit.cc:443 main/face/lod.cc:57
+#: main/face/edit.cc:430 main/face/lod.cc:57
 msgid "Description"
 msgstr "Popis"
 
-#: main/face/edit.cc:445
+#: main/face/edit.cc:432
 msgid "Save download to file"
 msgstr "Uložiť sťahovanie do súboru"
 
-#: main/face/edit.cc:446 main/face/edit.cc:1598 main/face/edit.cc:1659
-#: main/face/edit.cc:1696 main/face/mywidget.cc:1379
+#: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
+#: main/face/edit.cc:1683 main/face/mywidget.cc:1396
 msgid "password"
 msgstr "heslo"
 
-#: main/face/edit.cc:447
+#: main/face/edit.cc:434
 msgid "user name"
 msgstr "meno používateľa"
 
-#: main/face/edit.cc:450
+#: main/face/edit.cc:437
 msgid "Default"
 msgstr "Štandard"
 
-#: main/face/edit.cc:460
+#: main/face/edit.cc:447
 msgid "CP1251->UTF8"
 msgstr "CP1251->UTF8"
 
-#: main/face/edit.cc:496
+#: main/face/edit.cc:483
 msgid "Connections limit:"
 msgstr "Limit spojení:"
 
-#: main/face/edit.cc:503 main/face/prefs.cc:257
+#: main/face/edit.cc:490 main/face/prefs.cc:257
 msgid "Pause this just after adding"
 msgstr "Prerušiť hneď po pridaní"
 
-#: main/face/edit.cc:509
+#: main/face/edit.cc:496
 msgid "Add to top of queue"
 msgstr "Pridať na vrchol frontu"
 
-#: main/face/edit.cc:522 main/face/lod.cc:291 main/face/prefs.cc:239
+#: main/face/edit.cc:509 main/face/lod.cc:291 main/face/prefs.cc:239
 #: main/face/prefs.cc:1276 main/face/prefs.cc:1361
 msgid "Download"
 msgstr "Stiahnuť"
 
-#: main/face/edit.cc:525 main/face/prefs.cc:717 main/face/prefs.cc:1267
+#: main/face/edit.cc:512 main/face/prefs.cc:717 main/face/prefs.cc:1267
 #: main/face/prefs.cc:1521
 msgid "Main"
 msgstr "Hlavné"
 
-#: main/face/edit.cc:541 main/face/prefs.cc:298
+#: main/face/edit.cc:528 main/face/prefs.cc:298
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "Časový limit pre čítanie zo soketu (v sekundách)"
 
-#: main/face/edit.cc:547 main/face/prefs.cc:304
+#: main/face/edit.cc:534 main/face/prefs.cc:304
 msgid "Timeout before reconnection (in seconds)"
 msgstr "Časový limit pre opätovným spojením (v sekundách)"
 
-#: main/face/edit.cc:553 main/face/prefs.cc:310
+#: main/face/edit.cc:540 main/face/prefs.cc:310
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "Maximum pokusov (0 pre bez obmedzenia)"
 
-#: main/face/edit.cc:559 main/face/prefs.cc:316
+#: main/face/edit.cc:546 main/face/prefs.cc:316
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "Návrat po opätovnom spojení (v bajtoch)"
 
-#: main/face/edit.cc:565 main/face/prefs.cc:322
+#: main/face/edit.cc:552 main/face/prefs.cc:322
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "Rýchlostný limit v bajtoch/sek (0 pre neobmedzený)"
 
-#: main/face/edit.cc:592
+#: main/face/edit.cc:579
 msgid "Save log to file"
 msgstr "Uložiť záznam do súboru"
 
-#: main/face/edit.cc:601
+#: main/face/edit.cc:588
 msgid "Auto"
 msgstr "Automaticky"
 
-#: main/face/edit.cc:608 main/face/edit.cc:611
+#: main/face/edit.cc:595 main/face/edit.cc:598
 msgid "Common"
 msgstr "Obvyklé"
 
-#: main/face/edit.cc:631 main/face/prefs.cc:362
+#: main/face/edit.cc:618 main/face/prefs.cc:362
 msgid "Load links as links"
 msgstr "Načítať linky ako linky"
 
-#: main/face/edit.cc:635 main/face/prefs.cc:366
+#: main/face/edit.cc:622 main/face/prefs.cc:366
 msgid "Load links as file"
 msgstr "Načítať linky ako súbor"
 
-#: main/face/edit.cc:645 main/face/edit.cc:662 main/face/prefs.cc:376
+#: main/face/edit.cc:632 main/face/edit.cc:649 main/face/prefs.cc:376
 #: main/face/prefs.cc:463
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "Hĺbka rekurzie (0 bez obmedzenia, 1 bez rekurzie)"
 
-#: main/face/edit.cc:688 main/face/prefs.cc:492
+#: main/face/edit.cc:675 main/face/prefs.cc:492
 msgid "Filter"
 msgstr "Filter"
 
-#: main/face/edit.cc:689 main/face/lod.cc:927 main/face/mywidget.cc:247
+#: main/face/edit.cc:676 main/face/lod.cc:927 main/face/mywidget.cc:250
 #: main/face/prefs.cc:493
 msgid "Select"
 msgstr "Vybrať"
 
-#: main/face/edit.cc:754
+#: main/face/edit.cc:741
 msgid "Hours"
 msgstr "Hodiny"
 
-#: main/face/edit.cc:762
+#: main/face/edit.cc:749
 msgid "Minutes"
 msgstr "Minúty"
 
-#: main/face/edit.cc:775
+#: main/face/edit.cc:762
 msgid "Start this downloading at:"
 msgstr "Spustiť toto sťahovanie o:"
 
-#: main/face/edit.cc:835
+#: main/face/edit.cc:822
 msgid "Use default settings"
 msgstr "Použiť štandardné nastavenia"
 
-#: main/face/edit.cc:1532
+#: main/face/edit.cc:1519
 msgid "FTP proxy type"
 msgstr "Typ FTP proxy"
 
-#: main/face/edit.cc:1543 main/face/mywidget.cc:1329
+#: main/face/edit.cc:1530 main/face/mywidget.cc:1346
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1556
+#: main/face/edit.cc:1543
 msgid "Use this proxy for FTP"
 msgstr "Použiť toto proxy pre FTP"
 
-#: main/face/edit.cc:1571 main/face/edit.cc:1633 main/face/edit.cc:1679
-#: main/face/mywidget.cc:1352
+#: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
+#: main/face/mywidget.cc:1369
 msgid "port"
 msgstr "port"
 
-#: main/face/edit.cc:1577 main/face/edit.cc:1638 main/face/mywidget.cc:1358
+#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1375
 msgid "need password"
 msgstr "potrebné je heslo"
 
-#: main/face/edit.cc:1585 main/face/edit.cc:1646 main/face/edit.cc:1690
-#: main/face/mywidget.cc:1365
+#: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
+#: main/face/mywidget.cc:1382
 msgid "username"
 msgstr "meno používateľa"
 
-#: main/face/edit.cc:1612
+#: main/face/edit.cc:1599
 msgid "Don't get from cache"
 msgstr "Nepreberať z cache"
 
-#: main/face/edit.cc:1618
+#: main/face/edit.cc:1605
 msgid "Use this proxy for HTTP"
 msgstr "Použiť toto proxy pre HTTP"
 
-#: main/face/edit.cc:1666
+#: main/face/edit.cc:1653
 msgid "Use SOCKS5 proxy"
 msgstr "Použiť SOCKS5 proxy"
 
-#: main/face/edit.cc:1672
+#: main/face/edit.cc:1659
 msgid "host"
 msgstr "hostiteľ "
 
-#: main/face/edit.cc:2052
+#: main/face/edit.cc:2039
 msgid "Select properties"
 msgstr "Vybrať nastavenia"
 
-#: main/face/edit.cc:2097
+#: main/face/edit.cc:2084
 msgid "Unselect all"
 msgstr "Všetko odznačiť"
 
-#: main/face/edit.cc:2103
+#: main/face/edit.cc:2090
 msgid "Select all"
 msgstr "Označiť všetko"
 
-#: main/face/filtrgui.cc:164 main/face/mywidget.cc:891
+#: main/face/filtrgui.cc:164 main/face/mywidget.cc:908
 msgid "filter name"
 msgstr "názov filtra"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1267
+#: main/face/filtrgui.cc:187 main/face/list.cc:1299
 msgid "Filters"
 msgstr "Filtre"
 
@@ -1018,7 +1021,7 @@ msgstr "uložiť zoznam"
 msgid "execute command"
 msgstr "vykonať príkaz"
 
-#: main/face/fsched.cc:203 main/face/fsched.cc:773
+#: main/face/fsched.cc:203 main/face/fsched.cc:784
 msgid "Action"
 msgstr "Akcia"
 
@@ -1026,7 +1029,7 @@ msgstr "Akcia"
 msgid "Info"
 msgstr "Info"
 
-#: main/face/fsched.cc:239 main/face/list.cc:1268
+#: main/face/fsched.cc:239 main/face/list.cc:1300
 msgid "Scheduler"
 msgstr "Rozvrh"
 
@@ -1050,27 +1053,28 @@ msgstr "Cesta:"
 msgid "This action has no properties"
 msgstr "Táto akcia nemá vlastnosti"
 
-#: main/face/fsched.cc:718
+#: main/face/fsched.cc:729
 msgid "Start time(hour:min:sec)"
 msgstr "Čas spustenia (hod:min:sek)"
 
-#: main/face/fsched.cc:745
+#: main/face/fsched.cc:756
 msgid "Retry this action"
 msgstr "Zopakovať túto akciu"
 
-#: main/face/fsched.cc:753
+#: main/face/fsched.cc:764
 msgid "times to repeat (-1 unlimited)"
 msgstr "počet opakovaní (-1 neobmedzené)"
 
-#: main/face/fsched.cc:757
+#: main/face/fsched.cc:768
 msgid "period (day/hour:min)"
 msgstr "perióda (deň/hod:min)"
 
-#: main/face/fsched.cc:781 main/face/lmenu.cc:130 main/mainlog.cc:202
+#: main/face/fsched.cc:792 main/face/lmenu.cc:130 main/face/qtree.cc:492
+#: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Nastavenia"
 
-#: main/face/fsched.cc:801
+#: main/face/fsched.cc:812
 msgid "Edit scheduled action"
 msgstr "Upraviť naplánované akcie"
 
@@ -1122,236 +1126,241 @@ msgstr "Ping"
 msgid "Url"
 msgstr "Url"
 
-#: main/face/list.cc:168
-msgid "/_File"
+#: main/face/list.cc:482
+#, fuzzy
+msgid "_File"
 msgstr "/_Súbor"
 
-#: main/face/list.cc:169
-msgid "/File/_Save List"
-msgstr "/Súbor/_Uložiť zoznam"
-
-#: main/face/list.cc:170
-msgid "/File/_Load List"
-msgstr "/Súbor/Načí_tať zoznam"
-
-#: main/face/list.cc:171
-msgid "/File/Find links in file"
-msgstr "/Súbor/Nájsť odkazy v súbore"
-
-#: main/face/list.cc:172
-msgid "/File/_New Download"
-msgstr "/Súbor/_Nové sťahovanie"
-
-#: main/face/list.cc:173
-msgid "/File/_Paste Download"
-msgstr "/Súbor/_Vložiť sťahovanie"
-
-#: main/face/list.cc:174
-msgid "/File/_Automated adding"
-msgstr "/Súbor/_Automatické pridávanie"
-
-#: main/face/list.cc:175
-msgid "/File/Exit"
-msgstr "/Súbor/Koniec"
-
-#: main/face/list.cc:176
-msgid "/File/sep1"
-msgstr "/Súbor/oddeľovač1"
-
-#: main/face/list.cc:177
-msgid "/_Download"
+#: main/face/list.cc:483
+#, fuzzy
+msgid "_Download"
 msgstr "/Sťahovanie"
 
-#: main/face/list.cc:178
-msgid "/Download/View _Log"
-msgstr "/Sťahovanie/Zobraziť záznam"
-
-#: main/face/list.cc:179
-msgid "/Download/_Stop downloads"
-msgstr "/Sťahovanie/Za_staviť sťahovania"
-
-#: main/face/list.cc:180
-msgid "/Download/Edit download"
-msgstr "/Sťahovanie/Upraviť sťahovanie"
-
-#: main/face/list.cc:181
-msgid "/Download/_Delete downloads"
-msgstr "/Sťahovanie/Zmazať sťahovania"
-
-#: main/face/list.cc:182
-msgid "/Download/Continue downloads"
-msgstr "/Sťahovanie/Pokračovať v sťahovaní"
-
-#: main/face/list.cc:183
-msgid "/Download/Delete completed"
-msgstr "/Sťahovanie/Zmazať dokončené"
-
-#: main/face/list.cc:184
-msgid "/Download/Delete failed"
-msgstr "/Sťahovanie/Zmazať neúspešné"
-
-#: main/face/list.cc:185
-msgid "/Download/Rerun failed"
-msgstr "/Sťahovanie/Znova spustiť neúspešné"
-
-#: main/face/list.cc:186
-msgid "/Download/(Un)Protect"
-msgstr "/Sťahovanie/(Ne)Chrániť"
-
-#: main/face/list.cc:187
-msgid "/Download/Unselect all"
-msgstr "/Sťahovanie/Odznačiť všetko"
-
-#: main/face/list.cc:188
-msgid "/Download/Select all"
-msgstr "/Sťahovanie/Zvoliť všetko"
-
-#: main/face/list.cc:189
-msgid "/Download/Invert selection"
-msgstr "/Sťahovanie/Invertovať výber"
-
-#: main/face/list.cc:190
-msgid "/Download/-"
-msgstr "/Sťahovanie/-"
-
-#: main/face/list.cc:191
-msgid "/_Queue"
+#: main/face/list.cc:484
+#, fuzzy
+msgid "_Queue"
 msgstr "/_Front"
 
-#: main/face/list.cc:192
-msgid "/Queue/Create new queue"
-msgstr "/Front/Vytvoriť nový front"
-
-#: main/face/list.cc:193
-msgid "/Queue/Create new subqueue"
-msgstr "/Front/Vytvoriť nový podfront"
-
-#: main/face/list.cc:194
-msgid "/Queue/Remove this queue"
-msgstr "/Front/Odstrániť tento front"
-
-#: main/face/list.cc:195
-msgid "/Queue/Properties"
-msgstr "/Front/Vlastnosti"
-
-#: main/face/list.cc:196
-msgid "/_Options"
+#: main/face/list.cc:485
+#, fuzzy
+msgid "_Options"
 msgstr "/_Nastavenia"
 
-#: main/face/list.cc:197
-msgid "/Options/Scheduler"
-msgstr "/Nastavenia/Rozvrh"
-
-#: main/face/list.cc:198
-msgid "/Options/URL-manager"
-msgstr "/Nastavenia/Správca URL"
-
-#: main/face/list.cc:199
-msgid "/Options/General"
-msgstr "/Nastavenia/Všeobecné"
-
-#: main/face/list.cc:200
-msgid "/Options/Filters"
-msgstr "/Nastavenia/Filtre"
-
-#: main/face/list.cc:201
-msgid "/Options/Speed"
-msgstr "/Nastavenia/Rýchlosť"
-
-#: main/face/list.cc:202
-msgid "/Options/Speed/Low"
-msgstr "/Nastavenia/Rýchlosť/Pomaly"
-
-#: main/face/list.cc:203
-msgid "/Options/Speed/Medium"
-msgstr "/Nastavenia/Rýchlosť/Stredne"
-
-#: main/face/list.cc:204
-msgid "/Options/Speed/Unlimited"
-msgstr "/Nastavenia/Rýchlosť/Neobmedzene"
-
-#: main/face/list.cc:205
-msgid "/Options/Buttons"
-msgstr "/Nastavenia/Tlačítka"
-
-#: main/face/list.cc:206
-msgid "/Options/Buttons/Add buttons"
-msgstr "/Nastavenia/Tlačítka/Pridať tlačítka"
-
-#: main/face/list.cc:207
-msgid "/Options/Buttons/Manipulating"
-msgstr "/Nastavenia/Tlačítka/Manipulácia"
-
-#: main/face/list.cc:208
-msgid "/Options/Buttons/Speed buttons"
-msgstr "/Nastavenia/Tlačítka/Rýchlostné tlačítka"
-
-#: main/face/list.cc:209
-msgid "/Options/Buttons/Misc buttons"
-msgstr "/Nastavenia/Tlačítka/Ostatné tlačítka"
-
-#: main/face/list.cc:210
-msgid "/_Help"
+#: main/face/list.cc:487
+#, fuzzy
+msgid "_Help"
 msgstr "/_Pomoc"
 
-#: main/face/list.cc:211
-msgid "/_Help/About"
-msgstr "/_Pomoc/O programe"
+#: main/face/list.cc:488
+#, fuzzy
+msgid "_Save List"
+msgstr "Uložiť zoznam"
 
-#: main/face/list.cc:834
+#: main/face/list.cc:489
+#, fuzzy
+msgid "_Load List"
+msgstr "Načítať zoznam"
+
+#: main/face/list.cc:490
+#, fuzzy
+msgid "_Find links in file"
+msgstr "Nájsť odkazy v txt súbore"
+
+#: main/face/list.cc:491
+#, fuzzy
+msgid "_New Download"
+msgstr "/Nové sťahovanie"
+
+#: main/face/list.cc:492
+#, fuzzy
+msgid "_Paste Download"
+msgstr "/Vložiť sťahovanie"
+
+#: main/face/list.cc:493
+#, fuzzy
+msgid "_Automated adding"
+msgstr "Automatické pridávanie"
+
+#: main/face/list.cc:494
+#, fuzzy
+msgid "_Exit"
+msgstr "/Koniec"
+
+#: main/face/list.cc:495
+#, fuzzy
+msgid "_View Log"
+msgstr "Zobraziť záznam"
+
+#: main/face/list.cc:496
+#, fuzzy
+msgid "_Stop downloads"
+msgstr " Zastaviť sťahovania "
+
+#: main/face/list.cc:497
+#, fuzzy
+msgid "_Edit downloads"
+msgstr "Upraviť sťahovanie"
+
+#: main/face/list.cc:498
+#, fuzzy
+msgid "_Delete downloads"
+msgstr "Zmazať sťahovania"
+
+#: main/face/list.cc:499
+#, fuzzy
+msgid "_Continue downloads"
+msgstr "Pokračovať v sťahovaní"
+
+#: main/face/list.cc:500
+#, fuzzy
+msgid "Delete Completed"
+msgstr "Zmazať dokončené"
+
+#: main/face/list.cc:501
+#, fuzzy
+msgid "Delete _Failed"
+msgstr "Zmazať neúspešné"
+
+#: main/face/list.cc:502
+#, fuzzy
+msgid "_Rerun failed"
+msgstr "Hľadanie zlyhalo"
+
+#: main/face/list.cc:503 main/face/lmenu.cc:159
+msgid "(Un)Protect"
+msgstr "(Ne)Chrániť"
+
+#: main/face/list.cc:504
+#, fuzzy
+msgid "_Unselect All"
+msgstr "Všetko odznačiť"
+
+#: main/face/list.cc:505
+#, fuzzy
+msgid "Select _All"
+msgstr "Označiť všetko"
+
+#: main/face/list.cc:506
+#, fuzzy
+msgid "_Invert selection"
+msgstr "/Sťahovanie/Invertovať výber"
+
+#: main/face/list.cc:507
+#, fuzzy
+msgid "_Create new queue"
+msgstr "Vytvoriť nový front"
+
+#: main/face/list.cc:508
+#, fuzzy
+msgid "Create new _Subqueue"
+msgstr "/Vytvoriť nový podfront"
+
+#: main/face/list.cc:509
+#, fuzzy
+msgid "_Remove this queue"
+msgstr "/Front/Odstrániť tento front"
+
+#: main/face/list.cc:510
+#, fuzzy
+msgid "_Properties"
+msgstr "Nastavenia"
+
+#: main/face/list.cc:511
+#, fuzzy
+msgid "_Scheduler"
+msgstr "Rozvrh"
+
+#: main/face/list.cc:512
+#, fuzzy
+msgid "_URL-manager"
+msgstr "Správca URL"
+
+#: main/face/list.cc:513
+msgid "_General"
+msgstr ""
+
+#: main/face/list.cc:514
+#, fuzzy
+msgid "_Filters"
+msgstr "Filtre"
+
+#: main/face/list.cc:515
+msgid "_Buttons"
+msgstr ""
+
+#: main/face/list.cc:516
+#, fuzzy
+msgid "_About"
+msgstr "O programe"
+
+#: main/face/list.cc:519
+msgid "_Low"
+msgstr ""
+
+#: main/face/list.cc:520
+#, fuzzy
+msgid "_Medium"
+msgstr "stredná"
+
+#: main/face/list.cc:521
+#, fuzzy
+msgid "_Unlimited"
+msgstr "neobmedzená"
+
+#: main/face/list.cc:866
 msgid "Do you really want to quit?"
 msgstr "Naozaj chcete skončiť?"
 
-#: main/face/list.cc:834
+#: main/face/list.cc:866
 msgid "Quit?"
 msgstr "Ukončiť?"
 
-#: main/face/list.cc:863
+#: main/face/list.cc:895
 msgid "Delete selected downloads?"
 msgstr "Zmazať označené sťahovania?"
 
-#: main/face/list.cc:863 main/face/list.cc:881 main/face/list.cc:899
+#: main/face/list.cc:895 main/face/list.cc:913 main/face/list.cc:931
 msgid "Delete?"
 msgstr "Odstrániť?"
 
-#: main/face/list.cc:881
+#: main/face/list.cc:913
 msgid "Do you wish delete completed downloads?"
 msgstr "Prajete si odstrániť dokončené sťahovania?"
 
-#: main/face/list.cc:899
+#: main/face/list.cc:931
 msgid "Do you wish delete failed downloads?"
 msgstr "Prajete si odstrániť neúspešné sťahovania?"
 
-#: main/face/list.cc:946
+#: main/face/list.cc:978
 msgid "Ready to go ????"
 msgstr "Pripravený ísť ????"
 
-#: main/face/list.cc:1263 main/face/list.cc:1520
+#: main/face/list.cc:1295 main/face/list.cc:1560
 msgid "Downloads"
 msgstr "Stiahnutia"
 
-#: main/face/list.cc:1264 main/face/list.cc:1312 main/face/prefs.cc:627
+#: main/face/list.cc:1296 main/face/list.cc:1344 main/face/prefs.cc:627
 #: main/face/prefs.cc:1270 main/face/prefs.cc:1531
 msgid "Main log"
 msgstr "Hlavný záznam"
 
-#: main/face/list.cc:1265 main/face/passface.cc:428
+#: main/face/list.cc:1297 main/face/passface.cc:428
 msgid "URL-manager"
 msgstr "Správca URL"
 
-#: main/face/list.cc:1266 main/face/list.cc:1326
+#: main/face/list.cc:1298 main/face/list.cc:1358
 msgid "FTP-search"
 msgstr "FTP hľadanie"
 
-#: main/face/list.cc:1330
+#: main/face/list.cc:1362
 msgid "Filename:"
 msgstr "Názov súboru:"
 
-#: main/face/list.cc:1542
+#: main/face/list.cc:1582
 msgid "Offline/Online"
 msgstr "Offline/Online"
 
-#: main/face/list.cc:1659
+#: main/face/list.cc:1699
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-spustených %i-dokončených %i-celkom "
@@ -1372,10 +1381,6 @@ msgstr "Pokračovať v sťahovaní"
 msgid "Copy"
 msgstr "Kopírovať"
 
-#: main/face/lmenu.cc:159
-msgid "(Un)Protect"
-msgstr "(Ne)Chrániť"
-
 #: main/face/lmenu.cc:168
 msgid "Common properties"
 msgstr "Všeobecné vlastnosti"
@@ -1383,10 +1388,6 @@ msgstr "Všeobecné vlastnosti"
 #: main/face/lmenu.cc:174
 msgid "Delete downloads"
 msgstr "Zmazať sťahovania"
-
-#: main/face/lmenu.cc:180
-msgid "Delete completed"
-msgstr "Zmazať dokončené"
 
 #: main/face/lmenu.cc:186
 msgid "Delete failed"
@@ -1409,7 +1410,7 @@ msgstr "Alternatívy"
 msgid "FTP search"
 msgstr "FTP hľadanie"
 
-#: main/face/lod.cc:46 main/face/mywidget.cc:399 main/face/mywidget.cc:747
+#: main/face/lod.cc:46 main/face/mywidget.cc:410 main/face/mywidget.cc:764
 msgid "File"
 msgstr "Súbor"
 
@@ -1428,10 +1429,6 @@ msgstr "Stiahnuté"
 #: main/face/lod.cc:50
 msgid "Rest"
 msgstr "Zostáva"
-
-#: main/face/lod.cc:52
-msgid "Speed"
-msgstr "Rýchlosť"
 
 #: main/face/lod.cc:54
 msgid "Remaining"
@@ -1466,7 +1463,7 @@ msgstr "Stav"
 msgid "Row number %i [log of %s]"
 msgstr "Riadok číslo %i [záznam %s]"
 
-#: main/face/log.cc:448
+#: main/face/log.cc:441
 msgid "Log: "
 msgstr "Záznam: "
 
@@ -1474,80 +1471,80 @@ msgstr "Záznam: "
 msgid "Select directory"
 msgstr "Vyber priečinok"
 
-#: main/face/mywidget.cc:205
+#: main/face/mywidget.cc:208
 msgid "Select color"
 msgstr "Výber farby"
 
-#: main/face/mywidget.cc:352
+#: main/face/mywidget.cc:355
 msgid "Edit properties of Rule"
 msgstr "Úprava vlastností pravidiel"
 
-#: main/face/mywidget.cc:364 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:367 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Protocol"
 msgstr "protokol "
 
-#: main/face/mywidget.cc:381 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:392 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Host"
 msgstr "hostiteľ "
 
-#: main/face/mywidget.cc:390 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:401 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Path"
 msgstr "Cesta:"
 
-#: main/face/mywidget.cc:408
+#: main/face/mywidget.cc:419
 msgid "?"
 msgstr "? "
 
-#: main/face/mywidget.cc:417 main/face/mywidget.cc:747
+#: main/face/mywidget.cc:428 main/face/mywidget.cc:764
 #, fuzzy
 msgid "Tag"
 msgstr "značka "
 
-#: main/face/mywidget.cc:468
+#: main/face/mywidget.cc:485
 msgid "include"
 msgstr "zahrnúť"
 
-#: main/face/mywidget.cc:470
+#: main/face/mywidget.cc:487
 msgid "exclude"
 msgstr "vylúčiť"
 
-#: main/face/mywidget.cc:739
+#: main/face/mywidget.cc:756
 msgid "Modify filter"
 msgstr "Úprava filtra"
 
-#: main/face/mywidget.cc:781
+#: main/face/mywidget.cc:798
 msgid "include by default"
 msgstr "štandardne zahrnúť"
 
-#: main/face/mywidget.cc:783
+#: main/face/mywidget.cc:800
 msgid "exclude by default"
 msgstr "štandardne vylúčiť"
 
-#: main/face/mywidget.cc:788
+#: main/face/mywidget.cc:805
 msgid "Name of filter"
 msgstr "Názov filtra"
 
-#: main/face/mywidget.cc:882
+#: main/face/mywidget.cc:899
 msgid "Select filter"
 msgstr "Vybrať filter"
 
-#: main/face/mywidget.cc:1055
+#: main/face/mywidget.cc:1072
 msgid "List of links"
 msgstr "Zoznam odkazov"
 
-#: main/face/mywidget.cc:1127
+#: main/face/mywidget.cc:1144
 msgid "Add"
 msgstr "Pridať"
 
-#: main/face/mywidget.cc:1326
+#: main/face/mywidget.cc:1343
 #, fuzzy
 msgid "proxy type"
 msgstr "Typ FTP proxy"
 
-#: main/face/mywidget.cc:1341
+#: main/face/mywidget.cc:1358
 msgid "Use different proxy for this alternate"
 msgstr ""
 
@@ -1889,60 +1886,54 @@ msgstr "Meno"
 msgid "Options"
 msgstr "Možnosti"
 
-#: main/face/qtree.cc:113
+#: main/face/qtree.cc:110 main/face/qtree.cc:489
 msgid "Create new queue"
 msgstr "Vytvoriť nový front"
 
-#: main/face/qtree.cc:479 main/face/qtree.cc:485
-msgid "/Create new queue"
-msgstr "/Vytvoriť nový front"
-
-#: main/face/qtree.cc:480
-msgid "/Create new subqueue"
+#: main/face/qtree.cc:490
+#, fuzzy
+msgid "Create new subqueue"
 msgstr "/Vytvoriť nový podfront"
 
-#: main/face/qtree.cc:481
-msgid "/Delete queue"
+#: main/face/qtree.cc:491
+#, fuzzy
+msgid "Delete queue"
 msgstr "/Zmazať front"
 
-#: main/face/qtree.cc:482
-msgid "/Properties"
-msgstr "/Nastavenia"
-
-#: main/face/qtree.cc:580
+#: main/face/qtree.cc:589
 msgid "Queue properties"
 msgstr "Nastavenia frontu"
 
-#: main/face/qtree.cc:591
+#: main/face/qtree.cc:600
 msgid "Maximum active downloads"
 msgstr "Maximum aktívnych sťahovaní"
 
-#: main/face/qtree.cc:595
+#: main/face/qtree.cc:604
 msgid "Automatically delete completed downloads"
 msgstr "Automaticky zmazať dokončené sťahovanie"
 
-#: main/face/qtree.cc:596
+#: main/face/qtree.cc:605
 msgid "Automatically delete failed downloads"
 msgstr "Automaticky zmazať neúspešné sťahovanie"
 
-#: main/face/qtree.cc:606
+#: main/face/qtree.cc:615
 msgid "Default folder to save downloaded files"
 msgstr "Štandardný priečinok pre ukladanie stiahnutých súborov"
 
-#: main/face/qtree.cc:613
+#: main/face/qtree.cc:622
 msgid "Size format"
 msgstr "Formát veľkosti"
 
-#: main/face/qtree.cc:614
+#: main/face/qtree.cc:623
 msgid "Time format"
 msgstr "Formát času"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:624
 #, fuzzy
 msgid "Speed format"
 msgstr "Formát veľkosti"
 
-#: main/face/qtree.cc:699
+#: main/face/qtree.cc:708
 msgid "Name of the queue"
 msgstr "Názov frontu"
 
@@ -1958,7 +1949,7 @@ msgstr "Uložiť zoznam"
 msgid "Load list"
 msgstr "Načítať zoznam"
 
-#: main/face/saveload.cc:222
+#: main/face/saveload.cc:223
 msgid "Find links in txt file"
 msgstr "Nájsť odkazy v txt súbore"
 
@@ -2314,25 +2305,25 @@ msgstr "Pridanie sťahovania súboru %s z %s [používateľom]"
 msgid "Downloader is in offline mode now"
 msgstr "Downloader je teraz v režime offline"
 
-#: main/main.cc:1750
+#: main/main.cc:1754
 msgid "Offline mode is turned off"
 msgstr "Offline režim je teraz vypnutý"
 
-#: main/main.cc:1781
+#: main/main.cc:1785
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bajtov načítaných počas sedenia"
 
-#: main/main.cc:1782
+#: main/main.cc:1786
 msgid "Downloader exited normaly"
 msgstr "Sťahovač ukončený normálne"
 
-#: main/main.cc:1822
+#: main/main.cc:1826
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Nie je možné otvoriť '%s' na uloženie záznamu"
 
-#: main/main.cc:1853
+#: main/main.cc:1857
 msgid "Such protocol is not supported!"
 msgstr "Taký protokol nie je podporovaný"
 
@@ -2368,13 +2359,13 @@ msgstr "Nie je možné otvoriť súbor na uloženie záznamu"
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "CHYBA: Zlý mód lseek!\n"
 
-#: main/nt.cc:148
+#: main/nt.cc:156
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "VAROVANIE!!! Nie je možné nájsť premennú HOME! Takže nie je možné načítať "
 "konfiguráciu!"
 
-#: main/nt.cc:164
+#: main/nt.cc:172
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s je už pravdepodobne spustené\n"
@@ -2417,6 +2408,141 @@ msgstr "stredná"
 #: main/var.cc:102
 msgid "unlimited"
 msgstr "neobmedzená"
+
+#~ msgid "/Automated adding"
+#~ msgstr "/Automatické sťahovanie"
+
+#~ msgid "/Delete completed"
+#~ msgstr "/Zmazať dokončené"
+
+#~ msgid "/Speed"
+#~ msgstr "/Rýchlosť"
+
+#~ msgid "/Speed/Low"
+#~ msgstr "/Rýchlosť/Pomalá"
+
+#~ msgid "/Speed/Medium"
+#~ msgstr "/Rýchlosť/Stredná"
+
+#~ msgid "/Speed/Unlimited"
+#~ msgstr "/Rýchlosť/Neobmedzená"
+
+#~ msgid "/File/_Save List"
+#~ msgstr "/Súbor/_Uložiť zoznam"
+
+#~ msgid "/File/_Load List"
+#~ msgstr "/Súbor/Načí_tať zoznam"
+
+#~ msgid "/File/Find links in file"
+#~ msgstr "/Súbor/Nájsť odkazy v súbore"
+
+#~ msgid "/File/_New Download"
+#~ msgstr "/Súbor/_Nové sťahovanie"
+
+#~ msgid "/File/_Paste Download"
+#~ msgstr "/Súbor/_Vložiť sťahovanie"
+
+#~ msgid "/File/_Automated adding"
+#~ msgstr "/Súbor/_Automatické pridávanie"
+
+#~ msgid "/File/Exit"
+#~ msgstr "/Súbor/Koniec"
+
+#~ msgid "/File/sep1"
+#~ msgstr "/Súbor/oddeľovač1"
+
+#~ msgid "/Download/View _Log"
+#~ msgstr "/Sťahovanie/Zobraziť záznam"
+
+#~ msgid "/Download/_Stop downloads"
+#~ msgstr "/Sťahovanie/Za_staviť sťahovania"
+
+#~ msgid "/Download/Edit download"
+#~ msgstr "/Sťahovanie/Upraviť sťahovanie"
+
+#~ msgid "/Download/_Delete downloads"
+#~ msgstr "/Sťahovanie/Zmazať sťahovania"
+
+#~ msgid "/Download/Continue downloads"
+#~ msgstr "/Sťahovanie/Pokračovať v sťahovaní"
+
+#~ msgid "/Download/Delete completed"
+#~ msgstr "/Sťahovanie/Zmazať dokončené"
+
+#~ msgid "/Download/Delete failed"
+#~ msgstr "/Sťahovanie/Zmazať neúspešné"
+
+#~ msgid "/Download/Rerun failed"
+#~ msgstr "/Sťahovanie/Znova spustiť neúspešné"
+
+#~ msgid "/Download/(Un)Protect"
+#~ msgstr "/Sťahovanie/(Ne)Chrániť"
+
+#~ msgid "/Download/Unselect all"
+#~ msgstr "/Sťahovanie/Odznačiť všetko"
+
+#~ msgid "/Download/Select all"
+#~ msgstr "/Sťahovanie/Zvoliť všetko"
+
+#~ msgid "/Download/-"
+#~ msgstr "/Sťahovanie/-"
+
+#~ msgid "/Queue/Create new queue"
+#~ msgstr "/Front/Vytvoriť nový front"
+
+#~ msgid "/Queue/Create new subqueue"
+#~ msgstr "/Front/Vytvoriť nový podfront"
+
+#~ msgid "/Queue/Properties"
+#~ msgstr "/Front/Vlastnosti"
+
+#~ msgid "/Options/Scheduler"
+#~ msgstr "/Nastavenia/Rozvrh"
+
+#~ msgid "/Options/URL-manager"
+#~ msgstr "/Nastavenia/Správca URL"
+
+#~ msgid "/Options/General"
+#~ msgstr "/Nastavenia/Všeobecné"
+
+#~ msgid "/Options/Filters"
+#~ msgstr "/Nastavenia/Filtre"
+
+#~ msgid "/Options/Speed"
+#~ msgstr "/Nastavenia/Rýchlosť"
+
+#~ msgid "/Options/Speed/Low"
+#~ msgstr "/Nastavenia/Rýchlosť/Pomaly"
+
+#~ msgid "/Options/Speed/Medium"
+#~ msgstr "/Nastavenia/Rýchlosť/Stredne"
+
+#~ msgid "/Options/Speed/Unlimited"
+#~ msgstr "/Nastavenia/Rýchlosť/Neobmedzene"
+
+#~ msgid "/Options/Buttons"
+#~ msgstr "/Nastavenia/Tlačítka"
+
+#~ msgid "/Options/Buttons/Add buttons"
+#~ msgstr "/Nastavenia/Tlačítka/Pridať tlačítka"
+
+#~ msgid "/Options/Buttons/Manipulating"
+#~ msgstr "/Nastavenia/Tlačítka/Manipulácia"
+
+#~ msgid "/Options/Buttons/Speed buttons"
+#~ msgstr "/Nastavenia/Tlačítka/Rýchlostné tlačítka"
+
+#~ msgid "/Options/Buttons/Misc buttons"
+#~ msgstr "/Nastavenia/Tlačítka/Ostatné tlačítka"
+
+#~ msgid "/_Help/About"
+#~ msgstr "/_Pomoc/O programe"
+
+#~ msgid "/Create new queue"
+#~ msgstr "/Vytvoriť nový front"
+
+#~ msgid "/Properties"
+#~ msgstr "/Nastavenia"
 
 #~ msgid "path"
 #~ msgstr "cesta "

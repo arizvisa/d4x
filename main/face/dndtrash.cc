@@ -42,21 +42,8 @@ enum DND_MENU_ENUM{
 	DM_SEP
 };
 
-char *dnd_menu_inames[]={
-	N_("/New Download"),
-	N_("/Paste Download"),
-	N_("/Automated adding"),
-	N_("/Delete completed"),
-	N_("/General options"),
-	N_("/Speed"),
-	N_("/Speed/Low"),
-	N_("/Speed/Medium"),
-	N_("/Speed/Unlimited"),
-	N_("/Exit"),
-	"/-"
-};
-
-GtkItemFactory *dnd_trash_item_factory;
+//GtkItemFactory *dnd_trash_item_factory;
+GtkUIManager *dnd_trash_ui_manager;
 GtkWidget *dnd_trash_window=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_menu=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_gtk_pixmap; //used for animation/blinking
@@ -126,12 +113,15 @@ static gint dnd_trash_tooltips_draw(GtkWidget *window,GtkTooltips *tooltip){
 */
 
 static void dnd_trash_init_speed_tips(){
-	for(int i=1;i<3;i++){
-		GtkWidget *menu_item=gtk_item_factory_get_widget_by_action(dnd_trash_item_factory,i);
-		dnd_trash_speed_menu[i-1]=menu_item;
+	char *menu_path[]={
+		"/DndTrash/Speed/speedlow",
+		"/DndTrash/Speed/speedmedium"};
+	for(int i=0;i<sizeof(menu_path)/sizeof(char*);i++){
+		GtkWidget *menu_item=gtk_ui_manager_get_widget(dnd_trash_ui_manager,menu_path[i]);
+		dnd_trash_speed_menu[i]=menu_item;
 		if (menu_item){
 			GtkTooltips *tooltip=gtk_tooltips_new();
-			dnd_trash_speed_tooltips[i-1]=tooltip;
+			dnd_trash_speed_tooltips[i]=tooltip;
 			gtk_tooltips_force_window(tooltip);
 			GtkStyle *current_style=gtk_style_copy(gtk_widget_get_style(tooltip->tip_window));
 			current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
@@ -550,23 +540,36 @@ void dnd_trash_init(){
 	gdk_window_set_functions(dnd_trash_window->window,GdkWMFunction(GDK_FUNC_MOVE|GDK_FUNC_CLOSE));
 };
 
+static bool _no_speed_callback_dnd_=false;
+
 void dnd_trash_menu_prepare(){
-	GtkWidget *menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_1]));
-	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==1?TRUE:FALSE;
-	if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
-	menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_2]));
-	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==2?TRUE:FALSE;
-	if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
-	menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_3]));
-	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==3?TRUE:FALSE;
-	if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
+	if (_no_speed_callback_dnd_) return;
+	_no_speed_callback_dnd_=true;
+	switch (CFG.SPEED_LIMIT){
+	case 1:{
+		GtkAction *action1=gtk_ui_manager_get_action(dnd_trash_ui_manager,"/DndTrash/Speed/speedlow");
+		gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action1),TRUE);
+		break;
+	};
+	case 2:{
+		GtkAction *action2=gtk_ui_manager_get_action(dnd_trash_ui_manager,"/DndTrash/Speed/speedmedium");
+		gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action2),TRUE);
+		break;
+	};
+	default:{
+		GtkAction *action3=gtk_ui_manager_get_action(dnd_trash_ui_manager,"/DndTrash/Speed/speedunlim");
+		gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action3),TRUE);
+	};
+	};
+	_no_speed_callback_dnd_=false;
 };
 
-void dnd_trash_menu_calback(gpointer *data, guint action, GtkWidget *widget){
-	if (action>0 && action<4){
-		CFG.SPEED_LIMIT=action;
-		set_speed_buttons();
-	};
+void dnd_trash_menu_callback(GtkAction *action){
+	if (_no_speed_callback_dnd_) return;
+	_no_speed_callback_dnd_=true;
+	CFG.SPEED_LIMIT=gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action))+1;
+	set_speed_buttons();
+	_no_speed_callback_dnd_=false;
 };
 
 static void dnd_trash_delete_completed(){
@@ -574,8 +577,7 @@ static void dnd_trash_delete_completed(){
 };
 
 void dnd_trash_set_del_completed(gint how){
-	GtkWidget *menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,
-					      _(dnd_menu_inames[DM_DELCOMPLETED]));
+	GtkWidget *menu_item=gtk_ui_manager_get_widget(dnd_trash_ui_manager,"/DndTrash/delc");
 	if (menu_item)
 		gtk_widget_set_sensitive(menu_item,how);
 };
@@ -586,26 +588,53 @@ static gint dnd_trash_menu_umap(){
 	return(FALSE);
 };
 void dnd_trash_init_menu() {
-	GtkItemFactoryEntry menu_items[] = {
-		{_(dnd_menu_inames[DM_NEW]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
-		{_(dnd_menu_inames[DM_PASTE]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_clipboard_window,	0, (gchar *)NULL},
-		{_(dnd_menu_inames[DM_AUTOMATED]),	(gchar *)NULL,	(GtkItemFactoryCallback)d4x_automated_add,		0,(gchar *)NULL},
-		{_(dnd_menu_inames[DM_DELCOMPLETED]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_delete_completed,	0, (gchar *)NULL},
-		{_(dnd_menu_inames[DM_SEP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Separator>"},
-		{_(dnd_menu_inames[DM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)d4x_prefs_init,			0, (gchar *)NULL},
-		{_(dnd_menu_inames[DM_SPEED]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Branch>"},
-		{_(dnd_menu_inames[DM_SPEED_1]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_menu_calback,		1, "<RadioItem>"},
-		{_(dnd_menu_inames[DM_SPEED_2]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_menu_calback,		2, _(dnd_menu_inames[DM_SPEED_1])},
-		{_(dnd_menu_inames[DM_SPEED_3]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_menu_calback,		3, _(dnd_menu_inames[DM_SPEED_2])},
-		{_(dnd_menu_inames[DM_SEP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Separator>"},
-		{_(dnd_menu_inames[DM_EXIT]),		(gchar *)NULL,	(GtkItemFactoryCallback)ask_exit,			0, (gchar *)NULL}
+	static char *ui_info=
+		"<popup name='DndTrash'>"
+		"   <menuitem action='new' />"
+		"   <menuitem action='paste' />"
+		"   <menuitem action='auto' />"
+		"   <menuitem action='delc' />"
+		"   <separator name='sep1' />"
+		"   <menuitem action='props' />"
+		"   <menu action='Speed'>"
+		"        <menuitem action='speedlow' />"
+		"        <menuitem action='speedmedium' />"
+		"        <menuitem action='speedunlim' />"
+		"   </menu>"
+		"   <separator name='sep2' />"
+		"   <menuitem action='exit' />"
+		"</popup>";
+	static GtkActionEntry entries[] = {
+		{ "DndTrash", NULL, "DnDTrash" },
+		{ "Speed", NULL, N_("Speed") },
+		{ "new", GTK_STOCK_NEW, N_("New Download"), NULL, "add new file to download",  G_CALLBACK(init_add_window)},
+		{ "paste",GTK_STOCK_PASTE,N_("Paste Download"), NULL, "add new from clipboard",  G_CALLBACK(init_add_clipboard_window)},
+		{ "auto",NULL,N_("Automated adding"), NULL, "automated adding many downloads",  G_CALLBACK(d4x_automated_add)},
+		{ "delc",NULL,N_("Delete completed"), NULL, "remove completed downloads",  G_CALLBACK(dnd_trash_delete_completed)},
+		{ "props",GTK_STOCK_PREFERENCES,N_("General options"), NULL, "open main preferences dialog",  G_CALLBACK(d4x_prefs_init)},
+		{ "exit",GTK_STOCK_QUIT,N_("Exit"), NULL, "open main preferences dialog",  G_CALLBACK(ask_exit)}
 	};
-	int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
-	GtkAccelGroup *accel_group;
-	accel_group = gtk_accel_group_new();
-	dnd_trash_item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<main>",accel_group);
-	gtk_item_factory_create_items(dnd_trash_item_factory, nmenu_items, menu_items, NULL);
-	dnd_trash_menu = gtk_item_factory_get_widget(dnd_trash_item_factory, "<main>");
+	static GtkRadioActionEntry radio_entries[] = {
+		{ "speedlow", NULL, N_("Low"), NULL, "set low traffic limitation", 0 },
+		{ "speedmedium", NULL, N_("Medium"), NULL, "set medium traffic limitation", 1 },
+		{ "speedunlim", NULL, N_("Unlimited"), NULL, "set unlimited speed", 2 }
+	};
+	
+	GtkActionGroup *action_group = gtk_action_group_new ("QueueActions");
+	gtk_action_group_set_translate_func(action_group,d4x_menu_translate_func,NULL,NULL);
+	dnd_trash_ui_manager=gtk_ui_manager_new ();
+	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), NULL);
+	gtk_action_group_add_radio_actions (action_group, radio_entries, G_N_ELEMENTS (radio_entries), CFG.SPEED_LIMIT-1, G_CALLBACK(dnd_trash_menu_callback), NULL);
+	gtk_ui_manager_insert_action_group (dnd_trash_ui_manager, action_group, 0);
+	GError *error = NULL;
+	if (!gtk_ui_manager_add_ui_from_string (dnd_trash_ui_manager, ui_info, -1, &error))
+	{
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+		exit (EXIT_FAILURE);
+	}
+	
+	dnd_trash_menu = gtk_ui_manager_get_widget (dnd_trash_ui_manager,"/DndTrash");
 	g_signal_connect(G_OBJECT (dnd_trash_menu), "unmap_event",
 			 G_CALLBACK(dnd_trash_menu_umap), NULL);
 	dnd_trash_init_speed_tips();
@@ -646,7 +675,7 @@ void dnd_trash_animation(){
 		rect.height=dnd_trash_gtk_pixmap->allocation.height;
 		gtk_widget_queue_draw(dnd_trash_gtk_pixmap);
 //		gtk_widget_draw(dnd_trash_gtk_pixmap,&rect);
-		gtk_timeout_add (500, dnd_trash_animation_end , NULL);
+		g_timeout_add (500, dnd_trash_animation_end , NULL);
 	};
 };
 

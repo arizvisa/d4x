@@ -96,9 +96,9 @@ void load_txt_list_ok(GtkWidget *parent,GtkWidget *who) {
 	gtk_window_set_modal (GTK_WINDOW(LoadingStatusWindow),TRUE);
 	gtk_window_set_transient_for (GTK_WINDOW (LoadingStatusWindow), GTK_WINDOW (MainWindow));
 
-	gint timeout=gtk_timeout_add (100, GtkFunction(time_for_load_refresh) , pbar);
+	gint timeout=g_timeout_add (100, GtkFunction(time_for_load_refresh) , pbar);
 	if (thread_for_parse_txt(parser)){
-		gtk_timeout_remove(timeout);
+//		g_timeout_remove(timeout);
 		gtk_widget_destroy(LoadingStatusWindow);
 		LoadingStatusWindow=(GtkWidget *)NULL;
 	};
@@ -144,7 +144,7 @@ void init_save_list(...) {
 	d4x_eschandler_init(LoadSaveWindow,NULL);
 
 	load_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
-	gtk_widget_set_size_request(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);
+	gtk_widget_set_size_request(GTK_BIN (MY_GTK_FILESEL(load_save_entry)->combo)->child,400,-1);
 	MY_GTK_FILESEL(load_save_entry)->modal=GTK_WINDOW(LoadSaveWindow);
 
 	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
@@ -186,7 +186,8 @@ void init_load_list(...) {
 	d4x_eschandler_init(LoadSaveWindow,NULL);
 
 	load_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
-	gtk_widget_set_size_request(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);
+	gtk_widget_set_size_request(GTK_BIN (MY_GTK_FILESEL(load_save_entry)->combo)->child,400,-1);
+//	gtk_widget_set_size_request(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);
 
 	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	gtk_box_pack_start(GTK_BOX(vbox),load_save_entry,FALSE,FALSE,0);
@@ -227,7 +228,8 @@ void init_load_txt_list(...) {
 	d4x_eschandler_init(LoadSaveWindow,NULL);
 
 	load_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOAD_SAVE_HISTORY]);
-	gtk_widget_set_size_request(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);
+	gtk_widget_set_size_request(GTK_BIN (MY_GTK_FILESEL(load_save_entry)->combo)->child,400,-1);
+//	gtk_widget_set_size_request(GTK_COMBO(MY_GTK_FILESEL(load_save_entry)->combo)->entry,400,-1);
 
 	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	gtk_box_pack_start(GTK_BOX(vbox),load_save_entry,FALSE,FALSE,0);

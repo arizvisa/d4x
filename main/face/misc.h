@@ -40,5 +40,6 @@ void d4x_percent_str(float percent, char *buf, int bufsize);
 void d4x_eschandler_init(GtkWidget *widget,gpointer data);
 void gtk_tree_model_swap_rows_l(GtkTreeModel *model,GtkTreeIter *a,GtkTreeIter *b);
 GtkWidget *my_gtk_set_header_style(GtkWidget *widget);
+gchar *d4x_menu_translate_func(const gchar *label,gpointer data);
 
 #endif
