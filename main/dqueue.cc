@@ -68,6 +68,7 @@ void d4xDownloadQueue::init_pixmaps(){
 	queues[DL_RUN]->init_pixmap(PIX_RUN_PART);
 	queues[DL_WAIT]->init_pixmap(PIX_WAIT);
 	queues[DL_PAUSE]->init_pixmap(PIX_PAUSE);
+	queues[DL_LIMIT]->init_pixmap(PIX_WAIT);
 	queues[DL_STOP]->init_pixmap(PIX_STOP);
 	queues[DL_STOPWAIT]->init_pixmap(PIX_STOP_WAIT);
 };
@@ -97,6 +98,7 @@ int d4xDownloadQueue::current_run(char *host,int port){
 void d4xDownloadQueue::replace_list(tDList *list,int q){
 	if (queues[q]) delete(queues[q]);
 	queues[q]=list;
+	queues[q]->PAPA=this;
 };
 
 tDownload *d4xDownloadQueue::first(int q){
@@ -283,11 +285,13 @@ d4xDUpdate::d4xDUpdate():first(NULL),last(NULL){
 void d4xDUpdate::add_without_lock(tDownload *dwn){
 	if (dwn->split && dwn->split->grandparent)
 		dwn=dwn->split->grandparent;
-	if (dwn->next2update==NULL){
+	if (dwn->prev2update==NULL && dwn->next2update==NULL &&
+	    first!=dwn){
 		if (last)
 			last->next2update=dwn;
 		else
 			first=dwn;
+		dwn->prev2update=last;
 		last=dwn;
 	};
 };
@@ -312,11 +316,20 @@ void d4xDUpdate::add(tDownload *dwn,int status){
 };
 
 void d4xDUpdate::del(){
-	if (first){
-		tDownload *a=first;
-		if ((first=first->next2update)==NULL)
-			last=NULL;
-		a->next2update=NULL;
+	del(first);
+};
+
+void d4xDUpdate::del(tDownload *what){
+	if (what){
+		if (what->next2update)
+			what->next2update->prev2update=what->prev2update;
+		else
+			last=what->prev2update;
+		if (what->prev2update)
+			what->prev2update->next2update=what->next2update;
+		else
+			first=what->next2update;
+		what->next2update=what->prev2update=NULL;
 	};
 };
 

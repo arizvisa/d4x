@@ -62,6 +62,7 @@ class tDEdit{
 	GtkWidget *desc_entry;
 	GtkWidget *referer_entry,*cookie_entry;
 	GtkWidget *filter;
+	GtkWidget *con_limit_entry;
 	d4xFilterSel *filter_sel;
 	tProxyWidget *proxy;
 	void setup_time(time_t when);
@@ -76,6 +77,7 @@ public:
 	int parent_in_db;
 	int add_or_edit;
 	int dnd;
+	int limit;
 	tDEdit();
 	void init(tDownload *who);
 	int apply_changes();
@@ -112,7 +114,7 @@ public:
 };
 
 void init_edit_window(tDownload *what);
-void init_edit_window_without_ok(tDownload *what);
+void init_edit_window_without_ok(tDownload *what,int flag=0);
 GList *make_glist_from_mylist(tHistory *parent);
 GtkWidget *my_gtk_combo_new(tHistory *history);
 void select_options_window_init();

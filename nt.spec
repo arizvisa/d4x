@@ -1,4 +1,4 @@
-%define version	2.0
+%define version	2.01
 %define name	d4x
 %define prefix	/usr
 

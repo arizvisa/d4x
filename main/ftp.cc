@@ -319,7 +319,7 @@ int tFtpClient::stand_data_connection() {
 			(addr>>24)&0xff,(addr>>16)&0xff,(addr>>8)&0xff,(addr)&0xff,
 			(port>>8)&0xff,(port)&0xff);
 		send_command("PORT",data);
-		if (analize_ctrl(1,&FTP_PORT_OK)) {
+		if (analize_ctrl(1,&FTP_PORT_OK) || Status==STATUS_CMD_ERR) {
 			passive=1;
 			Status=STATUS_TRIVIAL;
 			return -1;

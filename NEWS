@@ -1,3 +1,21 @@
+Thu Jun  6 09:12:58 2002
+    Added connections' limits to URL-manager;
+    Added progress bar in tooltip of DnD-Basket;
+    Added 'Queue' menu to Main Menu;
+    Added support for recursing through .ram files;
+    Fixed segfault during load Default.dl queue in some cases;
+    Fixed segfault during FTP-search if traffic has been limited;
+    Fixed whrong queue stats in queues-tree after sorting whole queue;
+    Fixed crashing after sorting whole queue;
+    Fixed auto switching beetween passive and active FTP's modes;
+    Fixed double PORT on downloading directories;
+    Fixed transform DnD-Basket to DnD-menu if only one main queue with subqueues are available;
+    Fixed and optimized updates info in queues;
+    Fixed downloading wildcards via FTP;
+    Fixed storing preset preferences of scheduled download;
+    Updated Ukrainian translation (thanks to Olexander Kunytsa);
+    Various interface cleanups;
+
 Mon Apr 29 21:33:42 2002
     Add support for one more nonRFC FTP-server
     Interface cleanups;

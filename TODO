@@ -1,5 +1,8 @@
------------- to Version 2.0 --------------------------
 Menuitem 'File/Create new queue for download'
+------------ to Version 2.01 --------------------------
+[DONE] Connections' limits in URL-manager
+[DONE] Progressbar in tooltip of DnD bascket
+------------ to Version 2.0 --------------------------
 [PARTIALY] Change icons
 [DONE] Add support for one more non RFC FTP-server
 [DONE] Add loaded info for splited downloads in log window
@@ -30,28 +33,28 @@ Menuitem 'File/Create new queue for download'
 ------------------------------------------------------
 download using exactly specified number of parts
 store size in segments file
-[????] Scale DnDBasket for different resolutions [code implemented but scaled dnd-basket looks bad :(]
 add mask for MIME type in a rule of a filter
 ability to do FTP-search in case insensitive mode
 automated FTP-search
 all config files in xml-like format
-graph on DnD basket
-graph of speeds for separated download
-scale DnD-basket icon according screen resolution
-browser for ftp and http
 profiles
 searching in queue (by Ctrl-S like MC)
-"tree" window for displaying tree structure of a site(s)
 check free space on disk to prevent empty it
 uploading files to server
 Auto detection of best proxy.
 move to GTK-2.0
+    graph of speeds for separated download
+    browser for ftp and http
+    "tree" window for displaying tree structure of a site(s)
+    graph on DnD basket
+[????] Scale DnDBasket for different resolutions [code implemented but scaled dnd-basket looks bad :(]
 [????] fix displaying info for split-ed download when first thread in 'reconnect' state
 [????] do not use .segments file for downloading in one thread
 [????] option for configuring percentage in queue of downloads
 [????] stand_data_connection() should try another way to set it up
 [????] regular expressions in URLs
 [????] change "remove" to "remove from queue"
+[NEVER] saving URLs of completed downloads into special file
 [DONE] ability to hide main window
 [DONE] force download by start button;
 [DONE] default limitation to the host;
@@ -78,7 +81,6 @@ move to GTK-2.0
 [DONE] translate all 'OK' buttons
 [DONE] grab window (which is always on top like gozilla and getsmart)
 [DONE] loading server via HTTP (directories will be created from virtual root directory)
-[NEVER] saving URLs of completed downloads into special file
 ######### TO version 1.17 ####################
 [DONE] change about dialog
 [DONE] option for skipping HTTP-proxy's cache

@@ -112,6 +112,7 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	
 	check_time = src->check_time;
 	ihate_etag = src->ihate_etag;
+	con_limit = src->con_limit;
 };
 
 /* ---------------------------------------- */
@@ -126,6 +127,7 @@ tCfg::tCfg() {
 	socks_port=0;
 	ftp_dirontop=0;
 	isdefault=1;
+	con_limit=0;
 };
 
 int tCfg::get_flags(){
@@ -169,6 +171,7 @@ void tCfg::copy(tCfg *src) {
 	user_agent.set(src->user_agent.get());
 	cookie.set(src->cookie.get());
 	Filter.set(src->Filter.get());
+	isdefault=src->isdefault;
 };
 
 void tCfg::reset_proxy() {
@@ -233,6 +236,8 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"change_links:",change_links);
 	write_named_integer(fd,"ftp_dirontop:",ftp_dirontop);
 	write_named_integer(fd,"ihate_etag:",ihate_etag);
+	if (con_limit)
+		write_named_integer(fd,"con_limit:",con_limit);
 	if (restart_from_begin)
 		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
 	if (save_path.get() && *(save_path.get()))
@@ -288,8 +293,9 @@ int tCfg::load_from_config(int fd){
 		{"proxy_no_cache:",SV_TYPE_INT,	&proxy_no_cache},
 		{"EndCfg:",	SV_TYPE_END,	NULL},
 		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin},
-		{"check_time:",SV_TYPE_INT,&check_time},
-		{"change_links:",SV_TYPE_INT,&change_links},
+		{"check_time:",	SV_TYPE_INT,	&check_time},
+		{"change_links:",SV_TYPE_INT,	&change_links},
+		{"con_limit:",	SV_TYPE_INT,	&con_limit},
 		{"ftp_dirontop:",SV_TYPE_INT,&ftp_dirontop},
 		{"log_save_path:",SV_TYPE_PSTR,	&log_save_path},
 		{"Filter:",	SV_TYPE_PSTR,	&(Filter)}
@@ -324,7 +330,7 @@ tClient::tClient(){
 	CtrlSocket=new tSocket;
 };
 
-tClient::tClient(tCfg *cfg,tSocket *ctrl=NULL){
+tClient::tClient(tCfg *cfg,tSocket *ctrl){
 	hostname=username=userword=buffer=NULL;
 	FileLoaded=0;
 	if (ctrl)

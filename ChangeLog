@@ -1,3 +1,214 @@
+2002-06-06 09:16  max
+
+	* po/: bg.po, de.po, es.po, fr.po, it.po, uk.po: make update-po
+
+2002-06-06 09:08  max
+
+	* main/face/passface.cc, po/ru.po: remove fuzzy mark
+
+2002-06-06 09:05  max
+
+	* po/ru.po: added two more messages
+
+2002-06-06 08:58  max
+
+	* po/ru.po: updated russian translationn
+
+2002-06-06 08:49  max
+
+	* po/: ru.po, uk.po, fuzzy/uk.po: Olexander Kunytsa have updated
+	Ukrainian translation;
+
+2002-06-05 15:47  max
+
+	* ChangeLog, NEWS: prepare to release 2.01
+
+2002-06-05 12:49  max
+
+	* main/: config.cc, var.cc, var.h, face/addd.cc, face/edit.cc,
+	face/prefs.cc: remember last state of "use default cfg" checkbox
+
+2002-06-05 09:38  max
+
+	* main/dlist.cc: implemented recurse through ram files.
+
+2002-06-02 18:05  max
+
+	* NEWS: updated
+
+2002-06-02 16:18  max
+
+	* main/face/list.cc: added "Queue" submenu to main menu
+
+2002-06-01 12:55  max
+
+	* main/face/: passface.cc, passface.h: fixed recalc run downloads
+	after changing URL-regexp in URL-manager fixed rerun wait subqueues
+
+2002-05-31 20:12  max
+
+	* main/face/passface.cc: begin to implement but too busy now
+
+2002-05-29 16:49  max
+
+	* configure.in: increment version number
+
+2002-05-29 16:35  max
+
+	* main/face/passface.cc: fixed changing connections' limit; remove
+	some debug printfs;
+
+2002-05-28 23:04  max
+
+	* main/face/dndtrash.cc: no delays beetween appear tooltip and
+	showing progress
+
+2002-05-28 11:11  max
+
+	* NEWS, main/client.cc, main/face/edit.cc, main/face/edit.h,
+	main/face/fsched.cc: Fixed storing preset preferences of scheduled
+	download;
+
+2002-05-28 09:27  max
+
+	* NEWS: updated
+
+2002-05-28 09:07  max
+
+	* ChangeLog: updated
+
+2002-05-28 09:02  max
+
+	* main/: dqueue.cc, main.cc: fixed working connections limits with
+	splited downloads; fixed adding to queue of update;
+
+2002-05-27 08:53  max
+
+	* main/ftpd.cc: fixed downloading wildcard by FTP
+
+2002-05-26 10:26  max
+
+	* main/face/: dndtrash.cc, dndtrash.h, list.cc: show progress bar
+	in tooltip of DnD-Basket
+
+2002-05-26 08:09  max
+
+	* main/face/edit.cc: forgot about changing URL of downloads and
+	connections' limits
+
+2002-05-26 02:30  max
+
+	* configure.in, main/dqueue.cc, main/main.cc, main/savedvar.cc,
+	main/face/edit.cc, main/face/passface.cc, main/face/passface.h:
+	absolutely forgot about DL_LIMIT :-)
+
+2002-05-26 00:11  max
+
+	* main/face/edit.cc: cleanuped "edit download's preferences"
+	dialog; do not store regex-URL in history
+
+2002-05-25 23:11  max
+
+	* TODO, main/main.cc: fixed race condition in queue update cicle
+
+2002-05-25 22:04  max
+
+	* main/main.cc: fixed removing from matched list at removing from
+	queue
+
+2002-05-25 17:43  max
+
+	* main/: main.cc, face/passface.cc, face/passface.h: connections'
+	limits seems to be completed (bug hunting begin :-))
+
+2002-05-25 16:23  max
+
+	* configure.in, main/main.cc, main/main.h, main/face/lod.cc,
+	main/face/passface.cc, main/face/passface.h: continue to work under
+	implementation of connections' limits.	Only few things left to be
+	implemented
+
+2002-05-24 17:26  max
+
+	* main/: dlist.h, main.cc, face/passface.cc, face/passface.h: one
+	more step to implement connections' limits
+
+2002-05-23 22:35  max
+
+	* main/: dlist.cc, dlist.h, face/edit.cc, face/passface.cc,
+	face/passface.h: one more step to implment connections limits
+
+2002-05-23 12:19  max
+
+	* main/client.cc: fixed compilations problems
+
+2002-05-22 19:20  max
+
+	* main/dqueue.cc: fixed updating queues during load after today's
+	optimisations
+
+2002-05-22 16:02  max
+
+	* main/: client.cc, client.h, dlist.h, dqueue.cc, main.cc,
+	savedvar.cc, face/edit.cc, face/edit.h, face/passface.cc: begin to
+	impletment connections limitats
+
+2002-05-22 09:40  max
+
+	* main/: dlist.cc, dlist.h, dqueue.cc, dqueue.h, main.cc: optimize
+	queues updates
+
+2002-05-21 19:31  zaufi
+
+	* Makefile.am: Clean *~
+
+2002-05-21 19:19  zaufi
+
+	* Makefile.am, main/Makefile.am, main/face/Makefile.am: Clean *~
+
+2002-05-21 18:33  vav
+
+	* main/main.cc: bug in detecting multiple subqueues when only one
+	root queue exists fixed again
+
+2002-05-21 18:22  vav
+
+	* main/dqueue.cc: bugfix: PAPA was not initialized on queue
+	replacing
+
+2002-05-21 14:17  max
+
+	* main/: ftpd.cc, ftpd.h: fixed double PORT on downloading
+	directories
+
+2002-05-21 11:30  max
+
+	* main/ftp.cc: fixed switching active-passive modes
+
+2002-05-21 10:47  max
+
+	* TODO, configure.in, main/face/lod.cc: fixed wrong queue stats in
+	queues-trees after sorting whole queue
+
+2002-05-07 23:46  max
+
+	* ChangeLog, po/bg.po, po/de.po, po/es.po, po/fr.po, po/it.po,
+	po/ru.po: Forget to commit after releasing 2.0
+
+2002-05-07 08:44  max
+
+	* main/main.cc: fixed segfault during any FTP-search if traffic was
+	limited
+
+2002-05-06 22:25  max
+
+	* main/dlist.cc: fixed wrong locking
+
+2002-05-06 11:38  max
+
+	* main/face/: buttons.cc, fsched.cc, list.cc: fixed segfault during
+	loading queues in some cases fixed segfault when opening Scheduler
+
 2002-04-29 21:34  max
 
 	* NEWS, configure.in: Prepare to release new version

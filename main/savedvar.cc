@@ -101,6 +101,7 @@ int sv_parse_file(int fd,tSavedVar *var,char *buf,int bufsize){
 				q->init_pixmaps();
 			};
 			int s=dwn->status;
+			if (s==DL_LIMIT) s=DL_WAIT;
 			if (s>DL_COMPLETE) s=DL_STOP;
 			if (s<DL_RUN) s=DL_STOP;
 			if (ALL_DOWNLOADS->find(dwn)==NULL){

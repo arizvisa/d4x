@@ -65,7 +65,7 @@ int calc_curent_run(char *host,int port) {
 };
 
 int d4x_only_one_queue(){
-	if (D4X_QTREE.count()>1 || D4X_QTREE.first()==NULL) return(0);
+	if (D4X_QTREE.count()>1 || ((d4xDownloadQueue*)(D4X_QTREE.first()))->count()) return(0);
 	return(1);
 };
 
@@ -230,6 +230,7 @@ void tMain::absolute_delete_download(tDownload *what) {
 	d4xDownloadQueue *q=what->myowner->PAPA;
 	q->del(what);
 	ALL_DOWNLOADS->del(what);
+	FaceForPasswords->stop_matched(what);
 	delete(what);
 };
 
@@ -281,6 +282,7 @@ void tMain::del_all() {
 	del_all_from_list(DL_WAIT);
 	del_all_from_list(DL_STOP);
 	del_all_from_list(DL_COMPLETE);
+	del_all_from_list(DL_LIMIT);
 };
 
 
@@ -316,7 +318,7 @@ int tMain::run_new_thread(tDownload *what) {
 	}else
 		what->SpeedLimit->base = what->config->speed;
 	if (CFG.SPEED_LIMIT<3 && CFG.SPEED_LIMIT>0){
-		int count=what->myowner?what->myowner->PAPA->count(DL_RUN)+1:1;
+		int count=(what->myowner &&  what->myowner->PAPA)?what->myowner->PAPA->count(DL_RUN)+1:1;
 		what->SpeedLimit->set(((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2) * GLOBAL_SLEEP_DELAY)/count);
 	};
 	SpeedScheduler->insert(what->SpeedLimit);
@@ -392,7 +394,8 @@ void tMain::stop_download(tDownload *what) {
 		papa->add(what,DL_STOPWAIT);
 		what->Status.clear();
 	} else {
-		if (owner==DL_WAIT) {
+		if (owner==DL_WAIT || owner==DL_LIMIT) {
+			FaceForPasswords->stop_matched(what);
 			papa->del(what);
 			papa->add(what,DL_PAUSE);
 			what->Status.clear();
@@ -425,11 +428,13 @@ void tMain::try_to_run_split(tDownload *what){
 	if (what->split->runcount>=what->split->NumOfParts) return;
 	if (what->status==DOWNLOAD_GO || what->status==DOWNLOAD_COMPLETE){
 		tDownload *dwn=what->split->next_part;
-		while (dwn){
-			if (dwn->split->run==0 && run_new_thread(dwn)){
-				return;
+		while (dwn && FaceForPasswords->limit_check(what)==0){
+			if (dwn->split->run==0){
+				if (run_new_thread(dwn)) return;
+				dwn->split->run=1;
+				what->split->runcount+=1;
+				FaceForPasswords->limit_inc(what);
 			};
-			dwn->split->run=1;
 			dwn=dwn->split->next_part;
 		};
 	};
@@ -809,6 +814,7 @@ void tMain::post_stopping(tDownload *what){
 		what->config=NULL;
 	};
 	if (what->editor) what->editor->enable_ok_button();
+	FaceForPasswords->stop_matched(what);
 };
 
 void tMain::prepare_for_stoping(tDownload *what) {
@@ -823,8 +829,10 @@ void tMain::prepare_for_stoping(tDownload *what) {
 	};
 	if (what->split){
 		what->split->grandparent->split->stopcount+=1;
+		FaceForPasswords->limit_dec(what->split->grandparent);
 //		what->split->run=0;
-	};
+	}else
+		FaceForPasswords->limit_dec(what);
 };
 
 void tMain::case_download_completed(tDownload *what){
@@ -936,10 +944,13 @@ int tMain::try_to_switch(tDownload *dwn){
 	ALL_DOWNLOADS->del(dwn);
 	dwn->info->copy(&(alt->info));
 	ALL_DOWNLOADS->insert(dwn);
+	FaceForPasswords->set_do_not_run(1);
 	prepare_for_stoping(dwn);
 	real_stop_thread(dwn);
 	if (run_new_thread(dwn))
 		return(0);
+	FaceForPasswords->limit_inc(dwn);
+	FaceForPasswords->set_do_not_run(0);
 	if (dwn->split) dwn->split->stopcount-=1;
 	return(1);
 };
@@ -960,16 +971,17 @@ int tMain::try_to_switch_split(tDownload *dwn,tDownload *gp){
 		dwn->info->copy(gp->info);
 	};
 	dwn->split->run=0;
+	FaceForPasswords->set_do_not_run(1);
 	prepare_for_stoping(dwn);
 	gp->split->stopcount-=1; //to avoid wrong stopcount
 	real_stop_thread(dwn);
 	try_to_run_split(gp);
+	FaceForPasswords->set_do_not_run(0);
 	return(1);
 };
 
 void tMain::check_split(tDownload *dwn){
 	tDownload *grandparent=dwn->split->grandparent;
-	try_to_run_split(grandparent);
 	if (dwn->status==DOWNLOAD_FATAL){
 		if (try_to_switch_split(dwn,grandparent))
 			return;
@@ -980,10 +992,15 @@ void tMain::check_split(tDownload *dwn){
 	};
 	if (grandparent->split->prepared){
 		prepare_for_stoping(dwn);
+		try_to_run_split(grandparent);
 		if (dwn!=grandparent) real_stop_thread(dwn);
 		if (grandparent->split->NumOfParts==grandparent->split->stopcount)
 			main_circle_second(grandparent);
 	}else{
+		try_to_run_split(grandparent);
+		if (grandparent->status==DOWNLOAD_COMPLETE ||
+		    grandparent->status==DOWNLOAD_FATAL)
+			prepare_for_stoping(grandparent);
 		main_circle_second(grandparent);
 	};
 };
@@ -1026,8 +1043,9 @@ void tMain::main_circle_second(tDownload *dwn){
 };
 
 void tMain::main_circle_nano1(){
+	int i=10;
 	D4X_UPDATE.lock();
-	while(D4X_UPDATE.first){
+	while(D4X_UPDATE.first && i>0){
 		tDownload *dwn=D4X_UPDATE.first;
 		if (dwn->owner()==DL_RUN){
 			if (dwn->split)
@@ -1037,19 +1055,22 @@ void tMain::main_circle_nano1(){
 			};
 		};
 		D4X_UPDATE.del();
+		i--;
 	};
 	D4X_UPDATE.unlock();
 };
 
 void tMain::main_circle_nano2(){
 	D4X_UPDATE.lock_s();
-	main_circle_nano1();
+	D4X_UPDATE.lock();
+//	main_circle_nano1();
 	int i=0;
 //	while (D4X_UPDATE.first_s && i<10){
 	if (D4X_UPDATE.first_s){
 		tDownload *dwn=D4X_UPDATE.first_s;
 		tDownload *gp=dwn;
 		D4X_UPDATE.del_s();
+		D4X_UPDATE.del(dwn);
 		if (dwn->split)
 			gp=dwn->split->grandparent;
 		switch(gp->owner()){
@@ -1069,6 +1090,7 @@ void tMain::main_circle_nano2(){
 		};
 		i++;
 	};
+	D4X_UPDATE.unlock();
 	D4X_UPDATE.unlock_s();
 };
 
@@ -1086,6 +1108,9 @@ void tMain::try_to_run_run(d4xDownloadQueue *papa){
 		if (rvalue<0){
 			papa->del(temp);
 			papa->add(temp,DL_WAIT);
+		}else{
+			FaceForPasswords->match_and_check(temp,1);
+			FaceForPasswords->limit_to_run(temp);
 		};
 		temp=temp_next;
 	};
@@ -1096,13 +1121,16 @@ void tMain::try_to_run_wait(d4xDownloadQueue *papa){
 	tDownload *temp=papa->first(DL_WAIT);
 	while(temp && papa->count(DL_RUN)<papa->MAX_ACTIVE) {
 		tDownload *temp_next=(tDownload *)(temp->prev);
-		int rvalue=try_to_run_download(temp);
-		if (rvalue<0){
-			break;
-		};
-		if (rvalue) {
-			papa->del(temp);
-			papa->add(temp,DL_RUN);
+		if (FaceForPasswords->match_and_check(temp)==0){
+			FaceForPasswords->limit_to_run(temp);
+			int rvalue=try_to_run_download(temp);
+			if (rvalue<0){
+				break;
+			};
+			if (rvalue) {
+				papa->del(temp);
+				papa->add(temp,DL_RUN);
+			};
 		};
 		temp=temp_next;
 	};
@@ -1557,6 +1585,9 @@ void tMain::done() {
 	SOUND_SERVER->stop_thread();
 	if (CFG.WITHOUT_FACE==0)
 		D4X_QUEUE->qv.freeze();
+	FaceForPasswords->save();
+	if (FaceForPasswords)
+		delete (FaceForPasswords);
 	stop_all(&D4X_QTREE);
 	while(not_all_stopped(&D4X_QTREE)){
 		main_circle_nano2();
@@ -1577,9 +1608,6 @@ void tMain::done() {
 	MainLog->add(_("Downloader exited normaly"),LOG_OK);
 	delete(MainLog);
 	delete(SpeedScheduler);
-	FaceForPasswords->save();
-	if (FaceForPasswords)
-		delete (FaceForPasswords);
 
 	close(LOCK_FILE_D);
 	delete (server);

@@ -387,11 +387,7 @@ tStringList *tFtpDownload::dir() {
 	return DIR;
 };
 
-int tFtpDownload::ftp_get_size(tStringList *l){
-	if (FTP->stand_data_connection()){
-		print_error(ERROR_DATA_CONNECT);
-		return(-1);
-	};
+int tFtpDownload::ftp_get_size_no_sdc(tStringList *l){
 	if (ADDR.mask)
 		return(FTP->get_size(NULL,l));
 	if (DONT_CWD){
@@ -402,6 +398,14 @@ int tFtpDownload::ftp_get_size(tStringList *l){
 		return(FTP->get_size(TMP_FILEPATH,l));
 	};
 	return(FTP->get_size(ADDR.file.get(),l));
+};
+
+int tFtpDownload::ftp_get_size(tStringList *l){
+	if (FTP->stand_data_connection()){
+		print_error(ERROR_DATA_CONNECT);
+		return(-1);
+	};
+	return(ftp_get_size_no_sdc(l));
 };
 
 int tFtpDownload::is_dir(){
@@ -449,7 +453,7 @@ fsize_t tFtpDownload::ls_answer_long(){
 			break;
 		last=(tString*)(last->next);
 	};
-	if (is_dir()){
+	if (is_dir() || ADDR.mask){
 		LOG->log(LOG_WARNING,_("This is a directory!"));
 		D_FILE.size=1;
 		if (DIR) delete DIR;
@@ -518,7 +522,7 @@ int tFtpDownload::download_dir() {
 						DIR->done();
 					};
 					Status=D_DOWNLOAD;
-					ind=ftp_get_size(DIR);
+					ind=ftp_get_size_no_sdc(DIR);
 					if (ind==0) {
 						LOG->log(LOG_OK,_("Listing was loaded"));
 						return 0;

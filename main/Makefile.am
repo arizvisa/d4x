@@ -1,10 +1,11 @@
 #
-# $Header: /var/cvs/d4x/main/Makefile.am,v 1.6 2002/03/15 03:46:16 max Exp $
+# $Header: /var/cvs/d4x/main/Makefile.am,v 1.7 2002/05/21 11:19:30 zaufi Exp $
 #
 
 SUBDIRS = face
 
 MAINTAINERCLEANFILES = Makefile.in
+CLEANFILES = *~
 
 # FIXME: We override 'default' value used by automake to avoid headers conflict
 DEFAULT_INCLUDES = -I$(top_srcdir)

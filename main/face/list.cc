@@ -94,6 +94,7 @@ enum MAIN_MENU_ENUM{
 	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_TXT, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_AUTO, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
 	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_PROTECT,MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
+	MM_QUEUE,MM_QUEUE_NQ,MM_QUEUE_NSQ,MM_QUEUE_REMOVE,MM_QUEUE_PROP,
 	MM_OPTIONS, MM_OPTIONS_SCHEDULER, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON, MM_OPTIONS_FILTERS,
 	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
 	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
@@ -126,6 +127,11 @@ char *main_menu_kbnames[]={
 	"select",
 	"invert",
 	"",
+	"queue",
+	"newqueue",
+	"newsubqueue",
+	"removequeue",
+	"queueproperties",
 	"options",
 	"scheduler",
 	"urlmanager",
@@ -168,6 +174,11 @@ char *main_menu_inames[]={
 	N_("/Download/Select all"),
 	N_("/Download/Invert selection"),
 	N_("/Download/-"),
+	N_("/_Queue"),
+	N_("/Queue/Create new queue"),
+	N_("/Queue/Create new subqueue"),
+	N_("/Queue/Remove this queue"),
+	N_("/Queue/Properties"),
 	N_("/_Options"),
 	N_("/Options/Scheduler"),
 	N_("/Options/URL-manager"),
@@ -390,6 +401,24 @@ void mmenu_invert_selection(){
 };
 
 
+static void _mm_queue_menu_(gpointer *a,gint act){
+	printf("Queue menu %i\n",act);
+	switch(act-100){
+	case MM_QUEUE_NQ:
+		D4X_QVT->create_init();
+		break;
+	case MM_QUEUE_NSQ:
+		D4X_QVT->create_init(1);
+		break;
+	case MM_QUEUE_REMOVE:
+		D4X_QVT->delete_queue();
+		break;
+	case MM_QUEUE_PROP:
+		D4X_QVT->prefs_init();
+		break;
+	};
+};
+
 void init_main_menu() {
 	d4x_load_accelerators();
 	GtkItemFactoryEntry menu_items[] = {
@@ -419,6 +448,11 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),main_menu_kb[MM_DOWNLOAD_UNSELECT_ALL], (GtkItemFactoryCallback)mmenu_unselect_all,	100+MM_DOWNLOAD_UNSELECT_ALL, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),main_menu_kb[MM_DOWNLOAD_SELECT_ALL], (GtkItemFactoryCallback)mmenu_select_all,	100+MM_DOWNLOAD_SELECT_ALL, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),main_menu_kb[MM_DOWNLOAD_INVERT], (GtkItemFactoryCallback)mmenu_invert_selection,	100+MM_DOWNLOAD_INVERT, (gchar *)NULL},
+		{_(main_menu_inames[MM_QUEUE]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_QUEUE_NQ]),main_menu_kb[MM_QUEUE_NQ],	(GtkItemFactoryCallback)_mm_queue_menu_,		100+MM_QUEUE_NQ, (gchar *)NULL},
+		{_(main_menu_inames[MM_QUEUE_NSQ]),main_menu_kb[MM_QUEUE_NSQ],	(GtkItemFactoryCallback)_mm_queue_menu_,		100+MM_QUEUE_NSQ, (gchar *)NULL},
+		{_(main_menu_inames[MM_QUEUE_REMOVE]),main_menu_kb[MM_QUEUE_REMOVE],	(GtkItemFactoryCallback)_mm_queue_menu_,	100+MM_QUEUE_REMOVE, (gchar *)NULL},
+		{_(main_menu_inames[MM_QUEUE_PROP]),main_menu_kb[MM_QUEUE_PROP],	(GtkItemFactoryCallback)_mm_queue_menu_,	100+MM_QUEUE_PROP, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
 		{_(main_menu_inames[MM_OPTIONS_SCHEDULER]),main_menu_kb[MM_OPTIONS_SCHEDULER],	(GtkItemFactoryCallback)d4x_scheduler_init,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_PASSWORDS]),main_menu_kb[MM_OPTIONS_PASSWORDS],	(GtkItemFactoryCallback)open_passwords_window,		0, (gchar *)NULL},
@@ -872,6 +906,7 @@ void init_status_bar() {
 
 
 void update_progress_bar() {
+	if (!D4X_QUEUE) return;
 	tDownload *temp=D4X_QUEUE->qv.last_selected();
 	GtkAdjustment *adj=GTK_PROGRESS(ProgressOfDownload)->adjustment;
 	char data[MAX_LEN];
@@ -1183,7 +1218,7 @@ void update_mainwin_title() {
 			char b[100];
 			d4x_percent_str(temp->Percent,b,sizeof(b));
 			sprintf(data,"%s%% %s/%s %s ",b,data2,data3,temp->info->file.get());
-			dnd_trash_set_tooltip(data);
+			dnd_trash_set_tooltip(data,temp->Percent);
 		}else
 			dnd_trash_set_tooltip(NULL);
 		if (temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {

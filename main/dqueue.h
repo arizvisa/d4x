@@ -65,6 +65,7 @@ public:
 	void add(tDownload *dwn,int status);
 	void add(tDownload *dwn);
 	void del();
+	void del(tDownload *dwn);
 	void del_s();
 	void lock();
 	void unlock();

@@ -86,6 +86,7 @@ void init_add_window(...) {
 	what->info=info;
 	what->config=new tCfg;
 	what->set_default_cfg();
+	what->config->isdefault=CFG.USE_DEFAULT_CFG;
 	what->config->save_path.set(D4X_QUEUE->save_path.get());
 
 	what->editor=new tDEdit;

@@ -70,6 +70,7 @@ static gint dnd_trash_moveable,dnd_trash_x,dnd_trash_y,dnd_trash_move_x,dnd_tras
 static GtkTooltips *dnd_trash_speed_tooltips[2];
 static GtkWidget *dnd_trash_speed_menu[2];
 char *dnd_trash_tooltip_text=NULL;
+float dnd_trash_tooltip_percent=0;
 
 void dnd_trash_set_speed_text(){
 	char text[MAX_LEN];
@@ -87,6 +88,35 @@ void dnd_trash_set_speed_text(){
 				     text,
 				     (const gchar *)NULL);
 	};
+};
+
+static gint dnd_trash_tooltips_draw(GtkWidget *window,GtkTooltips *tooltip){
+	if (dnd_trash_tooltip_percent<=0.001) return(FALSE);
+	GtkStyle *style=dnd_trash_tooltips->tip_window->style;
+	
+	gint y, baseline_skip, gap,pwidth;
+	GtkTooltipsData *data = dnd_trash_tooltips->active_tips_data;
+	if (!data) return FALSE;
+	gap = (style->font->ascent + style->font->descent) / 4;
+	if (gap < 2) gap = 2;
+	baseline_skip = style->font->ascent + style->font->descent + gap;
+	y = style->font->ascent + 4;
+	pwidth=gint(window->allocation.width*(dnd_trash_tooltip_percent/100));
+	gtk_paint_flat_box(style, window->window,
+			   GTK_STATE_ACTIVE, GTK_SHADOW_NONE,
+			   NULL, window, "tooltip",
+			   0, 0, pwidth, window->allocation.height);
+	GdkGC *pr_gc=style->fg_gc[GTK_STATE_ACTIVE];
+	GdkRectangle clip_rectangle;
+	clip_rectangle.x=0;
+	clip_rectangle.y=0;
+	clip_rectangle.height=window->allocation.height;
+	clip_rectangle.width=pwidth;
+	gdk_gc_set_clip_rectangle (pr_gc, &clip_rectangle);
+	gdk_draw_string (window->window, style->font, pr_gc,
+			 4,y,(char*)(data->row->data));
+	gdk_gc_set_clip_rectangle (pr_gc, (GdkRectangle *)NULL);
+	return(FALSE);
 };
 
 static void dnd_trash_init_speed_tips(){
@@ -471,6 +501,10 @@ void dnd_trash_init(){
 		dnd_trash_tooltips=gtk_tooltips_new();
 		gtk_tooltips_force_window(dnd_trash_tooltips);
 		GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(dnd_trash_tooltips->tip_window));
+		gtk_signal_connect(GTK_OBJECT(dnd_trash_tooltips->tip_window), "draw",
+				   GTK_SIGNAL_FUNC(dnd_trash_tooltips_draw),NULL);
+		gtk_signal_connect(GTK_OBJECT(dnd_trash_tooltips->tip_window), "expose_event",
+				   GTK_SIGNAL_FUNC(dnd_trash_tooltips_draw),NULL);
 		char *bgcolor=NULL,*fgcolor=NULL;
 		if (xmltip){
 			d4xXmlField *fld=NULL;
@@ -481,10 +515,12 @@ void dnd_trash_init(){
 		};
 		if (bgcolor){
 			gdk_color_parse(bgcolor,&(current_style->bg[GTK_STATE_NORMAL]));
+			current_style->fg[GTK_STATE_ACTIVE]=current_style->bg[GTK_STATE_NORMAL];
 		}else
-			current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+			current_style->bg[GTK_STATE_NORMAL]=current_style->fg[GTK_STATE_ACTIVE]=LYELLOW;
 		if (fgcolor)
 			gdk_color_parse(fgcolor,&(current_style->fg[GTK_STATE_NORMAL]));
+		current_style->bg[GTK_STATE_ACTIVE]=current_style->fg[GTK_STATE_NORMAL];
 		gdk_font_unref(current_style->font);
 		current_style->font = MainWindow->style->font;
 		gdk_font_ref(MainWindow->style->font);
@@ -618,7 +654,8 @@ void dnd_trash_animation(){
 	};
 };
 
-void dnd_trash_set_tooltip(char *str){
+void dnd_trash_set_tooltip(char *str,float percent){
+	dnd_trash_tooltip_percent=percent;
 	if (str==NULL)
 		str=dnd_trash_tooltip_text;
 	if (str==NULL || dnd_trash_window==NULL) return;

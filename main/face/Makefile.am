@@ -1,8 +1,9 @@
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.5 2002/04/06 23:36:35 zaufi Exp $
+# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.6 2002/05/21 11:19:30 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
+CLEANFILES = *~
 
 EXTRA_DIST           = $(srcdir)/pixmaps $(srcdir)/pixmaps2
 noinst_LIBRARIES     = libface.a

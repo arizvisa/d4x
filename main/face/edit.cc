@@ -17,6 +17,7 @@
 #include "misc.h"
 #include "mywidget.h"
 #include "addd.h"
+#include "passface.h"
 #include "../history.h"
 #include "../var.h"
 #include "../locstr.h"
@@ -195,13 +196,14 @@ void init_edit_window(tDownload *what) {
 	d4x_eschandler_init(what->editor->window,what->editor);
 };
 
-void init_edit_window_without_ok(tDownload *what) {
+void init_edit_window_without_ok(tDownload *what,int flag) {
 	if (!what) return;
 	if (what->editor) {
 		what->editor->popup();
 		return;
 	};
 	what->editor=new tDEdit;
+	if (flag) what->editor->add_or_edit=flag;
 	what->editor->init(what);
 	if (what->owner()==DL_RUN ||
 	    what->owner()==DL_STOPWAIT)
@@ -293,7 +295,7 @@ tDEdit::tDEdit() {
 	proxy=NULL;
 	filter_sel=NULL;
 	parent_in_db=0;
-	add_or_edit=dnd=0;
+	add_or_edit=dnd=limit=0;
 };
 
 void tDEdit::popup() {
@@ -462,7 +464,18 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),file_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),desc_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),use_pass_check,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
+	if (limit){
+		con_limit_entry=my_gtk_entry_new_with_max_length(5,who->config->con_limit);
+		GtkWidget *limit_box=gtk_hbox_new(FALSE,0);
+		gtk_box_set_spacing(GTK_BOX(limit_box),5);
+		gtk_box_pack_start(GTK_BOX(limit_box),user_box,FALSE,FALSE,0);
+		gtk_box_pack_end(GTK_BOX(limit_box),con_limit_entry,FALSE,FALSE,0);
+		gtk_box_pack_end(GTK_BOX(limit_box),gtk_label_new(_("Connections limit:")),FALSE,FALSE,0);
+		gtk_box_pack_start(GTK_BOX(vbox),limit_box,FALSE,FALSE,0);
+	}else{
+		con_limit_entry=NULL;
+		gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
+	};
 	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
 	pause_check=gtk_check_button_new_with_label(_("Pause this just after adding"));
 	restart_from_begin_check=gtk_check_button_new_with_label(_("Restart this download from begining"));
@@ -893,7 +906,7 @@ void tDEdit::enable_ok_button() {
 };
 
 int tDEdit::apply_changes() {
-	parent->config->isdefault=GTK_TOGGLE_BUTTON(isdefault_check)->active;
+	CFG.USE_DEFAULT_CFG=parent->config->isdefault=GTK_TOGGLE_BUTTON(isdefault_check)->active;
 	char *temp=copy_string(text_from_combo(url_entry));
 	del_crlf(temp);
 	tAddr *addr=new tAddr(temp);
@@ -907,6 +920,7 @@ int tDEdit::apply_changes() {
 		ALL_DOWNLOADS->insert(parent);
 	if (parent->ALTS)
 		parent->ALTS->check(addr->file.get());
+	FaceForPasswords->stop_matched(parent);
 	switch(parent->info->proto){
 	case D_PROTO_FTP:{
 		proxy->apply_changes(parent->config,1);
@@ -947,9 +961,10 @@ int tDEdit::apply_changes() {
 	};
 	/* change histories
 	 */
-	char *URL=parent->info->url();
 	parent->config->user_agent.set(text_from_combo(user_agent_entry));
-	ALL_HISTORIES[URL_HISTORY]->add(URL);
+	char *URL=parent->info->url();
+	if (!limit)
+		ALL_HISTORIES[URL_HISTORY]->add(URL);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add(parent->config->user_agent.get());
 	char *referer=text_from_combo(referer_entry);
 	if (referer && *referer){
@@ -1037,6 +1052,13 @@ int tDEdit::apply_changes() {
 		if (parent->split)
 			delete(parent->split);
 		parent->split=NULL;
+	};
+	if (limit && con_limit_entry){
+		sscanf(gtk_entry_get_text(GTK_ENTRY(con_limit_entry)),"%u",&temp1);
+		if (temp1>=0)
+			parent->config->con_limit=temp1;
+		else
+			parent->config->con_limit=0;
 	};
 
 	if (GTK_TOGGLE_BUTTON(time_check)->active) {

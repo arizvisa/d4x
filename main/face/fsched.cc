@@ -44,7 +44,7 @@ static char *action_names[]={
 
 void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev){
 	if (d4x_scheduler_window==NULL) return;
-	char *text[2];
+	char *text[3];
 	char buf[MAX_LEN];
 	char buf2[MAX_LEN];
 	struct tm tm_time;
@@ -264,7 +264,7 @@ static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor)
 		editor->dwn->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
 	};
 	what=editor->dwn;
-	init_edit_window_without_ok(what);
+	init_edit_window_without_ok(what,1);
 	what->editor->disable_time();
 	if (flag)
 		what->editor->clear_url();
@@ -647,10 +647,8 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 			editor->dwn->config=new tCfg;
 			editor->dwn->set_default_cfg();
 			editor->dwn->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
+			editor->dwn->info=new tAddr(text_from_combo(editor->url_entry));
 		};
-		if (editor->dwn->info)
-			delete(editor->dwn->info);
-		editor->dwn->info=new tAddr(text_from_combo(editor->url_entry));
 		act->dwn=editor->dwn;
 		editor->dwn=(tDownload*)NULL;
 		action=act;

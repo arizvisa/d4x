@@ -89,6 +89,14 @@ struct tSplitInfo{
 	~tSplitInfo();
 };
 
+struct d4xDwnLink:public tNode{
+	tDownload *dwn,*papa;
+	tQueue *q;
+	d4xDwnLink(){dwn=NULL;papa=NULL;q=NULL;};
+	d4xDwnLink(tDownload *a,tDownload *p){dwn=a;papa=p;};
+	void print(){};
+};
+
 struct tDownload:public tAbstractSortNode{
 	tCfg *config;
 	tPStr Name2Save;
@@ -116,7 +124,7 @@ struct tDownload:public tAbstractSortNode{
 	fsize_t StartSize;
 	int GTKCListRow;
 	// to realise stack of items which is needed to be updated
-	tDownload *next2update,*next2stop;
+	tDownload *next2update,*prev2update,*next2stop;
 	//------------------------------------
 	private:
 	int need_to_rename,im_first,im_last;
@@ -136,6 +144,7 @@ struct tDownload:public tAbstractSortNode{
 	void export_socket(tDownloader *what);
 	public:
 	//------------------------------------
+	d4xDwnLink *regex_match; //is neded for URL-manager's limits
 	tDList *DIR;
 	tSpeed *SpeedLimit;
 	time_t ScheduleTime;
@@ -218,6 +227,7 @@ enum {
     DL_PAUSE,
     DL_COMPLETE,
     DL_STOPWAIT,
+    DL_LIMIT,
     DL_TEMP
 };
 

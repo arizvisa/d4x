@@ -621,6 +621,7 @@ void buttons_cfg_init(){
 };
 
 void prepare_buttons() {
+	if (!D4X_QUEUE) return;
 	if (D4X_QUEUE->count())
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],TRUE);
 	else

@@ -41,7 +41,7 @@ tMainCfg CFG={
 	3,1024,10*1024,
 	NULL,0,
 	0x0FFFFFFF,
-	0,0,1,
+	0,0,1,1, //special things
 	1,0,15,
 	1,0,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,
 	0,(char*)NULL
@@ -198,6 +198,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->ESD_SOUND=src->ESD_SOUND;
 	dst->DONOTSET_WINPOS=src->DONOTSET_WINPOS;
 	dst->USE_THEME=src->USE_THEME;
+	dst->USE_DEFAULT_CFG=src->USE_DEFAULT_CFG;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);

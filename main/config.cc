@@ -204,7 +204,8 @@ tConfigVariable config_variables[]={
 	{"donotset_winpos",	CV_TYPE_BOOL,	&(CFG.DONOTSET_WINPOS)},
 	{"hide_main_window",	CV_TYPE_BOOL,	&(CFG.HIDE_MAIN_WINDOW)},
 	{"theme_file",		CV_TYPE_STRING,	&(CFG.THEME_FILE)},
-	{"use_theme",		CV_TYPE_BOOL,	&(CFG.USE_THEME)}
+	{"use_theme",		CV_TYPE_BOOL,	&(CFG.USE_THEME)},
+	{"use_default_cfg",	CV_TYPE_BOOL,	&(CFG.USE_DEFAULT_CFG)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);

@@ -26,6 +26,7 @@ protected:
 	int reconnect();
 	int download_dir();
 	int ftp_get_size(tStringList *l);
+	int ftp_get_size_no_sdc(tStringList *l);
 	void print_error(int error_code);
 	fsize_t ls_answer_short();
 	fsize_t ls_answer_long();

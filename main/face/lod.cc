@@ -428,18 +428,18 @@ void d4xQueueView::move_download_down(int row){
 		D4X_QUEUE->backward(what);
 };
 static gint compare_nodes1(gconstpointer a,gconstpointer b){
-    gint aa=GPOINTER_TO_INT(a);
-    gint bb=GPOINTER_TO_INT(b);
-    if (aa>bb) return 1;
-    if (aa==bb) return 0;
+    gint a1=GPOINTER_TO_INT(a);
+    gint b1=GPOINTER_TO_INT(b);
+    if (a1>b1) return 1;
+    if (a1==b1) return 0;
     return -1;
 };
 
 static gint compare_nodes2(gconstpointer a,gconstpointer b){
-    gint aa=GPOINTER_TO_INT(a);
+    gint a1=GPOINTER_TO_INT(a);
     gint bb=GPOINTER_TO_INT(b);
-    if (aa>bb) return -1;
-    if (aa==bb) return 0;
+    if (a1>bb) return -1;
+    if (a1==bb) return 0;
     return 1;
 };
 
@@ -717,6 +717,8 @@ void d4xQueueView::rebuild_wait(){
 		tmp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
 	};
 	D4X_QUEUE->replace_list(dlist,DL_WAIT);
+	if (CFG.WITHOUT_FACE==0)
+		D4X_QVT->update(D4X_QUEUE);
 };
 
 static int _cmp_bypercent(tDownload *a,tDownload *b){

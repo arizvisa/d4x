@@ -49,7 +49,6 @@ class tMain{
 	void run_without_face();
 	void main_circle_first(tDownload *dw);
 	void main_circle_second(tDownload *dwn);
-	void insert_into_wait_list(tDownload *what,d4xDownloadQueue *dq);
 	void init_qtree(tQueue *list,d4xDownloadQueue *papa=(d4xDownloadQueue *)NULL);
 	void stop_all(tQueue *q);
 	int try_to_switch_split(tDownload *dwn,tDownload *gp);
@@ -87,10 +86,12 @@ class tMain{
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	int set_auto_run(int a);
-	void try_to_run_wait(d4xDownloadQueue *papa);
-	void try_to_run_run(d4xDownloadQueue *papa);
 	void run_after_quit();
 	void done();
+	void try_to_run_run(d4xDownloadQueue *papa);
+	/* next method used by URL-manager too */
+	void try_to_run_wait(d4xDownloadQueue *papa);
+	void insert_into_wait_list(tDownload *what,d4xDownloadQueue *dq);
 	/* next methods are public especialy for tFtpSearchCtrl */
 	void post_stopping(tDownload *what);
 	void prepare_for_stoping(tDownload *what);

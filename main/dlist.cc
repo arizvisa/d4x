@@ -132,8 +132,10 @@ void tDefaultWL::unlock_fd(){
 int tDefaultWL::lock_fd(){
 	/*trying to lock*/
 	switch(d4x_f_lock(fd)){
-	case 1:
+	case 0:
 		fdlock=1;
+		break;
+	case 1:
 		log(LOG_ERROR,_("File is already opened by another download!"));
 		return(-1);
 	case -1:
@@ -307,8 +309,9 @@ tSplitInfo::~tSplitInfo(){
 
 /**********************************************/
 tDownload::tDownload() {
+	regex_match=NULL;
 	config=NULL;
-	next2stop=next2update=NULL;
+	next2stop=prev2update=next2update=NULL;
 	protect=0;
 	next=prev=NULL;
 	split=NULL;
@@ -1127,8 +1130,36 @@ static void _html_parser_dir_destroy_(void *a){
 void tDownload::http_recurse() {
 	tHttpDownload *httpd=(tHttpDownload *)(who);
 	char *type=httpd->get_content_type();
-	if ((config->change_links ||  config->http_recurse_depth!=1)
-	    && type && begin_string_uncase(type,"text/html")){
+	if ((config->change_links || config->http_recurse_depth!=1) &&
+	    type && begin_string_uncase(type,"audio/x-pn-realaudio")){
+		char *a=make_path_to_file();
+		char *tmppath=sum_strings(a,"/",info->file.get(),
+					  info->params.get()?"?":NULL,
+					  info->params.get()?info->params.get():NULL,
+					  NULL);
+		delete[] a;
+		int fd=open(tmppath,O_RDWR,S_IRUSR | S_IWUSR);
+		delete[] tmppath;
+		if (fd>=0){
+			char *buf=new char[MAX_LEN];
+			*buf=0;
+			f_rstr(fd,buf,MAX_LEN);
+			tQueue *dir=new tQueue;
+			pthread_cleanup_push(_html_parser_dir_destroy_,dir);
+			tHtmlUrl *node=new tHtmlUrl;
+			info->tag.set("");
+			node->info=new tAddr(buf);
+			delete[] buf;
+			dir->insert(node);
+			if (config->http_recurse_depth!=1)
+				convert_list_to_dir2(dir);
+			/* FIXME: what about changing link? */
+			pthread_cleanup_pop(1);
+		};
+		close(fd);
+	};
+	if ((config->change_links || config->http_recurse_depth!=1) &&
+	    type && begin_string_uncase(type,"text/html")){
 		tQueue *dir=new tQueue;
 		tHtmlParser *html=new tHtmlParser;
 		pthread_cleanup_push(_html_parser_dir_destroy_,dir);

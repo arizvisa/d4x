@@ -24,6 +24,7 @@ struct tSimplyCfg{
 	int ftp_recurse_depth,http_recurse_depth;
 	int rollback;
 	int speed;
+	int con_limit; //used only by URL-manager
 /* flags
  */
 	int http_recursing; //temporary flag
