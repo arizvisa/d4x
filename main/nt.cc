@@ -113,12 +113,14 @@ int main(int argc,char **argv) {
 #ifdef ENABLE_NLS
 	bindtextdomain("d4x", LOCALEDIR);
 	textdomain("d4x");
-	char *a=index(getenv("LANG"),'.');
+	char *a=getenv("LANG");
+	a=a?index(a,'.'):NULL;
 	if (a){
 		LOCALE_CODEPAGE=copy_string(a+1);
 		a=LOCALE_CODEPAGE;
 		while (*a){ *a=toupper(*a);a++;};
-	}else LOCALE_CODEPAGE="UTF-8";
+	}else
+		LOCALE_CODEPAGE="UTF-8";
 	setlocale(LC_ALL,"");
 #endif
 

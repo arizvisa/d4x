@@ -105,6 +105,7 @@ public:
 	GtkListStore *list_store;
 	GtkWidget *ListOfDownloads;
 	tQueue ListOfDownloadsWF;
+	float current_shift;
 	d4xQVPrefs prefs;
 	int LoDSortFlag;
 	d4xQueueView();

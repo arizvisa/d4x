@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/share/Makefile.am,v 1.7.2.2 2002/10/12 22:44:33 zaufi Exp $
+# $Header: /var/cvs/d4x/share/Makefile.am,v 1.9 2002/11/12 21:29:53 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
@@ -28,6 +28,3 @@ uninstall-local:
 	for i in $(SOUNDFILES) $(THEMEFILES); do \
 	    rm -f $(pkgdatadir)/$$i; \
 	done
-
-test:
-	@echo $(EXTRA_DIST)

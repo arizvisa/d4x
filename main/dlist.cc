@@ -1326,22 +1326,25 @@ void tDownload::download_http() {
 	((tDefaultWL*)(WL))->unlock_fd();
 	if (split && !im_first)
 		CurentSize=split->FirstByte;
-	who->set_loaded(CurentSize);
+	fsize_t SizeDecrement=CurentSize>0 && segments->one_segment()?1:0;
+	who->set_loaded(CurentSize-SizeDecrement);
 	CurentSize=who->rollback();
+	if (split) split->FirstByte=CurentSize;
 	
 	fsize_t size=who->get_size();
 	if (!im_first && split && split->FirstByte>0 && who->reget()==0){
-		WL->log(LOG_WARNING,_("Multithreaded downloading not possible due to server limitations (resuming not supported)"));
+		WL->log(LOG_WARNING,_("Multithreaded downloading is not possible due to server limitations (resuming not supported)"));
 		download_completed(D_PROTO_HTTP);
 		return;
 	};
 	/* In the case if file already loaded
 	 */
-	if (size==CurentSize && size>0 && config->rollback==0) {
+	if (size==CurentSize+SizeDecrement && size>0 && config->rollback==0) {
 		check_local_file_time();
 		if (!who->remote_file_changed()){
 			finfo.size=size;
 			finfo.type=T_FILE;
+			WL->log(LOG_OK,_("Local file is seems to be equal to remote one"));
 			download_completed(D_PROTO_HTTP);
 			return;
 		};

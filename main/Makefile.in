@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/main/Makefile.am,v 1.9 2002/07/18 07:08:37 max Exp $
+# $Header: /var/cvs/d4x/main/Makefile.am,v 1.10 2002/11/20 08:10:25 zaufi Exp $
 #
 SHELL = @SHELL@
 
@@ -79,6 +79,7 @@ CC = @CC@
 CXX = @CXX@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
+DOXYGEN = @DOXYGEN@
 ESD_CFLAGS = @ESD_CFLAGS@
 ESD_CONFIG = @ESD_CONFIG@
 ESD_LIBS = @ESD_LIBS@
@@ -96,6 +97,7 @@ LIB = @LIB@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBRX = @LIBRX@
+LN_S = @LN_S@
 LTLIB = @LTLIB@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
@@ -105,6 +107,7 @@ PACKAGE = @PACKAGE@
 PKG_CONFIG = @PKG_CONFIG@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
+RPM = @RPM@
 STRIP = @STRIP@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
@@ -534,6 +537,8 @@ info-am:
 install-data-am:
 
 install-exec-am: install-binPROGRAMS
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
 
 install-info: install-info-recursive
 
@@ -570,6 +575,9 @@ uninstall-info: uninstall-info-recursive
 	uninstall-binPROGRAMS uninstall-info-am \
 	uninstall-info-recursive uninstall-recursive
 
+
+install-exec-hook:
+	$(LN_S) $(DESTDIR)$(bindir)/$(bin_PROGRAMS) $(DESTDIR)$(bindir)/$(PACKAGE)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

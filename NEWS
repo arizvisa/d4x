@@ -1,3 +1,12 @@
+2.4rc1
+    Implemented workarround for new apaches with their error (request is out of range);
+    Fixed segfault when LANG enviroment variable does not set;
+    Fixed five digits limit for speed-limit;
+    Fixed some gtk code;
+    Fixed automating adding with square brackets (e.g [a,ef,c,dff]);
+    Many changes in automake/autoconf code from zaufi;
+    Creating link named 'd4x' to 'nt' during install;
+
 2.4beta2
     Added ability to use '_' instead of '?' in filenames loaded via HTTP
     Added support for libao (thanks to Julien BLACHE)

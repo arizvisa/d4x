@@ -75,7 +75,7 @@ tConfirmedDialog *AskDeleteFataled=(tConfirmedDialog *)NULL;
 tConfirmedDialog *AskExit=(tConfirmedDialog *)NULL;
 
 gint StatusBarContext,RBStatusBarContext;
-int MainTimer,LogsTimer,GraphTimer,ListTimer;
+int LogsTimer,GraphTimer,ListTimer;
 int SAVE_LIST_INTERVAL,EXIT_COMPLETE_INTERVAL;
 //pthread_mutex_t MAIN_GTK_MUTEX=(pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 
@@ -710,10 +710,11 @@ void d4x_save_accelerators(){
 void my_main_quit(...) {
 	if (CFG.WITHOUT_FACE==0){
 		CFG.HIDE_MAIN_WINDOW=!gdk_window_is_visible(MainWindow->window);
-		gtk_timeout_remove(MainTimer);
+		gtk_timeout_remove(ListTimer);
 		gtk_timeout_remove(LogsTimer);
 		gtk_timeout_remove(GraphTimer);
 		D4X_QUEUE->qv.get_adj();
+		CFG.CLIST_SHIFT=D4X_QUEUE->qv.current_shift;
 		d4x_save_accelerators();
 	};
 	save_list();
@@ -1292,6 +1293,7 @@ int time_for_refresh(void *a) {
 };
 
 static int _nano_step_=0;
+static int _nano_stepn_=0;
 
 int time_for_logs_refresh(void *a) {
 	if (_nano_step_)
@@ -1301,10 +1303,9 @@ int time_for_logs_refresh(void *a) {
 	_nano_step_=~_nano_step_;
 	aa.redraw_logs();
 	aa.check_for_remote_commands();
-	MainTimer-=1;
-	if (MainTimer==0) {
-		time_for_refresh(NULL);
-		MainTimer=(GLOBAL_SLEEP_DELAY*1000)/100;
+	if (_nano_stepn_++>=GLOBAL_SLEEP_DELAY*10){
+		time_for_refresh(a);
+		_nano_stepn_=0;
 	};
 	return 1;
 };
@@ -1432,7 +1433,6 @@ void init_timeouts() {
 	ListTimer = gtk_timeout_add (60000, time_for_save_list , NULL);
 	GraphTimer = gtk_timeout_add (250, time_for_draw_graph , NULL);
 	LogsTimer = gtk_timeout_add (100, time_for_logs_refresh , NULL);
-	MainTimer=(GLOBAL_SLEEP_DELAY*1000)/100;
 	FirstConfigureEvent=1;
 	g_signal_connect(G_OBJECT(MainWindow), "configure_event",
 	                   G_CALLBACK(get_mainwin_sizes),

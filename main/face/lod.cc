@@ -1579,11 +1579,9 @@ void d4xQueueView::open_logs() {
 };
 
 void d4xQueueView::set_shift(float shift){
+//	GtkAdjustment *adj=gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(ContainerForCList));
 	GtkAdjustment *adj=gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(ListOfDownloads));
-	if (adj->upper>shift){
-		adj->value=shift;
-		g_signal_emit_by_name(G_OBJECT (adj), "value_changed");
-	};
+	if (adj) gtk_adjustment_set_value(adj,shift);
 };
 
 /* move_to(tDownload *dwn)
@@ -1598,8 +1596,7 @@ void d4xQueueView::move_to(tDownload *dwn){
 
 void d4xQueueView::get_adj(){
 	GtkAdjustment *adj=gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(ListOfDownloads));
-	if (adj)
-		CFG.CLIST_SHIFT=adj->value;
+	if (adj) current_shift=adj->value;
 };
 
 // manipulating with downloads

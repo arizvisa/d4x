@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.8.2.1 2002/10/11 18:58:59 zaufi Exp $
+# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.11 2002/11/07 00:34:19 zaufi Exp $
 #
 SHELL = @SHELL@
 
@@ -79,6 +79,7 @@ CC = @CC@
 CXX = @CXX@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
+DOXYGEN = @DOXYGEN@
 ESD_CFLAGS = @ESD_CFLAGS@
 ESD_CONFIG = @ESD_CONFIG@
 ESD_LIBS = @ESD_LIBS@
@@ -96,6 +97,7 @@ LIB = @LIB@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBRX = @LIBRX@
+LN_S = @LN_S@
 LTLIB = @LTLIB@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
@@ -105,6 +107,7 @@ PACKAGE = @PACKAGE@
 PKG_CONFIG = @PKG_CONFIG@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
+RPM = @RPM@
 STRIP = @STRIP@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
@@ -116,7 +119,11 @@ localedir = @localedir@
 
 MAINTAINERCLEANFILES = Makefile.in
 
+CLEAN_FILES = html
+
 pkgdata_DATA = $(shell ls $(srcdir)/FAQ* $(srcdir)/README*) LICENSE TROUBLES
+
+EXTRA_DIST = $(pkgdata_DATA)
 
 # Prefix 'dist_' mean that man page gets in a distrubution
 dist_man_MANS = nt.1
@@ -213,6 +220,7 @@ top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/$(srcdir)
 	@list='$(DISTFILES)'; for file in $$list; do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

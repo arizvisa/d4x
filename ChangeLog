@@ -1,3 +1,241 @@
+2002-11-24 23:09  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.0-rc1
+	tagged
+
+2002-11-24 23:04  max
+
+	* main/: autoadd.cc, face/edit.cc: fixed automatic adding with [];
+	fixed signal handler for focus-in/out event;
+
+2002-11-21 18:22  zaufi
+
+	* main/.cvsignore: Added bin_PROGRAMS as ignored file
+
+2002-11-20 15:10  zaufi
+
+	* configure.in, main/Makefile.am: Make symlink d4x --> nt while
+	install
+
+2002-11-13 18:32  max
+
+	* main/: dlist.cc, face/list.cc: fixed yesterday changes :-)
+
+2002-11-13 04:29  zaufi
+
+	* share/Makefile.am: Remove debugging rule
+
+2002-11-12 12:16  max
+
+	* main/face/: list.cc, lod.cc, lod.h, qtree.cc: try to implement
+	ability to remember current adjustement for queue
+
+2002-11-12 11:08  max
+
+	* main/var.cc: fixed five-digits limit for speed-limit (new limit
+	is six digits)
+
+2002-11-12 11:07  max
+
+	* main/: dlist.cc, main.cc, segments.cc, segments.h, face/list.cc:
+	implemented workarround for new apaches when they return 'request
+	is out of range' error; code cleanups;
+
+2002-11-10 19:38  zaufi
+
+	* .cvsignore: Add ignore files
+
+2002-11-10 19:37  zaufi
+
+	* .cvsignore, Makefile.am: Add clean and ignore files
+
+2002-11-10 11:36  zaufi
+
+	* configure.in: Spam little fixed :)
+
+2002-11-10 11:05  zaufi
+
+	* configure.in, admin/acinclude.m4: Add caching for obsolete option
+	checking
+
+2002-11-09 00:16  zaufi
+
+	* Doxyfile.in, Makefile.am, configure.in: Little fixes for doxygen
+	and rpm support
+
+2002-11-07 10:26  zaufi
+
+	* README, README.maint, admin/cvs.sh: Split README in2 users and
+	developers parts
+
+2002-11-07 10:06  zaufi
+
+	* configure.in: Fix race condition :)
+
+2002-11-07 09:36  zaufi
+
+	* configure.in, admin/acinclude.m4: --enable-extra-optimize tests
+	redesigned
+
+2002-11-07 08:05  zaufi
+
+	* configure.in: Fix sound libs support
+
+2002-11-07 07:34  zaufi
+
+	* Makefile.am, DOC/Makefile.am: Exclude doxygened html docs from
+	distr + new rpm builder added
+
+2002-11-07 06:52  zaufi
+
+	* Doxyfile.in, Makefile.am: Missed doxygen config added + enhanced
+	RPM build support coded
+
+2002-11-07 04:15  zaufi
+
+	* Makefile.am: Missed path fixed
+
+2002-11-07 04:06  zaufi
+
+	* Makefile.am, configure.in, admin/cvs.sh: Some bugs fixed +
+	doxygen support added
+
+2002-11-06 15:17  zaufi
+
+	* admin/cvs.sh: Fix '-' char for rpm creation
+
+2002-11-06 14:59  zaufi
+
+	* admin/cvs.sh: Fix spam and some bugs in version control code
+
+2002-11-06 14:21  zaufi
+
+	* Makefile.cvs, admin/cvs.sh: Fix cvs reconfigure
+
+2002-11-06 13:58  zaufi
+
+	* .cvsignore, ChangeLog, EXCLUDE, Makefile.am, NEWS, PACK, PLANS,
+	README, TODO, configure.in, nt-gray.png, nt-mini.xpm, nt-wm.png,
+	nt.desktop, nt.png, nt.spec.in, nt.wmconfig, nt.xpm, reconf: Merge
+	with current devel branch
+
+2002-11-06 13:53  zaufi
+
+	* main/addr.cc, main/addr.h, main/alt.cc, main/alt.h,
+	main/client.cc, main/client.h, main/config.cc, main/cookie.cc,
+	main/db.cc, main/db.h, main/dlist.cc, main/dlist.h, main/dqueue.cc,
+	main/dqueue.h, main/filter.h, main/fsearch.cc, main/fsearch.h,
+	main/ftp.cc, main/html.cc, main/html.h, main/http.cc,
+	main/httpd.cc, main/locstr.cc, main/locstr.h, main/log.cc,
+	main/main.cc, main/main.h, main/mainlog.cc, main/mainlog.h,
+	main/nt.cc, main/schedule.cc, main/schedule.h, main/segments.cc,
+	main/segments.h, main/sndserv.cc, main/socket.cc, main/sort.cc,
+	main/speed.h, main/var.cc, main/var.h, main/xml.cc,
+	main/face/Makefile.am, main/face/about.cc, main/face/addd.cc,
+	main/face/buttons.cc, main/face/columns.cc, main/face/dndtrash.cc,
+	main/face/edit.cc, main/face/edit.h, main/face/filtrgui.cc,
+	main/face/fsched.cc, main/face/fsface.cc, main/face/fsface.h,
+	main/face/graph.cc, main/face/list.cc, main/face/list.h,
+	main/face/lmenu.cc, main/face/lod.cc, main/face/lod.h,
+	main/face/log.cc, main/face/misc.cc, main/face/misc.h,
+	main/face/mywidget.cc, main/face/mywidget.h, main/face/passface.cc,
+	main/face/passface.h, main/face/prefs.cc, main/face/qtree.cc,
+	main/face/qtree.h, main/face/saveload.cc,
+	main/face/pixmaps/openlog.xpm, po/.cvsignore, po/Makevars, po/NEW,
+	po/POTFILES.in, po/REPLACE, po/bg.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ru.po, po/uk.po, share/Makefile.am,
+	share/d4x_aqua.png, share/nt-gray.png, share/nt-mini.xpm,
+	share/nt-wm.png, share/nt.desktop, share/nt.png, share/nt.wmconfig,
+	share/nt.xpm: Merge with current devel branch
+
+2002-11-06 13:49  zaufi
+
+	* DOC/INSTALL, DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr,
+	DOC/INSTALL.gr, DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR,
+	DOC/Makefile.am, DOC/nt.1, admin/acinclude.m4, admin/.cvsignore,
+	admin/EXCLUDE, admin/cvs.sh: Merge with current devel branch
+
+2002-11-06 13:46  zaufi
+
+	* DOC/Makefile.am: Merge with current devel
+
+2002-10-27 15:47  max
+
+	* DOC/nt.1, main/nt.cc: fixed segfault if LANG env variable does
+	not set; updated manual page
+
+2002-10-26 14:04  max
+
+	* po/es.po: updated Spanish translation by Gustavo D. Vranjes
+
+2002-10-26 00:58  max
+
+	* configure.in, nt.spec.in: fixed building rpms
+
+2002-10-26 00:33  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po:
+	fixed po files, update Russian translation
+
+2002-10-25 17:01  max
+
+	* NEWS: updated, preparing to release
+
+2002-10-25 16:13  max
+
+	* main/face/lod.cc: fixed unselecting files in queue by mask
+
+2002-10-25 15:17  max
+
+	* configure.in, admin/acinclude.m4, admin/d4xao.m4: moved all from
+	admin/d4xao.m4 to admin/acinclude.m4; remove duplicated
+	GTK_DISABLE_DEPRECATED from configure.in;
+
+2002-10-25 13:37  max
+
+	* admin/d4xao.m4: file d4xao.m4 was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-25 13:37  max
+
+	* NEWS, configure.in, admin/d4xao.m4: added workarround to detect
+	libao
+
+2002-10-25 09:32  max
+
+	* README: fixed my English :-)
+
+2002-10-25 09:17  max
+
+	* configure.in: revert back AM_PATH_ESD
+
+2002-10-25 09:14  zaufi
+
+	* Makefile.cvs: Add cvs-clean target
+
+2002-10-25 07:33  max
+
+	* main/face/: dndtrash.cc, list.cc: continue to cleanup DnD-basket;
+	remove some debug printf
+
+2002-10-25 01:16  max
+
+	* main/face/dndtrash.cc: do not allow to minimize or maximize
+	DnD-basket's window
+
+2002-10-25 01:05  max
+
+	* main/face/dndtrash.cc: set type of DnD-basket's window to DIALOG
+	(one way to hide it from task list)
+
+2002-10-25 00:47  max
+
+	* main/face/about.cc: added some graphics to about window :-)
+
+2002-10-24 21:57  max
+
+	* ChangeLog, NEWS: Updated :-)
+
 2002-10-24 21:50  max
 
 	* NEWS: updated

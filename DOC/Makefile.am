@@ -1,10 +1,14 @@
 #
-# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.8.2.1 2002/10/11 18:58:59 zaufi Exp $
+# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.11 2002/11/07 00:34:19 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 
+CLEAN_FILES = html
+
 pkgdata_DATA = $(shell ls $(srcdir)/FAQ* $(srcdir)/README*) LICENSE TROUBLES
+
+EXTRA_DIST   = $(pkgdata_DATA)
 
 # Prefix 'dist_' mean that man page gets in a distrubution
 dist_man_MANS = nt.1

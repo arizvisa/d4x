@@ -50,6 +50,7 @@ class tSegmentator{
 	void truncate(unsigned long int shift);
 	tSegment *get_first();
 	tSegment *to_holes(unsigned long int size);
+	int one_segment();
 	unsigned long int get_total();
 	void done();
 	void complete();

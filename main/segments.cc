@@ -235,6 +235,12 @@ tSegment *tSegmentator::get_first(){
 	return(FIRST);
 };
 
+int tSegmentator::one_segment(){
+	if (FIRST==NULL || FIRST->next==NULL) return 1;
+	return 0;
+};
+
+
 void tSegmentator::truncate(unsigned long int shift){
 	lock();
 	tSegment *tmp=FIRST;

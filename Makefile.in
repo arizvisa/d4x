@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.26.2.3 2002/10/12 22:44:33 zaufi Exp $
+# $Header: /var/cvs/d4x/Makefile.am,v 1.33 2002/11/10 12:37:00 zaufi Exp $
 #
 SHELL = @SHELL@
 
@@ -79,6 +79,7 @@ CC = @CC@
 CXX = @CXX@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
+DOXYGEN = @DOXYGEN@
 ESD_CFLAGS = @ESD_CFLAGS@
 ESD_CONFIG = @ESD_CONFIG@
 ESD_LIBS = @ESD_LIBS@
@@ -96,6 +97,7 @@ LIB = @LIB@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBRX = @LIBRX@
+LN_S = @LN_S@
 LTLIB = @LTLIB@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
@@ -105,6 +107,7 @@ PACKAGE = @PACKAGE@
 PKG_CONFIG = @PKG_CONFIG@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
+RPM = @RPM@
 STRIP = @STRIP@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
@@ -118,49 +121,61 @@ ACLOCAL_AMFLAGS = -I admin
 
 SUBDIRS = admin DOC intl main po share
 
-EXTRA_DIST = admin/strip.awk po/Makevars PLANS ChangeLog-1.x nt.spec DOC
+# Extra files/dirs to be included in distribution
+EXTRA_DIST = admin/strip.awk po/Makevars PLANS ChangeLog-1.x nt.spec
+
+# RPMs we can build
+RPM_TARGETS = rpm src-rpm all-rpms
+
+SPEC_DST = /usr/src/RPM/SPECS
 
 # Generic files to be removed
-CLEANFILES = $(top_srcdir)/*~ $(top_srcdir)/po/*~ $(top_srcdir)/admin/*~
+CLEANFILES = $(top_srcdir)/*~            \
+             $(top_srcdir)/po/*~         \
+             $(top_srcdir)/admin/*~      \
+             $(top_builddir)/doxygen.log \
+             $(top_builddir)/rpm-build.log
+
 
 # Remove all maintainer specific files
 MAINTAINERCLEANFILES = \
-    $(top_srcdir)/ABOUT-NLS \
-    $(top_srcdir)/ChangeLog.bak \
-    $(top_srcdir)/INSTALL \
-    $(top_srcdir)/Makefile.in \
-    $(top_srcdir)/aclocal.m4 \
-    $(top_srcdir)/config.h.in \
-    $(top_srcdir)/configure \
-    $(top_srcdir)/po/Makefile.in.in \
+    $(top_srcdir)/ABOUT-NLS            \
+    $(top_srcdir)/ChangeLog.bak        \
+    $(top_srcdir)/INSTALL              \
+    $(top_srcdir)/Makefile.in          \
+    $(top_srcdir)/aclocal.m4           \
+    $(top_srcdir)/config.h.in          \
+    $(top_srcdir)/configure            \
+    $(top_srcdir)/po/Makefile.in.in    \
     $(top_srcdir)/po/Makevars.template \
-    $(top_srcdir)/po/Rules-quot \
-    $(top_srcdir)/po/*.sed \
-    $(top_srcdir)/po/*.header \
-    $(top_srcdir)/po/*.sin \
-    $(top_srcdir)/admin/depcomp \
-    $(top_srcdir)/admin/missing \
-    $(top_srcdir)/admin/mkinstalldirs \
+    $(top_srcdir)/po/Rules-quot        \
+    $(top_srcdir)/po/*.sed             \
+    $(top_srcdir)/po/*.header          \
+    $(top_srcdir)/po/*.sin             \
+    $(top_srcdir)/admin/depcomp        \
+    $(top_srcdir)/admin/missing        \
+    $(top_srcdir)/admin/mkinstalldirs  \
     $(top_srcdir)/admin/maintainer.log \
-    $(top_srcdir)/admin/install-sh \
-    $(top_srcdir)/admin/Makefile.am \
-    $(top_srcdir)/admin/Makefile.in \
+    $(top_srcdir)/admin/install-sh     \
+    $(top_srcdir)/admin/Makefile.am    \
+    $(top_srcdir)/admin/Makefile.in    \
+    $(top_builddir)/Doxyfile           \
     $(shell find $(top_srcdir)/admin -name '*.m4' -a -not -name 'acinclude.m4' -o -name 'config.*')
 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = intl/Makefile nt.spec
+CONFIG_CLEAN_FILES = Doxyfile intl/Makefile nt.spec
 DIST_SOURCES =
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = README ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL \
-	Makefile.am Makefile.in NEWS TODO aclocal.m4 config.h.in \
-	configure configure.in nt.spec.in
+DIST_COMMON = README ABOUT-NLS AUTHORS COPYING ChangeLog Doxyfile.in \
+	INSTALL Makefile.am Makefile.in NEWS TODO aclocal.m4 \
+	config.h.in configure configure.in nt.spec.in
 DIST_SUBDIRS = $(SUBDIRS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -199,6 +214,8 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(top_srcdir)/configure.in $(ACLOC
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+Doxyfile: $(top_builddir)/config.status Doxyfile.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 intl/Makefile: $(top_builddir)/config.status $(top_srcdir)/intl/Makefile.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 nt.spec: $(top_builddir)/config.status nt.spec.in
@@ -504,9 +521,28 @@ maintainer-clean-local:
 
 # Goal to create source rpm
 # (use copy instead move to allow increment of packet version)
-src-rpm: dist
-	cp -f $(PACKAGE)-$(VERSION).tar.gz /usr/src/RPM/SOURCES
-	cp -f `rpm -bs nt.spec  | sed 's/Wrote: \(.*\)/\1/'` $(top_builddir)
+$(RPM_TARGETS):
+	@if ! test -d $(SPEC_DST) -a -O $(SPEC_DST); then \
+	    echo "Oops! You have no permissions to $(SPEC_DST) to produce .rpm package"; \
+	    exit 1; \
+	fi
+	$(MAKE) $(MAKEFLAGS) dist-gzip || exit 1
+	case "$(@)" in \
+	    all-rpms) rpm_flags="-ta" ;; \
+	    src-rpm)  rpm_flags="-ts" ;; \
+	    rpm)      rpm_flags="-tb" ;; \
+	    *)        exit 1;; \
+	esac; \
+	$(RPM) $$rpm_flags $(PACKAGE)-$(VERSION).tar.gz | tee $(top_builddir)/rpm-build.log || exit 1; \
+	cp -f `cat $(top_builddir)/rpm-build.log | grep 'Wrote:' | sed 's/Wrote: \(.*\)/\1/'` $(top_builddir)
+
+#
+# Run doxygen to produce html documentation for source code
+#
+html-docs: $(top_builddir)/Doxyfile
+	if test -f $<; then \
+	    $(DOXYGEN) $<; \
+	fi
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

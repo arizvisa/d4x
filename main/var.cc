@@ -79,8 +79,8 @@ void var_check_all_limits(){
 	var_check_limits_long(0,5000,&CFG.DEFAULT_CFG.rollback);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.ftp_recurse_depth);
 	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.http_recurse_depth);
-	var_check_limits_int(100,99999,&CFG.SPEED_LIMIT_1);
-	var_check_limits_int(100,99999,&CFG.SPEED_LIMIT_2);
+	var_check_limits_int(100,999999,&CFG.SPEED_LIMIT_1);
+	var_check_limits_int(100,999999,&CFG.SPEED_LIMIT_2);
 	var_check_limits_int(1,999,&CFG.SAVE_LIST_INTERVAL);
 	var_check_limits_int(1,999,&CFG.EXIT_COMPLETE_TIME);
 	var_check_limits_long(0,99999,&CFG.MAIN_LOG_FILE_LIMIT);

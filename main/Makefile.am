@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/main/Makefile.am,v 1.9 2002/07/18 07:08:37 max Exp $
+# $Header: /var/cvs/d4x/main/Makefile.am,v 1.10 2002/11/20 08:10:25 zaufi Exp $
 #
 
 SUBDIRS = face
@@ -50,3 +50,6 @@ noinst_HEADERS = $(strip                            \
 )
 
 nt_LDADD = $(top_builddir)/main/face/libface.a
+
+install-exec-hook:
+	$(LN_S) $(DESTDIR)$(bindir)/$(bin_PROGRAMS) $(DESTDIR)$(bindir)/$(PACKAGE)

@@ -371,16 +371,18 @@ void tDEdit::file_recode_from_url(){
 	};
 };
 
-static void edit_browser_file_focus(GtkWidget *widget,
+static gint edit_browser_file_focus(GtkWidget *widget,
 				    GdkEvent *event,
 				    tDEdit *edit){
 	edit->file_from_url();
+	return(FALSE);
 };
 
-static void edit_browser_file_un_focus(GtkWidget *widget,
+static gint edit_browser_file_un_focus(GtkWidget *widget,
 				    GdkEvent *event,
 				    tDEdit *edit){
 	edit->file_check();
+	return(FALSE);
 };
 
 static void edit_browser_file_recode(GtkWidget *widget,tDEdit *edit){

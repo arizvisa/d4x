@@ -1070,10 +1070,8 @@ void tMain::main_circle_nano1(){
 void tMain::main_circle_nano2(){
 	D4X_UPDATE.lock_s();
 	D4X_UPDATE.lock();
-//	main_circle_nano1();
 	int i=0;
-//	while (D4X_UPDATE.first_s && i<10){
-	if (D4X_UPDATE.first_s){
+	while (D4X_UPDATE.first_s){
 		tDownload *dwn=D4X_UPDATE.first_s;
 		tDownload *gp=dwn;
 		D4X_UPDATE.del_s();
@@ -1103,7 +1101,7 @@ void tMain::main_circle_nano2(){
 		default:
 			break;
 		};
-		i++;
+		if (i++>5) break;
 	};
 	D4X_UPDATE.unlock();
 	D4X_UPDATE.unlock_s();

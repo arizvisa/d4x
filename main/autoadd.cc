@@ -141,7 +141,7 @@ char *d4xAASubStr::scan(char *str){
 			return(cur+1);
 		};
 		char *end=index(cur,']');
-		if (end==NULL || end-cur==1 || *cur==',')
+		if (end==NULL || end==cur || *cur==',')
 			return(str);
 		str_len=end-cur;
 		left_str=new char[str_len+1];
@@ -281,9 +281,10 @@ char *d4xAASubStr::next(){
 	};
 	if (type==DAA_STRS){
 		char *rval=left_str;
-		if (cur_int+1<left_int){
-			cur_int+=1;
+		if (cur_int+1>=left_int){
 			end_flag=1;
+		}else{
+			cur_int+=1;
 		};
 		for (int i=0;i<cur_int;i++){
 			rval+=strlen(rval)+1;

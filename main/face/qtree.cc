@@ -431,6 +431,7 @@ void d4xQsTree::switch_to(d4xDownloadQueue *what){
 	if (D4X_QUEUE==what) return;
 	if (D4X_QUEUE){
 		D4X_QUEUE->reset_empty_func();
+		D4X_QUEUE->qv.get_adj();
 //		gtk_widget_hide(D4X_QUEUE->qv.ListOfDownloads);
 		gtk_container_remove(GTK_CONTAINER(ContainerForCList),D4X_QUEUE->qv.ListOfDownloads);
 	};
@@ -438,6 +439,7 @@ void d4xQsTree::switch_to(d4xDownloadQueue *what){
 	gtk_widget_show(what->qv.ListOfDownloads);
 	what->set_defaults();
 	D4X_QUEUE=what;
+	D4X_QUEUE->qv.set_shift(D4X_QUEUE->qv.current_shift);
 	prepare_buttons();
 };
 

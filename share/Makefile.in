@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/share/Makefile.am,v 1.7.2.2 2002/10/12 22:44:33 zaufi Exp $
+# $Header: /var/cvs/d4x/share/Makefile.am,v 1.9 2002/11/12 21:29:53 zaufi Exp $
 #
 SHELL = @SHELL@
 
@@ -79,6 +79,7 @@ CC = @CC@
 CXX = @CXX@
 DATADIRNAME = @DATADIRNAME@
 DEPDIR = @DEPDIR@
+DOXYGEN = @DOXYGEN@
 ESD_CFLAGS = @ESD_CFLAGS@
 ESD_CONFIG = @ESD_CONFIG@
 ESD_LIBS = @ESD_LIBS@
@@ -96,6 +97,7 @@ LIB = @LIB@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBRX = @LIBRX@
+LN_S = @LN_S@
 LTLIB = @LTLIB@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
@@ -105,6 +107,7 @@ PACKAGE = @PACKAGE@
 PKG_CONFIG = @PKG_CONFIG@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
+RPM = @RPM@
 STRIP = @STRIP@
 USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
@@ -285,9 +288,6 @@ uninstall-local:
 	for i in $(SOUNDFILES) $(THEMEFILES); do \
 	    rm -f $(pkgdatadir)/$$i; \
 	done
-
-test:
-	@echo $(EXTRA_DIST)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

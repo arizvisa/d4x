@@ -871,6 +871,181 @@ AC_DEFUN([AM_MAINTAINER_MODE],
 ]
 )
 
+
+AC_DEFUN(AM_WITH_RX,
+[
+    ## Spam what we check...
+    AC_MSG_CHECKING(which of GNU rx or gawk's regex is wanted)
+
+    ## Set initial value
+    am_with_rx="no"
+    LIBRX=""
+
+    ## Get configurable parameter
+    AC_ARG_WITH(rx,
+	AC_HELP_STRING([--with-rx], [Use fastest GNU rx instead of gawk's regex for matching]),
+	[am_with_rx=$withval])
+    if test "$am_with_rx" = "yes"; then
+	AC_MSG_RESULT(rx)
+	AC_PATH_PROGS(LIBRX, librx.a, not_found, [/usr/local/lib:/usr/lib])
+	if test "$LIBRX" = "not_found"; then
+	    AC_ERROR([*** Required library librx.a not found])
+	fi
+    else
+        AC_MSG_RESULT(regex)
+	AC_DEFINE(WITH_REGEX, 1, [Define if using GNU regex])
+	AC_CACHE_CHECK([for GNU regex in libc], am_cv_gnu_regex,
+	    AC_TRY_LINK([], [extern int re_max_failures; re_max_failures = 1],
+	                am_cv_gnu_regex=yes, am_cv_gnu_regex=no))
+	if test $am_cv_gnu_regex = no; then
+	    AC_MSG_RESULT(failure)
+	    AC_MSG_ERROR([*** Can't find regex functions in your libc])
+	fi
+    fi
+    AC_SUBST(LIBRX)
+])
+
+
+AC_DEFUN([D4X_PATH_AO],[
+	ifdef([XIPH_PATH_AO],
+	      [XIPH_PATH_AO([$1],[$2])],
+	      [AM_PATH_AO([$1],[$2])])]
+)
+
+AC_DEFUN([D4X_GCC_CHECK_OBSOLETE_OPTION],[
+    AC_REQUIRE([AC_PROG_CC])
+    AC_CACHE_CHECK([whether $1 is obsolete option], [ac_cv_`echo $1 | tr =- __`_obsolete],
+    [
+	AC_LANG_SAVE
+	AC_LANG_C
+	old_CFLAGS=$CFLAGS
+	CFLAGS="$CFLAGS -Werror $1"
+	AC_TRY_COMPILE(,,
+	    [eval "ac_cv_`echo $1 | tr =- __`_obsolete=no"],
+	    [eval "ac_cv_`echo $1 | tr =- __`_obsolete=yes"])
+	CFLAGS=$old_CFLAGS
+	AC_LANG_RESTORE
+    ])
+    if eval "test \"\${ac_cv_`echo $1 | tr =- __`_obsolete}\" = \"yes\""; then
+	[$2]
+    else
+	[$3]
+    fi
+])
+
+# ao.m4
+# Configure paths for libao
+# Jack Moffitt <jack@icecast.org> 10-21-2000
+# Shamelessly stolen from Owen Taylor and Manish Singh
+
+dnl XIPH_PATH_AO([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl Test for libao, and define AO_CFLAGS and AO_LIBS
+dnl
+AC_DEFUN(XIPH_PATH_AO,
+[dnl 
+dnl Get the cflags and libraries
+dnl
+AC_ARG_WITH(ao,[  --with-ao=PFX   Prefix where libao is installed (optional)], ao_prefix="$withval", ao_prefix="")
+AC_ARG_WITH(ao-libraries,[  --with-ao-libraries=DIR   Directory where libao library is installed (optional)], ao_libraries="$withval", ao_libraries="")
+AC_ARG_WITH(ao-includes,[  --with-ao-includes=DIR   Directory where libao header files are installed (optional)], ao_includes="$withval", ao_includes="")
+AC_ARG_ENABLE(aotest, [  --disable-aotest       Do not try to compile and run a test ao program],, enable_aotest=yes)
+
+
+  if test "x$ao_libraries" != "x" ; then
+    AO_LIBS="-L$ao_libraries"
+  elif test "x$ao_prefix" != "x"; then
+    AO_LIBS="-L$ao_prefix/lib"
+  elif test "x$prefix" != "xNONE"; then
+    AO_LIBS="-L$prefix/lib"
+  fi
+
+  if test "x$ao_includes" != "x" ; then
+    AO_CFLAGS="-I$ao_includes"
+  elif test "x$ao_prefix" != "x"; then
+    AO_CFLAGS="-I$ao_prefix/include"
+  elif test "x$prefix" != "xNONE"; then
+    AO_CFLAGS="-I$prefix/include"
+  fi
+
+  # see where dl* and friends live
+  AC_CHECK_FUNCS(dlopen, [AO_DL_LIBS=""], [
+    AC_CHECK_LIB(dl, dlopen, [AO_DL_LIBS="-ldl"], [
+      AC_MSG_WARN([could not find dlopen() needed by libao sound drivers
+      your system may not be supported.])
+    ])
+  ])
+
+  AO_LIBS="$AO_LIBS -lao $AO_DL_LIBS"
+
+  AC_MSG_CHECKING(for ao)
+  no_ao=""
+
+
+  if test "x$enable_aotest" = "xyes" ; then
+    ac_save_CFLAGS="$CFLAGS"
+    ac_save_LIBS="$LIBS"
+    CFLAGS="$CFLAGS $AO_CFLAGS"
+    LIBS="$LIBS $AO_LIBS"
+dnl
+dnl Now check if the installed ao is sufficiently new.
+dnl
+      rm -f conf.aotest
+      AC_TRY_RUN([
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ao/ao.h>
+
+int main ()
+{
+  system("touch conf.aotest");
+  return 0;
+}
+
+],, no_ao=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+       CFLAGS="$ac_save_CFLAGS"
+       LIBS="$ac_save_LIBS"
+  fi
+
+  if test "x$no_ao" = "x" ; then
+     AC_MSG_RESULT(yes)
+     ifelse([$1], , :, [$1])     
+  else
+     AC_MSG_RESULT(no)
+     if test -f conf.aotest ; then
+       :
+     else
+       echo "*** Could not run ao test program, checking why..."
+       CFLAGS="$CFLAGS $AO_CFLAGS"
+       LIBS="$LIBS $AO_LIBS"
+       AC_TRY_LINK([
+#include <stdio.h>
+#include <ao/ao.h>
+],     [ return 0; ],
+       [ echo "*** The test program compiled, but did not run. This usually means"
+       echo "*** that the run-time linker is not finding ao or finding the wrong"
+       echo "*** version of ao. If it is not finding ao, you'll need to set your"
+       echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
+       echo "*** to the installed location  Also, make sure you have run ldconfig if that"
+       echo "*** is required on your system"
+       echo "***"
+       echo "*** If you have an old version installed, it is best to remove it, although"
+       echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
+       [ echo "*** The test program failed to compile or link. See the file config.log for the"
+       echo "*** exact error that occured. This usually means ao was incorrectly installed"
+       echo "*** or that you have moved ao since it was installed." ])
+       CFLAGS="$ac_save_CFLAGS"
+       LIBS="$ac_save_LIBS"
+     fi
+     AO_CFLAGS=""
+     AO_LIBS=""
+     ifelse([$2], , :, [$2])
+  fi
+  AC_SUBST(AO_CFLAGS)
+  AC_SUBST(AO_LIBS)
+  rm -f conf.aotest
+])
+
 # gettext.m4 serial 16 (gettext-0.11.4)
 dnl Copyright (C) 1995-2002 Free Software Foundation, Inc.
 dnl This file is free software, distributed under the terms of the GNU
@@ -2981,164 +3156,6 @@ AC_DEFUN(AM_ESD_SUPPORTS_MULTIPLE_RECORD,
        ESD_LIBS="$ac_save_ESD_LIBS"
     fi
   )
-])
-
-
-AC_DEFUN(AM_WITH_RX,
-[
-    ## Spam what we check...
-    AC_MSG_CHECKING(which of GNU rx or gawk's regex is wanted)
-
-    ## Set initial value
-    am_with_rx="no"
-    LIBRX=""
-
-    ## Get configurable parameter
-    AC_ARG_WITH(rx,
-	AC_HELP_STRING([--with-rx], [Use fastest GNU rx instead of gawk's regex for matching]),
-	[am_with_rx=$withval])
-    if test "$am_with_rx" = "yes"; then
-	AC_MSG_RESULT(rx)
-	AC_PATH_PROGS(LIBRX, librx.a, not_found, [/usr/local/lib:/usr/lib])
-	if test "$LIBRX" = "not_found"; then
-	    AC_ERROR([*** Required library librx.a not found])
-	fi
-    else
-        AC_MSG_RESULT(regex)
-	AC_DEFINE(WITH_REGEX, 1, [Define if using GNU regex])
-	AC_CACHE_CHECK([for GNU regex in libc], am_cv_gnu_regex,
-	    AC_TRY_LINK([], [extern int re_max_failures; re_max_failures = 1],
-	                am_cv_gnu_regex=yes, am_cv_gnu_regex=no))
-	if test $am_cv_gnu_regex = no; then
-	    AC_MSG_RESULT(failure)
-	    AC_MSG_ERROR([*** Can't find regex functions in your libc])
-	fi
-    fi
-    AC_SUBST(LIBRX)
-])
-
-# d4xao.m4
-# configure defines for checking libao
-# on RedHat-8.0 and other
-# written by Maxim Koshelev
-
-AC_DEFUN([D4X_PATH_AO],[
-	ifdef([XIPH_PATH_AO],
-	      [XIPH_PATH_AO([$1],[$2])],
-	      [AM_PATH_AO([$1],[$2])])]
-)
-
-# ao.m4
-# Configure paths for libao
-# Jack Moffitt <jack@icecast.org> 10-21-2000
-# Shamelessly stolen from Owen Taylor and Manish Singh
-
-dnl XIPH_PATH_AO([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-dnl Test for libao, and define AO_CFLAGS and AO_LIBS
-dnl
-AC_DEFUN(XIPH_PATH_AO,
-[dnl 
-dnl Get the cflags and libraries
-dnl
-AC_ARG_WITH(ao,[  --with-ao=PFX   Prefix where libao is installed (optional)], ao_prefix="$withval", ao_prefix="")
-AC_ARG_WITH(ao-libraries,[  --with-ao-libraries=DIR   Directory where libao library is installed (optional)], ao_libraries="$withval", ao_libraries="")
-AC_ARG_WITH(ao-includes,[  --with-ao-includes=DIR   Directory where libao header files are installed (optional)], ao_includes="$withval", ao_includes="")
-AC_ARG_ENABLE(aotest, [  --disable-aotest       Do not try to compile and run a test ao program],, enable_aotest=yes)
-
-
-  if test "x$ao_libraries" != "x" ; then
-    AO_LIBS="-L$ao_libraries"
-  elif test "x$ao_prefix" != "x"; then
-    AO_LIBS="-L$ao_prefix/lib"
-  elif test "x$prefix" != "xNONE"; then
-    AO_LIBS="-L$prefix/lib"
-  fi
-
-  if test "x$ao_includes" != "x" ; then
-    AO_CFLAGS="-I$ao_includes"
-  elif test "x$ao_prefix" != "x"; then
-    AO_CFLAGS="-I$ao_prefix/include"
-  elif test "x$prefix" != "xNONE"; then
-    AO_CFLAGS="-I$prefix/include"
-  fi
-
-  # see where dl* and friends live
-  AC_CHECK_FUNCS(dlopen, [AO_DL_LIBS=""], [
-    AC_CHECK_LIB(dl, dlopen, [AO_DL_LIBS="-ldl"], [
-      AC_MSG_WARN([could not find dlopen() needed by libao sound drivers
-      your system may not be supported.])
-    ])
-  ])
-
-  AO_LIBS="$AO_LIBS -lao $AO_DL_LIBS"
-
-  AC_MSG_CHECKING(for ao)
-  no_ao=""
-
-
-  if test "x$enable_aotest" = "xyes" ; then
-    ac_save_CFLAGS="$CFLAGS"
-    ac_save_LIBS="$LIBS"
-    CFLAGS="$CFLAGS $AO_CFLAGS"
-    LIBS="$LIBS $AO_LIBS"
-dnl
-dnl Now check if the installed ao is sufficiently new.
-dnl
-      rm -f conf.aotest
-      AC_TRY_RUN([
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ao/ao.h>
-
-int main ()
-{
-  system("touch conf.aotest");
-  return 0;
-}
-
-],, no_ao=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
-       CFLAGS="$ac_save_CFLAGS"
-       LIBS="$ac_save_LIBS"
-  fi
-
-  if test "x$no_ao" = "x" ; then
-     AC_MSG_RESULT(yes)
-     ifelse([$1], , :, [$1])     
-  else
-     AC_MSG_RESULT(no)
-     if test -f conf.aotest ; then
-       :
-     else
-       echo "*** Could not run ao test program, checking why..."
-       CFLAGS="$CFLAGS $AO_CFLAGS"
-       LIBS="$LIBS $AO_LIBS"
-       AC_TRY_LINK([
-#include <stdio.h>
-#include <ao/ao.h>
-],     [ return 0; ],
-       [ echo "*** The test program compiled, but did not run. This usually means"
-       echo "*** that the run-time linker is not finding ao or finding the wrong"
-       echo "*** version of ao. If it is not finding ao, you'll need to set your"
-       echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
-       echo "*** to the installed location  Also, make sure you have run ldconfig if that"
-       echo "*** is required on your system"
-       echo "***"
-       echo "*** If you have an old version installed, it is best to remove it, although"
-       echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
-       [ echo "*** The test program failed to compile or link. See the file config.log for the"
-       echo "*** exact error that occured. This usually means ao was incorrectly installed"
-       echo "*** or that you have moved ao since it was installed." ])
-       CFLAGS="$ac_save_CFLAGS"
-       LIBS="$ac_save_LIBS"
-     fi
-     AO_CFLAGS=""
-     AO_LIBS=""
-     ifelse([$2], , :, [$2])
-  fi
-  AC_SUBST(AO_CFLAGS)
-  AC_SUBST(AO_LIBS)
-  rm -f conf.aotest
 ])
 
 

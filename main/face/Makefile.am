@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.7.2.2 2002/09/06 06:47:49 max Exp $
+# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.8 2002/11/06 06:53:28 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
