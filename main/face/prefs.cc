@@ -137,6 +137,13 @@ static gint options_window_esc_handler(GtkWidget *window,GdkEvent *event){
 	return FALSE;
 };
 
+static gint options_window_reset_colors(){
+	my_gtk_colorsel_set_color(MY_GTK_COLORSEL(prefs_speed_color_back),0xFFFFFF);
+	my_gtk_colorsel_set_color(MY_GTK_COLORSEL(prefs_speed_color_fore1),0x555555);
+	my_gtk_colorsel_set_color(MY_GTK_COLORSEL(prefs_speed_color_fore2),0xAAAAAA);
+	my_gtk_colorsel_set_color(MY_GTK_COLORSEL(prefs_speed_color_pick),0);
+	return TRUE;
+};
 
 void init_options_window(...) {
 	char temp[MAX_LEN];
@@ -617,14 +624,27 @@ void init_options_window(...) {
 	gtk_entry_set_text(GTK_ENTRY(prefs_speed_limit_1),temp);
 	sprintf(temp,"%i",CFG.SPEED_LIMIT_2);
 	gtk_entry_set_text(GTK_ENTRY(prefs_speed_limit_2),temp);
+	GtkWidget *vbox_colors=gtk_vbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(vbox_colors),5);
 	prefs_speed_color_pick=my_gtk_colorsel_new(CFG.GRAPH_PICK,_("Color for picks"));
 	prefs_speed_color_fore1=my_gtk_colorsel_new(CFG.GRAPH_FORE1,_("Color for total speed"));
 	prefs_speed_color_fore2=my_gtk_colorsel_new(CFG.GRAPH_FORE2,_("Color for speed of selected"));
 	prefs_speed_color_back=my_gtk_colorsel_new(CFG.GRAPH_BACK,_("Background color"));
-	gtk_box_pack_start(GTK_BOX(vbox),prefs_speed_color_back,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),prefs_speed_color_fore1,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),prefs_speed_color_fore2,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),prefs_speed_color_pick,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox_colors),prefs_speed_color_back,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox_colors),prefs_speed_color_fore1,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox_colors),prefs_speed_color_fore2,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox_colors),prefs_speed_color_pick,FALSE,FALSE,0);
+	GtkWidget *button_reset=gtk_button_new_with_label(_("Reset to default"));
+	gtk_signal_connect(GTK_OBJECT(button_reset),"clicked",GTK_SIGNAL_FUNC(options_window_reset_colors),NULL);
+	gtk_box_pack_start(GTK_BOX(vbox_colors),button_reset,FALSE,FALSE,0);
+	GtkWidget *frame_colors=gtk_frame_new(_("Graph colors"));
+	gtk_container_border_width(GTK_CONTAINER(frame_colors),5);
+	gtk_container_add(GTK_CONTAINER(frame_colors),vbox_colors);
+	GtkWidget *hbox_colors=gtk_hbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(hbox_colors),frame_colors,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(hbox_colors),gtk_hbox_new(FALSE,0),FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbox_colors,FALSE,FALSE,0);
+	
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),frame,gtk_label_new(_("Speed")));
 	/*

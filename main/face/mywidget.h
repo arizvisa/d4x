@@ -44,6 +44,7 @@ struct MyGtkColorselClass{
 #define MY_GTK_COLORSEL(colsel) ((MyGtkColorsel *)(colsel)) 
 GtkWidget *my_gtk_colorsel_new(gint color,gchar *title);
 gint my_gtk_colorsel_get_color(MyGtkColorsel *colsel);
+void my_gtk_colorsel_set_color(MyGtkColorsel *colsel, gint color);
 
 
 #endif

@@ -1,0 +1,1522 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2000 Free Software Foundation, Inc.
+# Petteri Wirkkala <dramator@nic.fi>, 2000.
+# http://www.damones.net
+#
+#: face/about.cc:167 face/buttons.cc:117 face/buttons.cc:119
+#: face/buttons.cc:121 face/buttons.cc:124 face/buttons.cc:126
+#: face/buttons.cc:128 face/buttons.cc:130 face/buttons.cc:132
+#: face/buttons.cc:134 face/buttons.cc:137 face/buttons.cc:140
+#: face/buttons.cc:142 face/buttons.cc:144 face/buttons.cc:149
+#: face/edit.cc:465 face/edit.cc:548 face/list.cc:70 face/list.cc:304
+#: face/log.cc:158 main.cc:280 main.cc:465 main.cc:592
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: nt\n"
+"POT-Creation-Date: 1999-08-24 15:06+0800\n"
+"PO-Revision-Date: 2000-05-09 00:12\n"
+"Last-Translator: Petteri Wirkkala <zados@damones.net>\n"
+"Language-Team: Finnish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+
+#: client.cc:65
+msgid "Timeout when socket read!"
+msgstr "Taukoa kun holkki on luettu!"
+
+#: client.cc:70
+msgid "Error when reading from socket!"
+msgstr "Virhe kun luettiin socketista"
+
+#: client.cc:79
+msgid "Trying to connect..."
+msgstr "Yritet‰‰n yhdist‰‰..."
+
+#: client.cc:81
+msgid "Socket was opened!"
+msgstr "Holkki on avattu!"
+
+#: client.cc:86
+msgid "Host not found!"
+msgstr "Is‰nt‰‰ ei lˆytynyt!"
+
+#: client.cc:91
+msgid "Can't allocate socket"
+msgstr "Ei voitu paikantaa holkkia"
+
+#: client.cc:96
+msgid "Can't connect"
+msgstr "Ei voida yhdist‰‰"
+
+#: config.cc:317
+msgid "WARNING!!! Can't find HOME variable! So can't read config!"
+msgstr "VAROITUS!!! Ei voitu lˆyt‰‰ vaihtelevaa KOTIA ! Niinp‰ ei voitu lukea asetuksia"
+
+#: config.cc:334
+#, c-format
+msgid "Can't open cfg file at '%s'\n"
+msgstr "Ei voitu avata cfg-tiedostoa '%s':sta\n"
+
+#: config.cc:335
+msgid "Use default cfg :))...\n"
+msgstr " K‰yt‰ oletusasetuksia...\n"
+
+#: config.cc:367
+msgid "WARNING!!! Can't find HOME variable! So can't write config!"
+msgstr "VAROITUS! Ei voitu lˆyt‰‰ vaihtelevaa KOTIA! Niinp‰ ei voida kirjoittaa asetuksiin!"
+
+
+#: config.cc:562
+msgid "bad read\n"
+msgstr "Paha luku\n"
+
+#: config.cc:567
+msgid "Can't open file of limits!!!\n"
+msgstr "Ei voitu avata rajoitusten tiedostoa!!\n"
+
+#: config.cc:592
+msgid "Can't write limits to file!!!\n"
+msgstr "Ei kyetty kirjoittamaan rajoituksia tiedostoon!!!\n"
+
+#: dlist.cc:307
+msgid ""
+"***WARN***!!!Attempt to delete download from list which doesn't contain it!"
+msgstr "*VARO*!!! Yrit‰t poistaa imurointia listalta joka ei sis‰ll‰ sit‰!"
+
+#: download.cc:96
+msgid "Trying to create a file"
+msgstr "Yritet‰‰n luoda tiedostoa"
+
+#: download.cc:101
+msgid "Can't create file at the path:"
+msgstr "Ei voitu luoda tiedostoa polulle:"
+
+#: download.cc:103
+msgid "which has name:"
+msgstr "jonka nimi on:"
+
+#: download.cc:108
+msgid "File was created!"
+msgstr "Tiedosto on luotu!"
+
+#: download.cc:113
+msgid "Trying to create a dir"
+msgstr "Yritet‰‰n luoda hakemistoa"
+
+#: download.cc:119
+msgid "Can't create directory!"
+msgstr "Ei voida luoda hakemistoa"
+
+#: download.cc:122
+msgid "Directory already created!:))"
+msgstr "Hakemisto on jo luotu!:))"
+
+#: download.cc:128
+msgid "Trying to create a link"
+msgstr "Yritet‰‰n luoda linkki‰"
+
+#: download.cc:132
+msgid "Can't create link"
+msgstr "Ei voida luoda linkki‰"
+
+#: download.cc:135
+msgid "Link already created!:))"
+msgstr "Linkki on jo luotu!:))"
+
+#: download.cc:141
+msgid "Downloader can't create devices..."
+msgstr "Imuroija ei voi luoda laitteita..."
+
+#: download.cc:145
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "VAROITUS! Luultavasti lˆysit BUGIN!!!"
+
+#: download.cc:146
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr "Jos n‰et t‰m‰n viestin, niin ole hyv‰ ja raportoi: mdem@chat.ru"
+
+#: ftp.cc:24
+msgid "Accepting faild"
+msgstr "Hyv‰ksynt‰ ep‰onnistui"
+
+#: ftp.cc:47
+msgid "Timeout send through control socket."
+msgstr "Tauko l‰hetetty kontrollihokin kautta."
+
+#: ftp.cc:48
+msgid "Control connection is lost"
+msgstr "Kontrolliyhteys kadotettu"
+
+#: ftp.cc:57
+msgid "Data socket is lost!"
+msgstr "Tietoholkki kadotettu!"
+
+#: ftp.cc:65
+msgid "Control socket lost!"
+msgstr "Kontrolliholkki kadotettu!"
+
+#: ftp.cc:174
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr "yrit‰ yhdist‰‰ %i,%i,%i,%i,%i,%i"
+
+#: ftp.cc:177
+msgid "Cant stand data connection"
+msgstr "Ei voida pystytt‰‰ tietoyhteytt‰"
+
+#: ftp.cc:254
+msgid "Data connection closed."
+msgstr "Tietoyhteys suljettu"
+
+#: ftp.cc:259 http.cc:132
+msgid "Can't write to file"
+msgstr "Ei voida kirjoittaa tiedostoon"
+
+#: ftpd.cc:138
+msgid "Reget is not supported!!!"
+msgstr "Uudelleensaaminen ei ole tuettu!!!"
+
+#: ftpd.cc:183
+msgid "Server refused login probably too many users of your class"
+msgstr "Palvelin kielt‰ytyi kirjoittautumasta sis‰‰n luultavasti aivan liika sinun luokkaisia k‰ytt‰ji‰"
+
+#: ftpd.cc:186 httpd.cc:76
+#, c-format
+msgid "Retrying %i of %i...."
+msgstr "Uudelleenyritys %i / %i...."
+
+#: ftpd.cc:188
+#, c-format
+msgid "Retrying %i ..."
+msgstr "Uudelleenyritet‰‰n %i ..."
+
+#: ftpd.cc:191 httpd.cc:81
+msgid "Max amount of retries was reached!"
+msgstr "Maksimim‰‰r‰ uudelleenyrityksi‰ saavutettu!"
+
+#: ftpd.cc:197 httpd.cc:87
+msgid "Sleeping"
+msgstr "Lep‰‰..."
+
+#: ftpd.cc:301
+#, c-format
+msgid "Length is %i"
+msgstr "Pituus on %i"
+
+#: ftpd.cc:306
+msgid "This is a directory!"
+msgstr "T‰m‰ on hakemisto!"
+
+#: ftpd.cc:317
+msgid "Couldn't get size :(("
+msgstr "Ei voinut saada kokom‰‰r‰‰ :(("
+
+#: ftpd.cc:319 ftpd.cc:361 ftpd.cc:411
+msgid "Can't establish data connection"
+msgstr "Ei voida perustaa tietoyhteytt‰"
+
+#: ftpd.cc:325
+msgid "Can't change dir!"
+msgstr "Ei voida muuttaa hakemistoa!"
+
+#: ftpd.cc:354
+msgid "Listing was loaded"
+msgstr "Listaus ladattu"
+
+#: ftpd.cc:358
+msgid "Listing not loaded completelly"
+msgstr "Listaus ei ladattu kokonaan"
+
+#: ftpd.cc:364 ftpd.cc:414
+msgid "Can't change directory"
+msgstr "Ei voida muuttaa hakemistoa"
+
+#: ftpd.cc:381
+msgid "Loading directory..."
+msgstr "Ladataan hakemistoa"
+
+#: ftpd.cc:385
+msgid "Link was loaded :))"
+msgstr "Linkki ladattu :))"
+
+#: ftpd.cc:395 httpd.cc:246
+msgid "Problems with lseek()"
+msgstr "Ongelmia lseek():n kanssa"
+
+#: ftpd.cc:403
+#, c-format
+msgid "%i bytes loaded."
+msgstr "%i tavua ladattu"
+
+#: hproxy.cc:136
+msgid "Connection to the internet via proxy"
+msgstr "Yhdist‰minen internettiin proxyn kautta"
+
+#: hproxy.cc:137
+msgid "Sending request to proxy"
+msgstr "L‰hetet‰‰n pyyntˆ‰ proxyyn"
+
+#: hproxy.cc:141 httpd.cc:220
+msgid "Answer read ok"
+msgstr "Vastaus luettu ok"
+
+#: hproxy.cc:151 httpd.cc:230
+msgid "Could'nt get normal answer!"
+msgstr "Ei voinut saada normaalia vastausta"
+
+#: http.cc:43
+msgid "Socket lost!"
+msgstr "Socketti kadonnut!"
+
+#: http.cc:58
+msgid "It is not HTTP server!!!"
+msgstr "Ei ole HTTP palvelin!!!"
+
+#: http.cc:63
+msgid "All ok, reading file"
+msgstr "Kaikki okei, luetaan tiedostoa"
+
+#: http.cc:67
+msgid "Redirect detected..."
+msgstr "≈“≈Œ¡–“¡◊Ã≈Œ…≈..."
+
+#: http.cc:73
+msgid "It seems to me that you need a password :)"
+msgstr "N‰ytt‰‰ silt‰ ett‰ tarvitset salasanan :)"
+
+#: http.cc:81
+msgid "Server return bad answer:(("
+msgstr "Palvelin palautti pahan vastauksen :("
+
+#: http.cc:127
+msgid "Connection closed."
+msgstr "Yhteys suljettu"
+
+#: httpd.cc:78
+#, c-format
+msgid "Retrying %i"
+msgstr "Uudelleenyritet‰‰n %i"
+
+#: httpd.cc:143
+#, c-format
+msgid "Size for download is %i bytes"
+msgstr "Imuroinnin koko on %i tavua"
+
+#: httpd.cc:216
+msgid "Sending http request..."
+msgstr "L‰hetet‰‰n http pyyntˆ‰..."
+
+#: httpd.cc:242
+msgid "It is seemed REGET not supported! Loading from begin.."
+msgstr "N‰ytt‰‰ silt‰ ett‰ UUDELLEENHAKUA ei ole tuettu! Ladataan alusta.."
+
+#: main.cc:145
+msgid "Normally started"
+msgstr "Aloitettu normaalisti"
+
+#: main.cc:202
+msgid "Clear queue of downloads"
+msgstr "Puhdista imurointien jono"
+
+#: main.cc:340
+#, c-format
+msgid "Downloading of file %s from %s was terminated [by user]"
+msgstr "Imuroidaan tiedostoa %s %s:sta keskeytettiin [k‰ytt‰j‰]"
+
+#: main.cc:383
+#, c-format
+msgid "Delete file %s from queue of downloads"
+msgstr "Poista tiedosto %s imurointijonosta"
+
+#: main.cc:430
+#, c-format
+msgid "Continue downloading of file %s from %s..."
+msgstr "Jatka tiedoston %s imurointia %s:sta..."
+
+#: main.cc:454
+msgid "file"
+msgstr "tiedosto"
+
+#: main.cc:518 main.cc:520
+msgid "..."
+msgstr ""
+
+#: main.cc:525
+msgid "dir"
+msgstr "hakemisto"
+
+#: main.cc:529
+msgid "link"
+msgstr "linkki"
+
+#: main.cc:533
+msgid "device"
+msgstr "’”‘“."
+
+#: main.cc:637
+#, c-format
+msgid "Downloading of directory %z was completed"
+msgstr "Hakemiston %z imurointi suoritettu"
+
+#: main.cc:641
+#, c-format
+msgid ""
+"Downloading of file %z (%i bytes) was completed at speed %i "
+"bytes/sec"
+msgstr "Tiedston imurointi %z (%i tavua) suoritettu nopeudella %i tavua/sek"
+
+#: main.cc:664
+#, c-format
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "Tiedoston imurointi %z keskeyttiin kohtalokkaan virheen toimesta"
+
+#: main.cc:809
+#, c-format
+msgid "Added downloading of file %s from %s [by user]"
+msgstr "Lis‰tty tiedoston imurointi %s %s:sta [k‰ytt‰j‰]"
+
+#: main.cc:874 main.cc:951
+msgid "It is strange that we can't delete file which just created..."
+msgstr "Outoa ettemme voi poistaa tiedostoa jonka juuri loimme..."
+
+#: main.cc:878 main.cc:955 main.cc:1043
+msgid "File not found"
+msgstr "Tiedostoa ei lˆytynyt"
+
+#: main.cc:999
+msgid "Can't open messages queue!"
+msgstr "Ei voida avata viestijonoa!"
+
+#: main.cc:1016
+msgid "Was Started!"
+msgstr "Aloitettiin!"
+
+#: main.cc:1019
+msgid "It is a link and we already load it"
+msgstr "Se on linkki ja olemme jo ladanneet sen"
+
+#: mainlog.cc:99
+msgid "Can't write to file interrupting write to file"
+msgstr "Ei voida kirjoittaa tiedostoon keskeytet‰‰n tiedostoon kirjoittaminen"
+
+#: mainlog.cc:138
+#, c-format
+msgid "row number %i of main log"
+msgstr "P‰‰lokin rivinumero %i"
+
+#: mainlog.cc:166
+msgid "Can't open file for saving log"
+msgstr "Ei voida avata tiedostoa lokin tallennusta varten"
+
+#: nt.cc:39
+#, c-format
+msgid "%s probably is already running\n"
+msgstr "%s on luultavasti jo k‰ynniss‰\n"
+
+#: savelog.cc:61
+msgid ""
+"Can't save default list of downloads!!! Becouse can't find HOME variable"
+msgstr "Talleta imurointien oletuslista! Koska ei voitu lˆyt‰‰ vaihtelevaa KOTIA!"
+
+#: savelog.cc:72
+msgid "Can't save default list of downloads!!!"
+msgstr "Ei voida tallettaa imurointien oletuslistaa!"
+
+#: savelog.cc:108
+msgid "Can't load default list of downloads!!!"
+msgstr "Ei voida ladata imurointien oletuslistaa!"
+
+#: signal.cc:43
+msgid "Download  was stopped by user"
+msgstr "Imurointi pys‰ytettiin k‰ytt‰j‰n toimesta"
+
+#: face/about.cc:34
+msgid "About"
+msgstr "Tietoja"
+
+#: face/about.cc:40
+msgid "Author: Koshelev Maxim"
+msgstr "Tekij‰: Koshelev Maxim"
+
+#: face/about.cc:101 face/edit.cc:240 face/limface.cc:77 face/prefs.cc:501
+#: face/saveload.cc:106 face/saveload.cc:153
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: face/addd.cc:71
+msgid "Add new download"
+msgstr "Lis‰‰ uusi imurointi"
+
+#: face/buttons.cc:58
+msgid "Delete ALL downloads?"
+msgstr "Poista KAIKKI imuroinnit?"
+
+#: face/buttons.cc:58
+msgid "Delete all?"
+msgstr "Poista KAIKKI?"
+
+#: face/buttons.cc:117
+msgid " Add new download "
+msgstr " Lis‰‰ uusi imurointi "
+
+#: face/buttons.cc:119
+msgid " Paste from clipboard "
+msgstr " Liit‰ leikepˆyd‰lt‰ "
+
+#: face/buttons.cc:121
+msgid " Del downloads "
+msgstr " Poista imuroinnit "
+
+#: face/buttons.cc:124
+msgid " Continue/restart downloads "
+msgstr " Jatka/Aloita uudestaan imuroinnit"
+
+#: face/buttons.cc:126
+msgid " Stop downloads "
+msgstr " Pys‰yt‰ imurointi "
+
+#: face/buttons.cc:128
+msgid " Del Completed downloads "
+msgstr " Poista suoritetut imuroinnit "
+
+#: face/buttons.cc:130
+msgid " Move up "
+msgstr " Siirr‰ ylˆs "
+
+#: face/buttons.cc:132
+msgid " Move down "
+msgstr " Siirr‰ alas "
+
+#: face/buttons.cc:134
+msgid " View log "
+msgstr " N‰yt‰ loki "
+
+#: face/buttons.cc:137
+msgid " Options "
+msgstr " Valinnat "
+
+#: face/buttons.cc:140
+msgid " Speed level one "
+msgstr " Nopeustaso 1 "
+
+#: face/buttons.cc:142
+msgid " Speed level two "
+msgstr " Nopeustaso 2 "
+
+#: face/buttons.cc:144
+msgid " Unlimited speed "
+msgstr " Rajoittamaton nopeus "
+
+#: face/buttons.cc:149
+msgid " Delete all downloads "
+msgstr " Poista kaikki imuroinnit "
+
+#: face/edit.cc:20
+msgid "Timeout for reading from socket (in seconds)"
+msgstr "Aikalis‰ lukiessa holkista (sekunnisa)"
+
+#: face/edit.cc:21
+msgid "Timeout before reconnection (in seconds)"
+msgstr "Aikalis‰ ennen uudelleen yhdist‰mist‰ (sekunnissa)"
+
+#: face/edit.cc:22
+msgid "Maximum attempts (0 for unlimited)"
+msgstr "Maksimiyritykset (0 rajoittamaton)"
+
+#: face/edit.cc:23
+msgid "Use passive mode for ftp"
+msgstr "K‰yt‰ passiivista tilaa ftp:hen"
+
+#: face/edit.cc:24
+msgid "Retry if resuming is not supported"
+msgstr "Yrit‰ uudestaan jos jatkaminen ei ole tuettu"
+
+#: face/edit.cc:25
+msgid "Get date from the server"
+msgstr "Hae p‰iv‰m‰‰r‰ palvelimelta"
+
+#: face/edit.cc:26
+msgid "Get permisions of the file from server (FTP only)"
+msgstr "Hae tiedoston luvaat palvelimelta (vain FTP)"
+
+#: face/edit.cc:106
+msgid "Edit download"
+msgstr "Muokkaa imurointia"
+
+#: face/edit.cc:200
+msgid "Save download to folder"
+msgstr "Talleta imurointi kansioon"
+
+#: face/edit.cc:201 face/edit.cc:646 face/edit.cc:699
+msgid "password"
+msgstr "salasana"
+
+#: face/edit.cc:202
+msgid "user name"
+msgstr "k‰ytt‰j‰nimi"
+
+#: face/edit.cc:210 face/prefs.cc:330 face/prefs.cc:354 face/saveload.cc:92
+#: face/saveload.cc:139
+msgid "Browse"
+msgstr "Selaa"
+
+#: face/edit.cc:228
+msgid "Use password for this site"
+msgstr "K‰yt‰ salasanaa t‰h‰n saittiin"
+
+#: face/edit.cc:294 face/edit.cc:378 face/prefs.cc:319 face/prefs.cc:376
+msgid "Other"
+msgstr "Muu"
+
+#: face/edit.cc:308 face/edit.cc:380 face/list.cc:70
+msgid "Time"
+msgstr "Aika"
+
+#: face/edit.cc:314
+msgid "Year"
+msgstr "Vuosi"
+
+#: face/edit.cc:321
+msgid "Month"
+msgstr "Kuukausi"
+
+#: face/edit.cc:328
+msgid "Day"
+msgstr "P‰iv‰"
+
+#: face/edit.cc:335
+msgid "Hours"
+msgstr "Tunnit"
+
+#: face/edit.cc:342
+msgid "Minutes"
+msgstr "Minuutit"
+
+#: face/edit.cc:355
+msgid "Start this downloading at:"
+msgstr "Aloita t‰m‰ imuroiminen:"
+
+#: face/edit.cc:374
+msgid "Download"
+msgstr "Imurointi"
+
+#: face/edit.cc:377
+msgid "Main"
+msgstr "P‰‰"
+
+#: face/edit.cc:379 face/edit.cc:583 face/prefs.cc:444
+msgid "Proxy"
+msgstr "Proxy"
+
+#: face/edit.cc:393 face/prefs.cc:96
+msgid "Select directory"
+msgstr "Valitse hakemisto"
+
+#: face/edit.cc:586
+msgid "ftp proxy type"
+msgstr "ftp proxy tyyppi"
+
+#: face/edit.cc:611
+msgid "Use this proxy for ftp"
+msgstr "K‰yt‰ t‰t‰ proxya ftp:hen"
+
+#: face/edit.cc:620 face/edit.cc:675
+msgid "port"
+msgstr "portti"
+
+#: face/edit.cc:627 face/edit.cc:681
+msgid "need password"
+msgstr "tarvitsee salasanan"
+#: face/edit.cc:635 face/edit.cc:689
+msgid "username"
+msgstr "k‰ytt‰j‰nimi"
+
+#: face/edit.cc:666
+msgid "Use this proxy for http"
+msgstr "K‰yt‰ t‰t‰ proxya http:hen"
+
+#: face/limface.cc:55
+msgid "Limitation for the host"
+msgstr "Rajoitukset is‰nt‰‰n"
+
+#: face/limface.cc:61
+msgid "Host:"
+msgstr "Is‰nt‰:"
+
+#: face/limface.cc:62
+msgid "Port:"
+msgstr "Portti:"
+
+#: face/limface.cc:63
+msgid "Maximum connections:"
+msgstr "Maksimiyhteydet:"
+
+#: face/limface.cc:278
+msgid "Limitations for the hosts"
+msgstr "Rajoitukset is‰nnille"
+
+#: face/limface.cc:282
+msgid "Host"
+msgstr "Is‰nt‰"
+
+#: face/limface.cc:282
+msgid "N"
+msgstr "N"
+
+#: face/limface.cc:296
+msgid "Add new"
+msgstr "Lis‰‰ uusi"
+
+#: face/limface.cc:297
+msgid "Delete"
+msgstr "Poista"
+
+#: face/list.cc:70
+msgid "File"
+msgstr "Tiedosto"
+
+#: face/list.cc:70
+msgid "Type"
+msgstr "Tyyppi"
+
+#: face/list.cc:70
+msgid "Full Size"
+msgstr "T‰yskoko"
+
+#: face/list.cc:70
+msgid "Downloaded"
+msgstr "Imuroitu"
+
+#: face/list.cc:70 face/prefs.cc:471 face/prefs.cc:492
+msgid "Speed"
+msgstr "Nopeus"
+
+#: face/list.cc:70
+msgid "Remaining"
+msgstr "J‰ljell‰"
+
+#: face/list.cc:70
+msgid "Pause"
+msgstr "Tauko"
+
+#: face/list.cc:70
+msgid "Attempt"
+msgstr "Yritys"
+
+#: face/list.cc:70
+msgid "URL"
+msgstr "URL"
+
+#: face/list.cc:126
+msgid "/_File"
+msgstr "/_Tiedosto"
+
+#: face/list.cc:128
+msgid "/File/_Save List"
+msgstr "/Tiedosto/Talleta _Lista"
+
+#: face/list.cc:131
+msgid "/File/_New Download"
+msgstr "/Tiedosto/_Uusi Imurointi"
+
+#: face/list.cc:129
+msgid "/File/_Load List"
+msgstr "/Tiedosto/L_ataa Lista"
+
+#: face/list.cc:130 face/list.cc:133
+msgid "/File/sep1"
+msgstr "/Tiedosto/sep1"
+
+#: face/list.cc:132
+msgid "/File/_Paste Download"
+msgstr "/Tiedosto/Liit‰ Imurointi"
+
+#: face/list.cc:134
+msgid "/File/Exit"
+msgstr "/Tiedosto/Lopeta"
+
+#: face/list.cc:135
+msgid "/_Download"
+msgstr "/_Imuroi"
+
+#: face/list.cc:136
+msgid "/Download/View _Log"
+msgstr "/Imuroi/N‰yt‰ _Loki"
+
+msgid "/Download/Continue downloads"
+msgstr "/Imuroi/Jatka imurointeja"
+
+#: face/list.cc:137
+msgid "/Download/_Stop downloads"
+msgstr "/Imuroi/Lopeta imuroinnit"
+
+#: face/list.cc:138
+msgid "/Download/Edit download"
+msgstr "/Imuroi/Muokkaa imurointia"
+
+#: face/list.cc:139
+msgid "/Download/_Delete downloads"
+msgstr "/Imuroi/_Poista imuroinnit"
+
+#: face/list.cc:140
+msgid ""
+msgstr "/˙¡À¡ﬁÀ¡/“œƒœÃ÷…‘ÿ"
+
+#: face/list.cc:141
+msgid "/Download/Delete completed"
+msgstr "/Imuroi/Poista suoritetut"
+
+#: face/list.cc:142
+msgid "/Download/Delete failed"
+msgstr "/Imuroi/Poista ep‰onnistuneet"
+
+#: face/list.cc:143
+msgid "/_Options"
+msgstr "/_Valinnat"
+
+#: face/list.cc:144
+msgid "/Options/Limitations"
+msgstr "/Valinnat/Rajoitukset"
+
+#: face/list.cc:145
+msgid "/Options/Common"
+msgstr "/Valinnat/Yleiset"
+
+#: face/list.cc:146
+msgid "/_Help"
+msgstr "/_Apua"
+
+#: face/list.cc:147
+msgid "/_Help/About"
+msgstr "/Apua/Tietoja"
+
+#: face/list.cc:226
+msgid "Do you realy want to quit?"
+msgstr "Haluatko todella lopettaa?"
+
+#: face/list.cc:226
+msgid "Quit?"
+msgstr "Lopeta?"
+
+#: face/list.cc:243
+msgid "Delete selected downloads?"
+msgstr "Poista valitut imuroinnit?"
+
+#: face/list.cc:243 face/list.cc:252 face/list.cc:261
+msgid "Delete?"
+msgstr "Poista?"
+
+#: face/list.cc:252
+msgid "Do you wish delete completed downloads?"
+msgstr "Haluatko poistaa suoritetut imuroinnit?"
+
+#: face/list.cc:261
+msgid "Do you wish delete failed downloads?"
+msgstr "Haluatko poistaa ep‰onnistuneet imuroinnit?"
+
+#: face/list.cc:667
+msgid "Ready to go ????"
+msgstr "Valmiina l‰htˆˆn ???"
+
+#: face/list.cc:768
+#, c-format
+msgid "%i-running %i-completed %i-total "
+msgstr "%i-k‰ynniss‰ %i-suoritettu %i-kokonaism‰‰r‰ "
+
+#: face/lmenu.cc:69
+msgid "View log"
+msgstr "N‰yt‰ loki"
+
+#: face/lmenu.cc:75
+msgid "Stop"
+msgstr "Pys‰yt‰"
+
+#: face/lmenu.cc:82
+msgid "Continue downloads"
+msgstr "Jatka imurointeja"
+
+#: face/lmenu.cc:91
+msgid "Properties"
+msgstr "Ominaisuudet"
+
+#: face/lmenu.cc:97
+msgid "Delete downloads"
+msgstr "Poista imuroinnit"
+
+#: face/lmenu.cc:103
+msgid "Delete completed"
+msgstr "Poista suoritetut"
+
+#: face/lmenu.cc:109
+msgid "Delete failed"
+msgstr "Poista ep‰onnistuneet"
+
+#: face/lmenu.cc:119
+msgid "Move up"
+msgstr "Siirr‰ ylˆs"
+
+#: face/lmenu.cc:125
+msgid "Move down"
+msgstr "Siirr‰ alas"
+
+#: face/lmenu.cc:131
+msgid "Set limitation"
+msgstr "Aseta rajoitus"
+
+#: face/lmenu.cc:152
+msgid "Open a row"
+msgstr "Avaa rivi"
+
+#: face/lmenu.cc:155
+msgid "Clear log"
+msgstr "Puhdista loki"
+
+#: face/log.cc:150
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr "Rivinumero %i [%s:n loki]statistyc"
+
+#: face/log.cc:171
+msgid "Log: "
+msgstr "Loki: "
+
+#: face/prefs.cc:129 face/saveload.cc:39
+msgid "Select file"
+msgstr "Valitse tiedosto"
+
+#: face/prefs.cc:165 face/prefs.cc:182
+msgid "Options"
+msgstr "Valinnat"
+
+#: face/prefs.cc:183
+msgid "Using title"
+msgstr "K‰ytet‰‰n titteli‰"
+
+#: face/prefs.cc:191
+msgid "Automatically delete completed downloads"
+msgstr "Automaattisesti poistaa suoritetut imuroinnit"
+
+#: face/prefs.cc:193
+msgid "Automatically delete failed downloads"
+msgstr "Automaattisesti poistaa ep‰onnistuneet imuroinnit"
+
+#: face/prefs.cc:195
+msgid "Optimize recursive downloads"
+msgstr "Optimoi rekursiiviset imuroinnit"
+
+#: face/prefs.cc:201
+msgid "Use title of main window for info"
+msgstr "K‰yt‰ p‰‰ikkunan otsaketta infoon"
+
+#: face/prefs.cc:204
+msgid "Display queue statistc too"
+msgstr "N‰yt‰ jonotilastot myˆs"
+
+#: face/prefs.cc:211
+msgid "Open dialog for Drag-n-Drop"
+msgstr "Avaa dialogi Drag'n'Dropille"
+
+#: face/prefs.cc:213
+msgid "Iconify main window when closing"
+msgstr "Ikonifoi p‰‰ikkuna kun suljetaan"
+
+#: face/prefs.cc:215
+msgid "Save list of downloads every"
+msgstr "Talleta imurointilista joka"
+
+#: face/prefs.cc:221
+msgid "minutes"
+msgstr "minuutin"
+
+#: face/prefs.cc:228
+msgid "Common"
+msgstr "Yleinen"
+
+#: face/prefs.cc:247 face/prefs.cc:314
+msgid "Limits"
+msgstr "Rajoitukset"
+
+#: face/prefs.cc:260
+msgid "Maximum active downloads"
+msgstr "Maksimim‰‰r‰ aktiivisia imurointeja"
+
+#: face/prefs.cc:290
+msgid "Maximum lines in log"
+msgstr "Maksimim‰‰r‰ rivej‰ lokissa"
+
+#: face/prefs.cc:300
+msgid "Maximum lines in MAIN log"
+msgstr "Maksimim‰‰r‰ rivej‰ P‰‰lokissa"
+
+#: face/prefs.cc:338
+msgid "Save downloads to folder"
+msgstr "Talleta imuroinnit kansioon"
+
+#: face/prefs.cc:347
+msgid "Save main log into file"
+msgstr "Talleta p‰‰loki tiedostoon"
+
+#: face/prefs.cc:366
+msgid "Append to file"
+msgstr "Liit‰ tiedostoon"
+
+#: face/prefs.cc:369
+msgid "Rewrite file"
+msgstr "Uudelleenkirjoita tiedosto"
+
+#: face/prefs.cc:382
+msgid "Size format"
+msgstr "Kokomuoto"
+
+#: face/prefs.cc:383
+msgid "Time format"
+msgstr "Aikamuoto"
+
+#: face/prefs.cc:434 face/prefs.cc:437
+msgid "Columns"
+msgstr "Palstat"
+
+#: face/prefs.cc:448 face/prefs.cc:466
+msgid "Confirmation"
+msgstr "Vahvistus"
+
+#: face/prefs.cc:451
+msgid "Confirm delete selected downloads"
+msgstr "Vahvista valittujen imurointien poisto"
+
+#: face/prefs.cc:452
+msgid "Confirm delete all downloads"
+msgstr "Vahvista kaikkien iurointien poisto"
+
+#: face/prefs.cc:453
+msgid "Confirm delete completed downloads"
+msgstr "Vahvista suoritettujen imurointien poisto"
+
+#: face/prefs.cc:454
+msgid "Confirm delete fataled downloads"
+msgstr "Vahvista kohtalokkaiden imurointien poisto"
+
+#: face/prefs.cc:455
+msgid "Confirm exit from program"
+msgstr "Vahvista ohjelmasta poistuminen"
+
+#: face/prefs.cc:474
+msgid "bytes/sec speed level one (red button)"
+msgstr "tavua/sek nopeustaso 1 (punainen painike)"
+
+#: face/prefs.cc:481
+msgid "bytes/sec speed level two (yellow button)"
+msgstr "tavua/sek nopeustaso 2 (keltainen painike)"
+
+#: face/saveload.cc:78
+msgid "Save list"
+msgstr "Talleta lista"
+
+#: face/saveload.cc:125
+msgid "Load list"
+msgstr "Lataa lista"
+
+#: face/edit.cc:218
+msgid "Save download to file"
+msgstr "Talleta imurointi tiedostoon"
+
+#: main.cc:851
+msgid "Downloading was successefully completed!"
+msgstr "Imurointi suoritettiin onnistuneesti loppuun!"
+
+#: main.cc:858
+msgid "Downloading was failed..."
+msgstr "Imurointi ep‰onnistui..."
+
+#: face/prefs.cc:218
+msgid "Revert drawing graph of speeds"
+msgstr "Palauta nopeusdiagrammin piirto"
+
+#: face/edit.cc:322
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr "Rekursion syvyys (0 rajaton,1 ei paluuta)"
+
+#: face/about.cc:44
+msgid "Translators team"
+msgstr "K‰‰nt‰j‰tiimi"
+
+#: face/prefs.cc:
+msgid "Filename for saving if it is unknown"
+msgstr "Tiedostonimi talletukselle jos tuntematon"
+
+#: face/prefs.cc:
+msgid "Scroll title"
+msgstr "Rullausotsake"
+
+#: face/prefs.cc:
+msgid "Default permisions of file"
+msgstr "Tiedoston oletusoikeudet"
+
+#: face/buttons.cc:
+msgid " Save list "
+msgstr " Talleta lista "
+
+#: face/columns.cc:22
+msgid "status"
+msgstr "status"
+
+#: face/columns.cc:22
+msgid "file name"
+msgstr "tiedostonimi"
+
+#: face/columns.cc:22
+msgid "type of file"
+msgstr "tiedostotyyppi"
+
+#: face/columns.cc:22
+msgid "size of file"
+msgstr "tiedoston koko"
+
+#: face/columns.cc:22
+msgid "downloaded size"
+msgstr "imuroidun koko"
+
+#: face/columns.cc:22
+msgid "percent"
+msgstr "prosenttia"
+
+#: face/columns.cc:22
+msgid "speed"
+msgstr "nopeus"
+
+#: face/columns.cc:22
+msgid "elapsed time"
+msgstr "kulunut aika"
+
+#: face/columns.cc:22
+msgid "estimated time"
+msgstr "arvioitu aika"
+
+#: face/columns.cc:22
+msgid "time of pause"
+msgstr "pys‰ytyksen aika"
+
+#: face/columns.cc:22
+msgid "number of attempts"
+msgstr "yritysten m‰‰r‰"
+
+#: face/columns.cc:22
+msgid "Showed columns"
+msgstr "N‰ytetyt palstat"
+
+#: face/refs.cc:
+msgid "Rollback after reconnecting (in bytes)"
+msgstr "Takaisinrullaus uudelleen yhdist‰misen j‰lkeen (tavuissa)"
+
+#: download.cc:
+msgid "Can't do rollback!"
+msgstr "Ei voitu rullata takaisin!"
+
+#: main.cc:
+msgid "Redirect from %z"
+msgstr "Suuntaus %z:sta"
+
+#: face/:
+msgid "Ok"
+msgstr "Kyll‰"
+
+#: face/prefs.cc:
+msgid "Show trash for DnD"
+msgstr "N‰yt‰ roskakori DnD:lle"
+
+#: face/buttons.cc:
+msgid " DnD trash "
+msgstr " Roskakori DnD:lle "
+
+#: main.cc:
+msgid "Downloader exited normaly"
+msgstr "Imuroija lopetettiin normaalisti"
+
+#: face/dndtrash.cc:
+msgid "Drop link here"
+msgstr "Pudota linkki t‰nne"
+
+#: face/edit.cc
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "Nopeusrajoitus Tavua/sek (0 rajaton)"
+
+#: log.cc:
+msgid "Log was started!"
+msgstr "Lokkaus aloitettiin!"
+
+#: config.cc:
+msgid "Run downloads: %d\n"
+msgstr "Aja imuroinnit: %d\n"
+
+#: config.cc:
+msgid "Paused downloads: %d\n"
+msgstr "Pys‰yt‰ imuroinnit: %d\n"
+
+#: config.cc:
+msgid "Failed downloads: %d\n"
+msgstr "Ep‰onnistuneet imuroinnit: %d\n"
+
+#: config.cc:
+msgid "Completed downloads: %d\n"
+msgstr "Suoritetut imuroinnit: %d\n"
+
+#: config.cc:
+msgid "Total: %d\n"
+msgstr "Kokonaism‰‰r‰: %d\n"
+
+#: config.cc:
+msgid "Current speed: %d\n"
+msgstr "Nykyinen nopeus: %d\n"
+
+#: config.cc:
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr "K‰yttˆ: nt [VALINNAT] ... [URL]"
+
+#: config.cc:
+msgid "print this page and exit"
+msgstr "tulosta t‰m‰ sivu ja lopeta"
+
+#: config.cc:
+msgid "show version information and exit"
+msgstr "n‰yt‰ versiotiedot ja lopeta"
+
+#: config.cc:
+msgid "show information if already run"
+msgstr "n‰yt‰ tiedot jos on jo k‰ynniss‰"
+
+#: config.cc:
+msgid "show current speed if already run"
+msgstr "n‰yt‰ nykyinen nopeus jos on jo k‰ynniss‰"
+
+#: prefs.cc:
+msgid "Exit if nothing to do after"
+msgstr "Lopeta jos ei mit‰‰n tekemist‰ j‰lkeen"
+
+#: prefs.cc:
+msgid "Main log"
+msgstr "P‰‰loki"
+
+#: face/prefs.cc
+msgid "Output detailed information"
+msgstr "Tulosta pikkutarkkaa tietoa"
+
+#: main.cc
+msgid "Prepare [%z] for stoping"
+msgstr "Valmistaudu [%z] pys‰ytt‰m‰‰n"
+
+#: main.cc
+msgid "Run new thread for %z"
+msgstr "Aja uusi lanka %z:lle"
+
+#: main.cc
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%z poistettiin imurointijonosta suoritettuna imurointina"
+
+#: main.cc
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%z poistettiin imurointijonosta ep‰onnistuneena imurointina"
+
+#: main.cc
+msgid "Delete completed downloads"
+msgstr "Poista suoritetut imuroinnit"
+
+#: main.cc
+msgid "Delete failed downloads"
+msgstr "Poista ep‰onnistuneet imuroinnit"
+
+#:main.cc:
+msgid "Loading default list of downloads"
+msgstr "Ladataan imurointien oletuslistaa"
+
+#:main.cc:
+msgid "Append list to current queue of downloads"
+msgstr "Liit‰ lista nykyiseen imurointilistaan"
+
+#: face/dndtrash.cc
+msgid "/New Download"
+msgstr "/Uusi Imurointi"
+
+#: face/dndtrash.cc
+msgid "/Paste Download"
+msgstr "/Liit‰ Imurointi"
+
+#: face/dndtrash.cc
+msgid "/Common options"
+msgstr "/Yleiset valinnat"
+
+#: face/dndtrash.cc
+msgid "/Exit"
+msgstr "/Poistu"
+
+#: face/prefs.cc:
+msgid "User-Agent for http requests"
+msgstr "K‰ytt‰j‰-agentti http:n pyynnˆille"
+
+#: face/columns.cc
+msgid "rest"
+msgstr "Lep‰‰"
+
+#: face/lod.cc
+msgid "Rest"
+msgstr "Lep‰‰"
+
+#: config.cc:
+msgid "set lower speed limitation"
+msgstr "aseta hitaampi nopeusrajoitus"
+
+#: config.cc:
+msgid "set middle speed limitation"
+msgstr "aseta keskitasoinen nopeusrajoitus"
+
+#: config.cc:
+msgid "set unlimited speed"
+msgstr "aseta rajaton nopeus"
+
+#: http.cc
+msgid "Request was sent, waiting for the answer"
+msgstr "Pyyntˆ l‰hetettiin, odotetaan vastausta"
+
+#: config.cc:
+msgid "unknown option:"
+msgstr "tuntematon valinta:"
+
+#: face/prefs.cc:
+msgid "Run this when exit"
+msgstr "Aja t‰m‰ kun lopetetaan"
+
+#: face/prefs.cc:
+msgid "Remember passwords"
+msgstr "Muista salasanat"
+
+#: face/limface.cc:
+msgid "Now"
+msgstr "Nyt"
+
+#: face/edit.cc:
+msgid "Default"
+msgstr "Oletus"
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr "Lis‰t‰‰n imurointiin kontrolliholkin kautta [%s]"
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr "Ei voitu avata cookies-tiedostoa!"
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr "%i cookies ladattu"
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr "Ladataan cookies"
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr "Tarkkaile leikepˆyt‰‰"
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr "Ohita n‰m‰ loppulaajennukset leikepˆyd‰ll‰"
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr "/Nopeus"
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr "/Nopeus/Hitain"
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr "/Nopeus/Keskitaso"
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr "/Noepus/Rajoittamaton"
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr "/Valinnat/Nopeus"
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr "/Valinnat/Nopeus/Hitain"
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr "/Valinnat/Nopeus/Keskitaso"
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr "/Valinnat/Nopeus/Rajoittamaton"
+
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr "/Valinnat/Painikkeet"
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr "/Valinnat/Painikkeet/Manipuloidaan"
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/Valinnat/Painikkeet/Nopeuspainikkeet"
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/Valinnat/Painikkeet/Sekalaiset painikkeet"
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr "/Valinnat/Painikkeet/Lis‰‰ painikkeita"
+
+#:main.cc
+msgid "[control socket]"
+msgstr "[kontrolliholkki]"
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr "/Imuroi/Valitse kaikki pois"
+
+# face/list.cc
+msgid "/Download/-"
+msgstr "/Imuroi/-"
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr "Pys‰yt‰ t‰m‰ j‰lkeen lis‰yksen"
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr "/Imuroi/Valitse kaikki"
+
+# face/list.cc
+msgid "/Download/Invert selection"
+msgstr "/Imuroi/K‰‰nteinen valinta"
+
+#face/edit.cc:
+msgid "Try to load simbolyc link as file via ftp"
+msgstr "Yrit‰ ladata symbolinen linkki tiedostona (ftp kautta)"
+
+# face/list.cc
+msgid "/Options/Passwords"
+msgstr "/Valinnat/Salasanat"
+
+# face/passwords.cc
+msgid "protocol"
+msgstr "protokolla"
+
+#face/passface.cc:
+msgid "Default passwords and usernames"
+msgstr "Oletussalasanat ja -k‰ytt‰j‰nimet"
+
+#main.cc:
+msgid "Redirection from [%z] to nowhere!"
+msgstr "Suuntaus [%z]:sta ei minnek‰‰n!"
+
+# config.cc:
+msgid "set directory for saving files"
+msgstr "aseta hakemisto talletustiedostoja varten"
+
+msgid "delete completed if already run"
+msgstr "poista suoritetut jos on jo k‰ynniss‰"
+
+msgid "set maximum active downloads"
+msgstr "aseta maksimi aktiivisille imuroinneille"
+
+#face/edit.cc
+msgid "Allow leave this server while recursing via http"
+msgstr "Salli j‰tt‰‰ t‰m‰ palvelin sill‰ aikaa kun palataan http:sta"
+
+msgid "/Download/Rerun failed"
+msgstr "/Imuroi/Uudelleenaja ep‰onnistuneet"
+
+msgid "You have no permissions to create file at path %s"
+msgstr "Sinulla ei ole oikeuksia luoda tiedostoa polulle %s"
+
+msgid "You have no space at path %s for creating file"
+msgstr "Sinulla ei ole tilaa polulla %s tiedoston luomiseen"
+
+#face/edit.cc:
+msgid "Only subdirs"
+msgstr "Vain alihakemistot"
+
+# face/edit.cc
+msgid "Restart this download from begining"
+msgstr "k‰ynnist‰ t‰m‰ imurointi alusta"
+
+# config.cc
+msgid "restart all failed downloads"
+msgstr "k‰ynnist‰ kaikki epo‰onnistuneet imuroinnit"
+
+msgid "run program without X interface"
+msgstr "aja ohjelma ilman X rajapintaa"
+
+#main.cc
+msgid "Set speed limitation to %s %s"
+msgstr "Aseta nopeusrajoitus %s %s"
+
+#var.cc
+msgid "low"
+msgstr "hidas"
+
+msgid "middle"
+msgstr "keskitaso"
+
+msgid "unlimited"
+msgstr "rajoittamaton"
+
+#main.cc:
+msgid "Can't run new thread for downloading!"
+msgstr "Ei voitu ajaa uutta lankaa imurointiin!"
+
+#mainlog.cc:
+msgid "Limitation for size of file of mainlog reached! File have been truncated."
+msgstr "Rajapyykki p‰‰lokin tiedostonkokoon saavutettu! Tiedosto on typistynyt."
+
+#face/prefs.cc:
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr "Maksimikoko p‰‰lokin tiedostolle  (Kilotavuissa)"
+
+# face/list.cc:
+msgid "/File/Find links in file"
+msgstr "/Tiedosto/Etsi linkkej‰ tiedostosta"
+
+# face/prefs.cc:
+msgid "Use fixed font in logs"
+msgstr "K‰yt‰ fiksattuja kirjasimia lokeissa"
+
+# face/edit.cc:
+msgid "Number of parts for spliting this download"
+msgstr "T‰m‰ imuroinnin halkaistujen osien m‰‰r‰"
+
+# face/saveload.cc
+msgid "Find links in txt file"
+msgstr "Etsi linkkej‰ tekstitiedostosta"
+
+# face/prefs.cc:
+msgid "Color for picks"
+msgstr "V‰ri poiminnoille"
+
+# face/prefs.cc:
+msgid "Color for total speed"
+msgstr "V‰ri kokonaisnopeudelle"
+
+# face/prefs.cc:
+msgid "Color for speed of selected"
+msgstr "V‰ri valitulle nopeudelle"
+
+# face/prefs.cc:
+msgid "Background color"
+msgstr "Taustav‰ri"
+
+# face/mywidget.cc:
+msgid "Select"
+msgstr "Valitse"
+
+# face/mywidget.cc:
+msgid "Select color"
+msgstr "Valitse v‰ri"

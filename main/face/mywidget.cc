@@ -258,15 +258,22 @@ gint my_gtk_colorsel_get_color(MyGtkColorsel *colsel){
 	return color;
 };
 
+void my_gtk_colorsel_set_color(MyGtkColorsel *colsel, gint color){
+	g_return_if_fail(colsel!=NULL);
+	colsel->color[2]=double(color&0xff)/double(0xff);
+	colsel->color[1]=double((color>>8)&0xff)/double(0xff);
+	colsel->color[0]=double((color>>16)&0xff)/double(0xff);
+	my_gtk_colorsel_update(colsel);
+	if (GTK_WIDGET_VISIBLE(colsel))
+		gtk_widget_draw (colsel->preview, NULL); 
+};
+
 GtkWidget *my_gtk_colorsel_new(gint color,gchar *title){
 	MyGtkColorsel *colsel=(MyGtkColorsel *)gtk_type_new(my_gtk_colorsel_get_type());
 	if (title){
 		GtkWidget *label=gtk_label_new(title);
 		gtk_box_pack_start(GTK_BOX(colsel),label,FALSE,FALSE,0);
 	};
-	colsel->color[2]=double(color&0xff)/double(0xff);
-	colsel->color[1]=double((color>>8)&0xff)/double(0xff);
-	colsel->color[0]=double((color>>16)&0xff)/double(0xff);
-	my_gtk_colorsel_update(colsel);
+	my_gtk_colorsel_set_color(colsel,color);
 	return GTK_WIDGET(colsel);
 };

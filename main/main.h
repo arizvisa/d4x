@@ -45,6 +45,8 @@ class tMain{
 	void run_msg_server();
 	void speed_calculation(tDownload *what);
 	void run_without_face();
+	void main_circle_first();
+	void main_circle_second();
  public:
     	void init();
     	void init_main_log();
