@@ -538,6 +538,8 @@ void d4xQueueView::set_filename(tDownload *what){
 };
 
 void d4xQueueView::set_percent(GtkTreeIter *iter,float percent){
+	if (percent>100) percent=100;
+	if (percent<0) percent=0;
 	gtk_list_store_set (list_store, iter,
 			    PERCENT_COL,percent,
 			    -1);

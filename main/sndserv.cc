@@ -485,7 +485,7 @@ void d4xSndServer::stop_thread(){
 	stop_now=1;
 	pthread_cond_signal(&cond);
 	my_mutex.unlock();
-	sleep(1);
+//	sleep(1);
 	pthread_cancel(thread_id);
 	pthread_join(thread_id,&val);
 	thread_id=0;
@@ -527,24 +527,22 @@ void d4xSndServer::play_sound(int event){
 };
 
 void d4xSndServer::run(){
+	my_mutex.lock();
 	while(1){
-		my_mutex.lock();
 		pthread_cond_wait(&cond,&(my_mutex.m));
 		while(queue->first()){
 			d4xSndEvent *snd=(d4xSndEvent *)(queue->first());
 			queue->del(snd);
-			my_mutex.unlock();
 			time_t now=time(NULL);
 			if (snd->birth-now<4 && snd->birth-now>-4){
 				/* playing */
 				play_sound(snd->event);
 			};
 			delete(snd);
-			my_mutex.lock();
 		};
-		my_mutex.unlock();
 		if (stop_now) break;
 	};
+	my_mutex.unlock();
 };
 
 void d4xSndServer::set_sound_file(int event,char *path){

@@ -1303,7 +1303,7 @@ int time_for_logs_refresh(void *a) {
 	_nano_step_=~_nano_step_;
 	aa.redraw_logs();
 	aa.check_for_remote_commands();
-	if (_nano_stepn_++>=GLOBAL_SLEEP_DELAY*10){
+	if (_nano_stepn_++>=GLOBAL_SLEEP_DELAY*5){
 		time_for_refresh(a);
 		_nano_stepn_=0;
 	};
@@ -1432,7 +1432,7 @@ void init_timeouts() {
 	EXIT_COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME;
 	ListTimer = gtk_timeout_add (60000, time_for_save_list , NULL);
 	GraphTimer = gtk_timeout_add (250, time_for_draw_graph , NULL);
-	LogsTimer = gtk_timeout_add (100, time_for_logs_refresh , NULL);
+	LogsTimer = gtk_timeout_add (400, time_for_logs_refresh , NULL);
 	FirstConfigureEvent=1;
 	g_signal_connect(G_OBJECT(MainWindow), "configure_event",
 	                   G_CALLBACK(get_mainwin_sizes),

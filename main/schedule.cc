@@ -510,6 +510,29 @@ int d4xScheduler::save(int fd){
 	return(0);
 };
 
+void d4xScheduler::clear_old(){
+	time_t now=time(NULL);
+	d4xSchedAction *tmp=FIRST;
+	while(tmp){
+		d4xSchedAction *next=tmp->next;
+		if (now>tmp->start_time){
+			del_action(tmp);
+			while (tmp->start_time<now && tmp->retries!=0){
+				tmp->start_time+=tmp->period;
+				if (tmp->retries>0)
+					tmp->retries-=1;
+			};
+			if (tmp->retries==0)
+				delete(tmp);
+			else
+				add_action(tmp);
+		}else{
+			break;
+		};
+		tmp=next;
+	};
+};
+
 void d4xScheduler::run(tMain *papa){
 	time_t now=time(NULL);
 	int a=0; //counter

@@ -2,13 +2,13 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: d4x 2.4rc1\n"
-"POT-Creation-Date: 2002-12-22 23:27+0700\n"
+"Project-Id-Version: d4x 2.4rc2\n"
+"POT-Creation-Date: 2003-01-27 12:39+0700\n"
 "PO-Revision-Date: 2002-12-08 14:49+0100\n"
 "Last-Translator: Sa'ndor Pinte'r <jimmycime@mailbox.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: main/alt.cc:229
@@ -314,85 +314,85 @@ msgstr "Nem lehet könyvtárat váltani!"
 msgid "Downloader can't create devices..."
 msgstr "A letöltő nem tud eszköz fájlokat létrehozni..."
 
-#: main/dlist.cc:1061
+#: main/dlist.cc:1063
 #, c-format
 msgid "Trying to copy %s to %s due 'Content-Disposition'"
 msgstr "Próbálom másolni a(z) %s %s-be due 'Content-Disposition'"
 
-#: main/dlist.cc:1064
+#: main/dlist.cc:1066
 msgid "Error during copying!"
 msgstr "Hiba a másolás közben"
 
-#: main/dlist.cc:1099
+#: main/dlist.cc:1101
 msgid "Downloading was successefully completed!"
 msgstr "Letöltés sikeresen befejeződött!"
 
-#: main/dlist.cc:1150
+#: main/dlist.cc:1152
 msgid "Downloading was failed..."
 msgstr "A letöltés sikertelen..."
 
-#: main/dlist.cc:1296
+#: main/dlist.cc:1298
 msgid "Redirection blocked by filter"
 msgstr "Átirányítás blokkolva a szűrő miatt"
 
-#: main/dlist.cc:1302
+#: main/dlist.cc:1304
 msgid "Redirect detected..."
 msgstr "Átirányítás..."
 
-#: main/dlist.cc:1336
+#: main/dlist.cc:1339
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
 msgstr ""
-"A szerver korlátai miatt nem lehetséges a többszálas letöltés "
-"(folytatás nem támogatott)"
+"A szerver korlátai miatt nem lehetséges a többszálas letöltés (folytatás nem "
+"támogatott)"
 
-#: main/dlist.cc:1347
+#: main/dlist.cc:1350
 msgid "Local file is seems to be equal to remote one"
 msgstr "A helyi file megegyezőnek tűnik a távolival"
 
-#: main/dlist.cc:1368
+#: main/dlist.cc:1371
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Furcsa, hogy nem lehet törölni az éppen most létrehozott fájlt..."
 
-#: main/dlist.cc:1372 main/dlist.cc:1580
+#: main/dlist.cc:1375 main/dlist.cc:1583
 msgid "File not found"
 msgstr "A fájl nem található"
 
-#: main/dlist.cc:1445
+#: main/dlist.cc:1448
 msgid "Sorting started"
 msgstr "Rendezés elindítva"
 
-#: main/dlist.cc:1448
+#: main/dlist.cc:1451
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Pingelés (%i/%i)"
 
-#: main/dlist.cc:1476
+#: main/dlist.cc:1479
 msgid "Trying to determine filesizes"
 msgstr "Fájl méretének megállapítása"
 
-#: main/dlist.cc:1521
+#: main/dlist.cc:1524
 msgid "Searching failed"
 msgstr "Sikertelen keresés"
 
-#: main/dlist.cc:1548
+#: main/dlist.cc:1551
 msgid "Search had been completed!"
 msgstr "Keresés befejeződött!"
 
-#: main/dlist.cc:1554
+#: main/dlist.cc:1557
 msgid "Was Started!"
 msgstr "Elkezdődött!"
 
-#: main/dlist.cc:1558
+#: main/dlist.cc:1561
 msgid "It is a link and we already load it"
 msgstr "Ez egy link, és már letöltöttük"
 
-#: main/dlist.cc:1585
+#: main/dlist.cc:1588
 msgid "Trying to work without CWD"
 msgstr "Megpróbálom CWD nélkül"
 
-#: main/dlist.cc:1709
+#: main/dlist.cc:1713
 msgid "Can't split file to specified number of parts!"
 msgstr "Nem tudom a megadott számban feldarabolni a fájlt!"
 
@@ -412,9 +412,7 @@ msgstr "Újra próbálás: %i ..."
 
 #: main/download.cc:45
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr ""
-"A szerveren lévő fájl újabb, mint a helyi fájl. Letöltés "
-"újrakezdése\n"
+msgstr "A szerveren lévő fájl újabb, mint a helyi fájl. Letöltés újrakezdése\n"
 
 #: main/download.cc:49
 #, c-format
@@ -450,9 +448,9 @@ msgid "Special thanks to"
 msgstr "Köszönet"
 
 #: main/face/about.cc:180 main/face/about.cc:261 main/face/about.cc:345
-#: main/face/buttons.cc:169 main/face/edit.cc:858 main/face/edit.cc:2162
+#: main/face/buttons.cc:169 main/face/edit.cc:858 main/face/edit.cc:2144
 #: main/face/filtrgui.cc:187 main/face/fsched.cc:247 main/face/fsched.cc:817
-#: main/face/lod.cc:888 main/face/mywidget.cc:454 main/face/mywidget.cc:781
+#: main/face/lod.cc:890 main/face/mywidget.cc:454 main/face/mywidget.cc:781
 #: main/face/mywidget.cc:878 main/face/mywidget.cc:1062
 #: main/face/mywidget.cc:1198 main/face/passface.cc:430
 #: main/face/prefs.cc:1282 main/face/qtree.cc:124 main/face/qtree.cc:667
@@ -462,7 +460,7 @@ msgid "Ok"
 msgstr "OK"
 
 #: main/face/about.cc:262 main/face/buttons.cc:171 main/face/edit.cc:859
-#: main/face/fsched.cc:818 main/face/lod.cc:889 main/face/mywidget.cc:455
+#: main/face/fsched.cc:818 main/face/lod.cc:891 main/face/mywidget.cc:455
 #: main/face/mywidget.cc:879 main/face/mywidget.cc:1064
 #: main/face/mywidget.cc:1199 main/face/prefs.cc:1283 main/face/qtree.cc:125
 #: main/face/qtree.cc:668 main/face/saveload.cc:161 main/face/saveload.cc:204
@@ -741,8 +739,7 @@ msgstr "Rekurzió alatt a sor elejére tedd a könyvtárakat"
 #: main/face/edit.cc:80 main/face/edit.cc:600 main/face/prefs.cc:259
 msgid "Compare date/time of remote file with local one"
 msgstr ""
-"Helyi fájl dátumának/időpontjának összehasonlítása a távoli "
-"álományéval"
+"Helyi fájl dátumának/időpontjának összehasonlítása a távoli álományéval"
 
 #: main/face/edit.cc:81 main/face/edit.cc:596 main/face/prefs.cc:247
 msgid "Sleep before completing"
@@ -814,8 +811,8 @@ msgstr "Leírás"
 msgid "Save download to file"
 msgstr "Lista mentése fájlba"
 
-#: main/face/edit.cc:446 main/face/edit.cc:1638 main/face/edit.cc:1705
-#: main/face/edit.cc:1746
+#: main/face/edit.cc:446 main/face/edit.cc:1620 main/face/edit.cc:1687
+#: main/face/edit.cc:1728
 msgid "password"
 msgstr "jelszó"
 
@@ -902,7 +899,7 @@ msgstr "Rekurzió mélysége (0 végtelen, 1 nincs rekurzió)"
 msgid "Filter"
 msgstr "Szűrő"
 
-#: main/face/edit.cc:703 main/face/lod.cc:908 main/face/mywidget.cc:244
+#: main/face/edit.cc:703 main/face/lod.cc:910 main/face/mywidget.cc:244
 #: main/face/prefs.cc:504
 msgid "Select"
 msgstr "Kiválaszt"
@@ -923,55 +920,55 @@ msgstr "Letöltés kezdése:"
 msgid "Use default settings"
 msgstr "Alapértelmezett beállítások használata"
 
-#: main/face/edit.cc:1568
+#: main/face/edit.cc:1550
 msgid "FTP proxy type"
 msgstr "FTP Proxy Tipus"
 
-#: main/face/edit.cc:1579
+#: main/face/edit.cc:1561
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1593
+#: main/face/edit.cc:1575
 msgid "Use this proxy for FTP"
 msgstr "E proxy használata FTP-hez"
 
-#: main/face/edit.cc:1608 main/face/edit.cc:1677 main/face/edit.cc:1727
+#: main/face/edit.cc:1590 main/face/edit.cc:1659 main/face/edit.cc:1709
 msgid "port"
 msgstr "Port"
 
-#: main/face/edit.cc:1615 main/face/edit.cc:1683
+#: main/face/edit.cc:1597 main/face/edit.cc:1665
 msgid "need password"
 msgstr "jelszó kell"
 
-#: main/face/edit.cc:1623 main/face/edit.cc:1691 main/face/edit.cc:1739
+#: main/face/edit.cc:1605 main/face/edit.cc:1673 main/face/edit.cc:1721
 msgid "username"
 msgstr "felhasználói név"
 
-#: main/face/edit.cc:1655
+#: main/face/edit.cc:1637
 msgid "Don't get from cache"
 msgstr "Ne olvass a cache-ből"
 
-#: main/face/edit.cc:1662
+#: main/face/edit.cc:1644
 msgid "Use this proxy for HTTP"
 msgstr "E proxy használata HTTP-hez"
 
-#: main/face/edit.cc:1713
+#: main/face/edit.cc:1695
 msgid "Use SOCKS5 proxy"
 msgstr "SOCKS5 proxy használata"
 
-#: main/face/edit.cc:1720 main/face/mywidget.cc:370 main/face/mywidget.cc:723
+#: main/face/edit.cc:1702 main/face/mywidget.cc:370 main/face/mywidget.cc:723
 msgid "host"
 msgstr "host"
 
-#: main/face/edit.cc:2123
+#: main/face/edit.cc:2105
 msgid "Select properties"
 msgstr "Tulajdonságok kiválasztása"
 
-#: main/face/edit.cc:2168
+#: main/face/edit.cc:2150
 msgid "Unselect all"
 msgstr "Összes kiválasztás megszüntet"
 
-#: main/face/edit.cc:2174
+#: main/face/edit.cc:2156
 msgid "Select all"
 msgstr "Összeset kiválaszt"
 
@@ -1439,15 +1436,15 @@ msgstr "Használt kereső motor"
 msgid "Link to tDownload"
 msgstr "Linkből tLetöltés"
 
-#: main/face/lod.cc:878
+#: main/face/lod.cc:880
 msgid "Enter wildcard"
 msgstr "Wildcard beírása"
 
-#: main/face/lod.cc:906
+#: main/face/lod.cc:908
 msgid "Unselect"
 msgstr "Kiválasztás megszüntet"
 
-#: main/face/lod.cc:1329
+#: main/face/lod.cc:1331
 msgid "Status"
 msgstr "Állapot"
 
@@ -1985,23 +1982,23 @@ msgstr "kapcsolódás: %i,%i,%i,%i,%i,%i"
 msgid "Probably file was changed on server!"
 msgstr "A fájl megváltozhatott a szerveren!"
 
-#: main/ftp.cc:437 main/http.cc:213
+#: main/ftp.cc:437 main/http.cc:219
 msgid "Data connection closed."
 msgstr "Adat kapcsolat lezárva."
 
-#: main/ftp.cc:443 main/http.cc:219
+#: main/ftp.cc:443 main/http.cc:225
 msgid "Error have happened during writing buffer to disk!"
 msgstr "A puffer kiírása közben hiba lépett fel!"
 
-#: main/ftp.cc:450 main/http.cc:226
+#: main/ftp.cc:450 main/http.cc:232
 msgid "Requested size was loaded"
 msgstr "A kért méret letöltve"
 
-#: main/ftp.cc:461 main/http.cc:231
+#: main/ftp.cc:461 main/http.cc:237
 msgid "Segment was loaded! Complete this thread."
 msgstr "Szelet betöltve! Szál befejezése."
 
-#: main/ftp.cc:468 main/http.cc:236
+#: main/ftp.cc:468 main/http.cc:243
 msgid "EOF recieved from server!"
 msgstr "EOF"
 
@@ -2015,9 +2012,7 @@ msgstr "Nem lehet könyvtárat váltani"
 
 #: main/ftpd.cc:243
 msgid "Server refused login, perhaps there are too many users of your class"
-msgstr ""
-"A szerver visszautasította belépését, valószínűleg túlterheltség "
-"miatt"
+msgstr "A szerver visszautasította belépését, valószínűleg túlterheltség miatt"
 
 #: main/ftpd.cc:313 main/httpd.cc:225
 msgid "Sleeping"
@@ -2026,8 +2021,7 @@ msgstr "Várakozás"
 #: main/ftpd.cc:423
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr ""
-"Üres válasz. Megpróbálok könyvtárat váltani, hogy azonosítsam a fájl "
-"típusát"
+"Üres válasz. Megpróbálok könyvtárat váltani, hogy azonosítsam a fájl típusát"
 
 #: main/ftpd.cc:448 main/ftpd.cc:474
 msgid "Length is %ll"
@@ -2061,7 +2055,7 @@ msgstr "A lista kicsit hiányosan betöltve"
 msgid "Link was loaded :))"
 msgstr "Link betöltve :))"
 
-#: main/ftpd.cc:594 main/httpd.cc:479
+#: main/ftpd.cc:594 main/httpd.cc:483
 msgid "%ll bytes loaded."
 msgstr "%ll byte betöltve."
 
@@ -2082,39 +2076,39 @@ msgstr "Nem található a fájl a szerveren"
 msgid "Probably it's problem of proxy server, retrying"
 msgstr "A proxy szervernek gondja lehet, újrapróbálkozás"
 
-#: main/http.cc:62
+#: main/http.cc:68
 msgid "Socket lost!"
 msgstr "A SOCKET elveszett!"
 
-#: main/http.cc:72
+#: main/http.cc:78
 msgid "Request was sent, waiting for the answer"
 msgstr "Kérés elküldve, várok válaszra"
 
-#: main/http.cc:87
+#: main/http.cc:93
 msgid "It is not HTTP server!!!"
 msgstr "Ez nem HTTP szerver!!!"
 
-#: main/http.cc:95
+#: main/http.cc:101
 msgid "All ok, reading file"
 msgstr "Minden rendben, fájlok olvasása"
 
-#: main/http.cc:106
+#: main/http.cc:112
 msgid "It seems to me that you need a password :)"
 msgstr "Szerintem ide jelszó kell :)"
 
-#: main/http.cc:112
+#: main/http.cc:118
 msgid "Server return bad answer:(("
 msgstr "A szerver rosszul válaszol :("
 
-#: main/http.cc:191
+#: main/http.cc:197
 msgid "Wrong chunk size!"
 msgstr "Rosz csonk méret!"
 
-#: main/http.cc:194
+#: main/http.cc:200
 msgid "Chunk size %ll"
 msgstr "Darab mérete: %ll"
 
-#: main/http.cc:196
+#: main/http.cc:202
 msgid "It's last chunk!"
 msgstr "Utolsó darab"
 
@@ -2131,11 +2125,11 @@ msgstr "Letöltés mérete: %i bytes"
 msgid "Sending HTTP request..."
 msgstr "HTTP kérés küldése..."
 
-#: main/httpd.cc:461
+#: main/httpd.cc:465
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "REGET nem támogatott! Kezdem előlről..."
 
-#: main/httpd.cc:464
+#: main/httpd.cc:468
 msgid "ETag was changed, restarting again..."
 msgstr "ETag megváltozott, előről kezdem..."
 
@@ -2174,8 +2168,7 @@ msgstr "Nem tudok új szálat futtatni a letöltésnek"
 #: main/main.cc:401
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
-msgstr ""
-"A(z) %s fájl letöltését a(z) %s címről megszakíttatott a felhasználó"
+msgstr "A(z) %s fájl letöltését a(z) %s címről megszakíttatott a felhasználó"
 
 #: main/main.cc:432
 #, c-format
@@ -2226,8 +2219,7 @@ msgstr "A(z) %z könyvtár letöltése befejeződött"
 #: main/main.cc:856
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
-"A(z) %z fájl (%i byte) letöltése befejeződött. Átlagsebesség: %i byte/"
-"sec"
+"A(z) %z fájl (%i byte) letöltése befejeződött. Átlagsebesség: %i byte/sec"
 
 #: main/main.cc:863
 msgid "%z was deleted from queue of downloads as completed download"
@@ -2291,34 +2283,33 @@ msgstr "FTP-kereső motor betöltése"
 msgid "Normally started"
 msgstr "Normális indulás"
 
-#: main/main.cc:1580
+#: main/main.cc:1581
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "A(z) %s fájl letöltése a(z) %s címről hozzáadva a listához"
 
-#: main/main.cc:1634
+#: main/main.cc:1635
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu byte betöltve a folyamat alatt"
 
-#: main/main.cc:1635
+#: main/main.cc:1636
 msgid "Downloader exited normaly"
 msgstr "Letöltő normálisan kilépett"
 
-#: main/main.cc:1675
+#: main/main.cc:1676
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Nem lehet megnyitni a(z) '%s' fájlt a napló mentésére"
 
-#: main/main.cc:1706
+#: main/main.cc:1707
 msgid "Such protocol is not supported!"
 msgstr "Nincs ilyen protokoll támogatva"
 
 #: main/mainlog.cc:148
 msgid ""
 "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
-"A fő napló elérte a maximálisnak megadott méretet! A fájlt csonkoltam!"
+msgstr "A fő napló elérte a maximálisnak megadott méretet! A fájlt csonkoltam!"
 
 #: main/mainlog.cc:157
 msgid "Can't write to file interrupting write to file"
@@ -2348,8 +2339,8 @@ msgstr "BUG: Rosz Iseek mód!\n"
 #: main/nt.cc:135
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
-"FIGYELEM!!! A HOME változó nem található! Így a konfigurációt nem "
-"lehet beolvasni!"
+"FIGYELEM!!! A HOME változó nem található! Így a konfigurációt nem lehet "
+"beolvasni!"
 
 #: main/nt.cc:148
 #, c-format
@@ -2368,8 +2359,8 @@ msgstr "Pingelés (maximum 30 másodperc)..."
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
 msgstr ""
-"Nem lehet menteni az alapértelmezett letöltési listát, mert a HOME "
-"változó nem található !"
+"Nem lehet menteni az alapértelmezett letöltési listát, mert a HOME változó "
+"nem található !"
 
 #: main/savelog.cc:50
 msgid "Can't save default list of downloads!!!"

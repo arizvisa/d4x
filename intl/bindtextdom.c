@@ -1,5 +1,5 @@
 /* Implementation of the bindtextdomain(3) function
-   Copyright (C) 1995-1998, 2000, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1995-1998, 2000, 2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -45,8 +45,8 @@
    names than the internal variables in GNU libc, otherwise programs
    using libintl.a cannot be linked statically.  */
 #if !defined _LIBC
-# define _nl_default_dirname libintl_nl_default_dirname
-# define _nl_domain_bindings libintl_nl_domain_bindings
+# define _nl_default_dirname _nl_default_dirname__
+# define _nl_domain_bindings _nl_domain_bindings__
 #endif
 
 /* Some compilers, like SunOS4 cc, don't have offsetof in <stddef.h>.  */
@@ -63,7 +63,7 @@ extern const char _nl_default_dirname[];
 extern struct binding *_nl_domain_bindings;
 
 /* Lock variable to protect the global data in the gettext implementation.  */
-__libc_rwlock_define (extern, _nl_state_lock attribute_hidden)
+__libc_rwlock_define (extern, _nl_state_lock)
 
 
 /* Names for the libintl functions are a problem.  They must not clash
@@ -77,8 +77,8 @@ __libc_rwlock_define (extern, _nl_state_lock attribute_hidden)
 #  define strdup(str) __strdup (str)
 # endif
 #else
-# define BINDTEXTDOMAIN libintl_bindtextdomain
-# define BIND_TEXTDOMAIN_CODESET libintl_bind_textdomain_codeset
+# define BINDTEXTDOMAIN bindtextdomain__
+# define BIND_TEXTDOMAIN_CODESET bind_textdomain_codeset__
 #endif
 
 /* Prototypes for local functions.  */

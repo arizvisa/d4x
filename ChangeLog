@@ -1,3 +1,126 @@
+2003-01-26 14:13  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.0 branched
+
+2003-01-26 14:05  max
+
+	* main/: main.cc, schedule.cc, schedule.h, sndserv.cc: do not run
+	too old scheduled actions; do not wait a second for completing
+	sndserver thread;
+
+2003-01-26 13:42  max
+
+	* configure.in: commented out PKG_CHECK_MODULES
+
+2003-01-26 13:10  max
+
+	* configure.in: fixed conflicts
+
+2003-01-24 07:43  max
+
+	* po/it.po: Updated Italian translation by diau
+
+2003-01-23 13:29  max
+
+	* main/sndserv.cc: fixed race condition
+
+2003-01-23 03:03  zaufi
+
+	* main/: Makefile.am, face/Makefile.am: Cosmetic fixes for
+	--enable-extra-optimize
+
+2003-01-19 10:23  zaufi
+
+	* configure.in, main/Makefile.am, main/face/Makefile.am: New
+	feature to make extra optimized release even more optimized :)
+
+2003-01-18 19:34  zaufi
+
+	* admin/cvs.sh: Replace reconf with link to cvs.sh
+
+2003-01-18 19:29  zaufi
+
+	* reconf, admin/cvs.sh: Replace reconf with link to cvs.sh
+
+2003-01-18 19:18  zaufi
+
+	* admin/cvs.sh: Fix version report
+
+2003-01-17 19:51  max
+
+	* main/face/list.cc: Decreased updating info in main winodw
+	frequence
+
+2003-01-16 15:05  max
+
+	* README.maint: added question
+
+2003-01-16 15:03  max
+
+	* TODO: updated
+
+2003-01-14 08:19  zaufi
+
+	* Makefile.cvs, README.maint: Just 4 fun fixes :)
+
+2002-12-27 15:05  zaufi
+
+	* admin/cvs.sh: Include path added to aclocal call
+
+2002-12-27 15:04  zaufi
+
+	* configure.in: Rollback to correct way gtk/glib detection
+
+2002-12-27 14:57  max
+
+	* TODO: updated
+
+2002-12-27 09:32  max
+
+	* TODO: update TODO file to version 2.9-3.0
+
+2002-12-26 08:00  max
+
+	* po/hu.po: Pinter Sandor finally fixed Hungarian translation :-)
+
+2002-12-25 12:57  max
+
+	* main/dlist.cc: different minimum sizes of the parts of splited
+	downloads for HTTP and FTP;
+
+2002-12-25 11:49  max
+
+	* main/: dlist.cc, dlist.h, main.cc, face/edit.cc, face/lod.cc:
+	fixed inheriting 'number of parts to split' for recursed files;
+	code cleanups;
+
+2002-12-25 06:30  zaufi
+
+	* main/Makefile.am: Fix symlink creation during rpm making
+
+2002-12-25 05:52  zaufi
+
+	* main/Makefile.am: make automake happy with install-exec-local
+
+2002-12-22 23:29  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po: make
+	new release (updated es and hu)
+
+2002-12-22 23:23  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.0-rc2
+	tagged
+
+2002-12-21 21:09  max
+
+	* NEWS: prepare to relase 2.4rc2
+
+2002-12-21 21:05  max
+
+	* ChangeLog, NEWS, main/Makefile.am: fixed creating link 'bin/d4x'
+	if it has been already created
+
 2002-12-19 20:16  zaufi
 
 	* Makefile.am: Redir stderr to stdout when build rpms

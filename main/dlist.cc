@@ -831,6 +831,7 @@ void tDownload::convert_list_to_dir() {
 			onenew->config->copy(config);
 			onenew->config->ftp_recurse_depth = config->ftp_recurse_depth ? config->ftp_recurse_depth-1 : 0;
 			onenew->config->http_recurse_depth = config->http_recurse_depth;
+			onenew->set_split_count(split?split->NumOfParts:0);
 			if (CFG.RECURSIVE_OPTIMIZE) {
 				onenew->finfo.type=prom->type;
 				onenew->finfo.size=prom->size;
@@ -936,6 +937,7 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		
 		onenew->config->http_recursing=1;
 		onenew->config->copy(config);
+		onenew->set_split_count(split?split->NumOfParts:0);
 		onenew->config->http_recurse_depth = config->http_recurse_depth ? config->http_recurse_depth-1 : 0;
 		onenew->config->ftp_recurse_depth = config->ftp_recurse_depth;
 		onenew->config->referer.set(URL);
@@ -1327,6 +1329,7 @@ void tDownload::download_http() {
 	if (split && !im_first)
 		CurentSize=split->FirstByte;
 	fsize_t SizeDecrement=CurentSize>0 && segments->one_segment()?1:0;
+	if (SizeDecrement) ((tHttpDownload*)who)->pass_first_segment();
 	who->set_loaded(CurentSize-SizeDecrement);
 	CurentSize=who->rollback();
 	if (split) split->FirstByte=CurentSize;
@@ -1643,7 +1646,7 @@ void tDownload::download_ftp(){
 	download_completed(D_PROTO_FTP);
 };
 
-#define SPLIT_MINIMUM_PART 4096
+#define SPLIT_MINIMUM_PART 5120
 
 int tDownload::find_best_split(){
 	tSegment *holes=segments->to_holes(finfo.size);
@@ -1683,7 +1686,8 @@ int tDownload::find_best_split(){
 		delete(holes);
 		holes=tmp;
 	};
-	if (split->LastByte-split->FirstByte>SPLIT_MINIMUM_PART*10 && completed==0){
+	int k=(info->proto==D_PROTO_FTP && (config==NULL || config->fproxy_host.get()==NULL || config->proxy_type==0))?12:8;
+	if (split->LastByte-split->FirstByte>SPLIT_MINIMUM_PART*k && completed==0){
 		return 1;
 	};
 	split->FirstByte=split->LastByte=0;
@@ -1829,6 +1833,20 @@ tAddr *tDownload::redirect_url(){
 		return(addr);
 	};
 	return(NULL);
+};
+
+void tDownload::set_split_count(int num){
+	if (num>1){
+		if (num>10) num=10;
+		if (split==NULL)
+			split=new tSplitInfo;
+		split->NumOfParts=num;
+		split->grandparent=this;
+	}else{
+		if (split)
+			delete(split);
+		split=NULL;
+	};
 };
 
 tDownload::~tDownload() {

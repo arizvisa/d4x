@@ -20,10 +20,16 @@
 
 tHttpClient::tHttpClient():tClient(){
 	user_agent=NULL;
+	pass_first=0;
 };
 
 tHttpClient::tHttpClient(tCfg *cfg,tSocket *ctrl):tClient(cfg,ctrl){
 	user_agent=NULL;
+	pass_first=0;
+};
+
+void tHttpClient::pass_first_segment(){
+	pass_first=1;
 };
 
 void tHttpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
@@ -227,10 +233,11 @@ int tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 					break;
 				};
 			};
-			if (LOG->is_overlaped()){
+			if (pass_first==0 && LOG->is_overlaped()){
 				LOG->log(LOG_OK,_("Segment was loaded! Complete this thread."));
 				return DSize;
 			};
+			pass_first=0;
 		} while (complete!=0);
 		if (complete==0){
 			LOG->log(LOG_WARNING,_("EOF recieved from server!"));

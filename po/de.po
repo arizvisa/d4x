@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
-"POT-Creation-Date: 2002-12-22 23:27+0700\n"
+"POT-Creation-Date: 2003-01-27 12:39+0700\n"
 "PO-Revision-Date: 2002-03-14 19:09+0100\n"
 "Last-Translator: Thomas R. Koll <tomk32@tomk32.de>\n"
 "Language-Team: de@li.org\n"
@@ -352,87 +352,87 @@ msgstr "Verzeichnis konnte nicht erstellt werden!"
 msgid "Downloader can't create devices..."
 msgstr "Downloader kann keine Geräte erstellen..."
 
-#: main/dlist.cc:1061
+#: main/dlist.cc:1063
 #, c-format
 msgid "Trying to copy %s to %s due 'Content-Disposition'"
 msgstr "Versuch wegen 'Content-Disposition' %s nach %s zu kopieren"
 
-#: main/dlist.cc:1064
+#: main/dlist.cc:1066
 msgid "Error during copying!"
 msgstr "Fehler während des Kopiervorganges!"
 
-#: main/dlist.cc:1099
+#: main/dlist.cc:1101
 msgid "Downloading was successefully completed!"
 msgstr "Download erfolgreich beendet!"
 
-#: main/dlist.cc:1150
+#: main/dlist.cc:1152
 msgid "Downloading was failed..."
 msgstr "Download fehlgeschlagen..."
 
-#: main/dlist.cc:1296
+#: main/dlist.cc:1298
 msgid "Redirection blocked by filter"
 msgstr "Weiterleitung durch Filter blockiert"
 
-#: main/dlist.cc:1302
+#: main/dlist.cc:1304
 msgid "Redirect detected..."
 msgstr "Umleitung gefunden..."
 
-#: main/dlist.cc:1336
+#: main/dlist.cc:1339
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
 msgstr ""
 
-#: main/dlist.cc:1347
+#: main/dlist.cc:1350
 msgid "Local file is seems to be equal to remote one"
 msgstr ""
 
-#: main/dlist.cc:1368
+#: main/dlist.cc:1371
 msgid "It is strange that we can't delete file which just created..."
 msgstr ""
 "Komisch, ich kann eine Datei nicht löschen, welche ich gerade erzeugt habe..."
 
-#: main/dlist.cc:1372 main/dlist.cc:1580
+#: main/dlist.cc:1375 main/dlist.cc:1583
 msgid "File not found"
 msgstr "Datei nicht gefunden"
 
 # dlist.cc
-#: main/dlist.cc:1445
+#: main/dlist.cc:1448
 msgid "Sorting started"
 msgstr "Sortierung gestartet"
 
-#: main/dlist.cc:1448
+#: main/dlist.cc:1451
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Pinging (Versuch %i von %i)"
 
-#: main/dlist.cc:1476
+#: main/dlist.cc:1479
 msgid "Trying to determine filesizes"
 msgstr "Versuche Dateigrößen zu erstellen."
 
 # dlist.cc
-#: main/dlist.cc:1521
+#: main/dlist.cc:1524
 msgid "Searching failed"
 msgstr "Suche fehlgeschlagen"
 
 # dlist.cc:
-#: main/dlist.cc:1548
+#: main/dlist.cc:1551
 msgid "Search had been completed!"
 msgstr "Suche ist abgeschlossen!"
 
-#: main/dlist.cc:1554
+#: main/dlist.cc:1557
 msgid "Was Started!"
 msgstr "wurde gestartet!"
 
-#: main/dlist.cc:1558
+#: main/dlist.cc:1561
 msgid "It is a link and we already load it"
 msgstr "Das ist ein Link und er wird bereits geladen"
 
-#: main/dlist.cc:1585
+#: main/dlist.cc:1588
 msgid "Trying to work without CWD"
 msgstr "Versuche ohne CWD zu arbeiten"
 
-#: main/dlist.cc:1709
+#: main/dlist.cc:1713
 msgid "Can't split file to specified number of parts!"
 msgstr "Kann die Datei nicht in die angegebene Anzahl teilen!"
 
@@ -494,9 +494,9 @@ msgstr "Vielen Dank an"
 
 # face/
 #: main/face/about.cc:180 main/face/about.cc:261 main/face/about.cc:345
-#: main/face/buttons.cc:169 main/face/edit.cc:858 main/face/edit.cc:2162
+#: main/face/buttons.cc:169 main/face/edit.cc:858 main/face/edit.cc:2144
 #: main/face/filtrgui.cc:187 main/face/fsched.cc:247 main/face/fsched.cc:817
-#: main/face/lod.cc:888 main/face/mywidget.cc:454 main/face/mywidget.cc:781
+#: main/face/lod.cc:890 main/face/mywidget.cc:454 main/face/mywidget.cc:781
 #: main/face/mywidget.cc:878 main/face/mywidget.cc:1062
 #: main/face/mywidget.cc:1198 main/face/passface.cc:430
 #: main/face/prefs.cc:1282 main/face/qtree.cc:124 main/face/qtree.cc:667
@@ -507,7 +507,7 @@ msgstr "Ok"
 
 # face/about.cc: face/edit.cc:24 face/limface.cc:77 face/prefs.cc:
 #: main/face/about.cc:262 main/face/buttons.cc:171 main/face/edit.cc:859
-#: main/face/fsched.cc:818 main/face/lod.cc:889 main/face/mywidget.cc:455
+#: main/face/fsched.cc:818 main/face/lod.cc:891 main/face/mywidget.cc:455
 #: main/face/mywidget.cc:879 main/face/mywidget.cc:1064
 #: main/face/mywidget.cc:1199 main/face/prefs.cc:1283 main/face/qtree.cc:125
 #: main/face/qtree.cc:668 main/face/saveload.cc:161 main/face/saveload.cc:204
@@ -881,8 +881,8 @@ msgstr "Beschreibung"
 msgid "Save download to file"
 msgstr "Download speichern als"
 
-#: main/face/edit.cc:446 main/face/edit.cc:1638 main/face/edit.cc:1705
-#: main/face/edit.cc:1746
+#: main/face/edit.cc:446 main/face/edit.cc:1620 main/face/edit.cc:1687
+#: main/face/edit.cc:1728
 msgid "password"
 msgstr "Passwort"
 
@@ -978,7 +978,7 @@ msgid "Filter"
 msgstr "Filter"
 
 # face/mywidget.cc:
-#: main/face/edit.cc:703 main/face/lod.cc:908 main/face/mywidget.cc:244
+#: main/face/edit.cc:703 main/face/lod.cc:910 main/face/mywidget.cc:244
 #: main/face/prefs.cc:504
 msgid "Select"
 msgstr "Auswählen"
@@ -999,56 +999,56 @@ msgstr "Download starten am:"
 msgid "Use default settings"
 msgstr "Benutze Standardkonfiguration"
 
-#: main/face/edit.cc:1568
+#: main/face/edit.cc:1550
 msgid "FTP proxy type"
 msgstr "FTP Proxy Typ"
 
-#: main/face/edit.cc:1579
+#: main/face/edit.cc:1561
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1593
+#: main/face/edit.cc:1575
 msgid "Use this proxy for FTP"
 msgstr "Benutze diesen Proxy für FTP"
 
-#: main/face/edit.cc:1608 main/face/edit.cc:1677 main/face/edit.cc:1727
+#: main/face/edit.cc:1590 main/face/edit.cc:1659 main/face/edit.cc:1709
 msgid "port"
 msgstr "Port"
 
-#: main/face/edit.cc:1615 main/face/edit.cc:1683
+#: main/face/edit.cc:1597 main/face/edit.cc:1665
 msgid "need password"
 msgstr "benötigt Passwort"
 
-#: main/face/edit.cc:1623 main/face/edit.cc:1691 main/face/edit.cc:1739
+#: main/face/edit.cc:1605 main/face/edit.cc:1673 main/face/edit.cc:1721
 msgid "username"
 msgstr "Username"
 
 # face/lod.cc
-#: main/face/edit.cc:1655
+#: main/face/edit.cc:1637
 msgid "Don't get from cache"
 msgstr "Nicht aus dem Cache holen"
 
-#: main/face/edit.cc:1662
+#: main/face/edit.cc:1644
 msgid "Use this proxy for HTTP"
 msgstr "Benutze diesen Proxy für http"
 
-#: main/face/edit.cc:1713
+#: main/face/edit.cc:1695
 msgid "Use SOCKS5 proxy"
 msgstr "Benutze SOCKS5 proxy"
 
-#: main/face/edit.cc:1720 main/face/mywidget.cc:370 main/face/mywidget.cc:723
+#: main/face/edit.cc:1702 main/face/mywidget.cc:370 main/face/mywidget.cc:723
 msgid "host"
 msgstr "Host"
 
-#: main/face/edit.cc:2123
+#: main/face/edit.cc:2105
 msgid "Select properties"
 msgstr "Eigenschaften wählen"
 
-#: main/face/edit.cc:2168
+#: main/face/edit.cc:2150
 msgid "Unselect all"
 msgstr "Alle deselektieren"
 
-#: main/face/edit.cc:2174
+#: main/face/edit.cc:2156
 msgid "Select all"
 msgstr "Alle auswählen"
 
@@ -1546,15 +1546,15 @@ msgstr "zu benutzende Suchmaschine"
 msgid "Link to tDownload"
 msgstr "Download stoppen"
 
-#: main/face/lod.cc:878
+#: main/face/lod.cc:880
 msgid "Enter wildcard"
 msgstr "Wildcard eingeben"
 
-#: main/face/lod.cc:906
+#: main/face/lod.cc:908
 msgid "Unselect"
 msgstr "Deselektieren"
 
-#: main/face/lod.cc:1329
+#: main/face/lod.cc:1331
 #, fuzzy
 msgid "Status"
 msgstr "Status"
@@ -2132,23 +2132,23 @@ msgstr "Verbindungsaufbau mit %i,%i,%i,%i,%i,%i"
 msgid "Probably file was changed on server!"
 msgstr "Wahrscheinlich wurde die Datei auf dem Server verändert!"
 
-#: main/ftp.cc:437 main/http.cc:213
+#: main/ftp.cc:437 main/http.cc:219
 msgid "Data connection closed."
 msgstr "Datenverbindung beendet."
 
-#: main/ftp.cc:443 main/http.cc:219
+#: main/ftp.cc:443 main/http.cc:225
 msgid "Error have happened during writing buffer to disk!"
 msgstr ""
 
-#: main/ftp.cc:450 main/http.cc:226
+#: main/ftp.cc:450 main/http.cc:232
 msgid "Requested size was loaded"
 msgstr "Angegebene Größe geladen"
 
-#: main/ftp.cc:461 main/http.cc:231
+#: main/ftp.cc:461 main/http.cc:237
 msgid "Segment was loaded! Complete this thread."
 msgstr ""
 
-#: main/ftp.cc:468 main/http.cc:236
+#: main/ftp.cc:468 main/http.cc:243
 #, fuzzy
 msgid "EOF recieved from server!"
 msgstr "Nachricht vom Server"
@@ -2211,7 +2211,7 @@ msgstr "Liste wurde nicht vollständig geladen"
 msgid "Link was loaded :))"
 msgstr "Link geladen :))"
 
-#: main/ftpd.cc:594 main/httpd.cc:479
+#: main/ftpd.cc:594 main/httpd.cc:483
 #, fuzzy
 msgid "%ll bytes loaded."
 msgstr "%i bytes geladen."
@@ -2233,41 +2233,41 @@ msgstr "Datei nicht auf dem Server gefunden"
 msgid "Probably it's problem of proxy server, retrying"
 msgstr "Wahrscheinlich ein Problem mit dem Proxy, versuche erneut"
 
-#: main/http.cc:62
+#: main/http.cc:68
 msgid "Socket lost!"
 msgstr "Socket zusammengebrochen!"
 
 # http.cc
-#: main/http.cc:72
+#: main/http.cc:78
 msgid "Request was sent, waiting for the answer"
 msgstr "Anfrage wurde gesendet, warte auf Antwort"
 
-#: main/http.cc:87
+#: main/http.cc:93
 msgid "It is not HTTP server!!!"
 msgstr "Das ist kein HTTP Server!!!"
 
-#: main/http.cc:95
+#: main/http.cc:101
 msgid "All ok, reading file"
 msgstr "Alles ok, lese Datei"
 
-#: main/http.cc:106
+#: main/http.cc:112
 msgid "It seems to me that you need a password :)"
 msgstr "Sieht so aus als ob Sie ein Passwort brauchen :)"
 
-#: main/http.cc:112
+#: main/http.cc:118
 msgid "Server return bad answer:(("
 msgstr "Fehlerhafte Antwort erhalten:("
 
-#: main/http.cc:191
+#: main/http.cc:197
 msgid "Wrong chunk size!"
 msgstr "Falsche Paketgröße"
 
-#: main/http.cc:194
+#: main/http.cc:200
 #, fuzzy
 msgid "Chunk size %ll"
 msgstr "Paketgröße: %i"
 
-#: main/http.cc:196
+#: main/http.cc:202
 msgid "It's last chunk!"
 msgstr "Es ist das letzte Paket!"
 
@@ -2285,11 +2285,11 @@ msgstr "Downloadgröße %i bytes"
 msgid "Sending HTTP request..."
 msgstr "Sende HTTP Anfrage..."
 
-#: main/httpd.cc:461
+#: main/httpd.cc:465
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "Fortsetzen (REGET) nicht unterstützt! Fange von vorne an.."
 
-#: main/httpd.cc:464
+#: main/httpd.cc:468
 msgid "ETag was changed, restarting again..."
 msgstr "ETag wurde geändert, starte neu..."
 
@@ -2461,28 +2461,28 @@ msgstr ""
 msgid "Normally started"
 msgstr "Normal gestartet"
 
-#: main/main.cc:1580
+#: main/main.cc:1581
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Füge Datei %s von %s zur Liste hinzu"
 
 # main.cc
-#: main/main.cc:1634
+#: main/main.cc:1635
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu Bytes in dieser Sitzung geladen"
 
 # main.cc:
-#: main/main.cc:1635
+#: main/main.cc:1636
 msgid "Downloader exited normaly"
 msgstr "Downloader normal beendet"
 
-#: main/main.cc:1675
+#: main/main.cc:1676
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Kann '%s' nicht öffnen um das Protokoll zu speichern"
 
-#: main/main.cc:1706
+#: main/main.cc:1707
 msgid "Such protocol is not supported!"
 msgstr "Ein solches Protokoll wird nicht unterstützt!"
 

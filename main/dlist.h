@@ -192,6 +192,7 @@ struct tDownload:public tAbstractSortNode{
 	int owner();
 	tAddr *redirect_url();
 	void update_trigers();
+	void set_split_count(int num);
 	~tDownload();
 };
 

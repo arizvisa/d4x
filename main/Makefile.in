@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/main/Makefile.am,v 1.15 2002/12/21 14:05:28 max Exp $
+# $Header: /var/cvs/d4x/main/Makefile.am,v 1.19 2003/01/22 20:03:24 zaufi Exp $
 #
 
 #
@@ -93,7 +93,14 @@ ESD_CONFIG = @ESD_CONFIG@
 ESD_LIBS = @ESD_LIBS@
 GENCAT = @GENCAT@
 GLIBC21 = @GLIBC21@
+GLIB_CFLAGS = @GLIB_CFLAGS@
+GLIB_GENMARSHAL = @GLIB_GENMARSHAL@
+GLIB_LIBS = @GLIB_LIBS@
+GLIB_MKENUMS = @GLIB_MKENUMS@
 GMSGFMT = @GMSGFMT@
+GOBJECT_QUERY = @GOBJECT_QUERY@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LIBS = @GTK_LIBS@
 HAVE_DOT = @HAVE_DOT@
 HAVE_LIB = @HAVE_LIB@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
@@ -138,12 +145,15 @@ DEFAULT_INCLUDES = -I$(top_builddir)
 
 bin_PROGRAMS = nt
 
+@EXTRA_OPTIMIZE_TRUE@nt_SOURCES = nt.all_cc.cc
+@EXTRA_OPTIMIZE_FALSE@nt_SOURCES = $(nt_SOURCES_LIST)
+
 #
 # HINT: c note from face/Makefile.am
 #       I suppose it can be applied here too... :)
 #
 # List of C++ modules (got from `ls -w50 -q *.cc
-nt_SOURCES = $(strip                                \
+nt_SOURCES_LIST = $(strip                           \
   addr.cc      eff.cc      log.cc       schedule.cc \
   alt.cc       filter.cc   main.cc      segments.cc \
   autoadd.cc   fsearch.cc  mainlog.cc   signal.cc   \
@@ -185,7 +195,7 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = nt$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_nt_OBJECTS = addr.$(OBJEXT) eff.$(OBJEXT) log.$(OBJEXT) \
+am__objects_1 = addr.$(OBJEXT) eff.$(OBJEXT) log.$(OBJEXT) \
 	schedule.$(OBJEXT) alt.$(OBJEXT) filter.$(OBJEXT) \
 	main.$(OBJEXT) segments.$(OBJEXT) autoadd.$(OBJEXT) \
 	fsearch.$(OBJEXT) mainlog.$(OBJEXT) signal.$(OBJEXT) \
@@ -200,6 +210,8 @@ am_nt_OBJECTS = addr.$(OBJEXT) eff.$(OBJEXT) log.$(OBJEXT) \
 	srvclt.$(OBJEXT) download.$(OBJEXT) liststr.$(OBJEXT) \
 	savedvar.$(OBJEXT) var.$(OBJEXT) dqueue.$(OBJEXT) \
 	locstr.$(OBJEXT) savelog.$(OBJEXT) recode.$(OBJEXT)
+@EXTRA_OPTIMIZE_TRUE@am_nt_OBJECTS = nt.all_cc.$(OBJEXT)
+@EXTRA_OPTIMIZE_FALSE@am_nt_OBJECTS = $(am__objects_1)
 nt_OBJECTS = $(am_nt_OBJECTS)
 nt_DEPENDENCIES = $(top_builddir)/main/face/libface.a
 nt_LDFLAGS =
@@ -225,15 +237,16 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/mainlog.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/memwl.Po ./$(DEPDIR)/meter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/msgqueue.Po ./$(DEPDIR)/mutex.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/nt.Po ./$(DEPDIR)/ping.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/queue.Po ./$(DEPDIR)/recode.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/savedvar.Po ./$(DEPDIR)/savelog.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/schedule.Po ./$(DEPDIR)/segments.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/signal.Po ./$(DEPDIR)/sm.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sndserv.Po ./$(DEPDIR)/socket.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/socks.Po ./$(DEPDIR)/sort.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/speed.Po ./$(DEPDIR)/srvclt.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/var.Po ./$(DEPDIR)/xml.Po
+@AMDEP_TRUE@	./$(DEPDIR)/nt.Po ./$(DEPDIR)/nt.all_cc.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/ping.Po ./$(DEPDIR)/queue.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/recode.Po ./$(DEPDIR)/savedvar.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/savelog.Po ./$(DEPDIR)/schedule.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/segments.Po ./$(DEPDIR)/signal.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sm.Po ./$(DEPDIR)/sndserv.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/socket.Po ./$(DEPDIR)/socks.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sort.Po ./$(DEPDIR)/speed.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/srvclt.Po ./$(DEPDIR)/var.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/xml.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -326,6 +339,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msgqueue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mutex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nt.all_cc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ping.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/recode.Po@am__quote@
@@ -547,7 +561,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-exec-local
 
 install-info: install-info-recursive
 
@@ -574,14 +588,14 @@ uninstall-info: uninstall-info-recursive
 	dvi-recursive info info-am info-recursive install install-am \
 	install-binPROGRAMS install-data install-data-am \
 	install-data-recursive install-exec install-exec-am \
-	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-recursive \
-	tags tags-recursive uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-info-am \
+	install-exec-local install-exec-recursive install-info \
+	install-info-am install-info-recursive install-man \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-recursive tags tags-recursive \
+	uninstall uninstall-am uninstall-binPROGRAMS uninstall-info-am \
 	uninstall-info-recursive uninstall-local uninstall-recursive
 
 
@@ -634,11 +648,24 @@ update-POTFILES:
 .PHONY: new-class update-POTFILES
 
 #
+# Rule to join all sources in one compilation unit
+#
+nt.all_cc.cc: $(srcdir)/Makefile.am
+	@echo "Creating $(@) ..."; \
+	echo "/* DO NOT EDIT! This file is autogenerated by 'make' from sources list... */" > $(@); \
+	list="$(nt_SOURCES_LIST)"; \
+	for i in $$list; do \
+	    echo "#include \"$$i\"" >> $(@); \
+	done
+
+#
 # Make symlink (if possible) nt --> d4x on install
 #
-install-local:
-	test -f $(DESTDIR)$(bindir)/$(PACKAGE) && rm -f $(DESTDIR)$(bindir)/$(PACKAGE)
-	$(LN_S) -f $(DESTDIR)$(bindir)/$(bin_PROGRAMS) $(DESTDIR)$(bindir)/$(PACKAGE)
+install-exec-local:
+	if test -f $(DESTDIR)$(bindir)/$(PACKAGE); then \
+	    rm -f $(DESTDIR)$(bindir)/$(PACKAGE); \
+	fi; \
+	cd $(DESTDIR)$(bindir) && $(LN_S) -f $(bin_PROGRAMS) $(PACKAGE)
 
 #
 # Remove remaining symlink when unistall

@@ -1,13 +1,13 @@
 # -*-m4-*-
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.70 $)
+AC_REVISION($Revision: 1.75 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
 # Initialize environment
 # -----------------------------------------------------------------------------
-AC_INIT([d4x],[2.4.0rc2],[chuchelo@krasu.ru])
+AC_INIT([d4x],[2.4.1],[chuchelo@krasu.ru])
 
 AC_CONFIG_SRCDIR([nt.spec.in])
 AC_CONFIG_AUX_DIR([admin])
@@ -43,6 +43,7 @@ AC_ARG_ENABLE(extra-optimize,
     [if test "$enable_extra_optimize" = "yes"; then
 	OPTFLAGS="-O3 -fexpensive-optimizations"
     fi])
+AM_CONDITIONAL(EXTRA_OPTIMIZE, test "$enable_extra_optimize" = "yes")
 AC_ARG_ENABLE(release, 
     AC_HELP_STRING([--enable-release], [Compile with usual optimization level without debug code (default)]),,
     [enable_release="yes"])
@@ -62,6 +63,11 @@ AC_ARG_ENABLE(warnings,
     AC_HELP_STRING([--enable-warnings], [Enable all warnings at compile time]),
     [if test "$enable_warnings" = "yes"; then
 	CXXFLAGS="$CXXFLAGS -Wall"
+    fi])
+AC_ARG_ENABLE(profile,
+    AC_HELP_STRING([--enable-profile], [Enable profiling info]),
+    [if test "$enable_profile" == "yes"; then
+        CXXFLAGS=$CXXFLAGS" -pg"
     fi])
 
 # Extra features options
@@ -175,10 +181,9 @@ if test "$enable_esd" = "yes"; then
     AC_SUBST(ESD_LIBS)
 fi
 
-
-#AM_PATH_GLIB_2_0(2.0.6,, AC_MSG_ERROR([*** GLIB >= 2.0.6 not installed! ***]))
-#AM_PATH_GTK_2_0(2.0.6,, AC_MSG_ERROR([*** GTK >= 2.0.6 not installed! ***]))
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.6 glib-2.0 >= 2.0.6)
+AM_PATH_GLIB_2_0(2.0.6,, AC_MSG_ERROR([*** GLIB >= 2.0.6 not installed! ***]))
+AM_PATH_GTK_2_0(2.0.6,, AC_MSG_ERROR([*** GTK >= 2.0.6 not installed! ***]))
+#PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.6 glib-2.0 >= 2.0.6)
 
 # POSIX threads should be always present...
 if test "$ac_pthread_strict_check" = "yes"; then

@@ -474,7 +474,7 @@ int tMain::try_to_run_download(tDownload *what){
 			what->split->LastByte=-1;
 			what->split->reset();
 			what->config->rollback=0;
-			what->config->ftp_recurse_depth = 1;
+//			what->config->ftp_recurse_depth = 1;
 			what->split->grandparent=what;
 //			what->config->http_recurse_depth = 1;
 		};
@@ -1524,6 +1524,7 @@ void tMain::run(int argv,char **argc) {
 	MainLog->add(_("Normally started"),LOG_WARNING);
 	check_for_remote_commands();
 	GlobalMeter->set_mode(CFG.GRAPH_MODE);
+	MainScheduler->clear_old();
 	if (CFG.WITHOUT_FACE==0){
 		SOUND_SERVER->add_event(SND_STARTUP);
 		gtk_main();

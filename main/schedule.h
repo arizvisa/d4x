@@ -151,6 +151,7 @@ class d4xScheduler{
  public:
 	d4xScheduler();
 	void run(tMain *papa);
+	void clear_old();
 	void add_scheduled(tDownload *what);
 	void add_action(d4xSchedAction *act);
 	void del_action(d4xSchedAction *act);

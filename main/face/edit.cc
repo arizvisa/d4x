@@ -1080,16 +1080,7 @@ int tDEdit::apply_changes() {
 	temp1=0;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(split_entry)),"%u",&temp1);
 	if (parent->config->isdefault) temp1=CFG.NUMBER_OF_PARTS;
-	if (temp1>1){
-		if (temp1>10) temp1=10;
-		if (parent->split==NULL)
-			parent->split=new tSplitInfo;
-		parent->split->NumOfParts=temp1;
-	}else{
-		if (parent->split)
-			delete(parent->split);
-		parent->split=NULL;
-	};
+	parent->set_split_count(temp1);
 	if (limit && con_limit_entry){
 		sscanf(gtk_entry_get_text(GTK_ENTRY(con_limit_entry)),"%u",&temp1);
 		if (temp1>=0)
@@ -1432,16 +1423,7 @@ void tDEdit::apply_enabled_changes(){
 	if (GTK_WIDGET_SENSITIVE(split_entry)){
 		temp1=0;
 		sscanf(gtk_entry_get_text(GTK_ENTRY(split_entry)),"%u",&temp1);
-		if (temp1>1){
-			if (temp1>10) temp1=10;
-			if (parent->split==NULL)
-				parent->split=new tSplitInfo;
-			parent->split->NumOfParts=temp1;
-		}else{
-			if (parent->split)
-				delete(parent->split);
-			parent->split=NULL;
-		};
+		parent->set_split_count(temp1);
 	};
 
 	if (GTK_WIDGET_SENSITIVE(time_check)){

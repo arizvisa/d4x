@@ -1,3 +1,16 @@
+2.4.1
+	Fixed continued downloading in one thread via HTTP;
+
+2.4final
+	Decreased CPU ussage;
+	Now D4X will not run too old scheduled actions at startup;
+	Updated Italian translation by diau;
+	Updated Hungarian translation by Pinter Sandor;
+	Optimized multithreaded downloading;
+	Fixed race condition in sound server thread;
+	Fixed inheriting 'number of parts to split' in recursed downloads;
+	Fixed symlink creation bin/d4x -> bin/nt during making rpm;
+
 2.4rc2
     Fixed 'make install' if symbolic link 'bin/d4x' has been already created;
     Fixed freeze at exiting on old sound drivers;

@@ -438,6 +438,10 @@ fsize_t tHttpDownload::get_size() {
 	return -2;
 };
 
+void tHttpDownload::pass_first_segment(){
+	if (HTTP) HTTP->pass_first_segment();
+};
+
 int tHttpDownload::download(fsize_t len) {
 	int success=1;
 	int first=1;

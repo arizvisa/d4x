@@ -16,6 +16,7 @@
 class tHttpClient:public tClient{
  protected:
 	fsize_t Offset;
+	int pass_first;
 	int send_request(char *request);
 	int send_request(char *begin, char *center,char *end);
 	int read_data(char *where,fsize_t len);
@@ -30,6 +31,7 @@ class tHttpClient:public tClient{
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_user_agent(char *agent,char *refer);
 	void set_offset(fsize_t a);
+	void pass_first_segment();
 	int registr(char *user,char *password);
 	fsize_t get_size(char *filename,tStringList *list);
 	int get_file_from(char *what,fsize_t begin,fsize_t len);

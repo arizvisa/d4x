@@ -43,6 +43,7 @@ class tHttpDownload:public tDownloader{
 public:
 	tHttpDownload();
 	tHttpDownload(tWriterLoger *log);
+	void pass_first_segment();
 	int reconnect();
 	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
 	fsize_t get_size();
