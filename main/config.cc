@@ -184,7 +184,9 @@ tConfigVariable config_variables[]={
 	{"check_time",		CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.check_time)},
 	{"pause_after_adding",	CV_TYPE_BOOL,	&(CFG.PAUSE_AFTER_ADDING)},
 	{"search_ping_times",	CV_TYPE_INT,	&(CFG.SEARCH_PING_TIMES)},
-	{"search_host",		CV_TYPE_INT,	&(CFG.SEARCH_HOST)},
+	{"search_engines",	CV_TYPE_STRING,	&(CFG.SEARCH_ENGINES)},
+	{"search_perserver",    CV_TYPE_INT,	&(CFG.SEARCH_PERSERVER)},
+//	{"search_host",		CV_TYPE_INT,	&(CFG.SEARCH_HOST)},
 	{"search_entries",	CV_TYPE_INT,	&(CFG.SEARCH_ENTRIES)},
 	{"change_links",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.change_links)},
 	{"anonymous_pass",	CV_TYPE_STRING,	&(CFG.ANONYMOUS_PASS)},
@@ -209,7 +211,8 @@ tConfigVariable config_variables[]={
 	{"use_theme",		CV_TYPE_BOOL,	&(CFG.USE_THEME)},
 	{"themes_dir",		CV_TYPE_STRING,	&(CFG.THEMES_DIR)},
 	{"use_default_cfg",	CV_TYPE_BOOL,	&(CFG.USE_DEFAULT_CFG)},
-	{"number_of_parts",	CV_TYPE_INT,	&(CFG.NUMBER_OF_PARTS)}
+	{"number_of_parts",	CV_TYPE_INT,	&(CFG.NUMBER_OF_PARTS)},
+	{"graph_on_basket",	CV_TYPE_INT,	&(CFG.GRAPH_ON_BASKET)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -338,6 +341,23 @@ static void save_string_to_config(int fd,char *name,char *str) {
 	f_wstr(fd,data);
 };
 
+char *d4x_cfg_search_engines(){
+	int count=D4X_SEARCH_ENGINES.count();
+	d4xSearchEngine *first=D4X_SEARCH_ENGINES.first();
+	char *rval=new char[count+1];
+	char *cur=rval;
+	while(first){
+		if (first->used)
+			*cur='1';
+		else
+			*cur='0';
+		cur++;
+		first=D4X_SEARCH_ENGINES.prev();
+	};
+	*cur=0;
+	return rval;
+};
+
 void save_config() {
 	if (!HOME_VARIABLE)	return;
 	char *cfgpath=compose_path(HOME_VARIABLE,CFG_FILE);
@@ -348,6 +368,8 @@ void save_config() {
 		fd=open(cfgpath,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 		delete[] cfg_dir;
 	};
+	if (CFG.SEARCH_ENGINES) delete[] CFG.SEARCH_ENGINES;
+	CFG.SEARCH_ENGINES=d4x_cfg_search_engines();
 	char data[MAX_LEN];
 	if (fd>=0) {
 		lod_get_height();
@@ -755,7 +777,7 @@ int parse_command_line_already_run(int argv,char **argc){
 void parse_command_line_postload(int argv,char **argc){
 	for (int i=1;i<argv;i++){
 		if (*(argc[i])!='-'){
-			aa.add_downloading(argc[i]);
+			_aa_.add_downloading(argc[i]);
 		};
 		int option=downloader_args_type(argc[i]);
 		switch (option){

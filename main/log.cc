@@ -25,6 +25,7 @@
 
 #include "dlist.h"
 #include "face/log.h"
+#include "face/list.h"
 #include "var.h"
 #include "ntlocale.h"
 #include "signal.h"
@@ -88,13 +89,12 @@ void tLog::get_geometry(int *a) {
 		a[i]=geometry[i];
 };
 
-void tLog::send_msg(int type,tLogString *what) {
+void tLog::send_msg(tLogString *what) {
 	MaxNum=CFG.MAX_LOG_LENGTH;
-//	if (what) printf("%s\n", what->body);
-	if (Window) {
+	if (Window || D4X_LOG_DISPLAY.log==this) {
 		/* FIXME: do this atomic */
 		tLogMsg *Msg=new tLogMsg;
-		Msg->type=type;
+		Msg->type=(Window?MQT_MY:0)+(D4X_LOG_DISPLAY.log==this?MQT_COM:0);
 		Msg->what=what;
 		Msg->which=this;
 		ref_inc();
@@ -110,13 +110,11 @@ void tLog::send_msg(int type,tLogString *what) {
 
 void tLog::print() {
 	if (!Window) return;
-//	lock();
 	tLogString *prom=(tLogString *)First;
 	while (prom) {
 		log_window_add_string(this,prom);
 		prom=(tLogString *)prom->prev;
 	};
-//	unlock();
 };
 
 int tLog::init_save(char *path){
@@ -161,7 +159,7 @@ void tLog::add(const char *str,int len,int type) {
 	insert(temp);
 	Size+=len;
 	unlock();
-	send_msg(1,temp);
+	send_msg(temp);
 };
 
 void tLog::add(const char *str,int type) {
@@ -172,7 +170,7 @@ void tLog::add(const char *str,int type) {
 	insert(ins);
 	Size+=len;
 	unlock();
-	send_msg(1,ins);
+	send_msg(ins);
 };
 
 void tLog::add(const char *str) {
@@ -183,12 +181,12 @@ void tLog::add(const char *str) {
 	insert(ins);
 	Size+=len;
 	unlock();
-	send_msg(1,ins);
+	send_msg(ins);
 };
 
 void tLog::dispose() {
 	unlock();
-	send_msg(1,NULL);
+	send_msg(NULL);
 	tStringList::dispose();
 };
 
@@ -214,6 +212,9 @@ tLogString *tLog::first() {
 
 tLog::~tLog() {
 	log_window_destroy_by_log(this);
+	if (D4X_LOG_DISPLAY.log==this)
+		D4X_LOG_DISPLAY.log=NULL;
+//	MsgQueue->remove_this_log(this);
 	done();// will be used by tStringList::~tStringList();
 	if (fd>=0) close(fd);
 };

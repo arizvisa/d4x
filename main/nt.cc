@@ -29,7 +29,7 @@
 #include "segments.h"
 #include "srvclt.h"
 //-------------------------------------------------
-tMain aa;
+tMain _aa_;
 
 char *VERSION_NAME="WebDownloader for X "
 			VERSION;
@@ -56,6 +56,8 @@ static void init_string_variables(){
 	if (CFG.CATCH_IN_CLIPBOARD==NULL)
 		CFG.CATCH_IN_CLIPBOARD=copy_string("zip .gz rar arj exe rpm .bz2 deb tgz mp3");
 	CFG.LOCAL_SAVE_PATH=copy_string(CFG.GLOBAL_SAVE_PATH);
+	if (!CFG.SEARCH_ENGINES)
+		CFG.SEARCH_ENGINES=copy_string("1");
 	if (!CFG.SOUND_COMPLETE)
 		CFG.SOUND_COMPLETE=sum_strings(D4X_SHARE_PATH,"/sounds/complete.wav",NULL);
 	if (!CFG.SOUND_ADD)
@@ -109,6 +111,16 @@ void segv_handler(int signum) {
 
 #include "xml.h"
 
+void test_segments(){
+	tSegmentator segments;
+	printf("0-1500:%i\n",segments.insert(0,1500));
+	segments.print();
+	printf("1500-3000:%i\n",segments.insert(1500,3000));
+	segments.print();
+	printf("1100-1200:%i\n",segments.insert(1100,1200));
+	segments.print();
+};
+
 int main(int argc,char **argv) {
 #ifdef ENABLE_NLS
 	bindtextdomain("d4x", LOCALEDIR);
@@ -150,9 +162,9 @@ int main(int argc,char **argv) {
 			send_popup();
 		return 0;
 	};
-	if (aa.init()) return(1);
-	aa.run(argc,argv);
-	aa.run_after_quit();
+	if (_aa_.init()) return(1);
+	_aa_.run(argc,argv);
+	_aa_.run_after_quit();
 	var_free(&CFG);
 	return 0;
 };

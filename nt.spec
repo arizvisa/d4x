@@ -1,4 +1,4 @@
-%define version	2.4.1
+%define version	2.5.0beta2
 %define name	d4x
 %define prefix	/usr
 
@@ -56,6 +56,13 @@ cp -f share/nt-gray.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-gray.png
 cp -f share/nt.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.png
 cp -f share/nt-wm.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-wm.png
 cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
+rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/FAQ.*
+rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/README.*
+rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/README
+rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/FAQ
+rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/TROUBLES
+rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/LICENSE
+rm -f $RPM_BUILD_ROOT%{prefix}/man/man1/*
 
 %find_lang %{name}
 

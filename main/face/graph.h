@@ -11,9 +11,12 @@
 #ifndef MY_GTK_GRAPH
 #define MY_GTK_GRAPH
 
+#include "../meter.h"
+
 struct MyGtkGraph{
 	GtkWidget widget;
 	GdkRgbCmap *cmap;
+	tMeter *LocalM,*GlobalM;
 	guchar *rgb_data;
 };
 
@@ -22,6 +25,7 @@ struct MyGtkGraphClass{
 };
 
 extern MyGtkGraph *GLOBAL_GRAPH;
+extern MyGtkGraph *D4X_DND_GRAPH;
 
 GtkWidget *my_gtk_graph_new();
 void my_gtk_graph_recalc(MyGtkGraph *graph);

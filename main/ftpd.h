@@ -37,6 +37,7 @@ public:
     	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
 	void init_download(char *path,char *file);
     	int download(fsize_t len);
+    	fsize_t get_size_only();
     	fsize_t get_size();
     	void done();
 	void dont_cwd();

@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/share/Makefile.am,v 1.9 2002/11/12 21:29:53 zaufi Exp $
+# $Header: /var/cvs/d4x/share/Makefile.am,v 1.11 2003/04/24 23:47:04 zaufi Exp $
 #
 
 MAINTAINERCLEANFILES = Makefile.in
@@ -21,10 +21,12 @@ pkgdata_DATA = ftpsearch.xml
 #
 install-data-local:
 	for i in $(SOUNDFILES) $(THEMEFILES); do \
-	    $(INSTALL_DATA) -D $$i $(pkgdatadir)/`dirname $$i | sed 's,$(srcdir)/,,'`/`basename $$i`; \
+	    $(INSTALL_DATA) -D $$i $(DESTDIR)$(pkgdatadir)/`dirname $$i \
+	    | sed 's,$(srcdir)/,,'`/`basename $$i`; \
 	done
 
 uninstall-local:
 	for i in $(SOUNDFILES) $(THEMEFILES); do \
-	    rm -f $(pkgdatadir)/$$i; \
+	    rm -f $(DESTDIR)$(pkgdatadir)/`dirname $$i \
+	    | sed 's,$(srcdir)/,,'`/`basename $$i`; \
 	done

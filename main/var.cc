@@ -19,6 +19,7 @@
 tGlobalVars GVARS;
 
 int METER_LENGTH=50;
+int GRAPH_METER_LENGTH=24;
 int BLOCK_READ=1500;
 int LOCK_FILE_D=0;
 
@@ -30,7 +31,7 @@ tMainCfg CFG={
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,600,0,0, //flags
-	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,//interface
+	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,0,
 	/* Proxy */
@@ -41,8 +42,8 @@ tMainCfg CFG={
 	3,1024,10*1024,
 	NULL,0,
 	0x0FFFFFFF,
-	0,0,1,1, //special things
-	1,0,15,
+	0,0,1,1,0, //special things
+	1,20,10,NULL, //FTP SEARCH
 	1,0,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,
 	0,(char*)NULL,(char*)NULL
 };
@@ -87,6 +88,8 @@ void var_check_all_limits(){
 	var_check_limits_int(1,100,&CFG.SEARCH_PING_TIMES);
 	var_check_limits_int(1,30,&CFG.SEARCH_ENTRIES);
 	var_check_limits_int(0,10,&CFG.NUMBER_OF_PARTS);
+	var_check_limits_int(0,100,&CFG.SEARCH_ENTRIES);
+	var_check_limits_int(0,50,&CFG.SEARCH_PERSERVER);
 };
 
 const char *CFG_FILE=".ntrc_2/config";
@@ -127,6 +130,7 @@ void var_free(tMainCfg *dst){
 	if (dst->DEFAULT_FILTER) delete[] dst->DEFAULT_FILTER;
 	if (dst->THEME_FILE) delete[] dst->THEME_FILE;
 	if (dst->THEMES_DIR) delete[] dst->THEMES_DIR;
+	if (dst->SEARCH_ENGINES) delete[] dst->SEARCH_ENGINES;
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
@@ -188,11 +192,10 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SPEED_LIMIT_1=src->SPEED_LIMIT_1;
 	dst->SPEED_LIMIT_2=src->SPEED_LIMIT_2;
 	dst->REMEMBER_PASS=src->REMEMBER_PASS;
-	dst->WITHOUT_FACE=src->WITHOUT_FACE;
 	dst->DND_NEED_POPUP=src->DND_NEED_POPUP;
 	dst->SEARCH_PING_TIMES=src->SEARCH_PING_TIMES;
-	dst->SEARCH_HOST=src->SEARCH_HOST;
 	dst->SEARCH_ENTRIES=src->SEARCH_ENTRIES;
+	dst->SEARCH_PERSERVER=src->SEARCH_PERSERVER;
 	dst->SOCKS_PORT=src->SOCKS_PORT;
 	dst->BUTTONS_FLAGS=src->BUTTONS_FLAGS;
 	dst->PROGRESS_MODE=src->PROGRESS_MODE;
@@ -202,6 +205,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->USE_THEME=src->USE_THEME;
 	dst->USE_DEFAULT_CFG=src->USE_DEFAULT_CFG;
 	dst->NUMBER_OF_PARTS=src->NUMBER_OF_PARTS;
+	dst->GRAPH_ON_BASKET=src->GRAPH_ON_BASKET;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);
@@ -231,4 +235,5 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->DEFAULT_FILTER=copy_string(src->DEFAULT_FILTER);
 	dst->THEME_FILE=copy_string(src->THEME_FILE);
 	dst->THEMES_DIR=copy_string(src->THEMES_DIR);
+	dst->SEARCH_ENGINES=copy_string(src->SEARCH_ENGINES);
 };

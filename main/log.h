@@ -34,7 +34,7 @@ class tLog:public tStringList{
 	d4xMutex mutex;
 	int key;
 	int current_row;
-	void send_msg(int type,tLogString *what);
+	void send_msg(tLogString *what);
 	int geometry[4];
 	int ref_count;
 	int fd;

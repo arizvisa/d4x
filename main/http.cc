@@ -146,10 +146,7 @@ void tHttpClient::send_cookies(char *host,char *path){
 	};
 };
 
-fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
-	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
-	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
-	send_request("GET ",filename," HTTP/1.1\r\n");
+fsize_t tHttpClient::get_size_sub(tStringList *list){
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
@@ -175,9 +172,25 @@ fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 		send_request("Authorization: Basic ",pass,"\r\n");
 		delete[] pass;
 	};
-	send_cookies(hostname,filename);
 	send_request("\r\n");
 	return read_answer(list);
+};
+
+fsize_t tHttpClient::get_size_only(char *filename,tStringList *list) {
+	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
+	send_request("HEAD ",filename," HTTP/1.1\r\n");
+	send_cookies(hostname,filename);
+	return(get_size_sub(list));
+};
+
+
+fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
+	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
+	send_request("GET ",filename," HTTP/1.1\r\n");
+	send_cookies(hostname,filename);
+	return(get_size_sub(list));
 };
 
 

@@ -21,7 +21,6 @@
 #include "../main.h"
 #include "lod.h"
 
-extern tMain aa;
 
 static void _open_alternates_(GtkTreeModel *model,GtkTreePath *path,
 			      GtkTreeIter *iter,gpointer data){
@@ -45,7 +44,7 @@ static void _ftp_search_(GtkTreeModel *model,GtkTreePath *path,
 	gtk_tree_model_get_value(model,iter,NOTHING_COL,&val);
 	tDownload *tmp=(tDownload *)g_value_peek_pointer(&val);
 	g_value_unset(&val);
-	aa.ftp_search(tmp);
+	_aa_.ftp_search(tmp);
 };
 
 void lmenu_ftp_search_go(){

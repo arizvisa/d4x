@@ -30,8 +30,10 @@ private:
 public:
 	d4xMutex lock;
 	d4xAlt *FIRST,*END;
+	int ftp_searching;
 	d4xAltList();
 	~d4xAltList();
+	void set_find_sens();
 	void init_edit_mod(GtkTreeIter *iter);
 	void edit_mod_destroy();
 	void edit_mod_ok();

@@ -71,6 +71,8 @@ void signal_handler(int num) {
 		(*temp)->LOG->unlock();
 		(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
 		//	temp->who->done();
+		if ((*temp)->segments)
+			(*temp)->segments->save();
 		D4X_UPDATE.add(*temp,DOWNLOAD_REAL_STOP);
 	};
 	pthread_exit(NULL);

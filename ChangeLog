@@ -1,3 +1,251 @@
+2003-06-23 04:44  max
+
+	* README.maint, VERSION: Release 2.5.0-beta2 tagged
+
+2003-06-22 18:39  max
+
+	* main/: nt.cc, segments.cc: fixed problems with downloading in
+	number of threads when two thread are write in the same part of
+	file;
+
+2003-06-22 14:59  max
+
+	* share/ftpsearch.xml: removed archie.is.co.za and ftpsystem.com
+	from FTP-search engines (first one was downgraded second one was
+	selled);
+
+2003-06-22 00:28  max
+
+	* main/face/: edit.cc, prefs.cc: some  interface cleanups;
+
+2003-06-21 15:00  max
+
+	* main/face/: list.cc, prefs.cc: fixed grabage about graph!=NULL in
+	stderr; fixed changing colors of graph on DnD-basket after applying
+	preferences;
+
+2003-06-20 20:52  max
+
+	* main/face/: about.cc, buttons.cc, dndtrash.cc, edit.cc,
+	filtrgui.cc, fsched.cc, list.cc, lod.cc, mywidget.cc, passface.cc,
+	prefs.cc, qtree.cc, saveload.cc: Interface and interface's code
+	cleanups from Syomin Pavel;
+
+2003-06-20 20:27  max
+
+	* ChangeLog, NEWS: again 2.5.0beta1 commiting;
+
+2003-06-20 20:26  max
+
+	* po/: bg.po, de.po, fr.po, hu.po, it.po, pt_BR.po, uk.po:
+	commiting 2.5.0 changes;
+
+2003-06-19 06:07  zaufi
+
+	* README, README.maint, admin/cvs.sh, m4/ac_pkg_info_header.m4:
+	Some fixes
+
+2003-06-19 00:38  max
+
+	* nt.spec.in: changes to built RPM on RedHat9;
+
+2003-06-19 00:38  max
+
+	* po/es.po: fixed
+
+2003-06-18 21:20  max
+
+	* po/: es.po, pt_BR.po: Updated Spanish and Portuguese-Brasillian
+	translation
+
+2003-06-18 21:14  max
+
+	* NEWS: updated for 2.5.0-beta1 release;
+
+2003-06-17 12:32  max
+
+	* main/: config.cc, dlist.cc, var.cc, var.h, face/list.cc,
+	face/lod.cc, face/prefs.cc: implemented number of links per
+	searching engine for FTP-search;
+
+2003-06-17 12:30  max
+
+	* TODO, po/ru.po: update Russian translation (by me); updated TODO
+	list;
+
+2003-06-11 22:59  max
+
+	* README, VERSION: Release 2.5.0-beta1 tagged
+
+2003-06-11 22:50  max
+
+	* TODO: updated info;
+
+2003-06-11 22:49  max
+
+	* main/face/pixmaps/size.xpm: one new icon for queue of downloads;
+
+2003-06-11 22:49  max
+
+	* main/face/pixmaps2/: offline.xpm, offline1.xpm: some icons added;
+
+2003-06-11 22:48  max
+
+	* main/: dlist.cc, dlist.h, download.h, dqueue.cc, dqueue.h,
+	fsearch.cc, fsearch.h, ftpd.cc, ftpd.h, hproxy.cc, hproxy.h,
+	http.cc, http.h, httpd.cc, httpd.h, main.cc, main.h, var.cc, var.h,
+	face/colors.cc, face/colors.h, face/edit.cc, face/filtrgui.cc,
+	face/fsched.cc, face/fsface.cc, face/fsface.h, face/list.cc,
+	face/lod.cc, face/lod.h, face/misc.cc, face/misc.h,
+	face/passface.cc, face/prefs.cc, face/pixmaps/clocks.xpm,
+	face/pixmaps/ftpsearch.xpm, face/pixmaps/mainlog.xpm,
+	face/pixmaps/urlmng.xpm: offline mode has been implemented;
+	implemented detection filesize without downloading by clicking F5
+	button; interface cleanups;
+
+2003-05-18 22:06  max
+
+	* main/face/: fsface.cc, fsface.h, list.cc, list.h: updated
+	FTP-search interface;
+
+2003-05-06 07:15  zaufi
+
+	* admin/cvs.sh: Fix error then local file found
+
+2003-04-30 18:45  vav
+
+	* Makefile.am, configure.in: More fixes of autoconf/automake stuff
+	(hopefull now compilation goes Ok).
+
+2003-04-30 16:37  vav
+
+	* Makefile.cvs, configure.in, admin/cvs.sh: Some fixes for
+	automake/autoconf stuff.
+
+2003-04-27 18:05  zaufi
+
+	* configure.in: Rollback AC_PREREQ
+
+2003-04-25 22:25  max
+
+	* main/: dlist.cc, dlist.h, log.cc, log.h, main.cc, msgqueue.cc,
+	msgqueue.h, face/list.cc, face/pixmaps/queues.xpm: fixed segfault
+	on removing download; no duplicate links in FTP-search's results;
+	interface changes;
+
+2003-04-25 07:47  zaufi
+
+	* Doxyfile.in, Makefile.am, Makefile.cvs, VERSION, configure.in,
+	admin/.cvsignore, admin/Doxyfile.in, admin/acinclude.m4,
+	admin/cvs-clean.pl, admin/cvs.sh, m4/am_with_rx.m4, m4/d4xao.m4,
+	m4/gcc_check_obsolete_option.m4, share/Makefile.am: Backport
+	configs
+
+2003-04-24 23:07  max
+
+	* TODO: updated;
+
+2003-04-24 23:06  max
+
+	* main/: config.cc, config.h, dlist.cc, fsearch.cc, fsearch.h,
+	main.cc, main.h, nt.cc, var.cc, var.h, face/filtrgui.cc,
+	face/fsched.cc, face/fsface.cc, face/list.cc, face/passface.cc,
+	face/prefs.cc: implemented FTP-search using number of engines (not
+	only one); implement searching for user typed filename; interface
+	cleanups;
+
+2003-04-23 22:31  max
+
+	* main/: alt.cc, alt.h, fsearch.cc: block "Find" button in
+	alternates dialog during search;
+
+2003-04-21 23:44  max
+
+	* main/face/pixmaps/: down.xpm, up.xpm: up and down icons;
+
+2003-04-21 23:42  max
+
+	* TODO: updated;
+
+2003-04-21 23:41  max
+
+	* main/face/pixmaps/: clocks.xpm, filters.xpm, ftpsearch.xpm,
+	mainlog.xpm, queues.xpm, urlmng.xpm: debug icons set;
+
+2003-04-21 23:40  max
+
+	* main/: config.cc, dlist.cc, dqueue.h, log.cc, main.cc, main.h,
+	nt.cc, segments.cc, segments.h, signal.cc, socket.cc, var.cc,
+	var.h, face/colors.cc, face/dndtrash.cc, face/filtrgui.cc,
+	face/filtrgui.h, face/fsched.cc, face/fsched.h, face/graph.cc,
+	face/graph.h, face/list.cc, face/list.h, face/lod.cc, face/log.cc,
+	face/log.h, face/misc.cc, face/misc.h, face/mywidget.cc,
+	face/mywidget.h, face/passface.cc, face/passface.h, face/prefs.cc,
+	face/qtree.cc, face/qtree.h: changed interface (MANY CHANGES);
+	rewritten segmentator code; implmented graph on DnD-basket;
+
+2003-03-02 00:09  max
+
+	* main/httpd.cc, main/face/misc.cc, po/bg.po, po/de.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/pt_BR.po, po/ru.po, po/uk.po,
+	po/fuzzy/pt_BR.po: updated Portuguese Brasilian translation by
+	Edson Lucas M Nascimento; fixed downloading via HTTP with empty
+	Content-Disposition in answer; fixed compilation without
+	--enable-extra-optimize;
+
+2003-02-28 15:03  zaufi
+
+	* README: BTW note added :)
+
+2003-02-28 14:48  zaufi
+
+	* README, configure.in: Fix --enable-extra-optimize options rewrite
+
+2003-02-28 14:10  zaufi
+
+	* admin/cvs.sh: gettext detection fixed for alphanumeric version
+	numbers (such as 0.12pre1)
+
+2003-02-26 20:47  max
+
+	* main/: alt.cc, config.cc, dlist.cc, dlist.h, fsearch.cc, main.cc,
+	main.h, mainlog.cc, nt.cc, savelog.cc, schedule.cc, face/addd.cc,
+	face/buttons.cc, face/dndtrash.cc, face/edit.cc, face/fsched.cc,
+	face/fsface.cc, face/list.cc, face/list.h, face/lmenu.cc,
+	face/lod.cc, face/log.h, face/misc.cc, face/misc.h,
+	face/mywidget.cc, face/passface.cc, face/prefs.cc, face/qtree.cc,
+	face/saveload.cc: fixed '--enable-extra-optimize'
+
+2003-02-12 19:48  zaufi
+
+	* share/Makefile.am: Fix DESTDIR support
+
+2003-01-29 09:45  zaufi
+
+	* Makefile.am: Fix: add admin/Makefile.addons to distr to make
+	automake happy
+
+2003-01-27 22:28  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.1 branched
+
+2003-01-27 12:40  max
+
+	* NEWS: Updated
+
+2003-01-27 12:37  zaufi
+
+	* admin/cvs.sh: Fix patch-release
+
+2003-01-27 12:19  max
+
+	* main/: dlist.cc, http.cc, http.h, httpd.cc, httpd.h: fixed
+	continued downloading in one thread vi HTTP;
+
+2003-01-26 14:24  max
+
+	* ChangeLog, NEWS: releasing 2.4.0
+
 2003-01-26 14:13  max
 
 	* Makefile.cvs, README.maint, configure.in: Release 2.4.0 branched

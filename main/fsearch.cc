@@ -95,6 +95,7 @@ int d4xEnginesList::load(){
 	char *tmp=sum_strings(D4X_SHARE_PATH,"/ftpsearch.xml",NULL);
 	tQueue *data=d4x_xml_parse_file(tmp);
 	delete[] tmp;
+	char *cur=CFG.SEARCH_ENGINES;
 	if (data){
 		d4xXmlObject *obj=NULL;
 		while ((obj=(d4xXmlObject *)(data->first()))){
@@ -114,6 +115,11 @@ int d4xEnginesList::load(){
 					regex_t regs[2];
 					if (test.compile(match->value.get(),"test") &&
 					    test.compile_regexes(regs)){
+						if (*cur){
+							if (*cur=='1')
+								engine->used=1;
+							cur++;
+						};
 						insert(engine);
 						regfree(regs);
 						regfree(regs+1);
@@ -149,6 +155,18 @@ void d4xEnginesList::names2array(char **arr){
 	}else{
 		arr[0]=_("Check your installation of the Downloader");
 	};
+};
+
+d4xSearchEngine *d4xEnginesList::get_next_used_engine(d4xSearchEngine *cur){
+	d4xSearchEngine *b;
+	if (cur)
+		b=(d4xSearchEngine *)(cur->prev);
+	else
+		b=(d4xSearchEngine *)First;
+	while (b && b->used==0){
+		b=(d4xSearchEngine *)(b->prev);
+	};
+	return (b);
 };
 
 /****************************************************************/
@@ -238,7 +256,7 @@ void tFtpSearchCtrl::add(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	what->info->proto=D_PROTO_SEARCH;
 	what->action=ACTION_NONE; //reping only flag
-	what->Status.curent=0; //cumulative reping flag
+	what->ActStatus.curent=0; //cumulative reping flag
 	queues[DL_FS_WAIT]->insert(what);
 	if (view){
 		fs_list_add(view,what);
@@ -252,6 +270,10 @@ void tFtpSearchCtrl::reping(tDownload *what){
 	if (what->config==NULL){
 		what->config=new tCfg;
 		what->set_default_cfg();
+	};
+	if (what->split){
+		delete(what->split);
+		what->split=NULL;
 	};
 	queues[DL_FS_WAIT]->insert(what);
 	fs_list_set_icon(view,what,PIX_WAIT);
@@ -286,11 +308,24 @@ void tFtpSearchCtrl::remove_from_clist(tDownload *what){
 	};
 };
 
+void tFtpSearchCtrl::stop_all_offline(){
+	tDownload *tmp=queues[DL_FS_RUN]->last();
+	while(tmp){
+		tDownload *tmpnext=queues[DL_FS_RUN]->next();
+		stop_thread(tmp);
+		if (tmp->action!=ACTION_DELETE)
+			tmp->action=ACTION_CONTINUE;
+		tmp=tmpnext;
+	};
+};
+
 void tFtpSearchCtrl::cycle(){
 	/* stoping completed and failed */
+	if (CFG.OFFLINE_MODE) return;
 	tDownload *tmp=queues[DL_FS_RUN]->last();
 	while (tmp){
 		tDownload *tmpnext=queues[DL_FS_RUN]->next();
+		fs_list_set_count(view,tmp);
 		if (tmp->status==DOWNLOAD_REAL_STOP ||
 		    tmp->status==DOWNLOAD_COMPLETE  ||
 		    tmp->status==DOWNLOAD_FATAL) {
@@ -300,8 +335,30 @@ void tFtpSearchCtrl::cycle(){
 			parent->post_stopping(tmp);
 			switch(tmp->action){
 			case ACTION_DELETE:{
+				if (tmp->fsearch){
+					tDownload *a=ALL_DOWNLOADS->find(tmp);
+					if (a){
+						if (a->ALTS!=NULL){
+							a->ALTS->ftp_searching=0;
+							a->ALTS->set_find_sens();
+						};
+					};
+				};
 				remove_from_clist(tmp);
 				delete(tmp);
+				break;
+			};
+			case ACTION_CONTINUE:{
+				queues[DL_FS_WAIT]->insert(tmp);
+				fs_list_set_icon(view,tmp,PIX_WAIT);
+				if (tmp->config==NULL){
+					tmp->config=new tCfg;
+					tmp->set_default_cfg();
+				};
+				if (tmp->split){
+					delete(tmp->split);
+					tmp->split=NULL;
+				};
 				break;
 			};
 			default:{

@@ -19,8 +19,6 @@
 #include "graph.h"
 #include "qtree.h"
 
-extern tMain aa;
-
 extern GtkWidget *MainMenu;
 extern GtkWidget *MainLogList,*MAIN_PANED,*MAIN_PANED2,*MAIN_PANED1;
 extern GtkAdjustment *ProgressBarValues;
@@ -31,7 +29,20 @@ extern GdkGC *MainWindowGC;
 extern GtkWidget *ContainerForCList;
 extern gint StatusBarContext;
 extern GtkTreeView *FSearchView;
+extern GtkTreeView *FSearchView2;
 extern d4xQsTree *D4X_QVT;
+
+struct d4xDisplayLogInfo{
+	GtkTreeView *view;
+	tLog *log;
+	tDownload *papa;
+	GtkWidget *buttonsbar;
+	GtkWidget *buttons[10];
+	int curbutton;
+};
+
+extern  d4xDisplayLogInfo D4X_LOG_DISPLAY;
+
 
 void main_menu_speed_prepare();
 void main_menu_completed_empty();
@@ -77,6 +88,9 @@ char *old_clipboard_content();
 void d4x_mw_clipboard_set(char *str);
 char *d4x_mw_clipboard_get();
 void d4x_normalize_coords(gint *x,gint *y,gint width=0,gint heigh=0);
+void d4x_main_switch_log(tDownload *dwn);
+void d4x_main_log_del_string();
+void d4x_main_log_add_string(tLogString *str);
 
 void list_dnd_drop_internal(GtkWidget *widget,
 			    GdkDragContext *context,

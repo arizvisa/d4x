@@ -16,8 +16,16 @@
 #include "addd.h"
 #include "../ntlocale.h"
 #include "../var.h"
+#include "../main.h"
 #include "misc.h"
 
+enum FS_FACE2_COLUMNS{
+	FS2_COL_PING,
+	FS2_COL_SIZE,
+	FS2_COL_URL
+};
+
+tDownload *FS_CUR_SELECTED=NULL;
 static GtkWidget *fs_list_menu_to_destroy=(GtkWidget *)NULL;
 
 void fs_list_menu_hide(GtkWidget *widget){
@@ -27,20 +35,18 @@ void fs_list_menu_hide(GtkWidget *widget){
 	fs_list_menu_to_destroy=widget;
 };
 
-extern tMain aa;
-
 void fs_list_delete(GtkWidget *widget,tDownload *what){
-	aa.ftp_search_remove(what);
+	_aa_.ftp_search_remove(what);
 };
 
 void fs_list_reping(GtkWidget *widget,tDownload *what){
-	what->Status.curent=0;
-	aa.ftp_search_reping(what);
+	what->ActStatus.curent=0;
+	_aa_.ftp_search_reping(what);
 };
 
 void fs_list_cumulative_reping(GtkWidget *widget,tDownload *what){
-	what->Status.curent=1;
-	aa.ftp_search_reping(what);
+	what->ActStatus.curent=1;
+	_aa_.ftp_search_reping(what);
 };
 
 void fs_list_add_download(GtkWidget *widget,tDownload *what){
@@ -115,13 +121,44 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 		       (gpointer)NULL,bevent->button,bevent->time);
 };
 
+void fs_list_prepare_list(tDownload *what){
+	FS_CUR_SELECTED=NULL;
+	gtk_list_store_clear(GTK_LIST_STORE(gtk_tree_view_get_model(FSearchView2)));
+	if (what->status==DOWNLOAD_COMPLETE && what->owner()==DL_FS_STOP &&
+	    what->DIR && what->DIR->count()>0){
+		GtkTreeIter iter;
+		GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(FSearchView2);
+		tDownload *tmp=what->DIR==NULL?(tDownload *)NULL:what->DIR->last();
+		while (tmp){
+			char *url=tmp->info->url();
+			char size[100];
+			char b[100];
+			float p=tmp->Percent/tmp->Attempt.curent;
+			d4x_percent_str(p,b,sizeof(b));
+			if (tmp->finfo.size>0)
+				make_number_nice(size,tmp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
+			else
+				sprintf(size,"????");
+			gtk_list_store_append(store, &iter);
+			gtk_list_store_set(store, &iter,
+					   FS2_COL_PING,b,
+					   FS2_COL_SIZE,size,
+					   FS2_COL_URL, url,
+					   -1);
+			delete[] url;
+			tmp=what->DIR->next();
+		};
+		FS_CUR_SELECTED=what;
+	};
+};
+
 gint fs_list_event_callback(GtkWidget *widget,GdkEvent *event){
 	GtkTreeView *view=GTK_TREE_VIEW(widget);
 	GdkEventButton *bevent=(GdkEventButton *)event;
 	GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
 	GtkTreePath *path=NULL;
 	GtkTreeIter iter;
-	if (event->type==GDK_BUTTON_PRESS && bevent->button==3) {
+	if (event->type==GDK_BUTTON_PRESS && (bevent->button==3 || bevent->button==1)) {
 		gtk_tree_selection_unselect_all(sel);
 		int selected=0;
 		if (gtk_tree_view_get_path_at_pos(view,gint(bevent->x),gint(bevent->y),&path,NULL,NULL,NULL)){
@@ -135,7 +172,10 @@ gint fs_list_event_callback(GtkWidget *widget,GdkEvent *event){
 						 FS_COL_LAST,&val);
 			tDownload *what=(tDownload *)g_value_peek_pointer(&val);
 			g_value_unset(&val);
-			fs_list_prepare_menu(what,bevent);
+			if (bevent->button==3)
+				fs_list_prepare_menu(what,bevent);
+			else
+				fs_list_prepare_list(what);
 		};
 		return(TRUE);
 	};
@@ -161,37 +201,102 @@ GtkTreeView *fs_list_init(){
 						      GDK_TYPE_PIXBUF,
 						      G_TYPE_STRING,
 						      G_TYPE_STRING,
+						      G_TYPE_STRING,
 						      G_TYPE_POINTER);
 	GtkTreeView *view = (GtkTreeView *)gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store));
-	gtk_tree_view_set_headers_visible(view,FALSE);
+	char *titles[]={
+		"",
+		N_("Filename"),
+		N_("Size"),
+		N_("Count")
+	};
+	gtk_tree_view_set_headers_visible(view,TRUE);
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *col;
 	renderer = gtk_cell_renderer_pixbuf_new();
-	col=gtk_tree_view_column_new_with_attributes ("Status",
+	col=gtk_tree_view_column_new_with_attributes ("",
 						      renderer,
 						      "pixbuf",FS_COL_ICON,
 						      NULL);
 	gtk_tree_view_append_column(view,col);
 	for (int i=FS_COL_NAME;i<FS_COL_LAST;i++){
 		renderer = gtk_cell_renderer_text_new ();
-		col=gtk_tree_view_column_new_with_attributes ("Tittle",
+		col=gtk_tree_view_column_new_with_attributes (_(titles[i]),
 							      renderer,
 							      "text",i,
 							      NULL);
 		gtk_tree_view_column_set_resizable(col,FALSE);
 		gtk_tree_view_append_column(view,col);
 	};
-/*
-	GtkCList *clist=(GtkCList *)gtk_clist_new(FS_COL_LAST);
-	gtk_clist_set_row_height(clist,16);
-	gtk_clist_set_column_width (clist,FS_COL_ICON,20);
-	gtk_clist_set_column_width (clist,FS_COL_NAME,180);
-	gtk_clist_set_column_width (clist,FS_COL_SIZE,100);
-	gtk_clist_set_column_auto_resize(clist,FS_COL_NAME,TRUE);
-	gtk_clist_set_column_auto_resize(clist,FS_COL_SIZE,TRUE);
-*/
 	g_signal_connect(G_OBJECT(view), "event",
 			 G_CALLBACK(fs_list_event_callback),NULL);
+	return(view);
+};
+
+gint fs_sublist_event_callback(GtkWidget *widget,GdkEvent *event){
+	GtkTreeView *view=GTK_TREE_VIEW(widget);
+	GdkEventButton *bevent=(GdkEventButton *)event;
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
+	GtkTreePath *path=NULL;
+	GtkTreeIter iter;
+	if (event->type==GDK_2BUTTON_PRESS && bevent->button==1){
+		gtk_tree_selection_unselect_all(sel);
+		if (gtk_tree_view_get_path_at_pos(view,gint(bevent->x),gint(bevent->y),&path,NULL,NULL,NULL)){
+			gtk_tree_selection_select_path(sel,path);
+			GtkTreeModel *model=gtk_tree_view_get_model(view);
+			gtk_tree_model_get_iter(model,&iter,path);
+			GValue val={0,};
+			gtk_tree_model_get_value(model,&iter,
+						 FS2_COL_URL,&val);
+			gchar *url=(gchar*)g_value_get_string(&val);
+			if (url) init_add_dnd_window(url,_("Found during FTP-search"));
+			g_value_unset(&val);
+		};
+	};
+	return(FALSE);
+};
+
+GtkTreeView *fs_list_init_sublist(){
+	GtkListStore *list_store = gtk_list_store_new(3,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING);
+	GtkTreeView *view = (GtkTreeView *)gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store));
+	g_signal_connect(G_OBJECT(view),"event",
+			 G_CALLBACK(fs_sublist_event_callback),NULL);
+	gtk_tree_view_set_headers_visible(view,TRUE);
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(view);
+	gtk_tree_selection_set_mode (sel,GTK_SELECTION_SINGLE);
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *col;
+	
+	renderer = gtk_cell_renderer_text_new ();
+	col=gtk_tree_view_column_new_with_attributes (_("Ping"),
+						      renderer,
+						      "text",FS2_COL_PING,
+						      NULL);
+	gtk_tree_view_column_set_resizable(col,TRUE);
+	gtk_tree_view_append_column(view,col);
+	gtk_tree_view_column_set_sizing(col,
+					GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+
+	renderer = gtk_cell_renderer_text_new ();
+	col=gtk_tree_view_column_new_with_attributes (_("Size"),
+						      renderer,
+						      "text",FS2_COL_SIZE,
+						      NULL);
+	gtk_tree_view_column_set_resizable(col,TRUE);
+	gtk_tree_view_append_column(view,col);
+	gtk_tree_view_column_set_sizing(col,
+					GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+
+	renderer = gtk_cell_renderer_text_new ();
+	col=gtk_tree_view_column_new_with_attributes (_("Url"),
+						      renderer,
+						      "text",FS2_COL_URL,
+						      NULL);
+	gtk_tree_view_column_set_resizable(col,TRUE);
+	gtk_tree_view_append_column(view,col);
 	return(view);
 };
 
@@ -199,6 +304,15 @@ void fs_list_set_icon(GtkTreeView *view,tDownload *what,int icon){
 	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
 	gtk_list_store_set(store,what->list_iter,
 			   FS_COL_ICON,list_of_downloads_pixbufs[icon],
+			   -1);
+};
+
+void fs_list_set_count(GtkTreeView *view,tDownload *what){
+	char data[10];
+	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
+	sprintf(data,"%i",what->Size.curent);
+	gtk_list_store_set(store,what->list_iter,
+			   FS_COL_COUNT,data,
 			   -1);
 };
 
@@ -222,6 +336,10 @@ void fs_list_add(GtkTreeView *view,tDownload *what){
 };
 
 void fs_list_remove(GtkTreeView *view,tDownload *what){
+	if (FS_CUR_SELECTED==what){
+		FS_CUR_SELECTED=NULL;
+		gtk_list_store_clear(GTK_LIST_STORE(gtk_tree_view_get_model(FSearchView2)));
+	};
 	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
 	gtk_list_store_remove(store,what->list_iter);
 	gtk_tree_iter_free(what->list_iter);

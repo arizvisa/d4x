@@ -28,5 +28,6 @@ extern const GdkColor GREYCYAN;
 extern const GdkColor GREY;
 extern const GdkColor LIGHTGREY;
 extern const GdkColor DARKGREY;
+extern const GdkColor MIDGREY;
 
 #endif

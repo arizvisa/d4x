@@ -12,13 +12,16 @@
 #define T_GTK_LOG
 #include <glib.h>
 void init_pixmaps_for_log();
+GtkTreeView *log_model_view_init();
 void log_window_init(tDownload *what);
+void log_model_view_add_string(GtkTreeView *view,tLogString *str);
 void log_window_add_string(tLog *log,tLogString *str);
-int  log_window_destroy(void *a);
+int  log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log);
 void log_window_destroy_by_log(void *a);
 void del_first_from_log(tLog *what);
 void log_window_set_title(tDownload *what,char *title);
 void log_window_set_split_info(tDownload *what);
+void log_print_to_view(tLog *log,GtkTreeView *view);
 
 GList *log_window_unfreeze(GList *list);
 GList *log_window_freeze(GList *list,tLog *what);

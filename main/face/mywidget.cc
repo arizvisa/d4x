@@ -15,7 +15,7 @@
 #include "../ntlocale.h"
 #include "../filter.h"
 
-static GtkWidgetClass *parent_class = (GtkWidgetClass *)NULL;
+static GtkWidgetClass *parent_class1 = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *color_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *rule_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *filter_parent_class = (GtkWidgetClass *)NULL;
@@ -90,15 +90,15 @@ static void my_gtk_filsel_destroy(GtkObject *widget){
 	MyGtkFilesel *filesel=(MyGtkFilesel *)widget;
 	my_gtk_filesel_destroy_browser(filesel);
 	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (widget);
+	if (GTK_OBJECT_CLASS (parent_class1)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class1)->destroy) (widget);
 };
 
 static void my_gtk_filesel_class_init(MyGtkFileselClass *klass){
 	GtkObjectClass *object_class=(GtkObjectClass *)klass;
 	
 	object_class->destroy=my_gtk_filsel_destroy;
-	parent_class=(GtkWidgetClass *)gtk_type_class(gtk_box_get_type());
+	parent_class1=(GtkWidgetClass *)gtk_type_class(gtk_box_get_type());
 };
 
 static void my_gtk_filesel_init(MyGtkFilesel *filesel){
@@ -451,8 +451,8 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_box_pack_start(GTK_BOX(hbox),edit->exclude,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
 	
-	edit->ok_button=gtk_button_new_with_label(_("Ok"));
-	edit->cancel_button=gtk_button_new_with_label(_("Cancel"));
+	edit->ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	edit->cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(edit->ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(edit->cancel_button,GTK_CAN_DEFAULT);
 	hbox=gtk_hbutton_box_new();
@@ -768,9 +768,9 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 	gtk_box_pack_start(GTK_BOX(hbox),edit->name,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
 
-	GtkWidget *up=gtk_button_new_with_label(_("Up"));
-	GtkWidget *add=gtk_button_new_with_label(_("Add rule"));
-	GtkWidget *down=gtk_button_new_with_label(_("Down"));
+	GtkWidget *up=gtk_button_new_from_stock(GTK_STOCK_GO_UP);
+	GtkWidget *add=gtk_button_new_from_stock(GTK_STOCK_ADD);
+	GtkWidget *down=gtk_button_new_from_stock(GTK_STOCK_GO_DOWN);
 	hbox=gtk_hbutton_box_new();
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	gtk_box_pack_start(GTK_BOX(hbox),up,TRUE,TRUE,0);
@@ -778,9 +778,9 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 	gtk_box_pack_start(GTK_BOX(hbox),add,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
 
-	edit->ok=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *del=gtk_button_new_with_label(_("Remove"));
-	edit->edit=gtk_button_new_with_label(_("Edit"));
+	edit->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
+	GtkWidget *del=gtk_button_new_from_stock(GTK_STOCK_REMOVE);
+	edit->edit=gtk_button_new_from_stock(GTK_STOCK_PROPERTIES);
 	GTK_WIDGET_SET_FLAGS(edit->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(del,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(edit->edit,GTK_CAN_DEFAULT);
@@ -875,13 +875,12 @@ static void d4x_filter_sel_init(d4xFilterSel *sel){
 	                                GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(sel->view));
-	sel->ok=gtk_button_new_with_label(_("Ok"));
-	sel->cancel=gtk_button_new_with_label(_("Cancel"));
+	sel->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
+	sel->cancel=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
@@ -953,13 +952,6 @@ static void d4x_links_sel_destroy(GtkObject *widget){
 
 	if (GTK_OBJECT_CLASS (linkssel_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (linkssel_parent_class)->destroy) (widget);
-};
-
-static void _foreach_remove_prepare_(GtkTreeModel *model,GtkTreePath *path,
-				     GtkTreeIter *iter,gpointer p){
-	tQueue *q=(tQueue*)p;
-	tmpIterNode *i=new tmpIterNode(iter);
-	q->insert(i);
 };
 
 void d4x_links_sel_del(d4xLinksSel *sel,GtkTreeIter *iter){
@@ -1059,15 +1051,14 @@ static void d4x_links_sel_init(d4xLinksSel *sel){
 	                                GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(sel->view));
-	sel->ok=gtk_button_new_with_label(_("Ok"));
-	sel->remove=gtk_button_new_with_label(_("Remove"));
-	sel->cancel=gtk_button_new_with_label(_("Cancel"));
+	sel->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
+	sel->remove=gtk_button_new_from_stock(GTK_STOCK_REMOVE);
+	sel->cancel=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->remove,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	sel->hbbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	gtk_box_set_spacing(GTK_BOX(sel->hbbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),sel->hbbox,FALSE,FALSE,0);
@@ -1103,7 +1094,7 @@ guint d4x_links_sel_get_type(){
 
 GtkWidget *d4x_links_sel_new_with_add(){
 	d4xLinksSel *sel=(d4xLinksSel *)g_object_new(d4x_links_sel_get_type(),NULL);
-	sel->find=gtk_button_new_with_label(_("Find"));
+	sel->find=gtk_button_new_from_stock(GTK_STOCK_FIND);
 	GTK_WIDGET_SET_FLAGS(sel->find,GTK_CAN_DEFAULT);
 	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->find,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->cancel,FALSE,FALSE,0);
@@ -1193,14 +1184,13 @@ static void d4x_string_edit_init(d4xStringEdit *sel){
 	d4x_eschandler_init(GTK_WIDGET(sel),sel);
 	gtk_widget_set_size_request(GTK_WIDGET(sel),400,-1);
 
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	GtkWidget *hbbox=gtk_hbutton_box_new();
-	sel->ok=gtk_button_new_with_label(_("Ok"));
-	sel->cancel=gtk_button_new_with_label(_("Cancel"));
+	gtk_box_set_spacing(GTK_BOX(hbbox),5);
+	sel->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
+	sel->cancel=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
-	gtk_box_set_spacing(GTK_BOX(hbbox),5);
 	sel->entry=(GtkEntry*)gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(vbox),GTK_WIDGET(sel->entry),TRUE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbbox,TRUE,FALSE,0);
@@ -1234,3 +1224,88 @@ GtkWidget *d4x_string_edit_new(){
 };
 
 /********************************************************/
+
+static GtkRadioButtonClass *vbookmark_parent_class=NULL;
+static GtkButtonClass *vbookmark_parent_class1=NULL;
+static GtkBinClass *vbookmark_parent_class2=NULL;
+
+static gint my_gtk_vbookmark_expose (GtkWidget *widget, GdkEventExpose *event){
+	if (GTK_WIDGET_DRAWABLE (widget)){
+		gint x=widget->allocation.x;
+		gint y=widget->allocation.y;
+		gint w=widget->allocation.width;
+		gint h=widget->allocation.height;
+		GtkStateType state_type=GtkStateType(GTK_WIDGET_STATE(widget));
+		if (!GTK_TOGGLE_BUTTON(widget)->active)
+			x+=2;
+		if (state_type==GTK_STATE_ACTIVE || state_type==GTK_STATE_PRELIGHT){
+			state_type=GTK_STATE_NORMAL;
+		}else{
+			state_type=GTK_STATE_ACTIVE;
+		};
+		gtk_paint_extension(widget->style, widget->window,
+				    state_type, GTK_SHADOW_OUT,
+				    &(event->area), widget, "tab",
+				    x, y,
+				    w,h,
+				    GTK_POS_RIGHT);
+		((GtkWidgetClass *)(vbookmark_parent_class2))->expose_event (widget, event);
+	};
+	return(FALSE);
+};
+
+static void my_gtk_vbookmark_size_request (GtkWidget      *widget,
+				     GtkRequisition *requisition){
+	((GtkWidgetClass *)(vbookmark_parent_class1))->size_request(widget,requisition);
+};
+
+static void my_gtk_vbookmark_size_allocate (GtkWidget     *widget,
+				GtkAllocation *allocation)
+{
+	((GtkWidgetClass *)(vbookmark_parent_class1))->size_allocate(widget,allocation);
+};
+
+static void my_gtk_vbookmark_init(MyGtkVbookmark *graph){
+};
+
+
+static void my_gtk_vbookmark_class_init(MyGtkVbookmarkClass *klass){
+	GtkWidgetClass *widget_class=(GtkWidgetClass *)klass;
+	widget_class->expose_event = my_gtk_vbookmark_expose;
+	widget_class->size_request = my_gtk_vbookmark_size_request;
+	widget_class->size_allocate = my_gtk_vbookmark_size_allocate;
+	vbookmark_parent_class=(GtkRadioButtonClass *)gtk_type_class(gtk_radio_button_get_type());
+	vbookmark_parent_class1=(GtkButtonClass *)gtk_type_class(gtk_button_get_type());
+	vbookmark_parent_class2=(GtkBinClass *)gtk_type_class(gtk_bin_get_type());
+};
+
+GtkType my_gtk_vbookmark_get_type (void){
+	static GtkType vbookmark_type = 0;
+	
+	if (!vbookmark_type) {
+		static const GTypeInfo vbookmark_info={
+			sizeof (MyGtkVbookmarkClass),
+			NULL,NULL,
+			(GClassInitFunc) my_gtk_vbookmark_class_init,
+			NULL,NULL,
+			sizeof (MyGtkVbookmark),
+			0,
+			(GInstanceInitFunc)my_gtk_vbookmark_init
+		};
+		vbookmark_type = g_type_register_static (GTK_TYPE_RADIO_BUTTON,"MyGtkVbookmark",&vbookmark_info,(GTypeFlags)0);
+	}
+	return vbookmark_type;
+}
+
+GtkWidget *my_gtk_vbookmark_new(GSList *group){
+	MyGtkVbookmark *vb=(MyGtkVbookmark *)g_object_new(my_gtk_vbookmark_get_type(),NULL);
+	if (group) gtk_radio_button_set_group (GTK_RADIO_BUTTON(vb), group);
+	return GTK_WIDGET(vb);
+};
+
+GtkWidget *my_gtk_vbookmark_new_with_label(GSList *group,const gchar *label){
+	MyGtkVbookmark *vb=(MyGtkVbookmark *)g_object_new(my_gtk_vbookmark_get_type(),
+							  "label",label,NULL);
+	if (group) gtk_radio_button_set_group (GTK_RADIO_BUTTON(vb), group);
+	return GTK_WIDGET(vb);
+};

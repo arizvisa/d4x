@@ -126,14 +126,15 @@ struct tDownload:public tAbstractSortNode{
 	int status,action,status_cp;
 	int BLOCKED;
 	int protect;
+	int sizequery;
 	float Percent;
-	tTriger Size,Attempt,Status,Speed,Remain;
+	tTriger Size,Attempt,ActStatus,Speed,Remain;
 	fsize_t StartSize;
 	int GTKCListRow;
 	// to realise stack of items which is needed to be updated
 	tDownload *next2update,*prev2update,*next2stop;
 	//------------------------------------
-	private:
+private:
 	int need_to_rename,im_first,im_last;
 	char *create_new_file_path();
 	char *create_new_save_path();
@@ -149,7 +150,9 @@ struct tDownload:public tAbstractSortNode{
 	int try_to_lock_fdesc();
 	fsize_t init_segmentator(int fdesc,fsize_t cursize,char *name);
 	void export_socket(tDownloader *what);
-	public:
+	void download_http_size();
+	void download_ftp_size();
+public:
 	//------------------------------------
 	d4xDwnLink *regex_match; //is neded for URL-manager's limits
 	tDList *DIR;
@@ -213,6 +216,7 @@ public:
 	void insert(tDownload *what);
 	void init_pixmap(int a);
 	void insert_before(tDownload *what,tDownload *where);
+	void insert_if_absent(tDownload *what);
 	void del(tDownload *what);
 	void forward(tDownload *what);
 	void backward(tDownload *what);
@@ -238,6 +242,7 @@ enum {
     DL_PAUSE,
     DL_COMPLETE,
     DL_STOPWAIT,
+    DL_SIZEQUERY,
     DL_LIMIT,
     DL_TEMP
 };
@@ -249,6 +254,7 @@ enum {
 	ACTION_STOP,
 	ACTION_FAILED,
 	ACTION_REAL_DELETE,
+	ACTION_SIZEQUERY,
 	ACTION_REPING
 };
 #endif

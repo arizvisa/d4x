@@ -42,7 +42,7 @@ protected:
 	tLimitDownload *find_match(tDownload *what);
 public:
 	tFacePass();
-	void init();
+	GtkWidget *init();
 	void edit_row(GtkTreeIter *iter);
 	void apply_dialog();
 	void addlist_del(tDownload *dwn);

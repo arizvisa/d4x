@@ -23,8 +23,6 @@
 #include "misc.h"
 #include "dndtrash.h"
 
-extern tMain aa;
-
 tDownload *OneDownload=(tDownload *)NULL;
 tDList *list_for_adding=(tDList *)NULL;
 
@@ -58,13 +56,13 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 	};
 	if (tmp){
 		what->status=DL_PAUSE;
-		tDownload *dwn=aa.add_downloading_to(what,to_top);
+		tDownload *dwn=_aa_.add_downloading_to(what,to_top);
 		SOUND_SERVER->add_event(SND_ADD);
 		D4X_QUEUE=tmpq;
 		if (dwn)
 			D4X_QVT->move_to(dwn);
 	}else{
-		if (aa.add_downloading(what,to_top)){
+		if (_aa_.add_downloading(what,to_top)){
 			D4X_QUEUE=tmpq;
 			tDownload *dwn=ALL_DOWNLOADS->find(what);
 			delete(what);
@@ -72,7 +70,7 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 				D4X_QVT->move_to(dwn);
 		}else{
 			D4X_QUEUE=tmpq;
-			aa.add_download_message(what);
+			_aa_.add_download_message(what);
 			SOUND_SERVER->add_event(SND_ADD);
 		};
 	};
@@ -152,9 +150,9 @@ void d4x_automated_ok(GtkWidget *widget, tDownload *what) {
 		};
 		if (to_pause){
 			dwn->status=DL_PAUSE;
-			aa.add_downloading_to(dwn,to_top);
+			_aa_.add_downloading_to(dwn,to_top);
 		}else
-			aa.add_downloading(dwn,to_top);
+			_aa_.add_downloading(dwn,to_top);
 		delete[] tmp;
 		i+=1;
 		tmp=gen->next();

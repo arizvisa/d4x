@@ -29,8 +29,6 @@
 #include "ntlocale.h"
 #include "main.h"
 
-extern tMain aa;
-
 static gint list_menu_open_row_main_log(GtkWidget *widget, tMLog *Log) {
 	Log->open_selected_row();
 	return TRUE;
@@ -268,7 +266,7 @@ void tMLog::open_row(GtkTreeIter *iter) {
 /*
 	tAddr *addr=(tAddr *)gtk_clist_get_row_data(list,row);
 	tDownload *dwn;
-	if (addr  && (dwn=aa.find_url(addr))){
+	if (addr  && (dwn=_aa_.find_url(addr))){
 		log_window_init(dwn);
 		D4X_QVT->move_to(dwn);
 	}else{

@@ -43,6 +43,7 @@
 #include "fsched.h"
 #include "filtrgui.h"
 #include "../xml.h"
+#include <ctype.h>
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -55,17 +56,28 @@ GtkWidget *MainWindow=(GtkWidget *)NULL;
 GtkWidget *MainHBox;
 GtkWidget *ContainerForCList=(GtkWidget *)NULL;
 GdkGC *MainWindowGC=(GdkGC *)NULL;
-GtkTreeView *FSearchView;
+GtkTreeView *FSearchView,*FSearchView2;
 GtkWidget *BoxForGraph;
 GtkItemFactory *main_menu_item_factory=NULL;
 GtkWidget *MainLogList,*MAIN_PANED=(GtkWidget *)NULL,*MAIN_PANED2=(GtkWidget *)NULL;
 GtkWidget *MAIN_PANED1=(GtkWidget *)NULL;
+GtkWidget *D4X_OFFLINE_PIXMAP=(GtkWidget *)NULL;
 d4xQsTree *D4X_QVT;
 int main_log_mask;
 unsigned int ScrollShift[2];
 int mainwin_title_state;
 gfloat main_log_value;
 GtkAdjustment *main_log_adj;
+
+GtkWidget *D4X_TOOL_ONE;
+GtkWidget *D4X_TOOL_TWO;
+GtkWidget *D4X_TOOL_THREE;
+GtkWidget *D4X_TOOL_CURRENT;
+GtkWidget *D4X_TOOL_CONTAINER;
+GtkWidget *D4X_TOOL_UP;
+GtkWidget *D4X_TOOL_DOWN;
+
+d4xDisplayLogInfo D4X_LOG_DISPLAY;
 
 GtkItemFactory *list_menu_itemfact;
 
@@ -206,8 +218,34 @@ char *old_clipboard_content(){
 };
 
 
+static void d4x_filters_tool_switch(){
+	GtkWidget *w=d4x_filters_window_init();
+	if (D4X_TOOL_CURRENT!=w){
+		gtk_container_remove(GTK_CONTAINER(D4X_TOOL_CONTAINER),D4X_TOOL_CURRENT);
+		gtk_container_add(GTK_CONTAINER (D4X_TOOL_CONTAINER),w);
+		D4X_TOOL_CURRENT=w;
+		gtk_widget_show_all(D4X_TOOL_CURRENT);
+	};
+};
+
+static void d4x_scheduler_tool_switch(){
+	GtkWidget *w=d4x_scheduler_init();
+	if (D4X_TOOL_CURRENT!=w){
+		gtk_container_remove(GTK_CONTAINER(D4X_TOOL_CONTAINER),D4X_TOOL_CURRENT);
+		gtk_container_add(GTK_CONTAINER (D4X_TOOL_CONTAINER),w);
+		D4X_TOOL_CURRENT=w;
+		gtk_widget_show_all(D4X_TOOL_CURRENT);
+	};
+};
+
 static void open_passwords_window(...) {
-	FaceForPasswords->init();
+	GtkWidget *w=FaceForPasswords->init();
+	if (D4X_TOOL_CURRENT!=w){
+		gtk_container_remove(GTK_CONTAINER(D4X_TOOL_CONTAINER),D4X_TOOL_CURRENT);
+		gtk_container_add(GTK_CONTAINER (D4X_TOOL_CONTAINER),w);
+		D4X_TOOL_CURRENT=w;
+		gtk_widget_show_all(D4X_TOOL_CURRENT);
+	};
 };
 
 void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mouse_button,guint32 time) {
@@ -236,7 +274,7 @@ void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mou
 };
 
 void _rerun_failed_downloads(){
-	aa.rerun_failed();
+	_aa_.rerun_failed();
 };
 
 void main_menu_speed_calback(gpointer data,guint action,GtkWidget *widget){
@@ -417,10 +455,6 @@ static void _mm_queue_menu_(gpointer *a,gint act){
 };
 
 void init_main_menu() {
-#include "pixmaps/logmini.xpm"
-#include "pixmaps/stopmini.xpm"
-#include "pixmaps/delmini.xpm"
-#include "pixmaps/runmini.xpm"
 	d4x_load_accelerators();
 	GtkItemFactoryEntry menu_items[] = {
 		{_(main_menu_inames[MM_FILE]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
@@ -434,11 +468,11 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_FILE_EXIT]),	main_menu_kb[MM_FILE_EXIT],	(GtkItemFactoryCallback)ask_exit,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD]),     	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	main_menu_kb[MM_DOWNLOAD_LOG],	(GtkItemFactoryCallback)mmenu_open_logs,	100+MM_DOWNLOAD_LOG, "<ImageItem>",logmini_xpm},
-		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	main_menu_kb[MM_DOWNLOAD_STOP],	(GtkItemFactoryCallback)stop_downloads,		100+MM_DOWNLOAD_STOP,"<ImageItem>",stopmini_xpm},
+		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	main_menu_kb[MM_DOWNLOAD_LOG],	(GtkItemFactoryCallback)mmenu_open_logs,	100+MM_DOWNLOAD_LOG, (gchar *)NULL,NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	main_menu_kb[MM_DOWNLOAD_STOP],	(GtkItemFactoryCallback)stop_downloads,		100+MM_DOWNLOAD_STOP,(gchar*)NULL,NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	main_menu_kb[MM_DOWNLOAD_EDIT],	(GtkItemFactoryCallback)open_edit_for_selected,	100+MM_DOWNLOAD_EDIT, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	main_menu_kb[MM_DOWNLOAD_DEL],	(GtkItemFactoryCallback)ask_delete_download,	100+MM_DOWNLOAD_DEL, "<ImageItem>",delmini_xpm},
-		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	main_menu_kb[MM_DOWNLOAD_RUN],	(GtkItemFactoryCallback)continue_downloads,	100+MM_DOWNLOAD_RUN, "<ImageItem>",runmini_xpm},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	main_menu_kb[MM_DOWNLOAD_DEL],	(GtkItemFactoryCallback)ask_delete_download,	100+MM_DOWNLOAD_DEL, (gchar*)NULL,NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	main_menu_kb[MM_DOWNLOAD_RUN],	(GtkItemFactoryCallback)continue_downloads,	100+MM_DOWNLOAD_RUN, (gchar*)NULL,NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_C]),main_menu_kb[MM_DOWNLOAD_DEL_C],	(GtkItemFactoryCallback)ask_delete_completed_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),main_menu_kb[MM_DOWNLOAD_DEL_F],	(GtkItemFactoryCallback)ask_delete_fataled_downloads,	0, (gchar *)NULL},
@@ -455,10 +489,10 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_QUEUE_REMOVE]),main_menu_kb[MM_QUEUE_REMOVE],	(GtkItemFactoryCallback)_mm_queue_menu_,	100+MM_QUEUE_REMOVE, (gchar *)NULL},
 		{_(main_menu_inames[MM_QUEUE_PROP]),main_menu_kb[MM_QUEUE_PROP],	(GtkItemFactoryCallback)_mm_queue_menu_,	100+MM_QUEUE_PROP, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_OPTIONS_SCHEDULER]),main_menu_kb[MM_OPTIONS_SCHEDULER],	(GtkItemFactoryCallback)d4x_scheduler_init,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_SCHEDULER]),main_menu_kb[MM_OPTIONS_SCHEDULER],	(GtkItemFactoryCallback)d4x_scheduler_tool_switch,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_PASSWORDS]),main_menu_kb[MM_OPTIONS_PASSWORDS],	(GtkItemFactoryCallback)open_passwords_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_COMMON]),main_menu_kb[MM_OPTIONS_COMMON],	(GtkItemFactoryCallback)d4x_prefs_init,			0, (gchar *)NULL},
-		{_(main_menu_inames[MM_OPTIONS_FILTERS]),main_menu_kb[MM_OPTIONS_FILTERS],	(GtkItemFactoryCallback)d4x_filters_window_init,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_FILTERS]),main_menu_kb[MM_OPTIONS_FILTERS],	(GtkItemFactoryCallback)d4x_filters_tool_switch,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_SPEED]),	(gchar*)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
 		{_(main_menu_inames[MM_OPTIONS_SPEED_1]),main_menu_kb[MM_OPTIONS_SPEED_1],	(GtkItemFactoryCallback)main_menu_speed_calback,	1, "<RadioItem>"},
 		{_(main_menu_inames[MM_OPTIONS_SPEED_2]),main_menu_kb[MM_OPTIONS_SPEED_2],	(GtkItemFactoryCallback)main_menu_speed_calback,	2, _(main_menu_inames[MM_OPTIONS_SPEED_1])},
@@ -717,9 +751,10 @@ void my_main_quit(...) {
 		CFG.CLIST_SHIFT=D4X_QUEUE->qv.current_shift;
 		d4x_save_accelerators();
 	};
+	D4X_LOG_DISPLAY.log=NULL;
 	save_list();
 	save_config();
-	aa.done();
+	_aa_.done();
 	if (CFG.WITHOUT_FACE==0){
 		dnd_trash_real_destroy();
 		if (list_for_adding){
@@ -739,7 +774,6 @@ void my_main_quit(...) {
 		gtk_widget_destroy(MainWindow);
 		buttons_configure_close();
 		d4x_scheduler_close();
-		d4x_filters_window_destroy();
 		if (AskDelete) delete(AskDelete);
 		if (AskDeleteCompleted) delete(AskDeleteCompleted);
 		if (AskDeleteFataled) delete(AskDeleteFataled);
@@ -751,7 +785,7 @@ void my_main_quit(...) {
 	if (CFG.WITHOUT_FACE==0){
 		gtk_main_quit();
 	}else{
-		aa.run_after_quit();
+		_aa_.run_after_quit();
 		var_free(&CFG);
 		exit(0);
 	};
@@ -772,19 +806,19 @@ void open_edit_for_selected(...) {
 };
 
 void del_completed_downloads(...) {
-	aa.del_completed();
+	_aa_.del_completed();
 	if (AskDeleteCompleted) AskDeleteCompleted->done();
 };
 
 void del_fataled_downloads(...) {
-	aa.del_fataled();
+	_aa_.del_fataled();
 	if (AskDeleteFataled) AskDeleteFataled->done();
 };
 
 void stop_downloads(...) {
 	D4X_QUEUE->qv.stop_downloads();
 	prepare_buttons();
-	aa.try_to_run_wait(D4X_QUEUE);
+	_aa_.try_to_run_wait(D4X_QUEUE);
 };
 
 static void _my_main_quit_ask_exit_(GtkWidget *widget,tConfirmedDialog *parent){
@@ -873,7 +907,7 @@ void ask_delete_fataled_downloads(...) {
 void delete_downloads(gint flag) {
 	D4X_QUEUE->qv.delete_downloads(flag);
 	if (AskDelete) AskDelete->done();
-	aa.try_to_run_wait(D4X_QUEUE);
+	_aa_.try_to_run_wait(D4X_QUEUE);
 };
 
 void continue_downloads(...) {
@@ -955,15 +989,18 @@ void d4x_normalize_coords(gint *x,gint *y,gint width,gint heigh){
 	};
 };
 
-static void cb_page_size( GtkAdjustment *get) {
-	if (get==NULL) return;
+static gint cb_page_size(GtkAdjustment *get) {
+	if (get==NULL || D4X_TOOL_CURRENT!=D4X_TOOL_ONE){
+		return(FALSE);
+	};
 	if (main_log_value==get->value && get->value<get->upper-get->page_size) {
-		//added 0.01 to prevent interface lockups
 		get->value=get->upper-get->page_size;
 		main_log_value=get->value;
-		g_signal_emit_by_name(G_OBJECT (get), "value_changed");
-	} else
+		gtk_adjustment_value_changed(get);
+	} else{
 		main_log_value=get->value;
+	};
+	return(FALSE);
 }
 
 /******************************************************************
@@ -1054,7 +1091,7 @@ void list_dnd_drop_internal(GtkWidget *widget,
 			if (CFG.NEED_DIALOG_FOR_DND){
 				init_add_dnd_window(str,desc_utf);
 			}else{
-				aa.add_downloading(str, (char*)NULL,(char*)NULL,desc_utf);
+				_aa_.add_downloading(str, (char*)NULL,(char*)NULL,desc_utf);
 			};
 			if (desc_utf) g_free(desc_utf);
 			D4X_QUEUE=tmpq;
@@ -1100,21 +1137,353 @@ void init_main_log(){
 		gtk_tree_view_column_set_resizable(col,FALSE);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(MainLogList),col);
 	};
-/*
-	MainLogList=gtk_clist_new(ML_COL_LAST);
-	gtk_clist_set_column_width (GTK_CLIST(MainLogList),ML_COL_NUM,1);
-	gtk_clist_set_column_width (GTK_CLIST(MainLogList),ML_COL_TIME,100);
-	gtk_clist_set_column_width (GTK_CLIST(MainLogList),ML_COL_STRING,800);
-	for (int i=0;i<ML_COL_LAST;i++)
-		gtk_clist_set_column_auto_resize(GTK_CLIST(MainLogList),i,TRUE);
-	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), ML_COL_NUM, GTK_JUSTIFY_RIGHT);
-	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), ML_COL_TIME, GTK_JUSTIFY_LEFT);
-	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), ML_COL_DATE, GTK_JUSTIFY_LEFT);
-	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), ML_COL_STRING, GTK_JUSTIFY_LEFT);
-*/
+};
+
+gint d4x_main_switch_2downloads(){
+	if (D4X_TOOL_CURRENT!=D4X_TOOL_ONE){
+		gtk_container_remove(GTK_CONTAINER(D4X_TOOL_CONTAINER),D4X_TOOL_CURRENT);
+		gtk_container_add(GTK_CONTAINER (D4X_TOOL_CONTAINER),D4X_TOOL_ONE);
+		gtk_widget_show_all(D4X_TOOL_ONE);
+		D4X_TOOL_CURRENT=D4X_TOOL_ONE;
+	};
+	return(TRUE);
+};
+
+gint d4x_main_switch_2mainlog(){
+	if (D4X_TOOL_CURRENT!=D4X_TOOL_TWO){
+		gtk_container_remove(GTK_CONTAINER(D4X_TOOL_CONTAINER),D4X_TOOL_CURRENT);
+		gtk_container_add(GTK_CONTAINER (D4X_TOOL_CONTAINER),D4X_TOOL_TWO);
+//		gtk_box_pack_start(GTK_BOX (D4X_TOOL_CONTAINER),D4X_TOOL_TWO, TRUE, TRUE, 0);
+		D4X_TOOL_CURRENT=D4X_TOOL_TWO;
+		gtk_widget_show_all(D4X_TOOL_CURRENT);
+	};
+	return(TRUE);
+};
+
+gint d4x_main_switch_2ftpsearch(){
+	if (D4X_TOOL_CURRENT!=D4X_TOOL_THREE){
+		gtk_container_remove(GTK_CONTAINER(D4X_TOOL_CONTAINER),D4X_TOOL_CURRENT);
+		gtk_container_add(GTK_CONTAINER (D4X_TOOL_CONTAINER),D4X_TOOL_THREE);
+		D4X_TOOL_CURRENT=D4X_TOOL_THREE;
+		gtk_widget_show_all(D4X_TOOL_CURRENT);
+	};
+	return(TRUE);
+};
+
+static gint d4x_main_vtoolbar_changed(GtkAdjustment *adj){
+	if (adj->lower<adj->value)
+		gtk_widget_set_sensitive(D4X_TOOL_UP,TRUE);
+	else
+		gtk_widget_set_sensitive(D4X_TOOL_UP,FALSE);
+	if (adj->upper>adj->page_size+adj->value)
+		gtk_widget_set_sensitive(D4X_TOOL_DOWN,TRUE);
+	else
+		gtk_widget_set_sensitive(D4X_TOOL_DOWN,FALSE);
+};
+
+static gint d4x_main_vtoolbar_up(GtkWidget *button,GtkAdjustment *adj){
+	adj->value-=20;
+	if (adj->value<adj->lower)
+		adj->value=adj->lower;
+	gtk_adjustment_value_changed(adj);
+	gtk_adjustment_changed(adj);
+};
+
+static gint d4x_main_vtoolbar_down(GtkWidget *button,GtkAdjustment *adj){
+	adj->value+=20;
+	if (adj->value>adj->upper-adj->page_size)
+		adj->value=adj->upper-adj->page_size;
+	gtk_adjustment_value_changed(adj);
+	gtk_adjustment_changed(adj);
+};
+
+static gint d4x_main_fsearch_activate(GtkWidget *entry){
+	char *name=(char *)gtk_entry_get_text(GTK_ENTRY(entry));
+	if (name && *name && !isspace(*name)){
+		_aa_.ftp_search_name(name);
+		gtk_entry_set_text(GTK_ENTRY(entry),"");
+	};
+	return (TRUE);
+};
+
+static gint d4x_main_fsearch_click(GtkWidget *button,GtkWidget *entry){
+	return (d4x_main_fsearch_activate(entry));
+};
+
+GtkWidget *init_vertical_toolbar(){
+#include "pixmaps/dndtrash.xpm"
+#include "pixmaps/clocks.xpm"
+#include "pixmaps/queues.xpm"
+#include "pixmaps/filters.xpm"
+#include "pixmaps/ftpsearch.xpm"
+#include "pixmaps/mainlog.xpm"
+#include "pixmaps/urlmng.xpm"
+#include "pixmaps/down.xpm"
+#include "pixmaps/up.xpm"
+	GtkWidget *vbox1=gtk_vbox_new(FALSE,1);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,1);
+	GtkWidget *pixmaps[6];
+	pixmaps[0] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)queues_xpm));
+	pixmaps[1] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)mainlog_xpm));
+	pixmaps[2] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)urlmng_xpm));
+	pixmaps[3] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)ftpsearch_xpm));
+	pixmaps[4] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)filters_xpm));
+	pixmaps[5] = gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)clocks_xpm));
+	GtkWidget *buttons[6];
+	GtkStyle  *tmpstyle = gtk_widget_get_style(MainWindow);
+	GdkColor tmpcolor=tmpstyle->bg[GTK_STATE_NORMAL];
+	tmpcolor.red=(tmpcolor.red*2)/3;
+	tmpcolor.green=(tmpcolor.green*2)/3;
+	tmpcolor.blue=(tmpcolor.blue*2)/3;
+	for (int i=0;i<6;i++){
+		buttons[i]=gtk_button_new();
+		gtk_button_set_relief(GTK_BUTTON(buttons[i]),GTK_RELIEF_NONE);
+		gtk_container_add(GTK_CONTAINER(buttons[i]),pixmaps[i]);
+		gtk_box_pack_start (GTK_BOX (vbox), buttons[i], FALSE, FALSE, 0);
+		gtk_widget_modify_bg (buttons[i],GTK_STATE_PRELIGHT,&tmpcolor);
+		gtk_widget_modify_bg (buttons[i],GTK_STATE_ACTIVE,&tmpcolor);
+	};
+ 	g_signal_connect(G_OBJECT(buttons[0]),"clicked",
+			   G_CALLBACK(d4x_main_switch_2downloads),NULL);
+ 	g_signal_connect(G_OBJECT(buttons[1]),"clicked",
+			   G_CALLBACK(d4x_main_switch_2mainlog),NULL);
+	g_signal_connect(G_OBJECT(buttons[2]),"clicked",
+			 G_CALLBACK(open_passwords_window),NULL);
+	g_signal_connect(G_OBJECT(buttons[3]),"clicked",
+			 G_CALLBACK(d4x_main_switch_2ftpsearch),NULL);
+	g_signal_connect(G_OBJECT(buttons[4]),"clicked",
+			 G_CALLBACK(d4x_filters_tool_switch),NULL);
+	g_signal_connect(G_OBJECT(buttons[5]),"clicked",
+			 G_CALLBACK(d4x_scheduler_tool_switch),NULL);
+	GtkTooltips *tooltip=gtk_tooltips_new();
+	gtk_tooltips_set_tip(tooltip,buttons[0],_("Downloads"),(const gchar *)NULL);
+	gtk_tooltips_set_tip(tooltip,buttons[1],_("Main log"),(const gchar *)NULL);
+	gtk_tooltips_set_tip(tooltip,buttons[2],_("URL-manager"),(const gchar *)NULL);
+	gtk_tooltips_set_tip(tooltip,buttons[3],_("FTP-search"),(const gchar *)NULL);
+	gtk_tooltips_set_tip(tooltip,buttons[4],_("Filters"),(const gchar *)NULL);
+	gtk_tooltips_set_tip(tooltip,buttons[5],_("Scheduler"),(const gchar *)NULL);
+	gtk_tooltips_enable(tooltip);
+	
+	/* need this stupid widget to change background of my toolbar */
+	
+	GtkWidget *stupid_gtk = gtk_event_box_new();
+	gtk_widget_modify_bg (stupid_gtk,GTK_STATE_NORMAL,&tmpcolor);
+	gtk_container_add(GTK_CONTAINER(stupid_gtk),vbox);
+	
+	GtkWidget *sw=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),GTK_SHADOW_NONE);
+	GtkWidget *viewport=gtk_viewport_new((GtkAdjustment *)NULL,
+					     (GtkAdjustment *)NULL);
+	gtk_viewport_set_shadow_type(GTK_VIEWPORT(viewport),GTK_SHADOW_NONE);
+	gtk_container_add(GTK_CONTAINER(viewport),stupid_gtk);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+	                                GTK_POLICY_NEVER,GTK_POLICY_NEVER);
+	gtk_container_add(GTK_CONTAINER(sw),viewport);
+	GtkWidget *button_up=D4X_TOOL_UP=gtk_button_new();
+	GtkWidget *pixmap_up=gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)up_xpm));
+	GtkWidget *button_down=D4X_TOOL_DOWN=gtk_button_new();
+	GtkWidget *pixmap_down=gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)down_xpm));
+	gtk_container_add(GTK_CONTAINER(button_up),pixmap_up);
+	gtk_container_add(GTK_CONTAINER(button_down),pixmap_down);
+	gtk_widget_set_sensitive(button_down,FALSE);
+
+	/* packing buttons to vertical toolbar */
+	gtk_widget_modify_bg (button_up,GTK_STATE_PRELIGHT,&tmpcolor);
+	gtk_box_pack_start (GTK_BOX (vbox1), button_up, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox1), sw, TRUE, TRUE, 0);
+	gtk_widget_modify_bg (button_down,GTK_STATE_PRELIGHT,&tmpcolor);
+	gtk_box_pack_start (GTK_BOX (vbox1), button_down, FALSE, FALSE, 0);
+	/* some handlers */
+	GtkAdjustment *adj=gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
+	g_signal_connect(G_OBJECT (adj), "changed",
+			 G_CALLBACK (d4x_main_vtoolbar_changed), NULL);
+	g_signal_connect(G_OBJECT(button_up),"clicked",
+			 G_CALLBACK(d4x_main_vtoolbar_up),adj);
+	g_signal_connect(G_OBJECT(button_down),"clicked",
+			 G_CALLBACK(d4x_main_vtoolbar_down),adj);
+	gtk_button_set_relief(GTK_BUTTON(button_up),GTK_RELIEF_NONE);
+	gtk_button_set_relief(GTK_BUTTON(button_down),GTK_RELIEF_NONE);
+		
+	GtkWidget *vb=gtk_vbox_new(FALSE,1);
+	GtkWidget *label=gtk_label_new(_("Main log"));
+	
+	gtk_box_pack_start (GTK_BOX (vb),my_gtk_set_header_style(label), FALSE, FALSE, 0);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,main_log_adj);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
+	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window),
+					    GTK_SHADOW_IN);
+	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(MainLogList));
+	gtk_box_pack_start (GTK_BOX (vb),scroll_window, TRUE, TRUE, 0);
+	D4X_TOOL_TWO=vb;
+
+
+	vb=gtk_vbox_new(FALSE,1);
+	label=gtk_label_new(_("FTP-search"));
+
+	gtk_box_pack_start (GTK_BOX (vb),my_gtk_set_header_style(label), FALSE, FALSE, 0);
+	GtkWidget *hbox=gtk_hbox_new(FALSE,5);
+	GtkWidget *label1=gtk_label_new(_("Filename:"));
+	gtk_misc_set_alignment(GTK_MISC(label1),1,0);
+	GtkWidget *entry=gtk_entry_new();
+	GtkWidget *button_find=gtk_button_new_from_stock(GTK_STOCK_FIND);
+	g_signal_connect(G_OBJECT(entry), "activate",
+			 G_CALLBACK(d4x_main_fsearch_activate), entry);
+	g_signal_connect(G_OBJECT(button_find),"clicked",
+			 G_CALLBACK(d4x_main_fsearch_click),entry);
+	gtk_box_pack_start (GTK_BOX (hbox), label1, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), button_find, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vb), hbox, FALSE, FALSE, 0);
+	scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
+	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window),
+					    GTK_SHADOW_IN);
+	FSearchView=fs_list_init();
+	FSearchView2=fs_list_init_sublist();
+	GtkWidget *hpaned=gtk_vpaned_new();
+	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(FSearchView));
+	gtk_paned_add1(GTK_PANED(hpaned),GTK_WIDGET(scroll_window));
+	scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
+	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window),
+					    GTK_SHADOW_IN);
+	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(FSearchView2));
+	gtk_paned_add2(GTK_PANED(hpaned),GTK_WIDGET(scroll_window));
+	gtk_box_pack_start (GTK_BOX (vb),hpaned, TRUE, TRUE, 0);
+	D4X_TOOL_THREE=vb;
+
+	
+	stupid_gtk = gtk_event_box_new();
+	gtk_widget_modify_bg (stupid_gtk,GTK_STATE_NORMAL,&tmpcolor);
+	gtk_container_add(GTK_CONTAINER(stupid_gtk),vbox1);
+	return(stupid_gtk);
+};
+
+void d4x_main_switch_log(tDownload *dwn){
+	if (dwn!=NULL){
+		if (dwn->LOG==NULL){
+			dwn->LOG=new tLog;
+			dwn->LOG->init(CFG.MAX_LOG_LENGTH);
+			dwn->LOG->ref_inc();
+		};
+		if (dwn->LOG!=D4X_LOG_DISPLAY.log && D4X_LOG_DISPLAY.papa!=dwn){
+			gtk_list_store_clear(GTK_LIST_STORE(gtk_tree_view_get_model(D4X_LOG_DISPLAY.view)));
+			log_print_to_view(dwn->LOG,D4X_LOG_DISPLAY.view);
+			D4X_LOG_DISPLAY.log=dwn->LOG;
+			D4X_LOG_DISPLAY.papa=dwn;
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4X_LOG_DISPLAY.buttons[D4X_LOG_DISPLAY.curbutton]),FALSE);
+			D4X_LOG_DISPLAY.curbutton=0;
+			int i=1;
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4X_LOG_DISPLAY.buttons[0]),TRUE);
+			if (dwn->split){
+				for(i=1;i<dwn->split->NumOfParts;i++){
+					if (D4X_LOG_DISPLAY.buttons[i]->parent==NULL)
+						gtk_toolbar_append_widget(GTK_TOOLBAR (D4X_LOG_DISPLAY.buttonsbar),
+									  D4X_LOG_DISPLAY.buttons[i],NULL,NULL);
+					gtk_widget_show(D4X_LOG_DISPLAY.buttons[i]);
+				};
+			};
+			for(;i<10;i++)
+				if (D4X_LOG_DISPLAY.buttons[i]->parent!=NULL)
+					gtk_container_remove(GTK_CONTAINER(D4X_LOG_DISPLAY.buttonsbar),
+							     D4X_LOG_DISPLAY.buttons[i]);
+		};
+	};
+};
+
+void d4x_main_log_del_string(){
+	GtkTreeIter iter;
+	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(D4X_LOG_DISPLAY.view);
+	if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store),&iter))
+		gtk_list_store_remove(store,&iter);
+};
+
+void d4x_main_log_add_string(tLogString *str){
+	log_model_view_add_string(D4X_LOG_DISPLAY.view,str);
+};
+
+gint d4x_main_dwn_log_callback(GtkWidget *button,int a){
+	if (a==D4X_LOG_DISPLAY.curbutton) return FALSE;
+	tDownload *dwn=D4X_LOG_DISPLAY.papa;
+	if (dwn==NULL || (dwn->split==NULL && a>0)){
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4X_LOG_DISPLAY.buttons[D4X_LOG_DISPLAY.curbutton]),TRUE);
+		return FALSE;
+	};
+	int switch_to=0;
+	int counter=a;
+	while(dwn!=NULL && counter>0){
+		dwn=dwn->split->next_part;
+		switch_to++;
+		counter--;
+	};
+	if (switch_to==a && dwn && dwn->LOG){
+		gtk_list_store_clear(GTK_LIST_STORE(gtk_tree_view_get_model(D4X_LOG_DISPLAY.view)));
+		log_print_to_view(dwn->LOG,D4X_LOG_DISPLAY.view);
+		D4X_LOG_DISPLAY.log=dwn->LOG;
+		D4X_LOG_DISPLAY.curbutton=switch_to;
+	}else{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4X_LOG_DISPLAY.buttons[D4X_LOG_DISPLAY.curbutton]),TRUE);
+	};
+	return FALSE;
+};
+
+GtkWidget *d4x_main_dwn_log_init(){
+	main_log_adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
+	main_log_value=0.0;
+	g_signal_connect(G_OBJECT (main_log_adj), "changed",
+			 G_CALLBACK (cb_page_size), NULL);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,main_log_adj);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
+	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window),
+					    GTK_SHADOW_IN);
+
+	D4X_LOG_DISPLAY.view=log_model_view_init();
+	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(D4X_LOG_DISPLAY.view));
+
+	GtkWidget *buttonsbar=D4X_LOG_DISPLAY.buttonsbar=gtk_toolbar_new();
+	gtk_toolbar_set_orientation(GTK_TOOLBAR(buttonsbar),GTK_ORIENTATION_VERTICAL);
+	gtk_toolbar_set_style(GTK_TOOLBAR(buttonsbar),GTK_TOOLBAR_TEXT);
+	GtkWidget *tmpbutton=NULL;
+	GSList *group=NULL;
+	for (int i=0;i<10;i++){
+		char data[MAX_LEN];
+		g_snprintf(data,MAX_LEN,"%i",i);
+		tmpbutton=D4X_LOG_DISPLAY.buttons[i]=my_gtk_vbookmark_new_with_label(group,data);
+		g_signal_connect(G_OBJECT(tmpbutton),"clicked",
+				 G_CALLBACK(d4x_main_dwn_log_callback),GINT_TO_POINTER(i));
+		group=gtk_radio_button_get_group(GTK_RADIO_BUTTON(tmpbutton));
+
+		gtk_widget_ref(tmpbutton);
+		g_object_set_data(G_OBJECT(tmpbutton),"d4x_user_data",GINT_TO_POINTER(i));
+	};
+	gtk_toolbar_append_widget(GTK_TOOLBAR (buttonsbar),
+				  D4X_LOG_DISPLAY.buttons[0],NULL,NULL);
+	D4X_LOG_DISPLAY.curbutton=0;
+	GtkWidget *hbox=gtk_hbox_new(FALSE,1);
+	gtk_box_pack_start (GTK_BOX (hbox), buttonsbar, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), scroll_window, TRUE, TRUE, 0);
+	return(hbox);
+}
+
+void d4x_main_offline_click(GtkWidget *button){
+	GtkWidget *tmp=GTK_BIN(button)->child;
+	g_object_ref(G_OBJECT(tmp));
+	gtk_container_remove(GTK_CONTAINER(button),tmp);
+	gtk_container_add(GTK_CONTAINER(button),D4X_OFFLINE_PIXMAP);
+	g_object_unref(D4X_OFFLINE_PIXMAP);
+	gtk_widget_show(D4X_OFFLINE_PIXMAP);
+	D4X_OFFLINE_PIXMAP=tmp;
+	_aa_.switch_offline_mode();
 };
 
 void init_main_window() {
+#include "pixmaps2/offline.xpm"
+#include "pixmaps2/offline1.xpm"
+	ContainerForCList=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	GtkWidget *hbox=gtk_hbox_new(FALSE,1);
 	MainHBox=hbox;
 	gtk_box_pack_start (GTK_BOX (hbox), MainStatusBar, TRUE, TRUE, 0);
@@ -1124,23 +1493,10 @@ void init_main_window() {
 
 	init_main_log();
 
-	FSearchView=fs_list_init();
-	ContainerForCList=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	GtkWidget *hpaned=gtk_vpaned_new();
-	GtkWidget *vpaned=gtk_hpaned_new();
 	MAIN_PANED=hpaned;
 	MAIN_PANED1=gtk_hpaned_new();
-	MAIN_PANED2=vpaned;
-	main_log_adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
-	main_log_value=0.0;
-	g_signal_connect(G_OBJECT (main_log_adj), "changed",
-			   G_CALLBACK (cb_page_size), NULL);
-	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,main_log_adj);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
-	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window),
-					    GTK_SHADOW_IN);
-	gtk_container_add(GTK_CONTAINER(scroll_window),MainLogList);
+
 	GtkWidget *scroll_window2=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window2),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
@@ -1152,27 +1508,63 @@ void init_main_window() {
 	gtk_paned_add1(GTK_PANED(MAIN_PANED1),scroll_window2);
 	gtk_paned_add2(GTK_PANED(MAIN_PANED1),ContainerForCList);
 	gtk_paned_add1(GTK_PANED(hpaned),MAIN_PANED1);
-	gtk_paned_add2(GTK_PANED(hpaned),vpaned);
-	gtk_paned_add1(GTK_PANED(vpaned),scroll_window);
+	gtk_paned_add2(GTK_PANED(hpaned),d4x_main_dwn_log_init());
+	GtkWidget *hbox_main=gtk_hbox_new(FALSE,1);
+	GtkWidget *container_main=D4X_TOOL_CONTAINER=gtk_hbox_new(FALSE,1);
 
+	GtkWidget *vb=gtk_vbox_new(FALSE,1);
+	GtkWidget *label=gtk_label_new(_("Downloads"));
+
+	gtk_box_pack_start (GTK_BOX (vb), my_gtk_set_header_style(label), FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vb), hpaned, TRUE, TRUE, 0);
+	D4X_TOOL_CURRENT=D4X_TOOL_ONE=vb;
+
+	gtk_box_pack_start (GTK_BOX (container_main), vb, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_main), container_main, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_main), init_vertical_toolbar(), FALSE, FALSE, 0);
+	gtk_widget_ref(D4X_TOOL_ONE);
+	gtk_widget_ref(D4X_TOOL_TWO);
+	gtk_widget_ref(D4X_TOOL_THREE);
 	
 	GtkWidget *scroll_window1=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window1),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window1),
 					    GTK_SHADOW_IN);
-	gtk_container_add(GTK_CONTAINER(scroll_window1),(GtkWidget *)FSearchView);
-	gtk_paned_add2(GTK_PANED(vpaned),scroll_window1);
+
+	GtkWidget *offline=gtk_toggle_button_new();
+
+	GtkTooltips *tooltip=gtk_tooltips_new();
+	gtk_tooltips_set_tip(tooltip,offline,_("Offline/Online"),(const gchar *)NULL);
+	gtk_tooltips_enable(tooltip);
+				
+	GtkRcStyle *rc_style = gtk_rc_style_new ();
+	rc_style->xthickness = 0;
+	rc_style->ythickness = 0;
+	gtk_widget_modify_style (offline, rc_style);
+	g_object_unref(G_OBJECT(rc_style));
+	GTK_WIDGET_UNSET_FLAGS(offline,GTK_CAN_FOCUS);
+	GtkWidget *offline_pixmap=gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)offline_xpm));
+	D4X_OFFLINE_PIXMAP=gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)offline1_xpm));
+	g_object_ref(G_OBJECT(D4X_OFFLINE_PIXMAP));
+ 	g_signal_connect(G_OBJECT(offline),"clicked",
+			   G_CALLBACK(d4x_main_offline_click),NULL);
+	gtk_container_add(GTK_CONTAINER(offline),offline_pixmap);
+	gtk_button_set_relief(GTK_BUTTON(offline),GTK_RELIEF_NONE);
+	gtk_container_set_border_width (GTK_CONTAINER(offline),0);
+	gtk_box_pack_end (GTK_BOX (hbox), offline, FALSE, FALSE, 0);
 	
-	GtkWidget *TEMP=my_gtk_graph_new();//gtk_statusbar_new();
+	GtkWidget *TEMP=my_gtk_graph_new();
 	GLOBAL_GRAPH=(MyGtkGraph *)TEMP;
+	GLOBAL_GRAPH->LocalM=LocalMeter;
+	GLOBAL_GRAPH->GlobalM=GlobalMeter;
 	gtk_widget_set_size_request(TEMP,104,-1);
 	gtk_box_pack_end (GTK_BOX (hbox), TEMP, FALSE, FALSE, 0);
 
 	GtkWidget *vbox=gtk_vbox_new(FALSE,1);
 	gtk_box_pack_start (GTK_BOX (vbox), MainMenu, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), ButtonsBar, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hpaned, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox_main, TRUE, TRUE, 0);
 	gtk_box_pack_end (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(MainWindow),vbox);
 
@@ -1184,17 +1576,14 @@ void init_main_window() {
 
 	gtk_widget_show(ContainerForCList);
 	gtk_widget_show(MainLogList);
-	gtk_widget_show((GtkWidget *)FSearchView);
-	gtk_widget_show(scroll_window);
 	gtk_widget_show(scroll_window1);
 	gtk_widget_show_all(scroll_window2);
 	gtk_widget_show(MAIN_PANED1);
 	gtk_widget_show(hpaned);
-	gtk_widget_show(vpaned);
 	gtk_widget_show(MainMenu);
 	gtk_widget_show(hbox);
 	gtk_widget_show(vbox);
-	gtk_widget_show(MainWindow);
+	gtk_widget_show_all(MainWindow);
 	if (!CFG.DONOTSET_WINPOS)
 		gdk_window_move_resize(MainWindow->window,
 				       gint(CFG.WINDOW_X_POSITION),
@@ -1203,8 +1592,8 @@ void init_main_window() {
 				       gint(CFG.WINDOW_HEIGHT));
 	g_signal_connect(G_OBJECT (MAIN_PANED), "size_allocate",
 			   G_CALLBACK (list_of_downloads_allocation), NULL);
-	g_signal_connect(G_OBJECT (MAIN_PANED2), "size_allocate",
-			   G_CALLBACK (fs_list_allocation), NULL);
+//	g_signal_connect(G_OBJECT (MAIN_PANED2), "size_allocate",
+//			   G_CALLBACK (fs_list_allocation), NULL);
 
 
 	/****************************************************************
@@ -1284,11 +1673,13 @@ void update_mainwin_title() {
 };
 
 int time_for_refresh(void *a) {
-	aa.main_circle();
+	_aa_.main_circle();
 	update_progress_bar();
 	update_mainwin_title();
 	UpdateTitleCycle+=1;
 	my_gtk_graph_recalc(GLOBAL_GRAPH);
+	if (D4X_DND_GRAPH)
+		my_gtk_graph_recalc(D4X_DND_GRAPH);
 	return 1;
 };
 
@@ -1297,12 +1688,12 @@ static int _nano_stepn_=0;
 
 int time_for_logs_refresh(void *a) {
 	if (_nano_step_)
-		aa.main_circle_nano1();
+		_aa_.main_circle_nano1();
 	else
-		aa.main_circle_nano2();
+		_aa_.main_circle_nano2();
 	_nano_step_=~_nano_step_;
-	aa.redraw_logs();
-	aa.check_for_remote_commands();
+	_aa_.redraw_logs();
+	_aa_.check_for_remote_commands();
 	if (_nano_stepn_++>=GLOBAL_SLEEP_DELAY*5){
 		time_for_refresh(a);
 		_nano_stepn_=0;

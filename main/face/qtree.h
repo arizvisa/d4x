@@ -32,6 +32,7 @@ struct d4xQsTree{
 	void add(d4xDownloadQueue *what,d4xDownloadQueue *papa=(d4xDownloadQueue *)NULL);
 	void del(d4xDownloadQueue *what);
 	void update(d4xDownloadQueue *what);
+	void update_speed(d4xDownloadQueue *what);
 	void switch_remote(d4xDownloadQueue *what);
 	void switch_to(d4xDownloadQueue *what);
 	void select_row(GtkTreeIter *iter);

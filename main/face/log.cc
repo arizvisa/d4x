@@ -111,9 +111,7 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 	return TRUE;
 };
 
-void log_window_add_string(tLog *log,tLogString *str) {
-	tLogWindow *temp=(tLogWindow *)log->Window;
-	if (!temp) return;
+void log_model_view_add_string(GtkTreeView *view,tLogString *str){
 	char useful[MAX_LEN+1];
 	struct tm msgtime;
 	localtime_r(&(str->time),&msgtime);
@@ -122,7 +120,7 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	char *str_temp=copy_string(str->body);
 	str_non_print_replace(str_temp,' ');
 	GtkTreeIter iter;
-	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(temp->view));
+	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(view));
 	gtk_list_store_append(list_store, &iter);
 	gtk_list_store_set(list_store, &iter,
 			   L_COL_NUM,str->temp,
@@ -170,6 +168,12 @@ void log_window_add_string(tLog *log,tLogString *str) {
 			   L_COL_LAST,color,
 			   L_COL_LAST+1,back_color,
 			   -1);
+};
+
+void log_window_add_string(tLog *log,tLogString *str) {
+	tLogWindow *temp=(tLogWindow *)log->Window;
+	if (!temp) return;
+	log_model_view_add_string(temp->view,str);
 };
 
 
@@ -369,6 +373,38 @@ gint log_window_button(GtkWidget *button,int a){
 	return TRUE;
 };
 
+GtkTreeView *log_model_view_init(){
+	GtkListStore *list_store = gtk_list_store_new(L_COL_LAST+2,
+						      GDK_TYPE_PIXBUF, //L_COL_TYPE,
+						      G_TYPE_INT,      //L_COL_NUM,
+						      G_TYPE_STRING,   //L_COL_TIME,
+						      G_TYPE_STRING,   //L_COL_STRING,
+						      GDK_TYPE_COLOR,  //L_COL_LAST;
+						      GDK_TYPE_COLOR);
+	GtkTreeView *view = GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store)));
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *col;
+	renderer = gtk_cell_renderer_pixbuf_new();
+	col=gtk_tree_view_column_new_with_attributes ("Tittle",
+						      renderer,
+						      "pixbuf",0,
+						      NULL);
+	gtk_tree_view_append_column(view,col);
+	for (int i=L_COL_NUM;i<L_COL_LAST;i++){
+		renderer = gtk_cell_renderer_text_new();
+		col=gtk_tree_view_column_new_with_attributes("Tittle",
+							     renderer,
+							     "text",i,
+							     "foreground-gdk",ML_COL_LAST,
+							     "background-gdk",ML_COL_LAST+1,
+							     NULL);
+		gtk_tree_view_append_column(view,col);
+	};
+	
+	gtk_tree_view_set_headers_visible(view,FALSE);
+	gtk_tree_view_set_reorderable(view,FALSE);
+	return(view);
+};
 
 void log_window_init(tDownload *what) {
 	if (what) {
@@ -426,28 +462,7 @@ void log_window_init(tDownload *what) {
 							      G_TYPE_STRING,   //L_COL_STRING,
 							      GDK_TYPE_COLOR,  //L_COL_LAST;
 							      GDK_TYPE_COLOR);
-		temp->view = GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store)));
-		GtkCellRenderer *renderer;
-		GtkTreeViewColumn *col;
-		renderer = gtk_cell_renderer_pixbuf_new();
-		col=gtk_tree_view_column_new_with_attributes ("Tittle",
-							      renderer,
-							      "pixbuf",0,
-							      NULL);
-		gtk_tree_view_append_column(temp->view,col);
-		for (int i=L_COL_NUM;i<L_COL_LAST;i++){
-			renderer = gtk_cell_renderer_text_new();
-			col=gtk_tree_view_column_new_with_attributes("Tittle",
-								     renderer,
-								     "text",i,
-								     "foreground-gdk",ML_COL_LAST,
-								     "background-gdk",ML_COL_LAST+1,
-								     NULL);
-			gtk_tree_view_append_column(temp->view,col);
-		};
-							      
-		gtk_tree_view_set_headers_visible(temp->view,FALSE);
-		gtk_tree_view_set_reorderable(temp->view,FALSE);
+		temp->view = log_model_view_init();
 		g_signal_connect(G_OBJECT(temp->view),"event",G_CALLBACK(log_list_event_handler),temp);
 
 		temp->adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
@@ -568,4 +583,14 @@ GList *log_window_unfreeze(GList *list){
 		gtk_widget_queue_draw(GTK_WIDGET(temp->view));
 	};
 	return(next);
+};
+
+void log_print_to_view(tLog *log,GtkTreeView *view){
+	log->lock();
+	tLogString *prom=(tLogString *)(log->first());
+	while (prom) {
+		log_model_view_add_string(view,prom);
+		prom=(tLogString *)prom->prev;
+	};
+	log->unlock();
 };

@@ -19,6 +19,9 @@
 #include <X11/Xatom.h>
 #include <X11/Xmd.h>
 #include <string.h>
+#include "../queue.h"
+#include "misc.h"
+#include "colors.h"
 
 extern GtkWidget *MainWindow;
 
@@ -239,4 +242,41 @@ void gtk_tree_model_swap_rows_l(GtkTreeModel *model,GtkTreeIter *a,GtkTreeIter *
 		gtk_list_store_set_value(GTK_LIST_STORE(model),b,i,&(values[i]));
 	for (i=0;i<num;i++)
 		g_value_unset(&(values[i]));
+};
+
+void _foreach_remove_prepare_(GtkTreeModel *model,GtkTreePath *path,
+				     GtkTreeIter *iter,gpointer p){
+	tQueue *q=(tQueue*)p;
+	tmpIterNode *i=new tmpIterNode(iter);
+	q->insert(i);
+};
+
+GtkWidget *my_gtk_set_header_style(GtkWidget *widget){
+	GtkRcStyle *rc_style = gtk_rc_style_new ();
+	
+	rc_style->font_desc = pango_font_description_from_string ("Helvetica,Sans Bold 14");
+	rc_style->color_flags[GTK_STATE_NORMAL] = GtkRcFlags(GTK_RC_FG | GTK_RC_BG);
+	rc_style->fg[GTK_STATE_NORMAL] = LIGHTGREY;
+	rc_style->bg[GTK_STATE_NORMAL] = DARKGREY;
+	rc_style->xthickness = 5;
+	rc_style->ythickness = 5;
+	
+	gtk_widget_modify_style (widget, rc_style);
+	
+	gtk_misc_set_alignment(GTK_MISC(widget),0.01,0);
+	
+	GtkWidget *stupid_gtk = gtk_event_box_new();
+	
+	GtkStyle  *tmpstyle = gtk_style_copy(gtk_widget_get_style(widget));
+	GdkColor temp = tmpstyle->bg[GTK_STATE_NORMAL];
+	tmpstyle->bg[GTK_STATE_NORMAL] = tmpstyle->fg[GTK_STATE_NORMAL];
+	tmpstyle->fg[GTK_STATE_NORMAL] = temp;
+
+	gtk_container_set_border_width(GTK_CONTAINER(stupid_gtk), 0);
+	gtk_container_add(GTK_CONTAINER(stupid_gtk), widget);
+	gtk_widget_modify_style (widget, rc_style);
+	gtk_widget_set_style(stupid_gtk, tmpstyle);
+	g_object_unref(G_OBJECT(tmpstyle));
+	g_object_unref (G_OBJECT (rc_style));
+	return (stupid_gtk);
 };

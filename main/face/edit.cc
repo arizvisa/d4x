@@ -94,7 +94,6 @@ char *edit_fields_labels[]={
 	N_("Time")
 };
 
-extern tMain aa;
 void edit_window_cancel(GtkWidget *parent,tDEdit *where);
 gint edit_window_delete(GtkObject *parent);
 void edit_window_ok(GtkWidget *which,tDEdit *where);
@@ -189,8 +188,9 @@ void init_edit_window(tDownload *what) {
 	what->editor=new tDEdit;
 	what->editor->init(what);
 	what->editor->parent_in_db=1;
-	if (what->owner()==DL_RUN ||
-	    what->owner()==DL_STOPWAIT)
+	int owner=what->owner();
+	if (owner==DL_RUN || owner==DL_STOPWAIT ||
+	    what->myowner->PAPA->is_first(DL_SIZEQUERY,what))
 		what->editor->disable_ok_button();
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Edit download"));
 	g_signal_connect(G_OBJECT(what->editor->cancel_button),"clicked",G_CALLBACK(edit_window_cancel),what->editor);
@@ -244,7 +244,7 @@ void edit_window_ok(GtkWidget *which,tDEdit *where) {
 	if (where->parent_in_db){
 		DQV(dwn).update(dwn);
 		if (!where->get_pause_check())
-			aa.continue_download(dwn);
+			_aa_.continue_download(dwn);
 	};
 	delete where;
 };
@@ -451,20 +451,14 @@ void tDEdit::init_main(tDownload *who) {
 	g_signal_connect(G_OBJECT(path_set_as_default),"clicked",G_CALLBACK(edit_browser_path_set_as_default),this);
 	/* initing boxes
 	 */
-	GtkWidget *url_box=gtk_hbox_new(FALSE,0);
-	GtkWidget *path_vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *file_vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *desc_vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *pass_box=gtk_hbox_new(FALSE,0);
-	GtkWidget *user_box=gtk_hbox_new(FALSE,0);
+	GtkWidget *url_box=gtk_hbox_new(FALSE,5);
+	GtkWidget *path_vbox=gtk_vbox_new(FALSE,2);
+	GtkWidget *file_vbox=gtk_vbox_new(FALSE,2);
+	GtkWidget *desc_vbox=gtk_vbox_new(FALSE,2);
+	GtkWidget *pass_box=gtk_hbox_new(FALSE,5);
+	GtkWidget *user_box=gtk_hbox_new(FALSE,5);
 	GtkWidget *file_recode=gtk_button_new_with_label(_("CP1251->UTF8"));
 	g_signal_connect(G_OBJECT(file_recode),"clicked",G_CALLBACK(edit_browser_file_recode),this);
-	gtk_box_set_spacing(GTK_BOX(url_box),5);
-	gtk_box_set_spacing(GTK_BOX(path_vbox),2);
-	gtk_box_set_spacing(GTK_BOX(file_vbox),2);
-	gtk_box_set_spacing(GTK_BOX(desc_vbox),2);
-	gtk_box_set_spacing(GTK_BOX(user_box),5);
-	gtk_box_set_spacing(GTK_BOX(pass_box),5);
 	gtk_box_pack_start(GTK_BOX(url_box),url_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(url_box),url_entry,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(desc_vbox),desc_label,FALSE,FALSE,0);
@@ -487,8 +481,8 @@ void tDEdit::init_main(tDownload *who) {
 	else
 		GTK_TOGGLE_BUTTON(use_pass_check)->active=FALSE;
 
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
+	gtk_container_set_border_width(GTK_CONTAINER(vbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),url_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),path_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),file_vbox,FALSE,FALSE,0);
@@ -496,8 +490,7 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),use_pass_check,FALSE,FALSE,0);
 	if (limit){
 		con_limit_entry=my_gtk_entry_new_with_max_length(5,who->config->con_limit);
-		GtkWidget *limit_box=gtk_hbox_new(FALSE,0);
-		gtk_box_set_spacing(GTK_BOX(limit_box),5);
+		GtkWidget *limit_box=gtk_hbox_new(FALSE,5);
 		gtk_box_pack_start(GTK_BOX(limit_box),user_box,FALSE,FALSE,0);
 		gtk_box_pack_end(GTK_BOX(limit_box),con_limit_entry,FALSE,FALSE,0);
 		gtk_box_pack_end(GTK_BOX(limit_box),gtk_label_new(_("Connections limit:")),FALSE,FALSE,0);
@@ -535,7 +528,8 @@ void tDEdit::init_main(tDownload *who) {
 void tDEdit::init_other(tDownload *who) {
 	/* initing other
 	 */
-	GtkWidget *other_vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *other_vbox=gtk_vbox_new(FALSE,5);
+	gtk_container_set_border_width(GTK_CONTAINER(other_vbox),5);
 	timeout_entry=my_gtk_entry_new_with_max_length(3,who->config->timeout);
 	sleep_entry=my_gtk_entry_new_with_max_length(3,who->config->time_for_sleep);
 	attempts_entry=my_gtk_entry_new_with_max_length(3,who->config->number_of_attempts);
@@ -543,43 +537,37 @@ void tDEdit::init_other(tDownload *who) {
 	speed_entry=my_gtk_entry_new_with_max_length(5,who->config->speed);
 	split_entry=my_gtk_entry_new_with_max_length(2,who->split==NULL?0:who->split->NumOfParts);
 
-	GtkWidget *other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	GtkWidget *other_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *other_label=gtk_label_new(_("Timeout for reading from socket (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),timeout_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Timeout before reconnection (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),sleep_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Maximum attempts (0 for unlimited)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),attempts_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Rollback after reconnecting (in bytes)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),rollback_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Speed limitation in Bytes/sec (0 for unlimited)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),speed_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Number of parts for spliting this download"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),split_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
@@ -602,8 +590,7 @@ void tDEdit::init_other(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(other_vbox),check_time_check,FALSE,FALSE,0);
 
 	other_label=gtk_label_new(_("Save log to file"));
-	GtkWidget *other_box=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_box),5);
+	GtkWidget *other_box=gtk_vbox_new(FALSE,5);
 	log_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOG_SAVE_HISTORY]);
 	MY_GTK_FILESEL(log_save_entry)->modal=GTK_WINDOW(window);
 	if (who->config->log_save_path.get())
@@ -625,7 +612,8 @@ void tDEdit::init_other(tDownload *who) {
 };
 
 void tDEdit::init_ftp(tDownload *who){
-	GtkWidget *ftp_vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *ftp_vbox=gtk_vbox_new(FALSE,5);
+	gtk_container_set_border_width(GTK_CONTAINER(ftp_vbox),5);
 
 	ftp_passive_check=gtk_check_button_new_with_label(_("Use passive mode for FTP"));
 	GTK_TOGGLE_BUTTON(ftp_passive_check)->active=who->config->passive;
@@ -653,8 +641,7 @@ void tDEdit::init_ftp(tDownload *who){
 	gtk_box_pack_start(GTK_BOX(ftp_vbox),ftp_dirontop_check,FALSE,FALSE,0);
 	
 	ftp_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config->ftp_recurse_depth);
-	GtkWidget *ftp_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(ftp_hbox),2);
+	GtkWidget *ftp_hbox=gtk_hbox_new(FALSE,2);
 	GtkWidget *other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
 	gtk_box_pack_start(GTK_BOX(ftp_hbox),ftp_recurse_depth_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(ftp_hbox),other_label,FALSE,FALSE,0);
@@ -667,11 +654,11 @@ void tDEdit::init_ftp(tDownload *who){
 };
 
 void tDEdit::init_http(tDownload *who){
-	GtkWidget *http_vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *http_vbox=gtk_vbox_new(FALSE,5);
+	gtk_container_set_border_width(GTK_CONTAINER(http_vbox),5);
 	
 	http_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config->http_recurse_depth);
-	GtkWidget *http_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
+	GtkWidget *http_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
 	gtk_box_pack_start(GTK_BOX(http_hbox),http_recurse_depth_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(http_hbox),other_label,FALSE,FALSE,0);
@@ -697,8 +684,7 @@ void tDEdit::init_http(tDownload *who){
 	gtk_editable_set_editable(GTK_EDITABLE(filter),FALSE);
 	if (who->config->Filter.get())
 		text_to_combo(filter,who->config->Filter.get());
-	http_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
+	http_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Filter"));
 	GtkWidget *button=gtk_button_new_with_label(_("Select"));
  	g_signal_connect(G_OBJECT(button),"clicked",
@@ -709,8 +695,7 @@ void tDEdit::init_http(tDownload *who){
 	gtk_box_pack_start(GTK_BOX(http_vbox),http_hbox,FALSE,FALSE,0);	
 	
 	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
-	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
+	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,5);
 	user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
 	if (who->config->user_agent.get())
 		text_to_combo(user_agent_entry,who->config->user_agent.get());
@@ -720,7 +705,6 @@ void tDEdit::init_http(tDownload *who){
 
 	GtkWidget *label=gtk_label_new(_("Referer"));
 	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
 	referer_entry=my_gtk_combo_new(ALL_HISTORIES[REFERER_HISTORY]);
 	if (who->config->referer.get())
 		text_to_combo(referer_entry,who->config->referer.get());
@@ -732,7 +716,6 @@ void tDEdit::init_http(tDownload *who){
 
 	label=gtk_label_new(_("Cookie"));
 	vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
 	cookie_entry=my_gtk_combo_new(ALL_HISTORIES[COOKIE_HISTORY]);
 	if (who->config->cookie.get())
 		text_to_combo(cookie_entry,who->config->cookie.get());
@@ -755,8 +738,7 @@ void tDEdit::init_time(tDownload *who){
 	/* Init time
 	 */
 	GtkWidget *time_frame=gtk_frame_new(_("Time"));
-	GtkWidget *time_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(time_hbox),5);
+	GtkWidget *time_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *time_label,*time_vbox;
 	gtk_container_set_border_width(GTK_CONTAINER(time_frame),5);
 	calendar=gtk_calendar_new();
@@ -788,7 +770,8 @@ void tDEdit::init_time(tDownload *who){
 	gtk_widget_set_size_request(hour_entry,60,-1);
 	gtk_widget_set_size_request(minute_entry,60,-1);
 
-	time_vbox=gtk_vbox_new(FALSE,0);
+	time_vbox=gtk_vbox_new(FALSE,5);
+	gtk_container_set_border_width(GTK_CONTAINER(time_vbox),5);
 	time_check=gtk_check_button_new_with_label(_("Start this downloading at:"));
  	g_signal_connect(G_OBJECT(time_check),"clicked",G_CALLBACK(edit_time_check_clicked),this);
 	gtk_box_pack_start(GTK_BOX(time_vbox),time_check,FALSE,FALSE,0);
@@ -835,8 +818,7 @@ void tDEdit::init(tDownload *who) {
 	};
 	/* initing window
 	 */
-	GtkWidget *vbox2=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(vbox2),5);
+	GtkWidget *vbox2=gtk_vbox_new(FALSE,5);
 	GtkWidget *proxy_frame=gtk_frame_new(_("Proxy"));
 	gtk_container_set_border_width(GTK_CONTAINER(proxy_frame),5);
 	gtk_container_add(GTK_CONTAINER(proxy_frame),proxy->frame);
@@ -855,8 +837,8 @@ void tDEdit::init(tDownload *who) {
 			 G_CALLBACK(edit_isdefault_check_clicked),this);
 	GTK_TOGGLE_BUTTON(isdefault_check)->active=who->config->isdefault;
 	toggle_isdefault();
-	ok_button=gtk_button_new_with_label(_("Ok"));
-	cancel_button=gtk_button_new_with_label(_("Cancel"));
+	ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
 	GtkWidget *hbox_temp=gtk_hbox_new(FALSE,0);
@@ -1104,7 +1086,7 @@ int tDEdit::apply_changes() {
 		date.tm_sec=0;
 		parent->ScheduleTime=mktime(&date);
 		if (parent_in_db && time(NULL)<parent->ScheduleTime){
-			aa.schedule_download(parent);
+			_aa_.schedule_download(parent);
 			parent_in_db=0;
 		};
 	} else {
@@ -1442,7 +1424,7 @@ void tDEdit::apply_enabled_changes(){
 			date.tm_sec=0;
 			parent->ScheduleTime=mktime(&date);
 			if (time(NULL)<parent->ScheduleTime){
-				aa.schedule_download(parent);
+				_aa_.schedule_download(parent);
 				parent_in_db=0;
 			};
 		} else {
@@ -1552,7 +1534,7 @@ void tProxyWidget::init() {
 	gtk_container_set_border_width(GTK_CONTAINER(proxy_frame1),5);
 	gtk_container_set_border_width(GTK_CONTAINER(proxy_frame2),5);
 
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,2);
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 
 	gtk_box_pack_start(GTK_BOX(hbox),vbox,FALSE,0,0);
@@ -1569,7 +1551,6 @@ void tProxyWidget::init() {
 	GtkWidget *box1=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox1),box1,FALSE,0,0);
 
-	gtk_box_set_spacing(GTK_BOX(vbox),2);
 	gtk_container_add(GTK_CONTAINER(proxy_frame1),hbox);
 
 	ftp_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for FTP"));
@@ -1588,8 +1569,7 @@ void tProxyWidget::init() {
 			 G_CALLBACK(_proxy_port_changed_),
 			 GTK_COMBO(ftp_proxy_host)->entry);
 	GtkWidget *label=gtk_label_new(_("port"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),3);
+	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),ftp_proxy_port,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 
@@ -1603,9 +1583,7 @@ void tProxyWidget::init() {
 	gtk_widget_set_size_request(ftp_proxy_user,100,-1);
 
 	label=gtk_label_new(_("username"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),3);
-	gtk_box_set_spacing(GTK_BOX(vbox),2);
+	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),ftp_proxy_user,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
@@ -1618,15 +1596,12 @@ void tProxyWidget::init() {
 	gtk_widget_set_size_request(ftp_proxy_pass,100,-1);
 
 	label=gtk_label_new(_("password"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),3);
-	gtk_box_set_spacing(GTK_BOX(vbox),2);
+	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),ftp_proxy_pass,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
 
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),3);
+	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),proxy_frame1,FALSE,0,0);
 	gtk_box_pack_end(GTK_BOX(hbox),proxy_frame2,FALSE,0,0);
 	GtkWidget *vbox_temp=gtk_vbox_new(FALSE,0);
@@ -1637,8 +1612,7 @@ void tProxyWidget::init() {
 	no_cache=gtk_check_button_new_with_label(_("Don't get from cache"));
 	gtk_box_pack_start(GTK_BOX(vbox_temp),no_cache,FALSE,0,0);
 
-	vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(vbox),2);
+	vbox=gtk_vbox_new(FALSE,2);
 	gtk_container_add(GTK_CONTAINER(proxy_frame2),vbox);
 
 	http_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for HTTP"));
@@ -1657,8 +1631,7 @@ void tProxyWidget::init() {
 			 G_CALLBACK(_proxy_port_changed_),
 			 GTK_COMBO(http_proxy_host)->entry);
 	label=gtk_label_new(_("port"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),3);
+	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),http_proxy_port,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
@@ -1671,8 +1644,7 @@ void tProxyWidget::init() {
 	gtk_widget_set_size_request(http_proxy_user,100,-1);
 
 	label=gtk_label_new(_("username"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),3);
+	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),http_proxy_user,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
@@ -1685,8 +1657,7 @@ void tProxyWidget::init() {
 	gtk_widget_set_size_request(http_proxy_pass,100,-1);
 
 	label=gtk_label_new(_("password"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),3);
+	hbox=gtk_hbox_new(FALSE,3);
 	gtk_box_pack_start(GTK_BOX(hbox),http_proxy_pass,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,0,0);
@@ -1697,8 +1668,7 @@ void tProxyWidget::init() {
 			 G_CALLBACK(proxy_toggle_socks),this);
 	gtk_box_pack_start(GTK_BOX(vbox_temp),use_socks,FALSE,0,0);
 
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	hbox=gtk_hbox_new(FALSE,5);
 	label=gtk_label_new(_("host"));
 	socks_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
 	g_signal_connect(G_OBJECT (GTK_COMBO(socks_host)->entry),
@@ -1716,15 +1686,13 @@ void tProxyWidget::init() {
 	gtk_box_pack_start(GTK_BOX(hbox),socks_port,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox_temp),hbox,FALSE,0,0);
 
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	hbox=gtk_hbox_new(FALSE,5);
 	label=gtk_label_new(_("username"));
 	socks_user=gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(hbox),socks_user,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,0,0);
 	gtk_box_pack_start(GTK_BOX(vbox_temp),hbox,FALSE,0,0);
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	hbox=gtk_hbox_new(FALSE,5);
 	label=gtk_label_new(_("password"));
 	socks_pass=gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(hbox),socks_pass,FALSE,0,0);
@@ -2141,7 +2109,7 @@ void select_options_window_init(){
 		
 		g_object_set_data(G_OBJECT(select_options_window),"d4x_user_data",view);
 		
-		GtkWidget *button_ok=gtk_button_new_with_label(_("Ok"));
+		GtkWidget *button_ok=gtk_button_new_from_stock(GTK_STOCK_OK);
 		GTK_WIDGET_SET_FLAGS(button_ok,GTK_CAN_DEFAULT);
 		g_signal_connect(G_OBJECT(button_ok),
 				 "clicked",
@@ -2164,8 +2132,7 @@ void select_options_window_init(){
 		gtk_box_pack_start(GTK_BOX(hbox),button_all,FALSE,FALSE,0);
 		gtk_box_pack_start(GTK_BOX(hbox),button_clear,FALSE,FALSE,0);
 		gtk_box_pack_start(GTK_BOX(hbox),button_ok,FALSE,FALSE,0);
-		GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-		gtk_box_set_spacing(GTK_BOX(vbox),5);
+		GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 		GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 		gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window),
 						    GTK_SHADOW_IN);

@@ -17,6 +17,7 @@
 #include "lod.h"
 #include "addd.h"
 #include "list.h"
+#include "graph.h"
 #include "buttons.h"
 #include "colors.h"
 #include "../main.h"
@@ -26,7 +27,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
-extern tMain aa;
 extern GtkTargetEntry download_drop_types[];
 extern gint n_download_drop_types;
 
@@ -60,6 +60,7 @@ GtkWidget *dnd_trash_window=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_menu=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_gtk_pixmap; //used for animation/blinking
 GtkWidget *dnd_trash_fixed;
+GtkWidget *dnd_basket_graph=(GtkWidget *)NULL;;
 d4xDownloadQueue *dnd_trash_target_queue=(d4xDownloadQueue *)NULL;
 static GdkPixbuf *dnd_trash_pixbuf1=(GdkPixbuf *)NULL,*dnd_trash_pixbuf2=(GdkPixbuf *)NULL;
 static GdkBitmap *dnd_trash_mask1=(GdkBitmap*)NULL,*dnd_trash_mask2=(GdkBitmap*)NULL;
@@ -182,7 +183,6 @@ void dnd_trash_switch_to_menu(){
 	gtk_widget_ref(dnd_trash_fixed);
 	gtk_container_remove(GTK_CONTAINER(dnd_trash_window),dnd_trash_fixed);
 	dnd_trash_overmenu=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(dnd_trash_overmenu),0);
 	gtk_container_add(GTK_CONTAINER(dnd_trash_window),dnd_trash_overmenu);
 	gtk_container_set_border_width(GTK_CONTAINER(dnd_trash_window),2);
 	gtk_widget_show(dnd_trash_overmenu);
@@ -191,19 +191,21 @@ void dnd_trash_switch_to_menu(){
 
 void dnd_trash_switch_to_icon(){
 	gint width,height;
-	gtk_image_set_from_pixbuf(GTK_IMAGE(dnd_trash_gtk_pixmap),
-				  dnd_trash_pixbuf1);
-	width=gdk_pixbuf_get_width(dnd_trash_pixbuf1);
-	height=gdk_pixbuf_get_width(dnd_trash_pixbuf1);
-	gtk_widget_shape_combine_mask(dnd_trash_window, dnd_trash_mask1, 0, 0 );
 	gtk_widget_destroy(dnd_trash_overmenu);
 	gtk_container_add(GTK_CONTAINER(dnd_trash_window), dnd_trash_fixed);
 	gtk_container_set_border_width(GTK_CONTAINER(dnd_trash_window),0);
-	gtk_window_resize(GTK_WINDOW(dnd_trash_window),width,height);
+	if (CFG.GRAPH_ON_BASKET==0){
+		gtk_image_set_from_pixbuf(GTK_IMAGE(dnd_trash_gtk_pixmap),
+					  dnd_trash_pixbuf1);
+		width=gdk_pixbuf_get_width(dnd_trash_pixbuf1);
+		height=gdk_pixbuf_get_width(dnd_trash_pixbuf1);
+		gtk_widget_shape_combine_mask(dnd_trash_window, dnd_trash_mask1, 0, 0 );
+		gtk_window_resize(GTK_WINDOW(dnd_trash_window),width,height);
+	};
 	gtk_widget_unref(dnd_trash_fixed);
 };
 
-static void d4x_menuitem_foreach(GtkWidget *widget,gpointer data){
+static void d4x_menuitem_foreach1(GtkWidget *widget,gpointer data){
 	if (GTK_IS_MENU_ITEM (widget)){
 		GtkWidget **w=(GtkWidget **)data;
 		gint x,y;
@@ -215,7 +217,7 @@ static void d4x_menuitem_foreach(GtkWidget *widget,gpointer data){
 
 static GtkWidget *d4x_dnd_get_item(GtkWidget *dnd_trash_overmenu){
 	GtkWidget *rval=NULL;
-	gtk_container_foreach(GTK_CONTAINER (dnd_trash_overmenu),d4x_menuitem_foreach,&rval);
+	gtk_container_foreach(GTK_CONTAINER (dnd_trash_overmenu),d4x_menuitem_foreach1,&rval);
 	return(rval);
 };
 
@@ -489,14 +491,26 @@ void dnd_trash_init(){
 
 
 	/* Now for the pixmap and the pixmap widget */
-	dnd_trash_gtk_pixmap = pixmap = gtk_image_new_from_pixbuf(dnd_trash_pixbuf1);
 //		gtk_widget_show( pixmap );
 	/* To display the pixmap, we use a fixed widget to place the pixmap */
 	dnd_trash_fixed = gtk_fixed_new();
 //	gtk_widget_set_usize( dnd_trash_fixed, width, height );
 //	gtk_event_box_new();
 
-	gtk_fixed_put( GTK_FIXED(dnd_trash_fixed), pixmap, 0, 0 );
+	if (dnd_basket_graph==NULL){
+		dnd_basket_graph=my_gtk_graph_new();
+		D4X_DND_GRAPH=(MyGtkGraph *)dnd_basket_graph;
+		D4X_DND_GRAPH->GlobalM=GraphMeter;
+		D4X_DND_GRAPH->LocalM=GraphLMeter;
+		gtk_widget_ref(dnd_basket_graph);
+		gtk_widget_set_size_request(dnd_basket_graph,50,50);
+	};
+	if (CFG.GRAPH_ON_BASKET)
+		gtk_fixed_put( GTK_FIXED(dnd_trash_fixed), dnd_basket_graph, 0, 0);
+	else{
+		dnd_trash_gtk_pixmap = pixmap = gtk_image_new_from_pixbuf(dnd_trash_pixbuf1);
+		gtk_fixed_put( GTK_FIXED(dnd_trash_fixed), pixmap, 0, 0 );
+	};
 
 	gtk_container_add( GTK_CONTAINER(dnd_trash_window), dnd_trash_fixed );
 	gtk_widget_show_all( dnd_trash_fixed );
@@ -540,11 +554,10 @@ void dnd_trash_init(){
 			     (const gchar *)NULL);
 	gtk_tooltips_enable(dnd_trash_tooltips);
 	/* This mask cut out everything except the image */
-	if (dnd_trash_mask1)
+	if (dnd_trash_mask1 && CFG.GRAPH_ON_BASKET==0)
 		gtk_widget_shape_combine_mask( dnd_trash_window, dnd_trash_mask1,0,0);
 	/* show the window */
 	gtk_widget_show( dnd_trash_window );
-//	gdk_window_set_icon(dnd_trash_window->window,(GdkWindow *)NULL,dnd_trash_pixmap1,dnd_trash_mask1);
 	gdk_window_resize(dnd_trash_window->window,width,height);
 	set_dndtrash_button();
 	wm_skip_window(dnd_trash_window);
@@ -575,7 +588,7 @@ void dnd_trash_menu_calback(gpointer *data, guint action, GtkWidget *widget){
 };
 
 static void dnd_trash_delete_completed(){
-	aa.del_completed();
+	_aa_.del_completed();
 };
 
 void dnd_trash_set_del_completed(gint how){
@@ -617,6 +630,7 @@ void dnd_trash_init_menu() {
 };
 
 static gint dnd_trash_animation_end(gpointer unused){
+	if (CFG.GRAPH_ON_BASKET) return 0;
 	gint width,height;
 	gtk_image_set_from_pixbuf(GTK_IMAGE(dnd_trash_gtk_pixmap),
 				  dnd_trash_pixbuf1);
@@ -635,7 +649,7 @@ static gint dnd_trash_animation_end(gpointer unused){
 };
 
 void dnd_trash_animation(){
-	if (dnd_trash_window){
+	if (CFG.GRAPH_ON_BASKET==0 && dnd_trash_window){
 		gint width,height;
 		gtk_image_set_from_pixbuf(GTK_IMAGE(dnd_trash_gtk_pixmap),
 					  dnd_trash_pixbuf2);

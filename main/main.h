@@ -51,9 +51,11 @@ class tMain{
 	void main_circle_second(tDownload *dwn);
 	void init_qtree(tQueue *list,d4xDownloadQueue *papa=(d4xDownloadQueue *)NULL);
 	void stop_all(tQueue *q);
+	void stop_all_offline(tQueue *q);
 	int try_to_switch_split(tDownload *dwn,tDownload *gp);
 	int try_to_switch(tDownload *dwn);
 	void prepare_for_stoping_pre(tDownload *what);
+	void sizequery_run_first(d4xDownloadQueue *q);
  public:
     	int init();
     	void init_main_log();
@@ -73,6 +75,7 @@ class tMain{
 	void schedule_download(tDownload *what);
 	/* manipulation by url */
 	tDownload *find_url(tAddr *adr);
+	void move_to_sizequery(tDownload *what);
 	void stop_download_url(tAddr *adr);
 	void delete_download_url(tAddr *adr);
         void continue_download_url(tAddr *adr);
@@ -84,6 +87,7 @@ class tMain{
 	tDownload *add_downloading(tDownload *what,int to_top=0);
 	tDownload *add_downloading_to(tDownload *what,int to_top=0);
 	void ftp_search(tDownload *what,int type=0);
+	void ftp_search_name(char *name);
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	int set_auto_run(int a);
@@ -100,6 +104,7 @@ class tMain{
 	void ftp_search_remove(tDownload *what);
 	void ftp_search_reping(tDownload *what);
 	void quit();
+	void switch_offline_mode();
 };
 
 typedef void (*d4xQTreeFunc) (d4xDownloadQueue *dq,void *p);
@@ -114,9 +119,13 @@ int d4x_only_one_queue();
 extern tMLog *MainLog;
 extern tMeter *GlobalMeter;
 extern tMeter *LocalMeter;
+extern tMeter *GraphMeter;
+extern tMeter *GraphLMeter;
 
 extern d4xDownloadQueue *D4X_QUEUE;
 extern tQueue D4X_QTREE;
+
+extern tMain _aa_;
 
 //************************************************/
 #endif

@@ -58,6 +58,8 @@ d4xDownloadQueue *D4X_QUEUE=NULL;
 tQueue D4X_QTREE;
 tMeter *GlobalMeter=NULL;
 tMeter *LocalMeter=NULL;
+tMeter *GraphMeter=NULL;
+tMeter *GraphLMeter=NULL;
 tMsgQueue *LogsMsgQueue;
 
 int calc_curent_run(char *host,int port) {
@@ -100,6 +102,10 @@ int tMain::init() {
 	GlobalMeter->init(METER_LENGTH);
 	LocalMeter=new tMeter;
 	LocalMeter->init(METER_LENGTH);
+	GraphMeter=new tMeter;
+	GraphMeter->init(GRAPH_METER_LENGTH);
+	GraphLMeter=new tMeter;
+	GraphLMeter->init(GRAPH_METER_LENGTH);
 	
 	FILTERS_DB=new d4xFiltersTree;
 	FILTERS_DB->load_from_ntrc();
@@ -171,8 +177,9 @@ void tMain::init_qtree(tQueue *list,d4xDownloadQueue *papa){
 			if (q->IamDefault)
 				D4X_QVT->switch_remote(q);
 		}else{
-			if (q->IamDefault)
+			if (q->IamDefault){
 				D4X_QUEUE=q;
+			};
 		};
 		init_qtree(&(q->child),q);
 		try_to_run_run(q);
@@ -218,13 +225,25 @@ void tMain::redraw_logs() {
 		limit--;
 		tLogMsg *Msg=(tLogMsg*)MsgQueue->first();
 		if (Msg) {
-			if (Msg->what){
-				if (Msg->which->freezed_flag==0){
-					tmplist=log_window_freeze(tmplist,Msg->which);
+			if (Msg->type&MQT_MY){
+				if (Msg->what){
+					if (Msg->which->freezed_flag==0){
+						tmplist=log_window_freeze(tmplist,Msg->which);
+					};
+					log_window_add_string(Msg->which,Msg->what);
+				}else{
+					del_first_from_log(Msg->which);
 				};
-				log_window_add_string(Msg->which,Msg->what);
-			}else
-				del_first_from_log(Msg->which);
+			};
+			if (Msg->type&MQT_COM){
+				if (Msg->what){
+					if (Msg->which==D4X_LOG_DISPLAY.log)
+						d4x_main_log_add_string(Msg->what);
+				}else{
+					if (Msg->which==D4X_LOG_DISPLAY.log)
+						d4x_main_log_del_string();
+				};
+			};
 			Msg->which->unlock();
 			Msg->which->ref_dec();
 			MsgQueue->del(Msg);
@@ -396,6 +415,10 @@ void tMain::stop_download(tDownload *what) {
 		return;
 	};
 	d4xDownloadQueue *papa=what->myowner->PAPA;
+	if (papa->is_first(DL_SIZEQUERY,what)){
+		stop_thread(what);
+		return;
+	};
 	if (owner==DL_RUN) {
 		papa->del(what);
 		MainLog->myprintf(LOG_WARNING,_("Downloading of file %s from %s was terminated [by user]"),
@@ -405,13 +428,13 @@ void tMain::stop_download(tDownload *what) {
 		if (what->split)
 			stop_split(what);
 		papa->add(what,DL_STOPWAIT);
-		what->Status.clear();
+		what->ActStatus.clear();
 	} else {
-		if (owner==DL_WAIT || owner==DL_LIMIT) {
+		if (owner==DL_WAIT || owner==DL_LIMIT || owner==DL_SIZEQUERY) {
 			FaceForPasswords->stop_matched(what);
 			papa->del(what);
 			papa->add(what,DL_PAUSE);
-			what->Status.clear();
+			what->ActStatus.clear();
 			try_to_run_wait(papa);
 		};
 	};
@@ -429,6 +452,8 @@ int tMain::delete_download(tDownload *what,int flag) {
 			what->action=ACTION_DELETE;
 		return 0;
 	};
+	if (CFG.WITHOUT_FACE==0 && D4X_LOG_DISPLAY.papa==what)
+		D4X_LOG_DISPLAY.papa=NULL;
 	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info->file.get());
 	if (flag)
 		what->remove_tmp_files();
@@ -507,8 +532,11 @@ void tMain::insert_into_wait_list(tDownload *what,
 };
 
 void tMain::continue_download(tDownload *what) {
+	if (CFG.OFFLINE_MODE) return;
 	if (!what) return;
 	switch (what->owner()) {
+	case DL_SIZEQUERY:
+		break;
 	case DL_STOPWAIT:
 		if (what->action!=ACTION_DELETE &&
 		    what->action!=ACTION_REAL_DELETE)
@@ -596,16 +624,16 @@ void tMain::print_info(tDownload *what) {
 	char data[MAX_LEN];
 	int downloading_started=0;
 	if (what->who) {
-		what->Status.set(what->who->get_status());
-		if (what->Status.curent==D_DOWNLOAD ||
+		what->ActStatus.set(what->who->get_status());
+		if (what->ActStatus.curent==D_DOWNLOAD ||
 		    what->status==DOWNLOAD_COMPLETE ||
 		    what->status==DOWNLOAD_FATAL){
 			downloading_started=1;
 			if (!what->who->reget())
-				what->Status.set(D_DOWNLOAD_BAD);
+				what->ActStatus.set(D_DOWNLOAD_BAD);
 		};
-		if (what->Status.change()) {
-			what->Status.reset();
+		if (what->ActStatus.change()) {
+			what->ActStatus.reset();
 //			DQV(what).set_run_icon(what);
 		};
 	};
@@ -916,6 +944,9 @@ void tMain::main_circle_first(tDownload *dwn){
 			papa->del(grandpapa);
 			papa->add(grandpapa,DL_STOP);
 			break;
+		case ACTION_SIZEQUERY:
+			move_to_sizequery(dwn);
+			break;
 		};
 	};
 };
@@ -1041,8 +1072,13 @@ void tMain::main_circle_second(tDownload *dwn){
 		break;
 	};
 	};
+	int paparun=papa->count(DL_RUN);
+	if (paparun==0){
+		papa->speed.reset();
+		D4X_QVT->update_speed(papa);
+	};
 	if (completed){
-		if (papa->count(DL_RUN)==0 &&
+		if (paparun==0 &&
 		    papa->count(DL_WAIT)==0)
 			SOUND_SERVER->add_event(SND_QUEUE_FINISH);
 		else
@@ -1066,6 +1102,8 @@ void tMain::main_circle_nano1(){
 			if (dwn->myowner->PAPA==D4X_QUEUE){
 				print_info(dwn);
 			};
+			if (dwn->myowner && dwn->myowner->PAPA)
+				D4X_QVT->update_speed(dwn->myowner->PAPA);
 		};
 		D4X_UPDATE.del();
 		i--;
@@ -1074,6 +1112,7 @@ void tMain::main_circle_nano1(){
 };
 
 void tMain::main_circle_nano2(){
+	if (CFG.OFFLINE_MODE) return;
 	D4X_UPDATE.lock_s();
 	D4X_UPDATE.lock();
 	int i=0;
@@ -1104,6 +1143,22 @@ void tMain::main_circle_nano2(){
 		case DL_STOPWAIT:
 			main_circle_first(dwn);
 			break;
+		case DL_SIZEQUERY:{
+			real_stop_thread(dwn);
+			prepare_for_stoping(dwn);
+			d4xDownloadQueue *papa=dwn->myowner->PAPA;
+			print_info(dwn);
+			papa->del(dwn);
+			if (dwn->action==DL_WAIT || dwn->action==DL_SIZEQUERY){
+				dwn->sizequery=0;
+				insert_into_wait_list(dwn,papa);
+			}else{
+				papa->add(dwn,dwn->action);
+			};
+			sizequery_run_first(papa);
+			if (dwn->editor) dwn->editor->enable_ok_button();
+			break;
+		};
 		default:
 			break;
 		};
@@ -1307,6 +1362,26 @@ void tMain::ftp_search(tDownload *what,int type){
 	};
 };
 
+void tMain::ftp_search_name(char *name){
+	if (name){
+		tDownload *tmp=new tDownload;
+		tmp->info=new tAddr;
+		tmp->config=new tCfg;
+		tmp->fsearch=0;
+		tmp->set_default_cfg();
+		tmp->info->host.set("");
+		tmp->info->path.set("");
+		tmp->info->file.set(name);
+		tmp->finfo.size=-1;
+		tmp->info->proto=D_PROTO_SEARCH;
+		if (tmp->split){
+			delete(tmp->split);
+			tmp->split=NULL;
+		};
+		ftpsearch->add(tmp);
+	};
+};
+
 void tMain::ftp_search_reping(tDownload *what){
 	if (ftpsearch)
 		ftpsearch->reping(what);
@@ -1332,6 +1407,38 @@ void tMain::schedule_download(tDownload *what){
 		what->split=NULL;
 	};
 	MainScheduler->add_scheduled(what);
+};
+
+void tMain::sizequery_run_first(d4xDownloadQueue *q){
+	tDownload *torun=q->first(DL_SIZEQUERY);
+	if (torun){
+		if (torun->config==NULL){
+			torun->config=new tCfg;
+			torun->set_default_cfg();
+		};
+		if (torun->split)
+			torun->split->grandparent=torun;
+		run_new_thread(torun);
+	};
+};
+
+void tMain::move_to_sizequery(tDownload *what){
+	if (CFG.OFFLINE_MODE) return;
+	if (what==NULL) return;
+	if (what->owner()==DL_STOPWAIT){
+		what->action=ACTION_SIZEQUERY;
+		return;
+	};
+	int owner=what->owner();
+	if (owner!=DL_SIZEQUERY && owner!=DL_RUN){
+		d4xDownloadQueue *papa=what->myowner->PAPA;
+		what->action=owner;
+		papa->del(what);
+		papa->add(what,DL_SIZEQUERY);
+		what->sizequery=1;
+		if (papa->count(DL_SIZEQUERY)==1)
+			sizequery_run_first(papa);
+	};
 };
 
 tDownload *tMain::add_downloading(tDownload *what,int to_top) {
@@ -1466,6 +1573,7 @@ void tMain::speed() {
 		int Speed=((bytes*1000)/TimeLeft);
 		LastReadedBytes=readed_bytes;
 		GlobalMeter->add(Speed);
+		GraphMeter->add(Speed);
 		LastTime=curent_time;
 	};
 	int SPEED_LIMIT=0;
@@ -1524,6 +1632,7 @@ void tMain::run(int argv,char **argc) {
 	MainLog->add(_("Normally started"),LOG_WARNING);
 	check_for_remote_commands();
 	GlobalMeter->set_mode(CFG.GRAPH_MODE);
+	GraphMeter->set_mode(CFG.GRAPH_MODE);
 	MainScheduler->clear_old();
 	if (CFG.WITHOUT_FACE==0){
 		SOUND_SERVER->add_event(SND_STARTUP);
@@ -1607,6 +1716,35 @@ void tMain::stop_all(tQueue *q){
 	};
 };
 
+void tMain::stop_all_offline(tQueue *q){
+	d4xDownloadQueue *dq=(d4xDownloadQueue *)q->first();
+	while(dq){
+		stop_all_offline(&(dq->child));
+		tDownload *d=dq->first(DL_RUN);
+		while (d){
+			stop_download(d);
+			d->action=ACTION_CONTINUE;
+			d=dq->first(DL_RUN);
+		}
+		d=dq->first(DL_SIZEQUERY);
+		if (d)
+			stop_download(d);
+		dq=(d4xDownloadQueue *)(dq->prev);
+	};
+};
+
+void tMain::switch_offline_mode(){
+	if (CFG.OFFLINE_MODE==0){
+		stop_all_offline(&D4X_QTREE);
+		ftpsearch->stop_all_offline();
+		CFG.OFFLINE_MODE=1;
+		MainLog->add(_("Downloader is in offline mode now"),LOG_WARNING|LOG_DETAILED);
+	}else{
+		CFG.OFFLINE_MODE=0;
+		MainLog->add(_("Offline mode is turned off"),LOG_WARNING|LOG_DETAILED);
+	};
+};
+
 void tMain::done() {
 	/* There are  we MUST stop all threads!!!
 	 */
@@ -1627,6 +1765,8 @@ void tMain::done() {
 	MainScheduler->save();
 	delete(MainScheduler);
 	delete(GlobalMeter);
+	delete(GraphMeter);
+	delete(GraphLMeter);
 	delete(LocalMeter);
 	delete(ALL_DOWNLOADS); // delete or not delete that is the question :-)
 	COOKIES->save_cookies();

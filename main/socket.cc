@@ -286,10 +286,16 @@ int tSocket::rec_string(char * where,fsize_t len,int timeout) {
 		GVARS.MUTEX.unlock();
 		if (download!=NULL && *download!=NULL){
 			tDownload *dwn=*download;
-			if (dwn->split && dwn->split->grandparent)
+			if (dwn->split && dwn->split->grandparent){
 				dwn->split->grandparent->SpeedCalc.inc(temp);
-			else
+				tDownload *par=dwn->split->grandparent;
+				if (par->myowner && par->myowner->PAPA)
+					par->myowner->PAPA->speed.inc(temp);
+			}else{
 				dwn->SpeedCalc.inc(temp);
+				if (dwn->myowner && dwn->myowner->PAPA)
+					dwn->myowner->PAPA->speed.inc(temp);
+			};
 			if (CFG.SPEED_LIMIT!=3 || dwn->SpeedLimit->base>0)
 				dwn->SpeedLimit->decrement(temp);
 			D4X_UPDATE.add(dwn);

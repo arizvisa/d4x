@@ -122,6 +122,7 @@ char *d4xContentDisposition::get_value(char *s){
 	if (sqs==NULL) sqs=tmp+strlen(tmp)-1;
 	else sqs-=1;
 	int len=sqs-tmp;
+	if (len<=0) return(NULL);
 	char *rval=copy_string2(tmp,len);
 	for (int i=len-1;i>=0;i++){
 		if (isspace(rval[i])) rval[i]=0;
@@ -404,6 +405,35 @@ char *tHttpDownload::make_name(){
 	delete[] parsed_path;
 	delete[] parsed_name;
 	return rvalue;
+};
+
+fsize_t tHttpDownload::get_size_only() {
+	if (!answer) {
+		answer=new tStringList;
+		answer->init(0);
+	};
+	while (1) {
+		answer->done();
+		HTTP->set_offset(0);
+		LOG->log(LOG_OK,_("Sending HTTP request..."));
+		int temp=HTTP->get_size_only(REQUESTED_URL,answer);
+		switch (temp){
+		case 0:{ // all ok
+			LOG->log(LOG_OK,_("Answer read ok"));
+			D_FILE.size=analize_answer();
+			return D_FILE.size;
+		};
+		case -2: // bad error code
+			print_error(ERROR_BAD_ANSWER);
+			return -2;
+		case -1: // timeout
+			break;
+		case 1: // redirection
+			return -1;
+		};
+		if (reconnect()) break;
+	};
+	return -2;
 };
 
 fsize_t tHttpDownload::get_size() {

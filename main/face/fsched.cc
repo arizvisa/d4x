@@ -16,6 +16,7 @@
 #include "misc.h"
 #include "mywidget.h"
 #include "edit.h"
+#include "list.h"
 
 GtkWidget *d4x_scheduler_window=(GtkWidget *)NULL;
 GtkTreeView *d4x_scheduler_view=(GtkTreeView *)NULL;
@@ -121,13 +122,6 @@ static gint compare_nodes2(gconstpointer a,gconstpointer b){
     return 1;
 };
 
-static void _foreach_remove_prepare_(GtkTreeModel *model,GtkTreePath *path,
-				     GtkTreeIter *iter,gpointer p){
-	tQueue *q=(tQueue*)p;
-	tmpIterNode *i=new tmpIterNode(iter);
-	q->insert(i);
-};
-
 void d4x_scheduler_remove_selected(){
 	if (d4x_scheduler_window==NULL) return;
 	GtkTreeSelection *s=gtk_tree_view_get_selection(d4x_scheduler_view);
@@ -159,7 +153,7 @@ void d4x_scheduler_init_editor(){
 
 	gtk_widget_show_all(tmp);
 	gtk_window_set_modal (GTK_WINDOW(tmp),TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (tmp), GTK_WINDOW (d4x_scheduler_window));
+	gtk_window_set_transient_for (GTK_WINDOW (tmp), GTK_WINDOW (MainWindow));
 };
 
 static GtkTreeIter *_sel_iter_=(GtkTreeIter *)NULL;
@@ -186,7 +180,7 @@ void d4x_scheduler_edit(){
 			GtkWidget *tmp=my_gtk_aeditor_new(act);
 			gtk_widget_show_all(tmp);
 			gtk_window_set_modal (GTK_WINDOW(tmp),TRUE);
-			gtk_window_set_transient_for (GTK_WINDOW (tmp), GTK_WINDOW (d4x_scheduler_window));
+			gtk_window_set_transient_for (GTK_WINDOW (tmp), GTK_WINDOW (MainWindow));
 		};
 		gtk_tree_iter_free(_sel_iter_);
 	};
@@ -202,19 +196,10 @@ gint d4x_scheduler_select(GtkWidget *widget, gint row, gint column,
 	return(TRUE);
 };
 
-void d4x_scheduler_init(){
+GtkWidget *d4x_scheduler_init(){
 	if (d4x_scheduler_window) {
-		gdk_window_show(d4x_scheduler_window->window);
-		return;
+		return(d4x_scheduler_window);
 	};
-	d4x_scheduler_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW (d4x_scheduler_window),
-			     _("Scheduler"));
-	gtk_window_set_wmclass(GTK_WINDOW(d4x_scheduler_window),
-			       "D4X_Scheduler","D4X");
-	gtk_window_set_position(GTK_WINDOW(d4x_scheduler_window),GTK_WIN_POS_CENTER);
-	gtk_widget_set_size_request(d4x_scheduler_window,-1,400);
-	gtk_container_set_border_width(GTK_CONTAINER(d4x_scheduler_window),5);
 	gchar *titles[]={_("Time"),_("Action"),_("Info")};
 	GtkListStore *list_store = gtk_list_store_new(4,
 						      G_TYPE_STRING,
@@ -244,40 +229,36 @@ void d4x_scheduler_init(){
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(d4x_scheduler_view));
-	GtkWidget *button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *add_button=gtk_button_new_with_label(_("New"));
-	GtkWidget *edit_button=gtk_button_new_with_label(_("Edit"));
-	GtkWidget *del_button=gtk_button_new_with_label(_("Remove"));
-	GTK_WIDGET_SET_FLAGS(button,GTK_CAN_DEFAULT);
+	GtkWidget *add_button=gtk_button_new_from_stock(GTK_STOCK_ADD);
+	GtkWidget *edit_button=gtk_button_new_from_stock(GTK_STOCK_PROPERTIES);
+	GtkWidget *del_button=gtk_button_new_from_stock(GTK_STOCK_REMOVE);
 	GTK_WIDGET_SET_FLAGS(edit_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(add_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(del_button,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=d4x_scheduler_window=gtk_vbox_new(FALSE,5);
+	GtkWidget *label=gtk_label_new(_("Scheduler"));
+
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox),GTK_BUTTONBOX_START);
 	gtk_box_set_spacing(GTK_BOX(hbox),3);
+	gtk_box_pack_start(GTK_BOX(vbox),my_gtk_set_header_style(label),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),add_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),del_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),edit_button,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),button,FALSE,FALSE,0);
-	gtk_container_add(GTK_CONTAINER(d4x_scheduler_window),vbox);
-	gtk_window_set_default(GTK_WINDOW(d4x_scheduler_window),button);
 	MainScheduler->redraw();
-	gtk_widget_show_all(d4x_scheduler_window);
 
-	g_signal_connect(G_OBJECT(d4x_scheduler_window),"delete_event",G_CALLBACK(d4x_scheduler_close), NULL);
 	g_signal_connect(G_OBJECT(add_button),"clicked",G_CALLBACK(d4x_scheduler_init_editor),NULL);
 	g_signal_connect(G_OBJECT(del_button),"clicked",G_CALLBACK(d4x_scheduler_remove_selected),NULL);
 	g_signal_connect(G_OBJECT(edit_button),"clicked",G_CALLBACK(d4x_scheduler_edit),NULL);
-	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(d4x_scheduler_close),NULL);
-	d4x_eschandler_init(d4x_scheduler_window,NULL);
+	gtk_widget_ref(d4x_scheduler_window);
+	return(d4x_scheduler_window);
 };
 
 /*********************************************************************/
 
-static GtkWidgetClass *parent_class = (GtkWidgetClass *)NULL;
+static GtkWidgetClass *parent_class2 = (GtkWidgetClass *)NULL;
 
 static void my_gtk_aeditor_edit_ok(GtkWidget *widget,MyGtkAEditor *editor){
 	tDownload *what=editor->dwn;
@@ -377,8 +358,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 		};
 		switch(i){
 		case SACT_SET_SPEED:{
-			GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-			gtk_box_set_spacing(GTK_BOX(hbox),5);
+			GtkWidget *hbox=gtk_hbox_new(FALSE,5);
 			editor->frame_child=hbox;
 			
 			editor->sb_low=gtk_radio_button_new_with_label((GSList *)NULL,
@@ -409,8 +389,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 		case SACT_DEL_IF_COMPLETED:
 		case SACT_DELETE_DOWNLOAD:{
 			editor->url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);//gtk_entry_new();
-			GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-			gtk_box_set_spacing(GTK_BOX(hbox),5);
+			GtkWidget *hbox=gtk_hbox_new(FALSE,5);
 			editor->frame_child=hbox;
 			gtk_box_pack_start(GTK_BOX(hbox),
 					   gtk_label_new("URL:"),
@@ -430,8 +409,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 		};
 		case SACT_ADD_DOWNLOAD:{
 			editor->url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);//gtk_entry_new();
-			GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-			gtk_box_set_spacing(GTK_BOX(hbox),5);
+			GtkWidget *hbox=gtk_hbox_new(FALSE,5);
 			editor->frame_child=hbox;
 			gtk_box_pack_start(GTK_BOX(hbox),
 					   gtk_label_new("URL:"),
@@ -452,7 +430,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 				text_to_combo(editor->url_entry,"");
 			}else
 				text_to_combo(editor->url_entry,"");
-			GtkWidget *button=gtk_button_new_with_label(_("Edit"));
+			GtkWidget *button=gtk_button_new_from_stock(GTK_STOCK_PROPERTIES);
 			g_signal_connect(G_OBJECT(button),"clicked",
 					 G_CALLBACK(my_gtk_aeditor_edit_download),
 					 editor);
@@ -463,8 +441,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 		};
 		case SACT_EXECUTE:{
 			editor->path_entry=gtk_entry_new();
-			GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-			gtk_box_set_spacing(GTK_BOX(hbox),5);
+			GtkWidget *hbox=gtk_hbox_new(FALSE,5);
 			editor->frame_child=hbox;
 			gtk_box_pack_start(GTK_BOX(hbox),
 					   gtk_label_new(_("Command:")),
@@ -486,8 +463,7 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 		};
 		case SACT_SAVE_LIST:{
 			editor->path_entry=my_gtk_combo_new(ALL_HISTORIES[LOAD_SAVE_HISTORY]);//gtk_entry_new();
-			GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-			gtk_box_set_spacing(GTK_BOX(hbox),5);
+			GtkWidget *hbox=gtk_hbox_new(FALSE,5);
 			editor->frame_child=hbox;
 			gtk_box_pack_start(GTK_BOX(hbox),
 					   gtk_label_new(_("Path:")),
@@ -569,15 +545,15 @@ static void my_gtk_aeditor_destroy(GtkObject *widget){
 	MyGtkAEditor *editor=MY_GTK_AEDITOR(widget);
 	if (editor->dwn) delete(editor->dwn);
 	if (editor->action) editor->action->lock=0;
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (widget);
+	if (GTK_OBJECT_CLASS (parent_class2)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class2)->destroy) (widget);
 };
 
 static void my_gtk_aeditor_class_init(MyGtkAEditorClass *klass){
 	GtkObjectClass *object_class=(GtkObjectClass *)klass;
 	
 	object_class->destroy=my_gtk_aeditor_destroy;
-	parent_class=(GtkWidgetClass *)gtk_type_class(gtk_window_get_type());
+	parent_class2=(GtkWidgetClass *)gtk_type_class(gtk_window_get_type());
 };
 
 static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
@@ -731,15 +707,13 @@ static void my_gtk_aeditor_init(MyGtkAEditor *editor){
 	editor->dwn=(tDownload *)NULL;
 	editor->action=(d4xSchedAction *)NULL;
 	editor->frame_child=(GtkWidget *)NULL;
-	editor->hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(editor->hbox),5);
+	editor->hbox=gtk_hbox_new(FALSE,5);
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	editor->omenu = my_option_menu (action_names,
 					sizeof(action_names)/sizeof(char*),
 					0, editor);
 
-	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),1);
+	GtkWidget *hbox=gtk_hbox_new(FALSE,1);
 
 	GtkWidget *label=gtk_label_new(_("Start time(hour:min:sec)"));
 	editor->hour=my_gtk_entry_new_with_max_length(2,0);
@@ -755,8 +729,7 @@ static void my_gtk_aeditor_init(MyGtkAEditor *editor){
 	gtk_box_pack_start(GTK_BOX(hbox),editor->sec,FALSE,FALSE,0);
 
 
-	GtkWidget *tmpvbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(tmpvbox),5);
+	GtkWidget *tmpvbox=gtk_vbox_new(FALSE,5);
 
 	editor->calendar=gtk_calendar_new();
 	gtk_calendar_display_options(GTK_CALENDAR(editor->calendar),
@@ -768,15 +741,13 @@ static void my_gtk_aeditor_init(MyGtkAEditor *editor){
 	gtk_box_pack_start(GTK_BOX(tmpvbox),editor->calendar,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(editor->hbox),tmpvbox,FALSE,FALSE,0);
 
-	tmpvbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(tmpvbox),5);
+	tmpvbox=gtk_vbox_new(FALSE,5);
 	editor->retry=gtk_check_button_new_with_label(_("Retry this action"));
 	g_signal_connect(G_OBJECT(editor->retry),"clicked",
 			 G_CALLBACK(my_gtk_aeditor_retry_cb),editor);
 	gtk_box_pack_start (GTK_BOX (tmpvbox),editor->retry,FALSE, FALSE, 0);
 
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	hbox=gtk_hbox_new(FALSE,5);
 	editor->retry_times=my_gtk_entry_new_with_max_length(2,1);
 	gtk_box_pack_start (GTK_BOX (hbox),editor->retry_times,FALSE, FALSE, 0);
 	label=gtk_label_new(_("times to repeat (-1 unlimited)"));
@@ -784,8 +755,7 @@ static void my_gtk_aeditor_init(MyGtkAEditor *editor){
 	gtk_box_pack_start (GTK_BOX (tmpvbox),hbox,FALSE, FALSE, 0);
 
 	label=gtk_label_new(_("period (day/hour:min)"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),1);
+	hbox=gtk_hbox_new(FALSE,1);
 	editor->period_hours=my_gtk_entry_new_with_max_length(2,0);
 	editor->period_mins=my_gtk_entry_new_with_max_length(2,0);
 	editor->period_days=my_gtk_entry_new_with_max_length(2,0);
@@ -814,8 +784,8 @@ static void my_gtk_aeditor_init(MyGtkAEditor *editor){
 	
 	hbox=gtk_hbutton_box_new();
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GtkWidget *ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	GtkWidget *cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	gtk_box_pack_end(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
 	g_signal_connect(G_OBJECT(ok_button),"clicked",

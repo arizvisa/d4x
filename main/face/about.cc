@@ -177,7 +177,7 @@ void init_about_window(...) {
 		gtk_box_pack_start(GTK_BOX(box1),AboutSLabel,FALSE,FALSE,0);
 	};
 
-	GtkWidget *Button=gtk_button_new_with_label(_("Ok"));
+	GtkWidget *Button=gtk_button_new_from_stock(GTK_STOCK_OK);
 	GtkWidget *box2=gtk_hbox_new(FALSE,0);
 	GtkWidget *box3=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label1,FALSE,FALSE,0);
@@ -258,13 +258,12 @@ void tDialogWidget::create(char *ask,char *title){
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_container_set_border_width(GTK_CONTAINER(window),5);
 	label=gtk_label_new(ask);
-	ok_button=gtk_button_new_with_label(_("Ok"));
-	cancel_button=gtk_button_new_with_label(_("Cancel"));
+	ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
-	mainvbox=gtk_vbox_new(FALSE,0);
+	mainvbox=gtk_vbox_new(FALSE,5);
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(mainvbox),5);
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	gtk_box_pack_start(GTK_BOX(mainvbox),label,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(mainvbox),hbox,FALSE,FALSE,0);
@@ -339,10 +338,9 @@ int tStringDialog::init(char *str,char *title,char *frame_title) {
 	gtk_container_set_border_width(GTK_CONTAINER(window),1);
 	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox),GTK_BUTTONBOX_END);
-	ok_button=gtk_button_new_with_label(_("Ok"));
+	ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
 	g_signal_connect(G_OBJECT(ok_button),"clicked",G_CALLBACK(string_dialog_ok_clicked),this);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	entry=gtk_entry_new();

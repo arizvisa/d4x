@@ -23,7 +23,7 @@ const GdkColor RED = {
     0, 0x8000, 0x0000, 0x0000
 };
 const GdkColor LRED = {
-    0, 0xffff, 0xdd00, 0xdd00
+    0, 0xffff, 0x5500, 0x5500
 };
 const GdkColor LCYAN = {
     0, 0xdd00, 0xeeff, 0xffff
@@ -55,6 +55,9 @@ const GdkColor GREY = {
 const GdkColor LIGHTGREY = {
     0, 0xee00, 0xee00, 0xee00
 };
+const GdkColor MIDGREY = {
+    0, 0xaa00, 0xaa00, 0xdaa00
+};
 const GdkColor DARKGREY = {
-    0, 0x6600, 0x6600, 0xd660
+    0, 0x6600, 0x6600, 0xd6600
 };

@@ -88,6 +88,7 @@ enum STATUS_PIXMAPS_ENUM{
 	PIX_RUN_PART8,
 	PIX_COMPLETE,
 	PIX_PAUSE,
+	PIX_SIZE,
 	PIX_UNKNOWN
 };
 
@@ -144,6 +145,7 @@ public:
 	int move_selected_down();
 	void move_selected_home();
 	void move_selected_end();
+	void selected_sizequery();
 	void unselect_all();
 	void select_all();
 	void invert_selection();

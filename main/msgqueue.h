@@ -16,6 +16,11 @@
 #include "log.h"
 #include "mutex.h"
 
+enum MSG_QUEUE_TYPES{
+	MQT_MY=1,
+	MQT_COM=2
+};
+
 struct tLogMsg:public tNode{
 	long type;
 	tLogString *what;
@@ -29,6 +34,7 @@ class tMsgQueue:public tQueue{
 	tMsgQueue();
 	void insert(tNode *what);
     	void insert_before(tNode *what,tNode *where);
+	void remove_this_log(tLog *log);
 	void del(tNode *what);
 	~tMsgQueue();
 };

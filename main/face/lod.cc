@@ -283,13 +283,13 @@ static void gtk_cell_renderer_progress_class_init (GtkCellRendererProgressClass 
 	g_object_class_install_property (object_class, 1,
 					 g_param_spec_float ("percent",
 							     _("Percent"),
-							     _("Percentage to render"),
+							     "Percentage to render",
 							     0,100,0,
 							     G_PARAM_READABLE));
 	g_object_class_install_property (object_class, 2,
 					 g_param_spec_pointer ("download",
 							       _("Download"),
-							       _("Link to tDownload"),
+							       "Link to tDownload",
 							       G_PARAM_READABLE));
 };
 
@@ -374,6 +374,7 @@ void lod_init_pixmaps(){
 #include "pixmaps/stop_wait.xpm"
 #include "pixmaps/paused.xpm"
 #include "pixmaps/complete.xpm"
+#include "pixmaps/size.xpm"
 	char *xml_names[]={
 		"waitpix",
 		"failedpix",
@@ -406,7 +407,8 @@ void lod_init_pixmaps(){
 		"runpartpix7",
 		"runpartpix8",
 		"completepix",
-		"pausedpix"
+		"pausedpix",
+		"sizepix"
 	};
 	char **xpm_table[]={
 		wait_xpm,
@@ -440,7 +442,8 @@ void lod_init_pixmaps(){
 		run_part7_xpm,
 		run_part8_xpm,
 		complete_xpm,
-		paused_xpm
+		paused_xpm,
+		size_xpm
 	};
 	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"queue");
 	for (unsigned int i=0;i<sizeof(xpm_table)/sizeof(char*);i++){
@@ -645,7 +648,7 @@ void d4xQueueView::set_run_icon(tDownload *what){
 	int a=int(what->Percent * 0.09);
 	if (a>9) a=9;
 	if (a<0) a=0;
-	switch (what->Status.curent) {
+	switch (what->ActStatus.curent) {
 	case D_QUERYING:{
 		set_pixmap(what,PIX_RUN_PART+a);
 		break;
@@ -729,11 +732,26 @@ void d4xQueueView::move_download_down(GtkTreeIter *iter){
 	gtk_tree_iter_free(iter_next);
 };
 
+static void _foreach_sizequery_(GtkTreeModel *model,GtkTreePath *path,
+			      GtkTreeIter *iter,gpointer p){
+	d4xQueueView *qv=(d4xQueueView *)p;
+	_aa_.move_to_sizequery(qv->get_download(iter));
+};
+
+void d4xQueueView::selected_sizequery(){
+	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(ListOfDownloads));
+	GtkTreeIter first;
+	gtk_tree_selection_selected_foreach(sel,
+					    _foreach_sizequery_,
+					    this);
+};
+
 static void _foreach_move_up_(GtkTreeModel *model,GtkTreePath *path,
 			      GtkTreeIter *iter,gpointer p){
 	d4xQueueView *qv=(d4xQueueView *)p;
 	qv->move_download_up(iter);
 };
+
 
 int d4xQueueView::move_selected_up(){
 	// move up while first row is not selected
@@ -744,7 +762,7 @@ int d4xQueueView::move_selected_up(){
 		gtk_tree_selection_selected_foreach(sel,
 						    _foreach_move_up_,
 						    this);
-	return 1;
+		return 1;
 	};
 	return 0;
 };
@@ -881,14 +899,13 @@ void d4xQueueView::init_select_window(int type){
 	gtk_window_set_position(GTK_WINDOW(LoDSelectWindow),
 				GTK_WIN_POS_CENTER);
 	gtk_container_set_border_width(GTK_CONTAINER(LoDSelectWindow),5);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	LoDSelectEntry=gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(vbox),LoDSelectEntry,FALSE,FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GtkWidget *ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	GtkWidget *cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
 	gtk_box_pack_start(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
@@ -944,6 +961,17 @@ int list_event_callback(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
 		};
 
 	};
+	if (event->type==GDK_BUTTON_PRESS && bevent->button==1){
+		GtkTreePath *path=NULL;
+		if (gtk_tree_view_get_path_at_pos(view,int(bevent->x),int(bevent->y),&path,NULL,NULL,NULL)){
+			GtkTreeIter iter;
+			GtkTreeModel *model=gtk_tree_view_get_model(view);
+			gtk_tree_model_get_iter(model,&iter,path);
+			tDownload *tmp=qv->get_download(&iter);
+			d4x_main_switch_log(tmp);
+			gtk_tree_path_free(path);
+		};
+	};
 	if (event->type==GDK_2BUTTON_PRESS && bevent->button==1){
 		GtkTreePath *path=NULL;
 		if (gtk_tree_view_get_path_at_pos(view,int(bevent->x),int(bevent->y),&path,NULL,NULL,NULL)){
@@ -956,6 +984,10 @@ int list_event_callback(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
 	if (event->type == GDK_KEY_PRESS) {
 		GdkEventKey *kevent=(GdkEventKey *)event;
 		switch(kevent->keyval) {
+		case GDK_F5:{
+			qv->selected_sizequery();
+			return TRUE;
+		};
 		case GDK_Delete:
 		case GDK_KP_Delete:{
 			ask_delete_download();
@@ -1407,7 +1439,7 @@ void d4xQueueView::init() {
 		default:
 			renderer = gtk_cell_renderer_text_new ();
 			g_object_set (G_OBJECT (renderer),
-				      "foreground-gdk", &RED,
+				      "foreground-gdk", &LRED,
 				      NULL);
 			col=gtk_tree_view_column_new_with_attributes (_(ListTitles[prefs.cols[i].type]),
 								      renderer,
@@ -1609,7 +1641,7 @@ static void _foreach_stop_(GtkTreeModel *model,GtkTreePath *path,
 	gtk_tree_model_get_value(model,iter,NOTHING_COL,&val);
 	tDownload *temp=(tDownload *)g_value_peek_pointer(&val);
 	g_value_unset(&val);
-	aa.stop_download(temp);
+	_aa_.stop_download(temp);
 };
 
 int d4xQueueView::get_row_num(tDownload *dwn){
@@ -1621,10 +1653,10 @@ int d4xQueueView::get_row_num(tDownload *dwn){
 };
 
 void d4xQueueView::stop_downloads(){
-	int olda=aa.set_auto_run(1);
+	int olda=_aa_.set_auto_run(1);
 	GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(ListOfDownloads));
 	gtk_tree_selection_selected_foreach(sel,_foreach_stop_,NULL);
-	aa.set_auto_run(olda);
+	_aa_.set_auto_run(olda);
 };
 
 
@@ -1637,7 +1669,7 @@ void d4xQueueView::delete_downloads(int flag){
 	tNode *t=q.last();
 	while(t){
 		tDownload *temp=get_download(((tmpIterNode*)t)->iter);
-		aa.delete_download(temp,flag);
+		_aa_.delete_download(temp,flag);
 		t=t->next;
 	};
 };
@@ -1650,7 +1682,7 @@ static void _foreach_continue_(GtkTreeModel *model,GtkTreePath *path,
 	g_value_unset(&val);
 	if (GPOINTER_TO_INT(p))
 		temp->restart_from_begin=1;
-	aa.continue_download(temp);
+	_aa_.continue_download(temp);
 };
 
 void d4xQueueView::continue_downloads(int from_begin){

@@ -96,6 +96,7 @@ struct tMainCfg{
 	int DONOTSET_WINPOS;
 	int WINDOW_TREE_WIDTH;
 	int HIDE_MAIN_WINDOW;
+	int GRAPH_ON_BASKET;
 /* Clipboard
  */
 	int CLIPBOARD_MONITOR;
@@ -156,11 +157,13 @@ struct tMainCfg{
 	int COLORIFIED_OUTPUT;
 	int DND_NEED_POPUP;
 	int USE_DEFAULT_CFG;
+	int OFFLINE_MODE;
 /* FTP SEARCH
 */
 	int SEARCH_PING_TIMES;
-	int SEARCH_HOST;
 	int SEARCH_ENTRIES;
+	int SEARCH_PERSERVER;
+	char *SEARCH_ENGINES;
 /* SOUNDS
  */
 	int ENABLE_SOUNDS;
@@ -183,6 +186,7 @@ extern tCookiesTree *COOKIES;
 
 
 extern int METER_LENGTH;
+extern int GRAPH_METER_LENGTH;
 extern tMainCfg CFG;
 
 struct tGlobalVars{

@@ -18,13 +18,18 @@ enum FS_FACE_COLUMNS{
 	FS_COL_ICON,
 	FS_COL_NAME,
 	FS_COL_SIZE,
+	FS_COL_COUNT,
 	FS_COL_LAST
 };
+
+//extern tDownload *FS_CUR_SELECTED;
 
 void fs_list_remove(GtkTreeView *view,tDownload *what);
 void fs_list_add(GtkTreeView *view,tDownload *what);
 void fs_list_set_icon(GtkTreeView *view,tDownload *what,int icon);
+void fs_list_set_count(GtkTreeView *view,tDownload *what);
 GtkTreeView *fs_list_init();
+GtkTreeView *fs_list_init_sublist();
 void fs_list_set_size();
 void fs_list_get_size();
 void fs_list_hide();

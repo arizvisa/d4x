@@ -32,5 +32,19 @@ void tMsgQueue::del(tNode *what){
 	mylock.unlock();
 };
 
+void tMsgQueue::remove_this_log(tLog *log){
+	mylock.lock();
+	tLogMsg *cur=(tLogMsg *)First;
+	while(cur){
+		tLogMsg *next=(tLogMsg *)(cur->prev);
+		if (cur->which==log){
+			tQueue::del(cur);
+			delete(cur);
+		};
+		cur=next;
+	};
+	mylock.unlock();
+};
+
 tMsgQueue::~tMsgQueue(){
 };

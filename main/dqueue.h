@@ -25,6 +25,7 @@ public:
 	int inserted;
 	GtkTreeIter tree_iter;
 	tQueue child;
+	d4xSpeedCalc speed;
 	d4xDownloadQueue *parent;
 	d4xQueueView qv;
 	tPStr save_path;
@@ -40,6 +41,7 @@ public:
 	int current_run(char *host,int port);
 	tDownload *first(int q);
 	tDownload *last(int q);
+	int is_first(int q,tDownload *f);
 	void forward(tDownload *what);
 	void backward(tDownload *what);
 	void insert_before(tDownload *what,tDownload *where);

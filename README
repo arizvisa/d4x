@@ -1,4 +1,7 @@
-      * UPGRADE FROM 2.0x to 2.4 *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* UPGRADE FROM 2.0x to 2.4 *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Begining from version 2.4 Downloader for X uses .ntrc_2 directory in your
 home directory to store its configuration data, queues of downloads etc.
 The main reason to change default directory is switching from GTK1.x to GTK2.
@@ -16,9 +19,27 @@ you have to use another codepage instead of 'koi8-r'
 To make this package you need the following tools/libs:
 
 
-gettext >= 0.11.2
-http://www.gnu.org/software/gettext
-
 GTK+ 2.0.6
 http://www.gtk.org
 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* --enable-extra-optimize notes *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To get even more hardcore optimized code it is recommended to
+specify architecture specific options in $prefix/etc/config.site 
+file by defining CXXFLAGS like this:
+
+CXXFLAGS="-march=athlon-xp -mfpmath=387,sse"
+
+Alternative method to specify config.site location is to use
+CONFIG_SITE environment variable.
+
+Also to set architecture specific options you can define CXXFLAGS
+just before running ./configure script in command line.
+Read gcc manual to get list of supported architecture options.
+
+BTW, it is not neccessary to specify both --enable-release and
+--enable-extra-optimize options... -- read ./configure --help
+once again :)

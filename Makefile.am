@@ -1,18 +1,24 @@
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.38 2002/12/19 13:16:51 zaufi Exp $
+# $Header: /var/cvs/d4x/Makefile.am,v 1.41 2003/04/30 10:45:24 vav Exp $
 #
 
-ACLOCAL_AMFLAGS = -I admin
+ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS         = admin DOC intl main po share
+SUBDIRS         = DOC intl main po share
 
 # Extra files/dirs to be included in distribution
-EXTRA_DIST      = admin/config.rpath  \
-                  admin/mkinstalldirs \
-                  admin/strip.awk     \
-                  po/Makevars         \
-                  ChangeLog-1.x       \
-                  PLANS               \
+EXTRA_DIST      = admin/config.rpath  admin/config.rpath              \
+                  admin/mkinstalldirs             \
+                  admin/strip.awk                 \
+                  admin/Makefile.addons           \
+                  admin/Doxyfile.in               \
+                  m4/am_with_rx.m4                \
+                  m4/d4xao.m4                     \
+                  m4/gcc_check_obsolete_option.m4 \
+                  po/Makevars                     \
+                  ChangeLog-1.x                   \
+                  PLANS                           \
+                  VERSION                         \
                   nt.spec
 
 # RPMs we can build
@@ -49,8 +55,10 @@ MAINTAINERCLEANFILES =                 \
     $(top_srcdir)/admin/install-sh     \
     $(top_srcdir)/admin/Makefile.am    \
     $(top_srcdir)/admin/Makefile.in    \
-    $(top_builddir)/Doxyfile           \
-    $(shell find $(top_srcdir)/admin -name '*.m4' -a -not -name 'acinclude.m4' -o -name 'config.*')
+    $(top_builddir)/admin/Doxyfile     \
+    $(top_srcdir)/m4/*~                \
+    $(top_srcdir)/m4/Makefile*         \
+    $(shell find $(top_srcdir)/admin -name 'config.*')
 
 # Remove generated directories
 maintainer-clean-local:
@@ -77,5 +85,8 @@ $(RPM_TARGETS):
 #
 # Run doxygen to produce html documentation for source code
 #
-html-docs: $(top_builddir)/Doxyfile
-	test -f $< && $(DOXYGEN) $<
+html-docs: $(top_builddir)/admin/Doxyfile
+	if test -f $<; then \
+	    cd $(top_builddir)/admin; \
+	    $(DOXYGEN); \
+	fi

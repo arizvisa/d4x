@@ -26,6 +26,7 @@ struct tSegment{
 };
 
 class tSegmentator{
+	int autosave_counter;
 	tSegment *FIRST,*LAST;
 	tSegment *HEAP;
 	d4xMutex lockmutex;
@@ -33,12 +34,8 @@ class tSegmentator{
 	char *filename;
 	unsigned long int total;
 	int load();
-	int save();
 	void lock();
 	void unlock();
-	int join(tSegment *what);
-	void remove(tSegment *what);
-	void save_from(tSegment *what);
 	tSegment *seg_alloc();
 	void seg_free(tSegment *seg);
  public:
@@ -53,6 +50,7 @@ class tSegmentator{
 	int one_segment();
 	unsigned long int get_total();
 	void done();
+	int save();
 	void complete();
 	void lock_public();
 	void unlock_public();

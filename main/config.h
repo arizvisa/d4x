@@ -21,6 +21,7 @@ int parse_command_line_preload(int argv,char **argc);
 void parse_command_line_postload(int argv,char **argc);
 int parse_command_line_already_run(int argv,char **argc);
 void help_print();
+char *d4x_cfg_search_engines();
 
 struct tOption{
 	char *name;

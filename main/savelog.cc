@@ -27,8 +27,6 @@
 #include "main.h"
 #include "face/lod.h"
 
-extern tMain aa;
-
 const char *LIST_FILE="list";
 const char *NEW_LIST_FILE="Default.dl";
 
@@ -119,6 +117,6 @@ int read_list_from_file_current(char *path) {
 	if (fd<0) return(-1);
 	int r=D4X_QUEUE->load_from_config_list(fd);
 	close(fd);
-	aa.try_to_run_wait(D4X_QUEUE);
+	_aa_.try_to_run_wait(D4X_QUEUE);
 	return(r);
 };

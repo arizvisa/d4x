@@ -315,6 +315,7 @@ tSplitInfo::~tSplitInfo(){
 
 /**********************************************/
 tDownload::tDownload() {
+	sizequery=0;
 	list_iter=NULL;
 	fsearch=0;
 	restart_from_begin=0;
@@ -338,7 +339,7 @@ tDownload::tDownload() {
 	Start=Pause=Difference=0;
 	Percent=0;
 	Attempt.clear();
-	Status.clear();
+	ActStatus.clear();
 	Size.clear();
 	Speed.clear();
 	Remain.clear();
@@ -499,7 +500,7 @@ fsize_t tDownload::init_segmentator(int fdesc,fsize_t cursize,char *name){
 		}else{
 			if ((first_seg==NULL || first_seg->next==NULL)){
 				if (rvalue>0)
-					segments->insert(0,(unsigned long int)rvalue);
+					segments->insert(0,rvalue);
 				segments->truncate(rvalue);
 			};
 		};
@@ -639,7 +640,7 @@ void tDownload::set_date_file() {
 
 void tDownload::update_trigers() {
 	Speed.update();
-	Status.update();
+	ActStatus.update();
 	Size.update();
 	Attempt.update();
 	Remain.update();
@@ -974,7 +975,11 @@ void tDownload::save_to_config(int fd){
 		config->save_to_config(fd);
 	if (ScheduleTime)
 		write_named_time(fd,"Time:",ScheduleTime);
-	write_named_integer(fd,"State:",owner());
+	int tmpid=owner();
+	if (tmpid==DL_SIZEQUERY)
+		write_named_integer(fd,"State:",action);
+	else
+		write_named_integer(fd,"State:",tmpid);
 	if (finfo.size>0){
 		write_named_fsize(fd,"size:",finfo.size);
 		if (Size.curent>0)
@@ -1149,6 +1154,8 @@ void tDownload::download_completed(int type) {
 void tDownload::download_failed() {
 	if (who)
 		who->done();
+	if (segments)
+		segments->save();
 	WL->log(LOG_ERROR,_("Downloading was failed..."));
 	D4X_UPDATE.add(this,DOWNLOAD_FATAL);
 };
@@ -1304,8 +1311,45 @@ void tDownload::http_check_redirect(){
 	WL->log(LOG_WARNING,_("Redirect detected..."));
 };
 
+void tDownload::download_http_size(){
+	WL->log(LOG_WARNING,_("Size detection only!"));
+	download_set_block(1);
+	tSocket *s=GVARS.SOCKETS->find(info);
+	download_set_block(0);
+	if (who->init(info,config,s)==0) {
+		who->init_download(info->path.get(),info->file.get());
+		finfo.size=who->get_size_only();
+		finfo.type=T_FILE;
+		if (((tHttpDownload*)who)->persistent())
+			export_socket(who);
+	};
+	D4X_UPDATE.add(this,DOWNLOAD_COMPLETE);
+};
+
+void tDownload::download_ftp_size(){
+	WL->log(LOG_WARNING,_("Size detection only!"));
+	download_set_block(1);
+	tSocket *s=GVARS.SOCKETS->find(info);
+	download_set_block(0);
+	if (who->init(info,config,s)==0) {
+		who->init_download(info->path.get(),info->file.get());
+		status=DOWNLOAD_SIZE_WAIT;
+		fsize_t size=who->get_size();
+		if (size>=0) {
+			finfo.size=size;
+			finfo.type=file_type();
+		};
+	};
+	export_socket(who);
+	D4X_UPDATE.add(this,DOWNLOAD_COMPLETE);
+};
+
 void tDownload::download_http() {
 	if (!who) who=new tHttpDownload(WL);
+	if (sizequery){
+		download_http_size();
+		return;
+	};
 	config->split=split?1:0;
 	download_set_block(1);
 	tSocket *s=GVARS.SOCKETS->find(info);
@@ -1449,7 +1493,7 @@ void tDownload::sort_links(){
 	int i=0;
 	while (i<CFG.SEARCH_PING_TIMES){
 		WL->log_printf(LOG_OK,_("Pinging (atempt %i of %i)"),i+1,CFG.SEARCH_PING_TIMES);
-		if (!Status.curent){ //clear previous percentage for non comulative ping
+		if (!ActStatus.curent){ //clear previous percentage for non comulative ping
 			tDownload *a=DIR->last();
 			while(a){
 				a->Percent=0;
@@ -1465,7 +1509,7 @@ void tDownload::sort_links(){
 		DIR->sort(_cmp_pinged_hosts_);
 		download_set_block(0);
 		if (!i)
-			Status.curent=1;
+			ActStatus.curent=1;
 		i+=1;
 	};
 };
@@ -1506,44 +1550,70 @@ void tDownload::ftp_search_sizes(){
 
 void tDownload::ftp_search() {
 	/* FIXME: prepare new url for ftp search */
-	d4xSearchEngine *engine;
-	engine=D4X_SEARCH_ENGINES.get_by_num(CFG.SEARCH_HOST);
-	if (action!=ACTION_REPING && engine!=NULL){
-		tAddr *tmpinfo=new tAddr;
-		pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
-		config->change_links=0;
-		engine->prepare_url(tmpinfo,finfo.size,info->file.get(),CFG.SEARCH_ENTRIES);
-		if (who->init(tmpinfo,config)) {
-			download_failed();
-			return;
+	if (action!=ACTION_REPING){
+		Size.set(0);
+		d4xSearchEngine *engine=D4X_SEARCH_ENGINES.get_next_used_engine(NULL);
+		tDList *TMP_DIR=NULL;
+		while(engine){
+			tAddr *tmpinfo=new tAddr;
+			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
+			config->change_links=0;
+			engine->prepare_url(tmpinfo,finfo.size,info->file.get(),CFG.SEARCH_PERSERVER);
+			if (who->init(tmpinfo,config)) {
+				download_failed();
+				return;
+			};
+			who->init_download(tmpinfo->path.get(),tmpinfo->file.get());
+			who->set_loaded(0);
+			int size=who->get_size();
+			if (size<=-1) {
+				WL->log(LOG_WARNING,_("Searching failed"));
+				download_failed();
+				return;
+			};
+			finfo.type=T_FILE;
+			Start=Pause=time(NULL);
+			Difference=0;
+			status=DOWNLOAD_GO;
+			if (who->download(0)) {
+				download_failed();
+				return;
+			};
+			config->http_recurse_depth=2;
+			config->leave_server=1;
+			download_set_block(1);
+			tAddr *a=info;
+			info=tmpinfo;
+			http_recurse();
+			info=a;
+			who->done();
+			remove_links(engine);
+			if (TMP_DIR){
+				if (DIR){
+					tDownload *dwn=DIR->first();
+					while(dwn){
+						DIR->del(dwn);
+						TMP_DIR->insert_if_absent(dwn);
+						dwn=DIR->first();
+					};
+					delete(DIR);
+					DIR=NULL;
+				};
+			}else{
+				TMP_DIR=DIR;
+				DIR=NULL;
+			};
+			Size.set(TMP_DIR->count());
+			engine=D4X_SEARCH_ENGINES.get_next_used_engine(engine);
+			download_set_block(0);
+			pthread_cleanup_pop(1);
+			if (Size.curent>=CFG.SEARCH_ENTRIES)
+				break;
 		};
-		who->init_download(tmpinfo->path.get(),tmpinfo->file.get());
-		who->set_loaded(0);
-		int size=who->get_size();
-		if (size<=-1) {
-			WL->log(LOG_WARNING,_("Searching failed"));
-			download_failed();
-			return;
-		};
-		finfo.type=T_FILE;
-		Start=Pause=time(NULL);
-		Difference=0;
-		status=DOWNLOAD_GO;
-		if (who->download(0)) {
-			download_failed();
-			return;
-		};
-		config->http_recurse_depth=2;
-		config->leave_server=1;
-		download_set_block(1);
-		tAddr *a=info;
-		info=tmpinfo;
-		http_recurse();
-		info=a;
-		download_set_block(0);
-		pthread_cleanup_pop(1);
-		who->done();
-		remove_links(engine);
+		if (TMP_DIR && !DIR)
+			DIR=TMP_DIR;
+	}else{
+		Size.set(DIR->count());
 	};
 	if (finfo.size<0 && DIR!=NULL && DIR->count()>0)
 		ftp_search_sizes();
@@ -1556,6 +1626,10 @@ void tDownload::ftp_search() {
 void tDownload::download_ftp(){
 	WL->log(LOG_WARNING,_("Was Started!"));
 	if (!who) who=new tFtpDownload(WL);
+	if (sizequery){
+		download_ftp_size();
+		return;
+	};
 
 	if (finfo.type==T_LINK && config->follow_link!=2) {
 		WL->log(LOG_WARNING,_("It is a link and we already load it"));
@@ -1748,59 +1822,61 @@ void tDownload::prepare_splits(){
 	int alt_num=1;
 	while(holes){
 		tmp=holes->next;
-		if (newsplit->next_part==NULL)
-			newsplit->next_part=new tDownload;
-		tDownload *temp=newsplit->next_part;
-		temp->status=DOWNLOAD_REAL_STOP;
-		if (temp->split==NULL)
-			temp->split=new tSplitInfo;
-		else
-			temp->split->reset();
-		newsplit=temp->split;
-		newsplit->cond=split->cond;
-		newsplit->NumOfParts=split->NumOfParts;
-		temp->split->grandparent=this;
-		temp->split->parent=parent;
-		temp->split->thread_num=parent->split->thread_num+1;
-		parent=temp;
-		temp->split->FirstByte=holes->begin;
-		temp->split->LastByte=holes->end;
+		if (parent->split->thread_num<newsplit->NumOfParts){
+			if (newsplit->next_part==NULL)
+				newsplit->next_part=new tDownload;
+			tDownload *temp=newsplit->next_part;
+			temp->status=DOWNLOAD_REAL_STOP;
+			if (temp->split==NULL)
+				temp->split=new tSplitInfo;
+			else
+				temp->split->reset();
+			newsplit=temp->split;
+			newsplit->cond=split->cond;
+			newsplit->NumOfParts=split->NumOfParts;
+			temp->split->grandparent=this;
+			temp->split->parent=parent;
+			temp->split->thread_num=parent->split->thread_num+1;
+			parent=temp;
+			temp->split->FirstByte=holes->begin;
+			temp->split->LastByte=holes->end;
 //		printf("%li %li\n",newsplit->FirstByte,newsplit->LastByte);
-		temp->segments=segments;
-		if (temp->config==NULL) temp->config=new tCfg;
-		temp->config->copy(config);
-		if (config->log_save_path.get()){
-			char *tmppath=sum_strings(config->log_save_path.get(),"_ ",
-						  NULL);
-			tmppath[strlen(tmppath)-1]=i;
-			temp->config->log_save_path.set(tmppath);
-		};
-		i+=1;
-		temp->config->speed=(config->speed/split->NumOfParts)*temp->split->NumOfParts;
-		temp->config->user_agent.set(config->user_agent.get());
-		temp->config->referer.set(config->referer.get());
-		temp->config->save_path.set(config->save_path.get());
-		temp->Name2Save.set(Name2Save.get());
-		temp->finfo.size=finfo.size;
-		temp->finfo.type=finfo.type;
-		temp->finfo.perm=finfo.perm;
-		temp->finfo.date=finfo.date;
-		if (temp->info==NULL)
-			temp->info=new tAddr();
-		if (alt){
-			temp->split->alt=alt_num;
-			temp->info->copy(&(alt->info));
-		}else{
-			temp->split->alt=0;
-			temp->info->copy(info);
-		};
-		if (ALTS){
-			if (alt->next){
-				alt=alt->next;
-				alt_num++;
+			temp->segments=segments;
+			if (temp->config==NULL) temp->config=new tCfg;
+			temp->config->copy(config);
+			if (config->log_save_path.get()){
+				char *tmppath=sum_strings(config->log_save_path.get(),"_ ",
+							  NULL);
+				tmppath[strlen(tmppath)-1]=i;
+				temp->config->log_save_path.set(tmppath);
+			};
+			i+=1;
+			temp->config->speed=(config->speed/split->NumOfParts)*temp->split->NumOfParts;
+			temp->config->user_agent.set(config->user_agent.get());
+			temp->config->referer.set(config->referer.get());
+			temp->config->save_path.set(config->save_path.get());
+			temp->Name2Save.set(Name2Save.get());
+			temp->finfo.size=finfo.size;
+			temp->finfo.type=finfo.type;
+			temp->finfo.perm=finfo.perm;
+			temp->finfo.date=finfo.date;
+			if (temp->info==NULL)
+				temp->info=new tAddr();
+			if (alt){
+				temp->split->alt=alt_num;
+				temp->info->copy(&(alt->info));
 			}else{
-				alt=ALTS->FIRST;
-				alt_num=1;
+				temp->split->alt=0;
+				temp->info->copy(info);
+			};
+			if (ALTS){
+				if (alt->next){
+					alt=alt->next;
+					alt_num++;
+				}else{
+					alt=ALTS->FIRST;
+					alt_num=1;
+				};
 			};
 		};
 		delete(holes);
@@ -1962,6 +2038,13 @@ tDownload *tDList::find(tAddr *addr){
 		a=a->prev;
 	};
 	return(NULL);
+};
+
+void tDList::insert_if_absent(tDownload *what){
+	if (find(what->info))
+		delete(what);
+	else
+		insert(what);
 };
 
 void tDList::dispose(){

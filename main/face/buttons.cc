@@ -166,9 +166,9 @@ void buttons_configure(){
 
 	GtkWidget *hbox=gtk_hbutton_box_new();
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *apply_button=gtk_button_new_with_label(_("Apply"));
-	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GtkWidget *ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	GtkWidget *apply_button=gtk_button_new_from_stock(GTK_STOCK_APPLY);
+	GtkWidget *cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(apply_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
@@ -226,7 +226,7 @@ GtkWidget *new_pixmap(char **xpm, char *themename) {
 };
 
 void del_all_downloads(){
-	aa.del_all();
+	_aa_.del_all();
 	if (AskDeleteAll)
 		AskDeleteAll->done();
 };

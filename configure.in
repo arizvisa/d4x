@@ -1,13 +1,24 @@
 # -*-m4-*-
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.75 $)
+AC_REVISION($Revision: 1.81 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
 # Initialize environment
 # -----------------------------------------------------------------------------
-AC_INIT([d4x],[2.4.1],[chuchelo@krasu.ru])
+AC_INIT([d4x],
+        esyscmd([. VERSION && echo -n ${MAJOR}.${MINOR}.${PATCH_LEVEL}${EXTRA_VERSION}]),
+        [chuchelo@krasu.ru])
+
+
+cat << EOF
+------------------------------------------------------------------------------
+
+                  D4X -- Web Downloader for X (`. VERSION && echo -n ${MAJOR}.${MINOR}.${PATCH_LEVEL}${EXTRA_VERSION}`)
+
+------------------------------------------------------------------------------
+EOF
 
 AC_CONFIG_SRCDIR([nt.spec.in])
 AC_CONFIG_AUX_DIR([admin])
@@ -20,7 +31,7 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE([1.6 gnu dist-bzip2])
+AM_INIT_AUTOMAKE([1.7 gnu dist-bzip2])
 
 AC_PREFIX_DEFAULT(/usr/local)
 
@@ -37,19 +48,19 @@ AM_MAINTAINER_MODE
 OPTFLAGS="-O0"
 
 # Optimization options
-AC_ARG_ENABLE(extra-optimize,
-    AC_HELP_STRING([--enable-extra-optimize],
-                   [Such as --enable-release + compile with maximum optimizations]),
-    [if test "$enable_extra_optimize" = "yes"; then
-	OPTFLAGS="-O3 -fexpensive-optimizations"
-    fi])
-AM_CONDITIONAL(EXTRA_OPTIMIZE, test "$enable_extra_optimize" = "yes")
 AC_ARG_ENABLE(release, 
     AC_HELP_STRING([--enable-release], [Compile with usual optimization level without debug code (default)]),,
     [enable_release="yes"])
 if test "$enable_release" = "yes"; then
     OPTFLAGS="-O2"
 fi
+AC_ARG_ENABLE(extra-optimize,
+    AC_HELP_STRING([--enable-extra-optimize],
+                   [Such as --enable-release + compile with maximum optimizations]))
+if test "$enable_extra_optimize" = "yes"; then
+    OPTFLAGS="-O3 -fexpensive-optimizations"
+fi
+AM_CONDITIONAL(EXTRA_OPTIMIZE, test "$enable_extra_optimize" = "yes")
 CXXFLAGS="$CXXFLAGS $OPTFLAGS"
 
 # Maintainer helpers
@@ -126,7 +137,7 @@ AC_PROG_CC
 #          so to avoid warning message we'll check this...
 #
 if test "$enable_extra_optimize" = "yes"; then
-    D4X_GCC_CHECK_OBSOLETE_OPTION([-malign-loops=8],
+    GCC_CHECK_OBSOLETE_OPTION([-malign-loops=8],
 	[am_align_opts="-falign-loops=8 -falign-jumps=8 -falign-functions=8"],
 	[am_align_opts="-malign-loops=8 -malign-jumps=8 -malign-functions=8"])
 
@@ -154,6 +165,7 @@ AC_PROG_AWK
 #AC_PROG_LIBTOOL
 AC_PROG_RANLIB
 AM_GNU_GETTEXT
+AM_GNU_GETTEXT_VERSION(0.11.4)
 AC_PATH_PROG(AUTOGEN, autogen, [${am_missing_run}autogen], /usr/local/bin:$PATH)
 AC_PATH_PROG(DOXYGEN, doxygen, [${am_missing_run}doxygen], /usr/local/bin:$PATH)
 AC_PATH_PROG(RPM, rpm, [${am_missing_run}rpm], /usr/local/bin:$PATH)
@@ -308,10 +320,9 @@ AH_BOTTOM([#endif /* !__D4X_CONFIG_H */])
 # Create output files
 # -----------------------------------------------------------------------------
 AC_CONFIG_FILES([Makefile           \
-		 Doxyfile           \
                  DOC/Makefile       \
 		 intl/Makefile      \
-		 admin/Makefile     \
+		 admin/Doxyfile     \
                  main/Makefile      \
                  main/face/Makefile \
                  po/Makefile.in     \
@@ -340,11 +351,11 @@ else
     ao_spam="disabled"
 fi
 acm="debug"
-if test "$enable_extra_optimize" = "yes"; then
-    acm="release (extra optimize)"
-fi
 if test "$enable_release" = "yes"; then
     acm="release"
+fi
+if test "$enable_extra_optimize" = "yes"; then
+    acm="release (extra optimize)"
 fi
 if test "$USE_MAINTAINER_MODE" = "yes"; then
     acm="$acm (maintainer mode)"

@@ -1,3 +1,27 @@
+2.5.0-beta2
+	Fixed multithreaded downloading when two thread are write in the same part of file;
+	Fixed garbage in stderr about graph!=NULL;
+	Fixed changing colors of graph on DnD-basket without restarting D4X;
+	Removed two engines from list of FTP-search engines;
+	Interface cleanups from Syomin Pavel;
+
+2.5.0-beta1
+	Interface improvements:
+		Main window was totally redesigned;
+		Log of last selected download in main window;
+		Speed is displayed for every queue;
+		You can turn on displaying traffic graph on DnD-basket instead of static icon;
+	FTP-search improvements:	
+		It's allowed now to search for user typed filename in FTP-search;
+		Downloader now can search using multiple engines;
+		FTP-search interface has been changed;
+	It's now possible to determine filesize without starting downloading proccess (select files and press F5 button);
+	Offline mode has been added. You can stop all transfers by clicking one button (right-bottom corner of main window);
+	Segmentator code was tottaly rewritten;
+	Fixed couple segfaults;
+	Updated Spanish translation by Pablo Rodriguez;
+	Updated Portuguese Brasillian translation by Legnar WinShadow;
+
 2.4.1
 	Fixed continued downloading in one thread via HTTP;
 

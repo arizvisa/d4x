@@ -45,7 +45,7 @@ struct MyGtkAEditorClass{
 GtkWidget *my_gtk_aeditor_new(d4xSchedAction *action=(d4xSchedAction *)NULL);
 guint my_gtk_aeditor_get_type();
 
-void d4x_scheduler_init();
+GtkWidget *d4x_scheduler_init();
 void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev);
 void d4x_scheduler_remove(d4xSchedAction *act);
 gint d4x_scheduler_close();

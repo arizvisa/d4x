@@ -60,6 +60,7 @@ class tDownloader{
 
     	virtual int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket*)NULL)=0;
     	virtual fsize_t get_readed()=0;
+    	virtual fsize_t get_size_only()=0;
     	virtual fsize_t get_size()=0;
     	virtual int get_child_status()=0;
      	virtual int reget()=0;

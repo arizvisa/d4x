@@ -29,7 +29,6 @@
 #include "../xml.h"
 #include "lod.h"
 
-extern tMain aa;
 GtkWidget *d4x_prefs_window=(GtkWidget *)NULL;
 GtkWidget *d4x_prefs_frame=(GtkWidget *)NULL;
 /* initialisation only for NULL in 'char*' */
@@ -41,7 +40,7 @@ tMainCfg TMPCFG={
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,600,0,0, //flags
-	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,//interface
+	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,0,
 	/* Proxy */
@@ -52,8 +51,8 @@ tMainCfg TMPCFG={
 	3,1024,10*1024,
 	NULL,0,
 	0x0FFFFFFF,
-	0,0,1,1,
-	1,0,15,
+	0,0,1,1,0,
+	1,20,10,NULL, //FTP-search
 	1,0,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,
 	0,(char*)NULL,(char*)NULL
 };
@@ -150,10 +149,12 @@ struct D4xPrefsWidget{
 	GtkWidget *speed_limit_2;
 	/* FTP SEARCH */
 	GtkWidget *search_ping_times;
-	GtkWidget *search_host;
+	GtkListStore *search_engines;
 	GtkWidget *search_entries;
+	GtkWidget *search_perserver;
 	/* INTERFACE */
 	GtkWidget *dnd_trash;
+	GtkWidget *graph_on_basket;
 	GtkWidget *fixed_font_log;
 	/* GRAPH */
 	GtkWidget *graph_order;
@@ -227,8 +228,8 @@ GtkWidget *d4x_prefs_child_destroy(char *title){
 		
 	};
 	gtk_frame_set_label(GTK_FRAME(d4x_prefs_frame),title);
-	GtkWidget *tmpbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(tmpbox),5);
+	GtkWidget *tmpbox=gtk_vbox_new(FALSE,5);
+	gtk_container_set_border_width(GTK_CONTAINER(tmpbox),5);
 	gtk_container_add(GTK_CONTAINER(d4x_prefs_frame),tmpbox);
 	return(tmpbox);
 };
@@ -260,8 +261,7 @@ void d4x_prefs_download(){
 	GTK_TOGGLE_BUTTON(D4XPWS.check_time_check)->active=TMPCFG.DEFAULT_CFG.check_time;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.check_time_check,FALSE,FALSE,0);
 
-	GtkWidget *tbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(tbox),5);
+	GtkWidget *tbox=gtk_hbox_new(FALSE,5);
 	D4XPWS.permissions=my_gtk_entry_new_with_max_length(3,TMPCFG.DEFAULT_PERMISIONS);
 	gtk_box_pack_start(GTK_BOX(tbox),D4XPWS.permissions,FALSE,FALSE,0);
 	GtkWidget *tlabel=gtk_label_new(_("Default permissions of local file"));
@@ -293,50 +293,43 @@ void d4x_prefs_download_limits(){
 	D4XPWS.speed_entry=my_gtk_entry_new_with_max_length(5,TMPCFG.DEFAULT_CFG.speed);
 	D4XPWS.split_entry=my_gtk_entry_new_with_max_length(2,TMPCFG.NUMBER_OF_PARTS);
 
-	GtkWidget *other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	GtkWidget *other_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *other_label=gtk_label_new(_("Timeout for reading from socket (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.timeout_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Timeout before reconnection (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.sleep_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Maximum attempts (0 for unlimited)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.attempts_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Rollback after reconnecting (in bytes)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.rollback_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Speed limitation in Bytes/sec (0 for unlimited)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.speed_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
 
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Number of parts to split files"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),D4XPWS.split_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),other_hbox,FALSE,FALSE,0);
 
-	GtkWidget *prefs_limits_lbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_limits_lbox),5);
+	GtkWidget *prefs_limits_lbox=gtk_hbox_new(FALSE,5);
 	D4XPWS.limits_log=my_gtk_entry_new_with_max_length(3,TMPCFG.MAX_LOG_LENGTH);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_lbox),D4XPWS.limits_log,FALSE,FALSE,0);
 	GtkWidget *prefs_limits_llabel=gtk_label_new(_("Maximum lines in log"));
@@ -378,8 +371,7 @@ void d4x_prefs_download_ftp(){
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.ftp_dirontop,FALSE,FALSE,0);
 
 	D4XPWS.ftp_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,TMPCFG.DEFAULT_CFG.ftp_recurse_depth);
-	GtkWidget *ftp_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(ftp_hbox),2);
+	GtkWidget *ftp_hbox=gtk_hbox_new(FALSE,2);
 	GtkWidget *other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
 	gtk_box_pack_start(GTK_BOX(ftp_hbox),D4XPWS.ftp_recurse_depth_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(ftp_hbox),other_label,FALSE,FALSE,0);
@@ -389,8 +381,7 @@ void d4x_prefs_download_ftp(){
 	GTK_TOGGLE_BUTTON(D4XPWS.ftp_dir_in_log)->active=TMPCFG.FTP_DIR_IN_LOG;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.ftp_dir_in_log,FALSE,FALSE,0);
 
-	GtkWidget *other_box=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_box),5);
+	GtkWidget *other_box=gtk_hbox_new(FALSE,5);
 	D4XPWS.ftp_anonymous_pass=gtk_entry_new();
 	gtk_entry_set_max_length(GTK_ENTRY(D4XPWS.ftp_anonymous_pass),256);
 	if (TMPCFG.ANONYMOUS_PASS)
@@ -467,8 +458,7 @@ void d4x_prefs_download_http(){
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.ihate_etag_check,FALSE,FALSE,0);
 
 	D4XPWS.http_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,TMPCFG.DEFAULT_CFG.http_recurse_depth);
-	GtkWidget *http_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
+	GtkWidget *http_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
 	gtk_box_pack_start(GTK_BOX(http_hbox),D4XPWS.http_recurse_depth_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(http_hbox),other_label,FALSE,FALSE,0);
@@ -476,8 +466,7 @@ void d4x_prefs_download_http(){
 
 	
 	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
-	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
+	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,5);
 	D4XPWS.user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
 	if (TMPCFG.USER_AGENT)
 		text_to_combo(D4XPWS.user_agent_entry,TMPCFG.USER_AGENT);
@@ -498,8 +487,7 @@ void d4x_prefs_download_http(){
 	gtk_editable_set_editable(GTK_EDITABLE(D4XPWS.default_filter),FALSE);
 	if (CFG.DEFAULT_FILTER)
 		text_to_combo(D4XPWS.default_filter,CFG.DEFAULT_FILTER);
-	http_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
+	http_hbox=gtk_hbox_new(FALSE,5);
 	other_label=gtk_label_new(_("Filter"));
 	GtkWidget *button=gtk_button_new_with_label(_("Select"));
  	g_signal_connect(G_OBJECT(button),"clicked",
@@ -531,9 +519,9 @@ void d4x_prefs_mwin(){
 	GtkWidget *tmpbox=d4x_prefs_child_destroy(_("Main window"));
 
 	GtkWidget *frame=gtk_frame_new(_("Using title"));
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
+	gtk_container_set_border_width(GTK_CONTAINER(vbox),5);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
-	gtk_container_set_border_width(GTK_CONTAINER(frame),5);
 	D4XPWS.mw_use_title=gtk_check_button_new_with_label(_("Use title of main window for info"));
 	g_signal_connect(G_OBJECT(D4XPWS.mw_use_title),
 			   "clicked",
@@ -637,8 +625,7 @@ static void d4x_prefs_toggle_save_log(GtkWidget *parent) {
 void d4x_prefs_main_log(){
 	GtkWidget *vbox=d4x_prefs_child_destroy(_("Main log"));
 
-	GtkWidget *prefs_limits_mlbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_limits_mlbox),5);
+	GtkWidget *prefs_limits_mlbox=gtk_hbox_new(FALSE,5);
 	D4XPWS.log_length=my_gtk_entry_new_with_max_length(4,TMPCFG.MAX_MAIN_LOG_LENGTH);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),D4XPWS.log_length,FALSE,FALSE,0);
 	GtkWidget *prefs_limits_mllabel=gtk_label_new(_("Maximum lines in MAIN log"));
@@ -661,8 +648,7 @@ void d4x_prefs_main_log(){
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.log_save_path,FALSE,FALSE,0);
 
 	char temp[MAX_LEN];
-	GtkWidget *prefs_log_mlfbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_log_mlfbox),5);
+	GtkWidget *prefs_log_mlfbox=gtk_hbox_new(FALSE,5);
 	D4XPWS.log_fsize=gtk_entry_new();
 	gtk_entry_set_max_length(GTK_ENTRY(D4XPWS.log_fsize),9);
 	gtk_widget_set_size_request(D4XPWS.log_fsize,80,-1);
@@ -673,8 +659,7 @@ void d4x_prefs_main_log(){
 	gtk_box_pack_start(GTK_BOX(prefs_log_mlfbox),D4XPWS.log_fslabel,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),prefs_log_mlfbox,FALSE,FALSE,0);
 
-	GtkWidget *hboxtemp=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hboxtemp),5);
+	GtkWidget *hboxtemp=gtk_hbox_new(FALSE,5);
 	D4XPWS.log_append=gtk_radio_button_new_with_label((GSList *)NULL,_("Append to file"));
 	gtk_box_pack_start(GTK_BOX(hboxtemp),D4XPWS.log_append,FALSE,FALSE,0);
 	GSList *other_group=gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.log_append));
@@ -699,8 +684,7 @@ void d4x_prefs_integration(){
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.exit_complete),TMPCFG.EXIT_COMPLETE);
 	g_signal_connect(G_OBJECT(D4XPWS.exit_complete),"clicked",G_CALLBACK(d4x_prefs_toggle_exit_complete),NULL);
 	D4XPWS.exit_complete_time=my_gtk_entry_new_with_max_length(3,TMPCFG.EXIT_COMPLETE_TIME);
-	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_common_hbox),5);
+	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *prefs_common_label=gtk_label_new(_("minutes"));
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),D4XPWS.exit_complete,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),D4XPWS.exit_complete_time,FALSE,FALSE,0);
@@ -731,15 +715,13 @@ static void d4x_prefs_toggle_save_list(GtkWidget *parent) {
 void d4x_prefs_main(){
 	GtkWidget *vbox=d4x_prefs_child_destroy(_("Main"));
 
-	GtkWidget *prefs_limits_tbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_limits_tbox),5);
+	GtkWidget *prefs_limits_tbox=gtk_hbox_new(FALSE,5);
 
 	D4XPWS.save_list_check=gtk_check_button_new_with_label(_("Save list of downloads every"));
 	g_signal_connect(G_OBJECT(D4XPWS.save_list_check),"clicked",G_CALLBACK(d4x_prefs_toggle_save_list),NULL);
 	GTK_TOGGLE_BUTTON(D4XPWS.save_list_check)->active=TMPCFG.SAVE_LIST;
 	D4XPWS.save_list_entry=my_gtk_entry_new_with_max_length(3,TMPCFG.SAVE_LIST_INTERVAL);
-	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_common_hbox),5);
+	GtkWidget *prefs_common_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *prefs_common_label=gtk_label_new(_("minutes"));
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),D4XPWS.save_list_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),D4XPWS.save_list_entry,FALSE,FALSE,0);
@@ -760,16 +742,14 @@ void d4x_prefs_main(){
 #include "pixmaps/speed1.xpm"
 #include "pixmaps/speed2.xpm"
 	GtkWidget *label=gtk_label_new(_("bytes/sec speed level one (red button)"));
-	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	GtkWidget *hbox=gtk_hbox_new(FALSE,5);
 	D4XPWS.speed_limit_1=my_gtk_entry_new_with_max_length(6,TMPCFG.SPEED_LIMIT_1);
 	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed1_xpm,NULL),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),D4XPWS.speed_limit_1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
 	label=gtk_label_new(_("bytes/sec speed level two (yellow button)"));
-	hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	hbox=gtk_hbox_new(FALSE,5);
 	D4XPWS.speed_limit_2=my_gtk_entry_new_with_max_length(6,TMPCFG.SPEED_LIMIT_2);
 	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed2_xpm,NULL),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),D4XPWS.speed_limit_2,FALSE,FALSE,0);
@@ -780,52 +760,88 @@ void d4x_prefs_main(){
 	gtk_widget_show_all(vbox);
 };
 
+static void d4x_prefs_engine_toggled(GtkCellRendererToggle *cell,
+				     gchar                 *path_string,
+				     GtkListStore *tree_model){
+  GtkTreeIter iter;
+  GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+  gboolean value;
+
+  gtk_tree_model_get_iter (GTK_TREE_MODEL(tree_model), &iter, path);
+  gtk_tree_model_get (GTK_TREE_MODEL(tree_model), &iter, 0, &value, -1);
+
+  value = !value;
+  gtk_list_store_set (tree_model, &iter, 0, value, -1);
+
+  gtk_tree_path_free (path);	
+};
+
+
 void d4x_prefs_search(){
 	GtkWidget *vbox=d4x_prefs_child_destroy(_("FTP search"));
 
-	GtkWidget *box=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(box),5);
+	GtkWidget *box=gtk_hbox_new(FALSE,5);
 	D4XPWS.search_ping_times=my_gtk_entry_new_with_max_length(3,TMPCFG.SEARCH_PING_TIMES);
 	gtk_box_pack_start(GTK_BOX(box),D4XPWS.search_ping_times,FALSE,FALSE,0);
 	GtkWidget *label=gtk_label_new(_("Number of attempts to ping hosts"));
 	gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
 
-	box=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(box),5);
+	box=gtk_hbox_new(FALSE,5);
 	D4XPWS.search_entries=my_gtk_entry_new_with_max_length(3,TMPCFG.SEARCH_ENTRIES);
 	gtk_box_pack_start(GTK_BOX(box),D4XPWS.search_entries,FALSE,FALSE,0);
 	label=gtk_label_new(_("Number of hosts in list"));
 	gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
 
-	int count=D4X_SEARCH_ENGINES.count();
-	if (count==0) count++;
-	char **labels=new char*[count];
-	D4X_SEARCH_ENGINES.names2array(labels);
-	D4XPWS.search_host=gtk_option_menu_new();
-	GtkWidget *menu=gtk_menu_new ();
-	GtkWidget *menu_item;
-	GSList *group=(GSList *)NULL;
-	gint i;
-	for (i = 0; (unsigned int)i <count; i++){
-		menu_item = gtk_radio_menu_item_new_with_label (group, labels[i]);
-		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-		if (i==TMPCFG.SEARCH_HOST)
-			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-		gtk_widget_show(menu_item);
-	};
-	delete[] labels;
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (D4XPWS.search_host), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (D4XPWS.search_host),TMPCFG.SEARCH_HOST);
 
-	box=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(box),5);
-	label=gtk_label_new(_("search engine to use"));
-	gtk_box_pack_start(GTK_BOX(box),D4XPWS.search_host,FALSE,FALSE,0);
+	box=gtk_hbox_new(FALSE,5);
+	D4XPWS.search_perserver=my_gtk_entry_new_with_max_length(3,TMPCFG.SEARCH_PERSERVER);
+	gtk_box_pack_start(GTK_BOX(box),D4XPWS.search_perserver,FALSE,FALSE,0);
+	label=gtk_label_new(_("Number of links per searching engine"));
 	gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
+
+	int count=D4X_SEARCH_ENGINES.count();
+	if (count==0) count++;
+
+	GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_ETCHED_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	GtkListStore *tree_model = gtk_list_store_new (2,G_TYPE_BOOLEAN,G_TYPE_STRING);
+	d4xSearchEngine *first=D4X_SEARCH_ENGINES.first();
+	while(first){
+		GtkTreeIter iter;
+		gtk_list_store_append (tree_model, &iter);
+		gtk_list_store_set(tree_model, &iter,
+				    0, first->used,
+				    1, first->name.get(),
+				    -1);
+		first=D4X_SEARCH_ENGINES.prev();
+	};
+	GtkTreeView *tree_view = (GtkTreeView *)gtk_tree_view_new_with_model(GTK_TREE_MODEL(tree_model));
+	D4XPWS.search_engines=tree_model;
+//	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW(tree_view),TRUE);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW(tree_view),FALSE);
+	GtkCellRenderer *renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer), "toggled",
+			  G_CALLBACK (d4x_prefs_engine_toggled), tree_model);
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree_view),
+						     -1, "Editable",
+						     renderer,
+						     "active", 0,
+						     NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (tree_view),
+						     -1, "String",
+						     renderer,
+						     "text", 1,
+						     NULL);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET(tree_view));
+
+	label=gtk_label_new(_("search engine to use"));
+	gtk_box_pack_start(GTK_BOX(vbox),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),scrolled_window,TRUE,TRUE,0);
 
 	gtk_widget_show_all(vbox);
 };
@@ -835,10 +851,13 @@ void d4x_prefs_interface(){
 
 	D4XPWS.dnd_trash=gtk_check_button_new_with_label(_("Show DnD basket"));
 	D4XPWS.fixed_font_log=gtk_check_button_new_with_label(_("Use fixed font in logs"));
+	D4XPWS.graph_on_basket=gtk_check_button_new_with_label(_("Display graph on DnD-basket"));
 	GTK_TOGGLE_BUTTON(D4XPWS.dnd_trash)->active=TMPCFG.DND_TRASH;
 	GTK_TOGGLE_BUTTON(D4XPWS.fixed_font_log)->active=TMPCFG.FIXED_LOG_FONT;
+	GTK_TOGGLE_BUTTON(D4XPWS.graph_on_basket)->active=TMPCFG.GRAPH_ON_BASKET;
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.dnd_trash,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.fixed_font_log,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.graph_on_basket,FALSE,FALSE,0);
 	gtk_widget_show_all(vbox);
 };
 
@@ -860,8 +879,7 @@ void d4x_prefs_graph(){
 	GTK_TOGGLE_BUTTON(D4XPWS.graph_mode)->active=TMPCFG.GRAPH_MODE;
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.graph_mode,FALSE,FALSE,0);
 
-	GtkWidget *vbox_colors=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(vbox_colors),5);
+	GtkWidget *vbox_colors=gtk_vbox_new(FALSE,5);
 	D4XPWS.speed_color_pick=my_gtk_colorsel_new(TMPCFG.GRAPH_PICK,_("Color for picks"));
 	D4XPWS.speed_color_fore1=my_gtk_colorsel_new(TMPCFG.GRAPH_FORE1,_("Color for total speed"));
 	D4XPWS.speed_color_fore2=my_gtk_colorsel_new(TMPCFG.GRAPH_FORE2,_("Color for speed of selected"));
@@ -878,7 +896,6 @@ void d4x_prefs_graph(){
 	g_signal_connect(G_OBJECT(button_reset),"clicked",G_CALLBACK(d4x_prefs_reset_colors),NULL);
 	gtk_box_pack_start(GTK_BOX(vbox_colors),button_reset,FALSE,FALSE,0);
 	GtkWidget *frame_colors=gtk_frame_new(_("Colors for graph"));
-	gtk_container_set_border_width(GTK_CONTAINER(frame_colors),5);
 	gtk_container_add(GTK_CONTAINER(frame_colors),vbox_colors);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox_colors),5);
 	gtk_box_pack_start(GTK_BOX(vbox),frame_colors,FALSE,FALSE,0);
@@ -1073,6 +1090,21 @@ gboolean d4x_prefs_select_func(GtkTreeSelection *sel, GtkTreeModel *model,GtkTre
 	switch(a[0]){
 	case 0:{
 		if (depth==1)
+			d4x_prefs_main();
+		else{
+			switch(a[1]){
+			case 0:
+				d4x_prefs_main_log();
+				break;
+			case 1:
+				d4x_prefs_search();
+				break;
+			};
+		};
+		break;
+	};
+	case 1:{
+		if (depth==1)
 			d4x_prefs_download();
 		else{
 			switch(a[1]){
@@ -1092,7 +1124,7 @@ gboolean d4x_prefs_select_func(GtkTreeSelection *sel, GtkTreeModel *model,GtkTre
 		};
 		break;
 	};
-	case 1:{
+	case 2:{
 		if (depth==1)
 			d4x_prefs_interface();
 		else{
@@ -1115,7 +1147,7 @@ gboolean d4x_prefs_select_func(GtkTreeSelection *sel, GtkTreeModel *model,GtkTre
 		};	
 		break;
 	};
-	case 2:{
+	case 3:{
 		if (depth==1)
 			d4x_prefs_integration();
 		else{
@@ -1125,21 +1157,6 @@ gboolean d4x_prefs_select_func(GtkTreeSelection *sel, GtkTreeModel *model,GtkTre
 			};
 		};
 		break;
-	};
-	case 3:{
-		if (depth==1)
-			d4x_prefs_main();
-		else{
-			switch(a[1]){
-			case 0:
-				d4x_prefs_main_log();
-				break;
-			case 1:
-				d4x_prefs_search();
-				break;
-			};
-		break;
-		};
 	};
 	};
 	return(TRUE);
@@ -1196,10 +1213,8 @@ void d4x_prefs_init_pre(){
 			   G_CALLBACK(d4x_prefs_size_request), NULL);
 
 	/* first box inside window */
-	GtkWidget *tmphbox=gtk_hbox_new(FALSE,0);
-	GtkWidget *tmpvbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(tmphbox),5);
-	gtk_box_set_spacing(GTK_BOX(tmpvbox),5);
+	GtkWidget *tmphbox=gtk_hbox_new(FALSE,5);
+	GtkWidget *tmpvbox=gtk_vbox_new(FALSE,5);
 	gtk_container_set_border_width(GTK_CONTAINER(d4x_prefs_window),5);
 	gtk_container_add(GTK_CONTAINER(d4x_prefs_window),tmpvbox);
 	/* container for tree */
@@ -1211,10 +1226,9 @@ void d4x_prefs_init_pre(){
 	gtk_box_pack_start (GTK_BOX (tmpvbox), tmphbox, TRUE, TRUE, 0);
 	gtk_widget_show (scroll_win);
 	/* containder for all other */
-	d4x_prefs_frame=gtk_frame_new("test");
+	d4x_prefs_frame=gtk_frame_new(NULL);
 //	gtk_widget_set_size_request(d4x_prefs_frame,480,-1);
 	gtk_box_pack_start (GTK_BOX (tmphbox), d4x_prefs_frame, TRUE, TRUE, 0);
-	gtk_container_set_border_width(GTK_CONTAINER(d4x_prefs_frame),5);
 	/* create tree of options */
 	D4XPWS.root_model=gtk_tree_store_new(1,G_TYPE_STRING);
 	GtkWidget *root_tree=D4XPWS.root_tree=gtk_tree_view_new_with_model(GTK_TREE_MODEL(D4XPWS.root_model));
@@ -1233,6 +1247,15 @@ void d4x_prefs_init_pre(){
 	gtk_widget_show(root_tree);
 
 	GtkTreeIter iter,child_iter;
+	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_main),NULL);
+	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_main),0,_("Main"),-1);
+
+	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_main_log),&(D4XPWS.iter_main));
+	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_main_log),0,_("Main log"),-1);
+
+	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&(D4XPWS.iter_main));
+	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("FTP search"),-1);
+
 	gtk_tree_store_append(D4XPWS.root_model,&iter,NULL);
 	gtk_tree_store_set(D4XPWS.root_model,&iter,0,_("Download"),-1);
 
@@ -1265,23 +1288,15 @@ void d4x_prefs_init_pre(){
 	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&iter);
 	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("Clipboard"),-1);
 
-	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_main),NULL);
-	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_main),0,_("Main"),-1);
-
-	gtk_tree_store_append(D4XPWS.root_model,&(D4XPWS.iter_main_log),&(D4XPWS.iter_main));
-	gtk_tree_store_set(D4XPWS.root_model,&(D4XPWS.iter_main_log),0,_("Main log"),-1);
-
-	gtk_tree_store_append(D4XPWS.root_model,&child_iter,&(D4XPWS.iter_main));
-	gtk_tree_store_set(D4XPWS.root_model,&child_iter,0,_("FTP search"),-1);
 	/* show window */
 
 	GtkWidget *buttons_hbox=gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
 	gtk_box_set_spacing(GTK_BOX(buttons_hbox),5);
 	gtk_box_pack_start (GTK_BOX (tmpvbox), buttons_hbox, FALSE, FALSE, 0);
-	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
-	GtkWidget *apply_button=gtk_button_new_with_label(_("Apply"));
+	GtkWidget *ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	GtkWidget *cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+	GtkWidget *apply_button=gtk_button_new_from_stock(GTK_STOCK_APPLY);
 	g_signal_connect(G_OBJECT(cancel_button),"clicked",G_CALLBACK(d4x_prefs_cancel),NULL);
 	g_signal_connect(G_OBJECT(apply_button),"clicked",G_CALLBACK(d4x_prefs_apply),NULL);
 	g_signal_connect(G_OBJECT(ok_button),"clicked",G_CALLBACK(d4x_prefs_ok),NULL);
@@ -1391,6 +1406,7 @@ void d4x_prefs_apply_tmp(){
 	};
 	if (equal(label,_("Interface"))){
 		TMPCFG.DND_TRASH=GTK_TOGGLE_BUTTON(D4XPWS.dnd_trash)->active;
+		TMPCFG.GRAPH_ON_BASKET=GTK_TOGGLE_BUTTON(D4XPWS.graph_on_basket)->active;
 		TMPCFG.FIXED_LOG_FONT=GTK_TOGGLE_BUTTON(D4XPWS.fixed_font_log)->active;
 		return;
 	};
@@ -1467,14 +1483,22 @@ void d4x_prefs_apply_tmp(){
 	if (equal(label,_("FTP search"))){
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.search_ping_times)),"%u",&TMPCFG.SEARCH_PING_TIMES);
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.search_entries)),"%u",&TMPCFG.SEARCH_ENTRIES);
-		GSList *group=gtk_radio_menu_item_group((GtkRadioMenuItem *)((GtkOptionMenu *)D4XPWS.search_host)->menu_item);
-		int i=D4X_SEARCH_ENGINES.count()-1;
-		if (i<0) i=0;
-		while(group && !((GtkCheckMenuItem *)(group->data))->active){
-			group = group->next;
-			i--;
+		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.search_perserver)),"%u",&TMPCFG.SEARCH_PERSERVER);
+		GtkTreeIter iter;
+		d4xSearchEngine *first=D4X_SEARCH_ENGINES.first();
+		if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(D4XPWS.search_engines),&iter) && first){
+			gboolean value;
+			gtk_tree_model_get (GTK_TREE_MODEL(D4XPWS.search_engines), &iter, 0, &value, -1);
+			first->used=value;
+			first=D4X_SEARCH_ENGINES.prev();
+			while(gtk_tree_model_iter_next(GTK_TREE_MODEL(D4XPWS.search_engines), &iter) && first){
+				gtk_tree_model_get (GTK_TREE_MODEL(D4XPWS.search_engines), &iter, 0, &value, -1);
+				first->used=value;
+				first=D4X_SEARCH_ENGINES.prev();
+			};
 		};
-		TMPCFG.SEARCH_HOST=i;
+		if (TMPCFG.SEARCH_ENGINES) delete[] TMPCFG.SEARCH_ENGINES;
+		TMPCFG.SEARCH_ENGINES=d4x_cfg_search_engines();
 		return;
 	};
 	if (equal(label,_("Main"))){
@@ -1515,14 +1539,18 @@ void d4x_prefs_apply(){
 	    TMPCFG.GRAPH_PICK!=CFG.GRAPH_PICK)
 		need_reinit_graph=1;
 	if (TMPCFG.USE_THEME!=CFG.USE_THEME ||
+	    TMPCFG.GRAPH_ON_BASKET!=CFG.GRAPH_ON_BASKET ||
 	    !equal(TMPCFG.THEME_FILE,CFG.THEME_FILE))
 		need_reinit_dnd=1;
 	var_copy_cfg(&CFG,&TMPCFG);
 	var_check_all_limits();
-	if (need_reinit_graph)
+	if (need_reinit_graph){
 		my_gtk_graph_cmap_reinit(GLOBAL_GRAPH);
+		if (D4X_DND_GRAPH)
+			my_gtk_graph_cmap_reinit(D4X_DND_GRAPH);
+	};
 	if (need_reinit_log)
- 		aa.reinit_main_log();
+ 		_aa_.reinit_main_log();
 	buttons_speed_set_text();
 	dnd_trash_set_speed_text();
 	save_config();
@@ -1548,6 +1576,7 @@ void d4x_prefs_apply(){
 	}else
 		dnd_trash_destroy();
 	GlobalMeter->set_mode(CFG.GRAPH_MODE);
+	GraphMeter->set_mode(CFG.GRAPH_MODE);
 };
 
 void d4x_prefs_ok(){

@@ -3,11 +3,6 @@
     <urlnosize>http://www.filesearch.ru/cgi-bin/s?q=[:file:]&w=a&t=f&e=on&m=[:num:]&o=n&d=&p=&p2=&x=24&y=12</urlnosize>
     <match>(:ftp\://.*/[:file:]:)</match>
 </ftpsearch>
-<ftpsearch name="Archie.is.co.za">
-    <urlsize>http://archie.is.co.za/ftpsearch?form=advanced&query=[:file:]&doit=Search&type=Case+sensitive+glob+search&hits=[:num:]&limsize1=[:size:]&limsize2=[:size:]</urlsize>
-    <urlnosize>http://archie.is.co.za/ftpsearch?form=advanced&query=[:file:]&doit=Search&type=Case+sensitive+glob+search&hits=[:num:]</urlnosize>
-    <match>(:ftp\://.*/[:file:]:)</match>
-</ftpsearch>
 <ftpsearch name="Rambler">
     <urlsize>http://ftpsearch.rambler.ru/db/ftpsearch/search.html?ftype=5&words=[:file:]&what=0&t=e&cs=1&fo=1&pflx=&pfli=&dflx=&dfli=&sl=[:size:]+&sh=[:size:]+&sort1=n&sort2=u</urlsize>
     <urlnosize>http://ftpsearch.rambler.ru/db/ftpsearch/search.html?ftype=5&words=[:file:]&what=0&t=e&cs=1&fo=1&pflx=&pfli=&dflx=&dfli=&sl=&sh=+&sort1=n&sort2=u</urlnosize>
@@ -36,10 +31,5 @@
 <ftpsearch name="TomskNet FTPSearch">
     <urlsize>http://ftpsearch.tomsk.net/index.html?sAreaChange=0&sArea=ftp&query=[:file:]&x=13&y=10&w=t&ftpResPerPage=20&type=Exact+search&hits=99999&matches=&hitsprmatch=&limdom=&limpath=&limsize1=[:size:]&limsize2=[:size:]&f1=Count&f2=Type&f3=Size&f4=Time&f5=Host&f6=Path&header=none&sort=date&trlen=[:num:]</urlsize>
     <urlnosize>http://ftpsearch.tomsk.net/index.html?sAreaChange=0&sArea=ftp&query=[:file:]&x=0&y=0&w=t&ftpResPerPage=20&type=Exact+search&hits=99999&matches=&hitsprmatch=&limdom=&limpath=&limsize1=&limsize2=&f1=Count&f2=Type&f3=Size&f4=Time&f5=Host&f6=Path&header=none&sort=date&trlen=[:num:]</urlnosize>
-    <match>(:ftp\://.*/[:file:]:)</match>
-</ftpsearch>
-<ftpsearch name="FTPSystem.com">
-    <urlsize>http://www.ftpsystem.com/cgi-bin/adv_search.cgi?click=0&query=[:file:]&list=[:num:]&dir=2&sort_list=by+name&bytes=[:size:]&tobytes=[:size:]</urlsize>
-    <urlnosize>http://www.ftpsystem.com/cgi-bin/adv_search.cgi?click=0&query=[:file:]&list=[:num:]&dir=2&sort_list=by+name&bytes=&tobytes=</urlnosize>
     <match>(:ftp\://.*/[:file:]:)</match>
 </ftpsearch>

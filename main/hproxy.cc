@@ -30,11 +30,7 @@ void tHProxyClient::setup_data(char *host,int cache) {
 	no_cache=cache;
 };
 
-fsize_t tHProxyClient::get_size(char *filename,tStringList *list) {
-	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
-	send_request("GET ",filename," HTTP/1.0\r\n");
-
-//	send_request("Referer: ",HOME_PAGE,"\r\n");
+fsize_t tHProxyClient::get_size_sub(tStringList *list){
 	if (referer && *referer)
 		send_request("Referer: ",referer,"\r\n");
 	char data[MAX_LEN];
@@ -71,6 +67,18 @@ fsize_t tHProxyClient::get_size(char *filename,tStringList *list) {
 	send_cookies(real_host,cookie_path);
 	send_request("\r\n");
 	return read_answer(list);
+};
+
+fsize_t tHProxyClient::get_size_only(char *filename,tStringList *list) {
+	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+	send_request("HEAD ",filename," HTTP/1.0\r\n");
+	return(get_size_sub(list));
+};
+
+fsize_t tHProxyClient::get_size(char *filename,tStringList *list) {
+	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+	send_request("GET ",filename," HTTP/1.0\r\n");
+	return(get_size_sub(list));
 };
 
 void tHProxyClient::proxy_registr(char *user,char *password) {
@@ -175,6 +183,39 @@ char *tProxyDownload::make_name(){
 	delete[] parsed_path;
 	delete[] parsed_name;
 	return rvalue;
+};
+
+fsize_t tProxyDownload::get_size_only() {
+	// Make a URL from available data
+	((tHProxyClient *)HTTP)->set_cookie_search(ADDR.pathfile());
+	//begin request
+	if (!answer) {
+		answer=new tStringList;
+		answer->init(0);
+	};
+	while (1) {
+		answer->done();
+		HTTP->set_offset(0);
+		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.hproxy_host.get(),config.hproxy_port);
+		fsize_t temp=HTTP->get_size_only(REQUESTED_URL,answer);
+		switch (temp){
+		case 0:{
+			LOG->log(LOG_OK,_("Answer read ok"));
+			D_FILE.size=analize_answer();
+			return D_FILE.size;
+		};
+		case 1: // redirection
+			analize_answer(); // to avoid lost cookies;
+			return -1;
+		case -2: // bad answer
+			LOG->log(LOG_ERROR,_("File not found on the server"));
+			break;
+		case -1: // timout
+			break;
+		};
+		if (reconnect()) break;
+	};
+	return -2;
 };
 
 fsize_t tProxyDownload::get_size() {

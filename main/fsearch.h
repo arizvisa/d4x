@@ -26,6 +26,8 @@ enum FSEARCH_QUEUES_ENUM{
 struct d4xSearchEngine:public tNode{
 	tPStr name,match;
 	tPStr urlsize,urlnosize;
+	int used;
+	d4xSearchEngine():tNode(){used=0;};
 	void print(){printf("%s\n%s\n",name.get(),match.get());};
 	void prepare_url(tAddr *adr,int size,const char *file,int num);
 };
@@ -49,6 +51,7 @@ public:
 	d4xSearchEngine *prev();
 	d4xSearchEngine *get_by_num(int num);
 	void names2array(char **arr);
+	d4xSearchEngine *get_next_used_engine(d4xSearchEngine *cur);
 	int load();
 };
 
@@ -68,6 +71,7 @@ class tFtpSearchCtrl{
 	void add(tDownload *what);
 	void remove(tDownload *what);
 	void reping(tDownload *what);
+	void stop_all_offline();
 	~tFtpSearchCtrl();
 };
 

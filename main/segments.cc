@@ -21,7 +21,6 @@
 
 tSegment::tSegment(){
 	begin=end=0;
-	offset_in_file=-1;
 };
 
 void tSegment::print(){
@@ -30,11 +29,8 @@ void tSegment::print(){
 
 int tSegment::save(int fd){
 	DBC_RETVAL_IF_FAIL(fd>=0,-1);
-	DBC_RETVAL_IF_FAIL(offset_in_file>=0,-1);
-//	printf("savin %li %li\n",begin,end);
-//	lseek(fd,offset_in_file,SEEK_SET);
-	if (write(fd,&begin,sizeof(begin))<int(sizeof(begin)) ||
-	    write(fd,&end,sizeof(end))<int(sizeof(end)))
+	if (write(fd,&begin,sizeof(begin))!=int(sizeof(begin)) ||
+	    write(fd,&end,sizeof(end))!=int(sizeof(end)))
 		return(-1);
 	return(0);
 };
@@ -76,13 +72,11 @@ void tSegmentator::seg_free(tSegment *seg){
 void tSegmentator::init(char *path){
 	DBC_RETURN_IF_FAIL(path!=NULL);
 	done();
+	autosave_counter=50;
 	filename=copy_string(path);
 	fd=open(path, O_CREAT|O_RDWR,S_IRUSR | S_IWUSR);
-	lock();
 	load();
-	save();
 //	print();
-	unlock();
 };
 
 void tSegmentator::print(){
@@ -91,81 +85,11 @@ void tSegmentator::print(){
 		tmp->print();
 		tmp=tmp->next;
 	};
-	printf("-----------------\n");
-};
-
-void tSegmentator::remove(tSegment *what){
-	DBC_RETURN_IF_FAIL(what!=NULL);
-	if (what->prev)
-		what->prev->next=what->next;
-	else
-		FIRST=what->next;
-	if (what->next)
-		what->next->prev=what->prev;
-	else
-		LAST=what->prev;
-	seg_free(what);
-};
-
-void tSegmentator::save_from(tSegment *what){
-	DBC_RETURN_IF_FAIL(what!=NULL);
-	lseek(fd,what->offset_in_file,SEEK_SET);
-	what->save(fd);
-	tSegment *tmp=what->next;
-	unsigned long int offset_in_file=what->offset_in_file+2*sizeof(unsigned long int);
-	while(tmp){
-		tmp->offset_in_file=offset_in_file;
-		if (tmp->save(fd))
-			break;
-		offset_in_file+=2*sizeof(unsigned long int);
-   		tmp=tmp->next;
-	};
-	ftruncate(fd,offset_in_file);
+	printf("total %li -----------------\n",total);
 };
 
 unsigned long int tSegmentator::get_total(){
 	return(total);
-};
-
-int tSegmentator::join(tSegment *what){
-	DBC_RETVAL_IF_FAIL(what!=NULL,1);
-	/* joining near segments */
-	tSegment *next=what->next;
-	tSegment *prev=what->prev;
-	int changed=0;
-	if (next){
-		while (what->end+1>=next->begin){
-			changed=1;
-			total-=what->end-what->begin;
-			total-=next->end-next->begin;
-			if(what->end<next->end)
-				what->end=next->end;
-			total+=what->end-what->begin;
-			remove(next);
-			next=what->next;
-			if (next==NULL) break;
-		};
-	};
-	if (prev){
-		if (prev->end+1>=what->begin){
-			total-=what->end-what->begin;
-			total-=prev->end-prev->begin;
-			if (prev->end<what->end)
-				prev->end=what->end;
-			total+=prev->end-prev->begin;
-			changed=2;
-			remove(what);
-		};
-	};
-	switch(changed){
-	case 2:
-		save_from(prev);
-		break;
-	case 1:
-		save_from(what);
-		break;
-	};
-	return(!changed);
 };
 
 /* tSegmentator::insert
@@ -175,60 +99,83 @@ int tSegmentator::join(tSegment *what){
  */
 
 int tSegmentator::insert(unsigned long int begin, unsigned long int end){
-	DBC_RETVAL_IF_FAIL(begin<end,0);
+	if (begin>=end) return(0); //simple case :-)
+	//FIXME: overlapping only below, overlapping above is not overlapping;
+	//    [100-200] + [201-300] = not overlapped
+	//    [100-200] + [0-99]    = not overlapped
+	//    [100-200] + [100-300] = not overlapped
+	//    [100-200] + [101-102] = overlapped
+	//    [100-200] + [50-150]  = overlapped
 	lock();
-	int overlap_flag=0;
-	total+=end-begin;
-	tSegment *tmp=FIRST,*prev=NULL;
-	if (tmp){
-		while (tmp){
-			if (begin<tmp->begin){
-				/* adding before */
-				tSegment *a=seg_alloc();
-				a->begin=begin;
-				a->end=end;
-				if ((a->next=tmp) && tmp->begin<a->end)
-					overlap_flag=1;
-				if ((a->prev=tmp->prev)){
-					tmp->prev->next=a;
-					a->offset_in_file=tmp->offset_in_file;
-					if (a->prev->end>begin) overlap_flag=1;
-				}else{
-					a->offset_in_file=0;
-					FIRST=a;
-				};
-				tmp->prev=a;
-				if (join(a))
-					save_from(a);
-				unlock();
-				return(overlap_flag);
-			};
-			prev=tmp;
-			tmp=tmp->next;
+	int rval=0;
+	if (FIRST){
+		tSegment *cur=FIRST;
+		tSegment *prev=NULL;
+		while(cur && cur->end<begin-1){
+			prev=cur;
+			cur=cur->next;
 		};
-		if (prev->end>begin) overlap_flag=1;
-		/* adding to the end */
-		tmp=seg_alloc();
-		tmp->prev=prev;
-		prev->next=tmp;
-		tmp->next=NULL;
-		tmp->begin=begin;
-		tmp->end=end;
-		tmp->offset_in_file=prev->offset_in_file
-				    +sizeof(prev->begin)+sizeof(prev->end);
-		LAST=tmp;
-		if (join(tmp))
-			save_from(tmp);
+		if (cur){ //somewhere in the list
+			if (cur->begin>end+1){ //just insert new element here
+				tSegment *add=seg_alloc();
+				if ((add->prev=prev))
+					prev->next=add;
+				else
+					FIRST=add;
+				add->next=cur;
+				cur->prev=add;
+				add->begin=begin;
+				add->end=end;
+				total+=end-begin;
+			}else{
+				int dec=cur->end-cur->begin;
+				if ((cur->begin>=begin && cur->begin<end)||
+				    cur->end>end)
+					rval=1;
+				if (cur->begin>begin)
+					cur->begin=begin;
+				if (cur->end<end)
+					cur->end=end;
+				//proceed compactifation
+				while(cur->next){
+					tSegment *next=cur->next;
+					if (next->begin<=cur->end+1){ //remove next element as overlaped
+						dec+=next->end-next->begin;
+						if (cur->end<next->end)
+							cur->end=next->end;
+						if ((cur->next=next->next))
+							cur->next->prev=cur;
+						else
+							LAST=cur;
+						seg_free(next);
+					}else
+						break;
+				};
+				total+=cur->end-cur->begin-dec;
+			};
+		}else{ // at the end of the list
+			tSegment *add=seg_alloc();
+			add->next=NULL;
+			LAST->next=add;
+			add->prev=LAST;
+			LAST=add;
+			add->begin=begin;
+			add->end=end;
+			total+=end-begin;
+		};
 	}else{
-		FIRST=seg_alloc();
+		FIRST=LAST=seg_alloc();
 		FIRST->next=FIRST->prev=NULL;
 		FIRST->begin=begin;
 		FIRST->end=end;
-		LAST=FIRST;
+		total=end-begin;
+	};
+	if (autosave_counter--<0){
+		autosave_counter=50;
 		save();
 	};
 	unlock();
-	return(overlap_flag);
+	return(rval);
 };
 
 tSegment *tSegmentator::get_first(){
@@ -312,29 +259,9 @@ int tSegmentator::load(){
 	DBC_RETVAL_IF_FAIL(fd>=0,-1);
 	lseek(fd,0,SEEK_SET);
 	unsigned long int begin,end;
-	long offset_in_file=0;
 	while(read(fd,&begin,sizeof(begin))==sizeof(begin) &&
 	      read(fd,&end,sizeof(end))==sizeof(end)){
-		tSegment *tmp=seg_alloc();
-	    	tmp->begin=begin;
-	        tmp->end=end;
-	        tmp->prev=tmp;
-	        if (FIRST){
-			tmp->prev=LAST;
-			LAST->next=tmp;
-			tmp->next=NULL;
-			LAST=tmp;
-		}else{
-			tmp->prev=tmp->next=NULL;
-			FIRST=LAST=tmp;
-		};
-	        tmp->offset_in_file=offset_in_file;
-	        offset_in_file=lseek(fd,0,SEEK_CUR);
-	};
-	tSegment *tmp=FIRST;
-	while(tmp){
-		join(tmp);
-		tmp=tmp->next;
+		insert(begin,end);
 	};
 	return (0);
 };
@@ -343,14 +270,8 @@ int tSegmentator::save(){
 	DBC_RETVAL_IF_FAIL(fd>=0,-1);
 	tSegment *tmp=FIRST;
 	ftruncate(fd,0);
-	lseek(fd,0,SEEK_SET);
-	long offset_in_file=0;
-	total=0;
 	while(tmp){
-		total+=tmp->end-tmp->begin;
-		tmp->offset_in_file=offset_in_file;
 		if (tmp->save(fd)) return(-1);
-		offset_in_file+=2*sizeof(unsigned long int);
 		tmp=tmp->next;
 	};
 	return(0);

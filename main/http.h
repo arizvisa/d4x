@@ -23,6 +23,7 @@ class tHttpClient:public tClient{
 	int read_answer(tStringList *list);
 	char *user_agent,*referer;
 	void send_cookies(char *host,char *path);
+	virtual fsize_t get_size_sub(tStringList *list);
  public:
 	int CHUNKED,HTTP_VER,HTTP_SUBVER;
 	int ERROR_CODE;
@@ -33,6 +34,7 @@ class tHttpClient:public tClient{
 	void set_offset(fsize_t a);
 	void pass_first_segment();
 	int registr(char *user,char *password);
+	virtual fsize_t get_size_only(char *filename,tStringList *list);
 	fsize_t get_size(char *filename,tStringList *list);
 	int get_file_from(char *what,fsize_t begin,fsize_t len);
 	void down();

@@ -72,6 +72,7 @@ void d4xDownloadQueue::init_pixmaps(){
 	queues[DL_LIMIT]->init_pixmap(PIX_WAIT);
 	queues[DL_STOP]->init_pixmap(PIX_STOP);
 	queues[DL_STOPWAIT]->init_pixmap(PIX_STOP_WAIT);
+	queues[DL_SIZEQUERY]->init_pixmap(PIX_SIZE);
 };
 
 int d4xDownloadQueue::current_run(char *host,int port){
@@ -100,6 +101,10 @@ void d4xDownloadQueue::replace_list(tDList *list,int q){
 	if (queues[q]) delete(queues[q]);
 	queues[q]=list;
 	queues[q]->PAPA=this;
+};
+
+int d4xDownloadQueue::is_first(int q,tDownload *f){
+	return(queues[q]->first()==f);
 };
 
 tDownload *d4xDownloadQueue::first(int q){

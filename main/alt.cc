@@ -17,7 +17,6 @@
 #include "var.h"
 #include "ntlocale.h"
 #include "main.h"
-extern tMain aa;
 
 d4xAltList::d4xAltList(){
 	FIRST=END=NULL;
@@ -25,6 +24,7 @@ d4xAltList::d4xAltList(){
 	add_edit=NULL;
 	mod_edit=NULL;
 	str2mod=NULL;
+	ftp_searching=0;
 };
 
 d4xAltList::~d4xAltList(){
@@ -99,7 +99,11 @@ void d4xAltList::fill_from_ftpsearch(tDownload *fs){
 };
 
 static void d4x_alt_find(GtkWidget *button,tDownload *papa){
-	aa.ftp_search(papa,1);
+	_aa_.ftp_search(papa,1);
+	if (papa && papa->ALTS){
+		papa->ALTS->ftp_searching=1;
+		papa->ALTS->set_find_sens();
+	};
 };
 
 
@@ -158,6 +162,14 @@ static gboolean d4d_alt_dblclick(GtkTreeView *view, GdkEventButton *event, d4xAl
 	return FALSE;
 };
 
+void d4xAltList::set_find_sens(){
+	if (edit==NULL) return;
+	if (ftp_searching)
+		gtk_widget_set_sensitive(edit->find,FALSE);
+	else
+		gtk_widget_set_sensitive(edit->find,TRUE);
+};
+
 void d4xAltList::init_edit(tDownload *papa){
 	if (edit){
 		gdk_window_show(GTK_WIDGET(edit)->window);
@@ -174,13 +186,14 @@ void d4xAltList::init_edit(tDownload *papa){
 			   G_CALLBACK(d4x_alt_remove),
 			   this);
 	g_signal_connect(G_OBJECT(edit->find),"clicked",
-			   G_CALLBACK(d4x_alt_find),
-			   papa);
+			 G_CALLBACK(d4x_alt_find),
+			 papa);
 	g_signal_connect(G_OBJECT(edit),"delete_event",
 			   G_CALLBACK(d4x_alt_delete),
 			   this);
 	g_signal_connect(G_OBJECT(edit->view),"event",
 			   G_CALLBACK(d4d_alt_dblclick),this);
+	set_find_sens();
 	print2edit();
 };
 

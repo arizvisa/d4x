@@ -13,13 +13,13 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include "list.h"
-#include "../main.h"
 #include "../var.h"
 #include "../ntlocale.h"
 #include "graph.h"
 
 /********************************************************************/
 MyGtkGraph *GLOBAL_GRAPH;
+MyGtkGraph *D4X_DND_GRAPH;
 
 
 static GtkWidgetClass *parent_class = (GtkWidgetClass *)NULL;
@@ -264,20 +264,20 @@ void my_gtk_graph_recalc(MyGtkGraph *graph){
 	
 	GtkWidget *widget = GTK_WIDGET(graph);
 	if (graph->rgb_data==NULL) return;
-	if (!GlobalMeter) return;
-	if (!LocalMeter) return;
+	if (!graph->GlobalM) return;
+	if (!graph->LocalM) return;
 	int XSize=widget->allocation.width-4;//2*(METER_LENGTH);
 	int YSize=widget->allocation.height-5;
 	memset(graph->rgb_data,3,XSize*(YSize+1));
 
-	int MAX=GlobalMeter->max();
-	int MAX2=LocalMeter->max();
+	int MAX=graph->GlobalM->max();
+	int MAX2=graph->LocalM->max();
 	MAX=MAX2>MAX?MAX2:MAX;
-	int NUM=GlobalMeter->count();
+	int NUM=graph->GlobalM->count();
 	if (NUM>XSize) NUM=XSize;
 	if (MAX>0) {
-		float value=float((YSize*GlobalMeter->last_value())/float(MAX));
-		float value2=float((YSize*LocalMeter->last_value())/float(MAX));
+		float value=float((YSize*graph->GlobalM->last_value())/float(MAX));
+		float value2=float((YSize*graph->LocalM->last_value())/float(MAX));
 		if (CFG.GRAPH_ORDER) {
 			for (int x=XSize-1;x>0;x-=2) {
 				int Y1=YSize-int(value);
@@ -303,8 +303,8 @@ void my_gtk_graph_recalc(MyGtkGraph *graph){
 						graph->rgb_data[Y2*XSize+x]=graph->rgb_data[Y2*XSize+x-1]=0;
 					};
 				};
-				value=float((YSize*GlobalMeter->next_value())/float(MAX));
-				value2=float((YSize*LocalMeter->next_value())/float(MAX));
+				value=float((YSize*graph->GlobalM->next_value())/float(MAX));
+				value2=float((YSize*graph->LocalM->next_value())/float(MAX));
 			};
 		} else {
 			for (int x=1;x<XSize;x+=2) {
@@ -331,8 +331,8 @@ void my_gtk_graph_recalc(MyGtkGraph *graph){
 						graph->rgb_data[Y2*XSize+x]=graph->rgb_data[Y2*XSize+x-1]=0;
 					};
 				};
-				value=float((YSize*GlobalMeter->next_value())/float(MAX));
-				value2=float((YSize*LocalMeter->next_value())/float(MAX));
+				value=float((YSize*graph->GlobalM->next_value())/float(MAX));
+				value2=float((YSize*graph->LocalM->next_value())/float(MAX));
 			};
 		};
 	};

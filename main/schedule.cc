@@ -569,7 +569,7 @@ void d4xScheduler::run(tMain *papa){
 		save();
 	if (exit_flag){
 		my_main_quit();
-//		aa.run_after_quit();
+//		_aa_.run_after_quit();
 		exit(0);
 	};
 };

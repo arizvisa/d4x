@@ -1,18 +1,34 @@
 ###################### to version 2.9-3.0 ###########################
+[GTKPROBLEM] fix blinking queue of downloads after first click on current queue
+I've rewritten segmentator code in the hope to fix next problems:
+[TEST]	fix problems with 'almost completed' downloads
+[TEST]	fix problems with restarting from begining without any sympthoms
+[DONE]	fix problems when file is downloading in more than ten threads
 really change interface
+[PART]	vertical toolbar to switch beetween
 	ability to hide "The Tree of Queues" panel
 	graph of speeds for separated download
-	graph on DnD basket
-	show speed for every queue
+[DONE]	graph on DnD basket
+[DONE]	show speed for every queue
+[DONE]	log of the last selected download in the main window
 speed limitation per queue
+safe queues (some mode of journaled data)
+	actions of journal: add URL into queue, add URL to begin of the queue, remove URL,add queue,remove queue
 store size in segments file
-automated FTP-search
-ability to select queue in "Add new" dialog
-ability to do FTP-search in case insensitive mode
+[DONE] ability to determine size of file without downloading
+[DONE] offline mode
+FTP-search:
+	automated FTP-search
+	progress bar during searching
+[DONE]	show number of founded links during searching
+	ability to do FTP-search in case insensitive mode
+[DONE]	separate subwindow to output search results (instead of menu)
+[DONE]	ability to search custom filename
+[DONE]	ability to search using number of engines
 automatic calculation MD5SUM after loading
 SOCKS4 support
 Menuitem 'File/Create new queue for download'
-separate thread which is looking for unknown files' sizes
+needed workarround for pthreadlib of RedHat9
 ###################### end to ver 2.9-3.0 ###########################
 [DONE] current method of speed calculation via tDownload::StartSize is *UGLY*
 move to GTK-2.0
@@ -23,7 +39,7 @@ move to GTK-2.0
 	browser for ftp and http
 	"tree" window for displaying tree structure of a site(s)
 automatic redirection when new URL is located in <META> tag
-download using exactly specified number of parts
+[DONE] download using exactly specified number of parts
 add mask for MIME type in a rule of a filter
 all config files in xml-like format
 profiles

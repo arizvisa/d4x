@@ -18,11 +18,13 @@ class tHProxyClient:public tHttpClient{
 	char *cookie_path;
 	char *username_proxy,*userword_proxy;
 	int no_cache;
+	fsize_t get_size_sub(tStringList *list);
 	public:
 		tHProxyClient();
 		tHProxyClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
 		void setup_data(char *host,int cache);
 		void set_cookie_search(char *what);
+		fsize_t get_size_only(char *filename,tStringList *list);
 		fsize_t get_size(char *filename,tStringList *list);
 		void proxy_registr(char *user,char *password);
 		~tHProxyClient();
@@ -35,6 +37,7 @@ public:
 	tProxyDownload();
 	tProxyDownload(tWriterLoger *log);
 	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
+	fsize_t get_size_only();
 	fsize_t get_size();
 	~tProxyDownload();
 };

@@ -200,9 +200,9 @@ void tFacePass::free_matched(tLimitDownload *dwn){
 		lnk->dwn->regex_match=NULL;
 		d4xDownloadQueue *dq=lnk->dwn->myowner->PAPA;
 		dq->del(lnk->dwn);
-		aa.insert_into_wait_list(lnk->dwn,dq);
+		_aa_.insert_into_wait_list(lnk->dwn,dq);
 		if (!do_not_run)
-			aa.try_to_run_wait(dq);
+			_aa_.try_to_run_wait(dq);
 		dwn->limited.dispose();
 		lnk=(d4xDwnLink *)dwn->limited.first();
 	};
@@ -211,7 +211,7 @@ void tFacePass::free_matched(tLimitDownload *dwn){
 void tFacePass::rerun_wait_queues(tQueue *q){
 	d4xDownloadQueue *dq=(d4xDownloadQueue*)(q->first());
 	while (dq){
-		aa.try_to_run_wait(dq);
+		_aa_.try_to_run_wait(dq);
 		rerun_wait_queues(&(dq->child));
 		dq=(d4xDownloadQueue *)(dq->prev);
 	};
@@ -247,9 +247,9 @@ void tFacePass::limit_dec(tDownload *what){
 			lnk->dwn->regex_match=NULL;
 			d4xDownloadQueue *dq=lnk->dwn->myowner->PAPA;
 			dq->del(lnk->dwn);
-			aa.insert_into_wait_list(lnk->dwn,dq);
+			_aa_.insert_into_wait_list(lnk->dwn,dq);
 			if (!do_not_run)
-				aa.try_to_run_wait(dq);
+				_aa_.try_to_run_wait(dq);
 			dwn->limited.dispose();
 		};
 	};
@@ -389,18 +389,10 @@ void tFacePass::edit_row(GtkTreeIter *iter) {
 void tFacePass::apply_dialog() {
 };
 
-void tFacePass::init(){
+GtkWidget *tFacePass::init(){
 	if (window) {
-		gdk_window_show(window->window);
-		return;
+		return(window);
 	};
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_wmclass(GTK_WINDOW(window),
-			       "D4X_Passwords","D4X");
-	gtk_window_set_title(GTK_WINDOW (window),_("URL-manager"));
-	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
-	gtk_widget_set_size_request(window,-1,400);
-	gtk_container_set_border_width(GTK_CONTAINER(window),5);
 	gchar *titles[]={"URL regexp",_("limit"),_("con.")};
 	list_store = gtk_list_store_new(UM_COL_LAST,
 					G_TYPE_STRING,
@@ -422,39 +414,38 @@ void tFacePass::init(){
 	};
 	
 	g_signal_connect(G_OBJECT(view),"event",G_CALLBACK(face_pass_clist_handler),this);
-//	gtk_clist_set_selection_mode(GTK_CLIST(clist),GTK_SELECTION_EXTENDED);
 	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(view));
-	button=gtk_button_new_with_label(_("Ok"));
-	add_button=gtk_button_new_with_label(_("Add new"));
-	del_button=gtk_button_new_with_label(_("Delete"));
+	button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	add_button=gtk_button_new_from_stock(GTK_STOCK_ADD);
+	del_button=gtk_button_new_from_stock(GTK_STOCK_REMOVE);
 	GTK_WIDGET_SET_FLAGS(button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(add_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(del_button,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=window=gtk_vbox_new(FALSE,5);
+	GtkWidget *label=gtk_label_new(_("URL-manager"));
+
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox),GTK_BUTTONBOX_START);
+	gtk_box_pack_start(GTK_BOX(vbox),my_gtk_set_header_style(label),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),add_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),del_button,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(hbox),button,FALSE,FALSE,0);
-	gtk_container_add(GTK_CONTAINER(window),vbox);
-	gtk_window_set_default(GTK_WINDOW(window),button);
-	gtk_widget_show_all(window);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(face_pass_ok),this);
 	g_signal_connect(G_OBJECT(del_button),"clicked",G_CALLBACK(face_pass_del),this);
 	g_signal_connect(G_OBJECT(add_button),"clicked",G_CALLBACK(face_pass_add),this);
-	g_signal_connect(G_OBJECT(window),"delete_event",G_CALLBACK(face_pass_delete), this);
 	tDownload *dwn=dlist.first();
 	while(dwn){
 		show_url((tLimitDownload*)dwn);
 		dwn=dlist.prev();
 	};
-	d4x_eschandler_init(window,this);
+	gtk_widget_ref(window);
+	return(window);
 };
 
 void tFacePass::close() {

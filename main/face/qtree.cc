@@ -21,14 +21,13 @@
 
 enum {
 	QROW_NAME,
+	QROW_SPEED,
 	QROW_TOTAL,
 	QROW_WAIT,
 	QROW_RUN,
 	QROW_QUEUE,
 	QROW_LAST
 };
-
-extern tMain aa;
 
 static gint _event_queue_(GtkWidget *widget,GdkEventButton *event,d4xQsTree *q){
 	if (event->type==GDK_BUTTON_PRESS && event->button==3) {
@@ -115,14 +114,13 @@ void d4xQsTree::create_init(int mode){
 	gtk_window_set_position(GTK_WINDOW(dialog),
 				GTK_WIN_POS_CENTER);
 	gtk_container_set_border_width(GTK_CONTAINER(dialog),5);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_box_set_spacing(GTK_BOX(hbox),5);
 	dialog_entry=gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(vbox),dialog_entry,FALSE,FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GtkWidget *ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	GtkWidget *cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
 	gtk_widget_set_sensitive(ok_button,FALSE);
@@ -222,8 +220,8 @@ void d4xQsTree::drop_from(GtkTreeView *src_view){
 			dst->qv.add(temp);
 			t=t->next;
 		};
-		aa.try_to_run_wait(dst);
-		aa.try_to_run_wait(src);
+		_aa_.try_to_run_wait(dst);
+		_aa_.try_to_run_wait(src);
 		prepare_buttons();
 	};
 };
@@ -285,11 +283,11 @@ static void target_drag_data_received  (GtkWidget *widget,
 	gtk_drag_finish (context, FALSE, FALSE, time);
 };
 
-static GtkTargetEntry ltarget_table[] = {
+static GtkTargetEntry ltarget_table1[] = {
 	{ "d4x/dpointer",     0, 0 }
 };
 
-static guint ln_targets = sizeof(ltarget_table) / sizeof(ltarget_table[0]);
+static guint ln_targets1 = sizeof(ltarget_table1) / sizeof(ltarget_table1[0]);
 
 static void target_drag_leave(GtkWidget *widget,GdkDragContext *context, guint time,d4xQsTree *qt){
 	qt->drag_motion(NULL);
@@ -309,6 +307,7 @@ static gboolean d4x_qstree_select_func(GtkTreeSelection *sel, GtkTreeModel *mode
 void d4xQsTree::init(){
 	store=gtk_tree_store_new(QROW_LAST+1,
 				 G_TYPE_STRING,  //name
+				 G_TYPE_STRING,  //speed
 				 G_TYPE_INT,     //Total
 				 G_TYPE_INT,     //Wait
 				 G_TYPE_STRING,  //Run 
@@ -327,6 +326,16 @@ void d4xQsTree::init(){
 									      "background_set", QROW_LAST,
 									      "foreground_set", QROW_LAST,
 									      NULL);
+	gtk_tree_view_append_column(view, column);
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),"background-gdk", &BLUE,NULL);
+	g_object_set (G_OBJECT (renderer),"foreground-gdk", &WHITE,NULL);
+	column = gtk_tree_view_column_new_with_attributes ("Speed",
+							   renderer,
+							   "text",QROW_SPEED,
+							   "background_set", QROW_LAST,
+							   "foreground_set", QROW_LAST,
+							   NULL);
 	gtk_tree_view_append_column(view, column);
 	
 	renderer = gtk_cell_renderer_text_new ();
@@ -367,7 +376,7 @@ void d4xQsTree::init(){
 			   (GtkDestDefaults)(GTK_DEST_DEFAULT_MOTION |
 					     GTK_DEST_DEFAULT_HIGHLIGHT |
 					     GTK_DEST_DEFAULT_DROP),
-			   ltarget_table, ln_targets,
+			   ltarget_table1, ln_targets1,
 			   (GdkDragAction)(GDK_ACTION_COPY|GDK_ACTION_MOVE));
 	g_signal_connect(G_OBJECT (view), "drag_leave",
 			   G_CALLBACK (target_drag_leave), this);
@@ -417,6 +426,14 @@ void d4xQsTree::update(d4xDownloadQueue *what){
 			   QROW_TOTAL,what->count(),
 			   QROW_WAIT,what->count(DL_WAIT),
 			   QROW_RUN,data,
+			   -1);
+};
+
+void d4xQsTree::update_speed(d4xDownloadQueue *what){
+	char data[100];
+	sprintf(data,"%lliB/s",what->speed.speed());
+	gtk_tree_store_set(store,&(what->tree_iter),
+			   QROW_SPEED,data,
 			   -1);
 };
 
@@ -549,8 +566,7 @@ void d4xQsTree::prefs_init(){
 		gdk_window_show(prefs->window);
 		return;
 	};
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 
 	prefs = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(prefs),
@@ -561,8 +577,7 @@ void d4xQsTree::prefs_init(){
 				GTK_WIN_POS_CENTER);
 	gtk_container_set_border_width(GTK_CONTAINER(prefs),5);
 
-	GtkWidget *prefs_limits_tbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_limits_tbox),5);
+	GtkWidget *prefs_limits_tbox=gtk_hbox_new(FALSE,5);
 	GtkAdjustment *adj = (GtkAdjustment *) gtk_adjustment_new (q->MAX_ACTIVE, 0, 50.0, 1.0, 3.0, 0.0);
 //	max_threads=my_gtk_entry_new_with_max_length(3,q->MAX_ACTIVE);
 	max_threads = gtk_spin_button_new (adj, 0, 0);
@@ -589,8 +604,7 @@ void d4xQsTree::prefs_init(){
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),path_vbox,FALSE,FALSE,0);
 	
-	GtkWidget *columns_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(columns_hbox),5);
+	GtkWidget *columns_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *columns_frame1=gtk_frame_new(_("Size format"));
 	GtkWidget *columns_frame2=gtk_frame_new(_("Time format"));
 	gtk_container_set_border_width(GTK_CONTAINER(columns_frame1),5);
@@ -647,14 +661,12 @@ void d4xQsTree::prefs_init(){
 	GtkWidget *columns_vbox22=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_vbox21),columns_vbox22,FALSE,FALSE,0);
 
-	gtk_box_set_spacing(GTK_BOX(columns_hbox),5);
 	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox11,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox21,FALSE,FALSE,0);
 
 	gtk_box_pack_start(GTK_BOX(vbox),columns_hbox,FALSE,FALSE,0);
 
-	GtkWidget *prefs_tbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(prefs_tbox),5);
+	GtkWidget *prefs_tbox=gtk_hbox_new(FALSE,5);
 	name=gtk_entry_new();
 	text_to_combo(name,q->name.get());
 	GtkWidget *prefs_tlabel=gtk_label_new(_("Name of the queue"));
@@ -664,8 +676,8 @@ void d4xQsTree::prefs_init(){
 
 	GtkWidget *hbbox=gtk_hbutton_box_new();
 	gtk_box_set_spacing(GTK_BOX(hbbox),5);
-	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GtkWidget *ok_button=gtk_button_new_from_stock(GTK_STOCK_OK);
+	GtkWidget *cancel_button=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
 	gtk_box_pack_end(GTK_BOX(hbbox),ok_button,FALSE,FALSE,0);
@@ -710,10 +722,10 @@ void d4xQsTree::prefs_ok(){
 	if (q->MAX_ACTIVE>50) q->MAX_ACTIVE=50;
 	q->AUTODEL_FAILED=GTK_TOGGLE_BUTTON(del_fataled)->active;
 	q->AUTODEL_COMPLETED=GTK_TOGGLE_BUTTON(del_completed)->active;
-	if (q->AUTODEL_COMPLETED) aa.del_completed(q);
-	if (q->AUTODEL_FAILED) aa.del_fataled(q);
+	if (q->AUTODEL_COMPLETED) _aa_.del_completed(q);
+	if (q->AUTODEL_FAILED) _aa_.del_fataled(q);
 	update(q);
-	aa.try_to_run_wait(q);
+	_aa_.try_to_run_wait(q);
 	prefs_cancel();
 };
 

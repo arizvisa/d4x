@@ -476,6 +476,10 @@ fsize_t tFtpDownload::ls_answer_long(){
 	return(D_FILE.size);
 };
 
+fsize_t tFtpDownload::get_size_only() {
+	return(get_size());
+};
+
 fsize_t tFtpDownload::get_size() {
 	if (!list) {
 		list=new tStringList;

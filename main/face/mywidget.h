@@ -145,4 +145,15 @@ struct d4xStringEditClass{
 
 GtkWidget *d4x_string_edit_new();
 
+struct MyGtkVbookmark{
+	GtkRadioButton button;
+};
+struct MyGtkVbookmarkClass{
+	GtkRadioButtonClass parent_class;
+};
+
+GtkWidget *my_gtk_vbookmark_new(GSList *group);
+GtkWidget *my_gtk_vbookmark_new_with_label(GSList *group,const gchar *label);
+
+
 #endif
