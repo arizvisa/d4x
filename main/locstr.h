@@ -20,8 +20,14 @@ class tPStr{
 	tPStr();
 	void set(const char *a);
 	char *get(){return a;};
+	bool notempty();
 	~tPStr();
 };
+
+#define REMOVE_SC_FROM_HOST(__host) if (__host){ \
+   char *__sc=index(__host,':');\
+   if (__sc) *__sc=0; \
+  };
 
 //#define copy_string(var) (var?strncpy(new char[strlen(var)+1],var,strlen(var)+1):NULL)
 
@@ -81,6 +87,7 @@ char *parse_save_path(const char *str,char *file);
 char *index_mult(char *str,const char *what);
 int file_copy(char *from,char *to,char *buf,int size);
 char *str_replace(const char *str,const char *where,const char *what);
+void make_proxy_host(const char *host,int port);
 
 //**************************************************/
 #endif

@@ -13,6 +13,7 @@
 
 #include <gtk/gtk.h>
 #include "../history.h"
+#include "../addr.h"
 
 struct MyGtkFilesel{
 	GtkHBox box;
@@ -144,6 +145,30 @@ struct d4xStringEditClass{
 };
 
 GtkWidget *d4x_string_edit_new();
+
+
+struct d4xAltEdit{
+	GtkWindow window;
+	GtkEntry *entry;
+	GtkWidget *proxy_use_check;
+	GtkWidget *proxy_type_ftp;
+	GtkWidget *proxy_type_http;
+	GtkWidget *proxy_host;
+	GtkWidget *proxy_port;
+	GtkWidget *proxy_user;
+	GtkWidget *proxy_pass;
+	GtkWidget *proxy_user_check;
+	GtkWidget *proxy_view;
+	GtkWidget *ok,*cancel;
+};
+
+struct d4xAltEditClass {
+	GtkWindowClass parent_class;
+};
+
+GtkWidget *d4x_alt_edit_new();
+void d4x_alt_edit_set(d4xAltEdit *sel,tAddr *info);
+void d4x_alt_edit_get(d4xAltEdit *sel,tAddr *info);
 
 struct MyGtkVbookmark{
 	GtkRadioButton button;

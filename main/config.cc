@@ -212,7 +212,8 @@ tConfigVariable config_variables[]={
 	{"themes_dir",		CV_TYPE_STRING,	&(CFG.THEMES_DIR)},
 	{"use_default_cfg",	CV_TYPE_BOOL,	&(CFG.USE_DEFAULT_CFG)},
 	{"number_of_parts",	CV_TYPE_INT,	&(CFG.NUMBER_OF_PARTS)},
-	{"graph_on_basket",	CV_TYPE_INT,	&(CFG.GRAPH_ON_BASKET)}
+	{"graph_on_basket",	CV_TYPE_INT,	&(CFG.GRAPH_ON_BASKET)},
+	{"speed_on_basket",	CV_TYPE_INT,	&(CFG.SHOW_SPEED_ON_BASKET)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -277,8 +278,8 @@ void read_config() {
 		close(fd);
 	} else {
 		save_config();
-		printf(_("Can't open cfg file at '%s'\n"),cfgpath);
-		printf(_("Use default cfg :))...\n"));
+		g_print(_("Can't open cfg file at '%s'\n"),cfgpath);
+		g_print(_("Use default cfg :))...\n"));
 	};
 	delete[] cfgpath;
 	load_strlist(ALL_HISTORIES[URL_HISTORY], ".ntrc_2/history1",0);
@@ -415,7 +416,7 @@ void save_config() {
 			sprintf(data,"Can't write cfgfile to:%s",cfgpath);
 			MainLog->add(data,LOG_ERROR);
 		} else
-			printf("Can't write cfgfile to:%s\n",cfgpath);
+			g_print("Can't write cfgfile to:%s\n",cfgpath);
 	};
 	save_strlist(ALL_HISTORIES[URL_HISTORY], ".ntrc_2/history1");
 	save_strlist(ALL_HISTORIES[PATH_HISTORY],".ntrc_2/history2");
@@ -509,8 +510,8 @@ int parse_command_line_preload(int argc,char **argv){
 		};
 		case OPT_UNKNOWN:{
 			if (argv[i] && *argv[i]=='-') {
-				printf(_("unknown option:"));
-				printf(" %s\n",argv[i]);
+				g_print(_("unknown option:"));
+				g_print(" %s\n",argv[i]);
 			}
 			break;
 		};
@@ -583,8 +584,8 @@ static void _do_lstree_(tMsgClient *clt){
 	clt->send_command_short(PACKET_LSTREE,NULL,0);
 	char b;
 	int depth=-1;
-	printf(_("List of queues:\n"));
-	printf("-----------------------------\n");
+	g_print(_("List of queues:\n"));
+	g_print("-----------------------------\n");
 	int N=1;
 	while(clt->readdata(&b,sizeof(b))==sizeof(b)){
 		int len=0;
@@ -638,26 +639,26 @@ int parse_command_line_already_run(int argv,char **argc){
 				case OPT_INFO:{
 					rvalue=0;
 					clt->send_command(PACKET_ASK_RUN,NULL,0);
-					printf(_("Run downloads: %d\n"),clt->get_answer_int());
+					g_print(_("Run downloads: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_PAUSE,NULL,0);
-					printf(_("Paused downloads: %d\n"),clt->get_answer_int());
+					g_print(_("Paused downloads: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_STOP,NULL,0);
-					printf(_("Failed downloads: %d\n"),clt->get_answer_int());
+					g_print(_("Failed downloads: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_COMPLETE,NULL,0);
-					printf(_("Completed downloads: %d\n"),clt->get_answer_int());
-					printf("-------------------------------\n");
+					g_print(_("Completed downloads: %d\n"),clt->get_answer_int());
+					g_print("-------------------------------\n");
 					clt->send_command(PACKET_ASK_FULLAMOUNT,NULL,0);
-					printf(_("Total: %d\n"),clt->get_answer_int());
+					g_print(_("Total: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_READED_BYTES,NULL,0);
-					printf(_("Total bytes loaded: %d\n"),clt->get_answer_int());
+					g_print(_("Total bytes loaded: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_SPEED,NULL,0);
-					printf(_("Current speed: %d\n"),clt->get_answer_int());
+					g_print(_("Current speed: %d\n"),clt->get_answer_int());
 					break;
 				};
 				case OPT_SPEED:{
 					clt->send_command(PACKET_ASK_SPEED,NULL,0);
 					rvalue=0;
-					printf(_("Curent speed: %d\n"),clt->get_answer_int());
+					g_print(_("Curent speed: %d\n"),clt->get_answer_int());
 					break;
 				};
 				case OPT_TRAFFIC_LOW:{
@@ -767,12 +768,14 @@ int parse_command_line_already_run(int argv,char **argc){
 				};
 			};
 			if (opt_error && downloader_args_errors[option])
-				printf("%s\n",_(downloader_args_errors[option]));
+				g_print("%s\n",_(downloader_args_errors[option]));
 		};		
 		delete clt;
 	};
 	return rvalue;
 };
+
+void init_add_dnd_window(char *url,char *desc);
 
 void parse_command_line_postload(int argv,char **argc){
 	for (int i=1;i<argv;i++){
@@ -781,6 +784,13 @@ void parse_command_line_postload(int argv,char **argc){
 		};
 		int option=downloader_args_type(argc[i]);
 		switch (option){
+		case OPT_ADD_OPEN:{
+			if (argv>i+1){
+				i++;
+				init_add_dnd_window(argc[i],_("Added from command line"));
+			};
+			break;
+		};
 		case OPT_TRAFFIC_LOW:{
 			CFG.SPEED_LIMIT=1;
 			set_speed_buttons();
@@ -799,7 +809,7 @@ void parse_command_line_postload(int argv,char **argc){
 		case OPT_EXIT_TIME:
 			int tmp;
 			if (argv<=i+1 || sscanf(argc[i+1],"%d",&tmp)<1 || tmp<0)
-				printf("%s\n",_(downloader_args_errors[OPT_EXIT_TIME]));
+				g_print("%s\n",_(downloader_args_errors[OPT_EXIT_TIME]));
 			else{
 				if (tmp>=1){
 					CFG.EXIT_COMPLETE=1;
@@ -818,7 +828,7 @@ void parse_command_line_postload(int argv,char **argc){
 				i+=1;
 				CFG.GLOBAL_SAVE_PATH=copy_string(argc[i]);
 			}else
-				printf("%s\n",_(downloader_args_errors[OPT_SET_DIRECTORY]));
+				g_print("%s\n",_(downloader_args_errors[OPT_SET_DIRECTORY]));
 			break;
 		};
 		case OPT_GEOMETRY:{
@@ -838,7 +848,7 @@ void parse_command_line_postload(int argv,char **argc){
 //					printf("x=%i y=%i\n",x,y);
 				};
 			}else
-				printf("%s\n",_(downloader_args_errors[OPT_GEOMETRY]));
+				g_print("%s\n",_(downloader_args_errors[OPT_GEOMETRY]));
 		};
 		};
 	};
@@ -858,27 +868,27 @@ void help_print_args(int type){
 };
 
 void help_print(){
-	printf(_("Usage: nt [OPTION] ... [URL]"));printf("\n\n");
-	help_print_args(OPT_HELP);printf(_("print this page and exit"));printf("\n");
-	help_print_args(OPT_VERSION);printf(_("show version information and exit"));printf("\n");
-	help_print_args(OPT_INFO);printf(_("show information if already run"));printf("\n");
-	help_print_args(OPT_SPEED);printf(_("show current speed if already run"));printf("\n");
-	help_print_args(OPT_RUN_MINIMIZED);printf(_("run in minimized mode"));printf("\n");
-	help_print_args(OPT_EXIT_TIME);printf(_("set timeout for exiting if nothing to do"));printf("\n");
-	help_print_args(OPT_SET_DIRECTORY);printf(_("set directory for saving files"));printf("\n");
-	help_print_args(OPT_TRAFFIC_LOW);printf(_("set lower speed limitation"));printf("\n");
-	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set medium speed limitation"));printf("\n");
-	help_print_args(OPT_TRAFFIC_HIGH);printf(_("set unlimited speed"));printf("\n");
-	help_print_args(OPT_DEL_COMPLETED);printf(_("delete completed if already run"));printf("\n");
-	help_print_args(OPT_SET_MAX_THREADS);printf(_("set maximum active downloads"));printf("\n");
-	help_print_args(OPT_RERUN_FAILED);printf(_("restart all failed downloads"));printf("\n");
-	help_print_args(OPT_WITHOUT_FACE);printf(_("run program without X interface"));printf("\n");
-	help_print_args(OPT_LS);printf(_("display info about URL in queue of downloads"));printf("\n");
-	help_print_args(OPT_SWITCH);printf(_("change current default queue"));printf("\n");
-	help_print_args(OPT_DEL);printf(_("remove a download from queue"));printf("\n");
-	help_print_args(OPT_STOP);printf(_("stop a download"));printf("\n");
-	help_print_args(OPT_COLOR);printf(_("using colors if run without interface"));printf("\n");
-	help_print_args(OPT_GEOMETRY);printf(_("specifies preferred size and position of main window"));printf("\n");
-	help_print_args(OPT_ADD_OPEN);printf(_("open \"Add new download\" dialog for the URL"));printf("\n");
+	g_print(_("Usage: nt [OPTION] ... [URL]"));printf("\n\n");
+	help_print_args(OPT_HELP);g_print(_("print this page and exit"));printf("\n");
+	help_print_args(OPT_VERSION);g_print(_("show version information and exit"));printf("\n");
+	help_print_args(OPT_INFO);g_print(_("show information if already run"));printf("\n");
+	help_print_args(OPT_SPEED);g_print(_("show current speed if already run"));printf("\n");
+	help_print_args(OPT_RUN_MINIMIZED);g_print(_("run in minimized mode"));printf("\n");
+	help_print_args(OPT_EXIT_TIME);g_print(_("set timeout for exiting if nothing to do"));printf("\n");
+	help_print_args(OPT_SET_DIRECTORY);g_print(_("set directory for saving files"));printf("\n");
+	help_print_args(OPT_TRAFFIC_LOW);g_print(_("set lower speed limitation"));printf("\n");
+	help_print_args(OPT_TRAFFIC_MIDDLE);g_print(_("set medium speed limitation"));printf("\n");
+	help_print_args(OPT_TRAFFIC_HIGH);g_print(_("set unlimited speed"));printf("\n");
+	help_print_args(OPT_DEL_COMPLETED);g_print(_("delete completed if already run"));printf("\n");
+	help_print_args(OPT_SET_MAX_THREADS);g_print(_("set maximum active downloads"));printf("\n");
+	help_print_args(OPT_RERUN_FAILED);g_print(_("restart all failed downloads"));printf("\n");
+	help_print_args(OPT_WITHOUT_FACE);g_print(_("run program without X interface"));printf("\n");
+	help_print_args(OPT_LS);g_print(_("display info about URL in queue of downloads"));printf("\n");
+	help_print_args(OPT_SWITCH);g_print(_("change current default queue"));printf("\n");
+	help_print_args(OPT_DEL);g_print(_("remove a download from queue"));printf("\n");
+	help_print_args(OPT_STOP);g_print(_("stop a download"));printf("\n");
+	help_print_args(OPT_COLOR);g_print(_("using colors if run without interface"));printf("\n");
+	help_print_args(OPT_GEOMETRY);g_print(_("specifies preferred size and position of main window"));printf("\n");
+	help_print_args(OPT_ADD_OPEN);g_print(_("open \"Add new download\" dialog for the URL"));printf("\n");
 	printf("\n");
 };

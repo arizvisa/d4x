@@ -746,7 +746,11 @@ int ctime_to_time(char *src) {
 			sscanf_int(tmpdata,&(date.tm_sec));
 		};
 	};
-	return(mktime(&date)+timezone);
+#ifdef HAVE_STRUCT_TM_TM_ZONE
+	return(mktime(&date)+date.tm_gmtoff);
+#else
+	return(mktime(&date));
+#endif
 };
 
 /* check_mask();
@@ -1345,6 +1349,10 @@ tPStr::tPStr(){
 	a=NULL;
 };
 
+bool tPStr::notempty(){
+	return(a!=NULL && a[0]!=0);
+};
+
 void tPStr::set(const char *b){
 	if (a) delete[] a;
 	a=copy_string(b);
@@ -1356,6 +1364,22 @@ tPStr::~tPStr(){
 };
 
 /***************************************************************/
+
+void make_proxy_host(const char *host,int port){
+	char *tmp=new char[strlen(host)+10];
+	char *b=tmp;
+	while(*host!=':' && *host){
+		*b=*host;
+		host++;
+		b++;
+	};
+	*b=':';
+	b++;
+	sprintf(b,"%i",port);
+	if (*tmp!=':' && *tmp)
+		ALL_HISTORIES[PROXY_HISTORY]->add(tmp);
+	delete[] tmp;
+};
 
 int file_copy(char *from,char *to,char *buf,int size){
 	FILE *src=fopen(from,"r");

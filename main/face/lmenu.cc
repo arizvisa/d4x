@@ -19,6 +19,7 @@
 #include "../ntlocale.h"
 #include <gdk/gdkkeysyms.h>
 #include "../main.h"
+#include "../fsearch.h"
 #include "lod.h"
 
 
@@ -245,5 +246,7 @@ void list_menu_prepare() {
 			gtk_widget_set_sensitive(ListMenuArray[LM_ALT],FALSE);
 		};
 //		gtk_widget_set_sensitive(ListMenuArray[LM_EDIT_COMMON],FALSE);
+		if (D4X_SEARCH_ENGINES.count()==0)
+			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],FALSE);
 	};
 };

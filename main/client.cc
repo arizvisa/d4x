@@ -136,11 +136,36 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	con_limit = src->con_limit;
 };
 
+d4xProxyCfg::d4xProxyCfg(){
+	no_cache=type=0;
+};
+
+void d4xProxyCfg::copy(d4xProxyCfg *src){
+	type = src->type;
+	no_cache = src->no_cache;
+	http_port = src->http_port;
+	http_host.set(src->http_host.get());
+	http_user.set(src->http_user.get());
+	http_pass.set(src->http_pass.get());
+	ftp_port = src->ftp_port;
+	ftp_host.set(src->ftp_host.get());
+	ftp_user.set(src->ftp_user.get());
+	ftp_pass.set(src->ftp_pass.get());
+};
+
+void d4xProxyCfg::reset(){
+	http_user.set(NULL);
+	http_pass.set(NULL);
+	http_host.set(NULL);
+	ftp_user.set(NULL);
+	ftp_pass.set(NULL);
+	ftp_host.set(NULL);
+};
+
 /* ---------------------------------------- */
 
 tCfg::tCfg() {
 	speed=0;
-	proxy_no_cache=proxy_type=0;
 	follow_link=leave_server=0;
 	dont_leave_dir=0;
 	sleep_before_complete=0;
@@ -174,16 +199,7 @@ void tCfg::copy_proxy(tCfg *src){
 	socks_host.set(src->socks_host.get());
 	socks_user.set(src->socks_user.get());
 	socks_pass.set(src->socks_pass.get());
-	proxy_type = src->proxy_type;
-	proxy_no_cache = src->proxy_no_cache;
-	hproxy_port = src->hproxy_port;
-	hproxy_host.set(src->hproxy_host.get());
-	hproxy_user.set(src->hproxy_user.get());
-	hproxy_pass.set(src->hproxy_pass.get());
-	fproxy_port = src->fproxy_port;
-	fproxy_host.set(src->fproxy_host.get());
-	fproxy_user.set(src->fproxy_user.get());
-	fproxy_pass.set(src->fproxy_pass.get());
+	proxy.copy(&(src->proxy));
 };
 
 void tCfg::copy(tCfg *src) {
@@ -197,32 +213,27 @@ void tCfg::copy(tCfg *src) {
 
 void tCfg::reset_proxy() {
 	socks_host.set(NULL);
-	hproxy_user.set(NULL);
-	hproxy_pass.set(NULL);
-	hproxy_host.set(NULL);
-	fproxy_user.set(NULL);
-	fproxy_pass.set(NULL);
-	fproxy_host.set(NULL);
+	proxy.reset();
 };
 
 void tCfg::save_to_config(int fd){
 	f_wstr_lf(fd,"Cfg:");
-	if (hproxy_host.get()){
-		write_named_string(fd,"Hproxy:",hproxy_host.get());
-		write_named_integer(fd,"Hproxy_port:",hproxy_port);
-		if(hproxy_pass.get()!=NULL && hproxy_user.get()!=NULL){
-			write_named_string(fd,"Hproxy_pass:",hproxy_pass.get());
-			write_named_string(fd,"Hproxy_user:",hproxy_user.get());
+	if (proxy.http_host.get()){
+		write_named_string(fd,"Hproxy:",proxy.http_host.get());
+		write_named_integer(fd,"Hproxy_port:",proxy.http_port);
+		if(proxy.http_pass.get()!=NULL && proxy.http_user.get()!=NULL){
+			write_named_string(fd,"Hproxy_pass:",proxy.http_pass.get());
+			write_named_string(fd,"Hproxy_user:",proxy.http_user.get());
 		};
 	};
-	if (fproxy_host.get()){
-		write_named_string(fd,"Fproxy:",fproxy_host.get());
-		write_named_integer(fd,"Fproxy_port:",fproxy_port);
-		if(fproxy_pass.get()!=NULL && fproxy_user.get()!=NULL){
-			write_named_string(fd,"Fproxy_pass:",fproxy_pass.get());
-			write_named_string(fd,"Fproxy_user:",fproxy_user.get());
+	if (proxy.ftp_host.get()){
+		write_named_string(fd,"Fproxy:",proxy.ftp_host.get());
+		write_named_integer(fd,"Fproxy_port:",proxy.ftp_port);
+		if(proxy.ftp_pass.get()!=NULL && proxy.ftp_user.get()!=NULL){
+			write_named_string(fd,"Fproxy_pass:",proxy.ftp_pass.get());
+			write_named_string(fd,"Fproxy_user:",proxy.ftp_user.get());
 		};
-		write_named_integer(fd,"proxy_type:",proxy_type);
+		write_named_integer(fd,"proxy_type:",proxy.type);
 	};
 	if (socks_host.get()){
 		write_named_string(fd,"socks:",socks_host.get());
@@ -232,7 +243,7 @@ void tCfg::save_to_config(int fd){
 			write_named_string(fd,"socks_pass:",socks_pass.get());
 		};
 	};
-	write_named_integer(fd,"proxy_no_cache:",proxy_no_cache);
+	write_named_integer(fd,"proxy_no_cache:",proxy.no_cache);
 	if (user_agent.get() && *(user_agent.get()))
 		write_named_string(fd,"User_agent:",user_agent.get());
 		
@@ -276,15 +287,15 @@ void tCfg::save_to_config(int fd){
 int tCfg::load_from_config(int fd){
 	tSavedVar table_of_fields[]={
 		{"User_agent:", SV_TYPE_PSTR,	&user_agent}, 
-		{"Hproxy:",	SV_TYPE_PSTR,	&hproxy_host},
-		{"Hproxy_pass:",	SV_TYPE_PSTR,	&hproxy_pass},
-		{"Hproxy_user:",	SV_TYPE_PSTR,	&hproxy_user},
-		{"Hproxy_port:",	SV_TYPE_INT,	&hproxy_port},
-		{"proxy_type:",	SV_TYPE_INT,	&proxy_type},
-		{"Fproxy:",	SV_TYPE_PSTR,	&fproxy_host},
-		{"Fproxy_pass:",	SV_TYPE_PSTR,	&fproxy_pass},
-		{"Fproxy_user:",	SV_TYPE_PSTR,	&fproxy_user},
-		{"Fproxy_port:",	SV_TYPE_INT,	&fproxy_port},
+		{"Hproxy:",	SV_TYPE_PSTR,	&proxy.http_host},
+		{"Hproxy_pass:",	SV_TYPE_PSTR,	&proxy.http_pass},
+		{"Hproxy_user:",	SV_TYPE_PSTR,	&proxy.http_user},
+		{"Hproxy_port:",	SV_TYPE_INT,	&proxy.http_port},
+		{"proxy_type:",	SV_TYPE_INT,	&proxy.type},
+		{"Fproxy:",	SV_TYPE_PSTR,	&proxy.ftp_host},
+		{"Fproxy_pass:",	SV_TYPE_PSTR,	&proxy.ftp_pass},
+		{"Fproxy_user:",	SV_TYPE_PSTR,	&proxy.ftp_user},
+		{"Fproxy_port:",	SV_TYPE_INT,	&proxy.ftp_port},
 		{"socks:",	SV_TYPE_PSTR,	&socks_host},
 		{"socks_pass:",	SV_TYPE_PSTR,	&socks_pass},
 		{"socks_user:",	SV_TYPE_PSTR,	&socks_user},
@@ -311,7 +322,7 @@ int tCfg::load_from_config(int fd){
 		{"dont_leave_dir:",SV_TYPE_INT,	&dont_leave_dir},
 		{"referer:",	SV_TYPE_PSTR,	&referer},
 		{"cookie:",	SV_TYPE_PSTR,	&cookie},
-		{"proxy_no_cache:",SV_TYPE_INT,	&proxy_no_cache},
+		{"proxy_no_cache:",SV_TYPE_INT,	&proxy.no_cache},
 		{"EndCfg:",	SV_TYPE_END,	NULL},
 		{"check_time:",	SV_TYPE_INT,	&check_time},
 		{"change_links:",SV_TYPE_INT,	&change_links},
@@ -383,7 +394,7 @@ void tClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 	timeout=time_out;
 };
 
-int tClient::read_data(fsize_t len) {
+fsize_t tClient::read_data(fsize_t len) {
 	FillSize=read_data(buffer,len);
 	if (FillSize<0) return RVALUE_TIMEOUT;
 	DSize+=FillSize;

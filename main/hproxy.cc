@@ -118,21 +118,21 @@ int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	config.socks_host.set(cfg->socks_host.get());
 	config.socks_user.set(cfg->socks_user.get());
 	config.socks_pass.set(cfg->socks_pass.get());
-	config.proxy_no_cache = cfg->proxy_no_cache;
+	config.proxy.no_cache = cfg->proxy.no_cache;
 	if (hostinfo->proto==D_PROTO_FTP){
-		config.hproxy_port = cfg->fproxy_port;
-		config.hproxy_host.set(cfg->fproxy_host.get());
-		config.hproxy_user.set(cfg->fproxy_user.get());
-		config.hproxy_pass.set(cfg->fproxy_pass.get());
+		config.proxy.http_port = cfg->proxy.ftp_port;
+		config.proxy.http_host.set(cfg->proxy.ftp_host.get());
+		config.proxy.http_user.set(cfg->proxy.ftp_user.get());
+		config.proxy.http_pass.set(cfg->proxy.ftp_pass.get());
 	}else{
-		config.hproxy_port = cfg->hproxy_port;
-		config.hproxy_host.set(cfg->hproxy_host.get());
-		config.hproxy_user.set(cfg->hproxy_user.get());
-		config.hproxy_pass.set(cfg->hproxy_pass.get());
+		config.proxy.http_port = cfg->proxy.http_port;
+		config.proxy.http_host.set(cfg->proxy.http_host.get());
+		config.proxy.http_user.set(cfg->proxy.http_user.get());
+		config.proxy.http_pass.set(cfg->proxy.http_pass.get());
 	};
 
 	D_PROTO=hostinfo->proto;
-	HTTP->init(config.hproxy_host.get(),LOG,config.hproxy_port,config.timeout);
+	HTTP->init(config.proxy.http_host.get(),LOG,config.proxy.http_port,config.timeout);
 	config.user_agent.set(cfg->user_agent.get());
 	config.referer.set(cfg->referer.get());
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
@@ -140,8 +140,8 @@ int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 		HTTP->registr(NULL,NULL);
 	else
 		HTTP->registr(ADDR.username.get(),ADDR.pass.get());
-	((tHProxyClient *)(HTTP))->proxy_registr(config.hproxy_user.get(),config.hproxy_pass.get());
-	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.get(),cfg->proxy_no_cache);
+	((tHProxyClient *)(HTTP))->proxy_registr(config.proxy.http_user.get(),config.proxy.http_pass.get());
+	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.get(),cfg->proxy.no_cache);
 	REQUESTED_URL=make_name();
 	return reconnect();
 };
@@ -196,7 +196,7 @@ fsize_t tProxyDownload::get_size_only() {
 	while (1) {
 		answer->done();
 		HTTP->set_offset(0);
-		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.hproxy_host.get(),config.hproxy_port);
+		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.proxy.http_host.get(),config.proxy.http_port);
 		fsize_t temp=HTTP->get_size_only(REQUESTED_URL,answer);
 		switch (temp){
 		case 0:{
@@ -229,7 +229,7 @@ fsize_t tProxyDownload::get_size() {
 	while (1) {
 		answer->done();
 		HTTP->set_offset(LOADED);
-		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.hproxy_host.get(),config.hproxy_port);
+		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.proxy.http_host.get(),config.proxy.http_port);
 		fsize_t temp=HTTP->get_size(REQUESTED_URL,answer);
 		switch (temp){
 		case 0:{

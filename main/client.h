@@ -47,20 +47,27 @@ struct tSimplyCfg{
 	void copy_ints(tSimplyCfg *src);
 };
 
+struct d4xProxyCfg{
+	int type;
+	int no_cache;
+	tPStr http_host;
+	tPStr http_user;
+	tPStr http_pass;
+	int http_port;
+	tPStr ftp_host;
+	tPStr ftp_user;
+	tPStr ftp_pass;
+	int ftp_port;
+	d4xProxyCfg();
+	void copy(d4xProxyCfg *src);
+	void reset();
+};
+
 struct tCfg:public tSimplyCfg{
 	int socks_port;
 	tPStr socks_host;
 	tPStr socks_user,socks_pass;
-	int proxy_type;
-	int proxy_no_cache;
-	tPStr hproxy_host;
-	tPStr hproxy_user;
-	tPStr hproxy_pass;
-	int hproxy_port;
-	tPStr fproxy_host;
-	tPStr fproxy_user;
-	tPStr fproxy_pass;
-	int fproxy_port;
+	d4xProxyCfg proxy;
 	tPStr user_agent,referer,cookie; /* HTTP items */
 	tPStr save_path;
 	tPStr log_save_path;
@@ -99,7 +106,7 @@ class tClient{
     int port;
     int timeout;
     fsize_t FillSize,FileLoaded;
-    unsigned int DSize;
+    fsize_t DSize;
     int ReGet,Status;
     tSocket *CtrlSocket;
     unsigned int BuffSize;
@@ -109,8 +116,8 @@ class tClient{
 	char *read_string(tSocket *sock,int maxlen);
 	int read_string(tSocket *sock,tStringList *list,int maxlen);
 	int socket_err_handler(int err);
-	virtual int read_data(fsize_t len);
-	virtual int read_data(char *dst,fsize_t len)=0;
+	virtual fsize_t read_data(fsize_t len);
+	virtual fsize_t read_data(char *dst,fsize_t len)=0;
 	int write_buffer();
 public:
     	tClient();
@@ -121,7 +128,7 @@ public:
     	virtual void down()=0;
     	virtual int registr(char *user,char *password)=0;
     	virtual fsize_t get_size(char *filename,tStringList *list)=0;
-	virtual int get_file_from(char *what,fsize_t begin,fsize_t len)=0;
+	virtual fsize_t get_file_from(char *what,fsize_t begin,fsize_t len)=0;
     	int get_status();
     	int test_reget();
     	virtual void done()=0;

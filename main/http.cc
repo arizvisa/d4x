@@ -61,9 +61,9 @@ int tHttpClient::send_request(char *begin, char *center,char *end){
 	return(rvalue);
 };
 
-int tHttpClient::read_data(char *where,fsize_t len) {
+fsize_t tHttpClient::read_data(char *where,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
-	int all=CtrlSocket->rec_string(where,len,timeout);
+	fsize_t all=CtrlSocket->rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->log(LOG_ERROR,_("Socket lost!"));
 		return RVALUE_TIMEOUT;
@@ -194,7 +194,7 @@ fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 };
 
 
-int tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
+fsize_t tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	DSize=0;
 	fsize_t llen=len;
 	do{

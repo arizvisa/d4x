@@ -135,6 +135,7 @@ static void dnd_trash_init_speed_tips(){
 			GtkStyle *current_style=gtk_style_copy(gtk_widget_get_style(tooltip->tip_window));
 			current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
 			gtk_widget_set_style(tooltip->tip_window, current_style);
+			g_object_unref(G_OBJECT(current_style));
 			gtk_tooltips_enable(tooltip);
 		};
 	};
@@ -392,10 +393,12 @@ void dnd_trash_init(){
     
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
 	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_type_hint (GTK_WINDOW(dnd_trash_window),
-				  GDK_WINDOW_TYPE_HINT_DIALOG);
+//	gtk_window_set_type_hint (GTK_WINDOW(dnd_trash_window),
+//				  GDK_WINDOW_TYPE_HINT_DIALOG);
+//	gtk_window_set_type_hint (GTK_WINDOW(dnd_trash_window),
+//				  GDK_WINDOW_TYPE_HINT_NORMAL);
 	gtk_window_set_resizable(GTK_WINDOW(dnd_trash_window),FALSE);
-	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_DnDBasket", "D4X_DnDBasket");
+	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_DnDBasket","D4X");
 	gtk_window_set_title(GTK_WINDOW (dnd_trash_window), _("DnD basket"));
 	gtk_widget_set_events(dnd_trash_window,
 			      gtk_widget_get_events(dnd_trash_window) |
@@ -412,6 +415,9 @@ void dnd_trash_init(){
 	 */
 	gint width=0,height=0;
 	gtk_widget_realize(dnd_trash_window);
+	gtk_window_set_skip_taskbar_hint (GTK_WINDOW(dnd_trash_window),TRUE);
+	gtk_window_set_skip_pager_hint (GTK_WINDOW(dnd_trash_window),TRUE);
+//	wm_skip_window(dnd_trash_window);
 	if (dnd_trash_pixbuf1==NULL){
 		char *iconfile1=NULL;
 		char *iconfile2=NULL;
@@ -453,7 +459,7 @@ void dnd_trash_init(){
 	/* Create the main window, and attach delete_event signal to terminate
 	 * the application.  Note that the main window will not have a titlebar
 	 * since we're making it a popup. */
-//	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
+	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),width,height);
 //	gtk_widget_set_events(dnd_trash_window,GDK_ALL_EVENTS_MASK);
 	g_signal_connect(G_OBJECT (dnd_trash_window), "delete_event",
@@ -500,6 +506,7 @@ void dnd_trash_init(){
 	if (dnd_basket_graph==NULL){
 		dnd_basket_graph=my_gtk_graph_new();
 		D4X_DND_GRAPH=(MyGtkGraph *)dnd_basket_graph;
+		D4X_DND_GRAPH->show_speed=CFG.SHOW_SPEED_ON_BASKET;
 		D4X_DND_GRAPH->GlobalM=GraphMeter;
 		D4X_DND_GRAPH->LocalM=GraphLMeter;
 		gtk_widget_ref(dnd_basket_graph);
@@ -560,7 +567,6 @@ void dnd_trash_init(){
 	gtk_widget_show( dnd_trash_window );
 	gdk_window_resize(dnd_trash_window->window,width,height);
 	set_dndtrash_button();
-	wm_skip_window(dnd_trash_window);
 	gdk_window_move(dnd_trash_window->window,CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
 	g_signal_connect(G_OBJECT(dnd_trash_window), "configure_event",
 			 G_CALLBACK(dnd_trash_configure),

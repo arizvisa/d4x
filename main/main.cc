@@ -67,7 +67,7 @@ int calc_curent_run(char *host,int port) {
 };
 
 int d4x_only_one_queue(){
-	if (D4X_QTREE.count()>1 || ((d4xDownloadQueue*)(D4X_QTREE.first()))->count()) return(0);
+	if (D4X_QTREE.count()>1 || ((d4xDownloadQueue*)(D4X_QTREE.first()))->child.count()) return(0);
 	return(1);
 };
 
@@ -431,6 +431,7 @@ void tMain::stop_download(tDownload *what) {
 		what->ActStatus.clear();
 	} else {
 		if (owner==DL_WAIT || owner==DL_LIMIT || owner==DL_SIZEQUERY) {
+			what->sizequery=0;
 			FaceForPasswords->stop_matched(what);
 			papa->del(what);
 			papa->add(what,DL_PAUSE);
@@ -703,7 +704,10 @@ void tMain::print_info(tDownload *what) {
 		if (what->Difference!=0 && what->who) {
 			what->Speed.set(what->SpeedCalc.speed());
 			if (what->Speed.change()){
-				sprintf(data,"%lli",what->Speed.curent);
+				if (PAPA->SPEED_FORMAT)
+					make_number_nice(data,what->Speed.curent,2);
+				else
+					sprintf(data,"%lli",what->Speed.curent);
 				DQV(what).change_data(what->list_iter,SPEED_COL,data);
 				what->Speed.reset();
 			};
@@ -1453,8 +1457,9 @@ tDownload *tMain::add_downloading(tDownload *what,int to_top) {
 		MainScheduler->add_scheduled(what);
 		return(NULL);
 	};
-	if (what->config==NULL)
+	if (what->config==NULL){
 		FaceForPasswords->set_cfg(what);
+	};
 	ALL_DOWNLOADS->insert(what);
 	tDownload *f=D4X_QUEUE->first(DL_WAIT);
 	if (to_top && f)
@@ -1820,8 +1825,8 @@ void *download_last(void *nothing) {
 		}else{
 			what->LOG->init_save(NULL);
 		};
-		if ((what->config->hproxy_host.get() && addr->proto==D_PROTO_HTTP) ||
-		     (what->config->fproxy_host.get() && addr->proto==D_PROTO_FTP && what->config->proxy_type)) {
+		if ((what->config->proxy.http_host.get() && addr->proto==D_PROTO_HTTP) ||
+		     (what->config->proxy.ftp_host.get() && addr->proto==D_PROTO_FTP && what->config->proxy.type)) {
 			what->who=new tProxyDownload(what->WL);
 			what->download_http();
 			pthread_exit(NULL);
@@ -1830,7 +1835,7 @@ void *download_last(void *nothing) {
 		switch(addr->proto){
 		case D_PROTO_SEARCH:
 			if (what->who==NULL){
-				if (what->config->hproxy_host.get())
+				if (what->config->proxy.http_host.get())
 					what->who=new tProxyDownload(what->WL);
 				else
 					what->who=new tHttpDownload(what->WL);

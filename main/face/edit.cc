@@ -1770,49 +1770,49 @@ void tProxyWidget::init_state() {
 };
 
 void tProxyWidget::init_state(tCfg *cfg,int proto) {
-	if (cfg->fproxy_host.get()) {
-		text_to_combo(ftp_proxy_host,cfg->fproxy_host.get());
+	if (cfg->proxy.ftp_host.get()) {
+		text_to_combo(ftp_proxy_host,cfg->proxy.ftp_host.get());
 		GTK_TOGGLE_BUTTON(ftp_proxy_check)->active=TRUE;
-		if (cfg->fproxy_port) {
+		if (cfg->proxy.ftp_port) {
 			char data[MAX_LEN];
-			sprintf(data,"%i",cfg->fproxy_port);
+			sprintf(data,"%i",cfg->proxy.ftp_port);
 			gtk_entry_set_text(GTK_ENTRY(ftp_proxy_port),data);
 		};
-		if (cfg->fproxy_user.get() && cfg->fproxy_pass.get()) {
+		if (cfg->proxy.ftp_user.get() && cfg->proxy.ftp_pass.get()) {
 			GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active=TRUE;
-			text_to_combo(ftp_proxy_user,cfg->fproxy_user.get());
-			text_to_combo(ftp_proxy_pass,cfg->fproxy_pass.get());
+			text_to_combo(ftp_proxy_user,cfg->proxy.ftp_user.get());
+			text_to_combo(ftp_proxy_pass,cfg->proxy.ftp_pass.get());
 		}else
 			GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active=FALSE;
 	} else
 		GTK_TOGGLE_BUTTON(ftp_proxy_check)->active=FALSE;
 	proxy_toggle_pass_ftp(ftp_proxy_user_check,this);
-	if (cfg->hproxy_host.get()) {
-		text_to_combo(http_proxy_host,cfg->hproxy_host.get());
+	if (cfg->proxy.http_host.get()) {
+		text_to_combo(http_proxy_host,cfg->proxy.http_host.get());
 		GTK_TOGGLE_BUTTON(http_proxy_check)->active=TRUE;
-		if (cfg->hproxy_port) {
+		if (cfg->proxy.http_port) {
 			char data[MAX_LEN];
-			sprintf(data,"%i",cfg->hproxy_port);
+			sprintf(data,"%i",cfg->proxy.http_port);
 			gtk_entry_set_text(GTK_ENTRY(http_proxy_port),data);
 		};
-		if (cfg->hproxy_user.get() && cfg->hproxy_pass.get()) {
+		if (cfg->proxy.http_user.get() && cfg->proxy.http_pass.get()) {
 			GTK_TOGGLE_BUTTON(http_proxy_user_check)->active=TRUE;
-			text_to_combo(http_proxy_user,cfg->hproxy_user.get());
-			text_to_combo(http_proxy_pass,cfg->hproxy_pass.get());
+			text_to_combo(http_proxy_user,cfg->proxy.http_user.get());
+			text_to_combo(http_proxy_pass,cfg->proxy.http_pass.get());
 		}else
 			GTK_TOGGLE_BUTTON(http_proxy_user_check)->active=FALSE;
 	} else{
 		GTK_TOGGLE_BUTTON(http_proxy_check)->active=FALSE;
 	};
 	proxy_toggle_pass_http(http_proxy_user_check,this);
-	if (cfg->proxy_type) {
+	if (cfg->proxy.type) {
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active=FALSE;
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_http)->active=TRUE;
 	} else {
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active=TRUE;
 		GTK_TOGGLE_BUTTON(ftp_proxy_type_http)->active=FALSE;
 	};
-	GTK_TOGGLE_BUTTON(no_cache)->active=cfg->proxy_no_cache;
+	GTK_TOGGLE_BUTTON(no_cache)->active=cfg->proxy.no_cache;
 
 	if (cfg->socks_host.get()){
 		GTK_TOGGLE_BUTTON(use_socks)->active=TRUE;
@@ -1837,27 +1837,6 @@ void tProxyWidget::init_state(tCfg *cfg,int proto) {
 	};
 };
 
-
-static void make_proxy_host(const char *host,int port){
-	char *tmp=new char[strlen(host)+10];
-	char *b=tmp;
-	while(*host!=':' && *host){
-		*b=*host;
-		host++;
-		b++;
-	};
-	*b=':';
-	b++;
-	sprintf(b,"%i",port);
-	if (*tmp!=':' && *tmp)
-		ALL_HISTORIES[PROXY_HISTORY]->add(tmp);
-	delete[] tmp;
-};
-
-#define REMOVE_SC_FROM_HOST(host) if (host){ \
-   char *sc=index(host,':');\
-   if (sc) *sc=0; \
-  };
 
 void tProxyWidget::apply_changes(tMainCfg *cfg) {
 	cfg->NEED_PASS_FTP_PROXY=GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active;
@@ -1945,23 +1924,23 @@ void tProxyWidget::apply_changes() {
 void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 	cfg->reset_proxy();
 	if (GTK_TOGGLE_BUTTON(ftp_proxy_check)->active) {
-		cfg->fproxy_host.set(text_from_combo(ftp_proxy_host));
-		sscanf(gtk_entry_get_text(GTK_ENTRY(ftp_proxy_port)),"%i",&(cfg->fproxy_port));
+		cfg->proxy.ftp_host.set(text_from_combo(ftp_proxy_host));
+		sscanf(gtk_entry_get_text(GTK_ENTRY(ftp_proxy_port)),"%i",&(cfg->proxy.ftp_port));
 		make_proxy_host(text_from_combo(ftp_proxy_host),
-				cfg->fproxy_port);
+				cfg->proxy.ftp_port);
 		if (GTK_TOGGLE_BUTTON(ftp_proxy_user_check)->active) {
-			cfg->fproxy_user.set(text_from_combo(ftp_proxy_user));
-			cfg->fproxy_pass.set(text_from_combo(ftp_proxy_pass));
+			cfg->proxy.ftp_user.set(text_from_combo(ftp_proxy_user));
+			cfg->proxy.ftp_pass.set(text_from_combo(ftp_proxy_pass));
 		};
 	};
 	if (GTK_TOGGLE_BUTTON(http_proxy_check)->active) {
-		cfg->hproxy_host.set(text_from_combo(http_proxy_host));
-		sscanf(gtk_entry_get_text(GTK_ENTRY(http_proxy_port)),"%i",&(cfg->hproxy_port));
+		cfg->proxy.http_host.set(text_from_combo(http_proxy_host));
+		sscanf(gtk_entry_get_text(GTK_ENTRY(http_proxy_port)),"%i",&(cfg->proxy.http_port));
 		make_proxy_host(text_from_combo(http_proxy_host),
-				cfg->hproxy_port);
+				cfg->proxy.http_port);
 		if (GTK_TOGGLE_BUTTON(http_proxy_user_check)->active) {
-			cfg->hproxy_user.set(text_from_combo(http_proxy_user));
-			cfg->hproxy_pass.set(text_from_combo(http_proxy_pass));
+			cfg->proxy.http_user.set(text_from_combo(http_proxy_user));
+			cfg->proxy.http_pass.set(text_from_combo(http_proxy_pass));
 		};
 	};
 	if (strlen(text_from_combo(ftp_proxy_user)))
@@ -1969,10 +1948,10 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 	if (strlen(text_from_combo(http_proxy_user)))
 		ALL_HISTORIES[USER_HISTORY]->add(text_from_combo(http_proxy_user));
 	if (GTK_TOGGLE_BUTTON(ftp_proxy_type_ftp)->active)
-		cfg->proxy_type=0;
+		cfg->proxy.type=0;
 	else
-		cfg->proxy_type=1;
-	cfg->proxy_no_cache=GTK_TOGGLE_BUTTON(no_cache)->active;
+		cfg->proxy.type=1;
+	cfg->proxy.no_cache=GTK_TOGGLE_BUTTON(no_cache)->active;
 
 	if (GTK_TOGGLE_BUTTON(use_socks)->active){		
 		char *tmp=text_from_combo(socks_host);
@@ -1999,8 +1978,8 @@ void tProxyWidget::apply_changes(tCfg *cfg,int proto) {
 		cfg->socks_host.set(NULL);
 	};
 	REMOVE_SC_FROM_HOST(cfg->socks_host.get());
-	REMOVE_SC_FROM_HOST(cfg->fproxy_host.get());
-	REMOVE_SC_FROM_HOST(cfg->hproxy_host.get());
+	REMOVE_SC_FROM_HOST(cfg->proxy.ftp_host.get());
+	REMOVE_SC_FROM_HOST(cfg->proxy.http_host.get());
 };
 
 /*****************************************************************/

@@ -25,7 +25,7 @@ int d4x_run_or_wait_downloads(){
 d4xDownloadQueue::d4xDownloadQueue(){
 	inserted=0;
 	MAX_ACTIVE=5;
-	TIME_FORMAT=NICE_DEC_DIGITALS=0;
+	TIME_FORMAT=NICE_DEC_DIGITALS=SPEED_FORMAT=0;
 	AUTODEL_COMPLETED=AUTODEL_FAILED=0;
 	queues[DL_ALONE]=NULL;
 	for (int i=DL_ALONE+1;i<DL_TEMP;i++){
@@ -211,6 +211,8 @@ void d4xDownloadQueue::save_to_config(int fd){
 		write_named_integer(fd,"Delfailed:",AUTODEL_FAILED);
 	if (TIME_FORMAT)
 		write_named_integer(fd,"Timeformat:",TIME_FORMAT);
+	if (SPEED_FORMAT)
+		write_named_integer(fd,"Speedformat:",SPEED_FORMAT);
 	if (NICE_DEC_DIGITALS)
 		write_named_integer(fd,"Decformat:",NICE_DEC_DIGITALS);
 	qv.save_to_config(fd);
@@ -239,6 +241,7 @@ int d4xDownloadQueue::load_from_config(int fd){
 		{"Delcompleted:",	SV_TYPE_INT,	&AUTODEL_COMPLETED},
 		{"Delfailed:",	SV_TYPE_INT,	&AUTODEL_FAILED},
 		{"Timeformat:",	SV_TYPE_INT,	&TIME_FORMAT},
+		{"Speedformat:",	SV_TYPE_INT,	&SPEED_FORMAT},
 		{"Decformat:",	SV_TYPE_INT,	&NICE_DEC_DIGITALS},
 		{"Download:",	SV_TYPE_QDOWNLOAD, this},
 		{"Queue:",	SV_TYPE_QUEUE, &child},
@@ -277,6 +280,7 @@ int d4xDownloadQueue::load_from_config(int fd){
 void d4xDownloadQueue::inherit_settings(d4xDownloadQueue *papa){
 	MAX_ACTIVE=papa->MAX_ACTIVE;
 	TIME_FORMAT=papa->TIME_FORMAT;
+	SPEED_FORMAT=papa->SPEED_FORMAT;
 	NICE_DEC_DIGITALS=papa->NICE_DEC_DIGITALS;
 	AUTODEL_COMPLETED=papa->AUTODEL_COMPLETED;
 	AUTODEL_FAILED=papa->AUTODEL_FAILED;

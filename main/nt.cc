@@ -31,8 +31,7 @@
 //-------------------------------------------------
 tMain _aa_;
 
-char *VERSION_NAME="WebDownloader for X "
-			VERSION;
+char *VERSION_NAME="WebDownloader for X " VERSION;
 char *LOCK_FILE;
 char *LOCALE_CODEPAGE;
 
@@ -46,10 +45,10 @@ static void init_string_variables(){
 	if (CFG.EXEC_WHEN_QUIT==NULL)
 		CFG.EXEC_WHEN_QUIT=copy_string("");
 	if (!CFG.GLOBAL_SAVE_PATH) {
-		CFG.GLOBAL_SAVE_PATH=copy_string(HOME_VARIABLE);
-		if (!CFG.GLOBAL_SAVE_PATH) {
+		if (HOME_VARIABLE)
+			CFG.GLOBAL_SAVE_PATH=sum_strings(HOME_VARIABLE,"/MyDownloads");
+		else
 			CFG.GLOBAL_SAVE_PATH=copy_string("/");
-		};
 	};
 	if (CFG.SKIP_IN_CLIPBOARD==NULL)
 		CFG.SKIP_IN_CLIPBOARD=copy_string("html htm php3 gif jpg png");
@@ -157,7 +156,7 @@ int main(int argc,char **argv) {
 	LOCK_FILE_D=open(LOCK_FILE,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (LOCK_FILE<0 || lockf(LOCK_FILE_D,F_TLOCK,0)) {
 		if (parse_command_line_already_run(argc,argv))
-			printf(_("%s probably is already running\n"),VERSION_NAME);
+			g_print(_("%s probably is already running\n"),VERSION_NAME);
 		if (argc==1)
 			send_popup();
 		return 0;

@@ -1,3 +1,35 @@
+2003-12-27  Maxim Koshelev  <max@localhost.localdomain>
+
+	* ftp.cc: fixed non-UTF string in logs of FTP downloads;
+
+2003-12-24  Maximka  <max@localhost.localdomain>
+
+	* alt.cc: fixed storing username and password of alternates;
+	* face/mywidget.*: extended "edit alternate" dialog;
+	* locstr.*: code cleanups;
+	* face/lmenu.cc, face/list.cc: do not allow FTP-search when no engines loaded;
+
+2003-12-24  Maxim Koshelev  <max@localhost.localdomain>
+
+	* face/lod.cc: make some params in list writable (patch from solnul@gmx.de);
+	* sk.po: Slovak translation updated from Zdenko Podobny;
+	* sr.po: added Serbian translation from Brane Jovanovic;
+	* locstr.h: do not use global 'timzone' variable due to BSD limitations (suggestion from Martin Johnson)
+	* face/about.cc: update about dialog;
+
+2003-12-23  Maxim  <max@localhost.localdomain>
+
+	* nt.cc: default store folder is ~/MyDownloads now;
+	* main.cc: fixed converting DnD-basket to menu with just one queue in tree;
+	* main.cc, face/qtree.cc, dqueue.*: implemented selecting speed format;
+
+Sun Dec  7 23:34:15 2003
+	* manyfiles: added ability to specify different proxy per alternates;
+	fixed removing partially loaded file after redirection;
+	fixed bringing up "add new" dialog by '-a' option when D4X was not run;
+	fixed couple 32bit overloadings;
+	code cleanups;
+
 Tue Mar 12 10:26:48  Maxim Koshelev  <mdem@chat.ru>
 
 	* dlist.cc: fixed downloading in number of thread via FTP;

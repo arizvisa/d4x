@@ -131,9 +131,9 @@ void tMLog::add_to_list() {
 			if (CFG.COLORIFIED_OUTPUT) printf("%c[35;40m",27);   //magenta
 			printf("%c ",str_type);
 			if (CFG.COLORIFIED_OUTPUT) printf("%c[34;40;1m",27); //blue
-			printf("%s ",useful);
+			g_print("%s ",useful);
 			if (CFG.COLORIFIED_OUTPUT) printf("%c[32;40;1m",27);
-			printf("%s\n",str->body);
+			g_print("%s\n",str->body);
 		};
 	};
 	if (fd) {

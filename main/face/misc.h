@@ -41,5 +41,4 @@ void d4x_eschandler_init(GtkWidget *widget,gpointer data);
 void gtk_tree_model_swap_rows_l(GtkTreeModel *model,GtkTreeIter *a,GtkTreeIter *b);
 GtkWidget *my_gtk_set_header_style(GtkWidget *widget);
 
-
 #endif

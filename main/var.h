@@ -97,6 +97,7 @@ struct tMainCfg{
 	int WINDOW_TREE_WIDTH;
 	int HIDE_MAIN_WINDOW;
 	int GRAPH_ON_BASKET;
+	int SHOW_SPEED_ON_BASKET;
 /* Clipboard
  */
 	int CLIPBOARD_MONITOR;

@@ -25,8 +25,6 @@
 
 extern GtkWidget *MainWindow;
 
-
-
 void my_gdk_window_iconify(GdkWindow *window) {
 	XIconifyWindow( GDK_DISPLAY() , GDK_WINDOW_XWINDOW(window),DefaultScreen(GDK_DISPLAY()));
 //	XUnmapWindow( GDK_DISPLAY(), GDK_WINDOW_XWINDOW(window));
@@ -122,7 +120,6 @@ GtkWidget *my_gtk_entry_new_with_max_length(gint length, int val){
 	return(entry);
 };
 
-static Atom _XA_WIN_HINTS;
 static Atom _XA_WIN_LAYER;
 static Atom _XA_WIN_STATE;
 static int _xa_win_hints_allocated_=0;
@@ -139,14 +136,67 @@ enum WIN_HINTS_ENUM{
 #define WIN_STATE_STICKY        1
 #define WIN_LAYER_ONTOP		6
 
+/*
+
+#define XA_NET_WM_STATE			"_NET_WM_STATE"
+#define XA_NET_STATE_STAYS_ON_TOP	"_NET_WM_STATE_STAYS_ON_TOP"
+#define XA_NET_STATE_STICKY		"_NET_WM_STATE_STICKY"
+
+#define _NET_WM_STATE_REMOVE   0
+#define _NET_WM_STATE_ADD      1
+
+static void net_wm_set_property(GtkWidget * window, char *atom, gboolean state)
+{
+	XEvent xev;
+	gint prev_error;
+	int set = _NET_WM_STATE_ADD;
+	Atom type, property;
+
+	if (state == FALSE)
+		set = _NET_WM_STATE_REMOVE;
+
+	type = (Atom)gdk_atom_intern(XA_NET_WM_STATE, FALSE);
+	property = (Atom)gdk_atom_intern(atom, FALSE);
+
+//	prev_error = gdk_error_warnings;
+//	gdk_error_warnings = 0;
+
+	xev.type = ClientMessage;
+	xev.xclient.type = ClientMessage;
+	xev.xclient.window = GDK_WINDOW_XWINDOW(window->window);
+	xev.xclient.message_type = type;
+	xev.xclient.format = 32;
+	xev.xclient.data.l[0] = set;
+	xev.xclient.data.l[1] = property;
+	xev.xclient.data.l[2] = 0;
+	
+	XSendEvent(GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
+		   SubstructureNotifyMask, (XEvent *) &xev);
+
+//	gdk_error_warnings = prev_error;
+
+}
+
 void wm_skip_window(GtkWidget *widget){
+	net_wm_set_property(widget, XA_NET_STATE_STAYS_ON_TOP, TRUE);
+	net_wm_set_property(widget, XA_NET_STATE_STICKY, TRUE);
+};
+*/
+
+void wm_skip_window(GtkWidget *widget){
+	long data[1];
+	data[0] = WIN_HINTS_SKIP_WINLIST | WIN_HINTS_SKIP_TASKBAR;
+	Atom _XA_WIN_HINTS = (Atom)gdk_atom_intern("_WIN_HINTS", FALSE);
+	XChangeProperty(GDK_DISPLAY(), GDK_WINDOW_XWINDOW(widget->window),
+			_XA_WIN_HINTS,XA_CARDINAL, 32, PropModeReplace,
+			(unsigned char *) data,
+			1);
 	if (!_xa_win_hints_allocated_){
-		_XA_WIN_HINTS = XInternAtom(GDK_DISPLAY(), "_WIN_HINTS", False);
 		_XA_WIN_LAYER = XInternAtom(GDK_DISPLAY(), "_WIN_LAYER", False);
 		_XA_WIN_STATE = XInternAtom(GDK_DISPLAY(), "_WIN_STATE", False);
 		_xa_win_hints_allocated_=1;
 	};
-	/* set always on top flag (GNOME) */
+//	 set always on top flag (GNOME)
 	XEvent xev;
 	gint prev_error;
 //FIXME:	prev_error = gdk_error_warnings;
@@ -160,7 +210,7 @@ void wm_skip_window(GtkWidget *widget){
 	XSendEvent(GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
 		   SubstructureNotifyMask, (XEvent *) & xev);
 //FIXME:	gdk_error_warnings = prev_error;
-	/* set sticky */
+//	 set sticky 
 	xev.type = ClientMessage;
 	xev.xclient.type = ClientMessage;
 	xev.xclient.window = GDK_WINDOW_XWINDOW(widget->window);
@@ -170,16 +220,9 @@ void wm_skip_window(GtkWidget *widget){
 	xev.xclient.data.l[1] = WIN_STATE_STICKY;
 	XSendEvent(GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
 	    	   SubstructureNotifyMask, (XEvent *) & xev);
-	/* set skip flags (GNOME) */ 
-	long data[1];
-	data[0] = WIN_HINTS_SKIP_FOCUS |
-		WIN_HINTS_SKIP_WINLIST |
-		WIN_HINTS_SKIP_TASKBAR;
-	XChangeProperty(GDK_DISPLAY(), GDK_WINDOW_XWINDOW(widget->window), _XA_WIN_HINTS,
-			XA_CARDINAL, 32, PropModeReplace,
-			(unsigned char *) data,
-			1);
+//	 set skip flags (GNOME) 
 };
+
 
 /* write to buffer "nice" string representation of percentage:
  * %2.1f	- if 99 <= percent < 100

@@ -315,8 +315,8 @@ int tFtpDownload::reconnect() {
 		};
 		if (FTP->reinit()==0){
 			success=0;
-			if (config.fproxy_user.get() && config.fproxy_pass.get()){
-				FTP->registr(config.fproxy_user.get(), config.fproxy_pass.get());
+			if (config.proxy.ftp_user.get() && config.proxy.ftp_pass.get()){
+				FTP->registr(config.proxy.ftp_user.get(), config.proxy.ftp_pass.get());
 				success=FTP->connect();
 			};
 			if (success==0){
@@ -357,8 +357,8 @@ int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	};
 	config.copy_proxy(cfg);
 
-	if (config.proxy_type==0 && config.fproxy_host.get() && config.fproxy_port) {
-		FTP->init(config.fproxy_host.get(),LOG,config.fproxy_port,config.timeout);
+	if (config.proxy.type==0 && config.proxy.ftp_host.get() && config.proxy.ftp_port) {
+		FTP->init(config.proxy.ftp_host.get(),LOG,config.proxy.ftp_port,config.timeout);
 		char port[MAX_LEN];
 		port[0]=0;
 		if (ADDR.port!=get_port_by_proto(D_PROTO_FTP))
@@ -586,7 +586,7 @@ int tFtpDownload::download(fsize_t len) {
 						TMP_FILEPATH=sum_strings("/",ADDR.path.get(),"/",
 									 ADDR.file.get(),NULL);
 						normalize_path(TMP_FILEPATH);
-						ind=FTP->get_file_from(TMP_FILEPATH,LOADED,to_load);;
+						ind=FTP->get_file_from(TMP_FILEPATH,LOADED,to_load);
 					}else
 						ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
 					if (!FTP->test_reget()){

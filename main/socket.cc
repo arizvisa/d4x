@@ -268,17 +268,17 @@ int tSocket::send_string(char * what,int timeout) {
 	return a-b;
 };
 
-int tSocket::rec_string(char * where,fsize_t len,int timeout) {
+fsize_t tSocket::rec_string(char * where,fsize_t len,int timeout) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,-1);
 	if (wait_for_read(timeout))
 		return STATUS_TIMEOUT;
 	tDownload **download=my_pthread_key_get();
-	int bytes;
+	fsize_t bytes;
 	if (download!=NULL && *download!=NULL && (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0))
 		bytes=(*download)->SpeedLimit->bytes >= len ? len: (*download)->SpeedLimit->bytes+1;
 	else
 		bytes=len;
-	int temp=recv(fd,where,bytes,0);
+	fsize_t temp=recv(fd,where,bytes,0);
 	if (temp>0) {
 		RBytes+=temp;
 		GVARS.MUTEX.lock();

@@ -106,6 +106,7 @@ static void my_gtk_graph_finalize (GObject *object){
 
 static void my_gtk_graph_init(MyGtkGraph *graph){
 	graph->rgb_data=(guchar *)NULL;
+	graph->show_speed=0;
 	graph->cmap=(GdkRgbCmap *)NULL;
 };
 
@@ -175,6 +176,39 @@ static void my_gtk_graph_draw(GtkWidget *widget,GdkRectangle *area){
 			};
 //			graph->rgb_data
 		};
+	};
+	if (graph->show_speed){
+		char tmpc[100];
+		char tmpd[100];
+		make_number_nice(tmpc,graph->GlobalM->last_speed(),2);
+		sprintf(tmpd,"%sB/s",tmpc);
+		PangoRectangle rect;
+		PangoLayout *layout=gtk_widget_create_pango_layout (widget, tmpd);
+		GtkStyle *current_style=gtk_widget_get_style(widget);
+		PangoAttrList *attrs=pango_attr_list_new();
+		pango_attr_list_insert(attrs,
+				       pango_attr_foreground_new (graph->TextColor.red,
+								  graph->TextColor.green,
+								  graph->TextColor.blue));
+		PangoFontDescription *font_desc=pango_font_description_from_string("* 9");
+		pango_attr_list_insert(attrs,pango_attr_font_desc_new(font_desc));
+		pango_layout_set_attributes (layout,attrs);
+		pango_attr_list_unref(attrs);
+		pango_font_description_free(font_desc);
+		
+		pango_layout_get_pixel_extents (layout, NULL, &rect);
+		pango_layout_set_width (layout, -1);
+		gtk_paint_layout (widget->style,
+				  widget->window,
+				  GTK_STATE_NORMAL,
+				  TRUE,
+				  area,
+				  widget,
+				  "text",
+				  2,
+				  1,
+				  layout);
+		g_object_unref(G_OBJECT (layout));
 	};
 };
 
@@ -346,6 +380,9 @@ void my_gtk_graph_cmap_reinit(MyGtkGraph *graph){
 	colors[1]=CFG.GRAPH_FORE1;
 	colors[2]=CFG.GRAPH_FORE2;
 	colors[3]=CFG.GRAPH_BACK;
+	graph->TextColor.red=((colors[2]>>16)&0xff)<<8;
+	graph->TextColor.green=((colors[2]>>8)&0xff)<<8;
+	graph->TextColor.blue=(colors[2]&0xff)<<8;
 	if (graph->cmap)
 		gdk_rgb_cmap_free(graph->cmap);
 	graph->cmap=gdk_rgb_cmap_new(colors,4);

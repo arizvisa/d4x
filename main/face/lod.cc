@@ -285,12 +285,12 @@ static void gtk_cell_renderer_progress_class_init (GtkCellRendererProgressClass 
 							     _("Percent"),
 							     "Percentage to render",
 							     0,100,0,
-							     G_PARAM_READABLE));
+							     (GParamFlags)(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property (object_class, 2,
 					 g_param_spec_pointer ("download",
 							       _("Download"),
 							       "Link to tDownload",
-							       G_PARAM_READABLE));
+							       (GParamFlags)(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 };
 
 GtkType gtk_cell_renderer_progress_get_type (void){

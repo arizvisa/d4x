@@ -78,9 +78,9 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 	return RVALUE_OK;
 };
 
-int tFtpClient::read_data(char *where,fsize_t len) {
+fsize_t tFtpClient::read_data(char *where,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
-	int all=DataSocket->rec_string(where,len,timeout);
+	fsize_t all=DataSocket->rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->log(LOG_WARNING,_("Data connection lost!"));
 		vdisconnect();
@@ -97,9 +97,11 @@ int tFtpClient::read_control() {
 		return RVALUE_TIMEOUT;
 	};
 	tString *log=CTRL->last();
-	if (log)
-		LOG->log(LOG_FROM_SERVER,log->body);
-	else{
+	if (log){
+		gchar *text_utf=g_convert_with_fallback(log->body,-1,"UTF-8","ISO8859-1",NULL,NULL,NULL,NULL);
+		LOG->log(LOG_FROM_SERVER,text_utf);
+		g_free(text_utf);
+	}else{
 //		vdisconnect();
 		return RVALUE_TIMEOUT;
 	};
@@ -392,9 +394,9 @@ fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 	return(rvalue);
 };
 
-int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
+fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,RVALUE_OK);
-	int rvalue=0;;
+	fsize_t rvalue=0;;
 	FileLoaded=begin;
 	send_command("TYPE","I");
 	if ((rvalue=analize_ctrl(1,&FTP_PORT_OK))) return(rvalue);
@@ -448,7 +450,7 @@ int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 			llen -=FillSize;
 			if (llen==0){
 				LOG->log(LOG_OK,_("Requested size was loaded"));
-				DataSocket->flush(); /*read data in socket
+				DataSocket->flush(); /*read data from socket
 						      to avoid "brocken pipe"
 						      on linux;*/
 				DataSocket->down();
@@ -468,10 +470,8 @@ int tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	if (complete==0) LOG->log(LOG_WARNING,_("EOF recieved from server!"));
 	DataSocket->down(); // to prevent next ideas from guys of wu-ftpd's team
 	if (Status) return DSize;
-	if (analize_ctrl(1,&FTP_READ_OK)){
-		if (len && llen==0) return DSize;
+	if (analize_ctrl(1,&FTP_READ_OK) &&  (len==0 || llen))
 		return(RVALUE_UNSPEC_ERR);
-	};
 	return DSize;
 };
 

@@ -15,9 +15,13 @@
 #include "mutex.h"
 #include "face/mywidget.h"
 
+struct tDownload;
+
 struct d4xAlt{
 	tAddr info;
+	tAddr proxy; /* ftp://user:pass@proxy.host.com:3128 */
 	d4xAlt *next,*prev;
+	void set_proxy_settings(tDownload *dwn);
 };
 
 struct tDownload;
@@ -25,7 +29,7 @@ struct tDownload;
 struct d4xAltList{
 private:
 	d4xLinksSel *edit;
-	d4xStringEdit *add_edit,*mod_edit;
+	d4xAltEdit *add_edit,*mod_edit;
 	GtkTreeIter *str2mod;
 public:
 	d4xMutex lock;

@@ -40,7 +40,7 @@ tMainCfg TMPCFG={
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,600,0,0, //flags
-	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,//interface
+	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,0,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,0,
 	/* Proxy */
@@ -155,6 +155,7 @@ struct D4xPrefsWidget{
 	/* INTERFACE */
 	GtkWidget *dnd_trash;
 	GtkWidget *graph_on_basket;
+	GtkWidget *show_speed_on_basket;
 	GtkWidget *fixed_font_log;
 	/* GRAPH */
 	GtkWidget *graph_order;
@@ -846,18 +847,33 @@ void d4x_prefs_search(){
 	gtk_widget_show_all(vbox);
 };
 
+static void _d4x_graph_on_basket_clicked_(GtkWidget *parent,GtkWidget *where){
+	if (GTK_TOGGLE_BUTTON(parent)->active)
+		gtk_widget_set_sensitive(where,TRUE);
+	else
+		gtk_widget_set_sensitive(where,FALSE);
+};
+
 void d4x_prefs_interface(){
 	GtkWidget *vbox=d4x_prefs_child_destroy(_("Interface"));
 
 	D4XPWS.dnd_trash=gtk_check_button_new_with_label(_("Show DnD basket"));
 	D4XPWS.fixed_font_log=gtk_check_button_new_with_label(_("Use fixed font in logs"));
 	D4XPWS.graph_on_basket=gtk_check_button_new_with_label(_("Display graph on DnD-basket"));
+	D4XPWS.show_speed_on_basket=gtk_check_button_new_with_label(_("Display current speed value on DnD-basket"));
 	GTK_TOGGLE_BUTTON(D4XPWS.dnd_trash)->active=TMPCFG.DND_TRASH;
 	GTK_TOGGLE_BUTTON(D4XPWS.fixed_font_log)->active=TMPCFG.FIXED_LOG_FONT;
 	GTK_TOGGLE_BUTTON(D4XPWS.graph_on_basket)->active=TMPCFG.GRAPH_ON_BASKET;
+	GTK_TOGGLE_BUTTON(D4XPWS.show_speed_on_basket)->active=TMPCFG.SHOW_SPEED_ON_BASKET;
+	g_signal_connect(G_OBJECT(D4XPWS.graph_on_basket),"clicked",G_CALLBACK(_d4x_graph_on_basket_clicked_),D4XPWS.show_speed_on_basket);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.dnd_trash,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.fixed_font_log,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.graph_on_basket,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.show_speed_on_basket,FALSE,FALSE,0);
+	if (TMPCFG.GRAPH_ON_BASKET)
+		gtk_widget_set_sensitive(D4XPWS.show_speed_on_basket,TRUE);
+	else
+		gtk_widget_set_sensitive(D4XPWS.show_speed_on_basket,FALSE);
 	gtk_widget_show_all(vbox);
 };
 
@@ -882,7 +898,7 @@ void d4x_prefs_graph(){
 	GtkWidget *vbox_colors=gtk_vbox_new(FALSE,5);
 	D4XPWS.speed_color_pick=my_gtk_colorsel_new(TMPCFG.GRAPH_PICK,_("Color for picks"));
 	D4XPWS.speed_color_fore1=my_gtk_colorsel_new(TMPCFG.GRAPH_FORE1,_("Color for total speed"));
-	D4XPWS.speed_color_fore2=my_gtk_colorsel_new(TMPCFG.GRAPH_FORE2,_("Color for speed of selected"));
+	D4XPWS.speed_color_fore2=my_gtk_colorsel_new(TMPCFG.GRAPH_FORE2,_("Color for current speed value"));
 	D4XPWS.speed_color_back=my_gtk_colorsel_new(TMPCFG.GRAPH_BACK,_("Background color"));
 	MY_GTK_COLORSEL(D4XPWS.speed_color_pick)->modal=GTK_WINDOW(d4x_prefs_window);
 	MY_GTK_COLORSEL(D4XPWS.speed_color_fore1)->modal=GTK_WINDOW(d4x_prefs_window);
@@ -1407,6 +1423,7 @@ void d4x_prefs_apply_tmp(){
 	if (equal(label,_("Interface"))){
 		TMPCFG.DND_TRASH=GTK_TOGGLE_BUTTON(D4XPWS.dnd_trash)->active;
 		TMPCFG.GRAPH_ON_BASKET=GTK_TOGGLE_BUTTON(D4XPWS.graph_on_basket)->active;
+		TMPCFG.SHOW_SPEED_ON_BASKET=GTK_TOGGLE_BUTTON(D4XPWS.show_speed_on_basket)->active;
 		TMPCFG.FIXED_LOG_FONT=GTK_TOGGLE_BUTTON(D4XPWS.fixed_font_log)->active;
 		return;
 	};
@@ -1575,6 +1592,8 @@ void d4x_prefs_apply(){
 		dnd_trash_init();
 	}else
 		dnd_trash_destroy();
+	if (D4X_DND_GRAPH)
+		D4X_DND_GRAPH->show_speed=CFG.SHOW_SPEED_ON_BASKET;
 	GlobalMeter->set_mode(CFG.GRAPH_MODE);
 	GraphMeter->set_mode(CFG.GRAPH_MODE);
 };

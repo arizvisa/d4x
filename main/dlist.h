@@ -145,7 +145,7 @@ private:
 	char *make_path_to_file();
 	void remove_links(d4xSearchEngine *engine);
 	void sort_links();
-	void http_check_redirect();
+	void http_check_redirect(bool removefiles);
 	void ftp_search_sizes();
 	int try_to_lock_fdesc();
 	fsize_t init_segmentator(int fdesc,fsize_t cursize,char *name);

@@ -15,9 +15,11 @@
 
 struct MyGtkGraph{
 	GtkWidget widget;
+	GdkColor TextColor;
 	GdkRgbCmap *cmap;
 	tMeter *LocalM,*GlobalM;
 	guchar *rgb_data;
+	int show_speed;
 };
 
 struct MyGtkGraphClass{

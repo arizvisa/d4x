@@ -26,7 +26,7 @@ class tFtpClient:public tClient{
 	tStringList *CTRL;
 	tSocket *DataSocket;
 	int send_command(char *comm,char *argv);
-	int read_data(char *where,fsize_t len);
+	fsize_t read_data(char *where,fsize_t len);
 	int read_control();
 	int analize_ctrl(int argc,char **argv);
 	int analize(char *how);
@@ -49,7 +49,7 @@ class tFtpClient:public tClient{
         int stand_data_connection();
 	int change_dir(char *where);
 	fsize_t get_size(char *filename,tStringList *list);
-	int get_file_from(char *what,fsize_t begin,fsize_t len);
+	fsize_t get_file_from(char *what,fsize_t begin,fsize_t len);
         int read_block(char *where,int size);
 	void quit();
 	void down();

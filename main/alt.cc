@@ -17,6 +17,38 @@
 #include "var.h"
 #include "ntlocale.h"
 #include "main.h"
+#include "dlist.h"
+
+void d4xAlt::set_proxy_settings(tDownload *dwn){
+	if (proxy.proto==D_PROTO_UNKNOWN || proxy.port==0) return;
+	switch(proxy.proto){
+	case D_PROTO_FTP:{
+		if (info.proto==D_PROTO_FTP){
+			dwn->config->proxy.type=0;
+			dwn->config->proxy.ftp_port=proxy.port;
+			dwn->config->proxy.ftp_host.set(proxy.host.get());
+			dwn->config->proxy.ftp_user.set(proxy.username.get());
+			dwn->config->proxy.ftp_pass.set(proxy.pass.get());
+		};
+		break;
+	};
+	case D_PROTO_HTTP:{
+		dwn->config->proxy.type=1;
+		if (info.proto==D_PROTO_HTTP){
+			dwn->config->proxy.http_port=proxy.port;
+			dwn->config->proxy.http_host.set(proxy.host.get());
+			dwn->config->proxy.http_user.set(proxy.username.get());
+			dwn->config->proxy.http_pass.set(proxy.pass.get());
+		}else{
+			dwn->config->proxy.ftp_port=proxy.port;
+			dwn->config->proxy.ftp_host.set(proxy.host.get());
+			dwn->config->proxy.ftp_user.set(proxy.username.get());
+			dwn->config->proxy.ftp_pass.set(proxy.pass.get());
+		};
+		break;
+	};
+	};
+};
 
 d4xAltList::d4xAltList(){
 	FIRST=END=NULL;
@@ -238,7 +270,7 @@ void d4xAltList::init_add(){
 		gdk_window_show(GTK_WIDGET(add_edit)->window);
 		return;
 	};
-	add_edit=(d4xStringEdit *)d4x_string_edit_new();
+	add_edit=(d4xAltEdit *)d4x_alt_edit_new();
 	gtk_window_set_title(GTK_WINDOW (add_edit),_("Add new alternate"));
 	g_signal_connect(G_OBJECT(add_edit->ok),"clicked",
 			   G_CALLBACK(d4x_alt_add_ok),
@@ -254,6 +286,7 @@ void d4xAltList::init_add(){
 void d4xAltList::add_edit_ok(){
 	d4xAlt *alt=new d4xAlt;
 	alt->info.from_string(text_from_combo(GTK_WIDGET(add_edit->entry)));
+	d4x_alt_edit_get(add_edit,&(alt->proxy));
 	lock.lock();
 	add(alt);
 	lock.unlock();
@@ -264,8 +297,13 @@ int d4xAltList::save_to_config(int fd){
 	f_wstr_lf(fd,"Alt:");
 	d4xAlt *alt=END;
 	while(alt){
-		char *url=alt->info.url();
+		char *url=alt->info.url_full();
 		char *parsed=unparse_percents(url);
+		delete[] url;
+		f_wstr_lf(fd,parsed);
+		delete[] parsed;
+		url=alt->proxy.url_full();
+		parsed=unparse_percents(url);
 		delete[] url;
 		f_wstr_lf(fd,parsed);
 		delete[] parsed;
@@ -277,15 +315,27 @@ int d4xAltList::save_to_config(int fd){
 
 int d4xAltList::load_from_config(int fd){
 	char buf[MAX_LEN];
+	d4xAlt *alt=NULL;
 	while(f_rstr(fd,buf,MAX_LEN)>0){
-		if (equal_uncase(buf,"EndAlt"))
+		if (equal_uncase(buf,"EndAlt")){
+			if (alt) delete(alt);
 			return(0);
-		d4xAlt *alt=new d4xAlt;
-		char *url=parse_percents(buf);
-		alt->info.from_string(url);
-		delete[] url;
-		add(alt);
+		};
+		if (alt){
+			char *url=parse_percents(buf);
+			alt->proxy.from_string(url);
+			delete[] url;
+			add(alt);
+			alt=NULL;
+		}else{
+			alt=new d4xAlt;
+			char *url=parse_percents(buf);
+			alt->info.from_string(url);
+			delete[] url;
+		};
 	};
+	if (alt)
+		delete(alt);
 	return -1;
 };
 
@@ -306,6 +356,7 @@ void d4xAltList::edit_mod_ok(){
 	d4xAlt *alt=(d4xAlt*)d4x_links_sel_get_data(edit,str2mod);
 	if (alt){
 		alt->info.from_string(text_from_combo(GTK_WIDGET(mod_edit->entry)));
+		d4x_alt_edit_get(mod_edit,&(alt->proxy));
 		char *url=alt->info.url();
 		d4x_links_sel_set(edit,str2mod,url,alt);
 		delete[] url;
@@ -322,9 +373,10 @@ void d4xAltList::init_edit_mod(GtkTreeIter *iter){
 		gdk_window_show(GTK_WIDGET(mod_edit)->window);
 		text_to_combo(GTK_WIDGET(mod_edit->entry),url);
 		delete[] url;
+		d4x_alt_edit_set(mod_edit,&(alt->proxy));
 		return;
 	};
-	mod_edit=(d4xStringEdit *)d4x_string_edit_new();
+	mod_edit=(d4xAltEdit *)d4x_alt_edit_new();
 	gtk_window_set_title(GTK_WINDOW (mod_edit),_("Modify alternate"));
 	g_signal_connect(G_OBJECT(mod_edit->ok),"clicked",
 			 G_CALLBACK(d4x_alt_mod_ok),
@@ -337,4 +389,6 @@ void d4xAltList::init_edit_mod(GtkTreeIter *iter){
 			 this);
 	text_to_combo(GTK_WIDGET(mod_edit->entry),url);
 	delete[] url;
+	d4x_alt_edit_set(mod_edit,&(alt->proxy));
 };
+

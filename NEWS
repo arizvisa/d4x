@@ -1,3 +1,19 @@
+2.5.0rc1
+	Added ability to specify different proxy per alternates;
+	Added ability to select speed format per queue;
+	Changed default save-folder to '~/MyDownloads';
+	Fixed removing partially loaded file after redirection;
+	Fixed bringing up "add new" dialog by '-a' option when D4X was not run;
+	Fixed converting DnD-basket to menu with just one queue in tree;
+	Fixed couple 32bit overloadings;
+	Fixed using timzone variable;
+	Fixed some GTK2 issues;
+	Fixed storing alternate with username and password;
+	Fixed non-UTF string in logs of FTP downloads;
+	FTP-search is forbidden when there are no loaded engines;
+	Translation to Serbian has been added (thanks to Brane Jovanovic);
+	Translation to Slovak has been added (thanks to Zdenko Podobny);
+
 2.5.0-beta2
 	Fixed multithreaded downloading when two thread are write in the same part of file;
 	Fixed garbage in stderr about graph!=NULL;

@@ -52,7 +52,7 @@ class tSocket{
 	int open_port(int *ftp_addr);
 	int direct_send(char *what);
 	int send_string(char *what,int timeout);
-	int rec_string(char * where,fsize_t len,int timeout);
+	fsize_t rec_string(char * where,fsize_t len,int timeout);
 	void flush();
 	int connected();
 	virtual void down();

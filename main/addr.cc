@@ -56,7 +56,8 @@ tProtoInfo begin_protos[]={
 	{"telnet:",0,D_PROTO_UNKNOWN},
 	{"tn3270:",0,D_PROTO_UNKNOWN},
 	{"wais:",0,D_PROTO_UNKNOWN},
-	{"whois++:",0,D_PROTO_UNKNOWN}
+	{"whois++:",0,D_PROTO_UNKNOWN},
+	{"socks:",0,D_PROTO_SOCKS}
 };
 
 tProtoInfo proto_infos[]={
@@ -64,7 +65,8 @@ tProtoInfo proto_infos[]={
 	{"ftp",21,D_PROTO_FTP},
 	{"http",80,D_PROTO_HTTP},
 	{"https",443,D_PROTO_HTTPS},
-	{"search",80,D_PROTO_SEARCH}
+	{"search",80,D_PROTO_SEARCH},
+	{"socks",0,D_PROTO_SOCKS}
 };
 
 int global_url(char *url) {
@@ -399,6 +401,7 @@ char *tAddr::pathfile(){
 char *tAddr::url() {
 	int params_len=(params.get()?strlen(params.get())+1:0);
 	int port_len=port==proto_infos[proto].port?0:(int_to_strin_len(port)+1);
+	if (host.get()==NULL) return (copy_string(""));
 	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
 	                   strlen(path.get())+strlen(file.get())+7+params_len+port_len];
 	*URL=0;
@@ -456,6 +459,7 @@ char *tAddr::url_full(){
 	int params_len=(params.get()?strlen(params.get())+1:0);
 	int port_len=port==proto_infos[proto].port?0:(int_to_strin_len(port)+1);
 	int auth_len=0;
+	if (host.get()==NULL) return (copy_string(""));
 	if (pass.get() && username.get())
 		auth_len=strlen(pass.get())+strlen(username.get());
 	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
@@ -525,6 +529,19 @@ void tAddr::copy(tAddr *what){
 };
 
 tAddr::~tAddr() {
+};
+
+void tAddr::clear(){
+	port=0;
+	host.set(NULL);
+	path.set(NULL);
+	file.set(NULL);
+	username.set(NULL);
+	pass.set(NULL);
+	tag.set(NULL);
+	params.set(NULL);
+	mask=0;
+	proto=0;
 };
 
 /**********************************************/

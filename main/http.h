@@ -19,7 +19,7 @@ class tHttpClient:public tClient{
 	int pass_first;
 	int send_request(char *request);
 	int send_request(char *begin, char *center,char *end);
-	int read_data(char *where,fsize_t len);
+	fsize_t read_data(char *where,fsize_t len);
 	int read_answer(tStringList *list);
 	char *user_agent,*referer;
 	void send_cookies(char *host,char *path);
@@ -36,7 +36,7 @@ class tHttpClient:public tClient{
 	int registr(char *user,char *password);
 	virtual fsize_t get_size_only(char *filename,tStringList *list);
 	fsize_t get_size(char *filename,tStringList *list);
-	int get_file_from(char *what,fsize_t begin,fsize_t len);
+	fsize_t get_file_from(char *what,fsize_t begin,fsize_t len);
 	void down();
         void done();
         ~tHttpClient();

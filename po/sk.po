@@ -1,148 +1,145 @@
-# Bulgarian translation file.
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# Iordan Pavlov <dani84_vd@yahoo.com> 2001.
+# Slovak translation of d4x.pot
+# Copyright (C) 2003 Free Software Foundation, Inc.
+# Zdenko Podobný <zdpo@mailbox.sk>, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: nt\n"
+"Project-Id-Version: d4x.sk.po \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-12-28 06:14+0700\n"
-"PO-Revision-Date: 2002-04-03 18:25GMT\n"
-"Last-Translator: Miroslav B. Iordanov <mironcholinux@mail.bg>\n"
-"Language-Team: Bulgarian <bg@li.org>\n"
+"PO-Revision-Date: 2003-12-08 21:21+0100\n"
+"Last-Translator: Zdenko Podobný <zdpo@mailbox.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.5\n"
+"X-Generator: KBabel 1.2beta3\n"
 
 #: main/alt.cc:274
-#, fuzzy
 msgid "Add new alternate"
-msgstr "Прибави ново теглене"
+msgstr "Pridať novú alternatívu"
 
 #: main/alt.cc:380
-#, fuzzy
 msgid "Modify alternate"
-msgstr "Промени филтър"
+msgstr "Upraviť alternatívu"
 
 #: main/client.cc:448
 msgid "Timeout while reading from socket!"
-msgstr "Времето за четене от гнездото свърши!"
+msgstr "Časový limit vypršal počas čítania zo soketu!"
 
 #: main/client.cc:453
 msgid "Error while reading from socket!"
-msgstr "Появи се грешка при четене от гнездото!"
+msgstr "Chyba počas čítania zo soketu!"
 
 #: main/client.cc:462
 msgid "Trying to connect..."
-msgstr "Опитвам да се свържа..."
+msgstr "Pokus o pripojenie..."
 
 #: main/client.cc:464
 msgid "Socket was opened!"
-msgstr "Гнездото беше отворено!"
+msgstr "Soket bol otvorený!"
 
 #: main/client.cc:469
 msgid "Host not found!"
-msgstr "Сървърът не е намерен!"
+msgstr "Hostiteľ nenájdený"
 
 #: main/client.cc:474
 msgid "Can't allocate socket"
-msgstr "е мога да определя гнездото"
+msgstr "Nie je možné alokovať soket"
 
 #: main/client.cc:479
 msgid "Can't connect"
-msgstr "Не мога да се свържа"
+msgstr "Nepodarilo sa spojenie"
 
 #: main/config.cc:77
 msgid "You forgot to specify directory."
-msgstr "Забравихте да укажете директория."
+msgstr "Zabudli ste určiť priečinok"
 
 #: main/config.cc:79
 msgid "You must specify number as second parameter for '-m' option"
-msgstr "Трябва да зададете число като 2-и параметър за '-m' опция"
+msgstr "Musíte určiť číslo ako druhý parameter pre voľbu '-m'"
 
 #: main/config.cc:83
 msgid "You must specify number as parameter for '--exit-time' option"
-msgstr "Трябва да зададете номер като параметър за '--exit time' опция"
+msgstr "Musíte určiť číslo ako parameter pre voľbu '--exit-time'"
 
 #: main/config.cc:84
 msgid "Expect URL as parameter for '--ls' option"
-msgstr "Очаквам URL като параметър за '--ls' опция"
+msgstr "Očakáva URL ako parameter pre voľbu '--ls'"
 
 #: main/config.cc:86
 msgid "Expect URL as parameter for '--del' option"
-msgstr "Очаквам URL като параметър за '--del' опция"
+msgstr "Očakáva URL ako parameter pre voľbu '--del'"
 
 #: main/config.cc:87
 msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
 msgstr ""
-"Очаквам низ във формат ДЪЛЖИНАxВИСОЧИНА+X+Y като параметър за '-geometry'"
+"Očakáva reťazec vo formáte ŠÍRKAxVÝŠKA+X+Y ako parameter pre  '-geometry'"
 
 #: main/config.cc:88
 msgid "Expect URL as parameter for '--stop' option"
-msgstr "Очаквам URL като параметър за '--ls' опция"
+msgstr "Očakáva URL ako parameter pre voľbu '--stop'"
 
 #: main/config.cc:90
-#, fuzzy
 msgid "Expect URL as parameter for '-a' option"
-msgstr "Очаквам URL като параметър за '--ls' опция"
+msgstr "Očakáva URL ako parameter pre voľbu '-a'"
 
 #: main/config.cc:281
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
-msgstr "Не мога да отворя cfg файл от '%s'\n"
+msgstr "Nie je možné otvoriť konfiguráciu v '%s'\n"
 
 #: main/config.cc:282
 msgid "Use default cfg :))...\n"
-msgstr "Използвай cfg по подразбиране :))...\n"
+msgstr "Použiť štandardnú konfiguráciu :))...\n"
 
 #: main/config.cc:513
 msgid "unknown option:"
-msgstr "непозната опция:"
+msgstr "neznáma voľba:"
 
 #: main/config.cc:587
 msgid "List of queues:\n"
-msgstr "Списък с чакащи:\n"
+msgstr "Zoznam frontov:\n"
 
 #: main/config.cc:642
 #, c-format
 msgid "Run downloads: %d\n"
-msgstr "Стартирай свалянията: %d\n"
+msgstr "Spustiť sťahovania: %d\n"
 
 #: main/config.cc:644
 #, c-format
 msgid "Paused downloads: %d\n"
-msgstr "Спряни сваляния: %d\n"
+msgstr "Prerušené sťahovania: %d\n"
 
 #: main/config.cc:646
 #, c-format
 msgid "Failed downloads: %d\n"
-msgstr "Провалени сваляния: %d\n"
+msgstr "Neúspešné sťahovania: %d\n"
 
 #: main/config.cc:648
 #, c-format
 msgid "Completed downloads: %d\n"
-msgstr "Завършени сваляния: %d\n"
+msgstr "Dokončené sťahovania: %d\n"
 
 #: main/config.cc:651
 #, c-format
 msgid "Total: %d\n"
-msgstr "Общо: %d\n"
+msgstr "Celkom: %d\n"
 
 #: main/config.cc:653
 #, c-format
 msgid "Total bytes loaded: %d\n"
-msgstr "Общо свалени байтове: %d\n"
+msgstr "Celkový počet načítaných bajtov: %d\n"
 
 #: main/config.cc:655
 #, c-format
 msgid "Current speed: %d\n"
-msgstr "Настояща скорост: %d\n"
+msgstr "Aktuálna rýchlosť: %d\n"
 
 #: main/config.cc:661
 #, c-format
 msgid "Curent speed: %d\n"
-msgstr "Текуща скорост: %d\n"
+msgstr "Aktuálna rýchlosť: %d\n"
 
 #: main/config.cc:790
 msgid "Added from command line"
@@ -150,774 +147,770 @@ msgstr ""
 
 #: main/config.cc:871
 msgid "Usage: nt [OPTION] ... [URL]"
-msgstr "Употреба: nt [опция] ... [URL]"
+msgstr "Použitie nt [VOĽBA] ... [URL]"
 
 #: main/config.cc:872
 msgid "print this page and exit"
-msgstr "отпечатай тази страница и излез"
+msgstr "vytlačiť túto stránku a ukončiť"
 
 #: main/config.cc:873
 msgid "show version information and exit"
-msgstr "покажи информация за версията и излез"
+msgstr "zobraziť informácie o verzií a ukončiť"
 
 #: main/config.cc:874
 msgid "show information if already run"
-msgstr "покажи информация ако е стартиран"
+msgstr "zobraziť informácie, ak je už spustené"
 
 #: main/config.cc:875
 msgid "show current speed if already run"
-msgstr "покажи текущата скорост ако е стартиран"
+msgstr "zobraziť aktuálnu rýchlosť, ak je už spustené"
 
 #: main/config.cc:876
 msgid "run in minimized mode"
-msgstr "стартирай в минимизиран режим"
+msgstr "spustiť v minimalizovanom móde"
 
 #: main/config.cc:877
 msgid "set timeout for exiting if nothing to do"
-msgstr "настрой пауза преди изход ако няма задача"
+msgstr "nastaviť časový limit pre ukončenie, ak nie je čo robiť"
 
 #: main/config.cc:878
 msgid "set directory for saving files"
-msgstr "задаване на директория за сваляне на файлове"
+msgstr "nastaviť priečinok pre ukladanie súborov"
 
 #: main/config.cc:879
 msgid "set lower speed limitation"
-msgstr "задаване на ограничение за по-ниска скорост"
+msgstr "nastaviť nižší rýchlostný limit"
 
 #: main/config.cc:880
 msgid "set medium speed limitation"
-msgstr "задаване на ограничение за средна скорост"
+msgstr "nastaviť stredný rýchlostný limit"
 
 #: main/config.cc:881
 msgid "set unlimited speed"
-msgstr "задаване на неограничена скорост"
+msgstr "nastaviť neobmedzenú rýchlosť"
 
 #: main/config.cc:882
 msgid "delete completed if already run"
-msgstr "махни завършените ако е стартиран"
+msgstr "zmazať dokončené, ak je už spustené"
 
 #: main/config.cc:883
 msgid "set maximum active downloads"
-msgstr "задаване на най-много активни сваляния"
+msgstr "nastaviť maximum aktívnych spustení"
 
 #: main/config.cc:884
 msgid "restart all failed downloads"
-msgstr "рестартирай всички провалени сваляния"
+msgstr "znovuspustiť všetky neúspešné sťahovania"
 
 #: main/config.cc:885
 msgid "run program without X interface"
-msgstr "стартирай програмата без Х интерфейс"
+msgstr "spustiť program bez X rozhrania"
 
 #: main/config.cc:886
 msgid "display info about URL in queue of downloads"
-msgstr "покажи инфо за URL в опашката за сваляне"
+msgstr "zobraziť informácie o URL vo fronte sťahovaní"
 
 #: main/config.cc:887
 msgid "change current default queue"
-msgstr "промени текущата подразбираща се опашка"
+msgstr "zmeniť aktuálnu štandardný front"
 
 #: main/config.cc:888
 msgid "remove a download from queue"
-msgstr "махни сваляне от опашката"
+msgstr "odstrániť sťahovanie z frontu"
 
 #: main/config.cc:889
 msgid "stop a download"
-msgstr "спри теглене"
+msgstr "zataviť sťahovanie"
 
 #: main/config.cc:890
 msgid "using colors if run without interface"
-msgstr "използване на цветове при стартиране без интерфейс"
+msgstr "používanie farieb, ak je spustené bez rozhrania"
 
 #: main/config.cc:891
 msgid "specifies preferred size and position of main window"
-msgstr "определи предпочитани размер и местоположение на главния прозорец"
+msgstr "určenie preferovanej veľkosti a pozície hlavného okna"
 
 #: main/config.cc:892
-#, fuzzy
 msgid "open \"Add new download\" dialog for the URL"
-msgstr " Прибави ново теглене "
+msgstr "otvorí dialóg \"Pridať nové sťahovanie\" pre URL"
 
 #: main/cookie.cc:318
 msgid "Loading cookies"
-msgstr "Зареждам бисквитките"
+msgstr "Načítavanie cookies"
 
 #: main/cookie.cc:324
 #, c-format
 msgid "%i cookies loaded from browsers' files"
-msgstr "%i бисквитки са заредени"
+msgstr "%i cookies načítaných zo súborov prehliadača"
 
 #: main/cookie.cc:326
 #, c-format
 msgid "Can't open cookies file %s!"
-msgstr "Не мога да отворя файла с бисквитките %s!"
+msgstr "Nie je možné otvoriť cookies súbor %s!"
 
 #: main/cookie.cc:336
 #, c-format
 msgid "%i cookies loaded"
-msgstr "%i бисквитки са заредени"
+msgstr "%i cookies načítané"
 
 #: main/dlist.cc:117
 msgid "Can't write to file"
-msgstr "Не мога да запиша във файла"
+msgstr "Nie je možné zapisovať do súboru"
 
 #: main/dlist.cc:144
 msgid "File is already opened by another download!"
-msgstr "Файлът е вече отворен от друго сваляне!"
+msgstr "Súbor je už otvorený v inom sťahovaní!"
 
 #: main/dlist.cc:147
 msgid "Filesystem do not support advisory record locking!"
-msgstr "Файловата система не поддържа съвещателно заключване на запис!"
+msgstr "Súborový systém nepodporuje pomocné uzamknutie záznamu!"
 
 #: main/dlist.cc:148
 msgid "Will proceed without it but beware that you might have problems."
-msgstr "Ще продължа без него ,но може да имате проблеми."
+msgstr ""
+"Bude sa pokračovať aj bez toho, ale buďte si vedomý, že môžete mať problémy."
 
 #: main/dlist.cc:396
 #, c-format
 msgid "You have no permissions to create file at path %s"
-msgstr "Нямате разрешение да създадете файл в пътеката %s"
+msgstr "Nemáte právo vytvoriť súbor v %s"
 
 #: main/dlist.cc:401
 #, c-format
 msgid "You have no space at path %s for creating file"
-msgstr "Няма място за създаване на файл в пътеката %s"
+msgstr "Nemáte dostatok voľného miesta na vytvorenie súboru v %s"
 
 #: main/dlist.cc:406
 msgid "Directory already created!:))"
-msgstr "Директорията е вече създадена!:))"
+msgstr "Priečinok je už vytvorený!:))"
 
 #: main/dlist.cc:525
 msgid "Trying to create a link"
-msgstr "Опитвам да създам препратка"
+msgstr "Pokus o vytvorenie odkazu"
 
 #: main/dlist.cc:530
 msgid "Link already created!:))"
-msgstr "Препратката е вече създадена!:))"
+msgstr "Odkaz je už vytvorený!:))"
 
 #: main/dlist.cc:536
 msgid "Can't create link"
-msgstr "Не мога да създам препратка"
+msgstr "Nie je možné vytvoriť odkaz"
 
 #: main/dlist.cc:545
 msgid "Trying to create a file"
-msgstr "Опитвам да създада файл"
+msgstr "Pokus o vytvorenie súboru"
 
 #: main/dlist.cc:566
 msgid "Can't create file at the path:"
-msgstr "Не мога да съэдам файл в пътеката"
+msgstr "Nie je možné vytvoriť súbor v:"
 
 #: main/dlist.cc:568
 msgid "which has name:"
-msgstr "който има име:"
+msgstr "ktorý má názov:"
 
 #: main/dlist.cc:579
 msgid "File was created!"
-msgstr "Файлът беше създаден!"
+msgstr "Súbor bol vytvorený!"
 
 #: main/dlist.cc:584
 msgid "Trying to create a dir"
-msgstr "Опитвам да създам директория"
+msgstr "Pokus o vytvorenie priečinka"
 
 #: main/dlist.cc:594
 msgid "Can't create directory!"
-msgstr "Не мога да създам директория!"
+msgstr "Nie je možné vytvoriť priečinok!"
 
 #: main/dlist.cc:604
 msgid "Downloader can't create devices..."
-msgstr "D4X не може да създава устройства..."
+msgstr "Sťahovač nemôže vytvárať zariadenia..."
 
 #: main/dlist.cc:1068
 #, c-format
 msgid "Trying to copy %s to %s due 'Content-Disposition'"
-msgstr ""
+msgstr "Pokus kopírovať %s do %s kvôli Dispozícií obsahu'"
 
 #: main/dlist.cc:1071
 msgid "Error during copying!"
-msgstr "Грешка по време на копирането!"
+msgstr "Chyba počas kopírovania!"
 
 #: main/dlist.cc:1106
 msgid "Downloading was successefully completed!"
-msgstr "Тегленето приключи успешно!"
+msgstr "Sťahovanie bolo úspešne dokončené!"
 
 #: main/dlist.cc:1159
 msgid "Downloading was failed..."
-msgstr "Тегленето се провали..."
+msgstr "Sťahovanie bolo neúspešné..."
 
 #: main/dlist.cc:1306
 msgid "Redirection blocked by filter"
-msgstr "Пренасочването е блокирано от филтър"
+msgstr "Presmerovanie blokované filtrom"
 
 #: main/dlist.cc:1312
 msgid "Redirect detected..."
-msgstr "Засечено е пренасочване..."
+msgstr "Zistené presmerovanie..."
 
 #: main/dlist.cc:1316 main/dlist.cc:1331
 msgid "Size detection only!"
-msgstr ""
+msgstr "Iba detekcia veľkosti!"
 
 #: main/dlist.cc:1385
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
 msgstr ""
+"Viacvláknové sťahovanie nie je možné kvôli obmedzeniam servera (pokračovanie "
+"v sťahovaní nie je podporované)"
 
 #: main/dlist.cc:1396
 msgid "Local file is seems to be equal to remote one"
-msgstr ""
+msgstr "Zdá sa, že lokálny a vzdialený súbor sú rovnaké"
 
 #: main/dlist.cc:1417
 msgid "It is strange that we can't delete file which just created..."
-msgstr "Странно е че не можем да изтрием файл създаден току що..."
+msgstr "Je to zvláštne, že nie je možné zmazať práve vytvorený súbor..."
 
 #: main/dlist.cc:1421 main/dlist.cc:1660
 msgid "File not found"
-msgstr "Файлът не е намерен"
+msgstr "Súbor nenájdený"
 
 #: main/dlist.cc:1494
 msgid "Sorting started"
-msgstr "Стартирано е сортиране"
+msgstr "Spustené triedenie"
 
 #: main/dlist.cc:1497
 #, c-format
 msgid "Pinging (atempt %i of %i)"
-msgstr "Ping-ване (опит %i от %i)"
+msgstr "Pingovanie (pokus %i z %i)"
 
 #: main/dlist.cc:1525
 msgid "Trying to determine filesizes"
-msgstr "Опитвам се да установя размера на файла"
+msgstr "Pokus o zistenie veľkosti súborov"
 
 #: main/dlist.cc:1572
 msgid "Searching failed"
-msgstr "Търсенето се провали"
+msgstr "Hľadanie zlyhalo"
 
 #: main/dlist.cc:1623
 msgid "Search had been completed!"
-msgstr "Търсенето е завършено!"
+msgstr "Prehladávanie bolo dokončené!"
 
 #: main/dlist.cc:1629
 msgid "Was Started!"
-msgstr "Беше стартиран!"
+msgstr "Bolo spustené!"
 
 #: main/dlist.cc:1638
 msgid "It is a link and we already load it"
-msgstr "Това е връзка и ние вече я заредихме"
+msgstr "Je to odkaz a už je načítaný"
 
 #: main/dlist.cc:1665
 msgid "Trying to work without CWD"
-msgstr "Опитвам да работя без CWD"
+msgstr "Pokus o prácu bez CWD"
 
 #: main/dlist.cc:1790
 msgid "Can't split file to specified number of parts!"
-msgstr "Не мога да разделя файла на зададения брой части!"
+msgstr "Nie je možné rozdeliť súbor na určený počet častí!"
 
 #: main/download.cc:34
 msgid "Maximum number of retries reached!"
-msgstr "Достигнат е максималният брой опити!"
+msgstr "Maximálny počet pokusov bol dosiahnutý"
 
 #: main/download.cc:39
 #, c-format
 msgid "Retry %i of %i...."
-msgstr "Опит %i от %i..."
+msgstr "Pokus %i z %i...."
 
 #: main/download.cc:41
 #, c-format
 msgid "Retry %i ..."
-msgstr "Опит %i..."
+msgstr "Pokus %i ..."
 
 #: main/download.cc:45
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr "Файла на сървъра е по-нов от локалния.Започвом отначало\n"
+msgstr "Súbor na servery je novší ako ten lokálny. Začínam od začiatku\n"
 
 #: main/download.cc:49
 #, c-format
 msgid "Error code %i"
-msgstr "Код на грешка %i"
+msgstr "Kód chyby %i"
 
 #: main/download.cc:50
 msgid "Warning! Probably you found the BUG!!!"
-msgstr "Внимание!Може би открихте БЪГ!!!"
+msgstr "Varovanie! Pravdepodobne ste našli CHYBU!!!"
 
 #: main/download.cc:51
 msgid "If you see this message please report to mdem@chat.ru"
-msgstr "Ако виждате това съобщение,моля пишете на mdem@chat.ru"
+msgstr "Ak vidíte túto správu pošlite chybu na mdem@chat.ru"
 
 #: main/face/about.cc:137
 msgid "About"
-msgstr "Информация"
+msgstr "O programe"
 
 #: main/face/about.cc:149
-#, fuzzy
 msgid "Author: Maxim Koshelev"
-msgstr ""
-"Автор: Koshelev Maxim\n"
-"Превел:Йордан Павлов"
+msgstr "Autor: Maxim Koshelev"
 
 #: main/face/about.cc:151
 msgid "Autoconf: Zaufi"
-msgstr ""
+msgstr "Autoconf: Zaufi"
 
 #: main/face/about.cc:152
 msgid "Translators team"
-msgstr "Преводаческа група"
+msgstr "Prekladateľský tím"
 
 #: main/face/about.cc:176
 msgid "Special thanks to"
-msgstr "Специални благодарности на"
+msgstr "Zvláštne poďakovanie patrí"
 
 #: main/face/about.cc:307
 msgid "Don't ask next time"
-msgstr "Не питай следващия път"
+msgstr "Nepýtať sa v budúcnosti"
 
 #: main/face/addd.cc:95 main/face/addd.cc:247
 msgid "Add new download"
-msgstr "Прибави ново теглене"
+msgstr "Pridať nové sťahovanie"
 
 #: main/face/addd.cc:184
 msgid "Automated adding"
-msgstr "Автоматично добавяне"
+msgstr "Automatické pridávanie"
 
 #: main/face/buttons.cc:51
 msgid " Add new download "
-msgstr " Прибави ново теглене "
+msgstr " Pridať nové sťahovanie "
 
 #: main/face/buttons.cc:52
 msgid " Paste from clipboard "
-msgstr " Копирай от клипборда "
+msgstr " Vložiť zo schránky "
 
 #: main/face/buttons.cc:53
 msgid " Del downloads "
-msgstr " Махни тегления "
+msgstr " Zmazať sťahovania "
 
 #: main/face/buttons.cc:54
 msgid " Stop downloads "
-msgstr " Спри тегленията "
+msgstr " Zastaviť sťahovania "
 
 #: main/face/buttons.cc:55
 msgid " Continue/restart downloads "
-msgstr " Продължи/рестартирай тегленията "
+msgstr " Pokračovať/znova spustiť sťahovania "
 
 #: main/face/buttons.cc:56
 msgid " Del Completed downloads "
-msgstr " Махни завършените тегления "
+msgstr " Zmazať dokončené sťahovania "
 
 #: main/face/buttons.cc:57
 msgid " Move up "
-msgstr " Премести нагоре "
+msgstr " Posunúť hore "
 
 #: main/face/buttons.cc:58
 msgid " Move down "
-msgstr " Премести надолу "
+msgstr " Posunúť hore "
 
 #: main/face/buttons.cc:59
 msgid " View log "
-msgstr " Покажи дневника "
+msgstr " Zobraziť záznam "
 
 #: main/face/buttons.cc:60 main/face/buttons.cc:253
 msgid " Speed level one "
-msgstr " 1-во ниво на скорост"
+msgstr " Úroveň rýchlosti jedna "
 
 #: main/face/buttons.cc:61 main/face/buttons.cc:257
 msgid " Speed level two "
-msgstr " 2-ро ниво на скорост "
+msgstr " Úroveň rýchlosti dva "
 
 #: main/face/buttons.cc:62
 msgid " Unlimited speed "
-msgstr " Неограничена скорост "
+msgstr " Neobmedzená rýchlosť "
 
 #: main/face/buttons.cc:63
 msgid " Options "
-msgstr " Настройки "
+msgstr " Voľby "
 
 #: main/face/buttons.cc:64
 msgid " Delete all downloads "
-msgstr " Махни всички тегления "
+msgstr " Zmazať všetky sťahovania "
 
 #: main/face/buttons.cc:65
 msgid " Save list "
-msgstr " Запази списъка "
+msgstr " Uložiť zoznam "
 
 #: main/face/buttons.cc:66
 msgid " Load list "
-msgstr " Зареди списък "
+msgstr " Načítať zoznam "
 
 #: main/face/buttons.cc:67
 msgid " DnD basket "
-msgstr " DnD кошница "
+msgstr " PaP kôš "
 
 #: main/face/buttons.cc:68
 msgid " Switch percentage mode to"
-msgstr " Включвам процентен режим за"
+msgstr " Prepnutie percentuálneho módu na"
 
 #: main/face/buttons.cc:69
 msgid " Configure buttons "
-msgstr " Настрой бутоните "
+msgstr " Nastaviť tlačítka "
 
 #: main/face/buttons.cc:242
 msgid "Delete ALL downloads?"
-msgstr "Махни ВСИЧКИ сваляния?"
+msgstr "Zmazať všetky sťahovania?"
 
 #: main/face/buttons.cc:242
 msgid "Delete all?"
-msgstr "Премахни всички?"
+msgstr "Zmazať všetko?"
 
 #: main/face/columns.cc:21
 msgid "status"
-msgstr "статус"
+msgstr "stav"
 
 #: main/face/columns.cc:22
 msgid "file name"
-msgstr "име на файла"
+msgstr "názov súboru"
 
 #: main/face/columns.cc:23
 msgid "type of file"
-msgstr "тип на файла"
+msgstr "typ súboru"
 
 #: main/face/columns.cc:24
 msgid "size of file"
-msgstr "размер на файла"
+msgstr "veľkosť súboru"
 
 #: main/face/columns.cc:25
 msgid "downloaded size"
-msgstr "размер изтеглената част"
+msgstr "stiahnutá veľkosť"
 
 #: main/face/columns.cc:26
 msgid "rest"
-msgstr "оставащ"
+msgstr "zostáva"
 
 #: main/face/columns.cc:27
 msgid "percent"
-msgstr "процент"
+msgstr "%"
 
 #: main/face/columns.cc:28
 msgid "speed"
-msgstr "скорост"
+msgstr "rýchlosť"
 
 #: main/face/columns.cc:29
 msgid "elapsed time"
-msgstr "изминало време"
+msgstr "uplynutý čas"
 
 #: main/face/columns.cc:30
 msgid "estimated time"
-msgstr "приблизително време"
+msgstr "očakávané trvanie"
 
 #: main/face/columns.cc:31
 msgid "time of pause"
-msgstr "време на пауза"
+msgstr "čas prerušenia"
 
 #: main/face/columns.cc:32
 msgid "number of attempts"
-msgstr "брой опити"
+msgstr "počet pokusov"
 
 #: main/face/columns.cc:33
 msgid "description"
-msgstr "описание"
+msgstr "popis"
 
 #: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1064
 #: main/face/mywidget.cc:1323
 msgid "URL"
-msgstr "Адрес"
+msgstr "URL"
 
 #: main/face/columns.cc:72
 msgid "Showed columns"
-msgstr "Показани колони"
+msgstr "Zobrazené stĺpce"
 
 #: main/face/dndtrash.cc:45
 msgid "/New Download"
-msgstr "/Ново теглене"
+msgstr "/Nové sťahovanie"
 
 #: main/face/dndtrash.cc:46
 msgid "/Paste Download"
-msgstr "/Вземи теглене"
+msgstr "/Vložiť sťahovanie"
 
 #: main/face/dndtrash.cc:47
 msgid "/Automated adding"
-msgstr "/Автоматично добавяне"
+msgstr "/Automatické sťahovanie"
 
 #: main/face/dndtrash.cc:48
 msgid "/Delete completed"
-msgstr "/Махни завършените"
+msgstr "/Zmazať dokončené"
 
 #: main/face/dndtrash.cc:49
 msgid "/General options"
-msgstr "/Главни настройки"
+msgstr "/Všeobecné nastavenia"
 
 #: main/face/dndtrash.cc:50
 msgid "/Speed"
-msgstr "/Скорост"
+msgstr "/Rýchlosť"
 
 #: main/face/dndtrash.cc:51
 msgid "/Speed/Low"
-msgstr "/Скорост/Ниска"
+msgstr "/Rýchlosť/Pomalá"
 
 #: main/face/dndtrash.cc:52
 msgid "/Speed/Medium"
-msgstr "/Скорост/Средна"
+msgstr "/Rýchlosť/Stredná"
 
 #: main/face/dndtrash.cc:53
 msgid "/Speed/Unlimited"
-msgstr "/Скорост/Неограничена"
+msgstr "/Rýchlosť/Neobmedzená"
 
 #: main/face/dndtrash.cc:54
 msgid "/Exit"
-msgstr "/Изход"
+msgstr "/Koniec"
 
 #: main/face/dndtrash.cc:402
 msgid "DnD basket"
-msgstr " DnD кошница "
+msgstr "PnP kôš"
 
 #: main/face/dndtrash.cc:557
 msgid "Drop link here"
-msgstr "Пуснете връзката тук"
+msgstr "Pustite sem odkaz"
 
 #: main/face/edit.cc:65 main/face/edit.cc:477
 msgid "Use password for this site"
-msgstr "Използвай парола за тази страница"
+msgstr "Použiť heslo pre tento server"
 
 #: main/face/edit.cc:66 main/face/edit.cc:444
 msgid "Save download to folder"
-msgstr "Запази тегленето във папка"
+msgstr "Uložiť sťahovanie do priečinku"
 
 #: main/face/edit.cc:67 main/face/edit.cc:504
 msgid "Restart this download from begining"
-msgstr "Рестартирай това теглене отначало"
+msgstr "Znovu spustiť toto sťahovanie od začiatku"
 
 #: main/face/edit.cc:68
 msgid "Timeout for reading from socket"
-msgstr "Времето за четене от гнездото изтече"
+msgstr "Časový limit pre čítanie zo soketu"
 
 #: main/face/edit.cc:69
 msgid "Speed limitation"
-msgstr "Ограничение на скороста"
+msgstr "Obmedzenie rýchlosti"
 
 #: main/face/edit.cc:70
 msgid "Maximum attempts"
-msgstr "Максимален брой опити"
+msgstr "Maximum pokusov"
 
 #: main/face/edit.cc:71
 msgid "Timeout before reconnection"
-msgstr "Таймаут преди повторно свързване"
+msgstr "Časový limit pred opätovným spojením"
 
 #: main/face/edit.cc:72
 msgid "Rollback after reconnecting"
-msgstr "Връщане назад след повторно свързване"
+msgstr "Návrat po opätovnom spojení"
 
 #: main/face/edit.cc:73 main/face/edit.cc:576 main/face/prefs.cc:241
 msgid "Get date from the server"
-msgstr "Вземи дата от сървъра"
+msgstr "Prevziať dátum zo servera"
 
 #: main/face/edit.cc:74 main/face/edit.cc:580 main/face/prefs.cc:245
 msgid "Retry if resuming is not supported"
-msgstr "Опитай отново ако продължаване не се поддържа"
+msgstr "Opäť skúsiť, ak pokračovanie nie je podporované"
 
 #: main/face/edit.cc:75 main/face/edit.cc:571
 msgid "Number of parts for spliting this download"
-msgstr "Брой на части за разделяне на тегленето"
+msgstr "Počet častí, na ktoré a rozdelí toto sťahovanie"
 
 #: main/face/edit.cc:76 main/face/edit.cc:618 main/face/prefs.cc:346
 msgid "Use passive mode for FTP"
-msgstr "Използвай пасивен режим за FTP"
+msgstr "Použiť pasívny mód pre FTP"
 
 #: main/face/edit.cc:77 main/face/edit.cc:624 main/face/prefs.cc:354
 msgid "Get permissions of the file from server (FTP only)"
-msgstr "Вземи атрибутите на файла от сървъра(само за FTP)"
+msgstr "Prevziať práva súboru zo servera (iba pre FTP)"
 
 #: main/face/edit.cc:78 main/face/edit.cc:621 main/face/prefs.cc:350
 msgid "Don't send QUIT command (FTP)"
-msgstr "Не изпращай команда QUIT (FTP)"
+msgstr "Neposielať príkaz QUIT (FTP)"
 
 #: main/face/edit.cc:79 main/face/edit.cc:639 main/face/prefs.cc:370
 msgid "Put directories on the top of queue during recursion"
-msgstr "Постави директориите на върха на опашката по време на рекурсията"
+msgstr "Dať priečinky na vrchol frontu počas rekurzie"
 
 #: main/face/edit.cc:80 main/face/edit.cc:588 main/face/prefs.cc:261
 msgid "Compare date/time of remote file with local one"
-msgstr "Сравни дата/час на отдалечения файл с локалния"
+msgstr "Porovnať dátum/čas vzdialeného času s lokálnym"
 
 #: main/face/edit.cc:81 main/face/edit.cc:584 main/face/prefs.cc:249
 msgid "Sleep before completing"
-msgstr "Изчакай преди завършване"
+msgstr "Pred dokončením uspať"
 
 #: main/face/edit.cc:82 main/face/edit.cc:627 main/face/prefs.cc:358
 msgid "Follow symbolic links"
-msgstr "Следвай символичните връзки"
+msgstr "Sledovať symbolické odkazy"
 
 #: main/face/edit.cc:83
 msgid "Depth of recursing for FTP"
-msgstr "Дълбочина на рекурсия за FTP"
+msgstr "Hĺbka rekurzie pre FTP"
 
 #: main/face/edit.cc:84
 msgid "Depth of recursing for HTTP"
-msgstr "Дълбочина на рекурсия за HTTP"
+msgstr "Hĺbka rekurzie pre HTTP"
 
 #: main/face/edit.cc:85 main/face/edit.cc:667 main/face/prefs.cc:448
 msgid "Only subdirs"
-msgstr "Само поддиректории"
+msgstr "Iba podpriečinky"
 
 #: main/face/edit.cc:86 main/face/edit.cc:668 main/face/prefs.cc:449
 msgid "Allow leave this server while recursing via HTTP"
-msgstr "Разреши напускане на сървър при рекурсия през HTTP"
+msgstr "Povoliť opustenie servera počas rekurzie cez HTTP"
 
 #: main/face/edit.cc:87 main/face/edit.cc:669 main/face/prefs.cc:450
 msgid "Change links in HTML file to local"
-msgstr "Промени връзките във HTML файл към локални"
+msgstr "Zmeniť linky v HTML súbore na lokálne"
 
 #: main/face/edit.cc:88 main/face/edit.cc:670 main/face/prefs.cc:451
 msgid "Ignore ETag field in reply"
-msgstr "Игнорирай ETag полето в отговора"
+msgstr "Ignorovať ETag políčko v odpovedi"
 
 #: main/face/edit.cc:89 main/face/edit.cc:671
 msgid "Use '_' instead of '?' in stored filenames"
-msgstr ""
+msgstr "Použiť '_' namiesto '?' v názvoch súborov"
 
 #: main/face/edit.cc:90 main/face/edit.cc:697 main/face/prefs.cc:469
 msgid "User-Agent"
-msgstr "Потребителски агент"
+msgstr "Používateľ-Agent"
 
 #: main/face/edit.cc:91 main/face/edit.cc:706
 msgid "Referer"
-msgstr "Насочващ"
+msgstr "Odkaz"
 
 #: main/face/edit.cc:92 main/face/edit.cc:717
 msgid "Cookie"
-msgstr "Бисквитка"
+msgstr "Cookie"
 
 #: main/face/edit.cc:93 main/face/edit.cc:822 main/face/edit.cc:825
 #: main/face/prefs.cc:505 main/face/prefs.cc:1285 main/face/prefs.cc:1419
 msgid "Proxy"
-msgstr "Прокси"
+msgstr "Proxy"
 
 #: main/face/edit.cc:94 main/face/edit.cc:740 main/face/edit.cc:783
 #: main/face/fsched.cc:203 main/face/lod.cc:53
 msgid "Time"
-msgstr "Време"
+msgstr "Čas"
 
 #: main/face/edit.cc:195 main/face/edit.cc:214
 msgid "Edit download"
-msgstr "Редактирай теглене"
+msgstr "Upraviť sťahovanie"
 
 #: main/face/edit.cc:443 main/face/lod.cc:57
 msgid "Description"
-msgstr "Описание"
+msgstr "Popis"
 
 #: main/face/edit.cc:445
 msgid "Save download to file"
-msgstr "Запази тегленето във файл"
+msgstr "Uložiť sťahovanie do súboru"
 
 #: main/face/edit.cc:446 main/face/edit.cc:1598 main/face/edit.cc:1659
 #: main/face/edit.cc:1696 main/face/mywidget.cc:1379
 msgid "password"
-msgstr "парола"
+msgstr "heslo"
 
 #: main/face/edit.cc:447
 msgid "user name"
-msgstr "потребителско име"
+msgstr "meno používateľa"
 
 #: main/face/edit.cc:450
 msgid "Default"
-msgstr "По подразбиране"
+msgstr "Štandard"
 
 #: main/face/edit.cc:460
 msgid "CP1251->UTF8"
-msgstr ""
+msgstr "CP1251->UTF8"
 
 #: main/face/edit.cc:496
-#, fuzzy
 msgid "Connections limit:"
-msgstr "Контролната връзка е загубена"
+msgstr "Limit spojení:"
 
 #: main/face/edit.cc:503 main/face/prefs.cc:257
 msgid "Pause this just after adding"
-msgstr "Направи пауза след прибавянето"
+msgstr "Prerušiť hneď po pridaní"
 
 #: main/face/edit.cc:509
 msgid "Add to top of queue"
-msgstr "Добави на върха на опашката"
+msgstr "Pridať na vrchol frontu"
 
 #: main/face/edit.cc:522 main/face/lod.cc:291 main/face/prefs.cc:239
 #: main/face/prefs.cc:1276 main/face/prefs.cc:1361
 msgid "Download"
-msgstr "Теглене"
+msgstr "Stiahnuť"
 
 #: main/face/edit.cc:525 main/face/prefs.cc:717 main/face/prefs.cc:1267
 #: main/face/prefs.cc:1521
 msgid "Main"
-msgstr "Основни"
+msgstr "Hlavné"
 
 #: main/face/edit.cc:541 main/face/prefs.cc:298
 msgid "Timeout for reading from socket (in seconds)"
-msgstr "Таймаут за четене от гнездото (в секунди)"
+msgstr "Časový limit pre čítanie zo soketu (v sekundách)"
 
 #: main/face/edit.cc:547 main/face/prefs.cc:304
 msgid "Timeout before reconnection (in seconds)"
-msgstr "Таймаут преди повторно свързване в (секунди)"
+msgstr "Časový limit pre opätovným spojením (v sekundách)"
 
 #: main/face/edit.cc:553 main/face/prefs.cc:310
 msgid "Maximum attempts (0 for unlimited)"
-msgstr "Максимален брой опити (0 за неограничен)"
+msgstr "Maximum pokusov (0 pre bez obmedzenia)"
 
 #: main/face/edit.cc:559 main/face/prefs.cc:316
 msgid "Rollback after reconnecting (in bytes)"
-msgstr "Връщане назад след повторно свързване (в байтове)"
+msgstr "Návrat po opätovnom spojení (v bajtoch)"
 
 #: main/face/edit.cc:565 main/face/prefs.cc:322
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
-msgstr "Ограничение на скороста в байтове/сек (0 за неограничена)"
+msgstr "Rýchlostný limit v bajtoch/sek (0 pre neobmedzený)"
 
 #: main/face/edit.cc:592
 msgid "Save log to file"
-msgstr "Запази дневника във файл"
+msgstr "Uložiť záznam do súboru"
 
 #: main/face/edit.cc:601
 msgid "Auto"
-msgstr "Автоматично"
+msgstr "Automaticky"
 
 #: main/face/edit.cc:608 main/face/edit.cc:611
 msgid "Common"
-msgstr "Обикновен"
+msgstr "Obvyklé"
 
 #: main/face/edit.cc:631 main/face/prefs.cc:362
-#, fuzzy
 msgid "Load links as links"
-msgstr "Списък със връзки"
+msgstr "Načítať linky ako linky"
 
 #: main/face/edit.cc:635 main/face/prefs.cc:366
-#, fuzzy
 msgid "Load links as file"
-msgstr "Търсене на връзки в текстов файл"
+msgstr "Načítať linky ako súbor"
 
 #: main/face/edit.cc:645 main/face/edit.cc:662 main/face/prefs.cc:376
 #: main/face/prefs.cc:463
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr "Дълбочина на рекурсия (0 неограничена,1 без рекурсия)"
+msgstr "Hĺbka rekurzie (0 bez obmedzenia, 1 bez rekurzie)"
 
 #: main/face/edit.cc:688 main/face/prefs.cc:492
 msgid "Filter"
-msgstr "Филтър"
+msgstr "Filter"
 
 #: main/face/edit.cc:689 main/face/lod.cc:927 main/face/mywidget.cc:247
 #: main/face/prefs.cc:493
 msgid "Select"
-msgstr "Избери"
+msgstr "Vybrať"
 
 #: main/face/edit.cc:754
 msgid "Hours"
-msgstr "Часове"
+msgstr "Hodiny"
 
 #: main/face/edit.cc:762
 msgid "Minutes"
-msgstr "Минути"
+msgstr "Minúty"
 
 #: main/face/edit.cc:775
 msgid "Start this downloading at:"
-msgstr "Стартирай това теглене на:"
+msgstr "Spustiť toto sťahovanie o:"
 
 #: main/face/edit.cc:835
 msgid "Use default settings"
-msgstr "Използвай подразбиращите се настройки"
+msgstr "Použiť štandardné nastavenia"
 
 #: main/face/edit.cc:1532
 msgid "FTP proxy type"
-msgstr "тип на FTP прокси"
+msgstr "Typ FTP proxy"
 
 #: main/face/edit.cc:1543 main/face/mywidget.cc:1329
 msgid "FTP (wingate)"
@@ -925,645 +918,634 @@ msgstr "FTP (wingate)"
 
 #: main/face/edit.cc:1556
 msgid "Use this proxy for FTP"
-msgstr "Използвай това прокси за FTP"
+msgstr "Použiť toto proxy pre FTP"
 
 #: main/face/edit.cc:1571 main/face/edit.cc:1633 main/face/edit.cc:1679
 #: main/face/mywidget.cc:1352
 msgid "port"
-msgstr "порт"
+msgstr "port"
 
 #: main/face/edit.cc:1577 main/face/edit.cc:1638 main/face/mywidget.cc:1358
 msgid "need password"
-msgstr "нуждае се от парола"
+msgstr "potrebné je heslo"
 
 #: main/face/edit.cc:1585 main/face/edit.cc:1646 main/face/edit.cc:1690
 #: main/face/mywidget.cc:1365
 msgid "username"
-msgstr "потребителско име"
+msgstr "meno používateľa"
 
 #: main/face/edit.cc:1612
 msgid "Don't get from cache"
-msgstr "Не взимай от кеша"
+msgstr "Nepreberať z cache"
 
 #: main/face/edit.cc:1618
 msgid "Use this proxy for HTTP"
-msgstr "Използвай това прокси за HTTP"
+msgstr "Použiť toto proxy pre HTTP"
 
 #: main/face/edit.cc:1666
 msgid "Use SOCKS5 proxy"
-msgstr "Използвай SOCKS5 прокси"
+msgstr "Použiť SOCKS5 proxy"
 
 #: main/face/edit.cc:1672
 msgid "host"
-msgstr "сървър"
+msgstr "hostiteľ "
 
 #: main/face/edit.cc:2052
 msgid "Select properties"
-msgstr "Избери настройки"
+msgstr "Vybrať nastavenia"
 
 #: main/face/edit.cc:2097
 msgid "Unselect all"
-msgstr "Остави всички"
+msgstr "Všetko odznačiť"
 
 #: main/face/edit.cc:2103
 msgid "Select all"
-msgstr "Избери всички"
+msgstr "Označiť všetko"
 
 #: main/face/filtrgui.cc:164 main/face/mywidget.cc:891
 msgid "filter name"
-msgstr "име на филтъра"
+msgstr "názov filtra"
 
 #: main/face/filtrgui.cc:187 main/face/list.cc:1266
 msgid "Filters"
-msgstr "Филтри"
+msgstr "Filtre"
 
 #: main/face/fsched.cc:33
 msgid "limit speed"
-msgstr "ограничи скороста"
+msgstr "obmedziť rýchlosť"
 
 #: main/face/fsched.cc:34
 msgid "popup main window"
-msgstr "покажи главния прозорец"
+msgstr "nové hlavné okno"
 
 #: main/face/fsched.cc:35
 msgid "exit"
-msgstr "изход"
+msgstr "skončiť"
 
 #: main/face/fsched.cc:36
 msgid "remove completed"
-msgstr "махни завършените"
+msgstr "odstrániť dokončené"
 
 #: main/face/fsched.cc:37
 msgid "remove failed"
-msgstr "махни провалените"
+msgstr "odstrániť neúspešné"
 
 #: main/face/fsched.cc:38
 msgid "restart download"
-msgstr "рестартирай теглене"
+msgstr "znovu spustiť sťahovanie"
 
 #: main/face/fsched.cc:39
 msgid "stop download"
-msgstr "спри теглене"
+msgstr "zastaviť sťahovanie"
 
 #: main/face/fsched.cc:40
 msgid "remove download"
-msgstr "премахни теглене"
+msgstr "odstrániť sťahovanie"
 
 #: main/face/fsched.cc:41
 msgid "remove download if completed"
-msgstr "махни тегленето ако е завършено"
+msgstr "odstrániť sťahovanie po dokončení"
 
 #: main/face/fsched.cc:42
 msgid "add download"
-msgstr "прибави теглене"
+msgstr "pridať sťahovanie"
 
 #: main/face/fsched.cc:43
 msgid "save list"
-msgstr "запази списък"
+msgstr "uložiť zoznam"
 
 #: main/face/fsched.cc:44
 msgid "execute command"
-msgstr "изпълни команда"
+msgstr "vykonať príkaz"
 
 #: main/face/fsched.cc:203 main/face/fsched.cc:773
 msgid "Action"
-msgstr "Действие"
+msgstr "Akcia"
 
 #: main/face/fsched.cc:203
 msgid "Info"
-msgstr "Инфо"
+msgstr "Info"
 
 #: main/face/fsched.cc:239 main/face/list.cc:1267
 msgid "Scheduler"
-msgstr "График"
+msgstr "Rozvrh"
 
 #: main/face/fsched.cc:315 main/face/mywidget.cc:68
 msgid "Select file"
-msgstr "Избери файл"
+msgstr "Vyberte súbor"
 
 #: main/face/fsched.cc:447
 msgid "Command:"
-msgstr "Команда:"
+msgstr "Príkaz:"
 
 #: main/face/fsched.cc:451 main/face/fsched.cc:473 main/face/mywidget.cc:112
 msgid "Browse"
-msgstr "Избери"
+msgstr "Prechádzať"
 
 #: main/face/fsched.cc:469
 msgid "Path:"
-msgstr "Пътека:"
+msgstr "Cesta:"
 
 #: main/face/fsched.cc:488
 msgid "This action has no properties"
-msgstr "Това действие няма настройки"
+msgstr "Táto akcia nemá vlastnosti"
 
 #: main/face/fsched.cc:718
 msgid "Start time(hour:min:sec)"
-msgstr "Стартирай времето(час:минута:секунда)"
+msgstr "Čas spustenia (hod:min:sek)"
 
 #: main/face/fsched.cc:745
 msgid "Retry this action"
-msgstr "Повтори това действие"
+msgstr "Zopakovať túto akciu"
 
 #: main/face/fsched.cc:753
 msgid "times to repeat (-1 unlimited)"
-msgstr "брой повторения (-1 неограничен)"
+msgstr "počet opakovaní (-1 neobmedzené)"
 
 #: main/face/fsched.cc:757
 msgid "period (day/hour:min)"
-msgstr "период (ден/час:минути)"
+msgstr "perióda (deň/hod:min)"
 
 #: main/face/fsched.cc:781 main/face/lmenu.cc:130 main/mainlog.cc:202
 msgid "Properties"
-msgstr "Настройки"
+msgstr "Nastavenia"
 
 #: main/face/fsched.cc:801
 msgid "Edit scheduled action"
-msgstr "Редактирай насрочено действие"
+msgstr "Upraviť naplánované akcie"
 
 #: main/face/fsface.cc:77
 msgid "bytes"
-msgstr "байта"
+msgstr "bajtov"
 
 #: main/face/fsface.cc:89
 msgid "nothing found"
-msgstr "нищо не е намерено"
+msgstr "nenájdené"
 
 #: main/face/fsface.cc:93
 msgid "searching"
-msgstr "търся"
+msgstr "hľadanie"
 
 #: main/face/fsface.cc:102
 msgid "reping"
-msgstr "докладвам"
+msgstr "opätovný ping"
 
 #: main/face/fsface.cc:106
 msgid "cumulative reping"
-msgstr "натрупано докладване"
+msgstr "kumulatívny opätovný ping"
 
 #: main/face/fsface.cc:112
 msgid "remove"
-msgstr "премахни"
+msgstr "odstrániť"
 
 #: main/face/fsface.cc:209
-#, fuzzy
 msgid "Filename"
-msgstr "име на файла"
+msgstr "Názov súboru"
 
 #: main/face/fsface.cc:210 main/face/fsface.cc:284
-#, fuzzy
 msgid "Size"
-msgstr "Пълен размер"
+msgstr "Veľkosť"
 
 #: main/face/fsface.cc:211
 msgid "Count"
-msgstr ""
+msgstr "Počet"
 
 #: main/face/fsface.cc:252
 msgid "Found during FTP-search"
-msgstr ""
+msgstr "Nájdené počas prehľadávania FTP"
 
 #: main/face/fsface.cc:274
 msgid "Ping"
-msgstr ""
+msgstr "Ping"
 
 #: main/face/fsface.cc:294
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: main/face/list.cc:167
 msgid "/_File"
-msgstr "/_Файл"
+msgstr "/_Súbor"
 
 #: main/face/list.cc:168
 msgid "/File/_Save List"
-msgstr "/Файл/_Запази списък"
+msgstr "/Súbor/_Uložiť zoznam"
 
 #: main/face/list.cc:169
 msgid "/File/_Load List"
-msgstr "/Файл/_Зареди списък"
+msgstr "/Súbor/Načí_tať zoznam"
 
 #: main/face/list.cc:170
 msgid "/File/Find links in file"
-msgstr "/Файл/Намери връзките във файл"
+msgstr "/Súbor/Nájsť odkazy v súbore"
 
 #: main/face/list.cc:171
 msgid "/File/_New Download"
-msgstr "/Файл/_Ново теглене"
+msgstr "/Súbor/_Nové sťahovanie"
 
 #: main/face/list.cc:172
 msgid "/File/_Paste Download"
-msgstr "/Файл/_Вмъкни теглене"
+msgstr "/Súbor/_Vložiť sťahovanie"
 
 #: main/face/list.cc:173
 msgid "/File/_Automated adding"
-msgstr "/Файл/_Автоматично добавяне"
+msgstr "/Súbor/_Automatické pridávanie"
 
 #: main/face/list.cc:174
 msgid "/File/Exit"
-msgstr "/Файл/Изход"
+msgstr "/Súbor/Koniec"
 
 #: main/face/list.cc:175
 msgid "/File/sep1"
-msgstr "/Файл/sep1"
+msgstr "/Súbor/oddeľovač1"
 
 #: main/face/list.cc:176
 msgid "/_Download"
-msgstr "/_Теглене"
+msgstr "/Sťahovanie"
 
 #: main/face/list.cc:177
 msgid "/Download/View _Log"
-msgstr "/Теглене/Покажи _дневник"
+msgstr "/Sťahovanie/Zobraziť záznam"
 
 #: main/face/list.cc:178
 msgid "/Download/_Stop downloads"
-msgstr "/Теглене/_Спри тегленията"
+msgstr "/Sťahovanie/Za_staviť sťahovania"
 
 #: main/face/list.cc:179
 msgid "/Download/Edit download"
-msgstr "/Теглене/Редактирай теглене"
+msgstr "/Sťahovanie/Upraviť sťahovanie"
 
 #: main/face/list.cc:180
 msgid "/Download/_Delete downloads"
-msgstr "/Теглене/_Махни тегленията"
+msgstr "/Sťahovanie/Zmazať sťahovania"
 
 #: main/face/list.cc:181
 msgid "/Download/Continue downloads"
-msgstr "/Теглене/Продължи тегленията"
+msgstr "/Sťahovanie/Pokračovať v sťahovaní"
 
 #: main/face/list.cc:182
 msgid "/Download/Delete completed"
-msgstr "/Теглене/Махни завършените"
+msgstr "/Sťahovanie/Zmazať dokončené"
 
 #: main/face/list.cc:183
 msgid "/Download/Delete failed"
-msgstr "/Теглене/Махни провалените"
+msgstr "/Sťahovanie/Zmazať neúspešné"
 
 #: main/face/list.cc:184
 msgid "/Download/Rerun failed"
-msgstr "/Теглене/Рестартирай провалените"
+msgstr "/Sťahovanie/Znova spustiť neúspešné"
 
 #: main/face/list.cc:185
 msgid "/Download/(Un)Protect"
-msgstr "/Теглене/(Un)Protect"
+msgstr "/Sťahovanie/(Ne)Chrániť"
 
 #: main/face/list.cc:186
 msgid "/Download/Unselect all"
-msgstr "/Теглене/Остави всички"
+msgstr "/Sťahovanie/Odznačiť všetko"
 
 #: main/face/list.cc:187
 msgid "/Download/Select all"
-msgstr "/Теглене/Избери всички"
+msgstr "/Sťahovanie/Zvoliť všetko"
 
 #: main/face/list.cc:188
 msgid "/Download/Invert selection"
-msgstr "/Теглене/Обърни избраните"
+msgstr "/Sťahovanie/Invertovať výber"
 
 #: main/face/list.cc:189
 msgid "/Download/-"
-msgstr "/Теглене/-"
+msgstr "/Sťahovanie/-"
 
 #: main/face/list.cc:190
 msgid "/_Queue"
-msgstr ""
+msgstr "/_Front"
 
 #: main/face/list.cc:191
-#, fuzzy
 msgid "/Queue/Create new queue"
-msgstr "/Създай нова опашка"
+msgstr "/Front/Vytvoriť nový front"
 
 #: main/face/list.cc:192
-#, fuzzy
 msgid "/Queue/Create new subqueue"
-msgstr "/Създай нова подопашка"
+msgstr "/Front/Vytvoriť nový podfront"
 
 #: main/face/list.cc:193
 msgid "/Queue/Remove this queue"
-msgstr ""
+msgstr "/Front/Odstrániť tento front"
 
 #: main/face/list.cc:194
-#, fuzzy
 msgid "/Queue/Properties"
-msgstr "Настройки на опашка"
+msgstr "/Front/Vlastnosti"
 
 #: main/face/list.cc:195
 msgid "/_Options"
-msgstr "/_Настройки"
+msgstr "/_Nastavenia"
 
 #: main/face/list.cc:196
 msgid "/Options/Scheduler"
-msgstr "/Настройки/График"
+msgstr "/Nastavenia/Rozvrh"
 
 #: main/face/list.cc:197
 msgid "/Options/URL-manager"
-msgstr "/Настройки/URL-мениджър"
+msgstr "/Nastavenia/Správca URL"
 
 #: main/face/list.cc:198
 msgid "/Options/General"
-msgstr "/Настройки/Глобални"
+msgstr "/Nastavenia/Všeobecné"
 
 #: main/face/list.cc:199
 msgid "/Options/Filters"
-msgstr "/Настройки/Филтри"
+msgstr "/Nastavenia/Filtre"
 
 #: main/face/list.cc:200
 msgid "/Options/Speed"
-msgstr "/Настройки/Скорост"
+msgstr "/Nastavenia/Rýchlosť"
 
 #: main/face/list.cc:201
 msgid "/Options/Speed/Low"
-msgstr "/Настройки/Скорост/Ниска"
+msgstr "/Nastavenia/Rýchlosť/Pomaly"
 
 #: main/face/list.cc:202
 msgid "/Options/Speed/Medium"
-msgstr "/Настройки/Скорост/Средна"
+msgstr "/Nastavenia/Rýchlosť/Stredne"
 
 #: main/face/list.cc:203
 msgid "/Options/Speed/Unlimited"
-msgstr "/Настройки/Скорост/Неограничена"
+msgstr "/Nastavenia/Rýchlosť/Neobmedzene"
 
 #: main/face/list.cc:204
 msgid "/Options/Buttons"
-msgstr "/Настройки/Бутони"
+msgstr "/Nastavenia/Tlačítka"
 
 #: main/face/list.cc:205
 msgid "/Options/Buttons/Add buttons"
-msgstr "/Настройки/Бутони/Прибави бутони"
+msgstr "/Nastavenia/Tlačítka/Pridať tlačítka"
 
 #: main/face/list.cc:206
 msgid "/Options/Buttons/Manipulating"
-msgstr "/Настройки/Бутони/Манипулиране"
+msgstr "/Nastavenia/Tlačítka/Manipulácia"
 
 #: main/face/list.cc:207
 msgid "/Options/Buttons/Speed buttons"
-msgstr "/Настройки/Бутони/Скоростни бутони"
+msgstr "/Nastavenia/Tlačítka/Rýchlostné tlačítka"
 
 #: main/face/list.cc:208
 msgid "/Options/Buttons/Misc buttons"
-msgstr "/Настройки/Бутони/Разни бутони"
+msgstr "/Nastavenia/Tlačítka/Ostatné tlačítka"
 
 #: main/face/list.cc:209
 msgid "/_Help"
-msgstr "/_Помощ"
+msgstr "/_Pomoc"
 
 #: main/face/list.cc:210
 msgid "/_Help/About"
-msgstr "/_Помощ/Информация"
+msgstr "/_Pomoc/O programe"
 
 #: main/face/list.cc:833
 msgid "Do you really want to quit?"
-msgstr "Наистина ли искате да излезете?"
+msgstr "Naozaj chcete skončiť?"
 
 #: main/face/list.cc:833
 msgid "Quit?"
-msgstr "Изход?"
+msgstr "Ukončiť?"
 
 #: main/face/list.cc:862
 msgid "Delete selected downloads?"
-msgstr "Махни избраните тегления?"
+msgstr "Zmazať označené sťahovania?"
 
 #: main/face/list.cc:862 main/face/list.cc:880 main/face/list.cc:898
 msgid "Delete?"
-msgstr "Премахни?"
+msgstr "Odstrániť?"
 
 #: main/face/list.cc:880
 msgid "Do you wish delete completed downloads?"
-msgstr "Искате ли да махнете завършените тегления?"
+msgstr "Prajete si odstrániť dokončené sťahovania?"
 
 #: main/face/list.cc:898
 msgid "Do you wish delete failed downloads?"
-msgstr "Искате ли да махнете провалените тегления?"
+msgstr "Prajete si odstrániť neúspešné sťahovania?"
 
 #: main/face/list.cc:945
 msgid "Ready to go ????"
-msgstr "Готов ???"
+msgstr "Pripravený ísť ????"
 
 #: main/face/list.cc:1262 main/face/list.cc:1519
-#, fuzzy
 msgid "Downloads"
-msgstr "Теглене"
+msgstr "Stiahnutia"
 
 #: main/face/list.cc:1263 main/face/list.cc:1311 main/face/prefs.cc:627
 #: main/face/prefs.cc:1270 main/face/prefs.cc:1531
 msgid "Main log"
-msgstr "Главен дневник"
+msgstr "Hlavný záznam"
 
 #: main/face/list.cc:1264 main/face/passface.cc:428
-#, fuzzy
 msgid "URL-manager"
-msgstr "/Настройки/URL-мениджър"
+msgstr "Správca URL"
 
 #: main/face/list.cc:1265 main/face/list.cc:1325
-#, fuzzy
 msgid "FTP-search"
-msgstr "FTP търсене"
+msgstr "FTP hľadanie"
 
 #: main/face/list.cc:1329
-#, fuzzy
 msgid "Filename:"
-msgstr "име на файла"
+msgstr "Názov súboru:"
 
 #: main/face/list.cc:1541
 msgid "Offline/Online"
-msgstr ""
+msgstr "Offline/Online"
 
 #: main/face/list.cc:1658
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
-msgstr "[%s] %i-стартирани %i-завършени %i-всички"
+msgstr "[%s] %i-spustených %i-dokončených %i-celkom "
 
 #: main/face/lmenu.cc:136
 msgid "View log"
-msgstr "Покажи дневник"
+msgstr "Zobraziť záznam"
 
 #: main/face/lmenu.cc:142
 msgid "Stop"
-msgstr "Спри"
+msgstr "Zastaviť"
 
 #: main/face/lmenu.cc:148
 msgid "Continue downloads"
-msgstr "Продължи тегленията"
+msgstr "Pokračovať v sťahovaní"
 
 #: main/face/lmenu.cc:154
 msgid "Copy"
-msgstr "Копирай"
+msgstr "Kopírovať"
 
 #: main/face/lmenu.cc:159
 msgid "(Un)Protect"
-msgstr "(Un)Protect"
+msgstr "(Ne)Chrániť"
 
 #: main/face/lmenu.cc:168
 msgid "Common properties"
-msgstr "Общи настройки"
+msgstr "Všeobecné vlastnosti"
 
 #: main/face/lmenu.cc:174
 msgid "Delete downloads"
-msgstr "Махни тегленията"
+msgstr "Zmazať sťahovania"
 
 #: main/face/lmenu.cc:180
 msgid "Delete completed"
-msgstr "Махни завършените"
+msgstr "Zmazať dokončené"
 
 #: main/face/lmenu.cc:186
 msgid "Delete failed"
-msgstr "Махни провалените"
+msgstr "Zmazať neúspešné"
 
 #: main/face/lmenu.cc:196
 msgid "Move up"
-msgstr "Премести нагоре"
+msgstr "Posunúť nahor"
 
 #: main/face/lmenu.cc:202
 msgid "Move down"
-msgstr "Премести надолу"
+msgstr "Posunúť nadol"
 
 #: main/face/lmenu.cc:207
 msgid "Alternates"
-msgstr ""
+msgstr "Alternatívy"
 
 #: main/face/lmenu.cc:212 main/face/prefs.cc:782 main/face/prefs.cc:1273
 #: main/face/prefs.cc:1500
 msgid "FTP search"
-msgstr "FTP търсене"
+msgstr "FTP hľadanie"
 
 #: main/face/lod.cc:46 main/face/mywidget.cc:399 main/face/mywidget.cc:747
 msgid "File"
-msgstr "Файл"
+msgstr "Súbor"
 
 #: main/face/lod.cc:47
 msgid "Type"
-msgstr "Тип"
+msgstr "Typ"
 
 #: main/face/lod.cc:48
 msgid "Full Size"
-msgstr "Пълен размер"
+msgstr "Celkovo"
 
 #: main/face/lod.cc:49
 msgid "Downloaded"
-msgstr "Изтеглена част"
+msgstr "Stiahnuté"
 
 #: main/face/lod.cc:50
 msgid "Rest"
-msgstr "Оставаща част"
+msgstr "Zostáva"
 
 #: main/face/lod.cc:52
 msgid "Speed"
-msgstr "Скорост"
+msgstr "Rýchlosť"
 
 #: main/face/lod.cc:54
 msgid "Remaining"
-msgstr "Оставащо"
+msgstr "Zostáva"
 
 #: main/face/lod.cc:55
 msgid "Pause"
-msgstr "Пауза"
+msgstr "Pauza"
 
 #: main/face/lod.cc:56
 msgid "Attempt"
-msgstr "Опит"
+msgstr "Pokus"
 
 #: main/face/lod.cc:285
-#, fuzzy
 msgid "Percent"
-msgstr "процент"
+msgstr "Percentá"
 
 #: main/face/lod.cc:898
 msgid "Enter wildcard"
-msgstr ""
+msgstr "vložiť žolíky"
 
 #: main/face/lod.cc:925
 msgid "Unselect"
-msgstr "Остави всички"
+msgstr "Zrušiť výber"
 
 #: main/face/lod.cc:1363
-#, fuzzy
 msgid "Status"
-msgstr "статус"
+msgstr "Stav"
 
 #: main/face/log.cc:193
 #, c-format
 msgid "Row number %i [log of %s]"
-msgstr "Ред № %i [дневник от %s]"
+msgstr "Riadok číslo %i [záznam %s]"
 
 #: main/face/log.cc:448
 msgid "Log: "
-msgstr "Дневник: "
+msgstr "Záznam: "
 
 #: main/face/mywidget.cc:65
 msgid "Select directory"
-msgstr "Избери директория"
+msgstr "Vyber priečinok"
 
 #: main/face/mywidget.cc:205
 msgid "Select color"
-msgstr "Избери цвят"
+msgstr "Výber farby"
 
 #: main/face/mywidget.cc:352
 msgid "Edit properties of Rule"
-msgstr "Редактирай настройките на правило"
+msgstr "Úprava vlastností pravidiel"
 
 #: main/face/mywidget.cc:364 main/face/mywidget.cc:747
 #, fuzzy
 msgid "Protocol"
-msgstr "протокол"
+msgstr "protokol "
 
 #: main/face/mywidget.cc:381 main/face/mywidget.cc:747
 #, fuzzy
 msgid "Host"
-msgstr "сървър"
+msgstr "hostiteľ "
 
 #: main/face/mywidget.cc:390 main/face/mywidget.cc:747
 #, fuzzy
 msgid "Path"
-msgstr "Пътека:"
+msgstr "Cesta:"
 
 #: main/face/mywidget.cc:408
 msgid "?"
-msgstr "?"
+msgstr "? "
 
 #: main/face/mywidget.cc:417 main/face/mywidget.cc:747
 #, fuzzy
 msgid "Tag"
-msgstr "таг"
+msgstr "značka "
 
 #: main/face/mywidget.cc:468
 msgid "include"
-msgstr "включи"
+msgstr "zahrnúť"
 
 #: main/face/mywidget.cc:470
 msgid "exclude"
-msgstr "изключи"
+msgstr "vylúčiť"
 
 #: main/face/mywidget.cc:739
 msgid "Modify filter"
-msgstr "Промени филтър"
+msgstr "Úprava filtra"
 
 #: main/face/mywidget.cc:781
 msgid "include by default"
-msgstr "включи по подразбиране"
+msgstr "štandardne zahrnúť"
 
 #: main/face/mywidget.cc:783
 msgid "exclude by default"
-msgstr "изключи по подразбиране"
+msgstr "štandardne vylúčiť"
 
 #: main/face/mywidget.cc:788
 msgid "Name of filter"
-msgstr "Име на филтър"
+msgstr "Názov filtra"
 
 #: main/face/mywidget.cc:882
 msgid "Select filter"
-msgstr "Избери филтър"
+msgstr "Vybrať filter"
 
 #: main/face/mywidget.cc:1055
 msgid "List of links"
-msgstr "Списък със връзки"
+msgstr "Zoznam odkazov"
 
 #: main/face/mywidget.cc:1127
 msgid "Add"
-msgstr "Добави"
+msgstr "Pridať"
 
 #: main/face/mywidget.cc:1326
 #, fuzzy
 msgid "proxy type"
-msgstr "тип на FTP прокси"
+msgstr "Typ FTP proxy"
 
 #: main/face/mywidget.cc:1341
 msgid "Use different proxy for this alternate"
@@ -1571,46 +1553,43 @@ msgstr ""
 
 #: main/face/passface.cc:322
 msgid "Add new URL to URL-manager"
-msgstr "Добави нов URL в URL мениджъра"
+msgstr "Pridať novú URL do správcu URL"
 
 #: main/face/passface.cc:377
 msgid "Edit default preferences"
-msgstr "Редактирай подразбиращите се настройки"
+msgstr "Úprava štandardných nastavení"
 
 #: main/face/passface.cc:396
-#, fuzzy
 msgid "limit"
-msgstr "Ограничения"
+msgstr "limit"
 
 #: main/face/passface.cc:396
-#, fuzzy
 msgid "con."
-msgstr "Действие"
+msgstr "spoj."
 
 #: main/face/prefs.cc:253
 msgid "Optimize recursive downloads"
-msgstr "Оптимизирай рекурсивните тегления"
+msgstr "Optimalizovať rekurzívne sťahovania"
 
 #: main/face/prefs.cc:268
 msgid "Default permissions of local file"
-msgstr "Подразбиращи се атрибути за локалния файл"
+msgstr "Štandardné práva lokálneho súboru"
 
 #: main/face/prefs.cc:279
 msgid "Save downloads to folder"
-msgstr "Запази тегленията в папка"
+msgstr "Uložiť sťahovania do priečinku"
 
 #: main/face/prefs.cc:288 main/face/prefs.cc:1279 main/face/prefs.cc:1374
 msgid "Limits"
-msgstr "Ограничения"
+msgstr "Limity"
 
 #: main/face/prefs.cc:328
-#, fuzzy
 msgid "Number of parts to split files"
-msgstr "Брой на части за разделяне на тегленето"
+msgstr "Súbory deliť na takýto počet častí"
 
 #: main/face/prefs.cc:336
 msgid "Maximum lines in log"
-msgstr "Максимален брой редове в дневник"
+msgstr "Maximum riadkov v zázname"
 
 #: main/face/prefs.cc:344 main/face/prefs.cc:1281 main/face/prefs.cc:1384
 msgid "FTP"
@@ -1618,11 +1597,11 @@ msgstr "FTP"
 
 #: main/face/prefs.cc:381
 msgid "Output FTP dirs in logs"
-msgstr "Отбелязвай FTP директориите в дневници"
+msgstr "Umiestniť do záznamu FTP priečinky"
 
 #: main/face/prefs.cc:392
 msgid "default anonymous password"
-msgstr "анонимна парола по подразбиране"
+msgstr "štandardné heslo pre anonymous"
 
 #: main/face/prefs.cc:446 main/face/prefs.cc:1283 main/face/prefs.cc:1401
 msgid "HTTP"
@@ -1630,892 +1609,817 @@ msgstr "HTTP"
 
 #: main/face/prefs.cc:482
 msgid "Filename for saving if it is unknown"
-msgstr "Име на файл за запазване ако е непознат"
+msgstr "Názov súboru pre ukladanie, ak nie je známy"
 
 #: main/face/prefs.cc:520 main/face/prefs.cc:1291 main/face/prefs.cc:1430
 msgid "Main window"
-msgstr "Главен прозорец"
+msgstr "Hlavné okno"
 
 #: main/face/prefs.cc:522
 msgid "Using title"
-msgstr "Използва заглавие"
+msgstr "Požívam titulok"
 
 #: main/face/prefs.cc:526
 msgid "Use title of main window for info"
-msgstr "Използвай името на главния прозорец за информация"
+msgstr "Použiť titulok hlavného okna pre info"
 
 #: main/face/prefs.cc:531
 msgid "Display queue statistics too"
-msgstr "Показвай и статистика за опашката"
+msgstr "Zobraziť tiež štatistiku frontu"
 
 #: main/face/prefs.cc:532
 msgid "Scroll title"
-msgstr "Мести заглавието"
+msgstr "Posúvací titulok"
 
 #: main/face/prefs.cc:537
 msgid "Iconfiy main window instead of closing"
-msgstr "Минимизирай главния прозорец вместо до го затваряш"
+msgstr "Ikonifikovať hlavné okno na miesto jeho uzavretia"
 
 #: main/face/prefs.cc:539
 msgid "Do not remember position of the main window"
-msgstr "Не запомняй местопложението на главния прозорец"
+msgstr "Nepamätať si pozíciu hlavného okna"
 
 #: main/face/prefs.cc:552 main/face/prefs.cc:1293 main/face/prefs.cc:1438
 msgid "Confirmation"
-msgstr "Потвърждение"
+msgstr "Potvrdenie"
 
 #: main/face/prefs.cc:554
 msgid "Confirm delete selected downloads"
-msgstr "Потвърждавай махането на избрани тегления"
+msgstr "Potvrdiť zmazanie zvolených sťahovaní"
 
 #: main/face/prefs.cc:555
 msgid "Confirm delete all downloads"
-msgstr "Потвърждавай махането на всички тегления"
+msgstr "Potvrdiť zmazanie všetkých sťahovaní"
 
 #: main/face/prefs.cc:556
 msgid "Confirm delete completed downloads"
-msgstr "Потвърждавай махането на завършени тегления"
+msgstr "Potvrdiť zmazanie dokončených sťahovaní"
 
 #: main/face/prefs.cc:557
 msgid "Confirm delete failed downloads"
-msgstr "Потвърждавай махането на провалени тегления"
+msgstr "Potvrdiť zmazanie neúspešných sťahovaní"
 
 #: main/face/prefs.cc:558
 msgid "Confirm opening large amount of windows"
-msgstr "Потвърждавай отварянето на голямо количество прозорци"
+msgstr "Potvrdiť otvorenie veľkého počtu okien"
 
 #: main/face/prefs.cc:559
 msgid "Confirm exit from program"
-msgstr "Потвърждавай излизане от програмата"
+msgstr "Potvrdiť ukončenie programu"
 
 #: main/face/prefs.cc:584 main/face/prefs.cc:1305 main/face/prefs.cc:1489
 msgid "Clipboard"
-msgstr "Клипборд"
+msgstr "Schránka"
 
 #: main/face/prefs.cc:586
 msgid "Monitor clipboard"
-msgstr "Наблюдавай клипборда"
+msgstr "Monitorovať schránku"
 
 #: main/face/prefs.cc:596
 msgid "Skip these extensions in clipboard"
-msgstr "Пропускай тези разширения в клипборда"
+msgstr "Preskočiť tieto prípony v schránke"
 
 #: main/face/prefs.cc:604
 msgid "Catch these extensions in clipboard"
-msgstr "Прихващай тези разширения в клипборда"
+msgstr "Zachytiť tieto prípony v schránke"
 
 #: main/face/prefs.cc:632
 msgid "Maximum lines in MAIN log"
-msgstr "Максимален брой редове в главния дневник"
+msgstr "Maximum riadkov hlavnom zázname"
 
 #: main/face/prefs.cc:636
 msgid "Output detailed information"
-msgstr "Показвай подробна информация"
+msgstr "Detailné informácie do výstupu"
 
 #: main/face/prefs.cc:640
 msgid "Save main log into file"
-msgstr "Запази главния дневник във файл"
+msgstr "Uložiť hlavný záznam do súboru"
 
 #: main/face/prefs.cc:659
 msgid "Maximum size for file of main log (in KBytes)"
-msgstr "Максимален размер на главния дневник (в килобайти)"
+msgstr "Maximálna veľkosť súboru pre hlavný záznam (v KB)"
 
 #: main/face/prefs.cc:664
 msgid "Append to file"
-msgstr "Прикрепи към файл"
+msgstr "Pripojiť k súboru"
 
 #: main/face/prefs.cc:667
 msgid "Overwrite file"
-msgstr "Презапиши файл"
+msgstr "Prepísať súbor"
 
 #: main/face/prefs.cc:682 main/face/prefs.cc:1302 main/face/prefs.cc:1480
 msgid "Integration"
-msgstr "Интеграция"
+msgstr "Integrácia"
 
 #: main/face/prefs.cc:684
 msgid "Exit if nothing to do after"
-msgstr "Излез ако няма работа след"
+msgstr "Ukončiť, ak nie je čo robiť, po"
 
 #: main/face/prefs.cc:689 main/face/prefs.cc:726
 msgid "minutes"
-msgstr "минути"
+msgstr "min."
 
 #: main/face/prefs.cc:700
 msgid "Run this on exit"
-msgstr "Стартирай това при изход"
+msgstr "Toto spustiť pri ukončení"
 
 #: main/face/prefs.cc:705
 msgid "Open dialog for Drag-n-Drop"
-msgstr "Отвори прозорец за Влачи-и-Пусни"
+msgstr "Otvoriť dialóg Presunúť a Pustiť"
 
 #: main/face/prefs.cc:721
 msgid "Save list of downloads every"
-msgstr "Запазвай списъка с тегления на всеки"
+msgstr "Uložiť zoznam sťahovaní každých"
 
 #: main/face/prefs.cc:733
 msgid "Allow to user force run downloads"
-msgstr "Разреши на потребителя силово да стартира тегления"
+msgstr "Povoliť užívateľovi vynútiť spustenie sťahovania"
 
 #: main/face/prefs.cc:734
 msgid "Remember passwords"
-msgstr "Запомни паролите"
+msgstr "Pamätať si heslá"
 
 #: main/face/prefs.cc:735
 msgid "Write Descript.ion file"
-msgstr "Напиши описващ файл"
+msgstr "Zapísať súbor Descript.ion"
 
 #: main/face/prefs.cc:745
 msgid "bytes/sec speed level one (red button)"
-msgstr "байта/сек за 1-во ниво на скорост (червен бутон)"
+msgstr "bajtov/sek - úroveň rýchlosti jedna (červené tlačítko)"
 
 #: main/face/prefs.cc:752
 msgid "bytes/sec speed level two (yellow button)"
-msgstr "байта/сек за 2-ро ниво на скорост (жълт бутон)"
+msgstr "bajtov/sek - úroveň rýchlosti dva (žlté tlačítko)"
 
 #: main/face/prefs.cc:787
 msgid "Number of attempts to ping hosts"
-msgstr "Брой опити за пинг на сървъри"
+msgstr "- počet pokusov o ping hostiteľa"
 
 #: main/face/prefs.cc:794
 msgid "Number of hosts in list"
-msgstr "Брой на сървъри в списък"
+msgstr "- počet hostiteľov v zozname"
 
 #: main/face/prefs.cc:802
 msgid "Number of links per searching engine"
-msgstr ""
+msgstr "Počet liniek na hľadací engine"
 
 #: main/face/prefs.cc:843
 msgid "search engine to use"
-msgstr "търсачка"
+msgstr "použiť vyhľadávací systém"
 
 #: main/face/prefs.cc:858 main/face/prefs.cc:1288 main/face/prefs.cc:1423
 msgid "Interface"
-msgstr "Интерфейс"
+msgstr "Rozhranie"
 
 #: main/face/prefs.cc:860
 msgid "Show DnD basket"
-msgstr "Показвай DnD кошница"
+msgstr "Zobraziť PaP kôš"
 
 #: main/face/prefs.cc:861
 msgid "Use fixed font in logs"
-msgstr "Използвай фиксиран шрифт във дневниците"
+msgstr "Použiť fixné písmo pre záznam"
 
 #: main/face/prefs.cc:862
 msgid "Display graph on DnD-basket"
-msgstr ""
+msgstr "Zobraziť graf na T&P koši"
 
 #: main/face/prefs.cc:863
+#, fuzzy
 msgid "Display current speed value on DnD-basket"
-msgstr ""
+msgstr "Zobraziť graf na T&P koši"
 
 #: main/face/prefs.cc:889 main/face/prefs.cc:1295 main/face/prefs.cc:1447
 msgid "Graph"
-msgstr "Графика"
+msgstr "Graf"
 
 #: main/face/prefs.cc:891
 msgid "Revert drawing graph of speeds"
-msgstr "Върни рисуването на графиката на скороста"
+msgstr "Obnoviť vykresľovaný graf rýchlosti"
 
 #: main/face/prefs.cc:894
 msgid "Compressed mode"
-msgstr "Сбит стил"
+msgstr "Kompresný režim"
 
 #: main/face/prefs.cc:899
 msgid "Color for picks"
-msgstr "Цвят за избор"
+msgstr "Farba pre vrcholy"
 
 #: main/face/prefs.cc:900
 msgid "Color for total speed"
-msgstr "Цвят за обща скорост"
+msgstr "Farba pre celkovú rýchlosť"
 
 #: main/face/prefs.cc:901
 #, fuzzy
 msgid "Color for current speed value"
-msgstr "Цвят за обща скорост"
+msgstr "Farba pre celkovú rýchlosť"
 
 #: main/face/prefs.cc:902
 msgid "Background color"
-msgstr "Цвят на фона"
+msgstr "Farba pozadia"
 
 #: main/face/prefs.cc:911
 msgid "Reset to default"
-msgstr "Възстанови първоначалните"
+msgstr "Návrat k štandardu"
 
 #: main/face/prefs.cc:914
 msgid "Colors for graph"
-msgstr "Цветове за графиката"
+msgstr "Farba grafu"
 
 #: main/face/prefs.cc:939 main/face/prefs.cc:1297 main/face/prefs.cc:1456
 msgid "Sounds"
-msgstr "Звуци"
+msgstr "Zvuky"
 
 #: main/face/prefs.cc:942
 msgid "enable sounds"
-msgstr "разреши звуците"
+msgstr "povoliť zvuky"
 
 #: main/face/prefs.cc:947
 msgid "output via ESD"
-msgstr "Изведи през ESD"
+msgstr "výstup cez ESD"
 
 #: main/face/prefs.cc:954
 msgid "Startup"
-msgstr "Стартиране"
+msgstr "Spustenie"
 
 #: main/face/prefs.cc:956
 msgid "Adding a download"
-msgstr "Прибавяне на теглене"
+msgstr "Pridávanie sťahovania"
 
 #: main/face/prefs.cc:958
 msgid "Downloading completed"
-msgstr "Тегленето е завършено"
+msgstr "Sťahovanie ukončené"
 
 #: main/face/prefs.cc:960
 msgid "Downloading failed"
-msgstr "Тегленето се провали"
+msgstr "Sťahovanie zlyhalo"
 
 #: main/face/prefs.cc:962
 msgid "Downloading of queue is completed"
-msgstr "Тегленето на опашката е завършено"
+msgstr "Sťahovanie frontu je dokončené"
 
 #: main/face/prefs.cc:964
 msgid "Drag'n'Drop event"
-msgstr "Влачи-и-Пусни събитие"
+msgstr "Udalosti Presunúť a Pustiť"
 
 #: main/face/prefs.cc:1002 main/face/prefs.cc:1003
 msgid "No info about this theme."
-msgstr "Няма информация за тази тема."
+msgstr "O tejto téme nie sú informácie"
 
 #: main/face/prefs.cc:1023
 msgid "Default theme"
-msgstr "Подразбираща се тема"
+msgstr "Štandardná téma"
 
 #: main/face/prefs.cc:1054 main/face/prefs.cc:1299
 msgid "Themes"
-msgstr "Теми"
+msgstr "Témy"
 
 #: main/face/prefs.cc:1061
-#, fuzzy
 msgid "Themes' directory"
-msgstr "Избери директория"
+msgstr "Priečinok s témami"
 
 #: main/face/prefs.cc:1062
-#, fuzzy
 msgid "Rescan"
-msgstr "Оставаща част"
+msgstr "Prezrieť"
 
 #: main/face/prefs.cc:1071
 msgid "Name"
-msgstr "Име"
+msgstr "Meno"
 
 #: main/face/prefs.cc:1218
 msgid "Options"
-msgstr "Настройки"
+msgstr "Možnosti"
 
 #: main/face/qtree.cc:113
 msgid "Create new queue"
-msgstr "Създай нова опашка"
+msgstr "Vytvoriť nový front"
 
 #: main/face/qtree.cc:474 main/face/qtree.cc:480
 msgid "/Create new queue"
-msgstr "/Създай нова опашка"
+msgstr "/Vytvoriť nový front"
 
 #: main/face/qtree.cc:475
 msgid "/Create new subqueue"
-msgstr "/Създай нова подопашка"
+msgstr "/Vytvoriť nový podfront"
 
 #: main/face/qtree.cc:476
 msgid "/Delete queue"
-msgstr "/Изтрий опашка"
+msgstr "/Zmazať front"
 
 #: main/face/qtree.cc:477
 msgid "/Properties"
-msgstr "/Настройки"
+msgstr "/Nastavenia"
 
 #: main/face/qtree.cc:575
 msgid "Queue properties"
-msgstr "Настройки на опашка"
+msgstr "Nastavenia frontu"
 
 #: main/face/qtree.cc:586
 msgid "Maximum active downloads"
-msgstr "Максимален брой активни тегления"
+msgstr "Maximum aktívnych sťahovaní"
 
 #: main/face/qtree.cc:590
 msgid "Automatically delete completed downloads"
-msgstr "Автоматично махай завършените тегления"
+msgstr "Automaticky zmazať dokončené sťahovanie"
 
 #: main/face/qtree.cc:591
 msgid "Automatically delete failed downloads"
-msgstr "Автоматично махай провалените тегления"
+msgstr "Automaticky zmazať neúspešné sťahovanie"
 
 #: main/face/qtree.cc:601
 msgid "Default folder to save downloaded files"
-msgstr "Подразбираща се папка за запазване на изтеглените файлове"
+msgstr "Štandardný priečinok pre ukladanie stiahnutých súborov"
 
 #: main/face/qtree.cc:608
 msgid "Size format"
-msgstr "Формат на размера"
+msgstr "Formát veľkosti"
 
 #: main/face/qtree.cc:609
 msgid "Time format"
-msgstr "Формат на времето"
+msgstr "Formát času"
 
 #: main/face/qtree.cc:610
 #, fuzzy
 msgid "Speed format"
-msgstr "Формат на размера"
+msgstr "Formát veľkosti"
 
 #: main/face/qtree.cc:694
 msgid "Name of the queue"
-msgstr "Име на опашката"
+msgstr "Názov frontu"
 
 #: main/face/saveload.cc:88
 msgid "Loading"
-msgstr "Зареждам"
+msgstr "Načítavanie"
 
 #: main/face/saveload.cc:139
 msgid "Save list"
-msgstr "Запази списък"
+msgstr "Uložiť zoznam"
 
 #: main/face/saveload.cc:181
 msgid "Load list"
-msgstr "Зареди списък"
+msgstr "Načítať zoznam"
 
 #: main/face/saveload.cc:222
 msgid "Find links in txt file"
-msgstr "Търсене на връзки в текстов файл"
+msgstr "Nájsť odkazy v txt súbore"
 
 #: main/fsearch.cc:156
 msgid "Check your installation of the Downloader"
-msgstr ""
+msgstr "Kontrolovať vašu inštaláciu Downloadera"
 
 #: main/ftp.cc:50
 msgid "Accepting faild"
-msgstr "Приемането се провали"
+msgstr "Akceptovanie zlyhalo"
 
 #: main/ftp.cc:73
 msgid "Timeout while sending through control socket."
-msgstr "Времето за изпращане през контролното гнездо изтече."
+msgstr "Časový limit vypršal počas posielania cez kontrolný soket."
 
 #: main/ftp.cc:74
 msgid "Control connection lost"
-msgstr "Контролната връзка е загубена"
+msgstr "Kontrolné spojenie stratené"
 
 #: main/ftp.cc:85
 msgid "Data connection lost!"
-msgstr "Връзката на данните е загубена!"
+msgstr "Dátové spojenie stratené!"
 
 #: main/ftp.cc:95
 msgid "Control connection lost!"
-msgstr "Контролната връзка е загубена!"
+msgstr "Kontrolné spojenie stratené!"
 
 #: main/ftp.cc:187
 msgid "Reget is not supported!!!"
-msgstr "Reget не се поддържа!!!"
+msgstr "Reget nie je podporovaný!!!"
 
 #: main/ftp.cc:300
 #, c-format
 msgid "try to connect to %i,%i,%i,%i,%i,%i"
-msgstr "опитай да се свържеш със %i,%i,%i,%i,%i,%i"
+msgstr "pokúste sa pripojiť k %i,%i,%i,%i,%i,%i"
 
 #: main/ftp.cc:422
 msgid "Probably file was changed on server!"
-msgstr "Вероятно файла е бил променен на сървъра!"
+msgstr "Pravdepodobne bol súbor zmenený na servery!"
 
 #: main/ftp.cc:439 main/http.cc:232
 msgid "Data connection closed."
-msgstr "Връзката на данните е затворена."
+msgstr "Dátové spojenie zavreté"
 
 #: main/ftp.cc:445 main/http.cc:238
 msgid "Error have happened during writing buffer to disk!"
-msgstr ""
+msgstr "Vyskytla sa chyba pri zápise bufera na disk!"
 
 #: main/ftp.cc:452 main/http.cc:245
 msgid "Requested size was loaded"
-msgstr "Исканият размер е зареден"
+msgstr "Požadovaná veľkosť bola načítaná"
 
 #: main/ftp.cc:463 main/http.cc:250
 msgid "Segment was loaded! Complete this thread."
-msgstr ""
+msgstr "Segment bol načítaný! Dokončenie tohoto vlákna."
 
 #: main/ftp.cc:470 main/http.cc:256
-#, fuzzy
 msgid "EOF recieved from server!"
-msgstr "Съобщение от сървър"
+msgstr "EOF (koniec súbora) prijaté zo servera!"
 
 #: main/ftpd.cc:237
 msgid "Can't establish data connection"
-msgstr "Не мога да установя информационната връзка"
+msgstr "Nie je možné nadviazať dátové spojenie"
 
 #: main/ftpd.cc:240
 msgid "Can't change directory"
-msgstr "Не мога да сменя директорията"
+msgstr "Nie je možné zmeniť priečinok"
 
 #: main/ftpd.cc:243
 msgid "Server refused login, perhaps there are too many users of your class"
 msgstr ""
-"Сървъра отказа достъп,може би има прекалено много потребители от вашия клас"
+"Server odmietol prihlásenie, pravdepodobne je tam príliš veľa používateľov "
+"vášho druhu"
 
 #: main/ftpd.cc:313 main/httpd.cc:226
 msgid "Sleeping"
-msgstr "Спи"
+msgstr "Spiaci"
 
 #: main/ftpd.cc:423
 msgid "Empty answer. Trying to change directory to determine file type."
-msgstr ""
-"Празен отговор: Опитвам се да променя директорията за да определя типа на "
-"файла"
+msgstr "Prázdna odpoveď. Pokúšam sa zmeniť priečinok pre určenie typu súboru."
 
 #: main/ftpd.cc:448 main/ftpd.cc:474
-#, fuzzy
 msgid "Length is %ll"
-msgstr "Дължината е %i"
+msgstr "Dĺžka je %ll"
 
 #: main/ftpd.cc:460
 msgid "This is a directory!"
-msgstr "Това е директория!"
+msgstr "Toto je priečinok!"
 
 #: main/ftpd.cc:470
-#, fuzzy
 msgid "No such file or directory!"
-msgstr "Това е директория!"
+msgstr "Taký priečinok neexistuje!"
 
 #: main/ftpd.cc:505
 msgid "Couldn't get size :(("
-msgstr "Не мога да взема размера:(("
+msgstr "Nie je možné získať veľkosť :(("
 
 #: main/ftpd.cc:520
 msgid "Loading directory..."
-msgstr "Зареждам директория..."
+msgstr "Načítavam priečinok..."
 
 #: main/ftpd.cc:534
 msgid "Listing was loaded"
-msgstr "Списъкът е зареден"
+msgstr "Zoznam bol načítaný"
 
 #: main/ftpd.cc:537
 msgid "Listing not loaded completelly"
-msgstr "Списъкът не е напълно зареден"
+msgstr "Zoznam nebol načítaný úplne"
 
 #: main/ftpd.cc:564
 msgid "Link was loaded :))"
-msgstr "Връзката е заредена:))"
+msgstr "Linka nebola načítaná :))"
 
 #: main/ftpd.cc:598 main/httpd.cc:513
-#, fuzzy
 msgid "%ll bytes loaded."
-msgstr "%i заредени байта."
+msgstr "%ll bajtov načítaných."
 
 #: main/hproxy.cc:199 main/hproxy.cc:232
 #, c-format
 msgid "Sending request to proxy (%s:%i)"
-msgstr "Изпращам заявка на прокси (%s:%i)"
+msgstr "Posielam požiadavku na proxy (%s:%i)"
 
 #: main/hproxy.cc:203 main/hproxy.cc:236 main/httpd.cc:422 main/httpd.cc:451
 msgid "Answer read ok"
-msgstr "Добър отговор"
+msgstr "Odpoveď v poriadku prečítaná"
 
 #: main/hproxy.cc:211 main/hproxy.cc:247
 msgid "File not found on the server"
-msgstr "Файлът не е намерен на сървъра"
+msgstr "súbor nebol nájdený na servery"
 
 #: main/hproxy.cc:250
 msgid "Probably it's problem of proxy server, retrying"
-msgstr "Вероятно това е проблем на прокси сървъра, опитвам пак"
+msgstr "Pravdepodobne je to problém proxy servera, skúšam"
 
 #: main/http.cc:68
 msgid "Socket lost!"
-msgstr "Гнездото е загубено!"
+msgstr "Soket stratený!"
 
 #: main/http.cc:78
 msgid "Request was sent, waiting for the answer"
-msgstr "Заявката е изпратена,чакам за отговор"
+msgstr "Požiadavka bola odoslaná, čakám na odpoveď"
 
 #: main/http.cc:93
 msgid "It is not HTTP server!!!"
-msgstr "Това не е HTTP сървър!!!"
+msgstr "To nie je HTTP server!!!"
 
 #: main/http.cc:101
 msgid "All ok, reading file"
-msgstr "Всичко е наред,чета файла"
+msgstr "Všetko v poriadku, čítam súbor"
 
 #: main/http.cc:112
 msgid "It seems to me that you need a password :)"
-msgstr "Мисля че ви трябва парола :)"
+msgstr "Zdá sa mi, že potrebujete heslo :)"
 
 #: main/http.cc:118
 msgid "Server return bad answer:(("
-msgstr "Сървъра върна лош отговор:(("
+msgstr "Server vrátil zlú odpoveď:(("
 
 #: main/http.cc:210
 msgid "Wrong chunk size!"
-msgstr ""
+msgstr "Zlá veľkosť dávky!"
 
 #: main/http.cc:213
 msgid "Chunk size %ll"
-msgstr ""
+msgstr "Veľkosť kúsku %ll"
 
 #: main/http.cc:215
 msgid "It's last chunk!"
-msgstr ""
+msgstr "To je posledná dávka!"
 
 #: main/httpd.cc:176
 msgid "Couldn't get normal answer!"
-msgstr "Не можах да получа нормален отговор!"
+msgstr "Nie je možné získať normálnu odpoveď!"
 
 #: main/httpd.cc:378
 #, c-format
 msgid "Size for download is %i bytes"
-msgstr "Размера на тегленето е %i байта"
+msgstr "Veľkosť pre sťahovanie je %i bajtov"
 
 #: main/httpd.cc:418 main/httpd.cc:447
 msgid "Sending HTTP request..."
-msgstr "Изпращам HTTP заявка..."
+msgstr "Zasielam HTTP požiadavku..."
 
 #: main/httpd.cc:495
 msgid "It is seemed REGET not supported! Loading from begin.."
-msgstr "Изглежда REGET не се поддържа!Зареждам отначало..."
+msgstr "Zdá sa, že REGET nie je podporovaný! Načítavam od začiatku..."
 
 #: main/httpd.cc:498
 msgid "ETag was changed, restarting again..."
-msgstr "ETag беше променен,рестартирам отново..."
+msgstr "Etag bol zmenený, začínam znova..."
 
 #: main/log.cc:64
 msgid "Log was started!"
-msgstr "Дневникът е започнат!"
+msgstr "Záznam bol spustený!"
 
 #: main/main.cc:144
 msgid "Can't init control socket!\n"
-msgstr "Не мога да инициализирам контролното гнездо!\n"
+msgstr "Nie je možné inicializovať kontrolný soket!\n"
 
 #: main/main.cc:192
 msgid "Loading default list of downloads"
-msgstr "Зареждам списък със подразбиращите се тегления"
+msgstr "Načítavam štandardný zoznam sťahovaní"
 
 #: main/main.cc:272 main/main.cc:1299
 msgid "Delete completed downloads"
-msgstr "Махни завършените тегления"
+msgstr "Zmazať dokončené sťahovania"
 
 #: main/main.cc:285
 msgid "Delete failed downloads"
-msgstr "Махни провалените тегления"
+msgstr "Zmazať neúspešné sťahovania"
 
 #: main/main.cc:302
 msgid "Clear queue of downloads"
-msgstr "Изчисти опашката от тегления"
+msgstr "Vyčistiť front sťahovaní"
 
 #: main/main.cc:359
 msgid "Run new thread for %z"
-msgstr "Стартирай нова нишка за %z"
+msgstr "Spustiť nové vlákno pre %z"
 
 #: main/main.cc:365
 msgid "Can't run new thread for downloading!"
-msgstr "Не мога да стартирам нова нишка за теглене!"
+msgstr "Nie je možné spustiť nové vlákno pre sťahovanie!"
 
 #: main/main.cc:424
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
-msgstr "Тегленето на файл %s от %s беше унищожено [от потребител]"
+msgstr "Sťahovanie súboru %s z %s bolo prerušené [používateľom]"
 
 #: main/main.cc:458
 #, c-format
 msgid "Delete file %s from queue of downloads"
-msgstr "Махни файл %s от опашката с тегления"
+msgstr "Odstránenie súboru %s z frontu sťahovaní"
 
 #: main/main.cc:553
 #, c-format
 msgid "Continue downloading of file %s from %s..."
-msgstr "Продължи тегленето на файл %s от %s..."
+msgstr "Pokračujem v sťahovaní súboru %s z %s..."
 
 #: main/main.cc:644
 msgid "file"
-msgstr "файл"
+msgstr "súbor "
 
 #: main/main.cc:728
 msgid "dir"
-msgstr "папка"
+msgstr "priečinok"
 
 #: main/main.cc:733
 msgid "link"
-msgstr "връзка"
+msgstr "odkaz"
 
 #: main/main.cc:738
 msgid "device"
-msgstr "устройство"
+msgstr "zariadenie"
 
 #: main/main.cc:771
 msgid "Too many redirections!"
-msgstr "Прекалено много пренасочвания!"
+msgstr "Príliš veľa presmerovaní"
 
 #: main/main.cc:789
 msgid "Redirection from [%z] to the same location!"
-msgstr "Пренасочване от[%z] към същото място!"
+msgstr "Presmerovanie z [%z] na to isté umiestnenie!"
 
 #: main/main.cc:825
 msgid "Redirection from [%z] to nowhere!"
-msgstr "Пренасочване от [%z] наникъде!"
+msgstr "Presmerovanie z [%z] nevedie nikde"
 
 #: main/main.cc:851
 msgid "Prepare thread %i of [%z] for stoping"
-msgstr "Пригответе нишката %i от [%z] за спиране!"
+msgstr "Pripraviť vlákno %i z [%z] na zastavenie"
 
 #: main/main.cc:877
 msgid "Redirect from %z"
-msgstr "Пренасочване от %z"
+msgstr "Presmerovanie z %z"
 
 #: main/main.cc:884
 msgid "Downloading of directory %z was completed"
-msgstr "Тегленето на директория %z е завършено"
+msgstr "Sťahovanie priečinku %z bolo dokončené"
 
 #: main/main.cc:888
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
-msgstr "Тегленето на файл %z(%i байта) завърши при скорост %i байта/сек"
+msgstr ""
+"Sťahovanie súboru %z (%i bajtov) bolo dokončené pri rýchlosti %i bajtov/sek"
 
 #: main/main.cc:895
 msgid "%z was deleted from queue of downloads as completed download"
-msgstr "%z беше махнат от опашката със тегления като приключено теглене"
+msgstr "%z bol zmazaný z frontu sťahovaní ako dokončené sťahovanie"
 
 #: main/main.cc:906
 msgid "Downloading of file %z was terminated by fatal error"
-msgstr "Тегленето на файл %z беше ликвидирано от фатална грешка"
+msgstr "Sťahovanie súboru %z bolo prerušené kvôli závažnej chybe"
 
 #: main/main.cc:908
 msgid "%z was deleted from queue of downloads as failed download"
-msgstr "%z беше махнат от опашката със тегления като провалено теглене"
+msgstr "%z bolo zmazané z frontu sťahovaní ako neúspešné sťahovanie"
 
 #: main/main.cc:1241
 msgid "Restarting failed downloads"
-msgstr "Рестартирам провалените тегления"
+msgstr "Opäť spúšťam neúspešné sťahovania"
 
 #: main/main.cc:1241 main/main.cc:1277 main/main.cc:1294 main/main.cc:1299
 #: main/main.cc:1304 main/main.cc:1317 main/main.cc:1322
 msgid "[control socket]"
-msgstr "[контролно гнездо]"
+msgstr "[kontrolný soket]"
 
 #: main/main.cc:1259
 #, c-format
 msgid "Remove the download via control socket [%s]"
-msgstr "Премахни тегленето през контролното гнездо [%s]"
+msgstr "Odstránenie sťahovania cez kontrolný soket [%s]"
 
 #: main/main.cc:1267
 #, c-format
 msgid "Adding downloading via control socket [%s]"
-msgstr "Добавям теглене през контролното гнездо [%s]"
+msgstr "Pridávam sťahovanie cez kontrolný soket [%s]"
 
 #: main/main.cc:1275
 #, c-format
 msgid "Set speed limitation to %s %s"
-msgstr "Настрой ограничението на скороста на %s %s"
+msgstr "Nastaviť obmedzenie rýchlosti na %s %s"
 
 #: main/main.cc:1294
 msgid "Setup maximum active downloads to"
-msgstr "Нагласи максималния брой активни тегления на"
+msgstr "Nastaviť maximálny počet aktívnych sťahovaní na"
 
 #: main/main.cc:1317
 msgid "Exiting if nothing to do is switched off"
-msgstr "Излизането при липса на работа е изключено"
+msgstr "Ukončenie, ak nie je čo robiť je vypnuté"
 
 #: main/main.cc:1322
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr "D4X ще се затвори ако няма работа след %i минути %s"
+msgstr "Sťahovač sa ukončí, ak nebude mať čo robiť po %i minútach %s"
 
 #: main/main.cc:1335
 #, c-format
 msgid "Default queue is '%s' now."
-msgstr "Подразбираща се опашка сега е '%s'."
+msgstr "Štandardný front je teraz '%s'."
 
 #: main/main.cc:1635
 msgid "Loading FTP-Search engines"
-msgstr ""
+msgstr "Načítavam FTP vyhľadávacie služby"
 
 #: main/main.cc:1637
 msgid "Normally started"
-msgstr "Нормално стартиран"
+msgstr "Spustené normálne"
 
 #: main/main.cc:1695
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
-msgstr "Файлът %s е прибавен за теглене от %s [от потребител]"
+msgstr "Pridanie sťahovania súboru %s z %s [používateľom]"
 
 #: main/main.cc:1746
 msgid "Downloader is in offline mode now"
-msgstr ""
+msgstr "Downloader je teraz v režime offline"
 
 #: main/main.cc:1749
 msgid "Offline mode is turned off"
-msgstr ""
+msgstr "Offline režim je teraz vypnutý"
 
 #: main/main.cc:1780
 #, c-format
 msgid "%lu bytes loaded during the session"
-msgstr "%lu байта заредени по време на сесията"
+msgstr "%lu bajtov načítaných počas sedenia"
 
 #: main/main.cc:1781
 msgid "Downloader exited normaly"
-msgstr "D4X е затворен нормално"
+msgstr "Sťahovač ukončený normálne"
 
 #: main/main.cc:1821
 #, c-format
 msgid "Can't open '%s' to save log"
-msgstr "Не мога да отворя '%s' за да запазя дневника"
+msgstr "Nie je možné otvoriť '%s' na uloženie záznamu"
 
 #: main/main.cc:1852
 msgid "Such protocol is not supported!"
-msgstr "Такъв протокол не се поддържа!"
+msgstr "Taký protokol nie je podporovaný"
 
 #: main/mainlog.cc:146
 msgid ""
 "Limitation for size of file of mainlog reached! File have been truncated."
 msgstr ""
-"Ограничението за размера на главния дневник е достигнато!Файлът е скъсен."
+"Obmedzenie veľkosti súboru hlavného záznamu bolo dosiahnuté! Súbor bol "
+"skrátený."
 
 #: main/mainlog.cc:155
 msgid "Can't write to file interrupting write to file"
-msgstr "Не мога да пиша във файла"
+msgstr "Nie je možné zapisovať do súboru - prerušujem zapisovanie do súboru"
 
 #: main/mainlog.cc:196
 msgid "Open a row"
-msgstr "Отвори ред"
+msgstr "Otvoriť riadok"
 
 #: main/mainlog.cc:199
 msgid "Clear log"
-msgstr "Изчисти дневника"
+msgstr "Vyčistiť záznam"
 
 #: main/mainlog.cc:255
 #, c-format
 msgid "row number %i of main log"
-msgstr "ред №%i от главния дневник"
+msgstr "riadok číslo %i hlavného záznamu"
 
 #: main/mainlog.cc:299
 msgid "Can't open file for saving log"
-msgstr "Не мога да отворя файл за да запазя дневник"
+msgstr "Nie je možné otvoriť súbor na uloženie záznamu"
 
 #: main/memwl.cc:74
 msgid "BUG: Wrong mode of lseek!\n"
-msgstr "БЪГ: Грешен режим на lseek\n"
+msgstr "CHYBA: Zlý mód lseek!\n"
 
 #: main/nt.cc:146
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
-"ВНИМАНИЕ!Не мога да намеря НОМЕ променливата!Не мога да прочета "
-"конфигурацията!"
+"VAROVANIE!!! Nie je možné nájsť premennú HOME! Takže nie je možné načítať "
+"konfiguráciu!"
 
 #: main/nt.cc:159
 #, c-format
 msgid "%s probably is already running\n"
-msgstr "може би %s е вече стартиран\n"
+msgstr "%s je už pravdepodobne spustené\n"
 
 #: main/ping.cc:50
 msgid "Resolving hosts..."
-msgstr "Определям сървъри..."
+msgstr "Hľadám hostiteľov..."
 
 #: main/ping.cc:79
 msgid "Pinging  (it takes 30 seconds maximum)..."
-msgstr "Ping-вам  (отнема най-много 30 секунди)"
+msgstr "Spúšťam ping (trvá maximálne 30 sekúnd)..."
 
 #: main/savelog.cc:42
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
 msgstr ""
-"Не мога да запазя подразбиращия се списък със тегления защото не намирам "
-"НОМЕ променливата!!!"
+"Nie je možné uložiť štandardný zoznam sťahovaní!!! Pretože nie je možné "
+"nájsť premennú HOME"
 
 #: main/savelog.cc:48
 msgid "Can't save default list of downloads!!!"
-msgstr "Не мога да запазя подразбиращия се списък със тегления!!!"
+msgstr "Nie je možné uložiť štandardný zoznam sťahovaní!!!"
 
 #: main/savelog.cc:83
 msgid "Can't load default list of downloads!!!"
-msgstr "Не мога да заредя подразбиращия се списък с тегления!!!"
+msgstr "Nie je možné načítať štandardný zoznam sťahovaní!!!"
 
 #: main/signal.cc:53 main/signal.cc:72
 msgid "Download  was stopped by user"
-msgstr "Тегленето беше спряно от потребител"
+msgstr "Sťahovanie bolo prerušené používateľom"
 
 #: main/var.cc:100
 msgid "low"
-msgstr "ниска"
+msgstr "nízka"
 
 #: main/var.cc:101
 msgid "medium"
-msgstr "средна"
+msgstr "stredná"
 
 #: main/var.cc:102
 msgid "unlimited"
-msgstr "неограничена"
+msgstr "neobmedzená"
 
 #~ msgid "path"
-#~ msgstr "пътека"
+#~ msgstr "cesta "
 
 #~ msgid "Color for speed of selected"
-#~ msgstr "Цвят за скороста на избрания"
-
-#~ msgid "Ok"
-#~ msgstr "Да"
-
-#~ msgid "Cancel"
-#~ msgstr "Отказ"
-
-#~ msgid "Apply"
-#~ msgstr "Приложи"
-
-#~ msgid "Add new"
-#~ msgstr "Добави нов"
-
-#~ msgid "Edit"
-#~ msgstr "Редактирай"
-
-#~ msgid "Remove"
-#~ msgstr "Премахни"
-
-#~ msgid "New"
-#~ msgstr "Нов"
-
-#~ msgid "Up"
-#~ msgstr "Нагоре"
-
-#~ msgid "Add rule"
-#~ msgstr "Прибави правило"
-
-#~ msgid "Down"
-#~ msgstr "Надолу"
-
-#~ msgid "Delete"
-#~ msgstr "Премахни"
-
-#, fuzzy
-#~ msgid "Percentage to render"
-#~ msgstr "търсачка"
-
-#, fuzzy
-#~ msgid "Link to tDownload"
-#~ msgstr "спри теглене"
-
-#~ msgid "Continue open log windows?"
-#~ msgstr "Продължи да отваряш прозорци за наблюдение?"
-
-#~ msgid "Open logs?"
-#~ msgstr "Отвори дневниците?"
-
-#~ msgid "Erorr!"
-#~ msgstr "Грешка!"
-
-#~ msgid "Warning!"
-#~ msgstr "Предупреждение!"
-
-#~ msgid "Message to server"
-#~ msgstr "Съобщение до сървър"
-
-#~ msgid "All ok"
-#~ msgstr "Всичко е OK"
-
-#~ msgid "Total"
-#~ msgstr "Общо"
-
-#~ msgid "Wait"
-#~ msgstr "Чакам"
-
-#~ msgid "Run"
-#~ msgstr "Стартирам"
-
-#~ msgid "Default settings"
-#~ msgstr "Подразбиращи се настройки"
+#~ msgstr "Farba rýchlosti zvoleného"

@@ -76,6 +76,7 @@ GtkWidget *D4X_TOOL_CURRENT;
 GtkWidget *D4X_TOOL_CONTAINER;
 GtkWidget *D4X_TOOL_UP;
 GtkWidget *D4X_TOOL_DOWN;
+GtkWidget *D4X_TOOL_BUTTON_FIND;
 
 d4xDisplayLogInfo D4X_LOG_DISPLAY;
 
@@ -398,7 +399,7 @@ void init_load_accelerators(){
 				       0,
 				       "<Separator>"};
 	GtkItemFactoryEntry exit_item={_(main_menu_inames[MM_FILE_EXIT]),
-				       "<alt>X",
+				       "<control>Q",
 				       (GtkItemFactoryCallback)ask_exit,
 				       0,
 				       (gchar *)NULL};
@@ -659,7 +660,7 @@ void d4x_load_accelerators(){
 		main_menu_kb[MM_FILE_NEW]=copy_string("<control>N");
 		main_menu_kb[MM_FILE_PASTE]=copy_string("<control>P");
 		main_menu_kb[MM_FILE_AUTO]=copy_string("<control><alt>A");
-		main_menu_kb[MM_FILE_EXIT]=copy_string("<alt>X");
+		main_menu_kb[MM_FILE_EXIT]=copy_string("<control>Q");
 		main_menu_kb[MM_DOWNLOAD_STOP]=copy_string("<alt>S");
 		main_menu_kb[MM_DOWNLOAD_EDIT]=copy_string("<alt>E");
 		main_menu_kb[MM_DOWNLOAD_DEL]=copy_string("<alt>C");
@@ -1162,6 +1163,8 @@ gint d4x_main_switch_2mainlog(){
 
 gint d4x_main_switch_2ftpsearch(){
 	if (D4X_TOOL_CURRENT!=D4X_TOOL_THREE){
+		if (D4X_SEARCH_ENGINES.count()==0)
+			gtk_widget_set_sensitive(D4X_TOOL_BUTTON_FIND,FALSE);
 		gtk_container_remove(GTK_CONTAINER(D4X_TOOL_CONTAINER),D4X_TOOL_CURRENT);
 		gtk_container_add(GTK_CONTAINER (D4X_TOOL_CONTAINER),D4X_TOOL_THREE);
 		D4X_TOOL_CURRENT=D4X_TOOL_THREE;
@@ -1326,7 +1329,7 @@ GtkWidget *init_vertical_toolbar(){
 	GtkWidget *label1=gtk_label_new(_("Filename:"));
 	gtk_misc_set_alignment(GTK_MISC(label1),1,0);
 	GtkWidget *entry=gtk_entry_new();
-	GtkWidget *button_find=gtk_button_new_from_stock(GTK_STOCK_FIND);
+	GtkWidget *button_find=D4X_TOOL_BUTTON_FIND=gtk_button_new_from_stock(GTK_STOCK_FIND);
 	g_signal_connect(G_OBJECT(entry), "activate",
 			 G_CALLBACK(d4x_main_fsearch_activate), entry);
 	g_signal_connect(G_OBJECT(button_find),"clicked",

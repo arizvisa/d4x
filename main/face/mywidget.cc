@@ -14,6 +14,8 @@
 #include "misc.h"
 #include "../ntlocale.h"
 #include "../filter.h"
+#include "../history.h"
+#include "../var.h"
 
 static GtkWidgetClass *parent_class1 = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *color_parent_class = (GtkWidgetClass *)NULL;
@@ -22,6 +24,7 @@ static GtkWidgetClass *filter_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *filtersel_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *linkssel_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *stringedit_parent_class = (GtkWidgetClass *)NULL;
+static GtkWidgetClass *altedit_parent_class = (GtkWidgetClass *)NULL;
 
 static void my_gtk_filesel_destroy_browser(MyGtkFilesel *filesel){
 	if (filesel->browser){
@@ -349,9 +352,20 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_window_set_title(GTK_WINDOW (edit),_("Edit properties of Rule"));
 	gtk_window_set_resizable(GTK_WINDOW(edit), FALSE);
 
-	GtkWidget *label=gtk_label_new(_("protocol"));
-	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	edit->vbox=gtk_vbox_new(FALSE,0);
+	gtk_container_set_border_width(GTK_CONTAINER(edit->vbox),5);
+	gtk_container_add(GTK_CONTAINER(edit),edit->vbox);
+
+	GtkWidget *table=gtk_table_new(6,2,FALSE);
+	gtk_table_set_row_spacings(GTK_TABLE(table),3);
+	gtk_table_set_col_spacings(GTK_TABLE(table),5);
+	gtk_box_pack_start(GTK_BOX(edit->vbox),table, FALSE,FALSE,0);
+	
+	GtkWidget *label=gtk_label_new(_("Protocol"));
+	GtkWidget *align=gtk_alignment_new(1,0.5,0,0);
+	gtk_container_add(GTK_CONTAINER(align),label);
+	gtk_table_attach(GTK_TABLE(table),align,0,1,0,1,
+			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
 	
 	edit->proto=gtk_combo_new();
 	GList *list=(GList*)NULL;
@@ -362,40 +376,50 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	g_list_free(list);
 	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(edit->proto)->entry),FALSE);
 	text_to_combo(edit->proto,"");
-	gtk_box_pack_start(GTK_BOX(hbox),edit->proto,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
-
-	hbox=gtk_hbox_new(FALSE,0);
-	label=gtk_label_new(_("host"));
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->proto,1,2,0,1);
+	
+	label=gtk_label_new(_("Host"));
+	align=gtk_alignment_new(1,0.5,0,0);
+	gtk_container_add(GTK_CONTAINER(align),label);
+	gtk_table_attach(GTK_TABLE(table),align,0,1,1,2,
+			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
+	
 	edit->host=gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(hbox),edit->host,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->host,1,2,1,2);
 
-	hbox=gtk_hbox_new(FALSE,0);
-	label=gtk_label_new(_("path"));
+	label=gtk_label_new(_("Path"));
+	align=gtk_alignment_new(1,0.5,0,0);
+	gtk_container_add(GTK_CONTAINER(align),label);
+	gtk_table_attach(GTK_TABLE(table),align,0,1,2,3,
+			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
+	
 	edit->path=gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(hbox),edit->path,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->path,1,2,2,3);
 
-	hbox=gtk_hbox_new(FALSE,0);
-	label=gtk_label_new(_("file"));
+	label=gtk_label_new(_("File"));
+	align=gtk_alignment_new(1,0.5,0,0);
+	gtk_container_add(GTK_CONTAINER(align),label);
+	gtk_table_attach(GTK_TABLE(table),align,0,1,3,4,
+			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
+
 	edit->file=gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(hbox),edit->file,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->file,1,2,3,4);
 
-	hbox=gtk_hbox_new(FALSE,0);
 	label=gtk_label_new(_("?"));
-	edit->params=gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(hbox),edit->params,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+	align=gtk_alignment_new(1,0.5,0,0);
+	gtk_container_add(GTK_CONTAINER(align),label);
+	gtk_table_attach(GTK_TABLE(table),align,0,1,4,5,
+			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
 
-	hbox=gtk_hbox_new(FALSE,0);
-	label=gtk_label_new(_("tag"));
+	edit->params=gtk_entry_new();
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->params,1,2,4,5);
+
+	label=gtk_label_new(_("Tag"));
+	align=gtk_alignment_new(1,0.5,0,0);
+	gtk_container_add(GTK_CONTAINER(align),label);
+	gtk_table_attach(GTK_TABLE(table),align,0,1,5,6,
+			(GtkAttachOptions) (GTK_SHRINK | GTK_FILL), (GtkAttachOptions) 0,0,0);
+	
 	edit->tag=gtk_combo_new();
 	list=(GList*)NULL;
 	char *tags[]={"",
@@ -437,12 +461,9 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_combo_set_popdown_strings (GTK_COMBO (edit->tag), list);
 	g_list_free(list);
 	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(edit->tag)->entry),FALSE);
-	gtk_box_pack_start(GTK_BOX(hbox),edit->tag,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
-	
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->tag,1,2,5,6);
 
-	hbox=gtk_hbox_new(FALSE,0);
+	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	edit->include=gtk_radio_button_new_with_label((GSList *)NULL,
 						      _("include"));
 	edit->exclude=gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(edit->include)),
@@ -461,7 +482,6 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_box_pack_start(GTK_BOX(hbox),edit->cancel_button,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,TRUE,FALSE,0);
 
-	gtk_container_add(GTK_CONTAINER(edit),edit->vbox);
 	gtk_window_set_default(GTK_WINDOW(edit),edit->cancel_button);
 };
 
@@ -717,10 +737,14 @@ static gboolean d4x_filter_edit_select(GtkTreeView *view,GdkEventButton *event,d
 
 static void d4x_filter_edit_init(d4xFilterEdit *edit){
 	gtk_window_set_title(GTK_WINDOW (edit),_("Modify filter"));
+	gtk_window_set_resizable(GTK_WINDOW(edit),FALSE);
 	gtk_widget_set_size_request(GTK_WIDGET (edit),-1,400);
 
 	edit->vbox=gtk_vbox_new(FALSE,0);
-	gchar *titles[]={"",_("protocol"),_("host"),_("path"),_("file"),"?",_("tag")};
+	gtk_container_add(GTK_CONTAINER(edit),edit->vbox);
+	
+	gtk_container_set_border_width(GTK_CONTAINER(edit->vbox),5);
+	gchar *titles[]={"",_("Protocol"),_("Host"),_("Path"),_("File"),"?",_("Tag")};
 	edit->store=gtk_list_store_new(FE_COL_LAST,
 				       G_TYPE_STRING,
 				       G_TYPE_STRING,
@@ -741,7 +765,6 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 								      NULL);
 			gtk_tree_view_append_column (edit->view, col);
 	};
-//	gtk_clist_set_selection_mode(GTK_CLIST(clist),GTK_SELECTION_EXTENDED);
 	g_signal_connect(G_OBJECT(edit->view),
 			   "event",
 			   G_CALLBACK(d4x_filter_edit_select),
@@ -750,6 +773,7 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scroll_window), GTK_SHADOW_ETCHED_IN);
 	gtk_container_add(GTK_CONTAINER(scroll_window),GTK_WIDGET(edit->view));
 	gtk_box_pack_start(GTK_BOX(edit->vbox),scroll_window,TRUE,TRUE,0);
 
@@ -757,53 +781,55 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 						      _("include by default"));
 	edit->exclude=gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(edit->include)),
 						      _("exclude by default"));
-//	edit->include=gtk_check_button_new_with_label(_("include by default"));
 	gtk_box_pack_start(GTK_BOX(edit->vbox),edit->include,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(edit->vbox),edit->exclude,FALSE,FALSE,0);
 
-	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
+	GtkWidget *hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *label=gtk_label_new(_("Name of filter"));
 	edit->name=gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(hbox),label,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),edit->name,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
+	gtk_box_pack_start_defaults(GTK_BOX(hbox),edit->name);
+	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,3);
 
+	GtkWidget *table=gtk_table_new(2,3,TRUE);
+	gtk_table_set_row_spacings(GTK_TABLE(table),3);
+	gtk_table_set_col_spacings(GTK_TABLE(table),5);
+	gtk_box_pack_start(GTK_BOX(edit->vbox),table, FALSE,FALSE,0);
+	
 	GtkWidget *up=gtk_button_new_from_stock(GTK_STOCK_GO_UP);
-	GtkWidget *add=gtk_button_new_from_stock(GTK_STOCK_ADD);
+	gtk_table_attach_defaults(GTK_TABLE(table),up,0,1,0,1);
+	g_signal_connect(G_OBJECT(up),"clicked",
+			   G_CALLBACK(d4x_filter_edit_up),edit);
+	
 	GtkWidget *down=gtk_button_new_from_stock(GTK_STOCK_GO_DOWN);
-	hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	gtk_box_pack_start(GTK_BOX(hbox),up,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),down,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),add,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(table),down,0,1,1,2);
+	
+	GtkWidget *add=gtk_button_new_from_stock(GTK_STOCK_ADD);
+	gtk_table_attach_defaults(GTK_TABLE(table),add,1,2,0,1);
+	g_signal_connect(G_OBJECT(add),"clicked",
+			   G_CALLBACK(d4x_filter_edit_add),edit);
 
-	edit->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
 	GtkWidget *del=gtk_button_new_from_stock(GTK_STOCK_REMOVE);
+	gtk_table_attach_defaults(GTK_TABLE(table),del,1,2,1,2);
+	g_signal_connect(G_OBJECT(del),"clicked",
+			   G_CALLBACK(d4x_filter_edit_del),edit);
+	
 	edit->edit=gtk_button_new_from_stock(GTK_STOCK_PROPERTIES);
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->edit,2,3,0,1);
+	g_signal_connect(G_OBJECT(edit->edit),"clicked",
+			   G_CALLBACK(d4x_filter_edit_edit),edit);
+	
+	edit->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
+	gtk_table_attach_defaults(GTK_TABLE(table),edit->ok,2,3,1,2);
+	g_signal_connect(G_OBJECT(down),"clicked",
+			   G_CALLBACK(d4x_filter_edit_down),edit);
+	
 	GTK_WIDGET_SET_FLAGS(edit->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(del,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(edit->edit,GTK_CAN_DEFAULT);
-	hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	gtk_box_pack_start(GTK_BOX(hbox),edit->ok,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),del,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(hbox),edit->edit,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
 	
-	gtk_container_add(GTK_CONTAINER(edit),edit->vbox);
 	gtk_window_set_default(GTK_WINDOW(edit),edit->ok);
 
-	g_signal_connect(G_OBJECT(edit->edit),"clicked",
-			   G_CALLBACK(d4x_filter_edit_edit),edit);
-	g_signal_connect(G_OBJECT(del),"clicked",
-			   G_CALLBACK(d4x_filter_edit_del),edit);
-	g_signal_connect(G_OBJECT(add),"clicked",
-			   G_CALLBACK(d4x_filter_edit_add),edit);
-	g_signal_connect(G_OBJECT(up),"clicked",
-			   G_CALLBACK(d4x_filter_edit_up),edit);
-	g_signal_connect(G_OBJECT(down),"clicked",
-			   G_CALLBACK(d4x_filter_edit_down),edit);
 };
 
 static void d4x_filter_edit_class_init(d4xFilterEditClass *klass){
@@ -1098,10 +1124,7 @@ GtkWidget *d4x_links_sel_new_with_add(){
 	GTK_WIDGET_SET_FLAGS(sel->find,GTK_CAN_DEFAULT);
 	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->find,FALSE,FALSE,0);
 	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->cancel,FALSE,FALSE,0);
-	GList *c=gtk_container_get_children(GTK_CONTAINER(sel->cancel));
-	GtkLabel *label=(GtkLabel *)(c->data);
-	gtk_label_set_text(label,_("Add"));
-	g_list_free(c);
+	gtk_button_set_label(GTK_BUTTON(sel->cancel),_("Add"));
 	gtk_widget_show_all(GTK_WIDGET(sel));
 	return GTK_WIDGET(sel);
 };
@@ -1221,6 +1244,235 @@ GtkWidget *d4x_string_edit_new(){
 	d4xStringEdit *edit=(d4xStringEdit *)g_object_new(d4x_string_edit_get_type(),NULL);
 	gtk_widget_show_all(GTK_WIDGET(edit));
 	return GTK_WIDGET(edit);
+};
+
+/********************************************************/
+
+static void d4x_alt_edit_destroy(GtkObject *widget){
+	g_return_if_fail(widget!=NULL);
+
+	if (GTK_OBJECT_CLASS (altedit_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (altedit_parent_class)->destroy) (widget);
+};
+static void d4x_alt_edit_class_init(d4xAltEditClass *klass){
+	GtkObjectClass *object_class=(GtkObjectClass *)klass;
+	
+	object_class->destroy=d4x_alt_edit_destroy;
+	altedit_parent_class=(GtkWidgetClass *)gtk_type_class(gtk_window_get_type());
+};
+
+static void _alt_proxy_host_changed_(GtkEntry *entry,d4xAltEdit *parent){
+	const char *tmp=gtk_entry_get_text(entry);
+	tmp=index(tmp,':');
+	if (tmp){
+		int a=0;
+		if (sscanf(tmp+1,"%i",&a)==1){
+			char str[100];
+			sprintf(str,"%i",a);
+			gtk_entry_set_text(GTK_ENTRY(parent->proxy_port),str);
+		};
+	};
+};
+
+static void _alt_proxy_toggle_(GtkWidget *parent,d4xAltEdit *where) {
+	gtk_widget_set_sensitive(where->proxy_view,GTK_TOGGLE_BUTTON(parent)->active);
+/*
+	if (GTK_TOGGLE_BUTTON(parent)->active)
+		gtk_widget_show(where->proxy_view);
+	else
+		gtk_widget_hide(where->proxy_view);
+	gtk_widget_set_size_request(GTK_WIDGET(where),-1,-1);
+*/
+//	gtk_window_reshow_with_initial_size (GTK_WINDOW(where));
+};
+
+static void _alt_proxy_toggle_pass_(GtkWidget *parent,d4xAltEdit *where) {
+	set_editable_for_combo(where->proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(where->proxy_user)->entry),GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(where->proxy_user,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(where->proxy_pass,GTK_TOGGLE_BUTTON(parent)->active);
+};
+
+static void d4x_alt_edit_size_request(GtkWidget *widget,GtkAllocation *a,gpointer p){
+	printf("A:%ix%i\n",a->width,a->height);
+};
+
+
+static void d4x_alt_edit_init(d4xAltEdit *sel){
+	gtk_window_set_wmclass(GTK_WINDOW(sel),
+			       "D4X_AltEdit","D4X");
+	d4x_eschandler_init(GTK_WIDGET(sel),sel);
+	gtk_window_set_resizable (GTK_WINDOW(sel),FALSE);
+	gtk_window_set_default_size(GTK_WINDOW(sel),0,0);
+//	gtk_widget_set_size_request(GTK_WIDGET(sel),400,-1);
+//	g_signal_connect(G_OBJECT(sel),"size_request",
+//			   G_CALLBACK(d4x_alt_edit_size_request), NULL);
+//	g_signal_connect(G_OBJECT(sel),"size_allocate",
+//			   G_CALLBACK(d4x_alt_edit_size_request), NULL);
+
+	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
+	GtkWidget *hbbox=gtk_hbutton_box_new();
+	gtk_box_set_spacing(GTK_BOX(hbbox),5);
+	sel->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
+	sel->cancel=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
+	sel->entry=(GtkEntry*)gtk_entry_new();
+	GtkWidget *hbox=gtk_hbox_new(FALSE,5);
+	gtk_box_pack_start(GTK_BOX(hbox),GTK_WIDGET(sel->entry),TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(hbox),gtk_label_new(_("URL")),FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
+
+	GtkWidget *proxy_frame=gtk_frame_new(_("proxy type"));
+	sel->proxy_type_http=gtk_radio_button_new_with_label(NULL,"HTTP");
+	GSList *proxy_group1=gtk_radio_button_get_group(GTK_RADIO_BUTTON(sel->proxy_type_http));
+	sel->proxy_type_ftp=gtk_radio_button_new_with_label(proxy_group1,_("FTP (wingate)"));
+//	GtkWidget *table=gtk_table_new(2,1,FALSE);
+//	gtk_container_add(GTK_CONTAINER(proxy_frame),table);
+//	gtk_table_attach_defaults(GTK_TABLE(table),sel->proxy_type_ftp,0,1,0,1);
+//	gtk_table_attach_defaults(GTK_TABLE(table),sel->proxy_type_http,0,1,1,2);
+	GtkWidget *vbox1=gtk_vbox_new(FALSE,5);
+	gtk_box_pack_start(GTK_BOX(vbox1),sel->proxy_type_http,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox1),sel->proxy_type_ftp,FALSE,FALSE,0);
+	gtk_container_add(GTK_CONTAINER(proxy_frame),vbox1);
+
+	GtkWidget *hboxproxy=gtk_hbox_new(FALSE,0);
+	GtkWidget *vboxproxy=gtk_vbox_new(FALSE,0);
+	sel->proxy_use_check=gtk_check_button_new_with_label(_("Use different proxy for this alternate"));
+	g_signal_connect(G_OBJECT(sel->proxy_use_check),"clicked",G_CALLBACK(_alt_proxy_toggle_),sel);
+	gtk_box_pack_start(GTK_BOX(vbox),sel->proxy_use_check,FALSE,FALSE,0);
+
+	sel->proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
+	text_to_combo(sel->proxy_host,"");
+	sel->proxy_port=my_gtk_entry_new_with_max_length(5,0);
+	g_signal_connect (G_OBJECT (GTK_COMBO(sel->proxy_host)->entry),
+			  "changed",
+			  G_CALLBACK(_alt_proxy_host_changed_), sel);
+	gtk_box_pack_start(GTK_BOX(vboxproxy),sel->proxy_host,TRUE,FALSE,0);
+	GtkWidget *label=gtk_label_new(_("port"));
+	GtkWidget *hbox1=gtk_hbox_new(FALSE,3);
+	gtk_box_pack_start(GTK_BOX(hbox1),sel->proxy_port,FALSE,0,0);
+	gtk_box_pack_start(GTK_BOX(hbox1),label,FALSE,0,0);
+	gtk_box_pack_start(GTK_BOX(vboxproxy),hbox1,TRUE,FALSE,0);
+
+	sel->proxy_user_check=gtk_check_button_new_with_label(_("need password"));
+	g_signal_connect(G_OBJECT(sel->proxy_user_check),"clicked",G_CALLBACK(_alt_proxy_toggle_pass_),sel);
+	gtk_box_pack_start(GTK_BOX(vboxproxy),sel->proxy_user_check,FALSE,0,0);
+
+	sel->proxy_user=my_gtk_combo_new(ALL_HISTORIES[USER_HISTORY]);
+	gtk_widget_set_size_request(sel->proxy_user,100,-1);
+
+	label=gtk_label_new(_("username"));
+	hbox1=gtk_hbox_new(FALSE,3);
+	gtk_box_pack_start(GTK_BOX(hbox1),sel->proxy_user,FALSE,0,0);
+	gtk_box_pack_start(GTK_BOX(hbox1),label,FALSE,0,0);
+	gtk_box_pack_start(GTK_BOX(vboxproxy),hbox1,TRUE,FALSE,0);
+	
+	if (CFG.REMEMBER_PASS)
+		sel->proxy_pass=my_gtk_combo_new(ALL_HISTORIES[PASS_HISTORY]);
+	else{
+		sel->proxy_pass=gtk_entry_new();
+		gtk_entry_set_visibility(GTK_ENTRY(sel->proxy_pass),FALSE);
+	};
+	
+	gtk_widget_set_size_request(sel->proxy_pass,100,-1);
+	label=gtk_label_new(_("password"));
+	hbox1=gtk_hbox_new(FALSE,3);
+	gtk_box_pack_start(GTK_BOX(hbox1),sel->proxy_pass,FALSE,0,0);
+	gtk_box_pack_start(GTK_BOX(hbox1),label,FALSE,0,0);
+	gtk_box_pack_start(GTK_BOX(vboxproxy),hbox1,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(hboxproxy),vboxproxy,FALSE,FALSE,0);
+	vbox1=gtk_vbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox1),proxy_frame,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox1),gtk_hbox_new(FALSE,0),TRUE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(hboxproxy),vbox1,FALSE,FALSE,0);
+	sel->proxy_view=hboxproxy;
+
+	gtk_box_pack_start(GTK_BOX(vbox),hboxproxy,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbbox,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbbox),sel->ok,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbbox),sel->cancel,FALSE,FALSE,0);
+	gtk_container_add(GTK_CONTAINER(sel),vbox);
+	gtk_window_set_default(GTK_WINDOW(sel),sel->cancel);
+};
+
+guint d4x_alt_edit_get_type(){
+	static guint d4x_alt_edit_type=0;
+	if (!d4x_alt_edit_type){
+		GTypeInfo info={
+			sizeof(d4xAltEditClass),
+			NULL,NULL,
+			(GClassInitFunc) d4x_alt_edit_class_init,
+			NULL,NULL,
+			sizeof(d4xAltEdit),
+			0,
+			(GInstanceInitFunc)d4x_alt_edit_init
+		};
+		d4x_alt_edit_type = g_type_register_static (GTK_TYPE_WINDOW,"d4xAltEdit",&info,(GTypeFlags)0);
+	};
+	return d4x_alt_edit_type;
+};
+
+GtkWidget *d4x_alt_edit_new(){
+	d4xAltEdit *edit=(d4xAltEdit *)g_object_new(d4x_alt_edit_get_type(),NULL);
+	gtk_widget_show_all(GTK_WIDGET(edit));
+	gtk_widget_set_sensitive(edit->proxy_view,FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(edit->proxy_user_check),FALSE);
+	gtk_widget_set_sensitive(edit->proxy_user,FALSE);
+	gtk_widget_set_sensitive(edit->proxy_pass,FALSE);
+	return GTK_WIDGET(edit);
+};
+
+void d4x_alt_edit_set(d4xAltEdit *sel,tAddr *info){
+	if (info->host.notempty()){
+		if (info->proto==D_PROTO_FTP)
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_type_ftp),TRUE);
+		else
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_type_http),TRUE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_use_check),TRUE);
+		gtk_widget_set_sensitive(sel->proxy_view,TRUE);
+		text_to_combo(sel->proxy_host,info->host.get());
+		char data[100];
+		sprintf(data,"%i",info->port);
+		text_to_combo(sel->proxy_port,data);
+		if (info->username.notempty() && info->pass.notempty()){
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_user_check),TRUE);
+			text_to_combo(sel->proxy_user,info->username.get());
+			text_to_combo(sel->proxy_pass,info->pass.get());
+			ALL_HISTORIES[USER_HISTORY]->add(info->username.get());
+		}else{
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_user_check),FALSE);
+		};
+	}else{
+		gtk_widget_set_sensitive(sel->proxy_view,FALSE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_use_check),FALSE);
+	};
+};
+
+void d4x_alt_edit_get(d4xAltEdit *sel,tAddr *info){
+	if (GTK_TOGGLE_BUTTON(sel->proxy_use_check)->active && strlen(text_from_combo(sel->proxy_host))){
+		if (GTK_TOGGLE_BUTTON(sel->proxy_type_ftp)->active)
+			info->proto=D_PROTO_FTP;
+		else
+			info->proto=D_PROTO_HTTP;
+		info->host.set(text_from_combo(sel->proxy_host));
+		REMOVE_SC_FROM_HOST(info->host.get());
+		sscanf(text_from_combo(sel->proxy_port),"%i",&info->port);
+		info->path.set("");
+		info->file.set("");
+		if (GTK_TOGGLE_BUTTON(sel->proxy_user_check)->active
+		    && strlen(text_from_combo(sel->proxy_user))
+		    && strlen(text_from_combo(sel->proxy_pass))){
+			info->username.set(text_from_combo(sel->proxy_user));
+			info->pass.set(text_from_combo(sel->proxy_pass));
+		}else{
+			info->username.set(NULL);
+			info->pass.set(NULL);
+		};
+		make_proxy_host(info->host.get(),info->port);
+	}else{
+		info->clear();
+	};
 };
 
 /********************************************************/

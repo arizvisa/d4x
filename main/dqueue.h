@@ -19,7 +19,7 @@
 class d4xDownloadQueue:public tNode{
 	tDList *queues[DL_TEMP];
 public:
-	int MAX_ACTIVE,TIME_FORMAT,NICE_DEC_DIGITALS;
+	int MAX_ACTIVE,TIME_FORMAT,SPEED_FORMAT,NICE_DEC_DIGITALS;
 	int AUTODEL_COMPLETED,AUTODEL_FAILED;
 	int IamDefault;
 	int inserted;

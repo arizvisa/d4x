@@ -607,10 +607,13 @@ void d4xQsTree::prefs_init(){
 	GtkWidget *columns_hbox=gtk_hbox_new(FALSE,5);
 	GtkWidget *columns_frame1=gtk_frame_new(_("Size format"));
 	GtkWidget *columns_frame2=gtk_frame_new(_("Time format"));
+	GtkWidget *columns_frame3=gtk_frame_new(_("Speed format"));
 	gtk_container_set_border_width(GTK_CONTAINER(columns_frame1),5);
 	gtk_container_set_border_width(GTK_CONTAINER(columns_frame2),5);
+	gtk_container_set_border_width(GTK_CONTAINER(columns_frame3),5);
 	GtkWidget *columns_vbox1=gtk_vbox_new(FALSE,0);
 	GtkWidget *columns_vbox2=gtk_vbox_new(FALSE,0);
+	GtkWidget *columns_vbox3=gtk_vbox_new(FALSE,0);
 
 	columns_nums1=gtk_radio_button_new_with_label((GSList *)NULL,"123456");
 	gtk_box_pack_start(GTK_BOX(columns_vbox1),columns_nums1,FALSE,FALSE,0);
@@ -649,6 +652,17 @@ void d4xQsTree::prefs_init(){
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_time2),TRUE);
 	else
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_time1),TRUE);
+
+	columns_speed1=gtk_radio_button_new_with_label((GSList *)NULL,"2134");
+	gtk_box_pack_start(GTK_BOX(columns_vbox3),columns_speed1,FALSE,FALSE,0);
+	GSList *columns_group3=gtk_radio_button_get_group(GTK_RADIO_BUTTON(columns_speed1));
+	columns_speed2=gtk_radio_button_new_with_label(columns_group3,"2.1K");
+	gtk_box_pack_start(GTK_BOX(columns_vbox3),columns_speed2,FALSE,FALSE,0);
+	if (q->SPEED_FORMAT)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_speed2),TRUE);
+	else
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns_speed1),TRUE);
+	
 	gtk_container_add(GTK_CONTAINER(columns_frame1),columns_vbox1);
 	GtkWidget *columns_vbox11=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_vbox11),columns_frame1,FALSE,FALSE,0);
@@ -661,8 +675,16 @@ void d4xQsTree::prefs_init(){
 	GtkWidget *columns_vbox22=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_vbox21),columns_vbox22,FALSE,FALSE,0);
 
+
+	gtk_container_add(GTK_CONTAINER(columns_frame3),columns_vbox3);
+	GtkWidget *columns_vbox31=gtk_vbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(columns_vbox31),columns_frame3,FALSE,FALSE,0);
+	GtkWidget *columns_vbox32=gtk_vbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(columns_vbox31),columns_vbox32,FALSE,FALSE,0);
+
 	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox11,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox21,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox31,FALSE,FALSE,0);
 
 	gtk_box_pack_start(GTK_BOX(vbox),columns_hbox,FALSE,FALSE,0);
 
@@ -711,6 +733,7 @@ void d4xQsTree::prefs_ok(){
 		(GTK_TOGGLE_BUTTON(columns_nums3)->active?2:0)+
 		(GTK_TOGGLE_BUTTON(columns_nums4)->active?3:0);
 	q->TIME_FORMAT=GTK_TOGGLE_BUTTON(columns_time2)->active;
+	q->SPEED_FORMAT=GTK_TOGGLE_BUTTON(columns_speed2)->active;
 	q->name.set(text_from_combo(name));
 	char *path=normalize_path_full(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
 	q->save_path.set(path);

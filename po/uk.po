@@ -6,7 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: d4x 2.01\n"
-"POT-Creation-Date: 2003-06-23 05:00+0800\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-12-28 06:14+0700\n"
 "PO-Revision-Date: 2002-06-12 13:29+0300\n"
 "Last-Translator: Cawko Xakep <xakep@snark.ukma.kiev.ua>\n"
 "Language-Team: Ukrainian <linux@linux.org.ua>\n"
@@ -17,49 +18,49 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 # main/face/lmenu.cc:219
-#: main/alt.cc:242
+#: main/alt.cc:274
 #, fuzzy
 msgid "Add new alternate"
 msgstr "Альтернативи"
 
 # main/face/mywidget.cc:692
-#: main/alt.cc:328
+#: main/alt.cc:380
 #, fuzzy
 msgid "Modify alternate"
 msgstr "Модиф╕кац╕я ф╕льтру"
 
 # main/client.cc:417
-#: main/client.cc:437
+#: main/client.cc:448
 msgid "Timeout while reading from socket!"
 msgstr "Тайм-аут читання сокету!"
 
 # main/client.cc:422
-#: main/client.cc:442
+#: main/client.cc:453
 msgid "Error while reading from socket!"
 msgstr "Помилка читання сокету!"
 
 # main/client.cc:431
-#: main/client.cc:451
+#: main/client.cc:462
 msgid "Trying to connect..."
 msgstr "Намага╓мося п╕д'╓днатися..."
 
 # main/client.cc:433
-#: main/client.cc:453
+#: main/client.cc:464
 msgid "Socket was opened!"
 msgstr "В╕дкрито сокет!"
 
 # main/client.cc:438
-#: main/client.cc:458
+#: main/client.cc:469
 msgid "Host not found!"
 msgstr "Хост не знайдено!"
 
 # main/client.cc:443
-#: main/client.cc:463
+#: main/client.cc:474
 msgid "Can't allocate socket"
 msgstr "Не можу вид╕лити сокет"
 
 # main/client.cc:448
-#: main/client.cc:468
+#: main/client.cc:479
 msgid "Can't connect"
 msgstr "Не можу при╓днатися"
 
@@ -106,181 +107,185 @@ msgid "Expect URL as parameter for '-a' option"
 msgstr "Оч╕ку╓ться URL як параметр до '--ls'"
 
 # main/config.cc:273
-#: main/config.cc:280
+#: main/config.cc:281
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "Не можу в╕дкрити файл коф╕гурац╕╖ '%s'\n"
 
 # main/config.cc:274
-#: main/config.cc:281
+#: main/config.cc:282
 msgid "Use default cfg :))...\n"
 msgstr "Використання стандартно╖ конф╕гурац╕╖... ;)\n"
 
 # main/config.cc:484
-#: main/config.cc:512
+#: main/config.cc:513
 msgid "unknown option:"
 msgstr "нев╕домий параметр:"
 
 # main/config.cc:558
-#: main/config.cc:586
+#: main/config.cc:587
 msgid "List of queues:\n"
 msgstr "Список черг:\n"
 
 # main/config.cc:613
-#: main/config.cc:641
+#: main/config.cc:642
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Викону╓ться завантажень: %d\n"
 
 # main/config.cc:615
-#: main/config.cc:643
+#: main/config.cc:644
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Призупинено завантажень: %d\n"
 
 # main/config.cc:617
-#: main/config.cc:645
+#: main/config.cc:646
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Невдалих завантажень: %d\n"
 
 # main/config.cc:619
-#: main/config.cc:647
+#: main/config.cc:648
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Виконаних завантажень: %d\n"
 
 # main/config.cc:622
-#: main/config.cc:650
+#: main/config.cc:651
 #, c-format
 msgid "Total: %d\n"
 msgstr "Всього: %d\n"
 
 # main/config.cc:624
-#: main/config.cc:652
+#: main/config.cc:653
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "Загальний об'╓м в байтах: %d\n"
 
 # main/config.cc:626
-#: main/config.cc:654
+#: main/config.cc:655
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Поточна швидк╕сть: %d\n"
 
 # main/config.cc:632
-#: main/config.cc:660
+#: main/config.cc:661
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "Поточна швидк╕сть: %d\n"
 
+#: main/config.cc:790
+msgid "Added from command line"
+msgstr ""
+
 # main/config.cc:823
-#: main/config.cc:861
+#: main/config.cc:871
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Використання: nt [параметри] ... [URL]"
 
 # main/config.cc:824
-#: main/config.cc:862
+#: main/config.cc:872
 msgid "print this page and exit"
 msgstr "вивести цю стор╕нку та вийти"
 
 # main/config.cc:825
-#: main/config.cc:863
+#: main/config.cc:873
 msgid "show version information and exit"
 msgstr "показати верс╕ю та вийти"
 
 # main/config.cc:826
-#: main/config.cc:864
+#: main/config.cc:874
 msgid "show information if already run"
 msgstr "показати ╕нформац╕ю, якщо вже працю╓"
 
 # main/config.cc:827
-#: main/config.cc:865
+#: main/config.cc:875
 msgid "show current speed if already run"
 msgstr "показати поточну швидк╕сть, якщо вже працю╓"
 
 # main/config.cc:828
-#: main/config.cc:866
+#: main/config.cc:876
 msgid "run in minimized mode"
 msgstr "виконати в згорнутому в╕кн╕"
 
 # main/config.cc:829
-#: main/config.cc:867
+#: main/config.cc:877
 msgid "set timeout for exiting if nothing to do"
 msgstr "задати тайм-аут виходу з програми"
 
 # main/config.cc:830
-#: main/config.cc:868
+#: main/config.cc:878
 msgid "set directory for saving files"
 msgstr "задати каталог для збереження файл╕в"
 
 # main/config.cc:831
-#: main/config.cc:869
+#: main/config.cc:879
 msgid "set lower speed limitation"
 msgstr "задати нижню межу швидкост╕"
 
 # main/config.cc:832
-#: main/config.cc:870
+#: main/config.cc:880
 msgid "set medium speed limitation"
 msgstr "задати середню межу швидкост╕"
 
 # main/config.cc:833
-#: main/config.cc:871
+#: main/config.cc:881
 msgid "set unlimited speed"
 msgstr "задати роботу без обмеження швидкост╕"
 
 # main/config.cc:834
-#: main/config.cc:872
+#: main/config.cc:882
 msgid "delete completed if already run"
 msgstr "видалити виконан╕, якщо вже працю╓"
 
 # main/config.cc:835
-#: main/config.cc:873
+#: main/config.cc:883
 msgid "set maximum active downloads"
 msgstr "задати максимум активних завантажень"
 
 # main/config.cc:836
-#: main/config.cc:874
+#: main/config.cc:884
 msgid "restart all failed downloads"
 msgstr "перезапустити вс╕ невдал╕ завантаження"
 
 # main/config.cc:837
-#: main/config.cc:875
+#: main/config.cc:885
 msgid "run program without X interface"
 msgstr "виконати програму без X ╕нтерфейсу"
 
 # main/config.cc:838
-#: main/config.cc:876
+#: main/config.cc:886
 msgid "display info about URL in queue of downloads"
 msgstr "показувати ╕нфо про URL в черз╕ завантажень"
 
 # main/config.cc:839
-#: main/config.cc:877
+#: main/config.cc:887
 msgid "change current default queue"
 msgstr "зм╕нити поточну типову чергу"
 
 # main/config.cc:840
-#: main/config.cc:878
+#: main/config.cc:888
 msgid "remove a download from queue"
 msgstr "видалити завантаження з черги"
 
 # main/config.cc:841
-#: main/config.cc:879
+#: main/config.cc:889
 msgid "stop a download"
 msgstr "зупинити завантаження"
 
 # main/config.cc:842
-#: main/config.cc:880
+#: main/config.cc:890
 msgid "using colors if run without interface"
 msgstr "використовувати кольори при виконанн╕ без ╕нтерфейсу"
 
 # main/config.cc:843
-#: main/config.cc:881
+#: main/config.cc:891
 msgid "specifies preferred size and position of main window"
 msgstr "вказу╓ бажаний розм╕р та позиц╕ю головного в╕кна"
 
 # main/face/buttons.cc:51
-#: main/config.cc:882
+#: main/config.cc:892
 #, fuzzy
 msgid "open \"Add new download\" dialog for the URL"
 msgstr " Додати нове завантаження"
@@ -417,82 +422,82 @@ msgid "Downloading was failed..."
 msgstr "Завантаження не вдалося..."
 
 # main/dlist.cc:1261
-#: main/dlist.cc:1305
+#: main/dlist.cc:1306
 msgid "Redirection blocked by filter"
 msgstr "Перенаправлення заблоковане ф╕льтром"
 
 # main/dlist.cc:1267
-#: main/dlist.cc:1311
+#: main/dlist.cc:1312
 msgid "Redirect detected..."
 msgstr "Пом╕чено перенаправлення..."
 
-#: main/dlist.cc:1315 main/dlist.cc:1330
+#: main/dlist.cc:1316 main/dlist.cc:1331
 msgid "Size detection only!"
 msgstr ""
 
-#: main/dlist.cc:1383
+#: main/dlist.cc:1385
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
 msgstr ""
 
-#: main/dlist.cc:1394
+#: main/dlist.cc:1396
 msgid "Local file is seems to be equal to remote one"
 msgstr ""
 
 # main/dlist.cc:1325
-#: main/dlist.cc:1415
+#: main/dlist.cc:1417
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Дивно, але не можу видалити щойно створений файл..."
 
 # main/dlist.cc:1329 main/dlist.cc:1548
-#: main/dlist.cc:1419 main/dlist.cc:1657
+#: main/dlist.cc:1421 main/dlist.cc:1660
 msgid "File not found"
 msgstr "Файл не знайдено"
 
 # main/dlist.cc:1387
-#: main/dlist.cc:1492
+#: main/dlist.cc:1494
 msgid "Sorting started"
 msgstr "Початок сортування"
 
 # main/dlist.cc:1390
-#: main/dlist.cc:1495
+#: main/dlist.cc:1497
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "П╕нгую (спроба %i з %i)"
 
 # main/dlist.cc:1418
-#: main/dlist.cc:1523
+#: main/dlist.cc:1525
 msgid "Trying to determine filesizes"
 msgstr "Спроба визначити розм╕ри файл╕в"
 
 # main/dlist.cc:1494
-#: main/dlist.cc:1570
+#: main/dlist.cc:1572
 msgid "Searching failed"
 msgstr "Пошук не вдався"
 
 # main/dlist.cc:1516
-#: main/dlist.cc:1621
+#: main/dlist.cc:1623
 msgid "Search had been completed!"
 msgstr "Пошук зак╕нчено!"
 
 # main/dlist.cc:1522
-#: main/dlist.cc:1627
+#: main/dlist.cc:1629
 msgid "Was Started!"
 msgstr "Почав!"
 
 # main/dlist.cc:1526
-#: main/dlist.cc:1635
+#: main/dlist.cc:1638
 msgid "It is a link and we already load it"
 msgstr "Це посилання вже завантажено"
 
 # main/dlist.cc:1553
-#: main/dlist.cc:1662
+#: main/dlist.cc:1665
 msgid "Trying to work without CWD"
 msgstr "Спроба роботи без CWD"
 
 # main/dlist.cc:1627
-#: main/dlist.cc:1787
+#: main/dlist.cc:1790
 msgid "Can't split file to specified number of parts!"
 msgstr "Не можу розбити файл на вказану к╕льк╕сть частин!"
 
@@ -535,32 +540,32 @@ msgid "If you see this message please report to mdem@chat.ru"
 msgstr "Якщо ви бачите це пов╕домлення, пов╕домте за адресою mdem@chat.ru"
 
 # main/face/about.cc:110
-#: main/face/about.cc:132
+#: main/face/about.cc:137
 msgid "About"
 msgstr "Про мене"
 
 # main/face/about.cc:120
-#: main/face/about.cc:144
+#: main/face/about.cc:149
 #, fuzzy
 msgid "Author: Maxim Koshelev"
 msgstr "Автор: Максим Кошел╓в"
 
-#: main/face/about.cc:146
+#: main/face/about.cc:151
 msgid "Autoconf: Zaufi"
 msgstr ""
 
 # main/face/about.cc:122
-#: main/face/about.cc:147
+#: main/face/about.cc:152
 msgid "Translators team"
 msgstr "Команда перекладу"
 
 # main/face/about.cc:129
-#: main/face/about.cc:171
+#: main/face/about.cc:176
 msgid "Special thanks to"
 msgstr "Особлив╕ подяки"
 
 # main/face/about.cc:247
-#: main/face/about.cc:302
+#: main/face/about.cc:307
 msgid "Don't ask next time"
 msgstr "Не питати наступного разу"
 
@@ -745,7 +750,8 @@ msgid "description"
 msgstr "опис"
 
 # main/face/columns.cc:34 main/face/lod.cc:56 main/face/mywidget.cc:916
-#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1038
+#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1064
+#: main/face/mywidget.cc:1323
 msgid "URL"
 msgstr "URL"
 
@@ -805,12 +811,12 @@ msgid "/Exit"
 msgstr "/Вих╕д"
 
 # main/face/dndtrash.cc:399
-#: main/face/dndtrash.cc:399
+#: main/face/dndtrash.cc:402
 msgid "DnD basket"
 msgstr " Кошик DnD "
 
 # main/face/dndtrash.cc:532
-#: main/face/dndtrash.cc:550
+#: main/face/dndtrash.cc:557
 msgid "Drop link here"
 msgstr "Киньте сюди посилання"
 
@@ -855,12 +861,12 @@ msgid "Rollback after reconnecting"
 msgstr "В╕дкат п╕сля перез'╓днання"
 
 # main/face/edit.cc:71 main/face/edit.cc:558 main/face/prefs.cc:235
-#: main/face/edit.cc:73 main/face/edit.cc:576 main/face/prefs.cc:240
+#: main/face/edit.cc:73 main/face/edit.cc:576 main/face/prefs.cc:241
 msgid "Get date from the server"
 msgstr "Отримувати дату файлу з серверу"
 
 # main/face/edit.cc:72 main/face/edit.cc:562 main/face/prefs.cc:239
-#: main/face/edit.cc:74 main/face/edit.cc:580 main/face/prefs.cc:244
+#: main/face/edit.cc:74 main/face/edit.cc:580 main/face/prefs.cc:245
 msgid "Retry if resuming is not supported"
 msgstr "Повторювати заново, якщо довантаження не п╕дтримую╓ться"
 
@@ -870,37 +876,37 @@ msgid "Number of parts for spliting this download"
 msgstr "К╕льк╕сть частин для под╕лу цього завантаження"
 
 # main/face/edit.cc:74 main/face/edit.cc:600 main/face/prefs.cc:349
-#: main/face/edit.cc:76 main/face/edit.cc:618 main/face/prefs.cc:345
+#: main/face/edit.cc:76 main/face/edit.cc:618 main/face/prefs.cc:346
 msgid "Use passive mode for FTP"
 msgstr "Використовувати пасивний режим FTP"
 
 # main/face/edit.cc:75 main/face/edit.cc:606 main/face/prefs.cc:357
-#: main/face/edit.cc:77 main/face/edit.cc:624 main/face/prefs.cc:353
+#: main/face/edit.cc:77 main/face/edit.cc:624 main/face/prefs.cc:354
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "Права доступу файлу брати з серверу"
 
 # main/face/edit.cc:76 main/face/edit.cc:603 main/face/prefs.cc:353
-#: main/face/edit.cc:78 main/face/edit.cc:621 main/face/prefs.cc:349
+#: main/face/edit.cc:78 main/face/edit.cc:621 main/face/prefs.cc:350
 msgid "Don't send QUIT command (FTP)"
 msgstr "Не в╕дсилати команду QUIT"
 
 # main/face/edit.cc:77 main/face/edit.cc:612 main/face/prefs.cc:365
-#: main/face/edit.cc:79 main/face/edit.cc:639 main/face/prefs.cc:369
+#: main/face/edit.cc:79 main/face/edit.cc:639 main/face/prefs.cc:370
 msgid "Put directories on the top of queue during recursion"
 msgstr "Виставляти каталоги на початок черги при рекурс╕╖"
 
 # main/face/edit.cc:78 main/face/edit.cc:570 main/face/prefs.cc:255
-#: main/face/edit.cc:80 main/face/edit.cc:588 main/face/prefs.cc:260
+#: main/face/edit.cc:80 main/face/edit.cc:588 main/face/prefs.cc:261
 msgid "Compare date/time of remote file with local one"
 msgstr "Пор╕внювати дату в╕ддаленого файлу з локальним"
 
 # main/face/edit.cc:79 main/face/edit.cc:566 main/face/prefs.cc:243
-#: main/face/edit.cc:81 main/face/edit.cc:584 main/face/prefs.cc:248
+#: main/face/edit.cc:81 main/face/edit.cc:584 main/face/prefs.cc:249
 msgid "Sleep before completing"
 msgstr "Засинати перед виконанням"
 
 # main/face/edit.cc:80 main/face/edit.cc:609 main/face/prefs.cc:361
-#: main/face/edit.cc:82 main/face/edit.cc:627 main/face/prefs.cc:357
+#: main/face/edit.cc:82 main/face/edit.cc:627 main/face/prefs.cc:358
 msgid "Follow symbolic links"
 msgstr "Йти за символьними посиланнями"
 
@@ -915,22 +921,22 @@ msgid "Depth of recursing for HTTP"
 msgstr "Глибина рекурс╕╖ HTTP"
 
 # main/face/edit.cc:83 main/face/edit.cc:641 main/face/prefs.cc:452
-#: main/face/edit.cc:85 main/face/edit.cc:667 main/face/prefs.cc:447
+#: main/face/edit.cc:85 main/face/edit.cc:667 main/face/prefs.cc:448
 msgid "Only subdirs"
 msgstr "Лише п╕дкаталоги"
 
 # main/face/edit.cc:84 main/face/edit.cc:642 main/face/prefs.cc:453
-#: main/face/edit.cc:86 main/face/edit.cc:668 main/face/prefs.cc:448
+#: main/face/edit.cc:86 main/face/edit.cc:668 main/face/prefs.cc:449
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "Дозволити вих╕д поза цього серверу при рекурс╕╖"
 
 # main/face/edit.cc:85 main/face/edit.cc:643 main/face/prefs.cc:454
-#: main/face/edit.cc:87 main/face/edit.cc:669 main/face/prefs.cc:449
+#: main/face/edit.cc:87 main/face/edit.cc:669 main/face/prefs.cc:450
 msgid "Change links in HTML file to local"
 msgstr "Зм╕нювати посилання в HTML-файл╕ на в╕дносн╕"
 
 # main/face/edit.cc:86 main/face/edit.cc:644 main/face/prefs.cc:455
-#: main/face/edit.cc:88 main/face/edit.cc:670 main/face/prefs.cc:450
+#: main/face/edit.cc:88 main/face/edit.cc:670 main/face/prefs.cc:451
 msgid "Ignore ETag field in reply"
 msgstr "╤гнорувати поле ETag у в╕дпов╕д╕"
 
@@ -939,7 +945,7 @@ msgid "Use '_' instead of '?' in stored filenames"
 msgstr ""
 
 # main/face/edit.cc:87 main/face/edit.cc:669 main/face/prefs.cc:474
-#: main/face/edit.cc:90 main/face/edit.cc:697 main/face/prefs.cc:468
+#: main/face/edit.cc:90 main/face/edit.cc:697 main/face/prefs.cc:469
 msgid "User-Agent"
 msgstr "User-Agent"
 
@@ -956,7 +962,7 @@ msgstr "Куки"
 # main/face/edit.cc:90 main/face/edit.cc:798 main/face/edit.cc:801
 # main/face/prefs.cc:512 main/face/prefs.cc:1152 main/face/prefs.cc:1340
 #: main/face/edit.cc:93 main/face/edit.cc:822 main/face/edit.cc:825
-#: main/face/prefs.cc:504 main/face/prefs.cc:1269 main/face/prefs.cc:1403
+#: main/face/prefs.cc:505 main/face/prefs.cc:1285 main/face/prefs.cc:1419
 msgid "Proxy"
 msgstr "Прокс╕"
 
@@ -985,7 +991,7 @@ msgstr "Записати завантаження у файл"
 # main/face/edit.cc:419 main/face/edit.cc:1588 main/face/edit.cc:1655
 # main/face/edit.cc:1696
 #: main/face/edit.cc:446 main/face/edit.cc:1598 main/face/edit.cc:1659
-#: main/face/edit.cc:1696
+#: main/face/edit.cc:1696 main/face/mywidget.cc:1379
 msgid "password"
 msgstr "пароль"
 
@@ -1009,7 +1015,7 @@ msgid "Connections limit:"
 msgstr "Обмеження з'╓днаннь:"
 
 # main/face/edit.cc:480 main/face/prefs.cc:251
-#: main/face/edit.cc:503 main/face/prefs.cc:256
+#: main/face/edit.cc:503 main/face/prefs.cc:257
 msgid "Pause this just after adding"
 msgstr "Додати призупиненим"
 
@@ -1020,40 +1026,40 @@ msgstr "Додати у початок черги"
 
 # main/face/edit.cc:499 main/face/prefs.cc:233 main/face/prefs.cc:1128
 # main/face/prefs.cc:1287
-#: main/face/edit.cc:522 main/face/lod.cc:291 main/face/prefs.cc:238
-#: main/face/prefs.cc:1260 main/face/prefs.cc:1345
+#: main/face/edit.cc:522 main/face/lod.cc:291 main/face/prefs.cc:239
+#: main/face/prefs.cc:1276 main/face/prefs.cc:1361
 msgid "Download"
 msgstr "Завантаження"
 
 # main/face/edit.cc:502 main/face/prefs.cc:727 main/face/prefs.cc:1212
 # main/face/prefs.cc:1431
-#: main/face/edit.cc:525 main/face/prefs.cc:716 main/face/prefs.cc:1251
-#: main/face/prefs.cc:1504
+#: main/face/edit.cc:525 main/face/prefs.cc:717 main/face/prefs.cc:1267
+#: main/face/prefs.cc:1521
 msgid "Main"
 msgstr "Головн╕"
 
 # main/face/edit.cc:518 main/face/prefs.cc:294
-#: main/face/edit.cc:541 main/face/prefs.cc:297
+#: main/face/edit.cc:541 main/face/prefs.cc:298
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "Тайм-аут читання з сокету (в секундах)"
 
 # main/face/edit.cc:525 main/face/prefs.cc:301
-#: main/face/edit.cc:547 main/face/prefs.cc:303
+#: main/face/edit.cc:547 main/face/prefs.cc:304
 msgid "Timeout before reconnection (in seconds)"
 msgstr "Тайм-аут перед перез'╓днанням (в секундах)"
 
 # main/face/edit.cc:532 main/face/prefs.cc:308
-#: main/face/edit.cc:553 main/face/prefs.cc:309
+#: main/face/edit.cc:553 main/face/prefs.cc:310
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "Максимальна к╕льк╕сть спроб (0 безл╕ч)"
 
 # main/face/edit.cc:539 main/face/prefs.cc:315
-#: main/face/edit.cc:559 main/face/prefs.cc:315
+#: main/face/edit.cc:559 main/face/prefs.cc:316
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "В╕дкат п╕сля перез'╓днання (в байтах)"
 
 # main/face/edit.cc:546 main/face/prefs.cc:322
-#: main/face/edit.cc:565 main/face/prefs.cc:321
+#: main/face/edit.cc:565 main/face/prefs.cc:322
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "Обмеження швидкост╕ в байтах/сек (0 безл╕ч)"
 
@@ -1073,33 +1079,33 @@ msgid "Common"
 msgstr "Загальне"
 
 # main/face/mywidget.cc:914
-#: main/face/edit.cc:631 main/face/prefs.cc:361
+#: main/face/edit.cc:631 main/face/prefs.cc:362
 #, fuzzy
 msgid "Load links as links"
 msgstr "Список посилань"
 
 # main/face/saveload.cc:228
-#: main/face/edit.cc:635 main/face/prefs.cc:365
+#: main/face/edit.cc:635 main/face/prefs.cc:366
 #, fuzzy
 msgid "Load links as file"
 msgstr "Знайти URL в текстовому файл╕"
 
 # main/face/edit.cc:619 main/face/edit.cc:636 main/face/prefs.cc:372
 # main/face/prefs.cc:468
-#: main/face/edit.cc:645 main/face/edit.cc:662 main/face/prefs.cc:375
-#: main/face/prefs.cc:462
+#: main/face/edit.cc:645 main/face/edit.cc:662 main/face/prefs.cc:376
+#: main/face/prefs.cc:463
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "Глибина рекурс╕╖ (0 - не обмежена, 1 - без рекурс╕╖)"
 
 # main/face/edit.cc:660 main/face/prefs.cc:499
-#: main/face/edit.cc:688 main/face/prefs.cc:491
+#: main/face/edit.cc:688 main/face/prefs.cc:492
 msgid "Filter"
 msgstr "Ф╕льтр"
 
 # main/face/edit.cc:661 main/face/lod.cc:602 main/face/mywidget.cc:239
 # main/face/prefs.cc:500
-#: main/face/edit.cc:689 main/face/lod.cc:927 main/face/mywidget.cc:244
-#: main/face/prefs.cc:492
+#: main/face/edit.cc:689 main/face/lod.cc:927 main/face/mywidget.cc:247
+#: main/face/prefs.cc:493
 msgid "Select"
 msgstr "Вибрати"
 
@@ -1129,7 +1135,7 @@ msgid "FTP proxy type"
 msgstr "Тип FTP-прокс╕"
 
 # main/face/edit.cc:1529
-#: main/face/edit.cc:1543
+#: main/face/edit.cc:1543 main/face/mywidget.cc:1329
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
@@ -1140,16 +1146,18 @@ msgstr "Використовувати цей прокс╕ для FTP"
 
 # main/face/edit.cc:1558 main/face/edit.cc:1627 main/face/edit.cc:1677
 #: main/face/edit.cc:1571 main/face/edit.cc:1633 main/face/edit.cc:1679
+#: main/face/mywidget.cc:1352
 msgid "port"
 msgstr "порт"
 
 # main/face/edit.cc:1565 main/face/edit.cc:1633
-#: main/face/edit.cc:1577 main/face/edit.cc:1638
+#: main/face/edit.cc:1577 main/face/edit.cc:1638 main/face/mywidget.cc:1358
 msgid "need password"
 msgstr "пароль"
 
 # main/face/edit.cc:1573 main/face/edit.cc:1641 main/face/edit.cc:1689
 #: main/face/edit.cc:1585 main/face/edit.cc:1646 main/face/edit.cc:1690
+#: main/face/mywidget.cc:1365
 msgid "username"
 msgstr "╕м'я користувача"
 
@@ -1169,32 +1177,32 @@ msgid "Use SOCKS5 proxy"
 msgstr "Використовувати прокс╕ SOCKS5"
 
 # main/face/edit.cc:1670 main/face/mywidget.cc:376 main/face/mywidget.cc:696
-#: main/face/edit.cc:1672 main/face/mywidget.cc:370 main/face/mywidget.cc:723
+#: main/face/edit.cc:1672
 msgid "host"
 msgstr "хост"
 
 # main/face/edit.cc:2062
-#: main/face/edit.cc:2073
+#: main/face/edit.cc:2052
 msgid "Select properties"
 msgstr "Вибер╕ть властив╕сть"
 
 # main/face/edit.cc:2087
-#: main/face/edit.cc:2118
+#: main/face/edit.cc:2097
 msgid "Unselect all"
 msgstr "Зняти виб╕рку"
 
 # main/face/edit.cc:2093
-#: main/face/edit.cc:2124
+#: main/face/edit.cc:2103
 msgid "Select all"
 msgstr "Вибрати все"
 
 # main/face/filtrgui.cc:155 main/face/mywidget.cc:818
-#: main/face/filtrgui.cc:164 main/face/mywidget.cc:865
+#: main/face/filtrgui.cc:164 main/face/mywidget.cc:891
 msgid "filter name"
 msgstr "╕м'я ф╕льтру"
 
 # main/face/filtrgui.cc:149
-#: main/face/filtrgui.cc:187 main/face/list.cc:1263
+#: main/face/filtrgui.cc:187 main/face/list.cc:1266
 msgid "Filters"
 msgstr "Ф╕льтр"
 
@@ -1269,12 +1277,12 @@ msgid "Info"
 msgstr "╤нформац╕я"
 
 # main/face/fsched.cc:181
-#: main/face/fsched.cc:239 main/face/list.cc:1264
+#: main/face/fsched.cc:239 main/face/list.cc:1267
 msgid "Scheduler"
 msgstr "Планувальник"
 
 # main/face/fsched.cc:294 main/face/mywidget.cc:65
-#: main/face/fsched.cc:315 main/face/mywidget.cc:65
+#: main/face/fsched.cc:315 main/face/mywidget.cc:68
 msgid "Select file"
 msgstr "Вибер╕ть файл"
 
@@ -1284,7 +1292,7 @@ msgid "Command:"
 msgstr "Команда:"
 
 # main/face/fsched.cc:435 main/face/fsched.cc:458 main/face/mywidget.cc:109
-#: main/face/fsched.cc:451 main/face/fsched.cc:473 main/face/mywidget.cc:109
+#: main/face/fsched.cc:451 main/face/fsched.cc:473 main/face/mywidget.cc:112
 msgid "Browse"
 msgstr "Перегляд"
 
@@ -1319,7 +1327,7 @@ msgid "period (day/hour:min)"
 msgstr "пер╕од (день/год:хв)"
 
 # main/face/fsched.cc:772 main/face/lmenu.cc:140 main/mainlog.cc:220
-#: main/face/fsched.cc:781 main/face/lmenu.cc:129 main/mainlog.cc:202
+#: main/face/fsched.cc:781 main/face/lmenu.cc:130 main/mainlog.cc:202
 msgid "Properties"
 msgstr "Параметри"
 
@@ -1387,370 +1395,370 @@ msgid "Url"
 msgstr ""
 
 # main/face/list.cc:154
-#: main/face/list.cc:166
+#: main/face/list.cc:167
 msgid "/_File"
 msgstr "/Ф_айл"
 
 # main/face/list.cc:155
-#: main/face/list.cc:167
+#: main/face/list.cc:168
 msgid "/File/_Save List"
 msgstr "/Файл/Зберегти список"
 
 # main/face/list.cc:156
-#: main/face/list.cc:168
+#: main/face/list.cc:169
 msgid "/File/_Load List"
 msgstr "/Файл/Завантажити список"
 
 # main/face/list.cc:157
-#: main/face/list.cc:169
+#: main/face/list.cc:170
 msgid "/File/Find links in file"
 msgstr "/Файл/Знайти URL у файл╕"
 
 # main/face/list.cc:158
-#: main/face/list.cc:170
+#: main/face/list.cc:171
 msgid "/File/_New Download"
 msgstr "/Файл/_Нове завантаження"
 
 # main/face/list.cc:159
-#: main/face/list.cc:171
+#: main/face/list.cc:172
 msgid "/File/_Paste Download"
 msgstr "/Файл/В_cтавити завантаження"
 
 # main/face/list.cc:160
-#: main/face/list.cc:172
+#: main/face/list.cc:173
 msgid "/File/_Automated adding"
 msgstr "/Файл/Автододання"
 
 # main/face/list.cc:161
-#: main/face/list.cc:173
+#: main/face/list.cc:174
 msgid "/File/Exit"
 msgstr "/Файл/Ви_x╕д"
 
 # main/face/list.cc:162
-#: main/face/list.cc:174
+#: main/face/list.cc:175
 msgid "/File/sep1"
 msgstr "/Файл/sep1"
 
 # main/face/list.cc:163
-#: main/face/list.cc:175
+#: main/face/list.cc:176
 msgid "/_Download"
 msgstr "/_Завантаження"
 
 # main/face/list.cc:164
-#: main/face/list.cc:176
+#: main/face/list.cc:177
 msgid "/Download/View _Log"
 msgstr "/Завантаження/Переглянути _протокол"
 
 # main/face/list.cc:165
-#: main/face/list.cc:177
+#: main/face/list.cc:178
 msgid "/Download/_Stop downloads"
 msgstr "/Завантаження/_Зупинити завантаження"
 
 # main/face/list.cc:166
-#: main/face/list.cc:178
+#: main/face/list.cc:179
 msgid "/Download/Edit download"
 msgstr "/Завантаження/Редагувати завантаження"
 
 # main/face/list.cc:167
-#: main/face/list.cc:179
+#: main/face/list.cc:180
 msgid "/Download/_Delete downloads"
 msgstr "/Завантаження/_Видалити завантаження"
 
 # main/face/list.cc:168
-#: main/face/list.cc:180
+#: main/face/list.cc:181
 msgid "/Download/Continue downloads"
 msgstr "/Завантаження/Продовжити завантаження"
 
 # main/face/list.cc:169
-#: main/face/list.cc:181
+#: main/face/list.cc:182
 msgid "/Download/Delete completed"
 msgstr "/Завантаження/Видалити виконан╕"
 
 # main/face/list.cc:170
-#: main/face/list.cc:182
+#: main/face/list.cc:183
 msgid "/Download/Delete failed"
 msgstr "/Завантаження/Видалити невдал╕"
 
 # main/face/list.cc:171
-#: main/face/list.cc:183
+#: main/face/list.cc:184
 msgid "/Download/Rerun failed"
 msgstr "/Завантаження/Повторити невдал╕"
 
 # main/face/list.cc:172
-#: main/face/list.cc:184
+#: main/face/list.cc:185
 msgid "/Download/(Un)Protect"
 msgstr "/Завантаження/захистити"
 
 # main/face/list.cc:173
-#: main/face/list.cc:185
+#: main/face/list.cc:186
 msgid "/Download/Unselect all"
 msgstr "/Завантаження/Зняти вид╕лення"
 
 # main/face/list.cc:174
-#: main/face/list.cc:186
+#: main/face/list.cc:187
 msgid "/Download/Select all"
 msgstr "/Завантаження/Вид╕лити все"
 
 # main/face/list.cc:175
-#: main/face/list.cc:187
+#: main/face/list.cc:188
 msgid "/Download/Invert selection"
 msgstr "/Завантаження/╤нвертувати вид╕лення"
 
 # main/face/list.cc:176
-#: main/face/list.cc:188
+#: main/face/list.cc:189
 msgid "/Download/-"
 msgstr "/Завантаження/-"
 
 # main/face/list.cc:177
-#: main/face/list.cc:189
+#: main/face/list.cc:190
 msgid "/_Queue"
 msgstr "/_Черга"
 
 # main/face/list.cc:178
-#: main/face/list.cc:190
+#: main/face/list.cc:191
 msgid "/Queue/Create new queue"
 msgstr "/Черга/Створити нову чергу"
 
 # main/face/list.cc:179
-#: main/face/list.cc:191
+#: main/face/list.cc:192
 msgid "/Queue/Create new subqueue"
 msgstr "/Черга/Створити нову п╕дчергу"
 
 # main/face/list.cc:180
-#: main/face/list.cc:192
+#: main/face/list.cc:193
 msgid "/Queue/Remove this queue"
 msgstr "/Черга/Видалити чергу"
 
 # main/face/list.cc:181
-#: main/face/list.cc:193
+#: main/face/list.cc:194
 msgid "/Queue/Properties"
 msgstr "/Черга/Параметри черги"
 
 # main/face/list.cc:182
-#: main/face/list.cc:194
+#: main/face/list.cc:195
 msgid "/_Options"
 msgstr "/_Параметри"
 
 # main/face/list.cc:183
-#: main/face/list.cc:195
+#: main/face/list.cc:196
 msgid "/Options/Scheduler"
 msgstr "/Параметри/Планувальник"
 
 # main/face/list.cc:184
-#: main/face/list.cc:196
+#: main/face/list.cc:197
 msgid "/Options/URL-manager"
 msgstr "/Параметри/Розпорядник URL"
 
 # main/face/list.cc:185
-#: main/face/list.cc:197
+#: main/face/list.cc:198
 msgid "/Options/General"
 msgstr "/Параметри/Загальн╕"
 
 # main/face/list.cc:186
-#: main/face/list.cc:198
+#: main/face/list.cc:199
 msgid "/Options/Filters"
 msgstr "/Параметри/Ф╕льтри"
 
 # main/face/list.cc:187
-#: main/face/list.cc:199
+#: main/face/list.cc:200
 msgid "/Options/Speed"
 msgstr "/Параметри/Швидк╕сть"
 
 # main/face/list.cc:188
-#: main/face/list.cc:200
+#: main/face/list.cc:201
 msgid "/Options/Speed/Low"
 msgstr "/Параметри/Швидк╕сть/Мала"
 
 # main/face/list.cc:189
-#: main/face/list.cc:201
+#: main/face/list.cc:202
 msgid "/Options/Speed/Medium"
 msgstr "/Параметри/Швидк╕сть/Середня"
 
 # main/face/list.cc:190
-#: main/face/list.cc:202
+#: main/face/list.cc:203
 msgid "/Options/Speed/Unlimited"
 msgstr "/Параметри/Швидк╕сть/Не обмежу╓ться"
 
 # main/face/list.cc:191
-#: main/face/list.cc:203
+#: main/face/list.cc:204
 msgid "/Options/Buttons"
 msgstr "/Параметри/Кнопки"
 
 # main/face/list.cc:192
-#: main/face/list.cc:204
+#: main/face/list.cc:205
 msgid "/Options/Buttons/Add buttons"
 msgstr "/Параметри/Кнопки/Додати кнопки"
 
 # main/face/list.cc:193
-#: main/face/list.cc:205
+#: main/face/list.cc:206
 msgid "/Options/Buttons/Manipulating"
 msgstr "/Параметри/Кнопки/Manipulationg"
 
 # main/face/list.cc:194
-#: main/face/list.cc:206
+#: main/face/list.cc:207
 msgid "/Options/Buttons/Speed buttons"
 msgstr "/Параметри/Кнопки/Speed buttons"
 
 # main/face/list.cc:195
-#: main/face/list.cc:207
+#: main/face/list.cc:208
 msgid "/Options/Buttons/Misc buttons"
 msgstr "/Параметри/Кнопки/Р╕зн╕"
 
 # main/face/list.cc:196
-#: main/face/list.cc:208
+#: main/face/list.cc:209
 msgid "/_Help"
 msgstr "/Дов_iдка"
 
 # main/face/list.cc:197
-#: main/face/list.cc:209
+#: main/face/list.cc:210
 msgid "/_Help/About"
 msgstr "/Дов_iдка/Про"
 
 # main/face/list.cc:792
-#: main/face/list.cc:832
+#: main/face/list.cc:833
 msgid "Do you really want to quit?"
 msgstr "Ви д╕йсно хочете вийти з програми?"
 
 # main/face/list.cc:792
-#: main/face/list.cc:832
+#: main/face/list.cc:833
 msgid "Quit?"
 msgstr "Виходимо?"
 
 # main/face/list.cc:821
-#: main/face/list.cc:861
+#: main/face/list.cc:862
 msgid "Delete selected downloads?"
 msgstr "Видалити вид╕лене завантаження?"
 
 # main/face/list.cc:821 main/face/list.cc:839 main/face/list.cc:857
-#: main/face/list.cc:861 main/face/list.cc:879 main/face/list.cc:897
+#: main/face/list.cc:862 main/face/list.cc:880 main/face/list.cc:898
 msgid "Delete?"
 msgstr "Видалення"
 
 # main/face/list.cc:839
-#: main/face/list.cc:879
+#: main/face/list.cc:880
 msgid "Do you wish delete completed downloads?"
 msgstr "Ви д╕йсно бажа╓те видалити виконан╕ завантаження?"
 
 # main/face/list.cc:857
-#: main/face/list.cc:897
+#: main/face/list.cc:898
 msgid "Do you wish delete failed downloads?"
 msgstr "Ви д╕йсно бажа╓те видалити невдал╕ завантаження?"
 
 # main/face/list.cc:902
-#: main/face/list.cc:944
+#: main/face/list.cc:945
 msgid "Ready to go ????"
 msgstr "Готовий!!!"
 
 # main/face/edit.cc:499 main/face/prefs.cc:233 main/face/prefs.cc:1128
 # main/face/prefs.cc:1287
-#: main/face/list.cc:1259 main/face/list.cc:1516
+#: main/face/list.cc:1262 main/face/list.cc:1519
 #, fuzzy
 msgid "Downloads"
 msgstr "Завантаження"
 
 # main/face/prefs.cc:634 main/face/prefs.cc:1221 main/face/prefs.cc:1441
-#: main/face/list.cc:1260 main/face/list.cc:1308 main/face/prefs.cc:626
-#: main/face/prefs.cc:1254 main/face/prefs.cc:1514
+#: main/face/list.cc:1263 main/face/list.cc:1311 main/face/prefs.cc:627
+#: main/face/prefs.cc:1270 main/face/prefs.cc:1531
 msgid "Main log"
 msgstr "Головний протокол"
 
 # main/face/passface.cc:361
-#: main/face/list.cc:1261 main/face/passface.cc:428
+#: main/face/list.cc:1264 main/face/passface.cc:428
 msgid "URL-manager"
 msgstr "Розпорядник URL"
 
 # main/face/lmenu.cc:224 main/face/prefs.cc:779 main/face/prefs.cc:1227
 # main/face/prefs.cc:1419
-#: main/face/list.cc:1262 main/face/list.cc:1322
+#: main/face/list.cc:1265 main/face/list.cc:1325
 #, fuzzy
 msgid "FTP-search"
 msgstr "FTP-пошук"
 
 # main/face/columns.cc:22
-#: main/face/list.cc:1326
+#: main/face/list.cc:1329
 #, fuzzy
 msgid "Filename:"
 msgstr "╕м'я файлу"
 
-#: main/face/list.cc:1538
+#: main/face/list.cc:1541
 msgid "Offline/Online"
 msgstr ""
 
 # main/face/list.cc:1229
-#: main/face/list.cc:1655
+#: main/face/list.cc:1658
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-викону╓ться %i-зак╕нчено %i-всього "
 
 # main/face/lmenu.cc:146
-#: main/face/lmenu.cc:135
+#: main/face/lmenu.cc:136
 msgid "View log"
 msgstr "Переглянути протокол"
 
 # main/face/lmenu.cc:152
-#: main/face/lmenu.cc:141
+#: main/face/lmenu.cc:142
 msgid "Stop"
 msgstr "Зупинити"
 
 # main/face/lmenu.cc:159
-#: main/face/lmenu.cc:147
+#: main/face/lmenu.cc:148
 msgid "Continue downloads"
 msgstr "Продовжити завантаження"
 
 # main/face/lmenu.cc:165
-#: main/face/lmenu.cc:153
+#: main/face/lmenu.cc:154
 msgid "Copy"
 msgstr "Коп╕ювати"
 
 # main/face/lmenu.cc:170
-#: main/face/lmenu.cc:158
+#: main/face/lmenu.cc:159
 msgid "(Un)Protect"
 msgstr "Захист"
 
 # main/face/lmenu.cc:179
-#: main/face/lmenu.cc:167
+#: main/face/lmenu.cc:168
 msgid "Common properties"
 msgstr "Загальн╕ параметри"
 
 # main/face/lmenu.cc:185
-#: main/face/lmenu.cc:173
+#: main/face/lmenu.cc:174
 msgid "Delete downloads"
 msgstr "Видалити завантаження"
 
 # main/face/lmenu.cc:191
-#: main/face/lmenu.cc:179
+#: main/face/lmenu.cc:180
 msgid "Delete completed"
 msgstr "Видалити виконан╕"
 
 # main/face/lmenu.cc:197
-#: main/face/lmenu.cc:185
+#: main/face/lmenu.cc:186
 msgid "Delete failed"
 msgstr "Видалити невдал╕"
 
 # main/face/lmenu.cc:207
-#: main/face/lmenu.cc:195
+#: main/face/lmenu.cc:196
 msgid "Move up"
 msgstr "П╕дняти"
 
 # main/face/lmenu.cc:213
-#: main/face/lmenu.cc:201
+#: main/face/lmenu.cc:202
 msgid "Move down"
 msgstr "Опустити"
 
 # main/face/lmenu.cc:219
-#: main/face/lmenu.cc:206
+#: main/face/lmenu.cc:207
 msgid "Alternates"
 msgstr "Альтернативи"
 
 # main/face/lmenu.cc:224 main/face/prefs.cc:779 main/face/prefs.cc:1227
 # main/face/prefs.cc:1419
-#: main/face/lmenu.cc:211 main/face/prefs.cc:781 main/face/prefs.cc:1257
-#: main/face/prefs.cc:1483
+#: main/face/lmenu.cc:212 main/face/prefs.cc:782 main/face/prefs.cc:1273
+#: main/face/prefs.cc:1500
 msgid "FTP search"
 msgstr "FTP-пошук"
 
 # main/face/lod.cc:44
-#: main/face/lod.cc:46
+#: main/face/lod.cc:46 main/face/mywidget.cc:399 main/face/mywidget.cc:747
 msgid "File"
 msgstr "Файл"
 
@@ -1828,89 +1836,103 @@ msgid "Log: "
 msgstr "Протокол: "
 
 # main/face/mywidget.cc:62
-#: main/face/mywidget.cc:62
+#: main/face/mywidget.cc:65
 msgid "Select directory"
 msgstr "Вибер╕ть каталог"
 
 # main/face/mywidget.cc:199
-#: main/face/mywidget.cc:202
+#: main/face/mywidget.cc:205
 msgid "Select color"
 msgstr "Вибер╕ть кол╕р"
 
 # main/face/mywidget.cc:355
-#: main/face/mywidget.cc:349
+#: main/face/mywidget.cc:352
 msgid "Edit properties of Rule"
 msgstr "Редагування правила"
 
 # main/face/mywidget.cc:358 main/face/mywidget.cc:696
-#: main/face/mywidget.cc:352 main/face/mywidget.cc:723
-msgid "protocol"
+#: main/face/mywidget.cc:364 main/face/mywidget.cc:747
+#, fuzzy
+msgid "Protocol"
 msgstr "протокол"
 
-# main/face/mywidget.cc:383 main/face/mywidget.cc:696
-#: main/face/mywidget.cc:377 main/face/mywidget.cc:723
-msgid "path"
-msgstr "шлях"
+# main/face/edit.cc:1670 main/face/mywidget.cc:376 main/face/mywidget.cc:696
+#: main/face/mywidget.cc:381 main/face/mywidget.cc:747
+#, fuzzy
+msgid "Host"
+msgstr "хост"
 
-# main/face/mywidget.cc:390 main/face/mywidget.cc:696 main/main.cc:599
-#: main/face/mywidget.cc:384 main/face/mywidget.cc:723 main/main.cc:643
-msgid "file"
-msgstr "файл"
+# main/face/fsched.cc:454
+#: main/face/mywidget.cc:390 main/face/mywidget.cc:747
+#, fuzzy
+msgid "Path"
+msgstr "Шлях:"
 
 # main/face/mywidget.cc:397
-#: main/face/mywidget.cc:391
+#: main/face/mywidget.cc:408
 msgid "?"
 msgstr "?"
 
 # main/face/mywidget.cc:404 main/face/mywidget.cc:696
-#: main/face/mywidget.cc:398 main/face/mywidget.cc:723
-msgid "tag"
+#: main/face/mywidget.cc:417 main/face/mywidget.cc:747
+#, fuzzy
+msgid "Tag"
 msgstr "тег"
 
 # main/face/mywidget.cc:453
-#: main/face/mywidget.cc:447
+#: main/face/mywidget.cc:468
 msgid "include"
 msgstr "включити"
 
 # main/face/mywidget.cc:455
-#: main/face/mywidget.cc:449
+#: main/face/mywidget.cc:470
 msgid "exclude"
 msgstr "виключити"
 
 # main/face/mywidget.cc:692
-#: main/face/mywidget.cc:719
+#: main/face/mywidget.cc:739
 msgid "Modify filter"
 msgstr "Модиф╕кац╕я ф╕льтру"
 
 # main/face/mywidget.cc:715
-#: main/face/mywidget.cc:757
+#: main/face/mywidget.cc:781
 msgid "include by default"
 msgstr "включити за змовчанням"
 
 # main/face/mywidget.cc:717
-#: main/face/mywidget.cc:759
+#: main/face/mywidget.cc:783
 msgid "exclude by default"
 msgstr "виключити за змовчанням"
 
 # main/face/mywidget.cc:723
-#: main/face/mywidget.cc:765
+#: main/face/mywidget.cc:788
 msgid "Name of filter"
 msgstr "╕м'я ф╕льтру"
 
 # main/face/mywidget.cc:816
-#: main/face/mywidget.cc:856
+#: main/face/mywidget.cc:882
 msgid "Select filter"
 msgstr "Вибер╕ть ф╕льтр"
 
 # main/face/mywidget.cc:914
-#: main/face/mywidget.cc:1029
+#: main/face/mywidget.cc:1055
 msgid "List of links"
 msgstr "Список посилань"
 
 # main/face/mywidget.cc:975
-#: main/face/mywidget.cc:1103
+#: main/face/mywidget.cc:1127
 msgid "Add"
 msgstr "Додати"
+
+# main/face/edit.cc:1518
+#: main/face/mywidget.cc:1326
+#, fuzzy
+msgid "proxy type"
+msgstr "Тип FTP-прокс╕"
+
+#: main/face/mywidget.cc:1341
+msgid "Use different proxy for this alternate"
+msgstr ""
 
 # main/face/passface.cc:305
 #: main/face/passface.cc:322
@@ -1933,398 +1955,403 @@ msgid "con."
 msgstr "з'╓дн."
 
 # main/face/prefs.cc:247
-#: main/face/prefs.cc:252
+#: main/face/prefs.cc:253
 msgid "Optimize recursive downloads"
 msgstr "Оптим╕зац╕я рекурсивних завантажень"
 
 # main/face/prefs.cc:263
-#: main/face/prefs.cc:267
+#: main/face/prefs.cc:268
 msgid "Default permissions of local file"
 msgstr "Типов╕ права доступу локальних файл╕в"
 
 # main/face/prefs.cc:274
-#: main/face/prefs.cc:278
+#: main/face/prefs.cc:279
 msgid "Save downloads to folder"
 msgstr "Збер╕гати в папц╕"
 
 # main/face/prefs.cc:283 main/face/prefs.cc:1137 main/face/prefs.cc:1300
-#: main/face/prefs.cc:287 main/face/prefs.cc:1263 main/face/prefs.cc:1358
+#: main/face/prefs.cc:288 main/face/prefs.cc:1279 main/face/prefs.cc:1374
 msgid "Limits"
 msgstr "Обмеження"
 
 # main/face/edit.cc:73 main/face/edit.cc:553
-#: main/face/prefs.cc:327
+#: main/face/prefs.cc:328
 #, fuzzy
 msgid "Number of parts to split files"
 msgstr "К╕льк╕сть частин для под╕лу цього завантаження"
 
 # main/face/prefs.cc:339
-#: main/face/prefs.cc:335
+#: main/face/prefs.cc:336
 msgid "Maximum lines in log"
 msgstr "Максималька к╕льк╕сть рядк╕в у протокол╕"
 
 # main/face/prefs.cc:347 main/face/prefs.cc:1142 main/face/prefs.cc:1309
-#: main/face/prefs.cc:343 main/face/prefs.cc:1265 main/face/prefs.cc:1368
+#: main/face/prefs.cc:344 main/face/prefs.cc:1281 main/face/prefs.cc:1384
 msgid "FTP"
 msgstr "FTP"
 
 # main/face/prefs.cc:377
-#: main/face/prefs.cc:380
+#: main/face/prefs.cc:381
 msgid "Output FTP dirs in logs"
 msgstr "Збер╕гати FTP каталоги в протокол╕"
 
 # main/face/prefs.cc:388
-#: main/face/prefs.cc:391
+#: main/face/prefs.cc:392
 msgid "default anonymous password"
 msgstr "анон╕мний пароль за змовчанням"
 
 # main/face/prefs.cc:450 main/face/prefs.cc:1147 main/face/prefs.cc:1322
-#: main/face/prefs.cc:445 main/face/prefs.cc:1267 main/face/prefs.cc:1385
+#: main/face/prefs.cc:446 main/face/prefs.cc:1283 main/face/prefs.cc:1401
 msgid "HTTP"
 msgstr "HTTP"
 
 # main/face/prefs.cc:488
-#: main/face/prefs.cc:481
+#: main/face/prefs.cc:482
 msgid "Filename for saving if it is unknown"
 msgstr "╤м'я файлу для збереження якщо воно не в╕доме"
 
 # main/face/prefs.cc:527 main/face/prefs.cc:1167 main/face/prefs.cc:1349
-#: main/face/prefs.cc:519 main/face/prefs.cc:1275 main/face/prefs.cc:1413
+#: main/face/prefs.cc:520 main/face/prefs.cc:1291 main/face/prefs.cc:1430
 msgid "Main window"
 msgstr "Головне в╕кно"
 
 # main/face/prefs.cc:529
-#: main/face/prefs.cc:521
+#: main/face/prefs.cc:522
 msgid "Using title"
 msgstr "Використовувати заголовок"
 
 # main/face/prefs.cc:533
-#: main/face/prefs.cc:525
+#: main/face/prefs.cc:526
 msgid "Use title of main window for info"
 msgstr "╤нформац╕я в заголовку головного в╕кна"
 
 # main/face/prefs.cc:538
-#: main/face/prefs.cc:530
+#: main/face/prefs.cc:531
 msgid "Display queue statistics too"
 msgstr "Показувати також статистику черги"
 
 # main/face/prefs.cc:539
-#: main/face/prefs.cc:531
+#: main/face/prefs.cc:532
 msgid "Scroll title"
 msgstr "Прокручувати заголовок"
 
 # main/face/prefs.cc:544
-#: main/face/prefs.cc:536
+#: main/face/prefs.cc:537
 msgid "Iconfiy main window instead of closing"
 msgstr "В╕кно згортати, а не закривати"
 
 # main/face/prefs.cc:546
-#: main/face/prefs.cc:538
+#: main/face/prefs.cc:539
 msgid "Do not remember position of the main window"
 msgstr "Не запам'ятовувати позиц╕ю головного в╕кна"
 
 # main/face/prefs.cc:559 main/face/prefs.cc:1172 main/face/prefs.cc:1357
-#: main/face/prefs.cc:551 main/face/prefs.cc:1277 main/face/prefs.cc:1421
+#: main/face/prefs.cc:552 main/face/prefs.cc:1293 main/face/prefs.cc:1438
 msgid "Confirmation"
 msgstr "П╕дтвердження"
 
 # main/face/prefs.cc:561
-#: main/face/prefs.cc:553
+#: main/face/prefs.cc:554
 msgid "Confirm delete selected downloads"
 msgstr "П╕дтвердження видалення вид╕лених завантажень"
 
 # main/face/prefs.cc:562
-#: main/face/prefs.cc:554
+#: main/face/prefs.cc:555
 msgid "Confirm delete all downloads"
 msgstr "П╕дтвердження видалення вс╕х завантажень"
 
 # main/face/prefs.cc:563
-#: main/face/prefs.cc:555
+#: main/face/prefs.cc:556
 msgid "Confirm delete completed downloads"
 msgstr "П╕дтвердження видалення виконаних завантажень"
 
 # main/face/prefs.cc:564
-#: main/face/prefs.cc:556
+#: main/face/prefs.cc:557
 msgid "Confirm delete failed downloads"
 msgstr "П╕дтвердження видалення невдалих завантажень"
 
 # main/face/prefs.cc:565
-#: main/face/prefs.cc:557
+#: main/face/prefs.cc:558
 msgid "Confirm opening large amount of windows"
 msgstr "П╕дтвердження в╕дкриття велико╖ к╕лькост╕ в╕кон"
 
 # main/face/prefs.cc:566
-#: main/face/prefs.cc:558
+#: main/face/prefs.cc:559
 msgid "Confirm exit from program"
 msgstr "П╕дтвердження виходу з програми"
 
 # main/face/prefs.cc:591 main/face/prefs.cc:1206 main/face/prefs.cc:1408
-#: main/face/prefs.cc:583 main/face/prefs.cc:1289 main/face/prefs.cc:1472
+#: main/face/prefs.cc:584 main/face/prefs.cc:1305 main/face/prefs.cc:1489
 msgid "Clipboard"
 msgstr "Кишеня"
 
 # main/face/prefs.cc:593
-#: main/face/prefs.cc:585
+#: main/face/prefs.cc:586
 msgid "Monitor clipboard"
 msgstr "Спостер╕гати за кишенею"
 
 # main/face/prefs.cc:603
-#: main/face/prefs.cc:595
+#: main/face/prefs.cc:596
 msgid "Skip these extensions in clipboard"
 msgstr "Пропускати ц╕ розширення з кишен╕"
 
 # main/face/prefs.cc:611
-#: main/face/prefs.cc:603
+#: main/face/prefs.cc:604
 msgid "Catch these extensions in clipboard"
 msgstr "П╕дхоплювати ц╕ розширення з кишен╕"
 
 # main/face/prefs.cc:640
-#: main/face/prefs.cc:631
+#: main/face/prefs.cc:632
 msgid "Maximum lines in MAIN log"
 msgstr "Максималька к╕льк╕сть рядк╕в у головному протокол╕"
 
 # main/face/prefs.cc:644
-#: main/face/prefs.cc:635
+#: main/face/prefs.cc:636
 msgid "Output detailed information"
 msgstr "Виводити детал╕зовану ╕нформац╕ю"
 
 # main/face/prefs.cc:648
-#: main/face/prefs.cc:639
+#: main/face/prefs.cc:640
 msgid "Save main log into file"
 msgstr "Збер╕гати головний притокол у файл╕"
 
 # main/face/prefs.cc:667
-#: main/face/prefs.cc:658
+#: main/face/prefs.cc:659
 msgid "Maximum size for file of main log (in KBytes)"
 msgstr "Максимальний розм╕р файлу головного протоколу (в Кб)"
 
 # main/face/prefs.cc:673
-#: main/face/prefs.cc:663
+#: main/face/prefs.cc:664
 msgid "Append to file"
 msgstr "Додати до файлу"
 
 # main/face/prefs.cc:676
-#: main/face/prefs.cc:666
+#: main/face/prefs.cc:667
 msgid "Overwrite file"
 msgstr "Перезаписати файл"
 
 # main/face/prefs.cc:691 main/face/prefs.cc:1193 main/face/prefs.cc:1399
-#: main/face/prefs.cc:681 main/face/prefs.cc:1286 main/face/prefs.cc:1463
+#: main/face/prefs.cc:682 main/face/prefs.cc:1302 main/face/prefs.cc:1480
 msgid "Integration"
 msgstr "╤нтеграц╕я"
 
 # main/face/prefs.cc:693
-#: main/face/prefs.cc:683
+#: main/face/prefs.cc:684
 msgid "Exit if nothing to do after"
 msgstr "Виходити якщо н╕чого не робимо"
 
 # main/face/prefs.cc:699 main/face/prefs.cc:738
-#: main/face/prefs.cc:688 main/face/prefs.cc:725
+#: main/face/prefs.cc:689 main/face/prefs.cc:726
 msgid "minutes"
 msgstr "хвилин"
 
 # main/face/prefs.cc:710
-#: main/face/prefs.cc:699
+#: main/face/prefs.cc:700
 msgid "Run this on exit"
 msgstr "Виконати перед виходом"
 
 # main/face/prefs.cc:715
-#: main/face/prefs.cc:704
+#: main/face/prefs.cc:705
 msgid "Open dialog for Drag-n-Drop"
 msgstr "В╕дкрити д╕алог Drag'n'Drop"
 
 # main/face/prefs.cc:732
-#: main/face/prefs.cc:720
+#: main/face/prefs.cc:721
 msgid "Save list of downloads every"
 msgstr "Збер╕гати список завантажень кожн╕"
 
 # main/face/prefs.cc:745
-#: main/face/prefs.cc:732
+#: main/face/prefs.cc:733
 msgid "Allow to user force run downloads"
 msgstr "Дозволити форсувати завантаження"
 
 # main/face/prefs.cc:746
-#: main/face/prefs.cc:733
+#: main/face/prefs.cc:734
 msgid "Remember passwords"
 msgstr "Запам'ятати пароль"
 
 # main/face/prefs.cc:747
-#: main/face/prefs.cc:734
+#: main/face/prefs.cc:735
 msgid "Write Descript.ion file"
 msgstr "Записувати файл Descript.ion"
 
 # main/face/prefs.cc:757
-#: main/face/prefs.cc:744
+#: main/face/prefs.cc:745
 msgid "bytes/sec speed level one (red button)"
 msgstr "Мала швидк╕сть в б/сек(червона кнопка)"
 
 # main/face/prefs.cc:765
-#: main/face/prefs.cc:751
+#: main/face/prefs.cc:752
 msgid "bytes/sec speed level two (yellow button)"
 msgstr "Середня швидк╕сть в б/сек(жовта кнопка)"
 
 # main/face/prefs.cc:785
-#: main/face/prefs.cc:786
+#: main/face/prefs.cc:787
 msgid "Number of attempts to ping hosts"
 msgstr "К╕льк╕сть спроб "
 
 # main/face/prefs.cc:793
-#: main/face/prefs.cc:793
+#: main/face/prefs.cc:794
 msgid "Number of hosts in list"
 msgstr "К╕льк╕сть хост╕в у списку"
 
-#: main/face/prefs.cc:801
+#: main/face/prefs.cc:802
 msgid "Number of links per searching engine"
 msgstr ""
 
 # main/face/prefs.cc:819
-#: main/face/prefs.cc:842
+#: main/face/prefs.cc:843
 msgid "search engine to use"
 msgstr "пошукова система"
 
 # main/face/prefs.cc:828 main/face/prefs.cc:1158 main/face/prefs.cc:1344
-#: main/face/prefs.cc:850 main/face/prefs.cc:1272 main/face/prefs.cc:1407
+#: main/face/prefs.cc:858 main/face/prefs.cc:1288 main/face/prefs.cc:1423
 msgid "Interface"
 msgstr "╤нтерфейс"
 
 # main/face/prefs.cc:830
-#: main/face/prefs.cc:852
+#: main/face/prefs.cc:860
 msgid "Show DnD basket"
 msgstr "Показувати DnD basket"
 
 # main/face/prefs.cc:831
-#: main/face/prefs.cc:853
+#: main/face/prefs.cc:861
 msgid "Use fixed font in logs"
 msgstr "Протокол шрифтом fixed"
 
-#: main/face/prefs.cc:854
+#: main/face/prefs.cc:862
 msgid "Display graph on DnD-basket"
 msgstr ""
 
+#: main/face/prefs.cc:863
+msgid "Display current speed value on DnD-basket"
+msgstr ""
+
 # main/face/prefs.cc:848 main/face/prefs.cc:1177 main/face/prefs.cc:1366
-#: main/face/prefs.cc:873 main/face/prefs.cc:1279 main/face/prefs.cc:1430
+#: main/face/prefs.cc:889 main/face/prefs.cc:1295 main/face/prefs.cc:1447
 msgid "Graph"
 msgstr "Граф╕к"
 
 # main/face/prefs.cc:850
-#: main/face/prefs.cc:875
+#: main/face/prefs.cc:891
 msgid "Revert drawing graph of speeds"
 msgstr "Розвернути граф╕к швидкост╕"
 
 # main/face/prefs.cc:853
-#: main/face/prefs.cc:878
+#: main/face/prefs.cc:894
 msgid "Compressed mode"
 msgstr "Стиснутий режим"
 
 # main/face/prefs.cc:859
-#: main/face/prefs.cc:883
+#: main/face/prefs.cc:899
 msgid "Color for picks"
 msgstr "Кол╕р п╕к╕в"
 
 # main/face/prefs.cc:860
-#: main/face/prefs.cc:884
+#: main/face/prefs.cc:900
 msgid "Color for total speed"
 msgstr "Кол╕р загально╖ швидкост╕"
 
-# main/face/prefs.cc:861
-#: main/face/prefs.cc:885
-msgid "Color for speed of selected"
-msgstr "Кол╕р вид╕лено╖ швидкост╕"
+# main/face/prefs.cc:860
+#: main/face/prefs.cc:901
+#, fuzzy
+msgid "Color for current speed value"
+msgstr "Кол╕р загально╖ швидкост╕"
 
 # main/face/prefs.cc:862
-#: main/face/prefs.cc:886
+#: main/face/prefs.cc:902
 msgid "Background color"
 msgstr "Кол╕р тла"
 
 # main/face/prefs.cc:871
-#: main/face/prefs.cc:895
+#: main/face/prefs.cc:911
 msgid "Reset to default"
 msgstr "Типов╕ кольори"
 
 # main/face/prefs.cc:874
-#: main/face/prefs.cc:898
+#: main/face/prefs.cc:914
 msgid "Colors for graph"
 msgstr "Кольори граф╕ку"
 
 # main/face/prefs.cc:900 main/face/prefs.cc:1182 main/face/prefs.cc:1375
-#: main/face/prefs.cc:923 main/face/prefs.cc:1281 main/face/prefs.cc:1439
+#: main/face/prefs.cc:939 main/face/prefs.cc:1297 main/face/prefs.cc:1456
 msgid "Sounds"
 msgstr "Звуки"
 
 # main/face/prefs.cc:903
-#: main/face/prefs.cc:926
+#: main/face/prefs.cc:942
 msgid "enable sounds"
 msgstr "ув╕мкнути звуки"
 
 # main/face/prefs.cc:908
-#: main/face/prefs.cc:931
+#: main/face/prefs.cc:947
 msgid "output via ESD"
 msgstr "виведення через ESD"
 
 # main/face/prefs.cc:915
-#: main/face/prefs.cc:938
+#: main/face/prefs.cc:954
 msgid "Startup"
 msgstr "Початок роботи"
 
 # main/face/prefs.cc:917
-#: main/face/prefs.cc:940
+#: main/face/prefs.cc:956
 msgid "Adding a download"
 msgstr "Додати нове завантаження"
 
 # main/face/prefs.cc:919
-#: main/face/prefs.cc:942
+#: main/face/prefs.cc:958
 msgid "Downloading completed"
 msgstr "Завантаження виконано"
 
 # main/face/prefs.cc:921
-#: main/face/prefs.cc:944
+#: main/face/prefs.cc:960
 msgid "Downloading failed"
 msgstr "Завантаження не вдалося"
 
 # main/face/prefs.cc:923
-#: main/face/prefs.cc:946
+#: main/face/prefs.cc:962
 msgid "Downloading of queue is completed"
 msgstr "Завантаження черги виконано!"
 
 # main/face/prefs.cc:925
-#: main/face/prefs.cc:948
+#: main/face/prefs.cc:964
 msgid "Drag'n'Drop event"
 msgstr "Под╕я Drag'n'Drop"
 
 # main/face/prefs.cc:973 main/face/prefs.cc:974
-#: main/face/prefs.cc:986 main/face/prefs.cc:987
+#: main/face/prefs.cc:1002 main/face/prefs.cc:1003
 msgid "No info about this theme."
 msgstr "Тема без опису."
 
 # main/face/prefs.cc:986
-#: main/face/prefs.cc:1007
+#: main/face/prefs.cc:1023
 msgid "Default theme"
 msgstr "Типова тема"
 
 # main/face/prefs.cc:983 main/face/prefs.cc:1187
-#: main/face/prefs.cc:1038 main/face/prefs.cc:1283
+#: main/face/prefs.cc:1054 main/face/prefs.cc:1299
 msgid "Themes"
 msgstr "Теми"
 
 # main/face/mywidget.cc:62
-#: main/face/prefs.cc:1045
+#: main/face/prefs.cc:1061
 #, fuzzy
 msgid "Themes' directory"
 msgstr "Вибер╕ть каталог"
 
 # main/face/lod.cc:48
-#: main/face/prefs.cc:1046
+#: main/face/prefs.cc:1062
 #, fuzzy
 msgid "Rescan"
 msgstr "Лишилося"
 
 # main/face/qtree.cc:256
-#: main/face/prefs.cc:1055
+#: main/face/prefs.cc:1071
 msgid "Name"
 msgstr "╤м'я"
 
 # main/face/prefs.cc:1087
-#: main/face/prefs.cc:1202
+#: main/face/prefs.cc:1218
 msgid "Options"
 msgstr "Параметри"
 
@@ -2388,8 +2415,14 @@ msgstr "Формат розм╕ру"
 msgid "Time format"
 msgstr "Формат часу"
 
+# main/face/qtree.cc:485
+#: main/face/qtree.cc:610
+#, fuzzy
+msgid "Speed format"
+msgstr "Формат розм╕ру"
+
 # main/face/qtree.cc:555
-#: main/face/qtree.cc:672
+#: main/face/qtree.cc:694
 msgid "Name of the queue"
 msgstr "╤м'я черги"
 
@@ -2443,41 +2476,41 @@ msgid "Control connection lost!"
 msgstr "Керуюче з'╓днання втрачено!"
 
 # main/ftp.cc:185
-#: main/ftp.cc:185
+#: main/ftp.cc:187
 msgid "Reget is not supported!!!"
 msgstr "Reget не п╕дтриму╓ться!!!"
 
 # main/ftp.cc:298
-#: main/ftp.cc:298
+#: main/ftp.cc:300
 #, c-format
 msgid "try to connect to %i,%i,%i,%i,%i,%i"
 msgstr "Спроба п╕д'╓днатися до %i,%i,%i,%i,%i,%i"
 
 # main/ftp.cc:423
-#: main/ftp.cc:420
+#: main/ftp.cc:422
 msgid "Probably file was changed on server!"
 msgstr "Можливо файл було зм╕нено на сервер╕!"
 
 # main/ftp.cc:440 main/http.cc:213
-#: main/ftp.cc:437 main/http.cc:232
+#: main/ftp.cc:439 main/http.cc:232
 msgid "Data connection closed."
 msgstr "З'╓днання даних закрито."
 
-#: main/ftp.cc:443 main/http.cc:238
+#: main/ftp.cc:445 main/http.cc:238
 msgid "Error have happened during writing buffer to disk!"
 msgstr ""
 
 # main/ftp.cc:452 main/http.cc:225
-#: main/ftp.cc:450 main/http.cc:245
+#: main/ftp.cc:452 main/http.cc:245
 msgid "Requested size was loaded"
 msgstr "Запитаний розм╕р завантажено"
 
-#: main/ftp.cc:461 main/http.cc:250
+#: main/ftp.cc:463 main/http.cc:250
 msgid "Segment was loaded! Complete this thread."
 msgstr ""
 
 # main/face/log.cc:212
-#: main/ftp.cc:468 main/http.cc:256
+#: main/ftp.cc:470 main/http.cc:256
 #, fuzzy
 msgid "EOF recieved from server!"
 msgstr "Пов╕домлення в╕д серверу"
@@ -2663,7 +2696,7 @@ msgid "Loading default list of downloads"
 msgstr "Завантаження списку за змовчанням"
 
 # main/main.cc:239 main/main.cc:1219
-#: main/main.cc:272 main/main.cc:1295
+#: main/main.cc:272 main/main.cc:1299
 msgid "Delete completed downloads"
 msgstr "Видалити виконан╕ завантаження"
 
@@ -2694,176 +2727,181 @@ msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Завантаження файлу %s з %s зупинене [користувачем]"
 
 # main/main.cc:419
-#: main/main.cc:457
+#: main/main.cc:458
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "Видалено файл %s з черги"
 
 # main/main.cc:510
-#: main/main.cc:552
+#: main/main.cc:553
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "Продовження завантаження файлу %s з %s..."
 
+# main/face/mywidget.cc:390 main/face/mywidget.cc:696 main/main.cc:599
+#: main/main.cc:644
+msgid "file"
+msgstr "файл"
+
 # main/main.cc:698
-#: main/main.cc:724
+#: main/main.cc:728
 msgid "dir"
 msgstr "каталог"
 
 # main/main.cc:703
-#: main/main.cc:729
+#: main/main.cc:733
 msgid "link"
 msgstr "посилання"
 
 # main/main.cc:708
-#: main/main.cc:734
+#: main/main.cc:738
 msgid "device"
 msgstr "пристр╕й"
 
 # main/main.cc:741
-#: main/main.cc:767
+#: main/main.cc:771
 msgid "Too many redirections!"
 msgstr "Забагато перенаправлень!"
 
 # main/main.cc:759
-#: main/main.cc:785
+#: main/main.cc:789
 msgid "Redirection from [%z] to the same location!"
 msgstr "Перенаправлення з [%z] в теж саме м╕сце!"
 
 # main/main.cc:795
-#: main/main.cc:821
+#: main/main.cc:825
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Перенаправлення з [%z] в н╕куди!"
 
 # main/main.cc:822
-#: main/main.cc:847
+#: main/main.cc:851
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "П╕дготування потоку %i з [%z] до зупинки"
 
 # main/main.cc:843
-#: main/main.cc:873
+#: main/main.cc:877
 msgid "Redirect from %z"
 msgstr "Перенаправлення з %z"
 
 # main/main.cc:850
-#: main/main.cc:880
+#: main/main.cc:884
 msgid "Downloading of directory %z was completed"
 msgstr "Завантаження каталогу %z виконано"
 
 # main/main.cc:854
-#: main/main.cc:884
+#: main/main.cc:888
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr "Завантаження файлу %z (%i байт), виконано на швидкст╕ %i байт/сек"
 
 # main/main.cc:861
-#: main/main.cc:891
+#: main/main.cc:895
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "З черги видалено виконане завантаження %z"
 
 # main/main.cc:872
-#: main/main.cc:902
+#: main/main.cc:906
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Завантаження файлу %z зупинено через помилку"
 
 # main/main.cc:874
-#: main/main.cc:904
+#: main/main.cc:908
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "З черги видалено невдале завантаження %z"
 
 # main/main.cc:1163
-#: main/main.cc:1237
+#: main/main.cc:1241
 msgid "Restarting failed downloads"
 msgstr "Перезапуск невдалих завантажень"
 
 # main/main.cc:1163 main/main.cc:1199 main/main.cc:1215 main/main.cc:1219
 # main/main.cc:1224 main/main.cc:1237 main/main.cc:1242
-#: main/main.cc:1237 main/main.cc:1273 main/main.cc:1290 main/main.cc:1295
-#: main/main.cc:1300 main/main.cc:1313 main/main.cc:1318
+#: main/main.cc:1241 main/main.cc:1277 main/main.cc:1294 main/main.cc:1299
+#: main/main.cc:1304 main/main.cc:1317 main/main.cc:1322
 msgid "[control socket]"
 msgstr "[керуючий сокет]"
 
 # main/main.cc:1181
-#: main/main.cc:1255
+#: main/main.cc:1259
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Видалено завантаження через керуючий сокет [%s]"
 
 # main/main.cc:1189
-#: main/main.cc:1263
+#: main/main.cc:1267
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Додано завантаження через керуючий сокет [%s]"
 
 # main/main.cc:1197
-#: main/main.cc:1271
+#: main/main.cc:1275
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Встановлено обмеження швидкост╕ %s %s"
 
 # main/main.cc:1215
-#: main/main.cc:1290
+#: main/main.cc:1294
 msgid "Setup maximum active downloads to"
 msgstr "Встановлено максимальна к╕льк╕сть активних завантажень на"
 
 # main/main.cc:1237
-#: main/main.cc:1313
+#: main/main.cc:1317
 msgid "Exiting if nothing to do is switched off"
 msgstr "Вих╕д п╕сля простою вимкнено"
 
 # main/main.cc:1242
-#: main/main.cc:1318
+#: main/main.cc:1322
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader зак╕нчить роботу п╕сля простою протягом %i хвилин %s"
 
 # main/main.cc:1255
-#: main/main.cc:1331
+#: main/main.cc:1335
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Поточна черга тепер - '%s'"
 
-#: main/main.cc:1630
+#: main/main.cc:1635
 msgid "Loading FTP-Search engines"
 msgstr ""
 
 # main/main.cc:1494
-#: main/main.cc:1632
+#: main/main.cc:1637
 msgid "Normally started"
 msgstr "Початок роботи"
 
 # main/main.cc:1549
-#: main/main.cc:1690
+#: main/main.cc:1695
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Додано завантаження файлу %s з %s [користувачем]"
 
-#: main/main.cc:1741
+#: main/main.cc:1746
 msgid "Downloader is in offline mode now"
 msgstr ""
 
-#: main/main.cc:1744
+#: main/main.cc:1749
 msgid "Offline mode is turned off"
 msgstr ""
 
 # main/main.cc:1607
-#: main/main.cc:1775
+#: main/main.cc:1780
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "Протягом сес╕╖ завантажено %lu байт"
 
 # main/main.cc:1608
-#: main/main.cc:1776
+#: main/main.cc:1781
 msgid "Downloader exited normaly"
 msgstr "Нормальне зак╕нчення роботи"
 
 # main/main.cc:1645
-#: main/main.cc:1816
+#: main/main.cc:1821
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Не можу в╕дкрити '%s' для запису протоколу"
 
 # main/main.cc:1676
-#: main/main.cc:1847
+#: main/main.cc:1852
 msgid "Such protocol is not supported!"
 msgstr "Протокол не п╕дтриму╓ться!"
 
@@ -2905,12 +2943,12 @@ msgid "BUG: Wrong mode of lseek!\n"
 msgstr "БАГ: Неправильний режим lseek!\n"
 
 # main/nt.cc:123
-#: main/nt.cc:147
+#: main/nt.cc:146
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr "УВАГА!!! Не можу знайти зм╕нну HOME! Не можу прочитати конф╕гурац╕ю!"
 
 # main/nt.cc:136
-#: main/nt.cc:160
+#: main/nt.cc:159
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "Схоже що %s вже викону╓ться\n"
@@ -2961,6 +2999,14 @@ msgstr "середня"
 #: main/var.cc:102
 msgid "unlimited"
 msgstr "не обмежена"
+
+# main/face/mywidget.cc:383 main/face/mywidget.cc:696
+#~ msgid "path"
+#~ msgstr "шлях"
+
+# main/face/prefs.cc:861
+#~ msgid "Color for speed of selected"
+#~ msgstr "Кол╕р вид╕лено╖ швидкост╕"
 
 # main/face/about.cc:136 main/face/about.cc:205 main/face/about.cc:289
 # main/face/buttons.cc:169 main/face/edit.cc:816 main/face/edit.cc:2081

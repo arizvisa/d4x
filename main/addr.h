@@ -33,6 +33,7 @@ struct tAddr{
 	void copy(tAddr *what);
 	void save_to_description(int fd);
 	void save_to_config(int fd);
+	void clear();
 	int is_valid();
 	int cmp(tAddr *b);
 	~tAddr();
@@ -43,6 +44,7 @@ enum D_PROTOS{
 	D_PROTO_HTTP,
 	D_PROTO_HTTPS,
 	D_PROTO_SEARCH,
+	D_PROTO_SOCKS,
 	D_PROTO_LAST
 };
 

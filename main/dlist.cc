@@ -677,22 +677,22 @@ void tDownload::set_default_cfg(){
 			config->socks_pass.set(CFG.SOCKS_PASS);
 		};
 	};
-	config->proxy_type=CFG.FTP_PROXY_TYPE;
-	config->proxy_no_cache=CFG.PROXY_NO_CACHE;
+	config->proxy.type=CFG.FTP_PROXY_TYPE;
+	config->proxy.no_cache=CFG.PROXY_NO_CACHE;
 	if (CFG.USE_PROXY_FOR_FTP) {
-		config->fproxy_host.set(CFG.FTP_PROXY_HOST);
-		config->fproxy_port=CFG.FTP_PROXY_PORT;
+		config->proxy.ftp_host.set(CFG.FTP_PROXY_HOST);
+		config->proxy.ftp_port=CFG.FTP_PROXY_PORT;
 		if (CFG.NEED_PASS_FTP_PROXY) {
-			config->fproxy_user.set(CFG.FTP_PROXY_USER);
-			config->fproxy_pass.set(CFG.FTP_PROXY_PASS);
+			config->proxy.ftp_user.set(CFG.FTP_PROXY_USER);
+			config->proxy.ftp_pass.set(CFG.FTP_PROXY_PASS);
 		};
 	};
 	if (CFG.USE_PROXY_FOR_HTTP) {
-		config->hproxy_host.set(CFG.HTTP_PROXY_HOST);
-		config->hproxy_port=CFG.HTTP_PROXY_PORT;
+		config->proxy.http_host.set(CFG.HTTP_PROXY_HOST);
+		config->proxy.http_port=CFG.HTTP_PROXY_PORT;
 		if (CFG.NEED_PASS_HTTP_PROXY) {
-			config->hproxy_user.set(CFG.HTTP_PROXY_USER);
-			config->hproxy_pass.set(CFG.HTTP_PROXY_PASS);
+			config->proxy.http_user.set(CFG.HTTP_PROXY_USER);
+			config->proxy.http_pass.set(CFG.HTTP_PROXY_PASS);
 		};
 	};
 	if (CFG.NUMBER_OF_PARTS>1 && split==NULL){
@@ -1261,7 +1261,7 @@ void tDownload::export_socket(tDownloader *what){
 	download_set_block(0);
 };
 
-void tDownload::http_check_redirect(){
+void tDownload::http_check_redirect(bool removefiles){
 	char *newurl=newurl=who->get_new_url();
 	if (config->change_links && (config->http_recurse_depth!=1 ||
 	    config->http_recursing)){
@@ -1282,7 +1282,8 @@ void tDownload::http_check_redirect(){
 		make_file_visible();
 	}else{
 		who->done();
-		delete_file();
+		if (removefiles)
+			delete_file();
 	};
 	delete[] newurl;
 	tAddr *addr=redirect_url();
@@ -1347,6 +1348,7 @@ void tDownload::download_ftp_size(){
 void tDownload::download_http() {
 	if (!who) who=new tHttpDownload(WL);
 	if (sizequery){
+		sizequery=0;
 		download_http_size();
 		return;
 	};
@@ -1400,7 +1402,7 @@ void tDownload::download_http() {
 	 * wich execute if CurentSize==0
 	 */
 	if (size==-1) {
-		http_check_redirect();
+		http_check_redirect(CurentSize<=0);
 		D4X_UPDATE.add(this,DOWNLOAD_COMPLETE);
 		return;
 	};
@@ -1627,6 +1629,7 @@ void tDownload::download_ftp(){
 	WL->log(LOG_WARNING,_("Was Started!"));
 	if (!who) who=new tFtpDownload(WL);
 	if (sizequery){
+		sizequery=0;
 		download_ftp_size();
 		return;
 	};
@@ -1760,7 +1763,7 @@ int tDownload::find_best_split(){
 		delete(holes);
 		holes=tmp;
 	};
-	int k=(info->proto==D_PROTO_FTP && (config==NULL || config->fproxy_host.get()==NULL || config->proxy_type==0))?12:8;
+	int k=(info->proto==D_PROTO_FTP && (config==NULL || config->proxy.ftp_host.get()==NULL || config->proxy.type==0))?12:8;
 	if (split->LastByte-split->FirstByte>SPLIT_MINIMUM_PART*k && completed==0){
 		return 1;
 	};
@@ -1865,6 +1868,7 @@ void tDownload::prepare_splits(){
 			if (alt){
 				temp->split->alt=alt_num;
 				temp->info->copy(&(alt->info));
+				alt->set_proxy_settings(temp);
 			}else{
 				temp->split->alt=0;
 				temp->info->copy(info);
