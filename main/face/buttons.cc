@@ -132,6 +132,8 @@ void buttons_configure(){
 			
 	};
 	BConfigWindow=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(BConfigWindow),
+			       "D4X_Buttons","D4X");
 	gtk_window_set_title(GTK_WINDOW (BConfigWindow),
 			     _(BUTTONS_TEXT[BUTTON_CONFIGURE]));
 	gtk_window_set_position(GTK_WINDOW(BConfigWindow),
@@ -140,11 +142,13 @@ void buttons_configure(){
 	gtk_widget_set_usize(BConfigWindow,-1,400);
 	gtk_container_border_width(GTK_CONTAINER(BConfigWindow),5);
 
-	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,
+							 (GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	GtkWidget *viewport=gtk_viewport_new(NULL,NULL);
+	GtkWidget *viewport=gtk_viewport_new((GtkAdjustment *)NULL,
+					     (GtkAdjustment *)NULL);
 	gtk_container_add(GTK_CONTAINER(viewport),vbox);
 	gtk_container_add(GTK_CONTAINER(scroll_window),viewport);
 
@@ -307,11 +311,23 @@ gint buttons_save_release(GtkButton *button,GdkEventButton *event,gint code){
 	return FALSE;
 };
 
+void buttons_progress_set_text(){
+	char data[10];
+	*data=0;
+	sprintf(data,"%i",CFG.PROGRESS_MODE+1);
+	char *text=sum_strings(_(BUTTONS_TEXT[BUTTON_PROGRESS])," ",data,NULL);
+	gtk_tooltips_set_tip(GTK_TOOLBAR(ButtonsBar)->tooltips,
+			     buttons_array[BUTTON_PROGRESS],
+			     text,(char*) NULL);
+	delete[] text;
+};
+
 void buttons_progress_toggle(){
 	CFG.PROGRESS_MODE+=1;
 	if (CFG.PROGRESS_MODE>2)
 		CFG.PROGRESS_MODE=0;
 	gtk_widget_queue_draw(ListOfDownloads);
+	buttons_progress_set_text();
 };
 
 void init_buttons_bar() {
@@ -444,6 +460,7 @@ void init_buttons_bar() {
 	gtk_widget_set_style(tooltips->tip_window, current_style);
 	gtk_widget_show(ButtonsBar);
 	buttons_speed_set_text();
+	buttons_progress_set_text();
 	buttons_cfg_init();
 };
 

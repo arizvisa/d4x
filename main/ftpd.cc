@@ -327,7 +327,7 @@ void tFtpDownload::init_download(char *path,char *file) {
 		ADDR.path.set(path);
 };
 
-int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
+int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL) {
 	LOG=log;
 	FTP=new tFtpClient(cfg);
 	RetrNum=0;
@@ -361,6 +361,11 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	FTP->set_passive(config.passive);
 	FTP->set_retry(config.retry);
 	FTP->set_dont_set_quit(config.dont_send_quit);
+	if (s){
+		FTP->import_ctrl_socket(s);
+		CWDFlag=0;
+		return(0);
+	};
 	return reconnect();
 };
 
@@ -381,6 +386,38 @@ int tFtpDownload::ftp_get_size(tStringList *l){
 	return(FTP->get_size(ADDR.file.get(),l));
 };
 
+fsize_t tFtpDownload::ls_answer_short(){
+	tString *last=list->last();
+	if (!last) {
+		LOG->log(LOG_WARNING,_("Empty answer. Trying to change directory to determine file type."));
+		D_FILE.perm=S_IRUSR|S_IWUSR;
+		/* try to CWD */
+		if (FTP->change_dir(ADDR.file.get())==0){
+			D_FILE.type=T_DIR;
+			char *a=compose_path(ADDR.path.get(),ADDR.file.get());
+			ADDR.path.set(a);
+			ADDR.file.set("");
+			delete[] a;
+		}else
+			D_FILE.type=T_FILE;
+		return 0;
+					};
+	D_FILE.type=T_FILE;
+	D_FILE.size=0;
+	if (equal_first(last->body,"total")) {
+		D_FILE.type=T_DIR;
+		D_FILE.size=1;
+		if (DIR) delete (DIR);
+		DIR=list;
+		list=NULL;
+		D_FILE.perm=S_IRUSR|S_IWUSR|S_IXUSR;
+		return 0;
+	};
+	ftp_cut_string_list(last->body,&D_FILE,0);
+	LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
+	return D_FILE.size;
+};
+
 fsize_t tFtpDownload::get_size() {
 	if (!list) {
 		list=new tStringList;
@@ -390,27 +427,8 @@ fsize_t tFtpDownload::get_size() {
 		if (!change_dir()) {
 			if (!FTP->stand_data_connection()) {
 				int a=ftp_get_size(list);
-				if (a==0 && list->count()<=2) {
-					tString *last=list->last();
-					D_FILE.type=T_FILE;
-					D_FILE.size=0;
-					if (!last) {
-						D_FILE.perm=S_IRUSR|S_IWUSR;
-						return 0;
-					};
-					if (equal_first(last->body,"total")) {
-						D_FILE.type=T_DIR;
-						D_FILE.size=1;
-						if (DIR) delete (DIR);
-						DIR=list;
-						list=NULL;
-						D_FILE.perm=S_IRUSR|S_IWUSR|S_IXUSR;
-						return 0;
-					};
-					ftp_cut_string_list(last->body,&D_FILE,0);
-					LOG->log_printf(LOG_OK,_("Length is %i"),D_FILE.size);
-					return D_FILE.size;
-				};
+				if (a==0 && list->count()<=2)
+					return(ls_answer_short());
 				if (a==0 && list->count()>2) {
 					LOG->log(LOG_WARNING,_("This is a directory!"));
 					D_FILE.size=1;
@@ -426,10 +444,10 @@ fsize_t tFtpDownload::get_size() {
 				print_error(ERROR_DATA_CONNECT);
 			};
 /*
-		} else {
-			int s=FTP->get_status();
-			if (s!=STATUS_TIMEOUT)
-				break;
+  } else {
+  int s=FTP->get_status();
+  if (s!=STATUS_TIMEOUT)
+  break;
 */
 		}else{
 			if (FTP->get_status()==STATUS_CMD_ERR ||
@@ -578,6 +596,11 @@ int tFtpDownload::reget() {
 
 void tFtpDownload::done() {
 	if (FTP) FTP->done();
+};
+
+tSocket *tFtpDownload::export_ctrl_socket(){
+	if (FTP) return(FTP->export_ctrl_socket());
+	return(NULL);
 };
 
 tFtpDownload::~tFtpDownload() {

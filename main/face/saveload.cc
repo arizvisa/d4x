@@ -60,6 +60,8 @@ void load_txt_list_ok(GtkWidget *parent,GtkWidget *who) {
 	load_save_list_cancel();
 
         LoadingStatusWindow = gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(LoadingStatusWindow),
+			       "D4X_LoadStatus","D4X");
 	gtk_signal_connect(GTK_OBJECT(LoadingStatusWindow),
 			   "delete_event",
 			   GTK_SIGNAL_FUNC(try_to_stop_load_thread), NULL);
@@ -116,6 +118,8 @@ void init_save_list(...) {
 		return;
 	};
 	LoadSaveWindow=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(LoadSaveWindow),
+			       "D4X_Save","D4X");
 	gtk_window_set_title(GTK_WINDOW(LoadSaveWindow),_("Save list"));
 	gtk_window_set_position(GTK_WINDOW(LoadSaveWindow),GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW(LoadSaveWindow), FALSE,FALSE,FALSE);
@@ -156,6 +160,8 @@ void init_load_list(...) {
 		return;
 	};
 	LoadSaveWindow=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(LoadSaveWindow),
+			       "D4X_Load","D4X");
 	gtk_window_set_title(GTK_WINDOW(LoadSaveWindow),_("Load list"));
 	gtk_window_set_position(GTK_WINDOW(LoadSaveWindow),GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW(LoadSaveWindow), FALSE,FALSE,FALSE);
@@ -195,6 +201,8 @@ void init_load_txt_list(...) {
 		return;
 	};
 	LoadSaveWindow=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(LoadSaveWindow),
+			       "D4X_ParseTxt","D4X");
 	gtk_window_set_title(GTK_WINDOW(LoadSaveWindow),_("Find links in txt file"));
 	gtk_window_set_position(GTK_WINDOW(LoadSaveWindow),GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW(LoadSaveWindow), FALSE,FALSE,FALSE);

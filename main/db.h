@@ -47,6 +47,7 @@ class tDB{
 		void del(tDownload *what);
 		int empty();
 		tDownload *find(tDownload *what);
+		tDownload *find(tAddr *addr);
 		~tDB();
 };
 

@@ -726,6 +726,72 @@ int check_mask(char *src,char *mask) {
 	return (!*s);
 };
 
+/* int check_mask2(char *,char *)
+   almost the same as check_mask() but
+   allow ? as any symbol
+ */
+
+int check_mask2(char *src,char *mask) {
+	DBC_RETVAL_IF_FAIL(mask!=NULL,0);
+	DBC_RETVAL_IF_FAIL(src!=NULL,0);
+	char *m=mask;
+	char *s=src;
+	while (*m) {
+		switch(*m){
+		case '*':{
+			if (*s==0) return 0;
+			s+=1;m+=1;
+			while (*s) {
+				if (check_mask2(s,m)) return 1;
+				s+=1;
+			};
+			break;
+		};
+		case '?':
+			if (*s==0) return 0;
+			s+=1;m+=1;
+			break;
+		default:
+			if (*s!=*m) return 0;
+			s+=1;m+=1;
+		};
+	};
+	return (!*s);
+};
+
+/* int check_mask2_uncase(char *,char *)
+   case insensetive variant of check_mask2()
+ */
+
+
+int check_mask2_uncase(char *src,char *mask) {
+	DBC_RETVAL_IF_FAIL(mask!=NULL,0);
+	DBC_RETVAL_IF_FAIL(src!=NULL,0);
+	char *m=mask;
+	char *s=src;
+	while (*m) {
+		switch(*m){
+		case '*':{
+			if (*s==0) return 0;
+			s+=1;m+=1;
+			while (*s) {
+				if (check_mask2_uncase(s,m)) return 1;
+				s+=1;
+			};
+			break;
+		};
+		case '?':
+			if (*s==0) return 0;
+			s+=1;m+=1;
+			break;
+		default:
+			if (tolower(*s)!=tolower(*m)) return 0;
+			s+=1;m+=1;
+		};
+	};
+	return (!*s);
+};
+
 void normalize_path(char *src) {
 	DBC_RETURN_IF_FAIL(src!=NULL);
 	char *a=src,*b=src;
@@ -903,6 +969,7 @@ int get_permisions_from_int(int a){
   ended by 'edned', less than 0 if 'what' less than 'ended'
   or greater than 0 if vice versa
  */
+
 int string_ended(const char *ended, const char *what){
 	if (ended==NULL || what==NULL) return 0;
 	int a=strlen(ended);
@@ -911,6 +978,16 @@ int string_ended(const char *ended, const char *what){
 	char *aa=(char *)(ended+a-min);
 	char *bb=(char *)(what+b-min);
 	return strncmp(aa,bb,min);
+};
+
+int string_ended_uncase(const char *ended, const char *what){
+	if (ended==NULL || what==NULL) return 0;
+	int a=strlen(ended);
+	int b=strlen(what);
+	int min=a<b?a:b;
+	char *aa=(char *)(ended+a-min);
+	char *bb=(char *)(what+b-min);
+	return strncasecmp(aa,bb,min);
 };
 
 /* primitive file operations

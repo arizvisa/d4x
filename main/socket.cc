@@ -73,6 +73,7 @@ tSocket::tSocket() {
 	RBytes=0;
 	SBytes=0;
 	buffer=NULL;
+	con_flag=0;
 };
 
 int tSocket::constr_name(char *host,u_int16_t port) {
@@ -164,6 +165,7 @@ int tSocket::open_port(u_int32_t host,u_int16_t port) {
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
 		return(SOCKET_CANT_CONNECT);
+	con_flag=1;
 	return 0;
 }
 
@@ -204,6 +206,7 @@ int tSocket::wait_for_read(int len) {
 	tv.tv_sec=len;
 	tv.tv_usec=0;
 	if (select(fd+1,&set,NULL,NULL,&tv)>0) return 0;
+	con_flag=0;
 	return -1;
 };
 
@@ -214,6 +217,7 @@ int tSocket::wait_for_write(int len) {
 	tv.tv_sec=len;
 	tv.tv_usec=0;
 	if (select(fd+1,NULL,&set,NULL,&tv)>0) return 0;
+	con_flag=0;
 	return -1;
 };
 
@@ -243,6 +247,7 @@ int tSocket::accepting(char * host) {
 	if (oldfd>0) {
 		close(oldfd);
 	};
+	con_flag=1;
 	return 0;
 };
 
@@ -288,6 +293,10 @@ void tSocket::down() {
 	};
 	fd=-1;
 	RBytes=SBytes=0;
+};
+
+int tSocket::connected(){
+	return(con_flag);
 };
 
 int tSocket::readed_bytes() {

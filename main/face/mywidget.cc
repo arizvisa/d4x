@@ -59,6 +59,8 @@ static gint my_gtk_filesel_init_browser(GtkButton *button, MyGtkFilesel *filesel
 			gtk_widget_set_sensitive(GTK_FILE_SELECTION(filesel->browser)->file_list,FALSE);
 		}else
 			filesel->browser=gtk_file_selection_new(_("Select file"));
+		gtk_window_set_wmclass(GTK_WINDOW(filesel->browser),
+				       "D4X_FileSel","D4X");
 		char *tmp=text_from_combo(filesel->combo);
 		if (tmp && *tmp)
 			gtk_file_selection_set_filename(GTK_FILE_SELECTION(filesel->browser),tmp);

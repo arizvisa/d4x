@@ -144,6 +144,8 @@ void d4x_filters_window_init(){
 	d4x_filters_changed=0;
 	d4x_filters_window = gtk_window_new(GTK_WINDOW_DIALOG);
 	gtk_window_set_title(GTK_WINDOW (d4x_filters_window),_("Filters"));
+	gtk_window_set_wmclass(GTK_WINDOW(d4x_filters_window),
+			       "D4X_Filters","D4X");
 	gtk_window_set_position(GTK_WINDOW(d4x_filters_window),GTK_WIN_POS_CENTER);
 	gtk_widget_set_usize(d4x_filters_window,-1,450);
 	gtk_container_border_width(GTK_CONTAINER(d4x_filters_window),5);

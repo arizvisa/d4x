@@ -27,6 +27,7 @@
 #include "../main.h"
 #include "../var.h"
 #include "myclist.h"
+#include "../sndserv.h"
 
 GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
 tConfirmedDialog *AskOpening=(tConfirmedDialog *)NULL;
@@ -38,7 +39,7 @@ GdkBitmap *wait_mask,*stop_mask,*pause_mask,*complete_mask,*run_mask,*part_run_m
 GdkPixmap *wait_pixmap=(GdkPixmap *)NULL,*stop_pixmap=(GdkPixmap *)NULL,*pause_pixmap=(GdkPixmap *)NULL,*complete_pixmap=(GdkPixmap *)NULL;
 GdkPixmap *run_pixmap=(GdkPixmap *)NULL,*part_run_pixmap=(GdkPixmap *)NULL,*run_bad_pixmap=(GdkPixmap *)NULL,*stop_wait_pixmap=(GdkPixmap *)NULL;
 
-gchar *ListTitles[]={
+static gchar *ListTitles[]={
 	" ",
 	N_("File"),
 	N_("Type"),
@@ -55,21 +56,27 @@ gchar *ListTitles[]={
 	N_("URL"),
 	" "
 };
-tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
-						{FILE_COL,FILE_COL,				(char *)NULL,100},
-						{FILE_TYPE_COL,FILE_TYPE_COL,			(char *)NULL,40},
-						{FULL_SIZE_COL,FULL_SIZE_COL,			(char *)NULL,70},
-						{DOWNLOADED_SIZE_COL,DOWNLOADED_SIZE_COL,	(char *)NULL,70},
-						{REMAIN_SIZE_COL,REMAIN_SIZE_COL,		(char *)NULL,70},
-						{PERCENT_COL,PERCENT_COL,			(char *)NULL,30},
-						{SPEED_COL,SPEED_COL,				(char *)NULL,60},
-						{TIME_COL,TIME_COL,				(char *)NULL,60},
-						{ELAPSED_TIME_COL,ELAPSED_TIME_COL,		(char *)NULL,60},
-						{PAUSE_COL,PAUSE_COL,				(char *)NULL,40},
-						{TREAT_COL,TREAT_COL,				(char *)NULL,40},
-						{DESCRIPTION_COL,DESCRIPTION_COL,		(char *)NULL,100},
-						{URL_COL,URL_COL,				(char *)NULL,500},
-						{NOTHING_COL,NOTHING_COL,			(char *)NULL,0}};
+
+static int LoDSortFlag=NOTHING_COL;
+static GtkWidget *LoDSelectWindow=(GtkWidget *)NULL;
+static GtkWidget *LoDSelectEntry;
+
+tColumn ListColumns[]={
+	{STATUS_COL,STATUS_COL,			(char *)NULL,25},
+	{FILE_COL,FILE_COL,			(char *)NULL,100},
+	{FILE_TYPE_COL,FILE_TYPE_COL,		(char *)NULL,40},
+	{FULL_SIZE_COL,FULL_SIZE_COL,		(char *)NULL,70},
+	{DOWNLOADED_SIZE_COL,DOWNLOADED_SIZE_COL,(char *)NULL,70},
+	{REMAIN_SIZE_COL,REMAIN_SIZE_COL,	(char *)NULL,70},
+	{PERCENT_COL,PERCENT_COL,		(char *)NULL,30},
+	{SPEED_COL,SPEED_COL,			(char *)NULL,60},
+	{TIME_COL,TIME_COL,			(char *)NULL,60},
+	{ELAPSED_TIME_COL,ELAPSED_TIME_COL,	(char *)NULL,60},
+	{PAUSE_COL,PAUSE_COL,			(char *)NULL,40},
+	{TREAT_COL,TREAT_COL,			(char *)NULL,40},
+	{DESCRIPTION_COL,DESCRIPTION_COL,	(char *)NULL,100},
+	{URL_COL,URL_COL,			(char *)NULL,500},
+	{NOTHING_COL,NOTHING_COL,		(char *)NULL,0}};
 
 /******************************************************************
     This part of code for DnD (Drag-n-Drop) support added by
@@ -206,6 +213,7 @@ void list_of_downloads_print_size(gint row,tDownload *what){
 };
 
 void list_of_downloads_add(tDownload *what) {
+	LoDSortFlag=NOTHING_COL;
 	gchar *data[NOTHING_COL+1];
 	char *URL=what->info->url();
 	for (int i=STATUS_COL;i<=NOTHING_COL;i++)
@@ -246,6 +254,7 @@ void list_of_downloads_set_run_icon(tDownload *what){
 };
 
 void list_of_downloads_add(tDownload *what,int row) {
+	LoDSortFlag=NOTHING_COL;
 	gchar *data[NOTHING_COL+1];
 	for (int i=STATUS_COL;i<=URL_COL;i++)
 		data[i]=(gchar *)NULL;
@@ -383,6 +392,100 @@ void list_of_downloads_unfreeze() {
 	gtk_widget_show(ListOfDownloads);
 };
 
+void list_of_downloads_real_select(int type){
+	char *wildcard=text_from_combo(LoDSelectEntry);
+	if (wildcard==NULL || *wildcard==0) return;
+	if (type){
+		for (int i=0;i<GTK_CLIST(ListOfDownloads)->rows;i++){
+			tDownload *dwn=get_download_from_clist(i);
+			if (dwn && dwn->info->file.get() &&
+			    check_mask2(dwn->info->file.get(),wildcard))
+				gtk_clist_unselect_row(GTK_CLIST(ListOfDownloads),i,-1);
+		};
+	}else{
+		for (int i=0;i<GTK_CLIST(ListOfDownloads)->rows;i++){
+			tDownload *dwn=get_download_from_clist(i);
+			if (dwn && dwn->info->file.get() &&
+			    check_mask2(dwn->info->file.get(),wildcard))
+				gtk_clist_select_row(GTK_CLIST(ListOfDownloads),i,-1);
+		};
+	};
+};
+
+static void _select_ok_(GtkButton *button,gint type){
+	list_of_downloads_real_select(type);
+	gtk_widget_destroy(LoDSelectWindow);
+	LoDSelectWindow=NULL;
+};
+
+static void _select_cancel_(GtkButton *button,gpointer unused){
+	gtk_widget_destroy(LoDSelectWindow);
+	LoDSelectWindow=NULL;
+};
+
+static gint _select_delete_(GtkWidget *window,GdkEvent *event,
+			    gpointer unused) {
+	gtk_widget_destroy(LoDSelectWindow);
+	LoDSelectWindow=NULL;
+	return(TRUE);
+};
+
+/*
+  void list_of_downloads_select()
+
+  this routine bring up a dialog for selecting
+  items in queue of downloads by wildcart
+*/
+
+void list_of_downloads_select(int type=0){
+	if (LoDSelectWindow){
+		gdk_window_show(LoDSelectWindow->window);
+		return;
+	};
+	LoDSelectWindow= gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(LoDSelectWindow),
+			       "D4X_SelectDialog","D4X");
+	gtk_window_set_title(GTK_WINDOW (LoDSelectWindow),
+			     _("Enter wildcard"));
+	gtk_window_set_position(GTK_WINDOW(LoDSelectWindow),
+				GTK_WIN_POS_CENTER);
+	gtk_container_border_width(GTK_CONTAINER(LoDSelectWindow),5);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *hbox=gtk_hbutton_box_new();
+	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	LoDSelectEntry=gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX(vbox),LoDSelectEntry,FALSE,FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
+	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
+	gtk_box_pack_start(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
+	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",
+			   GTK_SIGNAL_FUNC(_select_ok_),GINT_TO_POINTER(type));
+	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",
+			   GTK_SIGNAL_FUNC(_select_cancel_),NULL);
+	gtk_signal_connect(GTK_OBJECT(LoDSelectWindow),"delete_event",
+			   GTK_SIGNAL_FUNC(_select_delete_),NULL);
+	gtk_signal_connect(GTK_OBJECT(LoDSelectEntry), "activate",
+			   GTK_SIGNAL_FUNC (_select_ok_), GINT_TO_POINTER(type));
+	GtkWidget *frame=NULL;
+	if (type)
+		frame=gtk_frame_new(_("Unselect"));
+	else
+		frame=gtk_frame_new(_("Select"));
+	gtk_container_add(GTK_CONTAINER(frame),vbox);
+	gtk_container_add(GTK_CONTAINER(LoDSelectWindow),frame);
+	gtk_widget_show_all(LoDSelectWindow);
+	gtk_window_set_default(GTK_WINDOW(LoDSelectWindow),ok_button);
+	gtk_widget_grab_focus(LoDSelectEntry);
+	gtk_window_set_modal (GTK_WINDOW(LoDSelectWindow),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (LoDSelectWindow),
+				      GTK_WINDOW (MainWindow));
+};
+
 int list_event_callback(GtkWidget *widget,GdkEvent *event) {
 	if (event->type == GDK_BUTTON_PRESS) {
 		GdkEventButton *bevent=(GdkEventButton *)event;
@@ -432,6 +535,14 @@ int list_event_callback(GtkWidget *widget,GdkEvent *event) {
 		case GDK_KP_Enter:
 		case GDK_Return:{
 			list_of_downloads_open_logs();
+			return TRUE;
+		};
+		case GDK_KP_Add:{
+			list_of_downloads_select();
+			return TRUE;
+		};
+		case GDK_KP_Subtract:{
+			list_of_downloads_select(1);
 			return TRUE;
 		};
 		};
@@ -491,6 +602,7 @@ void list_dnd_drop_internal(GtkWidget *widget,
 		if (selection_data->data != NULL) {
 			if (!GTK_IS_SCROLLED_WINDOW(widget))
 				dnd_trash_animation();
+			SOUND_SERVER->add_event(SND_DND_DROP);
 			int len = strlen((char*)selection_data->data);
 			if (len && selection_data->data[len-1] == '\n')
 				selection_data->data[len-1] = 0;
@@ -531,37 +643,157 @@ void list_dnd_drop_internal(GtkWidget *widget,
     End of handler for DnD 
  **********************************************************/
 
+void list_of_downloads_rebuild_wait(){
+	if (DOWNLOAD_QUEUES[DL_WAIT]->count()==0) return;
+	int i=0;
+	tDList *dlist=new tDList(DL_WAIT);
+	dlist->init(0);
+	tDownload *tmp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
+	while(tmp){
+		if (tmp->owner==DL_WAIT){
+			DOWNLOAD_QUEUES[DL_WAIT]->del(tmp);
+			dlist->insert(tmp);
+			if (DOWNLOAD_QUEUES[DL_WAIT]->count()==0)
+				break;
+		};
+		i+=1;
+		tmp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
+	};
+	delete(DOWNLOAD_QUEUES[DL_WAIT]);
+	DOWNLOAD_QUEUES[DL_WAIT]=dlist;
+};
+
 static int _cmp_bypercent(tDownload *a,tDownload *b){
-	return( a->Percent>b->Percent?-1:1);
+	return( b->Percent>a->Percent?1:-1);
 };
 
 static int _cmp_bysize(tDownload *a,tDownload *b){
-	return( a->finfo.size - b->finfo.size );
+	return( b->finfo.size - a->finfo.size );
 };
 
 static int _cmp_bydsize(tDownload *a,tDownload *b){
-	return( a->Size.curent - b->Size.curent );
+	return( b->Size.curent - a->Size.curent );
 };
 
 static int _cmp_byremain(tDownload *a,tDownload *b){
-	return( a->Remain.curent - b->Remain.curent );
+	return( b->Remain.curent - a->Remain.curent );
 };
 
 static int _cmp_byspeed(tDownload *a,tDownload *b){
-	return( a->Speed.curent - b->Speed.curent);
+	return( b->Speed.curent - a->Speed.curent);
+};
+
+static int _cmp_byfile(tDownload *a,tDownload *b){
+	if (a->info->file.get() && b->info->file.get())
+		return(strcmp(a->info->file.get(),
+			      b->info->file.get()));
+	if (a->info->file.get()) return(1);
+	if (b->info->file.get()) return(0);
+	return(-1);
+};
+
+static int _cmp_whole_size_(GtkCList *clist,
+			    gconstpointer ptr1,
+			    gconstpointer ptr2){
+	GtkCListRow *row1=(GtkCListRow *)ptr1;
+	GtkCListRow *row2=(GtkCListRow *)ptr2;
+	if (row1->data && row2->data){
+		return(_cmp_bysize((tDownload *)(row1->data),
+				   (tDownload *)(row2->data)));
+	};
+	if (row1->data)	return(1);
+	if (row2->data)	return(0);
+	return(-1);
+};
+
+static int _cmp_whole_size_i_(GtkCList *clist,
+			    gconstpointer ptr1,
+			    gconstpointer ptr2){
+	return(_cmp_whole_size_(clist,ptr2,ptr1));
+};
+
+static int _cmp_whole_percent_(GtkCList *clist,
+			    gconstpointer ptr1,
+			    gconstpointer ptr2){
+	GtkCListRow *row1=(GtkCListRow *)ptr1;
+	GtkCListRow *row2=(GtkCListRow *)ptr2;
+	if (row1->data && row2->data){
+		return(_cmp_bypercent((tDownload *)(row1->data),
+				      (tDownload *)(row2->data)));
+	};
+	if (row1->data)	return(1);
+	if (row2->data)	return(0);
+	return(-1);
+};
+
+static int _cmp_whole_percent_i_(GtkCList *clist,
+			    gconstpointer ptr1,
+			    gconstpointer ptr2){
+	return(_cmp_whole_percent_(clist,ptr2,ptr1));
+};
+
+static int _cmp_whole_file_(GtkCList *clist,
+			    gconstpointer ptr1,
+			    gconstpointer ptr2){
+	GtkCListRow *row1=(GtkCListRow *)ptr1;
+	GtkCListRow *row2=(GtkCListRow *)ptr2;
+	if (row1->data && row2->data){
+		return(_cmp_byfile((tDownload *)(row1->data),
+				      (tDownload *)(row2->data)));
+	};
+	if (row1->data) return(1);
+	if (row2->data)	return(0);
+	return(-1);
+};
+
+static int _cmp_whole_file_i_(GtkCList *clist,
+			      gconstpointer ptr1,
+			      gconstpointer ptr2){
+	return(_cmp_whole_file_(clist,ptr2,ptr1));
 };
 
 static void list_of_downloads_sort(GtkWidget *widget,int how){
 	int count=DOWNLOAD_QUEUES[DL_RUN]->count();
-	if (count<2) return; //nothing todo
 	int (*cmp_func)(tDownload *,tDownload *)=(int)NULL;
+	GdkModifierType mask;
+	gint x,y;
+	gdk_window_get_pointer(MainWindow->window,&x,&y,&mask);
+	int whole_list=mask & GDK_SHIFT_MASK;
 	switch(how){
+	case FILE_COL:{
+		if (whole_list){
+			gtk_clist_set_compare_func(GTK_CLIST(ListOfDownloads),
+						   LoDSortFlag==FILE_COL?_cmp_whole_file_:_cmp_whole_file_i_);
+			gtk_clist_sort(GTK_CLIST(ListOfDownloads));
+			list_of_downloads_rebuild_wait();
+			LoDSortFlag=LoDSortFlag==FILE_COL?-FILE_COL:FILE_COL;
+			return;
+		};
+		cmp_func=_cmp_byfile;
+	};
 	case PERCENT_COL:
+		if (whole_list){
+			gtk_clist_set_compare_func(GTK_CLIST(ListOfDownloads),
+						   LoDSortFlag==PERCENT_COL?_cmp_whole_percent_:_cmp_whole_percent_i_);
+			gtk_clist_sort(GTK_CLIST(ListOfDownloads));
+			list_of_downloads_rebuild_wait();
+			LoDSortFlag=LoDSortFlag==PERCENT_COL?-PERCENT_COL:PERCENT_COL;
+			return;
+		};
 		cmp_func=_cmp_bypercent;
 		break;
-	case FULL_SIZE_COL:
+	case FULL_SIZE_COL:{
+		if (whole_list){
+			gtk_clist_set_compare_func(GTK_CLIST(ListOfDownloads),
+						   LoDSortFlag==FULL_SIZE_COL?_cmp_whole_size_:_cmp_whole_size_i_);
+			gtk_clist_sort(GTK_CLIST(ListOfDownloads));
+			list_of_downloads_rebuild_wait();
+			LoDSortFlag=LoDSortFlag==FULL_SIZE_COL?-FULL_SIZE_COL:FULL_SIZE_COL;
+			return;
+		};
 		cmp_func=_cmp_bysize;
 		break;
+	};
 	case DOWNLOADED_SIZE_COL:
 		cmp_func=_cmp_bydsize;		
 		break;
@@ -572,6 +804,7 @@ static void list_of_downloads_sort(GtkWidget *widget,int how){
 		cmp_func=_cmp_byspeed;		
 		break;
 	};
+	if (count<2) return; //nothing todo
 	if (cmp_func==NULL) return;
 	list_of_downloads_freeze();
 	tDownload *tmp=DOWNLOAD_QUEUES[DL_RUN]->last();
@@ -597,6 +830,42 @@ static void list_of_downloads_sort(GtkWidget *widget,int how){
 		cur=(tDownload*)(tmp->next);
 	}while(changed && cur);
 	list_of_downloads_unfreeze();
+	LoDSortFlag=NOTHING_COL;
+};
+
+static int _cmp_whole_status_(GtkCList *clist,
+			      gconstpointer ptr1,
+			      gconstpointer ptr2){
+	GtkCListRow *row1=(GtkCListRow *)ptr1;
+	GtkCListRow *row2=(GtkCListRow *)ptr2;
+	if (row1->data && row2->data){
+		int smap[]={0,10,6,8,9,11,7,0};
+		tDownload *d1=(tDownload *)(row1->data);
+		tDownload *d2=(tDownload *)(row2->data);
+		return(smap[d2->owner]-smap[d1->owner]);
+	};
+	if (row1->data)	return(1);
+	if (row2->data)	return(0);
+	return(-1);
+};
+
+static int _cmp_whole_status_i_(GtkCList *clist,
+			      gconstpointer ptr1,
+			      gconstpointer ptr2){
+	_cmp_whole_status_(clist,ptr2,ptr1);
+};
+
+static void list_of_downloads_sort_status(GtkWidget *button){
+	GdkModifierType mask;
+	gint x,y;
+	gdk_window_get_pointer(MainWindow->window,&x,&y,&mask);
+	if (mask & GDK_SHIFT_MASK){
+		gtk_clist_set_compare_func(GTK_CLIST(ListOfDownloads),
+					   LoDSortFlag==NOTHING_COL+1?_cmp_whole_status_:_cmp_whole_status_i_);
+		gtk_clist_sort(GTK_CLIST(ListOfDownloads));
+		list_of_downloads_rebuild_wait();
+		LoDSortFlag=LoDSortFlag==NOTHING_COL+1?-NOTHING_COL:NOTHING_COL+1;
+	};
 };
 
 static void my_gtk_clist_set_column_justification (GtkWidget *clist, int col, GtkJustification justify){
@@ -668,6 +937,18 @@ void list_of_downloads_init() {
 				   "clicked",
 				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
 				   GINT_TO_POINTER(PERCENT_COL));
+	button=my_gtk_clist_get_column_widget(ListOfDownloads,FILE_COL);
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
+				   GINT_TO_POINTER(FILE_COL));
+	button=my_gtk_clist_get_column_widget(ListOfDownloads,STATUS_COL);
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(list_of_downloads_sort_status),
+				   NULL);
 	button=my_gtk_clist_get_column_widget(ListOfDownloads,DOWNLOADED_SIZE_COL);
 	if (button)
 		gtk_signal_connect(GTK_OBJECT(button),

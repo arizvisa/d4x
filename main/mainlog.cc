@@ -202,8 +202,8 @@ void tMLog::add(char *str,int type) {
 };
 
 void tMLog::init_list(GtkCList *clist) {
-	DBC_RETURN_IF_FAIL(clist!=NULL);
 	list=clist;
+	if (list==NULL) return;
 	gtk_signal_connect(GTK_OBJECT(list),"select_row",GTK_SIGNAL_FUNC(main_log_event_handler),this);
 	gtk_signal_connect(GTK_OBJECT(list),"event",GTK_SIGNAL_FUNC(main_log_event_handler2),this);
 	/* Initing popup menu
@@ -215,9 +215,9 @@ void tMLog::init_list(GtkCList *clist) {
 	clear_item=gtk_menu_item_new_with_label(_("Clear log"));
 	gtk_menu_append(GTK_MENU(popup_menu),clear_item);
 	gtk_signal_connect(GTK_OBJECT(clear_item),"activate",GTK_SIGNAL_FUNC(list_menu_clear_main_log),this);
-	clear_item=gtk_menu_item_new_with_label(_("Properties"));
-	gtk_menu_append(GTK_MENU(popup_menu),clear_item);
-	gtk_signal_connect(GTK_OBJECT(clear_item),"activate",GTK_SIGNAL_FUNC(list_menu_open_properties),this);
+	GtkWidget *item=gtk_menu_item_new_with_label(_("Properties"));
+	gtk_menu_append(GTK_MENU(popup_menu),item);
+	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(list_menu_open_properties),this);
 	gtk_widget_show_all(popup_menu);
 };
 
@@ -234,7 +234,7 @@ int tMLog::popup(GdkEventButton *event) {
 			gtk_widget_set_sensitive(open_row_item,TRUE);
 		else
 			gtk_widget_set_sensitive(open_row_item,FALSE);
-		if (First)
+		if (Num>0)
 			gtk_widget_set_sensitive(clear_item,TRUE);
 		else
 			gtk_widget_set_sensitive(clear_item,FALSE);
@@ -372,7 +372,7 @@ void tMLog::myprintf(int type,char *fmt,...){
 };
 
 void tMLog::dispose() {
-	if (!CFG.WITHOUT_FACE)
+	if (list)
 		gtk_clist_remove(list,0);
 	tStringList::dispose();
 };

@@ -178,6 +178,8 @@ void d4x_scheduler_init(){
 	d4x_scheduler_window = gtk_window_new(GTK_WINDOW_DIALOG);
 	gtk_window_set_title(GTK_WINDOW (d4x_scheduler_window),
 			     _("Scheduler"));
+	gtk_window_set_wmclass(GTK_WINDOW(d4x_scheduler_window),
+			       "D4X_Scheduler","D4X");
 	gtk_window_set_position(GTK_WINDOW(d4x_scheduler_window),GTK_WIN_POS_CENTER);
 	gtk_widget_set_usize(d4x_scheduler_window,-1,400);
 	gtk_container_border_width(GTK_CONTAINER(d4x_scheduler_window),5);

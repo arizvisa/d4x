@@ -80,8 +80,8 @@ void tSegmentator::init(char *path){
 	done();
 	filename=copy_string(path);
 	fd=open(path, O_CREAT|O_RDWR,S_IRUSR | S_IWUSR);
-	load();
 	lock();
+	load();
 	save();
 //	print();
 	unlock();
@@ -335,6 +335,7 @@ tSegment *tSegmentator::to_holes(unsigned long int size){
 	lock();
 	tSegment *tmp=FIRST;
 	tSegment *rvalue=NULL;
+	tSegment *last=NULL;
 	int i=0;
 	while(tmp && tmp->end<size){
 		tSegment *tmp1=new tSegment;
@@ -345,13 +346,12 @@ tSegment *tSegmentator::to_holes(unsigned long int size){
 			tmp1->end=size;
 		};
 		i+=1;
-		if (rvalue){
-			tmp1->next=rvalue->next;
-			rvalue->next=tmp1;
-		}else{
-			tmp1->next=NULL;
+		tmp1->next=NULL;
+		if (last)
+			last->next=tmp1;
+		else
 			rvalue=tmp1;
-		};
+		last=tmp1;
 		tmp=tmp->next;
 	};
 	if (rvalue==NULL){

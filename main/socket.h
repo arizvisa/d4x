@@ -32,11 +32,12 @@ class tSocket{
 	sockaddr_in info;
 	hostent hp;
 	int temp_variable;
+	int con_flag;
 	char *buffer;
 	int RBytes,SBytes;
 	int constr_name(char *host,u_int16_t port);
 	int wait_for_read(int len);
-	int wait_for_write(int len); 
+	int wait_for_write(int len);
  public:
 	tSocket();
 	virtual unsigned int get_addr();
@@ -51,6 +52,7 @@ class tSocket{
 	int send_string(char *what,int timeout);
 	int rec_string(char * where,fsize_t len,int timeout);
 	void flush();
+	int connected();
 	virtual void down();
 	virtual ~tSocket(); 
 };

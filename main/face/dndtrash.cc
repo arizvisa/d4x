@@ -59,7 +59,7 @@ static GdkBitmap *dnd_trash_mask1,*dnd_trash_mask2;
 static int dnd_trash_raise_count=0;
 static time_t dnd_trash_last_raise=0;
 GtkTooltips *dnd_trash_tooltips=(GtkTooltips *)NULL;
-int dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
+static gint dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
 
 void dnd_trash_real_destroy(){
 	if (dnd_trash_window){
@@ -107,8 +107,10 @@ int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 			main_window_toggle();
 		else{
 			dnd_trash_moveable=1;
-			GdkModifierType modmask;
-			gdk_window_get_pointer((GdkWindow *)NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
+//			GdkModifierType modmask;
+//			gdk_window_get_pointer((GdkWindow *)NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
+			dnd_trash_x=gint(event->x_root);
+			dnd_trash_y=gint(event->y_root);
 			gtk_grab_add (widget);
 			gdk_pointer_grab (widget->window,TRUE,
 					  GdkEventMask(GDK_BUTTON_RELEASE_MASK |
@@ -168,7 +170,7 @@ void dnd_trash_init(){
 	 * since we're making it a popup. */
 	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
-//	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_Basket", "D4X");
+	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_DnDBasket", "D4X_DnDBasket");
 //	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
 	if (CFG.DND_TRASH_X>gdk_screen_width()) CFG.DND_TRASH_X=0;
 	if (CFG.DND_TRASH_Y>gdk_screen_height()) CFG.DND_TRASH_Y=0;

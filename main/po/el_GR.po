@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
-"POT-Creation-Date: 2001-04-17 16:54+0800\n"
+"POT-Creation-Date: 2001-06-23 14:01+0800\n"
 "PO-Revision-Date: 1999-08-24 17:12+07\n"
 "Last-Translator: DJ Art <djart@hellug.gr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,217 +13,224 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-7\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: ../client.cc:359
+#: ../client.cc:363
 msgid "Timeout while reading from socket!"
 msgstr "Λήξη χρόνου διαβάσματος του socket!"
 
-#: ../client.cc:364
+#: ../client.cc:368
 msgid "Error while reading from socket!"
 msgstr "Σφάλμα κατά το διάβασμα από το socket!"
 
-#: ../client.cc:373
+#: ../client.cc:377
 msgid "Trying to connect..."
 msgstr "Προσπάθεια για σύνδεση..."
 
-#: ../client.cc:375
+#: ../client.cc:379
 msgid "Socket was opened!"
 msgstr "Το socket άνοιξε!"
 
-#: ../client.cc:380
+#: ../client.cc:384
 msgid "Host not found!"
 msgstr "Ο Host δεν βρέθηκε!"
 
-#: ../client.cc:385
+#: ../client.cc:389
 msgid "Can't allocate socket"
 msgstr "Δεν μπορώ να αναθέσω το socket"
 
-#: ../client.cc:390
+#: ../client.cc:394
 msgid "Can't connect"
 msgstr "Δεν μπορώ να συνδεθώ"
 
-#: ../config.cc:72
+#: ../config.cc:73
 msgid "You forgot to specify directory."
 msgstr "Ξεχάσατε να ορίσετε κατάλογο."
 
-#: ../config.cc:74
+#: ../config.cc:75
 msgid "You must specify number as second parameter for '-m' option"
 msgstr "Πρέπει να ορίσετε αριθμό ως δεύτερη παράμετρο στην επιλογή '-m'"
 
-#: ../config.cc:78
+#: ../config.cc:79
 msgid "You must specify number as parameter for '--exit-time' option"
 msgstr "Πρέπει να ορίσετε αριθμό ως παράμετρο στην επιλογή '--exit-time'"
 
 # config.cc:
-#: ../config.cc:79
+#: ../config.cc:80
 msgid "Expect URL as parameter for '--ls' option"
 msgstr "Προσμονή του URL ώς παράμετρος για την '--ls' επιλογή"
 
-#: ../config.cc:294
+# config.cc:
+#: ../config.cc:81
+#, fuzzy
+msgid "Expect URL as parameter for '--del' option"
+msgstr "Προσμονή του URL ώς παράμετρος για την '--ls' επιλογή"
+
+#: ../config.cc:303
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "Δεν μπορώ να ανοίξω το cfg αρχείο στο '%s'\n"
 
-#: ../config.cc:295
+#: ../config.cc:304
 msgid "Use default cfg :))...\n"
 msgstr "Χρησιμοποιώ τις εξ ορισμού ρυθμίσεις :))...\n"
 
-#: ../config.cc:494
+#: ../config.cc:505
 msgid "Can't open limits configuration file!\n"
 msgstr "Δεν μπορώ να ανοίξω το αρχείο με τους περιορισμούς!!!\n"
 
-#: ../config.cc:517
+#: ../config.cc:528
 msgid "Can't write limits to file!!!\n"
 msgstr "Δεν μπορώ να γράψω τους περιορισμούς σε αρχείο!!!\n"
 
 # config.cc:
-#: ../config.cc:547
+#: ../config.cc:558
 msgid "unknown option:"
 msgstr "άγνωστη επιλογή:"
 
 # config.cc:
-#: ../config.cc:592
+#: ../config.cc:605
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Τρέχοντα κατεβασμάτα: %d\n"
 
 # config.cc:
-#: ../config.cc:594
+#: ../config.cc:607
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Σταματημένα κατεβάσματα: %d\n"
 
 # config.cc:
-#: ../config.cc:596
+#: ../config.cc:609
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Αποτυχημένα κατεβάσματα: %d\n"
 
 # config.cc:
-#: ../config.cc:598
+#: ../config.cc:611
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Ολοκληρωμένα κατεβάσματα: %d\n"
 
 # config.cc:
-#: ../config.cc:601
+#: ../config.cc:614
 #, c-format
 msgid "Total: %d\n"
 msgstr "Συνολικά: %d\n"
 
-#: ../config.cc:603
+#: ../config.cc:616
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "%d συνολικά bytes φορτώθηκαν \n"
 
 # config.cc:
-#: ../config.cc:605
+#: ../config.cc:618
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Τρέχουσα ταχύτητα: %d\n"
 
 # config.cc:
-#: ../config.cc:611
+#: ../config.cc:624
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "Τρέχουσα ταχύτητα: %d\n"
 
-#: ../config.cc:701
-msgid "is absent in the queue\n"
-msgstr "είναι απών από την ουρά\n"
-
 # config.cc:
-#: ../config.cc:784
+#: ../config.cc:807
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Σύνταξη: nt [επιλογή] ... [διεύθυνση]"
 
 # config.cc:
-#: ../config.cc:785
+#: ../config.cc:808
 msgid "print this page and exit"
 msgstr "τύπωσε αυτήν την σελίδα και τερμάτισε"
 
 # config.cc:
-#: ../config.cc:786
+#: ../config.cc:809
 msgid "show version information and exit"
 msgstr "δείξε την έκδοση και τερμάτισε"
 
 # config.cc:
-#: ../config.cc:787
+#: ../config.cc:810
 msgid "show information if already run"
 msgstr "δείχνε πληροφορίες αν ήδη τρέχεις"
 
 # config.cc:
-#: ../config.cc:788
+#: ../config.cc:811
 msgid "show current speed if already run"
 msgstr "δείξε τρέχουσα ταχύτητα αν ήδη τρέχεις"
 
 # config.cc
-#: ../config.cc:789
+#: ../config.cc:812
 msgid "run in minimized mode"
 msgstr "εκτέλεση σε ελαχιστοποιημένη κατάσταση"
 
 # config.cc
-#: ../config.cc:790
+#: ../config.cc:813
 msgid "set timeout for exiting if nothing to do"
 msgstr "ορισμός χρόνου εξόδου αν δεν υπάρχει άλλο κατέβασμα"
 
 # config.cc:
-#: ../config.cc:791
+#: ../config.cc:814
 msgid "set directory for saving files"
 msgstr "καθορισμός καταλόγου για αποθήκευση των αρχείων"
 
 # config.cc:
-#: ../config.cc:792
+#: ../config.cc:815
 msgid "set lower speed limitation"
 msgstr "ενεργοποίηση ορίου κατώτερης ταχύτητας"
 
 # config.cc:
-#: ../config.cc:793
+#: ../config.cc:816
 msgid "set medium speed limitation"
 msgstr "ενεργοποίηση ορίου μεσαίας ταχύτητας"
 
 # config.cc:
-#: ../config.cc:794
+#: ../config.cc:817
 msgid "set unlimited speed"
 msgstr "ενεργοποίηση απεριόριστης ταχύτητας"
 
-#: ../config.cc:795
+#: ../config.cc:818
 msgid "delete completed if already run"
 msgstr "σβήσιμο κατεβασμένων αν ήδη τρέχουν"
 
-#: ../config.cc:796
+#: ../config.cc:819
 msgid "set maximum active downloads"
 msgstr "καθορισμός μέγιστου αριθμού ενεργών κατεβασμάτων"
 
 # config.cc
-#: ../config.cc:797
+#: ../config.cc:820
 msgid "restart all failed downloads"
 msgstr "επανεκίνηση όλων των αποτυχημένων κατεβασμάτων"
 
-#: ../config.cc:798
+#: ../config.cc:821
 msgid "run program without X interface"
 msgstr "εκτέλεση προγράμματος χωρίς το Χ interface"
 
-#: ../config.cc:799
+#: ../config.cc:822
 msgid "display info about URL in queue of downloads"
 msgstr "προβολή πληροφοριών για το URL στην ουρά των κατεβασμάτων"
 
-#: ../config.cc:800
+#: ../config.cc:823
+#, fuzzy
+msgid "remove a download from queue"
+msgstr "σβήσιμο ολοκληρωμένων κατεβασμάτων"
+
+#: ../config.cc:824
 msgid "using colors if run without interface"
 msgstr "χρήση χρωμάτων αν εκτελεσθεί χωρίς το interface"
 
 # cookie.cc
-#: ../cookie.cc:123
+#: ../cookie.cc:122
 msgid "Loading cookies"
 msgstr "Φόρτωμα cookies"
 
 # cookie.cc
-#: ../cookie.cc:152
+#: ../cookie.cc:151
 #, c-format
 msgid "%i cookies loaded"
 msgstr "%i cookie φορτώθηκε"
 
 # cookie.cc
-#: ../cookie.cc:154
+#: ../cookie.cc:153
 msgid "Can't open cookies file!"
 msgstr "Δεν μπορώ να ανοίξω το αρχείο των cookies!"
 
@@ -231,130 +238,132 @@ msgstr "Δεν μπορώ να ανοίξω το αρχείο των cookies!"
 msgid "Can't write to file"
 msgstr "Δεν μπορώ να γράψω στο αρχείο"
 
-#: ../dlist.cc:294
+#: ../dlist.cc:332
 #, c-format
 msgid "You have no permissions to create file at path %s"
 msgstr "Δεν έχετε δικαιώματα για να δημιουργήσετε αρχείο στο %s"
 
-#: ../dlist.cc:299
+#: ../dlist.cc:337
 #, c-format
 msgid "You have no space at path %s for creating file"
 msgstr "Δεν υπάρχει ελεύθερος χώρος στο %s για δημιουργία αρχείου"
 
-#: ../dlist.cc:304
+#: ../dlist.cc:342
 msgid "Directory already created!:))"
 msgstr "Ο κατάλογος υπάρχει ήδη!:))"
 
 # dlist.cc
-#: ../dlist.cc:376
+#: ../dlist.cc:414
 msgid "File is already opened by another download!"
 msgstr "Το αρχείο είναι ήδη ανοιγμένο από άλλο κατέβασμα!"
 
-#: ../dlist.cc:380
+#: ../dlist.cc:418
 msgid "Filesystem do not support advisory record locking!"
 msgstr "To filesystem δεν υποστηρίζει παραινετικό κλείδωμα των εγγραφών!"
 
-#: ../dlist.cc:381
+#: ../dlist.cc:419
 msgid "Will proceed without it but beware that you might have problems."
-msgstr "Θα προχωρήσω χωρίς αυτό, αλλά έχε υπόψιν πως ίσως προκύψουν προβλήματα."
+msgstr ""
+"Θα προχωρήσω χωρίς αυτό, αλλά έχε υπόψιν πως ίσως προκύψουν προβλήματα."
 
 #. this is a link
-#: ../dlist.cc:423
+#: ../dlist.cc:461
 msgid "Trying to create a link"
 msgstr "Προσπαθώ να δημιουργήσω ένα link"
 
-#: ../dlist.cc:428
+#: ../dlist.cc:466
 msgid "Link already created!:))"
 msgstr "Το Links υπάρχει ήδη!:))"
 
-#: ../dlist.cc:434
+#: ../dlist.cc:472
 msgid "Can't create link"
 msgstr "Δεν μπορώ να δημιουργήσω link"
 
 #. this is a file
-#: ../dlist.cc:443
+#: ../dlist.cc:481
 msgid "Trying to create a file"
 msgstr "Προσπαθώ να δημιουργήσω ένα αρχείο"
 
-#: ../dlist.cc:464
+#: ../dlist.cc:502
 msgid "Can't create file at the path:"
 msgstr "Δεν μπορώ να δημιουργήσω αρχείο στο path:"
 
-#: ../dlist.cc:466
+#: ../dlist.cc:504
 msgid "which has name:"
 msgstr "το οποίο έχει όνομα:"
 
-#: ../dlist.cc:477
+#: ../dlist.cc:515
 msgid "File was created!"
 msgstr "Δημιουργήθηκε αρχείο!"
 
 #. this is a directory
-#: ../dlist.cc:482
+#: ../dlist.cc:520
 msgid "Trying to create a dir"
 msgstr "Προσπαθώ να δημιουργήσω έναν κατάλογο"
 
-#: ../dlist.cc:492
+#: ../dlist.cc:530
 msgid "Can't create directory!"
 msgstr "Δεν μπορώ να δημιουργήσω κατάλογο!"
 
 #. this is device
-#: ../dlist.cc:502
+#: ../dlist.cc:540
 msgid "Downloader can't create devices..."
 msgstr "Ο Downloader δεν μπορεί να δημιουργήσει devices..."
 
-#: ../dlist.cc:856
+#: ../dlist.cc:900
 msgid "Downloading was successefully completed!"
 msgstr "Το κατέβασμα ολοκληρώθηκε επιτυχώς!"
 
-#: ../dlist.cc:892
+#: ../dlist.cc:942
 msgid "Downloading was failed..."
 msgstr "Το κατέβασμα απέτυχε..."
 
-#: ../dlist.cc:1019
+#: ../dlist.cc:1080
 msgid "Redirect detected..."
 msgstr "Αναγνωρίστηκε επανακατεύθυνση..."
 
-#: ../dlist.cc:1026
+#: ../dlist.cc:1087
 msgid "It is strange that we can't delete file which just created..."
-msgstr "Είναι περίεργο που δεν μπορούμε να σβήσουμε αρχείο που μόλις δημιουργήθηκε..."
+msgstr ""
+"Είναι περίεργο που δεν μπορούμε να σβήσουμε αρχείο που μόλις δημιουργήθηκε..."
 
-#: ../dlist.cc:1030 ../dlist.cc:1201
+#: ../dlist.cc:1091 ../dlist.cc:1263
 msgid "File not found"
 msgstr "Δεν βρέθηκε το αρχείο"
 
 # dlist.cc
-#: ../dlist.cc:1074
+#: ../dlist.cc:1143
 msgid "Sorting started"
 msgstr "Η κατάταξη ξεκίνησε"
 
-#: ../dlist.cc:1077
+#: ../dlist.cc:1146
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Pinging (προσπάθεια %i από %i)"
 
 # dlist.cc
-#: ../dlist.cc:1152
+#: ../dlist.cc:1211
 msgid "Searching failed"
 msgstr "Η αναζήτηση απέτυχε"
 
 # dlist.cc:
-#: ../dlist.cc:1172
+#: ../dlist.cc:1231
 msgid "Search had been completed!"
 msgstr "Η αναζήτηση είχε τελειώσει!"
 
-#: ../dlist.cc:1178
+#: ../dlist.cc:1237
 msgid "Was Started!"
 msgstr "Ξεκίνησε!"
 
-#: ../dlist.cc:1182
+#: ../dlist.cc:1241
 msgid "It is a link and we already load it"
 msgstr "Είναι ένα link και ήδη το έχουμε φορτώσει"
 
-#: ../dlist.cc:1206
+#: ../dlist.cc:1268
 msgid "Trying to work without CWD"
 msgstr "Προσπαθώ να δουλέψω χωρίς CWD"
 
-#: ../dlist.cc:1273
+#: ../dlist.cc:1336
 msgid "Can't split file to specified number of parts!"
 msgstr "Δεν μπορώ να κόψω το αρχείο στον ορισμένο αριθμό κομματιών!"
 
@@ -375,7 +384,9 @@ msgstr "Ξαναπροσπαθώ %i ..."
 # download.cc
 #: ../download.cc:44
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr "Το αρχείο στον server είναι νεότερο από το τοπικό αρχείο. Επανεκκίνηση κατεβάσματος\n"
+msgstr ""
+"Το αρχείο στον server είναι νεότερο από το τοπικό αρχείο. Επανεκκίνηση "
+"κατεβάσματος\n"
 
 #: ../download.cc:48
 #, c-format
@@ -410,7 +421,7 @@ msgstr "Χάθηκε το socket δεδομένων!"
 msgid "Control connection lost!"
 msgstr "Χάθηκε η σύνδεση"
 
-#: ../ftp.cc:184
+#: ../ftp.cc:185
 msgid "Reget is not supported!!!"
 msgstr "Το συνέχισμα δεν υποστηρίζεται!!!"
 
@@ -423,11 +434,11 @@ msgstr "Το συνέχισμα δεν υποστηρίζεται!!!"
 msgid "try to connect to %i,%i,%i,%i,%i,%i"
 msgstr "Προσπαθώ να συνδεθώ στο %i,%i,%i,%i,%i,%i"
 
-#: ../ftp.cc:426 ../http.cc:178
+#: ../ftp.cc:432 ../http.cc:178
 msgid "Data connection closed."
 msgstr "Η σύνδεση δεδομένων έκλεισε"
 
-#: ../ftp.cc:438 ../http.cc:190
+#: ../ftp.cc:444 ../http.cc:190
 msgid "Requested size was loaded"
 msgstr "Φορτώθηκε η το επιθυμητό μέγεθος"
 
@@ -447,49 +458,53 @@ msgstr "Ο server αρνήθηκε το login, πιθανότατα πολλοί χρήστες της τάξης σας"
 msgid "Sleeping"
 msgstr "Απραξία..."
 
-#: ../ftpd.cc:411
+#: ../ftpd.cc:392
+msgid "Empty answer. Trying to change directory to determine file type."
+msgstr ""
+
+#: ../ftpd.cc:417
 #, c-format
 msgid "Length is %i"
 msgstr "Το μήκος είναι %i"
 
-#: ../ftpd.cc:415
+#: ../ftpd.cc:433
 msgid "This is a directory!"
 msgstr "Αυτό είναι ένας κατάλογος!"
 
-#: ../ftpd.cc:424
+#: ../ftpd.cc:442
 msgid "Couldn't get size :(("
 msgstr "Δεν μπόρεσα να καταλάβω το μέγεθος :(("
 
-#: ../ftpd.cc:449
+#: ../ftpd.cc:467
 msgid "Loading directory..."
 msgstr "Φορτώνω τον κατάλογο..."
 
-#: ../ftpd.cc:463
+#: ../ftpd.cc:481
 msgid "Listing was loaded"
 msgstr "Φορτώθηκε η λίστα"
 
-#: ../ftpd.cc:466
+#: ../ftpd.cc:484
 msgid "Listing not loaded completelly"
 msgstr "Η λίστα δεν φορτώθηκε πλήρως"
 
-#: ../ftpd.cc:493
+#: ../ftpd.cc:511
 msgid "Link was loaded :))"
 msgstr "Φορτώθηκε το link :))"
 
-#: ../ftpd.cc:527 ../httpd.cc:314
+#: ../ftpd.cc:545 ../httpd.cc:314
 #, c-format
 msgid "%i bytes loaded."
 msgstr "%i bytes φορτώθηκαν"
 
-#: ../hproxy.cc:164
+#: ../hproxy.cc:174
 msgid "Connection to the internet via proxy"
 msgstr "Σύνδεση με το internet μέσω proxy"
 
-#: ../hproxy.cc:166
+#: ../hproxy.cc:176
 msgid "Sending request to proxy"
 msgstr "Στέλνω αίτηση στον proxy"
 
-#: ../hproxy.cc:169 ../httpd.cc:259
+#: ../hproxy.cc:179 ../httpd.cc:259
 msgid "Answer read ok"
 msgstr "Σωστή ανάγνωση απάντησης"
 
@@ -540,81 +555,87 @@ msgid "ETag was changed, restarting again..."
 msgstr "Το ETag άλλαξε, επανεκκίνηση..."
 
 # log.cc:
-#: ../log.cc:64
+#: ../log.cc:65
 msgid "Log was started!"
 msgstr "Ξεκίνησε το Log!"
 
+# main.cc
+#: ../main.cc:145
+#, fuzzy
+msgid "Can't init control socket!\n"
+msgstr "[socket ελέγχου]"
+
 # main.cc:
-#: ../main.cc:140
+#: ../main.cc:153
 msgid "Loading default list of downloads"
 msgstr "Φόρτωμα της εξ ορισμού λίστας με τα κατεβάσματα"
 
 # main.cc:
-#: ../main.cc:156
+#: ../main.cc:169
 msgid "Append list to current queue of downloads"
 msgstr "Προσθήκη λίστας στην τρέχουσα ουρά με τα κατεβάσματα"
 
 # main.cc
-#: ../main.cc:261 ../main.cc:1087
+#: ../main.cc:258 ../main.cc:1117
 msgid "Delete completed downloads"
 msgstr "Σβήσιμο κατεβασμένων αρχείων"
 
 # main.cc
-#: ../main.cc:275
+#: ../main.cc:271
 msgid "Delete failed downloads"
 msgstr "Σβήσιμο αποτυχημένων κατεβασμάτων"
 
-#: ../main.cc:295
+#: ../main.cc:290
 msgid "Clear queue of downloads"
 msgstr "Άδεια ουρά αρχείων για κατέβασμα"
 
 # main.cc
-#: ../main.cc:349
+#: ../main.cc:343
 msgid "Run new thread for %z"
 msgstr "Ξεκίνα νέο thread για %z"
 
 # main.cc:
-#: ../main.cc:355
+#: ../main.cc:349
 msgid "Can't run new thread for downloading!"
 msgstr "Δεν μπορώ να τρέξω νέα διαδικασία για κατέβασμα!"
 
-#: ../main.cc:357
+#: ../main.cc:351
 #, c-format
 msgid "Maximum active downloads is set to %i"
 msgstr "Ο μέγιστος αριθμός ενεργών κατεβασμάτων είναι %i"
 
-#: ../main.cc:407
+#: ../main.cc:401
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Το κατέβασμα του αρχείου %s από %s διακόπηκε [από τον χρήστη]"
 
-#: ../main.cc:460
+#: ../main.cc:454
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "Σβήνω το αρχείο %s από την ουρά με τα αρχεία προς κατέβασμα"
 
-#: ../main.cc:538
+#: ../main.cc:532
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "Συνεχίζω το κατέβασμα του αρχείου %s από %s..."
 
-#: ../face/mywidget.cc:369 ../face/mywidget.cc:611 ../main.cc:628
+#: ../face/mywidget.cc:371 ../face/mywidget.cc:613 ../main.cc:623
 msgid "file"
 msgstr "αρχείο"
 
-#: ../main.cc:727
+#: ../main.cc:722
 msgid "dir"
 msgstr "dir"
 
-#: ../main.cc:731
+#: ../main.cc:726
 msgid "link"
 msgstr "link"
 
-#: ../main.cc:735
+#: ../main.cc:730
 msgid "device"
 msgstr "device"
 
-#: ../main.cc:774
+#: ../main.cc:769
 msgid "Too many redirections!"
 msgstr "Υπερβολικά πολλές ανακατευθύνσεις!"
 
@@ -624,108 +645,117 @@ msgid "Redirection from [%z] to the same location!"
 msgstr "Επανακατεύθυνση από το [%z] στην ίδια τοποθεσία!"
 
 # main.cc:
-#: ../main.cc:817
+#: ../main.cc:820
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Επανακατεύθυνση από το [%z] στο πουθενά!"
 
 # main.cc
-#: ../main.cc:825
+#: ../main.cc:828
 msgid "Prepare [%z] for stoping"
 msgstr "Προετοιμάσου [%z] για σταμάτημα"
 
 # main.cc:
-#: ../main.cc:855
+#: ../main.cc:867
 msgid "Redirect from %z"
 msgstr "Ανακατεύθυνση από %z"
 
-#: ../main.cc:859
+#: ../main.cc:871
 msgid "Downloading of directory %z was completed"
 msgstr "Το κατέβασμα του καταλόγου %z ολοκληρώθηκε"
 
-#: ../main.cc:863
+#: ../main.cc:875
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
-msgstr "Το κατέβασμα του αρχείου %z (%i bytes) ολοκληρώθηκε με ταχύτητα %i bytes/δευτ."
+msgstr ""
+"Το κατέβασμα του αρχείου %z (%i bytes) ολοκληρώθηκε με ταχύτητα %i "
+"bytes/δευτ."
 
 # main.cc
-#: ../main.cc:869
+#: ../main.cc:881
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z αφαιρέθηκε από την ουρά με τα κατεβάσματα ως κατεβασμένο"
 
-#: ../main.cc:880
+#: ../main.cc:892
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Το κατέβασμα του αρχείου %z διακόπηκε από σφάλμα"
 
 # main.cc
-#: ../main.cc:883
+#: ../main.cc:895
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z αφαιρέθηκε από την ουρά με τα κατεβάσματα ως αποτυχημένο"
 
-#: ../main.cc:915
+#: ../main.cc:927
 msgid "Splited download [%z] was stopped because one of threads failed"
 msgstr "Το κομμένο κατέβασμα [%z] σταμάτησε επειδή ένα από τα threads απέτυχε"
 
-#: ../main.cc:1047
+#: ../main.cc:1070
 msgid "Restarting failed downloads"
 msgstr "Επανεκκίνση αποτυχημένων κατεβασμάτων"
 
 # main.cc
-#: ../main.cc:1047 ../main.cc:1067 ../main.cc:1083 ../main.cc:1087
-#: ../main.cc:1092 ../main.cc:1105 ../main.cc:1110
+#: ../main.cc:1070 ../main.cc:1097 ../main.cc:1113 ../main.cc:1117
+#: ../main.cc:1122 ../main.cc:1135 ../main.cc:1140
 msgid "[control socket]"
 msgstr "[socket ελέγχου]"
 
 # main.cc
-#: ../main.cc:1058
+#: ../main.cc:1081
+#, fuzzy, c-format
+msgid "Remove the download via control socket [%s]"
+msgstr "Προσθήκη κατεβάσματος μέσω socket ελέγχου [%s]"
+
+# main.cc
+#: ../main.cc:1088
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Προσθήκη κατεβάσματος μέσω socket ελέγχου [%s]"
 
 # main.cc
-#: ../main.cc:1065
+#: ../main.cc:1095
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Ορισμός του ορίου ταχύτητας στο %s %s"
 
 # main.cc
-#: ../main.cc:1083
+#: ../main.cc:1113
 msgid "Setup maximum active downloads to"
 msgstr "Ορισμός του μέγιστου αριθμού ενεργών κατεβασμάτων σε"
 
-#: ../main.cc:1105
+#: ../main.cc:1135
 msgid "Exiting if nothing to do is switched off"
 msgstr "Η έξοδος αν δεν υπάρχει άλλο κατέβασμα είναι απενεργοποιημένη"
 
-#: ../main.cc:1110
+#: ../main.cc:1140
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr "Ο Downloader θα τερματίσει αν δεν έχει να κάνει τίποτα μετά από %i λεπτά %s"
+msgstr ""
+"Ο Downloader θα τερματίσει αν δεν έχει να κάνει τίποτα μετά από %i λεπτά %s"
 
-#: ../main.cc:1359
+#: ../main.cc:1399
 msgid "Normally started"
 msgstr "Κανονική εκκίνηση"
 
-#: ../main.cc:1407
+#: ../main.cc:1447
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Πρόσθεσα για κατέβασμα το αρχείο %s από %s [από τον χρήστη]"
 
 # main.cc
-#: ../main.cc:1453
+#: ../main.cc:1491
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bytes φορτώθηκαν κατά τη διάρκεια της διαδικασίας"
 
 # main.cc:
-#: ../main.cc:1454
+#: ../main.cc:1492
 msgid "Downloader exited normaly"
 msgstr "Το πρόγραμμα έκλεισε κανονικά"
 
-#: ../main.cc:1491
+#: ../main.cc:1531
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Δεν μπορώ να ανοίξω το '%s' για αποθήκευση του log"
 
-#: ../main.cc:1522
+#: ../main.cc:1562
 msgid "Such protocol is not supported!"
 msgstr "Το πρωτόκολλο δεν υποστηρίζεται!!!"
 
@@ -749,7 +779,7 @@ msgstr "Άνοιγμα σειράς"
 msgid "Clear log"
 msgstr "Καθάρισμα log"
 
-#: ../face/fsched.cc:771 ../face/lmenu.cc:139 ../mainlog.cc:218
+#: ../face/fsched.cc:772 ../face/lmenu.cc:139 ../mainlog.cc:218
 msgid "Properties"
 msgstr "Ρυθμίσεις"
 
@@ -762,13 +792,13 @@ msgstr "αριθμός σειράς %i του κύριου log"
 msgid "Can't open file for saving log"
 msgstr "Δεν μπορώ να ανοίξω αρχείο για αποθήκευση του log"
 
-#: ../nt.cc:100
+#: ../nt.cc:112
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "ΠΡΟΣΟΧΗ!!! Δεν μπορώ να βρώ την μεταβλητή HOME! Δεν μπορώ να διαβάσω τις "
 "ρυθμίσεις!"
 
-#: ../nt.cc:113
+#: ../nt.cc:125
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "το %s πιθανότατα τρέχει ήδη\n"
@@ -808,58 +838,59 @@ msgid "Pinging  (it takes 30 seconds maximum)..."
 msgstr "Pinging (θα πάρει 30 δευτερόλεπτα το πολύ)..."
 
 # var.cc
-#: ../var.cc:94
+#: ../var.cc:95
 msgid "low"
 msgstr "κατώτερη"
 
-#: ../var.cc:95
+#: ../var.cc:96
 msgid "medium"
 msgstr "μεσαία"
 
-#: ../var.cc:96
+#: ../var.cc:97
 msgid "unlimited"
 msgstr "απεριόριστη"
 
-#: ../face/about.cc:99
+#: ../face/about.cc:102
 msgid "About"
 msgstr "Σχετικά με"
 
-#: ../face/about.cc:104
+#: ../face/about.cc:107
 msgid "Author: Koshelev Maxim"
 msgstr "Δημιουργός: Koshelev Maxim"
 
-#: ../face/about.cc:106
+#: ../face/about.cc:109
 msgid "Translators team"
 msgstr "Ομάδα μεταφραστών"
 
 # face/about.cc
-#: ../face/about.cc:113
+#: ../face/about.cc:116
 msgid "Special thanks to"
 msgstr "Ειδικές ευχαριστίες στους"
 
 # face/:
-#: ../face/about.cc:120 ../face/about.cc:188 ../face/about.cc:269
-#: ../face/buttons.cc:155 ../face/edit.cc:760 ../face/edit.cc:796
-#: ../face/edit.cc:1879 ../face/filtrgui.cc:143 ../face/fsched.cc:200
-#: ../face/fsched.cc:777 ../face/limface.cc:77 ../face/limface.cc:319
-#: ../face/mywidget.cc:384 ../face/mywidget.cc:656 ../face/passface.cc:77
-#: ../face/passface.cc:259 ../face/prefs.cc:1011 ../face/saveload.cc:137
-#: ../face/saveload.cc:177 ../face/saveload.cc:216
+#: ../face/about.cc:123 ../face/about.cc:191 ../face/about.cc:272
+#: ../face/buttons.cc:160 ../face/edit.cc:772 ../face/edit.cc:810
+#: ../face/edit.cc:1908 ../face/filtrgui.cc:165 ../face/fsched.cc:201
+#: ../face/fsched.cc:778 ../face/limface.cc:79 ../face/limface.cc:323
+#: ../face/lod.cc:459 ../face/mywidget.cc:386 ../face/mywidget.cc:658
+#: ../face/passface.cc:79 ../face/passface.cc:263 ../face/prefs.cc:1068
+#: ../face/saveload.cc:141 ../face/saveload.cc:183 ../face/saveload.cc:224
 msgid "Ok"
 msgstr "ΟΚ"
 
-#: ../face/about.cc:189 ../face/buttons.cc:157 ../face/edit.cc:761
-#: ../face/edit.cc:797 ../face/fsched.cc:778 ../face/limface.cc:78
-#: ../face/mywidget.cc:385 ../face/passface.cc:78 ../face/prefs.cc:1012
-#: ../face/saveload.cc:139 ../face/saveload.cc:179 ../face/saveload.cc:218
+#: ../face/about.cc:192 ../face/buttons.cc:162 ../face/edit.cc:773
+#: ../face/edit.cc:811 ../face/fsched.cc:779 ../face/limface.cc:80
+#: ../face/lod.cc:460 ../face/mywidget.cc:387 ../face/passface.cc:80
+#: ../face/prefs.cc:1069 ../face/saveload.cc:143 ../face/saveload.cc:185
+#: ../face/saveload.cc:226
 msgid "Cancel"
 msgstr "Ακυρο"
 
-#: ../face/about.cc:229
+#: ../face/about.cc:232
 msgid "Don't ask next time"
 msgstr "Μην ρωτήσεις την επόμενη φορά"
 
-#: ../face/addd.cc:100 ../face/addd.cc:168
+#: ../face/addd.cc:103 ../face/addd.cc:171
 msgid "Add new download"
 msgstr "Πρόσθεση νέου αρχείου προς κατέβασμα"
 
@@ -899,11 +930,11 @@ msgstr " Μετακίνηση προς τα κάτω "
 msgid " View log "
 msgstr " Δείτε το log "
 
-#: ../face/buttons.cc:57 ../face/buttons.cc:215
+#: ../face/buttons.cc:57 ../face/buttons.cc:220
 msgid " Speed level one "
 msgstr " Ταχύτητα επιπέδου 1 "
 
-#: ../face/buttons.cc:58 ../face/buttons.cc:219
+#: ../face/buttons.cc:58 ../face/buttons.cc:224
 msgid " Speed level two "
 msgstr " Ταχύτητα επιπέδου 2 "
 
@@ -941,15 +972,15 @@ msgstr " Τρόπος της ποσοστιαίας αναλογίας "
 msgid " Configure buttons "
 msgstr " Ρύθμιση κουμπιών "
 
-#: ../face/buttons.cc:156 ../face/prefs.cc:1013
+#: ../face/buttons.cc:161 ../face/prefs.cc:1070
 msgid "Apply"
 msgstr "Εφαρμογή"
 
-#: ../face/buttons.cc:204
+#: ../face/buttons.cc:209
 msgid "Delete ALL downloads?"
 msgstr "Θέλετε να σβήσετε ΟΛΑ τα αρχεία προς κατέβασμα;"
 
-#: ../face/buttons.cc:204
+#: ../face/buttons.cc:209
 msgid "Delete all?"
 msgstr "Θέλετε να τα σβήσετε ΟΛΑ;"
 
@@ -1007,7 +1038,7 @@ msgstr "αριθμός προσπαθειών"
 msgid "description"
 msgstr "περιγραφή"
 
-#: ../face/columns.cc:33 ../face/lod.cc:55
+#: ../face/columns.cc:33 ../face/lod.cc:56
 msgid "URL"
 msgstr "URL"
 
@@ -1061,20 +1092,20 @@ msgid "/Exit"
 msgstr "/Έξοδος"
 
 # face/dndtrash.cc:
-#: ../face/dndtrash.cc:256 ../face/list.cc:856 ../face/list.cc:873
+#: ../face/dndtrash.cc:258 ../face/list.cc:860 ../face/list.cc:877
 msgid "Drop link here"
 msgstr "Αφήστε το link εδώ"
 
-#: ../face/edit.cc:60 ../face/edit.cc:433
+#: ../face/edit.cc:60 ../face/edit.cc:443
 msgid "Use password for this site"
 msgstr "Χρήση κωδικού για αυτό το site"
 
-#: ../face/edit.cc:61 ../face/edit.cc:397
+#: ../face/edit.cc:61 ../face/edit.cc:407
 msgid "Save download to folder"
 msgstr "Αποθήκευση του αρχείου στον φάκελο"
 
 # face/edit.cc
-#: ../face/edit.cc:62 ../face/edit.cc:450
+#: ../face/edit.cc:62 ../face/edit.cc:460
 msgid "Restart this download from begining"
 msgstr "Επανεκίνηση του κατεβάσματος από την αρχή"
 
@@ -1099,45 +1130,45 @@ msgstr "Χρόνος λήξης πρίν από επανασύνδεση"
 msgid "Rollback after reconnecting"
 msgstr "Απόριψη κάποιων bytes μετά την επανασύνδεση"
 
-#: ../face/edit.cc:68 ../face/edit.cc:514 ../face/prefs.cc:218
+#: ../face/edit.cc:68 ../face/edit.cc:524 ../face/prefs.cc:228
 msgid "Get date from the server"
 msgstr "Πάρε την ημερομηνία από τον server"
 
-#: ../face/edit.cc:69 ../face/edit.cc:518 ../face/prefs.cc:222
+#: ../face/edit.cc:69 ../face/edit.cc:528 ../face/prefs.cc:232
 msgid "Retry if resuming is not supported"
 msgstr "Από την αρχή αν δεν υποστηρίζεται resuming"
 
 # face/edit.cc:
-#: ../face/edit.cc:70 ../face/edit.cc:509
+#: ../face/edit.cc:70 ../face/edit.cc:519
 msgid "Number of parts for spliting this download"
 msgstr "Αριθμός κομματιών για 'κόψιμο' του κατεβάσματος"
 
-#: ../face/edit.cc:71 ../face/edit.cc:556 ../face/prefs.cc:323
+#: ../face/edit.cc:71 ../face/edit.cc:566 ../face/prefs.cc:333
 msgid "Use passive mode for FTP"
 msgstr "Χρήση passive mode για ftp"
 
-#: ../face/edit.cc:72 ../face/edit.cc:562 ../face/prefs.cc:331
+#: ../face/edit.cc:72 ../face/edit.cc:572 ../face/prefs.cc:341
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "Πάρε τα δικαιώματα του αρχείου από τον server (μόνο FTP)"
 
 # face/prefs.cc, face/edit.cc
-#: ../face/edit.cc:73 ../face/edit.cc:559 ../face/prefs.cc:327
+#: ../face/edit.cc:73 ../face/edit.cc:569 ../face/prefs.cc:337
 msgid "Don't send QUIT command (FTP)"
 msgstr "Μην στείλεις την εντολή QUIT (ftp)"
 
-# face/edit.cc
-#: ../face/edit.cc:74 ../face/edit.cc:522 ../face/prefs.cc:226
-msgid "Sleep before completing"
-msgstr "Ανενεργός κατάσταση πρίν την ολοκλήρωση"
-
 # face/prefs.cc
-#: ../face/edit.cc:75 ../face/edit.cc:526 ../face/prefs.cc:238
+#: ../face/edit.cc:74 ../face/edit.cc:536 ../face/prefs.cc:248
 msgid "Compare date/time of remote file with local one"
 msgstr ""
 "Σύγκριση ημερομηνίας/ώρας του απομακρυσμένου αρχείου με το τοπικό αρχείο"
 
+# face/edit.cc
+#: ../face/edit.cc:75 ../face/edit.cc:532 ../face/prefs.cc:236
+msgid "Sleep before completing"
+msgstr "Ανενεργός κατάσταση πρίν την ολοκλήρωση"
+
 # face/edit.cc:
-#: ../face/edit.cc:76 ../face/edit.cc:565 ../face/prefs.cc:335
+#: ../face/edit.cc:76 ../face/edit.cc:575 ../face/prefs.cc:345
 msgid "Try to load symbolic link as file via FTP"
 msgstr "Προσπάθεια ανάγνωσης symbolic link ως αρχείο μέσω ftp"
 
@@ -1150,254 +1181,254 @@ msgid "Depth of recursing for HTTP"
 msgstr "Βάθος αναδρομικότητας για το HTTP"
 
 # face/edit.cc:
-#: ../face/edit.cc:79 ../face/edit.cc:595 ../face/prefs.cc:370
+#: ../face/edit.cc:79 ../face/edit.cc:605 ../face/prefs.cc:380
 msgid "Only subdirs"
 msgstr "Μόνο υποκαταλόγους"
 
 # face/edit.cc
-#: ../face/edit.cc:80 ../face/edit.cc:596 ../face/prefs.cc:371
+#: ../face/edit.cc:80 ../face/edit.cc:606 ../face/prefs.cc:381
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "Αγνόησε αυτόν τον server ενώ κάνεις αναδρομή μέσω http"
 
-#: ../face/edit.cc:81 ../face/edit.cc:597 ../face/prefs.cc:372
+#: ../face/edit.cc:81 ../face/edit.cc:607 ../face/prefs.cc:382
 msgid "Change links in HTML file to local"
 msgstr "Αλλαγή των links του HTML αρχείου σε τοπικά"
 
-#: ../face/edit.cc:82 ../face/edit.cc:620 ../face/prefs.cc:389
+#: ../face/edit.cc:82 ../face/edit.cc:630 ../face/prefs.cc:399
 msgid "User-Agent"
 msgstr "User-Agent"
 
-#: ../face/edit.cc:83 ../face/edit.cc:630
+#: ../face/edit.cc:83 ../face/edit.cc:640
 msgid "Referer"
 msgstr "Αναφορικός"
 
-#: ../face/edit.cc:84 ../face/edit.cc:642
+#: ../face/edit.cc:84 ../face/edit.cc:652
 msgid "Cookie"
 msgstr "Cookie"
 
-#: ../face/edit.cc:85 ../face/edit.cc:747 ../face/edit.cc:750
-#: ../face/prefs.cc:412 ../face/prefs.cc:930 ../face/prefs.cc:1100
+#: ../face/edit.cc:85 ../face/edit.cc:759 ../face/edit.cc:762
+#: ../face/prefs.cc:422 ../face/prefs.cc:982 ../face/prefs.cc:1157
 msgid "Proxy"
 msgstr "Proxy"
 
 #. Init time
 #.
-#: ../face/edit.cc:86 ../face/edit.cc:666 ../face/edit.cc:709
-#: ../face/fsched.cc:185 ../face/lod.cc:50
+#: ../face/edit.cc:86 ../face/edit.cc:676 ../face/edit.cc:719
+#: ../face/fsched.cc:186 ../face/lod.cc:51
 msgid "Time"
 msgstr "Χρόνος"
 
-#: ../face/edit.cc:194 ../face/edit.cc:211
+#: ../face/edit.cc:195 ../face/edit.cc:212
 msgid "Edit download"
 msgstr "Ρυθμίστε το αρχείο"
 
 # face/lod.cc
-#: ../face/edit.cc:396 ../face/lod.cc:54
+#: ../face/edit.cc:406 ../face/lod.cc:55
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: ../face/edit.cc:398
+#: ../face/edit.cc:408
 msgid "Save download to file"
 msgstr "Αποθήκευση κατεβάσματος στο αρχείο"
 
-#: ../face/edit.cc:399 ../face/edit.cc:1428 ../face/edit.cc:1488
-#: ../face/edit.cc:1522 ../face/passface.cc:67
+#: ../face/edit.cc:409 ../face/edit.cc:1455 ../face/edit.cc:1515
+#: ../face/edit.cc:1549 ../face/passface.cc:69
 msgid "password"
 msgstr "κωδικός"
 
-#: ../face/edit.cc:400
+#: ../face/edit.cc:410
 msgid "user name"
 msgstr "όνομα χρήστη"
 
 # face/edit.cc:
 #. set as default button
 #.
-#: ../face/edit.cc:403
+#: ../face/edit.cc:413
 msgid "Default"
 msgstr "Εξ ορισμού"
 
 # face/edit.cc:
-#: ../face/edit.cc:449 ../face/prefs.cc:234
+#: ../face/edit.cc:459 ../face/prefs.cc:244
 msgid "Pause this just after adding"
 msgstr "Μην αρχίσεις το κατέβασμα μετά την προσθήκη"
 
-#: ../face/edit.cc:455 ../face/prefs.cc:216 ../face/prefs.cc:906
-#: ../face/prefs.cc:1053
+#: ../face/edit.cc:465 ../face/prefs.cc:226 ../face/prefs.cc:958
+#: ../face/prefs.cc:1110
 msgid "Download"
 msgstr "Κατέβασμα"
 
-#: ../face/edit.cc:458 ../face/prefs.cc:700 ../face/prefs.cc:985
-#: ../face/prefs.cc:1173
+#: ../face/edit.cc:468 ../face/prefs.cc:710 ../face/prefs.cc:1042
+#: ../face/prefs.cc:1251
 msgid "Main"
 msgstr "Βασικό"
 
-#: ../face/edit.cc:474 ../face/prefs.cc:268
+#: ../face/edit.cc:484 ../face/prefs.cc:278
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "Χρόνος λήξης της ανάγνωσης από το socket (σε δευτερόλεπτα)"
 
-#: ../face/edit.cc:481 ../face/prefs.cc:275
+#: ../face/edit.cc:491 ../face/prefs.cc:285
 msgid "Timeout before reconnection (in seconds)"
 msgstr "Χρόνος λήξης πρίν την επανασύνδεση (σε δευτερόλεπτα)"
 
-#: ../face/edit.cc:488 ../face/prefs.cc:282
+#: ../face/edit.cc:498 ../face/prefs.cc:292
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "Μέγιστες προσπάθειες (0 για άπειρες)"
 
 # face/refs.cc:
-#: ../face/edit.cc:495 ../face/prefs.cc:289
+#: ../face/edit.cc:505 ../face/prefs.cc:299
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "αποριφθέντα bytes μετά από επανασύνδεση"
 
 # face/edit.cc
-#: ../face/edit.cc:502 ../face/prefs.cc:296
+#: ../face/edit.cc:512 ../face/prefs.cc:306
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "Περιορισμός ταχύτητας σε Bytes/δευτ (0 για άπειρο)"
 
-#: ../face/edit.cc:530
+#: ../face/edit.cc:540
 msgid "Save log to file"
 msgstr "Αποθήκευση log σε αρχείο"
 
-#: ../face/edit.cc:540
+#: ../face/edit.cc:550
 msgid "Auto"
 msgstr "Αυτόματο"
 
-#: ../face/edit.cc:547 ../face/edit.cc:550
+#: ../face/edit.cc:557 ../face/edit.cc:560
 msgid "Common"
 msgstr "Κοινά"
 
-#: ../face/edit.cc:573 ../face/edit.cc:590 ../face/prefs.cc:342
-#: ../face/prefs.cc:383
+#: ../face/edit.cc:583 ../face/edit.cc:600 ../face/prefs.cc:352
+#: ../face/prefs.cc:393
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "Βάθος αναδρομικότητας (0 άπειρο,1 όχι αναδρομή)"
 
-#: ../face/edit.cc:611
+#: ../face/edit.cc:621
 msgid "Filter"
 msgstr "Φίλτρο"
 
 # face/mywidget.cc:
-#: ../face/edit.cc:612 ../face/mywidget.cc:231
+#: ../face/edit.cc:622 ../face/lod.cc:478 ../face/mywidget.cc:233
 msgid "Select"
 msgstr "Επιλογή"
 
-#: ../face/edit.cc:681
+#: ../face/edit.cc:691
 msgid "Hours"
 msgstr "Ώρα"
 
-#: ../face/edit.cc:689
+#: ../face/edit.cc:699
 msgid "Minutes"
 msgstr "Λεπτό"
 
-#: ../face/edit.cc:701
+#: ../face/edit.cc:711
 msgid "Start this downloading at:"
 msgstr "Ξεκίνα το κατέβασμα το:"
 
-#: ../face/edit.cc:781
+#: ../face/edit.cc:795
 msgid "Select filter"
 msgstr "Επιλογή φίλτρου"
 
-#: ../face/edit.cc:783 ../face/filtrgui.cc:130
+#: ../face/edit.cc:797 ../face/filtrgui.cc:152
 msgid "filter name"
 msgstr "όνομα φίλτρου"
 
-#: ../face/edit.cc:1365
+#: ../face/edit.cc:1392
 msgid "FTP proxy type"
 msgstr "Τύπος proxy του ftp"
 
-#: ../face/edit.cc:1376
+#: ../face/edit.cc:1403
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: ../face/edit.cc:1390
+#: ../face/edit.cc:1417
 msgid "Use this proxy for FTP"
 msgstr "Χρήση αυτού του proxy για ftp"
 
 #. gtk_entry_new();
-#: ../face/edit.cc:1398 ../face/edit.cc:1460 ../face/edit.cc:1507
+#: ../face/edit.cc:1425 ../face/edit.cc:1487 ../face/edit.cc:1534
 msgid "port"
 msgstr "port"
 
-#: ../face/edit.cc:1405 ../face/edit.cc:1466
+#: ../face/edit.cc:1432 ../face/edit.cc:1493
 msgid "need password"
 msgstr "χρήση κωδικού"
 
-#: ../face/edit.cc:1413 ../face/edit.cc:1474 ../face/edit.cc:1515
-#: ../face/passface.cc:66 ../face/passface.cc:245
+#: ../face/edit.cc:1440 ../face/edit.cc:1501 ../face/edit.cc:1542
+#: ../face/passface.cc:68 ../face/passface.cc:249
 msgid "username"
 msgstr "όνομα χρήστη"
 
 # face/lod.cc
-#: ../face/edit.cc:1445
+#: ../face/edit.cc:1472
 msgid "Don't get from cache"
 msgstr "Μην το πάρεις από την cache"
 
-#: ../face/edit.cc:1452
+#: ../face/edit.cc:1479
 msgid "Use this proxy for HTTP"
 msgstr "Χρήση αυτού του proxy για http"
 
 #. SOCKS settings
-#: ../face/edit.cc:1496
+#: ../face/edit.cc:1523
 msgid "Use SOCKS5 proxy"
 msgstr "Χρήση SOCKS5 proxy"
 
-#: ../face/edit.cc:1503 ../face/mywidget.cc:355 ../face/mywidget.cc:611
+#: ../face/edit.cc:1530 ../face/mywidget.cc:357 ../face/mywidget.cc:613
 msgid "host"
 msgstr "host"
 
-#: ../face/edit.cc:1861
+#: ../face/edit.cc:1890
 msgid "Select properties"
 msgstr "Επιλογή ρυθμίσεων"
 
-#: ../face/edit.cc:1885
+#: ../face/edit.cc:1914
 msgid "Unselect all"
 msgstr "Επιλογή κανενός"
 
-#: ../face/edit.cc:1891
+#: ../face/edit.cc:1920
 msgid "Select all"
 msgstr "Επιλογή όλων"
 
-#: ../face/limface.cc:56
+#: ../face/limface.cc:58
 msgid "Limitation for the host"
 msgstr "Περιορισμός για τον host"
 
-#: ../face/limface.cc:62
+#: ../face/limface.cc:64
 msgid "Host:"
 msgstr "Host:"
 
-#: ../face/limface.cc:63
+#: ../face/limface.cc:65
 msgid "Port:"
 msgstr "Port:"
 
-#: ../face/limface.cc:64
+#: ../face/limface.cc:66
 msgid "Maximum connections:"
 msgstr "Μέγιστος αριθμός συνδέσεων:"
 
-#: ../face/limface.cc:303
+#: ../face/limface.cc:307
 msgid "Limitations for the hosts"
 msgstr "Περιορισμοί για τους hosts"
 
-#: ../face/limface.cc:307 ../face/passface.cc:56 ../face/passface.cc:245
+#: ../face/limface.cc:311 ../face/passface.cc:58 ../face/passface.cc:249
 msgid "Host"
 msgstr "Host"
 
-#: ../face/limface.cc:307
+#: ../face/limface.cc:311
 msgid "N"
 msgstr "N"
 
 # face/limface.cc:
-#: ../face/limface.cc:307
+#: ../face/limface.cc:311
 msgid "Now"
 msgstr "Τώρα"
 
-#: ../face/filtrgui.cc:144 ../face/limface.cc:320 ../face/passface.cc:260
+#: ../face/filtrgui.cc:166 ../face/limface.cc:324 ../face/passface.cc:264
 msgid "Add new"
 msgstr "Προσθήκη νέου"
 
-#: ../face/limface.cc:321 ../face/passface.cc:261
+#: ../face/limface.cc:325 ../face/passface.cc:265
 msgid "Delete"
 msgstr "Σβήσιμο"
 
 # face/limface.cc
-#: ../face/limface.cc:331
+#: ../face/limface.cc:335
 msgid "Default limitation for all hosts (0 without limits)"
 msgstr "Εξ ορισμού περιορισμός για όλους τους hosts (0 για χωρίς όρια"
 
@@ -1570,35 +1601,35 @@ msgstr "/Βοήθεια"
 msgid "/_Help/About"
 msgstr "/Βοήθεια/Σχετικά"
 
-#: ../face/list.cc:549
+#: ../face/list.cc:552
 msgid "Do you really want to quit?"
 msgstr "Θέλετε πραγματικά να βγείτε από το πρόγραμμα;"
 
-#: ../face/list.cc:549
+#: ../face/list.cc:552
 msgid "Quit?"
 msgstr "Έξοδος;"
 
-#: ../face/list.cc:578
+#: ../face/list.cc:581
 msgid "Delete selected downloads?"
 msgstr "Σβήσιμο επιλεγμένων αρχείων;"
 
-#: ../face/list.cc:578 ../face/list.cc:596 ../face/list.cc:614
+#: ../face/list.cc:581 ../face/list.cc:599 ../face/list.cc:617
 msgid "Delete?"
 msgstr "Σβήσιμο;"
 
-#: ../face/list.cc:596
+#: ../face/list.cc:599
 msgid "Do you wish delete completed downloads?"
 msgstr "Θέλετε να σβήσετε τα κατεβασμένα αρχεία;"
 
-#: ../face/list.cc:614
+#: ../face/list.cc:617
 msgid "Do you wish delete failed downloads?"
 msgstr "Θέλετε να σβήσετε τα αποτυχημένα κατεβάσματα;"
 
-#: ../face/list.cc:674
+#: ../face/list.cc:678
 msgid "Ready to go ????"
 msgstr "Έτοιμοι;"
 
-#: ../face/list.cc:863
+#: ../face/list.cc:867
 #, c-format
 msgid "%i-running %i-completed %i-total "
 msgstr "%i-κατεβαίνει %i-κατεβασμένο %i-συνολικά "
@@ -1648,63 +1679,72 @@ msgstr "Κίνηση κάτω"
 msgid "Set limitation"
 msgstr "Ορισμός ορίων"
 
-#: ../face/lmenu.cc:189 ../face/prefs.cc:763 ../face/prefs.cc:1000
-#: ../face/prefs.cc:1161
+#: ../face/lmenu.cc:189 ../face/prefs.cc:773 ../face/prefs.cc:1057
+#: ../face/prefs.cc:1239
 msgid "FTP search"
 msgstr "FTP αναζήτηση"
 
-#: ../face/lod.cc:43
+#: ../face/lod.cc:44
 msgid "File"
 msgstr "Αρχείο"
 
-#: ../face/lod.cc:44
+#: ../face/lod.cc:45
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../face/lod.cc:45
+#: ../face/lod.cc:46
 msgid "Full Size"
 msgstr "Μέγεθος"
 
-#: ../face/lod.cc:46
+#: ../face/lod.cc:47
 msgid "Downloaded"
 msgstr "Κατεβασμένο"
 
 # face/lod.cc
-#: ../face/lod.cc:47
+#: ../face/lod.cc:48
 msgid "Rest"
 msgstr "Υπόλοιπο"
 
-#: ../face/lod.cc:49
+#: ../face/lod.cc:50
 msgid "Speed"
 msgstr "Ταχύτητα"
 
-#: ../face/lod.cc:51
+#: ../face/lod.cc:52
 msgid "Remaining"
 msgstr "Υπόλοιπο"
 
-#: ../face/lod.cc:52
+#: ../face/lod.cc:53
 msgid "Pause"
 msgstr "Παύση"
 
-#: ../face/lod.cc:53
+#: ../face/lod.cc:54
 msgid "Attempt"
 msgstr "Προσπάθεια"
 
+#: ../face/lod.cc:449
+msgid "Enter wildcard"
+msgstr ""
+
+#: ../face/lod.cc:476
+#, fuzzy
+msgid "Unselect"
+msgstr "Επιλογή κανενός"
+
 # face/lod.cc
-#: ../face/lod.cc:838
+#: ../face/lod.cc:1106
 msgid "Continue open log windows?"
 msgstr "Συνέχεια ανοίγματος παράθυρων log;"
 
-#: ../face/lod.cc:838
+#: ../face/lod.cc:1106
 msgid "Open logs?"
 msgstr "Aνοιγμα των logs?"
 
-#: ../face/log.cc:211
+#: ../face/log.cc:206
 #, c-format
 msgid "Row number %i [log of %s]"
 msgstr "Σειρά %i [log του %s]"
 
-#: ../face/log.cc:316
+#: ../face/log.cc:317
 msgid "Log: "
 msgstr "Log: "
 
@@ -1712,182 +1752,182 @@ msgstr "Log: "
 msgid "Select directory"
 msgstr "Διαλέξτε κατάλογο"
 
-#: ../face/fsched.cc:297 ../face/mywidget.cc:61
+#: ../face/fsched.cc:298 ../face/mywidget.cc:61
 msgid "Select file"
 msgstr "Επιλογή αρχείου"
 
-#: ../face/fsched.cc:437 ../face/fsched.cc:460 ../face/mywidget.cc:102
+#: ../face/fsched.cc:438 ../face/fsched.cc:461 ../face/mywidget.cc:104
 msgid "Browse"
 msgstr "Ξεφύλλισμα"
 
 # face/mywidget.cc:
-#: ../face/mywidget.cc:192
+#: ../face/mywidget.cc:194
 msgid "Select color"
 msgstr "Επιλογή χρώματος"
 
-#: ../face/mywidget.cc:334
+#: ../face/mywidget.cc:336
 msgid "Edit properties of Rule"
 msgstr "Επεξεργασία ρυθμίσεων του Κανόνα"
 
 # face/passwords.cc
-#: ../face/mywidget.cc:337 ../face/mywidget.cc:611 ../face/passface.cc:55
+#: ../face/mywidget.cc:339 ../face/mywidget.cc:613 ../face/passface.cc:57
 msgid "protocol"
 msgstr "πρωτόκολλο"
 
-#: ../face/mywidget.cc:362 ../face/mywidget.cc:611
+#: ../face/mywidget.cc:364 ../face/mywidget.cc:613
 msgid "path"
 msgstr "path"
 
-#: ../face/mywidget.cc:377
+#: ../face/mywidget.cc:379
 msgid "include"
 msgstr "περιλαμβάνω"
 
-#: ../face/mywidget.cc:379
+#: ../face/mywidget.cc:381
 msgid "exclude"
 msgstr "αποκλείω"
 
-#: ../face/mywidget.cc:607
+#: ../face/mywidget.cc:609
 msgid "Modify filter"
 msgstr "Τροποποίηση φίλτρου"
 
-#: ../face/mywidget.cc:632
+#: ../face/mywidget.cc:634
 msgid "include by default"
 msgstr "περιελάμβανε ως εξ ορισμού"
 
 # face/prefs.cc
-#: ../face/mywidget.cc:634
+#: ../face/mywidget.cc:636
 msgid "exclude by default"
 msgstr "απόκλειση από το default"
 
-#: ../face/mywidget.cc:640
+#: ../face/mywidget.cc:642
 msgid "Name of filter"
 msgstr "Όνομα φίλτρου"
 
-#: ../face/mywidget.cc:646
+#: ../face/mywidget.cc:648
 msgid "Up"
 msgstr "Πάνω"
 
-#: ../face/mywidget.cc:647
+#: ../face/mywidget.cc:649
 msgid "Add rule"
 msgstr "Προσθήκη κανόνα"
 
-#: ../face/mywidget.cc:648
+#: ../face/mywidget.cc:650
 msgid "Down"
 msgstr "Κάτω"
 
-#: ../face/filtrgui.cc:146 ../face/fsched.cc:203 ../face/mywidget.cc:657
+#: ../face/filtrgui.cc:168 ../face/fsched.cc:204 ../face/mywidget.cc:659
 msgid "Remove"
 msgstr "Διαγραφή"
 
 # face/dndtrash.cc
-#: ../face/filtrgui.cc:145 ../face/fsched.cc:202 ../face/fsched.cc:418
-#: ../face/mywidget.cc:658
+#: ../face/filtrgui.cc:167 ../face/fsched.cc:203 ../face/fsched.cc:419
+#: ../face/mywidget.cc:660
 msgid "Edit"
 msgstr "Επεξεργασία"
 
 # face/passface.cc:
-#: ../face/passface.cc:40
+#: ../face/passface.cc:42
 msgid "Password and username"
 msgstr "Κωδικός και όνομα χρήστη"
 
 # face/passface.cc:
-#: ../face/passface.cc:241
+#: ../face/passface.cc:245
 msgid "Default passwords and usernames"
 msgstr "Εξ ορισμού κωδικοί και ονόματα χρηστών"
 
-#: ../face/passface.cc:245
+#: ../face/passface.cc:249
 msgid "#"
 msgstr "#"
 
-#: ../face/prefs.cc:230
+#: ../face/prefs.cc:240
 msgid "Optimize recursive downloads"
 msgstr "Βελτιστοποίηση αναδρομικών κατεβασμάτων"
 
-#: ../face/prefs.cc:248
+#: ../face/prefs.cc:258
 msgid "Save downloads to folder"
 msgstr "Αποθήκευση αρχείων στον κατάλογο"
 
-#: ../face/prefs.cc:257 ../face/prefs.cc:915 ../face/prefs.cc:1065
+#: ../face/prefs.cc:267 ../face/prefs.cc:967 ../face/prefs.cc:1122
 msgid "Limits"
 msgstr "Περιορισμοί"
 
-#: ../face/prefs.cc:313
+#: ../face/prefs.cc:323
 msgid "Maximum lines in log"
 msgstr "Μέγιστος αριθμός γραμμών στο log"
 
-#: ../face/prefs.cc:321 ../face/prefs.cc:920 ../face/prefs.cc:1074
+#: ../face/prefs.cc:331 ../face/prefs.cc:972 ../face/prefs.cc:1131
 msgid "FTP"
 msgstr "FTP"
 
 # face/prefs.cc
-#: ../face/prefs.cc:347
+#: ../face/prefs.cc:357
 msgid "Output FTP dirs in logs"
 msgstr "Αναφορά των φακέλων ftp στα logs"
 
-#: ../face/prefs.cc:358
+#: ../face/prefs.cc:368
 msgid "default anonymous password"
 msgstr "εξ ορισμού anonymous password"
 
-#: ../face/prefs.cc:368 ../face/prefs.cc:925 ../face/prefs.cc:1086
+#: ../face/prefs.cc:378 ../face/prefs.cc:977 ../face/prefs.cc:1143
 msgid "HTTP"
 msgstr "HTTP"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:403
+#: ../face/prefs.cc:413
 msgid "Filename for saving if it is unknown"
 msgstr "Αρχείο για αποθήκευση αν είναι άγνωστο"
 
-#: ../face/prefs.cc:427 ../face/prefs.cc:950 ../face/prefs.cc:1117
+#: ../face/prefs.cc:437 ../face/prefs.cc:1002 ../face/prefs.cc:1174
 msgid "Main window"
 msgstr "Κύριο παράθυρο"
 
-#: ../face/prefs.cc:429
+#: ../face/prefs.cc:439
 msgid "Using title"
 msgstr "Χρήση τίτλου"
 
-#: ../face/prefs.cc:433
+#: ../face/prefs.cc:443
 msgid "Use title of main window for info"
 msgstr "Χρήση του titlebar για πληροφορίες"
 
-#: ../face/prefs.cc:438
+#: ../face/prefs.cc:448
 msgid "Display queue statistics too"
 msgstr "Προβολή στατιστικών ουράς"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:439
+#: ../face/prefs.cc:449
 msgid "Scroll title"
 msgstr "Κύλιση τίτλου"
 
-#: ../face/prefs.cc:444
+#: ../face/prefs.cc:454
 msgid "Iconfiy main window instead of closing"
 msgstr "Ελαχιστοποίηση κεντρικού παραθύρου κατά την έξοδο"
 
-#: ../face/prefs.cc:456 ../face/prefs.cc:955 ../face/prefs.cc:1124
+#: ../face/prefs.cc:466 ../face/prefs.cc:1007 ../face/prefs.cc:1181
 msgid "Confirmation"
 msgstr "Επιβεβαίωση"
 
-#: ../face/prefs.cc:458
+#: ../face/prefs.cc:468
 msgid "Confirm delete selected downloads"
 msgstr "Επιβεβαίωση σβησίματος επιλεγμένων αρχείων"
 
-#: ../face/prefs.cc:459
+#: ../face/prefs.cc:469
 msgid "Confirm delete all downloads"
 msgstr "Επιβεβαίωση σβησίματος όλων των αρχείων"
 
-#: ../face/prefs.cc:460
+#: ../face/prefs.cc:470
 msgid "Confirm delete completed downloads"
 msgstr "Επιβεβαίωση σβησίματος κατεβασμένων αρχείων"
 
-#: ../face/prefs.cc:461
+#: ../face/prefs.cc:471
 msgid "Confirm delete failed downloads"
 msgstr "Επιβεβαίωση σβησίματος αποτυχημένων κατεβασμάτων"
 
 # face/prefs.cc
-#: ../face/prefs.cc:462
+#: ../face/prefs.cc:472
 msgid "Confirm opening large amount of windows"
 msgstr "Επιβεβαίωση ανοίγματος μεγάλου αριθμού παράθυρων"
 
-#: ../face/prefs.cc:463
+#: ../face/prefs.cc:473
 msgid "Confirm exit from program"
 msgstr "Επιβεβαίωση εξόδου από το πρόγραμμα"
 
@@ -1897,210 +1937,248 @@ msgstr "Επιβεβαίωση εξόδου από το πρόγραμμα"
 #. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
 #. gtk_widget_show(tmpitem);
 #.
-#: ../face/prefs.cc:488 ../face/prefs.cc:979 ../face/prefs.cc:1150
+#: ../face/prefs.cc:498 ../face/prefs.cc:1036 ../face/prefs.cc:1228
 msgid "Clipboard"
 msgstr "Πρόχειρο"
 
 # face/prefs.cc
-#: ../face/prefs.cc:490
+#: ../face/prefs.cc:500
 msgid "Monitor clipboard"
 msgstr "Παρακολούθηση του πρόχειρου"
 
 # face/prefs.cc
-#: ../face/prefs.cc:500
+#: ../face/prefs.cc:510
 msgid "Skip these extensions in clipboard"
 msgstr "Αγνόησε αυτές τις επεκτάσεις από το πρόχειρο"
 
-#: ../face/prefs.cc:508
+#: ../face/prefs.cc:518
 msgid "Catch these extensions in clipboard"
 msgstr "Συνέλαβε αυτές τις επεκτάσεις από το πρόχειρο"
 
 # prefs.cc:
-#: ../face/prefs.cc:531 ../face/prefs.cc:994 ../face/prefs.cc:1186
+#: ../face/prefs.cc:541 ../face/prefs.cc:1051 ../face/prefs.cc:1264
 msgid "Main log"
 msgstr "Κύριο log"
 
-#: ../face/prefs.cc:537
+#: ../face/prefs.cc:547
 msgid "Maximum lines in MAIN log"
 msgstr "Μέγιστος αριθμός γραμμών στο log"
 
 # face/prefs.cc
-#: ../face/prefs.cc:541
+#: ../face/prefs.cc:551
 msgid "Output detailed information"
 msgstr "Λεπτομερείς πληροφορίες εξόδου"
 
-#: ../face/prefs.cc:545
+#: ../face/prefs.cc:555
 msgid "Save main log into file"
 msgstr "Αποθήκευση log στο αρχείο"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:564
+#: ../face/prefs.cc:574
 msgid "Maximum size for file of main log (in KBytes)"
 msgstr "Μέγιστο μέγεθος αρχείου για το κύριο log (σε Kbytes)"
 
-#: ../face/prefs.cc:570
+#: ../face/prefs.cc:580
 msgid "Append to file"
 msgstr "Πρόσθεση στο αρχείο"
 
-#: ../face/prefs.cc:573
+#: ../face/prefs.cc:583
 msgid "Overwrite file"
 msgstr "Επανεγγραφή αρχείου"
 
-#: ../face/prefs.cc:588 ../face/prefs.cc:966 ../face/prefs.cc:1141
+#: ../face/prefs.cc:598 ../face/prefs.cc:1023 ../face/prefs.cc:1219
 msgid "Integration"
 msgstr "Ενσωμάτωση"
 
 # prefs.cc:
-#: ../face/prefs.cc:590
+#: ../face/prefs.cc:600
 msgid "Exit if nothing to do after"
 msgstr "Έξοδος αν δεν έχεις τίποτα να κάνεις μετά από"
 
-#: ../face/prefs.cc:596 ../face/prefs.cc:716
+#: ../face/prefs.cc:606 ../face/prefs.cc:726
 msgid "minutes"
 msgstr "λεπτά"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:607
+#: ../face/prefs.cc:617
 msgid "Run this on exit"
 msgstr "Τρέξε αυτό και τερμάτισε"
 
-#: ../face/prefs.cc:612
+#: ../face/prefs.cc:622
 msgid "Open dialog for Drag-n-Drop"
 msgstr "Άνοιγμα διαλόγου για τα Drag-n-Drop"
 
-#: ../face/prefs.cc:620 ../face/prefs.cc:945 ../face/prefs.cc:1109
+#: ../face/prefs.cc:630 ../face/prefs.cc:997 ../face/prefs.cc:1166
 msgid "Columns"
 msgstr "Στήλες"
 
-#: ../face/prefs.cc:624
+#: ../face/prefs.cc:634
 msgid "Size format"
 msgstr "Μορφή μεγέθους"
 
-#: ../face/prefs.cc:625
+#: ../face/prefs.cc:635
 msgid "Time format"
 msgstr "Μορφή χρόνου"
 
-#: ../face/prefs.cc:706
+#: ../face/prefs.cc:716
 msgid "Maximum active downloads"
 msgstr "Μέγιστος αριθμός ενεργών κατεβασμάτων"
 
-#: ../face/prefs.cc:710
+#: ../face/prefs.cc:720
 msgid "Save list of downloads every"
 msgstr "Αποθήκευση λίστας κατεβασμάτων κάθε"
 
-#: ../face/prefs.cc:723
+#: ../face/prefs.cc:733
 msgid "Automatically delete completed downloads"
 msgstr "Αυτόματο σβήσιμο κατεβασμένων αρχείων"
 
-#: ../face/prefs.cc:724
+#: ../face/prefs.cc:734
 msgid "Automatically delete failed downloads"
 msgstr "Αυτόματο σβήσιμο αποτυχημένων αρχείων"
 
-#: ../face/prefs.cc:725
+#: ../face/prefs.cc:735
 msgid "Allow to user force run downloads"
 msgstr "Δυνατότητα του χρήστη να επιβάλλει το κατέβασμα"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:726
+#: ../face/prefs.cc:736
 msgid "Remember passwords"
 msgstr "Κράτα στη μνήμη τους κωδικούς"
 
 # face/prefs.cc
-#: ../face/prefs.cc:727
+#: ../face/prefs.cc:737
 msgid "Write Descript.ion file"
 msgstr "Εγγραφή αρχείου περιγρα.φής"
 
-#: ../face/prefs.cc:741
+#: ../face/prefs.cc:751
 msgid "bytes/sec speed level one (red button)"
 msgstr "bytes/δευτ ταχύτητα επιπέδου ένα (κόκκινο κουμπί)"
 
-#: ../face/prefs.cc:749
+#: ../face/prefs.cc:759
 msgid "bytes/sec speed level two (yellow button)"
 msgstr "bytes/δευτ ταχύτητα επιπέδου δύο (κίτρινο κουμπί)"
 
-#: ../face/prefs.cc:769
+#: ../face/prefs.cc:779
 msgid "Number of attempts to ping hosts"
 msgstr "Αριθμός προσπαθειών για ping των hosts"
 
-#: ../face/prefs.cc:777
+#: ../face/prefs.cc:787
 msgid "Number of hosts in list"
 msgstr "Αριθμός των hosts στην λίστα"
 
-#: ../face/prefs.cc:803
+#: ../face/prefs.cc:813
 msgid "search engine to use"
 msgstr "μηχανή αναζήτησης για χρήση"
 
 # face/prefs.cc
-#: ../face/prefs.cc:812 ../face/prefs.cc:936 ../face/prefs.cc:1104
+#: ../face/prefs.cc:822 ../face/prefs.cc:988 ../face/prefs.cc:1161
 msgid "Interface"
 msgstr "Interface"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:814
+#: ../face/prefs.cc:824
 msgid "Show DnD basket"
 msgstr "Δείξε εικονίδιο για DnD"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:815
+#: ../face/prefs.cc:825
 msgid "Use fixed font in logs"
 msgstr "Χρήση fixed γραμματοσειρών στα logs"
 
-#: ../face/prefs.cc:832 ../face/prefs.cc:960 ../face/prefs.cc:1133
+#: ../face/prefs.cc:842 ../face/prefs.cc:1012 ../face/prefs.cc:1190
 msgid "Graph"
 msgstr "Γραφική παράσταση"
 
-#: ../face/prefs.cc:834
+#: ../face/prefs.cc:844
 msgid "Revert drawing graph of speeds"
 msgstr "Αντιστροφή διαγράμματος ταχυτήτων"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:840
+#: ../face/prefs.cc:850
 msgid "Color for picks"
 msgstr "Χρώμα για τις κορυφές"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:841
+#: ../face/prefs.cc:851
 msgid "Color for total speed"
 msgstr "Χρώμα για την συνολική ταχύτητα"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:842
+#: ../face/prefs.cc:852
 msgid "Color for speed of selected"
 msgstr "Χρώμα για την ταχύτητα των επιλεγμένων"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:843
+#: ../face/prefs.cc:853
 msgid "Background color"
 msgstr "Χρώμα background"
 
 # face/prefs.cc
-#: ../face/prefs.cc:852
+#: ../face/prefs.cc:862
 msgid "Reset to default"
 msgstr "Επαναφορά στα default"
 
-#: ../face/prefs.cc:855
+#: ../face/prefs.cc:865
 msgid "Colors for graph"
 msgstr "Χρώματα για την γραφική παράσταση"
 
-#: ../face/prefs.cc:872
+#: ../face/prefs.cc:891 ../face/prefs.cc:1017 ../face/prefs.cc:1198
+#, fuzzy
+msgid "Sounds"
+msgstr "Στήλες"
+
+#: ../face/prefs.cc:893
+msgid "enable sounds"
+msgstr ""
+
+#: ../face/prefs.cc:898
+#, fuzzy
+msgid "Startup"
+msgstr "κατάσταση"
+
+#: ../face/prefs.cc:900
+#, fuzzy
+msgid "Adding a download"
+msgstr "προσθήκη κατεβάσματος"
+
+#: ../face/prefs.cc:902
+#, fuzzy
+msgid "Downloading completed"
+msgstr "/Κατέβασμα/Σβήσιμο κατεβασμένων"
+
+#: ../face/prefs.cc:904
+#, fuzzy
+msgid "Downloading failed"
+msgstr "/Κατέβασμα/Επανεκίνηση απoτυχημένων"
+
+#: ../face/prefs.cc:906
+#, fuzzy
+msgid "Downloading of queue is completed"
+msgstr "Το κατέβασμα του καταλόγου %z ολοκληρώθηκε"
+
+#: ../face/prefs.cc:908
+msgid "Drag'n'Drop event"
+msgstr ""
+
+#: ../face/prefs.cc:924
 msgid "Options"
 msgstr "Επιλογές"
 
 # face/saveload.cc
-#: ../face/saveload.cc:68
+#: ../face/saveload.cc:70
 msgid "Loading"
 msgstr "Φόρτωμα"
 
-#: ../face/saveload.cc:119
+#: ../face/saveload.cc:123
 msgid "Save list"
 msgstr "Αποθήκευση λίστας"
 
-#: ../face/saveload.cc:159
+#: ../face/saveload.cc:165
 msgid "Load list"
 msgstr "Φόρτωμα λίστας"
 
 # face/saveload.cc
-#: ../face/saveload.cc:198
+#: ../face/saveload.cc:206
 msgid "Find links in txt file"
 msgstr "Εύρεση links σε αρχείο κειμένου"
 
@@ -2175,58 +2253,65 @@ msgstr "αποθήκευση λίστας"
 msgid "execute command"
 msgstr "εκτέλεση εντολής"
 
-#: ../face/fsched.cc:181
+#: ../face/fsched.cc:180
 msgid "Scheduler"
 msgstr "Χρονοδιάγραμμα"
 
-#: ../face/fsched.cc:185 ../face/fsched.cc:763
+#: ../face/fsched.cc:186 ../face/fsched.cc:764
 msgid "Action"
 msgstr "Επιλογές"
 
-#: ../face/fsched.cc:185
+#: ../face/fsched.cc:186
 msgid "Info"
 msgstr "Πληροφορίες"
 
 # face/limface.cc:
-#: ../face/fsched.cc:201
+#: ../face/fsched.cc:202
 msgid "New"
 msgstr "Νέο"
 
-#: ../face/fsched.cc:433
+#: ../face/fsched.cc:434
 msgid "Command:"
 msgstr "Εντολή:"
 
-#: ../face/fsched.cc:456
+#: ../face/fsched.cc:457
 msgid "Path:"
 msgstr "Path:"
 
-#: ../face/fsched.cc:475
+#: ../face/fsched.cc:476
 msgid "This action has no properties"
 msgstr "Αυτή η ενέργεια δεν έχει επιλογές"
 
-#: ../face/fsched.cc:704
+#: ../face/fsched.cc:705
 msgid "Start time(hour:min:sec)"
 msgstr "Χρόνος εκκίνησης(ώρες:λεπτά:δευτερόλεπτα)"
 
-#: ../face/fsched.cc:733
+#: ../face/fsched.cc:734
 msgid "Retry this action"
 msgstr "Επανεκκίνηση της ενέργειας"
 
-#: ../face/fsched.cc:742
+#: ../face/fsched.cc:743
 msgid "times to repeat (-1 unlimited)"
 msgstr "αριθμός επαναλήψεων (-1 για άπειρες)"
 
-#: ../face/fsched.cc:746
+#: ../face/fsched.cc:747
 msgid "period (day/hour:min)"
 msgstr "περίοδος (ημέρα/ώρα:λεπτά)"
 
-#: ../face/fsched.cc:788
+#: ../face/fsched.cc:789
 msgid "Edit scheduled action"
 msgstr "Επεξεργασία προγραμματισμένης ενέργειας"
 
-#: ../face/filtrgui.cc:126
+#: ../face/filtrgui.cc:146
 msgid "Filters"
 msgstr "Φίλτρα"
+
+#, fuzzy
+#~ msgid "Queue complete"
+#~ msgstr "Σβήσιμο κατεβασμένων"
+
+#~ msgid "is absent in the queue\n"
+#~ msgstr "είναι απών από την ουρά\n"
 
 #~ msgid "WARNING!!! Can't find HOME variable! So can't write config!"
 #~ msgstr ""

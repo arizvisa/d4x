@@ -19,8 +19,7 @@ tNode::tNode() {
 
 tNode::~tNode() {
 	//do nothing
-}
-;
+};
 
 //************************************/
 tQueue::tQueue() {
@@ -128,6 +127,20 @@ int tQueue::count() {
 void tQueue::done() {
 	while (First)
 		dispose();
+};
+
+void tQueue::sort(d4xNodeCmpFunc cmpfunc){
+	tNode *a=First;
+	while (a && a->prev){
+		tNode *prev=a->prev;
+		if (cmpfunc(a,prev)>0){
+			del(a);
+			insert(a);
+			a=First;
+		}else{
+			a=prev;
+		};
+	};
 };
 
 tQueue::~tQueue() {

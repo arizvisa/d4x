@@ -1,4 +1,4 @@
-%define ver      1.26
+%define ver      1.27
 %define prefix   /usr
 
 Name: nt
@@ -49,6 +49,10 @@ for i in main/po/*.gmo; do
     mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/locale/$j/LC_MESSAGES
     cp -f $i "${RPM_BUILD_ROOT}"%prefix/share/locale/$j/LC_MESSAGES/nt.mo
 done
+for i in main/sounds/*.wav; do
+    mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/d4x/sounds
+    cp -f $i "${RPM_BUILD_ROOT}"%prefix/share/d4x/sounds/
+done
 cp -f main/nt "${RPM_BUILD_ROOT}"%prefix/bin/
 cp -f nt.wmconfig "${RPM_BUILD_ROOT}"/etc/X11/wmconfig/nt
 cp -f nt.desktop "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet/nt.desktop
@@ -61,6 +65,7 @@ cp -f nt.1 "${RPM_BUILD_ROOT}"%prefix/man/man1/nt.1
 
 %clean
 rm -rf ${RPM_BUILD_ROOT}
+rm -rf nt-%{ver}
 
 %files
 %defattr(-, root, root)
@@ -75,7 +80,11 @@ rm -rf ${RPM_BUILD_ROOT}
 %prefix/share/pixmaps/nt.png
 %prefix/share/pixmaps/nt-wm.png
 %{prefix}/share/locale/*/*/*
+%prefix/share/d4x/sounds/*
 
 %changelog
+* Sat Apr 28 2001 Maxim Koshelev <mdem@chat.ru>
+- added sounds instalation
+
 * Mon Oct 30 2000 Maxim Koshelev <mdem@chat.ru>
 - fixed building under RH-70 or Mandrake-7x

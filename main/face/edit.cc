@@ -226,6 +226,12 @@ gint edit_window_delete(GtkObject *parent) {
 	return TRUE;
 };
 
+void edit_window_url_activate(GtkWidget *which,tDEdit *where){
+	if (GTK_WIDGET_SENSITIVE(where->ok_button))
+		gtk_signal_emit_by_name(GTK_OBJECT(where->ok_button),
+					"clicked",where);
+};
+
 void edit_window_ok(GtkWidget *which,tDEdit *where) {
 	if (where->apply_changes())
 		return;
@@ -368,6 +374,8 @@ void tDEdit::init_main(tDownload *who) {
 	MY_GTK_FILESEL(path_entry)->modal=GTK_WINDOW(window);
 	MY_GTK_FILESEL(file_entry)->modal=GTK_WINDOW(window);
 	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
+	gtk_signal_connect(GTK_OBJECT(GTK_COMBO(url_entry)->entry), "activate",
+			   GTK_SIGNAL_FUNC (edit_window_url_activate), this);
 	MY_GTK_FILESEL(path_entry)->only_dirs=TRUE;
 	desc_entry=my_gtk_combo_new(ALL_HISTORIES[DESC_HISTORY]);
 	if (who->Description.get())
@@ -715,6 +723,8 @@ void tDEdit::init(tDownload *who) {
 	if (!who) return;
 	parent=who;
 	window=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(window),
+			       "D4X_Download","D4X");
 	gtk_container_border_width(GTK_CONTAINER(window),5);
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW(window), FALSE,FALSE,FALSE);
@@ -779,6 +789,8 @@ void tDEdit::init_filter_sel(){
 		return;
 	};
 	filter_sel=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(filter_sel),
+			       "D4X_FilterSel","D4X");
 	gtk_widget_set_usize(filter_sel,-1,300);
 	gtk_window_set_title(GTK_WINDOW (filter_sel),_("Select filter"));
 
@@ -1873,6 +1885,8 @@ void select_options_window_init(){
 		gtk_widget_show(select_options_window);
 	}else{
 		select_options_window=gtk_window_new(GTK_WINDOW_DIALOG);
+		gtk_window_set_wmclass(GTK_WINDOW(select_options_window),
+				       "D4X_CommonProp","D4X");
 		gtk_window_set_title(GTK_WINDOW (select_options_window),_("Select properties"));
 		gtk_container_border_width(GTK_CONTAINER(select_options_window),5);
 		gtk_window_set_position(GTK_WINDOW(select_options_window),GTK_WIN_POS_CENTER);

@@ -33,7 +33,7 @@ tProtoInfo begin_protos[]={
 	{"gopher:",0,D_PROTO_UNKNOWN},
 	{"hdl:",0,D_PROTO_UNKNOWN},
 	{"http:",80,D_PROTO_HTTP},
-	{"https:",0,D_PROTO_UNKNOWN},
+	{"https:",0,D_PROTO_HTTPS},
 	{"ilu:",0,D_PROTO_UNKNOWN},
 	{"ior:",0,D_PROTO_UNKNOWN},
 	{"irc:",0,D_PROTO_UNKNOWN},
@@ -62,6 +62,7 @@ tProtoInfo proto_infos[]={
 	{"?",0,D_PROTO_UNKNOWN},
 	{"ftp",21,D_PROTO_FTP},
 	{"http",80,D_PROTO_HTTP},
+	{"https",443,D_PROTO_HTTPS},
 	{"search",80,D_PROTO_SEARCH}
 };
 
@@ -392,6 +393,42 @@ char *tAddr::url() {
 	 */
 	strcat(URL,proto_infos[proto].name);
 	strcat(URL,"://");
+	if (host.get()) strcat(URL,host.get());
+	if (port_len)
+		sprintf(URL+strlen(URL),":%i",port);
+	if (path.get()){
+		if (!_str_first_char(path.get(),'/')) strcat(URL,"/");
+		strcat(URL,path.get());
+		if (!_str_last_char(URL,'/')) strcat(URL,"/");
+	};
+	if (file.get()) strcat(URL,file.get());
+	if (params.get()){
+		strcat(URL,"?");
+		strcat(URL,params.get());
+	};
+	return URL;
+};
+
+char *tAddr::url_full(){
+	int params_len=(params.get()?strlen(params.get())+1:0);
+	int port_len=port==proto_infos[proto].port?0:(int_to_strin_len(port)+1);
+	int auth_len=0;
+	if (pass.get() && username.get())
+		auth_len=strlen(pass.get())+strlen(username.get());
+	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
+			  strlen(path.get())+strlen(file.get())+7+params_len+
+			  port_len+auth_len];
+	*URL=0;
+	/* Easy way to make URL from info  field
+	 */
+	strcat(URL,proto_infos[proto].name);
+	strcat(URL,"://");
+	if (auth_len){
+		strcat(URL,username.get());
+		strcat(URL,":");
+		strcat(URL,pass.get());
+		strcat(URL,"@");
+	};
 	if (host.get()) strcat(URL,host.get());
 	if (port_len)
 		sprintf(URL+strlen(URL),":%i",port);

@@ -19,7 +19,7 @@ tHProxyClient::tHProxyClient():tHttpClient(){
 	cookie_path=NULL;
 };
 
-tHProxyClient::tHProxyClient(tCfg *cfg):tHttpClient(cfg){
+tHProxyClient::tHProxyClient(tCfg *cfg,tSocket *ctrl=NULL):tHttpClient(cfg,ctrl){
 	real_host=NULL;
 	cookie_path=NULL;
 };
@@ -91,7 +91,7 @@ tHProxyClient::~tHProxyClient() {
 tProxyDownload::tProxyDownload():tHttpDownload(){
 };
 
-int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
+int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL) {
 	DBC_RETVAL_IF_FAIL(hostinfo!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(log!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
@@ -111,7 +111,10 @@ int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	config.user_agent.set(cfg->user_agent.get());
 	config.referer.set(cfg->referer.get());
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
-	HTTP->registr(ADDR.username.get(),ADDR.pass.get());
+	if (ADDR.proto==D_PROTO_FTP)
+		HTTP->registr(NULL,NULL);
+	else
+		HTTP->registr(ADDR.username.get(),ADDR.pass.get());
 	((tHProxyClient *)(HTTP))->proxy_registr(config.proxy_user.get(),config.proxy_pass.get());
 	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.get(),cfg->proxy_no_cache);
 	REQUESTED_URL=make_name();
@@ -121,14 +124,24 @@ int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 char *tProxyDownload::make_name(){
 	char *parsed_name=unparse_percents(ADDR.file.get());
 	char *parsed_path=unparse_percents(ADDR.path.get());
+	int auth_len=0;
+	if (ADDR.proto==D_PROTO_FTP && ADDR.username.get() &&
+	    ADDR.pass.get())
+		auth_len=strlen(ADDR.pass.get())+strlen(ADDR.username.get());
 	int port_len = get_port_by_proto(ADDR.proto)!=ADDR.port ? int_to_strin_len(ADDR.port)+1 : 0;
 	char *rvalue=new char[strlen(get_name_by_proto(ADDR.proto))+strlen(parsed_path)+
 			     strlen(ADDR.host.get())+strlen(parsed_name)+
 			     (ADDR.params.get() ? strlen(ADDR.params.get())+1:0)+strlen(":////")+
-			     port_len+1];
+			     port_len+auth_len+1];
 	*rvalue=0;
 	strcat(rvalue,get_name_by_proto(ADDR.proto));
 	strcat(rvalue,"://");
+	if (auth_len){
+		strcat(rvalue,ADDR.username.get());
+		strcat(rvalue,":");
+		strcat(rvalue,ADDR.pass.get());
+		strcat(rvalue,"@");
+	};
 	strcat(rvalue,ADDR.host.get());
 	if (port_len)
 		sprintf(rvalue+strlen(rvalue),":%i",ADDR.port);

@@ -938,7 +938,7 @@ int check_for_clipboard_skiping(char *buf){
 		temp=CFG.CATCH_IN_CLIPBOARD;
 		do{
 			temp=extract_string(temp,extension);
-			if (string_ended(extension,buf)==0){
+			if (string_ended_uncase(extension,buf)==0){
 				delete[] extension;
 				return 1;
 			};
@@ -950,7 +950,7 @@ int check_for_clipboard_skiping(char *buf){
 	temp=CFG.SKIP_IN_CLIPBOARD;
 	do{
 		temp=extract_string(temp,extension);
-		if (string_ended(extension,buf)==0){
+		if (string_ended_uncase(extension,buf)==0){
 			delete[] extension;
 			return 0;
 		};
@@ -1123,7 +1123,7 @@ void init_face(int argc, char *argv[]) {
 	init_columns_info();
 	main_window_normalize_coords();
 	MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-//	gtk_window_set_wmclass(GTK_WINDOW(MainWindow),"D4X_Main", "D4X");
+	gtk_window_set_wmclass(GTK_WINDOW(MainWindow),"D4X_Main", "D4X");
 	d4x_mw_set_targets();
 	gtk_widget_set_uposition(MainWindow,gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION));
 	gtk_window_set_default_size(GTK_WINDOW(MainWindow),gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));

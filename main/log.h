@@ -41,6 +41,7 @@ class tLog:public tStringList{
 	public:
 		tMsgQueue *MsgQueue;
 		int freezed_flag;
+		int last_log;
 		void *Window;
 		tLog();
 		void store_geometry(int *a);

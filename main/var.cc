@@ -41,7 +41,8 @@ tMainCfg CFG={
 	NULL,0,
 	0x0FFFFFFF,
 	0,0,1,
-	1,0,15
+	1,0,15,
+	1,NULL,NULL,NULL,NULL,NULL,NULL
 };
 
 char *DEFAULT_PROTO="ftp";
@@ -115,6 +116,12 @@ void var_free(tMainCfg *dst){
 	if (dst->SOCKS_PASS) delete[] dst->SOCKS_PASS;
 	if (dst->SOCKS_USER) delete[] dst->SOCKS_USER;
 	if (dst->SOCKS_HOST) delete[] dst->SOCKS_HOST;
+	if (dst->SOUND_ADD) delete[] dst->SOUND_ADD;
+	if (dst->SOUND_COMPLETE) delete[] dst->SOUND_COMPLETE;
+	if (dst->SOUND_FAIL) delete[] dst->SOUND_FAIL;
+	if (dst->SOUND_DND_DROP) delete[] dst->SOUND_DND_DROP;
+	if (dst->SOUND_QUEUE_FINISH) delete[] dst->SOUND_QUEUE_FINISH;
+	if (dst->SOUND_STARTUP) delete[] dst->SOUND_STARTUP;
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
@@ -190,6 +197,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SOCKS_PORT=src->SOCKS_PORT;
 	dst->BUTTONS_FLAGS=src->BUTTONS_FLAGS;
 	dst->PROGRESS_MODE=src->PROGRESS_MODE;
+	dst->ENABLE_SOUNDS=src->ENABLE_SOUNDS;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);
@@ -210,4 +218,10 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SOCKS_PASS=copy_string(src->SOCKS_PASS);
 	dst->SOCKS_HOST=copy_string(src->SOCKS_HOST);
 	dst->SOCKS_USER=copy_string(src->SOCKS_USER);
+	dst->SOUND_FAIL=copy_string(src->SOUND_FAIL);
+	dst->SOUND_COMPLETE=copy_string(src->SOUND_COMPLETE);
+	dst->SOUND_STARTUP=copy_string(src->SOUND_STARTUP);
+	dst->SOUND_ADD=copy_string(src->SOUND_ADD);
+	dst->SOUND_DND_DROP=copy_string(src->SOUND_DND_DROP);
+	dst->SOUND_QUEUE_FINISH=copy_string(src->SOUND_QUEUE_FINISH);
 };

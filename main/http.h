@@ -24,7 +24,7 @@ class tHttpClient:public tClient{
 	void send_cookies(char *host,char *path);
  public:
 	tHttpClient();
-	tHttpClient(tCfg *cfg);
+	tHttpClient(tCfg *cfg,tSocket *ctrl=NULL);
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_user_agent(char *agent,char *refer);
 	void set_offset(fsize_t a);

@@ -18,6 +18,7 @@
 #include "list.h"
 #include "../ntlocale.h"
 #include <gdk/gdkkeysyms.h>
+#include "../sndserv.h"
 
 extern tMain aa;
 
@@ -47,11 +48,13 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 	if (tmp){
 		what->owner=DL_PAUSE;
 		aa.add_downloading_to(what);
+		SOUND_SERVER->add_event(SND_ADD);
 	}else{
 		if (aa.add_downloading(what)){
 			delete(what);
 		}else{
 			aa.add_download_message(what);
+			SOUND_SERVER->add_event(SND_ADD);
 		};
 	};
 };

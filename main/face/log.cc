@@ -87,16 +87,11 @@ void log_window_destroy_by_log(void *a) {
 	if (log==NULL) return;
 	tLogWindow *temp=(tLogWindow *)log->Window;
 	if (temp) {
-		if (temp!=temp->papa->LOG->Window && temp->papa->split!=NULL){
-			log_window_button(temp->button,1);
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
-		}else{
-			log->Window=NULL;
-			log_window_remember_geometry(temp->window,temp);
-			temp->papa->CurrentLog=temp->papa->LOG;
-			gtk_widget_destroy(GTK_WIDGET(temp->window));
-			delete (temp);
-		};
+		log->Window=NULL;
+		log_window_remember_geometry(temp->window,temp);
+		temp->papa->CurrentLog=temp->papa->LOG;
+		gtk_widget_destroy(GTK_WIDGET(temp->window));
+		delete (temp);
 	};
 };
 
@@ -241,6 +236,7 @@ gint log_window_button(GtkWidget *button,int a){
 	if (withlog==NULL || withlog->LOG->Window==NULL)
 		return FALSE;
 	tDownload *forlog=what;
+	int b=a;
 	while (forlog){
 		a-=1;
 		if (a==0) break;
@@ -258,6 +254,7 @@ gint log_window_button(GtkWidget *button,int a){
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		forlog->LOG->print();
 		forlog->LOG->unlock();
+		what->LOG->last_log=b;
 		what->CurrentLog=forlog->LOG;
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
 		gtk_signal_connect(GTK_OBJECT(temp->window),
@@ -268,8 +265,10 @@ gint log_window_button(GtkWidget *button,int a){
 		                   (GtkSignalFunc)log_window_event_handler, forlog->LOG);
 		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
 	};
-	if (forlog==NULL || forlog->LOG==NULL)
+	if (forlog==NULL || forlog->LOG==NULL){
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
+		what->LOG->last_log=1;
+	};
 	return TRUE;
 };
 
@@ -304,6 +303,8 @@ void log_window_init(tDownload *what) {
 		tLogWindow *temp=new tLogWindow;
 		temp->papa=what;
 		temp->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		gtk_window_set_wmclass(GTK_WINDOW(temp->window),
+				       "D4X_Log","D4X");
 		int a[4];
 		what->LOG->get_geometry(a);
 		if (a[3]!=0 && a[2]!=0){
@@ -350,8 +351,7 @@ void log_window_init(tDownload *what) {
 								      data,NULL,"",NULL,
 								      GTK_SIGNAL_FUNC (log_window_button),
 								      (GtkWidget *)GINT_TO_POINTER(i));
-				if (i==1){
-					gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tmpbutton),TRUE);
+				if (what->LOG->last_log==i){
 					temp->button=tmpbutton;
 				};
 				gtk_object_set_user_data(GTK_OBJECT(tmpbutton),what);
@@ -389,6 +389,12 @@ void log_window_init(tDownload *what) {
 		temp->adj->value=temp->adj->upper-temp->adj->page_size;
 		temp->value=temp->adj->value;
 		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
+		if (what->LOG->last_log>1 && what->split){
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
+			log_window_button(temp->button,
+					  what->LOG->last_log);
+	
+		};
 	};
 };
 

@@ -53,6 +53,8 @@ int tLimitDialog::init() {
 		return 0;
 	};
 	window = gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(window),
+			       "D4X_LimitDialog","D4X");
 	gtk_window_set_title(GTK_WINDOW (window),_("Limitation for the host"));
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_container_border_width(GTK_CONTAINER(window),5);
@@ -300,6 +302,8 @@ void tFaceLimits::init() {
 		return;
 	};
 	window = gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(window),
+			       "D4X_Limits","D4X");
 	gtk_window_set_title(GTK_WINDOW (window),_("Limitations for the hosts"));
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_widget_set_usize(window,-1,400);

@@ -21,7 +21,7 @@ tHttpClient::tHttpClient():tClient(){
 	user_agent=NULL;
 };
 
-tHttpClient::tHttpClient(tCfg *cfg):tClient(cfg){
+tHttpClient::tHttpClient(tCfg *cfg,tSocket *ctrl=NULL):tClient(cfg,ctrl){
 	user_agent=NULL;
 };
 
@@ -202,7 +202,7 @@ int tHttpClient::registr(char *user,char *password) {
 };
 
 void tHttpClient::down() {
-	CtrlSocket->down();
+	if (CtrlSocket) CtrlSocket->down();
 };
 
 void tHttpClient::done() {

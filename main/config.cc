@@ -57,6 +57,7 @@ tOption downloader_parsed_args[]={
 	{"--minimized",		OPT_RUN_MINIMIZED},
 	{"--exit-time",		OPT_EXIT_TIME},
 	{"--ls",		OPT_LS},
+	{"--del",		OPT_DEL},
 	{"--color",		OPT_COLOR}
 };
 
@@ -76,8 +77,9 @@ char *downloader_args_errors[]={
 	(char *)NULL,
 	(char *)NULL,
 	(char *)N_("You must specify number as parameter for '--exit-time' option"),
-	(char *)N_("Expect URL as parameter for '--ls' option")
-	
+	(char *)N_("Expect URL as parameter for '--ls' option"),
+	(char *)N_("Expect URL as parameter for '--del' option"),
+	(char *)NULL
 };
 
 
@@ -214,7 +216,14 @@ tConfigVariable config_variables[]={
 	{"socks_pass",		CV_TYPE_STRING,	&(CFG.SOCKS_PASS)},
 	{"socks_host",		CV_TYPE_STRING,	&(CFG.SOCKS_HOST)},
 	{"socks_port",		CV_TYPE_INT,	&(CFG.SOCKS_PORT)},
-	{"progress_mode",	CV_TYPE_INT,	&(CFG.PROGRESS_MODE)}
+	{"progress_mode",	CV_TYPE_INT,	&(CFG.PROGRESS_MODE)},
+	{"enable_sounds",	CV_TYPE_BOOL,	&(CFG.ENABLE_SOUNDS)},
+	{"sound_complete",	CV_TYPE_STRING,	&(CFG.SOUND_COMPLETE)},
+	{"sound_fail",		CV_TYPE_STRING,	&(CFG.SOUND_FAIL)},
+	{"sound_add",		CV_TYPE_STRING,	&(CFG.SOUND_ADD)},
+	{"sound_dnd_drop",	CV_TYPE_STRING,	&(CFG.SOUND_DND_DROP)},
+	{"sound_queue_finish",	CV_TYPE_STRING,	&(CFG.SOUND_QUEUE_FINISH)},
+	{"sound_startup",	CV_TYPE_STRING,	&(CFG.SOUND_STARTUP)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -310,6 +319,7 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14",0);
 	load_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15",0);
 	load_strlist(ALL_HISTORIES[COOKIE_HISTORY],".ntrc/history16",0);
+	load_strlist(ALL_HISTORIES[SOUNDS_HISTORY],".ntrc/history17",1);
 	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
@@ -423,6 +433,7 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14");
 	save_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15");
 	save_strlist(ALL_HISTORIES[COOKIE_HISTORY],".ntrc/history16");
+	save_strlist(ALL_HISTORIES[SOUNDS_HISTORY],".ntrc/history17");
 	delete[] cfgpath;
 };
 
@@ -580,11 +591,13 @@ int parse_command_line_already_run(int argv,char **argc){
 	if (argv>1){
 		tMsgClient *clt=new tMsgClient;
 		for (int i=1;i<argv;i++){
+			int opt_error=0;
+			int option=OPT_UNKNOWN;
 			if (*(argc[i])!='-'){
 				rvalue=0;
 				if (clt->send_command(PACKET_ADD,argc[i],strlen(argc[i])+1)) break;
 			}else{
-				int option=downloader_args_type(argc[i]);
+				option=downloader_args_type(argc[i]);
 				switch(option){
 				case OPT_INFO:{
 					rvalue=0;
@@ -632,7 +645,7 @@ int parse_command_line_already_run(int argv,char **argc){
 						i+=1;
 						_remote_set_directory_(clt,argc[i]);
 					}else
-						printf("%s\n",_(downloader_args_errors[OPT_SET_DIRECTORY]));
+						opt_error=1;
 					break;
 				};
 				case OPT_DEL_COMPLETED:{
@@ -646,7 +659,7 @@ int parse_command_line_already_run(int argv,char **argc){
 						i+=1;
 						clt->send_command(PACKET_SET_MAX_THREADS,argc[i],strlen(argc[i]));
 					}else
-						printf("%s\n",_(downloader_args_errors[OPT_SET_MAX_THREADS]));
+						opt_error=1;
 					break;
 				};
 				case OPT_RERUN_FAILED:{
@@ -660,8 +673,17 @@ int parse_command_line_already_run(int argv,char **argc){
 						i+=1;
 						clt->send_command(PACKET_EXIT_TIME,argc[i],strlen(argc[i]));
 					}else
-						printf("%s\n",_(downloader_args_errors[OPT_EXIT_TIME]));
+						opt_error=1;
 					break;
+				case OPT_DEL:{
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						clt->send_command(PACKET_DEL,argc[i],strlen(argc[i]));
+					}else
+						opt_error=1;
+					break;
+				};
 				case OPT_LS:{
 					rvalue=0;
 					if (argv>i+1){
@@ -697,15 +719,16 @@ int parse_command_line_already_run(int argv,char **argc){
 							       status.Download,status.Size,
 							       status.Speed,
 							       status.Attempt,status.MaxAttempt);
-						}else{
-							printf(_("is absent in the queue\n"));
-						};
+						}else
+							opt_error=1;
 					}else
-						printf("%s\n",_(downloader_args_errors[OPT_LS]));
+						opt_error=1;
 					break;
 				};
 				};
 			};
+			if (opt_error && downloader_args_errors[option])
+				printf("%s\n",_(downloader_args_errors[option]));
 		};		
 		delete clt;
 	};
@@ -797,6 +820,7 @@ void help_print(){
 	help_print_args(OPT_RERUN_FAILED);printf(_("restart all failed downloads"));printf("\n");
 	help_print_args(OPT_WITHOUT_FACE);printf(_("run program without X interface"));printf("\n");
 	help_print_args(OPT_LS);printf(_("display info about URL in queue of downloads"));printf("\n");
+	help_print_args(OPT_DEL);printf(_("remove a download from queue"));printf("\n");
 	help_print_args(OPT_COLOR);printf(_("using colors if run without interface"));printf("\n");
 	printf("\n");
 };

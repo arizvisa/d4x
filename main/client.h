@@ -101,7 +101,7 @@ class tClient{
     int write_buffer();
     public:
     	tClient();
-    	tClient(tCfg *cfg);
+    	tClient(tCfg *cfg,tSocket *ctrl=NULL);
     	int get_readed();
     	virtual void init(char *host,tWriterLoger *log,int prt,int time_out);
         virtual int reinit();
@@ -113,6 +113,8 @@ class tClient{
     	int test_reget();
     	virtual void done()=0;
     	virtual ~tClient();
+	virtual tSocket *export_ctrl_socket();
+	virtual void import_ctrl_socket(tSocket *s);
 };
 
 

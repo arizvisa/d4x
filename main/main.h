@@ -26,7 +26,6 @@ class tMain{
 	tMsgServer *server;
 	tMsgQueue *MsgQueue;
 	tFtpSearchCtrl *ftpsearch;
-	pthread_t server_thread_id;
 	tSpeedQueue *SpeedScheduler;
 	int LastReadedBytes;
 	void case_download_completed(tDownload *what);
@@ -52,7 +51,7 @@ class tMain{
 	void insert_into_wait_list(tDownload *what);
 	void append_list(tStringList *what);
  public:
-    	void init();
+    	int init();
     	void init_main_log();
     	void speed();
 	int complete();

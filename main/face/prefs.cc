@@ -23,6 +23,7 @@
 #include "graph.h"
 #include "dndtrash.h"
 #include "../config.h"
+#include "../sndserv.h"
 
 const int SEARCH_NUMBER_OF_ENGINES=2;
 
@@ -50,7 +51,8 @@ tMainCfg TMPCFG={
 	(char*)NULL,0,
 	0x0FFFFFFF,
 	0,0,1,
-	1,0,15
+	1,0,15,
+	0,NULL,NULL,NULL,NULL,NULL,NULL
 };
 
 struct D4xPrefsWidget{
@@ -157,6 +159,14 @@ struct D4xPrefsWidget{
 	GtkWidget *speed_color_fore1;
 	GtkWidget *speed_color_fore2;
 	GtkWidget *speed_color_back;
+	/* SOUNDS */
+	GtkWidget *snd_enable;
+	GtkWidget *snd_dnd_drop;
+	GtkWidget *snd_startup;
+	GtkWidget *snd_add;
+	GtkWidget *snd_complete;
+	GtkWidget *snd_fail;
+	GtkWidget *snd_queue_finish;
 //	GtkWidget *;
 };
 
@@ -861,6 +871,46 @@ void d4x_prefs_graph(){
 	gtk_widget_show_all(vbox);
 };
 
+#define SND_ENTRY_INIT(a,b) { 					\
+	a=my_gtk_filesel_new(ALL_HISTORIES[SOUNDS_HISTORY]);	\
+	gtk_widget_set_usize(a,320,-1);				\
+	MY_GTK_FILESEL(a)->modal=GTK_WINDOW(d4x_prefs_window);	\
+	if (b)							\
+		text_to_combo(MY_GTK_FILESEL(a)->combo,b);	\
+	else							\
+		text_to_combo(MY_GTK_FILESEL(a)->combo,"");	\
+	gtk_box_pack_start(GTK_BOX(vbox),a,TRUE,FALSE,0);	\
+}
+
+#define SND_LABEL_INIT(a){					\
+	label=gtk_label_new(_(a));				\
+	gtk_box_pack_start(GTK_BOX(vbox),label,FALSE,FALSE,0);	\
+}
+
+void d4x_prefs_sounds(){
+	GtkWidget *vbox=d4x_prefs_child_destroy(_("Sounds"));
+
+	D4XPWS.snd_enable=gtk_check_button_new_with_label(_("enable sounds"));
+	GTK_TOGGLE_BUTTON(D4XPWS.snd_enable)->active=TMPCFG.ENABLE_SOUNDS;
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.snd_enable,FALSE,FALSE,0);
+
+	GtkWidget *label;
+	SND_LABEL_INIT(_("Startup"));
+	SND_ENTRY_INIT(D4XPWS.snd_startup,TMPCFG.SOUND_STARTUP);
+	SND_LABEL_INIT(_("Adding a download"));
+	SND_ENTRY_INIT(D4XPWS.snd_add,TMPCFG.SOUND_ADD);
+	SND_LABEL_INIT(_("Downloading completed"));
+	SND_ENTRY_INIT(D4XPWS.snd_complete,TMPCFG.SOUND_COMPLETE);
+	SND_LABEL_INIT(_("Downloading failed"));
+	SND_ENTRY_INIT(D4XPWS.snd_fail,TMPCFG.SOUND_FAIL);
+	SND_LABEL_INIT(_("Downloading of queue is completed"));
+	SND_ENTRY_INIT(D4XPWS.snd_queue_finish,TMPCFG.SOUND_QUEUE_FINISH);
+	SND_LABEL_INIT(_("Drag'n'Drop event"));
+	SND_ENTRY_INIT(D4XPWS.snd_dnd_drop,TMPCFG.SOUND_DND_DROP);
+	
+	gtk_widget_show_all(vbox);
+};
+
 void d4x_prefs_init_pre(){
 	if (d4x_prefs_window) {
 		gdk_window_show(d4x_prefs_window->window);
@@ -869,6 +919,8 @@ void d4x_prefs_init_pre(){
 	var_copy_cfg(&TMPCFG,&CFG);
 	/* create preferences window */
 	d4x_prefs_window=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(d4x_prefs_window),
+			       "D4X_Preferences","D4X");
 	gtk_window_set_title(GTK_WINDOW(d4x_prefs_window),_("Options"));
 	gtk_window_set_position(GTK_WINDOW(d4x_prefs_window),GTK_WIN_POS_NONE);
 	gtk_window_set_policy (GTK_WINDOW(d4x_prefs_window), FALSE,FALSE,FALSE);
@@ -960,6 +1012,11 @@ void d4x_prefs_init_pre(){
 	tmpitem=gtk_tree_item_new_with_label(_("Graph"));
 	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
 			   (GtkSignalFunc)d4x_prefs_graph, NULL);
+	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
+	gtk_widget_show(tmpitem);
+	tmpitem=gtk_tree_item_new_with_label(_("Sounds"));
+	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
+			   (GtkSignalFunc)d4x_prefs_sounds, NULL);
 	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
 	gtk_widget_show(tmpitem);
 
@@ -1138,6 +1195,27 @@ void d4x_prefs_apply_tmp(){
 		TMPCFG.GRAPH_ORDER=GTK_TOGGLE_BUTTON(D4XPWS.graph_order)->active;
 		return;
 	};
+	if (equal(label,_("Sounds"))){
+		TMPCFG.ENABLE_SOUNDS=GTK_TOGGLE_BUTTON(D4XPWS.snd_enable)->active;
+		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.snd_startup)->combo,
+				    &TMPCFG.SOUND_STARTUP,
+				    ALL_HISTORIES[SOUNDS_HISTORY]);
+		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.snd_fail)->combo,
+				    &TMPCFG.SOUND_FAIL,
+				    ALL_HISTORIES[SOUNDS_HISTORY]);
+		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.snd_complete)->combo,
+				    &TMPCFG.SOUND_COMPLETE,
+				    ALL_HISTORIES[SOUNDS_HISTORY]);
+		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.snd_add)->combo,
+				    &TMPCFG.SOUND_ADD,
+				    ALL_HISTORIES[SOUNDS_HISTORY]);
+		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.snd_dnd_drop)->combo,
+				    &TMPCFG.SOUND_DND_DROP,
+				    ALL_HISTORIES[SOUNDS_HISTORY]);
+		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.snd_queue_finish)->combo,
+				    &TMPCFG.SOUND_QUEUE_FINISH,
+				    ALL_HISTORIES[SOUNDS_HISTORY]);
+	};
 	if (equal(label,_("Integration"))){
 		TMPCFG.EXIT_COMPLETE=GTK_TOGGLE_BUTTON(D4XPWS.exit_complete)->active;
 		TMPCFG.NEED_DIALOG_FOR_DND=GTK_TOGGLE_BUTTON(D4XPWS.dnd_dialog)->active;
@@ -1223,6 +1301,7 @@ void d4x_prefs_apply(){
 	else
 		dnd_trash_destroy();
 	save_config();
+	SOUND_SERVER->reinit_sounds();
 };
 
 void d4x_prefs_ok(){

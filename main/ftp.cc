@@ -173,6 +173,7 @@ int tFtpClient::last_answer(char *first) {
 };
 
 int tFtpClient::rest(int offset) {
+	ReGet=1;
 	if (offset && ReGet) {
 		char data[MAX_LEN];
 		sprintf(data,"%i",offset);
@@ -182,8 +183,7 @@ int tFtpClient::rest(int offset) {
 		if (a!=RVALUE_OK){
 			ReGet=0;
 			LOG->log(LOG_WARNING,_("Reget is not supported!!!"));
-		}else
-			ReGet=1;
+		};
 	};
 	return RVALUE_OK;
 };
@@ -197,9 +197,10 @@ tFtpClient::tFtpClient():tClient(){
 	FIRST_REPLY = NULL;
 	METHOD_TO_LIST=0;
 	DataSocket=new tSocket;
+	log_flag=0;
 };
 
-tFtpClient::tFtpClient(tCfg *cfg):tClient(cfg){
+tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl=NULL):tClient(cfg,ctrl){
 	passive=cfg->passive;
 	TEMP_SIZE=OLD_SIZE=0;
 	CTRL=new tStringList;
@@ -232,7 +233,6 @@ int tFtpClient::reinit() {
 	if ((rvalue=tClient::reinit())==0) {
 		rvalue=analize_ctrl(1,&FTP_SERVER_OK);
 	};
-	CON_FLAGS = CON_FLAG_CONNECTED;
 	return(rvalue);
 };
 
@@ -250,7 +250,7 @@ int tFtpClient::connect() {
 		send_command("PASS",userword);
 		if (analize_ctrl(1,&FTP_PASS_OK)) return -2;
 	};
-	CON_FLAGS = CON_FLAGS | CON_FLAG_LOGGED;
+	log_flag=1;
 	return 0;
 };
 
@@ -321,7 +321,7 @@ int tFtpClient::stand_data_connection() {
 
 void tFtpClient::vdisconnect(){
 //	printf("DISCONNECTED!\n");
-	CON_FLAGS = 0;
+	log_flag=0;
 };
 
 int tFtpClient::change_dir(char *where) {
@@ -332,6 +332,10 @@ int tFtpClient::change_dir(char *where) {
 	return RVALUE_OK;
 }
 
+void _ftp_filename_destroy_(void *a){
+	char *b=(char *)a;
+	delete[] b;
+};
 
 fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 //	DBC_RETVAL_IF_FAIL(filename!=NULL,RVALUE_OK);
@@ -367,7 +371,8 @@ fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 		if (CFG.FTP_DIR_IN_LOG)
 			LOG->log(LOG_FROM_SERVER,(list->last())->body);
 	};
-	if ((rvalue=analize_ctrl(1,&FTP_READ_OK)) && METHOD_TO_LIST==0){
+	if (((rvalue=analize_ctrl(1,&FTP_READ_OK)) ||
+	     list->count()==0) && METHOD_TO_LIST==0){
 		METHOD_TO_LIST=1;
 		DataSocket->down();
 		if ((rvalue=stand_data_connection()))
@@ -402,6 +407,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 		char *str=rindex(log->body,'(');
 		if (str) sscanf(str+1,"%li",&TEMP_SIZE);
 	};
+	TEMP_SIZE+=begin;
 	if (OLD_SIZE){
 		if (OLD_SIZE<TEMP_SIZE){
 			/* file seems to be changed */
@@ -472,8 +478,8 @@ void tFtpClient::set_dont_set_quit(int a){
 };
 
 void tFtpClient::down() {
-	CtrlSocket->down();
-	DataSocket->down();
+	if (CtrlSocket) CtrlSocket->down();
+	if (DataSocket) DataSocket->down();
 	vdisconnect();
 };
 
@@ -481,11 +487,10 @@ void tFtpClient::down() {
 void tFtpClient::quit() {
 	if (DONT_SEND_QUIT)
 		return;
-	if ((CON_FLAGS & CON_FLAG_LOGGED) &&
-	    (CON_FLAGS & CON_FLAG_CONNECTED)){
+	if (CtrlSocket->connected() && log_flag){
 		send_command("QUIT",NULL);
 		analize_ctrl(1,&FTP_QUIT_OK);
-		CON_FLAGS = CON_FLAGS ^ CON_FLAG_LOGGED;
+		log_flag=0;
 	};
 };
 

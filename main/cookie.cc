@@ -83,7 +83,6 @@ tCookie *tCookiesTree::find(tCookie **begin,const char *what) {
 	return NULL;
 };
 
-
 void tCookiesTree::add(tCookie *what){
 	tCookie *tmp=find(what->host.get());
 	if (tmp){

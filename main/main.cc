@@ -50,6 +50,7 @@
 #include "schedule.h"
 #include "html.h"
 #include "filter.h"
+#include "sndserv.h"
 
 tMLog *MainLog=NULL;
 
@@ -93,7 +94,9 @@ typedef void (*SigactionHandler)(int);
 void _sig_pipe_handler_(){
 };
 
-void tMain::init() {
+int tMain::init() {
+	my_pthreads_mutex_init(&GVARS.READED_BYTES_MUTEX);
+	GVARS.SOCKETS=new d4xSocketsHistory;
 	ftpsearch=NULL;
 	prev_speed_limit=0;
 	for (int i=DL_ALONE+1;i<DL_TEMP;i++){
@@ -124,6 +127,10 @@ void tMain::init() {
 	MsgQueue=new tMsgQueue;
 	MsgQueue->init(0);
 	LogsMsgQueue=MsgQueue;
+
+	SOUND_SERVER=new d4xSndServer;
+	SOUND_SERVER->init_sounds();
+
 	/* setting up signal handlers */
 	struct sigaction action,old_action;
 	action.sa_handler=SigactionHandler(my_main_quit);
@@ -133,7 +140,13 @@ void tMain::init() {
 	action.sa_flags=0;
 	action.sa_handler=SigactionHandler(_sig_pipe_handler_);
 	sigaction(SIGPIPE,&action,&old_action);
-//	signal(SIGTERM,my_main_quit);
+	server=new tMsgServer;
+	if (server->init()){
+		perror(_("Can't init control socket!\n"));
+		delete(server);
+		return(-1);
+	};
+	return(0);
 };
 
 void tMain::load_defaults() {
@@ -555,9 +568,9 @@ void tMain::speed_calculation(tDownload *what){
 		time_t newdiff=NOWTMP-what->Start;
 		time_t difdif=what->Difference-newdiff;
 		/* detecting clock skew */
-		if (difdif<1800)
+		if (difdif<-1800)
 			what->Start+=difdif;
-		else if (difdif>-1800)
+		else if (difdif>1800)
 			what->Start-=difdif;
 		what->Difference=NOWTMP-what->Start;
 		int REAL_SIZE=what->finfo.size;
@@ -759,28 +772,29 @@ void tMain::redirect(tDownload *what) {
 		return;
 	};
 	if (newurl) {
-		char *oldurl=what->info->url();
 		tAddr *addr=fix_url_global(newurl,what->info,-1,0);
-		delete[] newurl;
-		if (addr->cmp(what->info) && equal(what->config.referer.get(),oldurl)){
+		delete[] newurl;		
+		if (addr==NULL){
+			DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
+			return;
+		};
+		char *oldurl=what->info->url();
+		if (addr->cmp(what->info) &&
+		    equal(what->config.referer.get(),oldurl)){
 			MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to the same location!"),what);
 			DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
 			delete(addr);
 			delete[] oldurl;
 			return;
 		};
-		tAddr *oldinfo=what->info;
-		what->info=addr;
-		if (ALL_DOWNLOADS->find(what)) {
-			what->info=oldinfo;
+		if (ALL_DOWNLOADS->find(addr)) {
 			DOWNLOAD_QUEUES[DL_COMPLETE]->insert(what);
 			delete(addr);
 			delete[] oldurl;
 			return;
 		};
-		what->info=oldinfo;
 		ALL_DOWNLOADS->del(what);
-		delete(oldinfo);
+		delete(what->info);
 		what->info=addr;
 		what->config.referer.set(oldurl);
 		delete[] oldurl;
@@ -829,9 +843,18 @@ void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 		delete(what->segments);
 		what->segments=NULL;
 	};
-	if (what->split && what->split->next_part){
-		prepare_for_stoping(what->split->next_part,NULL);
-		real_stop_thread(what->split->next_part);
+	if (what->split){
+		if (what->split->cond){
+			delete(what->split->cond);
+			what->split->cond=NULL;
+		};
+		tDownload *next_part=what->split->next_part;
+		if (next_part){
+			if (next_part->split)
+				next_part->split->cond=NULL;
+			prepare_for_stoping(next_part,NULL);
+			real_stop_thread(next_part);
+		};
 //		delete(what->split->next_part);
 //		what->split->next_part=NULL;
 	};
@@ -963,6 +986,7 @@ void tMain::main_circle_first(){
 void tMain::main_circle_second(){
 /* look for completeted or faild threads */
 	tDownload *temp=DOWNLOAD_QUEUES[DL_RUN]->last();
+	int failed=0,completed=0;
 	while(temp) {
 		tDownload *temp1=DOWNLOAD_QUEUES[DL_RUN]->next();
 		int status=temp->status;
@@ -982,15 +1006,25 @@ void tMain::main_circle_second(){
 			if (temp->segments)
 				temp->segments->complete();
 			case_download_completed(temp);
+			completed=1;
 			break;
 		};
 		case DOWNLOAD_FATAL:{
 			case_download_failed(temp);
+			failed=1;
 			break;
 		};
 		};
 		temp=temp1;
 	};
+	if (completed){
+		if (DOWNLOAD_QUEUES[DL_RUN]->count()==0 && DOWNLOAD_QUEUES[DL_WAIT]->count()==0)
+			SOUND_SERVER->add_event(SND_QUEUE_FINISH);
+		else
+			SOUND_SERVER->add_event(SND_COMPLETE);
+	};
+	if (failed)
+		SOUND_SERVER->add_event(SND_FAIL);
 };
 
 void tMain::main_circle() {
@@ -1016,6 +1050,7 @@ void tMain::main_circle() {
 	MainScheduler->run(this);
 	if (CFG.WITHOUT_FACE==0)
 		prepare_buttons();
+	GVARS.SOCKETS->kill_old();
 	CFG.NICE_DEC_DIGITALS.reset();
 };
 
@@ -1041,6 +1076,13 @@ void tMain::check_for_remote_commands(){
 				init_add_dnd_window(addnew->body,NULL);
 				break;
 			};
+		};
+		case PACKET_DEL:{
+			MainLog->myprintf(LOG_FROM_SERVER,_("Remove the download via control socket [%s]"),addnew->body);
+			tAddr *addr=new tAddr(addnew->body);
+			delete_download_url(addr);
+			delete(addr);
+			break;
 		};
 		case PACKET_ADD:{
 			MainLog->myprintf(LOG_FROM_SERVER,_("Adding downloading via control socket [%s]"),addnew->body);
@@ -1279,7 +1321,7 @@ unsigned int tMain::get_precise_time(){
 #if (defined(BSD) && (BSD >= 199306))
 	struct timeval tp;
 	gettimeofday(&tp, NULL);
-	return(tp.tv_sec*1000+tp.tv_usec);
+	return(tp.tv_sec*1000+tp.tv_usec/1000);
 #else
 	struct timeb tp;
 	ftime(&tp);
@@ -1322,16 +1364,9 @@ void tMain::speed() {
 	prev_speed_limit=SPEED_LIMIT;
 };
 
-void tMain::run_msg_server(){
-	server=new tMsgServer;
-	pthread_attr_t attr_p;
-	pthread_attr_init(&attr_p);
-	pthread_attr_setdetachstate(&attr_p,PTHREAD_CREATE_JOINABLE);
-	pthread_attr_setscope(&attr_p,PTHREAD_SCOPE_SYSTEM);
-	pthread_create(&server_thread_id,&attr_p,server_thread_run,server);
-};
-
 void tMain::run(int argv,char **argc) {
+	SOUND_SERVER->run_thread();
+	SOUND_SERVER->add_event(SND_STARTUP);
 	if (CFG.WITHOUT_FACE==0){
 		ftpsearch=new tFtpSearchCtrl;
 		init_face(argv,argc);
@@ -1358,7 +1393,7 @@ void tMain::run(int argv,char **argc) {
 		init_timeouts();
 	};
 	parse_command_line_postload(argv,argc);
-	run_msg_server();
+	server->run_thread();
 	LastTime=get_precise_time();
 	var_check_all_limits();
 	MainLog->add(_("Normally started"),LOG_WARNING);
@@ -1415,14 +1450,12 @@ void tMain::add_download_message(tDownload *what) {
 void tMain::done() {
 	/* There are  we MUST stop all threads!!!
 	 */
-	int *rc;
-	pthread_kill(server_thread_id,SIGUSR2);
-	pthread_join(server_thread_id,(void **)&rc);
+	server->stop_thread();
 
 	/* removing ftpsearch before removing all queues
 	   to avoid segfault at host-limit checks */
 	if (ftpsearch) delete(ftpsearch);
-
+	SOUND_SERVER->stop_thread();
 	tDownload *tmp=DOWNLOAD_QUEUES[DL_RUN]->last();
 	while (tmp) {
 		stop_download(tmp);
@@ -1454,7 +1487,7 @@ void tMain::done() {
 	delete(LocalMeter);
 	delete(ALL_DOWNLOADS); // delete or not delete that is the question :-)
 	delete(COOKIES);
-
+	MainLog->init_list(NULL);
 	MainLog->myprintf(LOG_OK,_("%lu bytes loaded during the session"),GVARS.READED_BYTES);
 	MainLog->add(_("Downloader exited normaly"),LOG_OK);
 	delete(MainLog);
@@ -1471,6 +1504,8 @@ void tMain::done() {
 	for (int i=URL_HISTORY;i<LAST_HISTORY;i++)
 		if (ALL_HISTORIES[i]) delete(ALL_HISTORIES[i]);
 	*/
+	delete(SOUND_SERVER);
+	delete(GVARS.SOCKETS);
 	if (LOCK_FILE) remove(LOCK_FILE);
 };
 

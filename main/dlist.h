@@ -59,10 +59,22 @@ class tDefaultWL:public tWriterLoger{
 class tDList;
 struct tDownload;
 
+struct d4xCondition{
+	pthread_mutex_t my_mutex;
+	int value;
+	d4xCondition();
+	void set_value(int val);
+	int get_value();
+	int dec();
+	int inc();
+	~d4xCondition();
+};
+
 struct tSplitInfo{
 	int NumOfParts;
 	fsize_t FirstByte,LastByte;
 	int status,stopped;
+	d4xCondition *cond;
 	tDownload *next_part,*parent;
 	tSplitInfo();
 	~tSplitInfo();
@@ -94,7 +106,7 @@ struct tDownload:public tAbstractSortNode{
 	tPStr Filter;
 //	tQueue *conditions;
 	private:
-	int need_to_rename,im_first;
+	int need_to_rename,im_first,im_last;
 	char *create_new_file_path();
 	char *create_new_save_path();
 	void make_file_names(char **name, char **guess);
@@ -105,6 +117,7 @@ struct tDownload:public tAbstractSortNode{
 	char *make_path_to_file();
 	void sort_links();
 	fsize_t init_segmentator(int fdesc,fsize_t cursize,char *name);
+	void export_socket(tDownloader *what);
 	public:
 	//------------------------------------
 	tDList *DIR;

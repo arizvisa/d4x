@@ -494,7 +494,8 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 		info->copy_host(papa);
 	}else{
 		if (begin_string_uncase(url,"http:") ||
-		    begin_string_uncase(url,"ftp:")){
+		    begin_string_uncase(url,"ftp:") ||
+		    begin_string_uncase(url,"https:")){
 			info=new tAddr(url);
 			if (papa->proto==D_PROTO_FTP && info->proto==D_PROTO_FTP){
 				char *quest=index(info->file.get(),';');
@@ -671,6 +672,10 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
 						case HF_TYPE_BASE:
 							if (base) delete[] base;
 							base=copy_string(tmp);
+							if (base){
+								char *slash=rindex(base,'/');
+								if (slash) *slash=0;
+							};
 							break;
 						default:
 							if (base!=NULL && !global_url(tmp)){

@@ -56,6 +56,7 @@ tLog::tLog():tStringList(){
 	fd=-1;
 	start=time(NULL);
 	Window=NULL;
+	last_log=1;
 	for (int i=0;i<4;i++)
 		geometry[i]=0;
 

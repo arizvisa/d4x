@@ -37,6 +37,8 @@ int tPassDialog::init(){
 		return 0;
 	};
 	window = gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(window),
+			       "D4X_PassDialog","D4X");
 	gtk_window_set_title(GTK_WINDOW (window),_("Password and username"));
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_container_border_width(GTK_CONTAINER(window),5);
@@ -238,6 +240,8 @@ void tFacePass::init(){
 		return;
 	};
 	window = gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(window),
+			       "D4X_Passwords","D4X");
 	gtk_window_set_title(GTK_WINDOW (window),_("Default passwords and usernames"));
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_widget_set_usize(window,-1,400);

@@ -41,6 +41,7 @@ enum{
 #include "db.h"
 #include "cookie.h"
 #include "dbc.h"
+#include "sm.h"
 
 struct tMainCfg{
 	tSimplyCfg DEFAULT_CFG;
@@ -159,6 +160,15 @@ struct tMainCfg{
 	int SEARCH_PING_TIMES;
 	int SEARCH_HOST;
 	int SEARCH_ENTRIES;
+/* SOUNDS
+ */
+	int ENABLE_SOUNDS;
+	char *SOUND_STARTUP;
+	char *SOUND_COMPLETE;
+	char *SOUND_FAIL;
+	char *SOUND_DND_DROP;
+	char *SOUND_ADD;
+	char *SOUND_QUEUE_FINISH;
 };
 
 extern tMLog *MainLog;
@@ -171,6 +181,7 @@ extern tMainCfg CFG;
 struct tGlobalVars{
 	pthread_mutex_t READED_BYTES_MUTEX;
 	unsigned long int READED_BYTES;
+	d4xSocketsHistory *SOCKETS;
 };
 
 extern tGlobalVars GVARS;
@@ -192,6 +203,7 @@ enum HISTORIES_ENUM{
 	DESC_HISTORY,
 	REFERER_HISTORY,
 	COOKIE_HISTORY,
+	SOUNDS_HISTORY,
 	LAST_HISTORY
 };
 

@@ -29,7 +29,7 @@ class tHttpDownload:public tDownloader{
 	public:
 		tHttpDownload();
 		int reconnect();
-		int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
+		int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL);
 		fsize_t get_size();
 		fsize_t get_readed();
 		int get_child_status();
@@ -41,6 +41,7 @@ class tHttpDownload:public tDownloader{
 		void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
 		void make_full_pathes(const char *path,char **name,char **guess);
 		void done();
+		tSocket *export_ctrl_socket();
 		~tHttpDownload();
 };
 

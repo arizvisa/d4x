@@ -68,9 +68,9 @@ int d4x_f_lock(int fd){
 		switch(errno){
 		case EINVAL: //not supported by fs
 		case ENOLCK: //too many locks
-			return(1);
+			return(-1);
 		};
-		return(-1);
+		return(1);
 	};
 	return(0);
 };
@@ -200,10 +200,49 @@ tDefaultWL::~tDefaultWL(){
 
 /*************Split Information****************/
 
+d4xCondition::d4xCondition(){
+	pthread_mutex_init(&my_mutex,NULL);
+};
+
+void d4xCondition::set_value(int val){
+	pthread_mutex_lock(&my_mutex);
+	value=val;
+	pthread_mutex_unlock(&my_mutex);
+};
+
+int d4xCondition::get_value(){
+	pthread_mutex_lock(&my_mutex);
+	int val=value;
+	pthread_mutex_unlock(&my_mutex);
+	return(val);
+};
+
+int d4xCondition::dec(){
+	pthread_mutex_lock(&my_mutex);
+	value-=1;
+	int val=value;
+	pthread_mutex_unlock(&my_mutex);
+	return(val);
+};
+
+int d4xCondition::inc(){
+	pthread_mutex_lock(&my_mutex);
+	value+=1;
+	int val=value;
+	pthread_mutex_unlock(&my_mutex);
+	return(val);	
+};
+
+d4xCondition::~d4xCondition(){
+	pthread_mutex_destroy(&my_mutex);
+};
+
+
 tSplitInfo::tSplitInfo(){
 	FirstByte=LastByte=-1;
 	next_part=parent=NULL;
 	status=0;
+	cond=NULL;
 };
 
 tSplitInfo::~tSplitInfo(){
@@ -819,6 +858,8 @@ int tDownload::load_from_config(int fd){
 		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
 			if (equal_uncase(buf,table_of_fields[i].name)){
 				if (table_of_fields[i].type==SV_TYPE_END){
+					if (finfo.size>0)
+						Percent=(float(Size.curent)*float(100))/float(finfo.size);
 					return(0);
 				}else{
 					if (sv_parse_file(fd,&(table_of_fields[i]),buf,MAX_LEN))
@@ -840,6 +881,10 @@ void tDownload::check_local_file_time(){
 
 void tDownload::download_completed(int type) {
 	who->done();
+	im_last=1;
+	if (split && split->cond && split->cond->dec()!=0)
+		im_last=0;
+
 	if (split==NULL)
 		WL->truncate();
 	switch (type){
@@ -853,7 +898,8 @@ void tDownload::download_completed(int type) {
 	};
 	};
 	WL->log(LOG_OK,_("Downloading was successefully completed!"));
-	if (im_first && CFG.WRITE_DESCRIPTION && info->proto!=D_PROTO_SEARCH){
+	
+	if (im_last && CFG.WRITE_DESCRIPTION && info->proto!=D_PROTO_SEARCH){
 		/* add string into Descript.ion file */
 		download_set_block(1);
 		char *path=make_path_to_file();
@@ -863,7 +909,10 @@ void tDownload::download_completed(int type) {
 		delete[] desc;
 		lseek(fd,0,SEEK_END);
 		lockf(fd,F_LOCK,0);
-		f_wstr(fd,info->file.get());
+		if (config.save_name.get())
+			f_wstr(fd,config.save_name.get());
+		else
+			f_wstr(fd,info->file.get());
 		f_wstr(fd," - ");
 		if (Description.get()) {
 			f_wstr(fd,Description.get());
@@ -878,8 +927,10 @@ void tDownload::download_completed(int type) {
 		close(fd);
 		download_set_block(0);
 	};
-	make_file_visible();
-	set_date_file();
+	if (im_last){
+		make_file_visible();
+		set_date_file();
+	};
 	if (config.sleep_before_complete)
 		sleep(config.time_for_sleep);
 	status=DOWNLOAD_COMPLETE;
@@ -952,6 +1003,17 @@ void tDownload::recurse_http() {
 	};
 };
 
+void tDownload::export_socket(tDownloader *what){
+	download_set_block(1);
+	tSocket *sock=what->export_ctrl_socket();
+	if (sock){
+		tAddr *adr=new tAddr;
+		adr->copy_host(info);
+		d4xOldSocket *tmp=new d4xOldSocket(adr,sock);
+		GVARS.SOCKETS->insert(tmp);
+	};
+	download_set_block(0);
+};
 
 void tDownload::download_http() {
 	if (!who) who=new tHttpDownload;
@@ -1068,6 +1130,14 @@ static void _tmp_sort_free_(void *buf){
 	delete(tmp);
 };
 
+static int _cmp_pinged_hosts_(tNode *a,tNode *b){
+	tDownload *aa=(tDownload *)a;
+	tDownload *bb=(tDownload *)b;
+	float rval=(aa->Percent/aa->Attempt.curent)-(bb->Percent/bb->Attempt.curent);
+	if (rval==0) return(0);
+	return(rval>0?1:-1);
+};
+
 void tDownload::sort_links(){
 	if (DIR->count()==0) return;
 	WL->log(LOG_OK,_("Sorting started"));
@@ -1087,17 +1157,7 @@ void tDownload::sort_links(){
 		tmp->run(DIR,WL);
 		pthread_cleanup_pop(1);
 		download_set_block(1);
-		tDownload *a=DIR->first();
-		while (a && a->prev){
-			tDownload *prev=(tDownload *)(a->prev);
-			if (a->Percent/a->Attempt.curent>prev->Percent/prev->Attempt.curent){
-				DIR->del(a);
-				DIR->insert(a);
-				a=DIR->first();
-			}else{
-				a=prev;
-			};
-		};
+		DIR->sort(_cmp_pinged_hosts_);
 		download_set_block(0);
 		if (!i)
 			Status.curent=1;
@@ -1188,7 +1248,10 @@ void tDownload::download_ftp(){
 	};
 
 	config.split=split?1:0;
-	if (who->init(info,WL,&(config))) {
+	download_set_block(1);
+	tSocket *s=GVARS.SOCKETS->find(info);
+	download_set_block(0);
+	if (who->init(info,WL,&(config),s)) {
 		download_failed();
 		return;
 	};
@@ -1249,6 +1312,7 @@ void tDownload::download_ftp(){
 		download_failed();
 		return;
 	};
+	if (config.dont_send_quit) export_socket(who);
 	download_completed(D_PROTO_FTP);
 };
 
@@ -1259,36 +1323,31 @@ void tDownload::prepare_splits(){
 	DBC_RETURN_IF_FAIL(segments!=NULL);
 	tSegment *holes=segments->to_holes(finfo.size);
 	tSegment *tmp;
-	if (split->NumOfParts>holes->offset_in_file){
-		while(split->NumOfParts>holes->offset_in_file){
-			tSegment *largest=holes;
-			tmp=holes->next;
-			while(tmp){
-				if ((tmp->end-tmp->begin)>(largest->end-largest->begin))
-					largest=tmp;
-				tmp=tmp->next;
-			};
-			if (largest->end-largest->begin<SPLIT_MINIMUM_PART){
-				WL->log(LOG_WARNING,_("Can't split file to specified number of parts!"));
-				break;
-			};
-			tmp=new tSegment;
-			tmp->begin=largest->begin;
-			tmp->end=largest->begin+(largest->end-largest->begin)/(split->NumOfParts-holes->offset_in_file+1);
-			largest->begin=tmp->end;
-			if (tmp->begin<holes->begin){
-				tmp->offset_in_file=holes->offset_in_file+1;
-				tmp->next=holes;
-				holes=tmp;
-			}else{
-				holes->offset_in_file+=1;
-				tmp->next=holes->next;
-				holes->next=tmp;
-			};
+//	printf("split to %i parts\n",split->NumOfParts);
+	while(split->NumOfParts>holes->offset_in_file){
+		tSegment *largest=holes;
+		tmp=holes->next;
+		while(tmp){
+			if ((tmp->end-tmp->begin)>(largest->end-largest->begin))
+				largest=tmp;
+			tmp=tmp->next;
 		};
+		if (largest->end-largest->begin<SPLIT_MINIMUM_PART){
+			WL->log(LOG_WARNING,_("Can't split file to specified number of parts!"));
+			break;
+		};
+		tmp=new tSegment;
+		tmp->end=largest->end;
+		tmp->begin=largest->begin+(largest->end-largest->begin)/(split->NumOfParts-holes->offset_in_file+1);
+		largest->end=tmp->begin;
+		tmp->next=largest->next;
+		largest->next=tmp;
+		holes->offset_in_file+=1;
 	};
+	split->cond=new d4xCondition;
 	if (split->NumOfParts<holes->offset_in_file)
 		split->NumOfParts=holes->offset_in_file;
+	split->cond->set_value(split->NumOfParts);
 	split->FirstByte=holes->begin;
 	split->LastByte=holes->end;
 //	printf("%li %li\n",split->FirstByte,split->LastByte);
@@ -1302,6 +1361,7 @@ void tDownload::prepare_splits(){
 		tmp=holes->next;
 		if (newsplit->next_part==NULL)
 			newsplit->next_part=new tDownload;
+		newsplit->cond=split->cond;
 		tDownload *temp=newsplit->next_part;
 		temp->status=DOWNLOAD_REAL_STOP;
 		if (temp->split==NULL)

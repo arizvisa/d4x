@@ -35,11 +35,11 @@ void d4xRule::print(){
 int d4xRule::match(tAddr *addr){
 	if (proto && addr->proto!=proto)
 		return(0);
-	if (file.get() && !check_mask(addr->file.get(),file.get()))
+	if (file.get() && !check_mask2_uncase(addr->file.get(),file.get()))
 		return(0);
-	if (host.get() && !check_mask(addr->host.get(),host.get()))
+	if (host.get() && !check_mask2(addr->host.get(),host.get()))
 		return(0);
-	if (path.get() && !check_mask(addr->path.get(),path.get()))
+	if (path.get() && !check_mask2(addr->path.get(),path.get()))
 		return(0);
 	return(1);
 };

@@ -17,7 +17,7 @@ class tFtpClient:public tClient{
 	int DSFlag;
 	int passive;
 	fsize_t TEMP_SIZE,OLD_SIZE;
-	int CON_FLAGS;
+	int log_flag;
 	int DONT_SEND_QUIT;
 	int METHOD_TO_LIST;
 	int RETRY_IF_NO_REGET;
@@ -37,7 +37,7 @@ class tFtpClient:public tClient{
 	void vdisconnect();
  public:
 	tFtpClient();
-	tFtpClient(tCfg *cfg);
+	tFtpClient(tCfg *cfg,tSocket *ctrl=NULL);
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_passive(int a);
 	void set_retry(int a);
@@ -55,11 +55,6 @@ class tFtpClient:public tClient{
     	void done();
 	int another_way_get_size();
 	~tFtpClient();
-};
-
-enum CONNECTED_FLAGS_ENUM{
-	CON_FLAG_CONNECTED = 1 << 0,
-	CON_FLAG_LOGGED =    1 << 1,
 };
 
 extern char *FTP_SERVER_OK;

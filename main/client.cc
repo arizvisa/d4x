@@ -290,16 +290,20 @@ tClient::tClient(){
 	CtrlSocket=new tSocket;
 };
 
-tClient::tClient(tCfg *cfg){
+tClient::tClient(tCfg *cfg,tSocket *ctrl=NULL){
 	hostname=username=userword=buffer=NULL;
 	FileLoaded=0;
-	if (cfg->socks_host.get() && cfg->socks_port){
-		CtrlSocket=new tSocksSocket(cfg->socks_host.get(),
-					    cfg->socks_port,
-					    cfg->socks_user.get(),
-					    cfg->socks_pass.get());
-	}else
-		CtrlSocket=new tSocket;
+	if (ctrl)
+		CtrlSocket=ctrl;
+	else{
+		if (cfg->socks_host.get() && cfg->socks_port){
+			CtrlSocket=new tSocksSocket(cfg->socks_host.get(),
+						    cfg->socks_port,
+						    cfg->socks_user.get(),
+						    cfg->socks_pass.get());
+		}else
+			CtrlSocket=new tSocket;
+	};
 };
 
 tClient::~tClient(){
@@ -403,4 +407,16 @@ int tClient::write_buffer() {
 int tClient::get_status() {
 	return Status;
 };
+
+tSocket *tClient::export_ctrl_socket(){
+	tSocket *tmp=CtrlSocket;
+	CtrlSocket=NULL;
+	return(tmp);
+};
+
+void tClient::import_ctrl_socket(tSocket *s){
+	if (CtrlSocket) delete(CtrlSocket);
+	CtrlSocket=s;
+};
+
 //**************************************************/

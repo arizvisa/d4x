@@ -1,3 +1,26 @@
+Sat Jun 23 14:09:29 2001
+	Added command line paramter '--del';
+	Added sounds;
+	Added ability to use '?' as any symbol in HTTP filters;
+	Added ability to use one socket many times for FTP downloads;
+	Added ability to select/unselect by wildcard in queue of downloads;
+	Hebrew translation has been updated;
+	Polish translation has been updated;
+	Italian translation has been updated (thanks to m4rt);
+	French translation has been updated (thanks to Jerome COUDERC);
+	Initial Turkish translation (thanks to Gorkem Cetin);
+	Bulgarian translation has been rewritten (thanks to Iordan Pavlov);
+	File wildcard of HTTP filter is caseinsensetive now;
+	Fixed problems with redirections;
+	Fixed blocking interface when progress bars in third mode;
+	Fixed recurse HTML which contains BASE tag;
+	Fixed renaming local file when it's downloaded in number of threads;
+	Fixed loading from non anonymous FTP servers via HTTP proxy;
+	Fixed initing one global mutex;
+	FTP improvements;
+	Interface improvements;
+	Varios code-cleanups;
+
 Fri Apr 20 16:40:40 2001
 	Added ability to set up cookie string for a download;
 	Added SOCKS5 support;

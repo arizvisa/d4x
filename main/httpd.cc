@@ -61,7 +61,7 @@ void tHttpDownload::print_error(int error_code){
 	};
 };
 
-int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
+int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL) {
 	LOG=log;
 	HTTP=new tHttpClient(cfg);
 	RetrNum=0;
@@ -404,6 +404,11 @@ void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **
 
 void tHttpDownload::done() {
 	HTTP->done();
+};
+
+tSocket *tHttpDownload::export_ctrl_socket(){
+	if (HTTP) return(HTTP->export_ctrl_socket());
+	return(NULL);
 };
 
 tHttpDownload::~tHttpDownload() {

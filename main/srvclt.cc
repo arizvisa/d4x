@@ -28,9 +28,8 @@
 typedef int socklen_t;
 #endif
 
-void *server_thread_run(void *what){
+static void *server_thread_run(void *what){
     tMsgServer *srv=(tMsgServer *)what;
-    srv->init();
     srv->run();
     return NULL;
 };
@@ -56,7 +55,21 @@ tMsgServer::~tMsgServer(){
     delete[] file;
 };
 
-void tMsgServer::init(){
+void tMsgServer::run_thread(){
+	pthread_attr_t attr_p;
+	pthread_attr_init(&attr_p);
+	pthread_attr_setdetachstate(&attr_p,PTHREAD_CREATE_JOINABLE);
+	pthread_attr_setscope(&attr_p,PTHREAD_SCOPE_SYSTEM);
+	pthread_create(&thread_id,&attr_p,server_thread_run,this);
+};
+
+void tMsgServer::stop_thread(){
+	void *rc;
+	pthread_kill(thread_id,SIGUSR2);
+	pthread_join(thread_id,(void **)&rc);
+};
+
+int tMsgServer::init(){
 	struct sigaction action,old_action;
 	action.sa_handler=server_thread_stop;
 	action.sa_flags=0;
@@ -64,20 +77,24 @@ void tMsgServer::init(){
 
 	sigset_t oldmask,newmask;
 	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGTERM);
 	sigaddset(&newmask,SIGINT);
 	sigaddset(&newmask,SIGUSR1);
 	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
 
 	struct sockaddr_un saddr;
-	if ((fd=socket(AF_UNIX,SOCK_STREAM,0)) != -1){
-		saddr.sun_family = AF_UNIX;
-		sprintf(saddr.sun_path, "%s/downloader_for_x_sock_%s", g_get_tmp_dir(), g_get_user_name());
-		unlink(saddr.sun_path);
-		file=copy_string(saddr.sun_path);
-		if (bind(fd,(struct sockaddr *)&saddr,sizeof(saddr)) != -1){
-			listen(fd,5);
-		};
-	};
+	fd=socket(AF_UNIX,SOCK_STREAM,0);
+	if (fd == -1)
+		return(-1);
+	
+	saddr.sun_family = AF_UNIX;
+	sprintf(saddr.sun_path, "%s/downloader_for_x_sock_%s", g_get_tmp_dir(), g_get_user_name());
+	unlink(saddr.sun_path);
+	file=copy_string(saddr.sun_path);
+	if (bind(fd,(struct sockaddr *)&saddr,sizeof(saddr)) == -1)
+		return(-1);
+	listen(fd,5);
+	return(0);
 };
 
 void tMsgServer::cmd_return_int(int what){
@@ -169,6 +186,7 @@ void tMsgServer::run(){
 				case PACKET_ICONIFY:
 				case PACKET_POPUP:
 				case PACKET_MSG:
+				case PACKET_DEL:
 				case PACKET_ADD:{
 					cmd_add(packet.len,packet.type);
 					break;

@@ -18,6 +18,7 @@ class tMsgServer{
 	tStringList *list;
 	char *file;
 	pthread_mutex_t lock;
+	pthread_t thread_id;
 	int fd,newfd; /* socket descriptors */
 	void cmd_add(int len,int type);
 	void cmd_ls(int len,int type);
@@ -25,8 +26,10 @@ class tMsgServer{
 	void cmd_return_int(int what);
  public:
 	tMsgServer();
-	void init();
+	int init();
         void run();
+	void run_thread();
+	void stop_thread();
 	tString *get_string();
 	~tMsgServer();
 };
@@ -82,9 +85,8 @@ enum {
 	PACKET_RERUN_FAILED,
 	PACKET_EXIT_TIME,
 	PACKET_LS,
+	PACKET_DEL,
 	PACKET_UNKNOWN
 };
-
-void *server_thread_run(void *what);
 
 #endif

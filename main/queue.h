@@ -18,6 +18,9 @@ struct tNode{
     virtual ~tNode();
 };
 
+
+typedef int (*d4xNodeCmpFunc) (tNode *a,tNode *b);
+
 class tQueue{
     protected:
     int MaxNum,Num;
@@ -34,6 +37,7 @@ class tQueue{
     	virtual tNode *first();
     	virtual tNode *next();
     	virtual tNode *prev();
+	void sort(d4xNodeCmpFunc cmpfunc);
     	virtual void dispose();
     	virtual void done();
     	virtual ~tQueue();

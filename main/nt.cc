@@ -28,7 +28,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.26";
+char *VERSION_NAME="WebDownloader for X 1.27";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -51,6 +51,18 @@ static void init_string_variables(){
 	if (CFG.CATCH_IN_CLIPBOARD==NULL)
 		CFG.CATCH_IN_CLIPBOARD=copy_string("zip .gz rar arj exe rpm .bz2 deb tgz mp3");
 	CFG.LOCAL_SAVE_PATH=copy_string(CFG.GLOBAL_SAVE_PATH);
+	if (!CFG.SOUND_COMPLETE)
+		CFG.SOUND_COMPLETE=sum_strings(D4X_SHARE_PATH,"/sounds/complete.wav",NULL);
+	if (!CFG.SOUND_ADD)
+		CFG.SOUND_ADD=sum_strings(D4X_SHARE_PATH,"/sounds/add.wav",NULL);
+	if (!CFG.SOUND_FAIL)
+		CFG.SOUND_FAIL=sum_strings(D4X_SHARE_PATH,"/sounds/fail.wav",NULL);
+	if (!CFG.SOUND_DND_DROP)
+		CFG.SOUND_DND_DROP=sum_strings(D4X_SHARE_PATH,"/sounds/dnd.wav",NULL);
+	if (!CFG.SOUND_QUEUE_FINISH)
+		CFG.SOUND_QUEUE_FINISH=sum_strings(D4X_SHARE_PATH,"/sounds/finish.wav",NULL);
+	if (!CFG.SOUND_STARTUP)
+		CFG.SOUND_STARTUP=sum_strings(D4X_SHARE_PATH,"/sounds/startup.wav",NULL);
 };
 
 #ifdef DEBUG_ALL
@@ -113,7 +125,7 @@ int main(int argc,char **argv) {
 			printf(_("%s probably is already running\n"),VERSION_NAME);
 		return 0;
 	};
-	aa.init();
+	if (aa.init()) return(1);
 	aa.run(argc,argv);
 	aa.run_after_quit();
 	var_free(&CFG);

@@ -96,6 +96,16 @@ void tDB::insert(tDownload *what) {
 	unlock();
 };
 
+tDownload *tDB::find(tAddr *addr){
+	DBC_RETVAL_IF_FAIL(addr!=NULL,NULL);
+	tDownload *tmp=new tDownload;
+	tmp->info=addr;
+	tDownload *rval=find(tmp);
+	tmp->info=NULL;
+	delete(tmp);
+	return(rval);
+};
+
 tDownload *tDB::find(tDownload *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	DBC_RETVAL_IF_FAIL(what->info!=NULL,NULL);

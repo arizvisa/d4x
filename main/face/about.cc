@@ -21,9 +21,11 @@ GtkWidget *AboutWindow=(GtkWidget *)NULL;
 GtkWidget *AboutTLabel,*AboutSLabel;
 
 char *TRANSLATORS[]={
+	"Jerome Couderc",
+	"Iordan Pavlov",
+	"Gorkem Cetin",
 	"Felix Knecht",
 	"DJ Art",
-	"Jerome Couderc",
 	"Mario Sergio Fujikawa Ferreira",
 	"Seung-young Oh",
 	"Grzegorz Kowal",
@@ -94,6 +96,8 @@ void init_about_window(...) {
 	};
 	ABOUT_CURRENT_NAME=0;
 	AboutWindow = gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_window_set_wmclass(GTK_WINDOW(AboutWindow),
+			       "D4X_About","D4X");
 	//    gtk_widget_set_usize( GTK_WIDGET (AboutWindow), 400, 105);
 	gtk_window_set_policy (GTK_WINDOW(AboutWindow), FALSE,FALSE,FALSE);
 	gtk_window_set_position(GTK_WINDOW(AboutWindow),GTK_WIN_POS_CENTER);

@@ -27,9 +27,10 @@ class tFtpDownload:public tDownloader{
     int download_dir();
     int ftp_get_size(tStringList *l);
     void print_error(int error_code);
+    fsize_t ls_answer_short();
     public:
     	tFtpDownload();
-    	int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
+    	int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg,tSocket *s=NULL);
 	void init_download(char *path,char *file);
     	int download(fsize_t len);
     	fsize_t get_size();
@@ -40,6 +41,7 @@ class tFtpDownload:public tDownloader{
     	int get_child_status();
     	int reget();
      	fsize_t another_way_get_size();
+	tSocket *export_ctrl_socket();
     	tStringList *dir();
     	~tFtpDownload();
 };
