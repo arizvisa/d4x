@@ -55,10 +55,10 @@ static gint my_gtk_filesel_init_browser(GtkButton *button, MyGtkFilesel *filesel
 		gdk_window_show(filesel->browser->window);
 	}else{
 		if (filesel->only_dirs){
-			filesel->browser=gtk_file_selection_new(_("Select directory"));
+			filesel->browser=gtk_file_selection_new((gchar*)_("Select directory"));
 			gtk_widget_set_sensitive(GTK_FILE_SELECTION(filesel->browser)->file_list,FALSE);
 		}else
-			filesel->browser=gtk_file_selection_new(_("Select file"));
+			filesel->browser=gtk_file_selection_new((gchar*)_("Select file"));
 		gtk_window_set_wmclass(GTK_WINDOW(filesel->browser),
 				       "D4X_FileSel","D4X");
 		char *tmp=text_from_combo(filesel->combo);
@@ -259,12 +259,17 @@ guint my_gtk_colorsel_get_type(){
 
 gint my_gtk_colorsel_get_color(MyGtkColorsel *colsel){
 	gint color=0;
+/*
 	guchar *a=(guchar *)&color;
 	g_return_val_if_fail(colsel!=NULL,0);
 
 	a[0]=guchar(colsel->color[2]*0xff);
 	a[1]=guchar(colsel->color[1]*0xff);
 	a[2]=guchar(colsel->color[0]*0xff);
+*/
+	color=((gint(colsel->color[2]*0xff))&0xff)+
+	      (((gint(colsel->color[1]*0xff))&0xff)<<8)+
+	      (((gint(colsel->color[0]*0xff))&0xff)<<16);
 	return color;
 };
 
@@ -308,15 +313,15 @@ void d4x_rule_edit_apply(d4xRuleEdit *edit){
 		if (*(text_from_combo(edit->host))){
 			edit->rule->host.set(text_from_combo(edit->host));
 		}else
-			edit->rule->host.set(NULL);
+			edit->rule->host.set((char*)NULL);
 		if (*(text_from_combo(edit->path))){
 			edit->rule->path.set(text_from_combo(edit->path));
 		}else
-			edit->rule->path.set(NULL);
+			edit->rule->path.set((char*)NULL);
 		if (*(text_from_combo(edit->file))){
 			edit->rule->file.set(text_from_combo(edit->file));
 		}else
-			edit->rule->file.set(NULL);
+			edit->rule->file.set((char*)NULL);
 		edit->rule->proto=get_proto_by_name(text_from_combo(edit->proto));
 		edit->rule->include=GTK_TOGGLE_BUTTON(edit->include)->active;
 	};
@@ -341,7 +346,7 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	edit->vbox=gtk_vbox_new(FALSE,0);
 	
 	edit->proto=gtk_combo_new();
-	GList *list=NULL;
+	GList *list=(GList*)NULL;
 	list = g_list_append (list, get_name_by_proto(D_PROTO_FTP));
 	list = g_list_append (list, get_name_by_proto(D_PROTO_HTTP));
 	list = g_list_append (list, (void*)"");
@@ -624,7 +629,7 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 			   GTK_SIGNAL_FUNC(d4x_filter_edit_select),
 			   edit);
 
-	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),edit->clist);

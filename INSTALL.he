@@ -67,7 +67,7 @@ A2: do 'cat /usr/share/locale/locale.alias | grep hebrew'. may be also found in 
 
 Q: I don't want hebrew translation. English is much Kewler!
 -----------------------------------------------------------
-A: No problem, just delete the nt.mo that 'make install' installed for you, probably on /usr/local/locale/share/$LANG/LC_MESSAGES (while $LANG is probably he, but may also be hebrew, he_IL or iw. depends on your distro).
+A: No problem, just delete the nt.mo that 'make install' installed for you, probably on /usr/local/share/locale/$LANG/LC_MESSAGES (while $LANG is probably he, but may also be hebrew, he_IL or iw. depends on your distro).
 
 Q: I still have a problem with the translation
 ----------------------------------------------

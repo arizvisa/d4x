@@ -22,6 +22,7 @@ GtkWidget *AboutTLabel,*AboutSLabel;
 
 char *TRANSLATORS[]={
 	"Felix Knecht",
+	"Oren Held",
 	"Marco Martin",
 	"Jerome Couderc",
 	"Iordan Pavlov",

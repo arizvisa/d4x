@@ -1227,10 +1227,10 @@ int tMain::add_downloading(tDownload *what,int to_top=0) {
 		else
 			list_of_downloads_add(what);
 	};
-	if (to_top)
-		DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,
-							DOWNLOAD_QUEUES[DL_WAIT]->first());
-	else
+	tDownload *f=DOWNLOAD_QUEUES[DL_WAIT]->first();
+	if (to_top && f)
+		DOWNLOAD_QUEUES[DL_WAIT]->insert_before(what,f);
+	else		
 		DOWNLOAD_QUEUES[DL_WAIT]->insert(what);
 	return 0;
 };

@@ -409,6 +409,7 @@ static void *_sa_exec_run_(void *what){
 	d4xSAExecute *act=(d4xSAExecute *)what;
 	system(act->command.get());
 	pthread_exit(NULL);
+	return(NULL);
 };
 
 void d4xSAExecute::run(tMain *papa){
@@ -426,6 +427,7 @@ void d4xSAExecute::run(tMain *papa){
 
 d4xScheduler::d4xScheduler(){
 	FIRST=NULL;
+	changed=0;
 };
 
 d4xScheduler::~d4xScheduler(){
@@ -447,6 +449,7 @@ void d4xScheduler::add_scheduled(tDownload *what){
 
 void d4xScheduler::add_action(d4xSchedAction *act){
 	DBC_RETURN_IF_FAIL(act!=NULL);
+	changed=1;
 	act->lock=0;
 	if (FIRST){
 		d4xSchedAction *tmp=FIRST;
@@ -477,6 +480,7 @@ void d4xScheduler::add_action(d4xSchedAction *act){
 
 void d4xScheduler::del_action(d4xSchedAction *act){
 	DBC_RETURN_IF_FAIL(act!=NULL);
+	changed=1;
 	if (act->prev)
 		act->prev->next=act->next;
 	else
@@ -509,9 +513,11 @@ void d4xScheduler::run(tMain *papa){
 	int a=0; //counter
 	d4xSchedAction *tmp=FIRST;
 	int exit_flag=0;
+	int se=0;
 	while (tmp){
 		if (now>tmp->start_time){
 			d4xSchedAction *next=tmp->next;
+			se=1;
 			if (tmp->lock==0){ //if no editors opened
 				tmp->run(papa);
 				del_action(tmp);
@@ -534,9 +540,11 @@ void d4xScheduler::run(tMain *papa){
 		if (exit_flag)
 			break;
 	};
+	if (se && changed)
+		save();
 	if (exit_flag){
 		my_main_quit();
-//		aa.run_after_quit();		
+//		aa.run_after_quit();
 		exit(0);
 	};
 };

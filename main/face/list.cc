@@ -990,7 +990,10 @@ int get_mainwin_sizes(GtkWidget *window) {
 	    gdk_window_is_visible(window->window)) {
 		gint x,y,w,h;
 //		gdk_window_get_position(window->window,&x,&y);
+//		gdk_window_get_origin (window->window, &x, &y);
 		gdk_window_get_root_origin (window->window, &x, &y);
+//		gdk_window_get_deskrelative_origin(window->window, &x, &y);
+//		printf("%i %i\n--\n",x,y);
 		gdk_window_get_size(window->window,&w,&h);
 		/*
 		if (CFG.WINDOW_HEIGHT != int(h)){

@@ -10,6 +10,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <ctype.h>
 #include "autoadd.h"
 #include "dbc.h"

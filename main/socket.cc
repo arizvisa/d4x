@@ -76,7 +76,7 @@ tSocket::tSocket() {
 	con_flag=0;
 };
 
-int tSocket::constr_name(char *host,u_int16_t port) {
+int tSocket::constr_name(char *host,guint16 port) {
 	info.sin_family=AF_INET;
 	if (host) {
 		info.sin_addr.s_addr = inet_addr(host);
@@ -128,7 +128,7 @@ unsigned short int tSocket::get_port() {
 	return htons(info.sin_port);
 };
 
-int tSocket::open_port(char *host, u_int16_t port) {
+int tSocket::open_port(char *host, guint16 port) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	int len=constr_name(host,port);
 	if (len<0) return SOCKET_UNKNOWN_HOST;
@@ -153,7 +153,7 @@ int tSocket::open_port(int *ftp_addr) {
 	return(open_port(host,port));
 }
 
-int tSocket::open_port(u_int32_t host,u_int16_t port) {
+int tSocket::open_port(guint32 host,guint16 port) {
 	port=htons(port);
 //	host=htonl(host);
 	int len=constr_name(NULL,port);
@@ -184,7 +184,7 @@ int tSocket::open_any(char *host) {
 	return 0;
 };
 
-int tSocket::open_any(u_int32_t host) {
+int tSocket::open_any(guint32 host) {
 	constr_name(NULL,0);
 	host=htonl(host);
 	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));

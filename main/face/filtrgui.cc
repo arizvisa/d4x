@@ -108,7 +108,7 @@ void d4x_filters_clist_select_row(GtkWidget *clist, gint row, gint column,
 void d4x_filters_window_delete(){
 	if (d4x_filters_changed) FILTERS_DB->save_to_ntrc();
 	gtk_widget_destroy(d4x_filters_window);
-	d4x_filters_window=NULL;
+	d4x_filters_window=(GtkWidget*)NULL;
 };
 
 void d4x_filters_window_del(){
@@ -133,7 +133,7 @@ void d4x_filters_window_add(d4xFNode *node){
 void d4x_filters_window_destroy(){
 	if (d4x_filters_window)
 		gtk_widget_destroy(d4x_filters_window);
-	d4x_filters_window=NULL;
+	d4x_filters_window=(GtkWidget*)NULL;
 };
 
 void d4x_filters_window_init(){
@@ -158,7 +158,7 @@ void d4x_filters_window_init(){
 	gtk_clist_set_shadow_type(GTK_CLIST(d4x_filters_clist), GTK_SHADOW_IN);
 	gtk_clist_set_column_auto_resize(GTK_CLIST(d4x_filters_clist),0,TRUE);
 //	gtk_clist_set_selection_mode(GTK_CLIST(clist),GTK_SELECTION_EXTENDED);
-	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),d4x_filters_clist);

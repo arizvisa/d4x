@@ -206,6 +206,13 @@ tAddr::tAddr(char *str){
 	};
 	if (file1) {
 		if (proto==D_PROTO_HTTP){
+			char *tmp=rindex(file1,'#');
+			if (tmp) {
+				*tmp=0;
+				tmp=file1;
+				file1=copy_string(tmp);
+				delete[] tmp;
+			};
 			char *prom=index(file1,'?');
 			if (prom){
 				params.set(prom+1);
@@ -242,15 +249,6 @@ tAddr::tAddr(char *str){
 		mask=1;
 	/* Parse # in http urls
 	 */
-	if (proto==D_PROTO_HTTP && file1!=NULL) {
-		char *tmp=index(file1,'#');
-		if (tmp) {
-			*tmp=0;
-			tmp=file1;
-			file1=copy_string(tmp);
-			delete[] tmp;
-		};
-	};
 	if (port==0)
 		port=proto_infos[proto].port;
 	host.set(host1);if (host1) delete[] host1;

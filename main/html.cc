@@ -458,7 +458,7 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 	char *html_shift=NULL;
 	if (!global_url(url)) {
 		info=new tAddr;
-		html_shift=index(url,'#');
+		html_shift=rindex(url,'#');
 		if (html_shift){
 			*html_shift=0;
 			html_shift+=1;
@@ -496,6 +496,8 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 		if (begin_string_uncase(url,"http:") ||
 		    begin_string_uncase(url,"ftp:") ||
 		    begin_string_uncase(url,"https:")){
+			html_shift=rindex(url,'#');
+			if (html_shift)	html_shift+=1;
 			info=new tAddr(url);
 			if (papa->proto==D_PROTO_FTP && info->proto==D_PROTO_FTP){
 				char *quest=index(info->file.get(),';');

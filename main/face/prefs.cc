@@ -52,7 +52,7 @@ tMainCfg TMPCFG={
 	0x0FFFFFFF,
 	0,0,1,
 	1,0,15,
-	0,NULL,NULL,NULL,NULL,NULL,NULL
+	0,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL
 };
 
 struct D4xPrefsWidget{

@@ -128,8 +128,16 @@ void init_add_dnd_window(char *url,char *desc) {
 	gtk_widget_grab_focus(what->editor->ok_button);
 };
 
+static gint _tmp_compare_(gconstpointer a,gconstpointer b){
+	gint aa=GPOINTER_TO_INT(a);
+	gint bb=GPOINTER_TO_INT(b);
+	return(bb-aa);
+};
+
 void edit_common_properties_ok(GtkWidget *widget, tDownload *what){
-	GList *selection=GTK_CLIST(ListOfDownloads)->selection;
+	GList *selection=g_list_copy(GTK_CLIST(ListOfDownloads)->selection);
+	selection=g_list_sort(selection,_tmp_compare_);
+	GList *sel=selection;
 	while(selection){
 		int row=GPOINTER_TO_INT(selection->data);
 		tDownload *tmp=get_download_from_clist(row);
@@ -140,6 +148,7 @@ void edit_common_properties_ok(GtkWidget *widget, tDownload *what){
 		};
 		selection=selection->next;
 	};
+	g_list_free(sel);
 	what->editor->set_parent(what);
 	what->delete_editor();
 	list_for_adding->del(what);

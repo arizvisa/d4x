@@ -83,7 +83,9 @@ void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 		gdk_window_get_pointer((GdkWindow *)NULL, &mx, &my, &modmask);
 		CFG.DND_TRASH_X+=mx-dnd_trash_x;
 		CFG.DND_TRASH_Y+=my-dnd_trash_y;
-		gdk_window_move(widget->window,CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
+		gdk_window_move(widget->window,
+				CFG.DND_TRASH_X,
+				CFG.DND_TRASH_Y);
 		dnd_trash_x=mx;
 		dnd_trash_y=my;
 		gdk_flush();
@@ -154,8 +156,10 @@ static int dnd_trash_no_expose(){
 };
 
 static int dnd_trash_configure(GtkWidget *window){
-	gdk_window_get_root_origin (window->window, &(CFG.DND_TRASH_X),
-				    &(CFG.DND_TRASH_Y));
+//	gdk_window_get_root_origin (window->window, &(CFG.DND_TRASH_X),
+//				    &(CFG.DND_TRASH_Y));
+	gdk_window_get_position(window->window,&(CFG.DND_TRASH_X),
+				&(CFG.DND_TRASH_Y));
 	return(FALSE);
 };
 
@@ -180,6 +184,7 @@ void dnd_trash_init(){
 //	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
 	d4x_normalize_coords(&(CFG.DND_TRASH_X),&(CFG.DND_TRASH_Y));
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
+	printf("%i %i\n",CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
 	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
 //	gtk_widget_set_events(dnd_trash_window,GDK_ALL_EVENTS_MASK);
 	gtk_widget_set_events(dnd_trash_window,
@@ -270,6 +275,7 @@ void dnd_trash_init(){
 	gdk_window_resize(dnd_trash_window->window,50,50);
 	set_dndtrash_button();
 	wm_skip_window(dnd_trash_window);
+	gdk_window_move(dnd_trash_window->window,CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
 	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "configure_event",
 	                   GTK_SIGNAL_FUNC(dnd_trash_configure),
 	                   NULL);

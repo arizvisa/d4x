@@ -16,22 +16,22 @@
 
 class tSocksSocket:public tSocket{
 	tPStr socks_host;
-	u_int16_t socks_port;
+	guint16 socks_port;
 	tPStr user,pass;
 	unsigned char socks_buf[10];
-	u_int32_t bnd_host;
-	u_int16_t bnd_port;
+	guint32 bnd_host;
+	guint16 bnd_port;
 	void socks_init();
 	int socks_connect_reply();
 	int socks_bind_reply();
  public:
 	tSocksSocket();
-	tSocksSocket(char *host,u_int16_t port,char *use=NULL,char *pas=NULL);
+	tSocksSocket(char *host,guint16 port,char *use=NULL,char *pas=NULL);
 	int open_any(char * host);
-	int open_any(u_int32_t host);
+	int open_any(guint32 host);
 	int accepting(char * host);
-	int open_port(char * host,u_int16_t port);
-	int open_port(u_int32_t host,u_int16_t port);
+	int open_port(char * host,guint16 port);
+	int open_port(guint32 host,guint16 port);
 	unsigned int get_addr();
 	unsigned short int get_port();
 	~tSocksSocket(); 

@@ -131,7 +131,7 @@ int tSocksSocket::socks_connect_reply(){
 	return 0;
 };
 
-int tSocksSocket::open_port(char *host, u_int16_t port) {
+int tSocksSocket::open_port(char *host, guint16 port) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	socks_init();
 	if (fd<0) return(SOCKET_CANT_CONNECT);
@@ -148,7 +148,7 @@ int tSocksSocket::open_port(char *host, u_int16_t port) {
 	return(socks_connect_reply());
 };
 
-int tSocksSocket::open_port(u_int32_t host,u_int16_t port) {
+int tSocksSocket::open_port(guint32 host,guint16 port) {
 //	port=htons(port);
 //	host=htonl(host);
 	socks_init();
@@ -221,12 +221,12 @@ int tSocksSocket::open_any(char * host){
 	unsigned char tmp=strlen(host);
 	write(fd,&tmp,1);
 	write(fd,host,tmp);
-	u_int16_t port=0;
+	guint16 port=0;
 	write(fd,&port,2);
 	return(socks_bind_reply());
 };
 
-int tSocksSocket::open_any(u_int32_t host) {
+int tSocksSocket::open_any(guint32 host) {
 	host=htonl(host);
 	socks_init();
 	if (fd<0) return(SOCKET_CANT_CONNECT);
@@ -236,7 +236,7 @@ int tSocksSocket::open_any(u_int32_t host) {
 	socks_buf[3]=SOCKS_ATYPE_IPV4;
 	write(fd,socks_buf,4);
 	write(fd,&host,4);
-	u_int16_t port=0;
+	guint16 port=0;
 	write(fd,&port,2);
 	return(socks_bind_reply());
 };

@@ -1,3 +1,29 @@
+Sat Aug 11 21:31:56 2001
+	*face/dndtrash.cc: fixed appearing DnD basket in stored coords under
+	fvwm2, fixed moving DnD basket under Window Maker;
+
+Fri Aug 10 15:01:09 2001
+	*face/[many files],socket.cc[h],socks.cc[h],download.h: fixed
+	compilation under Solaris;
+	*ping.cc: replace 'nanosleep()' by 'usleep()' which seems to be
+	more portable;
+	*mywidget.cc: fixed colors selection under Solaris;
+	*addr.cc: fixed recursion through HTML files;
+	*html.cc: fixed saving changed links;
+	*face/addd.cc: fixed moving the downloads to the scheduler after
+	implementing common properties for selected downloads;
+
+Tue Aug  7 23:31:51 2001
+	*html.h: probably fix for wrong html recursion;
+	*socket.h: fixed warning on some compillers;
+	*po/he.po: updated Hebrew translation from Oren Held;
+
+Fri Aug  3 13:45:38 2001
+	*schedule.cc[h]: save scheduler if it was changed;
+
+Thu Aug  1 13:45:38 2001
+	*main.cc: fixed adding to the top when list is empty;
+
 Tue Jul 31 20:00:49 2001
 	*manyfiles: interface cleanups from Anton Voloshin and
 	from Leandro A. F. Pereira;

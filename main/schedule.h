@@ -145,6 +145,7 @@ struct d4xSAExecute:public d4xSchedAction{
 
 class d4xScheduler{
 	d4xSchedAction *FIRST; //sorted list of actions
+	int changed;
  public:
 	d4xScheduler();
 	void run(tMain *papa);

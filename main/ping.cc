@@ -105,10 +105,7 @@ void d4xPing::run(tDList *list,tWriterLoger *WL){
 			*/
 		};
 		step+=1;
-		timespec req;
-		req.tv_sec=0;
-		req.tv_nsec=100000000;
-		nanosleep(&req,NULL);
+		usleep(100000);
 	};
 	for (int i=0;i<TOTAL;i++){
 		data[i].ref->status+=((300-step)*(300-step+1))/2;

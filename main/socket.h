@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <sys/time.h>
 #include <fcntl.h>
+#include <glib.h>
 #include "speed.h"
 
 
@@ -35,7 +36,7 @@ class tSocket{
 	int con_flag;
 	char *buffer;
 	int RBytes,SBytes;
-	int constr_name(char *host,u_int16_t port);
+	int constr_name(char *host,guint16 port);
 	int wait_for_read(int len);
 	int wait_for_write(int len);
  public:
@@ -44,10 +45,10 @@ class tSocket{
 	virtual unsigned short int get_port();
 	int readed_bytes();
 	virtual int open_any(char * host);
-	virtual int open_any(u_int32_t host);
+	virtual int open_any(guint32 host);
 	virtual int accepting(char * host);
-	virtual int open_port(char * host,u_int16_t port);
-	virtual int open_port(u_int32_t host,u_int16_t port);
+	virtual int open_port(char * host,guint16 port);
+	virtual int open_port(guint32 host,guint16 port);
 	int open_port(int *ftp_addr);
 	int send_string(char *what,int timeout);
 	int rec_string(char * where,fsize_t len,int timeout);

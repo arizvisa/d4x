@@ -42,7 +42,7 @@ tMainCfg CFG={
 	0x0FFFFFFF,
 	0,0,1,
 	1,0,15,
-	1,NULL,NULL,NULL,NULL,NULL,NULL
+	1,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL
 };
 
 char *DEFAULT_PROTO="ftp";

@@ -434,18 +434,18 @@ void list_of_downloads_real_select(int type){
 static void _select_ok_(GtkButton *button,gint type){
 	list_of_downloads_real_select(type);
 	gtk_widget_destroy(LoDSelectWindow);
-	LoDSelectWindow=NULL;
+	LoDSelectWindow=(GtkWidget*)NULL;
 };
 
 static void _select_cancel_(GtkButton *button,gpointer unused){
 	gtk_widget_destroy(LoDSelectWindow);
-	LoDSelectWindow=NULL;
+	LoDSelectWindow=(GtkWidget*)NULL;
 };
 
 static gint _select_delete_(GtkWidget *window,GdkEvent *event,
 			    gpointer unused) {
 	gtk_widget_destroy(LoDSelectWindow);
-	LoDSelectWindow=NULL;
+	LoDSelectWindow=(GtkWidget*)NULL;
 	return(TRUE);
 };
 
@@ -490,7 +490,7 @@ void list_of_downloads_select(int type=0){
 			   GTK_SIGNAL_FUNC(_select_delete_),NULL);
 	gtk_signal_connect(GTK_OBJECT(LoDSelectEntry), "activate",
 			   GTK_SIGNAL_FUNC (_select_ok_), GINT_TO_POINTER(type));
-	GtkWidget *frame=NULL;
+	GtkWidget *frame=(GtkWidget*)NULL;
 	if (type)
 		frame=gtk_frame_new(_("Unselect"));
 	else

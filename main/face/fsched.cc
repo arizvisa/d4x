@@ -194,7 +194,7 @@ void d4x_scheduler_init(){
 	gtk_signal_connect(GTK_OBJECT(d4x_scheduler_clist), "select_row",
 	                   GTK_SIGNAL_FUNC(d4x_scheduler_select),NULL);
 
-	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),d4x_scheduler_clist);
@@ -553,7 +553,7 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 	time_t period=0;
 	int retries=0;
 	/* preparing time */
-	time_t NOW=time(NULL);
+	time_t NOW=time((time_t*)NULL);
 	struct tm date;
 	date.tm_isdst=-1;
 	localtime_r(&NOW,&date);
@@ -579,7 +579,7 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 		retries=0;
 	};
 	/*********************/
-	d4xSchedAction *action=NULL;
+	d4xSchedAction *action=(d4xSchedAction *)NULL;
 	switch(editor->last_action){
 	case SACT_SET_SPEED:{
 		d4xSASpeed *act=new d4xSASpeed;
@@ -654,7 +654,7 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 			delete(editor->dwn->info);
 		editor->dwn->info=new tAddr(text_from_combo(editor->url_entry));
 		act->dwn=editor->dwn;
-		editor->dwn=NULL;
+		editor->dwn=(tDownload*)NULL;
 		action=act;
 		break;
 	};
@@ -847,7 +847,7 @@ GtkWidget *my_gtk_aeditor_new(d4xSchedAction *action=(d4xSchedAction *)NULL){
 		gtk_option_menu_set_history (GTK_OPTION_MENU (editor->omenu),action->type());
 		aeditor_select_mode_int(editor,action->type());
 	}else{
-		time_t now=time(NULL);
+		time_t now=time((time_t*)NULL);
 		struct tm date;
 		localtime_r(&now,&date);
 		sprintf(data,"%i",date.tm_hour);
