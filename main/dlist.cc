@@ -802,9 +802,14 @@ void tDownload::convert_list_to_dir() {
 			tDownload *onenew=new tDownload;
 			onenew->config=new tCfg;
 			onenew->config->isdefault=0;
-			if (prom->type==T_DIR && info->mask) {
-				addrnew->compose_path(path,prom->name.get());
-				addrnew->file.set(info->file.get());
+			if (prom->type==T_DIR){
+				if (info->mask){
+					addrnew->compose_path(path,prom->name.get());
+					addrnew->file.set(info->file.get());
+				}else{
+					addrnew->compose_path2(path,prom->name.get());
+					addrnew->file.set("");
+				};
 				char *SavePath=compose_path(savepath,prom->name.get());
 				onenew->config->save_path.set(SavePath);
 				delete[] SavePath;
@@ -1560,8 +1565,13 @@ void tDownload::download_ftp(){
 	} else {
 		who->set_file_info(&(finfo));
 	};
-	if (finfo.type==T_LINK)
+	if (finfo.type==T_LINK){
 		finfo.size=0;
+		if (config->follow_link==2){
+			tFileInfo *i=who->get_file_info();
+			i->type=finfo.type=T_FILE;
+		};
+	};
 	int CurentSize=0;
 	if (info->mask==0){
 		CurentSize=create_file();

@@ -606,9 +606,18 @@ void tDEdit::init_ftp(tDownload *who){
 	permisions_check=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
 	GTK_TOGGLE_BUTTON(permisions_check)->active=who->config->permisions;
 	gtk_box_pack_start(GTK_BOX(ftp_vbox),permisions_check,FALSE,FALSE,0);
-	follow_link_check=gtk_check_button_new_with_label(_("Follow symbolic links"));
-	GTK_TOGGLE_BUTTON(follow_link_check)->active=who->config->follow_link;
+	follow_link_check=gtk_radio_button_new_with_label(NULL,_("Follow symbolic links"));
+	GTK_TOGGLE_BUTTON(follow_link_check)->active=who->config->follow_link==1?1:0;
 	gtk_box_pack_start(GTK_BOX(ftp_vbox),follow_link_check,FALSE,FALSE,0);
+	GSList *proxy_group1=gtk_radio_button_group(GTK_RADIO_BUTTON(follow_link_check));
+	load_link_check=gtk_radio_button_new_with_label(proxy_group1,_("Load links as links"));
+	GTK_TOGGLE_BUTTON(load_link_check)->active=who->config->follow_link==0?1:0;
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),load_link_check,FALSE,FALSE,0);
+	proxy_group1=gtk_radio_button_group(GTK_RADIO_BUTTON(load_link_check));
+	link_as_file_check=gtk_radio_button_new_with_label(proxy_group1,_("Load links as file"));
+	GTK_TOGGLE_BUTTON(link_as_file_check)->active=who->config->follow_link==2?1:0;
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),link_as_file_check,FALSE,FALSE,0);
+
 	ftp_dirontop_check=gtk_check_button_new_with_label(_("Put directories on the top of queue during recursion"));
 	GTK_TOGGLE_BUTTON(ftp_dirontop_check)->active=who->config->ftp_dirontop;
 	gtk_box_pack_start(GTK_BOX(ftp_vbox),ftp_dirontop_check,FALSE,FALSE,0);
@@ -1030,7 +1039,9 @@ int tDEdit::apply_changes() {
 	parent->config->permisions=GTK_TOGGLE_BUTTON(permisions_check)->active;
 	parent->config->get_date=GTK_TOGGLE_BUTTON(get_date_check)->active;
 	parent->config->retry=GTK_TOGGLE_BUTTON(retry_check)->active;
-	parent->config->follow_link=GTK_TOGGLE_BUTTON(follow_link_check)->active;
+	parent->config->follow_link=0;
+	if (GTK_TOGGLE_BUTTON(follow_link_check)->active) parent->config->follow_link=1;
+	if (GTK_TOGGLE_BUTTON(link_as_file_check)->active) parent->config->follow_link=2;
 	parent->config->leave_server=GTK_TOGGLE_BUTTON(leave_server_check)->active;
 	parent->config->ihate_etag=GTK_TOGGLE_BUTTON(ihate_etag_check)->active;
 	parent->config->dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
@@ -1230,8 +1241,11 @@ void tDEdit::disable_items(int *array){
 		gtk_widget_set_sensitive(get_date_check,FALSE);
 	if (array[EDIT_OPT_IFNOREGET]==0)
 		gtk_widget_set_sensitive(retry_check,FALSE);
-	if (array[EDIT_OPT_FOLLOWLINK]==0)
+	if (array[EDIT_OPT_FOLLOWLINK]==0){
 		gtk_widget_set_sensitive(follow_link_check,FALSE);
+		gtk_widget_set_sensitive(link_as_file_check,FALSE);
+		gtk_widget_set_sensitive(load_link_check,FALSE);
+	};
 	if (array[EDIT_OPT_LEAVESERVER]==0)
 		gtk_widget_set_sensitive(leave_server_check,FALSE);
 	if (array[EDIT_OPT_LEAVEDIR]==0)
@@ -1359,8 +1373,13 @@ void tDEdit::apply_enabled_changes(){
 		parent->config->get_date=GTK_TOGGLE_BUTTON(get_date_check)->active;
 	if (GTK_WIDGET_SENSITIVE(retry_check))
 		parent->config->retry=GTK_TOGGLE_BUTTON(retry_check)->active;
-	if (GTK_WIDGET_SENSITIVE(follow_link_check))
-		parent->config->follow_link=GTK_TOGGLE_BUTTON(follow_link_check)->active;
+	if (GTK_WIDGET_SENSITIVE(follow_link_check)){
+		parent->config->follow_link=0;
+		if (GTK_TOGGLE_BUTTON(follow_link_check)->active)
+			parent->config->follow_link=1;
+		if (GTK_TOGGLE_BUTTON(link_as_file_check)->active)
+			parent->config->follow_link=2;
+	};
 	if (GTK_WIDGET_SENSITIVE(leave_server_check))
 		parent->config->leave_server=GTK_TOGGLE_BUTTON(leave_server_check)->active;
 	if (GTK_WIDGET_SENSITIVE(leave_dir_check))

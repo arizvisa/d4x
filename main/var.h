@@ -174,6 +174,7 @@ struct tMainCfg{
  */
 	int USE_THEME;
 	char *THEME_FILE;
+	char *THEMES_DIR;
 };
 
 extern tMLog *MainLog;
@@ -209,6 +210,7 @@ enum HISTORIES_ENUM{
 	REFERER_HISTORY,
 	COOKIE_HISTORY,
 	SOUNDS_HISTORY,
+	THEMES_HISTORY,
 	LAST_HISTORY
 };
 

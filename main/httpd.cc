@@ -179,7 +179,7 @@ void tHttpDownload::print_error(int error_code){
 	};
 };
 
-int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
+int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	Persistent=0;
 	HTTP=new tHttpClient(cfg);
 	RetrNum=0;

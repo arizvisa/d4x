@@ -170,10 +170,12 @@ public:
 	void save_to_config(int fd);
 	int load_from_config(int fd);
 	void inherit_settings(d4xQueueView *papa);
+	void redraw_icons();
 };
 
 void lod_init_pixmaps();
 gint lod_get_height();
 void lod_set_height();
+void lod_theme_changed();
 
 #endif

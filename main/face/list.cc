@@ -1054,7 +1054,7 @@ void list_dnd_drop_internal(GtkWidget *widget,
 			if (CFG.NEED_DIALOG_FOR_DND){
 				init_add_dnd_window(str,desc);
 			}else{
-				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL,desc);
+				aa.add_downloading(str, (char*)NULL,(char*)NULL,desc);
 			};
 			D4X_QUEUE=tmpq;
 			if (sbd) delete[] str;

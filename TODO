@@ -1,36 +1,4 @@
 Menuitem 'File/Create new queue for download'
------------- to Version 2.01 --------------------------
-[DONE] Connections' limits in URL-manager
-[DONE] Progressbar in tooltip of DnD bascket
------------- to Version 2.0 --------------------------
-[PARTIALY] Change icons
-[DONE] Add support for one more non RFC FTP-server
-[DONE] Add loaded info for splited downloads in log window
-[DONE] Store keybinds
-[DONE] gethostbyname_r return zero on success
-[DONE] Disable "common properties" if only one selected
-[DONE] Move "properties" in right click menu to the top
-[DONE] Fix "compare date of the file with local one" setting
-[DONE] Fix working without interface
-[DONE] First part of splited download should to be slightly larger than other
-[DONE] Fix --ls command line parameter
-[DONE] Tip color of buttons bar in theme file
-[DONE] Fix sound playing on bigendian machines
-[DONE] Fix zero attemtps counter for splited downloads
-[DONE] Filename to save must not to be default option
-[DONE] Alternative links
-    [DONE] calc alternates by ftpsearch
-    [DONE] use alternates for splited downloads
-    [DONE] managing alternates
-    [DONE] storing alternates
-    [DONE] switch between alternates
-[DONE] Skins for DnDBasket
-[DONE] Persistent connections over HTTP
-[DONE] ability to create new queue
-[DONE] what about accepting cookies?
-[DONE] rewrite split-ed downloading
-[DONE] rewrite face/lod.cc[h] in OO style
-------------------------------------------------------
 download using exactly specified number of parts
 store size in segments file
 add mask for MIME type in a rule of a filter
@@ -205,3 +173,38 @@ move to GTK-2.0
 [DONE] add tooltips to traffic selection menu items in DnDbasket's menu
 [DONE] scroll queue and select download when dblclicked on error in main log
 -----------------------------------------------------------------
+------------ to Version 2.02 --------------------------
+[DONE] Fix "use default settings" when drop from other app without dialog
+[DONE] Add back "load link as file"
+------------ to Version 2.01 --------------------------
+[DONE] Connections' limits in URL-manager
+[DONE] Progressbar in tooltip of DnD bascket
+------------ to Version 2.0 --------------------------
+[PARTIALY] Change icons
+[DONE] Add support for one more non RFC FTP-server
+[DONE] Add loaded info for splited downloads in log window
+[DONE] Store keybinds
+[DONE] gethostbyname_r return zero on success
+[DONE] Disable "common properties" if only one selected
+[DONE] Move "properties" in right click menu to the top
+[DONE] Fix "compare date of the file with local one" setting
+[DONE] Fix working without interface
+[DONE] First part of splited download should to be slightly larger than other
+[DONE] Fix --ls command line parameter
+[DONE] Tip color of buttons bar in theme file
+[DONE] Fix sound playing on bigendian machines
+[DONE] Fix zero attemtps counter for splited downloads
+[DONE] Filename to save must not to be default option
+[DONE] Alternative links
+    [DONE] calc alternates by ftpsearch
+    [DONE] use alternates for splited downloads
+    [DONE] managing alternates
+    [DONE] storing alternates
+    [DONE] switch between alternates
+[DONE] Skins for DnDBasket
+[DONE] Persistent connections over HTTP
+[DONE] ability to create new queue
+[DONE] what about accepting cookies?
+[DONE] rewrite split-ed downloading
+[DONE] rewrite face/lod.cc[h] in OO style
+------------------------------------------------------

@@ -200,13 +200,15 @@ static int bb_new_pixmap_from_theme(char *themename,GdkPixmap **pixmap,GdkBitmap
 	char *file=NULL;
 	d4xXmlField *fld=xmlobj?xmlobj->get_attr("file"):NULL;
 	if (fld)
-		file=sum_strings(D4X_SHARE_PATH,"/themes/",fld->value.get(),NULL);
+		file=sum_strings(CFG.THEMES_DIR,"/",fld->value.get(),NULL);
 	GdkPixbuf *pixbuf;
 	if (file && (pixbuf=gdk_pixbuf_new_from_file(file))){
 		gdk_pixbuf_render_pixmap_and_mask(pixbuf,pixmap,mask,1);
 		gdk_pixbuf_unref(pixbuf);
+		delete[] file;
 		return(0);
 	};
+	if (file) delete[] file;
 	return(-1);
 };
 

@@ -1,3 +1,70 @@
+2002-06-21 12:01  max
+
+	* main/: config.cc, main.cc, nt.cc, var.cc, var.h, face/buttons.cc,
+	face/dndtrash.cc, face/lod.cc, face/prefs.cc: added ability to
+	change themes directory
+
+2002-06-20 23:21  max
+
+	* main/face/lod.cc: fixed changing icon to wait-icon after sorting
+	whole queue
+
+2002-06-19 15:14  max
+
+	* main/: addr.cc, addr.h, dlist.cc: fixed loading directories with
+	spaces in the name during recursion from non RFC sites
+
+2002-06-16 22:37  max
+
+	* po/uk.po: Ukrainian translation updated by Olexander Kunytsa
+
+2002-06-15 02:19  max
+
+	* share/themes/old_theme/queue/: complete.png, failed.png,
+	paused.png, run.png, runbad.png, runpart.png, stopwait.png,
+	wait.png: [no log message]
+
+2002-06-15 02:13  max
+
+	* main/: main.cc, main.h, face/lod.cc, face/lod.h, face/prefs.cc:
+	redraw all icons in queue after theme changes
+
+2002-06-14 13:25  max
+
+	* TODO, configure.in, main/face/buttons.cc, main/face/lod.cc,
+	share/themes/old_theme.xml: extended old-theme!
+
+2002-06-14 10:55  max
+
+	* main/: client.h, dlist.cc, face/edit.cc, face/edit.h,
+	face/list.cc, face/prefs.cc: added back "load links as file" option
+
+2002-06-13 12:05  max
+
+	* po/: bg.po, de.po, es.po, fr.po, it.po, ru.po, uk.po: updated
+	Italian and Spanish translations
+
+2002-06-13 12:05  max
+
+	* main/dqueue.cc: fixed compiling under gcc3.01
+
+2002-06-11 23:38  max
+
+	* main/: dqueue.cc, httpd.cc: fixed compilling with gcc-3.1 fixed
+	updating info during download
+
+2002-06-07 09:12  max
+
+	* main/hproxy.cc: fixed compilation problems with gcc3.1
+
+2002-06-06 09:20  max
+
+	* TODO: updated
+
+2002-06-06 09:20  max
+
+	* ChangeLog, NEWS: prepare to release version 2.01
+
 2002-06-06 09:16  max
 
 	* po/: bg.po, de.po, es.po, fr.po, it.po, uk.po: make update-po

@@ -349,6 +349,16 @@ void tAddr::compose_path(char *aa, char *bb){
 		path.set(tmp);
 	if (tmp) delete[] tmp;
 };
+void tAddr::compose_path2(char *aa, char *bb){
+	char *cc=sum_strings(bb,"/",NULL);
+	char *tmp=::compose_path(aa,cc);
+	delete[] cc;
+	if (tmp && *tmp=='/')
+		path.set(tmp+1);
+	else
+		path.set(tmp);
+	if (tmp) delete[] tmp;
+};
 
 void tAddr::file_del_sq(){
 	char *tmp=index(file.get(),'#');

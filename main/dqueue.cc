@@ -127,7 +127,7 @@ void d4xDownloadQueue::insert_before(tDownload *what,tDownload *where){
 	};
 };
 
-void d4xDownloadQueue::add(tDownload *what,int where=DL_WAIT){
+void d4xDownloadQueue::add(tDownload *what,int where){
 	if (where==DL_WAIT || where==DL_RUN)
 		RUN_OR_WAIT_DOWNLOADS+=1;
 	queues[where]->insert(what);
@@ -320,7 +320,7 @@ void d4xDUpdate::del(){
 };
 
 void d4xDUpdate::del(tDownload *what){
-	if (what){
+	if (what && (what->next2update || what->prev2update ||what==first)){
 		if (what->next2update)
 			what->next2update->prev2update=what->prev2update;
 		else

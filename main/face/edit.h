@@ -46,6 +46,7 @@ class tDEdit{
 	GtkWidget *timeout_entry,*attempts_entry,*sleep_entry,*rollback_entry;
 	GtkWidget *use_pass_check,*ftp_passive_check,*permisions_check,*get_date_check,*retry_check;
 	GtkWidget *follow_link_check,*leave_server_check,*leave_dir_check,*ihate_etag_check;
+	GtkWidget *load_link_check,*link_as_file_check;
 	GtkWidget *ftp_recurse_depth_entry,*http_recurse_depth_entry;
 	GtkWidget *ftp_dirontop_check;
 	GtkWidget *dont_send_quit_check;

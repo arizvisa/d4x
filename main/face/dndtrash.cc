@@ -419,10 +419,10 @@ void dnd_trash_init(){
 		char *iconfile2=NULL;
 		char *themeicon=d4x_xml_find_obj_value(D4X_THEME_DATA,"dndbasket icon>file");
 		if (themeicon)
-			iconfile1=sum_strings(D4X_SHARE_PATH,"/themes/",themeicon,NULL);
+			iconfile1=sum_strings(CFG.THEMES_DIR,"/",themeicon,NULL);
 		themeicon=d4x_xml_find_obj_value(D4X_THEME_DATA,"dndbasket dropicon>file");
 		if (themeicon)
-			iconfile2=sum_strings(D4X_SHARE_PATH,"/themes/",themeicon,NULL);
+			iconfile2=sum_strings(CFG.THEMES_DIR,"/",themeicon,NULL);
 		GdkPixbuf *pixbuf=NULL;
 		if (iconfile1 && (pixbuf=gdk_pixbuf_new_from_file(iconfile1))){
 			gdk_pixbuf_render_pixmap_and_mask(pixbuf,&dnd_trash_pixmap1,&dnd_trash_mask1,1);

@@ -22,6 +22,7 @@ struct tAddr{
 	void from_string(char *str);
 	void print();
 	void compose_path(char *aa,char *bb);
+	void compose_path2(char *aa,char *bb);
 	void file_del_sq();
 	void make_url(char *where);
 	char *pathfile();

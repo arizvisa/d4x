@@ -66,6 +66,8 @@ static void init_string_variables(){
 		CFG.SOUND_QUEUE_FINISH=sum_strings(D4X_SHARE_PATH,"/sounds/finish.wav",NULL);
 	if (!CFG.SOUND_STARTUP)
 		CFG.SOUND_STARTUP=sum_strings(D4X_SHARE_PATH,"/sounds/startup.wav",NULL);
+	if (!CFG.THEMES_DIR)
+		CFG.THEMES_DIR=sum_strings(D4X_SHARE_PATH,"/themes/",NULL);
 };
 
 static void send_popup(){

@@ -101,6 +101,9 @@ class tMain{
 	void quit();
 };
 
+typedef void (*d4xQTreeFunc) (d4xDownloadQueue *dq,void *p);
+void d4x_qtree_for_each(d4xQTreeFunc dothis,void *a);
+
 void *download_last(void *);
 int get_port_by_proto(char *proto);
 int calc_curent_run(char *host,int port);

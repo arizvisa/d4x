@@ -69,6 +69,20 @@ int d4x_only_one_queue(){
 	return(1);
 };
 
+static void d4x_qtree_for_each_rec(tQueue *q,d4xQTreeFunc dothis,void *a){
+	d4xDownloadQueue *dq=(d4xDownloadQueue*)(q->first());
+	while (dq){
+		d4xDownloadQueue *next=(d4xDownloadQueue *)(dq->prev);
+		d4x_qtree_for_each_rec(&(dq->child),dothis,a);
+		dothis(dq,a);
+		dq=next;
+	};
+};
+
+void d4x_qtree_for_each(d4xQTreeFunc dothis,void *a){
+	d4x_qtree_for_each_rec(&D4X_QTREE,dothis,a);
+};
+
 //**********************************************/
 
 typedef void (*SigactionHandler)(int);
@@ -1468,7 +1482,7 @@ void tMain::run(int argv,char **argc) {
 	SOUND_SERVER->run_thread();
 	if (CFG.WITHOUT_FACE==0){
 		if (CFG.USE_THEME && CFG.THEME_FILE){
-			char *tmp=sum_strings(D4X_SHARE_PATH,"/themes/",CFG.THEME_FILE,".xml",NULL);
+			char *tmp=sum_strings(CFG.THEMES_DIR,"/",CFG.THEME_FILE,".xml",NULL);
 			D4X_THEME_DATA=d4x_xml_parse_file(tmp);
 			delete[] tmp;
 		};

@@ -27,8 +27,10 @@
 #include "../locstr.h"
 #include "../main.h"
 #include "../var.h"
+#include "../xml.h"
 #include "myclist.h"
 #include "colors.h"
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 tConfirmedDialog *AskOpening=(tConfirmedDialog *)NULL;
 
@@ -187,43 +189,108 @@ void lod_init_pixmaps(){
 #include "pixmaps/stop_wait.xpm"
 #include "pixmaps/paused.xpm"
 #include "pixmaps/complete.xpm"
-		list_of_downloads_pixmaps[PIX_WAIT]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_WAIT]),wait_xpm);
-		list_of_downloads_pixmaps[PIX_RUN]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN]),run_xpm);
-		list_of_downloads_pixmaps[PIX_RUN1]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN1]),run1_xpm);
-		list_of_downloads_pixmaps[PIX_RUN2]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN2]),run2_xpm);
-		list_of_downloads_pixmaps[PIX_RUN3]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN3]),run3_xpm);
-		list_of_downloads_pixmaps[PIX_RUN4]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN4]),run4_xpm);
-		list_of_downloads_pixmaps[PIX_RUN5]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN5]),run5_xpm);
-		list_of_downloads_pixmaps[PIX_RUN6]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN6]),run6_xpm);
-		list_of_downloads_pixmaps[PIX_RUN7]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN7]),run7_xpm);
-		list_of_downloads_pixmaps[PIX_RUN8]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN8]),run8_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART]),run_part_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART1]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART1]),run_part1_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART2]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART2]),run_part2_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART3]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART3]),run_part3_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART4]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART4]),run_part4_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART5]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART5]),run_part5_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART6]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART6]),run_part6_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART7]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART7]),run_part7_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_PART8]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_PART8]),run_part8_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD]),run_bad_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD1]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD1]),run_bad1_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD2]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD2]),run_bad2_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD3]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD3]),run_bad3_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD4]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD4]),run_bad4_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD5]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD5]),run_bad5_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD6]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD6]),run_bad6_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD7]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD7]),run_bad7_xpm);
-		list_of_downloads_pixmaps[PIX_RUN_BAD8]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_RUN_BAD8]),run_bad8_xpm);
-		list_of_downloads_pixmaps[PIX_STOP]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_STOP]),stop_xpm);
-		list_of_downloads_pixmaps[PIX_STOP_WAIT]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_STOP_WAIT]),stop_wait_xpm);
-		list_of_downloads_pixmaps[PIX_PAUSE]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_PAUSE]),paused_xpm);
-		list_of_downloads_pixmaps[PIX_COMPLETE]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[PIX_COMPLETE]),complete_xpm);
-		/* we will use these pixmaps many times */
-		for (int i=0;i<PIX_UNKNOWN;i++){
-			gdk_pixmap_ref(list_of_downloads_pixmaps[i]);
-			gdk_bitmap_ref(list_of_downloads_bitmaps[i]);
+	char *xml_names[]={
+		"waitpix",
+		"failedpix",
+		"stopwaitpix",
+		"runpix",
+		"runpix1",
+		"runpix2",
+		"runpix3",
+		"runpix4",
+		"runpix5",
+		"runpix6",
+		"runpix7",
+		"runpix8",
+		"runbadpix",
+		"runbadpix1",
+		"runbadpix2",
+		"runbadpix3",
+		"runbadpix4",
+		"runbadpix5",
+		"runbadpix6",
+		"runbadpix7",
+		"runbadpix8",
+		"runpartpix",
+		"runpartpix1",
+		"runpartpix2",
+		"runpartpix3",
+		"runpartpix4",
+		"runpartpix5",
+		"runpartpix6",
+		"runpartpix7",
+		"runpartpix8",
+		"completepix",
+		"pausedpix"
+	};
+	char **xpm_table[]={
+		wait_xpm,
+		stop_xpm,
+		stop_wait_xpm,
+		run_xpm,
+		run1_xpm,
+		run2_xpm,
+		run3_xpm,
+		run4_xpm,
+		run5_xpm,
+		run6_xpm,
+		run7_xpm,
+		run8_xpm,
+		run_bad_xpm,
+		run_bad1_xpm,
+		run_bad2_xpm,
+		run_bad3_xpm,
+		run_bad4_xpm,
+		run_bad5_xpm,
+		run_bad6_xpm,
+		run_bad7_xpm,
+		run_bad8_xpm,
+		run_part_xpm,
+		run_part1_xpm,
+		run_part2_xpm,
+		run_part3_xpm,
+		run_part4_xpm,
+		run_part5_xpm,
+		run_part6_xpm,
+		run_part7_xpm,
+		run_part8_xpm,
+		complete_xpm,
+		paused_xpm
+	};
+	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"queue");
+	for (unsigned int i=0;i<sizeof(xpm_table)/sizeof(char*);i++){
+		char *file=NULL;
+		d4xXmlObject *icon=xmlobj?xmlobj->find_obj(xml_names[i]):NULL;
+		d4xXmlField *fld=icon?icon->get_attr("file"):NULL;
+		if (fld){
+			file=sum_strings(CFG.THEMES_DIR,"/",fld->value.get(),NULL);
 		};
+		GdkPixbuf *pixbuf;
+		if (file && (pixbuf=gdk_pixbuf_new_from_file(file))){
+			gdk_pixbuf_render_pixmap_and_mask(pixbuf,
+							  &(list_of_downloads_pixmaps[i]),
+							  &(list_of_downloads_bitmaps[i]),1);
+			gdk_pixbuf_unref(pixbuf);
+		}else
+			list_of_downloads_pixmaps[i]=make_pixmap_from_xpm(&(list_of_downloads_bitmaps[i]),xpm_table[i]);
+		if (file) delete[] file;
+	};
+	/* we will use these pixmaps many times */
+};
+
+void lod_all_redraw(d4xDownloadQueue *q,void *a){
+	q->qv.redraw_icons();
+};
+
+void lod_theme_changed(){
+	for (int i=0;i<PIX_UNKNOWN;i++){
+		gdk_pixmap_unref(list_of_downloads_pixmaps[i]);
+		gdk_bitmap_unref(list_of_downloads_bitmaps[i]);
+		list_of_downloads_pixmaps[i]=NULL;
+		list_of_downloads_bitmaps[i]=NULL;
+	};
+	lod_init_pixmaps();
+	d4x_qtree_for_each(lod_all_redraw,NULL);
 };
 
 void select_download(GtkWidget *clist, gint row, gint column,
@@ -242,6 +309,13 @@ void select_download(GtkWidget *clist, gint row, gint column,
 		gtk_statusbar_push(GTK_STATUSBAR(MainStatusBar),StatusBarContext,"");
 	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1)
 		qv->open_logs();
+};
+
+void d4xQueueView::redraw_icons() {
+	for (int i=0;i<((GtkCList *)ListOfDownloads)->rows;i++){
+		tDownload *temp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
+		set_pixmap(i,temp);
+	};
 };
 
 tDownload *d4xQueueView::last_selected() {
@@ -704,6 +778,7 @@ void d4xQueueView::rebuild_wait(){
 	if (D4X_QUEUE->count(DL_WAIT)==0) return;
 	int i=0;
 	tDList *dlist=new tDList(DL_WAIT);
+	dlist->init_pixmap(PIX_WAIT);
 	dlist->init(0);
 	tDownload *tmp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
 	while(tmp){

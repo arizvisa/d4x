@@ -35,7 +35,7 @@ struct tSimplyCfg{
 	int permisions;
 	int get_date;
 	int full_server_loading;
-	int follow_link; //ftp only
+	int follow_link; //ftp only: 0-normal loading,1-follow symlinks,2-load as file
 	int restart_from_begin;
 	int dont_send_quit;
 	int check_time;

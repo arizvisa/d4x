@@ -205,6 +205,7 @@ tConfigVariable config_variables[]={
 	{"hide_main_window",	CV_TYPE_BOOL,	&(CFG.HIDE_MAIN_WINDOW)},
 	{"theme_file",		CV_TYPE_STRING,	&(CFG.THEME_FILE)},
 	{"use_theme",		CV_TYPE_BOOL,	&(CFG.USE_THEME)},
+	{"themes_dir",		CV_TYPE_STRING,	&(CFG.THEMES_DIR)},
 	{"use_default_cfg",	CV_TYPE_BOOL,	&(CFG.USE_DEFAULT_CFG)}
 };
 
@@ -290,6 +291,7 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15",0);
 	load_strlist(ALL_HISTORIES[COOKIE_HISTORY],".ntrc/history16",0);
 	load_strlist(ALL_HISTORIES[SOUNDS_HISTORY],".ntrc/history17",1);
+	load_strlist(ALL_HISTORIES[THEMES_HISTORY],".ntrc/history18",1);
 	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
@@ -407,6 +409,7 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[REFERER_HISTORY],".ntrc/history15");
 	save_strlist(ALL_HISTORIES[COOKIE_HISTORY],".ntrc/history16");
 	save_strlist(ALL_HISTORIES[SOUNDS_HISTORY],".ntrc/history17");
+	save_strlist(ALL_HISTORIES[THEMES_HISTORY],".ntrc/history18");
 	delete[] cfgpath;
 };
 

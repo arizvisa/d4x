@@ -28,6 +28,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include "../xml.h"
+#include "lod.h"
 
 const int SEARCH_NUMBER_OF_ENGINES=2;
 
@@ -57,7 +58,7 @@ tMainCfg TMPCFG={
 	0,0,1,1,
 	1,0,15,
 	1,0,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,
-	0,(char*)NULL
+	0,(char*)NULL,(char*)NULL
 };
 
 struct D4xPrefsWidget{
@@ -82,6 +83,8 @@ struct D4xPrefsWidget{
 	GtkWidget *dont_send_quit_check;
 	GtkWidget *permisions_check;
 	GtkWidget *follow_link_check;
+	GtkWidget *link_as_file_check;
+	GtkWidget *load_link_check;
 	GtkWidget *ftp_dir_in_log;
 	GtkWidget *ftp_dirontop;
 	GtkWidget *ftp_recurse_depth_entry;
@@ -170,6 +173,7 @@ struct D4xPrefsWidget{
 	GtkWidget *snd_fail;
 	GtkWidget *snd_queue_finish;
 	/* THEMES */
+	GtkWidget *themes_dir;
 	GtkWidget *themes_list;
 	GtkWidget *theme_info;
 //	GtkWidget *;
@@ -358,10 +362,18 @@ void d4x_prefs_download_ftp(){
 	GTK_TOGGLE_BUTTON(D4XPWS.permisions_check)->active=TMPCFG.DEFAULT_CFG.permisions;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.permisions_check,FALSE,FALSE,0);
 
-	D4XPWS.follow_link_check=gtk_check_button_new_with_label(_("Follow symbolic links"));
-	GTK_TOGGLE_BUTTON(D4XPWS.follow_link_check)->active=TMPCFG.DEFAULT_CFG.follow_link;
+	D4XPWS.follow_link_check=gtk_radio_button_new_with_label(NULL,_("Follow symbolic links"));
+	GTK_TOGGLE_BUTTON(D4XPWS.follow_link_check)->active=TMPCFG.DEFAULT_CFG.follow_link==1?1:0;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.follow_link_check,FALSE,FALSE,0);
-
+	GSList *proxy_group1=gtk_radio_button_group(GTK_RADIO_BUTTON(D4XPWS.follow_link_check));
+	D4XPWS.load_link_check=gtk_radio_button_new_with_label(proxy_group1,_("Load links as links"));
+	GTK_TOGGLE_BUTTON(D4XPWS.load_link_check)->active=TMPCFG.DEFAULT_CFG.follow_link==0?1:0;
+	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.load_link_check,FALSE,FALSE,0);
+	proxy_group1=gtk_radio_button_group(GTK_RADIO_BUTTON(D4XPWS.load_link_check));
+	D4XPWS.link_as_file_check=gtk_radio_button_new_with_label(proxy_group1,_("Load links as file"));
+	GTK_TOGGLE_BUTTON(D4XPWS.link_as_file_check)->active=TMPCFG.DEFAULT_CFG.follow_link==2?1:0;
+	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.link_as_file_check,FALSE,FALSE,0);
+	
 	D4XPWS.ftp_dirontop=gtk_check_button_new_with_label(_("Put directories on the top of queue during recursion"));
 	GTK_TOGGLE_BUTTON(D4XPWS.ftp_dirontop)->active=TMPCFG.DEFAULT_CFG.ftp_dirontop;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.ftp_dirontop,FALSE,FALSE,0);
@@ -941,7 +953,7 @@ static void d4x_prefs_themes_select_row(GtkWidget *clist, gint row, gint column,
 	}else{
 		char *text;
 		gtk_clist_get_text(GTK_CLIST(D4XPWS.themes_list),row,0,&text);
-		char *path=sum_strings(D4X_SHARE_PATH,"/themes/",text,".xml",NULL);
+		char *path=sum_strings(TMPCFG.THEMES_DIR,"/",text,".xml",NULL);
 		tQueue *q=d4x_xml_parse_file(path);
 		delete[] path;
 		d4xXmlObject *info=d4x_xml_find_obj(q,"info");
@@ -979,20 +991,15 @@ static void d4x_prefs_themes_select_row(GtkWidget *clist, gint row, gint column,
 	};
 };
 
-void d4x_prefs_themes(){
-	GtkWidget *vbox=d4x_prefs_child_destroy(_("Themes"));
-	char *titles[]={"Name"};
+static int d4x_themes_rescan(){
+	if (TMPCFG.THEMES_DIR) delete[] TMPCFG.THEMES_DIR;
+	TMPCFG.THEMES_DIR=copy_string(text_from_combo(MY_GTK_FILESEL(D4XPWS.themes_dir)->combo));
+	ALL_HISTORIES[THEMES_HISTORY]->add(TMPCFG.THEMES_DIR);
+	char *path=sum_strings(TMPCFG.THEMES_DIR,"/",NULL);
 	char *data[1];
+	gtk_clist_clear(GTK_CLIST(D4XPWS.themes_list));
 	data[0]=_("Default theme");
-	D4XPWS.themes_list = gtk_clist_new_with_titles(1, titles);
-	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.themes_list,TRUE,TRUE,0);
-	gtk_signal_connect(GTK_OBJECT(D4XPWS.themes_list), "select_row",
-	                   GTK_SIGNAL_FUNC(d4x_prefs_themes_select_row),NULL);
 	gtk_clist_append(GTK_CLIST(D4XPWS.themes_list),data);
-	char *path=sum_strings(D4X_SHARE_PATH,"/themes/",NULL);
-	D4XPWS.theme_info=gtk_text_new(NULL,NULL);
-	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.theme_info,TRUE,FALSE,0);
-	gtk_text_set_editable(GTK_TEXT(D4XPWS.theme_info),FALSE);
 	DIR *d=opendir(path);
 	if (d){
 		struct dirent *de=NULL;
@@ -1016,8 +1023,34 @@ void d4x_prefs_themes(){
 				delete[] tmppath;
 			};
 		};
+		closedir(d);
 	};
 	delete[] path;
+};
+
+void d4x_prefs_themes(){
+	GtkWidget *vbox=d4x_prefs_child_destroy(_("Themes"));
+	char *titles[]={"Name"};
+
+	D4XPWS.themes_dir=my_gtk_filesel_new(ALL_HISTORIES[THEMES_HISTORY]);
+	MY_GTK_FILESEL(D4XPWS.themes_dir)->only_dirs=TRUE;
+	MY_GTK_FILESEL(D4XPWS.themes_dir)->modal=GTK_WINDOW(d4x_prefs_window);
+	text_to_combo(MY_GTK_FILESEL(D4XPWS.themes_dir)->combo,TMPCFG.THEMES_DIR);
+	GtkWidget *themes_dir_label=gtk_label_new(_("Themes' directory"));
+ 	GtkWidget *themes_rescan=gtk_button_new_with_label(_("Rescan"));
+	gtk_signal_connect(GTK_OBJECT(themes_rescan),"clicked",GTK_SIGNAL_FUNC(d4x_themes_rescan),NULL);
+	gtk_box_pack_start(GTK_BOX(D4XPWS.themes_dir),themes_rescan,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),themes_dir_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.themes_dir,FALSE,FALSE,0);
+
+	D4XPWS.themes_list = gtk_clist_new_with_titles(1, titles);
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.themes_list,TRUE,TRUE,0);
+	gtk_signal_connect(GTK_OBJECT(D4XPWS.themes_list), "select_row",
+	                   GTK_SIGNAL_FUNC(d4x_prefs_themes_select_row),NULL);
+	D4XPWS.theme_info=gtk_text_new(NULL,NULL);
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.theme_info,TRUE,FALSE,0);
+	gtk_text_set_editable(GTK_TEXT(D4XPWS.theme_info),FALSE);
+	d4x_themes_rescan();
 	if (CFG.USE_THEME==0)
 		gtk_clist_select_row(GTK_CLIST(D4XPWS.themes_list),0,0);
 	gtk_widget_show_all(vbox);
@@ -1310,7 +1343,11 @@ void d4x_prefs_apply_tmp(){
 		TMPCFG.DEFAULT_CFG.passive=GTK_TOGGLE_BUTTON(D4XPWS.ftp_passive_check)->active;
 		TMPCFG.DEFAULT_CFG.permisions=GTK_TOGGLE_BUTTON(D4XPWS.permisions_check)->active;
 		TMPCFG.DEFAULT_CFG.dont_send_quit=GTK_TOGGLE_BUTTON(D4XPWS.dont_send_quit_check)->active;
-		TMPCFG.DEFAULT_CFG.follow_link=GTK_TOGGLE_BUTTON(D4XPWS.follow_link_check)->active;
+		TMPCFG.DEFAULT_CFG.follow_link=0;
+		if (GTK_TOGGLE_BUTTON(D4XPWS.follow_link_check)->active)
+			TMPCFG.DEFAULT_CFG.follow_link=1;
+		if (GTK_TOGGLE_BUTTON(D4XPWS.link_as_file_check)->active)
+			TMPCFG.DEFAULT_CFG.follow_link=2;
 		TMPCFG.FTP_DIR_IN_LOG=GTK_TOGGLE_BUTTON(D4XPWS.ftp_dir_in_log)->active;
 		TMPCFG.DEFAULT_CFG.ftp_dirontop=GTK_TOGGLE_BUTTON(D4XPWS.ftp_dirontop)->active;
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.ftp_recurse_depth_entry)),"%u",&TMPCFG.DEFAULT_CFG.ftp_recurse_depth);
@@ -1480,7 +1517,7 @@ void d4x_prefs_apply(){
 	SOUND_SERVER->reinit_sounds();
 	if (D4X_THEME_DATA) delete(D4X_THEME_DATA);
 	if (CFG.USE_THEME){
-		char *path=sum_strings(D4X_SHARE_PATH,"/themes/",CFG.THEME_FILE,".xml",NULL);
+		char *path=sum_strings(CFG.THEMES_DIR,"/",CFG.THEME_FILE,".xml",NULL);
 		D4X_THEME_DATA=d4x_xml_parse_file(path);
 		delete[] path;
 	}else
@@ -1492,6 +1529,7 @@ void d4x_prefs_apply(){
 		CFG.DND_TRASH=TMPCFG.DND_TRASH;
 		gdk_window_show(d4x_prefs_window->window);
 		buttons_theme_changed();
+		lod_theme_changed();
 	};
 	if (CFG.DND_TRASH){
 		dnd_trash_init();

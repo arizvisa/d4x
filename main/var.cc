@@ -44,7 +44,7 @@ tMainCfg CFG={
 	0,0,1,1, //special things
 	1,0,15,
 	1,0,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,
-	0,(char*)NULL
+	0,(char*)NULL,(char*)NULL
 };
 
 char *DEFAULT_PROTO="ftp";
@@ -125,6 +125,7 @@ void var_free(tMainCfg *dst){
 	if (dst->SOUND_STARTUP) delete[] dst->SOUND_STARTUP;
 	if (dst->DEFAULT_FILTER) delete[] dst->DEFAULT_FILTER;
 	if (dst->THEME_FILE) delete[] dst->THEME_FILE;
+	if (dst->THEMES_DIR) delete[] dst->THEMES_DIR;
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
@@ -227,4 +228,5 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SOUND_QUEUE_FINISH=copy_string(src->SOUND_QUEUE_FINISH);
 	dst->DEFAULT_FILTER=copy_string(src->DEFAULT_FILTER);
 	dst->THEME_FILE=copy_string(src->THEME_FILE);
+	dst->THEMES_DIR=copy_string(src->THEMES_DIR);
 };
