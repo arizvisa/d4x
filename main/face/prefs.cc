@@ -16,6 +16,7 @@
 #include "colors.h"
 #include "misc.h"
 #include "columns.h"
+#include "buttons.h"
 #include "dndtrash.h"
 #include "../var.h"
 #include "../main.h"
@@ -47,6 +48,7 @@ GtkWidget *prefs_common_window_lower;
 GtkWidget *prefs_common_graph_order;
 GtkWidget *prefs_common_default_permisions;
 GtkWidget *prefs_common_dnd_trash;
+GtkWidget *prefs_common_exit_complete,*prefs_common_exit_complete_time;
 
 GtkWidget *prefs_limits_frame;
 GtkWidget *prefs_limits_vbox;
@@ -54,7 +56,6 @@ GtkWidget *prefs_limits_table;
 GtkWidget *prefs_limits_max_threads,*prefs_limits_tbox,*prefs_limits_tlabel;
 GtkWidget *prefs_limits_timeout,*prefs_limits_tibox,*prefs_limits_tilabel;
 GtkWidget *prefs_limits_log,*prefs_limits_lbox,*prefs_limits_llabel;
-GtkWidget *prefs_limits_mlog,*prefs_limits_mlbox,*prefs_limits_mllabel;
 GtkWidget *prefs_limits_retry_timeout,*prefs_limits_rtbox,*prefs_limits_rtlabel;
 GtkWidget *prefs_limits_max_retries,*prefs_limits_rbox,*prefs_limits_rlabel;
 GtkWidget *prefs_limits_ftp_recurse_depth,*prefs_limits_http_recurse_depth,*prefs_limits_rdbox,*prefs_limits_rdlabel;
@@ -65,10 +66,15 @@ GtkWidget *prefs_other_vbox;
 GtkWidget *prefs_other_table;
 GtkWidget *prefs_other_savepath,*prefs_other_sbox,*prefs_other_slabel;
 GtkWidget *prefs_other_filename,*prefs_other_fbox,*prefs_other_flabel;
+GtkWidget *prefs_other_user_agent,*prefs_other_ubox,*prefs_other_ulabel;
 GtkWidget *prefs_other_ftp_passive;
-GtkWidget *prefs_other_save_log;
-GtkWidget *prefs_other_append_log,*prefs_other_rewrite_log;
-GtkWidget *prefs_other_save_log_path;
+
+GtkWidget *prefs_log_table;
+GtkWidget *prefs_log_save;
+GtkWidget *prefs_log_append,*prefs_log_rewrite;
+GtkWidget *prefs_log_save_path;
+GtkWidget *prefs_log_length;
+GtkWidget *prefs_log_detailed;
 
 GtkWidget *prefs_columns_nums_button1,*prefs_columns_nums_button2,*prefs_columns_nums_button3;
 GtkWidget *prefs_columns_time_button1,*prefs_columns_time_button2;
@@ -121,7 +127,7 @@ static void options_browser_open() {
 static void options_browser_ok2(...) {
 	char *tmp;
 	tmp=gtk_file_selection_get_filename(GTK_FILE_SELECTION(dir_browser2));
-	text_to_combo(prefs_other_save_log_path,tmp);
+	text_to_combo(prefs_log_save_path,tmp);
 	gtk_widget_destroy(dir_browser2);
 	dir_browser2=NULL;
 };
@@ -138,7 +144,7 @@ static void options_browser_open2() {
 		return;
 	};
 	dir_browser2=gtk_file_selection_new(_("Select file"));
-	char *tmp=text_from_combo(prefs_other_save_log_path);
+	char *tmp=text_from_combo(prefs_log_save_path);
 	if (tmp && *tmp)
 		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser2),tmp);
 	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(dir_browser2)->ok_button),
@@ -151,10 +157,14 @@ static void options_browser_open2() {
 };
 
 static void options_toggle_save_log(GtkWidget *parent) {
-	gtk_widget_set_sensitive(prefs_other_append_log,GTK_TOGGLE_BUTTON(parent)->active);
-	gtk_widget_set_sensitive(prefs_other_rewrite_log,GTK_TOGGLE_BUTTON(parent)->active);
-	gtk_widget_set_sensitive(prefs_other_save_log_path,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_log_append,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_log_rewrite,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(prefs_log_save_path,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(dir_browser_button2,GTK_TOGGLE_BUTTON(parent)->active);
+};
+
+static void options_toggle_exit_complete(GtkWidget *parent) {
+	gtk_widget_set_sensitive(prefs_common_exit_complete_time,GTK_TOGGLE_BUTTON(parent)->active);
 };
 
 static void options_toggle_save_list(GtkWidget *parent) {
@@ -254,6 +264,20 @@ void init_options_window(...) {
 
 	prefs_common_dnd_trash=gtk_check_button_new_with_label(_("Show trash for DnD"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_dnd_trash,1,2,9,10);
+
+	prefs_common_exit_complete=gtk_check_button_new_with_label(_("Exit if nothing to do after"));
+	gtk_signal_connect(GTK_OBJECT(prefs_common_exit_complete),"clicked",GTK_SIGNAL_FUNC(options_toggle_exit_complete),NULL);
+	prefs_common_exit_complete_time=gtk_entry_new_with_max_length(3);
+	gtk_widget_set_usize(prefs_common_exit_complete_time,30,-1);
+	prefs_common_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(prefs_common_hbox),5);
+	prefs_common_label=gtk_label_new(_("minutes"));
+	sprintf(temp,"%i",CFG.EXIT_COMPLETE_TIME);
+	gtk_entry_set_text(GTK_ENTRY(prefs_common_exit_complete_time),temp);
+	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_exit_complete,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_exit_complete_time,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_label,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_hbox,0,1,10,11);
 	
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_common_vbox,gtk_label_new(_("Common")));
 
@@ -271,7 +295,9 @@ void init_options_window(...) {
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_window_lower),CFG.WINDOW_LOWER);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_graph_order),CFG.GRAPH_ORDER);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_dnd_trash),CFG.DND_TRASH);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_exit_complete),CFG.EXIT_COMPLETE);
 	options_toggle_save_list(prefs_common_save_list_check);
+	options_toggle_exit_complete(prefs_common_exit_complete);
 	options_toggle_title(prefs_common_use_title);
 	/*
 	    Limits options
@@ -323,16 +349,6 @@ void init_options_window(...) {
 	prefs_limits_llabel=gtk_label_new(_("Maximum lines in log"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_lbox),prefs_limits_llabel,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_lbox,1,2,3,4);
-
-	prefs_limits_mlbox=gtk_hbox_new(FALSE,0);
-	prefs_limits_mlog=gtk_entry_new_with_max_length(3);
-	gtk_widget_set_usize(prefs_limits_mlog,30,-1);
-	sprintf(temp,"%i",CFG.MAX_MAIN_LOG_LENGTH);
-	gtk_entry_set_text(GTK_ENTRY(prefs_limits_mlog),temp);
-	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),prefs_limits_mlog,FALSE,FALSE,0);
-	prefs_limits_mllabel=gtk_label_new(_("Maximum lines in MAIN log"));
-	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),prefs_limits_mllabel,FALSE,FALSE,0);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_mlbox,1,2,4,5);
 
 	prefs_limits_rbox=gtk_hbox_new(FALSE,0);
 	prefs_limits_max_retries=gtk_entry_new_with_max_length(3);
@@ -413,41 +429,79 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(prefs_other_fbox),prefs_other_filename,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_fbox,0,2,1,2);
 
+	prefs_other_ubox=gtk_vbox_new(FALSE,0);
+	prefs_other_user_agent=my_gtk_combo_new(UserAgentHistory);
+	text_to_combo(prefs_other_user_agent,CFG.USER_AGENT);
+	prefs_other_ulabel=gtk_label_new(_("User-Agent for http requests"));
+	gtk_box_pack_start(GTK_BOX(prefs_other_ubox),prefs_other_ulabel,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_other_ubox),prefs_other_user_agent,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ubox,0,2,2,3);
+
+
 	prefs_other_ftp_passive=gtk_check_button_new_with_label(_("Use passive mode for ftp"));
 	GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active=CFG.FTP_PASSIVE_MODE;
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ftp_passive,0,1,2,3);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ftp_passive,0,1,3,4);
 
 
-	prefs_other_save_log=gtk_check_button_new_with_label(_("Save main log into file"));
-	GTK_TOGGLE_BUTTON(prefs_other_save_log)->active=CFG.SAVE_MAIN_LOG;
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_save_log,0,1,3,4);
-	gtk_signal_connect(GTK_OBJECT(prefs_other_save_log),"clicked",GTK_SIGNAL_FUNC(options_toggle_save_log),NULL);
-	prefs_other_save_log_path=my_gtk_combo_new(LogHistory);
-	//    gtk_widget_set_usize(GTK_COMBO(prefs_other_save_log_path)->entry,350,-1);
+	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_other_vbox,gtk_label_new(_("Other")));
 
+	/*
+	 * Main log options
+	 */
+	prefs_log_table=gtk_table_new(1,5,FALSE);
+
+	GtkWidget *prefs_limits_mlbox=gtk_hbox_new(FALSE,0);
+	prefs_log_length=gtk_entry_new_with_max_length(3);
+	gtk_widget_set_usize(prefs_log_length,30,-1);
+	sprintf(temp,"%i",CFG.MAX_MAIN_LOG_LENGTH);
+	gtk_entry_set_text(GTK_ENTRY(prefs_log_length),temp);
+	
+	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),prefs_log_length,FALSE,FALSE,0);
+	GtkWidget *prefs_limits_mllabel=gtk_label_new(_("Maximum lines in MAIN log"));
+	gtk_box_pack_start(GTK_BOX(prefs_limits_mlbox),prefs_limits_mllabel,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_limits_mlbox,0,1,0,1);
+
+	prefs_log_detailed=gtk_check_button_new_with_label(_("Output detailed information"));
+	GTK_TOGGLE_BUTTON(prefs_log_detailed)->active=CFG.MAIN_LOG_DETAILED;
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_log_detailed,0,1,1,2);
+
+	prefs_log_save=gtk_check_button_new_with_label(_("Save main log into file"));
+	GTK_TOGGLE_BUTTON(prefs_log_save)->active=CFG.SAVE_MAIN_LOG;
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),prefs_log_save,0,1,2,3);
+	gtk_signal_connect(GTK_OBJECT(prefs_log_save),"clicked",GTK_SIGNAL_FUNC(options_toggle_save_log),NULL);
+
+	prefs_log_save_path=my_gtk_combo_new(LogHistory);
 	dir_browser_button2=gtk_button_new_with_label(_("Browse"));
 	gtk_signal_connect(GTK_OBJECT(dir_browser_button2),"clicked",GTK_SIGNAL_FUNC(options_browser_open2),NULL);
 	hboxtemp=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hboxtemp),5);
-	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_other_save_log_path,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_log_save_path,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(hboxtemp),dir_browser_button2,FALSE,FALSE,0);
 	if (CFG.SAVE_LOG_PATH)
-		text_to_combo(prefs_other_save_log_path,CFG.SAVE_LOG_PATH);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),hboxtemp,0,2,5,6);
+		text_to_combo(prefs_log_save_path,CFG.SAVE_LOG_PATH);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),hboxtemp,0,1,3,4);
 
 	hboxtemp=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hboxtemp),5);
-	prefs_other_append_log=gtk_radio_button_new_with_label(NULL,_("Append to file"));
-	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_other_append_log,FALSE,FALSE,0);
-	GSList *other_group=gtk_radio_button_group(GTK_RADIO_BUTTON(prefs_other_append_log));
-	prefs_other_rewrite_log=gtk_radio_button_new_with_label(other_group,_("Rewrite file"));
-	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_other_rewrite_log,FALSE,FALSE,0);
-	GTK_TOGGLE_BUTTON(prefs_other_append_log)->active=CFG.APPEND_REWRITE_LOG;
-	GTK_TOGGLE_BUTTON(prefs_other_rewrite_log)->active= ! CFG.APPEND_REWRITE_LOG;
-	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),hboxtemp,0,1,6,7);
-	options_toggle_save_log(prefs_other_save_log);
+	prefs_log_append=gtk_radio_button_new_with_label(NULL,_("Append to file"));
+	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_log_append,FALSE,FALSE,0);
+	GSList *other_group=gtk_radio_button_group(GTK_RADIO_BUTTON(prefs_log_append));
+	prefs_log_rewrite=gtk_radio_button_new_with_label(other_group,_("Rewrite file"));
+	gtk_box_pack_start(GTK_BOX(hboxtemp),prefs_log_rewrite,FALSE,FALSE,0);
+	GTK_TOGGLE_BUTTON(prefs_log_append)->active=CFG.APPEND_REWRITE_LOG;
+	GTK_TOGGLE_BUTTON(prefs_log_rewrite)->active=!CFG.APPEND_REWRITE_LOG;
+	gtk_table_attach_defaults(GTK_TABLE(prefs_log_table),hboxtemp,0,1,4,5);
+	options_toggle_save_log(prefs_log_save);
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_other_vbox,gtk_label_new(_("Other")));
+	GtkWidget *prefs_log_box=gtk_vbox_new(FALSE,0);
+	GtkWidget *prefs_log_vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *prefs_log_frame=gtk_frame_new(_("Main log"));	
+	gtk_container_border_width(GTK_CONTAINER(prefs_log_frame),5);
+	gtk_container_add(GTK_CONTAINER(prefs_log_frame),prefs_log_table);
+	gtk_box_pack_start(GTK_BOX(prefs_log_vbox),prefs_log_frame,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_log_vbox),prefs_log_box,FALSE,FALSE,0);
+	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_log_vbox,gtk_label_new(_("Main log")));
+
 	/*
 	 * Columns options
 	 */
@@ -544,6 +598,8 @@ void init_options_window(...) {
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),frame,gtk_label_new(_("Confirmation")));
 	/* Speed
 	 */
+#include "pixmaps/speed1.xpm"
+#include "pixmaps/speed2.xpm"
 	vbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	frame=gtk_frame_new(_("Speed"));
@@ -553,6 +609,7 @@ void init_options_window(...) {
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	prefs_speed_limit_1=gtk_entry_new();
 	gtk_widget_set_usize(prefs_speed_limit_1,100,-1);
+	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed1_xpm),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),prefs_speed_limit_1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
@@ -560,6 +617,7 @@ void init_options_window(...) {
 	hbox=gtk_hbox_new(FALSE,0);
 	prefs_speed_limit_2=gtk_entry_new();
 	gtk_widget_set_usize(prefs_speed_limit_2,100,-1);
+	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed2_xpm),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),prefs_speed_limit_2,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
@@ -589,10 +647,10 @@ void init_options_window(...) {
 };
 
 gint options_window_cancel() {
-	gtk_widget_destroy(options_window);
-	options_window=NULL;
 	if (dir_browser) options_browser_cancel();
 	if (dir_browser2) options_browser_cancel2();
+	if (options_window) gtk_widget_destroy(options_window);
+	options_window=NULL;
 	return TRUE;
 };
 
@@ -618,6 +676,7 @@ void options_window_ok() {
 	CFG.CONFIRM_EXIT=GTK_TOGGLE_BUTTON(prefs_confirm_exit)->active;
 	CFG.GRAPH_ORDER=GTK_TOGGLE_BUTTON(prefs_common_graph_order)->active;
 	CFG.DND_TRASH=GTK_TOGGLE_BUTTON(prefs_common_dnd_trash)->active;
+	CFG.EXIT_COMPLETE=GTK_TOGGLE_BUTTON(prefs_common_exit_complete)->active;
 	if (CFG.DND_TRASH) dnd_trash_init();
 	else dnd_trash_destroy();
 
@@ -634,6 +693,8 @@ void options_window_ok() {
 	if (CFG.DELETE_COMPLETED) aa.del_completed();
 	if (CFG.DELETE_FATAL) aa.del_fataled();
 	int  temp=0;
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_common_exit_complete_time)),"%u",&temp);
+	if (temp>0) CFG.EXIT_COMPLETE_TIME=temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_timeout)),"%u",&temp);
 	if (temp>30) CFG.TIME_OUT=temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_max_threads)),"%u",&temp);
@@ -651,8 +712,6 @@ void options_window_ok() {
 	CFG.ROLLBACK=temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_log)),"%u",&temp);
 	if (temp>=100) CFG.MAX_LOG_LENGTH=temp;
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_mlog)),"%u",&temp);
-	if (temp>=100) CFG.MAX_MAIN_LOG_LENGTH=temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_speed_limit_1)),"%u",&temp);
 	if (temp>=1024) CFG.SPEED_LIMIT_1=2*temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_speed_limit_2)),"%u",&temp);
@@ -662,18 +721,25 @@ void options_window_ok() {
 	normalize_path(CFG.GLOBAL_SAVE_PATH);
 	PathHistory->add(CFG.GLOBAL_SAVE_PATH);
 /* Main log settings */
-	CFG.APPEND_REWRITE_LOG=GTK_TOGGLE_BUTTON(prefs_other_append_log)->active;
- 	if (CFG.SAVE_LOG_PATH==NULL || strcmp(CFG.SAVE_LOG_PATH,text_from_combo(prefs_other_save_log_path)) || 
- 				CFG.SAVE_MAIN_LOG!=(int)GTK_TOGGLE_BUTTON(prefs_other_save_log)->active){
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_log_length)),"%u",&temp);
+	if (temp>=100) CFG.MAX_MAIN_LOG_LENGTH=temp;
+	CFG.MAIN_LOG_DETAILED=GTK_TOGGLE_BUTTON(prefs_log_detailed)->active;
+	CFG.APPEND_REWRITE_LOG=GTK_TOGGLE_BUTTON(prefs_log_append)->active;
+ 	if (CFG.SAVE_LOG_PATH==NULL || strcmp(CFG.SAVE_LOG_PATH,text_from_combo(prefs_log_save_path)) || 
+ 				CFG.SAVE_MAIN_LOG!=(int)GTK_TOGGLE_BUTTON(prefs_log_save)->active){
 		if (CFG.SAVE_LOG_PATH) delete (CFG.SAVE_LOG_PATH);
-		LogHistory->add(text_from_combo(prefs_other_save_log_path));
-		CFG.SAVE_LOG_PATH=copy_string(text_from_combo(prefs_other_save_log_path));
-		CFG.SAVE_MAIN_LOG=GTK_TOGGLE_BUTTON(prefs_other_save_log)->active;
+		LogHistory->add(text_from_combo(prefs_log_save_path));
+		CFG.SAVE_LOG_PATH=copy_string(text_from_combo(prefs_log_save_path));
+		CFG.SAVE_MAIN_LOG=GTK_TOGGLE_BUTTON(prefs_log_save)->active;
  		aa.reinit_main_log();
 	};
 /* default name */
 	delete(CFG.DEFAULT_NAME);
 	CFG.DEFAULT_NAME=copy_string(text_from_combo(prefs_other_filename));
+/* user agent */
+	delete(CFG.USER_AGENT);
+	CFG.USER_AGENT=copy_string(text_from_combo(prefs_other_user_agent));
+
 	if (strlen(CFG.DEFAULT_NAME))
 		FileHistory->add(CFG.DEFAULT_NAME);
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_common_save_list_entry)),"%u",&temp);

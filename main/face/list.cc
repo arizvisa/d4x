@@ -48,6 +48,7 @@ GtkWidget *BoxForGraph;
 GtkWidget *MainLogList;
 int main_log_mask;
 unsigned int ScrollShift[2];
+int mainwin_title_state;
 gfloat main_log_value;
 GtkAdjustment *main_log_adj;
 
@@ -62,7 +63,7 @@ tFaceLimits *FaceForLimits=NULL;
 
 gint StatusBarContext,RBStatusBarContext;
 int MainTimer,LogsTimer,GraphTimer,ListTimer;
-int SAVE_LIST_INTERVAL;
+int SAVE_LIST_INTERVAL,EXIT_COMPLETE_INTERVAL;
 pthread_mutex_t MAIN_GTK_MUTEX=PTHREAD_MUTEX_INITIALIZER;
 
 int FirstConfigureEvent;
@@ -146,6 +147,23 @@ void my_main_quit(...) {
 	save_config();
 	save_limits();
 	aa.done();
+	if (FaceForLimits)
+		delete (FaceForLimits);
+	add_window_cancel();
+	options_window_cancel();
+	destroy_about_window();
+	gtk_widget_destroy(MainWindow);
+	if (AskDelete) delete(AskDelete);
+	if (AskDeleteCompleted) delete(AskDeleteCompleted);
+	if (AskDeleteFataled) delete(AskDeleteFataled);
+	if (AskExit) delete(AskExit);
+	delete(UrlHistory);
+	delete(PathHistory);
+	delete(FileHistory);
+	delete(LogHistory);
+	delete(UserHistory);
+	delete(ProxyHistory);
+	delete(LoadSaveHistory);
 	gtk_main_quit();
 };
 
@@ -306,6 +324,25 @@ void update_progress_bar() {
 	gtk_statusbar_push(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext,data1);
 };
 /* ******************************************************************** */
+static void main_window_normalize_coords(){
+	int temp,w,h;
+	gdk_window_get_geometry(NULL,&temp,&temp,&w,&h,&temp);
+	if (CFG.WINDOW_X_POSITION<0){
+		while (CFG.WINDOW_X_POSITION<0)
+			CFG.WINDOW_X_POSITION+=w;
+	}else{
+		while (CFG.WINDOW_X_POSITION>w)
+			CFG.WINDOW_X_POSITION-=w;
+	};
+	if (CFG.WINDOW_Y_POSITION<0){
+		while (CFG.WINDOW_Y_POSITION<0)
+			CFG.WINDOW_Y_POSITION+=h;
+	}else{
+		while (CFG.WINDOW_Y_POSITION>h)
+			CFG.WINDOW_Y_POSITION-=h;
+	};
+};
+
 static void cb_page_size( GtkAdjustment *get) {
 	if (get==NULL) return;
 	if (main_log_value==get->value && get->value<get->upper-get->page_size) {
@@ -370,10 +407,8 @@ void init_main_window() {
 	gtk_widget_show(hbox);
 	gtk_widget_show(vbox);
 	gtk_widget_show(MainWindow);
-	int temp,w,h;
-	gdk_window_get_geometry(NULL,&temp,&temp,&w,&h,&temp);
-	if (CFG.WINDOW_X_POSITION<=w || CFG.WINDOW_Y_POSITION<=h)
-		gdk_window_move_resize(MainWindow->window,CFG.WINDOW_X_POSITION,CFG.WINDOW_Y_POSITION,CFG.WINDOW_WIDTH,CFG.WINDOW_HEIGHT);
+	gdk_window_move_resize(MainWindow->window,	gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION),
+												gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
 	init_graph();
 	//    gtk_widget_set_usize(ListOfDownloads,-1,-1);
 	gtk_signal_connect(GTK_OBJECT(TEMP), "expose_event",
@@ -392,6 +427,7 @@ static void tmp_scroll_title(char *title,int index){
 
 void update_mainwin_title() {
 	if (CFG.USE_MAINWIN_TITLE) {
+		mainwin_title_state=1;
 		tDownload *temp=list_of_downloads_last_selected();
 		char data[MAX_LEN];
 		if (temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {
@@ -407,15 +443,18 @@ void update_mainwin_title() {
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 		} else {
 			if (CFG.USE_MAINWIN_TITLE2) {
-				int total=RunList->count()+StopList->count()+CompleteList->count()+PausedList->count()+WaitList->count()+WaitStopList->count();
+				int total=amount_of_downloads_in_queues();
 				sprintf(data,_("%i-running %i-completed %i-total "),RunList->count(),CompleteList->count(),total);
 				tmp_scroll_title(data,ROLL_INFO);
 				gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 			} else
 				gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
 		};
-	} else
-		gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
+	} else{
+		if (mainwin_title_state)
+			gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
+		mainwin_title_state=0;
+	};
 };
 
 int time_for_refresh(void *a) {
@@ -450,8 +489,13 @@ int get_mainwin_sizes(GtkWidget *window) {
 		return FALSE;
 	};
 	if (window!=NULL && window->window!=NULL) {
-		gdk_window_get_position(window->window,&CFG.WINDOW_X_POSITION,&CFG.WINDOW_Y_POSITION);
-		gdk_window_get_size(window->window,&CFG.WINDOW_WIDTH,&CFG.WINDOW_HEIGHT);
+		gint x,y,w,h;
+		gdk_window_get_position(window->window,&x,&y);
+		gdk_window_get_size(window->window,&w,&h);
+		CFG.WINDOW_X_POSITION=int(x);
+		CFG.WINDOW_Y_POSITION=int(y);
+		CFG.WINDOW_HEIGHT=int(h);
+		CFG.WINDOW_WIDTH=int(w);
 	};
 	return FALSE;
 };
@@ -469,11 +513,18 @@ int time_for_save_list(void *a) {
 		};
 		SAVE_LIST_INTERVAL=CFG.SAVE_LIST_INTERVAL;
 	};
+	if (CFG.EXIT_COMPLETE && RunList->count()+WaitList->count()+WaitStopList->count()==0){
+		EXIT_COMPLETE_INTERVAL-=1;
+		if (EXIT_COMPLETE_INTERVAL<0)
+			my_main_quit();
+	}else
+		EXIT_COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME;
 	return 1;
 };
 
 void init_timeouts() {
 	SAVE_LIST_INTERVAL=CFG.SAVE_LIST_INTERVAL;
+	EXIT_COMPLETE_INTERVAL=CFG.EXIT_COMPLETE_TIME;
 	ListTimer = gtk_timeout_add (60000, time_for_save_list , NULL);
 	GraphTimer = gtk_timeout_add (250, time_for_draw_graph , NULL);
 	LogsTimer = gtk_timeout_add (100, time_for_logs_refresh , NULL);
@@ -484,13 +535,20 @@ void init_timeouts() {
 	                   MainWindow);
 };
 
+void main_window_popup(){
+	if (MainWindow)
+		gdk_window_show(MainWindow->window);
+};
 
 void init_face(int argc, char *argv[]) {
 	gtk_set_locale();
 	gtk_init(&argc, &argv);
 	gdk_rgb_init();
 	init_columns_info();
+	main_window_normalize_coords();
 	MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_widget_set_uposition(MainWindow,gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION));
+	gtk_window_set_default_size(GTK_WINDOW(MainWindow),gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
 	gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
 	gtk_widget_realize(MainWindow);
 	gtk_widget_set_usize( GTK_WIDGET (MainWindow), 400, 200);
@@ -509,9 +567,9 @@ void init_face(int argc, char *argv[]) {
 		ScrollShift[i]=0;
 	prepare_buttons();
 	FaceForLimits=new tFaceLimits;
-#include "pixmaps/logo.xpm"
+#include "pixmaps/dndtrash.xpm"
 	GdkBitmap *bitmap;
-	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,logo_xpm);
+	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,dndtrash_xpm);
 	gdk_window_set_icon(MainWindow->window,NULL,pixmap,bitmap);
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "delete_event",
 	                   GTK_SIGNAL_FUNC(ask_exit2),

@@ -907,7 +907,7 @@ msgstr "Оптимизировать рекурсию"
 
 #: face/prefs.cc:201
 msgid "Use title of main window for info"
-msgstr "Использовать загаловок для инфы"
+msgstr "Использовать заголовок для инфы"
 
 #: face/prefs.cc:204
 msgid "Display queue statistc too"
@@ -1140,3 +1140,123 @@ msgstr "Брось сюда ссылку"
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "Ограничение скорости в Байт/сек (0 не ограничено)"
+
+#: log.cc:
+msgid "Log was started!"
+msgstr "Лог начат!"
+
+#: config.cc:
+msgid "Run downloads: %d\n"
+msgstr "Запущеных закачек: %d\n"
+
+#: config.cc:
+msgid "Paused downloads: %d\n"
+msgstr "Остановленных закачек: %d\n"
+
+#: config.cc:
+msgid "Failed downloads: %d\n"
+msgstr "Неудачных закачек: %d\n"
+
+#: config.cc:
+msgid "Completed downloads: %d\n"
+msgstr "Завершенных закачек: %d\n"
+
+#: config.cc:
+msgid "Total: %d\n"
+msgstr "Всего: %d\n"
+
+#: config.cc:
+msgid "Curent speed: %d\n"
+msgstr "Текущая скорость: %d\n"
+
+#: config.cc:
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr "Использование: nt [ОПЦИЯ] ... [АДРЕС]"
+
+#: config.cc:
+msgid "print this page and exit"
+msgstr "вывести эту страницу и выйти"
+
+#: config.cc:
+msgid "show version information and exit"
+msgstr "показать версию и выйти"
+
+#: config.cc:
+msgid "show information if already run"
+msgstr "показать статистику если уже запущен"
+
+#: config.cc:
+msgid "show curent speed if already run"
+msgstr "показать текущую скорость если уже запущен"
+
+#: prefs.cc:
+msgid "Exit if nothing to do after"
+msgstr "Выйти если нечего делать через"
+
+#: prefs.cc:
+msgid "Main log"
+msgstr"Главный лог"
+
+#: face/prefs.cc
+msgid "Output detailed information"
+msgstr "Выводить подробную информацию"
+
+#: main.cc
+msgid "Prepare [%s] for stoping"
+msgstr "Подготавливаю [%s] к останову"
+
+#: main.cc
+msgid "Run new thread for %s"
+msgstr "Запускаю новый поток для %s"
+
+#: main.cc
+msgid "%s was deleteted from queue of downloads as completed download"
+msgstr "%s была удалена из очереди закачек как завершенная"
+
+#: main.cc
+msgid "%s was deleteted from queue of downloads as failed download"
+msgstr "%s была удалена из очереди закачек как неудачная"
+
+#: main.cc
+msgid "Delete completed downloads"
+msgstr "Удаление завершенных закачек"
+
+#: main.cc
+msgid "Delete failed downloads"
+msgstr "Удаление неудачных закачек"
+
+#:main.cc:
+msgid "Loading default list of downloads"
+msgstr "Загрузка сохраненного списка закачек"
+
+#:main.cc:
+msgid "Append list to curent queue of downloads"
+msgstr "Добавление списка к текущей очереди закачек"
+
+#: face/dndtrash.cc
+msgid "New Download"
+msgstr "Новая закачка"
+
+#: face/dndtrash.cc
+msgid "Paste Download"
+msgstr "Добавить из буффера"
+
+#: face/dndtrash.cc
+msgid "Common options"
+msgstr "Настройки программы"
+
+#: face/dndtrash.cc
+msgid "Exit"
+msgstr "Выход"
+
+#: face/prefs.cc:
+msgid "User-Agent for http requests"
+msgstr "User-Agent для http запросов"
+
+#: face/columns.cc
+msgid "rest"
+msgstr "остаток"
+
+#: face/lod.cc
+msgid "Rest"
+msgstr "Остаток"

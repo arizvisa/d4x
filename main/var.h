@@ -42,16 +42,18 @@ struct tMainCfg{
 	int RETRY_TIME_OUT;
 	int MAX_RETRIES;
 	int MAX_LOG_LENGTH;
-	int MAX_MAIN_LOG_LENGTH;
 	int MAX_THREADS;
 	int TIME_OUT;
 	char *GLOBAL_SAVE_PATH;
 	char *DEFAULT_NAME;
+	char *USER_AGENT;
 	int FTP_RECURSE_DEPTH;
 	int HTTP_RECURSE_DEPTH;
 	int ROLLBACK;
 /* Log
  */
+	int MAX_MAIN_LOG_LENGTH;
+	int MAIN_LOG_DETAILED;
 	int SAVE_MAIN_LOG;
 	int APPEND_REWRITE_LOG;
 	char *SAVE_LOG_PATH;
@@ -87,6 +89,13 @@ struct tMainCfg{
 	int WINDOW_LOWER;
 	int GRAPH_ORDER;
 	int DND_TRASH,DND_TRASH_X,DND_TRASH_Y;
+	int EXIT_COMPLETE,EXIT_COMPLETE_TIME;
+/* Graph colors....
+ */
+	int GRAPH_BACK;
+	int GRAPH_FORE1;
+	int GRAPH_FORE2;
+	int GRAPH_PICK;
 /* Proxies....
  */
 	char *FTP_PROXY_HOST;
@@ -135,6 +144,7 @@ extern tHistory *LogHistory;
 extern tHistory *UserHistory;
 extern tHistory *ProxyHistory;
 extern tHistory *LoadSaveHistory;
+extern tHistory *UserAgentHistory;
 
 extern tHostsLimits *LimitsForHosts;
 

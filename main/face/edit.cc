@@ -178,17 +178,7 @@ void tDEdit::popup() {
 		gdk_window_show(window->window);
 };
 
-void tDEdit::init(tDownload *who) {
-	if (!who) return;
-	parent=who;
-	window=gtk_window_new(GTK_WINDOW_DIALOG);
-	gtk_container_border_width(GTK_CONTAINER(window),5);
-	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
-	gtk_window_set_policy (GTK_WINDOW(window), FALSE,FALSE,FALSE);
-	//    gtk_widget_set_usize(window,470,255);
-	gtk_object_set_user_data(GTK_OBJECT(window),this);
-	GtkWidget *notebook=gtk_notebook_new();
-
+void tDEdit::init_main(tDownload *who) {
 	/* initing entries
 	 */
 	user_entry=my_gtk_combo_new(UserHistory);
@@ -196,16 +186,22 @@ void tDEdit::init(tDownload *who) {
 	path_entry=my_gtk_combo_new(PathHistory);
 	file_entry=my_gtk_combo_new(FileHistory);
 	url_entry=my_gtk_combo_new(UrlHistory);
+	user_agent_entry=my_gtk_combo_new(UserAgentHistory);
 
 	gtk_widget_set_usize(GTK_COMBO(path_entry)->entry,370,-1);
 	gtk_widget_set_usize(GTK_COMBO(file_entry)->entry,370,-1);
 	gtk_widget_set_usize(GTK_COMBO(url_entry)->entry,391,-1);
+	gtk_widget_set_usize(GTK_COMBO(user_agent_entry)->entry,391,-1);
 	gtk_widget_set_usize(pass_entry,120,-1);
 	gtk_widget_set_usize(user_entry,120,-1);
 
-	char temp[MAX_LEN];
-	make_url_from_download(who,temp);
-	text_to_combo(url_entry,temp);
+//	char temp[MAX_LEN];
+//	make_url_from_download(who,temp);
+//	text_to_combo(url_entry,temp);
+	char *URL=make_simply_url(who);
+	text_to_combo(url_entry,URL);
+	delete URL;
+
 	text_to_combo(path_entry,who->get_SavePath());
 	if (who->get_SaveName()) text_to_combo(file_entry,who->get_SaveName());
 	else text_to_combo(file_entry,"");
@@ -213,6 +209,8 @@ void tDEdit::init(tDownload *who) {
 		gtk_entry_set_text(GTK_ENTRY(pass_entry),who->info->pass);
 	if (who->info->username)
 		text_to_combo(user_entry,who->info->username);
+	if (who->config.get_user_agent())
+		text_to_combo(user_agent_entry,who->config.get_user_agent());
 	gtk_entry_set_visibility(GTK_ENTRY(pass_entry),FALSE);
 	/* initing labels
 	 */
@@ -221,6 +219,7 @@ void tDEdit::init(tDownload *who) {
 	GtkWidget *file_label=gtk_label_new(_("Save download to file"));
 	GtkWidget *pass_label=gtk_label_new(_("password"));
 	GtkWidget *user_label=gtk_label_new(_("user name"));
+	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
 	/* initing boxes
 	 */
 	GtkWidget *url_box=gtk_hbox_new(FALSE,0);
@@ -230,6 +229,7 @@ void tDEdit::init(tDownload *who) {
 	GtkWidget *file_vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *pass_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *user_box=gtk_hbox_new(FALSE,0);
+	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
 	GtkWidget *dir_browser_button=gtk_button_new_with_label(_("Browse"));
 	GtkWidget *dir_browser_button2=gtk_button_new_with_label(_("Browse"));
 	gtk_signal_connect(GTK_OBJECT(dir_browser_button),"clicked",GTK_SIGNAL_FUNC(edit_browser_open),this);
@@ -241,6 +241,7 @@ void tDEdit::init(tDownload *who) {
 	gtk_box_set_spacing(GTK_BOX(file_vbox),2);
 	gtk_box_set_spacing(GTK_BOX(user_box),5);
 	gtk_box_set_spacing(GTK_BOX(pass_box),5);
+	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
 	gtk_box_pack_start(GTK_BOX(url_box),url_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(url_box),url_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_label,FALSE,FALSE,0);
@@ -255,6 +256,8 @@ void tDEdit::init(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(pass_box),pass_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_box),user_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_box),user_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_entry,FALSE,FALSE,0);
 
 	button=gtk_check_button_new_with_label(_("Use password for this site"));
 	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(edit_window_password),this);
@@ -262,18 +265,23 @@ void tDEdit::init(tDownload *who) {
 		GTK_TOGGLE_BUTTON(button)->active=TRUE;
 	else
 		GTK_TOGGLE_BUTTON(button)->active=FALSE;
-	/* initing buttons
-	 */
-	GtkWidget *buttons_hbox=gtk_hbutton_box_new();
-	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
-	gtk_button_box_set_spacing(GTK_BUTTON_BOX(buttons_hbox),5);
-	ok_button=gtk_button_new_with_label(_("Ok"));
-	cancel_button=gtk_button_new_with_label(_("Cancel"));
-	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
-	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
-	gtk_box_pack_start(GTK_BOX(buttons_hbox),ok_button,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(buttons_hbox),cancel_button,TRUE,TRUE,0);
 
+	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_box_pack_start(GTK_BOX(vbox),url_box,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),path_vbox,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),file_vbox,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),user_agent_box,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
+	GtkWidget *frame=gtk_frame_new(_("Download"));
+	gtk_container_border_width(GTK_CONTAINER(frame),5);
+	gtk_container_add(GTK_CONTAINER(frame),vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),frame,gtk_label_new(_("Main")));
+};
+
+void tDEdit::init_other(tDownload *who) {
 	/* initing other
 	 */
 	GtkWidget *other_vbox=gtk_vbox_new(FALSE,0);
@@ -285,6 +293,7 @@ void tDEdit::init(tDownload *who) {
 	rollback_entry=gtk_entry_new_with_max_length(5);
 	speed_entry=gtk_entry_new_with_max_length(5);
 
+	char temp[MAX_LEN];
 	sprintf(temp,"%i",who->config.timeout);
 	gtk_entry_set_text(GTK_ENTRY(timeout_entry),temp);
 	sprintf(temp,"%i",who->config.time_for_sleep);
@@ -373,15 +382,10 @@ void tDEdit::init(tDownload *who) {
 	GtkWidget *other_frame=gtk_frame_new(_("Other"));
 	gtk_container_border_width(GTK_CONTAINER(other_frame),5);
 	gtk_container_add(GTK_CONTAINER(other_frame),other_vbox);
-	/* init proxies
-	 */
-	proxy=new tProxyWidget;
-	proxy->init();
-	proxy->init_state();
-	if (equal("ftp",who->info->protocol))
-		proxy->init_state(&(who->config),1);
-	else
-		proxy->init_state(&(who->config),0);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),other_frame,gtk_label_new(_("Other")));
+};
+
+void tDEdit::init_time(tDownload *who){
 	/* Init time
 	 */
 	GtkWidget *time_frame=gtk_frame_new(_("Time"));
@@ -439,26 +443,52 @@ void tDEdit::init(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(time_vbox),time_hbox,TRUE,TRUE,0);
 	gtk_container_add(GTK_CONTAINER(time_frame),time_vbox);
 	setup_time(who->ScheduleTime);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),time_frame,gtk_label_new(_("Time")));
+};
+
+void tDEdit::init(tDownload *who) {
+	if (!who) return;
+	parent=who;
+	window=gtk_window_new(GTK_WINDOW_DIALOG);
+	gtk_container_border_width(GTK_CONTAINER(window),5);
+	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
+	gtk_window_set_policy (GTK_WINDOW(window), FALSE,FALSE,FALSE);
+	//    gtk_widget_set_usize(window,470,255);
+	gtk_object_set_user_data(GTK_OBJECT(window),this);
+	notebook=gtk_notebook_new();
+	
+	init_main(who);
+	init_other(who);
+
+	/* init proxies
+	 */
+	proxy=new tProxyWidget;
+	proxy->init();
+	proxy->init_state();
+	if (equal("ftp",who->info->protocol))
+		proxy->init_state(&(who->config),1);
+	else
+		proxy->init_state(&(who->config),0);
 	/* initing window
 	 */
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *vbox2=gtk_vbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	gtk_box_set_spacing(GTK_BOX(vbox2),5);
-	gtk_box_pack_start(GTK_BOX(vbox),url_box,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),path_vbox,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),file_vbox,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),button,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);
-	GtkWidget *frame=gtk_frame_new(_("Download"));
-	gtk_container_border_width(GTK_CONTAINER(frame),5);
-	gtk_container_add(GTK_CONTAINER(frame),vbox);
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),frame,gtk_label_new(_("Main")));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),other_frame,gtk_label_new(_("Other")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),proxy->frame,gtk_label_new(_("Proxy")));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),time_frame,gtk_label_new(_("Time")));
+	init_time(who);
+
 	gtk_box_pack_start(GTK_BOX(vbox2),notebook,FALSE,FALSE,0);
+
+	/* initing buttons
+	 */
+	GtkWidget *buttons_hbox=gtk_hbutton_box_new();
+	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing(GTK_BUTTON_BOX(buttons_hbox),5);
+	ok_button=gtk_button_new_with_label(_("Ok"));
+	cancel_button=gtk_button_new_with_label(_("Cancel"));
+	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
+	gtk_box_pack_start(GTK_BOX(buttons_hbox),ok_button,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(buttons_hbox),cancel_button,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(vbox2),buttons_hbox,FALSE,FALSE,0);
 	gtk_container_add(GTK_CONTAINER(window),vbox2);
 	gtk_window_set_default(GTK_WINDOW(window),ok_button);
@@ -575,8 +605,10 @@ int tDEdit::apply_changes() {
 	/* change histories
 	 */
 	char *URL=make_simply_url(parent);
+	parent->config.set_user_agent(text_from_combo(user_agent_entry));
 	PathHistory->add(text_from_combo(path_entry));
 	UrlHistory->add(URL);
+	UserAgentHistory->add(text_from_combo(user_agent_entry));
 	/*change data in list if available
 	 */
 	if (parent->GTKCListRow > 0) {
@@ -909,7 +941,7 @@ void tProxyWidget::init_state(tCfg *cfg,int proto) {
 				gtk_entry_set_text(GTK_ENTRY(http_proxy_pass),cfg->get_proxy_pass());
 			};
 		} else
-			GTK_TOGGLE_BUTTON(ftp_proxy_check)->active=FALSE;
+			GTK_TOGGLE_BUTTON(http_proxy_check)->active=FALSE;
 		proxy_toggle_pass_http(http_proxy_user_check,this);
 	};
 	if (cfg->proxy_type) {

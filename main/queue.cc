@@ -33,7 +33,7 @@ tQueue::tQueue() {
 void tQueue::init(int n) {
 	MaxNum=n;
 	Num=0;
-	Curent=First=Last=NULL;
+//	Curent=First=Last=NULL;
 };
 
 void tQueue::insert(tNode *what) {

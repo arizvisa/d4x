@@ -32,7 +32,6 @@ struct tLogWindow {
 	GtkWidget *swindow;
 	float value;
 	tStringDialog *string;
-	pthread_mutex_t mutex;
 	tLogWindow();
 	~tLogWindow();
 };
@@ -63,10 +62,8 @@ void log_window_destroy_by_log(void *a) {
 	if (log) {
 		tLogWindow *temp=(tLogWindow *)log->Window;
 		if (temp) {
-			pthread_mutex_lock(&temp->mutex);
 			log->Window=NULL;
 			gtk_widget_destroy(GTK_WIDGET(temp->window));
-			pthread_mutex_unlock(&temp->mutex);
 			delete (temp);
 		};
 	};
@@ -77,7 +74,6 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 	if (log) {
 		tLogWindow *temp=(tLogWindow *)log->Window;
 		if (temp) {
-			pthread_mutex_lock(&temp->mutex);
 			log->Window=NULL;
 			if (window->window) {
 				int a[4];
@@ -86,7 +82,6 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 				log->store_geometry(a);
 			};
 			gtk_widget_destroy(GTK_WIDGET(window));
-			pthread_mutex_unlock(&temp->mutex);
 			delete (temp);
 		};
 	};
@@ -96,7 +91,6 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 void log_window_add_string(tLog *log,tLogString *str) {
 	tLogWindow *temp=(tLogWindow *)log->Window;
 	if (!temp) return;
-	pthread_mutex_lock(&temp->mutex);
 	char a[MAX_LEN],useless[MAX_LEN],useful[MAX_LEN];
 	sprintf(a,"%s ",ctime(&str->time));
 	sscanf(a,"%s %s %s %s",useless,useless,useless,useful);
@@ -152,7 +146,6 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	gdk_color_alloc (colormap, &back_color);
 	gtk_clist_set_foreground(GTK_CLIST(temp->clist),row,&color);
 	gtk_clist_set_background(GTK_CLIST(temp->clist),row,&back_color);
-	pthread_mutex_unlock(&temp->mutex);
 };
 
 static void log_window_event_handler(	GtkWidget *clist, gint row, gint column,
@@ -183,14 +176,17 @@ static void my_gtk_auto_scroll( GtkAdjustment *get,tLog *log){
 
 void log_window_init(tDownload *what) {
 	gchar *titles[]={"","",""};
-	if (what && what->LOG) {
+	if (what) {
+		if (what->LOG==NULL){
+			what->LOG=new tLog;
+			what->LOG->init(CFG.MAX_LOG_LENGTH);
+		};
 		if (what->LOG->Window) {
 			tLogWindow *temp=(tLogWindow *)what->LOG->Window;
 			gdk_window_show(temp->window->window);
 			return;
 		};
 		tLogWindow *temp=new tLogWindow;
-		pthread_mutex_init(&temp->mutex,NULL);
 		temp->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 150);
 		char title[MAX_LEN];
@@ -246,9 +242,7 @@ void log_window_set_title(tDownload *what,char *title) {
 void del_first_from_log(tLog *what) {
 	tLogWindow *temp=(tLogWindow *)what->Window;
 	if (temp) {
-		pthread_mutex_lock(&temp->mutex);
 		gtk_clist_remove(GTK_CLIST(temp->clist),0);
-		pthread_mutex_unlock(&temp->mutex);
 	};
 
 };

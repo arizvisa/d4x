@@ -25,13 +25,21 @@ void tHProxyClient::setup_host(char *host) {
 };
 
 int tHProxyClient::get_size(char *filename,tStringList *list) {
-	char *data2=new char[strlen ("GET  HTTP/1.0\r\n")+strlen(filename)+1];
-	sprintf(data2,"GET %s HTTP/1.0\r\n",filename);
+	char *real_filename=unparse_percents(filename);
+	char *data2=new char[strlen("GET  HTTP/1.0\r\n")+strlen(real_filename)+1];
+	sprintf(data2,"GET %s HTTP/1.0\r\n",real_filename);
 	send_request(data2);
+	delete real_filename;
 	delete data2;
+
 	char data[MAX_LEN];
-	sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
-	send_request(data);
+	if (user_agent && strlen(user_agent)){
+		if (equal(user_agent,"%version"))
+			sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
+		else
+			sprintf(data,"User-Agent: %s\r\n",user_agent);
+		send_request(data);
+	};
 	send_request("Accept: */*\r\n");
 	sprintf(data,"Range: bytes=%i-\r\n",Offset);
 	send_request(data);
@@ -57,6 +65,12 @@ tHProxyClient::~tHProxyClient() {
 /* ---------------------------------------------
  */
 tProxyDownload::tProxyDownload() {
+	LOG=NULL;
+	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
+	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
+	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
+	Status=D_NOTHING;
+
 	D_PROTO=NULL;
 };
 
@@ -83,6 +97,8 @@ int tProxyDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	config.set_proxy_pass(cfg->get_proxy_pass());
 	D_PROTO=copy_string(hostinfo->protocol);
 	HTTP->init(config.get_proxy_host(),LOG,config.proxy_port,config.timeout);
+	config.set_user_agent(cfg->get_user_agent());
+	HTTP->set_user_agent(config.get_user_agent());
 	HTTP->registr(config.get_proxy_user(),config.get_proxy_pass());
 	((tHProxyClient *)(HTTP))->setup_host(HOST);
 	return reconnect();

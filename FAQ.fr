@@ -1,0 +1,173 @@
+	FAQ de Downloader for X (Dernière mise à jour : 04/11/1999)
+
+Auteurs de ce FAQ:
+Koshelev Maxim (mdem@chat.ru)
+
+Premières informations
+
+1.1 Qu'est-ce que "Downloader for X"?
+1.2 Où peut-on trouver "Downloader for X"
+1.3 Licence de distribution de "Downloader for X"
+1.4 Quelle version de libc est nécessaire pour la compilation de "Downloader
+    for X"?
+1.5 J'ai compilé "Downloader for X" mais j'obtiens un 'segfault' au lancement!
+
+Questions de Base
+
+2.1 Comment faire pour ajouter un nouveau fichier à télécharger?
+2.2 Je voudrais arrêter deux téléchargements, comment puis-je faire?
+2.3 Comment puis-je télécharger un répertoire à partir d'un serveur ftp?
+2.4 Comment faire pour télécharger seulement les fichiers jpeg du serveur ftp?
+2.5 La fenêtre principale de "Downloader for X" contient trop d'informations
+    pour moi.
+2.6 Il y a plusieurs téléchargements terminés dans "Downloader for X". Comment 
+    les effacer?
+
+Questions supplémentaires
+
+3.1 "Downloader for X" peut-il limiter la vitesse des téléchargements?
+3.2 "Downloader for X" peut-il télécharger des répertoires sur des serveurs
+    http?
+3.3 J'ai besoin de limiter le nombre de connections sur le serveur
+    ftp.blablabla.org.
+    Comment le faire avec "Downloader for X"? 
+3.4 Je veux écrire le log principal dans un fichier, "Downloader for X" peut
+    il le faire?
+3.5 Mon serveur proxy renvoye des données invalides avant la coupure de la
+    connection.
+    Comment puis-je faire pour télécharger correctement un fichier?
+
+*******************************************************************************
+Réponses:
+
+1.1 Qu'est-ce que "Downloader for X"?
+
+"Downloader for X" est un outil pour télécharger des fichiers sur internet. Il
+supporte les deux protocoles ftp et http, se reconnecte automatiquement après
+une coupure de la connection, continue les téléchargements, télécharge
+récursivement avec le http et le ftp, supporte les deux types de serveurs
+proxy ftp (wingate) et http (squid) et propose beaucoup d'autres
+caractéristiques.
+
+1.2 Où peut-on trouver "Downloader for X"
+
+http://www.krasu.ru/soft/chuchelo - Page Officielle de "Downloader for X"
+
+1.3 Licence de distribution de "Downloader for X"
+
+Ce programme est libre d'utilisation et les sources sont exploitables, mais il
+n'est pas GPL. Vous pouvez distribuer seulement les fichiers sources
+inchangés. Si vous faites des modifications et que vous voulez ensuite le 
+redistribuer, vous DEVEZ contacter l'auteur.
+
+1.4 Quelle version de libc est nécessaire pour la compilation de "Downloader
+    for X"?
+
+"Downloader for X" requiert libc6 (ou glibc2.0) ou au-dessus pour la 
+compilation. Désolé, mais ce programme ne supporte pas la librairie libc5.
+
+1.5 J'ai compilé "Downloader for X" mais j'obtiens un 'segfault' au lancement!
+
+Pour autant que je sache, "Downloader for X" ne fonctionne pas avec des 
+versions instables de libc et d'autres librairies. Vous devez vous assurer 
+d'avoir installé des versions stables de libc, gtk+, pthreads!
+
+*******************************************************************************
+Questions de Base
+
+2.1 Comment faire pour ajouter un nouveau fichier à télécharger?
+
+Première façon : pressez Ctrl+N et entrez l'URL dans la boite de dialogue qui
+                 apparaît.
+Deuxième façon : cliquez sur le bouton le plus à gauche de la barre d'outils et
+                 entrez l'URL.
+Troisième façon : saisissez un lien à partir de Netscape et amenez le sur la 
+                  fenêtre
+                  de "Downloader for X".
+Quatrième façon : saisisez un lien à partir de Netscape et glissez le sur 
+                  l'icone qui reste toujours visible lorsque vous lancez 
+                  "Downloader for X" (Corbeille des Drag&Drop).
+ 
+2.2 Je voudrais arrêter deux téléchargements, comment puis-je faire?
+
+Sélectionnez les downloads en cliquant avec le bouton droit de la souris pour 
+le premier, et cliquez avec le bouton 'Ctrl' enfoncé, pour le second. Ensuite,
+pressez Alt+C ou pressez le bouton avec une corbeille, dans la barre d'outils.
+
+2.3 Comment puis-je télécharger un répertoire à partir d'un serveur ftp?
+
+Ajouter juste un nouveau téléchargement avec l'URL du répertoire. "Downloader 
+for X" déterminera automatiquement s'il s'agit d'un répertoire. Une autre 
+façon est d'entrer URL/* où URL est l'adresse du répertoire désiré.
+
+2.4 Comment faire pour télécharger seulement les fichiers jpeg du serveur ftp?
+
+"Downloader for X" supporte les filtres pour les téléchargements à partir du 
+ftp. Vous pouvez entrer URL/*.jpg ou URL/*.j*g. Où URL est l'adresse du 
+serveur ftp. Je rappelle qu'une astérisque (*) représente au moins un 
+caractère!
+
+2.5 La fenêtre principale de "Downloader for X" contient trop d'informations 
+    pour moi.
+
+Ouvrez la fenêtre des options (Ctrl+C) et sélectionnez les colonnes que vous 
+désirez afficher dans l'onglet 'Colonnes'.
+
+2.6 Il y a plusieurs téléchargements terminés dans "Downloader for X". Comment 
+    les effacer?
+
+Sélectionnez 'Supprimer les downloads terminés' du menu 'Download'. 
+"Downloader for X" peut aussi effacer automatiquement les downloads terminés 
+si vous le paramétrez dans les Options.
+
+*******************************************************************************
+Questions supplémentaires
+
+3.1 "Downloader for X" peut-il limiter la vitesse des téléchargements?
+
+"Downloader for X" permet de limiter la vitesse des téléchargements. Vous 
+pouvez régler deux limitations de vitesse dans l'onglet 'Vitesse' de la 
+fenêtre des options. Vous pouvez sélectionnez une limitation en activant le 
+bouton rond approprié de la barre d'outil (bouton rond rouge, jaune ou vert).
+Vous pouvez également régler séparemment une limitation de vitesse pour un
+téléchargement dans l'onglet 'Autre' de la fenêtre des propriétés d'un 
+download (ou lorsque vous l'ajoutez).
+
+3.2 "Downloader for X" peut-il télécharger des répertoires sur des serveurs 
+    http?
+
+Depuis la version 1.05, "Downloader for X" peut récupérer des fichiers html et
+télécharger récursivement à partir de l'http. Mais je vous fais remarquer que
+"Downloader for X" ne modifie pas les fichiers html et les sauvegarde comme 
+ils sont.
+Pour l'instant, "Downloader for X" ne télécharge pas encore les liens qui se 
+trouvent dans la page html.
+
+3.3 J'ai besoin de limiter le nombre de connections sur le serveur 
+    ftp.blablabla.org.
+    Comment le faire avec "Downloader for X"? 
+
+"Downloader for X" vous permet de limiter le nombre de connections sur un 
+serveur et un port. Si des downloads sur le serveur désiré sont déjà dans la 
+liste, pressez le bouton droit de la souris sur eux et sélectionnez 'Activer 
+le limitations'. Ensuite entrez le nombre maximun de connections dans la zone 
+appropriée. Vous pouvez visualiser toutes les limitations en sélectionnant 
+'Limitations' du menu 'Options'.
+
+3.4 Je veux écrire le log principal dans un fichier, "Downloader for X" peut
+    il le faire?
+
+Ouvrez la fenêtre des options et donnez le chemin où sauvegarder le log 
+principal dans l'onglet 'Autre'.
+
+3.5 Mon serveur proxy renvoye des données invalides avant la coupure de la 
+    connection.
+    Comment puis-je faire pour télécharger correctement un fichier?
+
+Une caractéristique de recouvrement des derniers octets (ou roll back) a été 
+spécialement implémentée pour ce type de serveur. Réglez la valeur de 
+recouvrement dans l'onglet 'Limites' de la fenêtre des options (Ctrl+C) entre 
+500 et 2000 octets.
+Par exemples en règlant la valeur à 1000, si je continuer un download de 
+50000 octets,le téléchargement va recommencer à partir de 50000 - 1000 = 49000 
+octets.

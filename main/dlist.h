@@ -56,7 +56,7 @@ struct tDownload:public tAbstractSortNode{
     int status,owner,action;
     int NanoSpeed;
     int GTKCListRow;
-    tTriger Percent,Size,Attempt,Status,Speed;
+    tTriger Percent,Size,Attempt,Status,Speed,Remain;
 	//------------------------------------
 private:
     char *SavePath;
@@ -74,6 +74,7 @@ public:
     tDownload();
     void clear();
     void delete_editor();
+    void set_default_cfg();
     void print();
     void convert_list_to_dir();
     void convert_list_to_dir2();

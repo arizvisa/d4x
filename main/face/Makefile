@@ -3,7 +3,7 @@ LOCALEDIR=$(DEST)/share/locale
 CCPLUS = c++
 CFLAGS=-Wall -O2 -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS
 EXECC=$(CCPLUS) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
-GTKFLAGS=`gtk-config --cflags`
+GTKFLAGS=`gtk-config --cflags` `glib-config --cflags`
 GTKLIBS=`gtk-config --libs`
 
 all:list.o colors.o addd.o graph.o edit.o log.o prefs.o lmenu.o buttons.o about.o saveload.o \

@@ -21,9 +21,11 @@ class tHttpClient:public tClient{
     int send_request(char *request);
     int read_data(char *where,int len);
     int read_answer(tStringList *list);
+    char *user_agent;
     public:
 		tHttpClient();
 		void init(char *host,tLog *log,int prt,int time_out);
+		void set_user_agent(char *what);
 		void set_offset(int a);
 		int registr(char *user,char *password);
 		int get_size(char *filename,tStringList *list);

@@ -20,6 +20,12 @@
 #include <string.h>
 
 tHttpDownload::tHttpDownload() {
+	LOG=NULL;
+	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
+	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
+	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
+	Status=D_NOTHING;
+
 	answer=NULL;
 	HTTP=NULL;
 	ETag=Auth=NULL;
@@ -46,6 +52,8 @@ int tHttpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	first=1;
 	config.copy_ints(cfg);
 	HTTP->init(HOST,LOG,D_PORT,config.timeout);
+	config.set_user_agent(cfg->get_user_agent());
+	HTTP->set_user_agent(config.get_user_agent());
 	HTTP->registr(USER,PASS);
 	return reconnect();
 };
@@ -64,7 +72,7 @@ int tHttpDownload::reconnect() {
 	while (success) {
 		RetrNum++;
 		char data[MAX_LEN];
-		if (HTTP->get_status()==STATUS_FATAL) return -1;
+//		if (HTTP->get_status()==STATUS_FATAL) return -1;
 		if (config.number_of_attempts)
 			sprintf(data,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
 		else
@@ -78,7 +86,7 @@ int tHttpDownload::reconnect() {
 		if (RetrNum>1) {
 			if (HTTP->test_reget() || config.retry) {
 				LOG->add(_("Sleeping"),LOG_WARNING);
-				sleep(config.time_for_sleep);
+				sleep(config.time_for_sleep+1);
 			}
 			else return -1;
 		};
@@ -387,9 +395,8 @@ int tHttpDownload::download(unsigned int from,unsigned int len) {
 	int offset=from;
 	first=1;
 	while(success) {
-		int real_offset=data;
-		if (!first) StartSize=real_offset=data=rollback(offset);
-		HTTP->set_offset(real_offset);
+		if (!first) StartSize=offset=data=rollback(offset);
+		HTTP->set_offset(offset);
 		while (first || get_size()>=0) {
 			if (!ReGet) {
 				if (offset) LOG->add(_("It is seemed REGET not supported! Loading from begin.."),LOG_WARNING);
@@ -409,7 +416,7 @@ int tHttpDownload::download(unsigned int from,unsigned int len) {
 			};
 			break;
 		};
-		data=offset;
+//		data=offset;
 		first=0;
 		if (HTTP->get_status()==STATUS_FATAL) return -1;
 		if (offset==D_FILE.size && D_FILE.size!=0) break;
@@ -451,6 +458,8 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 	else
 		full_path=copy_string(path);
 	char *temp;
+	char *question_sign=index(full_path,'?');
+	if (question_sign) *question_sign=0;
 	if (flag){
 		temp=sum_strings(".",D_FILE.name);
 		*name=compose_path(full_path,temp);
@@ -468,6 +477,8 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
 	char *temp=sum_strings(".",another_name);
 	char *full_path=compose_path(path,D_PATH);
+	char *question_sign=index(full_path,'?');
+	if (question_sign) *question_sign=0;
 	*name=compose_path(full_path,temp);
 	*guess=compose_path(full_path,another_name);
 	make_dir_hier(full_path);

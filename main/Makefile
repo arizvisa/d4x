@@ -6,12 +6,12 @@ DEST=/usr/local
 LOCALEDIR=$(DEST)/share/locale
 LIBS=-lpthread
 CFLAGS=-Wall -O2 -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS
-GTKLIBS=`gtk-config --libs`
-GTKFLAGS=`gtk-config --cflags`
+GTKLIBS=`gtk-config --libs` 
+GTKFLAGS=`gtk-config --cflags` `glib-config --cflags`
 
 EXECC=$(CCPLUS) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
 
-MODULES=base64.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o
+MODULES=base64.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o srvclt.o
 MODULES2=client.o ftp.o http.o download.o ftpd.o httpd.o signal.o main.o config.o savelog.o mainlog.o var.o sortstr.o db.o
 FACE=face/lmenu.o face/list.o face/addd.o face/graph.o face/log.o face/prefs.o face/buttons.o \
 face/about.o face/edit.o face/colors.o face/saveload.o face/limface.o face/misc.o face/lod.o \
@@ -26,11 +26,14 @@ all:
 	if [ "$(NLS)" != "" ] ; then \
 		cd po && make ; \
 	fi
+	$(MAKE) strip
 
 
 nt: nt.cc $(MODULES) $(MODULES2) var.h
 	$(EXECC)  $(LIBS) nt.cc $(MODULES) $(MODULES2) \
 	 $(FACE) -o nt $(GTKLIBS)
+
+strip: nt
 	strip nt
 
 
@@ -116,6 +119,9 @@ sortstr.o: sortstr.cc sortstr.h
 
 base64.o: base64.cc base64.h
 	$(EXECC) -c base64.cc -o base64.o
+
+srvclt.o: srvclt.cc srvclt.h
+	$(EXECC) -c srvclt.cc -o srvclt.o
 
 db.o: db.cc db.h
 	$(EXECC) -c db.cc -o db.o

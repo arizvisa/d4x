@@ -31,12 +31,13 @@ GdkPixmap *wait_pixmap=NULL,*stop_pixmap=NULL,*pause_pixmap=NULL,*complete_pixma
 GdkPixmap *run_pixmap=NULL,*part_run_pixmap=NULL,*run_bad_pixmap=NULL,*stop_wait_pixmap=NULL;
 
 gint SizeListOfDownloads;
-gchar *ListTitles[]={" ","File","Type","Full Size","Downloaded","%","Speed","Time","Remaining","Pause","Attempt","URL"," "};
+gchar *ListTitles[]={" ","File","Type","Full Size","Downloaded","Rest","%","Speed","Time","Remaining","Pause","Attempt","URL"," "};
 tColumn ListColumns[]={	{STATUS_COL,STATUS_COL,NULL,25},
 						{FILE_COL,FILE_COL,NULL,100},
 						{FILE_TYPE_COL,FILE_TYPE_COL,NULL,40},
 						{FULL_SIZE_COL,FULL_SIZE_COL,NULL,70},
 						{DOWNLOADED_SIZE_COL,DOWNLOADED_SIZE_COL,NULL,70},
+						{REMAIN_SIZE_COL,REMAIN_SIZE_COL,NULL,70},
 						{PERCENT_COL,PERCENT_COL,NULL,30},
 						{SPEED_COL,SPEED_COL,NULL,60},
 						{TIME_COL,TIME_COL,NULL,60},
@@ -108,7 +109,7 @@ void list_of_downloads_get_sizes() {
 	if (!ListOfDownloads) return;
 	GtkCListColumn *tmp=GTK_CLIST(ListOfDownloads)->column;
 	for (int i=0;i<ListColumns[NOTHING_COL].enum_index;i++) {
-		ListColumns[i].size=tmp->width;
+		ListColumns[i].size=int(tmp->width);
 		tmp++;
 	};
 };
@@ -151,10 +152,7 @@ void list_of_downloads_add(tDownload *what,int row) {
 				break;
 			};
 		case DL_RUN:{
-			what->Percent.update();
-			what->Attempt.update();
-			what->Speed.update();
-			what->Size.update();
+			what->update_trigers();
 			switch (what->Status.curent) {
 				case D_QUERYING:{
 						list_of_downloads_set_pixmap(row,PIX_RUN_PART);
@@ -377,7 +375,7 @@ void list_of_downloads_init() {
 
 	gtk_clist_set_row_height(GTK_CLIST(ListOfDownloads),16);
 	for(int i=STATUS_COL;i<ListColumns[NOTHING_COL].enum_index;i++)
-		gtk_clist_set_column_width (GTK_CLIST(ListOfDownloads),ListColumns[ListColumns[i].type].enum_index,ListColumns[i].size);
+		gtk_clist_set_column_width (GTK_CLIST(ListOfDownloads),ListColumns[ListColumns[i].type].enum_index,gint(ListColumns[i].size));
 	gtk_clist_set_shadow_type (GTK_CLIST(ListOfDownloads), GTK_SHADOW_IN);
 	gtk_clist_set_selection_mode(GTK_CLIST(ListOfDownloads),GTK_SELECTION_EXTENDED);
 	if (ContainerForCList==NULL) ContainerForCList=gtk_scrolled_window_new(NULL,NULL);
@@ -410,6 +408,7 @@ void list_of_downloads_init() {
 	my_gtk_clist_set_column_justification (ListOfDownloads, FULL_SIZE_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, PERCENT_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, DOWNLOADED_SIZE_COL, GTK_JUSTIFY_RIGHT);
+	my_gtk_clist_set_column_justification (ListOfDownloads, REMAIN_SIZE_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, TREAT_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, SPEED_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, ELAPSED_TIME_COL, GTK_JUSTIFY_RIGHT);
@@ -424,11 +423,13 @@ void list_of_downloads_init() {
 void list_of_downloads_get_height() {
 	if (!ListOfDownloads) return;
 	gint x=0;
-	gdk_window_get_size(ListOfDownloads->window,&x,&CFG.WINDOW_CLIST_HEIGHT);
+	gint y=0;
+	gdk_window_get_size(ListOfDownloads->window,&x,&y);
+	CFG.WINDOW_CLIST_HEIGHT=int(y);
 };
 
 void list_of_downloads_set_height() {
-	gtk_widget_set_usize(ListOfDownloads,-1,CFG.WINDOW_CLIST_HEIGHT);
+	gtk_widget_set_usize(ListOfDownloads,-1,gint(CFG.WINDOW_CLIST_HEIGHT));
 };
 
 /* Setting pixmaps functions;

@@ -47,6 +47,7 @@ void ask_exit(...);
 gint ask_exit2();
 /* Other functions
  */
+void main_window_popup();
 void update_progress_bar();
 void update_mainwin_title();
 void open_log_for_selected(...);

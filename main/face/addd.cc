@@ -23,8 +23,10 @@ extern tMain aa;
 tDownload *OneDownload=NULL;
 
 void add_window_cancel() {
-	delete OneDownload;
-	OneDownload=NULL;
+	if (OneDownload){
+		delete OneDownload;
+		OneDownload=NULL;
+	};
 };
 
 void add_window_ok() {
@@ -52,16 +54,7 @@ void init_add_window(...) {
 	tAddr *info=aa.analize(temp);
 	what->info=info;
 	what->set_SavePath(CFG.GLOBAL_SAVE_PATH);
-	what->config.timeout=CFG.TIME_OUT;
-	what->config.time_for_sleep=CFG.RETRY_TIME_OUT;
-	what->config.number_of_attempts=CFG.MAX_RETRIES;
-	what->config.passive=CFG.FTP_PASSIVE_MODE;
-	what->config.permisions=CFG.FTP_PERMISIONS;
-	what->config.get_date=CFG.GET_DATE;
-	what->config.retry=CFG.RETRY_IF_NOREGET;
-	what->config.ftp_recurse_depth=CFG.FTP_RECURSE_DEPTH;
-	what->config.http_recurse_depth=CFG.HTTP_RECURSE_DEPTH;
-	what->config.rollback=CFG.ROLLBACK;
+	what->set_default_cfg();
 
 	if (CFG.USE_PROXY_FOR_FTP) {
 		what->config.set_proxy_host(CFG.FTP_PROXY_HOST);
@@ -72,6 +65,7 @@ void init_add_window(...) {
 		};
 	};
 	what->config.proxy_type=CFG.FTP_PROXY_TYPE;
+
 	what->editor=new tDEdit;
 	what->editor->init(what);
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Add new download"));

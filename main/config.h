@@ -21,6 +21,8 @@ void save_limits();
 void read_limits();
 int parse_command_line_preload(int argv,char **argc);
 void parse_command_line_postload(int argv,char **argc);
+int parse_command_line_already_run(int argv,char **argc);
+void print_help_page();
 
 extern const char *CFG_FILE;
 extern const char *CFG_DIR;

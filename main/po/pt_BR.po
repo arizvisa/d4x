@@ -1039,112 +1039,232 @@ msgstr "Salvar download para um arquivo"
 
 #: face/prefs.cc:218
 msgid "Revert drawing graph of speeds"
-msgstr ""
+msgstr "Mostrar o Gráfico de Velocidades"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr ""
+msgstr "Definição de Recursividade(0 ilimitado, 1 não recursiva)"
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
-msgstr ""
+msgstr "Nome do arquivo a ser salvo se esse for desconhecido"
 
 #: face/about.cc:44
 msgid "Translators team"
-msgstr ""
+msgstr "Grupo de Tradutores"
 
 #: face/prefs.cc:
 msgid "Scroll title"
-msgstr ""
+msgstr "Lista Título"
 
 #: face/prefs.cc:
 msgid "Default permisions of file"
-msgstr ""
+msgstr "Permissão padrão para o arquivo"
 
 #: face/buttons.cc:
 msgid " Save list "
-msgstr ""
+msgstr " Salvar Lista"
 
 #: face/columns.cc:22
 msgid "status"
-msgstr ""
+msgstr "status"
 
 #: face/columns.cc:22
 msgid "file name"
-msgstr ""
+msgstr " nome do arquivo"
 
 #: face/columns.cc:22
 msgid "type of file"
-msgstr ""
+msgstr " tipo do arquivo"
 
 #: face/columns.cc:22
 msgid "size of file"
-msgstr ""
+msgstr " tamanhao do arquivo"
 
 #: face/columns.cc:22
 msgid "downloaded size"
-msgstr ""
+msgstr " tamanaho já baixado"
 
 #: face/columns.cc:22
 msgid "percent"
-msgstr ""
+msgstr " por cento"
 
 #: face/columns.cc:22
 msgid "speed"
-msgstr ""
+msgstr " velocidade"
 
 #: face/columns.cc:22
 msgid "elapsed time"
-msgstr ""
+msgstr "tempo decorrido"
 
 #: face/columns.cc:22
 msgid "estimated time"
-msgstr ""
+msgstr " tempo estimado"
 
 #: face/columns.cc:22
 msgid "time of pause"
-msgstr ""
+msgstr " tempo parado"
 
 #: face/columns.cc:22
 msgid "number of attempts"
-msgstr ""
+msgstr " numero de tentativas"
 
 #: face/columns.cc:22
 msgid "Showed columns"
-msgstr ""
+msgstr " Colunas mostradas"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr ""
+msgstr " Voltar quantos bytes(roolback) apos a reconecção"
 
 #: download.cc:
 msgid "Can't do rollback!"
-msgstr ""
+msgstr " Não consigo voltar na contagem dos bytes(Roolback)"
 
 #: main.cc:
 msgid "Redirect from %s"
-msgstr ""
+msgstr "Redirecionado para %s"
 
 #: face/
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: face/prefs.cc:
 msgid "Show trash for DnD"
-msgstr ""
+msgstr "Mostrar lixeira de DnD"
 
 #: face/buttons.cc:
 msgid " DnD trash "
-msgstr ""
+msgstr " Lixeira DnD"
 
 #: main.cc:
 msgid "Downloader exited normaly"
-msgstr ""
+msgstr " Donwload terminou normalmente"
 
 #: face/dndtrash.cc:
 msgid "Drop link here"
-msgstr ""
+msgstr " Arraste um link para aqui."
 
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "Velocidade limitada a Bytes/sec (0 p/ ilimitado)"
+
+#: log.cc:
+msgid "Log was started!"
+msgstr ""
+
+#: config.cc:
+msgid "Run downloads: %d\n"
+msgstr ""
+
+#: config.cc:
+msgid "Paused downloads: %d\n"
+msgstr ""
+
+#: config.cc:
+msgid "Failed downloads: %d\n"
+msgstr ""
+
+#: config.cc:
+msgid "Completed downloads: %d\n"
+msgstr ""
+
+#: config.cc:
+msgid "Total: %d\n"
+msgstr ""
+
+#: config.cc:
+msgid "Curent speed: %d\n"
+msgstr ""
+
+#: config.cc:
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr ""
+
+#: config.cc:
+msgid "print this page and exit"
+msgstr ""
+
+#: config.cc:
+msgid "show version information and exit"
+msgstr ""
+
+#: config.cc:
+msgid "show information if already run"
+msgstr ""
+
+#: config.cc:
+msgid "show curent speed if already run"
+msgstr ""
+
+#: prefs.cc:
+msgid "Exit if nothing to do after"
+msgstr ""
+
+#: prefs.cc:
+msgid "Main log"
+msgstr""
+
+#: face/prefs.cc
+msgid "Output detailed information"
+msgstr ""
+
+#: main.cc
+msgid "Prepare [%s] for stoping"
+msgstr ""
+
+#: main.cc
+msgid "Run new thread for %s"
+msgstr ""
+
+#: main.cc
+msgid "%s was deleteted from queue of downloads as completed download"
+msgstr ""
+
+#: main.cc
+msgid "%s was deleteted from queue of downloads as failed download"
+msgstr ""
+
+#: main.cc
+msgid "Delete completed downloads"
+msgstr ""
+
+#: main.cc
+msgid "Delete failed downloads"
+msgstr ""
+
+#:main.cc:
+msgid "Loading default list of downloads"
+msgstr ""
+
+#:main.cc:
+msgid "Append list to curent queue of downloads"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "New Download"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "Paste Download"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "Common options"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "Exit"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "User-Agent for http requests"
+msgstr ""
+
+#: face/columns.cc
+msgid "rest"
+msgstr ""
+
+#: face/lod.cc
+msgid "Rest"
 msgstr ""

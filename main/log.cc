@@ -20,9 +20,11 @@
 #include "dlist.h"
 #include "face/log.h"
 #include "var.h"
+#include "ntlocale.h"
 
 
 tLogString::tLogString() {
+	puts("tLogString::tLogString()");
 	// body initialized by tString constructor
 	time=0;
 	type=LOG_FROM_SERVER;
@@ -43,11 +45,17 @@ tLogString::~tLogString() {
 };
 //******************************************//
 tLog::tLog() {
+	pthread_mutex_init(&mutex,NULL);
 	start=time(NULL);
 	Window=NULL;
 	for (int i=0;i<4;i++)
 		geometry[i]=0;
-	zebra=0;
+
+/* next string should be added quiet */
+	char *msg=_("Log was started!");
+	tLogString *temp=new tLogString(msg,strlen(msg),LOG_OK);
+	temp->time=time(NULL);
+	insert(temp);
 };
 
 void tLog::store_geometry(int *a) {
@@ -73,41 +81,57 @@ void tLog::send_msg(int type,tLogString *what) {
 
 void tLog::print() {
 	if (!Window) return;
+	lock();
 	tLogString *prom=(tLogString *)First;
 	while (prom) {
 		log_window_add_string(this,prom);
 		prom=(tLogString *)prom->prev;
 	};
+	unlock();
 };
 
 
 void tLog::add(char *str,int len,int type) {
 	tLogString *temp=new tLogString(str,len,type);
 	temp->time=time(NULL);
+	lock();
 	insert(temp);
-	send_msg(1,temp);
 	Size+=len;
+	unlock();
+	send_msg(1,temp);
 };
 
 void tLog::add(char *str,int type) {
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,type);
-	send_msg(1,ins);
+	lock();
 	insert(ins);
 	Size+=len;
+	unlock();
+	send_msg(1,ins);
 };
 
 void tLog::add(char *str) {
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,LOG_FROM_SERVER);
-	send_msg(1,ins);
+	lock();
 	insert(ins);
 	Size+=len;
+	unlock();
+	send_msg(1,ins);
 };
 
 void tLog::dispose() {
-	send_msg(2,NULL);
+	send_msg(1,NULL);
 	tStringList::dispose();
+};
+
+void tLog::unlock() {
+    pthread_mutex_unlock(&mutex);
+};
+
+void tLog::lock() {
+    pthread_mutex_lock(&mutex);
 };
 
 tLogString *tLog::last() {
@@ -125,4 +149,5 @@ tLogString *tLog::first() {
 tLog::~tLog() {
 	log_window_destroy_by_log(this);
 	// done(); will be used by tStringList::~tStringList();
+	pthread_mutex_destroy(&mutex);
 };

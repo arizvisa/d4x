@@ -229,7 +229,10 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 		int a=read_string(&DataSocket,list,MAX_LEN);
 		DSize=list->size();
 		if(a<0) return -1;
-		if (a>0) break;
+		if (a>0){
+			DataSocket.down(); // Added by Terence Haddock
+			break;
+		};
 	};
 	if (analize_ctrl(1,&FTP_READ_OK)) return -1;
 	return 0;
@@ -273,6 +276,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int fd) {
 			break;
 		};
 	} while (complete!=0);
+	DataSocket.down(); // to prevent next ideas from wu-ftpd guys
 	if (Status) return DSize;
 	analize_ctrl(1,&FTP_READ_OK);
 	return DSize;

@@ -19,6 +19,7 @@
 #include "meter.h"
 #include "mainlog.h"
 #include "speed.h"
+#include "srvclt.h"
 
 struct tTwoStrings{
     char *one;
@@ -31,6 +32,9 @@ struct tTwoStrings{
 class tMain{
     unsigned int LastTime;
     int MsgQueue;
+    tMsgServer *server;
+    pthread_t server_thread_id;
+    tSpeedQueue *SpeedScheduler;
     int LastReadedBytes;
     void split_string(char *what,char *delim,tTwoStrings *out);
     void case_download_completed(tDownload *what);
@@ -43,7 +47,7 @@ class tMain{
     void prepare_for_stoping(tDownload *what,tDList *list);
     void absolute_delete_download(tDList *where,tDownload *what);
     unsigned int get_precise_time();
-    tSpeedQueue *SpeedScheduler;
+    void run_msg_server();
     public:
     	void init();
     	void init_main_log();
@@ -68,6 +72,7 @@ class tMain{
 
 void *download_last(void *);
 int get_port_by_proto(char *proto);
+int amount_of_downloads_in_queues();
 
 extern tMLog *MainLog;
 extern tMeter *GlobalMeter;

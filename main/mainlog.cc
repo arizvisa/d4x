@@ -70,7 +70,7 @@ void tMLog::add_to_list() {
 	int row=gtk_clist_append(list,data);
 	GdkColor color;
 	char str_type;
-	switch (str->type) {
+	switch (str->type & (LOG_DETAILED-1)) {
 		case LOG_OK:{
 				color=BLACK;
 				str_type='+';
@@ -122,6 +122,7 @@ void tMLog::print() {
 };
 
 void tMLog::add(char *str,int len,int type) {
+	if ((type & LOG_DETAILED)  && !CFG.MAIN_LOG_DETAILED) return;
 	tLogString *temp=new tLogString(str,len,type);
 	temp->time=time(NULL);
 	insert(temp);
@@ -130,6 +131,7 @@ void tMLog::add(char *str,int len,int type) {
 };
 
 void tMLog::add(char *str,int type) {
+	if ((type & LOG_DETAILED)  && !CFG.MAIN_LOG_DETAILED) return;	
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,type);
 	insert(ins);

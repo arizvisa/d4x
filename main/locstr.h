@@ -26,9 +26,9 @@ void string_to_low(char *what,char delim);
 void string_to_low(char *what);
 int convert_from_hex(char what);
 char *parse_percents(char *what);
+char *unparse_percents(char *what);
 void del_crlf(char *what);
 void make_number_nice(char *where,int num);
-char *extract_string(char *src,char *dst);
 int convert_month(char *src);
 int ctime_to_time(char *src);
 int check_mask(char *src,char *mask);
@@ -37,9 +37,12 @@ char *compose_path(const char *left,const char *right);
 int global_url(char *url);
 void scroll_string_left(char *str,unsigned int shift);
 char *extract_from_prefixed_string(char *str,char *begin);
+char *extract_string(char *src,char *dst);
+char *extract_string(char *src,char *dst,int num);
 int get_permisions_from_int(int a);
 char *subtract_path(const char *a,const char *b);
 int reallocate_string(char **what, int len);
+int is_string(char *what);
 
 //**************************************************/
 #endif

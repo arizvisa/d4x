@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdio.h>
 
-char *columns_names[]={	"status","file name","type of file","size of file","downloaded size","percent","speed",
+char *columns_names[]={	"status","file name","type of file","size of file","downloaded size","rest","percent","speed",
 						"elapsed time","estimated time","time of pause","number of attempts","URL","[NONE]"};
 
 GList *tColumnsPrefs::find_by_data(GList *where, char *what){
@@ -29,11 +29,12 @@ GList *tColumnsPrefs::find_by_data(GList *where, char *what){
 };
 
 void tColumnsPrefs::init(){
-	box=gtk_table_new(6,2,FALSE);
-	for (int i=0;i<12;i++){
+	int vsize=(NOTHING_COL+1)/2;
+	box=gtk_table_new(vsize,2,FALSE);
+	for (int i=0;i<NOTHING_COL;i++){
 		columns[i]=gtk_check_button_new_with_label(_(columns_names[i]));
-		int temp=i<6?i:i-6;
-		gtk_table_attach_defaults(GTK_TABLE(box),columns[i],i/6,i/6+1,temp,temp+1);
+		int temp=i<vsize?i:i-vsize;
+		gtk_table_attach_defaults(GTK_TABLE(box),columns[i],i/vsize,i/vsize+1,temp,temp+1);
 		if (ListColumns[i].enum_index<ListColumns[NOTHING_COL].enum_index)
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(columns[i]),TRUE);
 		else

@@ -1,3 +1,125 @@
+Tue Dec 14 10:32:39 1999
+	*po/: Portuguese Brasilian translation is updated, Czech translation
+	    is added;
+	*face/about.cc: our heroes is updated :)
+	*face/pixmaps/: logo.xpm was deleted;
+	*face/list.cc: logo.xpm replaced by dndtrash.xpm;
+	*locstr.cc[h],ftpd.cc: new algorithm for parsing listing from
+	    ftp server for compatibility with wu-ftpd-2.6.0
+
+Fri Dec 10 14:18:53 1999
+	*nt.cc: small memory leak when just start program;
+	*main/*.*: added %version as User-Agent;
+	    added 'rest' column;
+	*face/edit.cc: fixed initing dialog for proxy's properties of a
+	    download;
+
+Thu Dec  9 12:23:39 1999
+	*face/httpd.cc: fixed creating directories which is like
+	    download.cgi?http:/lalal/lala/lalala;
+	*face/dndtrash.cc: fixed jumping trash window while appearing;
+	*face/list.cc: fixed jumping of main window when creating;
+	*face/about.cc: fixed bug when 'About' window have 1x1 size;
+
+Wed Dec  8 21:15:00 1999
+	*face/buttons.cc: all tips will have yellow background now;
+	*face/graph.cc,var.cc[h]: graph colors now in cfg;
+
+Tue Dec  7 07:38:19 1999
+	*face/dndtrash.cc: change background color of a tip;
+
+Mon Dec  6 10:21:27 1999
+	*face/prefs.cc: added pixamps in speed folder of "Options" dialog;
+
+Sun Dec  5 19:42:01 1999
+	*face/list.cc: optimised cpu utilisation;
+
+Sat Dec  4 09:27:29 1999
+	*locstr.cc: fixed old bug of time displaying, who say that
+	    in one hour 3660 secs?
+	*face/prefs.cc: fixed appearing of some gtk assertions;
+	*main.cc: optimised CPU utilisation;
+	*main/*.*: added user-configurable User-Agent field for http requests;
+	*Makefile: some changes for better compatibility;
+
+Fri Dec  3 09:19:45 1999
+	*face/list.cc: fixed off screen appearing;
+	*dlist.cc: recurse global links via http if it is from the same server;
+
+Thu Dec  2 14:13:57 1999
+	*face/dndtrash.cc,list.cc[h]: popup main window by double click
+	    on dndtrash icon;
+	*po/: French translation is updated;
+
+Sun Nov 28 23:46:46 1999
+	*face/dndtrash.cc[h]: added menu by right mouse button clicking for
+	    dndtrash icon;
+
+Sat Nov 27 09:52:32 1999
+	*ftp.cc: fixed ftp realisation for working with wu-ftpd-2.6.0
+	    thank to Terence Haddock;
+
+Wed Nov 24 15:16:35 1999
+	*po/: french translation is updated;
+
+Tue Nov 23 11:50:14 1999
+	*face/edit.cc[h]: some reorganisations for future implementation;
+
+Mon Nov 22 16:09:48 1999
+	*main.cc,face/prefs.cc,config.cc,var.cc[h]: added option "Output
+	    detailed information" in main log and add some messages;
+	*main.cc: fixed bug of restarting downloading;
+
+Fri Nov 19 17:19:11 1999
+	*list.cc: deleting all hystories before exiting;
+	*prefs.cc: remove all main log's options to separate folder for
+	    new features;
+
+Thu Nov 18 17:42:16 1999
+	*list.cc: closing all confirmations windows before exit;
+
+Wed Nov 17 15:00:39 1999
+	*list.cc, main.cc: free used memory before exit and close about window;
+
+Tue Nov 16 21:07:43 1999
+	*list.cc: destroy all window before exiting (for iplement feature of
+	    running something before exiting);
+
+Mon Nov 15 11:57:22 1999
+	*httpd.cc: fixed downloading when resuming is not supported;
+
+Sat Nov 14 10:52:07 1999
+	*main.cc,log.cc[h],face/log.cc[h]: optimise drawing log; fixed segmentation
+	    fault on hi speed connections; fixed duplicate strings when open
+	    log; mutexes now will destroy;
+	*main.cc,srvclt.cc,signal.cc: now stop server thread before exiting and
+	    delete socket from filesystem; mutexes now will destroy;
+
+Sat Nov 13 10:52:07 1999
+	*locstr.cc[h],http.cc,hproxy.cc,main.cc: fixed downloading files
+	    via proxy with special simbols in its name; code cleanups;
+
+Fri Nov 12 10:18:57 1999
+	*srvclt.cc[h]: some code optimizations; added command line parameter
+	     --info; added help page (--help); --speed option added;
+	*face/list.cc,face/prefs.cc,config.cc: added ability to setup time
+	    for exit if nothing to do;
+
+Thu Nov 11 12:23:23 1999
+	*main.cc[h],config.cc[h],nt.cc,,srvclt.cc[h]: added ability to add
+	    downloading via command promp if even downloader already run;
+
+Mon Nov  8 03:21:41 1999
+	*ftpd.cc,httpd.cc: no more failed downloads if host not found;
+	*main.cc: fixed speed limitations for separate download; fixed
+	    loading of list of downloads;
+	*face/log.cc,log.cc: creating log if even download not started
+	    (if user want to see log);
+	*face/edit.cc: fixed visibility of password and username in URL entry;
+
+Sat Nov  6 18:43:19 1999
+	*signal.cc: fixed Ctrl+C exiting, no more lockups;
+
 Fri Nov  5 09:21:37 1999
 	*hproxy.cc: fixed probability of segfault on some compilers;
 	*queue.cc: fixed probability of segfault;

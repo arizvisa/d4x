@@ -19,9 +19,11 @@
 GtkWidget *AboutWindow=NULL;
 
 void destroy_about_window() {
-	gtk_widget_destroy(AboutWindow);
-	AboutWindow=NULL;
-	gtk_widget_set_sensitive(MainWindow,TRUE);
+	if (AboutWindow){
+		gtk_widget_destroy(AboutWindow);
+		AboutWindow=NULL;
+		gtk_widget_set_sensitive(MainWindow,TRUE);
+	};
 };
 
 void init_about_window(...) {
@@ -35,7 +37,6 @@ void init_about_window(...) {
 	gtk_window_set_position(GTK_WINDOW(AboutWindow),GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW (AboutWindow), _("About"));
 	gtk_container_border_width(GTK_CONTAINER(AboutWindow),5);
-	gtk_widget_show(AboutWindow);
 	GtkWidget *box=gtk_vbox_new(FALSE,0);
 	GtkWidget *label1=gtk_label_new(VERSION_NAME);
 	GtkWidget *label2=gtk_label_new(HOME_PAGE);
@@ -45,7 +46,7 @@ void init_about_window(...) {
 	gtk_frame_set_shadow_type(GTK_FRAME(frame),GTK_SHADOW_IN);
 	GtkWidget *box1=gtk_vbox_new(FALSE,0);
 	gtk_container_add(GTK_CONTAINER(frame),box1);
-	GtkWidget *label=gtk_label_new("Vicent Aguilar");
+	GtkWidget *label=gtk_label_new("Vicente Aguilar");
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
 	label=gtk_label_new("Vittorio Rebecchi");
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
@@ -69,6 +70,10 @@ void init_about_window(...) {
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
 	label=gtk_label_new("Kei Kodera");
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
+	label=gtk_label_new("Guiliano Rangel Alves");
+	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
+	label=gtk_label_new("Pavel Janousek");
+	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
 	GtkWidget *Button=gtk_button_new_with_label(_("Ok"));
 	gtk_box_pack_start(GTK_BOX(box),label1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label2,FALSE,FALSE,0);
@@ -84,6 +89,7 @@ void init_about_window(...) {
 	GTK_WIDGET_SET_FLAGS(Button,GTK_CAN_DEFAULT);
 	gtk_window_set_default(GTK_WINDOW(AboutWindow),Button);
 	gtk_widget_show_all(AboutWindow);
+//	gtk_widget_show(AboutWindow);
 	gtk_widget_set_sensitive(MainWindow,FALSE);
 };
 

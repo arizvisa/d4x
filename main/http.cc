@@ -20,6 +20,7 @@
 
 tHttpClient::tHttpClient() {
 	hostname=userword=username=buffer=NULL;
+	user_agent=NULL;
 };
 
 void tHttpClient::init(char *host,tLog *log,int prt,int time_out) {
@@ -27,6 +28,10 @@ void tHttpClient::init(char *host,tLog *log,int prt,int time_out) {
 	BuffSize=MAX_LEN;
 	buffer=new char[BuffSize];
 	Auth=0;
+};
+
+void tHttpClient::set_user_agent(char *what){
+	user_agent=what;
 };
 
 void tHttpClient::set_offset(int a) {
@@ -103,19 +108,26 @@ int tHttpClient::read_answer(tStringList *list) {
 };
 
 int tHttpClient::get_size(char *filename,tStringList *list) {
-	char *data2=new char[strlen("GET  HTTP/1.0\r\n")+strlen(filename)+1];
-	sprintf(data2,"GET %s HTTP/1.0\r\n",filename);
+	char *real_filename=unparse_percents(filename);
+	char *data2=new char[strlen("GET  HTTP/1.0\r\n")+strlen(real_filename)+1];
+	sprintf(data2,"GET %s HTTP/1.0\r\n",real_filename);
 	send_request(data2);
+	delete real_filename;
 	delete data2;
+	
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	sprintf(data,"Range: bytes=%i-\r\n",Offset);
-
 	send_request(data);
 	sprintf(data,"Refer: %s\r\n",HOME_PAGE);
 	send_request(data);
-	sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
-	send_request(data);
+	if (user_agent && strlen(user_agent)){
+		if (equal(user_agent,"%version"))
+			sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
+		else
+			sprintf(data,"User-Agent: %s\r\n",user_agent);
+		send_request(data);
+	};
 
 	sprintf(data,"Host: %s\r\n",hostname);
 	send_request(data);

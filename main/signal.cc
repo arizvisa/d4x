@@ -52,6 +52,11 @@ void init_signal_handler() {
 	action.sa_handler=signal_handler;
 	action.sa_flags=0;
 	sigaction(SIGUSR1,&action,&old_action);
+	sigset_t oldmask,newmask;
+	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGINT);
+	sigaddset(&newmask,SIGUSR2);
+	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
 };
 
 int stop_thread(tDownload *what) {

@@ -12,6 +12,7 @@
 #define MY_GTK_ABOUT
 
 void init_about_window(...);
+void destroy_about_window();
 
 struct tDialog{
 	GtkWidget *window;

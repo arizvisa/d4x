@@ -29,7 +29,8 @@ struct tProxyWidget{
 
 class tDEdit{
 	tDownload *parent;
-	GtkWidget *pass_entry,*user_entry,*path_entry,*url_entry,*file_entry;
+	GtkWidget *notebook;
+	GtkWidget *pass_entry,*user_entry,*path_entry,*url_entry,*file_entry,*user_agent_entry;
 	GtkWidget *timeout_entry,*attempts_entry,*sleep_entry,*rollback_entry;
 	GtkWidget *use_pass_check,*ftp_passive_check,*permisions_check,*get_date_check,*retry_check;
 	GtkWidget *ftp_recurse_depth_entry,*http_recurse_depth_entry;
@@ -40,6 +41,9 @@ class tDEdit{
 	GtkWidget *year_entry,*month_entry,*day_entry,*hour_entry,*minute_entry;
 	tProxyWidget *proxy;
 	void setup_time(time_t when);
+	void init_main(tDownload *who);
+	void init_other(tDownload *who);
+	void init_time(tDownload *who);
 	public:
 		GtkWidget *ok_button,*cancel_button;
 		GtkWidget *window;

@@ -22,6 +22,7 @@
 #include "config.h"
 #include "face/list.h"
 #include "ntlocale.h"
+#include "srvclt.h"
 
 void get_size_of_clist();
 
@@ -35,10 +36,11 @@ void set_column_position(int type,int col){
 	};
 };
 void set_config(char *line) {
-	char temp[MAX_LEN];
-	int prom;
 	if(*line!='\n' && *line!='#') {
-		sscanf(line,"%s %i",temp,&prom);
+		char temp[MAX_LEN];
+		int prom=1;
+		int rvalue=sscanf(line,"%s %i",temp,&prom);
+		if (rvalue<1) return;
 		if (equal(temp,"max_threads")) {
 			if (prom<=50 && prom>0) CFG.MAX_THREADS=prom;
 			return;
@@ -235,6 +237,10 @@ void set_config(char *line) {
 			ListColumns[ListColumns[DOWNLOADED_SIZE_COL].enum_index].size=prom;
 			return;
 		};
+		if (equal(temp,"dl_remain_size_col")) {
+			ListColumns[ListColumns[REMAIN_SIZE_COL].enum_index].size=prom;
+			return;
+		};
 		if (equal(temp,"dl_percent_col")) {
 			ListColumns[ListColumns[PERCENT_COL].enum_index].size=prom;
 			return;
@@ -347,6 +353,10 @@ void set_config(char *line) {
 			set_column_position(DOWNLOADED_SIZE_COL,prom);
 			return;
 		};
+		if (equal(temp,"dl_remain_size_col_pos")) {
+			set_column_position(REMAIN_SIZE_COL,prom);
+			return;
+		};
 		if (equal(temp,"dl_percent_col_pos")) {
 			set_column_position(PERCENT_COL,prom);
 			return;
@@ -395,6 +405,22 @@ void set_config(char *line) {
 			CFG.DND_TRASH_Y=prom;
 			return;
 		};
+		if (equal(temp,"exit_complete")) {
+			CFG.EXIT_COMPLETE=prom;
+			return;
+		};
+		if (equal(temp,"exit_complete_time")) {
+			CFG.EXIT_COMPLETE_TIME=prom;
+			return;
+		};
+		if (equal(temp,"main_log_detailed")) {
+			CFG.MAIN_LOG_DETAILED=prom;
+			return;
+		};
+		if (equal(temp,"user_agent")) {
+			CFG.USER_AGENT=copy_string(line+strlen("user_agent")+1);
+			return;
+		};
 	};
 };
 
@@ -441,6 +467,9 @@ void read_config() {
 		ProxyHistory=new tHistory;
 	if (!LoadSaveHistory)
 		LoadSaveHistory=new tHistory;
+	if (!UserAgentHistory){
+		UserAgentHistory=new tHistory;
+	};
 	load_strlist(UrlHistory, ".ntrc/history1",0);
 	load_strlist(PathHistory,".ntrc/history2",1);
 	load_strlist(LogHistory,".ntrc/history3",0);
@@ -448,6 +477,10 @@ void read_config() {
 	load_strlist(UserHistory,".ntrc/history5",0);
 	load_strlist(ProxyHistory,".ntrc/history6",0);
 	load_strlist(FileHistory,".ntrc/history7",0);
+	load_strlist(UserAgentHistory,".ntrc/history8",0);
+	UserAgentHistory->add("%version");	
+	UserAgentHistory->add("Mozilla/4.05");	
+	UserAgentHistory->add("Mozilla/4.0 (compatible; MSIE 4.01; Windows 95)");	
 };
 
 static void save_integer_to_config(int fd,char *name,int num) {
@@ -526,6 +559,7 @@ void save_config() {
 		save_integer_to_config(fd,"dl_file_type_col_pos",ListColumns[FILE_TYPE_COL].enum_index);
 		save_integer_to_config(fd,"dl_full_size_col_pos",ListColumns[FULL_SIZE_COL].enum_index);
 		save_integer_to_config(fd,"dl_downloaded_size_col_pos",ListColumns[DOWNLOADED_SIZE_COL].enum_index);
+		save_integer_to_config(fd,"dl_remain_size_col_pos",ListColumns[REMAIN_SIZE_COL].enum_index);
 		save_integer_to_config(fd,"dl_percent_col_pos",ListColumns[PERCENT_COL].enum_index);
 		save_integer_to_config(fd,"dl_speed_col_pos",ListColumns[SPEED_COL].enum_index);
 		save_integer_to_config(fd,"dl_time_col_pos",ListColumns[TIME_COL].enum_index);
@@ -540,6 +574,7 @@ void save_config() {
 		save_integer_to_config(fd,"dl_file_type_col",ListColumns[ListColumns[FILE_TYPE_COL].enum_index].size);
 		save_integer_to_config(fd,"dl_full_size_col",ListColumns[ListColumns[FULL_SIZE_COL].enum_index].size);
 		save_integer_to_config(fd,"dl_downloaded_size_col",ListColumns[ListColumns[DOWNLOADED_SIZE_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_remain_size_col",ListColumns[ListColumns[REMAIN_SIZE_COL].enum_index].size);
 		save_integer_to_config(fd,"dl_percent_col",ListColumns[ListColumns[PERCENT_COL].enum_index].size);
 		save_integer_to_config(fd,"dl_speed_col",ListColumns[ListColumns[SPEED_COL].enum_index].size);
 		save_integer_to_config(fd,"dl_time_col",ListColumns[ListColumns[TIME_COL].enum_index].size);
@@ -570,6 +605,10 @@ void save_config() {
 		save_integer_to_config(fd,"dnd_trash",CFG.DND_TRASH);
 		save_integer_to_config(fd,"dnd_trash_x",CFG.DND_TRASH_X);
 		save_integer_to_config(fd,"dnd_trash_y",CFG.DND_TRASH_Y);
+		save_integer_to_config(fd,"exit_complete",CFG.EXIT_COMPLETE);
+		save_integer_to_config(fd,"exit_complete_time",CFG.EXIT_COMPLETE_TIME);
+		save_integer_to_config(fd,"main_log_detailed",CFG.MAIN_LOG_DETAILED);
+		save_string_to_config(fd,"user_agent",CFG.USER_AGENT);
 		close(fd);
 	} else {
 		if (MainLog) {
@@ -585,6 +624,7 @@ void save_config() {
 	save_strlist(UserHistory,".ntrc/history5");
 	save_strlist(ProxyHistory,".ntrc/history6");
 	save_strlist(FileHistory,".ntrc/history7");
+	save_strlist(UserAgentHistory,".ntrc/history8");
 	delete cfgpath;
 };
 
@@ -689,17 +729,72 @@ int parse_command_line_preload(int argv,char **argc){
 			puts(VERSION_NAME);
 			rvalue=1;
 		};
+		if (equal("-h",argc[i])||equal("--help",argc[i])){
+			print_help_page();
+			rvalue=1;
+		};
+	};
+	return rvalue;
+};
+
+int parse_command_line_already_run(int argv,char **argc){
+	int rvalue=1;
+	if (argv>1){
+		tMsgClient *clt=new tMsgClient;
+		for (int i=1;i<argv;i++){
+			if (*(argc[i])!='-'){
+				rvalue=0;
+				if (clt->send_command(PACKET_ADD,argc[i],strlen(argc[i])+1)) break;
+			}else{
+				if (equal("--info",argc[i])){
+					rvalue=0;
+					int total=0;
+					clt->send_command(PACKET_ASK_RUN,NULL,0);
+					printf(_("Run downloads: %d\n"),clt->get_answer_int());
+					total+=clt->get_answer_int();
+					clt->send_command(PACKET_ASK_PAUSE,NULL,0);
+					printf(_("Paused downloads: %d\n"),clt->get_answer_int());
+					total+=clt->get_answer_int();
+					clt->send_command(PACKET_ASK_STOP,NULL,0);
+					printf(_("Failed downloads: %d\n"),clt->get_answer_int());
+					total+=clt->get_answer_int();
+					clt->send_command(PACKET_ASK_COMPLETE,NULL,0);
+					printf(_("Completed downloads: %d\n"),clt->get_answer_int());
+					total+=clt->get_answer_int();
+					printf("-------------------------------\n");
+					printf(_("Total: %d\n"),total);
+					clt->send_command(PACKET_ASK_SPEED,NULL,0);
+					printf(_("Curent speed: %d\n"),clt->get_answer_int());
+				};
+				if (equal("--speed",argc[i])){
+					clt->send_command(PACKET_ASK_SPEED,NULL,0);
+					rvalue=0;
+					printf(_("Curent speed: %d\n"),clt->get_answer_int());
+				};
+			};
+		};		
+		delete clt;
 	};
 	return rvalue;
 };
 
 void parse_command_line_postload(int argv,char **argc){
 	for (int i=1;i<argv;i++){
-		if (equal("-t1",argc[i]) || equal("--trafic-low",argc[i]))
+/*		if (equal("-t1",argc[i]) || equal("--trafic-low",argc[i]))
 			CFG.SPEED_LIMIT=1;
 		if (equal("-t2",argc[i]) || equal("--trafic-middle",argc[i]))
 			CFG.SPEED_LIMIT=2;
 		if (equal("-t3",argc[i]) || equal("--trafic-unlimited",argc[i]))
 			CFG.SPEED_LIMIT=3;
+*/
+		if (*(argc[i])!='-') aa.add_downloading(argc[i],NULL,NULL);
 	};
+};
+
+void print_help_page(){
+	printf(_("Usage: nt [OPTION] ... [URL]"));printf("\n\n");
+	printf("\t-h,--help\t");printf(_("print this page and exit"));printf("\n");
+	printf("\t-v,--version\t");printf(_("show version information and exit"));printf("\n");
+	printf("\t--info\t\t");printf(_("show information if already run"));printf("\n");
+	printf("\t--speed\t\t");printf(_("show curent speed if already run"));printf("\n");
 };

@@ -129,9 +129,9 @@ void convert_int_to_2(int what,char *where) {
 };
 
 void convert_time(int what,char *where) {
-	int hours=what/int(3660);
-	int mins=(what - hours*3660)/int(60);
-	int secs= what-mins*60-hours*3660;
+	int hours=what/int(3600);
+	int mins=(what - hours*3600)/int(60);
+	int secs= what-mins*60-hours*3600;
 	char tmp[MAX_LEN];
 	*where=0;
 	if (hours>0) {
@@ -210,6 +210,45 @@ char *parse_percents(char *what) {
 	return temp;
 };
 
+void convert_to_hex(char what,char *where) {
+	char hi=what/16;
+	char lo=(what-(hi*16));
+	if (hi>9)
+		*where='A'+hi-10;
+	else
+		*where='0'+hi;		
+	if (lo>9)
+		where[1]='A'+lo-10;
+	else
+		where[1]='0'+lo;		
+};
+
+char *unparse_percents(char *what) {
+	if (what==NULL) return NULL;
+	int len=strlen(what);
+	int unparsed_len=0;
+	for (int i=0;i<len;i++){
+		if ((what[i]<'/' || what[i]>'z') && what[i]!='.')//|| (what[i]>'9' && what[i]<'A')
+			unparsed_len+=3;
+		else
+			unparsed_len+=1;
+	};
+	char *rvalue=new char[unparsed_len+1];
+	char *cur=rvalue;
+	for (int i=0;i<len;i++){
+		if ((what[i]<'/' || what[i]>'z') && what[i]!='.'){//|| (what[i]>'9' && what[i]<'A')
+			*cur='%';
+			cur+=1;
+			convert_to_hex(what[i],cur);
+			cur+=1;
+		}else
+			*cur=what[i];
+		cur+=1;
+	};
+	*cur=0;
+	return rvalue;
+};
+
 void del_crlf(char *what) {
 	if (!what) return;
 	char *tmp;
@@ -259,6 +298,16 @@ void make_number_nice(char *where,int num) {
  * extracted value will be 'aa'
  */
 
+int is_string(char *what){
+	if (!what) return 0;
+	char *curent=what;
+	while (*curent){
+		if (*curent<'0' || *curent>'9') return 1;
+		curent+=1;
+	};
+	return 0;
+};
+
 char *extract_string(char *src,char *dst) {
 	if (!src || !dst) return src;
 	char *tmp=src;
@@ -281,6 +330,14 @@ char *extract_string(char *src,char *dst) {
 		*dst=0;
 	};
 	return tmp;
+};
+
+char *extract_string(char *src,char *dst,int num){
+	char *new_src=src;
+	for (int i=0;i<num;i++){
+		new_src=extract_string(new_src,dst);
+	};
+	return(new_src);
 };
 
 char *extract_from_prefixed_string(char *str,char *begin){

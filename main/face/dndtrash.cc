@@ -10,9 +10,12 @@
  */
 #include "dndtrash.h"
 #include "misc.h"
+#include "prefs.h"
 #include "lod.h"
 #include "addd.h"
+#include "list.h"
 #include "buttons.h"
+#include "colors.h"
 #include "../main.h"
 #include "../var.h"
 #include "../ntlocale.h"
@@ -24,6 +27,8 @@ extern GtkTargetEntry download_drop_types[];
 extern gint n_download_drop_types;
 
 GtkWidget *dnd_trash_window=(GtkWidget *)NULL;
+GtkWidget *dnd_trash_menu=(GtkWidget *)NULL;
+GtkTooltips *dnd_trash_tooltips;
 int dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
 
 void dnd_trash_destroy(){
@@ -49,9 +54,17 @@ void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 };
 
 int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
-	dnd_trash_moveable=1;
-	GdkModifierType modmask;
-	gdk_window_get_pointer(NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
+	if (event->button==3) {
+    	gtk_menu_popup(GTK_MENU(dnd_trash_menu),NULL,NULL,NULL,NULL,event->button,event->time);
+	}else{
+		if (event->type==GDK_2BUTTON_PRESS)
+			main_window_popup();
+		else{
+			dnd_trash_moveable=1;
+	    	GdkModifierType modmask;
+	    	gdk_window_get_pointer(NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
+	    };
+	};
 	return 1;
 }; 
 
@@ -99,6 +112,11 @@ void dnd_trash_init(){
      * the application.  Note that the main window will not have a titlebar
      * since we're making it a popup. */
     dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
+    if (CFG.DND_TRASH_X>gdk_screen_width()) CFG.DND_TRASH_X=0;
+    if (CFG.DND_TRASH_Y>gdk_screen_height()) CFG.DND_TRASH_Y=0;
+	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
+    gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
+
     gtk_widget_set_events(dnd_trash_window, GDK_FOCUS_CHANGE_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK);
     gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "delete_event",
                         GTK_SIGNAL_FUNC (dnd_trash_destroy), NULL);
@@ -138,17 +156,48 @@ void dnd_trash_init(){
     gtk_container_add( GTK_CONTAINER(dnd_trash_window), fixed );
     gtk_widget_show( fixed );
 
-	GtkTooltips *tooltips=gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltips,dnd_trash_window,_("Drop link here"),NULL);
-	gtk_tooltips_enable(tooltips);
+	dnd_trash_tooltips=gtk_tooltips_new();
+    gtk_tooltips_force_window(dnd_trash_tooltips);
+	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(dnd_trash_tooltips->tip_window));
+	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+	gtk_widget_set_style(dnd_trash_tooltips->tip_window, current_style);
+
+	gtk_tooltips_set_tip(dnd_trash_tooltips,dnd_trash_window,_("Drop link here"),NULL);
+	gtk_tooltips_enable(dnd_trash_tooltips);
     /* This masks out everything except for the image itself */
     gtk_widget_shape_combine_mask( dnd_trash_window, mask, 0, 0 );
     
     /* show the window */
     gtk_widget_show( dnd_trash_window );
-    if (CFG.DND_TRASH_X>gdk_screen_width()) CFG.DND_TRASH_X=0;
-    if (CFG.DND_TRASH_Y>gdk_screen_height()) CFG.DND_TRASH_Y=0;
     gdk_window_resize(dnd_trash_window->window,50,50);
-    gtk_widget_set_uposition( dnd_trash_window, CFG.DND_TRASH_X,CFG.DND_TRASH_Y );
     set_dndtrash_button();
+    dnd_trash_init_menu();
+};
+
+void dnd_trash_init_menu() {
+	GtkWidget *popup_menu=gtk_menu_new();
+	GtkWidget *item=gtk_menu_item_new_with_label(_("New Download"));
+	gtk_menu_append(GTK_MENU(popup_menu),item);
+	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(init_add_window),NULL);
+
+	item=gtk_menu_item_new_with_label(_("Paste Download"));
+	gtk_menu_append(GTK_MENU(popup_menu),item);
+	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(init_add_clipboard_window),NULL);
+
+	item=gtk_menu_item_new();
+	gtk_menu_append(GTK_MENU(popup_menu),item);
+
+	item=gtk_menu_item_new_with_label(_("Common options"));
+	gtk_menu_append(GTK_MENU(popup_menu),item);
+	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(init_options_window),NULL);
+
+	item=gtk_menu_item_new();
+	gtk_menu_append(GTK_MENU(popup_menu),item);
+
+	item=gtk_menu_item_new_with_label(_("Exit"));
+	gtk_menu_append(GTK_MENU(popup_menu),item);
+	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(ask_exit),NULL);
+
+	gtk_widget_show_all(popup_menu);
+	dnd_trash_menu= popup_menu;
 };

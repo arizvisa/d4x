@@ -1,3 +1,34 @@
+Tue Dec 14 10:42:40 1999
+    D4X will create log even if downloading does not started yet;
+    Ability to add downloading via command line if D4X already run;
+    Ability to setup time for exit if nothing to do;
+    Options related with main log removed to separate folder;
+    Added "Output detailed info" options for main log;
+    Added "Rest" column;
+    Added menu for DnD trash by right mouse click;
+    Added user-configurable User-Agent field for http requests;
+    Czech translation was added (thanks to Pavel Janousek);
+    French translation is updated (thanks to Jerome Couderc);
+    Russian translation is updated (thanks to me);
+    Portuguese translation is updated (thanks to Guiliano Rangel Alves);
+    Optimised CPU ussage;
+    All tips have a yellown background now;
+    Double click on DnD trash will popup main window;
+    No more failed downloads if host not found (for dial-up users);
+    New algorithm of parsing directory listing (for wu-ftpd-2.6.0);
+    Fixed creating pathes are like lalal.cgi?http:/www.gnu.org/lalal;
+    Fixed time displaying;
+    Fixed working with buggy compillers (working on Alpha);
+    Fixed jumping of windows when they are just appearing;
+    Fixed off screen appearing of main window;
+    Fixed SIGINT exiting, no more lockups;
+    Fixed ftp realisation for working with wu-ftpd-2.6.0 (thanks to Terence Haddock)
+    Fixed downloading via http if resuming is not supported;
+    Fixed segfault of hi speed connection when updating logs;
+    Fixed visibility of password and username in URL entry;
+    Fixed speed limitation for separate downloads;
+    Fixed small memory leaks;
+
 Fri Nov  5 09:58:50 1999
     Fixed auto resuming via ftp
     Fixed rollback feature

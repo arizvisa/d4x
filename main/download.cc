@@ -23,7 +23,7 @@
 #include "ntlocale.h"
 
 tCfg::tCfg() {
-	proxy_host = proxy_user = proxy_pass = NULL;
+	proxy_host = proxy_user = proxy_pass = user_agent = NULL;
 	speed=0;
 };
 
@@ -40,6 +40,11 @@ void tCfg::set_proxy_host(char *what) {
 void tCfg::set_proxy_pass(char *what) {
 	if (proxy_pass)	delete(proxy_pass);
 	proxy_pass=copy_string(what);
+};
+
+void tCfg::set_user_agent(char *what) {
+	if (user_agent)	delete(user_agent);
+	user_agent=copy_string(what);
 };
 
 void tCfg::copy_ints(tCfg *src){
@@ -85,6 +90,7 @@ void tCfg::copy(tCfg *src) {
 	set_proxy_host(src->proxy_host);
 	set_proxy_user(src->proxy_user);
 	set_proxy_pass(src->proxy_pass);
+	set_user_agent(src->user_agent);
 };
 
 void tCfg::reset_proxy() {
@@ -104,9 +110,8 @@ tCfg::~tCfg() {
 tDownloader::tDownloader(){
 	LOG=NULL;
 	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
-//	D_FILE.perm=S_IWUSR | S_IRUSR;
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
-	D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
+	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
 	Status=D_NOTHING;
 };
 

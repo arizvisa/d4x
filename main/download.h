@@ -19,7 +19,7 @@ struct tFileInfo{
     char *name;
     char *body;
     int size;
-    int type;
+    int type,oldtype;
     int fdesc;
     int perm;
     int date;
@@ -48,14 +48,17 @@ private:
 	char *proxy_host;
 	char *proxy_user;
 	char *proxy_pass;
+	char *user_agent;
 public:
 	tCfg();
 	void set_proxy_user(char *what);
 	void set_proxy_host(char *what);
 	void set_proxy_pass(char *what);
+	void set_user_agent(char *what);
 	char *get_proxy_user(){return(proxy_user);};
 	char *get_proxy_host(){return(proxy_host);};
 	char *get_proxy_pass(){return(proxy_pass);};
+	char *get_user_agent(){return(user_agent);};
 	int get_flags();
 	void set_flags(int what);
 	void reset_proxy();

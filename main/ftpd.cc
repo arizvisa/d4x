@@ -63,7 +63,13 @@ int permisions_from_str(char *a) {
 int date_from_str(char *src) {
 	char *data=new char[strlen(src)+1];
 	char *tmp=src;
-	for (int i=0;i<5;i++) {
+
+	char *str1=new char[strlen(src)];
+	extract_string(src,str1,4);
+	int to_scan=is_string(str1)?4:5;
+	delete(str1);
+
+	for (int i=0;i<to_scan;i++) {
 		tmp=index(tmp,' ');
 		if (tmp) while (*tmp==' ') tmp++;
 		else break;
@@ -99,8 +105,14 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 	char *name=new char[srclen];
 	char *attr=new char[srclen];
 	int par1;
-	sscanf(src,"%s %u %s %s %u %s %u %s %s",
+	extract_string(src,str1,5);
+	puts(str1);
+	if (!is_string(str1))
+		sscanf(src,"%s %u %s %s %u %s %u %s %s",
 	       attr,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
+	else
+		sscanf(src,"%s %u %s %u %s %u %s %s",
+	       attr,&par1,str1,&dst->size,str1,&par1,str1,name);
 	/* Next cycle extract name from string of
 	 * directory listing
 	 */
@@ -167,10 +179,15 @@ void tFtpDownload::check_for_repeated(tStringList *LIST) {
 };
 //****************************************/
 tFtpDownload::tFtpDownload() {
+	LOG=NULL;
+	D_FILE.name=HOST=USER=PASS=D_PATH=NULL;
+	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
+	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
+	Status=D_NOTHING;
+
 	D_FILE.body=NULL;
 	FTP=NULL;
-	DIR=NULL;
-	list=NULL;
+	DIR=list=NULL;
 	RetrNum=0;
 };
 
@@ -180,7 +197,7 @@ int tFtpDownload::reconnect() {
 	while (success) {
 		RetrNum++;
 		char data[MAX_LEN];
-		if (FTP->get_status()==STATUS_FATAL) return -1;
+//		if (FTP->get_status()==STATUS_FATAL) return -1;
 		if (FTP->get_status()!=STATUS_TIMEOUT && FTP->get_status()!=0) {
 			LOG->add(_("Server refused login probably too many users of your class"),LOG_WARNING);
 		};
@@ -197,7 +214,7 @@ int tFtpDownload::reconnect() {
 		if (RetrNum>1) {
 			if (FTP->test_reget() || config.retry) {
 				LOG->add(_("Sleeping"),LOG_OK);
-				sleep(config.time_for_sleep);
+				sleep(config.time_for_sleep+1);
 			}
 			else return -1;
 		};

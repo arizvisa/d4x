@@ -1,6 +1,6 @@
-# SOME DESCRIPTIVE TITLE.
+# French Translation for Downloader for X
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR Koshelev Maxim <mdem@chat.ru>, 1999.
+# Jerome COUDERC <j.couderc@ifrance.com>, 1999.
 #
 #: face/about.cc:167 face/buttons.cc:117 face/buttons.cc:119
 #: face/buttons.cc:121 face/buttons.cc:124 face/buttons.cc:126
@@ -12,11 +12,11 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: nt\n"
+"Project-Id-Version: nt-1.07.6\n"
 "POT-Creation-Date: 1999-08-24 15:06+0800\n"
-"PO-Revision-Date: 1999-11-02 21:15+0100\n"
-"Last-Translator: Koshelev Maxim <mdem@chat.ru>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 1999-12-01 19:13+0100\n"
+"Last-Translator: Jerome COUDERC <j.couderc@ifrance.com>\n"
+"Language-Team: French\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
 
@@ -320,7 +320,7 @@ msgstr "La liste des downloads est vidée"
 #: main.cc:340
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
-msgstr "Le download du fichier %s depuis %s a été interrompu"
+msgstr "Le téléchargement du fichier %s depuis %s a été interrompu"
 
 #: main.cc:383
 #, c-format
@@ -330,7 +330,7 @@ msgstr "Le fichier %s a été enlevé de la liste des downloads"
 #: main.cc:430
 #, c-format
 msgid "Continue downloading of file %s from %s..."
-msgstr "Le download du fichier %s  continue depuis %s ..."
+msgstr "Le téléchargement du fichier %s  continue depuis %s ..."
 
 #: main.cc:454
 msgid "file"
@@ -372,7 +372,7 @@ msgstr "Récupération du fichier %s terminée par une erreur fatale"
 #: main.cc:809
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
-msgstr "Ajout du download du fichier %s"
+msgstr "Ajout du téléchargement du fichier %s"
 
 #: main.cc:874 main.cc:951
 msgid "It is strange that we can't delete file which just created..."
@@ -520,7 +520,7 @@ msgstr " Délai d'attente maximum pour la lecture du socket (en sec)"
 
 #: face/edit.cc:21
 msgid "Timeout before reconnection (in seconds)"
-msgstr " Délai d'attente avant reconnection (en sec)"
+msgstr " Délai d'attente avant reconnexion (en sec)"
 
 #: face/edit.cc:22
 msgid "Maximum attempts (0 for unlimited)"
@@ -784,7 +784,7 @@ msgstr "/Options/Limitations"
 
 #: face/list.cc:145
 msgid "/Options/Common"
-msgstr "/Options/Général"
+msgstr "/Options/Générales"
 
 #: face/list.cc:146
 msgid "/_Help"
@@ -820,7 +820,7 @@ msgstr "Voulez-vous supprimer les downloads qui ont échoué ?"
 
 #: face/list.cc:667
 msgid "Ready to go ????"
-msgstr "Prêt ???"
+msgstr "Prêt à démarrer ???"
 
 #: face/list.cc:768
 #, c-format
@@ -1038,7 +1038,7 @@ msgstr "Inverser le graphe des vitesses"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr " Profondeur de récursivité (0 illimité, 1 désactivé) "
+msgstr " Profondeur de récursivité (0 pour illimité, 1 pour désactivé) "
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
@@ -1143,3 +1143,123 @@ msgstr "Glisser le lien ici"
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr " Limitation de vitesse en octets/sec (0 pour illimité)"
+
+#: log.cc:
+msgid "Log was started!"
+msgstr "Le log a démarré!"
+
+#: config.cc:
+msgid "Run downloads: %d\n"
+msgstr "Downloads en cours: %d\n"
+
+#: config.cc:
+msgid "Paused downloads: %d\n"
+msgstr "Downloads arrêtés : %d\n"
+
+#: config.cc:
+msgid "Failed downloads: %d\n"
+msgstr "Downloads échoués : %d\n"
+
+#: config.cc:
+msgid "Completed downloads: %d\n"
+msgstr "Downloads terminés: %d\n"
+
+#: config.cc:
+msgid "Total: %d\n"
+msgstr "Total: %d\n"
+
+#: config.cc:
+msgid "Curent speed: %d\n"
+msgstr "Vitesse courante: %d\n"
+
+#: config.cc:
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr "Usage: nt [OPTION] ... [URL]"
+
+#: config.cc:
+msgid "print this page and exit"
+msgstr "afficher cette page et quitter"
+
+#: config.cc:
+msgid "show version information and exit"
+msgstr "afficher la version et quitter"
+
+#: config.cc:
+msgid "show information if already run"
+msgstr "afficher les informations s'il est déjà lancé"
+
+#: config.cc:
+msgid "show curent speed if already run"
+msgstr "afficher la vitesse courante s'il est déjà lancé"
+
+#: prefs.cc:
+msgid "Exit if nothing to do after"
+msgstr "Quitter s'il n'y a plus rien à faire au bout de"
+
+#: prefs.cc:
+msgid "Main log"
+msgstr"Log Principal"
+
+#: face/prefs.cc
+msgid "Output detailed information"
+msgstr "Donner des informations détaillées"
+
+#: main.cc
+msgid "Prepare [%s] for stoping"
+msgstr "Préparation de l'arrêt de [%s]"
+
+#: main.cc
+msgid "Run new thread for %s"
+msgstr "Lancement d'un nouveau processus pour %s"
+
+#: main.cc
+msgid "%s was deleteted from queue of downloads as completed download"
+msgstr "%s a été effacé de la queue des downloads en tant que download terminé"
+
+#: main.cc
+msgid "%s was deleteted from queue of downloads as failed download"
+msgstr "%s a été effacé de la queue des downloads en tant que download échoué"
+
+#: main.cc
+msgid "Delete completed downloads"
+msgstr "Supprimer les downloads terminés"
+
+#: main.cc
+msgid "Delete failed downloads"
+msgstr "Supprimer les downloads échoués"
+
+#:main.cc:
+msgid "Loading default list of downloads"
+msgstr "Chargement de la liste par défaut des downloads"
+
+#:main.cc:
+msgid "Append list to curent queue of downloads"
+msgstr "Ajouter la liste à la queue actuelle des downloads"
+
+#: face/dndtrash.cc
+msgid "New Download"
+msgstr "Nouveau Download"
+
+#: face/dndtrash.cc
+msgid "Paste Download"
+msgstr "Coller le Download"
+
+#: face/dndtrash.cc
+msgid "Common options"
+msgstr "Options générales"
+
+#: face/dndtrash.cc
+msgid "Exit"
+msgstr "Quitter"
+
+#: face/prefs.cc:
+msgid "User-Agent for http requests"
+msgstr ""
+
+#: face/columns.cc
+msgid "rest"
+msgstr ""
+
+#: face/lod.cc
+msgid "Rest"
+msgstr ""

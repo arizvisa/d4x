@@ -16,6 +16,7 @@
 #include "buttons.h"
 #include "about.h"
 #include "misc.h"
+#include "colors.h"
 #include "dndtrash.h"
 #include "../var.h"
 #include "../ntlocale.h"
@@ -192,6 +193,12 @@ void init_buttons_bar() {
 	             NULL);
 	set_speed_buttons();
 	set_dndtrash_button();
+	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;
+    gtk_tooltips_force_window(tooltips);
+	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(tooltips->tip_window));
+	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+	gtk_widget_set_style(tooltips->tip_window, current_style);
+
 };
 
 void prepare_buttons() {

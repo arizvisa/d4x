@@ -16,5 +16,6 @@ extern GtkWidget *UrlEntry,*SavePathEntry;
 void init_add_window(...);
 void init_add_clipboard_window(...);
 void init_add_dnd_window(char *url);
+void add_window_cancel();
 
 #endif

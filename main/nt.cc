@@ -25,31 +25,33 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.07.1";
+char *VERSION_NAME="WebDownloader for X 1.08";
 char *LOCK_FILE;
 
 int main(int argc,char **argv) {
+#ifdef ENABLE_NLS
+	bindtextdomain("nt", LOCALE);
+	textdomain("nt");
+#endif
 	if (parse_command_line_preload(argc,argv)) return 0;
 	HOME_VARIABLE=copy_string(getenv("HOME"));
+	CFG.DEFAULT_NAME=copy_string("index.html");
+	if (!HOME_VARIABLE)
+		puts(_("WARNING!!! Can't find HOME variable! So can't read config!"));
+	LOCK_FILE=sum_strings(g_get_tmp_dir(),"/downloader_for_x_lock_", g_get_user_name());
+	read_config();
+	if (CFG.USER_AGENT==NULL)
+		CFG.USER_AGENT=copy_string("%version");
 	if (!CFG.GLOBAL_SAVE_PATH) {
 		CFG.GLOBAL_SAVE_PATH=copy_string(HOME_VARIABLE);
 		if (!CFG.GLOBAL_SAVE_PATH) {
 			CFG.GLOBAL_SAVE_PATH=copy_string("/");
 		};
 	};
-	CFG.DEFAULT_NAME=copy_string("index.html");
-#ifdef ENABLE_NLS
-	bindtextdomain("nt", LOCALE);
-	textdomain("nt");
-#endif
-	if (!HOME_VARIABLE)
-		puts(_("WARNING!!! Can't find HOME variable! So can't read config!"));
-//	char *LOCK_FILE=sum_strings(HOME_VARIABLE,"/.ntrc/lock");
-	LOCK_FILE=sum_strings(g_get_tmp_dir(),"/downloader_for_x_", g_get_user_name());
-	read_config();
 	LOCK_FILE_D=open(LOCK_FILE,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (LOCK_FILE<0 || lockf(LOCK_FILE_D,F_TLOCK,0)) {
-		printf(_("%s probably is already running\n"),VERSION_NAME);
+		if (parse_command_line_already_run(argc,argv))
+			printf(_("%s probably is already running\n"),VERSION_NAME);
 		return 0;
 	};
 	aa.init();

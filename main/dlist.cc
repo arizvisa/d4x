@@ -22,6 +22,9 @@
 #include "face/edit.h"
 #include "var.h"
 #include "ntlocale.h"
+#include "main.h"
+
+extern tMain aa;
 
 tAddr::tAddr() {
 	protocol=host=username=pass=path=file=NULL;
@@ -132,6 +135,7 @@ tDownload::tDownload() {
 	Status.clear();
 	Size.clear();
 	Speed.clear();
+	Remain.clear();
 	owner=DL_ALONE;
 	thread_id=0;
 	GTKCListRow=-1;
@@ -183,6 +187,8 @@ void tDownload::update_trigers() {
 	Status.update();
 	Size.update();
 	Attempt.update();
+	Remain.update();
+	finfo.oldtype=finfo.type-1;
 };
 
 void tDownload::make_file_visible(){
@@ -190,6 +196,20 @@ void tDownload::make_file_visible(){
 		who->make_file_visible(SavePath,SaveName);
 };
 
+void tDownload::set_default_cfg(){
+	config.timeout=CFG.TIME_OUT;
+	config.time_for_sleep=CFG.RETRY_TIME_OUT;
+	config.number_of_attempts=CFG.MAX_RETRIES;
+	config.passive=CFG.FTP_PASSIVE_MODE;
+	config.permisions=CFG.FTP_PERMISIONS;
+	config.get_date=CFG.GET_DATE;
+	config.retry=CFG.RETRY_IF_NOREGET;
+	config.ftp_recurse_depth=CFG.FTP_RECURSE_DEPTH;
+	config.http_recurse_depth=CFG.HTTP_RECURSE_DEPTH;
+	config.rollback=CFG.ROLLBACK;
+	config.http_recursing=config.http_recurse_depth==1?0:1;
+	config.set_user_agent(CFG.USER_AGENT);
+};
 
 void tDownload::convert_list_to_dir() {
 	if (!who) {
@@ -368,18 +388,24 @@ void tDownload::convert_list_to_dir2() {
 			onenew->config.http_recurse_depth = config.http_recurse_depth ? config.http_recurse_depth-1 : 0;
 			onenew->config.ftp_recurse_depth = config.ftp_recurse_depth;
 
-			tDownload *download=DIR->last();
-			int flag=1;
-			while (download) {
-				if (equal(download->info->file,onenew->info->file) && equal(download->info->path,onenew->info->path)) {
-					flag=0;
-					break;
-				};
-				download=DIR->next();
+			DIR->insert(onenew);
+		}else{
+			if (begin_string_uncase(temp->body,"http://")){
+					char *tmp=copy_string(temp->body);
+					tAddr *addrnew=aa.analize(tmp);
+					if (equal(addrnew->host,info->host) && addrnew->port==info->port){
+						tDownload *onenew=new tDownload;
+						onenew->SavePath=copy_string(SavePath);
+						onenew->config.http_recursing=1;
+						onenew->info=addrnew;
+
+						onenew->config.copy(&config);
+						onenew->config.http_recurse_depth = config.http_recurse_depth ? config.http_recurse_depth-1 : 0;
+						onenew->config.ftp_recurse_depth = config.ftp_recurse_depth;
+						DIR->insert(onenew);
+					}else
+						delete addrnew;
 			};
-			if (flag) {
-				DIR->insert(onenew);
-			} else delete(onenew);
 		};
 		dir->del(temp);
 		delete temp;

@@ -11,6 +11,7 @@
 #ifndef T_LOG_STRING
 #define T_LOG_STRING
 #include "liststr.h"
+#include <pthread.h>
 #include <time.h>
 
 struct tLogString:public tString{
@@ -25,10 +26,10 @@ struct tLogString:public tString{
 class tLog:public tStringList{
 	protected:
 	time_t start;
+	pthread_mutex_t mutex;
 	void send_msg(int type,tLogString *what);
 	int geometry[4];
 	public:
-		int zebra;
 		int MsgQueue;
 		void *Window;
 		tLog();
@@ -39,6 +40,8 @@ class tLog:public tStringList{
 		void add(char *str,int type);
 		void add(char *str);
 		void dispose();
+		void lock();
+		void unlock();
 		tLogString *last();
 		tLogString *next();
 		tLogString *first();
@@ -52,10 +55,11 @@ struct mbuf{
 };
 
 enum{
-	LOG_OK,
+	LOG_OK=0,
 	LOG_WARNING,
 	LOG_FROM_SERVER,
 	LOG_TO_SERVER,
-	LOG_ERROR
+	LOG_ERROR,
+	LOG_DETAILED=64
 };
 #endif
