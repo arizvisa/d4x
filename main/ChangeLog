@@ -1,3 +1,14 @@
+Fri Nov  5 09:21:37 1999
+	*hproxy.cc: fixed probability of segfault on some compilers;
+	*queue.cc: fixed probability of segfault;
+
+Thu Nov  4 09:49:19 1999
+	*socket.cc: minor changes;
+	*addd.cc: check for NULL before create dnd dialog;
+	*main.cc: minor fixes in add_new_downloading();
+	*face/lod.cc: minor fixes;
+	*download.cc,ftpd.cc: fixed rollbacking and resuming after reconnection;
+
 Wed Nov  3 09:07:39 1999
 	*po/: French and Chinese translations is updated;
 	*socket.cc: fixed coredump on Sun in constr_name();

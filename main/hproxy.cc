@@ -52,11 +52,6 @@ int tHProxyClient::get_size(char *filename,tStringList *list) {
 };
 
 tHProxyClient::~tHProxyClient() {
-	if (buffer) {
-		delete buffer;
-		buffer=NULL;
-	};
-	down();
 };
 
 /* ---------------------------------------------

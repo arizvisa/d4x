@@ -136,12 +136,8 @@ void tDownloader::set_file_info(tFileInfo *what) {
 };
 
 int tDownloader::rollback(int offset){
-	int len=lseek(D_FILE.fdesc,offset,SEEK_SET);
-	if (len<0){
-		LOG->add("Can't do rollback!",LOG_ERROR);
-		return offset;
-	};
-	int real_roll_back = len - (len<config.rollback?len:config.rollback);
+	int curent_offset=lseek(D_FILE.fdesc,0,SEEK_CUR);
+	int real_roll_back = curent_offset - (curent_offset<config.rollback?curent_offset:config.rollback);
 	lseek(D_FILE.fdesc,real_roll_back,SEEK_SET);
 	return real_roll_back;
 };

@@ -24,6 +24,7 @@ tNode::~tNode() {
 
 //************************************/
 tQueue::tQueue() {
+	Curent=First=Last=NULL;
 	MaxNum=100;
 	Num=0;
 };

@@ -800,6 +800,7 @@ void tMain::main_circle() {
 //**********************************************/
 
 int tMain::add_downloading(char *adr,char *where,char *name) {
+	if (adr==NULL) return -1;
 	char *temp=copy_string(adr);
 	tAddr *addr=analize(temp);
 	if (!addr) return -1;
@@ -857,8 +858,8 @@ int tMain::add_downloading(char *adr,char *where,char *name) {
 		};
 	};
 
-	WaitList->insert(whatadd);
 	list_of_downloads_add(whatadd);
+	WaitList->insert(whatadd);
 	addr=NULL;
 	return 0;
 };

@@ -508,14 +508,8 @@ void tHttpDownload::done() {
 };
 
 tHttpDownload::~tHttpDownload() {
-	if (RealName) {
-		delete RealName;
-		RealName=NULL;
-	};
-	if (NewRealName) {
-		delete NewRealName;
-		NewRealName=NULL;
-	};
+	if (RealName) delete RealName;
+	if (NewRealName) delete NewRealName;
 	if (HTTP) delete HTTP;
 	if (ETag) delete ETag;
 	if (Auth) delete Auth;

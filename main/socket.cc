@@ -28,18 +28,19 @@ tSocket::tSocket() {
 	fd=0;
 	RBytes=0;
 	SBytes=0;
+	buffer=NULL;
 };
 
 int tSocket::constr_name(char *host,int port) {
 	info.sin_family=AF_INET;
 	if (host) {
-		char buff[MAX_LEN];
+		if (!buffer) buffer=new char[MAX_LEN];
 		hostent *hpr=&hp;
 		temp_variable=0;
 #ifdef __sparc__
-		gethostbyname_r(host,&hp,buff,MAX_LEN,&temp_variable);
+		gethostbyname_r(host,&hp,buffer,MAX_LEN,&temp_variable);
 #else
-		gethostbyname_r(host,&hp,buff,MAX_LEN,&hpr,&temp_variable);
+		gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
 #endif
 		if (temp_variable) return -1;
 		memcpy((char *)&info.sin_addr,(char *)hpr->h_addr,hpr->h_length);
@@ -202,6 +203,7 @@ int tSocket::readed_bytes() {
 };
 
 tSocket::~tSocket() {
+	delete buffer;
 	down();
 };
 

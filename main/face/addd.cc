@@ -33,8 +33,8 @@ void add_window_ok() {
 	if (ALL_DOWNLOADS->find(OneDownload))
 		delete(OneDownload);
 	else {
-		WaitList->insert(OneDownload);
 		list_of_downloads_add(OneDownload);
+		WaitList->insert(OneDownload);
 		aa.add_download_message(OneDownload);
 		ALL_DOWNLOADS->insert(OneDownload);
 	};
@@ -90,7 +90,7 @@ void init_add_clipboard_window(...) {
 };
 
 void init_add_dnd_window(char *url) {
-	if (OneDownload) return;
+	if (OneDownload || !url) return;
 	init_add_window();
 	tDownload *what=OneDownload;
 	what->editor->set_url(url);

@@ -386,9 +386,9 @@ int tFtpDownload::download(unsigned int from,unsigned int len) {
 	while(1) {
 		if (!change_dir()) {
 			if (!FTP->stand_data_connection()) {
-				int real_offset=rollback(from);
+				int real_offset=rollback(offset);
 				print_reget(real_offset);
-				if (config.rollback)
+//				if (config.rollback)
 					StartSize=offset=real_offset;
 				if (!FTP->test_reget())
 					StartSize=offset=0;

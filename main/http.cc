@@ -174,6 +174,6 @@ void tHttpClient::done() {
 };
 
 tHttpClient::~tHttpClient() {
-	if (buffer) delete buffer;
 	down();
+	if (buffer) delete buffer;
 };

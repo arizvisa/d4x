@@ -25,7 +25,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.07";
+char *VERSION_NAME="WebDownloader for X 1.07.1";
 char *LOCK_FILE;
 
 int main(int argc,char **argv) {

@@ -453,6 +453,7 @@ void list_of_downloads_init_pixmaps(){
 };
 
 void list_of_downloads_set_pixmap(int row,int type){
+	if (type>=PIX_UNKNOWN) return;
 	if (ListColumns[STATUS_COL].enum_index<ListColumns[NOTHING_COL].enum_index)
 		gtk_clist_set_pixmap (GTK_CLIST (ListOfDownloads), row,
 	                      ListColumns[STATUS_COL].enum_index, list_of_downloads_pixmaps[type], list_of_downloads_bitmaps[type]);

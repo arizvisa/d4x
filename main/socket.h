@@ -29,6 +29,7 @@ class tSocket{
   sockaddr_in info;
   hostent hp;
   int temp_variable;
+  char *buffer;
   int RBytes,SBytes;
   int constr_name(char *host,int port);
   int wait_for_read(int len);
