@@ -47,6 +47,8 @@
 #include "config.h"
 #include "ntlocale.h"
 #include "memwl.h"
+#include "schedule.h"
+#include "html.h"
 
 tMLog *MainLog=NULL;
 
@@ -106,6 +108,8 @@ void tMain::init() {
 	read_limits();
 	SpeedScheduler=new tSpeedQueue;
 	SpeedScheduler->init(0);
+	MainScheduler=new d4xScheduler;
+	MainScheduler->load();
 
 	ALL_DOWNLOADS=new tDB;
 
@@ -358,6 +362,30 @@ void tMain::stop_split(tDownload *what){
 	};
 };
 
+tDownload *tMain::find_url(tAddr *adr){
+	DBC_RETVAL_IF_FAIL(adr!=NULL,NULL);
+	tDownload tmp;
+	tmp.info=adr;
+	tDownload *a=ALL_DOWNLOADS->find(&tmp);
+	tmp.info=NULL;
+	return(a);
+};
+
+void tMain::stop_download_url(tAddr *adr){
+	tDownload *a=find_url(adr);
+	if (a) stop_download(a);
+};
+
+void tMain::continue_download_url(tAddr *adr){
+	tDownload *a=find_url(adr);
+	if (a) continue_download(a);
+};
+
+void tMain::delete_download_url(tAddr *adr){
+	tDownload *a=find_url(adr);
+	if (a) delete_download(a);
+};
+
 void tMain::stop_download(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	if (DOWNLOAD_QUEUES[DL_STOPWAIT]->owner(what) && what->action!=ACTION_DELETE) {
@@ -388,7 +416,7 @@ void tMain::stop_download(tDownload *what) {
 	};
 };
 
-int tMain::delete_download(tDownload *what,int flag) {
+int tMain::delete_download(tDownload *what,int flag=0) {
 	if (!what) return 0;
 	switch (what->owner) {
 		case DL_ALONE:{
@@ -456,8 +484,8 @@ int tMain::try_to_run_download(tDownload *what){
 	tSortString *tmp=LimitsForHosts->find(what->info->host.get(),what->info->port);
 	time_t NOW;
 	time(&NOW);
-	if (DOWNLOAD_QUEUES[DL_RUN]->count()<50 && what->ScheduleTime<=NOW
-	    && (tmp==NULL || tmp->curent<tmp->upper)) {
+	if (DOWNLOAD_QUEUES[DL_RUN]->count()<50 &&
+	    (tmp==NULL || tmp->curent<tmp->upper)) {
 		// to avoid old info in columns
 		if (CFG.WITHOUT_FACE==0)
 			list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
@@ -738,32 +766,7 @@ void tMain::redirect(tDownload *what) {
 	};
 	if (newurl) {
 		char *oldurl=what->info->url();
-		tAddr *addr=NULL;
-		if (!global_url(newurl)){
-			addr=new tAddr;
-			char *file=NULL,*path=newurl;
-			if ((file=rindex(newurl,'/'))){
-				*file=0;
-				file+=1;
-			}else{
-				path="";
-				file=newurl;
-			};
-			addr->file.set(file);
-//			printf("%s\n%s\n%s\n",path,file,what->info->path.get());
-			if (*newurl=='/'){
-				addr->path.set(path);
-			}else{
-				char *newpath=sum_strings(what->info->path.get(),"/",path,NULL);
-				normalize_path(newpath);
-				addr->file.set(file);
-				addr->path.set(newpath);
-				delete(newpath);
-			};
-			addr->copy_host(what->info);
-		}else{
-			addr=new tAddr(newurl);
-		};
+		tAddr *addr=fix_url_global(newurl,what->info,-1,0);
 		delete(newurl);
 		if (addr->cmp(what->info) && equal(what->config.referer.get(),oldurl)){
 			MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to the same location!"),what);
@@ -1007,9 +1010,17 @@ void tMain::main_circle() {
 /* various stuff */
 	go_to_delete();
 	speed();
+	MainScheduler->run(this);
 	if (CFG.WITHOUT_FACE==0)
 		prepare_buttons();
 	CFG.NICE_DEC_DIGITALS.reset();
+};
+
+void tMain::set_speed(int speed){
+	CFG.SPEED_LIMIT=speed;
+	if (CFG.SPEED_LIMIT>3) CFG.SPEED_LIMIT=3;
+	if (CFG.SPEED_LIMIT<1) CFG.SPEED_LIMIT=1;
+	if (CFG.WITHOUT_FACE==0) set_speed_buttons();
 };
 
 void tMain::check_for_remote_commands(){
@@ -1035,9 +1046,7 @@ void tMain::check_for_remote_commands(){
 		};
 		case PACKET_SET_SPEED_LIMIT:{
 			sscanf(addnew->body,"%i",&CFG.SPEED_LIMIT);
-			if (CFG.SPEED_LIMIT>3) CFG.SPEED_LIMIT=3;
-			if (CFG.SPEED_LIMIT<1) CFG.SPEED_LIMIT=1;
-			if (CFG.WITHOUT_FACE==0) set_speed_buttons();
+			set_speed(CFG.SPEED_LIMIT);
 			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,_("Set speed limitation to %s %s"),
 					  _(SPEED_LIMITATIONS_NAMES[CFG.SPEED_LIMIT]),
 					  _("[control socket]"));
@@ -1130,6 +1139,10 @@ void tMain::ftp_search_remove(tDownload *what){
 int tMain::add_downloading(tDownload *what) {
 	if (ALL_DOWNLOADS->find(what) || !what->info->is_valid()) 
 		return 1;
+	if (what->ScheduleTime){
+		MainScheduler->add_scheduled(what);
+		return(0);
+	};
 	if (what->info->username.get()==NULL){
 		tUserPass *tmp=PasswordsForHosts->find(what->info->proto,
 						       what->info->host.get());
@@ -1148,6 +1161,10 @@ int tMain::add_downloading(tDownload *what) {
 void tMain::add_downloading_to(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);	
 	int owner=what->owner;
+	if (what->ScheduleTime){
+		MainScheduler->add_scheduled(what);
+		return;
+	};
 	if (owner>DL_ALONE && owner<DL_TEMP){
 		if (add_downloading(what)){
 			delete (what);
@@ -1442,7 +1459,18 @@ void *download_last(void *nothing) {
 	if (what) {
 		tAddr *addr=what->info;
 		what->LOG->MsgQueue=LogsMsgQueue;
-		what->LOG->init_save(what->config.log_save_path.get());
+		if (what->config.log_save_path.get()){
+			char *real_path=parse_save_path(what->config.log_save_path.get(),what->info->file.get());
+			make_dir_hier_without_last(real_path);
+			if (what->LOG->init_save(real_path)){
+				what->WL->log_printf(LOG_ERROR,
+						     _("Can't open '%s' to save log"),
+						     real_path);
+			};
+			delete(real_path);
+		}else{
+			what->LOG->init_save(NULL);
+		};
 		if (what->config.proxy_host.get()  &&
 		    (what->config.proxy_type || addr->proto==D_PROTO_HTTP)) {
 			what->who=new tProxyDownload;

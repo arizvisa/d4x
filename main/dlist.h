@@ -115,9 +115,10 @@ struct tDownload:public tAbstractSortNode{
 	void clear();
 	void delete_editor();
 	void set_default_cfg();
+	void copy(tDownload *what);
 	void print();
 	void convert_list_to_dir();
-	void convert_list_to_dir2(tStringList *dir);
+	void convert_list_to_dir2(tQueue *dir);
 	/* downloading functions*/
 	int http_check_settings(tAddr *what);
 	void delete_who();

@@ -675,7 +675,7 @@ static void my_draw_row (GtkCList     *clist,
 			if (progress_width<0)
 				progress_width=0;
 			progress_width=(progress_width*float(clip_rectangle.width))/float(100);
-			if (progress_width>=1)
+			if (progress_width>=2)
 				gtk_paint_box(style,clist->clist_window,
 					      GTK_STATE_PRELIGHT,GTK_SHADOW_OUT,
 					      &clip_rectangle,

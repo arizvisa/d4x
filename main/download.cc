@@ -27,6 +27,7 @@
 void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	DBC_RETURN_IF_FAIL(src!=NULL);
 	http_recursing=src->http_recursing;
+	change_links=src->change_links;
 	speed=src->speed;
 	ftp_recurse_depth=src->ftp_recurse_depth;
 	http_recurse_depth=src->http_recurse_depth;
@@ -133,6 +134,7 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"leave_server:",leave_server);
 	write_named_integer(fd,"dont_leave_dir:",dont_leave_dir);
 	write_named_integer(fd,"check_time:",check_time);
+	write_named_integer(fd,"change_links:",change_links);
 	if (restart_from_begin)
 		write_named_integer(fd,"restart_from_begin:",restart_from_begin);
 	if (save_name.get() && *(save_name.get()))
@@ -178,6 +180,7 @@ int tCfg::load_from_config(int fd){
 		{"EndCfg:",	SV_TYPE_END,	NULL},
 		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin},
 		{"check_time:",SV_TYPE_INT,&check_time},
+		{"change_links:",SV_TYPE_INT,&change_links},
 		{"log_save_path:",SV_TYPE_PSTR,	&log_save_path}
 	};
 	char buf[MAX_LEN];
@@ -185,19 +188,12 @@ int tCfg::load_from_config(int fd){
 		unsigned int i;
 		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
 			if (equal_uncase(buf,table_of_fields[i].name)){
-				switch(table_of_fields[i].type){
-				case SV_TYPE_INT:
-					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-					sscanf(buf,"%d",(int *)(table_of_fields[i].where));
-					break;
-				case SV_TYPE_PSTR:
-					if (f_rstr(fd,buf,MAX_LEN)<0) return -1;
-					((tPStr *)(table_of_fields[i].where))->set(buf);
-					break;
-				case SV_TYPE_END:
-					return 0;
+				if (table_of_fields[i].type==SV_TYPE_END){
+					return(0);
+				}else{
+					if (sv_parse_file(fd,&(table_of_fields[i]),buf,MAX_LEN))
+						return(-1);
 				};
-				break;
 			};
 		};
 	};

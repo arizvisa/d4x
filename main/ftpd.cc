@@ -313,7 +313,7 @@ int tFtpDownload::reconnect() {
 
 void tFtpDownload::init_download(char *path,char *file) {
 	ADDR.file.set(file);
-	if (*path!='~' && *path!='/'){
+	if (path && *path!='~' && *path!='/'){
 		path=sum_strings("/",path,NULL);
 		ADDR.path.set(path);
 		delete(path);
@@ -378,8 +378,8 @@ fsize_t tFtpDownload::get_size() {
 				if (a==0 && list->count()<=2) {
 					tString *last=list->last();
 					D_FILE.type=T_FILE;
+					D_FILE.size=0;
 					if (!last) {
-						D_FILE.size=0;
 						D_FILE.perm=S_IRUSR|S_IWUSR;
 						return 0;
 					};

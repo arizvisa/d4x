@@ -48,6 +48,7 @@ class tDEdit{
 	GtkWidget *pause_check;
 	GtkWidget *sleep_check;
 	GtkWidget *check_time_check;
+	GtkWidget *change_links_check;
 	GtkWidget *split_entry;
 	GtkWidget *calendar,*hour_entry,*minute_entry;
 	GtkWidget *log_save_entry;
@@ -82,11 +83,13 @@ class tDEdit{
 		void done();
 		void popup();
 		void disable_items(int *array);
+		void disable_time();
 		void auto_fill_log();
 		~tDEdit();
 };
 
 void init_edit_window(tDownload *what);
+void init_edit_window_without_ok(tDownload *what);
 GList *make_glist_from_mylist(tHistory *parent);
 GtkWidget *my_gtk_combo_new(tHistory *history);
 void select_options_window_init();

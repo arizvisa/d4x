@@ -38,7 +38,23 @@ GdkBitmap *wait_mask,*stop_mask,*pause_mask,*complete_mask,*run_mask,*part_run_m
 GdkPixmap *wait_pixmap=(GdkPixmap *)NULL,*stop_pixmap=(GdkPixmap *)NULL,*pause_pixmap=(GdkPixmap *)NULL,*complete_pixmap=(GdkPixmap *)NULL;
 GdkPixmap *run_pixmap=(GdkPixmap *)NULL,*part_run_pixmap=(GdkPixmap *)NULL,*run_bad_pixmap=(GdkPixmap *)NULL,*stop_wait_pixmap=(GdkPixmap *)NULL;
 
-gchar *ListTitles[]={" ","File","Type","Full Size","Downloaded","Rest","%","Speed","Time","Remaining","Pause","Attempt","Description","URL"," "};
+gchar *ListTitles[]={
+	" ",
+	N_("File"),
+	N_("Type"),
+	N_("Full Size"),
+	N_("Downloaded"),
+	N_("Rest"),
+	"%",
+	N_("Speed"),
+	N_("Time"),
+	N_("Remaining"),
+	N_("Pause"),
+	N_("Attempt"),
+	N_("Description"),
+	N_("URL"),
+	" "
+};
 tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
 						{FILE_COL,FILE_COL,				(char *)NULL,100},
 						{FILE_TYPE_COL,FILE_TYPE_COL,			(char *)NULL,40},
@@ -68,7 +84,10 @@ GtkTargetEntry download_drop_types[] = {
 	{ "x-url/http",		0, TARGET_URL},
 	{ "x-url/ftp",		0, TARGET_URL},
 	{ "_NETSCAPE_URL",	0, TARGET_URL},
-	{ "x-url/*",		0, TARGET_URL}
+	{ "x-url/*",		0, TARGET_URL},
+	{ "text/uri-list",	0, TARGET_URL},
+	{ "text/plain",		0, TARGET_DND_TEXT },
+	{ "text/html", 		0, TARGET_DND_TEXT }
 };
 
 // calculate the number of mime-types listed
@@ -469,6 +488,7 @@ void list_dnd_drop_internal(GtkWidget *widget,
 	switch (info) {
 		// covers all single URLs
 		// a uri-list mime-type will need special handling
+	case TARGET_DND_TEXT:
 	case TARGET_URL:{
 		// make sure our url (in selection_data->data) is good
 		/*
@@ -477,6 +497,8 @@ void list_dnd_drop_internal(GtkWidget *widget,
 		printf("%s\n",gdk_atom_name(selection_data->selection));
 		*/
 		if (selection_data->data != NULL) {
+			if (!GTK_IS_SCROLLED_WINDOW(widget))
+				dnd_trash_animation();
 			int len = strlen((char*)selection_data->data);
 			if (len && selection_data->data[len-1] == '\n')
 				selection_data->data[len-1] = 0;
@@ -485,6 +507,14 @@ void list_dnd_drop_internal(GtkWidget *widget,
 			int sbd=0;//should be deleted flag
 			char *ent=index(str,'\n');
 			if (ent) *ent=0;
+			unsigned char *a=(unsigned char *)str;
+			while (*a){ // to avoid invalid signs
+				if (*a<' '){
+					*a=0;
+					break;
+				};
+				a++;
+			};
 			/* check for gmc style URL */
 			const char *gmc_url="file:/#ftp:";
 			if (begin_string((char*)selection_data->data,gmc_url)){
@@ -500,8 +530,6 @@ void list_dnd_drop_internal(GtkWidget *widget,
 				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL,desc);
 			};
 			if (sbd) delete(str);
-			if (!GTK_IS_SCROLLED_WINDOW(widget))
-				dnd_trash_animation();
 		}
 	}
 	}
@@ -620,7 +648,7 @@ void list_of_downloads_init() {
 	                                    GTK_DEST_DEFAULT_HIGHLIGHT |
 	                                    GTK_DEST_DEFAULT_DROP),
 	                  download_drop_types, n_download_drop_types,
-	                  (GdkDragAction)GDK_ACTION_COPY);
+	                  (GdkDragAction)(GDK_ACTION_COPY|GDK_ACTION_MOVE));
 
 	/****************************************************************
 	    End of second part of DnD code

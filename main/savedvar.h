@@ -25,7 +25,10 @@ enum SV_TYPES{
 	SV_TYPE_CFG,
 	SV_TYPE_URL,
 	SV_TYPE_TIME,
+	SV_TYPE_DOWNLOAD,
 	SV_TYPE_END
 };
+
+int sv_parse_file(int fd,tSavedVar *var,char *buf,int bufsize);
 
 #endif

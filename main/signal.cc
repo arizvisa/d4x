@@ -113,7 +113,7 @@ void my_pthreads_mutex_init(pthread_mutex_t *lock){
 	pthread_mutexattr_init(&ma);
 #if !defined (__sparc__) && !defined(__mips__)
 	pthread_mutexattr_settype(&ma,MUTEX_TYPE_FAST);
-#elseif defined(__mips__)
+#elif defined(__mips__)
 	pthread_mutexattr_settype(&ma,MUTEX_TYPE_NORMAL);	
 #endif
 	pthread_mutex_init(lock,&ma);

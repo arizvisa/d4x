@@ -61,6 +61,7 @@ int reallocate_string(char **what, int len);
 int is_string(char *what);
 int string_ended(const char *ended, const char *what);
 char *skip_spaces(char *src);
+int f_wchar(int fd,char c);
 int f_rstr(int fd,char *where,int max);
 int f_wstr(int fd,char *str);
 int f_wstr_lf(int fd,char *str);
@@ -69,6 +70,7 @@ int write_named_integer(int fd,char *name,int num);
 int write_named_time(int fd,char *name,time_t when);
 int int_to_strin_len(int num);
 int sscanf_int(char *str,int *where);
+char *parse_save_path(const char *str,char *file);
 
 //**************************************************/
 #endif

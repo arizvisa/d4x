@@ -13,6 +13,7 @@
 #include "var.h"
 #include "dbc.h"
 #include "locstr.h"
+#include "ntlocale.h"
 
 tGlobalVars GVARS;
 
@@ -21,8 +22,8 @@ int BLOCK_READ=1500;
 int LOCK_FILE_D=0;
 
 tMainCfg CFG={
-	{300,5,100,0,1,0,0,0,
-	 0,0,0,0,1,1,1,0,0,0,0,0,
+	{300,5,0,100,0,1,0,0,
+	 0,0,0,0,0,1,1,1,0,0,0,0,1,
 	 0},
 	100,1,NULL,NULL,NULL,NULL,0,0,
 	100,0,0,0,NULL,0,0, //Log
@@ -37,7 +38,8 @@ tMainCfg CFG={
 	3,1024,10*1024,
 	NULL,0,
 	1,1,1,1,
-	0,1
+	0,1,
+	1,0,15
 };
 
 char *DEFAULT_PROTO="ftp";
@@ -79,6 +81,8 @@ void var_check_all_limits(){
 	var_check_limits_int(1,999,&CFG.SAVE_LIST_INTERVAL);
 	var_check_limits_int(1,999,&CFG.EXIT_COMPLETE_TIME);
 	var_check_limits_long(0,99999,&CFG.MAIN_LOG_FILE_LIMIT);
+	var_check_limits_int(1,100,&CFG.SEARCH_PING_TIMES);
+	var_check_limits_int(1,30,&CFG.SEARCH_ENTRIES);
 };
 
 const char *CFG_FILE=".ntrc/config";
@@ -86,9 +90,9 @@ const char *CFG_DIR=".ntrc";
 
 char *SPEED_LIMITATIONS_NAMES[]={
 	"",
-	"low",
-	"medium",
-	"unlimited"
+	N_("low"),
+	N_("medium"),
+	N_("unlimited")
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
@@ -162,6 +166,9 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->BUTTONS_MISC=src->BUTTONS_MISC;
 	dst->WITHOUT_FACE=src->WITHOUT_FACE;
 	dst->DND_NEED_POPUP=src->DND_NEED_POPUP;
+	dst->SEARCH_PING_TIMES=src->SEARCH_PING_TIMES;
+	dst->SEARCH_HOST=src->SEARCH_HOST;
+	dst->SEARCH_ENTRIES=src->SEARCH_ENTRIES;
 	/* strings */
 	if (dst->EXEC_WHEN_QUIT) delete(dst->EXEC_WHEN_QUIT);
 	if (dst->HTTP_PROXY_PASS) delete(dst->HTTP_PROXY_PASS);

@@ -1,70 +1,100 @@
-.TH NT 1 "March 26th, 2000"
+.TH NT 1 "March 7th, 2001"
 .SH NAME
 nt - A download manager for X
 .SH SYNOPSYS
 \fBnt\fP [OPTIONS] ... [URL]
 .SH DESCRIPTION
-\fBnt\fP is a linux graphic program for downloading files through the internet which supports both FTP and HTTP (not completed yet but curent realisation is quite enough for downloading) protocols. Program also supports RESUMING if server side supports it too. It is like kget for Linux and ReGet or GetRight for Windows (tm).
+\fBnt\fP (also known as Downloader for X) is a Linux GUI program for
+downloading files from the Internet.  It supports FTP and HTTP (not completly
+yet but the current implementation is quite enough for downloading).  The
+program will resume interupted downloads if the server supports it too.  nt
+is like kget for Linux and ReGet or GetRight
+for Microsoft Windows (tm).
 .SH OPTIONS
-Options different from URLs only that they begined from \fBminus sign\fP, you can specify any number of options and URLs. Command line will be parsed from left to right. It means that command of remote cotrol will be sent to downloader in this order.
+Options are distinguished from URLs in that they begin with a \fBminus sign\fP (\fP-\fP).
+One may specify any number of options and URLs.
+
+Many of the options can be used to control a pre-existing
+instance of \fBnt\fP.  When \fBnt\fP finds an instance of itself already
+running, it will forward the command to the already running instance for
+execution.  If there no pre-existing instance is found, then it will perform
+the requested operations itself.
+
+The command line will be parsed from left to right.  This means that the
+requested operations will be performed in that order.
 .TP
 \fBnt\fP accepts the following options:
 .TP
 \fBURL\fP
-Add the file to the download queue. If nt is already running, it will add it and prompt you for the path of the local file. If nt isn't currently running, it will start it and ask for the path of the local file.
+Add the indicated file to the download queue.  A dialog box will appear in
+which you can indicate where the file should be saved and set other options.
+If \fBnt\fP is already running, then the new instance will simply ask the
+existing instance to add the file and then it will exit.
 .TP
 \fB-h, --help\fP
-Print help informations and exit.
+Print a brief description of the command line options and exit.
 .TP
 \fB-v, --version\fP
-Show version informations and exit.
+Show the version number and exit.
 .TP
 \fB-i, --info\fP
-Show simple information about current state if Downloader is already run.
+Show basic information about current state of a pre-existing instance of
+the program.
 .TP
 \fB-s, --speed\fP
-Show current speed if already running. Speed is a part of information which is shown by previous command.
+Show current achieved download speed of a pre-existing instance of the program.
+The speed is a part of information which is displayed by \fB--info\fP.
 .TP
 \fB--minimized\fP
-Start Downloader in minimised state.
+Start Downloader in the minimized (iconified) state.  This will not minimize a
+pre-existing instance of the program.
 .TP
 \fB--exit-time\fP
-Set timeout for exiting if nothing to do. This command works if Downloader is already run.
+Set the timeout for exiting when the program is idle.
 .TP
 \fB-t1, --traffic-low\fP
-Set lower speed limitation.
+Switch to low speed.
 .TP
 \fB-t2, --traffic-medium\fP
-Set middle speed limitation.
+Switch to medium speed.
 .TP
 \fB-t3, --traffic-high\fP
-Set unlimited speed.
+Disable speed limit.
 .TP
 \fB-d, --directory\fP
-Set directory for saving files. This option works only for files added
-via control socket (e.g. from command line)
+Set directory for saving downloaded files.  This applies only to files
+added to an pre-existing instance by running the \fBnt\fP command with URLs
+on the command line.
 .TP
 \fB-c, --delete-completed\fP
-Delete completed if already running.
+Remove completed downloads from the queue.
 .TP
 \fB-r, --rerun-failed\fP
-Rerun all failed downloads if Downloader is already run.
+Rerun all failed downloads.
 .TP
 \fB-w, --without-face\fP
-Start Downloader without X interface.
+Start Downloader without X interface.  (It will display the log on stdout but
+there will be no user interface of any kind.  The only way to control it is by
+running \fBnt\fP with appropriate options.)
 .TP
 \fB-m, --max-running\fP
-Set maximum active downloads.
+Set the maximum total number of active downloads.
 .TP
 \fB--ls\fP
-View information about spicified URL from queue of downloads.
+View information about specified URL from queue of downloads.
 .SH COPYRIGHT
-Copyright (C) 1999-2000, Maxim Koshelev <chuchelo@krasu.ru>
+Copyright (C) 1999-2001, Maxim Koshelev <chuchelo@krasu.ru>
 This program is free sources but not GPL!!!!!
-You can't distribute modified sources without agreement with author but you can distribute unmodified sources.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+You may not distribute modified sources without an agreement with the author,
+but you may distribute unmodified sources.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.
 .SH SUGGESTIONS AND BUG REPORTS
 Go to http://www.krasu.ru/soft/chuchelo/
 .SH AUTHOR
-This manual page was written by Julien BLACHE <j.blache@rmcnet.fr>, for the Debian GNU/Linux system (but may be used by others).
-Updated by Maxim Koshelev <mdem@chat.ru>
+This manual page was written by Julien BLACHE <j.blache@rmcnet.fr>, for the
+Debian GNU/Linux system (but may be used by others).
+Updated by Maxim Koshelev <mdem@chat.ru>.
+Updated by David Chappell <David.Chappell@mail.trincoll.edu>.
+

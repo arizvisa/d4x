@@ -339,7 +339,10 @@ void tAddr::save_to_description(int fd){
 
 void tAddr::compose_path(char *aa, char *bb){
 	char *tmp=::compose_path(aa,bb);
-	path.set(tmp);
+	if (tmp && *tmp=='/')
+		path.set(tmp+1);
+	else
+		path.set(tmp);
 	if (tmp) delete(tmp);
 };
 

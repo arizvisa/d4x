@@ -39,6 +39,7 @@
 #include "passface.h"
 #include "colors.h"
 #include "fsface.h"
+#include "fsched.h"
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -91,49 +92,50 @@ enum MAIN_MENU_ENUM{
 	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_TXT, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
 	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
-	MM_OPTIONS, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON,
+	MM_OPTIONS, MM_OPTIONS_SCHEDULER, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON,
 	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
 	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
 	MM_HELP, MM_HELP_ABOUT
 };
 
 char *main_menu_inames[]={
-	"/_File",
-	"/File/_Save List",
-	"/File/_Load List",
-	"/File/Find links in file",
-	"/File/_New Download",
-	"/File/_Paste Download",
-	"/File/Exit",
-	"/File/sep1",
-	"/_Download",
-	"/Download/View _Log",
-	"/Download/_Stop downloads",
-	"/Download/Edit download",
-	"/Download/_Delete downloads",
-	"/Download/Continue downloads",
-	"/Download/Delete completed",
-	"/Download/Delete failed",
-	"/Download/Rerun failed",
-	"/Download/Unselect all",
-	"/Download/Select all",
-	"/Download/Invert selection",
-	"/Download/-",
-	"/_Options",
-	"/Options/Limitations",
-	"/Options/Passwords",
-	"/Options/General",
-	"/Options/Speed",
-	"/Options/Speed/Low",
-	"/Options/Speed/Medium",
-	"/Options/Speed/Unlimited",
-	"/Options/Buttons",
-	"/Options/Buttons/Add buttons",
-	"/Options/Buttons/Manipulating",
-	"/Options/Buttons/Speed buttons",
-	"/Options/Buttons/Misc buttons",
-	"/_Help",
-	"/_Help/About"
+	N_("/_File"),
+	N_("/File/_Save List"),
+	N_("/File/_Load List"),
+	N_("/File/Find links in file"),
+	N_("/File/_New Download"),
+	N_("/File/_Paste Download"),
+	N_("/File/Exit"),
+	N_("/File/sep1"),
+	N_("/_Download"),
+	N_("/Download/View _Log"),
+	N_("/Download/_Stop downloads"),
+	N_("/Download/Edit download"),
+	N_("/Download/_Delete downloads"),
+	N_("/Download/Continue downloads"),
+	N_("/Download/Delete completed"),
+	N_("/Download/Delete failed"),
+	N_("/Download/Rerun failed"),
+	N_("/Download/Unselect all"),
+	N_("/Download/Select all"),
+	N_("/Download/Invert selection"),
+	N_("/Download/-"),
+	N_("/_Options"),
+	N_("/Options/Scheduler"),
+	N_("/Options/Limitations"),
+	N_("/Options/Passwords"),
+	N_("/Options/General"),
+	N_("/Options/Speed"),
+	N_("/Options/Speed/Low"),
+	N_("/Options/Speed/Medium"),
+	N_("/Options/Speed/Unlimited"),
+	N_("/Options/Buttons"),
+	N_("/Options/Buttons/Add buttons"),
+	N_("/Options/Buttons/Manipulating"),
+	N_("/Options/Buttons/Speed buttons"),
+	N_("/Options/Buttons/Misc buttons"),
+	N_("/_Help"),
+	N_("/_Help/About")
 };
 
 char *old_clipboard_content(){
@@ -226,14 +228,20 @@ void main_menu_buttons_prepare(){
 
 void main_menu_speed_prepare(){
 	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_SPEED_1]));
-	if (menu_item)
+	if (menu_item){
 		GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==1?TRUE:FALSE;
+		if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
+	};
 	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_SPEED_2]));
-	if (menu_item)
+	if (menu_item){
 		GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==2?TRUE:FALSE;
+		if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
+	};
 	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_SPEED_3]));
-	if (menu_item)
+	if (menu_item){
 		GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==3?TRUE:FALSE;
+		if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
+	};
 };
 
 void load_accelerated(gpointer *p,gint realnum){
@@ -379,6 +387,7 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_select_all,	100+MM_DOWNLOAD_SELECT_ALL, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_invert_selection,	100+MM_DOWNLOAD_INVERT, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_OPTIONS_SCHEDULER]),(gchar *)NULL,	(GtkItemFactoryCallback)d4x_scheduler_init,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_LIMITS]),(gchar *)NULL,	(GtkItemFactoryCallback)open_limits_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_PASSWORDS]),(gchar *)NULL,	(GtkItemFactoryCallback)open_passwords_window,		0, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS_COMMON]),"<control>C",	(GtkItemFactoryCallback)d4x_prefs_init,			0, (gchar *)NULL},
@@ -496,6 +505,7 @@ void my_main_quit(...) {
 	save_list();
 	save_limits();
 	save_passwords(PasswordsForHosts);
+	MainScheduler->save();
 	aa.done();
 	save_config();
 	if (FaceForLimits)
@@ -1045,6 +1055,77 @@ void main_window_toggle(){
 	};
 };
 
+static char *D4X_CLIPBOARD=NULL;
+
+char *d4x_mw_clipboard_get(){
+	if (gdk_selection_owner_get(GDK_SELECTION_PRIMARY)==MainWindow->window){
+		return(D4X_CLIPBOARD);
+	};
+	return(NULL);
+};
+
+void d4x_mw_clipboard_set(char *str){
+	if (D4X_CLIPBOARD) delete(D4X_CLIPBOARD);
+	D4X_CLIPBOARD=copy_string(str);
+	gtk_selection_owner_set (MainWindow,
+				 GDK_SELECTION_PRIMARY,
+				 GDK_CURRENT_TIME);
+};
+
+enum {
+  TARGET_STRING,
+  TARGET_TEXT,
+  TARGET_COMPOUND_TEXT
+};
+
+static void d4x_mw_selection_get (GtkWidget        *widget,
+				  GtkSelectionData *selection_data,
+				  guint             info,
+				  guint             time){
+	gchar *str;
+	gint length;
+	
+	DBC_RETURN_IF_FAIL(widget != NULL);  
+	if (!D4X_CLIPBOARD) return;
+	str = copy_string(D4X_CLIPBOARD);
+	length = strlen (str);
+	if (info == TARGET_STRING){
+		gtk_selection_data_set (selection_data,
+					GDK_SELECTION_TYPE_STRING,
+					8*sizeof(gchar),
+					(guchar *)str,
+					length);
+	}else{
+		if ((info == TARGET_TEXT) || (info == TARGET_COMPOUND_TEXT)){
+			guchar *text;
+			gchar c;
+			GdkAtom encoding;
+			gint format;
+			gint new_length;
+			
+			c = str[length];
+			str[length] = '\0';
+			gdk_string_to_compound_text (str, &encoding, &format, &text, &new_length);
+			gtk_selection_data_set (selection_data, encoding, format, text, new_length);
+			gdk_free_compound_text (text);
+			str[length] = c;
+		}
+	};
+	g_free (str);
+}
+
+static void d4x_mw_set_targets(){
+	static const GtkTargetEntry targets[] = {
+		{ "STRING", 0, TARGET_STRING },
+		{ "TEXT",   0, TARGET_TEXT }, 
+		{ "COMPOUND_TEXT", 0, TARGET_COMPOUND_TEXT }
+	};
+	static const gint n_targets = sizeof(targets) / sizeof(targets[0]);
+	gtk_selection_add_targets (MainWindow,
+				   GDK_SELECTION_PRIMARY,
+				   targets, n_targets);
+};
+
 void init_face(int argc, char *argv[]) {
 	gtk_set_locale();
 	gtk_init(&argc, &argv);
@@ -1052,6 +1133,7 @@ void init_face(int argc, char *argv[]) {
 	init_columns_info();
 	main_window_normalize_coords();
 	MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	d4x_mw_set_targets();
 	gtk_widget_set_uposition(MainWindow,gint(CFG.WINDOW_X_POSITION),gint(CFG.WINDOW_Y_POSITION));
 	gtk_window_set_default_size(GTK_WINDOW(MainWindow),gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
 	gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
@@ -1082,8 +1164,14 @@ void init_face(int argc, char *argv[]) {
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "delete_event",
 	                   GTK_SIGNAL_FUNC(ask_exit2),
 	                   NULL);
+	gtk_signal_connect(GTK_OBJECT(MainWindow), "selection_get",
+			   GTK_SIGNAL_FUNC(d4x_mw_selection_get),NULL);
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "selection_received",
 			   GTK_SIGNAL_FUNC(my_get_xselection),NULL);
+/*
+	gtk_signal_connect(GTK_OBJECT(MainWindow), "selection_clear_event",
+			   GTK_SIGNAL_FUNC(d4x_mw_selection_clear),NULL);
+*/
 	gtk_signal_connect (GTK_OBJECT (MainWindow),
 			    "key_press_event",
 			    GTK_SIGNAL_FUNC (main_menu_prepare),

@@ -45,6 +45,7 @@ enum EDIT_OPTIONS_ENUM{
 	EDIT_OPT_RECURSEDEPTHHTTP,
 	EDIT_OPT_LEAVEDIR,
 	EDIT_OPT_LEAVESERVER,
+	EDIT_OPT_CHANGE_LINKS,
 	EDIT_OPT_USERAGENT,
 	EDIT_OPT_PROXY,
 	EDIT_OPT_TIME,
@@ -52,30 +53,31 @@ enum EDIT_OPTIONS_ENUM{
 };
 
 char *edit_fields_labels[]={
-	"Use password for this site",
-	"Save download to folder",
-	"Restart this download from begining",
-	"Timeout for reading from socket",
-	"Speed limitation",
-	"Maximum attempts",
-	"Timeout before reconnection",
-	"Rollback after reconnecting",
-	"Get date from the server",
-	"Retry if resuming is not supported",
-	"Number of parts for spliting this download",
-	"Use passive mode for FTP",
-	"Get permissions of the file from server (FTP only)",
-	"Don't send QUIT command (FTP)",
-	"Sleep before completing",
-	"Compare date/time of remote file with local one",
-	"Try to load symbolic link as file via FTP",
-	"Depth of recursing for FTP",
-	"Depth of recursing for HTTP",
-	"Only subdirs",
-	"Allow leave this server while recursing via HTTP",
-	"User-Agent",
-	"Proxy",
-	"Time"
+	N_("Use password for this site"),
+	N_("Save download to folder"),
+	N_("Restart this download from begining"),
+	N_("Timeout for reading from socket"),
+	N_("Speed limitation"),
+	N_("Maximum attempts"),
+	N_("Timeout before reconnection"),
+	N_("Rollback after reconnecting"),
+	N_("Get date from the server"),
+	N_("Retry if resuming is not supported"),
+	N_("Number of parts for spliting this download"),
+	N_("Use passive mode for FTP"),
+	N_("Get permissions of the file from server (FTP only)"),
+	N_("Don't send QUIT command (FTP)"),
+	N_("Sleep before completing"),
+	N_("Compare date/time of remote file with local one"),
+	N_("Try to load symbolic link as file via FTP"),
+	N_("Depth of recursing for FTP"),
+	N_("Depth of recursing for HTTP"),
+	N_("Only subdirs"),
+	N_("Allow leave this server while recursing via HTTP"),
+	N_("Change links in HTML file to local"),
+	N_("User-Agent"),
+	N_("Proxy"),
+	N_("Time")
 };
 
 extern tMain aa;
@@ -176,6 +178,22 @@ void init_edit_window(tDownload *what) {
 	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Edit download"));
 	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(edit_window_cancel),what->editor);
 	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_window_ok),what->editor);
+	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(edit_window_delete), what->editor);
+	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
+			   (GtkSignalFunc)_edit_window_event_handler, what->editor);
+};
+
+void init_edit_window_without_ok(tDownload *what) {
+	if (!what) return;
+	if (what->editor) {
+		what->editor->popup();
+		return;
+	};
+	what->editor=new tDEdit;
+	what->editor->init(what);
+	if (what->owner==DL_RUN || what->owner==DL_STOPWAIT) what->editor->disable_ok_button();
+	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Edit download"));
+	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(edit_window_cancel),what->editor);
 	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(edit_window_delete), what->editor);
 	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
 			   (GtkSignalFunc)_edit_window_event_handler, what->editor);
@@ -486,10 +504,13 @@ void tDEdit::init_http(tDownload *who){
 
 	leave_dir_check=gtk_check_button_new_with_label(_("Only subdirs"));
 	leave_server_check=gtk_check_button_new_with_label(_("Allow leave this server while recursing via HTTP"));
+	change_links_check=gtk_check_button_new_with_label(_("Change links in HTML file to local"));
 	GTK_TOGGLE_BUTTON(leave_server_check)->active=who->config.leave_server;
 	GTK_TOGGLE_BUTTON(leave_dir_check)->active=who->config.dont_leave_dir;
+	GTK_TOGGLE_BUTTON(change_links_check)->active=who->config.change_links;
 	gtk_box_pack_start(GTK_BOX(http_vbox),leave_server_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(http_vbox),leave_dir_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(http_vbox),change_links_check,FALSE,FALSE,0);
 
 	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
 	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
@@ -746,6 +767,7 @@ int tDEdit::apply_changes() {
 	parent->config.dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
 	parent->config.restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
 	parent->config.sleep_before_complete=GTK_TOGGLE_BUTTON(sleep_check)->active;
+	parent->config.change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
 
 	temp1=0;
@@ -829,22 +851,16 @@ void tDEdit::setup_time(time_t when) {
 
 
 void  tDEdit::paste_url() {
-/*
-	char *clipboard=my_xclipboard_get();
-	if (clipboard){
-		if (*clipboard){
-			set_url(clipboard);
-		}else{
-			if (old_clipboard_content()!=NULL)
-				set_url(old_clipboard_content());
-		};
-		my_xclipboard_free(clipboard);
+	char *a=d4x_mw_clipboard_get();
+	if (a){
+		set_url(a);
+		return;
 	};
-*/
-	if (old_clipboard_content()!=NULL)
+	if (old_clipboard_content()!=NULL){
 		set_url(old_clipboard_content());
-	else
-		gtk_editable_paste_clipboard(GTK_EDITABLE(GTK_COMBO(url_entry)->entry));
+		return;
+	};
+	gtk_editable_paste_clipboard(GTK_EDITABLE(GTK_COMBO(url_entry)->entry));
 //	printf("%s\n",text_from_combo(url_entry));
 };
 
@@ -858,6 +874,10 @@ void tDEdit::clear_url() {
 
 void tDEdit::set_url(char *a) {
 	text_to_combo(url_entry,a);
+};
+
+void tDEdit::disable_time(){
+	gtk_widget_set_sensitive(time_check,FALSE);
 };
 
 void tDEdit::disable_items(int *array){
@@ -896,6 +916,8 @@ void tDEdit::disable_items(int *array){
 		gtk_widget_set_sensitive(leave_server_check,FALSE);
 	if (array[EDIT_OPT_LEAVEDIR]==0)
 		gtk_widget_set_sensitive(leave_dir_check,FALSE);
+	if (array[EDIT_OPT_CHANGE_LINKS]==0)
+		gtk_widget_set_sensitive(change_links_check,FALSE);
 	if (array[EDIT_OPT_RECURSEDEPTHFTP]==0)
 		gtk_widget_set_sensitive(ftp_recurse_depth_entry,FALSE);
 	if (array[EDIT_OPT_RECURSEDEPTHHTTP]==0)
@@ -1011,6 +1033,8 @@ void tDEdit::apply_enabled_changes(){
 		parent->config.sleep_before_complete=GTK_TOGGLE_BUTTON(sleep_check)->active;
 	if (GTK_WIDGET_SENSITIVE(check_time_check))
 		parent->config.check_time=GTK_TOGGLE_BUTTON(check_time_check)->active;
+	if (GTK_WIDGET_SENSITIVE(change_links_check))
+		parent->config.change_links=GTK_TOGGLE_BUTTON(change_links_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
 
 	if (GTK_WIDGET_SENSITIVE(split_entry)){

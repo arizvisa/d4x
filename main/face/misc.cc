@@ -16,6 +16,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xmd.h>
+#include <string.h>
 
 extern GtkWidget *MainWindow;
 
@@ -84,6 +85,15 @@ char *my_xclipboard_get() {
 		return NULL;
 	}
 	return buf;
+}
+
+void my_xclipboard_put(const char *buf) {
+	int size;
+
+	if (buf == NULL) buf = "";
+	size = strlen(buf);
+	XStoreBytes(GDK_DISPLAY(), buf, size);
+/*	fprintf(stderr, "my_xplipboard_put(\"%s\");\n", buf);*/
 }
 
 void my_xclipboard_free(char *buf) {

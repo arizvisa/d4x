@@ -16,7 +16,7 @@ class tFtpClient:public tClient{
  protected:
 	int DSFlag;
 	int passive;
-	fsize_t TEMP_SIZE;
+	fsize_t TEMP_SIZE,OLD_SIZE;
 	int CON_FLAGS;
 	int DONT_SEND_QUIT;
 	int METHOD_TO_LIST;

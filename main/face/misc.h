@@ -21,6 +21,7 @@ void text_to_combo(GtkWidget *combo,gchar *text);
 void set_editable_for_combo(GtkWidget *widget,gboolean flag);
 void motion_notify_get_coords(GdkEventMotion * event);
 char *my_xclipboard_get();
+void my_xclipboard_put(const char *buf);
 void my_xclipboard_free(char *buf);
 GtkWidget *my_gtk_entry_new_with_max_length(gint length,int val);
 

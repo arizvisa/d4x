@@ -119,13 +119,15 @@ void tLog::print() {
 //	unlock();
 };
 
-void tLog::init_save(char *path){
+int tLog::init_save(char *path){
 	if (fd>=0) close(fd);
-	if (path)
+	if (path){
 		fd=open(path,O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR);
-	else
+		if (fd<0)
+			return(-1);
+	}else
 		fd=-1;
-		
+	return(0);
 };
 
 void tLog::insert(tNode *what){

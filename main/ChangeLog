@@ -1,3 +1,110 @@
+Wed Mar 14 15:17:20 2001
+	*Makefile, signal.cc: fixed compiling under FreeBSD;
+
+Tue Mar 13 17:20:06 2001
+	*dlist.cc: fixed broken recursion via HTTP when links is not
+	changed;
+	*html.cc: commented out one tag with STYLE field;
+
+Tue Mar 13 09:03:21 2001
+	*nt.cc: releasing 1.24;
+	*var.cc: fixed default settings;
+
+Mon Mar 12 09:09:47 2001
+	*po/: Spanish and Greek translations is uptodated;
+	*face/misc.cc: included string.h (compiled under RH70);
+
+Sat Mar 10 15:28:41 2001
+	*main.cc: code cleanups;
+	*dlist.cc,html.cc[h]: implemented writing HTML file for emulation
+	redirection; improved detection url in "http-equiv=Refresh";
+	code celeanups;
+	*face/fsched.cc: combos instead of simply entries in scheduler's
+	dialogs;
+	*addr.cc: fixed composing pathes while recursing;
+	*po/de.po: German translation is uptodate;
+
+Fri Mar  9 13:26:37 2001
+	*face/list.cc: added ability to copy link to clipboard;
+	*face/lod.cc[h],face/dndtrash.cc: DnD from Opera is supported now;
+	*html.cc: fixed adding links with '#' symbols;
+	*po/: updated Chinese and Hebrew translations; 
+
+Wed Mar  7 17:48:17 2001
+	*lmenu.cc: begin to implement ability to copy link into clipboard;
+	*html.cc: fixed writing comments into changed HTML file;
+
+Tue Mar  6 10:10:54 2001
+	*dlist.cc,html.cc: completed changing links in HTML file; fixed parsing
+	HTML files;
+
+Sun Mar  5 15:05:54 2001
+	*dlist.cc,html.cc: continue to work inder changing links;
+
+Sun Mar  4 15:05:54 2001
+	*[many files]: added ability to fix links in HTML files;
+	*po/fr.po: updated french localisation;
+
+Sat Mar  3 19:44:07 2001
+	*face/myclist.cc: fixed displaying progress bar when width of progress
+	less than 2;
+	*dlist.cc[h],html.cc[h]: code cleanups for feature extension; html
+	parser uses less memory; begin to implement changing links in html
+	file to local;
+	*face/edit.cc: fixed disabling time selection for scheduled downloads;
+
+Fri Mar  2 19:29:35 2001
+	*face/lod.cc,face/dndtrash.cc: improved response of DnD animation;
+	*dlist.cc: code cleanups;
+	*ftp.cc: improved determination of file size;
+
+Thu Mar  1 17:37:41 2001
+	*face/dndtrash.cc,face/list.cc: redraw menu items if speed limit
+	was changed;
+	*ftpd.cc: fixed segfault on recursive downloading with symlinks;
+	*schedule.cc[h],face/fsched.cc: added one more action, fixed removing
+	selected actions;
+	*[many files],po/Makefile: automated updating .po files;
+
+Wed Feb 28 19:03:30 2001
+	*dlist.cc,face/prefs.cc,var.cc[h]: added one more server for FTP search;
+	*var.cc[h],prefs.cc,config.cc,dlist.cc: added new parameters of
+	FTP search;
+	*locstr.cc: fixed sscanf_int for nonint strings;
+	*ftp.cc: fixed parsing preformated answers of PASV command;
+	*dlist.cc: fixed displaing 'Restart this download from begining' in
+	preferences of add_download action of scheduler;
+
+Tue Feb 27 17:40:33 2001
+	*dlist.cc[h],face/edit.cc[h],face/fsched.cc[h]: completed interface
+	for scheduler;
+	*scheduler.cc: fixed working with outdated tasks in scheduler;
+
+Sat Feb 24 13:50:15 2001
+	*main.cc[h],schedule.cc[h]: continue to implement scheduler;
+	*face/sched.cc[h]: interface is almost completed! :-);
+	*savedvar.cc,[all new files]: added copyrights;
+
+Fri Feb 23 18:11:20 2001
+	*face/fsched.cc[h]: continue implementing interface for scheduler;
+
+Thu Feb 22 11:55:29 2001
+	*face/fsched.cc[h]: begin to implement interface for scheduler;
+	*schedule.cc[h]: continue implementing scheduler;
+	*po/fr.po: new french locale from Jerome;
+
+Wed Feb 21 19:13:07 2001
+	*main.cc,dlist.cc,locstr.cc[h]: added more formaters for savepathes;
+	*schedule.h: begin to implement scheduler;
+
+Tue Feb 20 11:47:20 2001
+	*main.cc,dlist.cc,locstr.cc[h]: ability to specify formaters for date
+	in path where file/log will be saved;
+	*main.cc,log.cc[h]: error message added if failed to open file
+	where log will be saved;
+	*face/prefs.cc: fixed applying "Confirmation" section in preferences;
+	*po/: added old messages into po files;
+
 Fri Feb 16 16:01:23 2001
 	*ftpd.cc[h]: changed method to change dir on ftp;
 	*face/list.cc: fixed segfault on exiting if "Add new" window opened,

@@ -190,7 +190,7 @@ int tFtpClient::rest(int offset) {
 
 tFtpClient::tFtpClient():tClient(){
 	passive=0;
-	TEMP_SIZE=0;
+	TEMP_SIZE=OLD_SIZE=0;
 	CTRL=new tStringList;
 	CTRL->init(2);
 	FIRST_REPLY = NULL;
@@ -236,6 +236,21 @@ int tFtpClient::connect() {
 	return 0;
 };
 
+static void d4x_ftp_parse_pasv(const char *str,int args[]){
+	char *a=index(str,'(');
+	if (a==NULL) return;
+	a+=1;
+	int i=0;
+	while (*a && i<6){
+		if (isdigit(*a)){
+			sscanf_int(a,&(args[i]));
+			while(isdigit(*a)) a+=1;
+		};
+		a+=1;
+		i+=1;
+	};
+};
+
 int tFtpClient::stand_data_connection() {
 	if (DSFlag) DataSocket.down();
 	if (passive) {
@@ -247,8 +262,11 @@ int tFtpClient::stand_data_connection() {
 		tString *log=CTRL->last();
 		if (log == NULL) return -1;
 		int PASSIVE_ADDR[6]={0,0,0,0,0,0};
+		d4x_ftp_parse_pasv(log->body,PASSIVE_ADDR);
+		/*
 		if (index(log->body,'(')!=NULL)
 			sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
+		*/
 		LOG->log_printf(LOG_OK,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
 		if (DataSocket.open_port(PASSIVE_ADDR)) {
 			Status=STATUS_TRIVIAL;
@@ -355,18 +373,31 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 		if (!RETRY_IF_NO_REGET) return(-1);
 		LOG->shift(0);
 		FileLoaded=0;
-		LOG->truncate(); //to avoid displaing wron size
+		LOG->truncate(); //to avoid displaing wrong size
 	};
 	send_command("RETR",what);
 	if ((rvalue=analize_ctrl(sizeof(FTP_EXIST_DATA)/sizeof(char*),FTP_EXIST_DATA))) return(rvalue);
-	// Trying to determine file size
+	// Trying to determine file size ***************
 	tString *log=CTRL->last();
 	TEMP_SIZE=0;
 	if (log) {
 		char *str=rindex(log->body,'(');
 		if (str) sscanf(str+1,"%li",&TEMP_SIZE);
 	};
-
+	if (OLD_SIZE){
+		if (OLD_SIZE<TEMP_SIZE){
+			/* file seems to be changed */
+			ReGet=0;
+			if (!RETRY_IF_NO_REGET) return(-1);
+			LOG->shift(0);
+			FileLoaded=0;
+			LOG->truncate();
+		}else{
+			TEMP_SIZE=OLD_SIZE;
+		};
+	}else
+		OLD_SIZE=0;
+	/************************************************/
 	if ((rvalue=accepting())) return(rvalue);
 	if (Status) return RVALUE_TIMEOUT;
 	DSize=0;

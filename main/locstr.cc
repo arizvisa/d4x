@@ -75,7 +75,7 @@ int equal_uncase(const char *a,const char *b) {
 
 /* int equal_first()
     params: two strings
-    return: non zero if one string is begining of another one
+    return: non zero if first string is begining of second one
 	    else return value is zero;
  */
 
@@ -917,6 +917,10 @@ int string_ended(const char *ended, const char *what){
 /* primitive file operations
  */
 
+int f_wchar(int fd,char c){
+	return(write(fd,&c,sizeof(char)));
+};
+
 int f_wstr(int fd,char *str){
 	DBC_RETVAL_IF_FAIL(str!=NULL,0);
 	return(write(fd,str,strlen(str)));
@@ -978,6 +982,7 @@ int write_named_time(int fd,char *name,time_t when){
  */
 int int_to_strin_len(int num){
 	int len=num<0?2:1;
+	num/=10;
 	while (num){
 		num/=10;
 		len+=1;
@@ -991,9 +996,185 @@ int sscanf_int(char *str,int *where){
 	DBC_RETVAL_IF_FAIL(str!=NULL,0);
 	DBC_RETVAL_IF_FAIL(where!=NULL,0);
 	if (str==NULL) return 0;
-	while (*str && *str=='0')
+	while (*str=='0' && str[1]!='0')
 		str+=1;
 	return(sscanf(str,"%i",where));
+};
+
+/* covert path from /lalala/lalala/%[D]_%[M] to
+   /lalala/lalala/12_02 where 12 is current day
+   02 is current month
+ */
+
+enum DATE_FMTS_ENUM{
+	DFMT_DAY,
+	DFMT_MONTH,
+	DFMT_YEAR,
+	DFMT_HOURS,
+	DFMT_MINS,
+	DFMT_SECS,
+	DFMT_TIME,
+	DFMT_DATE,
+	DFMT_EXT,
+	DFMT_NONE
+};
+
+static char* date_fmts[]={
+	"[D]", //day
+	"[M]", //month
+	"[Y]", //year
+	"[h]", //hours
+	"[m]", //minutes
+	"[s]", //seconds
+	"[T]", // time in format HH:MM
+	"[DATE]", // date in format DD_MM_YEAR
+	"[E]" // extension of a file in upper case
+};
+
+char *get_extension(char *name){
+	if (name==NULL) return(NULL);
+	char *a=name+strlen(name)-1;
+	while(a>=name){
+		if (*a=='.'){
+			a+=1;
+			if (*a==0) return(NULL);
+			char *rval=copy_string(a);
+			string_to_low(rval);
+			return(rval);
+		};
+		if (*a=='/') return(NULL);
+		a-=1;
+	};
+	return(NULL);
+};
+
+char *parse_save_path(const char *str,char *file){
+	DBC_RETVAL_IF_FAIL(str!=NULL,NULL);
+	int len=0;
+	char *rval;
+	char *ext=get_extension(file);
+	int extlen=0;
+	const char *a=str;
+	time_t tmptime=time(NULL);
+	struct tm *tmp_tm=new tm;
+
+	localtime_r(&tmptime,tmp_tm);
+	tmp_tm->tm_year+=1900;
+	tmp_tm->tm_mon+=1;
+	/* calc length of returned string */
+	while (*a){
+		if (*a=='%'){
+			unsigned int i;
+			for (i=0;i<sizeof(date_fmts)/sizeof(char*);i++){
+				if (equal_first(date_fmts[i],a+1))
+					break;
+			};
+			switch(i){
+			case DFMT_EXT:
+				if (ext){
+					extlen=strlen(ext);
+					len+=extlen;
+				};
+				a+=strlen(date_fmts[i]);
+				break;
+			case DFMT_DAY:
+			case DFMT_MONTH:
+			case DFMT_HOURS:
+			case DFMT_MINS:
+			case DFMT_SECS:
+				len+=2;
+				a+=strlen(date_fmts[i]);
+				break;
+			case DFMT_TIME:
+				len+=5;
+				a+=strlen(date_fmts[i]);
+				break;
+			case DFMT_DATE:
+				len+=6+int_to_strin_len(tmp_tm->tm_year);
+				a+=strlen(date_fmts[i]);
+				break;
+			case DFMT_YEAR:
+				len+=int_to_strin_len(tmp_tm->tm_year);
+				a+=strlen(date_fmts[i]);
+				break;
+			default:
+				len+=1;
+				break;
+			};
+		}else{
+			len+=1;
+		};
+		a+=1;
+	};
+	rval=new char[len+1];
+	char *b=rval;
+	a=str;
+
+#define FMT_TMP_NEXT b+=2;a+=strlen(date_fmts[i]);break
+
+	while (*a){
+		if (*a=='%'){
+			unsigned int i;
+			for (i=0;i<sizeof(date_fmts)/sizeof(char*);i++){
+				if (equal_first(date_fmts[i],a+1))
+					break;
+			};
+			switch(i){
+			case DFMT_EXT:
+				if (ext){
+					memcpy(b,ext,extlen);
+					b+=extlen;
+				};
+				a+=strlen(date_fmts[i]);
+				break;
+			case DFMT_DAY:
+				sprintf(b,"%02i",tmp_tm->tm_mday);
+				FMT_TMP_NEXT;
+			case DFMT_MONTH:
+				sprintf(b,"%02i",tmp_tm->tm_mon);
+				FMT_TMP_NEXT;
+			case DFMT_HOURS:
+				sprintf(b,"%02i",tmp_tm->tm_hour);
+				FMT_TMP_NEXT;
+			case DFMT_MINS:
+				sprintf(b,"%02i",tmp_tm->tm_min);
+				FMT_TMP_NEXT;
+			case DFMT_SECS:
+				sprintf(b,"%02i",tmp_tm->tm_sec);
+				FMT_TMP_NEXT;
+			case DFMT_TIME:
+				sprintf(b,"%02i:%02i",
+					tmp_tm->tm_hour,tmp_tm->tm_min);
+				b+=5;
+				a+=strlen(date_fmts[i]);
+				break;
+			case DFMT_DATE:
+				sprintf(b,"%02i_%02i_%i",
+					tmp_tm->tm_mday,tmp_tm->tm_mon,
+					tmp_tm->tm_year);
+				b+=6+int_to_strin_len(tmp_tm->tm_year);
+				a+=strlen(date_fmts[i]);
+				break;
+			case DFMT_YEAR:
+				sprintf(b,"%i",tmp_tm->tm_year);
+				b+=int_to_strin_len(tmp_tm->tm_year);
+				a+=strlen(date_fmts[i]);
+				break;
+			default:
+				*b=*a;
+				b+=1;
+				break;
+			};
+		}else{
+			*b=*a;
+			b+=1;
+		};
+		a+=1;
+	};
+	delete(tmp_tm);
+	if (ext) delete(ext);
+	*b=0;
+	return(rval);
 };
 
 /* tPStr

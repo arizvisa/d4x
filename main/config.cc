@@ -68,14 +68,14 @@ char *downloader_args_errors[]={
 	(char *)NULL,
 	(char *)NULL,	
 	(char *)NULL,
-	(char *)"You forgot to specify directory.",
+	(char *)N_("You forgot to specify directory."),
 	(char *)NULL,
-	(char *)"You must specify number as second parameter for '-m' option",
+	(char *)N_("You must specify number as second parameter for '-m' option"),
 	(char *)NULL,
 	(char *)NULL,
 	(char *)NULL,
-	(char *)"You must specify number as parameter for '--exit-time' option",
-	(char *)"Expect URL as parameter for '--ls' option"
+	(char *)N_("You must specify number as parameter for '--exit-time' option"),
+	(char *)N_("Expect URL as parameter for '--ls' option")
 	
 };
 
@@ -206,7 +206,11 @@ tConfigVariable config_variables[]={
 	{"sleep_before_complete",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.sleep_before_complete)},
 	{"write_description",	CV_TYPE_BOOL,	&(CFG.WRITE_DESCRIPTION)},
 	{"check_time",		CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.check_time)},
-	{"pause_after_adding",	CV_TYPE_BOOL,	&(CFG.PAUSE_AFTER_ADDING)}
+	{"pause_after_adding",	CV_TYPE_BOOL,	&(CFG.PAUSE_AFTER_ADDING)},
+	{"search_ping_times",	CV_TYPE_INT,	&(CFG.SEARCH_PING_TIMES)},
+	{"search_host",		CV_TYPE_INT,	&(CFG.SEARCH_HOST)},
+	{"search_entries",	CV_TYPE_INT,	&(CFG.SEARCH_ENTRIES)},
+	{"change_links",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.change_links)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);

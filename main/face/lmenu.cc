@@ -33,6 +33,16 @@ extern tMLog *MainLog;
 GtkWidget *ListMenu;
 GtkWidget *ListMenuArray[LM_LAST];
 
+void copy_download_to_clipboard(){
+	tDownload *dwn=list_of_downloads_last_selected();
+	if (dwn->info){
+		char *url=dwn->info->url();
+		d4x_mw_clipboard_set(url);
+		my_xclipboard_put(url);
+		delete(url);
+	};
+};
+
 GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,int size) {
 	GtkWidget *menu_item=gtk_menu_item_new();
 	GtkWidget *hbox=gtk_hbox_new(FALSE,3);
@@ -86,7 +96,8 @@ void init_list_menu() {
 		       "Delete failed",
 		       "Move up",
 		       "Move down",
-		       "Set limitation"
+		       "Set limitation",
+		       "FTP search"
 	};
 	for(unsigned int i=0;i<sizeof(names)/sizeof(char *);i++){
 		int size=gdk_string_width(style->font,_(names[i]));
@@ -114,6 +125,12 @@ void init_list_menu() {
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_CONTINUE]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(continue_downloads),NULL);
+
+	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
+	menu_item=make_menu_item(_("Copy"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
+	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	ListMenuArray[LM_COPY]=menu_item;
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(copy_download_to_clipboard),NULL);
 
 	menu_item=gtk_menu_item_new();
 	gtk_widget_set_sensitive(menu_item,FALSE);
@@ -169,7 +186,7 @@ void init_list_menu() {
 	ListMenuArray[LM_SET_LIMIT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(set_limit_to_download),NULL);
 
-	menu_item=make_menu_item(_("FTP-search"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
+	menu_item=make_menu_item(_("FTP search"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_SEARCH]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lmenu_ftp_search_go),NULL);

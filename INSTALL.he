@@ -1,4 +1,6 @@
-(Read the hebrew related stuff in the end)
++----------------------------------------+
+|Read the hebrew related stuff in the end|
++----------------------------------------+
 
 INSTALATION MANUAL
 
@@ -37,30 +39,45 @@ executable...
 1.3	How to use this program ?
 
 Just run it and look at it and you will understand all.
---------------------------------------------------------------
 
-Hebrew
-------
-This program is translated to hebrew using the gettext style (the po/iw.po file).
-To make it work, you should have an environment variable called $LANGUAGE,
-which contains the word 'hebrew' in it. just add to your startup script (i.e. /etc/rc.d/rc.local)
-the line:
-export LANGUAGE="hebrew"
+============================================
 
-Now you probably have to change the default font of gtk to a hebrew font, this is what
-I did, for example, in the bottom of my ~/.gtkrc  :
--------------
-style "user-font"
-{
-        font="-hebrew-fixed-medium-r-normal--0-0-75-75-c-0-iso8859-8"
+Hebrew Translation Issues
+-------------------------
+This program is translated to hebrew using the gettext style (the po/he.po file). To make it work, you should have an environment variable called $LANGUAGE, $LANG, $LC_CTYPE or $LC_ALL (4 possibilities), which contains the 'he' in it. just add to your ~/.bashrc (or other startup script) the line:
+export LANG="he"
+
+Frequently Asked Questions
+--------------------------
+
+Q: I can't see hebrew, just gibbrish. How do I make hebrew font work ?
+----------------------------------------------------------------------
+A: You should change the gtk default font for hebrew, in gtkrc.he (in my place: /usr/local/etc/gtk/gtkrc.he . can be in /etc/gtk or /usr/etc/gtk also). Just change the font there (Which you probably don't have if you see gibbrish) to a font you have. That's what I have in this file, if you have elmar's 'new' font, it should be fine for you too:
+===
+style "gtk-default-he" {
+  fontset = "-hebrew-new-medium-r-normal-*-*-160-*-*-m-*-iso8859-8"
 }
+class "GtkWidget" style "gtk-default-he"
+===
 
-widget_class "*" style "user-font"
--------------
+Q: I installed it, but it doesn't seem to work with hebrew!
+-----------------------------------------------------------
+A1: Make sure none of $LANG/$LANGUAGE/$LC_CTYPE/$LC_ALL variables contain anything else than hebrew. if it does, try to find out what scripts makes them contain something else (such as 'en' for english), and change that line.
+A2: do 'cat /usr/share/locale/locale.alias | grep hebrew'. may be also found in /usr/local/share/locale, try them both. What you see after the word 'hebrew' and before the period, is the directory in which it looks for the hebrew translation. it should be 'he', but if it's not (may happen if you have an old gettext), you'd better symlink the current directory it uses, to he. i.e. if it has 'iw' there, do 'ln -s iw he' while standing on the /usr/[local]/share/locale directory.
 
-(make sure you have such a font)
+Q: I don't want hebrew translation. English is much Kewler!
+-----------------------------------------------------------
+A: No problem, just delete the nt.mo that 'make install' installed for you, probably on /usr/local/locale/share/$LANG/LC_MESSAGES (while $LANG is probably he, but may also be hebrew, he_IL or iw. depends on your distro).
 
-for questions/remarks, email mar_garina@opinionz.cjb.net
+Q: I still have a problem with the translation
+----------------------------------------------
+A: No problem, ask me at mar_garina@opinionz.cjb.net .
+
+Q: Some text isn't translated correctly in my opinion
+-----------------------------------------------------
+A: How dare you !?!?!? Kidding =). email me. mar_garina@opinionz.cjb.net .
+
+Of course email me for any other comment.
 
 Cya,
 Oren.

@@ -1,9 +1,9 @@
-%define ver      1.23
+%define ver      1.24.1
 %define prefix   /usr
 
 Name: nt
 Version: %ver
-Release: 1
+Release: 2
 Copyright: free source but restricted to change
 URL: http://www.krasu.ru/soft/chuchelo
 Group: Applications/Internet
@@ -14,19 +14,21 @@ Packager: Anton Voloshin (vav@isv.ru)
 
 %description
 This program lets you download files from internet/intranet using
-ftp or http protocol.
+FTP or HTTP protocol.
 Main features:
     * multithreaded design
     * convient user-friendly interface
     * automatic resuming after connection breaks
     * multiple simultaneous downloads
-    * recursive ftp and http downloading
-    * wildcards support for ftp recursing
-    * proxy support (ftp and http)
+    * recursive FTP and HTTP downloading
+    * ability to change links in HTML file for offline browsing
+    * wildcards support for FTP recursing
+    * proxy support (FTP and HTTP)
     * supports for traffic limitation
     * mass downloading function
-    * ftp search
-    * and other ...
+    * FTP search
+    * build-in scheduler
+    * and many many other ...
 
 %prep
 %setup

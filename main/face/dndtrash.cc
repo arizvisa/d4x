@@ -37,15 +37,15 @@ enum DND_MENU_ENUM{
 };
 
 char *dnd_menu_inames[]={
-	"/New Download",
-	"/Paste Download",
-	"/Delete completed",
-	"/General options",
-	"/Speed",
-	"/Speed/Low",
-	"/Speed/Medium",
-	"/Speed/Unlimited",
-	"/Exit",
+	N_("/New Download"),
+	N_("/Paste Download"),
+	N_("/Delete completed"),
+	N_("/General options"),
+	N_("/Speed"),
+	N_("/Speed/Low"),
+	N_("/Speed/Medium"),
+	N_("/Speed/Unlimited"),
+	N_("/Exit"),
 	"/-"
 };
 
@@ -189,7 +189,7 @@ void dnd_trash_init(){
 	                                    GTK_DEST_DEFAULT_HIGHLIGHT |
 	                                    GTK_DEST_DEFAULT_DROP),
 	                  download_drop_types, n_download_drop_types,
-	                  (GdkDragAction)GDK_ACTION_COPY);
+	                  (GdkDragAction)(GDK_ACTION_COPY|GDK_ACTION_MOVE));
 	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "visibility_notify_event",
 	                   GTK_SIGNAL_FUNC(dnd_trash_no_expose),
 	                   dnd_trash_window);			  
@@ -254,10 +254,13 @@ void dnd_trash_init(){
 void dnd_trash_menu_prepare(){
 	GtkWidget *menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_1]));
 	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==1?TRUE:FALSE;
+	if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
 	menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_2]));
 	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==2?TRUE:FALSE;
+	if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
 	menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_3]));
 	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==3?TRUE:FALSE;
+	if (GTK_WIDGET_VISIBLE(menu_item)) gtk_widget_queue_draw(menu_item);
 };
 
 void dnd_trash_menu_calback(gpointer *data, guint action, GtkWidget *widget){
@@ -317,8 +320,14 @@ void dnd_trash_animation(){
 		if (GTK_PIXMAP(dnd_trash_gtk_pixmap)->pixmap==dnd_trash_pixmap1){
 			gtk_pixmap_set(GTK_PIXMAP(dnd_trash_gtk_pixmap),
 				       dnd_trash_pixmap2,dnd_trash_mask2);
-			gtk_widget_queue_draw(dnd_trash_gtk_pixmap);
-			gtk_timeout_add (1300, dnd_trash_animation_end , NULL);
+//			gtk_widget_queue_draw(dnd_trash_gtk_pixmap);
+			GdkRectangle rect;
+			rect.x=dnd_trash_gtk_pixmap->allocation.x;
+			rect.y=dnd_trash_gtk_pixmap->allocation.y;
+			rect.width=dnd_trash_gtk_pixmap->allocation.width;
+			rect.height=dnd_trash_gtk_pixmap->allocation.height;
+			gtk_widget_draw(dnd_trash_gtk_pixmap,&rect);
+			gtk_timeout_add (500, dnd_trash_animation_end , NULL);
 		};
 	};
 };

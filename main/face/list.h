@@ -71,4 +71,7 @@ void delete_downloads(gint flag);
 void continue_downloads(...);
 void my_main_quit(...);
 char *old_clipboard_content();
+
+void d4x_mw_clipboard_set(char *str);
+char *d4x_mw_clipboard_get();
 #endif

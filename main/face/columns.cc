@@ -16,21 +16,23 @@
 #include "../main.h"
 #include "../var.h"
 
-char *columns_names[]={	"status",
-			"file name",
-			"type of file",
-			"size of file",
-			"downloaded size",
-			"rest",
-			"percent",
-			"speed",
-			"elapsed time",
-			"estimated time",
-			"time of pause",
-			"number of attempts",
-			"description",
-			"URL",
-			"[NONE]"};
+char *columns_names[]={
+	N_("status"),
+	N_("file name"),
+	N_("type of file"),
+	N_("size of file"),
+	N_("downloaded size"),
+	N_("rest"),
+	N_("percent"),
+	N_("speed"),
+	N_("elapsed time"),
+	N_("estimated time"),
+	N_("time of pause"),
+	N_("number of attempts"),
+	N_("description"),
+	N_("URL"),
+	"[NONE]"
+};
 
 GList *tColumnsPrefs::find_by_data(GList *where, char *what){
 	GList *list=where;

@@ -23,13 +23,15 @@
 #include "graph.h"
 #include "../config.h"
 
+const int SEARCH_NUMBER_OF_ENGINES=2;
+
 extern tMain aa;
 GtkWidget *d4x_prefs_window=(GtkWidget *)NULL;
 GtkWidget *d4x_prefs_frame=(GtkWidget *)NULL;
 /* initialisation only for NULL in 'char*' */
 tMainCfg TMPCFG={
 	{300,5,100,0,1,0,0,0,
-	 0,0,0,0,1,1,1,0,0,0,0,0,
+	 0,0,0,0,0,1,1,1,0,0,0,0,0,
 	 0},
 	100,1,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,0,0,
 	100,0,0,0,(char*)NULL,0,0, //Log
@@ -44,7 +46,8 @@ tMainCfg TMPCFG={
 	3,1024,10*1024,
 	(char*)NULL,0,
 	1,1,1,1,
-	0,1
+	0,1,
+	1,0,15
 };
 
 struct D4xPrefsWidget{
@@ -62,6 +65,7 @@ struct D4xPrefsWidget{
 	GtkWidget *recursive;
 	GtkWidget *pause_check;
 	GtkWidget *check_time_check;
+	GtkWidget *change_links_check;
 	/* FTP */
 	GtkWidget *ftp_passive_check;
 	GtkWidget *dont_send_quit_check;
@@ -136,6 +140,10 @@ struct D4xPrefsWidget{
 	GtkWidget *max_threads;
 	GtkWidget *speed_limit_1;
 	GtkWidget *speed_limit_2;
+	/* FTP SEARCH */
+	GtkWidget *search_ping_times;
+	GtkWidget *search_host;
+	GtkWidget *search_entries;
 	/* INTERFACE */
 	GtkWidget *dnd_trash;
 	GtkWidget *fixed_font_log;
@@ -344,10 +352,13 @@ void d4x_prefs_download_http(){
 
 	D4XPWS.leave_dir_check=gtk_check_button_new_with_label(_("Only subdirs"));
 	D4XPWS.leave_server_check=gtk_check_button_new_with_label(_("Allow leave this server while recursing via HTTP"));
+	D4XPWS.change_links_check=gtk_check_button_new_with_label(_("Change links in HTML file to local"));
 	GTK_TOGGLE_BUTTON(D4XPWS.leave_server_check)->active=TMPCFG.DEFAULT_CFG.leave_server;
 	GTK_TOGGLE_BUTTON(D4XPWS.leave_dir_check)->active=TMPCFG.DEFAULT_CFG.dont_leave_dir;
+	GTK_TOGGLE_BUTTON(D4XPWS.change_links_check)->active=TMPCFG.DEFAULT_CFG.change_links;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.leave_server_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.leave_dir_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.change_links_check,FALSE,FALSE,0);
 
 	D4XPWS.http_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,TMPCFG.DEFAULT_CFG.http_recurse_depth);
 	GtkWidget *http_hbox=gtk_hbox_new(FALSE,0);
@@ -357,6 +368,7 @@ void d4x_prefs_download_http(){
 	gtk_box_pack_start(GTK_BOX(http_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),http_hbox,FALSE,FALSE,0);
 
+	
 	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
 	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
@@ -730,6 +742,55 @@ void d4x_prefs_main(){
 	gtk_widget_show_all(vbox);
 };
 
+void d4x_prefs_search(){
+	GtkWidget *vbox=d4x_prefs_child_destroy(_("FTP search"));
+
+	GtkWidget *box=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(box),5);
+	D4XPWS.search_ping_times=my_gtk_entry_new_with_max_length(3,TMPCFG.SEARCH_PING_TIMES);
+	gtk_box_pack_start(GTK_BOX(box),D4XPWS.search_ping_times,FALSE,FALSE,0);
+	GtkWidget *label=gtk_label_new(_("Number of attempts to ping hosts"));
+	gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
+
+	box=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(box),5);
+	D4XPWS.search_entries=my_gtk_entry_new_with_max_length(3,TMPCFG.SEARCH_ENTRIES);
+	gtk_box_pack_start(GTK_BOX(box),D4XPWS.search_entries,FALSE,FALSE,0);
+	label=gtk_label_new(_("Number of hosts in list"));
+	gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
+
+	char *labels[]={
+		"ftpsearch.lycos.com",
+		"www.filesearch.ru"
+	};
+	D4XPWS.search_host=gtk_option_menu_new();
+	GtkWidget *menu=gtk_menu_new ();
+	GtkWidget *menu_item;
+	GSList *group=(GSList *)NULL;
+	gint i;
+	for (i = 0; (unsigned int)i <sizeof(labels)/sizeof(char*); i++){
+		menu_item = gtk_radio_menu_item_new_with_label (group, labels[i]);
+		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (menu_item));
+		gtk_menu_append (GTK_MENU (menu), menu_item);
+		if (i==TMPCFG.SEARCH_HOST)
+			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+		gtk_widget_show (menu_item);
+	};
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (D4XPWS.search_host), menu);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (D4XPWS.search_host),TMPCFG.SEARCH_HOST);
+
+	box=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(box),5);
+	label=gtk_label_new(_("search engine to use"));
+	gtk_box_pack_start(GTK_BOX(box),D4XPWS.search_host,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(box),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),box,FALSE,FALSE,0);
+
+	gtk_widget_show_all(vbox);
+};
+
 void d4x_prefs_interface(){
 	GtkWidget *vbox=d4x_prefs_child_destroy(_("Interface"));
 
@@ -918,7 +979,13 @@ void d4x_prefs_init_pre(){
 			   (GtkSignalFunc)d4x_prefs_main_log, NULL);
 	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
 	gtk_widget_show(tmpitem);
-        /* show window */
+
+	tmpitem=gtk_tree_item_new_with_label(_("FTP search"));
+	gtk_signal_connect(GTK_OBJECT(tmpitem), "select",
+			   (GtkSignalFunc)d4x_prefs_search, NULL);
+	gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
+	gtk_widget_show(tmpitem);
+	/* show window */
 
 	GtkWidget *buttons_hbox=gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
@@ -999,6 +1066,7 @@ void d4x_prefs_apply_tmp(){
 	if (equal(label,_("HTTP"))){
 		TMPCFG.DEFAULT_CFG.leave_server=GTK_TOGGLE_BUTTON(D4XPWS.leave_server_check)->active;
 		TMPCFG.DEFAULT_CFG.dont_leave_dir=GTK_TOGGLE_BUTTON(D4XPWS.leave_dir_check)->active;
+		TMPCFG.DEFAULT_CFG.change_links=GTK_TOGGLE_BUTTON(D4XPWS.change_links_check)->active;
 //		TMPCFG.DEFAULT_CFG.=GTK_TOGGLE_BUTTON(D4XPWS.)->active;
 		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.http_recurse_depth_entry)),"%u",&TMPCFG.DEFAULT_CFG.http_recurse_depth);
 		d4x_prefs_get_field(D4XPWS.user_agent_entry,
@@ -1033,7 +1101,7 @@ void d4x_prefs_apply_tmp(){
 		TMPCFG.WINDOW_LOWER=GTK_TOGGLE_BUTTON(D4XPWS.window_lower)->active;
 		return;
 	};
-	if (equal(label,_("Main window"))){
+	if (equal(label,_("Confirmation"))){
 		TMPCFG.CONFIRM_DELETE=GTK_TOGGLE_BUTTON(D4XPWS.confirm_delete)->active;
 		TMPCFG.CONFIRM_DELETE_ALL=GTK_TOGGLE_BUTTON(D4XPWS.confirm_delete_all)->active;
 		TMPCFG.CONFIRM_DELETE_COMPLETED=GTK_TOGGLE_BUTTON(D4XPWS.confirm_delete_completed)->active;
@@ -1068,6 +1136,18 @@ void d4x_prefs_apply_tmp(){
 		d4x_prefs_get_field(D4XPWS.clipboard_catch,
 				    &TMPCFG.CATCH_IN_CLIPBOARD,
 				    ALL_HISTORIES[SKIP_HISTORY]);
+		return;
+	};
+	if (equal(label,_("FTP search"))){
+		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.search_ping_times)),"%u",&TMPCFG.SEARCH_PING_TIMES);
+		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.search_entries)),"%u",&TMPCFG.SEARCH_ENTRIES);
+		GSList *group=gtk_radio_menu_item_group((GtkRadioMenuItem *)((GtkOptionMenu *)D4XPWS.search_host)->menu_item);
+		int i=SEARCH_NUMBER_OF_ENGINES-1;
+		while(group && !((GtkCheckMenuItem *)(group->data))->active){
+			group = group->next;
+			i--;
+		};
+		TMPCFG.SEARCH_HOST=i;
 		return;
 	};
 	if (equal(label,_("Main"))){

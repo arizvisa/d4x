@@ -1,1703 +1,2132 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.05\n"
-"POT-Creation-Date: 1999-10-25 20:30+0700\n"
+"POT-Creation-Date: 2001-03-10 09:06+0700\n"
 "PO-Revision-Date: 1999-10-25 20:35+0700\n"
 "Last-Translator: Priyadi Iman Nurcahyo <priyadi@priyadi.id.org>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain\n"
 
-#: face/about.cc:36
-msgid "About"
-msgstr "Keterangan"
-
-#: face/about.cc:42
-msgid "Author: Koshelev Maxim"
-msgstr "Pembuat: Koshelev Maxim"
-
-#: face/about.cc:44
-msgid "Translators team"
-msgstr "Tim Penerjemah"
-
-#: face/about.cc:125 face/edit.cc:269 face/limface.cc:76 face/prefs.cc:558
-#: face/saveload.cc:106 face/saveload.cc:153
-msgid "Cancel"
-msgstr "Batal"
-
-#: face/addd.cc:76
-msgid "Add new download"
-msgstr "Tambah download baru"
-
-#: face/buttons.cc:61
-msgid "Delete ALL downloads?"
-msgstr "Hapus SEMUA download?"
-
-#: face/buttons.cc:61
-msgid "Delete all?"
-msgstr "Hapus semua?"
-
-#.	gtk_container_add (GTK_CONTAINER (HandleBox), ButtonsBar);
-#: face/buttons.cc:117
-msgid " Add new download "
-msgstr " Tambah download baru "
-
-#: face/buttons.cc:119
-msgid " Paste from clipboard "
-msgstr " Paste dari clipboard "
-
-#: face/buttons.cc:121
-msgid " Del downloads "
-msgstr " Hapus download "
-
-#: face/buttons.cc:124
-msgid " Continue/restart downloads "
-msgstr " Melanjutkan/mulai download "
-
-#: face/buttons.cc:126
-msgid " Stop downloads "
-msgstr " Berhenti mendownload "
-
-#: face/buttons.cc:128
-msgid " Del Completed downloads "
-msgstr " Hapus download yang selesai "
-
-#: face/buttons.cc:130
-msgid " Move up "
-msgstr " Naikkan "
-
-#: face/buttons.cc:132
-msgid " Move down "
-msgstr " Turunkan "
-
-#: face/buttons.cc:134
-msgid " View log "
-msgstr " Lihat log "
-
-#: face/buttons.cc:137
-msgid " Options "
-msgstr " Pilihan "
-
-#: face/buttons.cc:144
-msgid " Speed level one "
-msgstr " Kecepatan tingkat satu "
-
-#: face/buttons.cc:153
-msgid " Speed level two "
-msgstr " Kecepatan tingkat dua "
-
-#: face/buttons.cc:162
-msgid " Unlimited speed "
-msgstr " Kecepatan tak dibatasi "
-
-#: face/buttons.cc:170
-msgid " Delete all downloads "
-msgstr " Hapus semua download "
-
-#: face/buttons.cc:172
-msgid " Save list "
-msgstr " Simpan daftar "
-
-#: face/edit.cc:102
-msgid "Edit download"
-msgstr "Edit download"
-
-#: face/edit.cc:218
-msgid "Save download to folder"
-msgstr "Simpan download ke direktori"
-
-#: face/edit.cc:219
-msgid "Save download to file"
-msgstr "Simpan download ke berkas"
-
-#: face/edit.cc:220 face/edit.cc:747 face/edit.cc:800
-msgid "password"
-msgstr "kata kunci"
-
-#: face/edit.cc:221
-msgid "user name"
-msgstr "nama user"
-
-#.    gtk_widget_set_usize(GTK_COMBO(prefs_other_save_log_path)->entry,350,-1);
-#: face/edit.cc:231 face/edit.cc:232 face/prefs.cc:376 face/prefs.cc:409
-#: face/saveload.cc:92 face/saveload.cc:139
-msgid "Browse"
-msgstr "Browse"
-
-#: face/edit.cc:257
-msgid "Use password for this site"
-msgstr "Gunakan kata kunci untuk situs ini"
-
-#: face/edit.cc:301 face/prefs.cc:304
-msgid "Timeout for reading from socket (in seconds)"
-msgstr "Lama menunggu membaca dari socket (dalam detik)"
-
-#: face/edit.cc:308 face/prefs.cc:294
-msgid "Timeout before reconnection (in seconds)"
-msgstr "Lama menunggu sebelum koneksi kembali (dalam detik)"
-
-#: face/edit.cc:315 face/prefs.cc:334
-msgid "Maximum attempts (0 for unlimited)"
-msgstr "Mencoba maksimum (0 untuk tak terbatas)"
-
-#.    gtk_box_pack_start(GTK_BOX(prefs_limits_rdbox),prefs_limits_http_recurse_depth,FALSE,FALSE,0);
-#: face/edit.cc:322 face/prefs.cc:356
-msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr "Kedalaman rekursi direktori (0 tak terbatas,1 tidak merekursi)"
-
-#: face/edit.cc:335 face/prefs.cc:397
-msgid "Use passive mode for FTP"
-msgstr "Gunakan mode pasif untuk ftp"
-
-#: face/edit.cc:338 face/prefs.cc:208
-msgid "Get permissions of the file from server (FTP only)"
-msgstr "Ambil ijin akses berkas dari server (hanya FTP)"
-
-#: face/edit.cc:341 face/prefs.cc:220
-msgid "Get date from the server"
-msgstr "Ambil tanggal dari server"
-
-#: face/edit.cc:344 face/prefs.cc:204
-msgid "Retry if resuming is not supported"
-msgstr "Coba lagi jika server tidak mendukung resume"
-
-#: face/edit.cc:347 face/edit.cc:432 face/prefs.cc:366 face/prefs.cc:431
-msgid "Other"
-msgstr "Lainnya"
-
-#. Init time
-#.
-#: face/edit.cc:361 face/edit.cc:434 face/list.cc:917
-msgid "Time"
-msgstr "Waktu"
-
-#: face/edit.cc:367
-msgid "Year"
-msgstr "Tahun"
-
-#: face/edit.cc:374
-msgid "Month"
-msgstr "Bulan"
-
-#: face/edit.cc:381
-msgid "Day"
-msgstr "Hari"
-
-#: face/edit.cc:388
-msgid "Hours"
-msgstr "Jam"
-
-#: face/edit.cc:395
-msgid "Minutes"
-msgstr "Menit"
-
-#: face/edit.cc:408
-msgid "Start this downloading at:"
-msgstr "Mulai mendownload pada:"
-
-#: face/edit.cc:428
-msgid "Download"
-msgstr "Download"
-
-#: face/edit.cc:431
-msgid "Main"
-msgstr "Utama"
-
-#: face/edit.cc:433 face/edit.cc:684 face/prefs.cc:501
-msgid "Proxy"
-msgstr "Proxy"
-
-#: face/edit.cc:454 face/prefs.cc:102
-msgid "Select directory"
-msgstr "Pilih direktori"
-
-#: face/edit.cc:470 face/prefs.cc:135 face/saveload.cc:39
-msgid "Select file"
-msgstr "Pilih berkas"
-
-#: face/edit.cc:687
-msgid "FTP proxy type"
-msgstr "jenis proxy ftp"
-
-#: face/edit.cc:698
-msgid "FTP (wingate)"
-msgstr "FTP (wingate)"
-
-#: face/edit.cc:712
-msgid "Use this proxy for FTP"
-msgstr "Gunakan proxy ini untuk ftp"
-
-#: face/edit.cc:721 face/edit.cc:776
-msgid "port"
-msgstr "port"
-
-#: face/edit.cc:728 face/edit.cc:782
-msgid "need password"
-msgstr "membutuhkan kata kunci"
-
-#: face/edit.cc:736 face/edit.cc:790
-msgid "username"
-msgstr "nama user"
-
-#: face/edit.cc:767
-msgid "Use this proxy for HTTP"
-msgstr "Gunakan proxy ini untuk http"
-
-#: face/limface.cc:54
-msgid "Limitation for the host"
-msgstr "Batasan untuk server ini"
-
-#: face/limface.cc:60
-msgid "Host:"
-msgstr "Server:"
-
-#: face/limface.cc:61
-msgid "Port:"
-msgstr "Port:"
-
-#: face/limface.cc:62
-msgid "Maximum connections:"
-msgstr "Koneksi maksimum:"
-
-#: face/limface.cc:281
-msgid "Limitations for the hosts"
-msgstr "Batasan untuk server"
-
-#: face/limface.cc:285
-msgid "Host"
-msgstr "Server"
-
-#: face/limface.cc:285
-msgid "N"
-msgstr ""
-
-#: face/limface.cc:299
-msgid "Add new"
-msgstr "Tambah Baru"
-
-#: face/limface.cc:300
-msgid "Delete"
-msgstr "Hapus"
-
-#: face/list.cc:135
-msgid "/_File"
-msgstr "/_Berkas"
-
-#: face/list.cc:136
-msgid "/File/_Save List"
-msgstr "/Berkas/_Simpan Daftar"
-
-#: face/list.cc:137
-msgid "/File/_Load List"
-msgstr "/Berkas/_Muat Daftar"
-
-#: face/list.cc:138 face/list.cc:141
-msgid "/File/sep1"
-msgstr "/Berkas/sep1"
-
-#: face/list.cc:139
-msgid "/File/_New Download"
-msgstr "/Berkas/Download _Baru"
-
-#: face/list.cc:140
-msgid "/File/_Paste Download"
-msgstr "/Berkas/_Paste Download"
-
-#: face/list.cc:142
-msgid "/File/Exit"
-msgstr "/Berkas/Keluar"
-
-#: face/list.cc:143
-msgid "/_Download"
-msgstr "/_Download"
-
-#: face/list.cc:144
-msgid "/Download/View _Log"
-msgstr "/Download/Lihat _Log"
-
-#: face/list.cc:145
-msgid "/Download/_Stop downloads"
-msgstr "/Download/_Stop download"
-
-#: face/list.cc:146
-msgid "/Download/Edit download"
-msgstr "/Download/Edit download"
-
-#: face/list.cc:147
-msgid "/Download/_Delete downloads"
-msgstr "/Download/_Hapus download"
-
-#: face/list.cc:148
-msgid "/Download/Continue downloads"
-msgstr "/Download/Lanjutkan download"
-
-#: face/list.cc:149
-msgid "/Download/Delete completed"
-msgstr "/Download/Hapus yang telah selesai"
-
-#: face/list.cc:150
-msgid "/Download/Delete failed"
-msgstr "/Download/Hapus download gagal"
-
-#: face/list.cc:151
-msgid "/_Options"
-msgstr "/_Pilihan"
-
-#: face/list.cc:152
-msgid "/Options/Limitations"
-msgstr "/Pilihan/Batasan"
-
-#: face/list.cc:153
-msgid "/Options/General"
-msgstr "/Pilihan/Umum"
-
-#: face/list.cc:154
-msgid "/_Help"
-msgstr "/_Bantuan"
-
-#: face/list.cc:155
-msgid "/_Help/About"
-msgstr "/_Bantuan/Keterangan"
-
-#: face/list.cc:234
-msgid "Do you really want to quit?"
-msgstr "Apakah anda benar-benar ingin keluar?"
-
-#: face/list.cc:234
-msgid "Quit?"
-msgstr "Keluar?"
-
-#: face/list.cc:251
-msgid "Delete selected downloads?"
-msgstr "Hapus download yang dipilih?"
-
-#: face/list.cc:251 face/list.cc:260 face/list.cc:269
-msgid "Delete?"
-msgstr "Hapus?"
-
-#: face/list.cc:260
-msgid "Do you wish delete completed downloads?"
-msgstr "Apakah anda ingin menghapus download yang telah selesai?"
-
-#: face/list.cc:269
-msgid "Do you wish delete failed downloads?"
-msgstr "Apakah anda ingin menghapus download yang gagal?"
-
-#: face/list.cc:706
-msgid "Ready to go ????"
-msgstr "Siap untuk mulai ????"
-
-#: face/list.cc:829
-#, c-format
-msgid "%i-running %i-completed %i-total"
-msgstr "%i-mendownload %i-selesai %i-total"
-
-#: face/list.cc:911
-msgid "File"
-msgstr "Berkas"
-
-#: face/list.cc:912
-msgid "Type"
-msgstr "Jenis"
-
-#: face/list.cc:913
-msgid "Full Size"
-msgstr "Ukuran"
-
-#: face/list.cc:914
-msgid "Downloaded"
-msgstr "Terdownload"
-
-#: face/list.cc:916 face/prefs.cc:528 face/prefs.cc:549
-msgid "Speed"
-msgstr "Kecepatan"
-
-#: face/list.cc:918
-msgid "Remaining"
-msgstr "Sisa"
-
-#: face/list.cc:919
-msgid "Pause"
-msgstr "Tunda"
-
-#: face/list.cc:920
-msgid "Attempt"
-msgstr "Usaha"
-
-#: face/list.cc:921
-msgid "URL"
-msgstr "URL"
-
-#: face/lmenu.cc:69
-msgid "View log"
-msgstr "Lihat log"
-
-#: face/lmenu.cc:75
-msgid "Stop"
-msgstr "Stop"
-
-#: face/lmenu.cc:82
-msgid "Continue downloads"
-msgstr "Lanjutkan download"
-
-#: face/lmenu.cc:91
-msgid "Properties"
-msgstr "Properti"
-
-#: face/lmenu.cc:97
-msgid "Delete downloads"
-msgstr "Hapus download"
-
-#: face/lmenu.cc:103
-msgid "Delete completed"
-msgstr "Hapus yang telah selesai"
-
-#: face/lmenu.cc:109
-msgid "Delete failed"
-msgstr "Hapus download gagal"
-
-#: face/lmenu.cc:119
-msgid "Move up"
-msgstr "Naikkan"
-
-#: face/lmenu.cc:125
-msgid "Move down"
-msgstr "Turunkan"
-
-#: face/lmenu.cc:131
-msgid "Set limitation"
-msgstr "Set batasan"
-
-#: face/log.cc:165
-#, c-format
-msgid "Row number %i [log of %s]"
-msgstr "Baris ke %i [log dari %s]"
-
-#: face/log.cc:195
-msgid "Log: "
-msgstr "Log:"
-
-#: face/prefs.cc:172 face/prefs.cc:189
-msgid "Options"
-msgstr "Pilihan"
-
-#: face/prefs.cc:190
-msgid "Using title"
-msgstr "Menggunakan judul"
-
-#: face/prefs.cc:198
-msgid "Automatically delete completed downloads"
-msgstr "Otomatis menghapus download yang selesai"
-
-#: face/prefs.cc:200
-msgid "Automatically delete failed downloads"
-msgstr "Otomatis menghapus download yang gagal"
-
-#: face/prefs.cc:202
-msgid "Optimize recursive downloads"
-msgstr "Mengoptimasi download rekursif"
-
-#: face/prefs.cc:206
-msgid "Iconfiy main window instead of closing"
-msgstr "Mengikonkan window utama sewaktu menutup"
-
-#: face/prefs.cc:210
-msgid "Use title of main window for info"
-msgstr "Gunakan judul dari window utama untuk informasi"
-
-#: face/prefs.cc:213
-msgid "Display queue statistics too"
-msgstr "Tampilkan statistik antrian juga"
-
-#.    gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_use_title2,1,2,1,2);
-#: face/prefs.cc:215
-msgid "Scroll title"
-msgstr "Gulung judul"
-
-#: face/prefs.cc:222
-msgid "Open dialog for Drag-n-Drop"
-msgstr "Buka dialog untuk Drag dan Drop"
-
-#: face/prefs.cc:224
-msgid "Revert drawing graph of speeds"
-msgstr "Grafik kecepatan"
-
-#: face/prefs.cc:226
-msgid "Save list of downloads every"
-msgstr "Simpan daftar download setiap"
-
-#: face/prefs.cc:232
-msgid "minutes"
-msgstr "menit"
-
-#: face/prefs.cc:242
-msgid "Default permissions of file"
-msgstr "Izin akses dari berkas"
-
-#: face/prefs.cc:250
-msgid "Common"
-msgstr "Umum"
-
-#: face/prefs.cc:271 face/prefs.cc:361
-msgid "Limits"
-msgstr "Batasan"
-
-#: face/prefs.cc:284
-msgid "Maximum active downloads"
-msgstr "Download aktif maksimum"
-
-#: face/prefs.cc:314
-msgid "Maximum lines in log"
-msgstr "Jumlah baris maksimum di log"
-
-#: face/prefs.cc:324
-msgid "Maximum lines in MAIN log"
-msgstr "Jumlah baris maksimum di log utama"
-
-#: face/prefs.cc:384
-msgid "Save downloads to folder"
-msgstr "Simpan download di direktori"
-
-#: face/prefs.cc:392
-msgid "Filename for saving if it is unknown"
-msgstr "Nama berkas untuk penyimpanan jika tidak diketahui"
-
-#: face/prefs.cc:402
-msgid "Save main log into file"
-msgstr "Simpan log utama ke berkas"
-
-#: face/prefs.cc:421
-msgid "Append to file"
-msgstr "Menambahkan ke berkas"
-
-#: face/prefs.cc:424
-msgid "Overwrite file"
-msgstr "Tulis ulang berkas"
-
-#: face/prefs.cc:437
-msgid "Size format"
-msgstr "Format ukuran"
-
-#: face/prefs.cc:438
-msgid "Time format"
-msgstr "Format waktu"
-
-#: face/prefs.cc:491 face/prefs.cc:494
-msgid "Columns"
-msgstr "Kolom"
-
-#: face/prefs.cc:505 face/prefs.cc:523
-msgid "Confirmation"
-msgstr "Konfirmasi"
-
-#: face/prefs.cc:508
-msgid "Confirm delete selected downloads"
-msgstr "Konfirmasi penghapusan download yang dipilih"
-
-#: face/prefs.cc:509
-msgid "Confirm delete all downloads"
-msgstr "Konfirmasi penghapusan seluruh download"
-
-#: face/prefs.cc:510
-msgid "Confirm delete completed downloads"
-msgstr "Konfirmasi penghapusan download yang selesai"
-
-#: face/prefs.cc:511
-msgid "Confirm delete failed downloads"
-msgstr "Konfirmasi penghapusan download yang gagal"
-
-#: face/prefs.cc:512
-msgid "Confirm exit from program"
-msgstr "Konfirmasi keluar dari program"
-
-#: face/prefs.cc:531
-msgid "bytes/sec speed level one (red button)"
-msgstr "kecepatan byte/det tingkat satu (tombol merah)"
-
-#: face/prefs.cc:538
-msgid "bytes/sec speed level two (yellow button)"
-msgstr "kecepatan byte/det tingkat dua (tombol kuning)"
-
-#: face/saveload.cc:78
-msgid "Save list"
-msgstr "Simpan daftar"
-
-#: face/saveload.cc:125
-msgid "Load list"
-msgstr "Muat daftar"
-
-#: client.cc:67
+#: ../client.cc:139
 msgid "Timeout while reading from socket!"
 msgstr "Terlalu lama menunggu pembacaan socket!"
 
-#: client.cc:72
+#: ../client.cc:144
 msgid "Error while reading from socket!"
 msgstr "Kesalahan sewaktu membaca dari socket!"
 
-#: client.cc:81
+#: ../client.cc:153
 msgid "Trying to connect..."
 msgstr "Mencoba melakukan koneksi..."
 
-#: client.cc:83
+#: ../client.cc:155
 msgid "Socket was opened!"
 msgstr "Socket berhasil dibuka!"
 
-#: client.cc:89
+#: ../client.cc:160
 msgid "Host not found!"
 msgstr "Server tak ditemukan!"
 
-#: client.cc:95
+#: ../client.cc:165
 msgid "Can't allocate socket"
 msgstr "Tak dapat mengalokasikan socket"
 
-#: client.cc:101
+#: ../client.cc:170
 msgid "Can't connect"
 msgstr "Tak dapat melakukan koneksi"
 
-#: config.cc:351
+#: ../config.cc:71
+msgid "You forgot to specify directory."
+msgstr ""
+
+#: ../config.cc:73
+msgid "You must specify number as second parameter for '-m' option"
+msgstr ""
+
+#: ../config.cc:77
+msgid "You must specify number as parameter for '--exit-time' option"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:78
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+#: ../config.cc:290
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "Tak dapat membuka berkas konfigurasi pada '%s'\n"
 
-#: config.cc:352
+#: ../config.cc:291
 msgid "Use default cfg :))...\n"
 msgstr "Menggunakan konfigurasi default :))..\n"
 
-#: config.cc:565
+#: ../config.cc:486
 msgid "Can't open limits configuration file!\n"
 msgstr "Tak dapat membuka berkas batasan\n"
 
-#: config.cc:589
+#: ../config.cc:509
 msgid "Can't write limits to file!!!\n"
 msgstr "Tak dapat menulis batasan ke berkas\n"
 
-#: dlist.cc:426
-msgid ""
-"***WARN***!!!Attempt to delete download from list which does'nt contain it!"
-msgstr "***PERHATIAN***!!! Mencoba untuk menghapus download dari daftar yang tidak mengandung download tersebut"
+# config.cc:
+#: ../config.cc:539
+msgid "unknown option:"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:580
+#, c-format
+msgid "Run downloads: %d\n"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:582
+#, c-format
+msgid "Paused downloads: %d\n"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:584
+#, c-format
+msgid "Failed downloads: %d\n"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:586
+#, c-format
+msgid "Completed downloads: %d\n"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:589
+#, c-format
+msgid "Total: %d\n"
+msgstr ""
+
+#: ../config.cc:591
+#, fuzzy, c-format
+msgid "Total bytes loaded: %d\n"
+msgstr "%i byte telah dimuat"
+
+# config.cc:
+#: ../config.cc:593
+#, c-format
+msgid "Current speed: %d\n"
+msgstr ""
+
+#: ../config.cc:599
+#, c-format
+msgid "Curent speed: %d\n"
+msgstr ""
+
+#: ../config.cc:689
+msgid "is absent in the queue\n"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:772
+msgid "Usage: nt [OPTION] ... [URL]"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:773
+msgid "print this page and exit"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:774
+msgid "show version information and exit"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:775
+msgid "show information if already run"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:776
+msgid "show current speed if already run"
+msgstr ""
+
+# config.cc
+#: ../config.cc:777
+msgid "run in minimized mode"
+msgstr ""
+
+# config.cc
+#: ../config.cc:778
+msgid "set timeout for exiting if nothing to do"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:779
+msgid "set directory for saving files"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:780
+msgid "set lower speed limitation"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:781
+msgid "set medium speed limitation"
+msgstr ""
+
+# config.cc:
+#: ../config.cc:782
+msgid "set unlimited speed"
+msgstr ""
+
+#: ../config.cc:783
+msgid "delete completed if already run"
+msgstr ""
+
+#: ../config.cc:784
+msgid "set maximum active downloads"
+msgstr ""
+
+# config.cc
+#: ../config.cc:785
+msgid "restart all failed downloads"
+msgstr ""
+
+#: ../config.cc:786
+msgid "run program without X interface"
+msgstr ""
+
+#: ../config.cc:787
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+# cookie.cc
+#: ../cookie.cc:123
+msgid "Loading cookies"
+msgstr ""
+
+# cookie.cc
+#: ../cookie.cc:152
+#, c-format
+msgid "%i cookies loaded"
+msgstr ""
+
+# cookie.cc
+#: ../cookie.cc:154
+msgid "Can't open cookies file!"
+msgstr ""
+
+#: ../dlist.cc:105
+msgid "Can't write to file"
+msgstr "Tak dapat menulis ke berkas"
+
+#: ../dlist.cc:283
+#, c-format
+msgid "You have no permissions to create file at path %s"
+msgstr ""
+
+#: ../dlist.cc:288
+#, c-format
+msgid "You have no space at path %s for creating file"
+msgstr ""
+
+#: ../dlist.cc:293
+msgid "Directory already created!:))"
+msgstr "Direktori telah dibuat!:))"
+
+# dlist.cc
+#: ../dlist.cc:364
+msgid "File is already opened by another download!"
+msgstr ""
+
+#. this is a link
+#: ../dlist.cc:408
+msgid "Trying to create a link"
+msgstr "Mencoba untuk membuat link"
+
+#: ../dlist.cc:413
+msgid "Link already created!:))"
+msgstr "Link telah dibuat!:))"
+
+#: ../dlist.cc:419
+msgid "Can't create link"
+msgstr "Tak dapat membuat link"
 
 #. this is a file
-#: download.cc:179
+#: ../dlist.cc:428
 msgid "Trying to create a file"
 msgstr "Mencoba untuk membuat berkas"
 
-#: download.cc:186
+#: ../dlist.cc:449
 msgid "Can't create file at the path:"
 msgstr "Tak dapat membuat berkas pada path:"
 
-#: download.cc:188
+#: ../dlist.cc:451
 msgid "which has name:"
 msgstr "yang memiliki nama:"
 
-#: download.cc:193
+#: ../dlist.cc:462
 msgid "File was created!"
 msgstr "Berkas berhasil dibuat!"
 
 #. this is a directory
-#: download.cc:199
+#: ../dlist.cc:467
 msgid "Trying to create a dir"
 msgstr "Mencoba untuk membuat direktori"
 
-#: download.cc:205
+#: ../dlist.cc:477
 msgid "Can't create directory!"
 msgstr "Tak dapat membuat direktori!"
 
-#: download.cc:208
-msgid "Directory already created!:))"
-msgstr "Direktori telah dibuat!:))"
-
-#. this is a link
-#: download.cc:215
-msgid "Trying to create a link"
-msgstr "Mencoba untuk membuat link"
-
-#: download.cc:219
-msgid "Can't create link"
-msgstr "Tak dapat membuat link"
-
-#: download.cc:222
-msgid "Link already created!:))"
-msgstr "Link telah dibuat!:))"
-
 #. this is device
-#: download.cc:229
+#: ../dlist.cc:487
 msgid "Downloader can't create devices..."
 msgstr "Tak dapat membuat divais..."
 
-#: download.cc:234
-msgid "Warning! Probably you found the BUG!!!"
-msgstr "Perhatian! Kemungkinan anda menemukan BUG!!!"
+#: ../dlist.cc:814
+msgid "Downloading was successefully completed!"
+msgstr "Download telah berhasil dengan sukses!"
 
-#: download.cc:235
-msgid "If you see this message please report to mdem@chat.ru"
-msgstr "Jika anda menemukan pesan ini, laporkan ke mdem@chat.ru"
+#: ../dlist.cc:847
+msgid "Downloading was failed..."
+msgstr "Download gagal..."
 
-#: ftp.cc:25
-msgid "Accepting faild"
-msgstr "Menerima kesalahan"
+#: ../dlist.cc:952
+msgid "It is strange that we can't delete file which just created..."
+msgstr "Aneh, file yang baru dibuat tidak dapat dihapus..."
 
-#: ftp.cc:48
-msgid "Timeout while sending through control socket."
-msgstr "Terlalu lama menunggu socket kontrol."
+#: ../dlist.cc:956 ../dlist.cc:1133
+msgid "File not found"
+msgstr "Berkas tidak ditemukan"
 
-#: ftp.cc:49
-msgid "Control connection lost!"
-msgstr "Koneksi kontrol terputus"
+#: ../dlist.cc:964
+msgid "Redirect detected..."
+msgstr "Mendeteksi redireksi..."
 
-#: ftp.cc:58
-msgid "Data connection lost!"
-msgstr "Koneksi data terputus!"
+# dlist.cc
+#: ../dlist.cc:1006
+msgid "Sorting started"
+msgstr ""
 
-#: ftp.cc:175
+#: ../dlist.cc:1009
 #, c-format
-msgid "try to connect to %i,%i,%i,%i,%i,%i"
-msgstr "mencoba untuk melakukan koneksi ke %i,%i,%i,%i,%i,%i"
+msgid "Pinging (atempt %i of %i)"
+msgstr ""
 
-#: ftp.cc:178
-msgid "Cant stand data connection"
-msgstr "Tak dapat membuat koneksi data"
+# dlist.cc
+#: ../dlist.cc:1084
+msgid "Searching failed"
+msgstr ""
 
-#: ftp.cc:258
-msgid "Data connection closed."
-msgstr "Koneksi data ditutup"
+# dlist.cc:
+#: ../dlist.cc:1104
+msgid "Search had been completed!"
+msgstr ""
 
-#: ftp.cc:263 http.cc:137
-msgid "Can't write to file"
-msgstr "Tak dapat menulis ke berkas"
+#: ../dlist.cc:1110
+msgid "Was Started!"
+msgstr "Telah Dimulai!"
 
-#: ftpd.cc:139
-msgid "Reget is not supported!!!"
-msgstr "Penerusan download tidak didukung!!!"
+#: ../dlist.cc:1114
+msgid "It is a link and we already load it"
+msgstr "Itu adalah link dan kita telah memilikinya"
 
-#: ftpd.cc:178
-msgid "Server refused login, perhaps there are too many users of your class"
-msgstr "Server menolak login, kemungkinan karena terlalu banyak user di kelas anda"
+#: ../dlist.cc:1199
+msgid "Can't split file to specified number of parts!"
+msgstr ""
 
-#: ftpd.cc:181 httpd.cc:74
+#: ../download.cc:213
+msgid "Maximum number of retries reached!"
+msgstr "Jumlah pengulangan maksimum telah tercapai!"
+
+#: ../download.cc:218
 #, c-format
 msgid "Retry %i of %i...."
 msgstr "Mencoba %i dari %i...."
 
-#: ftpd.cc:183
+#: ../download.cc:220
 #, c-format
 msgid "Retry %i ..."
 msgstr "Mencoba %i ..."
 
-#: ftpd.cc:186 httpd.cc:79
-msgid "Maximum number of retries reached!"
-msgstr "Jumlah pengulangan maksimum telah tercapai!"
+# download.cc
+#: ../download.cc:224
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
 
-#: ftpd.cc:192 httpd.cc:85
+#: ../download.cc:227
+msgid "Warning! Probably you found the BUG!!!"
+msgstr "Perhatian! Kemungkinan anda menemukan BUG!!!"
+
+#: ../download.cc:228
+msgid "If you see this message please report to mdem@chat.ru"
+msgstr "Jika anda menemukan pesan ini, laporkan ke mdem@chat.ru"
+
+#: ../ftp.cc:49
+msgid "Accepting faild"
+msgstr "Menerima kesalahan"
+
+#: ../ftp.cc:72
+msgid "Timeout while sending through control socket."
+msgstr "Terlalu lama menunggu socket kontrol."
+
+#: ../ftp.cc:73
+#, fuzzy
+msgid "Control connection lost"
+msgstr "Koneksi kontrol terputus"
+
+#: ../ftp.cc:84
+msgid "Data connection lost!"
+msgstr "Koneksi data terputus!"
+
+#: ../ftp.cc:94
+msgid "Control connection lost!"
+msgstr "Koneksi kontrol terputus"
+
+#: ../ftp.cc:183
+msgid "Reget is not supported!!!"
+msgstr "Penerusan download tidak didukung!!!"
+
+#.
+#. if (index(log->body,'(')!=NULL)
+#. sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
+#.
+#: ../ftp.cc:270
+#, c-format
+msgid "try to connect to %i,%i,%i,%i,%i,%i"
+msgstr "mencoba untuk melakukan koneksi ke %i,%i,%i,%i,%i,%i"
+
+#: ../ftp.cc:408 ../http.cc:174
+msgid "Data connection closed."
+msgstr "Koneksi data ditutup"
+
+#: ../ftp.cc:420 ../http.cc:186
+#, fuzzy
+msgid "Requested size was loaded"
+msgstr "Daftar telah dimuat"
+
+#: ../ftpd.cc:234
+msgid "Can't establish data connection"
+msgstr "Tak dapat membuat koneksi data"
+
+#: ../ftpd.cc:237
+msgid "Can't change directory"
+msgstr "Tak dapat mengubah direktori"
+
+#: ../ftpd.cc:240
+msgid "Server refused login, perhaps there are too many users of your class"
+msgstr ""
+"Server menolak login, kemungkinan karena terlalu banyak user di kelas anda"
+
+#: ../ftpd.cc:295 ../httpd.cc:100
 msgid "Sleeping"
 msgstr "Menunggu"
 
-#: ftpd.cc:297
+#: ../ftpd.cc:396
 #, c-format
 msgid "Length is %i"
 msgstr "Panjang adalah %i"
 
-#: ftpd.cc:302
+#: ../ftpd.cc:400
 msgid "This is a directory!"
 msgstr "Ini adalah direktori!"
 
-#: ftpd.cc:313
+#: ../ftpd.cc:409
 msgid "Couldn't get size :(("
 msgstr "Tak dapat mengambil ukuran berkas :(("
 
-#: ftpd.cc:315 ftpd.cc:357 ftpd.cc:407
-msgid "Can't establish data connection"
-msgstr "Tak dapat membuat koneksi data"
-
-#: ftpd.cc:321
-msgid "Can't change dir!"
-msgstr "Tak dapat mengganti direktori"
-
-#: ftpd.cc:350
-msgid "Listing was loaded"
-msgstr "Daftar telah dimuat"
-
-#: ftpd.cc:354
-msgid "Listing not loaded completelly"
-msgstr "Daftar tak dimuat secara lengkap"
-
-#: ftpd.cc:360 ftpd.cc:410
-msgid "Can't change directory"
-msgstr "Tak dapat mengubah direktori"
-
-#: ftpd.cc:377
+#: ../ftpd.cc:428
 msgid "Loading directory..."
 msgstr "Memuat direktori..."
 
-#: ftpd.cc:381
+#: ../ftpd.cc:445
+msgid "Listing was loaded"
+msgstr "Daftar telah dimuat"
+
+#: ../ftpd.cc:448
+msgid "Listing not loaded completelly"
+msgstr "Daftar tak dimuat secara lengkap"
+
+#: ../ftpd.cc:475
 msgid "Link was loaded :))"
 msgstr "Link telah dimuat :))"
 
-#: ftpd.cc:391 httpd.cc:374
-msgid "Problems with lseek()"
-msgstr "Masalah dengan lseek()"
-
-#: ftpd.cc:399
+#: ../ftpd.cc:502 ../httpd.cc:310
 #, c-format
 msgid "%i bytes loaded."
 msgstr "%i byte telah dimuat"
 
-#: hproxy.cc:127
+#: ../hproxy.cc:159
 msgid "Connection to the internet via proxy"
 msgstr "Koneksi ke internet melalui proxy"
 
-#: hproxy.cc:128
+#: ../hproxy.cc:161
 msgid "Sending request to proxy"
 msgstr "Mengirim permintaan ke proxy"
 
-#: hproxy.cc:132 httpd.cc:347
+#: ../hproxy.cc:164 ../httpd.cc:255
 msgid "Answer read ok"
 msgstr "Jawaban berhasil diterima dengan baik"
 
-#: hproxy.cc:142 httpd.cc:357
-msgid "Couldn't get normal answer!"
-msgstr "Tak mendapatkan jawaban normal!"
-
-#: http.cc:44
+#: ../http.cc:57
 msgid "Socket lost!"
 msgstr "Koneksi terputus!"
 
-#: http.cc:59
+# http.cc
+#: ../http.cc:67
+msgid "Request was sent, waiting for the answer"
+msgstr ""
+
+#: ../http.cc:79
 msgid "It is not HTTP server!!!"
 msgstr "Itu bukan server HTTP!!!"
 
-#: http.cc:65
+#: ../http.cc:86
 msgid "All ok, reading file"
 msgstr "Semua lancar, membaca berkas"
 
-#: http.cc:70
-msgid "Redirect detected..."
-msgstr "Mendeteksi redireksi..."
-
-#: http.cc:77
+#: ../http.cc:97
 msgid "It seems to me that you need a password :)"
 msgstr "Kelihatannya anda membutuhkan kata kunci :)"
 
-#: http.cc:86
+#: ../http.cc:103
 msgid "Server return bad answer:(("
 msgstr "Server memberikan jawaban buruk :(("
 
-#: http.cc:132
-msgid "Connection closed."
-msgstr "Koneksi ditutup"
+#: ../httpd.cc:57
+msgid "Couldn't get normal answer!"
+msgstr "Tak mendapatkan jawaban normal!"
 
-#: httpd.cc:76
-#, c-format
-msgid "Retry %i"
-msgstr "Mencoba %i"
-
-#: httpd.cc:271
+#: ../httpd.cc:212
 #, c-format
 msgid "Size for download is %i bytes"
 msgstr "Ukuran download adalah %i byte"
 
-#: httpd.cc:343
+#: ../httpd.cc:252
 msgid "Sending HTTP request..."
 msgstr "Mengirim permintaan http..."
 
-#: httpd.cc:369
+#: ../httpd.cc:292
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "Kelihatannya penerusan tidak didukung! Mendownload dari awal.."
 
-#: main.cc:184
-msgid "Normally started"
-msgstr "Dijalankan secara normal"
+#: ../httpd.cc:295
+msgid "ETag was changed, restarting again..."
+msgstr ""
 
-#: main.cc:244
+# log.cc:
+#: ../log.cc:63
+msgid "Log was started!"
+msgstr ""
+
+# main.cc:
+#: ../main.cc:130
+msgid "Loading default list of downloads"
+msgstr ""
+
+# main.cc:
+#: ../main.cc:146
+msgid "Append list to current queue of downloads"
+msgstr ""
+
+# main.cc
+#: ../main.cc:251 ../main.cc:1096
+msgid "Delete completed downloads"
+msgstr ""
+
+# main.cc
+#: ../main.cc:265
+msgid "Delete failed downloads"
+msgstr ""
+
+#: ../main.cc:285
 msgid "Clear queue of downloads"
 msgstr "Bersihkan antrian download"
 
-#: main.cc:380
+# main.cc
+#: ../main.cc:338
+msgid "Run new thread for %z"
+msgstr ""
+
+# main.cc:
+#: ../main.cc:344
+msgid "Can't run new thread for downloading!"
+msgstr ""
+
+#: ../main.cc:346
+#, fuzzy, c-format
+msgid "Maximum active downloads is set to %i"
+msgstr "Download aktif maksimum"
+
+#: ../main.cc:396
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Download file %s dari %s dibatalkan [oleh pengguna]"
 
-#: main.cc:431
+#: ../main.cc:454
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "Menghapus file %s dari antrian download"
 
-#: main.cc:469
+#: ../main.cc:532
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "Meneruskan download file %s dari %s..."
 
-#: main.cc:499
+#: ../main.cc:622
 msgid "file"
 msgstr "berkas"
 
-#: main.cc:573
+#: ../main.cc:721
 msgid "dir"
 msgstr "dir"
 
-#: main.cc:578
+#: ../main.cc:725
 msgid "link"
 msgstr "link"
 
-#: main.cc:583
+#: ../main.cc:729
 msgid "device"
 msgstr "divais"
 
-#: main.cc:678
-#, c-format
+#: ../main.cc:796
+msgid "Redirection from [%z] to the same location!"
+msgstr ""
+
+# main.cc:
+#: ../main.cc:829
+msgid "Redirection from [%z] to nowhere!"
+msgstr ""
+
+# main.cc
+#: ../main.cc:837
+msgid "Prepare [%z] for stoping"
+msgstr ""
+
+# main.cc:
+#: ../main.cc:867
+msgid "Redirect from %z"
+msgstr ""
+
+#: ../main.cc:871
 msgid "Downloading of directory %z was completed"
 msgstr "Download direktori %z telah selesai"
 
-#: main.cc:682
-#, c-format
-msgid ""
-"Downloading of file %z (%i bytes) was completed at speed %i "
-"bytes/sec"
+#: ../main.cc:875
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
-"Download dari berkas %z (%i byte) telah selesai dengan kecepatan %i "
-"byte/det"
+"Download dari berkas %z (%i byte) telah selesai dengan kecepatan %i byte/det"
 
-#: main.cc:705
-#, c-format
+# main.cc
+#: ../main.cc:881
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr ""
+
+#: ../main.cc:892
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Download dari berkas %z dibatalkan karena kesalahan fatal"
 
-#: main.cc:920
+# main.cc
+#: ../main.cc:895
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr ""
+
+#: ../main.cc:926
+msgid "Splited download [%z] was stopped because one of threads failed"
+msgstr ""
+
+#: ../main.cc:1056
+msgid "Restarting failed downloads"
+msgstr ""
+
+# main.cc
+#: ../main.cc:1056 ../main.cc:1076 ../main.cc:1092 ../main.cc:1096
+#: ../main.cc:1101 ../main.cc:1114 ../main.cc:1119
+msgid "[control socket]"
+msgstr ""
+
+# main.cc
+#: ../main.cc:1067
+#, c-format
+msgid "Adding downloading via control socket [%s]"
+msgstr ""
+
+# main.cc
+#: ../main.cc:1074
+#, c-format
+msgid "Set speed limitation to %s %s"
+msgstr ""
+
+# main.cc
+#: ../main.cc:1092
+msgid "Setup maximum active downloads to"
+msgstr ""
+
+#: ../main.cc:1114
+msgid "Exiting if nothing to do is switched off"
+msgstr ""
+
+#: ../main.cc:1119
+#, c-format
+msgid "Downloader will exit if nothing to do after %i minutes %s"
+msgstr ""
+
+#: ../main.cc:1368
+msgid "Normally started"
+msgstr "Dijalankan secara normal"
+
+#: ../main.cc:1416
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Menambahkan download berkas %s dari %s [oleh pengguna]"
 
-#: main.cc:970 main.cc:1208
-msgid "Downloading was successefully completed!"
-msgstr "Download telah berhasil dengan sukses!"
+# main.cc
+#: ../main.cc:1456
+#, c-format
+msgid "%lu bytes loaded during the session"
+msgstr ""
 
-#: main.cc:977
-msgid "Downloading was failed..."
-msgstr "Download gagal..."
+# main.cc:
+#: ../main.cc:1457
+msgid "Downloader exited normaly"
+msgstr ""
 
-#: main.cc:1025 main.cc:1093
-msgid "It is strange that we can't delete file which just created..."
-msgstr "Aneh, file yang baru dibuat tidak dapat dihapus..."
+#: ../main.cc:1491
+#, fuzzy, c-format
+msgid "Can't open '%s' to save log"
+msgstr "Tak dapat membuka berkas untuk menyimpan log"
 
-#: main.cc:1029 main.cc:1097 main.cc:1176
-msgid "File not found"
-msgstr "Berkas tidak ditemukan"
+#: ../main.cc:1522
+#, fuzzy
+msgid "Such protocol is not supported!"
+msgstr "Penerusan download tidak didukung!!!"
 
-#: main.cc:1136
-msgid "Can't open messages queue!"
-msgstr "Tak dapat membuka antrian pesan!"
+# mainlog.cc:
+#: ../mainlog.cc:133
+msgid ""
+"Limitation for size of file of mainlog reached! File have been truncated."
+msgstr ""
 
-#: main.cc:1153
-msgid "Was Started!"
-msgstr "Telah Dimulai!"
-
-#: main.cc:1156
-msgid "It is a link and we already load it"
-msgstr "Itu adalah link dan kita telah memilikinya"
-
-#: mainlog.cc:106
+#: ../mainlog.cc:142
 msgid "Can't write to file interrupting write to file"
 msgstr "Tak dapat menulis ke berkas menginterupsi penulisan ke berkas"
 
-#: mainlog.cc:143
+#: ../mainlog.cc:183
 msgid "Open a row"
 msgstr "Membuka baris"
 
-#: mainlog.cc:146
+#: ../mainlog.cc:186
 msgid "Clear log"
 msgstr "Bersihkan log"
 
-#: mainlog.cc:178
+#: ../face/fsched.cc:710 ../face/lmenu.cc:139 ../mainlog.cc:189
+msgid "Properties"
+msgstr "Properti"
+
+#: ../mainlog.cc:221
 #, c-format
 msgid "row number %i of main log"
 msgstr "baris ke %i dari log utama"
 
-#: mainlog.cc:206
+#: ../mainlog.cc:249
 msgid "Can't open file for saving log"
 msgstr "Tak dapat membuka berkas untuk menyimpan log"
 
-#: nt.cc:45
+#: ../nt.cc:98
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
-msgstr "PERINGATAN!!! Tak dapat menemukan variabel HOME! Tidak dapat membaca konfigurasi!"
+msgstr ""
+"PERINGATAN!!! Tak dapat menemukan variabel HOME! Tidak dapat membaca "
+"konfigurasi!"
 
-#: nt.cc:50
+#: ../nt.cc:111
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "kemungkinan besar %s telah dijalankan\n"
 
-#: savelog.cc:75
+#: ../savelog.cc:45
 msgid ""
 "Can't save default list of downloads!!! Becouse can't find HOME variable"
 msgstr ""
-"Tak dapat menyimpan daftar download default!!! Karena tidak dapat menemukan variabel HOME"
+"Tak dapat menyimpan daftar download default!!! Karena tidak dapat menemukan "
+"variabel HOME"
 
-#: savelog.cc:86
+#: ../savelog.cc:51
 msgid "Can't save default list of downloads!!!"
 msgstr "Tak dapat menyimpan daftar download default!!!"
 
-#: savelog.cc:121
+#: ../savelog.cc:97
 msgid "Can't load default list of downloads!!!"
 msgstr "Tak dapat memuat daftar download default!!!"
 
-#: signal.cc:44
+#: ../signal.cc:52 ../signal.cc:71
 msgid "Download  was stopped by user"
 msgstr "Download dihentikan oleh pengguna"
 
-#: face/columns.cc:22
-msgid "status"
+#: ../memwl.cc:73
+msgid "BUG: Wrong mode of lseek!\n"
 msgstr ""
 
-#: face/columns.cc:22
-msgid "file name"
+# ping.cc
+#: ../ping.cc:49
+msgid "Resolving hosts..."
 msgstr ""
 
-#: face/columns.cc:22
-msgid "type of file"
+#: ../ping.cc:78
+msgid "Pinging  (it takes 30 seconds maximum)..."
 msgstr ""
 
-#: face/columns.cc:22
-msgid "size of file"
+#: ../var.cc:93
+msgid "low"
 msgstr ""
 
-#: face/columns.cc:22
-msgid "downloaded size"
+#: ../var.cc:94
+msgid "medium"
 msgstr ""
 
-#: face/columns.cc:22
-msgid "percent"
+#: ../var.cc:95
+#, fuzzy
+msgid "unlimited"
+msgstr " Kecepatan tak dibatasi "
+
+#: ../face/about.cc:98
+msgid "About"
+msgstr "Keterangan"
+
+#: ../face/about.cc:103
+msgid "Author: Koshelev Maxim"
+msgstr "Pembuat: Koshelev Maxim"
+
+#: ../face/about.cc:105
+msgid "Translators team"
+msgstr "Tim Penerjemah"
+
+# face/about.cc
+#: ../face/about.cc:112
+msgid "Special thanks to"
 msgstr ""
 
-#: face/columns.cc:22
-msgid "speed"
-msgstr ""
-
-#: face/columns.cc:22
-msgid "elapsed time"
-msgstr ""
-
-#: face/columns.cc:22
-msgid "estimated time"
-msgstr ""
-
-#: face/columns.cc:22
-msgid "time of pause"
-msgstr ""
-
-#: face/columns.cc:22
-msgid "number of attempts"
-msgstr ""
-
-#: face/columns.cc:22
-msgid "Showed columns"
-msgstr ""
-
-#: face/refs.cc:
-msgid "Rollback after reconnecting (in bytes)"
-msgstr ""
-
-#: download.cc:
-msgid "Can't do rollback!"
-msgstr ""
-
-#: main.cc:
-msgid "Redirect from %z"
-msgstr ""
-
-#: face/
+# face/
+#: ../face/about.cc:119 ../face/about.cc:191 ../face/about.cc:246
+#: ../face/edit.cc:630 ../face/edit.cc:1487 ../face/fsched.cc:182
+#: ../face/fsched.cc:716 ../face/limface.cc:77 ../face/limface.cc:319
+#: ../face/passface.cc:76 ../face/passface.cc:258 ../face/prefs.cc:994
+#: ../face/saveload.cc:137 ../face/saveload.cc:177 ../face/saveload.cc:216
 msgid "Ok"
 msgstr ""
 
-#: face/prefs.cc:
-msgid "Show DnD basket"
-msgstr ""
+#: ../face/about.cc:192 ../face/edit.cc:631 ../face/fsched.cc:717
+#: ../face/limface.cc:78 ../face/passface.cc:77 ../face/prefs.cc:995
+#: ../face/saveload.cc:139 ../face/saveload.cc:179 ../face/saveload.cc:218
+msgid "Cancel"
+msgstr "Batal"
 
-#: face/buttons.cc:
+#: ../face/addd.cc:100 ../face/addd.cc:168
+msgid "Add new download"
+msgstr "Tambah download baru"
+
+#: ../face/buttons.cc:48
+msgid "Delete ALL downloads?"
+msgstr "Hapus SEMUA download?"
+
+#: ../face/buttons.cc:48
+msgid "Delete all?"
+msgstr "Hapus semua?"
+
+#: ../face/buttons.cc:54 ../face/buttons.cc:197
+msgid " Speed level one "
+msgstr " Kecepatan tingkat satu "
+
+#: ../face/buttons.cc:58 ../face/buttons.cc:206
+msgid " Speed level two "
+msgstr " Kecepatan tingkat dua "
+
+#.	gtk_container_add (GTK_CONTAINER (HandleBox), ButtonsBar);
+#: ../face/buttons.cc:170
+msgid " Add new download "
+msgstr " Tambah download baru "
+
+#: ../face/buttons.cc:172
+msgid " Paste from clipboard "
+msgstr " Paste dari clipboard "
+
+#: ../face/buttons.cc:174
+msgid " Del downloads "
+msgstr " Hapus download "
+
+#: ../face/buttons.cc:177
+msgid " Continue/restart downloads "
+msgstr " Melanjutkan/mulai download "
+
+#: ../face/buttons.cc:179
+msgid " Stop downloads "
+msgstr " Berhenti mendownload "
+
+#: ../face/buttons.cc:181
+msgid " Del Completed downloads "
+msgstr " Hapus download yang selesai "
+
+#: ../face/buttons.cc:183
+msgid " Move up "
+msgstr " Naikkan "
+
+#: ../face/buttons.cc:185
+msgid " Move down "
+msgstr " Turunkan "
+
+#: ../face/buttons.cc:187
+msgid " View log "
+msgstr " Lihat log "
+
+#: ../face/buttons.cc:190
+msgid " Options "
+msgstr " Pilihan "
+
+#: ../face/buttons.cc:215
+msgid " Unlimited speed "
+msgstr " Kecepatan tak dibatasi "
+
+#: ../face/buttons.cc:223
+msgid " Delete all downloads "
+msgstr " Hapus semua download "
+
+#: ../face/buttons.cc:225
+msgid " Save list "
+msgstr " Simpan daftar "
+
+# face/buttons.cc:
+#: ../face/buttons.cc:232
 msgid " DnD basket "
 msgstr ""
 
-#: main.cc:
-msgid "Downloader exited normaly"
+#: ../face/columns.cc:20
+msgid "status"
 msgstr ""
 
-#: face/dndtrash.cc:
-msgid "Drop link here"
+#: ../face/columns.cc:21
+msgid "file name"
 msgstr ""
 
-#: face/edit.cc
-msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+#: ../face/columns.cc:22
+msgid "type of file"
 msgstr ""
 
-#: log.cc:
-msgid "Log was started!"
+#: ../face/columns.cc:23
+msgid "size of file"
 msgstr ""
 
-#: config.cc:
-msgid "Run downloads: %d\n"
+#: ../face/columns.cc:24
+msgid "downloaded size"
 msgstr ""
 
-#: config.cc:
-msgid "Paused downloads: %d\n"
-msgstr ""
-
-#: config.cc:
-msgid "Failed downloads: %d\n"
-msgstr ""
-
-#: config.cc:
-msgid "Completed downloads: %d\n"
-msgstr ""
-
-#: config.cc:
-msgid "Total: %d\n"
-msgstr ""
-
-#: config.cc:
-msgid "Current speed: %d\n"
-msgstr ""
-
-#: config.cc:
-msgid "Usage: nt [OPTION] ... [URL]"
-msgstr ""
-
-#: config.cc:
-msgid "print this page and exit"
-msgstr ""
-
-#: config.cc:
-msgid "show version information and exit"
-msgstr ""
-
-#: config.cc:
-msgid "show information if already run"
-msgstr ""
-
-#: config.cc:
-msgid "show current speed if already run"
-msgstr ""
-
-#: prefs.cc:
-msgid "Exit if nothing to do after"
-msgstr ""
-
-#: prefs.cc:
-msgid "Main log"
-msgstr ""
-
-#: face/prefs.cc
-msgid "Output detailed information"
-msgstr ""
-
-#: main.cc
-msgid "Prepare [%z] for stoping"
-msgstr ""
-
-#: main.cc
-msgid "Run new thread for %z"
-msgstr ""
-
-#: main.cc
-msgid "%z was deleted from queue of downloads as completed download"
-msgstr ""
-
-#: main.cc
-msgid "%z was deleted from queue of downloads as failed download"
-msgstr ""
-
-#: main.cc
-msgid "Delete completed downloads"
-msgstr ""
-
-#: main.cc
-msgid "Delete failed downloads"
-msgstr ""
-
-#:main.cc:
-msgid "Loading default list of downloads"
-msgstr ""
-
-#:main.cc:
-msgid "Append list to current queue of downloads"
-msgstr ""
-
-#: face/dndtrash.cc
-msgid "/New Download"
-msgstr ""
-
-#: face/dndtrash.cc
-msgid "/Paste Download"
-msgstr ""
-
-#: face/dndtrash.cc
-msgid "/General options"
-msgstr ""
-
-#: face/dndtrash.cc
-msgid "/Exit"
-msgstr ""
-
-#: face/prefs.cc:
-msgid "User-Agent for HTTP requests"
-msgstr ""
-
-#: face/columns.cc
+# face/columns.cc
+#: ../face/columns.cc:25
 msgid "rest"
 msgstr ""
 
-#: face/lod.cc
-msgid "Rest"
+#: ../face/columns.cc:26
+msgid "percent"
 msgstr ""
 
-#: config.cc:
-msgid "set lower speed limitation"
+#: ../face/columns.cc:27
+msgid "speed"
 msgstr ""
 
-#: config.cc:
-msgid "set medium speed limitation"
+#: ../face/columns.cc:28
+msgid "elapsed time"
 msgstr ""
 
-#: config.cc:
-msgid "set unlimited speed"
+#: ../face/columns.cc:29
+msgid "estimated time"
 msgstr ""
 
-#: http.cc
-msgid "Request was sent, waiting for the answer"
+#: ../face/columns.cc:30
+msgid "time of pause"
 msgstr ""
 
-#: config.cc:
-msgid "unknown option:"
+#: ../face/columns.cc:31
+msgid "number of attempts"
 msgstr ""
 
-#: face/prefs.cc:
-msgid "Run this on exit"
+# face/columns.cc
+#: ../face/columns.cc:32
+msgid "description"
 msgstr ""
 
-#: face/prefs.cc:
-msgid "Remember passwords"
+#: ../face/columns.cc:33 ../face/lod.cc:55
+msgid "URL"
+msgstr "URL"
+
+#: ../face/columns.cc:70
+msgid "Showed columns"
 msgstr ""
 
-#: face/limface.cc:
-msgid "Now"
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:40
+msgid "/New Download"
 msgstr ""
 
-
-#: face/edit.cc:
-msgid "Default"
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:41
+msgid "/Paste Download"
 msgstr ""
 
-#main.cc
-msgid "Adding downloading via control socket [%s]"
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:42
+msgid "/Delete completed"
 msgstr ""
 
-#cookie.cc
-msgid "Can't open cookies file!"
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:43
+msgid "/General options"
 msgstr ""
 
-#cookie.cc
-msgid "%i cookies loaded"
-msgstr ""
-
-#cookie.cc
-msgid "Loading cookies"
-msgstr ""
-
-#face/prefs.cc
-msgid "Monitor clipboard"
-msgstr ""
-
-
-#: face/prefs.cc
-msgid "Skip these extensions in clipboard"
-msgstr ""
-
-#: face/dndtrash.cc
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:44
 msgid "/Speed"
 msgstr ""
 
-#: face/dndtrash.cc
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:45
 msgid "/Speed/Low"
 msgstr ""
 
-#: face/dndtrash.cc
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:46
 msgid "/Speed/Medium"
 msgstr ""
 
-#: face/dndtrash.cc
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:47
 msgid "/Speed/Unlimited"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Speed"
+# face/dndtrash.cc
+#: ../face/dndtrash.cc:48
+msgid "/Exit"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Speed/Low"
+# face/dndtrash.cc:
+#: ../face/dndtrash.cc:243 ../face/list.cc:870 ../face/list.cc:887
+msgid "Drop link here"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Speed/Medium"
+#: ../face/edit.cc:56 ../face/edit.cc:343
+msgid "Use password for this site"
+msgstr "Gunakan kata kunci untuk situs ini"
+
+#: ../face/edit.cc:57 ../face/edit.cc:307
+msgid "Save download to folder"
+msgstr "Simpan download ke direktori"
+
+# face/edit.cc
+#: ../face/edit.cc:58 ../face/edit.cc:360
+msgid "Restart this download from begining"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Speed/Unlimited"
-msgstr ""
-#: face/list.cc
-msgid "/Options/Buttons"
+#: ../face/edit.cc:59
+#, fuzzy
+msgid "Timeout for reading from socket"
+msgstr "Terlalu lama menunggu pembacaan socket!"
+
+#: ../face/edit.cc:60
+#, fuzzy
+msgid "Speed limitation"
+msgstr "Set batasan"
+
+#: ../face/edit.cc:61
+#, fuzzy
+msgid "Maximum attempts"
+msgstr "Mencoba maksimum (0 untuk tak terbatas)"
+
+#: ../face/edit.cc:62
+#, fuzzy
+msgid "Timeout before reconnection"
+msgstr "Lama menunggu sebelum koneksi kembali (dalam detik)"
+
+#: ../face/edit.cc:63
+msgid "Rollback after reconnecting"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Buttons/Manipulating"
+#: ../face/edit.cc:64 ../face/edit.cc:424 ../face/prefs.cc:214
+msgid "Get date from the server"
+msgstr "Ambil tanggal dari server"
+
+#: ../face/edit.cc:65 ../face/edit.cc:428 ../face/prefs.cc:218
+msgid "Retry if resuming is not supported"
+msgstr "Coba lagi jika server tidak mendukung resume"
+
+# face/edit.cc:
+#: ../face/edit.cc:66 ../face/edit.cc:419
+msgid "Number of parts for spliting this download"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Buttons/Speed buttons"
+#: ../face/edit.cc:67 ../face/edit.cc:466 ../face/prefs.cc:319
+msgid "Use passive mode for FTP"
+msgstr "Gunakan mode pasif untuk ftp"
+
+#: ../face/edit.cc:68 ../face/edit.cc:472 ../face/prefs.cc:327
+msgid "Get permissions of the file from server (FTP only)"
+msgstr "Ambil ijin akses berkas dari server (hanya FTP)"
+
+# face/prefs.cc, face/edit.cc
+#: ../face/edit.cc:69 ../face/edit.cc:469 ../face/prefs.cc:323
+msgid "Don't send QUIT command (FTP)"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Buttons/Misc buttons"
+# face/edit.cc
+#: ../face/edit.cc:70 ../face/edit.cc:432 ../face/prefs.cc:222
+msgid "Sleep before completing"
 msgstr ""
 
-#: face/list.cc
-msgid "/Options/Buttons/Add buttons"
+# face/prefs.cc
+#: ../face/edit.cc:71 ../face/edit.cc:436 ../face/prefs.cc:234
+msgid "Compare date/time of remote file with local one"
 msgstr ""
 
-#:main.cc
-msgid "[control socket]"
-msgstr ""
-
-# face/list.cc
-msgid "/Download/Unselect all"
-msgstr ""
-
-# face/list.cc
-msgid "/Download/-"
-msgstr ""
-
-#: face/edit.cc:
-msgid "Pause this just after adding"
-msgstr ""
-
-#face/list.cc:
-msgid "/Download/Select all"
-msgstr ""
-
-# face/list.cc
-msgid "/Download/Invert selection"
-msgstr ""
-
-#face/edit.cc:
+# face/edit.cc:
+#: ../face/edit.cc:72 ../face/edit.cc:475 ../face/prefs.cc:331
 msgid "Try to load symbolic link as file via FTP"
 msgstr ""
 
-# face/list.cc
-msgid "/Options/Passwords"
+#: ../face/edit.cc:73
+msgid "Depth of recursing for FTP"
 msgstr ""
 
-# face/passwords.cc
-msgid "protocol"
+#: ../face/edit.cc:74
+msgid "Depth of recursing for HTTP"
 msgstr ""
 
-
-#face/passface.cc:
-msgid "Default passwords and usernames"
-msgstr ""
-
-#main.cc:
-msgid "Redirection from [%z] to nowhere!"
-msgstr ""
-
-# config.cc:
-msgid "set directory for saving files"
-msgstr ""
-
-msgid "delete completed if already run"
-msgstr ""
-
-msgid "set maximum active downloads"
-msgstr ""
-
-#face/edit.cc
-msgid "Allow leave this server while recursing via HTTP"
-msgstr ""
-
-msgid "/Download/Rerun failed"
-msgstr ""
-
-msgid "You have no permissions to create file at path %s"
-msgstr ""
-
-msgid "You have no space at path %s for creating file"
-msgstr ""
-
-#face/edit.cc:
+# face/edit.cc:
+#: ../face/edit.cc:75 ../face/edit.cc:505 ../face/prefs.cc:353
 msgid "Only subdirs"
 msgstr ""
 
 # face/edit.cc
-msgid "Restart this download from begining"
+#: ../face/edit.cc:76 ../face/edit.cc:506 ../face/prefs.cc:354
+msgid "Allow leave this server while recursing via HTTP"
 msgstr ""
 
-# config.cc
-msgid "restart all failed downloads"
+#: ../face/edit.cc:77 ../face/edit.cc:507 ../face/prefs.cc:355
+msgid "Change links in HTML file to local"
 msgstr ""
 
-msgid "run program without X interface"
+#: ../face/edit.cc:78 ../face/edit.cc:515 ../face/prefs.cc:372
+msgid "User-Agent"
 msgstr ""
 
-#main.cc
-msgid "Set speed limitation to %s %s"
+#: ../face/edit.cc:79 ../face/edit.cc:617 ../face/edit.cc:620
+#: ../face/prefs.cc:395 ../face/prefs.cc:913 ../face/prefs.cc:1080
+msgid "Proxy"
+msgstr "Proxy"
+
+#. Init time
+#.
+#: ../face/edit.cc:80 ../face/edit.cc:536 ../face/edit.cc:579
+#: ../face/fsched.cc:170 ../face/lod.cc:50
+msgid "Time"
+msgstr "Waktu"
+
+#: ../face/edit.cc:178 ../face/edit.cc:195
+msgid "Edit download"
+msgstr "Edit download"
+
+# face/lod.cc
+#: ../face/edit.cc:306 ../face/lod.cc:54
+msgid "Description"
 msgstr ""
 
-#var.cc
-msgid "low"
-msgstr ""
+#: ../face/edit.cc:308
+msgid "Save download to file"
+msgstr "Simpan download ke berkas"
 
-msgid "medium"
-msgstr ""
+#: ../face/edit.cc:309 ../face/edit.cc:1169 ../face/edit.cc:1229
+#: ../face/passface.cc:66
+msgid "password"
+msgstr "kata kunci"
 
-msgid "unlimited"
-msgstr ""
+#: ../face/edit.cc:310
+msgid "user name"
+msgstr "nama user"
 
-#main.cc:
-msgid "Can't run new thread for downloading!"
-msgstr ""
-
-#mainlog.cc:
-msgid "Limitation for size of file of mainlog reached! File have been truncated."
-msgstr ""
-
-#face/prefs.cc:
-msgid "Maximum size for file of main log (in KBytes)"
-msgstr ""
-
-# face/list.cc:
-msgid "/File/Find links in file"
-msgstr ""
-
-# face/prefs.cc:
-msgid "Use fixed font in logs"
+# face/edit.cc:
+#. set as default button
+#.
+#: ../face/edit.cc:313
+msgid "Default"
 msgstr ""
 
 # face/edit.cc:
-msgid "Number of parts for spliting this download"
+#: ../face/edit.cc:359 ../face/prefs.cc:230
+msgid "Pause this just after adding"
 msgstr ""
 
+#: ../face/edit.cc:365 ../face/prefs.cc:212 ../face/prefs.cc:889
+#: ../face/prefs.cc:1036
+msgid "Download"
+msgstr "Download"
 
-# face/saveload.cc
-msgid "Find links in txt file"
+#: ../face/edit.cc:368 ../face/prefs.cc:683 ../face/prefs.cc:968
+#: ../face/prefs.cc:1153
+msgid "Main"
+msgstr "Utama"
+
+#: ../face/edit.cc:384 ../face/prefs.cc:264
+msgid "Timeout for reading from socket (in seconds)"
+msgstr "Lama menunggu membaca dari socket (dalam detik)"
+
+#: ../face/edit.cc:391 ../face/prefs.cc:271
+msgid "Timeout before reconnection (in seconds)"
+msgstr "Lama menunggu sebelum koneksi kembali (dalam detik)"
+
+#: ../face/edit.cc:398 ../face/prefs.cc:278
+msgid "Maximum attempts (0 for unlimited)"
+msgstr "Mencoba maksimum (0 untuk tak terbatas)"
+
+# face/refs.cc:
+#: ../face/edit.cc:405 ../face/prefs.cc:285
+msgid "Rollback after reconnecting (in bytes)"
+msgstr ""
+
+# face/edit.cc
+#: ../face/edit.cc:412 ../face/prefs.cc:292
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr ""
+
+#: ../face/edit.cc:440
+#, fuzzy
+msgid "Save log to file"
+msgstr "Simpan log utama ke berkas"
+
+#: ../face/edit.cc:450
+#, fuzzy
+msgid "Auto"
+msgstr "Keterangan"
+
+#: ../face/edit.cc:457 ../face/edit.cc:460
+msgid "Common"
+msgstr "Umum"
+
+#: ../face/edit.cc:483 ../face/edit.cc:500 ../face/prefs.cc:338
+#: ../face/prefs.cc:366
+msgid "Depth of recursing (0 unlimited,1 no recurse)"
+msgstr "Kedalaman rekursi direktori (0 tak terbatas,1 tidak merekursi)"
+
+#: ../face/edit.cc:551
+msgid "Hours"
+msgstr "Jam"
+
+#: ../face/edit.cc:559
+msgid "Minutes"
+msgstr "Menit"
+
+#: ../face/edit.cc:571
+msgid "Start this downloading at:"
+msgstr "Mulai mendownload pada:"
+
+#: ../face/edit.cc:1106
+msgid "FTP proxy type"
+msgstr "jenis proxy ftp"
+
+#: ../face/edit.cc:1117
+msgid "FTP (wingate)"
+msgstr "FTP (wingate)"
+
+#: ../face/edit.cc:1131
+msgid "Use this proxy for FTP"
+msgstr "Gunakan proxy ini untuk ftp"
+
+#. gtk_entry_new();
+#: ../face/edit.cc:1139 ../face/edit.cc:1201
+msgid "port"
+msgstr "port"
+
+#: ../face/edit.cc:1146 ../face/edit.cc:1207
+msgid "need password"
+msgstr "membutuhkan kata kunci"
+
+#: ../face/edit.cc:1154 ../face/edit.cc:1215 ../face/passface.cc:65
+#: ../face/passface.cc:244
+msgid "username"
+msgstr "nama user"
+
+# face/lod.cc
+#: ../face/edit.cc:1186
+msgid "Don't get from cache"
+msgstr ""
+
+#: ../face/edit.cc:1193
+msgid "Use this proxy for HTTP"
+msgstr "Gunakan proxy ini untuk http"
+
+#: ../face/edit.cc:1469
+msgid "Select properties"
+msgstr ""
+
+#: ../face/edit.cc:1493
+msgid "Unselect all"
+msgstr ""
+
+#: ../face/edit.cc:1499
+msgid "Select all"
+msgstr ""
+
+#: ../face/limface.cc:56
+msgid "Limitation for the host"
+msgstr "Batasan untuk server ini"
+
+#: ../face/limface.cc:62
+msgid "Host:"
+msgstr "Server:"
+
+#: ../face/limface.cc:63
+msgid "Port:"
+msgstr "Port:"
+
+#: ../face/limface.cc:64
+msgid "Maximum connections:"
+msgstr "Koneksi maksimum:"
+
+#: ../face/limface.cc:303
+msgid "Limitations for the hosts"
+msgstr "Batasan untuk server"
+
+#: ../face/limface.cc:307 ../face/passface.cc:55 ../face/passface.cc:244
+msgid "Host"
+msgstr "Server"
+
+#: ../face/limface.cc:307
+msgid "N"
+msgstr ""
+
+# face/limface.cc:
+#: ../face/limface.cc:307
+msgid "Now"
+msgstr ""
+
+#: ../face/limface.cc:320 ../face/passface.cc:259
+msgid "Add new"
+msgstr "Tambah Baru"
+
+#: ../face/limface.cc:321 ../face/passface.cc:260
+msgid "Delete"
+msgstr "Hapus"
+
+# face/limface.cc
+#: ../face/limface.cc:331
+msgid "Default limitation for all hosts (0 without limits)"
+msgstr ""
+
+#: ../face/list.cc:102
+msgid "/_File"
+msgstr "/_Berkas"
+
+#: ../face/list.cc:103
+msgid "/File/_Save List"
+msgstr "/Berkas/_Simpan Daftar"
+
+#: ../face/list.cc:104
+msgid "/File/_Load List"
+msgstr "/Berkas/_Muat Daftar"
+
+# face/list.cc:
+#: ../face/list.cc:105
+msgid "/File/Find links in file"
+msgstr ""
+
+#: ../face/list.cc:106
+msgid "/File/_New Download"
+msgstr "/Berkas/Download _Baru"
+
+#: ../face/list.cc:107
+msgid "/File/_Paste Download"
+msgstr "/Berkas/_Paste Download"
+
+#: ../face/list.cc:108
+msgid "/File/Exit"
+msgstr "/Berkas/Keluar"
+
+#: ../face/list.cc:109
+msgid "/File/sep1"
+msgstr "/Berkas/sep1"
+
+#: ../face/list.cc:110
+msgid "/_Download"
+msgstr "/_Download"
+
+#: ../face/list.cc:111
+msgid "/Download/View _Log"
+msgstr "/Download/Lihat _Log"
+
+#: ../face/list.cc:112
+msgid "/Download/_Stop downloads"
+msgstr "/Download/_Stop download"
+
+#: ../face/list.cc:113
+msgid "/Download/Edit download"
+msgstr "/Download/Edit download"
+
+#: ../face/list.cc:114
+msgid "/Download/_Delete downloads"
+msgstr "/Download/_Hapus download"
+
+#: ../face/list.cc:115
+msgid "/Download/Continue downloads"
+msgstr "/Download/Lanjutkan download"
+
+#: ../face/list.cc:116
+msgid "/Download/Delete completed"
+msgstr "/Download/Hapus yang telah selesai"
+
+#: ../face/list.cc:117
+msgid "/Download/Delete failed"
+msgstr "/Download/Hapus download gagal"
+
+#: ../face/list.cc:118
+msgid "/Download/Rerun failed"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:119
+msgid "/Download/Unselect all"
+msgstr ""
+
+# face/list.cc:
+#: ../face/list.cc:120
+msgid "/Download/Select all"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:121
+msgid "/Download/Invert selection"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:122
+msgid "/Download/-"
+msgstr ""
+
+#: ../face/list.cc:123
+msgid "/_Options"
+msgstr "/_Pilihan"
+
+# face/list.cc
+#: ../face/list.cc:124
+msgid "/Options/Scheduler"
+msgstr ""
+
+#: ../face/list.cc:125
+msgid "/Options/Limitations"
+msgstr "/Pilihan/Batasan"
+
+# face/list.cc
+#: ../face/list.cc:126
+msgid "/Options/Passwords"
+msgstr ""
+
+#: ../face/list.cc:127
+msgid "/Options/General"
+msgstr "/Pilihan/Umum"
+
+# face/list.cc
+#: ../face/list.cc:128
+msgid "/Options/Speed"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:129
+msgid "/Options/Speed/Low"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:130
+msgid "/Options/Speed/Medium"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:131
+msgid "/Options/Speed/Unlimited"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:132
+msgid "/Options/Buttons"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:133
+msgid "/Options/Buttons/Add buttons"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:134
+msgid "/Options/Buttons/Manipulating"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:135
+msgid "/Options/Buttons/Speed buttons"
+msgstr ""
+
+# face/list.cc
+#: ../face/list.cc:136
+msgid "/Options/Buttons/Misc buttons"
+msgstr ""
+
+#: ../face/list.cc:137
+msgid "/_Help"
+msgstr "/_Bantuan"
+
+#: ../face/list.cc:138
+msgid "/_Help/About"
+msgstr "/_Bantuan/Keterangan"
+
+#: ../face/list.cc:583
+msgid "Do you really want to quit?"
+msgstr "Apakah anda benar-benar ingin keluar?"
+
+#: ../face/list.cc:583
+msgid "Quit?"
+msgstr "Keluar?"
+
+#: ../face/list.cc:608
+msgid "Delete selected downloads?"
+msgstr "Hapus download yang dipilih?"
+
+#: ../face/list.cc:608 ../face/list.cc:621 ../face/list.cc:631
+msgid "Delete?"
+msgstr "Hapus?"
+
+#: ../face/list.cc:621
+msgid "Do you wish delete completed downloads?"
+msgstr "Apakah anda ingin menghapus download yang telah selesai?"
+
+#: ../face/list.cc:631
+msgid "Do you wish delete failed downloads?"
+msgstr "Apakah anda ingin menghapus download yang gagal?"
+
+#: ../face/list.cc:688
+msgid "Ready to go ????"
+msgstr "Siap untuk mulai ????"
+
+#: ../face/list.cc:877
+#, fuzzy, c-format
+msgid "%i-running %i-completed %i-total "
+msgstr "%i-mendownload %i-selesai %i-total"
+
+#: ../face/lmenu.cc:111
+msgid "View log"
+msgstr "Lihat log"
+
+#: ../face/lmenu.cc:117
+msgid "Stop"
+msgstr "Stop"
+
+#: ../face/lmenu.cc:124
+msgid "Continue downloads"
+msgstr "Lanjutkan download"
+
+#: ../face/lmenu.cc:130
+msgid "Copy"
+msgstr ""
+
+# face/lmenu.cc
+#: ../face/lmenu.cc:144
+msgid "Common properties"
+msgstr ""
+
+#: ../face/lmenu.cc:150
+msgid "Delete downloads"
+msgstr "Hapus download"
+
+#: ../face/lmenu.cc:156
+msgid "Delete completed"
+msgstr "Hapus yang telah selesai"
+
+#: ../face/lmenu.cc:162
+msgid "Delete failed"
+msgstr "Hapus download gagal"
+
+#: ../face/lmenu.cc:172
+msgid "Move up"
+msgstr "Naikkan"
+
+#: ../face/lmenu.cc:178
+msgid "Move down"
+msgstr "Turunkan"
+
+#: ../face/lmenu.cc:184
+msgid "Set limitation"
+msgstr "Set batasan"
+
+#: ../face/lmenu.cc:189 ../face/prefs.cc:746 ../face/prefs.cc:983
+#: ../face/prefs.cc:1141
+msgid "FTP search"
+msgstr ""
+
+#: ../face/lod.cc:43
+msgid "File"
+msgstr "Berkas"
+
+#: ../face/lod.cc:44
+msgid "Type"
+msgstr "Jenis"
+
+#: ../face/lod.cc:45
+msgid "Full Size"
+msgstr "Ukuran"
+
+#: ../face/lod.cc:46
+msgid "Downloaded"
+msgstr "Terdownload"
+
+#: ../face/lod.cc:47
+msgid "Rest"
+msgstr ""
+
+#: ../face/lod.cc:49
+msgid "Speed"
+msgstr "Kecepatan"
+
+#: ../face/lod.cc:51
+msgid "Remaining"
+msgstr "Sisa"
+
+#: ../face/lod.cc:52
+msgid "Pause"
+msgstr "Tunda"
+
+#: ../face/lod.cc:53
+msgid "Attempt"
+msgstr "Usaha"
+
+# face/lod.cc
+#: ../face/lod.cc:825
+msgid "Continue open log windows?"
+msgstr ""
+
+#: ../face/lod.cc:825
+#, fuzzy
+msgid "Open logs?"
+msgstr "Membuka baris"
+
+#: ../face/log.cc:211
+#, c-format
+msgid "Row number %i [log of %s]"
+msgstr "Baris ke %i [log dari %s]"
+
+#: ../face/log.cc:316
+msgid "Log: "
+msgstr "Log:"
+
+#: ../face/mywidget.cc:55
+msgid "Select directory"
+msgstr "Pilih direktori"
+
+#: ../face/fsched.cc:277 ../face/mywidget.cc:58
+msgid "Select file"
+msgstr "Pilih berkas"
+
+#: ../face/fsched.cc:414 ../face/mywidget.cc:99
+msgid "Browse"
+msgstr "Browse"
+
+# face/mywidget.cc:
+#: ../face/mywidget.cc:187
+msgid "Select color"
+msgstr ""
+
+# face/mywidget.cc:
+#: ../face/mywidget.cc:226
+msgid "Select"
+msgstr ""
+
+#: ../face/passface.cc:40
+msgid "Password and username"
+msgstr ""
+
+# face/passwords.cc
+#: ../face/passface.cc:54
+msgid "protocol"
+msgstr ""
+
+# face/passface.cc:
+#: ../face/passface.cc:240
+msgid "Default passwords and usernames"
+msgstr ""
+
+#: ../face/passface.cc:244
+msgid "#"
+msgstr ""
+
+#: ../face/prefs.cc:226
+msgid "Optimize recursive downloads"
+msgstr "Mengoptimasi download rekursif"
+
+#: ../face/prefs.cc:244
+msgid "Save downloads to folder"
+msgstr "Simpan download di direktori"
+
+#: ../face/prefs.cc:253 ../face/prefs.cc:898 ../face/prefs.cc:1048
+msgid "Limits"
+msgstr "Batasan"
+
+#: ../face/prefs.cc:309
+msgid "Maximum lines in log"
+msgstr "Jumlah baris maksimum di log"
+
+#: ../face/prefs.cc:317 ../face/prefs.cc:903 ../face/prefs.cc:1057
+msgid "FTP"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/prefs.cc:343
+msgid "Output FTP dirs in logs"
+msgstr ""
+
+#: ../face/prefs.cc:351 ../face/prefs.cc:908 ../face/prefs.cc:1066
+msgid "HTTP"
+msgstr ""
+
+#: ../face/prefs.cc:386
+msgid "Filename for saving if it is unknown"
+msgstr "Nama berkas untuk penyimpanan jika tidak diketahui"
+
+#: ../face/prefs.cc:410 ../face/prefs.cc:933 ../face/prefs.cc:1097
+msgid "Main window"
+msgstr ""
+
+#: ../face/prefs.cc:412
+msgid "Using title"
+msgstr "Menggunakan judul"
+
+#: ../face/prefs.cc:416
+msgid "Use title of main window for info"
+msgstr "Gunakan judul dari window utama untuk informasi"
+
+#: ../face/prefs.cc:421
+msgid "Display queue statistics too"
+msgstr "Tampilkan statistik antrian juga"
+
+#: ../face/prefs.cc:422
+msgid "Scroll title"
+msgstr "Gulung judul"
+
+#: ../face/prefs.cc:427
+msgid "Iconfiy main window instead of closing"
+msgstr "Mengikonkan window utama sewaktu menutup"
+
+#: ../face/prefs.cc:439 ../face/prefs.cc:938 ../face/prefs.cc:1104
+msgid "Confirmation"
+msgstr "Konfirmasi"
+
+#: ../face/prefs.cc:441
+msgid "Confirm delete selected downloads"
+msgstr "Konfirmasi penghapusan download yang dipilih"
+
+#: ../face/prefs.cc:442
+msgid "Confirm delete all downloads"
+msgstr "Konfirmasi penghapusan seluruh download"
+
+#: ../face/prefs.cc:443
+msgid "Confirm delete completed downloads"
+msgstr "Konfirmasi penghapusan download yang selesai"
+
+#: ../face/prefs.cc:444
+msgid "Confirm delete failed downloads"
+msgstr "Konfirmasi penghapusan download yang gagal"
+
+# face/prefs.cc
+#: ../face/prefs.cc:445
+msgid "Confirm opening large amount of windows"
+msgstr ""
+
+#: ../face/prefs.cc:446
+msgid "Confirm exit from program"
+msgstr "Konfirmasi keluar dari program"
+
+# face/prefs.cc
+#.
+#. tmpitem=gtk_tree_item_new_with_label(_("DnD"));
+#. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
+#. gtk_widget_show(tmpitem);
+#.
+#: ../face/prefs.cc:471 ../face/prefs.cc:962 ../face/prefs.cc:1130
+msgid "Clipboard"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/prefs.cc:473
+msgid "Monitor clipboard"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/prefs.cc:483
+msgid "Skip these extensions in clipboard"
+msgstr ""
+
+#: ../face/prefs.cc:491
+msgid "Catch these extensions in clipboard"
+msgstr ""
+
+# prefs.cc:
+#: ../face/prefs.cc:514 ../face/prefs.cc:977 ../face/prefs.cc:1166
+msgid "Main log"
+msgstr ""
+
+#: ../face/prefs.cc:520
+msgid "Maximum lines in MAIN log"
+msgstr "Jumlah baris maksimum di log utama"
+
+# face/prefs.cc
+#: ../face/prefs.cc:524
+msgid "Output detailed information"
+msgstr ""
+
+#: ../face/prefs.cc:528
+msgid "Save main log into file"
+msgstr "Simpan log utama ke berkas"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:547
+msgid "Maximum size for file of main log (in KBytes)"
+msgstr ""
+
+#: ../face/prefs.cc:553
+msgid "Append to file"
+msgstr "Menambahkan ke berkas"
+
+#: ../face/prefs.cc:556
+msgid "Overwrite file"
+msgstr "Tulis ulang berkas"
+
+#: ../face/prefs.cc:571 ../face/prefs.cc:949 ../face/prefs.cc:1121
+msgid "Integration"
+msgstr ""
+
+# prefs.cc:
+#: ../face/prefs.cc:573
+msgid "Exit if nothing to do after"
+msgstr ""
+
+#: ../face/prefs.cc:579 ../face/prefs.cc:699
+msgid "minutes"
+msgstr "menit"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:590
+msgid "Run this on exit"
+msgstr ""
+
+#: ../face/prefs.cc:595
+msgid "Open dialog for Drag-n-Drop"
+msgstr "Buka dialog untuk Drag dan Drop"
+
+#: ../face/prefs.cc:603 ../face/prefs.cc:928 ../face/prefs.cc:1089
+msgid "Columns"
+msgstr "Kolom"
+
+#: ../face/prefs.cc:607
+msgid "Size format"
+msgstr "Format ukuran"
+
+#: ../face/prefs.cc:608
+msgid "Time format"
+msgstr "Format waktu"
+
+#: ../face/prefs.cc:689
+msgid "Maximum active downloads"
+msgstr "Download aktif maksimum"
+
+#: ../face/prefs.cc:693
+msgid "Save list of downloads every"
+msgstr "Simpan daftar download setiap"
+
+#: ../face/prefs.cc:706
+msgid "Automatically delete completed downloads"
+msgstr "Otomatis menghapus download yang selesai"
+
+#: ../face/prefs.cc:707
+msgid "Automatically delete failed downloads"
+msgstr "Otomatis menghapus download yang gagal"
+
+#: ../face/prefs.cc:708
+msgid "Allow to user force run downloads"
 msgstr ""
 
 # face/prefs.cc:
+#: ../face/prefs.cc:709
+msgid "Remember passwords"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/prefs.cc:710
+msgid "Write Descript.ion file"
+msgstr ""
+
+#: ../face/prefs.cc:724
+msgid "bytes/sec speed level one (red button)"
+msgstr "kecepatan byte/det tingkat satu (tombol merah)"
+
+#: ../face/prefs.cc:732
+msgid "bytes/sec speed level two (yellow button)"
+msgstr "kecepatan byte/det tingkat dua (tombol kuning)"
+
+#: ../face/prefs.cc:752
+msgid "Number of attempts to ping hosts"
+msgstr ""
+
+#: ../face/prefs.cc:760
+msgid "Number of hosts in list"
+msgstr ""
+
+#: ../face/prefs.cc:786
+msgid "search engine to use"
+msgstr ""
+
+# face/prefs.cc
+#: ../face/prefs.cc:795 ../face/prefs.cc:919 ../face/prefs.cc:1084
+msgid "Interface"
+msgstr ""
+
+# face/prefs.cc:
+#: ../face/prefs.cc:797
+msgid "Show DnD basket"
+msgstr ""
+
+# face/prefs.cc:
+#: ../face/prefs.cc:798
+msgid "Use fixed font in logs"
+msgstr ""
+
+#: ../face/prefs.cc:815 ../face/prefs.cc:943 ../face/prefs.cc:1113
+msgid "Graph"
+msgstr ""
+
+#: ../face/prefs.cc:817
+msgid "Revert drawing graph of speeds"
+msgstr "Grafik kecepatan"
+
+# face/prefs.cc:
+#: ../face/prefs.cc:823
 msgid "Color for picks"
 msgstr ""
 
 # face/prefs.cc:
+#: ../face/prefs.cc:824
 msgid "Color for total speed"
 msgstr ""
 
 # face/prefs.cc:
+#: ../face/prefs.cc:825
 msgid "Color for speed of selected"
 msgstr ""
 
 # face/prefs.cc:
+#: ../face/prefs.cc:826
 msgid "Background color"
 msgstr ""
 
-# face/mywidget.cc:
-msgid "Select"
-msgstr ""
-
-# face/mywidget.cc:
-msgid "Select color"
-msgstr ""
-#face/prefs.cc
+# face/prefs.cc
+#: ../face/prefs.cc:835
 msgid "Reset to default"
 msgstr ""
 
+#: ../face/prefs.cc:838
 msgid "Colors for graph"
 msgstr ""
 
-#face/limface.cc
-msgid "Default limitation for all hosts (0 without limits)"
-msgstr ""
+#: ../face/prefs.cc:855
+msgid "Options"
+msgstr "Pilihan"
 
-
-#face/lod.cc
-msgid "Continue open log windows?"
-msgstr ""
-
-#face/lod.cc
-msgid "Don't get from cache"
-msgstr ""
-
-#config.cc
-msgid "run in minimized mode"
-msgstr ""
-
-#face/prefs.cc
-msgid "Confirm opening large amount of windows"
-msgstr ""
-
-
-#face/about.cc
-msgid "Special thanks to"
-msgstr ""
-
-
-#face/prefs.cc
-msgid "Clipboard"
-msgstr ""
-
-msgid "Catch these extensions in clipboard"
-msgstr ""
-
-msgid "Allow to user force run downloads"
-msgstr ""
-
-#face/saveload.cc
-msgid "Loading"
-msgstr ""
-
-#main.cc
-msgid "%lu bytes loaded during the session"
-msgstr ""
-
-msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr ""
-
-msgid "Exiting if nothing to do is switched off"
-msgstr ""
-
-#face/edit.cc
-msgid "Timeout for reading from socket"
-msgstr ""
-
-msgid "Maximum attempts"
-msgstr ""
-
-msgid "Timeout before reconnection"
-msgstr ""
-
-msgid "Rollback after reconnecting"
-msgstr ""
-
-msgid "Depth of recursing for HTTP"
-msgstr ""
-
-msgid "Depth of recursing for FTP"
-msgstr ""
-
-msgid "Speed limitation"
-msgstr ""
-
-msgid "Unselect all"
-msgstr ""
-
-msgid "Select all"
-msgstr ""
-
-msgid "Select properties"
-msgstr ""
-
-#face/lmenu.cc
-msgid "Common properties"
-msgstr ""
-
-#config.cc
-msgid "set timeout for exiting if nothing to do"
-msgstr ""
-
-msgid "You should specify number as parameter for '--exit-time' option"
-msgstr ""
-
-#face/prefs.cc
-msgid "Output FTP dirs in logs"
-msgstr ""
-
-#main.cc
-msgid "Setup maximum active downloads to"
-msgstr ""
-
-msgid "Restarting failed downloads"
-msgstr ""
-
-# face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (FTP)"
-msgstr ""
-
-#:download.cc
-msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr ""
-
-#:face/dndtrash.cc
-msgid "/Delete completed"
-msgstr ""
-
-#:face/fsface.cc
-msgid "nothing found"
-msgstr ""
-
-msgid "searching"
-msgstr ""
-
-msgid "remove"
-msgstr ""
-
-#:face/prefs.cc
-msgid "Write Descript.ion file"
-msgstr ""
-
-#:face/columns.cc
-msgid "description"
-msgstr ""
-
-#:face/lod.cc
-msgid "Description"
-msgstr ""
-
-#:dlist.cc:
-msgid "Search has been completed!"
-msgstr ""
-
-#:config.cc:
-msgid "Expect URL as parameter for '--ls' option"
-msgstr ""
-
-msgid "display info about URL in queue of downloads"
-msgstr ""
-
-#: face/edit.cc
-msgid "Sleep before completing"
-msgstr ""
-
-#: ping.cc
-msgid "Resolving hosts..."
-msgstr ""
-
-msgid "Pinging  (it takes 30 seconds maximum)..."
-msgstr ""
-
-#: face/prefs.cc
-msgid "Compare date/time of remote file with local one"
-msgstr ""
-
+#: ../face/prefs.cc:996
 msgid "Apply"
 msgstr ""
 
-#: dlist.cc
-msgid "Searching failed"
+# face/saveload.cc
+#: ../face/saveload.cc:68
+msgid "Loading"
 msgstr ""
 
+#: ../face/saveload.cc:119
+msgid "Save list"
+msgstr "Simpan daftar"
 
-#face/fsface.cc
+#: ../face/saveload.cc:159
+msgid "Load list"
+msgstr "Muat daftar"
+
+# face/saveload.cc
+#: ../face/saveload.cc:198
+msgid "Find links in txt file"
+msgstr ""
+
+# face/fsface.cc
+#: ../face/fsface.cc:72
+msgid "nothing found"
+msgstr ""
+
+#: ../face/fsface.cc:76
+msgid "searching"
+msgstr ""
+
+# face/fsface.cc
+#: ../face/fsface.cc:85
 msgid "reping"
 msgstr ""
 
+#: ../face/fsface.cc:89
 msgid "cumulative reping"
 msgstr ""
 
-#: dlist.cc
-msgid "Sorting started"
+#: ../face/fsface.cc:95
+msgid "remove"
 msgstr ""
 
-#: dlist.cc
-msgid "File is already opened by another download!"
+#: ../face/fsched.cc:30
+#, fuzzy
+msgid "limit speed"
+msgstr " Kecepatan tak dibatasi "
+
+#: ../face/fsched.cc:31
+msgid "popup main window"
 msgstr ""
+
+#: ../face/fsched.cc:32
+msgid "exit"
+msgstr ""
+
+#: ../face/fsched.cc:33
+#, fuzzy
+msgid "remove completed"
+msgstr "Hapus yang telah selesai"
+
+#: ../face/fsched.cc:34
+#, fuzzy
+msgid "remove failed"
+msgstr "Hapus download gagal"
+
+#: ../face/fsched.cc:35
+#, fuzzy
+msgid "restart download"
+msgstr " Melanjutkan/mulai download "
+
+#: ../face/fsched.cc:36
+#, fuzzy
+msgid "stop download"
+msgstr " Berhenti mendownload "
+
+#: ../face/fsched.cc:37
+#, fuzzy
+msgid "remove download"
+msgstr "Hapus download"
+
+#: ../face/fsched.cc:38
+#, fuzzy
+msgid "remove download if completed"
+msgstr "Hapus yang telah selesai"
+
+#: ../face/fsched.cc:39
+#, fuzzy
+msgid "add download"
+msgstr "Edit download"
+
+#: ../face/fsched.cc:40
+#, fuzzy
+msgid "save list"
+msgstr "Simpan daftar"
+
+#: ../face/fsched.cc:166
+msgid "Scheduler"
+msgstr ""
+
+#: ../face/fsched.cc:170 ../face/fsched.cc:702
+#, fuzzy
+msgid "Action"
+msgstr "Pilihan"
+
+#: ../face/fsched.cc:170
+msgid "Info"
+msgstr ""
+
+#: ../face/fsched.cc:183
+msgid "New"
+msgstr ""
+
+#: ../face/fsched.cc:184 ../face/fsched.cc:396
+msgid "Edit"
+msgstr ""
+
+#: ../face/fsched.cc:185
+msgid "Remove"
+msgstr ""
+
+#: ../face/fsched.cc:410
+#, fuzzy
+msgid "Path:"
+msgstr "Port:"
+
+#: ../face/fsched.cc:430
+msgid "This action has no properties"
+msgstr ""
+
+#: ../face/fsched.cc:643
+msgid "Start time(hour:min:sec)"
+msgstr ""
+
+#: ../face/fsched.cc:672
+msgid "Retry this action"
+msgstr ""
+
+#: ../face/fsched.cc:681
+#, fuzzy
+msgid "times to repeat (-1 unlimited)"
+msgstr "Mencoba maksimum (0 untuk tak terbatas)"
+
+#: ../face/fsched.cc:685
+msgid "period (day/hour:min)"
+msgstr ""
+
+#: ../face/fsched.cc:727
+msgid "Edit scheduled action"
+msgstr ""
+
+#~ msgid "Other"
+#~ msgstr "Lainnya"
+
+#~ msgid "Year"
+#~ msgstr "Tahun"
+
+#~ msgid "Month"
+#~ msgstr "Bulan"
+
+#~ msgid "Day"
+#~ msgstr "Hari"
+
+#~ msgid "Default permissions of file"
+#~ msgstr "Izin akses dari berkas"
+
+#~ msgid ""
+#~ "***WARN***!!!Attempt to delete download from list which does'nt contain it!"
+#~ msgstr ""
+#~ "***PERHATIAN***!!! Mencoba untuk menghapus download dari daftar yang tidak "
+#~ "mengandung download tersebut"
+
+#~ msgid "Cant stand data connection"
+#~ msgstr "Tak dapat membuat koneksi data"
+
+#~ msgid "Can't change dir!"
+#~ msgstr "Tak dapat mengganti direktori"
+
+#~ msgid "Problems with lseek()"
+#~ msgstr "Masalah dengan lseek()"
+
+#~ msgid "Connection closed."
+#~ msgstr "Koneksi ditutup"
+
+#~ msgid "Retry %i"
+#~ msgstr "Mencoba %i"
+
+#~ msgid "Can't open messages queue!"
+#~ msgstr "Tak dapat membuka antrian pesan!"

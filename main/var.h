@@ -149,6 +149,11 @@ struct tMainCfg{
  */
 	int WITHOUT_FACE;
 	int DND_NEED_POPUP;
+/* FTP SEARCH
+*/
+	int SEARCH_PING_TIMES;
+	int SEARCH_HOST;
+	int SEARCH_ENTRIES;
 };
 
 extern tMLog *MainLog;

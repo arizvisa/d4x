@@ -62,11 +62,18 @@ class tMain{
         void del_all();
 	void rerun_failed();
         void load_defaults();
+	void set_speed(int speed);
 	void check_for_remote_commands();
         void redraw_logs();
         void reinit_main_log();
+	/* manipulation by url */
+	tDownload *find_url(tAddr *adr);
+	void stop_download_url(tAddr *adr);
+	void delete_download_url(tAddr *adr);
+        void continue_download_url(tAddr *adr);
+	/* manipulations with downloads */
         void stop_download(tDownload *what);
-        int delete_download(tDownload *what,int flag);
+        int delete_download(tDownload *what,int flag=0);
         void continue_download(tDownload *what);
     	int add_downloading(char *adr,char *where=(char *)NULL,char *name=(char *)NULL,char *desc=(char *)NULL);
 	int add_downloading(tDownload *what);

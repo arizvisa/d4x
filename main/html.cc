@@ -101,7 +101,7 @@ tHtmlTegTable HTML_TEGS[]={
 	{"link",	HTML_FIELDS_NAMES[HF_HREF],		0},
 //	{"link",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 
-	{"input",	HTML_FIELDS_NAMES[HF_STYLE],		0},
+//	{"input",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"input",	HTML_FIELDS_NAMES[HF_SRC],		0},
 	{"input",	HTML_FIELDS_NAMES[HF_USEMAP],		0},
 
@@ -216,7 +216,8 @@ tHtmlTegTable HTML_TEGS[]={
 const int HTML_TEGS_NUM=sizeof(HTML_TEGS)/sizeof(tHtmlTegTable);
 
 tHtmlTagField::tHtmlTagField(){
-	name=value=0;
+	name=value=NULL;
+	saved=0;
 };
 void tHtmlTagField::print(){
 	printf("Name:\t%s\n",name==NULL?"*NULL*":name);
@@ -241,6 +242,19 @@ tHtmlTag::~tHtmlTag(){
 	if (name) delete(name);
 	if (fields) delete(fields);
 };
+/********************************************************/
+tHtmlUrl::tHtmlUrl(){
+	info=NULL;
+};
+
+void tHtmlUrl::print(){
+};
+
+tHtmlUrl::~tHtmlUrl(){
+	if (info) delete(info);
+};
+
+
 /* Will be parse htmls in next assumption:
    <TAG[spaces]FIELD[spaces]=[spaces]VALUEspacesFIELD[spaces]=[spaces]VALUE...[spaces]>
  */
@@ -265,11 +279,23 @@ char *tHtmlParser::get_word(){
 	return NULL;
 };
 
+char *tHtmlParser::get_word_o(int shift){
+	int i=shift;
+	char p;
+	while(WL->read(&p,sizeof(p))>0){
+		if (isspace(p) ||  p=='>'){
+			return(get_string_back(i,1));
+		};
+		i++;
+	};
+	return NULL;
+};
+
 char *tHtmlParser::get_word(int shift){
 	int i=shift;
 	char p;
 	while(WL->read(&p,sizeof(p))>0){
-		if (isspace(p) || p=='=' || p=='>'){
+		if (isspace(p) || p=='=' ||  p=='>'){
 			return(get_string_back(i,1));
 		};
 		i++;
@@ -351,7 +377,7 @@ void tHtmlParser::get_fields(tHtmlTag *tag){
 						break;
 					};
 					default:
-						field->value=get_word(1);
+						field->value=get_word_o(1);
 					};
 					if (field->value)
 						compact_string(field->value);
@@ -393,19 +419,184 @@ tHtmlTag *tHtmlParser::get_tag(){
 				rvalue=new tHtmlTag;
 				rvalue->name=name;
 				if (name && equal(name,"!--")){
+					if (out_fd>=0){
+						f_wstr(out_fd,"<!--");
+					};
 					while(WL->read(&p,sizeof(p))>0){
+						if (out_fd>=0)
+							write(out_fd,&p,sizeof(p));
 						if (p=='>') break;
 					};
 				}else
 					get_fields(rvalue);
 			};
 			break;
+		}else{
+			if (out_fd>=0) write(out_fd,&p,sizeof(p));
 		};
 	};
 	return rvalue;
 };
 
-void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tStringList *list){
+static void write_up_dirs(int out_fd,char *a){
+	int depth=0;
+	while(*a){
+		depth=1;
+		if(*a=='/'){
+			f_wstr(out_fd,"../");
+		};
+		a++;
+	};
+	if (depth){
+		f_wstr(out_fd,"../");
+	};
+};
+
+tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
+	if (url==NULL || *url==0) return(NULL);
+	tAddr *info=NULL;
+	char *html_shift=NULL;
+	if (!global_url(url)) {
+		info=new tAddr;
+		html_shift=index(url,'#');
+		if (html_shift){
+			*html_shift=0;
+			html_shift+=1;
+		};
+		char *quest=index(url,'?');
+		if (quest){
+			info->params.set(quest+1);
+			*quest=0;
+		};
+		if (papa->proto==D_PROTO_FTP){
+			quest=index(url,';');
+			if (quest)
+				*quest=0;
+		};
+		/* %xx -> CHAR */
+		char *tmp=parse_percents(url);
+		quest=rindex(tmp,'/');
+		if (quest) {
+			info->file.set(quest+1);
+			*quest=0;
+			if (*tmp=='/')
+				info->path.set(tmp+1);
+			else{
+				info->compose_path(papa->path.get(),tmp);
+			};
+			*quest='/';
+		} else {
+			info->path.set(papa->path.get());
+			info->file.set(tmp);
+		};
+		delete(tmp);
+		info->file_del_sq();
+		info->copy_host(papa);
+	}else{
+		if (begin_string_uncase(url,"http:") ||
+		    begin_string_uncase(url,"ftp:")){
+			info=new tAddr(url);
+			if (papa->proto==D_PROTO_FTP && info->proto==D_PROTO_FTP){
+				char *quest=index(info->file.get(),';');
+				if (quest)
+					*quest=0;
+			};
+		}else{
+			if (out_fd>=0){
+				f_wstr(out_fd,url);
+			};
+			return(NULL);
+		};
+	};
+	if (out_fd>=0){
+		if (!equal(info->host.get(),papa->host.get())){
+			if (leave){
+				f_wstr(out_fd,"../");
+				write_up_dirs(out_fd,papa->path.get());
+				f_wstr(out_fd,info->host.get());
+				f_wchar(out_fd,'/');
+				f_wstr(out_fd,info->path.get());
+				f_wchar(out_fd,'/');
+				f_wstr(out_fd,info->file.get());
+				if (info->params.get()){
+					f_wstr(out_fd,"%3f");
+					f_wstr(out_fd,info->params.get());
+				};
+			}else{
+				char *url=info->url();
+				f_wstr(out_fd,url);
+				delete(url);
+			};
+		}else{
+			char *a=papa->path.get();
+			char *b=info->path.get();
+			if (*a=='/') a+=1;
+			if (*b=='/') b+=1;
+			char *l=b;
+			while(*a){
+				if (*a==*b){
+					if (*b=='/')
+						l=b+1;
+					a++;
+					b++;
+				}else
+					break;
+			};
+			if (*a==*b)
+				l=b;
+			else
+				if (*a==0 && *b=='/')
+					l=b+1;
+			write_up_dirs(out_fd,a);
+			if (*l){
+				f_wstr(out_fd,l);
+				f_wchar(out_fd,'/');
+			};
+			f_wstr(out_fd,info->file.get());
+			if (info->params.get()){
+				f_wstr(out_fd,"%3f");
+				f_wstr(out_fd,info->params.get());
+			};
+		};
+		if (html_shift){
+			f_wchar(out_fd,'#');
+			f_wstr(out_fd,html_shift);
+		};
+	};
+	return(info);
+};
+
+void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa){
+	if (out_fd>=0) f_wstr(out_fd,"=\"");
+	tAddr *info=fix_url_global(url,papa,out_fd,leave);
+	if (out_fd>=0) f_wchar(out_fd,'\"');
+	if (info){
+		tHtmlUrl *node=new tHtmlUrl;
+		node->info=info;
+		list->insert(node);
+	};
+};
+
+void tHtmlParser::write_left_fields(tHtmlTag *tag){
+	if (out_fd<0) return;
+	if (tag->fields){
+		tHtmlTagField *field=(tHtmlTagField *)(tag->fields->first());
+		while(field){
+			if (field->saved==0 && field->name){
+				f_wchar(out_fd,' ');
+				f_wstr(out_fd,field->name);
+				if (field->value){
+					f_wchar(out_fd,'=');
+					f_wstr(out_fd,field->value);
+				};
+			};
+			field=(tHtmlTagField *)(tag->fields->prev());
+		};
+	};
+	f_wchar(out_fd,'>');
+};
+
+void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tQueue *list,tAddr *papa){
 	tHtmlTagField *field=(tHtmlTagField *)(where->prev);
 	while (field){
 		char *tmp=NULL;
@@ -413,16 +604,30 @@ void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tStringList *list){
 		    equal_uncase(field->name,HTML_FIELDS_NAMES[HF_CONTENT]))
 			tmp=extract_from_icommas(field->value);
 		if (tmp){
-			char *url=strstr(tmp,"url=");
-			if (url)
-				list->add(url+=4);
+			/* parsing Refresh in form:
+			   "  <int> <;> <url=> URL"
+			 */
+			char *url=skip_spaces(tmp);
+			if (isdigit(*url)) url=index(url,';');
+			if (url){
+				if (*url==';') url+=1;
+				url=skip_spaces(url);
+				if (begin_string_uncase(url,"url")){
+					url=index(url,'=');
+					if (url) url+=1;
+				};
+				if (url){
+					url=skip_spaces(url);
+					fix_url(url,list,papa);
+				};
+			};
 			delete(tmp);
 		};
 		field=(tHtmlTagField *)(field->prev);
 	};
 };
 
-void tHtmlParser::parse(tWriterLoger *wl,tStringList *list){
+void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
 	list->done();
 	list->init(0);
 	base=NULL;
@@ -445,17 +650,23 @@ void tHtmlParser::parse(tWriterLoger *wl,tStringList *list){
 		};
 		printf("EndTag:\n");
 */
+		if (out_fd>=0){
+			f_wchar(out_fd,'<');
+			f_wstr(out_fd,temp->name);
+		};
+//		f_wchar(out_fd,' ');
 		for (int i=0;i<HTML_TEGS_NUM;i++)
 			if(equal_uncase(HTML_TEGS[i].tag,temp->name) &&
 			   temp->fields){
 				tHtmlTagField *field=(tHtmlTagField *)(temp->fields->first());
 				while(field){
 					if (field->value && equal_uncase(field->name,HTML_TEGS[i].field)){
+						field->saved=1;
 						char *tmp=extract_from_icommas(field->value);
 						switch(HTML_TEGS[i].mod){
 						case HF_TYPE_META:
 							if (tmp && equal_uncase(tmp,"refresh"))
-								look_for_meta_content(field,list);
+								look_for_meta_content(field,list,papa);
 							break;
 						case HF_TYPE_BASE:
 							if (base) delete(base);
@@ -467,12 +678,18 @@ void tHtmlParser::parse(tWriterLoger *wl,tStringList *list){
 								tmp=compose_path(base,tmp1);
 								delete(tmp1);
 							};
-							if (strlen(tmp)<MAX_LEN)
-								list->add(tmp);
+							if (strlen(tmp)<MAX_LEN){
+								if (out_fd>=0){
+									f_wchar(out_fd,' ');
+									f_wstr(out_fd,field->name);
+								};
+								fix_url(tmp,list,papa);
+							};
 						};
 						delete(tmp);
 					}else{
 						if (HTML_TEGS[i].mod==HF_TYPE_BASE_CLOSE){
+							field->saved=1;
 							if (base) delete(base);
 							base=NULL;
 						};
@@ -480,6 +697,7 @@ void tHtmlParser::parse(tWriterLoger *wl,tStringList *list){
 					field=(tHtmlTagField *)(temp->fields->prev());
 				};
 			};
+		write_left_fields(temp);
 		delete(temp);
 	};
 	if (base) delete(base);

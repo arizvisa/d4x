@@ -37,6 +37,7 @@ struct tSimplyCfg{
  */
 	int http_recursing; //temporary flag
 	int leave_server,dont_leave_dir;
+	int change_links;
 	int passive;
 	int retry;
 	int permisions;

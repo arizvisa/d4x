@@ -49,7 +49,7 @@ class tLog:public tStringList{
 		void add(const char *str,int len,int type);
 		void add(const char *str,int type);
 		void add(const char *str);
-		void init_save(char *path);
+		int init_save(char *path);
 		void insert(tNode *what);
 		void dispose();
 		void lock();
