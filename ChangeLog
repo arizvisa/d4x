@@ -1,3 +1,29 @@
+Wed Nov  3 11:11:02 1999
+    Added "trash" icon which is placed always on top for DnD;
+    Added "rollback" feature for buggies proxy servers;
+    Added ability to setup speed limit for any download;
+    First character of strings in file of main log is a type of message;
+    Displaying amount of downloaded bytes of directory listing;
+    Columns is now configurable for displaying;
+    All logs autoscrollable;
+    Summary information in title of main window is scrollable now;
+    Information about downloading now displaing in a title of log window;
+    All "Ok" buttons can be translated;
+    Ftp optimization (downloader will not send command PASS if already logged after command USER)
+    New method of storing files in HTTP recursion;
+    Configs flags of downloading will be stored;
+    Indian translation is added (thanks to Priyadi Iman Nurcahyo);
+    Japaniese translation is added (thanks to Kei Kodera);
+    French translation is updated;
+    Chinese translation is updated;
+    Fixed standing data connection in passive mode via ftp;
+    Fixed open socket after reconnection;
+    Fixed running downloader if home folder mounted from NFS;
+    Fixed some segfaults;
+    Fixed reiniting main log after pressing "Ok" in "Options" doalog;
+    Fixed drawing graph;
+    Various code cleanups and optimisations;
+
 Thu Oct  7 16:37:33 1999
     Added "save" button into button panel;
     Added scrolling title of main window;

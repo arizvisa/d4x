@@ -42,4 +42,10 @@ class tStringList:public tQueue{
     	int add_strings(char *what,int len);
     	~tStringList();
 };
+
+class tMemory:public tStringList{
+	public:
+		virtual tString *add();
+		void del(tString *a);
+};
 #endif

@@ -15,7 +15,7 @@
 tSpeed::tSpeed() {
 	pthread_mutex_init(&lock,NULL);
 	pthread_mutex_init(&lock1,NULL);
-	bytes=0;
+	base=bytes=0;
 };
 
 void tSpeed::print() {
@@ -83,14 +83,21 @@ tSpeed *tSpeedQueue::prev() {
 
 void tSpeedQueue::schedule(int a) {
 	if (!Num) return;
-	int part=a / Num;
-	if (part<=0) part=1;
-	tSpeed *temp=last();
-	while (temp) {
-		temp->init(part);
-		temp=next();
+	if (a){
+		int part=a / Num;
+		if (part<=0) part=1;
+		tSpeed *temp=last();
+		while (temp) {
+			temp->init(part);
+			temp=next();
+		};
+	}else{
+		tSpeed *temp=last();
+		while (temp) {
+			temp->init(temp->base);
+			temp=next();
+		};
 	};
 };
 
-tSpeedQueue::~tSpeedQueue() {}
-;
+tSpeedQueue::~tSpeedQueue() {};

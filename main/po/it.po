@@ -354,21 +354,21 @@ msgstr "dispositivo"
 
 #: main.cc:637
 #, c-format
-msgid "Downloading of directory %s://%s%s/%s was completed"
-msgstr "Scaricamento della directory %s://%s%s%s"
+msgid "Downloading of directory %s was completed"
+msgstr "Scaricamento della directory %s"
 
 #: main.cc:641
 #, c-format
 msgid ""
-"Downloading of file %s://%s%s/%s (%i bytes) was completed at speed %i "
+"Downloading of file %s (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "Scaricamento del file %s://%s%s%s (%i bytes) alla "
+msgstr "Scaricamento del file %s (%i bytes) alla "
 "velocita' di %i bytes/secondo"
 
 #: main.cc:664
 #, c-format
-msgid "Downloading of file %s://%s%s/%s was terminated by fatal error"
-msgstr "Lo scaricamento del file %s://%s%s%s e' terminato a causa di un errore fatale"
+msgid "Downloading of file %s was terminated by fatal error"
+msgstr "Lo scaricamento del file %s e' terminato a causa di un errore fatale"
 
 #: main.cc:809
 #, c-format
@@ -826,8 +826,8 @@ msgstr "¿¿¿ Pronto a partire ???"
 
 #: face/list.cc:768
 #, c-format
-msgid "%i-running %i-completed %i-total"
-msgstr "%i-attivi %i-completi %i-totale"
+msgid "%i-running %i-completed %i-total "
+msgstr "%i-attivi %i-completi %i-totale "
 
 #: face/lmenu.cc:69
 msgid "View log"
@@ -1052,4 +1052,88 @@ msgstr ""
 
 #: face/buttons.cc:
 msgid " Save list "
+msgstr ""
+
+#: face/columns.cc:22
+msgid "status"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "file name"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "type of file"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "size of file"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "downloaded size"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "percent"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "speed"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "elapsed time"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "estimated time"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "time of pause"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "number of attempts"
+msgstr ""
+
+#: face/columns.cc:22
+msgid "Showed columns"
+msgstr ""
+
+#: face/refs.cc:
+msgid "Rollback after reconnecting (in bytes)"
+msgstr ""
+
+#: download.cc:
+msgid "Can't do rollback!"
+msgstr ""
+
+#: main.cc:
+msgid "Redirect from %s"
+msgstr ""
+
+#: face/
+msgid "Ok"
+msgstr ""
+
+#: face/prefs.cc:
+msgid "Show trash for DnD"
+msgstr ""
+
+#: face/buttons.cc:
+msgid " DnD trash "
+msgstr ""
+
+#: main.cc:
+msgid "Downloader exited normaly"
+msgstr ""
+
+#: face/dndtrash.cc:
+msgid "Drop link here"
+msgstr ""
+
+#: face/edit.cc
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr ""

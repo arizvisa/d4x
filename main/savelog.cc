@@ -30,6 +30,8 @@ tDownload *get_download_from_clist(int row);
 const char *LIST_FILE="list";
 
 void write_one_node(int fd,tDownload *what) {
+/* save url
+ */
 	tDownload *temp=what;
 	write(fd,temp->info->protocol,strlen(temp->info->protocol));
 	write(fd,"://",strlen("://"));
@@ -43,7 +45,6 @@ void write_one_node(int fd,tDownload *what) {
 	char data[MAX_LEN];
 	sprintf(data,":%i",temp->info->port);
 	write(fd,data,strlen(data));
-
 	write(fd,temp->info->path,strlen(temp->info->path));
 	if (temp->info->path[strlen(temp->info->path)-1]!='/')
 		write(fd,"/",1);
@@ -53,8 +54,15 @@ void write_one_node(int fd,tDownload *what) {
 	sprintf(data,"%i",int(temp->ScheduleTime));
 	write(fd,data,strlen(data));
 	write(fd,"\n",strlen("\n"));
+/* save SavePath
+ */
 	write(fd,temp->get_SavePath(),strlen(temp->get_SavePath()));
+	write(fd,&zero,sizeof(zero));
+	sprintf(data,"%i",what->config.get_flags());
+	write(fd,data,strlen(data));
 	write(fd,"\n",strlen("\n"));
+/* save SaveName
+ */
 	if (temp->get_SaveName()) write(fd,temp->get_SaveName(),strlen(temp->get_SaveName()));
 	write(fd,&zero,sizeof(zero));
 	sprintf(data,"0");

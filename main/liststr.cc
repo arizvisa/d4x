@@ -36,8 +36,19 @@ tString::~tString() {
 	if (body) delete(body);
 };
 
-//*************************************************/
+/*************************************************/
+tString *tMemory::add(){
+	tString *temp=new tString;
+	insert(temp);
+	return temp;
+};
 
+void tMemory::del(tString *a){
+	tStringList::del(a);
+	delete(a);
+};
+
+/*************************************************/
 tStringList::tStringList() {
 	init(CFG.MAX_LOG_LENGTH);
 	Size=0;

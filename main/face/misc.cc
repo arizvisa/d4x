@@ -41,3 +41,14 @@ gchar *text_from_combo(GtkWidget *combo) {
 void text_to_combo(GtkWidget *combo,gchar *text) {
 	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(combo)->entry),text);
 };
+
+void motion_notify_get_coords(GdkEventMotion * event){
+    XEvent ev;
+    gint i = 0;
+    XSync(GDK_DISPLAY(), False);
+    while (XCheckTypedEvent(GDK_DISPLAY(), MotionNotify, &ev)){
+	event->x = ev.xmotion.x;
+	event->y = ev.xmotion.y;
+	i++;
+    }
+};

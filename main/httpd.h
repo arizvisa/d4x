@@ -24,6 +24,8 @@ class tHttpDownload:public tDownloader{
 	char *ETag,*Auth;
 	int analize_answer();
 	char *get_field(char *field);
+    void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+   	void make_full_pathes(const char *path,char **name,char **guess);
 	public:
 		tHttpDownload();
 		void init_download(char *path,char *file);
@@ -38,6 +40,7 @@ class tHttpDownload:public tDownloader{
 		char *get_new_url();
 		int reget();
 		char *get_real_name();
+		void rollback_before();
 		char *get_content_type();
 		tStringList *dir();
 		int download(unsigned int from,unsigned int len);

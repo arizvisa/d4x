@@ -59,11 +59,17 @@ void init_about_window(...) {
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
 	label=gtk_label_new("Philippe Rigaux");
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
+	label=gtk_label_new("Jerome Couderc");
+	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
 	label=gtk_label_new("Eric Seigne");
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
 	label=gtk_label_new("Robin Verduijn");
 	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	GtkWidget *Button=gtk_button_new_with_label("Ok");
+	label=gtk_label_new("Priyadi Iman Nurcahyo");
+	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
+	label=gtk_label_new("Kei Kodera");
+	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
+	GtkWidget *Button=gtk_button_new_with_label(_("Ok"));
 	gtk_box_pack_start(GTK_BOX(box),label1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label2,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label3,FALSE,FALSE,0);
@@ -121,7 +127,7 @@ int tDialogWidget::init(char *ask,char *title) {
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_container_border_width(GTK_CONTAINER(window),5);
 	label=gtk_label_new(ask);
-	ok_button=gtk_button_new_with_label("Ok");
+	ok_button=gtk_button_new_with_label(_("Ok"));
 	cancel_button=gtk_button_new_with_label(_("Cancel"));
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
@@ -176,7 +182,7 @@ int tStringDialog::init(char *str,char *title) {
 	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(vbox),5);
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox),GTK_BUTTONBOX_END);
-	ok_button=gtk_button_new_with_label("Ok");
+	ok_button=gtk_button_new_with_label(_("Ok"));
 	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",GTK_SIGNAL_FUNC(string_dialog_ok_clicked),this);
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	entry=gtk_entry_new();

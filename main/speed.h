@@ -16,13 +16,14 @@
 
 struct tSpeed: public tNode{
 	pthread_mutex_t lock,lock1;
-	int bytes;
+	int bytes,base;
 	tSpeed();
 	virtual void print();
 	int init(int a);
 	void decrement(int a);
 	~tSpeed();
 };
+
 
 class tSpeedQueue:public tQueue{
 	public:

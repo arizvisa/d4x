@@ -25,9 +25,11 @@ void tHProxyClient::setup_host(char *host) {
 };
 
 int tHProxyClient::get_size(char *filename,tStringList *list) {
+	char *data2=new char[strlen ("GET  HTTP/1.0\r\n")+strlen(filename)+1];
+	sprintf(data2,"GET %s HTTP/1.0\r\n",filename);
+	send_request(data2);
+	delete data2;
 	char data[MAX_LEN];
-	sprintf(data,"GET %s HTTP/1.0\r\n",filename);
-	send_request(data);
 	sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
 	send_request(data);
 	send_request("Accept: */*\r\n");
@@ -80,13 +82,8 @@ int tProxyDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	RealName=NewRealName=NULL;
 	data=0;
 	first=1;
-	config.timeout=cfg->timeout;
-	config.time_for_sleep=cfg->time_for_sleep;
-	config.number_of_attempts=cfg->number_of_attempts;
-	config.get_date=cfg->get_date;
-	config.retry=cfg->retry;
+	config.copy_ints(cfg);
 	config.set_proxy_host(cfg->get_proxy_host());
-	config.proxy_port=cfg->proxy_port;
 	config.set_proxy_user(cfg->get_proxy_user());
 	config.set_proxy_pass(cfg->get_proxy_pass());
 	D_PROTO=copy_string(hostinfo->protocol);

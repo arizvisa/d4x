@@ -28,6 +28,12 @@ void get_size_of_clist();
 const char *CFG_FILE=".ntrc/config";
 const char *CFG_DIR=".ntrc";
 
+void set_column_position(int type,int col){
+	if (col>=0 && col<=NOTHING_COL){
+		ListColumns[col].type=type;
+		ListColumns[type].enum_index=col;
+	};
+};
 void set_config(char *line) {
 	char temp[MAX_LEN];
 	int prom;
@@ -210,47 +216,47 @@ void set_config(char *line) {
 		 *	Parsing sizes of columns :
 		 */
 		if (equal(temp,"dl_status_col")) {
-			ListColumns[STATUS_COL].size=prom;
+			ListColumns[ListColumns[STATUS_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_file_col")) {
-			ListColumns[FILE_COL].size=prom;
+			ListColumns[ListColumns[FILE_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_file_type_col")) {
-			ListColumns[FILE_TYPE_COL].size=prom;
+			ListColumns[ListColumns[FILE_TYPE_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_full_size_col")) {
-			ListColumns[FULL_SIZE_COL].size=prom;
+			ListColumns[ListColumns[FULL_SIZE_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_downloaded_size_col")) {
-			ListColumns[DOWNLOADED_SIZE_COL].size=prom;
+			ListColumns[ListColumns[DOWNLOADED_SIZE_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_percent_col")) {
-			ListColumns[PERCENT_COL].size=prom;
+			ListColumns[ListColumns[PERCENT_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_speed_col")) {
-			ListColumns[SPEED_COL].size=prom;
+			ListColumns[ListColumns[SPEED_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_time_col")) {
-			ListColumns[TIME_COL].size=prom;
+			ListColumns[ListColumns[TIME_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_elapsed_time_col")) {
-			ListColumns[ELAPSED_TIME_COL].size=prom;
+			ListColumns[ListColumns[ELAPSED_TIME_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_pause_col")) {
-			ListColumns[PAUSE_COL].size=prom;
+			ListColumns[ListColumns[PAUSE_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"dl_treat_col")) {
-			ListColumns[TREAT_COL].size=prom;
+			ListColumns[ListColumns[TREAT_COL].enum_index].size=prom;
 			return;
 		};
 		if (equal(temp,"fl_host_col")) {
@@ -321,6 +327,74 @@ void set_config(char *line) {
 			CFG.DEFAULT_PERMISIONS=prom;
 			return;
 		};
+		if (equal(temp,"dl_status_col_pos")) {
+			set_column_position(STATUS_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_file_col_pos")) {
+			set_column_position(FILE_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_file_type_col_pos")) {
+			set_column_position(FILE_TYPE_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_full_size_col_pos")) {
+			set_column_position(FULL_SIZE_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_downloaded_size_col_pos")) {
+			set_column_position(DOWNLOADED_SIZE_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_percent_col_pos")) {
+			set_column_position(PERCENT_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_speed_col_pos")) {
+			set_column_position(SPEED_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_time_col_pos")) {
+			set_column_position(TIME_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_elapsed_time_col_pos")) {
+			set_column_position(ELAPSED_TIME_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_pause_col_pos")) {
+			set_column_position(PAUSE_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_treat_col_pos")) {
+			set_column_position(TREAT_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_url_col_pos")) {
+			set_column_position(URL_COL,prom);
+			return;
+		};
+		if (equal(temp,"dl_nothing_col_pos")) {
+			set_column_position(NOTHING_COL,prom);
+			return;
+		};
+		if (equal(temp,"rollback")) {
+			if (prom>0) CFG.ROLLBACK=prom;
+			return;
+		};
+		if (equal(temp,"dnd_trash")) {
+			CFG.DND_TRASH=prom;
+			return;
+		};
+		if (equal(temp,"dnd_trash_x")) {
+			CFG.DND_TRASH_X=prom;
+			return;
+		};
+		if (equal(temp,"dnd_trash_y")) {
+			CFG.DND_TRASH_Y=prom;
+			return;
+		};
 	};
 };
 
@@ -342,6 +416,7 @@ void read_config() {
 	int fd=open(cfgpath,O_RDONLY);
 	if (fd>0) {
 		char temp[MAX_LEN];
+		init_columns_info();
 		while(read_string(fd,temp,MAX_LEN)) {
 			set_config(temp);
 		};
@@ -419,7 +494,7 @@ void save_config() {
 		save_integer_to_config(fd,"yposition",CFG.WINDOW_Y_POSITION);
 		save_integer_to_config(fd,"windowwidth",CFG.WINDOW_WIDTH);
 		save_integer_to_config(fd,"windowheight",CFG.WINDOW_HEIGHT);
-		get_size_of_clist();
+		list_of_downloads_get_height();
 		save_integer_to_config(fd,"clist_height",CFG.WINDOW_CLIST_HEIGHT);
 		save_string_to_config(fd,"ftp_proxy_host",CFG.FTP_PROXY_HOST);
 		save_string_to_config(fd,"ftp_proxy_user",CFG.FTP_PROXY_USER);
@@ -446,18 +521,31 @@ void save_config() {
 		save_integer_to_config(fd,"need_dialog_for_dnd",CFG.NEED_DIALOG_FOR_DND);
 		/* saving list columns
 		 */
+		save_integer_to_config(fd,"dl_status_col_pos",ListColumns[STATUS_COL].enum_index);
+		save_integer_to_config(fd,"dl_file_col_pos",ListColumns[FILE_COL].enum_index);
+		save_integer_to_config(fd,"dl_file_type_col_pos",ListColumns[FILE_TYPE_COL].enum_index);
+		save_integer_to_config(fd,"dl_full_size_col_pos",ListColumns[FULL_SIZE_COL].enum_index);
+		save_integer_to_config(fd,"dl_downloaded_size_col_pos",ListColumns[DOWNLOADED_SIZE_COL].enum_index);
+		save_integer_to_config(fd,"dl_percent_col_pos",ListColumns[PERCENT_COL].enum_index);
+		save_integer_to_config(fd,"dl_speed_col_pos",ListColumns[SPEED_COL].enum_index);
+		save_integer_to_config(fd,"dl_time_col_pos",ListColumns[TIME_COL].enum_index);
+		save_integer_to_config(fd,"dl_elapsed_time_col_pos",ListColumns[ELAPSED_TIME_COL].enum_index);
+		save_integer_to_config(fd,"dl_pause_col_pos",ListColumns[PAUSE_COL].enum_index);
+		save_integer_to_config(fd,"dl_treat_col_pos",ListColumns[TREAT_COL].enum_index);
+		save_integer_to_config(fd,"dl_url_col_pos",ListColumns[URL_COL].enum_index);
+		save_integer_to_config(fd,"dl_nothing_col_pos",ListColumns[NOTHING_COL].enum_index);
 		list_of_downloads_get_sizes();
-		save_integer_to_config(fd,"dl_status_col",ListColumns[STATUS_COL].size);
-		save_integer_to_config(fd,"dl_file_col",ListColumns[FILE_COL].size);
-		save_integer_to_config(fd,"dl_file_type_col",ListColumns[FILE_TYPE_COL].size);
-		save_integer_to_config(fd,"dl_full_size_col",ListColumns[FULL_SIZE_COL].size);
-		save_integer_to_config(fd,"dl_downloaded_size_col",ListColumns[DOWNLOADED_SIZE_COL].size);
-		save_integer_to_config(fd,"dl_percent_col",ListColumns[PERCENT_COL].size);
-		save_integer_to_config(fd,"dl_speed_col",ListColumns[SPEED_COL].size);
-		save_integer_to_config(fd,"dl_time_col",ListColumns[TIME_COL].size);
-		save_integer_to_config(fd,"dl_elapsed_time_col",ListColumns[ELAPSED_TIME_COL].size);
-		save_integer_to_config(fd,"dl_pause_col",ListColumns[PAUSE_COL].size);
-		save_integer_to_config(fd,"dl_treat_col",ListColumns[TREAT_COL].size);
+		save_integer_to_config(fd,"dl_status_col",ListColumns[ListColumns[STATUS_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_file_col",ListColumns[ListColumns[FILE_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_file_type_col",ListColumns[ListColumns[FILE_TYPE_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_full_size_col",ListColumns[ListColumns[FULL_SIZE_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_downloaded_size_col",ListColumns[ListColumns[DOWNLOADED_SIZE_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_percent_col",ListColumns[ListColumns[PERCENT_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_speed_col",ListColumns[ListColumns[SPEED_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_time_col",ListColumns[ListColumns[TIME_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_elapsed_time_col",ListColumns[ListColumns[ELAPSED_TIME_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_pause_col",ListColumns[ListColumns[PAUSE_COL].enum_index].size);
+		save_integer_to_config(fd,"dl_treat_col",ListColumns[ListColumns[TREAT_COL].enum_index].size);
 		if (FaceForLimits) {
 			FaceForLimits->get_sizes();
 		};
@@ -478,6 +566,10 @@ void save_config() {
 		save_string_to_config(fd,"default_name",CFG.DEFAULT_NAME);
 		save_integer_to_config(fd,"scroll_mainwin_title",CFG.SCROLL_MAINWIN_TITLE);
 		save_integer_to_config(fd,"default_permisions",CFG.DEFAULT_PERMISIONS);
+		save_integer_to_config(fd,"rollback",CFG.ROLLBACK);
+		save_integer_to_config(fd,"dnd_trash",CFG.DND_TRASH);
+		save_integer_to_config(fd,"dnd_trash_x",CFG.DND_TRASH_X);
+		save_integer_to_config(fd,"dnd_trash_y",CFG.DND_TRASH_Y);
 		close(fd);
 	} else {
 		if (MainLog) {

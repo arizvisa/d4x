@@ -41,9 +41,8 @@ void tQueue::insert(tNode *what) {
 			dispose();
 	};
 	Num+=1;
-	what->next=Last;
 	what->prev=NULL;
-	if (Last) {
+	if ((what->next=Last)) {
 		Last->prev=what;
 	} else {
 		First=what;

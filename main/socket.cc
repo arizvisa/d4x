@@ -34,14 +34,14 @@ int tSocket::constr_name(char *host,int port) {
 	info.sin_family=AF_INET;
 	if (host) {
 		char buff[MAX_LEN];
-		hostent *hpr;
-		int rval;
+		hostent *hpr=&hp;
+		temp_variable=0;
 #ifdef __sparc__
-		gethostbyname_r(host,hpr,buff,MAX_LEN,&rval);
+		gethostbyname_r(host,&hp,buff,MAX_LEN,&temp_variable);
 #else
-gethostbyname_r(host,&hp,buff,MAX_LEN,&hpr,&rval);
+		gethostbyname_r(host,&hp,buff,MAX_LEN,&hpr,&temp_variable);
 #endif
-		if (rval) return -1;
+		if (temp_variable) return -1;
 		memcpy((char *)&info.sin_addr,(char *)hpr->h_addr,hpr->h_length);
 		/*
 		hostent *hp=gethostbyname(host);
@@ -73,6 +73,18 @@ int tSocket::open_port(char *host, int port) {
 	if (len<0) return -1;
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
 		return(-2);
+	int a=1;
+	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
+	if (connect(fd, (struct sockaddr *)&info, len) < 0)
+		return(-3);
+	return 0;
+}
+
+int tSocket::open_port(int host, int port) {
+	int len=constr_name(NULL,port);
+	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));
+	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
+		return(-1);
 	int a=1;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
@@ -160,7 +172,7 @@ int tSocket::rec_string(char * where,int len,int timeout) {
 	tDownload **download=my_pthread_key_get();
 	int speed_limit=CFG.SPEED_LIMIT;
 	int bytes;
-	if (speed_limit!=3 && download!=NULL)
+	if (download!=NULL && *download!=NULL && (speed_limit!=3 || (*download)->SpeedLimit->base>0))
 		bytes=(*download)->SpeedLimit->bytes >= len ? len: (*download)->SpeedLimit->bytes+1;
 	else
 		bytes=len;
@@ -170,7 +182,8 @@ int tSocket::rec_string(char * where,int len,int timeout) {
 		pthread_mutex_lock(&GVARS.READED_BYTES_MUTEX);
 		GVARS.READED_BYTES+=temp;
 		pthread_mutex_unlock(&GVARS.READED_BYTES_MUTEX);
-		if (speed_limit!=3 && download!=NULL)(*download)->SpeedLimit->decrement(temp);
+		if (download!=NULL && *download!=NULL && (speed_limit!=3 || (*download)->SpeedLimit->base>0))
+			(*download)->SpeedLimit->decrement(temp);
 	};
 	return temp;
 };

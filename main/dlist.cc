@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include "face/lod.h"
 #include "face/edit.h"
 #include "var.h"
 #include "ntlocale.h"
@@ -76,13 +77,14 @@ char *make_simply_url(tDownload *what) {
 	*URL=0;
 	/* Easy way to make URL from info  field
 	 */
-	strcat(URL,what->info->protocol);
+	if (what->info->protocol) strcat(URL,what->info->protocol);
 	strcat(URL,"://");
-	strcat(URL,what->info->host);
-	strcat(URL,what->info->path);
-	if (what->info->path[strlen(what->info->path)-1]!='/')
-		strcat(URL,"/");
-	strcat(URL,what->info->file);
+	if (what->info->host) strcat(URL,what->info->host);
+	if (what->info->path){ strcat(URL,what->info->path);
+		if (what->info->path[strlen(what->info->path)-1]!='/')
+			strcat(URL,"/");
+	};
+	if (what->info->file) strcat(URL,what->info->file);
 	return URL;
 };
 /**********************************************/
@@ -153,8 +155,7 @@ void tDownload::delete_editor() {
 
 void tDownload::print() {
 	//do nothing
-}
-;
+};
 
 void tDownload::set_SavePath(char *what) {
 	if (SavePath) delete(SavePath);
@@ -183,6 +184,12 @@ void tDownload::update_trigers() {
 	Size.update();
 	Attempt.update();
 };
+
+void tDownload::make_file_visible(){
+	if (who)
+		who->make_file_visible(SavePath,SaveName);
+};
+
 
 void tDownload::convert_list_to_dir() {
 	if (!who) {
@@ -290,7 +297,7 @@ void tDownload::convert_list_to_dir() {
 };
 
 
-static void make_dir_hier(char *path) {
+void make_dir_hier(char *path) {
 	char *temp=path;
 	while (temp) {
 		temp=index(temp+1,'/');
@@ -321,21 +328,24 @@ void tDownload::convert_list_to_dir2() {
 			tAddr *addrnew=new tAddr;
 			tDownload *onenew=new tDownload;
 			char *tmp=rindex(temp->body,'/');
+			onenew->SavePath=copy_string(SavePath);
 			if (tmp) {
 				addrnew->file=copy_string(tmp+1);
 				*tmp=0;
 				if (temp->body[0]=='/'){
 					addrnew->path=copy_string(temp->body);
-					onenew->SavePath=subtract_path(SavePath,temp->body);
 				}else{
 					addrnew->path=compose_path(info->path,temp->body);
-					onenew->SavePath=compose_path(SavePath,temp->body);
 				};
 				*tmp='/';
 			} else {
 				addrnew->path=copy_string(info->path);
 				addrnew->file=copy_string(temp->body);
-				onenew->SavePath=copy_string(SavePath);
+			};
+			if (addrnew->path[0]!='/'){
+				tmp=compose_path("/",addrnew->path);
+				delete(addrnew->path);
+				addrnew->path=tmp;
 			};
 			tmp=index(addrnew->file,'#');
 			if (tmp) {
@@ -345,13 +355,13 @@ void tDownload::convert_list_to_dir2() {
 				delete(tmp);
 			};
 			normalize_path(onenew->SavePath);
-			make_dir_hier(onenew->SavePath);
 			addrnew->protocol=copy_string(info->protocol);
 			addrnew->host=copy_string(info->host);
 			addrnew->pass=copy_string(info->pass);
 			addrnew->username=copy_string(info->username);
 			addrnew->port=info->port;
 
+			onenew->config.http_recursing=1;
 			onenew->info=addrnew;
 
 			onenew->config.copy(&config);
@@ -392,16 +402,16 @@ tDownload::~tDownload() {
 //**********************************************/
 
 tDList::tDList() {
-	set_pixmap=NULL;
+	Pixmap=PIX_UNKNOWN;
 };
 
 tDList::tDList(int key) {
-	set_pixmap=NULL;
+	Pixmap=PIX_UNKNOWN;
 	OwnerKey=key;
 };
 
-void tDList::init_set_pixmap(void (*a)(int)){
-	set_pixmap=a;
+void tDList::init_pixmap(int a){
+	Pixmap=a;
 };
 
 int tDList::owner(tDownload *which) {
@@ -412,13 +422,13 @@ int tDList::owner(tDownload *which) {
 void tDList::insert(tDownload *what) {
 	what->owner=OwnerKey;
 	tQueue::insert(what);
-	if (set_pixmap) set_pixmap(what->GTKCListRow);
+	if (Pixmap!=PIX_UNKNOWN) list_of_downloads_set_pixmap(what->GTKCListRow,Pixmap);
 };
 
 void tDList::insert_before(tDownload *what,tDownload *where) {
 	what->owner=OwnerKey;
 	tQueue::insert_before(what,where);
-	if (set_pixmap) set_pixmap(what->GTKCListRow);
+	if (Pixmap!=PIX_UNKNOWN) list_of_downloads_set_pixmap(what->GTKCListRow,Pixmap);
 };
 
 void tDList::del(tDownload *what) {

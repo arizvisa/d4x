@@ -38,7 +38,6 @@ class tMain{
     int run_new_thread(tDownload *what);
     int complete();
     void add_dir(tDownload *parent);
-    void make_file_visible(tDownload *what);
     void print_info(tDownload *what);
     void redirect(tDownload *what);
     void prepare_for_stoping(tDownload *what,tDList *list);

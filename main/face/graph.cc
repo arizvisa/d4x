@@ -24,7 +24,7 @@ gint graph_expose_event_handler(GtkWidget *widget,GdkEventExpose *event) {
 };
 
 int draw_graph() {
-	int XSize=2*(METER_LENGTH-1);
+	int XSize=2*(METER_LENGTH);
 	int YSize=16;
 	int WX,WY;
 	gdk_window_get_size(MainWindow->window,&WX,&WY);
@@ -36,7 +36,7 @@ int draw_graph() {
 
 void recalc_graph() {
 	if (!GlobalMeter) return;
-	int XSize=2*(METER_LENGTH-1);
+	int XSize=2*(METER_LENGTH);
 	int YSize=16;
 	int WX,WY;
 	gdk_window_get_size(MainWindow->window,&WX,&WY);
@@ -51,7 +51,7 @@ void recalc_graph() {
 		int value=(YSize*GlobalMeter->last_value())/MAX;
 		int value2=(YSize*LocalMeter->last_value())/MAX;
 		if (CFG.GRAPH_ORDER) {
-			for (int x=XSize-1;x>=0;x-=2) {
+			for (int x=XSize-1;x>0;x-=2) {
 				int Y1=YSize-value;
 				int Y2=YSize-value2;
 				if (Y1<Y2) {
@@ -102,7 +102,7 @@ void init_graph() {
 		int a=(0xff * i)/15;
 		colors[i]=a << 16 | a <<8 | a;
 	};
-	int XSize=2*(METER_LENGTH-1);
+	int XSize=2*(METER_LENGTH);
 	int YSize=16;
 	int WX,WY;
 	gdk_window_get_size(MainWindow->window,&WX,&WY);

@@ -17,4 +17,24 @@ extern GtkWidget *HandleBox;
 GtkWidget *new_pixmap(char **xpm);
 void init_buttons_bar();
 void prepare_buttons();
+void set_dndtrash_button();
+
+enum {
+	BUTTON_ADD=0,
+	BUTTON_ADD_CLIPBOARD,
+	BUTTON_STOP,
+	BUTTON_CONTINUE,
+	BUTTON_DEL_COMPLETED,
+	BUTTON_DEL,
+	BUTTON_DEL_ALL,
+	BUTTON_OPTIONS,
+	BUTTON_UP,
+	BUTTON_DOWN,
+	BUTTON_LOG,
+	BUTTON_SPEED1,
+	BUTTON_SPEED2,
+	BUTTON_SPEED3,
+	BUTTON_SAVE,
+	BUTTON_DND_TRASH
+};
 #endif

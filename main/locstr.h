@@ -15,7 +15,9 @@ char *copy_string(const char *dest);
 char *copy_string(const char *dest,int len);
 int equal(const char *a,const char *b);
 int equal_first(const char *a,const char *b);
+int equal_first_uncase(const char *a,const char *b);
 int begin_string(const char *str,const char *begin);
+int begin_string_uncase(const char *str,const char *begin);
 char *sum_strings(const char *a,const char *b);
 char *sum_strings(const char *a,const char *b,const char *c);
 int empty_string(char *a);
@@ -37,6 +39,7 @@ void scroll_string_left(char *str,unsigned int shift);
 char *extract_from_prefixed_string(char *str,char *begin);
 int get_permisions_from_int(int a);
 char *subtract_path(const char *a,const char *b);
+int reallocate_string(char **what, int len);
 
 //**************************************************/
 #endif

@@ -13,6 +13,7 @@
 
 #include "liststr.h"
 #include "sort.h"
+#include "dlist.h"
 
 struct tSortString: public tSortNode{
 	char *body;
@@ -43,6 +44,7 @@ class tHostsLimits:public tQueue{
     	void dispose();
 		tSortString *find(char *what,int key);
 		void del(tSortString *what);
+		void decrement(tDownload *what);
     	tSortString *last();
     	tSortString *first();
     	tSortString *next();

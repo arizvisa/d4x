@@ -28,6 +28,7 @@ class tSocket{
   int fd;
   sockaddr_in info;
   hostent hp;
+  int temp_variable;
   int RBytes,SBytes;
   int constr_name(char *host,int port);
   int wait_for_read(int len);
@@ -41,6 +42,7 @@ class tSocket{
     int open_any(int host);
     int accepting(char * host);
     int open_port(char * host,int port);
+    int open_port(int host,int port);
     int send_string(char *what,int timeout);
     int rec_string(char * where,int len,int timeout);    
     void down();

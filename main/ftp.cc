@@ -31,7 +31,7 @@ int tFtpClient::accepting() {
 int  tFtpClient::send_command(char * comm,char *argv) {
 	int len=strlen(comm)+2;
 	if (argv) len+=strlen(argv)+1;
-	char data[MAX_LEN];
+	char *data=new char[strlen(comm)+(argv?strlen(argv)+1:0)+1+strlen("\r\n")];
 	data[0]=0;
 	strcat(data,comm);
 	if (argv && strlen(argv)) {
@@ -47,8 +47,10 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 		if (Status==STATUS_TIMEOUT)
 			LOG->add(_("Timeout send through control socket."),LOG_ERROR);
 		LOG->add(_("Control conection lost"),LOG_WARNING);
+		delete data;
 		return -1;
 	};
+	delete data;
 	return 0;
 };
 
@@ -153,10 +155,16 @@ int tFtpClient::registr(char *user,char *password) {
 
 int tFtpClient::connect() {
 	ReGet=1;
+	char *temp[2];
+	temp[0]=FTP_PASS_OK;
+	temp[1]=FTP_USER_OK;
+
 	send_command("USER",username);
-	if (analize_ctrl(1,&FTP_USER_OK)) return -1;
-	send_command("PASS",userword);
-	if (analize_ctrl(1,&FTP_PASS_OK)) return -2;
+	if (analize_ctrl(2,temp)) return -1;
+	if (analize(FTP_PASS_OK)){
+		send_command("PASS",userword);
+		if (analize_ctrl(2,temp)) return -2;
+	};
 	return 0;
 };
 
@@ -169,12 +177,12 @@ int tFtpClient::stand_data_connection() {
 			return -1;
 		};
 		tLogString *log=LOG->last();
-		int a[6]={0,0,0,0,0,0};
-		sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&a[0],&a[1],&a[2],&a[3],&a[4],&a[5]);
+		int PASSIVE_ADDR[6]={0,0,0,0,0,0};
+		sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
 		char data[MAX_LEN];
-		sprintf(data,_("try to connect to %i,%i,%i,%i,%i,%i"),a[0],a[1],a[2],a[3],a[4],a[5]);
+		sprintf(data,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
 		LOG->add(data,LOG_OK);
-		if (DataSocket.open_port(hostname,a[4]*256+a[5])) {
+		if (DataSocket.open_port(PASSIVE_ADDR[0]+(PASSIVE_ADDR[1]<<8)+(PASSIVE_ADDR[2]<<16)+(PASSIVE_ADDR[3]<<24)/*hostname*/,PASSIVE_ADDR[4]*256+PASSIVE_ADDR[5])) {
 			LOG->add(_("Cant stand data connection"));
 			Status=STATUS_TRIVIAL;
 			passive=0;

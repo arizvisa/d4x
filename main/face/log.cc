@@ -30,6 +30,7 @@ struct tLogWindow {
 	GtkWidget *window;
 	GtkWidget *clist;
 	GtkWidget *swindow;
+	float value;
 	tStringDialog *string;
 	pthread_mutex_t mutex;
 	tLogWindow();
@@ -57,7 +58,7 @@ void init_pixmaps_for_log() {
 	log_warning_pixmap=make_pixmap_from_xpm(&log_warning_mask,warning_xpm);
 };
 
-void destroy_log_window_by_log(void *a) {
+void log_window_destroy_by_log(void *a) {
 	tLog *log=(tLog *) a;
 	if (log) {
 		tLogWindow *temp=(tLogWindow *)log->Window;
@@ -72,7 +73,7 @@ void destroy_log_window_by_log(void *a) {
 
 };
 
-int destroy_log_window(GtkWidget *window,GdkEvent *event, tLog *log) {
+int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 	if (log) {
 		tLogWindow *temp=(tLogWindow *)log->Window;
 		if (temp) {
@@ -168,17 +169,19 @@ static void log_window_event_handler(	GtkWidget *clist, gint row, gint column,
 		temp->string->init(text,data);
 	};
 };
-/*
-static void my_gtk_auto_scroll( GtkAdjustment *get) {
-	if (get==NULL) return;
-	if (get->value<=get->upper-get->page_size-0.01) {
-		//added 0.01 to prevent interface lockups
+
+static void my_gtk_auto_scroll( GtkAdjustment *get,tLog *log){
+	if (get==NULL || log==NULL) return;
+	tLogWindow *temp=(tLogWindow *)log->Window;
+	if (temp->value==get->value && get->value<get->upper-get->page_size) {
 		get->value=get->upper-get->page_size;
+		temp->value=get->value;
 		gtk_signal_emit_by_name (GTK_OBJECT (get), "changed");
-	};
+	} else
+		temp->value=get->value;
 }
-*/
-void init_log_window(tDownload *what) {
+
+void log_window_init(tDownload *what) {
 	gchar *titles[]={"","",""};
 	if (what && what->LOG) {
 		if (what->LOG->Window) {
@@ -196,7 +199,7 @@ void init_log_window(tDownload *what) {
 		strcat(title,what->info->file);
 		gtk_window_set_title(GTK_WINDOW (temp->window), title);
 		gtk_signal_connect(GTK_OBJECT(temp->window), "delete_event",
-		                   (GtkSignalFunc)destroy_log_window, what->LOG);
+		                   (GtkSignalFunc)log_window_destroy, what->LOG);
 
 		temp->clist = gtk_clist_new_with_titles( 3, titles);
 		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_window_event_handler),what);
@@ -208,28 +211,35 @@ void init_log_window(tDownload *what) {
 		gtk_clist_set_column_auto_resize(GTK_CLIST(temp->clist),3,TRUE);
 
 		GtkAdjustment *adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
-/*
-		gtk_signal_connect (GTK_OBJECT (adj), "changed",
-	                    		GTK_SIGNAL_FUNC (my_gtk_auto_scroll), NULL);
-*/
+
 		temp->swindow=gtk_scrolled_window_new(NULL,adj);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (temp->swindow),
 		                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-		gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (temp->swindow),
-		                                      temp->clist);
+		gtk_container_add(GTK_CONTAINER(temp->swindow),temp->clist);
 		gtk_container_add(GTK_CONTAINER(temp->window),temp->swindow);
 
 		what->LOG->Window=temp;
 
 		gtk_object_set_user_data(GTK_OBJECT(temp->window),what->LOG);
-		gtk_widget_show(temp->clist);
-		gtk_widget_show(temp->swindow);
-		gtk_widget_show(temp->window);
-		what->LOG->print();
+		gtk_widget_show_all(temp->window);
 		int a[4];
 		what->LOG->get_geometry(a);
 		if (a[3]!=0 && a[2]!=0)
 			gdk_window_move_resize(temp->window->window,a[0],a[1],a[2],a[3]);
+
+		what->LOG->print();
+
+		gtk_signal_connect (GTK_OBJECT(adj), "changed",GTK_SIGNAL_FUNC(my_gtk_auto_scroll), what->LOG);
+		adj->value=adj->upper-adj->page_size;
+		temp->value=adj->value;
+		gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
+	};
+};
+
+void log_window_set_title(tDownload *what,char *title) {
+	if (what && what->LOG && what->LOG->Window) {
+		tLogWindow *temp=(tLogWindow *)what->LOG->Window;
+		gtk_window_set_title(GTK_WINDOW (temp->window), title);
 	};
 };
 

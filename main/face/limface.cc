@@ -72,7 +72,7 @@ int tLimitDialog::init() {
 	gtk_box_set_spacing(GTK_BOX(hbox2),5);
 	gtk_box_pack_start(GTK_BOX(hbox2),limit_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox2),limit_entry,FALSE,FALSE,0);
-	ok_button=gtk_button_new_with_label("Ok");
+	ok_button=gtk_button_new_with_label(_("Ok"));
 	cancel_button=gtk_button_new_with_label(_("Cancel"));
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
@@ -295,7 +295,7 @@ void tFaceLimits::init() {
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),clist);
-	button=gtk_button_new_with_label("Ok");
+	button=gtk_button_new_with_label(_("Ok"));
 	add_button=gtk_button_new_with_label(_("Add new"));
 	del_button=gtk_button_new_with_label(_("Delete"));
 	GTK_WIDGET_SET_FLAGS(button,GTK_CAN_DEFAULT);

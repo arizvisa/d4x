@@ -17,6 +17,7 @@ class tFtpClient:public tClient{
     int DSFlag;
     int passive;
     int TEMP_SIZE;
+/*    int PASSIVE_ADDR[6];*/
     tSocket DataSocket;
     int send_command(char *comm,char *argv);
     int read_data(char *where,int len);

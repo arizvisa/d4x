@@ -66,7 +66,7 @@ void init_list_menu() {
 
 	ListMenu=gtk_menu_new();
 	pixmap=make_pixmap_from_xpm(&bitmap,logmini_xpm);
-	menu_item=make_menu_item(_("View log"),NULL,pixmap,bitmap);
+	menu_item=make_menu_item(_("View log"),(char *)NULL,pixmap,bitmap);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_LOG]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(open_log_for_selected),NULL);
@@ -79,7 +79,7 @@ void init_list_menu() {
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(stop_downloads),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
-	menu_item=make_menu_item(_("Continue downloads"),NULL,pixmap,bitmap);
+	menu_item=make_menu_item(_("Continue downloads"),(char *)NULL,pixmap,bitmap);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_CONTINUE]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(continue_downloads),NULL);
@@ -100,13 +100,13 @@ void init_list_menu() {
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_download),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,delcommini_xpm);
-	menu_item=make_menu_item(_("Delete completed"),NULL,pixmap,bitmap);
+	menu_item=make_menu_item(_("Delete completed"),(char *)NULL,pixmap,bitmap);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_DELC]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_completed_downloads),NULL);
 
 
-	menu_item=make_menu_item(_("Delete failed"),NULL,NULL,NULL);
+	menu_item=make_menu_item(_("Delete failed"),(char *)NULL,NULL,NULL);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_DELF]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(ask_delete_fataled_downloads),NULL);
@@ -128,7 +128,7 @@ void init_list_menu() {
 	ListMenuArray[LM_MOVEDOWN]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(move_download_down),NULL);
 
-	menu_item=make_menu_item(_("Set limitation"),NULL,NULL,NULL);
+	menu_item=make_menu_item(_("Set limitation"),(char *)NULL,NULL,NULL);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_SET_LIMIT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(set_limit_to_download),NULL);

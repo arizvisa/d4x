@@ -11,6 +11,7 @@
 #ifndef T_VARIABLE
 #define T_VARIABLE
 
+
 #define STATUS_TRIVIAL -1
 #define STATUS_FATAL -3
 #define STATUS_TIMEOUT -2
@@ -48,6 +49,7 @@ struct tMainCfg{
 	char *DEFAULT_NAME;
 	int FTP_RECURSE_DEPTH;
 	int HTTP_RECURSE_DEPTH;
+	int ROLLBACK;
 /* Log
  */
 	int SAVE_MAIN_LOG;
@@ -84,6 +86,7 @@ struct tMainCfg{
 	int FACE_LIMITS_SIZE2;
 	int WINDOW_LOWER;
 	int GRAPH_ORDER;
+	int DND_TRASH,DND_TRASH_X,DND_TRASH_Y;
 /* Proxies....
  */
 	char *FTP_PROXY_HOST;
@@ -158,7 +161,8 @@ extern char *HOME_PAGE;
 extern char *DEFAULT_PROTO;
 extern int BLOCK_READ;
 
-extern int LOCK_FILE_D;
 extern char *HOME_VARIABLE;
+extern char *LOCK_FILE;
+extern int LOCK_FILE_D;
 extern tDB *ALL_DOWNLOADS;
 #endif

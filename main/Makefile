@@ -14,7 +14,8 @@ EXECC=$(CCPLUS) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
 MODULES=base64.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o
 MODULES2=client.o ftp.o http.o download.o ftpd.o httpd.o signal.o main.o config.o savelog.o mainlog.o var.o sortstr.o db.o
 FACE=face/lmenu.o face/list.o face/addd.o face/graph.o face/log.o face/prefs.o face/buttons.o \
-face/about.o face/edit.o face/colors.o face/saveload.o face/limface.o face/misc.o
+face/about.o face/edit.o face/colors.o face/saveload.o face/limface.o face/misc.o face/lod.o \
+face/columns.o face/dndtrash.o
 
 MAKE=make
 

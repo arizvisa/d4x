@@ -396,20 +396,20 @@ msgstr "设备"
 
 #: main.cc:637
 #, c-format
-msgid "Downloading of directory %s://%s%s/%s was completed"
-msgstr "目录 %s://%s%s/%s 下载完成"
+msgid "Downloading of directory %s was completed"
+msgstr "目录 %s 下载完成"
 
 #: main.cc:641
 #, c-format
 msgid ""
-"Downloading of file %s://%s%s/%s (%i bytes) was completed at speed %i "
+"Downloading of file %s (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "文件 %s://%s%s/%s 下载完成, 速度: %i 字节/秒"
+msgstr "文件 %s 下载完成, 速度: %i 字节/秒"
 
 #: main.cc:664
 #, c-format
-msgid "Downloading of file %s://%s%s/%s was terminated by fatal error"
-msgstr "严重错误导致下载文件 %s://%s%s/%s 终止"
+msgid "Downloading of file %s was terminated by fatal error"
+msgstr "严重错误导致下载文件 %s 终止"
 
 #: main.cc:809
 #, c-format
@@ -838,7 +838,7 @@ msgstr "/帮助/关于"
 
 #: face/list.cc:226
 msgid "Do you realy want to quit?"
-msgstr "您是否确定要退出？"
+msgstr "是否确定要退出？"
 
 #: face/list.cc:226
 msgid "Quit?"
@@ -866,8 +866,8 @@ msgstr "准备好了吗？"
 
 #: face/list.cc:768
 #, c-format
-msgid "%i-running %i-completed %i-total"
-msgstr "%i个正在运行，已经完成 %i个，总共 %i个"
+msgid "%i-running %i-completed %i-total "
+msgstr "%i个正在运行，已经完成 %i个，总共 %i个 "
 
 #: face/lmenu.cc:69
 msgid "View log"
@@ -1000,7 +1000,7 @@ msgstr "保存下载文件到目录"
 
 #: face/prefs.cc:347
 msgid "Save main log into file"
-msgstr "保存主记录到文件"
+msgstr "保存主记录信息到文件"
 
 #: face/prefs.cc:366
 msgid "Append to file"
@@ -1008,11 +1008,11 @@ msgstr "追加到文件"
 
 #: face/prefs.cc:369
 msgid "Rewrite file"
-msgstr "重写文件"
+msgstr "覆盖文件"
 
 #: face/prefs.cc:382
 msgid "Size format"
-msgstr "文件大小格式"
+msgstr "文件长度格式"
 
 #: face/prefs.cc:383
 msgid "Time format"
@@ -1064,40 +1064,120 @@ msgstr "打开列表"
 
 #: main.cc:851
 msgid "Downloading was successefully completed!"
-msgstr ""
+msgstr "下载完成!"
 
 #: main.cc:858
 msgid "Downloading was failed..."
-msgstr ""
+msgstr "下载失败..."
 
 #: face/edit.cc:218
 msgid "Save download to file"
-msgstr ""
+msgstr "保存下载到文件"
 
 #: face/prefs.cc:218
 msgid "Revert drawing graph of speeds"
-msgstr ""
+msgstr "反方向绘制速度记录图"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr ""
+msgstr "最大遍历深度(0 - 不限制, 1 - 不遍历)"
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
-msgstr ""
+msgstr "文件名未知时保存为"
 
 #: face/about.cc:44
 msgid "Translators team"
-msgstr ""
+msgstr "翻译人员"
 
 #: face/prefs.cc:
 msgid "Scroll title"
-msgstr ""
+msgstr "滚动标题"
 
 #: face/prefs.cc:
 msgid "Default permisions of file"
-msgstr ""
+msgstr "默认文件权限"
 
 #: face/buttons.cc:
 msgid " Save list "
-msgstr ""
+msgstr "保存列表"
+
+#: face/columns.cc:22
+msgid "status"
+msgstr "状态"
+
+#: face/columns.cc:22
+msgid "file name"
+msgstr "文件名"
+
+#: face/columns.cc:22
+msgid "type of file"
+msgstr "文件类型"
+
+#: face/columns.cc:22
+msgid "size of file"
+msgstr "文件长度"
+
+#: face/columns.cc:22
+msgid "downloaded size"
+msgstr "已下载长度"
+
+#: face/columns.cc:22
+msgid "percent"
+msgstr "百分比"
+
+#: face/columns.cc:22
+msgid "speed"
+msgstr "速度"
+
+#: face/columns.cc:22
+msgid "elapsed time"
+msgstr "已用时间"
+
+#: face/columns.cc:22
+msgid "estimated time"
+msgstr "剩余时间"
+
+#: face/columns.cc:22
+msgid "time of pause"
+msgstr "暂停次数"
+
+#: face/columns.cc:22
+msgid "number of attempts"
+msgstr "重试次数"
+
+#: face/columns.cc:22
+msgid "Showed columns"
+msgstr "列表显示内容"
+
+#: face/refs.cc:
+msgid "Rollback after reconnecting (in bytes)"
+msgstr "重新连接时的退回量（字节）"
+
+#: download.cc:
+msgid "Can't do rollback!"
+msgstr "不能回退！"
+
+#: main.cc:
+msgid "Redirect from %s"
+msgstr "从 %s 重定向"
+
+#: face/
+msgid "Ok"
+msgstr "确定"
+
+#: face/prefs.cc:
+msgid "Show trash for DnD"
+msgstr "显示拖放箱"
+
+#: face/buttons.cc:
+msgid " DnD trash "
+msgstr "拖放箱"
+
+#: main.cc:
+msgid "Downloader exited normaly"
+msgstr "正常退出"
+
+#: face/dndtrash.cc:
+msgid "Drop link here"
+msgstr "将链接拖放到这里"

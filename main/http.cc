@@ -53,10 +53,13 @@ int tHttpClient::read_answer(tStringList *list) {
 	if (read_string(&CtrlSocket,list,MAX_LEN)!=0) return -1;
 	tString *last=list->last();
 	if (last) {
-		char str1[MAX_LEN],str2[MAX_LEN];
+		char *str1=new char[strlen(last->body)+1];
+		char *str2=new char[strlen(last->body)+1];
 		sscanf(last->body,"%s %s",str1,str2);
 		if (!equal_first("HTTP",str1)) {
 			LOG->add(_("It is not HTTP server!!!"),LOG_WARNING);
+			delete str1;
+			delete str2;
 			return -1;
 		};
 		switch (str2[0]) {
@@ -92,22 +95,28 @@ int tHttpClient::read_answer(tStringList *list) {
 			LOG->add(last->body,LOG_FROM_SERVER);
 			last=list->last();
 		};
+		delete str1;
+		delete str2;
 		return rvalue;
 	};
 	return -1;
 };
 
 int tHttpClient::get_size(char *filename,tStringList *list) {
+	char *data2=new char[strlen("GET  HTTP/1.0\r\n")+strlen(filename)+1];
+	sprintf(data2,"GET %s HTTP/1.0\r\n",filename);
+	send_request(data2);
+	delete data2;
 	char data[MAX_LEN];
-	sprintf(data,"GET %s HTTP/1.0\r\n",filename);
-	send_request(data);
-	sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
-	send_request(data);
 	send_request("Accept: */*\r\n");
 	sprintf(data,"Range: bytes=%i-\r\n",Offset);
+
 	send_request(data);
 	sprintf(data,"Refer: %s\r\n",HOME_PAGE);
 	send_request(data);
+	sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
+	send_request(data);
+
 	sprintf(data,"Host: %s\r\n",hostname);
 	send_request(data);
 	if (Auth && username && userword) {

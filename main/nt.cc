@@ -25,7 +25,8 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.06";
+char *VERSION_NAME="WebDownloader for X 1.07";
+char *LOCK_FILE;
 
 int main(int argc,char **argv) {
 	if (parse_command_line_preload(argc,argv)) return 0;
@@ -43,14 +44,14 @@ int main(int argc,char **argv) {
 #endif
 	if (!HOME_VARIABLE)
 		puts(_("WARNING!!! Can't find HOME variable! So can't read config!"));
-	char *LOCK_FILE=sum_strings(HOME_VARIABLE,"/.ntrc/lock");
+//	char *LOCK_FILE=sum_strings(HOME_VARIABLE,"/.ntrc/lock");
+	LOCK_FILE=sum_strings(g_get_tmp_dir(),"/downloader_for_x_", g_get_user_name());
 	read_config();
 	LOCK_FILE_D=open(LOCK_FILE,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (LOCK_FILE<0 || lockf(LOCK_FILE_D,F_TLOCK,0)) {
 		printf(_("%s probably is already running\n"),VERSION_NAME);
 		return 0;
 	};
-	delete(LOCK_FILE);
 	aa.init();
 	aa.run(argc,argv);
 	return 0;

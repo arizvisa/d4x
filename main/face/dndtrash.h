@@ -8,14 +8,13 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef MY_MISC_FACE
-#define MY_MISC_FACE
-#include <gdk/gdk.h>
+#ifndef MY_DNDTRASH_HEADER
+#define MY_DNDTRASH_HEADER
+
 #include <gtk/gtk.h>
-void my_gdk_window_iconify(GdkWindow *window);
-GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm);
-GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm,GtkWidget *parent);
-gchar *text_from_combo(GtkWidget *combo);
-void text_to_combo(GtkWidget *combo,gchar *text);
-void motion_notify_get_coords(GdkEventMotion * event);
+
+void dnd_trash_init();
+void dnd_trash_destroy();
+int dnd_trash_refresh();
+
 #endif

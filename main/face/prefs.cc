@@ -15,6 +15,8 @@
 #include "edit.h"
 #include "colors.h"
 #include "misc.h"
+#include "columns.h"
+#include "dndtrash.h"
 #include "../var.h"
 #include "../main.h"
 #include "../config.h"
@@ -44,6 +46,7 @@ GtkWidget *prefs_common_dnd_dialog;
 GtkWidget *prefs_common_window_lower;
 GtkWidget *prefs_common_graph_order;
 GtkWidget *prefs_common_default_permisions;
+GtkWidget *prefs_common_dnd_trash;
 
 GtkWidget *prefs_limits_frame;
 GtkWidget *prefs_limits_vbox;
@@ -55,6 +58,7 @@ GtkWidget *prefs_limits_mlog,*prefs_limits_mlbox,*prefs_limits_mllabel;
 GtkWidget *prefs_limits_retry_timeout,*prefs_limits_rtbox,*prefs_limits_rtlabel;
 GtkWidget *prefs_limits_max_retries,*prefs_limits_rbox,*prefs_limits_rlabel;
 GtkWidget *prefs_limits_ftp_recurse_depth,*prefs_limits_http_recurse_depth,*prefs_limits_rdbox,*prefs_limits_rdlabel;
+GtkWidget *prefs_limits_rollback,*prefs_limits_rbbox,*prefs_limits_rblabel;
 
 GtkWidget *prefs_other_frame;
 GtkWidget *prefs_other_vbox;
@@ -68,6 +72,7 @@ GtkWidget *prefs_other_save_log_path;
 
 GtkWidget *prefs_columns_nums_button1,*prefs_columns_nums_button2,*prefs_columns_nums_button3;
 GtkWidget *prefs_columns_time_button1,*prefs_columns_time_button2;
+tColumnsPrefs prefs_columns_order;
 
 GtkWidget *prefs_confirm_delete,*prefs_confirm_delete_all,*prefs_confirm_delete_completed,*prefs_confirm_delete_fataled,*prefs_confirm_exit;
 
@@ -246,6 +251,9 @@ void init_options_window(...) {
 	sprintf(temp,"%i",CFG.DEFAULT_PERMISIONS);
 	gtk_entry_set_text(GTK_ENTRY(prefs_common_default_permisions),temp);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_default_permisions_box,0,1,9,10);
+
+	prefs_common_dnd_trash=gtk_check_button_new_with_label(_("Show trash for DnD"));
+	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_dnd_trash,1,2,9,10);
 	
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_common_vbox,gtk_label_new(_("Common")));
 
@@ -262,6 +270,7 @@ void init_options_window(...) {
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_dnd_dialog),CFG.NEED_DIALOG_FOR_DND);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_window_lower),CFG.WINDOW_LOWER);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_graph_order),CFG.GRAPH_ORDER);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_dnd_trash),CFG.DND_TRASH);
 	options_toggle_save_list(prefs_common_save_list_check);
 	options_toggle_title(prefs_common_use_title);
 	/*
@@ -336,6 +345,16 @@ void init_options_window(...) {
 	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_rbox,1,2,5,6);
 	prefs_limits_rbox=gtk_hbox_new(FALSE,0);
 
+	prefs_limits_rbbox=gtk_hbox_new(FALSE,0);
+	prefs_limits_rollback=gtk_entry_new_with_max_length(5);
+	gtk_widget_set_usize(prefs_limits_rollback,50,-1);
+	sprintf(temp,"%i",CFG.ROLLBACK);
+	gtk_entry_set_text(GTK_ENTRY(prefs_limits_rollback),temp);
+	gtk_box_pack_start(GTK_BOX(prefs_limits_rbbox),prefs_limits_rollback,FALSE,FALSE,0);
+	prefs_limits_rblabel=gtk_label_new(_("Rollback after reconnecting (in bytes)"));
+	gtk_box_pack_start(GTK_BOX(prefs_limits_rbbox),prefs_limits_rblabel,FALSE,FALSE,0);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_rbbox,1,2,6,7);
+
 	prefs_limits_rdbox=gtk_hbox_new(FALSE,0);
 	prefs_limits_ftp_recurse_depth=gtk_entry_new_with_max_length(3);
 	gtk_widget_set_usize(prefs_limits_ftp_recurse_depth,30,-1);
@@ -355,7 +374,7 @@ void init_options_window(...) {
 	//    gtk_box_pack_start(GTK_BOX(prefs_limits_rdbox),prefs_limits_http_recurse_depth,FALSE,FALSE,0);
 	prefs_limits_rdlabel=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rdbox),prefs_limits_rdlabel,FALSE,FALSE,0);
-	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_rdbox,1,2,6,7);
+	gtk_table_attach_defaults(GTK_TABLE(prefs_limits_table),prefs_limits_rdbox,1,2,7,8);
 
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_limits_vbox,gtk_label_new(_("Limits")));
@@ -487,6 +506,8 @@ void init_options_window(...) {
 
 	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox11,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(columns_hbox),columns_vbox21,FALSE,FALSE,0);
+	prefs_columns_order.init();
+	gtk_box_pack_start(GTK_BOX(columns_hbox),prefs_columns_order.body(),FALSE,FALSE,0);
 
 	GtkWidget *columns_frame=gtk_frame_new(_("Columns"));
 	gtk_container_border_width(GTK_CONTAINER(columns_frame),5);
@@ -554,7 +575,7 @@ void init_options_window(...) {
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
 	gtk_button_box_set_spacing(GTK_BUTTON_BOX(buttons_hbox),5);
 	gtk_box_pack_start(GTK_BOX(options_window_vbox),buttons_hbox,FALSE,FALSE,0);
-	ok_button=gtk_button_new_with_label("Ok");
+	ok_button=gtk_button_new_with_label(_("Ok"));
 	cancel_button=gtk_button_new_with_label(_("Cancel"));
 	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(options_window_cancel),NULL);
 	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",GTK_SIGNAL_FUNC(options_window_ok),NULL);
@@ -582,8 +603,6 @@ void options_window_ok() {
 	CFG.RETRY_IF_NOREGET=GTK_TOGGLE_BUTTON(prefs_common_retry_if_noreget)->active;
 	CFG.TIME_FORMAT=GTK_TOGGLE_BUTTON(prefs_columns_time_button2)->active;
 	CFG.FTP_PASSIVE_MODE=GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active;
-	CFG.SAVE_MAIN_LOG=GTK_TOGGLE_BUTTON(prefs_other_save_log)->active;
-	CFG.APPEND_REWRITE_LOG=GTK_TOGGLE_BUTTON(prefs_other_append_log)->active;
 	CFG.FTP_PERMISIONS=GTK_TOGGLE_BUTTON(prefs_common_ftp_permisions)->active;
 	CFG.SAVE_LIST=GTK_TOGGLE_BUTTON(prefs_common_save_list_check)->active;
 	CFG.USE_MAINWIN_TITLE=GTK_TOGGLE_BUTTON(prefs_common_use_title)->active;
@@ -598,6 +617,9 @@ void options_window_ok() {
 	CFG.CONFIRM_DELETE_FATALED=GTK_TOGGLE_BUTTON(prefs_confirm_delete_fataled)->active;
 	CFG.CONFIRM_EXIT=GTK_TOGGLE_BUTTON(prefs_confirm_exit)->active;
 	CFG.GRAPH_ORDER=GTK_TOGGLE_BUTTON(prefs_common_graph_order)->active;
+	CFG.DND_TRASH=GTK_TOGGLE_BUTTON(prefs_common_dnd_trash)->active;
+	if (CFG.DND_TRASH) dnd_trash_init();
+	else dnd_trash_destroy();
 
 	prefs_proxy->apply_changes();
 
@@ -625,6 +647,8 @@ void options_window_ok() {
 	CFG.FTP_RECURSE_DEPTH=temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_http_recurse_depth)),"%u",&temp);
 	CFG.HTTP_RECURSE_DEPTH=temp;
+	temp=0; sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_rollback)),"%u",&temp);
+	CFG.ROLLBACK=temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_log)),"%u",&temp);
 	if (temp>=100) CFG.MAX_LOG_LENGTH=temp;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_mlog)),"%u",&temp);
@@ -637,9 +661,17 @@ void options_window_ok() {
 	CFG.GLOBAL_SAVE_PATH=copy_string(text_from_combo(prefs_other_savepath));
 	normalize_path(CFG.GLOBAL_SAVE_PATH);
 	PathHistory->add(CFG.GLOBAL_SAVE_PATH);
-	if (CFG.SAVE_LOG_PATH) delete (CFG.SAVE_LOG_PATH);
-	LogHistory->add(text_from_combo(prefs_other_save_log_path));
-	CFG.SAVE_LOG_PATH=copy_string(text_from_combo(prefs_other_save_log_path));
+/* Main log settings */
+	CFG.APPEND_REWRITE_LOG=GTK_TOGGLE_BUTTON(prefs_other_append_log)->active;
+ 	if (CFG.SAVE_LOG_PATH==NULL || strcmp(CFG.SAVE_LOG_PATH,text_from_combo(prefs_other_save_log_path)) || 
+ 				CFG.SAVE_MAIN_LOG!=(int)GTK_TOGGLE_BUTTON(prefs_other_save_log)->active){
+		if (CFG.SAVE_LOG_PATH) delete (CFG.SAVE_LOG_PATH);
+		LogHistory->add(text_from_combo(prefs_other_save_log_path));
+		CFG.SAVE_LOG_PATH=copy_string(text_from_combo(prefs_other_save_log_path));
+		CFG.SAVE_MAIN_LOG=GTK_TOGGLE_BUTTON(prefs_other_save_log)->active;
+ 		aa.reinit_main_log();
+	};
+/* default name */
 	delete(CFG.DEFAULT_NAME);
 	CFG.DEFAULT_NAME=copy_string(text_from_combo(prefs_other_filename));
 	if (strlen(CFG.DEFAULT_NAME))
@@ -651,7 +683,7 @@ void options_window_ok() {
 	CFG.DEFAULT_PERMISIONS=temp;
 	/*  There we need to make new loglimit for all logs
 	 */
-	aa.reinit_main_log();
+	prefs_columns_order.apply_changes();
 	options_window_cancel();
 	save_config();
 };

@@ -29,13 +29,17 @@ struct tCfg{
 	int timeout;
 	int time_for_sleep;
 	int number_of_attempts;
+	int ftp_recurse_depth,http_recurse_depth;
+	int rollback;
+	int speed;
 /* flags
  */
+	int http_recursing; //temporary flag
 	int passive;
 	int retry;
 	int permisions;
 	int get_date;
-	int ftp_recurse_depth,http_recurse_depth;
+	int full_server_loading;
 /* proxy
  */
 	int proxy_port;
@@ -52,8 +56,11 @@ public:
 	char *get_proxy_user(){return(proxy_user);};
 	char *get_proxy_host(){return(proxy_host);};
 	char *get_proxy_pass(){return(proxy_pass);};
+	int get_flags();
+	void set_flags(int what);
 	void reset_proxy();
 	void copy(tCfg *src);
+	void copy_ints(tCfg *src);
 	~tCfg();
 };
 
@@ -71,8 +78,9 @@ class tDownloader{
 	int MASK;
 	int StartSize;
     int data;
-    void make_full_pathes(const char *path,char *another_name,char *name,char *guess);
-    void make_full_pathes(const char *path,char *name,char *guess);
+    int rollback(int offset);
+	virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+	virtual void make_full_pathes(const char *path,char **name,char **guess);
     public:
     	tDownloader();
     	int treat();
@@ -83,6 +91,7 @@ class tDownloader{
      	void short_init(tLog *log);
      	virtual int reconnect()=0;
     	virtual int init(tAddr *hostinfo,tLog *log,tCfg *cfg)=0;
+    	void make_file_visible(char *where,char *another_name);
     	virtual int create_file(char *where,char *another_name);
     	virtual int delete_file(char *where);
     	virtual void set_date_file(char *where,char *another_name);

@@ -19,8 +19,9 @@ tClient::tClient() {
 	hostname=username=userword=buffer=NULL;
 	FileLoaded=0;
 };
-tClient::~tClient() {}
-;
+
+tClient::~tClient() {
+};
 
 void tClient::init(char *host,tLog *log,int prt,int time_out) {
 	Status=0;

@@ -50,8 +50,25 @@ int equal_first(const char *a,const char *b) {
 	return !strncmp(a,b,min);
 };
 
+int equal_first_uncase(const char *a,const char *b) {
+	if (a==NULL || b==NULL) return 0;
+	int la=strlen(a);
+	int lb=strlen(b);
+	if (la==0 || lb==0) return 0;
+	int min=la<lb?la:lb;
+	return !strncasecmp(a,b,min);
+};
+
+
 int begin_string(const char *str,const char *begin) {
+	if (str==NULL || begin==NULL) return 0;
 	if (equal_first(str,begin) && strlen(str)>=strlen(begin)) return 1;
+	return 0;
+};
+
+int begin_string_uncase(const char *str,const char *begin) {
+	if (str==NULL || begin==NULL) return 0;
+	if (equal_first_uncase(str,begin) && strlen(str)>=strlen(begin)) return 1;
 	return 0;
 };
 
@@ -82,7 +99,19 @@ char *sum_strings(const char *a,const char *b,const char *c) {
 	return temp;
 };
 
+// next function reallocate memory for string and return new size
+int reallocate_string(char **what, int len){
+	int newlen=len+MAX_LEN+1;
+	char *temp=new char[newlen];
+	strncpy(temp,*what,len);
+	temp[len+1]=0;
+	delete *what;
+	*what=temp;
+	return newlen;
+};
+
 int empty_string(char *a) {
+	if (a==NULL) return 0;
 	int len=strlen(a);
 	for (int i=0;i<len;i++,a++) {
 		if (*a!=' ' && *a!='\n' && *a!='\r')
@@ -120,6 +149,7 @@ void convert_time(int what,char *where) {
 };
 
 void string_to_low(char *what) {
+	if (what==NULL) return;
 	while (*what) {
 		if (*what>='A' && *what<='Z')
 			*what+='a'-'A';
@@ -128,6 +158,7 @@ void string_to_low(char *what) {
 };
 
 void string_to_low(char *what,char delim) {
+	if (what==NULL) return;
 	char *temp=index(what,delim);
 	if (temp) {
 		while (what!=temp) {
@@ -153,7 +184,7 @@ int convert_from_hex(char what) {
 char *parse_percents(char *what) {
 	/* In the case if string not needed to correct
 	 */
-	if (index(what,'%')==NULL) return NULL;
+	if (what==NULL || index(what,'%')==NULL) return NULL;
 	/* Next string is too ugly because I use "new" in separate thread;
 	 */
 	char *temp=new char[strlen(what)];
@@ -394,6 +425,7 @@ char *compose_path(const char *left,const char *right) {
 };
 
 char *subtract_path(const char *a,const char *b){
+	if (a==NULL || b==NULL) return NULL;
 	int i=0;
 	char *temp=index(b,'/');
 	while (temp){
@@ -419,8 +451,8 @@ char *subtract_path(const char *a,const char *b){
 
 int global_url(char *url) {
 	if (!url) return 0;
-	if (!begin_string(url,"ftp://") && !begin_string(url,"http://")
-	        && !begin_string(url,"mailto:") && !begin_string(url,"news:")) return 0;
+	if (!begin_string_uncase(url,"ftp://") && !begin_string_uncase(url,"http://")
+	        && !begin_string_uncase(url,"mailto:") && !begin_string_uncase(url,"news:")) return 0;
 	return 1;
 };
 
@@ -448,3 +480,4 @@ int get_permisions_from_int(int a){
 	rvalue=(a-a1*10)+(a1-a2*10)*8+a2*64;
 	return rvalue;
 };
+

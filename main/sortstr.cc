@@ -99,6 +99,11 @@ void tHostsLimits::del(tSortString *what) {
 		First=what->prev;
 };
 
+void tHostsLimits::decrement(tDownload *what){
+	tSortString *tmp=find(what->info->host,what->info->port);
+	if (tmp) tmp->curent-=1;
+};
+
 tSortString *tHostsLimits::last() {
 	return (tSortString *)(Curent=Last);
 };

@@ -12,10 +12,11 @@
 #define T_GTK_LOG
 
 void init_pixmaps_for_log();
-void init_log_window(tDownload *what);
+void log_window_init(tDownload *what);
 void log_window_add_string(tLog *log,tLogString *str);
-int destroy_log_window(void *a);
-void destroy_log_window_by_log(void *a);
+int  log_window_destroy(void *a);
+void log_window_destroy_by_log(void *a);
 void del_first_from_log(tLog *what);
+void log_window_set_title(tDownload *what,char *title);
 
 #endif

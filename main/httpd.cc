@@ -25,7 +25,6 @@ tHttpDownload::tHttpDownload() {
 	ETag=Auth=NULL;
 	RealName=NULL;
 	NewRealName=NULL;
-	Auth=NULL;
 	content_type=NULL;
 };
 
@@ -45,11 +44,7 @@ int tHttpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	RealName=NewRealName=NULL;
 	data=0;
 	first=1;
-	config.timeout=cfg->timeout;
-	config.time_for_sleep=cfg->time_for_sleep;
-	config.number_of_attempts=cfg->number_of_attempts;
-	config.get_date=cfg->get_date;
-	config.retry=cfg->retry;
+	config.copy_ints(cfg);
 	HTTP->init(HOST,LOG,D_PORT,config.timeout);
 	HTTP->registr(USER,PASS);
 	return reconnect();
@@ -107,12 +102,15 @@ char * tHttpDownload::get_new_url() {
 };
 
 char *tHttpDownload::get_field(char *field) {
-	char buff[MAX_LEN];
+	int buff_len=MAX_LEN;
+	char *buff=new char [buff_len+1];
 	int len=strlen(field);
 	if (read(D_FILE.fdesc,buff,len-1)<len-1) return NULL;
 	buff[len-1]=0;
-	if (index(buff,'>')){
-//		lseek(D_FILE.fdesc,buff-close_bracket,SEEK_CUR);
+	char *close_bracket=index(buff,'>');
+	if (close_bracket){
+		lseek(D_FILE.fdesc,(buff-close_bracket)+(len-1),SEEK_CUR);
+		delete buff;
 		return NULL;
 	};
 	while(read(D_FILE.fdesc,buff+len-1,1)>0) {
@@ -123,32 +121,49 @@ char *tHttpDownload::get_field(char *field) {
 				if (read(D_FILE.fdesc,buff,1)<=0) return NULL;
 			} while(*buff!='=');
 			char *cur=buff;
+			char close_symbol='>';
 			do {
 				if (read(D_FILE.fdesc,buff,1)<=0) return NULL;
-				if (*buff=='>') return NULL;
-				if (*buff=='\"') break;
-				if (*buff!=' ')
+				if (*buff=='>'){
+					delete buff;
+					return NULL;
+				};
+				if (*buff=='\"'){
+					close_symbol='\"';
+					break;
+				};
+				if (*buff=='\''){
+					close_symbol='\'';
+					break;
+				};
+				if (*buff > ' ')
 					if ((*buff>='a' && *buff<='z') || (*buff>=' ' && *buff<='Z')) {
 						cur+=1;
 						break;
 					};
 			} while(1);
 			while(read(D_FILE.fdesc,cur,1)>0) {
-				if (*cur=='\"' || *cur<=' ' || *cur=='>') break;
+				if (*cur==close_symbol || *cur<=' ' || *cur=='>') break;
 				cur+=1;
-				if (cur-buff>MAX_LEN) return NULL; // too long field
+				if (cur-buff>buff_len){ //reallocate buffer
+					delete buff;
+					return NULL; //field too long
+//					buff_len = reallocate_string(&buff,buff_len+1) - 1;
+				};
 			};
 			*cur=0;
-			return copy_string(buff);
+			char *rvalue=copy_string(buff);
+			delete buff;
+			return rvalue;
 		};
-		char *close_bracket=index(buff,'>');
-		if (close_bracket) {
-			lseek(D_FILE.fdesc,buff-close_bracket,SEEK_CUR);
+		if (buff[len-1]=='>') {
+			delete buff;
 			return NULL;
 		};
 		for (int i=0;i<=len;i++)
 			buff[i]=buff[i+1];
 	};
+	delete buff;
 	return NULL;
 };
 
@@ -328,11 +343,11 @@ int tHttpDownload::analize_answer() {
 };
 
 int tHttpDownload::get_size() {
-	char fullname[MAX_LEN];
-	fullname[0]=0;
-	strcat(fullname,D_PATH);
-	strcat(fullname,"/");
-	strcat(fullname,D_FILE.name);
+	char *fullname;
+	if (strlen(D_FILE.name))
+		fullname=compose_path(D_PATH,D_FILE.name);
+	else
+		fullname=sum_strings(D_PATH,"/");
 	if (!answer) {
 		answer=new tStringList;
 		answer->init(0);
@@ -348,14 +363,23 @@ int tHttpDownload::get_size() {
 			D_FILE.size=analize_answer();
 			if (ReGet && D_FILE.size>=0)
 				D_FILE.size+=data;
+			delete fullname;
 			return D_FILE.size;
 		};
-		if (temp==1) return -1;
+		if (temp==1){
+			delete fullname;
+			return -1;
+		};
 		if (HTTP->get_status()!=STATUS_TIMEOUT) break;
 		if (reconnect()) break;
 	};
+	delete fullname;
 	LOG->add(_("Could'nt get normal answer!"),LOG_ERROR);
 	return -2;
+};
+
+void tHttpDownload::rollback_before(){
+	StartSize=data=rollback(data);
 };
 
 int tHttpDownload::download(unsigned int from,unsigned int len) {
@@ -363,15 +387,14 @@ int tHttpDownload::download(unsigned int from,unsigned int len) {
 	int offset=from;
 	first=1;
 	while(success) {
-		HTTP->set_offset(offset);
+		int real_offset=data;
+		if (!first) StartSize=real_offset=data=rollback(offset);
+		HTTP->set_offset(real_offset);
 		while (first || get_size()>=0) {
 			if (!ReGet) {
 				if (offset) LOG->add(_("It is seemed REGET not supported! Loading from begin.."),LOG_WARNING);
 				StartSize=data=offset=0;
 				if (ETagChanged) break;
-			};
-			if (lseek(D_FILE.fdesc,offset,SEEK_SET)<0) {
-				LOG->add(_("Problems with lseek()"),LOG_ERROR);
 			};
 			Status=D_DOWNLOAD;
 			int ind=HTTP->get_file_from(NULL,offset,len,D_FILE.fdesc);
@@ -418,6 +441,38 @@ char *tHttpDownload::get_content_type() {
 
 int tHttpDownload::reget() {
 	return ReGet;
+};
+
+void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) {
+	int flag=strlen(D_FILE.name);
+	char *full_path;
+	if (config.http_recursing)
+		full_path=compose_path(path,D_PATH);
+	else
+		full_path=copy_string(path);
+	char *temp;
+	if (flag){
+		temp=sum_strings(".",D_FILE.name);
+		*name=compose_path(full_path,temp);
+		*guess=compose_path(full_path,D_FILE.name);
+	}else{
+		temp=sum_strings(".",CFG.DEFAULT_NAME);
+		*name=compose_path(full_path,temp);
+		*guess=compose_path(full_path,CFG.DEFAULT_NAME);
+	};
+	make_dir_hier(full_path);
+	delete full_path;
+	delete temp;
+};
+
+void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
+	char *temp=sum_strings(".",another_name);
+	char *full_path=compose_path(path,D_PATH);
+	*name=compose_path(full_path,temp);
+	*guess=compose_path(full_path,another_name);
+	make_dir_hier(full_path);
+	delete full_path;
+	delete temp;
 };
 
 int tHttpDownload::create_file(char *data,char *another_name) {
@@ -468,7 +523,5 @@ tHttpDownload::~tHttpDownload() {
 	if (D_FILE.name) delete (D_FILE.name);
 	if (D_FILE.fdesc) close(D_FILE.fdesc);
 	if (answer) delete(answer);
-	if (RealName) delete RealName;
-	if (NewRealName) delete NewRealName;
 	if (content_type) delete (content_type);
 };

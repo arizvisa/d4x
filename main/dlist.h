@@ -77,6 +77,7 @@ public:
     void print();
     void convert_list_to_dir();
     void convert_list_to_dir2();
+    void make_file_visible();
     int create_file();
     void set_date_file();
     void update_trigers();
@@ -85,12 +86,12 @@ public:
 
 class tDList:public tQueue{
 	int OwnerKey;
-	void (*set_pixmap)(int);
+	int Pixmap;
     public:
 		tDList();
 		tDList(int key);
 		void insert(tDownload *what);
-		void init_set_pixmap(void (*a)(int));
+		void init_pixmap(int a);
 		void insert_before(tDownload *what,tDownload *where);
 		void del(tDownload *what);
 		void forward(tDownload *what);
@@ -105,6 +106,7 @@ class tDList:public tQueue{
 
 void make_url_from_download(tDownload *what,char *where);
 char * make_simply_url(tDownload *what);
+void make_dir_hier(char *path);
 
 enum {
     DL_ALONE,

@@ -69,28 +69,33 @@ void tMLog::add_to_list() {
 	char *data[]={useful,str->body};
 	int row=gtk_clist_append(list,data);
 	GdkColor color;
+	char str_type;
 	switch (str->type) {
-		case LOG_OK:
-			{
+		case LOG_OK:{
 				color=BLACK;
+				str_type='+';
 				break;
 			};
 		case LOG_FROM_SERVER:
 			{
 				color=BLUE;
+				str_type='-';
 				break;
 			};
 		case LOG_WARNING:
 			{
+				str_type='?';
 				color=GREEN;
 				break;
 			};
 		case LOG_ERROR:
 			{
+				str_type='!';
 				color=RED;
 				break;
 			};
 		default:
+			str_type=' ';
 			color=BLACK;
 	};
 	GdkColormap *colormap = gtk_widget_get_colormap (MainWindow);
@@ -100,7 +105,7 @@ void tMLog::add_to_list() {
 		*useful=0;
 		strcat(useful,index(a,' ')+1);
 		strcat(useful," ");
-		if (write(fd,useful,strlen(useful))<0 || write(fd,str->body,strlen(str->body))<0 || write(fd,"\n",strlen("\n"))<0) {
+		if (write(fd,&str_type,1)<0 || write(fd,useful,strlen(useful))<0 || write(fd,str->body,strlen(str->body))<0 || write(fd,"\n",strlen("\n"))<0) {
 			close(fd);
 			fd=0;
 			add(_("Can't write to file interrupting write to file"),LOG_ERROR);

@@ -34,7 +34,7 @@ void add_window_ok() {
 		delete(OneDownload);
 	else {
 		WaitList->insert(OneDownload);
-		add_download_to_clist(OneDownload);
+		list_of_downloads_add(OneDownload);
 		aa.add_download_message(OneDownload);
 		ALL_DOWNLOADS->insert(OneDownload);
 	};
@@ -61,6 +61,7 @@ void init_add_window(...) {
 	what->config.retry=CFG.RETRY_IF_NOREGET;
 	what->config.ftp_recurse_depth=CFG.FTP_RECURSE_DEPTH;
 	what->config.http_recurse_depth=CFG.HTTP_RECURSE_DEPTH;
+	what->config.rollback=CFG.ROLLBACK;
 
 	if (CFG.USE_PROXY_FOR_FTP) {
 		what->config.set_proxy_host(CFG.FTP_PROXY_HOST);

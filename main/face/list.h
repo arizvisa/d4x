@@ -16,11 +16,11 @@
 #include "../dlist.h"
 #include "../main.h"
 #include "limface.h"
+#include "lod.h"
 
 extern tMain aa;
 
 extern GtkWidget *MainMenu;
-extern GtkWidget *ListOfDownloads;
 extern GtkWidget *MainLogList;
 extern GtkAdjustment *ProgressBarValues;
 extern GtkWidget *ProgressOfDownload;
@@ -28,57 +28,16 @@ extern GtkWidget *MainStatusBar;
 extern GtkWidget *MainWindow;
 extern GdkGC *MainWindowGC;
 extern tFaceLimits *FaceForLimits;
+extern GtkWidget *ContainerForCList;
+extern gint StatusBarContext;
 
-struct tColumn{
-	int type;
-	int status; // zero - off, nonzero - on
-	char *name;
-	int size;
-};
-
-extern tColumn ListColumns[12];
-
-enum {
-    STATUS_COL,
-    FILE_COL,
-    FILE_TYPE_COL,
-    FULL_SIZE_COL,
-    DOWNLOADED_SIZE_COL,
-    PERCENT_COL,
-    SPEED_COL,
-    TIME_COL,
-    ELAPSED_TIME_COL,
-    PAUSE_COL,
-    TREAT_COL,
-    URL_COL
-};
-
-
-void list_of_downloads_get_sizes();
-void init_view_list();
 void init_status_bar();
 void init_main_window();
 void init_face(int argc, char *argv[]);
 void init_timeouts();
 gint get_mainwin_sizes(GtkWidget *window);
-/*  CList functions 
- */
-void add_download_to_clist(tDownload *what);
-void change_clist_data(int row,int column,gchar *data);
-void del_download_from_clist(tDownload *what);
-void freeze_clist();
-void unfreeze_clist();
-void set_pixmap_wait(int row);
-void set_pixmap_stop(int row);
-void set_pixmap_stop_wait(int row);
-void set_pixmap_run(int row);
-void set_pixmap_run_bad(int row);
-void set_pixmap_part_run(int row);
-void set_pixmap_complete(int row);
-void set_pixmap_pause(int row);
+
 void set_limit_to_download();
-void move_download_up();
-void move_download_down();
 /* Asking functions
  */
 void ask_delete_fataled_downloads(...);
@@ -98,6 +57,4 @@ void stop_downloads(...);
 void delete_downloads(...);
 void continue_downloads(...);
 void my_main_quit(...);
-tDownload *get_download_from_clist(int row);
-tDownload *get_last_selected();
 #endif

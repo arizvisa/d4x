@@ -133,7 +133,7 @@ msgstr "Внимание! Возможно вы нашли ошибку!!!"
 
 #: download.cc:146
 msgid "If you see this message please report to mdem@chat.ru"
-msgstr "Если вы видите это сообщение пожалуйста сообщите на mdem@chat.ru"
+msgstr "Если Вы видите это сообщение пожалуйста сообщите на mdem@chat.ru"
 
 #: ftp.cc:24
 msgid "Accepting faild"
@@ -355,20 +355,20 @@ msgstr "устр."
 
 #: main.cc:637
 #, c-format
-msgid "Downloading of directory %s://%s%s/%s was completed"
-msgstr "Загрузка директории %s://%s%s/%s завершена"
+msgid "Downloading of directory %s was completed"
+msgstr "Загрузка директории %s завершена"
 
 #: main.cc:641
 #, c-format
 msgid ""
-"Downloading of file %s://%s%s/%s (%i bytes) was completed at speed %i "
+"Downloading of file %s (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "Загрузка файла %s://%s%s/%s (%i байт) завершена при скорости %i байт/сек"
+msgstr "Загрузка файла %s (%i байт) завершена при скорости %i байт/сек"
 
 #: main.cc:664
 #, c-format
-msgid "Downloading of file %s://%s%s/%s was terminated by fatal error"
-msgstr "Загрузка файла %s://%s%s/%s остановлена из-за ошибки"
+msgid "Downloading of file %s was terminated by fatal error"
+msgstr "Загрузка файла %s остановлена из-за ошибки"
 
 #: main.cc:809
 #, c-format
@@ -821,8 +821,8 @@ msgstr "Готов ???"
 
 #: face/list.cc:768
 #, c-format
-msgid "%i-running %i-completed %i-total"
-msgstr "%i-запущено %i-завершено %i-всего"
+msgid "%i-running %i-completed %i-total "
+msgstr "%i-запущено %i-завершено %i-всего "
 
 #: face/lmenu.cc:69
 msgid "View log"
@@ -1056,3 +1056,87 @@ msgstr "Права файла по умолчанию"
 #: face/buttons.cc:
 msgid " Save list "
 msgstr " Сохранить список "
+
+#: face/columns.cc:22
+msgid "status"
+msgstr "статус"
+
+#: face/columns.cc:22
+msgid "file name"
+msgstr "имя файла"
+
+#: face/columns.cc:22
+msgid "type of file"
+msgstr "тип файла"
+
+#: face/columns.cc:22
+msgid "size of file"
+msgstr "размер файла"
+
+#: face/columns.cc:22
+msgid "downloaded size"
+msgstr "размер загруженного"
+
+#: face/columns.cc:22
+msgid "percent"
+msgstr "проценты"
+
+#: face/columns.cc:22
+msgid "speed"
+msgstr "скорость"
+
+#: face/columns.cc:22
+msgid "elapsed time"
+msgstr "прошедшее время"
+
+#: face/columns.cc:22
+msgid "estimated time"
+msgstr "оценочное время"
+
+#: face/columns.cc:22
+msgid "time of pause"
+msgstr "время паузы"
+
+#: face/columns.cc:22
+msgid "number of attempts"
+msgstr "число попыток"
+
+#: face/columns.cc:22
+msgid "Showed columns"
+msgstr "Отображаемые столбцы"
+
+#: face/refs.cc:
+msgid "Rollback after reconnecting (in bytes)"
+msgstr "Откат после обрыва (в байтах)"
+
+#: download.cc:
+msgid "Can't do rollback!"
+msgstr "Не могу сделать откат!"
+
+#: main.cc:
+msgid "Redirect from %s"
+msgstr "Перенаправление с %s"
+
+#: face/:
+msgid "Ok"
+msgstr "Ок"
+
+#: face/prefs.cc:
+msgid "Show trash for DnD"
+msgstr "Показывать \"корзину\""
+
+#: face/buttons.cc:
+msgid " DnD trash "
+msgstr " Корзина для DnD "
+
+#: main.cc:
+msgid "Downloader exited normaly"
+msgstr "Нормальный выход"
+
+#: face/dndtrash.cc:
+msgid "Drop link here"
+msgstr "Брось сюда ссылку"
+
+#: face/edit.cc
+msgid "Speed limitation in Bytes/sec (0 for unlimited)"
+msgstr "Ограничение скорости в Байт/сек (0 не ограничено)"

@@ -15,14 +15,14 @@
 #include "../savelog.h"
 #include "../var.h"
 #include "../ntlocale.h"
-GtkWidget *LoadSaveBrowser=NULL;
-GtkWidget *LoadSaveWindow=NULL;
+GtkWidget *LoadSaveBrowser=(GtkWidget *)NULL;
+GtkWidget *LoadSaveWindow=(GtkWidget *)NULL;
 GtkWidget *load_save_entry;
 /*
  */
 gint load_save_browser_cancel() {
 	gtk_widget_destroy(LoadSaveBrowser);
-	LoadSaveBrowser=NULL;
+	LoadSaveBrowser=(GtkWidget *)NULL;
 	return TRUE;
 };
 
@@ -49,7 +49,7 @@ void load_save_open_browser() {
 gint load_save_list_cancel() {
 	gtk_widget_destroy(LoadSaveWindow);
 	if (LoadSaveBrowser) load_save_browser_cancel();
-	LoadSaveWindow=NULL;
+	LoadSaveWindow=(GtkWidget *)NULL;
 	return TRUE;
 };
 
@@ -101,7 +101,7 @@ void init_save_list(...) {
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox),GTK_BUTTONBOX_END);
 	gtk_button_box_set_spacing(GTK_BUTTON_BOX(hbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	GtkWidget *button_ok=gtk_button_new_with_label("Ok");
+	GtkWidget *button_ok=gtk_button_new_with_label(_("Ok"));
 	gtk_signal_connect(GTK_OBJECT(button_ok),"clicked",GTK_SIGNAL_FUNC(save_list_ok),NULL);
 	GtkWidget *button_cancel=gtk_button_new_with_label(_("Cancel"));
 	gtk_signal_connect(GTK_OBJECT(button_cancel),"clicked",GTK_SIGNAL_FUNC(load_save_list_cancel),NULL);
@@ -148,7 +148,7 @@ void init_load_list(...) {
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox),GTK_BUTTONBOX_END);
 	gtk_button_box_set_spacing(GTK_BUTTON_BOX(hbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	GtkWidget *button_ok=gtk_button_new_with_label("Ok");
+	GtkWidget *button_ok=gtk_button_new_with_label(_("Ok"));
 	gtk_signal_connect(GTK_OBJECT(button_ok),"clicked",GTK_SIGNAL_FUNC(load_list_ok),NULL);
 	GtkWidget *button_cancel=gtk_button_new_with_label(_("Cancel"));
 	gtk_signal_connect(GTK_OBJECT(button_cancel),"clicked",GTK_SIGNAL_FUNC(load_save_list_cancel),NULL);

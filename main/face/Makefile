@@ -5,7 +5,7 @@ GTKFLAGS=`gtk-config --cflags`
 GTKLIBS=`gtk-config --libs`
 
 all:list.o colors.o addd.o graph.o edit.o log.o prefs.o lmenu.o buttons.o about.o saveload.o \
-limface.o misc.o
+limface.o misc.o lod.o columns.o dndtrash.o
 
 list.o: list.cc list.h
 	$(EXECC) $(GTKFLAGS) -c list.cc -o list.o
@@ -18,6 +18,12 @@ addd.o: addd.cc addd.h
 
 log.o: log.cc log.h
 	$(EXECC) $(GTKFLAGS) -c log.cc -o log.o
+
+lod.o: lod.cc lod.h
+	$(EXECC) $(GTKFLAGS) -c lod.cc -o lod.o
+
+columns.o: columns.cc columns.h
+	$(EXECC) $(GTKFLAGS) -c columns.cc -o columns.o
 
 misc.o: misc.cc misc.h
 	$(EXECC) $(GTKFLAGS) -c misc.cc -o misc.o
@@ -45,6 +51,9 @@ saveload.o: saveload.cc saveload.h
 
 limface.o: limface.cc limface.h
 	$(EXECC) $(GTKFLAGS) -c limface.cc -o limface.o
+
+dndtrash.o: dndtrash.cc dndtrash.h
+	$(EXECC) $(GTKFLAGS) -c dndtrash.cc -o dndtrash.o
 
 clean:
 	rm -f *.o *~ ||test -z ""

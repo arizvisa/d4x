@@ -61,7 +61,7 @@ int permisions_from_str(char *a) {
 };
 
 int date_from_str(char *src) {
-	char data[MAX_LEN];
+	char *data=new char[strlen(src)+1];
 	char *tmp=src;
 	for (int i=0;i<5;i++) {
 		tmp=index(tmp,' ');
@@ -89,11 +89,15 @@ int date_from_str(char *src) {
 			date.tm_year-=1900;
 		};
 	};
+	delete data;
 	return mktime(&date);
 };
 
 void cut_string_list(char *src,tFileInfo *dst,int flag) {
-	char str1[MAX_LEN],name[MAX_LEN],attr[MAX_LEN];
+	int srclen=strlen(src);
+	char *str1=new char[srclen];
+	char *name=new char[srclen];
+	char *attr=new char[srclen];
 	int par1;
 	sscanf(src,"%s %u %s %s %u %s %u %s %s",
 	       attr,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
@@ -124,6 +128,9 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 		dst->perm=permisions_from_str(attr);
 		dst->date=date_from_str(src);
 	};
+	delete str1;
+	delete name;
+	delete attr;
 };
 //****************************************/
 
@@ -220,21 +227,16 @@ int tFtpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 	list=NULL;
 	D_FILE.fdesc=0;
 	MASK=hostinfo->mask;
-	config.timeout=cfg->timeout;
-	config.time_for_sleep=cfg->time_for_sleep;
-	config.number_of_attempts=cfg->number_of_attempts;
-	config.passive=cfg->passive;
-	config.permisions=cfg->permisions;
-	config.get_date=cfg->get_date;
-	config.retry=cfg->retry;
+
+	config.copy_ints(cfg);
 	config.set_proxy_host(cfg->get_proxy_host());
-	config.proxy_port=cfg->proxy_port;
+
 	if (config.get_proxy_host() && config.proxy_port) {
 		FTP->init(config.get_proxy_host(),LOG,config.proxy_port,config.timeout);
 		char port[MAX_LEN];
 		port[0]=0;
 		if (D_PORT!=21) sprintf(port,":%i",D_PORT);
-		char *temp=new char[strlen(USER)+strlen(config.get_proxy_host())+strlen("@")+strlen(port)];
+		char *temp=new char[strlen(USER)+strlen(config.get_proxy_host())+strlen("@")+strlen(port)+1];
 		*temp=0;
 		strcat(temp,USER);
 		strcat(temp,"@");
@@ -384,12 +386,12 @@ int tFtpDownload::download(unsigned int from,unsigned int len) {
 	while(1) {
 		if (!change_dir()) {
 			if (!FTP->stand_data_connection()) {
-				print_reget(from);
+				int real_offset=rollback(from);
+				print_reget(real_offset);
+				if (config.rollback)
+					StartSize=offset=real_offset;
 				if (!FTP->test_reget())
 					StartSize=offset=0;
-				if (lseek(D_FILE.fdesc,offset,SEEK_SET)<0) {
-					LOG->add(_("Problems with lseek()"),LOG_WARNING);
-				};
 				Status=D_DOWNLOAD;
 				ind=FTP->get_file_from(D_FILE.name,offset,D_FILE.fdesc);
 				if (ind>0) {
@@ -426,7 +428,10 @@ void tFtpDownload::set_passive(int a) {
 };
 
 int tFtpDownload::get_readed() {
-	return (FTP->get_readed());
+	if (D_FILE.type==T_FILE) return (FTP->get_readed());
+	if (list) return list->size();
+	if (DIR) return DIR->size();
+	return 0;
 };
 
 int tFtpDownload::another_way_get_size() {

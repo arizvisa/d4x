@@ -40,6 +40,7 @@ GtkWidget *my_gtk_combo_new(tHistory *history) {
 	GList *list=make_glist_from_mylist(history);
 	if (list)
 		gtk_combo_set_popdown_strings (GTK_COMBO (combo), list);
+	gtk_combo_set_case_sensitive(GTK_COMBO(combo),TRUE);
 	return combo;
 };
 
@@ -55,6 +56,7 @@ GtkWidget *my_gtk_combo_new(int from,int to) {
 	if (rvalue)
 		gtk_combo_set_popdown_strings (GTK_COMBO (combo), rvalue);
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(combo)->entry),FALSE);
+	gtk_combo_set_case_sensitive(GTK_COMBO(combo),TRUE);
 	return combo;
 };
 
@@ -265,7 +267,7 @@ void tDEdit::init(tDownload *who) {
 	GtkWidget *buttons_hbox=gtk_hbutton_box_new();
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttons_hbox),GTK_BUTTONBOX_END);
 	gtk_button_box_set_spacing(GTK_BUTTON_BOX(buttons_hbox),5);
-	ok_button=gtk_button_new_with_label("Ok");
+	ok_button=gtk_button_new_with_label(_("Ok"));
 	cancel_button=gtk_button_new_with_label(_("Cancel"));
 	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
@@ -280,6 +282,9 @@ void tDEdit::init(tDownload *who) {
 	attempts_entry=gtk_entry_new_with_max_length(3);
 	ftp_recurse_depth_entry=gtk_entry_new_with_max_length(3);
 	http_recurse_depth_entry=gtk_entry_new_with_max_length(3);
+	rollback_entry=gtk_entry_new_with_max_length(5);
+	speed_entry=gtk_entry_new_with_max_length(5);
+
 	sprintf(temp,"%i",who->config.timeout);
 	gtk_entry_set_text(GTK_ENTRY(timeout_entry),temp);
 	sprintf(temp,"%i",who->config.time_for_sleep);
@@ -290,11 +295,18 @@ void tDEdit::init(tDownload *who) {
 	gtk_entry_set_text(GTK_ENTRY(ftp_recurse_depth_entry),temp);
 	sprintf(temp,"%i",who->config.http_recurse_depth);
 	gtk_entry_set_text(GTK_ENTRY(http_recurse_depth_entry),temp);
+	sprintf(temp,"%i",who->config.rollback);
+	gtk_entry_set_text(GTK_ENTRY(rollback_entry),temp);
+	sprintf(temp,"%i",who->config.speed);
+	gtk_entry_set_text(GTK_ENTRY(speed_entry),temp);
+
 	gtk_widget_set_usize(timeout_entry,30,-1);
 	gtk_widget_set_usize(attempts_entry,30,-1);
 	gtk_widget_set_usize(sleep_entry,30,-1);
 	gtk_widget_set_usize(ftp_recurse_depth_entry,30,-1);
 	gtk_widget_set_usize(http_recurse_depth_entry,30,-1);
+	gtk_widget_set_usize(rollback_entry,50,-1);
+	gtk_widget_set_usize(speed_entry,50,-1);
 
 	GtkWidget *other_hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
@@ -314,6 +326,20 @@ void tDEdit::init(tDownload *who) {
 	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
 	other_label=gtk_label_new(_("Maximum attempts (0 for unlimited)"));
 	gtk_box_pack_start(GTK_BOX(other_hbox),attempts_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
+
+	other_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_label=gtk_label_new(_("Rollback after reconnecting (in bytes)"));
+	gtk_box_pack_start(GTK_BOX(other_hbox),rollback_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
+
+	other_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
+	other_label=gtk_label_new(_("Speed limitation in Bytes/sec (0 for unlimited)"));
+	gtk_box_pack_start(GTK_BOX(other_hbox),speed_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
@@ -554,10 +580,10 @@ int tDEdit::apply_changes() {
 	/*change data in list if available
 	 */
 	if (parent->GTKCListRow > 0) {
-		change_clist_data(parent->GTKCListRow,URL_COL,URL);
-		change_clist_data(parent->GTKCListRow,FILE_COL,parent->info->file);
+		list_of_downloads_change_data(parent->GTKCListRow,URL_COL,URL);
+		list_of_downloads_change_data(parent->GTKCListRow,FILE_COL,parent->info->file);
 		for (int i=FILE_TYPE_COL;i<URL_COL;i++)
-			change_clist_data(parent->GTKCListRow,i,"");
+			list_of_downloads_change_data(parent->GTKCListRow,i,"");
 	};
 	delete URL;
 	int  temp1=0;
@@ -573,10 +599,16 @@ int tDEdit::apply_changes() {
 	temp1=1;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(http_recurse_depth_entry)),"%u",&temp1);
 	if (temp1>=0) parent->config.http_recurse_depth=temp1;
+	sscanf(gtk_entry_get_text(GTK_ENTRY(rollback_entry)),"%u",&temp1);
+	if (temp1>=0) parent->config.rollback=temp1;
+	sscanf(gtk_entry_get_text(GTK_ENTRY(speed_entry)),"%u",&temp1);
+	if (temp1>=0) parent->config.speed=temp1;
 	parent->config.passive=GTK_TOGGLE_BUTTON(ftp_passive_check)->active;
 	parent->config.permisions=GTK_TOGGLE_BUTTON(permisions_check)->active;
 	parent->config.get_date=GTK_TOGGLE_BUTTON(get_date_check)->active;
 	parent->config.retry=GTK_TOGGLE_BUTTON(retry_check)->active;
+	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
+
 	if (GTK_TOGGLE_BUTTON(time_check)->active) {
 		time_t NOW=time(NULL);
 		struct tm date;

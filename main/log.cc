@@ -123,6 +123,6 @@ tLogString *tLog::first() {
 };
 
 tLog::~tLog() {
-	destroy_log_window_by_log(this);
+	log_window_destroy_by_log(this);
 	// done(); will be used by tStringList::~tStringList();
 };
