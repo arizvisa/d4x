@@ -20,7 +20,8 @@ class tHttpDownload:public tDownloader{
 	tHttpClient *HTTP;
 	tStringList *answer;
 	int ReGet,MustNoReget,ETagChanged;
-	char *content_type,*FULL_NAME_TEMP;
+	char *content_type;
+	char *REQUESTED_URL;
 	char *ETag,*OldETag,*Auth;
 	int analize_answer();
 	char *make_name();

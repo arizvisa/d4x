@@ -54,6 +54,28 @@ int tDB::empty(){
 	return tree->empty();
 };
 
+
+/*
+tDownloadTree **tDB::hash(tStringHostNode *temp,tDownload *what){
+	unsigned char *b=(unsigned char *)(what->info->file.get());
+	return(&(temp->nodes[*b]));
+};
+*/
+
+/* This implementation of hash function seems to be more suitable for
+   downloads' db. Previous one generates too short range of values.
+ */
+
+tDownloadTree **tDB::hash(tStringHostNode *temp,tDownload *what){
+	unsigned char *b=(unsigned char *)(what->info->path.get());
+	unsigned char a=0;
+	for (int i=0;i<5;i++,b++){
+		if (*b==0) break;
+		a+=*b;
+	};
+	return(&(temp->nodes[a]));
+};
+
 void tDB::insert(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 
@@ -63,21 +85,21 @@ void tDB::insert(tDownload *what) {
 		temp->body=copy_string(what->info->host.get());
 		tree->add(temp);
 	};
-	unsigned char *a=(unsigned char *)(what->info->file.get());
-	if (temp->nodes[*a]==NULL){
-		temp->nodes[*a]=new tDownloadTree;
+	tDownloadTree **point=hash(temp,what);
+	if (*point==NULL){
+		*point = new tDownloadTree;
 		temp->filled_num+=1;
 	};
-	temp->nodes[*a]->add(what);
+	(*point)->add(what);
 };
 
 tDownload *tDB::find(tDownload *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
-		unsigned char *a=(unsigned char *)(what->info->file.get());
-		if (temp->nodes[*a]){
-			return (tDownload*)(temp->nodes[*a]->find(what));
+		tDownloadTree **point=hash(temp,what);
+		if (*point){
+			return(tDownload*)((*point)->find(what));
 		};
 	};
 	return NULL;
@@ -87,12 +109,12 @@ void tDB::del(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
-		unsigned char *file=(unsigned char *)(what->info->file.get());
-		if (temp->nodes[file[0]]){
-			temp->nodes[file[0]]->del(what);
-			if (temp->nodes[file[0]]->empty()){
-				delete (temp->nodes[file[0]]);
-				temp->nodes[file[0]]=NULL;
+		tDownloadTree **point=hash(temp,what);
+		if (*point){
+			(*point)->del(what);
+			if ((*point)->empty()){
+				delete (*point);
+				*point=NULL;
 				temp->filled_num-=1;
 				if (temp->filled_num==0){
 					tree->del(temp);

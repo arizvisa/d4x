@@ -303,7 +303,7 @@ msgid "Size for download is %i bytes"
 msgstr "Размер для закачки %i байт"
 
 #: httpd.cc:216
-msgid "Sending http request..."
+msgid "Sending HTTP request..."
 msgstr "Посылаю http запрос..."
 
 #: httpd.cc:242
@@ -524,7 +524,7 @@ msgid "Maximum attempts (0 for unlimited)"
 msgstr "Количество попыток (0 не ограничено)"
 
 #: face/edit.cc:23
-msgid "Use passive mode for ftp"
+msgid "Use passive mode for FTP"
 msgstr "Использовать пассивный режим для ftp"
 
 #: face/edit.cc:24
@@ -613,11 +613,11 @@ msgid "Select directory"
 msgstr "Выберите папку"
 
 #: face/edit.cc:586
-msgid "ftp proxy type"
+msgid "FTP proxy type"
 msgstr "тип ftp прокси"
 
 #: face/edit.cc:611
-msgid "Use this proxy for ftp"
+msgid "Use this proxy for FTP"
 msgstr "Прокси для ftp"
 
 #: face/edit.cc:620 face/edit.cc:675
@@ -633,7 +633,7 @@ msgid "username"
 msgstr "пользователь"
 
 #: face/edit.cc:666
-msgid "Use this proxy for http"
+msgid "Use this proxy for HTTP"
 msgstr "Прокси для http"
 
 #: face/limface.cc:55
@@ -780,7 +780,7 @@ msgid "/Options/Limitations"
 msgstr "/Настройки/Ограничения"
 
 #: face/list.cc:145
-msgid "/Options/Common"
+msgid "/Options/General"
 msgstr "/Настройки/Общие"
 
 #: face/list.cc:146
@@ -1122,11 +1122,11 @@ msgid "Ok"
 msgstr "Ок"
 
 #: face/prefs.cc:
-msgid "Show trash for DnD"
+msgid "Show DnD basket"
 msgstr "Показывать \"корзину\""
 
 #: face/buttons.cc:
-msgid " DnD trash "
+msgid " DnD basket "
 msgstr " Корзина для DnD "
 
 #: main.cc:
@@ -1250,7 +1250,7 @@ msgid "/Exit"
 msgstr "/Выход"
 
 #: face/prefs.cc:
-msgid "User-Agent for http requests"
+msgid "User-Agent for HTTP requests"
 msgstr "User-Agent для http запросов"
 
 #: face/columns.cc
@@ -1266,7 +1266,7 @@ msgid "set lower speed limitation"
 msgstr "установить нижний предел скорости"
 
 #: config.cc:
-msgid "set middle speed limitation"
+msgid "set medium speed limitation"
 msgstr "установить средний предел скорости"
 
 #: config.cc:
@@ -1398,7 +1398,7 @@ msgid "/Download/Invert selection"
 msgstr "/Закачка/Инвертировать выделение"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via ftp"
+msgid "Try to load simbolyc link as file via FTP"
 msgstr "Загружать символическую ссылку как файл (ftp)"
 
 # face/list.cc
@@ -1428,7 +1428,7 @@ msgid "set maximum active downloads"
 msgstr "установить максимум одновременно качающих"
 
 #face/edit.cc
-msgid "Allow leave this server while recursing via http"
+msgid "Allow leave this server while recursing via HTTP"
 msgstr "Разрешить покидать сервер при рекурсии через http"
 
 msgid "/Download/Rerun failed"
@@ -1619,7 +1619,7 @@ msgid "You should specify number as parameter for '--exit-time' option"
 msgstr "Вы должны указать число как параметр для опции '--exit-time'"
 
 #face/prefs.cc
-msgid "Output ftp dirs in logs"
+msgid "Output FTP dirs in logs"
 msgstr "Выводить ftp директории в логах"
 
 #main.cc
@@ -1630,5 +1630,13 @@ msgid "Restarting failed downloads"
 msgstr "Перезапуск неудавшихся закачек"
 
 # face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (ftp)"
+msgid "Don't send QUIT command (FTP)"
 msgstr "Не посылать комманду QUIT (ftp)"
+
+#:download.cc
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr "Файл на сервере новее чем локальный. Начинаем сначала\n"
+
+#:face/dndtrash.cc
+msgid "/Delete completed"
+msgstr "/Удалить завершенные"

@@ -31,6 +31,7 @@ More questions
 3.5 My proxy server return garbage before connections' breaks. What I can
     make for successefull downloading?
 3.6 I found an URL in console, how I can add it in Downloader?
+3.7 I see garbage in logs' windows instead of readable text!
 
 *******************************************************************************
 Answers:
@@ -44,7 +45,7 @@ features. This program will be very useful for downloading files on slow
 connections because "Downloader for X" will try to download file again
 and again.
 
-1.2 Where I can find "Downloader for X"
+1.2 Where can I find "Downloader for X"
 
 http://www.krasu.ru/soft/chuchelo - home page of "Downloader for X"
 
@@ -54,12 +55,12 @@ This program is free even is open sources but it is not GPL! You can
 distribute only unmodified sources. If you make some changes and want to
 release it for public you MUST to contact with author.
 
-1.4 What version of libc is needed for compilation "Downloader for X"?
+1.4 What is version of libc needed for compilation "Downloader for X"?
 
 "Downloader for X" is needed libc6 (or glibc2.0) and above for compilation.
 Sorry but this program does'nt suport libc5.
 
-1.5 I compiled "Downloader for X" but it was segfault after running!
+1.5 I've compiled "Downloader for X" but it has segfaulted after running!
 
 As far as I know "Downloader for X" doesn't work on unstable versions of
 libc and other libraries. You should make sure that you have stable
@@ -71,7 +72,7 @@ libpthreads which have version older than 0.8.
 *******************************************************************************
 Basic questions
 
-2.1 How I can add new downloading?
+2.1 How can I add new URL for downloading?
 
 First way: press Ctrl+N and enter URL in appeared dialog.
 Second way: click on most left button in button bar and enter URL.
@@ -79,76 +80,90 @@ Third way: drag link from netscape and drop it to "Downloader for X"
 Fourth way: drag link from netscape and drop into icon which is always ion top
 after you running "Downloader for X".
 
-2.2 I wanna to stop two downloads, how I can do it?
+2.2 I wanna stop two downloads, how can I do it?
 
 Select downloads by mouse clicking on first and clicking with 'Ctrl'
 button on second then press Alt+S or press button with black cross in
 red circle on  buttons bar.
 
-2.3 How I can download directory from ftp server?
+2.3 How can I download directory from ftp server?
 
 Just add new download with URL of directory. Downloader for X will
 understand that it is directory automaticaly. Next way is enter URL/* as
 new download where URL is address of desired ftp directory.
 
-2.4 How I can download only jpeg files from ftp server?
+2.4 How can I download only jpeg files from ftp server?
 
 "Downloader for X" supports mask for downloading via ftp. You can enter
 URL/*.jpg or URL/*.j*g. Where URL is address of ftp server. I should
-notice that one asterix (*) is at least one simbol!
+notice that one asterix (*) is at least one symbol!
 
 2.5 Main window of "Downloader for X" contain too many information for me.
 
 Enter in options dialog (Ctrl+C) and select desired columns for
 displaying in columns folder.
 
-2.6 There are many completed downloads in "Downloader for X". How I can
+2.6 There are many completed downloads in "Downloader for X". How can I
     delete them? 
 
 Select 'delete completed' from menu 'Downloads'. "Downloader for X" can
 automaticaly delete completed downloads if you setup it in Options.
+WARNING! Don not set automaticaly deleting completed downloads if you
+downloads recursivelly via http (or recursive ftp via http proxy). If
+you set up this option for recursive http downloads then Downloader
+will download the same files many times.
 
 *******************************************************************************
 More questions
 
 3.1 Can "Downloader for X" limit speed for downloading?
 
-"Downloader for X" has a set of feature for limiting speed. You can set
+"Downloader for X" has a set of features for limiting speed. You can set
 two speed limits in Options dialog in folder 'Speed' and select them
 from buttons bar by pressing apropriate button. Also you can set speed
 limit for one download separately in folder 'Other' of downloader
-properties (or when you add it)
+properties (or when you add it).
 
 3.2 Can "Downloader for X" download http directories?
 
 Since version 1.05 "Downloader for X" can parse html files and downloads
-recursivelly via http. But I should to notice that "Downloader for X"
+recursivelly via http. But I should notice that "Downloader for X"
 does'nt change html files and save it as is. Also "Downloader for X"
 does'nt download yet global links which was founded in html.
 
 3.3 I need to limit amount of connections to server ftp.blablabla.org. How 
     I can do it with "Downloader for X"
 
-"Downloader for X" allow you setup limitations for connections to any
+"Downloader for X" allow you to setup limitations for connections to any
 server by any port. If any downloading from desired server already added
-in "Downloader for X" just press by right mouse button on them and
+in "Downloader for X" just press by right mouse button on it and
 select 'limitation' then enter amount of maximum connections in
 apropriate place. You can see all limitaions in 'limitations' dialog
-from menu 'options'
+from menu 'options'.
 
-3.4 I wanna to write main log into file, can "Downloader for X" do it?
+3.4 I wanna write main log into file, can "Downloader for X" do it?
 
 Enter in Options dialog (Ctrl+C) and setup desired way to save main log
-in folder 'Other'
+in folder 'Main Log'
 
 3.5 My proxy server return garbage before connections' breaks. What I can
     make for successefull downloading?
 
-Roll back feature of "Downloader for X" was created especialy fro such
-proxies. Setup rollback value in Options dialog (Ctrl+C) in 500-2000
+Roll back feature of "Downloader for X" was created especialy for such
+proxies. Setup rollback value of Options dialog (Ctrl+C) to 500-2000
 bytes.
 
 3.6 I found an URL in console, how I can add it in Downloader?
 
 Begining from version 1.08 you can run downloader with URL as parameter
-even if downloader was already run. 
+even if downloader was already run.
+
+3.7 I see garbage in logs' windows instead of readable text!
+
+At first it's not a bug of Downloader for X. You can fix it in two ways.
+First one: put path to your preferable fixed font before path to 'misc' fonts
+in your XF86Config file. For example:
+FontPath    "/usr/X11R6/lib/X11/fonts/75dpi:unscaled"
+FontPath    "/usr/X11R6/lib/X11/fonts/misc:unscaled"
+
+Second: turn off Downloader's option "use fixed font in logs".

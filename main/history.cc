@@ -14,9 +14,8 @@
 #include "dbc.h"
 #include <stdio.h>
 
-tHistory::tHistory() {
+tHistory::tHistory():tStringList(){
 	init(30);
-	Size=0;
 };
 
 void tHistory::insert(tNode *what) {

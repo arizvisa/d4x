@@ -12,6 +12,7 @@
 #include "main.h"
 #include "eff.h"
 #include <string.h>
+#include <strings.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>

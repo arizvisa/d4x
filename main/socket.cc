@@ -28,6 +28,10 @@
 #include "var.h"
 #include "signal.h"
 
+#ifndef INADDR_NONE
+#define INADDR_NONE ((unsigned long) -1)
+#endif
+
 tSocket::tSocket() {
 	fd=0;
 	RBytes=0;
@@ -43,8 +47,9 @@ int tSocket::constr_name(char *host,int port) {
 			if (!buffer) buffer=new char[MAX_LEN];
 			hostent *hpr=&hp;
 			temp_variable=0;
+			download_set_block(1);
 #if !(defined(BSD) && (BSD >= 199306))
-#if defined(__sparc__) && !(defined(__linux__))
+#if (defined(__sparc__) || defined(__mips__)) && !(defined(__linux__))
 			gethostbyname_r(host,&hp,buffer,MAX_LEN,&temp_variable);
 #else
 			gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
@@ -59,6 +64,7 @@ int tSocket::constr_name(char *host,int port) {
 			if (!hpa) return -1;
 			memcpy((char *)&info.sin_addr,hpa->h_addr_list[0],(size_t) hpa->h_length);
 #endif /* !(defined(BSD) && (BSD >= 199306)) */
+			download_set_block(0);
 		};
 	} else info.sin_addr.s_addr=INADDR_ANY;
 	info.sin_port=htons(port);
@@ -68,9 +74,13 @@ int tSocket::constr_name(char *host,int port) {
 
 unsigned int tSocket::get_addr() {
 	unsigned int my_addr=0;
-	unsigned int len;
+#if defined(__sparc__) && !(defined(__linux__))
+	int len;
+#else
+	socklen_t len;
+#endif
 	len = sizeof(info);
-	if (getsockname(fd, (struct sockaddr* )&info, &len) == -1)
+	if (getsockname(fd, (struct sockaddr* )&info,&len) == -1)
 		return 0;
 	memcpy(&my_addr, (char *)&info.sin_addr.s_addr,sizeof(my_addr));
 	my_addr=htonl(my_addr);
@@ -183,7 +193,11 @@ void tSocket::flush(){
 int tSocket::accepting(char * host) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,-1);
 	sockaddr_in addr;
-	unsigned int len=sizeof(addr);
+#if defined(__sparc__) && !(defined(__linux__))
+	int len=sizeof(addr);
+#else
+	socklen_t len=sizeof(addr);
+#endif
 	int oldfd=fd;
 	if ((fd=accept(fd,(sockaddr *)&addr,&len))<0) {
 		return -1;

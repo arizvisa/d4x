@@ -17,8 +17,7 @@
 #include "base64.h"
 #include "ntlocale.h"
 
-tHttpClient::tHttpClient() {
-	hostname=userword=username=buffer=NULL;
+tHttpClient::tHttpClient():tClient(){
 	user_agent=NULL;
 };
 
@@ -205,5 +204,4 @@ void tHttpClient::done() {
 
 tHttpClient::~tHttpClient() {
 	down();
-	if (buffer) delete buffer;
 };

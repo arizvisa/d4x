@@ -12,6 +12,7 @@
 #include "locstr.h"
 #include "var.h"
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -24,7 +25,8 @@ struct tHtmlTegTable{
 enum HTML_FIELDS_TYPES{
 	HF_TYPE_LINK,
 	HF_TYPE_BASE,
-	HF_TYPE_BASE_CLOSE
+	HF_TYPE_BASE_CLOSE,
+	HF_TYPE_META
 };
 	
 enum HTML_FIELDS{
@@ -41,7 +43,8 @@ enum HTML_FIELDS{
 	HF_DATA,
 	HF_HT,
 	HF_CODEBASE,
-	HF_ACTION
+	HF_ACTION,
+	HF_HTTP_EQUIV
 };
 
 char *HTML_FIELDS_NAMES[]={
@@ -58,7 +61,8 @@ char *HTML_FIELDS_NAMES[]={
 	"data",
 	"ht",
 	"codebase",
-	"action"
+	"action",
+	"http-equiv"
 };
 
 tHtmlTegTable HTML_TEGS[]={
@@ -205,10 +209,8 @@ tHtmlTegTable HTML_TEGS[]={
 	{"noframes",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"frameset",	HTML_FIELDS_NAMES[HF_STYLE],		0},
 	{"base",	HTML_FIELDS_NAMES[HF_HREF],		HF_TYPE_BASE},
-	{"/base",	NULL,					HF_TYPE_BASE_CLOSE}
-
-//	{"meta",	HTML_FIELDS_NAMES[HF_CONTENT],		0}
-
+	{"/base",	NULL,					HF_TYPE_BASE_CLOSE},
+	{"meta",	HTML_FIELDS_NAMES[HF_HTTP_EQUIV],	HF_TYPE_META}
 };
 const int HTML_TEGS_NUM=sizeof(HTML_TEGS)/sizeof(tHtmlTegTable);
 
@@ -375,6 +377,22 @@ tHtmlTag *tHtmlParser::get_tag(){
 	return rvalue;
 };
 
+void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tStringList *list){
+	tHtmlTagField *field=(tHtmlTagField *)(where->prev);
+	while (field){
+		char *tmp=NULL;
+		if (field->name && field->value && equal_uncase(field->name,HTML_FIELDS_NAMES[HF_CONTENT]))
+			tmp=extract_from_icommas(field->value);
+		if (tmp){
+			char *url=strstr(tmp,"url=");
+			if (url)
+				list->add(url+=4);
+			delete(tmp);
+		};
+		field=(tHtmlTagField *)(field->prev);
+	};
+};
+
 void tHtmlParser::parse(int fd,tStringList *list){
 	list->done();
 	list->init(0);
@@ -405,10 +423,16 @@ void tHtmlParser::parse(int fd,tStringList *list){
 				while(field){
 					if (field->value && equal_uncase(field->name,HTML_TEGS[i].field)){
 						char *tmp=extract_from_icommas(field->value);
-						if (HTML_TEGS[i].mod==HF_TYPE_BASE){
+						switch(HTML_TEGS[i].mod){
+						case HF_TYPE_META:
+							if (tmp && equal_uncase(tmp,"refresh"))
+								look_for_meta_content(field,list);
+							break;
+						case HF_TYPE_BASE:
 							if (base) delete(base);
 							base=copy_string(tmp);
-						}else{
+							break;
+						default:
 							if (base!=NULL && !global_url(tmp)){
 								char *tmp1=tmp;
 								tmp=compose_path(base,tmp1);

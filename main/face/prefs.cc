@@ -77,6 +77,7 @@ GtkWidget *prefs_other_user_agent,*prefs_other_ubox,*prefs_other_ulabel;
 GtkWidget *prefs_other_ftp_passive;
 GtkWidget *prefs_other_remember_pass;
 GtkWidget *prefs_other_dont_send_quit;
+GtkWidget *prefs_other_link_as_file;
 
 GtkWidget *prefs_log_table;
 GtkWidget *prefs_log_save;
@@ -159,11 +160,16 @@ static gint options_window_reset_colors(){
 	return TRUE;
 };
 
-void init_options_window(...) {
+void init_options_window(){
+	init_options_window_page(PREFS_PAGE_COMMON);
+};
+
+void init_options_window_page(int page_num) {
 	char temp[MAX_LEN];
 
 	if (options_window) {
 		gdk_window_show(options_window->window);
+		gtk_notebook_set_page(GTK_NOTEBOOK(options_window_notebook),page_num);
 		return;
 	};
 	options_window=gtk_window_new(GTK_WINDOW_DIALOG);
@@ -242,7 +248,7 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_label,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_hbox,0,1,6,7);	
 	
-	prefs_common_dnd_trash=gtk_check_button_new_with_label(_("Show trash for DnD"));
+	prefs_common_dnd_trash=gtk_check_button_new_with_label(_("Show DnD basket"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_dnd_trash,1,2,6,7);
 
 	prefs_common_exit_complete=gtk_check_button_new_with_label(_("Exit if nothing to do after"));
@@ -256,7 +262,7 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_label,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_hbox,0,1,8,9);
 
-	prefs_common_ftp_dir_in_log=gtk_check_button_new_with_label(_("Output ftp dirs in logs"));
+	prefs_common_ftp_dir_in_log=gtk_check_button_new_with_label(_("Output FTP dirs in logs"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_ftp_dir_in_log,1,2,8,9);
 
 	prefs_common_fixed_font_log=gtk_check_button_new_with_label(_("Use fixed font in logs"));
@@ -269,13 +275,13 @@ void init_options_window(...) {
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_del_fataled),CFG.DELETE_FATAL);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_del_completed),CFG.DELETE_COMPLETED);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_recursive),CFG.RECURSIVE_OPTIMIZE);
-	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_retry_if_noreget),CFG.RETRY_IF_NOREGET);
-	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_ftp_permisions),CFG.FTP_PERMISIONS);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_retry_if_noreget),CFG.DEFAULT_CFG.retry);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_ftp_permisions),CFG.DEFAULT_CFG.permisions);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_save_list_check),CFG.SAVE_LIST);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_use_title),CFG.USE_MAINWIN_TITLE);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_use_title2),CFG.USE_MAINWIN_TITLE2);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_scroll_title),CFG.SCROLL_MAINWIN_TITLE);
-	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_get_date),CFG.GET_DATE);
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_get_date),CFG.DEFAULT_CFG.get_date);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_dnd_dialog),CFG.NEED_DIALOG_FOR_DND);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_window_lower),CFG.WINDOW_LOWER);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_graph_order),CFG.GRAPH_ORDER);
@@ -307,7 +313,7 @@ void init_options_window(...) {
 
 	prefs_limits_rtbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_rtbox),5);
-	prefs_limits_retry_timeout=my_gtk_entry_new_with_max_length(3,CFG.RETRY_TIME_OUT);
+	prefs_limits_retry_timeout=my_gtk_entry_new_with_max_length(3,CFG.DEFAULT_CFG.time_for_sleep);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rtbox),prefs_limits_retry_timeout,FALSE,FALSE,0);
 	prefs_limits_rtlabel=gtk_label_new(_("Timeout before reconnection (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rtbox),prefs_limits_rtlabel,FALSE,FALSE,0);
@@ -315,7 +321,7 @@ void init_options_window(...) {
 
 	prefs_limits_tibox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_tibox),5);
-	prefs_limits_timeout=my_gtk_entry_new_with_max_length(3,CFG.TIME_OUT);
+	prefs_limits_timeout=my_gtk_entry_new_with_max_length(3,CFG.DEFAULT_CFG.timeout);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tibox),prefs_limits_timeout,FALSE,FALSE,0);
 	prefs_limits_tilabel=gtk_label_new(_("Timeout for reading from socket (in seconds)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tibox),prefs_limits_tilabel,FALSE,FALSE,0);
@@ -331,7 +337,7 @@ void init_options_window(...) {
 
 	prefs_limits_rbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_rbox),5);
-	prefs_limits_max_retries=my_gtk_entry_new_with_max_length(3,CFG.MAX_RETRIES);
+	prefs_limits_max_retries=my_gtk_entry_new_with_max_length(3,CFG.DEFAULT_CFG.number_of_attempts);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbox),prefs_limits_max_retries,FALSE,FALSE,0);
 	prefs_limits_rlabel=gtk_label_new(_("Maximum attempts (0 for unlimited)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbox),prefs_limits_rlabel,FALSE,FALSE,0);
@@ -340,7 +346,7 @@ void init_options_window(...) {
 
 	prefs_limits_rbbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_rbbox),5);
-	prefs_limits_rollback=my_gtk_entry_new_with_max_length(5,CFG.ROLLBACK);
+	prefs_limits_rollback=my_gtk_entry_new_with_max_length(5,CFG.DEFAULT_CFG.rollback);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbbox),prefs_limits_rollback,FALSE,FALSE,0);
 	prefs_limits_rblabel=gtk_label_new(_("Rollback after reconnecting (in bytes)"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rbbox),prefs_limits_rblabel,FALSE,FALSE,0);
@@ -348,8 +354,8 @@ void init_options_window(...) {
 
 	prefs_limits_rdbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_rdbox),5);
-	prefs_limits_ftp_recurse_depth=my_gtk_entry_new_with_max_length(3,CFG.FTP_RECURSE_DEPTH);
-	prefs_limits_http_recurse_depth=my_gtk_entry_new_with_max_length(3,CFG.HTTP_RECURSE_DEPTH);
+	prefs_limits_ftp_recurse_depth=my_gtk_entry_new_with_max_length(3,CFG.DEFAULT_CFG.ftp_recurse_depth);
+	prefs_limits_http_recurse_depth=my_gtk_entry_new_with_max_length(3,CFG.DEFAULT_CFG.http_recurse_depth);
 	GtkWidget *temp_frame=gtk_frame_new("ftp");
 	gtk_container_add(GTK_CONTAINER(temp_frame),prefs_limits_ftp_recurse_depth);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_rdbox),temp_frame,FALSE,FALSE,0);
@@ -408,28 +414,32 @@ void init_options_window(...) {
 	prefs_other_ubox=gtk_vbox_new(FALSE,0);
 	prefs_other_user_agent=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
 	text_to_combo(prefs_other_user_agent,CFG.USER_AGENT);
-	prefs_other_ulabel=gtk_label_new(_("User-Agent for http requests"));
+	prefs_other_ulabel=gtk_label_new(_("User-Agent for HTTP requests"));
 	gtk_box_pack_start(GTK_BOX(prefs_other_ubox),prefs_other_ulabel,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_other_ubox),prefs_other_user_agent,TRUE,TRUE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ubox,0,2,3,4);
 
-	prefs_other_ftp_passive=gtk_check_button_new_with_label(_("Use passive mode for ftp"));
-	GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active=CFG.FTP_PASSIVE_MODE;
+	prefs_other_ftp_passive=gtk_check_button_new_with_label(_("Use passive mode for FTP"));
+	GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active=CFG.DEFAULT_CFG.passive;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_ftp_passive,0,1,5,6);
 
 	prefs_other_remember_pass=gtk_check_button_new_with_label(_("Remember passwords"));
 	GTK_TOGGLE_BUTTON(prefs_other_remember_pass)->active=CFG.REMEMBER_PASS;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_remember_pass,0,1,6,7);
 
-	prefs_other_dont_send_quit=gtk_check_button_new_with_label(_("Don't send QUIT command (ftp)"));
-	GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active=CFG.DONT_SEND_QUIT;
+	prefs_other_dont_send_quit=gtk_check_button_new_with_label(_("Don't send QUIT command (FTP)"));
+	GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active=CFG.DEFAULT_CFG.passive;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_dont_send_quit,0,1,7,8);
+
+	prefs_other_link_as_file=gtk_check_button_new_with_label(_("Try to load simbolyc link as file via FTP"));
+	GTK_TOGGLE_BUTTON(prefs_other_link_as_file)->active=CFG.DEFAULT_CFG.link_as_file;
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_link_as_file,0,1,8,9);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_other_vbox,gtk_label_new(_("Other")));
 
-	/*
+	/**************************
 	 * Main log options
-	 */
+	 **************************/
 	prefs_log_table=gtk_table_new(1,5,FALSE);
 
 	GtkWidget *prefs_limits_mlbox=gtk_hbox_new(FALSE,0);
@@ -711,6 +721,7 @@ void init_options_window(...) {
 
 	gtk_window_set_default(GTK_WINDOW(options_window),ok_button);
 	gtk_widget_show_all(options_window);
+	gtk_notebook_set_page(GTK_NOTEBOOK(options_window_notebook),page_num);
 };
 
 gint options_window_cancel() {
@@ -730,15 +741,15 @@ void options_window_ok() {
 	CFG.DELETE_FATAL=GTK_TOGGLE_BUTTON(prefs_common_del_fataled)->active;
 	CFG.DELETE_COMPLETED=GTK_TOGGLE_BUTTON(prefs_common_del_completed)->active;
 	CFG.RECURSIVE_OPTIMIZE=GTK_TOGGLE_BUTTON(prefs_common_recursive)->active;
-	CFG.RETRY_IF_NOREGET=GTK_TOGGLE_BUTTON(prefs_common_retry_if_noreget)->active;
+	CFG.DEFAULT_CFG.retry=GTK_TOGGLE_BUTTON(prefs_common_retry_if_noreget)->active;
 	CFG.TIME_FORMAT=GTK_TOGGLE_BUTTON(prefs_columns_time_button2)->active;
-	CFG.FTP_PASSIVE_MODE=GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active;
-	CFG.FTP_PERMISIONS=GTK_TOGGLE_BUTTON(prefs_common_ftp_permisions)->active;
+	CFG.DEFAULT_CFG.passive=GTK_TOGGLE_BUTTON(prefs_other_ftp_passive)->active;
+	CFG.DEFAULT_CFG.permisions=GTK_TOGGLE_BUTTON(prefs_common_ftp_permisions)->active;
 	CFG.SAVE_LIST=GTK_TOGGLE_BUTTON(prefs_common_save_list_check)->active;
 	CFG.USE_MAINWIN_TITLE=GTK_TOGGLE_BUTTON(prefs_common_use_title)->active;
 	CFG.USE_MAINWIN_TITLE2=GTK_TOGGLE_BUTTON(prefs_common_use_title2)->active;
 	CFG.SCROLL_MAINWIN_TITLE=GTK_TOGGLE_BUTTON(prefs_common_scroll_title)->active;
-	CFG.GET_DATE=GTK_TOGGLE_BUTTON(prefs_common_get_date)->active;
+	CFG.DEFAULT_CFG.get_date=GTK_TOGGLE_BUTTON(prefs_common_get_date)->active;
 	CFG.NEED_DIALOG_FOR_DND=GTK_TOGGLE_BUTTON(prefs_common_dnd_dialog)->active;
 	CFG.WINDOW_LOWER=GTK_TOGGLE_BUTTON(prefs_common_window_lower)->active;
 	CFG.CONFIRM_DELETE=GTK_TOGGLE_BUTTON(prefs_confirm_delete)->active;
@@ -756,7 +767,8 @@ void options_window_ok() {
 	CFG.FIXED_LOG_FONT=GTK_TOGGLE_BUTTON(prefs_common_fixed_font_log)->active;
 	CFG.ALLOW_FORCE_RUN=GTK_TOGGLE_BUTTON(prefs_common_allow_force_run)->active;
 	CFG.FTP_DIR_IN_LOG=GTK_TOGGLE_BUTTON(prefs_common_ftp_dir_in_log)->active;
-	CFG.DONT_SEND_QUIT=GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active;
+	CFG.DEFAULT_CFG.dont_send_quit=GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active;
+	CFG.DEFAULT_CFG.link_as_file=GTK_TOGGLE_BUTTON(prefs_other_link_as_file)->active;
 	if (CFG.DND_TRASH) dnd_trash_init();
 	else dnd_trash_destroy();
 
@@ -769,13 +781,13 @@ void options_window_ok() {
 	if (CFG.DELETE_FATAL) aa.del_fataled();
 	int  temp=0;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_common_exit_complete_time)),"%u",&CFG.EXIT_COMPLETE_TIME);
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_timeout)),"%u",&CFG.TIME_OUT);
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_timeout)),"%u",&CFG.DEFAULT_CFG.timeout);
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_max_threads)),"%u",&CFG.MAX_THREADS);
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_retry_timeout)),"%u",&CFG.RETRY_TIME_OUT);
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_max_retries)),"%u",&CFG.MAX_RETRIES);
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_ftp_recurse_depth)),"%u",&CFG.FTP_RECURSE_DEPTH);
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_http_recurse_depth)),"%u",&CFG.HTTP_RECURSE_DEPTH);
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_rollback)),"%u",&CFG.ROLLBACK);
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_retry_timeout)),"%u",&CFG.DEFAULT_CFG.time_for_sleep);
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_max_retries)),"%u",&CFG.DEFAULT_CFG.number_of_attempts);
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_ftp_recurse_depth)),"%u",&CFG.DEFAULT_CFG.ftp_recurse_depth);
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_http_recurse_depth)),"%u",&CFG.DEFAULT_CFG.http_recurse_depth);
+	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_rollback)),"%u",&CFG.DEFAULT_CFG.rollback);
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_limits_log)),"%u",&CFG.MAX_LOG_LENGTH);
 /* Speed settings
  */

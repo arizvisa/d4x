@@ -45,10 +45,21 @@ void my_pthread_key_set(tDownload *what){
 	if (temp) *temp=what;
 };
 
+void download_set_block(int a){
+	tDownload **temp=(my_pthread_key_get());
+	if (temp && *temp){
+		if (!a && (*temp)->BLOCKED==2)
+			pthread_exit(NULL);
+		(*temp)->BLOCKED=a;
+	};
+};
 
 void signal_handler(int num) {
 	tDownload **temp=(my_pthread_key_get());
 	if (temp){
+		// check for entering in gethostbyname routine
+		if ((*temp)->BLOCKED)
+			(*temp)->BLOCKED=2;
 		// to avoid locking if currently string adding in log
 		(*temp)->LOG->unlock();
 		(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);

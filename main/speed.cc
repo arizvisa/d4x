@@ -23,7 +23,11 @@ tSpeed::tSpeed() {
 #else
 	pthread_mutexattr_t ma;
 	pthread_mutexattr_init(&ma);
+#if !defined (__sparc__) && !defined(__mips__)
 	pthread_mutexattr_settype(&ma,MUTEX_TYPE_FAST);
+#elseif defined(__mips__)
+	pthread_mutexattr_settype(&ma,MUTEX_TYPE_NORMAL);	
+#endif
 	pthread_mutex_init(&lock1,&ma);
 	pthread_mutexattr_destroy(&ma);
 #endif
@@ -83,10 +87,7 @@ tSpeed::~tSpeed() {
 
 /*------------------------------------------------------------
  */
-tSpeedQueue::tSpeedQueue() {
-	First=Last=Curent;
-	MaxNum=0;
-	Num=0;
+tSpeedQueue::tSpeedQueue():tQueue(){
 };
 
 tSpeed *tSpeedQueue::last() {

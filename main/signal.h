@@ -18,5 +18,6 @@ int stop_thread(tDownload *what);
 void my_pthread_key_init();
 tDownload **my_pthread_key_get();
 void my_pthread_key_set(tDownload *what);
+void download_set_block(int a);
 
 #endif

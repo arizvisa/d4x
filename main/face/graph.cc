@@ -100,8 +100,8 @@ static void my_gtk_graph_finalize (GtkObject *object){
 	};
 	if (graph->cmap)
 		gdk_rgb_cmap_free(graph->cmap);
-	graph->cmap=NULL;
-	graph->rgb_data=NULL;
+	graph->cmap=(GdkRgbCmap *)NULL;
+	graph->rgb_data=(guchar *)NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->finalize)
 		GTK_OBJECT_CLASS (parent_class)->finalize (object);
@@ -127,7 +127,7 @@ static void my_gtk_graph_draw(GtkWidget *widget,GdkRectangle *area){
 	gtk_paint_box (widget->style,
 		       widget->window,
 		       GTK_STATE_NORMAL, GTK_SHADOW_IN,
-		       NULL, widget, "trough",
+		       (GdkRectangle *)NULL, widget, "trough",
 		       0, 0,
 		       widget->allocation.width,
 		       widget->allocation.height);
@@ -221,7 +221,7 @@ static void my_gtk_graph_reinit(MyGtkGraph *graph){
 		g_free(graph->rgb_data);
 	};
 	if (allocation->width<=4 || allocation->height<=4)
-		graph->rgb_data=NULL;
+		graph->rgb_data=(guchar *)NULL;
 	else{
 		graph->rgb_data = (guchar *)g_malloc((allocation->width-4)*(allocation->height-4));
 		my_gtk_graph_recalc(graph);

@@ -69,7 +69,7 @@ tSortString *tStrSortTree::find(char *what,int key) {
 /* ---------------------------------------------------------------
  */
 
-tHostsLimits::tHostsLimits() {
+tHostsLimits::tHostsLimits():tQueue(){
 	init(0);
 	Size=0;
 	default_limit=0;

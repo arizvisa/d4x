@@ -26,52 +26,52 @@
 enum EDIT_OPTIONS_ENUM{
 	EDIT_OPT_USERPASS=0,
 	EDIT_OPT_SAVEPATH,
-	EDIT_OPT_USERAGENT,
+	EDIT_OPT_FROMBEGIN,
 	EDIT_OPT_TIMEOUT,
+	EDIT_OPT_SPEED,
 	EDIT_OPT_ATTEMPTS,
 	EDIT_OPT_SLEEPTIME,
 	EDIT_OPT_ROLLBACK,
-	EDIT_OPT_PROXY,
-	EDIT_OPT_PASSIVEFTP,
-	EDIT_OPT_LINKASFILE,
-	EDIT_OPT_LEAVESERVER,
-	EDIT_OPT_LEAVEDIR,
-	EDIT_OPT_RECURSEDEPTHHTTP,
-	EDIT_OPT_RECURSEDEPTHFTP,
-	EDIT_OPT_FROMBEGIN,
-	EDIT_OPT_SPEED,
-	EDIT_OPT_TIME,
-	EDIT_OPT_PERMISSIONS,
 	EDIT_OPT_DATE,
 	EDIT_OPT_IFNOREGET,
 	EDIT_OPT_SPLIT,
+	EDIT_OPT_PASSIVEFTP,
+	EDIT_OPT_PERMISSIONS,
 	EDIT_OPT_DONT_SEND_QUIT,
+	EDIT_OPT_LINKASFILE,
+	EDIT_OPT_RECURSEDEPTHFTP,
+	EDIT_OPT_RECURSEDEPTHHTTP,
+	EDIT_OPT_LEAVEDIR,
+	EDIT_OPT_LEAVESERVER,
+	EDIT_OPT_USERAGENT,
+	EDIT_OPT_PROXY,
+	EDIT_OPT_TIME,
 	EDIT_OPT_LASTOPTION
 };
 
 char *edit_fields_labels[]={
 	"Use password for this site",
 	"Save download to folder",
-	"User-Agent",
+	"Restart this download from begining",
 	"Timeout for reading from socket",
+	"Speed limitation",
 	"Maximum attempts",
 	"Timeout before reconnection",
 	"Rollback after reconnecting",
-	"Proxy",
-	"Use passive mode for ftp",
-	"Try to load simbolyc link as file via ftp",
-	"Allow leave this server while recursing via http",
-	"Only subdirs",
-	"Depth of recursing for HTTP",
-	"Depth of recursing for FTP",
-	"Restart this download from begining",
-	"Speed limitation",
-	"Time",
-	"Get permissions of the file from server (FTP only)",
 	"Get date from the server",
 	"Retry if resuming is not supported",
 	"Number of parts for spliting this download",
-	"Don't send QUIT command (ftp)"
+	"Use passive mode for FTP",
+	"Get permissions of the file from server (FTP only)",
+	"Don't send QUIT command (FTP)",
+	"Try to load simbolyc link as file via FTP",
+	"Depth of recursing for FTP",
+	"Depth of recursing for HTTP",
+	"Only subdirs",
+	"Allow leave this server while recursing via HTTP",
+	"User-Agent",
+	"Proxy",
+	"Time"
 };
 
 extern tMain aa;
@@ -254,7 +254,6 @@ void tDEdit::init_main(tDownload *who) {
 	MY_GTK_FILESEL(path_entry)->modal=GTK_WINDOW(window);
 	MY_GTK_FILESEL(file_entry)->modal=GTK_WINDOW(window);
 	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
-	user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
 	MY_GTK_FILESEL(path_entry)->only_dirs=TRUE;
 
 //	char temp[MAX_LEN];
@@ -274,8 +273,6 @@ void tDEdit::init_main(tDownload *who) {
 		text_to_combo(pass_entry,"");
 	if (who->info->username.get())
 		text_to_combo(user_entry,who->info->username.get());
-	if (who->config.user_agent.get())
-		text_to_combo(user_agent_entry,who->config.user_agent.get());
 	/* initing labels
 	 */
 	GtkWidget *url_label=gtk_label_new("URL:");
@@ -283,7 +280,6 @@ void tDEdit::init_main(tDownload *who) {
 	GtkWidget *file_label=gtk_label_new(_("Save download to file"));
 	GtkWidget *pass_label=gtk_label_new(_("password"));
 	GtkWidget *user_label=gtk_label_new(_("user name"));
-	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
 	/* set as default button
 	 */
  	GtkWidget *path_set_as_default=gtk_button_new_with_label(_("Default"));
@@ -293,7 +289,6 @@ void tDEdit::init_main(tDownload *who) {
 	GtkWidget *url_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *path_vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *file_vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
 	GtkWidget *pass_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *user_box=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(url_box),5);
@@ -301,7 +296,6 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_set_spacing(GTK_BOX(file_vbox),2);
 	gtk_box_set_spacing(GTK_BOX(user_box),5);
 	gtk_box_set_spacing(GTK_BOX(pass_box),5);
-	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
 	gtk_box_pack_start(GTK_BOX(url_box),url_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(url_box),url_entry,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(path_entry),path_set_as_default,FALSE,FALSE,0);
@@ -313,8 +307,6 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(pass_box),pass_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_box),user_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(user_box),user_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_entry,TRUE,TRUE,0);
 
 	use_pass_check=gtk_check_button_new_with_label(_("Use password for this site"));
 	gtk_signal_connect(GTK_OBJECT(use_pass_check),"clicked",GTK_SIGNAL_FUNC(edit_window_password),this);
@@ -328,7 +320,6 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),url_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),path_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),file_vbox,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),user_agent_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),use_pass_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
@@ -351,8 +342,6 @@ void tDEdit::init_other(tDownload *who) {
 	timeout_entry=my_gtk_entry_new_with_max_length(3,who->config.timeout);
 	sleep_entry=my_gtk_entry_new_with_max_length(3,who->config.time_for_sleep);
 	attempts_entry=my_gtk_entry_new_with_max_length(3,who->config.number_of_attempts);
-	ftp_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.ftp_recurse_depth);
-	http_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.http_recurse_depth);
 	rollback_entry=my_gtk_entry_new_with_max_length(5,who->config.rollback);
 	speed_entry=my_gtk_entry_new_with_max_length(5,who->config.speed);
 	split_entry=my_gtk_entry_new_with_max_length(2,who->split==NULL?0:who->split->NumOfParts);
@@ -399,54 +388,85 @@ void tDEdit::init_other(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
 
-	
-	other_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(other_hbox),5);
-	other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
-	GtkWidget *temp_frame=gtk_frame_new("ftp");
-	gtk_container_add(GTK_CONTAINER(temp_frame),ftp_recurse_depth_entry);
-	gtk_box_pack_start(GTK_BOX(other_hbox),temp_frame,FALSE,FALSE,0);
-	temp_frame=gtk_frame_new("http");
-	gtk_container_add(GTK_CONTAINER(temp_frame),http_recurse_depth_entry);
-	gtk_box_pack_start(GTK_BOX(other_hbox),temp_frame,FALSE,FALSE,0);
-
-	//	gtk_box_pack_start(GTK_BOX(other_hbox),ftp_recurse_depth_entry,FALSE,FALSE,0);
-	//	gtk_box_pack_start(GTK_BOX(other_hbox),http_recurse_depth_entry,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(other_hbox),other_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
-
-	ftp_passive_check=gtk_check_button_new_with_label(_("Use passive mode for ftp"));
-	GTK_TOGGLE_BUTTON(ftp_passive_check)->active=who->config.passive;
-	gtk_box_pack_start(GTK_BOX(other_vbox),ftp_passive_check,FALSE,FALSE,0);
-	dont_send_quit_check=gtk_check_button_new_with_label(_("Don't send QUIT command (ftp)"));
-	GTK_TOGGLE_BUTTON(dont_send_quit_check)->active=who->config.dont_send_quit;
-	gtk_box_pack_start(GTK_BOX(other_vbox),dont_send_quit_check,FALSE,FALSE,0);	
-	permisions_check=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
-	GTK_TOGGLE_BUTTON(permisions_check)->active=who->config.permisions;
-	gtk_box_pack_start(GTK_BOX(other_vbox),permisions_check,FALSE,FALSE,0);
 	get_date_check=gtk_check_button_new_with_label(_("Get date from the server"));
 	GTK_TOGGLE_BUTTON(get_date_check)->active=who->config.get_date;
 	gtk_box_pack_start(GTK_BOX(other_vbox),get_date_check,FALSE,FALSE,0);
 	retry_check=gtk_check_button_new_with_label(_("Retry if resuming is not supported"));
 	GTK_TOGGLE_BUTTON(retry_check)->active=who->config.retry;
 	gtk_box_pack_start(GTK_BOX(other_vbox),retry_check,FALSE,FALSE,0);
-	link_as_file_check=gtk_check_button_new_with_label(_("Try to load simbolyc link as file via ftp"));
-	GTK_TOGGLE_BUTTON(link_as_file_check)->active=who->config.link_as_file;
-	gtk_box_pack_start(GTK_BOX(other_vbox),link_as_file_check,FALSE,FALSE,0);
 	
-	other_hbox=gtk_hbox_new(FALSE,0);
-	leave_dir_check=gtk_check_button_new_with_label(_("Only subdirs"));
-	leave_server_check=gtk_check_button_new_with_label(_("Allow leave this server while recursing via http"));
-	GTK_TOGGLE_BUTTON(leave_server_check)->active=who->config.leave_server;
-	GTK_TOGGLE_BUTTON(leave_dir_check)->active=who->config.dont_leave_dir;
-	gtk_box_pack_start(GTK_BOX(other_hbox),leave_server_check,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(other_hbox),leave_dir_check,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(other_vbox),other_hbox,FALSE,FALSE,0);
-	GtkWidget *other_frame=gtk_frame_new(_("Other"));
+	GtkWidget *other_frame=gtk_frame_new(_("Common"));
 	gtk_container_border_width(GTK_CONTAINER(other_frame),5);
 	gtk_container_add(GTK_CONTAINER(other_frame),other_vbox);
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),other_frame,gtk_label_new(_("Other")));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),other_frame,gtk_label_new(_("Common")));
 };
+
+void tDEdit::init_ftp(tDownload *who){
+	GtkWidget *ftp_vbox=gtk_vbox_new(FALSE,0);
+
+	ftp_passive_check=gtk_check_button_new_with_label(_("Use passive mode for FTP"));
+	GTK_TOGGLE_BUTTON(ftp_passive_check)->active=who->config.passive;
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),ftp_passive_check,FALSE,FALSE,0);
+	dont_send_quit_check=gtk_check_button_new_with_label(_("Don't send QUIT command (FTP)"));
+	GTK_TOGGLE_BUTTON(dont_send_quit_check)->active=who->config.dont_send_quit;
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),dont_send_quit_check,FALSE,FALSE,0);	
+	permisions_check=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
+	GTK_TOGGLE_BUTTON(permisions_check)->active=who->config.permisions;
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),permisions_check,FALSE,FALSE,0);
+	link_as_file_check=gtk_check_button_new_with_label(_("Try to load simbolyc link as file via FTP"));
+	GTK_TOGGLE_BUTTON(link_as_file_check)->active=who->config.link_as_file;
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),link_as_file_check,FALSE,FALSE,0);
+
+	
+	ftp_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.ftp_recurse_depth);
+	GtkWidget *ftp_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(ftp_hbox),5);
+	GtkWidget *other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
+	gtk_box_pack_start(GTK_BOX(ftp_hbox),ftp_recurse_depth_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(ftp_hbox),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(ftp_vbox),ftp_hbox,FALSE,FALSE,0);
+	
+	GtkWidget *ftp_frame=gtk_frame_new("FTP");
+	gtk_container_border_width(GTK_CONTAINER(ftp_frame),5);
+	gtk_container_add(GTK_CONTAINER(ftp_frame),ftp_vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),ftp_frame,gtk_label_new("FTP"));
+};
+
+void tDEdit::init_http(tDownload *who){
+	GtkWidget *http_vbox=gtk_vbox_new(FALSE,0);
+	
+	http_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.http_recurse_depth);
+	GtkWidget *http_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
+	GtkWidget *other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
+	gtk_box_pack_start(GTK_BOX(http_hbox),http_recurse_depth_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(http_hbox),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(http_vbox),http_hbox,FALSE,FALSE,0);
+
+	leave_dir_check=gtk_check_button_new_with_label(_("Only subdirs"));
+	leave_server_check=gtk_check_button_new_with_label(_("Allow leave this server while recursing via HTTP"));
+	GTK_TOGGLE_BUTTON(leave_server_check)->active=who->config.leave_server;
+	GTK_TOGGLE_BUTTON(leave_dir_check)->active=who->config.dont_leave_dir;
+	gtk_box_pack_start(GTK_BOX(http_vbox),leave_server_check,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(http_vbox),leave_dir_check,FALSE,FALSE,0);
+
+	GtkWidget *user_agent_label=gtk_label_new(_("User-Agent"));
+	GtkWidget *user_agent_box=gtk_vbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(user_agent_box),5);
+	user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
+	if (who->config.user_agent.get())
+		text_to_combo(user_agent_entry,who->config.user_agent.get());
+	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(user_agent_box),user_agent_entry,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(http_vbox),user_agent_box,FALSE,FALSE,0);
+
+	GtkWidget *http_frame=gtk_frame_new("HTTP");
+	gtk_container_border_width(GTK_CONTAINER(http_frame),5);
+	gtk_container_add(GTK_CONTAINER(http_frame),http_vbox);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),http_frame,gtk_label_new("HTTP"));
+	
+};
+
 
 void tDEdit::init_time(tDownload *who){
 	/* Init time
@@ -510,6 +530,8 @@ void tDEdit::init(tDownload *who) {
 	
 	init_main(who);
 	init_other(who);
+	init_ftp(who);
+	init_http(who);
 
 	/* init proxies
 	 */
@@ -952,7 +974,7 @@ void tProxyWidget::init() {
 	frame=gtk_frame_new(_("Proxy"));
 	GtkWidget *proxy_frame1=gtk_frame_new("FTP");
 	GtkWidget *proxy_frame2=gtk_frame_new("HTTP");
-	GtkWidget *proxy_frame3=gtk_frame_new(_("ftp proxy type"));
+	GtkWidget *proxy_frame3=gtk_frame_new(_("FTP proxy type"));
 	gtk_container_border_width(GTK_CONTAINER(frame),5);
 	gtk_container_border_width(GTK_CONTAINER(proxy_frame1),5);
 	gtk_container_border_width(GTK_CONTAINER(proxy_frame2),5);
@@ -977,7 +999,7 @@ void tProxyWidget::init() {
 	gtk_box_set_spacing(GTK_BOX(vbox),2);
 	gtk_container_add(GTK_CONTAINER(proxy_frame1),hbox);
 
-	ftp_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for ftp"));
+	ftp_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for FTP"));
 
 	gtk_box_pack_start(GTK_BOX(vbox),ftp_proxy_check,FALSE,0,0);
 	ftp_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);
@@ -1039,7 +1061,7 @@ void tProxyWidget::init() {
 	gtk_box_set_spacing(GTK_BOX(vbox),2);
 	gtk_container_add(GTK_CONTAINER(proxy_frame2),vbox);
 
-	http_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for http"));
+	http_proxy_check=gtk_check_button_new_with_label(_("Use this proxy for HTTP"));
 
 	gtk_box_pack_start(GTK_BOX(vbox),http_proxy_check,FALSE,0,0);
 	http_proxy_host=my_gtk_combo_new(ALL_HISTORIES[PROXY_HISTORY]);

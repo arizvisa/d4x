@@ -179,12 +179,4 @@ void list_menu_prepare() {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],TRUE);
 	};
-	if (DOWNLOAD_QUEUES[DL_COMPLETE]->count())
-		gtk_widget_set_sensitive(ListMenuArray[LM_DELC],TRUE);
-	else
-		gtk_widget_set_sensitive(ListMenuArray[LM_DELC],FALSE);
-	if (DOWNLOAD_QUEUES[DL_STOP]->count())
-		gtk_widget_set_sensitive(ListMenuArray[LM_DELF],TRUE);
-	else
-		gtk_widget_set_sensitive(ListMenuArray[LM_DELF],FALSE);
 };

@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <strings.h>
 #include <time.h>
 
 //****************************************/
@@ -252,12 +253,7 @@ int tFtpDownload::change_dir() {
 };
 
 //****************************************/
-tFtpDownload::tFtpDownload() {
-	LOG=NULL;
-	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
-	StartSize=D_FILE.size=D_FILE.type=0;
-	Status=D_NOTHING;
-
+tFtpDownload::tFtpDownload():tDownloader(){
 	FTP=NULL;
 	DIR=list=NULL;
 	RetrNum=0;
@@ -314,9 +310,7 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	list=NULL;
 
 	config.copy_ints(cfg);
-	config.proxy_host.set(cfg->proxy_host.get());
-	config.proxy_user.set(cfg->proxy_user.get());
-	config.proxy_pass.set(cfg->proxy_pass.get());
+	config.copy_proxy(cfg);
 
 	if (config.proxy_host.get() && config.proxy_port) {
 		FTP->init(config.proxy_host.get(),LOG,config.proxy_port,config.timeout);

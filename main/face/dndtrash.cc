@@ -29,6 +29,7 @@ extern gint n_download_drop_types;
 enum DND_MENU_ENUM{
 	DM_NEW,
 	DM_PASTE,
+	DM_DELCOMPLETED,
 	DM_OPTIONS,
 	DM_SPEED, DM_SPEED_1, DM_SPEED_2, DM_SPEED_3,
 	DM_EXIT,
@@ -38,6 +39,7 @@ enum DND_MENU_ENUM{
 char *dnd_menu_inames[]={
 	"/New Download",
 	"/Paste Download",
+	"/Delete completed",
 	"/Common options",
 	"/Speed",
 	"/Speed/Lowest",
@@ -128,6 +130,11 @@ int dnd_trash_button_release(GtkWidget *widget,GdkEventButton *event){
 	gdk_pointer_ungrab (0);
 	return 1;
 }; 
+
+
+static void dnd_trash_configure(){
+	gdk_window_raise(dnd_trash_window->window);
+};
 
 void dnd_trash_init(){
 	CFG.DND_TRASH=1;
@@ -221,6 +228,9 @@ void dnd_trash_init(){
     
 	/* show the window */
 	gtk_widget_show( dnd_trash_window );
+	gtk_signal_connect(GTK_OBJECT(dnd_trash_window), "configure_event",
+	                   GTK_SIGNAL_FUNC(dnd_trash_configure),
+	                   dnd_trash_window);
 	gdk_window_resize(dnd_trash_window->window,50,50);
 	set_dndtrash_button();
 };
@@ -241,10 +251,22 @@ void dnd_trash_menu_calback(gpointer *data, guint action, GtkWidget *widget){
 	};
 };
 
+static void dnd_trash_delete_completed(){
+	aa.del_completed();
+};
+
+void dnd_trash_set_del_completed(gint how){
+	GtkWidget *menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,
+					      _(dnd_menu_inames[DM_DELCOMPLETED]));
+	if (menu_item)
+		gtk_widget_set_sensitive(menu_item,how);
+};
+
 void dnd_trash_init_menu() {
 	GtkItemFactoryEntry menu_items[] = {
 		{_(dnd_menu_inames[DM_NEW]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
 		{_(dnd_menu_inames[DM_PASTE]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_clipboard_window,	0, (gchar *)NULL},
+		{_(dnd_menu_inames[DM_DELCOMPLETED]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_delete_completed,	0, (gchar *)NULL},
 		{_(dnd_menu_inames[DM_SEP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Separator>"},
 		{_(dnd_menu_inames[DM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)init_options_window,		0, (gchar *)NULL},
 		{_(dnd_menu_inames[DM_SPEED]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Branch>"},

@@ -23,17 +23,9 @@
 #include "ntlocale.h"
 #include "savedvar.h"
 
-/* ---------------------------------------- */
 
-tCfg::tCfg() {
-	speed=0;
-	proxy_no_cache=proxy_type=0;
-	link_as_file=leave_server=0;
-	dont_leave_dir=0;
-	restart_from_begin=0;
-};
-
-void tCfg::copy_ints(tCfg *src){
+void tSimplyCfg::copy_ints(tSimplyCfg *src){
+	DBC_RETURN_IF_FAIL(src!=NULL);
 	http_recursing=src->http_recursing;
 	speed=src->speed;
 	ftp_recurse_depth=src->ftp_recurse_depth;
@@ -50,12 +42,19 @@ void tCfg::copy_ints(tCfg *src){
 	full_server_loading=src->full_server_loading;
 	dont_leave_dir=src->dont_leave_dir;
 
-	proxy_type = src->proxy_type;
-	proxy_port = src->proxy_port;
 	rollback = src->rollback;
 	link_as_file = src->link_as_file;
 	leave_server = src->leave_server;
-	proxy_no_cache = src->proxy_no_cache;
+};
+
+/* ---------------------------------------- */
+
+tCfg::tCfg() {
+	speed=0;
+	proxy_no_cache=proxy_type=0;
+	link_as_file=leave_server=0;
+	dont_leave_dir=0;
+	restart_from_begin=0;
 };
 
 int tCfg::get_flags(){
@@ -76,11 +75,18 @@ void tCfg::set_flags(int what){
 	permisions = ((what & 16)!=0);
 };
 
-void tCfg::copy(tCfg *src) {
-	copy_ints(src);
+void tCfg::copy_proxy(tCfg *src){
+	proxy_type = src->proxy_type;
+	proxy_port = src->proxy_port;
+	proxy_no_cache = src->proxy_no_cache;
 	proxy_host.set(src->proxy_host.get());
 	proxy_user.set(src->proxy_user.get());
 	proxy_pass.set(src->proxy_pass.get());
+};
+
+void tCfg::copy(tCfg *src) {
+	copy_ints(src);
+	copy_proxy(src);
 	user_agent.set(src->user_agent.get());
 };
 
@@ -208,7 +214,7 @@ void tDownloader::print_error(int error_code){
 		break;
 	};
 	case ERROR_FILE_UPDATED:
-		LOG->log(LOG_WARNING,_("File on server is newest then local file, restarting from begin\n"));
+		LOG->log(LOG_WARNING,_("File on a server is newer then local one. Restarting from begin\n"));
 		break;
 	default:{
 		LOG->log(LOG_ERROR,_("Warning! Probably you found the BUG!!!"));

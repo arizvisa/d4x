@@ -90,6 +90,8 @@ int calc_curent_run(char *host,int port) {
 
 //**********************************************/
 
+typedef void (*SigactionHandler)(int);
+
 void tMain::init() {
 	prev_speed_limit=0;
 	for (int i=DL_ALONE+1;i<DL_TEMP;i++){
@@ -132,7 +134,7 @@ void tMain::init() {
 			complete=0;
 	};
 	struct sigaction action,old_action;
-	action.sa_handler=my_main_quit;
+	action.sa_handler=SigactionHandler(my_main_quit);
 	action.sa_flags=0;//SA_NOCLDSTOP;
 	sigaction(SIGINT,&action,&old_action);
 	sigaction(SIGTERM,&action,&old_action);
@@ -141,6 +143,10 @@ void tMain::init() {
 
 void tMain::load_defaults() {
 	MainLog->add(_("Loading default list of downloads"),LOG_OK|LOG_DETAILED);
+	if (!CFG.WITHOUT_FACE){
+		DOWNLOAD_QUEUES[DL_COMPLETE]->set_empty_func(main_menu_completed_empty,main_menu_completed_nonempty);
+		DOWNLOAD_QUEUES[DL_STOP]->set_empty_func(main_menu_failed_empty,main_menu_failed_nonempty);
+	};
 	tStringList *list=new tStringList;
 	list->init(0);
 	read_list(list);
@@ -311,6 +317,7 @@ int tMain::run_new_thread(tDownload *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	pthread_attr_t attr_p;
 	what->status=READY_TO_RUN;
+	what->BLOCKED=0;
 	if (!what->LOG) {
 		what->LOG=new tLog;
 		what->LOG->init(CFG.MAX_LOG_LENGTH);
@@ -318,6 +325,7 @@ int tMain::run_new_thread(tDownload *what) {
 	what->WL=new tDefaultWL;
 	((tDefaultWL *)(what->WL))->set_log(what->LOG);	
 	what->update_trigers();
+	what->NanoSpeed=0;
 
 	what->SpeedLimit=new tSpeed;
 /* set speed limitation */
@@ -403,16 +411,16 @@ int tMain::delete_download(tDownload *what) {
 				break;
 			};
 		case DL_RUN:{
-				stop_download(what);
-				if (what->owner==DL_PAUSE) {
-					DOWNLOAD_QUEUES[DL_PAUSE]->del(what);
-					break;
-				};
+			stop_download(what);
+			if (what->owner==DL_PAUSE) {
+				DOWNLOAD_QUEUES[DL_PAUSE]->del(what);
+				break;
 			};
+		};
 		case DL_STOPWAIT:{
-				what->action=ACTION_DELETE;
-				return 0;
-			};
+			what->action=ACTION_DELETE;
+			return 0;
+		};
 		case DL_PAUSE:{
 				DOWNLOAD_QUEUES[DL_PAUSE]->del(what);
 				break;
@@ -461,6 +469,8 @@ int tMain::try_to_run_download(tDownload *what){
 	time(&NOW);
 	if (DOWNLOAD_QUEUES[DL_RUN]->count()<50 && what->ScheduleTime<=NOW
 	    && (tmp==NULL || tmp->curent<tmp->upper)) {
+		// to avoid old info in columns
+		list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
 		if (what->split){
 			what->finfo.size=-1;
 			what->split->FirstByte=0;
@@ -480,7 +490,8 @@ void tMain::continue_download(tDownload *what) {
 	if (!what) return;
 	switch (what->owner) {
 	case DL_STOPWAIT:
-		if (what->action!=ACTION_DELETE) what->action=ACTION_CONTINUE;
+		if (what->action!=ACTION_DELETE)
+			what->action=ACTION_CONTINUE;
 		break;
 	case DL_RUN:
 		stop_download(what);
@@ -586,8 +597,10 @@ void tMain::print_info(tDownload *what) {
 		if (what->Size.change() || CFG.NICE_DEC_DIGITALS.change()) {
 			make_number_nice(data,what->Size.curent);
 			list_of_downloads_change_data(what->GTKCListRow,DOWNLOADED_SIZE_COL,data);
-			what->Pause=time(NULL);
-			list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
+			time_t Pause=time(NULL);
+			if (Pause - what->Pause > 4)
+				list_of_downloads_change_data(what->GTKCListRow,PAUSE_COL,"");
+			what->Pause = Pause;
 			// calculating speed for graph
 			unsigned int TimeLeft=get_precise_time()-LastTime;
 			if (what->Size.old<=0 && what->who) what->Size.old=what->who->get_start_size();
@@ -1347,12 +1360,6 @@ void *download_last(void *nothing) {
 			pthread_exit(NULL);
 			return NULL;
 		};
-		if (addr->proto==D_PROTO_UNKNOWN){
-			what->WL->log(LOG_ERROR,_("Such protocol is not supported!"));
-			what->download_failed();
-			pthread_exit(NULL);
-			return NULL;
-		};
 		if (what->config.proxy_host.get()  &&
 		    (what->config.proxy_type || addr->proto==D_PROTO_HTTP)) {
 			what->who=new tProxyDownload;
@@ -1360,12 +1367,18 @@ void *download_last(void *nothing) {
 			pthread_exit(NULL);
 			return NULL;
 		};
-		if (addr->proto==D_PROTO_HTTP){
+		switch(addr->proto){
+		case D_PROTO_HTTP:
 			what->download_http();
-			pthread_exit(NULL);
-			return NULL;
+			break;
+		case D_PROTO_FTP:
+			what->download_ftp();
+			break;
+		default:
+			what->WL->log(LOG_ERROR,_("Such protocol is not supported!"));
+			what->download_failed();
+			break;
 		};
-		what->download_ftp();
 	};
 	pthread_exit(NULL);
 	return NULL;

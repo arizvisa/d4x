@@ -45,18 +45,19 @@ enum{
 #include "dbc.h"
 
 struct tMainCfg{
-	int RETRY_TIME_OUT;
-	int MAX_RETRIES;
+	tSimplyCfg DEFAULT_CFG;
+//	int RETRY_TIME_OUT;
+//	int MAX_RETRIES;
 	int MAX_LOG_LENGTH;
 	int MAX_THREADS;
-	int TIME_OUT;
+//	int TIME_OUT;
 	char *GLOBAL_SAVE_PATH;
 	char *LOCAL_SAVE_PATH;
 	char *DEFAULT_NAME;
 	char *USER_AGENT;
-	int FTP_RECURSE_DEPTH;
-	int HTTP_RECURSE_DEPTH;
-	int ROLLBACK;
+//	int FTP_RECURSE_DEPTH;
+//	int HTTP_RECURSE_DEPTH;
+//	int ROLLBACK;
 	int DEFAULT_HOST_LIMIT;
 	int ALLOW_FORCE_RUN;
 /* Log
@@ -73,16 +74,16 @@ struct tMainCfg{
 	int SAVE_LIST;
 /* Flags
  */
-	int RETRY_IF_NOREGET;
+//	int RETRY_IF_NOREGET;
 	int RECURSIVE_OPTIMIZE;
 	int DELETE_FATAL;
 	int DELETE_COMPLETED;
-	int FTP_PASSIVE_MODE;
-	int FTP_PERMISIONS;
-	int GET_DATE;
+//	int FTP_PASSIVE_MODE;
+//	int FTP_PERMISIONS;
+//	int GET_DATE;
 	int DEFAULT_PERMISIONS;
 	int FTP_DIR_IN_LOG;
-	int DONT_SEND_QUIT;
+//	int DONT_SEND_QUIT;
 /* Interface
  */
 	tTriger NICE_DEC_DIGITALS;

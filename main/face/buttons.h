@@ -13,6 +13,7 @@
 
 extern GtkWidget *ButtonsBar;
 extern GtkWidget *HandleBox;
+extern GtkWidget *buttons_array[];
 
 GtkWidget *new_pixmap(char **xpm);
 void init_buttons_bar();
@@ -37,6 +38,7 @@ enum {
 	BUTTON_OPTIONS,
 	BUTTON_DEL_ALL,
 	BUTTON_SAVE,
-	BUTTON_DND_TRASH
+	BUTTON_DND_TRASH,
+	BUTTON_LAST
 };
 #endif

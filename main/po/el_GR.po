@@ -304,7 +304,7 @@ msgid "Size for download is %i bytes"
 msgstr "Το μέγεθος κατεβάσματος είναι %i bytes"
 
 #: httpd.cc:216
-msgid "Sending http request..."
+msgid "Sending HTTP request..."
 msgstr "Στέλνω http αίτηση..."
 
 #: httpd.cc:242
@@ -525,7 +525,7 @@ msgid "Maximum attempts (0 for unlimited)"
 msgstr "Μέγιστες προσπάθειες (0 για άπειρες)"
 
 #: face/edit.cc:23
-msgid "Use passive mode for ftp"
+msgid "Use passive mode for FTP"
 msgstr "Χρήση passive mode για ftp"
 
 #: face/edit.cc:24
@@ -614,11 +614,11 @@ msgid "Select directory"
 msgstr "Διαλέξτε κατάλογο"
 
 #: face/edit.cc:586
-msgid "ftp proxy type"
+msgid "FTP proxy type"
 msgstr "Τύπος proxy του ftp"
 
 #: face/edit.cc:611
-msgid "Use this proxy for ftp"
+msgid "Use this proxy for FTP"
 msgstr "Χρήση αυτού του proxy για ftp"
 
 #: face/edit.cc:620 face/edit.cc:675
@@ -634,7 +634,7 @@ msgid "username"
 msgstr "όνομα χρήστη"
 
 #: face/edit.cc:666
-msgid "Use this proxy for http"
+msgid "Use this proxy for HTTP"
 msgstr "Χρήση αυτού του proxy για http"
 
 #: face/limface.cc:55
@@ -781,7 +781,7 @@ msgid "/Options/Limitations"
 msgstr "/Επιλογές/Περιορισμοί"
 
 #: face/list.cc:145
-msgid "/Options/Common"
+msgid "/Options/General"
 msgstr "/Επιλογές/Κοινά"
 
 #: face/list.cc:146
@@ -1123,11 +1123,11 @@ msgid "Ok"
 msgstr "ΟΚ"
 
 #: face/prefs.cc:
-msgid "Show trash for DnD"
+msgid "Show DnD basket"
 msgstr "Δείξε εικονίδιο για DnD"
 
 #: face/buttons.cc:
-msgid " DnD trash "
+msgid " DnD basket "
 msgstr " DnD εικονίδιο "
 
 #: main.cc:
@@ -1251,7 +1251,7 @@ msgid "/Exit"
 msgstr "/Έξοδος"
 
 #: face/prefs.cc:
-msgid "User-Agent for http requests"
+msgid "User-Agent for HTTP requests"
 msgstr "User-Agent για http αιτήσεις"
 
 #: face/columns.cc
@@ -1267,7 +1267,7 @@ msgid "set lower speed limitation"
 msgstr "ενεργοποίηση ορίου κατώτερης ταχύτητας"
 
 #: config.cc:
-msgid "set middle speed limitation"
+msgid "set medium speed limitation"
 msgstr "ενεργοποίηση ορίου μεσαίας ταχύτητας"
 
 #: config.cc:
@@ -1399,7 +1399,7 @@ msgid "/Download/Invert selection"
 msgstr "/Κατέβασμα/Αντιστροφή επιλογής"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via ftp"
+msgid "Try to load simbolyc link as file via FTP"
 msgstr "Προσπάθεια ανάγνωσης symbolic link ως αρχείο μέσω ftp"
 
 # face/list.cc
@@ -1429,7 +1429,7 @@ msgid "set maximum active downloads"
 msgstr "καθορισμός μέγιστου αριθμού ενεργών κατεβασμάτων"
 
 #face/edit.cc
-msgid "Allow leave this server while recursing via http"
+msgid "Allow leave this server while recursing via HTTP"
 msgstr "Αγνόησε αυτόν τον server ενώ κάνεις αναδρομή μέσω http"
 
 msgid "/Download/Rerun failed"
@@ -1618,17 +1618,26 @@ msgstr "ορισμός χρόνου εξόδου αν δεν υπάρχει άλλο κατέβασμα"
 
 msgid "You should specify number as parameter for '--exit-time' option"
 msgstr "Πρέπει να ορίσετε αριθμό ως παράμετρο στην επιλογή '--exit-time'"
+
 #face/prefs.cc
-msgid "Output ftp dirs in logs"
-msgstr ""
+msgid "Output FTP dirs in logs"
+msgstr "Αναφορά των φακέλων ftp στα logs"
 
 #main.cc
 msgid "Setup maximum active downloads to"
-msgstr ""
+msgstr "Ορισμός του μέγιστου αριθμού ενεργών κατεβασμάτων σε"
 
 msgid "Restarting failed downloads"
-msgstr ""
+msgstr "Επανεκκίνση αποτυχημένων κατεβασμάτων"
 
 # face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (ftp)"
+msgid "Don't send QUIT command (FTP)"
+msgstr "Μην στείλεις την εντολή QUIT (ftp)"
+
+#:download.cc
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
+
+#:face/dndtrash.cc
+msgid "/Delete completed"
 msgstr ""

@@ -157,6 +157,7 @@ void list_of_downloads_add(tDownload *what) {
 
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),what->GTKCListRow,gpointer(what));
 	list_of_downloads_set_pixmap(what->GTKCListRow,PIX_WAIT);
+	if (what->GTKCListRow==0) gtk_clist_select_row(GTK_CLIST(ListOfDownloads),0,-1);
 	delete URL;
 };
 
@@ -475,6 +476,10 @@ static int _cmp_bypercent(tDownload *a,tDownload *b){
 };
 
 static int _cmp_bysize(tDownload *a,tDownload *b){
+	return( a->finfo.size - b->finfo.size );
+};
+
+static int _cmp_bydsize(tDownload *a,tDownload *b){
 	return( a->Size.curent - b->Size.curent );
 };
 
@@ -489,13 +494,16 @@ static int _cmp_byspeed(tDownload *a,tDownload *b){
 static void list_of_downloads_sort(GtkWidget *widget,int how){
 	int count=DOWNLOAD_QUEUES[DL_RUN]->count();
 	if (count<2) return; //nothing todo
-	int (*cmp_func)(tDownload *,tDownload *)=NULL;
+	int (*cmp_func)(tDownload *,tDownload *)=(int)NULL;
 	switch(how){
 	case PERCENT_COL:
 		cmp_func=_cmp_bypercent;
 		break;
+	case FULL_SIZE_COL:
+		cmp_func=_cmp_bysize;
+		break;
 	case DOWNLOADED_SIZE_COL:
-		cmp_func=_cmp_bysize;		
+		cmp_func=_cmp_bydsize;		
 		break;
 	case REMAIN_SIZE_COL:
 		cmp_func=_cmp_byremain;		
@@ -536,7 +544,7 @@ static void my_gtk_clist_set_column_justification (GtkWidget *clist, int col, Gt
 static GtkWidget *my_gtk_clist_get_column_widget(GtkWidget *clist, int col){
 	if (ListColumns[col].enum_index<ListColumns[NOTHING_COL].enum_index)
 		return (GTK_CLIST(clist)->column[ListColumns[col].enum_index].button);
-	return NULL;
+	return((GtkWidget *)NULL);
 };
 
 void list_of_downloads_init() {
@@ -615,6 +623,12 @@ void list_of_downloads_init() {
 				   "clicked",
 				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
 				   GINT_TO_POINTER(REMAIN_SIZE_COL));
+	button=my_gtk_clist_get_column_widget(ListOfDownloads,FULL_SIZE_COL);
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
+				   GINT_TO_POINTER(FULL_SIZE_COL));
 
 	gtk_widget_show(ListOfDownloads);
 	gtk_container_add(GTK_CONTAINER(ContainerForCList),ListOfDownloads);

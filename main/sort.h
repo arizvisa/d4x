@@ -33,8 +33,8 @@ class tAbstractSortTree{
 	public:
 		tAbstractSortTree();
 		void init();
-		void add(tAbstractSortNode *what);
-		void del(tAbstractSortNode *what);
+		virtual void add(tAbstractSortNode *what);
+		virtual void del(tAbstractSortNode *what);
 		int count();
 		int empty();
 		virtual tAbstractSortNode *find(tAbstractSortNode *what);

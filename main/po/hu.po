@@ -304,7 +304,7 @@ msgid "Size for download is %i bytes"
 msgstr "Letöltés mérete: %i bytes"
 
 #: httpd.cc:216
-msgid "Sending http request..."
+msgid "Sending HTTP request..."
 msgstr "HTTP kérés küldése..."
 
 #: httpd.cc:242
@@ -530,7 +530,7 @@ msgid "Maximum attempts (0 for unlimited)"
 msgstr "Maximális kisérletek száma (0, ha végtelen)"
 
 #: face/edit.cc:23
-msgid "Use passive mode for ftp"
+msgid "Use passive mode for FTP"
 msgstr "Passzív mód használata FTP-hez"
 
 #: face/edit.cc:24
@@ -619,11 +619,11 @@ msgid "Select directory"
 msgstr "Könyvtár választás"
 
 #: face/edit.cc:586
-msgid "ftp proxy type"
+msgid "FTP proxy type"
 msgstr "FTP Proxy Tipus"
 
 #: face/edit.cc:611
-msgid "Use this proxy for ftp"
+msgid "Use this proxy for FTP"
 msgstr "E proxy használata FTP-hez"
 
 #: face/edit.cc:620 face/edit.cc:675
@@ -639,7 +639,7 @@ msgid "username"
 msgstr "felhasználói név"
 
 #: face/edit.cc:666
-msgid "Use this proxy for http"
+msgid "Use this proxy for HTTP"
 msgstr "E proxy használata HTTP-hez"
 
 #: face/limface.cc:55
@@ -786,7 +786,7 @@ msgid "/Options/Limitations"
 msgstr "/Opciók/Korlátozások"
 
 #: face/list.cc:145
-msgid "/Options/Common"
+msgid "/Options/General"
 msgstr "/Opciók/Általános"
 
 #: face/list.cc:146
@@ -1128,11 +1128,11 @@ msgid "Ok"
 msgstr "Ok"
 
 #: face/prefs.cc:
-msgid "Show trash for DnD"
+msgid "Show DnD basket"
 msgstr "Szemetes DnD-hoz"
 
 #: face/buttons.cc:
-msgid " DnD trash "
+msgid " DnD basket "
 msgstr " DnD szemetes "
 
 #: main.cc:
@@ -1256,7 +1256,7 @@ msgid "/Exit"
 msgstr "/Kilépés"
 
 #: face/prefs.cc:
-msgid "User-Agent for http requests"
+msgid "User-Agent for HTTP requests"
 msgstr "User-Agent a HTTP kérésekhez"
 
 #: face/columns.cc
@@ -1272,7 +1272,7 @@ msgid "set lower speed limitation"
 msgstr "alacsonyabb sebesség-korlátozás beállítása"
 
 #: config.cc:
-msgid "set middle speed limitation"
+msgid "set medium speed limitation"
 msgstr "közepes sebesség-korlátozás beállítása"
 
 #: config.cc:
@@ -1405,7 +1405,7 @@ msgid "/Download/Invert selection"
 msgstr "/Letöltés/Kiválasztás megfordítása"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via ftp"
+msgid "Try to load simbolyc link as file via FTP"
 msgstr ""
 
 # face/list.cc
@@ -1435,7 +1435,7 @@ msgid "set maximum active downloads"
 msgstr ""
 
 #face/edit.cc
-msgid "Allow leave this server while recursing via http"
+msgid "Allow leave this server while recursing via HTTP"
 msgstr ""
 
 msgid "/Download/Rerun failed"
@@ -1629,7 +1629,7 @@ msgid "You should specify number as parameter for '--exit-time' option"
 msgstr ""
 
 #face/prefs.cc
-msgid "Output ftp dirs in logs"
+msgid "Output FTP dirs in logs"
 msgstr ""
 
 #main.cc
@@ -1640,5 +1640,13 @@ msgid "Restarting failed downloads"
 msgstr ""
 
 # face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (ftp)"
+msgid "Don't send QUIT command (FTP)"
+msgstr ""
+
+#:download.cc
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
+
+#:face/dndtrash.cc
+msgid "/Delete completed"
 msgstr ""

@@ -73,12 +73,13 @@ char * tWriterLoger::cookie(const char *host, const char *path){
 /* tClient 
  */
 
-tClient::tClient() {
+tClient::tClient(){
 	hostname=username=userword=buffer=NULL;
 	FileLoaded=0;
 };
 
-tClient::~tClient() {
+tClient::~tClient(){
+	if (buffer) delete buffer;
 };
 
 void tClient::init(char *host,tWriterLoger *log,int prt,int time_out) {

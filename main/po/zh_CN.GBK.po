@@ -344,7 +344,7 @@ msgid "Size for download is %i bytes"
 msgstr "要下载的长度为 %i 字节"
 
 #: httpd.cc:216
-msgid "Sending http request..."
+msgid "Sending HTTP request..."
 msgstr "发送 HTTP 请求..."
 
 #: httpd.cc:242
@@ -569,7 +569,7 @@ msgid "Maximum attempts (0 for unlimited)"
 msgstr "重试次数(0为不限制)"
 
 #: face/edit.cc:23
-msgid "Use passive mode for ftp"
+msgid "Use passive mode for FTP"
 msgstr "使用被动模式到FTP"
 
 #: face/edit.cc:24
@@ -658,11 +658,11 @@ msgid "Select directory"
 msgstr "选择目录"
 
 #: face/edit.cc:586
-msgid "ftp proxy type"
+msgid "FTP proxy type"
 msgstr "FTP代理方式"
 
 #: face/edit.cc:611
-msgid "Use this proxy for ftp"
+msgid "Use this proxy for FTP"
 msgstr "FTP 使用此代理服务器"
 
 #: face/edit.cc:620 face/edit.cc:675
@@ -678,7 +678,7 @@ msgid "username"
 msgstr "用户名"
 
 #: face/edit.cc:666
-msgid "Use this proxy for http"
+msgid "Use this proxy for HTTP"
 msgstr "HTTP 使用此代理服务器"
 
 #: face/limface.cc:55
@@ -825,7 +825,7 @@ msgid "/Options/Limitations"
 msgstr "/选项/站点限制"
 
 #: face/list.cc:145
-msgid "/Options/Common"
+msgid "/Options/General"
 msgstr "/选项/公用选项"
 
 #: face/list.cc:146
@@ -1167,11 +1167,11 @@ msgid "Ok"
 msgstr "确定"
 
 #: face/prefs.cc:
-msgid "Show trash for DnD"
+msgid "Show DnD basket"
 msgstr "显示拖放箱"
 
 #: face/buttons.cc:
-msgid " DnD trash "
+msgid " DnD basket "
 msgstr "拖放箱"
 
 #: main.cc:
@@ -1295,7 +1295,7 @@ msgid "/Exit"
 msgstr "/退出"
 
 #: face/prefs.cc:
-msgid "User-Agent for http requests"
+msgid "User-Agent for HTTP requests"
 msgstr "http 请求的用户代理"
 
 #: face/columns.cc
@@ -1312,7 +1312,7 @@ msgid "set lower speed limitation"
 msgstr "较低的速度"
 
 #: config.cc:
-msgid "set middle speed limitation"
+msgid "set medium speed limitation"
 msgstr "中等速度"
 
 #: config.cc:
@@ -1445,7 +1445,7 @@ msgid "/Download/Invert selection"
 msgstr "下载/反向选择"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via ftp"
+msgid "Try to load simbolyc link as file via FTP"
 msgstr "尝试将文件链接作为文件进行FTP下载"
 
 # face/list.cc
@@ -1476,7 +1476,7 @@ msgid "set maximum active downloads"
 msgstr "设置最大活动下载数目"
 
 #face/edit.cc
-msgid "Allow leave this server while recursing via http"
+msgid "Allow leave this server while recursing via HTTP"
 msgstr "在通过http遍历时, 允许离开此服务器"
 
 msgid "/Download/Rerun failed"
@@ -1663,7 +1663,7 @@ msgid "You should specify number as parameter for '--exit-time' option"
 msgstr ""
 
 #face/prefs.cc
-msgid "Output ftp dirs in logs"
+msgid "Output FTP dirs in logs"
 msgstr ""
 
 #main.cc
@@ -1674,5 +1674,13 @@ msgid "Restarting failed downloads"
 msgstr ""
 
 # face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (ftp)"
+msgid "Don't send QUIT command (FTP)"
+msgstr ""
+
+#:download.cc
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
+
+#:face/dndtrash.cc
+msgid "/Delete completed"
 msgstr ""

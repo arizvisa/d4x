@@ -25,7 +25,7 @@ class tFileInfo{
 	time_t date;
 };
 
-struct tCfg{
+struct tSimplyCfg{
 	int timeout;
 	int time_for_sleep;
 	int number_of_attempts;
@@ -44,8 +44,10 @@ struct tCfg{
 	int link_as_file;
 	int restart_from_begin;
 	int dont_send_quit;
-/* proxy
- */
+	void copy_ints(tSimplyCfg *src);
+};
+
+struct tCfg:public tSimplyCfg{
 	int proxy_port;
 	int proxy_type;
 	int proxy_no_cache;
@@ -58,8 +60,8 @@ struct tCfg{
 	int get_flags();
 	void set_flags(int what);
 	void reset_proxy();
+	void copy_proxy(tCfg *src);
 	void copy(tCfg *src);
-	void copy_ints(tCfg *src);
 	void save_to_config(int fd);
 	int load_from_config(int fd);
 	~tCfg();

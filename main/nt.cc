@@ -27,7 +27,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.19";
+char *VERSION_NAME="WebDownloader for X 1.20pre";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -70,9 +70,9 @@ void segv_handler(int signum) {
 	} else {
 		sprintf(pid_str, "%d", getppid());
 		if (CFG.WITHOUT_FACE) {
-			execlp("gdb", "gdb", prog_name, pid_str);
+			execlp("gdb", "gdb", prog_name, pid_str, NULL);
 		} else {
-			execlp("xterm", "xterm", "-e", "gdb", prog_name, pid_str);
+			execlp("xterm", "xterm", "-e", "gdb", prog_name, pid_str, NULL);
 		}
 		perror("execlp");
 		exit(EXIT_FAILURE);

@@ -33,8 +33,7 @@
 #include "ntlocale.h"
 
 
-tLogString::tLogString() {
-	// body initialized by tString constructor
+tLogString::tLogString():tString(){
 	time=0;
 	type=LOG_FROM_SERVER;
 };
@@ -54,7 +53,7 @@ tLogString::~tLogString() {
 	body=NULL;
 };
 //******************************************//
-tLog::tLog() {
+tLog::tLog():tStringList(){
 	pthread_mutex_init(&mutex,NULL);
 	start=time(NULL);
 	Window=NULL;
@@ -87,7 +86,7 @@ void tLog::send_msg(int type,tLogString *what) {
 		Msg.mtype=type;
 		Msg.what=what;
 		Msg.which=this;
-		msgsnd(MsgQueue,(msgbuf *)&Msg,sizeof(mbuf)-sizeof(long),0);
+		msgsnd(MsgQueue,(struct msgbuf *)&Msg,sizeof(mbuf)-sizeof(long),0);
 	};
 };
 

@@ -10,10 +10,11 @@
  */
 
 #include <string.h>
+#include <strings.h>
 #include <stdio.h>
 #include "liststr.h"
 #include "var.h"
-tString::tString() {
+tString::tString(){
 	body=NULL;
 	temp=0;
 };
@@ -49,7 +50,7 @@ void tMemory::del(tString *a){
 };
 
 /*************************************************/
-tStringList::tStringList() {
+tStringList::tStringList():tQueue(){
 	init(CFG.MAX_LOG_LENGTH);
 	Size=0;
 };

@@ -1,10 +1,18 @@
+pause download just after adding in common options
+symbolic link as file in common options
+[DONE] implement <META http-equiv="refresh" content="">
+[DONE] support for Content-Type: multipart/x-byteranges; boundary=multipart-boundary
+-------------------------------------------------
 "Hot list" (ability to define URLs for automatic download by d4x)
+ftp search capabilities
+sheduller for various actions
+selecting by mask in queue of downloads
+automate adding new downloads in queue (e.g ftp/pub/something.r0[0-3])
 [????] regular expressions in URLs
 [????] change "remove" to "remove from queue"
 check for maximum redirections
 double click on error message in mainlog open log with this error
 SOCKS support
-"conditions" system (user can setup conditions for starting download e.g. "time" is one type of conditions)
 searching in queue
 add sounds (in integraition with gnome)
 "tree" window for displaiyng tree structure of a site(s)
@@ -12,7 +20,6 @@ check free space on disk to prevent empty it
 mask support via http
 browser for ftp and http
 uploading files to server
-ftp search capabilities
 Auto detection of best proxy.
 [DONE] ability to hide main window
 [DONE] force download by start button;

@@ -48,6 +48,8 @@ class tDEdit{
 	void setup_time(time_t when);
 	void init_main(tDownload *who);
 	void init_other(tDownload *who);
+	void init_ftp(tDownload *who);
+	void init_http(tDownload *who);
 	void init_time(tDownload *who);
 	public:
 		GtkWidget *ok_button,*cancel_button;

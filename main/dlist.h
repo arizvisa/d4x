@@ -66,7 +66,7 @@ struct tDownload:public tAbstractSortNode{
 	tFileInfo finfo;
 	tAddr *info;
 	tDownloader *who;
-	tLog *LOG;
+	tLog *LOG,*CurrentLog;// CurrentLog is used for splited downloads
 	tWriterLoger *WL;
 	tDEdit *editor;
 	//------Split information-------------
@@ -77,6 +77,7 @@ struct tDownload:public tAbstractSortNode{
 	int status,owner,action;
 	int NanoSpeed;
 	int GTKCListRow;
+	int BLOCKED;
 	tTriger Percent,Size,Attempt,Status,Speed,Remain;
 	//------------------------------------
 //	tQueue *conditions;
@@ -126,6 +127,8 @@ struct tDownload:public tAbstractSortNode{
 class tDList:public tQueue{
 	int OwnerKey;
 	int Pixmap;
+	void (*empty)();
+	void (*non_empty)();
     public:
 		tDList();
 		tDList(int key);
@@ -136,6 +139,7 @@ class tDList:public tQueue{
 		void forward(tDownload *what);
 		void backward(tDownload *what);
 		void dispose();
+		void set_empty_func(void (*emp)(),void (*nonemp)());
 		tDownload *last();
 		tDownload *next();
 		tDownload *prev();

@@ -12,6 +12,7 @@
 #include "locstr.h"
 #include "var.h"
 #include <string.h>
+#include <strings.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -24,7 +25,8 @@ struct tProtoInfo{
 tProtoInfo proto_infos[]={
 	{"?",0},
 	{"ftp",21},
-	{"http",80}
+	{"http",80},
+	{"https",0} //not supported yet
 };
 
 /* parsing url */

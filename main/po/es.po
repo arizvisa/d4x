@@ -312,7 +312,7 @@ msgid "Size for download is %i bytes"
 msgstr "El tamaño de la descarga es de %i bytes"
 
 #: ../httpd.cc:366 httpd.cc:216
-msgid "Sending http request..."
+msgid "Sending HTTP request..."
 msgstr "Enviando petición http..."
 
 #: ../httpd.cc:402 httpd.cc:242
@@ -545,7 +545,7 @@ msgid "Maximum attempts (0 for unlimited)"
 msgstr " Máximo número de intentos (0 para ilimitados)"
 
 #: ../face/edit.cc:370 ../face/prefs.cc:451 face/edit.cc:23
-msgid "Use passive mode for ftp"
+msgid "Use passive mode for FTP"
 msgstr "Usar modo de ftp pasivo"
 
 #: ../face/edit.cc:379 ../face/prefs.cc:221 face/edit.cc:24
@@ -643,11 +643,11 @@ msgid "Select directory"
 msgstr "Seleccione directorio"
 
 #: ../face/edit.cc:751 face/edit.cc:586
-msgid "ftp proxy type"
+msgid "FTP proxy type"
 msgstr "Tipo de proxy"
 
 #: ../face/edit.cc:776 face/edit.cc:611
-msgid "Use this proxy for ftp"
+msgid "Use this proxy for FTP"
 msgstr "Usar este proxy para ftp"
 
 #: ../face/edit.cc:785 ../face/edit.cc:840 face/edit.cc:620 face/edit.cc:675
@@ -663,7 +663,7 @@ msgid "username"
 msgstr "nombre de usuario"
 
 #: ../face/edit.cc:831 face/edit.cc:666
-msgid "Use this proxy for http"
+msgid "Use this proxy for HTTP"
 msgstr "Usar este proxy para http"
 
 #: ../face/limface.cc:54 face/limface.cc:55
@@ -810,7 +810,7 @@ msgid "/Options/Limitations"
 msgstr "/Opciones/_Límites"
 
 #: ../face/list.cc:128 face/list.cc:145
-msgid "/Options/Common"
+msgid "/Options/General"
 msgstr "/Opciones/_Comunes"
 
 #: ../face/list.cc:129 face/list.cc:146
@@ -1171,12 +1171,12 @@ msgstr "Aceptar"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:267
-msgid "Show trash for DnD"
+msgid "Show DnD basket"
 msgstr "Mostrar ícono DnD"
 
 # face/buttons.cc:
 #: ../face/buttons.cc:189
-msgid " DnD trash "
+msgid " DnD basket "
 msgstr " Ícono DnD "
 
 # main.cc:
@@ -1342,7 +1342,7 @@ msgstr "/Salir"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:445
-msgid "User-Agent for http requests"
+msgid "User-Agent for HTTP requests"
 msgstr "Identificación del programa para peticiones http (User-Agent)"
 
 # face/columns.cc
@@ -1362,7 +1362,7 @@ msgid "set lower speed limitation"
 msgstr "activar nivel de velocidad mínimo"
 
 #: ../config.cc:896
-msgid "set middle speed limitation"
+msgid "set medium speed limitation"
 msgstr "activar nivel de velocidad medio"
 
 #: ../config.cc:897
@@ -1511,7 +1511,7 @@ msgid "/Download/Invert selection"
 msgstr "/Descargas/Invertir selección"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via ftp"
+msgid "Try to load simbolyc link as file via FTP"
 msgstr "Tratar de seguir los enlaces simbólicos en FTP"
 
 # face/list.cc
@@ -1542,7 +1542,7 @@ msgid "set maximum active downloads"
 msgstr "máximo número de descargas activas"
 
 #face/edit.cc
-msgid "Allow leave this server while recursing via http"
+msgid "Allow leave this server while recursing via HTTP"
 msgstr "Permitir abandonar este servidor en descargas recursivas por http"
 
 msgid "/Download/Rerun failed"
@@ -1736,7 +1736,7 @@ msgid "You should specify number as parameter for '--exit-time' option"
 msgstr "Debe introducir un número como parámetro para la opción '--exit-time'"
 
 #face/prefs.cc
-msgid "Output ftp dirs in logs"
+msgid "Output FTP dirs in logs"
 msgstr ""
 
 #main.cc
@@ -1747,5 +1747,13 @@ msgid "Restarting failed downloads"
 msgstr ""
 
 # face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (ftp)"
+msgid "Don't send QUIT command (FTP)"
+msgstr ""
+
+#:download.cc
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
+
+#:face/dndtrash.cc
+msgid "/Delete completed"
 msgstr ""

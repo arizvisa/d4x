@@ -52,6 +52,7 @@ class tMLog:public tStringList{
 enum MAIN_LOG_COLUMNS{
 	ML_COL_NUM,
 	ML_COL_TIME,
+	ML_COL_DATE,
 	ML_COL_STRING,
 	ML_COL_LAST
 };

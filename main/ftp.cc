@@ -11,6 +11,7 @@
 
 #include <unistd.h>
 #include <ctype.h>
+#include <strings.h>
 #include "ftp.h"
 #include "client.h"
 #include "liststr.h"
@@ -181,8 +182,7 @@ int tFtpClient::rest(int offset) {
 };
 //**************************************************/
 
-tFtpClient::tFtpClient() {
-	hostname=userword=username=buffer=NULL;
+tFtpClient::tFtpClient():tClient(){
 	passive=0;
 	TEMP_SIZE=0;
 	CTRL=new tStringList;
@@ -234,7 +234,7 @@ int tFtpClient::stand_data_connection() {
 	if (passive) {
 		send_command("PASV",NULL);
 		if (analize_ctrl(1,&FTP_PASV_OK)) {
-			passive=0;
+			if (Status!=STATUS_TIMEOUT) passive=0;
 			return -1;
 		};
 		tString *log=CTRL->last();
@@ -267,8 +267,8 @@ int tFtpClient::stand_data_connection() {
 			(port>>8)&0xff,(port)&0xff);
 		send_command("PORT",data);
 		if (analize_ctrl(1,&FTP_PORT_OK)) {
-			Status=STATUS_TRIVIAL;
 			passive=1;
+			Status=STATUS_TRIVIAL;
 			return -1;
 		};
 		Status=DSFlag=0;
@@ -421,10 +421,6 @@ void tFtpClient::done() {
 
 tFtpClient::~tFtpClient() {
 	down();
-	if (buffer)	delete (buffer);
-	hostname=userword=username=buffer=NULL;
-	passive=0;
-	TEMP_SIZE=0;
 	delete(CTRL);
 	if (FIRST_REPLY) delete(FIRST_REPLY);
 };

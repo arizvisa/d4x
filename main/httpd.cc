@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <strings.h>
 #include <ctype.h>
 
 enum HTTP_ANSWERS_ENUM{
@@ -28,7 +29,7 @@ enum HTTP_ANSWERS_ENUM{
 	H_ACCEPT_RANGE,
 	H_ETAG,
 	H_WWW_AUTHENTICATE,
-	H_LAST_MODIFIED,
+	H_LAST_MODIFIED
 };
 
 char *http_answers[]={
@@ -42,17 +43,12 @@ char *http_answers[]={
 	"last-modified:"
 };
 
-tHttpDownload::tHttpDownload() {
-	LOG=NULL;
-	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
-	StartSize=D_FILE.size=D_FILE.type=0;
-	Status=D_NOTHING;
-
+tHttpDownload::tHttpDownload():tDownloader(){
 	answer=NULL;
 	HTTP=NULL;
 	OldETag=ETag=Auth=NULL;
 	content_type=NULL;
-	FULL_NAME_TEMP=NULL;
+	REQUESTED_URL=NULL;
 };
 
 void tHttpDownload::print_error(int error_code){
@@ -80,6 +76,7 @@ int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	config.referer.set(cfg->referer.get());
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
 	HTTP->registr(ADDR.username.get(),ADDR.pass.get());
+	REQUESTED_URL=make_name();
 	return reconnect();
 };
 
@@ -143,7 +140,7 @@ int tHttpDownload::analize_answer() {
 	ReGet=0;
 	MustNoReget=0;
 	while(temp) {
-		char *STR;
+		char *STR=NULL;
 		unsigned int i;
 		for (i=0;i<sizeof(http_answers)/sizeof(char*);i++){
 			STR=http_answers[i];
@@ -155,6 +152,8 @@ int tHttpDownload::analize_answer() {
 		case H_CONTENT_TYPE:{
 			if (content_type) delete (content_type);
 			content_type=extract_from_prefixed_string(temp->body,STR);
+			if (content_type && strstr(content_type,"multipart"))
+				ReGet=1;
 			break;
 		};
 		case H_ACCEPT_RANGE:{
@@ -242,8 +241,6 @@ char *tHttpDownload::make_name(){
 };
 
 int tHttpDownload::get_size() {
-	if (FULL_NAME_TEMP) delete (FULL_NAME_TEMP);
-	FULL_NAME_TEMP=make_name();
 	if (!answer) {
 		answer=new tStringList;
 		answer->init(0);
@@ -251,8 +248,8 @@ int tHttpDownload::get_size() {
 	while (1) {
 		answer->done();
 		HTTP->set_offset(LOADED);
-		LOG->log(LOG_OK,_("Sending http request..."));
-		int temp=HTTP->get_size(FULL_NAME_TEMP,answer);
+		LOG->log(LOG_OK,_("Sending HTTP request..."));
+		int temp=HTTP->get_size(REQUESTED_URL,answer);
 		if (temp==0) {
 			LOG->log(LOG_OK,_("Answer read ok"));
 			D_FILE.size=analize_answer();
@@ -263,7 +260,7 @@ int tHttpDownload::get_size() {
 		if (temp==1){
 			return -1;
 		};
-		if (HTTP->get_status()!=STATUS_TIMEOUT ||
+		if (HTTP->get_status()!=STATUS_TIMEOUT &&
 		    HTTP->get_status()!=STATUS_BAD_ANSWER) break;
 		if (reconnect()) break;
 	};
@@ -399,7 +396,7 @@ void tHttpDownload::done() {
 };
 
 tHttpDownload::~tHttpDownload() {
-	if (FULL_NAME_TEMP) delete(FULL_NAME_TEMP);
+	if (REQUESTED_URL) delete(REQUESTED_URL);
 	if (HTTP) delete HTTP;
 	if (ETag) delete ETag;
 	if (OldETag) delete(OldETag);

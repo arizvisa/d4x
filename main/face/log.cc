@@ -95,6 +95,7 @@ void log_window_destroy_by_log(void *a) {
 		}else{
 			log->Window=NULL;
 			log_window_remember_geometry(temp->window,temp);
+			temp->papa->CurrentLog=temp->papa->LOG;
 			gtk_widget_destroy(GTK_WIDGET(temp->window));
 			delete (temp);
 		};
@@ -253,6 +254,7 @@ gint log_window_button(GtkWidget *button,int a){
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		forlog->LOG->print();
 		forlog->LOG->unlock();
+		what->CurrentLog=forlog->LOG;
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
 		gtk_signal_connect(GTK_OBJECT(temp->window),
 				   "delete_event",
@@ -372,6 +374,7 @@ void log_window_init(tDownload *what) {
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		what->LOG->print();
 		what->LOG->unlock();
+		what->CurrentLog=what->LOG;
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
 
 		gtk_signal_connect (GTK_OBJECT(temp->adj), "changed",GTK_SIGNAL_FUNC(my_gtk_auto_scroll), temp);
@@ -382,8 +385,8 @@ void log_window_init(tDownload *what) {
 };
 
 void log_window_set_title(tDownload *what,char *title) {
-	if (what && what->LOG && what->LOG->Window) {
-		tLogWindow *temp=(tLogWindow *)what->LOG->Window;
+	if (what && what->CurrentLog && what->CurrentLog->Window) {
+		tLogWindow *temp=(tLogWindow *)what->CurrentLog->Window;
 		gtk_window_set_title(GTK_WINDOW (temp->window), title);
 	};
 };

@@ -1,3 +1,77 @@
+Thu Oct 26 18:30:21 2000
+	*face/prefs.cc,nt.cc: last fixes befor releasing new version :)
+
+Mon Oct 23 12:28:15 2000
+	*face/list.cc: doesn't exit if "Add new" dialog opened;
+
+Thu Oct 19 12:28:15 2000
+	*main.cc: fixed wrong values of speeds of selected download in graph;
+	*db.cc[h]: hash function of downloads' db was changed for speedup;
+
+Tue Oct 17 11:06:55 2000
+	*[number of files]: small patch for compilation under Solaris
+	from Mitch DSouza;
+
+Mon Oct 16 10:27:57 2000
+	*[several files]: fixed compilation for some other platforms;
+	*edit.cc,httpd.cc,prefs.cc,po/*: many spell fixes in English by
+	David Chappell;
+
+Thu Oct 12 21:15:45 2000
+	*INSTALL.he,po/iw.po: yay! hebrew translation added! :);
+	
+Tue Oct 10 21:15:49 2000
+	*[number of files]: fixed compilation under RH70 (gcc 2.96/2.95.2)
+
+Sat Oct  7 17:42:43 2000
+	*dlist.cc,cookie.cc: changed cookie db's code;
+	*po/*.*: replace `trash' by `can';
+	*main.cc: codecleanups;
+	*addr.cc: added https in protos list;
+
+Fri Sep 22 12:58:40 2000
+	*main.cc,dlist.cc[h],face/list.cc,face/lmenu.cc[h],
+	face/buttons.cc[h],face/dndtrash.cc[h]: code cleanups, added one menu
+	item to dndtrash's menu;
+	*signal.cc[h]: stop threads to new manner;
+
+Thu Sep 21 13:28:01 2000
+	*mainlog.cc,face/prefs.cc[h],face/list.cc: added new column in main log;
+	added new menu item in mainlog's menu;
+
+Sat Sep 16 12:38:51 2000
+	*mainlog.cc: fixed thawing CList;
+	*[many files]: C++ OO cleanups;
+
+Fri Sep 15 12:38:51 2000
+	*httpd.cc[h],hproxy.cc: fixed sending bad request via proxy, code
+	cleanups;
+
+Tue Sep 12 21:45:01 2000
+	*main.cc,dlist.c[h],signal.cc[h]: workaround for bug in gethostbyname();
+	*dlist.cc: fixed comparing addreses for adding in db;
+
+Sat Sep  9 18:52:53 2000
+	*http.cc: implement http-equiv="refresh";
+	*locstr.cc: normalize_path() was rewritten;
+
+Thu Sep  7 13:03:35 2000
+	*ftp.cc: don't switch from passive to active mode if just timeouted;
+	*face/edit.cc: dialog for editing properties of download was relayered;
+
+Tue Sep  5 12:02:05 2000
+	*dlist.cc[h],face/log.cc: changing title of log window even for splited
+	downloads;
+	*main.cc: minor optimisation;
+	*dlist.cc[h],ftpd.cc,hproxy.cc: code cleanups;
+
+Mon Sep  4 18:07:32 2000
+	*httpd.cc: real fix for getting size first time;
+	*[number of files]: code cleanups;
+	*po/: Greek translation updated;
+	*face/lod.cc: select first added row;
+	*locstr.cc: cleanups;
+
 Mon Aug 28 15:06:18 2000
 	*main.cc: fixed setting recurse depth for splited downloads;
 

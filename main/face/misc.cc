@@ -14,6 +14,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xmd.h>
 
 extern GtkWidget *MainWindow;
 
@@ -99,3 +101,5 @@ GtkWidget *my_gtk_entry_new_with_max_length(gint length, int val){
 	gtk_widget_set_usize(entry,real_size,-1);
 	return(entry);
 };
+
+

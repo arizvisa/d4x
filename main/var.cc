@@ -11,6 +11,7 @@
 
 #include <pthread.h>
 #include "var.h"
+#include "dbc.h"
 
 tGlobalVars GVARS;
 
@@ -19,11 +20,15 @@ int BLOCK_READ=512;
 int LOCK_FILE_D=0;
 
 tMainCfg CFG={
-	5,100,100,1,300,NULL,NULL,NULL,NULL,2,1,0,0,0,
+	{300,5,100,0,1,0,0,
+	 0,0,0,0,1,1,1,0,0,0,0},
+	100,1,NULL,NULL,NULL,NULL,0,0,
+//	5,100,100,1,300,NULL,NULL,NULL,NULL,2,1,0,0,0,
 	100,0,0,0,NULL,0,
 	5,0,
-	1,1,0,0,0,1,1,600,0,0, //flags
-	{0,0},0,1,0,0,40,40,500,400,300,1,150,50,0,1,0,20,30,0,5,1,
+	1,0,0,600,0, //flags
+//	1,1,0,0,0,1,1,600,0,0, //flags
+	{0,0},0,1,0,0,40,40,500,400,300,1,150,50,0,1,0,20,30,0,5,1,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,
 	/* Proxy */
@@ -62,13 +67,13 @@ void var_check_limits_long(long int lower_value,long int upper_value,long int *v
 void var_check_all_limits(){
 	var_check_limits_int(1,50,&CFG.MAX_THREADS);
 	var_check_limits_int(100,999,&CFG.MAX_LOG_LENGTH);
-	var_check_limits_int(1,999,&CFG.RETRY_TIME_OUT);
-	var_check_limits_int(0,999,&CFG.MAX_RETRIES);
-	var_check_limits_int(30,999,&CFG.TIME_OUT);
+	var_check_limits_int(1,999,&CFG.DEFAULT_CFG.time_for_sleep);
+	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.number_of_attempts);
+	var_check_limits_int(30,999,&CFG.DEFAULT_CFG.timeout);
 	var_check_limits_int(100,999,&CFG.MAX_MAIN_LOG_LENGTH);
-	var_check_limits_int(0,5000,&CFG.ROLLBACK);
-	var_check_limits_int(0,999,&CFG.FTP_RECURSE_DEPTH);
-	var_check_limits_int(0,999,&CFG.HTTP_RECURSE_DEPTH);
+	var_check_limits_int(0,5000,&CFG.DEFAULT_CFG.rollback);
+	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.ftp_recurse_depth);
+	var_check_limits_int(0,999,&CFG.DEFAULT_CFG.http_recurse_depth);
 	var_check_limits_int(100,99999,&CFG.SPEED_LIMIT_1);
 	var_check_limits_int(100,99999,&CFG.SPEED_LIMIT_2);
 	var_check_limits_int(1,999,&CFG.SAVE_LIST_INTERVAL);

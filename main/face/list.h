@@ -33,6 +33,10 @@ extern GtkWidget *ContainerForCList;
 extern gint StatusBarContext;
 
 void main_menu_speed_prepare();
+void main_menu_completed_empty();
+void main_menu_completed_nonempty();
+void main_menu_failed_empty();
+void main_menu_failed_nonempty();
 void init_status_bar();
 void init_main_window();
 void init_load_accelerators();

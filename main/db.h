@@ -37,6 +37,7 @@ class tHostTree:public tAbstractSortTree{
 
 class tDB{
 	tHostTree *tree;
+	tDownloadTree **hash(tStringHostNode *temp,tDownload *what);
 	public:
 		tDB();
 		void insert(tDownload *what);

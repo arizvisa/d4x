@@ -111,10 +111,11 @@ guint my_gtk_filesel_get_type(){
 			"MyGtkFilesel",
 			sizeof(MyGtkFilesel),
 			sizeof(MyGtkFileselClass),
-			(GtkClassInitFunc) my_gtk_filesel_class_init,
-			(GtkObjectInitFunc) my_gtk_filesel_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			(GtkClassInitFunc)my_gtk_filesel_class_init,
+			(GtkObjectInitFunc)my_gtk_filesel_init,
+			NULL,NULL
+//			(GtkArgSetFunc) NULL,
+//			(GtkArgGetFunc) NULL
 		};
 		my_filesel_type = gtk_type_unique (gtk_hbox_get_type (), &my_filesel_info);
 	};
@@ -240,8 +241,9 @@ guint my_gtk_colorsel_get_type(){
 			sizeof(MyGtkColorselClass),
 			(GtkClassInitFunc) my_gtk_colorsel_class_init,
 			(GtkObjectInitFunc) my_gtk_colorsel_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL,NULL
+//			(GtkArgSetFunc) NULL,
+//			(GtkArgGetFunc) NULL
 		};
 		my_filesel_type = gtk_type_unique (gtk_hbox_get_type (), &my_filesel_info);
 	};

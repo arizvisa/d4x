@@ -40,7 +40,7 @@ tOption downloader_parsed_args[]={
 	{"-t1",			OPT_TRAFFIC_LOW},
 	{"--traffic-low",	OPT_TRAFFIC_LOW},
 	{"-t2",			OPT_TRAFFIC_MIDDLE},
-	{"--traffic-middle",	OPT_TRAFFIC_MIDDLE},
+	{"--traffic-medium",	OPT_TRAFFIC_MIDDLE},
 	{"-t3",			OPT_TRAFFIC_HIGH},
 	{"--traffic-high",	OPT_TRAFFIC_HIGH},
 	{"-d",			OPT_SET_DIRECTORY},
@@ -80,17 +80,17 @@ tConfigVariable config_variables[]={
 	{"max_threads",		CV_TYPE_INT,	&(CFG.MAX_THREADS)},
 	{"max_log",		CV_TYPE_INT,	&(CFG.MAX_LOG_LENGTH)},
 	{"max_main_log",	CV_TYPE_INT,	&(CFG.MAX_MAIN_LOG_LENGTH)},
-	{"max_retries",		CV_TYPE_INT,	&(CFG.MAX_RETRIES)},
-	{"timeout",		CV_TYPE_INT,	&(CFG.TIME_OUT)},
-	{"break_timeout",	CV_TYPE_INT,	&(CFG.RETRY_TIME_OUT)},
+	{"max_retries",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.number_of_attempts)},
+	{"timeout",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.timeout)},
+	{"break_timeout",	CV_TYPE_INT,	&(CFG.DEFAULT_CFG.time_for_sleep)},
 	{"optimize",		CV_TYPE_BOOL,	&(CFG.RECURSIVE_OPTIMIZE)},
 	{"del_completed",	CV_TYPE_BOOL,	&(CFG.DELETE_COMPLETED)},
 	{"del_fataled",		CV_TYPE_BOOL,	&(CFG.DELETE_FATAL)},
 	{"nice_decs",		CV_TYPE_INT,	&(CFG.NICE_DEC_DIGITALS.curent)},
 	{"time_format",		CV_TYPE_INT,	&(CFG.TIME_FORMAT)},
-	{"ftp_passive_mode",	CV_TYPE_BOOL,	&(CFG.FTP_PASSIVE_MODE)},
-	{"retry_if_noreget",	CV_TYPE_BOOL,	&(CFG.RETRY_IF_NOREGET)},
-	{"sleeptime",		CV_TYPE_INT,	&(CFG.RETRY_TIME_OUT)},
+	{"ftp_passive_mode",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.passive)},
+	{"retry_if_noreget",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.retry)},
+	{"sleeptime",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.time_for_sleep)},
 	{"savepath",		CV_TYPE_STRING,	&(CFG.GLOBAL_SAVE_PATH)},
 	{"xposition",		CV_TYPE_INT,	&(CFG.WINDOW_X_POSITION)},
 	{"yposition",		CV_TYPE_INT,	&(CFG.WINDOW_Y_POSITION)},
@@ -114,12 +114,12 @@ tConfigVariable config_variables[]={
 	{"save_main_log",	CV_TYPE_BOOL,	&(CFG.SAVE_MAIN_LOG)},
 	{"append_rewrite_log",	CV_TYPE_INT,	&(CFG.APPEND_REWRITE_LOG)},
 	{"save_log_path",	CV_TYPE_STRING,	&(CFG.SAVE_LOG_PATH)},
-	{"ftp_permisions",	CV_TYPE_INT,	&(CFG.FTP_PERMISIONS)},
+	{"ftp_permisions",	CV_TYPE_INT,	&(CFG.DEFAULT_CFG.permisions)},
 	{"save_list",		CV_TYPE_BOOL,	&(CFG.SAVE_LIST)},
 	{"interval_save_list",	CV_TYPE_INT,	&(CFG.SAVE_LIST_INTERVAL)},
 	{"use_mainwin_title",	CV_TYPE_BOOL,	&(CFG.USE_MAINWIN_TITLE)},
 	{"use_mainwin_titleII",	CV_TYPE_BOOL,	&(CFG.USE_MAINWIN_TITLE2)},
-	{"get_date_from_server",CV_TYPE_BOOL,	&(CFG.GET_DATE)},
+	{"get_date_from_server",CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.get_date)},
 	{"need_dialog_for_dnd",	CV_TYPE_BOOL,	&(CFG.NEED_DIALOG_FOR_DND)},
 	{"dl_status_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[STATUS_COL])},
 	{"dl_file_col",		CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[FILE_COL])},
@@ -146,8 +146,8 @@ tConfigVariable config_variables[]={
 	{"speed_limit_one",	CV_TYPE_INT,	&(CFG.SPEED_LIMIT_1)},
 	{"speed_limit_two",	CV_TYPE_INT,	&(CFG.SPEED_LIMIT_2)},
 	{"graph_order",		CV_TYPE_BOOL,	&(CFG.GRAPH_ORDER)},
-	{"ftp_recurse_depth",	CV_TYPE_INT,	&(CFG.FTP_RECURSE_DEPTH)},
-	{"http_recurse_depth",	CV_TYPE_INT,	&(CFG.HTTP_RECURSE_DEPTH)},
+	{"ftp_recurse_depth",	CV_TYPE_INT,	&(CFG.DEFAULT_CFG.ftp_recurse_depth)},
+	{"http_recurse_depth",	CV_TYPE_INT,	&(CFG.DEFAULT_CFG.http_recurse_depth)},
 	{"default_name",	CV_TYPE_STRING,	&(CFG.DEFAULT_NAME)},
 	{"scroll_mainwin_title",CV_TYPE_BOOL,	&(CFG.SCROLL_MAINWIN_TITLE)},
 	{"default_permisions",	CV_TYPE_INT,	&(CFG.DEFAULT_PERMISIONS)},
@@ -165,7 +165,7 @@ tConfigVariable config_variables[]={
 	{"dl_treat_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[TREAT_COL])},
 	{"dl_url_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[URL_COL])},
 	{"dl_nothing_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[NOTHING_COL])},
-	{"rollback",		CV_TYPE_INT,	&(CFG.ROLLBACK)},
+	{"rollback",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.rollback)},
 	{"dnd_trash",		CV_TYPE_BOOL,	&(CFG.DND_TRASH)},
 	{"dnd_trash_x",		CV_TYPE_INT,	&(CFG.DND_TRASH_X)},
 	{"dnd_trash_y",		CV_TYPE_INT,	&(CFG.DND_TRASH_Y)},
@@ -192,7 +192,7 @@ tConfigVariable config_variables[]={
 	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)},
 	{"allow_force_run",	CV_TYPE_BOOL,	&(CFG.ALLOW_FORCE_RUN)},
 	{"ftp_dir_in_log",	CV_TYPE_BOOL,	&(CFG.FTP_DIR_IN_LOG)},
-	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DONT_SEND_QUIT)}
+	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_send_quit)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -276,14 +276,14 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[URL_HISTORY], ".ntrc/history1",0);
 	load_strlist(ALL_HISTORIES[PATH_HISTORY],".ntrc/history2",1);
 	load_strlist(ALL_HISTORIES[LOG_HISTORY],".ntrc/history3",0);
-	load_strlist(ALL_HISTORIES[LOAD_SAVE_HISTORY],".ntrc/history4",0);
+	load_strlist(ALL_HISTORIES[LOAD_SAVE_HISTORY],".ntrc/history4",1);
 	load_strlist(ALL_HISTORIES[USER_HISTORY],".ntrc/history5",0);
 	load_strlist(ALL_HISTORIES[PROXY_HISTORY],".ntrc/history6",0);
 	load_strlist(ALL_HISTORIES[FILE_HISTORY],".ntrc/history7",0);
 	load_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8",0);
 	load_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9",0);
 	load_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11",0);
-	load_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12",0);
+	load_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12",1);
 	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
@@ -700,7 +700,7 @@ void help_print(){
 	help_print_args(OPT_EXIT_TIME);printf(_("set timeout for exiting if nothing to do"));printf("\n");
 	help_print_args(OPT_SET_DIRECTORY);printf(_("set directory for saving files"));printf("\n");
 	help_print_args(OPT_TRAFFIC_LOW);printf(_("set lower speed limitation"));printf("\n");
-	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set middle speed limitation"));printf("\n");
+	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set medium speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_HIGH);printf(_("set unlimited speed"));printf("\n");
 	help_print_args(OPT_DEL_COMPLETED);printf(_("delete completed if already run"));printf("\n");
 	help_print_args(OPT_SET_MAX_THREADS);printf(_("set maximum active downloads"));printf("\n");

@@ -955,8 +955,7 @@ int time_for_save_list(void *a) {
 	};
 	if (CFG.EXIT_COMPLETE && aa.complete()){
 		EXIT_COMPLETE_INTERVAL-=1;
-		if (EXIT_COMPLETE_INTERVAL<0  &&
-		    (list_for_adding==NULL || list_for_adding->count()==0)){
+		if (EXIT_COMPLETE_INTERVAL<0){
 			my_main_quit();
 			return 0;
 		};

@@ -23,7 +23,7 @@
 #include "../ntlocale.h"
 
 GtkWidget *ButtonsBar;
-GtkWidget *buttons_array[BUTTON_DND_TRASH+1];
+GtkWidget *buttons_array[BUTTON_LAST];
 
 GtkWidget *HandleBox;
 
@@ -215,7 +215,7 @@ void init_buttons_bar() {
 	             GTK_TOOLBAR_CHILD_TOGGLEBUTTON,
 	             (GtkWidget *)NULL,
 	             "",
-	             _(" DnD trash "),
+	             _(" DnD basket "),
 	             "",
 	             new_pixmap (dndtrash_bar_xpm),
 	             GTK_SIGNAL_FUNC (dnd_trash_toggle),
@@ -284,10 +284,6 @@ void prepare_buttons() {
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],TRUE);
 	else
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],FALSE);
-	if (DOWNLOAD_QUEUES[DL_COMPLETE]->count())
-		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_COMPLETED],TRUE);
-	else
-		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_COMPLETED],FALSE);
 	if (list_of_downloads_sel()) {
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL],FALSE);
 		gtk_widget_set_sensitive(buttons_array[BUTTON_STOP],FALSE);

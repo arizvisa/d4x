@@ -44,7 +44,13 @@ void tCookie::print(){
 
 int tCookie::cmp(tAbstractSortNode *b){
 	DBC_RETVAL_IF_FAIL(b!=NULL,0);
-	return(string_ended(((tCookie *)b)->host.get(),host.get()));
+	return(strcmp(((tCookie *)b)->host.get(),host.get()));
+/*
+	if (r) return(r);
+	r=strcmp(((tCookie *)b)->path.get(),path.get());
+	if (r) return(r);
+	return(strcmp(((tCookie *)b)->name.get(),name.get()));
+*/
 };
 
 tCookie::~tCookie(){
@@ -55,23 +61,62 @@ tCookie::~tCookie(){
 
 tCookie *tCookiesTree::find(const char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
+	if (Top && string_ended(((tCookie*)Top)->host.get(),what)==0)
+		return((tCookie*)Top);
 	return find((tCookie **)(&Top),what);
 };
 	
 tCookie *tCookiesTree::find(tCookie **begin,const char *what) {
 	tCookie **temp=begin;
 	while (*temp) {
-		int a=string_ended((*temp)->host.get(),what);
+//		(*temp)->print();
+		int a=strcmp(what,(*temp)->host.get());
 		if (a<0)
 			temp=(tCookie **)&((*temp)->more);
 		else {
-			if (a==0) {
-				return *temp;
-			};
 			temp=(tCookie **)&((*temp)->less);
+		};
+		if (*temp && string_ended((*temp)->host.get(),what)==0){
+			return *temp;
 		};
 	};
 	return NULL;
+};
+
+
+void tCookiesTree::add(tCookie *what){
+	tCookie *tmp=find(what->host.get());
+	if (tmp){
+		if ((what->next=tmp->next))
+			what->next->prev=what;
+		what->prev=tmp;
+		tmp->next=what;
+	}else{
+		tAbstractSortTree::add(what);
+		what->next=what->prev=NULL;
+	};
+};
+
+void tCookiesTree::del(tCookie *what){
+	tCookie *tmp=find(what->host.get());
+	if (tmp){
+		if (tmp==what){
+			tCookie *stay=(tCookie *)(what->next);
+			tAbstractSortTree::del(what);
+			if (stay)
+				add(stay);
+		}else{
+			tmp=(tCookie *)(tmp->next);
+			while(tmp){
+				if (tmp==what){
+					if ((tmp->prev->next=tmp->next))
+						tmp->next->prev=tmp->prev;
+					break;
+				};
+				tmp=(tCookie *)(tmp->next);
+			};
+		};
+	};
 };
 
 void tCookiesTree::load_cookies(){
@@ -96,7 +141,7 @@ void tCookiesTree::load_cookies(){
 				cookie->name.set(data);
 				next_for_parse=extract_string(next_for_parse,data);//value
 				cookie->value.set(data);
-				if (*(cookie->path.get())!='/')
+				if (cookie->path.get() && cookie->path.get()[0]!='/')
 					delete(cookie);
 				else
 					add(cookie);
@@ -114,7 +159,7 @@ void tCookiesTree::load_cookies(){
 tCookiesTree::~tCookiesTree(){
 	while (Top){
 		tCookie *temp=(tCookie *)Top;
-		del(Top);
+		del((tCookie*)Top);
 		delete(temp);
 	};
 };

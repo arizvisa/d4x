@@ -19,6 +19,7 @@
 #include <fcntl.h>
 #include <utime.h>
 #include <unistd.h>
+#include <strings.h>
 #include "html.h"
 
 #include "face/lod.h"
@@ -113,6 +114,7 @@ char *tDefaultWL::cookie(const char *host, const char *path){
 	tCookie *temp=COOKIES->find(host);
 	char *request_string=NULL;
 	while (temp){
+//		temp->print();
 		if (begin_string(path,temp->path.get())){
 			char *tmp = request_string==NULL?copy_string(""):request_string;
 			request_string=sum_strings(tmp, temp->name.get(),
@@ -120,7 +122,7 @@ char *tDefaultWL::cookie(const char *host, const char *path){
 						   ";", NULL);
 			delete(tmp);
 		};
-		temp=COOKIES->find((tCookie **)&(temp->less),host);
+		temp=(tCookie *)(temp->next);
 	};
 	return(request_string);
 };
@@ -147,7 +149,7 @@ tDownload::tDownload() {
 	split=NULL;
 	who=NULL;
 	info=NULL;
-	LOG=NULL;
+	CurrentLog=LOG=NULL;
 	WL=NULL;
 	editor=NULL;
 	config.ftp_recurse_depth=config.http_recurse_depth=1;
@@ -182,12 +184,12 @@ int tDownload::cmp(tAbstractSortNode *b){
 	if (r)
 		return r;
 	if (info->params.get()==NULL){
-		if (info->params.get())
+		if (bb->info->params.get())
 			return 1;
 		return 0;
 	};
-	if (bb->info->params.get()==NULL && info->params.get())
-			return -1;
+	if (bb->info->params.get()==NULL)
+		return -1;
 	return strcmp(info->params.get(),bb->info->params.get());
 };
 
@@ -411,17 +413,7 @@ void tDownload::make_file_visible(){
 };
 
 void tDownload::set_default_cfg(){
-	config.timeout=CFG.TIME_OUT;
-	config.time_for_sleep=CFG.RETRY_TIME_OUT;
-	config.number_of_attempts=CFG.MAX_RETRIES;
-	config.passive=CFG.FTP_PASSIVE_MODE;
-	config.dont_send_quit=CFG.DONT_SEND_QUIT;
-	config.permisions=CFG.FTP_PERMISIONS;
-	config.get_date=CFG.GET_DATE;
-	config.retry=CFG.RETRY_IF_NOREGET;
-	config.ftp_recurse_depth=CFG.FTP_RECURSE_DEPTH;
-	config.http_recurse_depth=CFG.HTTP_RECURSE_DEPTH;
-	config.rollback=CFG.ROLLBACK;
+	config.copy_ints(&(CFG.DEFAULT_CFG));
 	config.http_recursing=config.http_recurse_depth==1?0:1;
 	config.user_agent.set(CFG.USER_AGENT);
 };
@@ -970,16 +962,24 @@ tDownload::~tDownload() {
 
 //**********************************************/
 
-tDList::tDList() {
-	Curent=First=Last=NULL;
-	MaxNum=0;
-	Num=0;
+tDList::tDList():tQueue(){
 	Pixmap=PIX_UNKNOWN;
+	empty=non_empty=NULL;
 };
 
-tDList::tDList(int key) {
+tDList::tDList(int key):tQueue(){
 	Pixmap=PIX_UNKNOWN;
 	OwnerKey=key;
+	empty=non_empty=NULL;
+};
+
+void tDList::set_empty_func(void (*emp)(),void (*nonemp)()){
+	empty=emp;
+	non_empty=nonemp;
+	if (Num && non_empty)
+		non_empty();
+	else if (empty)
+		empty();
 };
 
 void tDList::init_pixmap(int a){
@@ -992,6 +992,9 @@ int tDList::owner(tDownload *which) {
 };
 
 void tDList::insert(tDownload *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
+	if (Num==0 && non_empty!=NULL)
+		non_empty();
 	tQueue::insert(what);
 	what->owner=OwnerKey;
 	if (Pixmap!=PIX_UNKNOWN) list_of_downloads_set_pixmap(what->GTKCListRow,Pixmap);
@@ -1007,6 +1010,8 @@ void tDList::insert_before(tDownload *what,tDownload *where) {
 
 void tDList::del(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what->owner==OwnerKey);
+	if (Num==1 && empty!=NULL)
+		empty();
 	tQueue::del(what);
 	what->owner=DL_ALONE;
 };

@@ -33,6 +33,8 @@ class tCookiesTree:public tAbstractSortTree{
  public:
 	tCookie *find(const char *path);
 	tCookie *find(tCookie **begin,const char *path);
+	void add(tCookie *what);
+	void del(tCookie *what);
 	void load_cookies();
 	~tCookiesTree();
 };

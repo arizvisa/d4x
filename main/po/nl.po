@@ -305,7 +305,7 @@ msgid "Size for download is %i bytes"
 msgstr "Grootte voor download is %i bytes"
 
 #: httpd.cc:216
-msgid "Sending http request..."
+msgid "Sending HTTP request..."
 msgstr "Verzenden HTTP verzoek..."
 
 #: httpd.cc:242
@@ -533,7 +533,7 @@ msgid "Maximum attempts (0 for unlimited)"
 msgstr "Maximaal aantal pogingen (0 voor oneindig)"
 
 #: face/edit.cc:23
-msgid "Use passive mode for ftp"
+msgid "Use passive mode for FTP"
 msgstr "Gebruik passieve FTP mode"
 
 #: face/edit.cc:24
@@ -622,11 +622,11 @@ msgid "Select directory"
 msgstr "Kies directory"
 
 #: face/edit.cc:586
-msgid "ftp proxy type"
+msgid "FTP proxy type"
 msgstr "ChangeLog"
 
 #: face/edit.cc:611
-msgid "Use this proxy for ftp"
+msgid "Use this proxy for FTP"
 msgstr "Gebruik deze proxy voor FTP"
 
 #: face/edit.cc:620 face/edit.cc:675
@@ -642,7 +642,7 @@ msgid "username"
 msgstr "gebruikersnaam"
 
 #: face/edit.cc:666
-msgid "Use this proxy for http"
+msgid "Use this proxy for HTTP"
 msgstr "Gebruik deze proxy voor HTTP"
 
 #: face/limface.cc:55
@@ -789,7 +789,7 @@ msgid "/Options/Limitations"
 msgstr "/Opties/Limieten"
 
 #: face/list.cc:145
-msgid "/Options/Common"
+msgid "/Options/General"
 msgstr "/Opties/Algemeen"
 
 #: face/list.cc:146
@@ -1131,11 +1131,11 @@ msgid "Ok"
 msgstr "Ok"
 
 #: face/prefs.cc:
-msgid "Show trash for DnD"
-msgstr "Laat trash zien voor DnD"
+msgid "Show DnD basket"
+msgstr "Laat can zien voor DnD"
 
 #: face/buttons.cc:
-msgid " DnD trash "
+msgid " DnD basket "
 msgstr "DnD trash"
 
 #: main.cc:
@@ -1259,7 +1259,7 @@ msgid "/Exit"
 msgstr "/Sluit af"
 
 #: face/prefs.cc:
-msgid "User-Agent for http requests"
+msgid "User-Agent for HTTP requests"
 msgstr "Gebruikers-agent voor HTTP verzoeken"
 
 #: face/columns.cc
@@ -1275,7 +1275,7 @@ msgid "set lower speed limitation"
 msgstr "gebruik langzame snelheid"
 
 #: config.cc:
-msgid "set middle speed limitation"
+msgid "set medium speed limitation"
 msgstr "gebruik normale snelheid"
 
 #: config.cc:
@@ -1408,7 +1408,7 @@ msgid "/Download/Invert selection"
 msgstr "/Download/Selecteer inverse"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via ftp"
+msgid "Try to load simbolyc link as file via FTP"
 msgstr "Probeer symbolische link te downloaden als een file"
 
 
@@ -1440,7 +1440,7 @@ msgid "set maximum active downloads"
 msgstr "zet maximum aantal simultane downloads"
 
 #face/edit.cc
-msgid "Allow leave this server while recursing via http"
+msgid "Allow leave this server while recursing via HTTP"
 msgstr "Sta switchen van server toe tijdens http recursie"
 
 msgid "/Download/Rerun failed"
@@ -1634,7 +1634,7 @@ msgid "You should specify number as parameter for '--exit-time' option"
 msgstr "The optie '--exit-time' heeft een getal nodig als parameter"
 
 #face/prefs.cc
-msgid "Output ftp dirs in logs"
+msgid "Output FTP dirs in logs"
 msgstr ""
 
 #main.cc
@@ -1645,5 +1645,13 @@ msgid "Restarting failed downloads"
 msgstr ""
 
 # face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (ftp)"
+msgid "Don't send QUIT command (FTP)"
+msgstr ""
+
+#:download.cc
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
+
+#:face/dndtrash.cc
+msgid "/Delete completed"
 msgstr ""

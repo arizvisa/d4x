@@ -12,6 +12,7 @@
 #include "var.h"
 #include "face/colors.h"
 #include "face/list.h"
+#include "face/prefs.h"
 #include "locstr.h"
 #include "face/lmenu.h"
 #include "ntlocale.h"
@@ -35,6 +36,11 @@ static gint list_menu_clear_main_log(GtkWidget *widget, tMLog *Log) {
 	return TRUE;
 };
 
+static gint list_menu_open_properties(GtkWidget *widget, tMLog *Log){
+	init_options_window_page(PREFS_PAGE_MAINLOG);
+	return TRUE;
+};
+
 static void main_log_event_handler( GtkWidget *clist, gint row, gint column,
                                     GdkEventButton *event,tMLog *parent) {
 	if (event) {
@@ -48,14 +54,12 @@ int main_log_event_handler2(GtkWidget *widget,GdkEventButton *event,tMLog *log) 
 	return log->popup(event);
 };
 
-tMLog::tMLog() {
+tMLog::tMLog():tStringList(){
 	start=time(NULL);
 	list=NULL;
-	fd=0;
-	MaxNum=0;
-	Num=0;
 	string=NULL;
 	current_line=0;
+	fd=0;
 };
 
 void tMLog::reinit(int a) {
@@ -69,11 +73,14 @@ void tMLog::add_to_list() {
 	localtime_r(&(str->time),&msgtime);
 	char useful[MAX_LEN];
 	strftime(useful,MAX_LEN,"%T",&msgtime);
+	char tmpdate[MAX_LEN];
+	strftime(tmpdate,MAX_LEN,"%d %b %Y",&msgtime);
 	char line_number[MAX_LEN];
 	sprintf(line_number,"[%i]",current_line);
 	char *data[ML_COL_LAST];
 	data[ML_COL_NUM] = line_number;
 	data[ML_COL_TIME] = useful;
+	data[ML_COL_DATE] = tmpdate;
 	data[ML_COL_STRING] = str->body;
 	int row=0;
 	if (list)
@@ -179,6 +186,9 @@ void tMLog::init_list(GtkCList *clist) {
 	clear_item=gtk_menu_item_new_with_label(_("Clear log"));
 	gtk_menu_append(GTK_MENU(popup_menu),clear_item);
 	gtk_signal_connect(GTK_OBJECT(clear_item),"activate",GTK_SIGNAL_FUNC(list_menu_clear_main_log),this);
+	clear_item=gtk_menu_item_new_with_label(_("Properties"));
+	gtk_menu_append(GTK_MENU(popup_menu),clear_item);
+	gtk_signal_connect(GTK_OBJECT(clear_item),"activate",GTK_SIGNAL_FUNC(list_menu_open_properties),this);
 	gtk_widget_show_all(popup_menu);
 };
 
@@ -341,6 +351,7 @@ tLogString *tMLog::first() {
 void tMLog::done(){
 	if (list) gtk_clist_freeze(GTK_CLIST(list));
 	tStringList::done();
+	if (list) gtk_clist_thaw(GTK_CLIST(list));
 };
 
 tMLog::~tMLog() {

@@ -304,7 +304,7 @@ msgid "Size for download is %i bytes"
 msgstr "La taille du download est de  %i octets"
 
 #: httpd.cc:216
-msgid "Sending http request..."
+msgid "Sending HTTP request..."
 msgstr "Envoi de la demande http..."
 
 #: httpd.cc:242
@@ -529,7 +529,7 @@ msgid "Maximum attempts (0 for unlimited)"
 msgstr " Nombre de tentatives maximum (0 pour illimité)"
 
 #: face/edit.cc:23
-msgid "Use passive mode for ftp"
+msgid "Use passive mode for FTP"
 msgstr "Utiliser le mode FTP-Passif"
 
 #: face/edit.cc:24
@@ -618,11 +618,11 @@ msgid "Select directory"
 msgstr "Répertoire sélectionné"
 
 #: face/edit.cc:586
-msgid "ftp proxy type"
+msgid "FTP proxy type"
 msgstr "Type de proxy FTP"
 
 #: face/edit.cc:611
-msgid "Use this proxy for ftp"
+msgid "Use this proxy for FTP"
 msgstr "Utiliser ce proxy pour le FTP"
 
 #: face/edit.cc:620 face/edit.cc:675
@@ -638,7 +638,7 @@ msgid "username"
 msgstr "Nom d'utilisateur"
 
 #: face/edit.cc:666
-msgid "Use this proxy for http"
+msgid "Use this proxy for HTTP"
 msgstr "Utiliser ce proxy pour le HTTP"
 
 #: face/limface.cc:55
@@ -812,7 +812,7 @@ msgid "/Options/Passwords"
 msgstr "/Options/Mots de Passe"
 
 #: face/list.cc:145
-msgid "/Options/Common"
+msgid "/Options/General"
 msgstr "/Options/Générales"
 
 #: face/list.cc
@@ -1190,11 +1190,11 @@ msgid "Ok"
 msgstr "OK"
 
 #: face/prefs.cc:
-msgid "Show trash for DnD"
+msgid "Show DnD basket"
 msgstr "Afficher la corbeille des Drag&Drop"
 
 #: face/buttons.cc:
-msgid " DnD trash "
+msgid " DnD basket "
 msgstr " Corbeille des Drag&Drop "
 
 #: main.cc:
@@ -1262,7 +1262,7 @@ msgid "set lower speed limitation"
 msgstr "vitesse basse activée"
 
 #: config.cc:
-msgid "set middle speed limitation"
+msgid "set medium speed limitation"
 msgstr "vitesse moyenne activée"
 
 #: config.cc:
@@ -1341,7 +1341,7 @@ msgid "/Exit"
 msgstr "/Quitter"
 
 #: face/prefs.cc:
-msgid "User-Agent for http requests"
+msgid "User-Agent for HTTP requests"
 msgstr "User-Agent pour les requêtes http"
 
 #: face/columns.cc
@@ -1427,7 +1427,7 @@ msgid "Pause this just after adding"
 msgstr "Ne pas lancer le download après l'avoir ajouté à la liste"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via ftp"
+msgid "Try to load simbolyc link as file via FTP"
 msgstr "Essayer de charger les liens symboliques comme des fichiers en ftp"
 
 # face/passwords.cc
@@ -1443,7 +1443,7 @@ msgid "Redirection from [%z] to nowhere!"
 msgstr "Redirection de [%z] vers nulle part!"
 
 #face/edit.cc
-msgid "Allow leave this server while recursing via http"
+msgid "Allow leave this server while recursing via HTTP"
 msgstr "Autoriser à quitter ce serveur lors d'un parcours récursif en http"
 
 msgid "You have no permissions to create file at path %s"
@@ -1629,7 +1629,7 @@ msgid "You should specify number as parameter for '--exit-time' option"
 msgstr "Vous devez un nombre pour le paramètre de l'option '--exit-time'"
 
 #face/prefs.cc
-msgid "Output ftp dirs in logs"
+msgid "Output FTP dirs in logs"
 msgstr ""
 
 #main.cc
@@ -1640,5 +1640,13 @@ msgid "Restarting failed downloads"
 msgstr ""
 
 # face/prefs.cc, face/edit.cc
-msgid "Don't send QUIT command (ftp)"
+msgid "Don't send QUIT command (FTP)"
+msgstr ""
+
+#:download.cc
+msgid "File on a server is newer then local one. Restarting from begin\n"
+msgstr ""
+
+#:face/dndtrash.cc
+msgid "/Delete completed"
 msgstr ""

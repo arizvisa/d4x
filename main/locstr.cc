@@ -10,6 +10,7 @@
  */
 
 #include <string.h>
+#include <strings.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <unistd.h>
@@ -20,24 +21,29 @@
 #include "var.h"
 #include "dbc.h"
 
+/*  char *copy_string();
+    return the same string allocated in new area;
+ */
+
 char *copy_string(const char *src,int len) {
-	if (src==NULL) len=0;
+	if (src==NULL) return NULL;
 	char *temp=new char[len+1];
-	strncpy(temp,src,len);
-	temp[len]=0;
+	if (temp){
+		strncpy(temp,src,len);
+		temp[len]=0;
+	};
 	return temp;
 };
 
 char *copy_string(const char *src) {
 	if (src==NULL) return NULL;
-/*	g_return_val_if_fail(src!=NULL,NULL); */
 	int len=strlen(src);
 	return copy_string(src,len);
 };
 
-/* int equal(const char, const char)
-   will return nonzero if string 'a' is equal to 'b'
-   and zero if 'a' is not equal 'b'
+/*  int equal(const char, const char)
+    params: two strings
+    return: zero if a!=b and nonzero if a==b
  */
 
 int equal(const char *a,const char *b) {
@@ -54,6 +60,9 @@ int equal(const char *a,const char *b) {
 	return 0;
 };
 
+/* the same as previos one but case insensetive
+ */
+
 int equal_uncase(const char *a,const char *b) {
 	if (!a) {
 		if (b) return 0;
@@ -63,6 +72,12 @@ int equal_uncase(const char *a,const char *b) {
 	if (strcasecmp(a,b)) return 0;
 	return 1;
 };
+
+/* int equal_first()
+    params: two strings
+    return: non zero if one string is begining of another one
+	    else return value is zero;
+ */
 
 int equal_first(const char *a,const char *b) {
 	DBC_RETVAL_IF_FAIL(a!=NULL,0);
@@ -85,6 +100,12 @@ int equal_first_uncase(const char *a,const char *b) {
 };
 
 
+/* int begin_string()
+    params: char *str, char *begin
+    return: zero if `begin' is not begining of `str'
+	    non zero if `begin' is begining of `str'
+ */
+
 int begin_string(const char *str,const char *begin) {
 	DBC_RETVAL_IF_FAIL(str!=NULL,0);
 	DBC_RETVAL_IF_FAIL(begin!=NULL,0);
@@ -99,6 +120,11 @@ int begin_string_uncase(const char *str,const char *begin) {
 	return 0;
 };
 
+/* char *sum_strings()
+    params: list if strings ended by NULL;
+    return: cotatenated string
+ */
+ 
 char *sum_strings(const char *a,...){
 	DBC_RETVAL_IF_FAIL(a!=NULL,NULL);
 	va_list args;
@@ -112,13 +138,15 @@ char *sum_strings(const char *a,...){
 	};
 
 	char *r=new char[l];
-	*r=0;
-	strcat(r,a);
-	va_start(args,a);
-	s=va_arg(args, char*);
-	while(s){
-		strcat(r,s);
+	if (r){
+		*r=0;
+		strcat(r,a);
+		va_start(args,a);
 		s=va_arg(args, char*);
+		while(s){
+			strcat(r,s);
+			s=va_arg(args, char*);
+		};
 	};
 	return r;
 };
@@ -135,6 +163,12 @@ int reallocate_string(char **what, int len){
 	return newlen;
 };
 
+/* int empty_string();
+    params: string
+    return: non zero if string contains only spaces
+	    zero if not only spaces
+ */
+
 int empty_string(char *a) {
 	DBC_RETVAL_IF_FAIL(a!=NULL,0);
 	int len=strlen(a);
@@ -145,6 +179,12 @@ int empty_string(char *a) {
 	return 1;
 };
 
+/* convert_int_to_2()
+    params: integer and pointer to buffer
+    return: none
+    action: convert integer to hexademal pair of chars
+ */
+
 void convert_int_to_2(int what,char *where) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
 	char tmp[MAX_LEN];
@@ -153,6 +193,12 @@ void convert_int_to_2(int what,char *where) {
 	if (what<10) strcat(where,"0");
 	strcat(where,tmp);
 };
+
+/* convert_time();
+    params: number of seconds, pointer to buffer
+    return: none
+    action: convert number of seconds to nice string HH:MM:SS
+ */
 
 void convert_time(int what,char *where) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
@@ -180,6 +226,12 @@ void convert_time(int what,char *where) {
 	};
 };
 
+/* string_to_low();
+    params: string;
+    return: none;
+    action: convert string to low case;
+ */
+
 void string_to_low(char *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	while (*what) {
@@ -188,6 +240,9 @@ void string_to_low(char *what) {
 		what+=1;
 	};
 };
+
+/* the same as previos but till delimeter caracter
+ */
 
 void string_to_low(char *what,char delim) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
@@ -199,6 +254,12 @@ void string_to_low(char *what,char delim) {
 	};
 };
 
+/* convert_from_hex()
+    params: char
+    return: integer equal to value in hexademal notation
+	    of specifyed character
+ */
+
 int convert_from_hex(char what) {
 	if (what>='0' && what<='9')
 		return(what-'0');
@@ -209,11 +270,18 @@ int convert_from_hex(char what) {
 	return -1;
 };
 
+/* parse_percents();
+    params: string
+    return: new allocated string in which all %xx codes from input string
+	    are replaced.
+ */
+
 char *parse_percents(char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	/* Next string is too ugly because I use "new" in separate threads;
 	 */
 	char *temp=new char[strlen(what)+1];
+	if (temp==NULL) return(NULL);
 	char *where=temp,*old=what;
 	while (*old) {
 		switch (*old){
@@ -240,6 +308,12 @@ char *parse_percents(char *what) {
 	return temp;
 };
 
+/* convert_to_hex();
+    params: char, pointer to buffer
+    return: none
+    action: coverts character to hexademal string (e.g. ' ' -> "20")
+ */
+
 void convert_to_hex(char what,char *where) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
 	char hi=what/16;
@@ -253,6 +327,12 @@ void convert_to_hex(char what,char *where) {
 	else
 		where[1]='0'+lo;		
 };
+
+/* unparse_percents();
+    params: string;
+    return: allocated string in which special simbols from input are
+	    replaced by %xx;
+ */
 
 char *unparse_percents(char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
@@ -269,22 +349,31 @@ char *unparse_percents(char *what) {
 		temp+=1;
 	};
 	char *rvalue=new char[unparsed_len+1];
-	char *cur=rvalue;
-	temp=what;
-	while (*temp){
-		if ((*temp<'/' || *temp>'z'|| index(false_chars,*temp)!=NULL) && index(true_chars,*temp)==NULL){
-			*cur='%';
+	if (rvalue){
+		char *cur=rvalue;
+		temp=what;
+		while (*temp){
+			if ((*temp<'/' || *temp>'z'|| index(false_chars,*temp)!=NULL) && index(true_chars,*temp)==NULL){
+				*cur='%';
+				cur+=1;
+				convert_to_hex(*temp,cur);
+				cur+=1;
+			}else
+				*cur=*temp;
 			cur+=1;
-			convert_to_hex(*temp,cur);
-			cur+=1;
-		}else
-			*cur=*temp;
-		cur+=1;
-		temp+=1;
+			temp+=1;
+		};
+		*cur=0;
 	};
-	*cur=0;
 	return rvalue;
 };
+
+/* escape_char();
+    params: string, char to search, escaped character;
+    return: string
+    action: allocate new string with char `what' escaped
+	    by char `bywhat'
+ */
 
 char *escape_char(const char *where,char what,char bywhat){
 	DBC_RETVAL_IF_FAIL(where!=NULL,NULL);
@@ -317,6 +406,12 @@ char *escape_char(const char *where,char what,char bywhat){
 	return(copy_string(where));
 };
 
+/* str_non_print_replace();
+    params: string, char
+    return: none
+    action: replace all character<' ' in string `what' by `symbol'
+ */
+
 void str_non_print_replace(char *what,char symbol){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	unsigned char *temp=(unsigned char *)what;
@@ -326,6 +421,12 @@ void str_non_print_replace(char *what,char symbol){
 	};
 };
 
+/*  del_crlf()
+    params: string
+    return: none
+    action: cut string to '\n' or '\r'
+ */
+
 void del_crlf(char *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	char *tmp;
@@ -333,6 +434,12 @@ void del_crlf(char *what) {
 		*tmp=0;
 	};
 };
+
+/* make_number_nice()
+    params: pointer to buffer, integer
+    return: none
+    action: fill buffer by formated integer;
+ */
 
 void make_number_nice(char *where,int num) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
@@ -372,6 +479,9 @@ void make_number_nice(char *where,int num) {
 	};
 };
 
+/* the same as previos but for long
+ */
+
 void make_number_nicel(char *where,unsigned long num) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
 	switch (CFG.NICE_DEC_DIGITALS.curent) {
@@ -409,6 +519,12 @@ void make_number_nicel(char *where,unsigned long num) {
 			sprintf(where,"%lu",num);
 	};
 };
+
+/* is_string()
+    params: string
+    return: non zero if there are not only digits in string
+	    zero if there are only digits in string
+ */
 
 int is_string(char *what){
 	DBC_RETVAL_IF_FAIL(what!=NULL,0);
@@ -471,13 +587,23 @@ char *extract_from_prefixed_string(char *str,char *begin){
 	return rvalue;
 };
 
+/* skip_spaces();
+    params: poiter to char
+    return: pointer to first non space char
+ */
+
 char *skip_spaces(char *src){
 	DBC_RETVAL_IF_FAIL(src!=NULL,NULL);
 	char *tmp=src;
-	while(isspace(*tmp))
+	while(*tmp && isspace(*tmp))
 		tmp+=1;
 	return tmp;
 };
+
+/* skip_strings()
+    params: pointer to char, number of substring to skip
+    return: pointer to char after last skipped string;
+ */
 
 char *skip_strings(char *src,int num){
 	DBC_RETVAL_IF_FAIL(src!=NULL,NULL);
@@ -491,6 +617,10 @@ char *skip_strings(char *src,int num){
 	return tmp;
 };
 
+/* convert_month()
+    params: pointer to char
+    return: number of month beging from 0;
+ */
 
 int convert_month(char *src) {
 	DBC_RETVAL_IF_FAIL(src!=NULL,0);
@@ -530,6 +660,12 @@ int convert_month(char *src) {
 	return 0;
 };
 
+/* ctime_to_time();
+    params: string
+    return: time
+    action: convert string in ctime() format to time_t
+ */
+
 int ctime_to_time(char *src) {
 	DBC_RETVAL_IF_FAIL(src!=NULL,0);
 	char data[MAX_LEN];
@@ -565,6 +701,12 @@ int ctime_to_time(char *src) {
 	return mktime(&date);
 };
 
+/* check_mask();
+    params: string, mask
+    return: non zero if `src' is satisfied by `mask'
+	    zero if `src' is not satisfied by `mask'
+ */
+
 int check_mask(char *src,char *mask) {
 	DBC_RETVAL_IF_FAIL(mask!=NULL,0);
 	DBC_RETVAL_IF_FAIL(src!=NULL,0);
@@ -590,12 +732,37 @@ int check_mask(char *src,char *mask) {
 
 void normalize_path(char *src) {
 	DBC_RETURN_IF_FAIL(src!=NULL);
-	int len=strlen(src);
-	while (len>1 && src[len-1]=='/') {
-		src[len-1]=0;
-		//		len=strlen(src);
-		len-=1;
+	char *a=src,*b=src;
+	while (*a) {
+		if (*a=='/'){
+			int need_exit=0;
+			while(!need_exit){
+				switch(*(a+1)){
+				case '/':
+					a+=1;
+					break;
+				case '.':{
+					if (*(a+2)=='/' || *(a+2)==0){
+						a+=2;
+						break;
+					};
+					if (*(a+2)=='.'  && (*(a+3)=='/' || *(a+3)==0)){
+						if (b>src) b-=1;
+						while (b>=src && *b!='/') b-=1;
+						a+=3;
+						break;
+					};
+				};
+				default:
+					need_exit=1;
+				};
+			};
+		};
+		if ((*b=*a)==0) return;
+		b+=1;
+		a+=1;
 	};
+	*b=0;
 };
 
 /* FIXME: compose_path() should be rewritten!!!
@@ -742,15 +909,10 @@ int string_ended(const char *ended, const char *what){
 	if (ended==NULL || what==NULL) return 0;
 	int a=strlen(ended);
 	int b=strlen(what);
-	char *aa=(char *)(ended+a);
-	char *bb=(char *)(what+b);
-	while (aa!=ended && bb!=what){
-		if (*aa!=*bb) return(*aa>*bb?-1:1);
-		aa-=1;
-		bb-=1;
-	};
-	if (aa!=ended) return -1;
-	return 0;
+	int min=a<b?a:b;
+	char *aa=(char *)(ended+a-min);
+	char *bb=(char *)(what+b-min);
+	return strncmp(aa,bb,min);
 };
 
 /* primitive file operations
