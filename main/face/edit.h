@@ -36,6 +36,7 @@ struct tProxyWidget{
 };
 
 struct d4xFNode;
+struct d4xFilterSel;
 
 class tDEdit{
 	tDownload *parent;
@@ -58,7 +59,8 @@ class tDEdit{
 	GtkWidget *log_save_entry;
 	GtkWidget *desc_entry;
 	GtkWidget *referer_entry,*cookie_entry;
-	GtkWidget *filter,*filter_sel,*filter_clist;
+	GtkWidget *filter;
+	d4xFilterSel *filter_sel;
 	tProxyWidget *proxy;
 	void setup_time(time_t when);
 	void init_main(tDownload *who);
@@ -91,10 +93,10 @@ public:
 	void select_url();
 	void clear_url();
 	void set_url(char *a);
+	char *get_url();
 	void done();
 	void popup();
 	void init_filter_sel();
-	void add_filter(d4xFNode *node);
 	void filter_cancel();
 	void filter_ok();
 	void disable_items(int *array);

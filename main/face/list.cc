@@ -41,7 +41,6 @@
 #include "fsface.h"
 #include "fsched.h"
 #include "filtrgui.h"
-#include "../autoadd.h"
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -93,7 +92,7 @@ enum{
 enum MAIN_MENU_ENUM{
 	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_TXT, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_AUTO, MM_FILE_EXIT, MM_FILE_SEP,
 	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
-	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
+	MM_DOWNLOAD_DEL_F,MM_DOWNLOAD_RERUN, MM_DOWNLOAD_PROTECT,MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
 	MM_OPTIONS, MM_OPTIONS_SCHEDULER, MM_OPTIONS_LIMITS, MM_OPTIONS_PASSWORDS, MM_OPTIONS_COMMON, MM_OPTIONS_FILTERS,
 	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
 	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
@@ -119,6 +118,7 @@ char *main_menu_inames[]={
 	N_("/Download/Delete completed"),
 	N_("/Download/Delete failed"),
 	N_("/Download/Rerun failed"),
+	N_("/Download/(Un)Protect"),
 	N_("/Download/Unselect all"),
 	N_("/Download/Select all"),
 	N_("/Download/Invert selection"),
@@ -155,71 +155,6 @@ static void open_passwords_window(...) {
 
 static void open_limits_window(...) {
 	FaceForLimits->init();
-};
-
-static GtkWidget *d4x_auto_window=(GtkWidget *)NULL;;
-static GtkWidget *d4x_auto_entry;
-
-
-
-static void d4x_auto_delete(){
-	gtk_widget_destroy(d4x_auto_window);
-	d4x_auto_window=NULL;
-};
-
-static void d4x_auto_ok_click(GtkWidget *button){
-	d4xAutoGenerator *gen=new d4xAutoGenerator;
-	if (gen->init(text_from_combo(d4x_auto_entry))){
-		delete(gen);
-		return;
-	};
-//	gen->print();
-	d4x_auto_delete();
-	int i=0;
-	char *tmp=gen->first();
-	while(tmp){
-//		printf("%s\n",tmp);
-		aa.add_downloading(tmp);
-		delete[] tmp;
-		i+=1;
-		tmp=gen->next();
-		if (i>1000) break;
-	};
-	delete(gen);
-};
-
-static void d4x_auto_cancel_click(GtkWidget *button){
-	d4x_auto_delete();
-};
-
-void d4x_automated_add(){
-	if (d4x_auto_window){
-		gdk_window_show(d4x_auto_window->window);
-		return;
-	};
-	d4x_auto_window = gtk_window_new(GTK_WINDOW_DIALOG);
-	d4x_auto_entry = gtk_entry_new();
-	gtk_widget_set_usize(d4x_auto_entry,250,-1);
-	gtk_window_set_wmclass(GTK_WINDOW(d4x_auto_window),
-			       "D4X_AutoAddDialog","D4X");
-	gtk_container_border_width(GTK_CONTAINER(d4x_auto_window),5);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	gtk_window_set_title(GTK_WINDOW (d4x_auto_window),_("Enter expression"));
-	GtkWidget *hbox=gtk_hbutton_box_new();
-	GtkWidget *ok_button=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *cancel_button=gtk_button_new_with_label(_("Cancel"));
-	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
-	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
-	gtk_box_pack_end(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),d4x_auto_entry,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	gtk_container_add(GTK_CONTAINER(d4x_auto_window),vbox);
-	gtk_window_set_default(GTK_WINDOW(d4x_auto_window),cancel_button);
-	gtk_widget_show_all(d4x_auto_window);
-	gtk_signal_connect(GTK_OBJECT(ok_button),"clicked",GTK_SIGNAL_FUNC(d4x_auto_ok_click),NULL);
-	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(d4x_auto_cancel_click),NULL);
-	gtk_signal_connect(GTK_OBJECT(d4x_auto_window),"delete_event",GTK_SIGNAL_FUNC(d4x_auto_delete), NULL);
 };
 
 void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mouse_button,guint32 time) {
@@ -416,6 +351,8 @@ void init_main_menu() {
 		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),(gchar *)NULL,	(GtkItemFactoryCallback)ask_delete_fataled_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_RERUN]),(gchar *)NULL,	(GtkItemFactoryCallback)_rerun_failed_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
+		{_(main_menu_inames[MM_DOWNLOAD_PROTECT]),"<alt><control>P",	(GtkItemFactoryCallback)lm_inv_protect_flag,	100+MM_DOWNLOAD_PROTECT, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
 		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_unselect_all,	100+MM_DOWNLOAD_UNSELECT_ALL, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_select_all,	100+MM_DOWNLOAD_SELECT_ALL, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_invert_selection,	100+MM_DOWNLOAD_INVERT, (gchar *)NULL},
@@ -502,12 +439,18 @@ gint main_menu_prepare(){
 								      i+100);
 			if (menu_item) gtk_widget_set_sensitive(menu_item,TRUE);
 		};
+		menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+							      MM_DOWNLOAD_PROTECT+100);
+		if (menu_item) gtk_widget_set_sensitive(menu_item,TRUE);
 	}else{
 		for (int i=MM_DOWNLOAD_LOG;i<=MM_DOWNLOAD_RUN;i++){
 			menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
 								      i+100);
 			if (menu_item) gtk_widget_set_sensitive(menu_item,FALSE);
 		};
+		menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
+							      MM_DOWNLOAD_PROTECT+100);
+		if (menu_item) gtk_widget_set_sensitive(menu_item,FALSE);
 	};
 	if (GTK_CLIST(ListOfDownloads)->rows==0){
 		for (int i=MM_DOWNLOAD_UNSELECT_ALL;i<=MM_DOWNLOAD_INVERT;i++){
@@ -808,7 +751,7 @@ static void cb_page_size( GtkAdjustment *get) {
 		//added 0.01 to prevent interface lockups
 		get->value=get->upper-get->page_size;
 		main_log_value=get->value;
-		gtk_signal_emit_by_name (GTK_OBJECT (get), "changed");
+		gtk_signal_emit_by_name (GTK_OBJECT (get), "value_changed");
 	} else
 		main_log_value=get->value;
 }

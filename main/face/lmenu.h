@@ -16,6 +16,7 @@ extern GtkWidget *ListMenuArray[];
 GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,int size);
 void init_list_menu();
 void list_menu_prepare();
+void lm_inv_protect_flag();
 
 enum {
 	LM_LOG,

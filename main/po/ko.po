@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt-1.24\n"
-"POT-Creation-Date: 2001-07-16 16:07+0800\n"
+"POT-Creation-Date: 2001-09-08 12:55+0800\n"
 "PO-Revision-Date: 2001-03-23 14:30+0900\n"
 "Last-Translator: Seung-young Oh <so1713@shinbiro.com>\n"
 "Language-Team: Korean\n"
@@ -65,174 +65,174 @@ msgstr "'--ls' 옵션에 대해 URL을 매개변수로 요구합니다"
 msgid "Expect URL as parameter for '--del' option"
 msgstr "'--ls' 옵션에 대해 URL을 매개변수로 요구합니다"
 
-#: ../config.cc:303
+#: ../config.cc:310
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "'%s'에서 cfg 파일을 열 수 없습니다\n"
 
-#: ../config.cc:304
+#: ../config.cc:311
 msgid "Use default cfg :))...\n"
 msgstr "초기 cfg를 사용합니다 :))...\n"
 
-#: ../config.cc:505
+#: ../config.cc:524
 msgid "Can't open limits configuration file!\n"
 msgstr "제한 값 설정 파일을 열 수 없습니다!\n"
 
-#: ../config.cc:528
+#: ../config.cc:547
 msgid "Can't write limits to file!!!\n"
 msgstr "파일에 제한 값을 쓸 수 없습니다!!!\n"
 
 # config.cc:
-#: ../config.cc:558
+#: ../config.cc:577
 msgid "unknown option:"
 msgstr "알 수 없는 옵션:"
 
 # config.cc:
-#: ../config.cc:605
+#: ../config.cc:624
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "내려받기 실행: %d\n"
 
 # config.cc:
-#: ../config.cc:607
+#: ../config.cc:626
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "내려받기 잠시 멈춤: %d\n"
 
 # config.cc:
-#: ../config.cc:609
+#: ../config.cc:628
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "실패한 내려받기: %d\n"
 
 # config.cc:
-#: ../config.cc:611
+#: ../config.cc:630
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "완료된 내려받기: %d\n"
 
 # config.cc:
-#: ../config.cc:614
+#: ../config.cc:633
 #, c-format
 msgid "Total: %d\n"
 msgstr "총계: %d\n"
 
-#: ../config.cc:616
+#: ../config.cc:635
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "로드된 총 바이트: %d\n"
 
 # config.cc:
-#: ../config.cc:618
+#: ../config.cc:637
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "현재 속도: %d\n"
 
 # config.cc:
-#: ../config.cc:624
+#: ../config.cc:643
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "현재 속도: %d\n"
 
 # config.cc:
-#: ../config.cc:807
+#: ../config.cc:826
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "사용: nt [옵션] ... [URL]"
 
 # config.cc:
-#: ../config.cc:808
+#: ../config.cc:827
 msgid "print this page and exit"
 msgstr "이 페이지를 프린트하고 종료"
 
 # config.cc:
-#: ../config.cc:809
+#: ../config.cc:828
 msgid "show version information and exit"
 msgstr "버젼 정보를 보여주고 종료"
 
 # config.cc:
-#: ../config.cc:810
+#: ../config.cc:829
 msgid "show information if already run"
 msgstr "이미 실행되었으면 정보 보이기"
 
 # config.cc:
-#: ../config.cc:811
+#: ../config.cc:830
 msgid "show current speed if already run"
 msgstr "이미 실행되었으면 현재 속도 보이기"
 
 # config.cc
-#: ../config.cc:812
+#: ../config.cc:831
 msgid "run in minimized mode"
 msgstr "최소화 모드로 실행"
 
 # config.cc
-#: ../config.cc:813
+#: ../config.cc:832
 msgid "set timeout for exiting if nothing to do"
 msgstr "아무것도 할 것이 없으면 종료할 때까지의 시간 정하기"
 
 # config.cc:
-#: ../config.cc:814
+#: ../config.cc:833
 msgid "set directory for saving files"
 msgstr "파일을 저장할 디렉토리 정하기"
 
 # config.cc:
-#: ../config.cc:815
+#: ../config.cc:834
 msgid "set lower speed limitation"
 msgstr "낮은 속도 제한으로 정하기"
 
 # config.cc:
-#: ../config.cc:816
+#: ../config.cc:835
 msgid "set medium speed limitation"
 msgstr "중간 속도 제한으로 정하기"
 
 # config.cc:
-#: ../config.cc:817
+#: ../config.cc:836
 msgid "set unlimited speed"
 msgstr "무제한 속도로 정하기"
 
-#: ../config.cc:818
+#: ../config.cc:837
 msgid "delete completed if already run"
 msgstr "이미 실행되었으면 완료된 내려받기를 지우기"
 
-#: ../config.cc:819
+#: ../config.cc:838
 msgid "set maximum active downloads"
 msgstr "최대 활성 내려받기를 정하기"
 
 # config.cc
-#: ../config.cc:820
+#: ../config.cc:839
 msgid "restart all failed downloads"
 msgstr "모든 실패한 내려받기를 다시 시작"
 
-#: ../config.cc:821
+#: ../config.cc:840
 msgid "run program without X interface"
 msgstr "X 인터페이스없이 프로그램을 실행"
 
-#: ../config.cc:822
+#: ../config.cc:841
 msgid "display info about URL in queue of downloads"
 msgstr "내려받기 대기 목록에 URL에 관한 정보 표시"
 
-#: ../config.cc:823
+#: ../config.cc:842
 #, fuzzy
 msgid "remove a download from queue"
 msgstr "내려받기가 완료되었으면 제거"
 
-#: ../config.cc:824
+#: ../config.cc:843
 #, fuzzy
 msgid "using colors if run without interface"
 msgstr "X 인터페이스없이 프로그램을 실행"
 
 # cookie.cc
-#: ../cookie.cc:122
+#: ../cookie.cc:200
 msgid "Loading cookies"
 msgstr "쿠키 로드 중"
 
 # cookie.cc
-#: ../cookie.cc:151
+#: ../cookie.cc:228
 #, c-format
 msgid "%i cookies loaded"
 msgstr "%i 쿠키가 로드되었습니다"
 
 # cookie.cc
-#: ../cookie.cc:153
+#: ../cookie.cc:230
 msgid "Can't open cookies file!"
 msgstr "쿠키 파일을 열 수 없습니다!"
 
@@ -311,59 +311,64 @@ msgstr "디렉토리를 만들 수 없습니다!"
 msgid "Downloader can't create devices..."
 msgstr "Downloader가 장치를 만들 수 없습니다..."
 
-#: ../dlist.cc:904
+#: ../dlist.cc:906
 msgid "Downloading was successefully completed!"
 msgstr "내려받기가 성공적으로 완료되었습니다!"
 
-#: ../dlist.cc:946
+#: ../dlist.cc:948
 msgid "Downloading was failed..."
 msgstr "내려받기가 실패했습니다..."
 
-#: ../dlist.cc:1084
+#: ../dlist.cc:1086
 msgid "Redirect detected..."
 msgstr "방향 전환이 탐지되었습니다..."
 
-#: ../dlist.cc:1091
+#: ../dlist.cc:1093
 msgid "It is strange that we can't delete file which just created..."
 msgstr "방금 만들어진 파일을 지울 수 없는 것이 이상합니다..."
 
-#: ../dlist.cc:1095 ../dlist.cc:1267
+#: ../dlist.cc:1097 ../dlist.cc:1310
 msgid "File not found"
 msgstr "파일을 찾을 수 없습니다"
 
 # dlist.cc
-#: ../dlist.cc:1147
+#: ../dlist.cc:1149
 msgid "Sorting started"
 msgstr "정렬이 시작되었습니다"
 
-#: ../dlist.cc:1150
+#: ../dlist.cc:1152
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "핑하는 중(%i 시도, %i중)"
 
+#: ../dlist.cc:1180
+#, fuzzy
+msgid "Trying to determine filesizes"
+msgstr "파일을 만드는 중"
+
 # dlist.cc
-#: ../dlist.cc:1215
+#: ../dlist.cc:1256
 msgid "Searching failed"
 msgstr "검색이 실패했습니다"
 
 # dlist.cc:
-#: ../dlist.cc:1235
+#: ../dlist.cc:1278
 msgid "Search had been completed!"
 msgstr "검색이 완료되었습니다!"
 
-#: ../dlist.cc:1241
+#: ../dlist.cc:1284
 msgid "Was Started!"
 msgstr "시작되었습니다!"
 
-#: ../dlist.cc:1245
+#: ../dlist.cc:1288
 msgid "It is a link and we already load it"
 msgstr "링크이며 이미 로드되었습니다"
 
-#: ../dlist.cc:1272
+#: ../dlist.cc:1315
 msgid "Trying to work without CWD"
 msgstr ""
 
-#: ../dlist.cc:1340
+#: ../dlist.cc:1383
 msgid "Can't split file to specified number of parts!"
 msgstr "특정 부분 갯수로 파일을 나눌 수 없습니다!"
 
@@ -458,59 +463,59 @@ msgstr "사용자가 너무 많아 서버가 로그인을 거절했습니다"
 msgid "Sleeping"
 msgstr "잠자는 중"
 
-#: ../ftpd.cc:393
+#: ../ftpd.cc:399
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr ""
 
-#: ../ftpd.cc:418
+#: ../ftpd.cc:424 ../ftpd.cc:446
 #, c-format
 msgid "Length is %i"
 msgstr "길이는 %i입니다"
 
-#: ../ftpd.cc:434
+#: ../ftpd.cc:436
 msgid "This is a directory!"
 msgstr "이것은 디렉토리입니다!"
 
-#: ../ftpd.cc:443
+#: ../ftpd.cc:465
 msgid "Couldn't get size :(("
 msgstr "크기를 구할 수 없습니다 :(("
 
-#: ../ftpd.cc:468
+#: ../ftpd.cc:483
 msgid "Loading directory..."
 msgstr "디렉토리 로드 중..."
 
-#: ../ftpd.cc:482
+#: ../ftpd.cc:497
 msgid "Listing was loaded"
 msgstr "목록이 로드되었습니다"
 
-#: ../ftpd.cc:485
+#: ../ftpd.cc:500
 msgid "Listing not loaded completelly"
 msgstr "목록이 완전히 로드되지 않았습니다"
 
-#: ../ftpd.cc:512
+#: ../ftpd.cc:527
 msgid "Link was loaded :))"
 msgstr "링크가 로드되었습니다 :))"
 
-#: ../ftpd.cc:546 ../httpd.cc:317
+#: ../ftpd.cc:561 ../httpd.cc:317
 #, c-format
 msgid "%i bytes loaded."
 msgstr "%i 바이트가 로드되었습니다."
 
-#: ../hproxy.cc:174
+#: ../hproxy.cc:175
 msgid "Connection to the internet via proxy"
 msgstr "프록시를 경유해 인터넷에 연결"
 
-#: ../hproxy.cc:176
+#: ../hproxy.cc:177
 msgid "Sending request to proxy"
 msgstr "프록시에 요청을 보내는 중"
 
 #. all ok
-#: ../hproxy.cc:180 ../httpd.cc:260
+#: ../hproxy.cc:181 ../httpd.cc:260
 msgid "Answer read ok"
 msgstr "답변 읽기 확인"
 
 #. bad answer
-#: ../hproxy.cc:189
+#: ../hproxy.cc:190
 msgid "Probably it's problem of proxy server, retrying"
 msgstr ""
 
@@ -577,188 +582,189 @@ msgid "Loading default list of downloads"
 msgstr "초기 내려받기 목록을 로드하기"
 
 # main.cc:
-#: ../main.cc:169
+#: ../main.cc:171
 msgid "Append list to current queue of downloads"
 msgstr "현재 내려받기 대기 목록에 추가"
 
 # main.cc
-#: ../main.cc:259 ../main.cc:1122
+#: ../main.cc:261 ../main.cc:1121
 msgid "Delete completed downloads"
 msgstr "완료된 내려받기를 지우기"
 
 # main.cc
-#: ../main.cc:272
+#: ../main.cc:274
 msgid "Delete failed downloads"
 msgstr "실패한 내려받기를 지우기"
 
-#: ../main.cc:293
+#: ../main.cc:295
 msgid "Clear queue of downloads"
 msgstr "대기하는 내려받기를 제거"
 
 # main.cc
-#: ../main.cc:347
+#: ../main.cc:349
 msgid "Run new thread for %z"
 msgstr "%z를 위한 새로운 쓰레드 실행"
 
 # main.cc:
-#: ../main.cc:353
+#: ../main.cc:355
 msgid "Can't run new thread for downloading!"
 msgstr "내려받기 위한 새로운 쓰레드를 실행할 수 없습니다!"
 
-#: ../main.cc:355
+#: ../main.cc:357
 #, c-format
 msgid "Maximum active downloads is set to %i"
 msgstr "최대 활성 내려받기는 %i(으)로 정해졌습니다"
 
-#: ../main.cc:405
+#: ../main.cc:407
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "[사용자에 의해] %s 파일을 %s에서 내려받기가 중단되었습니다"
 
-#: ../main.cc:459
+#: ../main.cc:461
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "내려받기 대기에서 %s 파일을 지우기"
 
-#: ../main.cc:537
+#: ../main.cc:539
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "%s 파일을 %s에서 계속 내려받는 중..."
 
-#: ../face/mywidget.cc:371 ../face/mywidget.cc:613 ../main.cc:628
+#: ../face/mywidget.cc:385 ../face/mywidget.cc:687 ../main.cc:630
 msgid "file"
 msgstr "파일"
 
-#: ../main.cc:727
+#: ../main.cc:729
 msgid "dir"
 msgstr "디렉토리"
 
-#: ../main.cc:731
+#: ../main.cc:733
 msgid "link"
 msgstr "링크"
 
-#: ../main.cc:735
+#: ../main.cc:737
 msgid "device"
 msgstr "장치"
 
-#: ../main.cc:774
+#: ../main.cc:776
 msgid "Too many redirections!"
 msgstr ""
 
 # main.cc:
-#: ../main.cc:789
+#: ../main.cc:791
 msgid "Redirection from [%z] to the same location!"
 msgstr "[%z]에서 같은 곳으로 방향을 돌림!"
 
 # main.cc:
-#: ../main.cc:825
+#: ../main.cc:827
 msgid "Redirection from [%z] to nowhere!"
 msgstr "[%z]에서 어딘지 모르는 곳으로 방향을 돌림!"
 
 # main.cc
-#: ../main.cc:833
+#: ../main.cc:835
 msgid "Prepare [%z] for stoping"
 msgstr "[%z] 멈출 준비"
 
 # main.cc:
-#: ../main.cc:872
+#: ../main.cc:874
 msgid "Redirect from %z"
 msgstr "%z에서 방향 전환"
 
-#: ../main.cc:876
+#: ../main.cc:878
 msgid "Downloading of directory %z was completed"
 msgstr "%z 디렉토리 내려받기가 완료되었습니다"
 
-#: ../main.cc:880
+#: ../main.cc:882
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr "%z (%i 바이트) 파일의 내려받기가 %i 바이트/초 속도로 완료되었습니다"
 
 # main.cc
-#: ../main.cc:886
+#: ../main.cc:888
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "완료된 내려받기로 내려받기 대기에서 %z(이)가 지워졌습니다"
 
-#: ../main.cc:897
+#: ../main.cc:899
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "%z 파일의 내려받기가 치명적 오류로 중단되었습니다"
 
 # main.cc
-#: ../main.cc:900
+#: ../main.cc:902
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "실패한 내려받기로 내려받기 대기에서 %z(이)가 지워졌습니다"
 
-#: ../main.cc:932
+#.				tmp->status=DOWNLOAD_REAL_STOP;
+#: ../main.cc:934
 msgid "Splited download [%z] was stopped because one of threads failed"
 msgstr "쓰레드 중 하나가 실패해서 나누어진 [%z] 내려받기가 멈추었습니다"
 
-#: ../main.cc:1075
+#: ../main.cc:1074
 msgid "Restarting failed downloads"
 msgstr "실패한 내려받기 다시 시작하는 중"
 
 # main.cc
-#: ../main.cc:1075 ../main.cc:1102 ../main.cc:1118 ../main.cc:1122
-#: ../main.cc:1127 ../main.cc:1140 ../main.cc:1145
+#: ../main.cc:1074 ../main.cc:1101 ../main.cc:1117 ../main.cc:1121
+#: ../main.cc:1126 ../main.cc:1139 ../main.cc:1144
 msgid "[control socket]"
 msgstr "[콘트롤 소켓]"
 
 # main.cc
-#: ../main.cc:1086
+#: ../main.cc:1085
 #, fuzzy, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "[%s] 콘트롤 소켓으로 내려받기 추가하는 중"
 
 # main.cc
-#: ../main.cc:1093
+#: ../main.cc:1092
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "[%s] 콘트롤 소켓으로 내려받기 추가하는 중"
 
 # main.cc
-#: ../main.cc:1100
+#: ../main.cc:1099
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "%s %s로 속도 제한을 정하기"
 
 # main.cc
-#: ../main.cc:1118
+#: ../main.cc:1117
 msgid "Setup maximum active downloads to"
 msgstr "최대 활성 내려받기 설정"
 
-#: ../main.cc:1140
+#: ../main.cc:1139
 msgid "Exiting if nothing to do is switched off"
 msgstr "할 것이 아무것도 없음이 꺼져 있다면 종료하기"
 
-#: ../main.cc:1145
+#: ../main.cc:1144
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "%i 분 %s 후에 아무것도 할 일이 없으면 Downloader는 종료할 것입니다"
 
-#: ../main.cc:1412
+#: ../main.cc:1410
 msgid "Normally started"
 msgstr "정상적으로 시작되었습니다"
 
-#: ../main.cc:1460
+#: ../main.cc:1459
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "[사용자에 의해] %s 파일의 내려받기를 %s에서 추가했습니다"
 
 # main.cc
-#: ../main.cc:1504
+#: ../main.cc:1503
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "세션동안 %lu 바이트가 로드되었습니다"
 
 # main.cc:
-#: ../main.cc:1505
+#: ../main.cc:1504
 msgid "Downloader exited normaly"
 msgstr "Downloader가 정상적으로 종료했습니다"
 
-#: ../main.cc:1544
+#: ../main.cc:1543
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "로그를 저장할 '%s'(을)를 열 수 없습니다"
 
-#: ../main.cc:1575
+#: ../main.cc:1574
 msgid "Such protocol is not supported!"
 msgstr "그런 프로토콜이 지원되지 않습니다!"
 
@@ -780,7 +786,7 @@ msgstr "행을 열기"
 msgid "Clear log"
 msgstr "로그 내용 제거"
 
-#: ../face/fsched.cc:772 ../face/lmenu.cc:159 ../mainlog.cc:218
+#: ../face/fsched.cc:772 ../face/lmenu.cc:160 ../mainlog.cc:218
 msgid "Properties"
 msgstr "등록정보"
 
@@ -793,11 +799,11 @@ msgstr "기본 로그의 %i번째 행"
 msgid "Can't open file for saving log"
 msgstr "로그를 저장하기위한 파일을 열 수 없습니다"
 
-#: ../nt.cc:118
+#: ../nt.cc:119
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr "경고!!! HOME 변수를 찾을 수 없습니다! 따라서 설정을 읽을 수 없습니다!"
 
-#: ../nt.cc:131
+#: ../nt.cc:132
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s(이)가 이미 실행 중인 것 같습니다\n"
@@ -847,50 +853,54 @@ msgstr "중간"
 msgid "unlimited"
 msgstr "무제한"
 
-#: ../face/about.cc:104
+#: ../face/about.cc:106
 msgid "About"
 msgstr "정보"
 
-#: ../face/about.cc:109
+#: ../face/about.cc:111
 msgid "Author: Koshelev Maxim"
 msgstr "만든 이: Koshelev Maxim"
 
-#: ../face/about.cc:111
+#: ../face/about.cc:113
 msgid "Translators team"
 msgstr "번역 팀"
 
 # face/about.cc
-#: ../face/about.cc:118
+#: ../face/about.cc:120
 msgid "Special thanks to"
 msgstr "특별히 감사할 분들"
 
 # face/:
-#: ../face/about.cc:125 ../face/about.cc:193 ../face/about.cc:274
-#: ../face/buttons.cc:160 ../face/edit.cc:783 ../face/edit.cc:821
-#: ../face/edit.cc:2003 ../face/filtrgui.cc:165 ../face/fsched.cc:201
-#: ../face/fsched.cc:778 ../face/limface.cc:79 ../face/limface.cc:323
-#: ../face/list.cc:209 ../face/lod.cc:478 ../face/mywidget.cc:386
-#: ../face/mywidget.cc:658 ../face/passface.cc:79 ../face/passface.cc:263
-#: ../face/prefs.cc:1068 ../face/saveload.cc:141 ../face/saveload.cc:183
-#: ../face/saveload.cc:224
+#: ../face/about.cc:127 ../face/about.cc:195 ../face/about.cc:276
+#: ../face/buttons.cc:160 ../face/edit.cc:783 ../face/edit.cc:1970
+#: ../face/filtrgui.cc:165 ../face/fsched.cc:201 ../face/fsched.cc:778
+#: ../face/limface.cc:79 ../face/limface.cc:323 ../face/lod.cc:478
+#: ../face/mywidget.cc:454 ../face/mywidget.cc:730 ../face/mywidget.cc:818
+#: ../face/passface.cc:79 ../face/passface.cc:263 ../face/prefs.cc:1150
+#: ../face/saveload.cc:141 ../face/saveload.cc:183 ../face/saveload.cc:224
 msgid "Ok"
 msgstr "확인"
 
-#: ../face/about.cc:194 ../face/buttons.cc:162 ../face/edit.cc:784
-#: ../face/edit.cc:822 ../face/fsched.cc:779 ../face/limface.cc:80
-#: ../face/list.cc:210 ../face/lod.cc:479 ../face/mywidget.cc:387
-#: ../face/passface.cc:80 ../face/prefs.cc:1069 ../face/saveload.cc:143
-#: ../face/saveload.cc:185 ../face/saveload.cc:226
+#: ../face/about.cc:196 ../face/buttons.cc:162 ../face/edit.cc:784
+#: ../face/fsched.cc:779 ../face/limface.cc:80 ../face/lod.cc:479
+#: ../face/mywidget.cc:455 ../face/mywidget.cc:819 ../face/passface.cc:80
+#: ../face/prefs.cc:1151 ../face/saveload.cc:143 ../face/saveload.cc:185
+#: ../face/saveload.cc:226
 msgid "Cancel"
 msgstr "취소"
 
-#: ../face/about.cc:234
+#: ../face/about.cc:236
 msgid "Don't ask next time"
 msgstr ""
 
-#: ../face/addd.cc:105 ../face/addd.cc:173
+#: ../face/addd.cc:106 ../face/addd.cc:261
 msgid "Add new download"
 msgstr "새로운 내려받기 추가"
+
+#: ../face/addd.cc:199
+#, fuzzy
+msgid "Automated adding"
+msgstr "/파일/_목록 로드"
 
 #: ../face/buttons.cc:48
 msgid " Add new download "
@@ -971,7 +981,7 @@ msgstr ""
 msgid " Configure buttons "
 msgstr ""
 
-#: ../face/buttons.cc:161 ../face/prefs.cc:1070
+#: ../face/buttons.cc:161 ../face/prefs.cc:1152
 msgid "Apply"
 msgstr "적용"
 
@@ -1046,52 +1056,57 @@ msgid "Showed columns"
 msgstr "보여지는 열"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:41
+#: ../face/dndtrash.cc:42
 msgid "/New Download"
 msgstr "/새로운 내려받기"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:42
+#: ../face/dndtrash.cc:43
 msgid "/Paste Download"
 msgstr "/내려받기 붙여넣기"
 
+#: ../face/dndtrash.cc:44
+#, fuzzy
+msgid "/Automated adding"
+msgstr "/파일/_목록 로드"
+
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:43
+#: ../face/dndtrash.cc:45
 msgid "/Delete completed"
 msgstr "/완료된 내려받기 지우기"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:44
+#: ../face/dndtrash.cc:46
 msgid "/General options"
 msgstr "/공통 옵션"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:45
+#: ../face/dndtrash.cc:47
 msgid "/Speed"
 msgstr "/속도"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:46
+#: ../face/dndtrash.cc:48
 msgid "/Speed/Low"
 msgstr "/속도/최저"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:47
+#: ../face/dndtrash.cc:49
 msgid "/Speed/Medium"
 msgstr "/속도/중간"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:48
+#: ../face/dndtrash.cc:50
 msgid "/Speed/Unlimited"
 msgstr "/속도/무제한"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:49
+#: ../face/dndtrash.cc:51
 msgid "/Exit"
 msgstr "/종료"
 
 # face/dndtrash.cc:
-#: ../face/dndtrash.cc:263 ../face/list.cc:930 ../face/list.cc:947
+#: ../face/dndtrash.cc:269 ../face/list.cc:876 ../face/list.cc:893
 msgid "Drop link here"
 msgstr "여기 링크를 떨어뜨리세요"
 
@@ -1129,11 +1144,11 @@ msgstr "재연결전 시간초과"
 msgid "Rollback after reconnecting"
 msgstr "재연결후 되돌리기"
 
-#: ../face/edit.cc:68 ../face/edit.cc:535 ../face/prefs.cc:228
+#: ../face/edit.cc:68 ../face/edit.cc:535 ../face/prefs.cc:234
 msgid "Get date from the server"
 msgstr "서버에서 날짜 구하기"
 
-#: ../face/edit.cc:69 ../face/edit.cc:539 ../face/prefs.cc:232
+#: ../face/edit.cc:69 ../face/edit.cc:539 ../face/prefs.cc:238
 msgid "Retry if resuming is not supported"
 msgstr "이어받기가 지원되지 않으면 재시도"
 
@@ -1142,31 +1157,31 @@ msgstr "이어받기가 지원되지 않으면 재시도"
 msgid "Number of parts for spliting this download"
 msgstr "이 내려받기를 나눌때의 부분 갯수"
 
-#: ../face/edit.cc:71 ../face/edit.cc:577 ../face/prefs.cc:333
+#: ../face/edit.cc:71 ../face/edit.cc:577 ../face/prefs.cc:348
 msgid "Use passive mode for FTP"
 msgstr "FTP에 대해 수동적인 모드 사용"
 
-#: ../face/edit.cc:72 ../face/edit.cc:583 ../face/prefs.cc:341
+#: ../face/edit.cc:72 ../face/edit.cc:583 ../face/prefs.cc:356
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "서버로부터 파일의 허가권 구하기(FTP만)"
 
 # face/prefs.cc, face/edit.cc
-#: ../face/edit.cc:73 ../face/edit.cc:580 ../face/prefs.cc:337
+#: ../face/edit.cc:73 ../face/edit.cc:580 ../face/prefs.cc:352
 msgid "Don't send QUIT command (FTP)"
 msgstr "QUIT 명령 보내지 않기 (FTP)"
 
 # face/prefs.cc
-#: ../face/edit.cc:74 ../face/edit.cc:547 ../face/prefs.cc:248
+#: ../face/edit.cc:74 ../face/edit.cc:547 ../face/prefs.cc:254
 msgid "Compare date/time of remote file with local one"
 msgstr "원격 파일의 날짜/시간을 지역파일과 비교"
 
 # face/edit.cc
-#: ../face/edit.cc:75 ../face/edit.cc:543 ../face/prefs.cc:236
+#: ../face/edit.cc:75 ../face/edit.cc:543 ../face/prefs.cc:242
 msgid "Sleep before completing"
 msgstr "완료하기전에 잠자기"
 
 # face/edit.cc:
-#: ../face/edit.cc:76 ../face/edit.cc:586 ../face/prefs.cc:345
+#: ../face/edit.cc:76 ../face/edit.cc:586 ../face/prefs.cc:360
 msgid "Try to load symbolic link as file via FTP"
 msgstr "FTP을 통해 링크를 파일로 로드 시도"
 
@@ -1179,20 +1194,20 @@ msgid "Depth of recursing for HTTP"
 msgstr "HTTP에 대한 재귀적 깊이"
 
 # face/edit.cc:
-#: ../face/edit.cc:79 ../face/edit.cc:616 ../face/prefs.cc:380
+#: ../face/edit.cc:79 ../face/edit.cc:616 ../face/prefs.cc:447
 msgid "Only subdirs"
 msgstr "하위 디렉토리들만"
 
 # face/edit.cc
-#: ../face/edit.cc:80 ../face/edit.cc:617 ../face/prefs.cc:381
+#: ../face/edit.cc:80 ../face/edit.cc:617 ../face/prefs.cc:448
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "HTTP로 재귀하는 동안 이 서버를 떠나도록 허락"
 
-#: ../face/edit.cc:81 ../face/edit.cc:618 ../face/prefs.cc:382
+#: ../face/edit.cc:81 ../face/edit.cc:618 ../face/prefs.cc:449
 msgid "Change links in HTML file to local"
 msgstr "HTML 파일의 링크들을 지역 링크들로 바꾸기"
 
-#: ../face/edit.cc:82 ../face/edit.cc:641 ../face/prefs.cc:399
+#: ../face/edit.cc:82 ../face/edit.cc:641 ../face/prefs.cc:466
 msgid "User-Agent"
 msgstr "사용자-에이젼트"
 
@@ -1205,7 +1220,7 @@ msgid "Cookie"
 msgstr ""
 
 #: ../face/edit.cc:85 ../face/edit.cc:770 ../face/edit.cc:773
-#: ../face/prefs.cc:422 ../face/prefs.cc:982 ../face/prefs.cc:1157
+#: ../face/prefs.cc:504 ../face/prefs.cc:1064 ../face/prefs.cc:1243
 msgid "Proxy"
 msgstr "프록시"
 
@@ -1229,8 +1244,8 @@ msgstr "설명"
 msgid "Save download to file"
 msgstr "내려받기를 파일에 저장"
 
-#: ../face/edit.cc:410 ../face/edit.cc:1514 ../face/edit.cc:1577
-#: ../face/edit.cc:1614 ../face/passface.cc:69
+#: ../face/edit.cc:410 ../face/edit.cc:1481 ../face/edit.cc:1544
+#: ../face/edit.cc:1581 ../face/passface.cc:69
 msgid "password"
 msgstr "암호"
 
@@ -1246,7 +1261,7 @@ msgid "Default"
 msgstr "초기값"
 
 # face/edit.cc:
-#: ../face/edit.cc:460 ../face/prefs.cc:244
+#: ../face/edit.cc:460 ../face/prefs.cc:250
 msgid "Pause this just after adding"
 msgstr "추가후 잠시 멈춤"
 
@@ -1254,35 +1269,35 @@ msgstr "추가후 잠시 멈춤"
 msgid "Add to top of queue"
 msgstr ""
 
-#: ../face/edit.cc:476 ../face/prefs.cc:226 ../face/prefs.cc:958
-#: ../face/prefs.cc:1110
+#: ../face/edit.cc:476 ../face/prefs.cc:232 ../face/prefs.cc:1040
+#: ../face/prefs.cc:1192
 msgid "Download"
 msgstr "내려받기"
 
-#: ../face/edit.cc:479 ../face/prefs.cc:710 ../face/prefs.cc:1042
-#: ../face/prefs.cc:1251
+#: ../face/edit.cc:479 ../face/prefs.cc:792 ../face/prefs.cc:1124
+#: ../face/prefs.cc:1337
 msgid "Main"
 msgstr "기본"
 
-#: ../face/edit.cc:495 ../face/prefs.cc:278
+#: ../face/edit.cc:495 ../face/prefs.cc:293
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "소켓으로부터 읽기위한 시간 (초 단위)"
 
-#: ../face/edit.cc:502 ../face/prefs.cc:285
+#: ../face/edit.cc:502 ../face/prefs.cc:300
 msgid "Timeout before reconnection (in seconds)"
 msgstr "재연결하기 전의 시간 (초 단위)"
 
-#: ../face/edit.cc:509 ../face/prefs.cc:292
+#: ../face/edit.cc:509 ../face/prefs.cc:307
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "최대 시도 (0은 무제한)"
 
 # face/refs.cc:
-#: ../face/edit.cc:516 ../face/prefs.cc:299
+#: ../face/edit.cc:516 ../face/prefs.cc:314
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "재연결 후 되돌리기 (바이트 단위)"
 
 # face/edit.cc
-#: ../face/edit.cc:523 ../face/prefs.cc:306
+#: ../face/edit.cc:523 ../face/prefs.cc:321
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "바이트/초 단위의 속도 제한 (0은 무제한)"
 
@@ -1298,18 +1313,19 @@ msgstr "자동"
 msgid "Common"
 msgstr "공통"
 
-#: ../face/edit.cc:594 ../face/edit.cc:611 ../face/prefs.cc:352
-#: ../face/prefs.cc:393
+#: ../face/edit.cc:594 ../face/edit.cc:611 ../face/prefs.cc:367
+#: ../face/prefs.cc:460
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "재귀적인 깊이 (0은 무제한,1은 무재귀)"
 
-#: ../face/edit.cc:632
+#: ../face/edit.cc:632 ../face/prefs.cc:491
 #, fuzzy
 msgid "Filter"
 msgstr "파일"
 
 # face/mywidget.cc:
-#: ../face/edit.cc:633 ../face/lod.cc:497 ../face/mywidget.cc:233
+#: ../face/edit.cc:633 ../face/lod.cc:497 ../face/mywidget.cc:234
+#: ../face/prefs.cc:492
 msgid "Select"
 msgstr "선택"
 
@@ -1325,70 +1341,60 @@ msgstr "분"
 msgid "Start this downloading at:"
 msgstr "이 내려받기를 시작:"
 
-#: ../face/edit.cc:806
-#, fuzzy
-msgid "Select filter"
-msgstr "파일 선택"
-
-#: ../face/edit.cc:808 ../face/filtrgui.cc:152
-#, fuzzy
-msgid "filter name"
-msgstr "파일 이름"
-
-#: ../face/edit.cc:1448
+#: ../face/edit.cc:1415
 msgid "FTP proxy type"
 msgstr "FTP 프록시 종류"
 
-#: ../face/edit.cc:1459
+#: ../face/edit.cc:1426
 msgid "FTP (wingate)"
 msgstr "FTP (윈게이트)"
 
-#: ../face/edit.cc:1473
+#: ../face/edit.cc:1440
 msgid "Use this proxy for FTP"
 msgstr "FTP에 이 프록시 사용"
 
 #. gtk_entry_new();
-#: ../face/edit.cc:1484 ../face/edit.cc:1549 ../face/edit.cc:1599
+#: ../face/edit.cc:1451 ../face/edit.cc:1516 ../face/edit.cc:1566
 msgid "port"
 msgstr "포트"
 
-#: ../face/edit.cc:1491 ../face/edit.cc:1555
+#: ../face/edit.cc:1458 ../face/edit.cc:1522
 msgid "need password"
 msgstr "암호 필요"
 
-#: ../face/edit.cc:1499 ../face/edit.cc:1563 ../face/edit.cc:1607
+#: ../face/edit.cc:1466 ../face/edit.cc:1530 ../face/edit.cc:1574
 #: ../face/passface.cc:68 ../face/passface.cc:249
 msgid "username"
 msgstr "사용자이름"
 
 # face/lod.cc
-#: ../face/edit.cc:1531
+#: ../face/edit.cc:1498
 msgid "Don't get from cache"
 msgstr "캐쉬에서 구하지 않기"
 
-#: ../face/edit.cc:1538
+#: ../face/edit.cc:1505
 msgid "Use this proxy for HTTP"
 msgstr "HTTP에 이 프록시 사용"
 
 #. SOCKS settings
-#: ../face/edit.cc:1585
+#: ../face/edit.cc:1552
 msgid "Use SOCKS5 proxy"
 msgstr ""
 
-#: ../face/edit.cc:1592 ../face/mywidget.cc:357 ../face/mywidget.cc:613
+#: ../face/edit.cc:1559 ../face/mywidget.cc:371 ../face/mywidget.cc:687
 #, fuzzy
 msgid "host"
 msgstr "호스트"
 
-#: ../face/edit.cc:1985
+#: ../face/edit.cc:1952
 msgid "Select properties"
 msgstr "등록정보 선택"
 
-#: ../face/edit.cc:2009
+#: ../face/edit.cc:1976
 msgid "Unselect all"
 msgstr "모든 선택 취소"
 
-#: ../face/edit.cc:2015
+#: ../face/edit.cc:1982
 msgid "Select all"
 msgstr "모두 선택"
 
@@ -1438,79 +1444,85 @@ msgstr "지우기"
 msgid "Default limitation for all hosts (0 without limits)"
 msgstr "모든 호스트에 대한 초기 제한 (0 제한없음)"
 
-#: ../face/list.cc:104
+#: ../face/list.cc:103
 msgid "/_File"
 msgstr "/_파일"
 
-#: ../face/list.cc:105
+#: ../face/list.cc:104
 msgid "/File/_Save List"
 msgstr "/파일/_목록 저장"
 
-#: ../face/list.cc:106
+#: ../face/list.cc:105
 msgid "/File/_Load List"
 msgstr "/파일/_목록 로드"
 
 # face/list.cc:
-#: ../face/list.cc:107
+#: ../face/list.cc:106
 msgid "/File/Find links in file"
 msgstr "/파일/파일에서 링크 찾기"
 
-#: ../face/list.cc:108
+#: ../face/list.cc:107
 msgid "/File/_New Download"
 msgstr "/파일/_새로운 내려받기"
 
-#: ../face/list.cc:109
+#: ../face/list.cc:108
 msgid "/File/_Paste Download"
 msgstr "/파일/_내려받기 붙여넣기"
 
-#: ../face/list.cc:110
+#: ../face/list.cc:109
 #, fuzzy
 msgid "/File/_Automated adding"
 msgstr "/파일/_목록 로드"
 
-#: ../face/list.cc:111
+#: ../face/list.cc:110
 msgid "/File/Exit"
 msgstr "/파일/종료"
 
-#: ../face/list.cc:112
+#: ../face/list.cc:111
 msgid "/File/sep1"
 msgstr "/파일/sep1"
 
-#: ../face/list.cc:113
+#: ../face/list.cc:112
 msgid "/_Download"
 msgstr "/_내려받기"
 
-#: ../face/list.cc:114
+#: ../face/list.cc:113
 msgid "/Download/View _Log"
 msgstr "/내려받기/_로그 보기"
 
-#: ../face/list.cc:115
+#: ../face/list.cc:114
 msgid "/Download/_Stop downloads"
 msgstr "/내려받기/_내려받기 멈추기"
 
-#: ../face/list.cc:116
+#: ../face/list.cc:115
 msgid "/Download/Edit download"
 msgstr "/내려받기/내려받기 편집"
 
-#: ../face/list.cc:117
+#: ../face/list.cc:116
 msgid "/Download/_Delete downloads"
 msgstr "/내려받기/_내려받기 지우기"
 
-#: ../face/list.cc:118
+#: ../face/list.cc:117
 msgid "/Download/Continue downloads"
 msgstr "/내려받기/계속 내려받기"
 
-#: ../face/list.cc:119
+#: ../face/list.cc:118
 msgid "/Download/Delete completed"
 msgstr "/내려받기/완료된 내려받기 지우기"
 
-#: ../face/list.cc:120
+#: ../face/list.cc:119
 msgid "/Download/Delete failed"
 msgstr "/내려받기/실패한 내려받기 지우기"
 
-#: ../face/list.cc:121
+#: ../face/list.cc:120
 msgid "/Download/Rerun failed"
 msgstr "/내려받기/실패한 내려받기 재실행"
+
+# face/list.cc
+#: ../face/list.cc:121
+#, fuzzy
+msgid "/Download/(Un)Protect"
+msgstr "/내려받기/모든 선택 취소"
 
 # face/list.cc
 #: ../face/list.cc:122
@@ -1613,95 +1625,91 @@ msgstr "/_도움말"
 msgid "/_Help/About"
 msgstr "/_도움말/정보"
 
-#: ../face/list.cc:207
-msgid "Enter expression"
-msgstr ""
-
-#: ../face/list.cc:620
+#: ../face/list.cc:565
 msgid "Do you really want to quit?"
 msgstr "정말 끝내기를 원합니까?"
 
-#: ../face/list.cc:620
+#: ../face/list.cc:565
 msgid "Quit?"
 msgstr "끝내겠습니까?"
 
-#: ../face/list.cc:649
+#: ../face/list.cc:594
 msgid "Delete selected downloads?"
 msgstr "선택된 내려받기를 지우겠습니까?"
 
-#: ../face/list.cc:649 ../face/list.cc:667 ../face/list.cc:685
+#: ../face/list.cc:594 ../face/list.cc:612 ../face/list.cc:630
 msgid "Delete?"
 msgstr "지우겠습니까?"
 
-#: ../face/list.cc:667
+#: ../face/list.cc:612
 msgid "Do you wish delete completed downloads?"
 msgstr "완료된 내려받기를 지우기 바랍니까?"
 
-#: ../face/list.cc:685
+#: ../face/list.cc:630
 msgid "Do you wish delete failed downloads?"
 msgstr "실패한 내려받기를 지우기 바랍니까?"
 
-#: ../face/list.cc:748
+#: ../face/list.cc:693
 msgid "Ready to go ????"
 msgstr "준비되었습니까 ????"
 
-#: ../face/list.cc:937
+#: ../face/list.cc:883
 #, c-format
 msgid "%i-running %i-completed %i-total "
 msgstr "%i-실행 중 %i-완료 %i-총계"
 
-#: ../face/lmenu.cc:126
+#: ../face/lmenu.cc:127
 msgid "View log"
 msgstr "로그 보기"
 
-#: ../face/lmenu.cc:132
+#: ../face/lmenu.cc:133
 msgid "Stop"
 msgstr "멈춤"
 
-#: ../face/lmenu.cc:139
+#: ../face/lmenu.cc:140
 msgid "Continue downloads"
 msgstr "계속 내려받기"
 
 #.	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
-#: ../face/lmenu.cc:145
+#: ../face/lmenu.cc:146
 msgid "Copy"
 msgstr "복사"
 
-#: ../face/lmenu.cc:150
+#: ../face/lmenu.cc:151
 msgid "(Un)Protect"
 msgstr ""
 
 # face/lmenu.cc
-#: ../face/lmenu.cc:164
+#: ../face/lmenu.cc:165
 msgid "Common properties"
 msgstr "공통 등록정보"
 
-#: ../face/lmenu.cc:170
+#: ../face/lmenu.cc:171
 msgid "Delete downloads"
 msgstr "내려받기 지우기"
 
-#: ../face/lmenu.cc:176
+#: ../face/lmenu.cc:177
 msgid "Delete completed"
 msgstr "완료된 내려받기 지우기"
 
-#: ../face/lmenu.cc:182
+#: ../face/lmenu.cc:183
 msgid "Delete failed"
 msgstr "실패한 내려받기 지우기"
 
-#: ../face/lmenu.cc:192
+#: ../face/lmenu.cc:193
 msgid "Move up"
 msgstr "위로 이동"
 
-#: ../face/lmenu.cc:198
+#: ../face/lmenu.cc:199
 msgid "Move down"
 msgstr "아래로 이동"
 
-#: ../face/lmenu.cc:204
+#: ../face/lmenu.cc:205
 msgid "Set limitation"
 msgstr "제한 정하기"
 
-#: ../face/lmenu.cc:209 ../face/prefs.cc:773 ../face/prefs.cc:1057
-#: ../face/prefs.cc:1239
+#: ../face/lmenu.cc:210 ../face/prefs.cc:855 ../face/prefs.cc:1139
+#: ../face/prefs.cc:1325
 msgid "FTP search"
 msgstr "FTP 검색"
 
@@ -1769,88 +1777,106 @@ msgstr "%i번째 행 [%s의 로그]"
 msgid "Log: "
 msgstr "로그: "
 
-#: ../face/mywidget.cc:58
+#: ../face/mywidget.cc:59
 msgid "Select directory"
 msgstr "디렉토리 선택"
 
-#: ../face/fsched.cc:298 ../face/mywidget.cc:61
+#: ../face/fsched.cc:298 ../face/mywidget.cc:62
 msgid "Select file"
 msgstr "파일 선택"
 
-#: ../face/fsched.cc:438 ../face/fsched.cc:461 ../face/mywidget.cc:104
+#: ../face/fsched.cc:438 ../face/fsched.cc:461 ../face/mywidget.cc:105
 msgid "Browse"
 msgstr "살펴보기"
 
 # face/mywidget.cc:
-#: ../face/mywidget.cc:194
+#: ../face/mywidget.cc:195
 msgid "Select color"
 msgstr "색 선택"
 
-#: ../face/mywidget.cc:336
+#: ../face/mywidget.cc:350
 #, fuzzy
 msgid "Edit properties of Rule"
 msgstr "등록정보 선택"
 
 # face/passwords.cc
-#: ../face/mywidget.cc:339 ../face/mywidget.cc:613 ../face/passface.cc:57
+#: ../face/mywidget.cc:353 ../face/mywidget.cc:687 ../face/passface.cc:57
 msgid "protocol"
 msgstr "프로토콜"
 
-#: ../face/mywidget.cc:364 ../face/mywidget.cc:613
+#: ../face/mywidget.cc:378 ../face/mywidget.cc:687
 #, fuzzy
 msgid "path"
 msgstr "경로:"
 
-#: ../face/mywidget.cc:379
+#: ../face/mywidget.cc:392
+msgid "?"
+msgstr ""
+
+#: ../face/mywidget.cc:399 ../face/mywidget.cc:687
+msgid "tag"
+msgstr ""
+
+#: ../face/mywidget.cc:447
 msgid "include"
 msgstr ""
 
-#: ../face/mywidget.cc:381
+#: ../face/mywidget.cc:449
 msgid "exclude"
 msgstr ""
 
-#: ../face/mywidget.cc:609
+#: ../face/mywidget.cc:683
 msgid "Modify filter"
 msgstr ""
 
-#: ../face/mywidget.cc:634
+#: ../face/mywidget.cc:706
 msgid "include by default"
 msgstr ""
 
 # face/prefs.cc
-#: ../face/mywidget.cc:636
+#: ../face/mywidget.cc:708
 #, fuzzy
 msgid "exclude by default"
 msgstr "초기값으로 고쳐놓기"
 
-#: ../face/mywidget.cc:642
+#: ../face/mywidget.cc:714
 #, fuzzy
 msgid "Name of filter"
 msgstr "파일 종류"
 
-#: ../face/mywidget.cc:648
+#: ../face/mywidget.cc:720
 msgid "Up"
 msgstr ""
 
-#: ../face/mywidget.cc:649
+#: ../face/mywidget.cc:721
 #, fuzzy
 msgid "Add rule"
 msgstr "새로 추가"
 
-#: ../face/mywidget.cc:650
+#: ../face/mywidget.cc:722
 #, fuzzy
 msgid "Down"
 msgstr "내려받기"
 
-#: ../face/filtrgui.cc:168 ../face/fsched.cc:204 ../face/mywidget.cc:659
+#: ../face/filtrgui.cc:168 ../face/fsched.cc:204 ../face/mywidget.cc:731
 msgid "Remove"
 msgstr "제거"
 
 # face/dndtrash.cc
 #: ../face/filtrgui.cc:167 ../face/fsched.cc:203 ../face/fsched.cc:419
-#: ../face/mywidget.cc:660
+#: ../face/mywidget.cc:732
 msgid "Edit"
 msgstr "편집"
+
+#: ../face/mywidget.cc:807
+#, fuzzy
+msgid "Select filter"
+msgstr "파일 선택"
+
+#: ../face/filtrgui.cc:152 ../face/mywidget.cc:809
+#, fuzzy
+msgid "filter name"
+msgstr "파일 이름"
 
 # face/passface.cc:
 #: ../face/passface.cc:42
@@ -1866,95 +1892,101 @@ msgstr "초기 암호와 사용자이름"
 msgid "#"
 msgstr "#"
 
-#: ../face/prefs.cc:240
+#: ../face/prefs.cc:246
 msgid "Optimize recursive downloads"
 msgstr "재귀적 내려받기 최적화 하기"
 
-#: ../face/prefs.cc:258
+# face/prefs.cc:
+#: ../face/prefs.cc:262
+#, fuzzy
+msgid "Default permissions of local file"
+msgstr "파일의 초기 허가권"
+
+#: ../face/prefs.cc:273
 msgid "Save downloads to folder"
 msgstr "폴더에 내려받기 저장"
 
-#: ../face/prefs.cc:267 ../face/prefs.cc:967 ../face/prefs.cc:1122
+#: ../face/prefs.cc:282 ../face/prefs.cc:1049 ../face/prefs.cc:1205
 msgid "Limits"
 msgstr "제한"
 
-#: ../face/prefs.cc:323
+#: ../face/prefs.cc:338
 msgid "Maximum lines in log"
 msgstr "로그의 최대 줄 수"
 
-#: ../face/prefs.cc:331 ../face/prefs.cc:972 ../face/prefs.cc:1131
+#: ../face/prefs.cc:346 ../face/prefs.cc:1054 ../face/prefs.cc:1214
 msgid "FTP"
 msgstr "FTP"
 
 # face/prefs.cc
-#: ../face/prefs.cc:357
+#: ../face/prefs.cc:372
 msgid "Output FTP dirs in logs"
 msgstr "로그에 FTP 디렉토리 출력"
 
-#: ../face/prefs.cc:368
+#: ../face/prefs.cc:383
 msgid "default anonymous password"
 msgstr ""
 
-#: ../face/prefs.cc:378 ../face/prefs.cc:977 ../face/prefs.cc:1143
+#: ../face/prefs.cc:445 ../face/prefs.cc:1059 ../face/prefs.cc:1226
 msgid "HTTP"
 msgstr "HTTP"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:413
+#: ../face/prefs.cc:480
 msgid "Filename for saving if it is unknown"
 msgstr "이름을 알 수 없을 때 저장될 파일이름"
 
-#: ../face/prefs.cc:437 ../face/prefs.cc:1002 ../face/prefs.cc:1174
+#: ../face/prefs.cc:519 ../face/prefs.cc:1084 ../face/prefs.cc:1260
 msgid "Main window"
 msgstr "기본 창"
 
-#: ../face/prefs.cc:439
+#: ../face/prefs.cc:521
 msgid "Using title"
 msgstr "제목 사용"
 
-#: ../face/prefs.cc:443
+#: ../face/prefs.cc:525
 msgid "Use title of main window for info"
 msgstr "기본 창의 제목을 정보로 사용"
 
-#: ../face/prefs.cc:448
+#: ../face/prefs.cc:530
 msgid "Display queue statistics too"
 msgstr "대기 통계도 표시"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:449
+#: ../face/prefs.cc:531
 msgid "Scroll title"
 msgstr "제목 스크롤"
 
-#: ../face/prefs.cc:454
+#: ../face/prefs.cc:536
 msgid "Iconfiy main window instead of closing"
 msgstr "닫는 대신 기본 창을 아이콘화 하기"
 
-#: ../face/prefs.cc:466 ../face/prefs.cc:1007 ../face/prefs.cc:1181
+#: ../face/prefs.cc:548 ../face/prefs.cc:1089 ../face/prefs.cc:1267
 msgid "Confirmation"
 msgstr "확인"
 
-#: ../face/prefs.cc:468
+#: ../face/prefs.cc:550
 msgid "Confirm delete selected downloads"
 msgstr "선택된 내려받기를 지울 것인지 확인"
 
-#: ../face/prefs.cc:469
+#: ../face/prefs.cc:551
 msgid "Confirm delete all downloads"
 msgstr "모든 내려받기를 지울 것인지 확인"
 
-#: ../face/prefs.cc:470
+#: ../face/prefs.cc:552
 msgid "Confirm delete completed downloads"
 msgstr "완료된 내려받기를 지울 것인지 확인"
 
-#: ../face/prefs.cc:471
+#: ../face/prefs.cc:553
 msgid "Confirm delete failed downloads"
 msgstr "실패한 내려받기를 지울 것인지 확인"
 
 # face/prefs.cc
-#: ../face/prefs.cc:472
+#: ../face/prefs.cc:554
 msgid "Confirm opening large amount of windows"
 msgstr "많은 양의 창을 열 것인지 확인"
 
-#: ../face/prefs.cc:473
+#: ../face/prefs.cc:555
 msgid "Confirm exit from program"
 msgstr "프로그램을 종료할 것인지 확인"
 
@@ -1964,230 +1996,230 @@ msgstr "프로그램을 종료할 것인지 확인"
 #. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
 #. gtk_widget_show(tmpitem);
 #.
-#: ../face/prefs.cc:498 ../face/prefs.cc:1036 ../face/prefs.cc:1228
+#: ../face/prefs.cc:580 ../face/prefs.cc:1118 ../face/prefs.cc:1314
 msgid "Clipboard"
 msgstr "클립보드"
 
 # face/prefs.cc
-#: ../face/prefs.cc:500
+#: ../face/prefs.cc:582
 msgid "Monitor clipboard"
 msgstr "클립보드 모니터하기"
 
 # face/prefs.cc
-#: ../face/prefs.cc:510
+#: ../face/prefs.cc:592
 msgid "Skip these extensions in clipboard"
 msgstr "클립보드에서 이 확장자들은 건너뛰기"
 
-#: ../face/prefs.cc:518
+#: ../face/prefs.cc:600
 msgid "Catch these extensions in clipboard"
 msgstr "클립보드에서 이 확장자들은 포착"
 
 # prefs.cc:
-#: ../face/prefs.cc:541 ../face/prefs.cc:1051 ../face/prefs.cc:1264
+#: ../face/prefs.cc:623 ../face/prefs.cc:1133 ../face/prefs.cc:1350
 msgid "Main log"
 msgstr "기본 로그"
 
-#: ../face/prefs.cc:547
+#: ../face/prefs.cc:629
 msgid "Maximum lines in MAIN log"
 msgstr "기본 로그의 최대 줄 수"
 
 # face/prefs.cc
-#: ../face/prefs.cc:551
+#: ../face/prefs.cc:633
 msgid "Output detailed information"
 msgstr "상세한 정보 출력"
 
-#: ../face/prefs.cc:555
+#: ../face/prefs.cc:637
 msgid "Save main log into file"
 msgstr "파일에 기본 로그 저장"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:574
+#: ../face/prefs.cc:656
 msgid "Maximum size for file of main log (in KBytes)"
 msgstr "기본 로그 파일 최대 크기 (킬로바이트 단위)"
 
-#: ../face/prefs.cc:580
+#: ../face/prefs.cc:662
 msgid "Append to file"
 msgstr "파일에 추가"
 
-#: ../face/prefs.cc:583
+#: ../face/prefs.cc:665
 msgid "Overwrite file"
 msgstr "파일 덮어쓰기"
 
-#: ../face/prefs.cc:598 ../face/prefs.cc:1023 ../face/prefs.cc:1219
+#: ../face/prefs.cc:680 ../face/prefs.cc:1105 ../face/prefs.cc:1305
 msgid "Integration"
 msgstr "통합"
 
 # prefs.cc:
-#: ../face/prefs.cc:600
+#: ../face/prefs.cc:682
 msgid "Exit if nothing to do after"
 msgstr "다음에 할 일 없으면 종료하기"
 
-#: ../face/prefs.cc:606 ../face/prefs.cc:726
+#: ../face/prefs.cc:688 ../face/prefs.cc:808
 msgid "minutes"
 msgstr "분"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:617
+#: ../face/prefs.cc:699
 msgid "Run this on exit"
 msgstr "종료시 실행할 것"
 
-#: ../face/prefs.cc:622
+#: ../face/prefs.cc:704
 msgid "Open dialog for Drag-n-Drop"
 msgstr "드래그-앤-드롭을 위한 대화창 열기"
 
-#: ../face/prefs.cc:630 ../face/prefs.cc:997 ../face/prefs.cc:1166
+#: ../face/prefs.cc:712 ../face/prefs.cc:1079 ../face/prefs.cc:1252
 msgid "Columns"
 msgstr "열"
 
-#: ../face/prefs.cc:634
+#: ../face/prefs.cc:716
 msgid "Size format"
 msgstr "크기 형식"
 
-#: ../face/prefs.cc:635
+#: ../face/prefs.cc:717
 msgid "Time format"
 msgstr "시간 형식"
 
-#: ../face/prefs.cc:716
+#: ../face/prefs.cc:798
 msgid "Maximum active downloads"
 msgstr "최대 활성 내려받기"
 
-#: ../face/prefs.cc:720
+#: ../face/prefs.cc:802
 msgid "Save list of downloads every"
 msgstr "내려받기의 목록 저장"
 
-#: ../face/prefs.cc:733
+#: ../face/prefs.cc:815
 msgid "Automatically delete completed downloads"
 msgstr "완료된 내려받기 자동으로 지우기"
 
-#: ../face/prefs.cc:734
+#: ../face/prefs.cc:816
 msgid "Automatically delete failed downloads"
 msgstr "실패한 내려받기 자동으로 지우기"
 
-#: ../face/prefs.cc:735
+#: ../face/prefs.cc:817
 msgid "Allow to user force run downloads"
 msgstr "사용자가 내려받기를 강제로 실행할 수 있도록 허락"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:736
+#: ../face/prefs.cc:818
 msgid "Remember passwords"
 msgstr "암호 기억하기"
 
 # face/prefs.cc
-#: ../face/prefs.cc:737
+#: ../face/prefs.cc:819
 msgid "Write Descript.ion file"
 msgstr "Descript.ion 파일 쓰기"
 
-#: ../face/prefs.cc:751
+#: ../face/prefs.cc:833
 msgid "bytes/sec speed level one (red button)"
 msgstr "바이트/초 속도 1 단계 (빨간 단추)"
 
-#: ../face/prefs.cc:759
+#: ../face/prefs.cc:841
 msgid "bytes/sec speed level two (yellow button)"
 msgstr "바이트/초 속도 2 단계 (노란 단추)"
 
-#: ../face/prefs.cc:779
+#: ../face/prefs.cc:861
 msgid "Number of attempts to ping hosts"
 msgstr "호스트를 핑하는 시도 횟수"
 
-#: ../face/prefs.cc:787
+#: ../face/prefs.cc:869
 msgid "Number of hosts in list"
 msgstr "목록의 호스트 갯수"
 
-#: ../face/prefs.cc:813
+#: ../face/prefs.cc:895
 msgid "search engine to use"
 msgstr "사용할 검색 엔진"
 
 # face/prefs.cc
-#: ../face/prefs.cc:822 ../face/prefs.cc:988 ../face/prefs.cc:1161
+#: ../face/prefs.cc:904 ../face/prefs.cc:1070 ../face/prefs.cc:1247
 msgid "Interface"
 msgstr "인터페이스"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:824
+#: ../face/prefs.cc:906
 msgid "Show DnD basket"
 msgstr "DnD 바구니 보이기"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:825
+#: ../face/prefs.cc:907
 msgid "Use fixed font in logs"
 msgstr "로그에 고정폭 글꼴 사용"
 
-#: ../face/prefs.cc:842 ../face/prefs.cc:1012 ../face/prefs.cc:1190
+#: ../face/prefs.cc:924 ../face/prefs.cc:1094 ../face/prefs.cc:1276
 msgid "Graph"
 msgstr "그래프"
 
-#: ../face/prefs.cc:844
+#: ../face/prefs.cc:926
 msgid "Revert drawing graph of speeds"
 msgstr "속도 그래프 그리기로 복귀"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:850
+#: ../face/prefs.cc:932
 msgid "Color for picks"
 msgstr "선택된 것들에 대한 색"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:851
+#: ../face/prefs.cc:933
 msgid "Color for total speed"
 msgstr "총 속도에 대한 색"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:852
+#: ../face/prefs.cc:934
 msgid "Color for speed of selected"
 msgstr "선택된 것들의 속도에 대한 색"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:853
+#: ../face/prefs.cc:935
 msgid "Background color"
 msgstr "배경 색"
 
 # face/prefs.cc
-#: ../face/prefs.cc:862
+#: ../face/prefs.cc:944
 msgid "Reset to default"
 msgstr "초기값으로 고쳐놓기"
 
-#: ../face/prefs.cc:865
+#: ../face/prefs.cc:947
 msgid "Colors for graph"
 msgstr "그래프에 대한 색"
 
-#: ../face/prefs.cc:891 ../face/prefs.cc:1017 ../face/prefs.cc:1198
+#: ../face/prefs.cc:973 ../face/prefs.cc:1099 ../face/prefs.cc:1284
 #, fuzzy
 msgid "Sounds"
 msgstr "열"
 
-#: ../face/prefs.cc:893
+#: ../face/prefs.cc:975
 msgid "enable sounds"
 msgstr ""
 
-#: ../face/prefs.cc:898
+#: ../face/prefs.cc:980
 #, fuzzy
 msgid "Startup"
 msgstr "상태"
 
-#: ../face/prefs.cc:900
+#: ../face/prefs.cc:982
 #, fuzzy
 msgid "Adding a download"
 msgstr "내려받기 추가"
 
-#: ../face/prefs.cc:902
+#: ../face/prefs.cc:984
 #, fuzzy
 msgid "Downloading completed"
 msgstr "/내려받기/완료된 내려받기 지우기"
 
-#: ../face/prefs.cc:904
+#: ../face/prefs.cc:986
 #, fuzzy
 msgid "Downloading failed"
 msgstr "/내려받기/실패한 내려받기 재실행"
 
-#: ../face/prefs.cc:906
+#: ../face/prefs.cc:988
 #, fuzzy
 msgid "Downloading of queue is completed"
 msgstr "%z 디렉토리 내려받기가 완료되었습니다"
 
-#: ../face/prefs.cc:908
+#: ../face/prefs.cc:990
 msgid "Drag'n'Drop event"
 msgstr ""
 
-#: ../face/prefs.cc:924
+#: ../face/prefs.cc:1006
 msgid "Options"
 msgstr "옵션"
 
@@ -2209,25 +2241,29 @@ msgstr "목록 로드"
 msgid "Find links in txt file"
 msgstr "텍스트 파일에서 링크 찾기"
 
+#: ../face/fsface.cc:70
+msgid "bytes"
+msgstr ""
+
 # face/fsface.cc
-#: ../face/fsface.cc:72
+#: ../face/fsface.cc:82
 msgid "nothing found"
 msgstr "아무것도 찾지 못했습니다"
 
-#: ../face/fsface.cc:76
+#: ../face/fsface.cc:86
 msgid "searching"
 msgstr "검색하기"
 
 # face/fsface.cc
-#: ../face/fsface.cc:85
+#: ../face/fsface.cc:95
 msgid "reping"
 msgstr "다시 핑하기"
 
-#: ../face/fsface.cc:89
+#: ../face/fsface.cc:99
 msgid "cumulative reping"
 msgstr "반복해서 다시 핑하기"
 
-#: ../face/fsface.cc:95
+#: ../face/fsface.cc:105
 msgid "remove"
 msgstr "제거"
 
@@ -2382,10 +2418,6 @@ msgstr "파일"
 
 #~ msgid "Day"
 #~ msgstr "일"
-
-# face/prefs.cc:
-#~ msgid "Default permissions of file"
-#~ msgstr "파일의 초기 허가권"
 
 # download.cc:
 #~ msgid "Can't do rollback!"

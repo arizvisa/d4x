@@ -18,7 +18,7 @@
 #include <pthread.h>
 
 struct d4xRule:public tNode{
-	tPStr path,file,host;
+	tPStr path,file,host,params,tag;
 	int proto;
 	int include;
 	d4xRule();
@@ -60,7 +60,7 @@ struct d4xFNode:public tAbstractSortNode{
 	~d4xFNode();
 };
 
-class tDEdit;
+struct d4xFilterSel;
 
 class d4xFiltersTree:public tAbstractSortTree{
  protected:
@@ -69,7 +69,7 @@ class d4xFiltersTree:public tAbstractSortTree{
 	void unlock();
 	void save_recurse(int fd,d4xFNode *what);
 	void print_recurse(d4xFNode *what);
-	void print_recurse(tDEdit *edit,d4xFNode *what);
+	void print_recurse(d4xFilterSel *sel,d4xFNode *what);
  public:
 	d4xFiltersTree();
 	void init();
@@ -82,7 +82,7 @@ class d4xFiltersTree:public tAbstractSortTree{
 	void load_from_ntrc();
 	void save_to_ntrc();
 	void print();
-	void print(tDEdit *edit);
+	void print(d4xFilterSel *sel);
 	~d4xFiltersTree();
 };
 

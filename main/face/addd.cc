@@ -19,6 +19,7 @@
 #include "../ntlocale.h"
 #include <gdk/gdkkeysyms.h>
 #include "../sndserv.h"
+#include "../autoadd.h"
 
 extern tMain aa;
 
@@ -128,6 +129,84 @@ void init_add_dnd_window(char *url,char *desc) {
 	gtk_widget_grab_focus(what->editor->ok_button);
 };
 
+/* automated adding */
+
+void d4x_automated_ok(GtkWidget *widget, tDownload *what) {
+	if (what->editor->apply_changes()) return;
+	int to_top=what->editor->get_to_top_check();
+	int to_pause=what->editor->get_pause_check();
+	list_for_adding->del(what);
+
+	d4xAutoGenerator *gen=new d4xAutoGenerator;
+	if (gen->init(what->editor->get_url())){
+		delete(gen);
+		delete(what);
+		return;
+	};
+	int i=0;
+	char *tmp=gen->first();
+	while(tmp){
+		tDownload *dwn=new tDownload;
+		dwn->info=new tAddr(tmp);
+		dwn->config.copy(&(what->config));
+		dwn->config.restart_from_begin=what->config.restart_from_begin;
+		dwn->config.referer.set(what->config.referer.get());
+		dwn->config.save_name.set(what->config.save_name.get());
+		dwn->config.save_path.set(what->config.save_path.get());
+		dwn->config.log_save_path.set(what->config.log_save_path.get());
+		dwn->Description.set(what->Description.get());
+		if (to_pause){
+			dwn->owner=DL_PAUSE;
+			aa.add_downloading_to(dwn,to_top);
+		}else
+			aa.add_downloading(dwn,to_top);
+		delete[] tmp;
+		i+=1;
+		tmp=gen->next();
+		if (i>1000){
+			delete[] tmp;
+			break;
+		};
+	};
+	delete(gen);
+	delete(what);
+};
+
+void d4x_automated_add(){
+	if (list_for_adding==NULL) {
+		list_for_adding=new tDList(DL_TEMP);
+		list_for_adding->init(0);
+	};
+	tDownload *what=new tDownload;
+	tAddr *info=new tAddr("ftp://somesite.org");
+	what->info=info;
+	what->config.save_path.set(CFG.GLOBAL_SAVE_PATH);
+	what->set_default_cfg();
+
+	if (CFG.USE_PROXY_FOR_FTP) {
+		what->config.proxy_host.set(CFG.FTP_PROXY_HOST);
+		what->config.proxy_port=CFG.FTP_PROXY_PORT;
+		if (CFG.NEED_PASS_FTP_PROXY) {
+			what->config.proxy_user.set(CFG.FTP_PROXY_USER);
+			what->config.proxy_pass.set(CFG.FTP_PROXY_PASS);
+		};
+	};
+	what->config.proxy_type=CFG.FTP_PROXY_TYPE;
+
+	what->editor=new tDEdit;
+	what->editor->add_or_edit=1;
+	what->editor->init(what);
+	gtk_window_set_title(GTK_WINDOW(what->editor->window),_("Automated adding"));
+	gtk_signal_connect(GTK_OBJECT(what->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_window_cancel), what);
+	gtk_signal_connect(GTK_OBJECT(what->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(d4x_automated_ok),what);
+	gtk_signal_connect(GTK_OBJECT(what->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_window_delete), what);
+	gtk_signal_connect(GTK_OBJECT(what->editor->window), "key_press_event",
+			   (GtkSignalFunc)_add_window_event_handler, what);
+	what->editor->clear_url();
+	list_for_adding->insert(what);
+};
+
+/*******************************************/
 static gint _tmp_compare_(gconstpointer a,gconstpointer b){
 	gint aa=GPOINTER_TO_INT(a);
 	gint bb=GPOINTER_TO_INT(b);

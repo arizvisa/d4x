@@ -61,7 +61,14 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 				char b[100];
 				float p=tmp->Percent/tmp->Attempt.curent;
 				d4x_percent_str(p,b,sizeof(b));
-				sprintf(a,"%s%% %s",b,tmp->info->host.get());
+				if (what->finfo.size>0){
+					sprintf(a,"%s%% %s",b,tmp->info->host.get());
+				}else{
+					char size[100];
+					make_number_nice(size,tmp->finfo.size);
+					sprintf(a,"%s%% %s [%s %s]",b,tmp->info->host.get(),
+						tmp->finfo.size>0?size:"???",_("bytes"));
+				};
 				menu_item=gtk_menu_item_new_with_label(a);
 //				menu_item=gtk_menu_item_new_with_label(tmp->info->host.get());
 				gtk_menu_append(GTK_MENU(menu),menu_item);
@@ -171,7 +178,10 @@ void fs_list_set_icon(GtkCList *clist,tDownload *what,int icon){
 
 void fs_list_add(GtkCList* clist,tDownload *what){
 	char data[10];
-	sprintf(data,"%li",what->finfo.size);
+	if (what->finfo.size>0)
+		sprintf(data,"%li",what->finfo.size);
+	else
+		sprintf(data,"???");
 	char *text[FS_COL_LAST]={(char*)NULL,what->info->file.get(),data};
 	gint row=gtk_clist_append(clist,text);
 	gtk_clist_set_row_data (clist,row,what);

@@ -796,49 +796,19 @@ void tDEdit::init(tDownload *who) {
 
 void tDEdit::init_filter_sel(){
 	if (filter_sel){
-		gdk_window_show(filter_sel->window);
+		gdk_window_show(GTK_WIDGET(filter_sel)->window);
 		return;
 	};
-	filter_sel=gtk_window_new(GTK_WINDOW_DIALOG);
-	gtk_window_set_wmclass(GTK_WINDOW(filter_sel),
-			       "D4X_FilterSel","D4X");
-	gtk_widget_set_usize(filter_sel,-1,300);
-	gtk_window_set_title(GTK_WINDOW (filter_sel),_("Select filter"));
-
-	gchar *titles[]={_("filter name")};
-	filter_clist = gtk_clist_new_with_titles(1, titles);
-	gtk_signal_connect(GTK_OBJECT(filter_clist),
+	filter_sel=(d4xFilterSel*)d4x_filter_sel_new();
+	gtk_signal_connect(GTK_OBJECT(filter_sel->clist),
 			   "select_row",
 			   GTK_SIGNAL_FUNC(edit_filter_sel_select),
 			   this);
-	gtk_clist_set_shadow_type(GTK_CLIST(filter_clist), GTK_SHADOW_IN);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(filter_clist),0,TRUE);
-	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
-	                                GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scroll_window),filter_clist);
-	GtkWidget *ok=gtk_button_new_with_label(_("Ok"));
-	GtkWidget *cancel=gtk_button_new_with_label(_("Cancel"));
-	GTK_WIDGET_SET_FLAGS(ok,GTK_CAN_DEFAULT);
-	GTK_WIDGET_SET_FLAGS(cancel,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),ok,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),cancel,FALSE,FALSE,0);
-	gtk_container_add(GTK_CONTAINER(filter_sel),vbox);
-	gtk_window_set_default(GTK_WINDOW(filter_sel),ok);
-	FILTERS_DB->print(this);
-	gtk_widget_show_all(filter_sel);
-	gtk_signal_connect(GTK_OBJECT(ok),
+	gtk_signal_connect(GTK_OBJECT(filter_sel->ok),
 			   "clicked",
 			   GTK_SIGNAL_FUNC(edit_filter_sel_ok),
 			   this);
-	gtk_signal_connect(GTK_OBJECT(cancel),
+	gtk_signal_connect(GTK_OBJECT(filter_sel->cancel),
 			   "clicked",
 			   GTK_SIGNAL_FUNC(edit_filter_sel_cancel),
 			   this);
@@ -849,11 +819,11 @@ void tDEdit::init_filter_sel(){
 };
 
 void tDEdit::filter_ok(){
-	GList *select=((GtkCList *)filter_clist)->selection_end;
+	GList *select=(GTK_CLIST(filter_sel->clist))->selection_end;
 	if (select) {
 		char *name;
 		gint row=GPOINTER_TO_INT(select->data);
-		gtk_clist_get_text(GTK_CLIST(filter_clist),
+		gtk_clist_get_text(GTK_CLIST(filter_sel->clist),
 				   row,0,&name);
 		text_to_combo(filter,name);
 	}else{
@@ -863,15 +833,8 @@ void tDEdit::filter_ok(){
 };
 
 void tDEdit::filter_cancel(){
-	gtk_widget_destroy(filter_sel);
+	gtk_widget_destroy(GTK_WIDGET(filter_sel));
 	filter_sel=NULL;
-};
-
-void tDEdit::add_filter(d4xFNode *node){
-	gchar *data[1];
-	data[0]=node->filter->name.get();
-	gint row=gtk_clist_append(GTK_CLIST(filter_clist),data);
-	gtk_clist_set_row_data(GTK_CLIST(filter_clist),row,node);
 };
 
 void tDEdit::auto_fill_log(){
@@ -1137,6 +1100,10 @@ void tDEdit::clear_url() {
 	text_to_combo(url_entry,"");
 };
 
+char *tDEdit::get_url(){
+	return(text_from_combo(url_entry));
+};
+
 void tDEdit::set_url(char *a) {
 	text_to_combo(url_entry,a);
 };
@@ -1366,7 +1333,7 @@ void tDEdit::done() {
 	if (parent) parent->editor=NULL;
 	gtk_widget_destroy(window);
 	if (filter_sel)
-		gtk_widget_destroy(filter_sel);
+		gtk_widget_destroy(GTK_WIDGET(filter_sel));
 	filter_sel=NULL;
 	delete proxy;
 };

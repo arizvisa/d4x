@@ -1,3 +1,53 @@
+Sat Sep  8 12:22:14 2001
+	*po/: fixed some translation, Russian is updated as usual;
+	*nt.cc: release 1.29;
+	*face/dndtrash.cc: added autoadding menu item to DnD basket's menu;
+
+Fri Sep  7 19:17:54 2001
+	*cookies.cc: open Mozilla's cookies file if it's newer than Netscape's
+	one;
+	*var.cc[h],config.cc,dlist.cc,filter.cc[h],face/edit.cc[h],
+	face/prefs.cc: added filter to default properties;
+
+Thu Sep 6 15:20:11 2001
+	*face/addd.cc: "Stop download just after adding" now works for automated
+	adding;
+	*hproxy.cc: fixed segfault when load via HTTP proxy something which is
+	needed authorisation;
+	*face/log.cc: fixed segfault when change number of threads to lower
+	value and open log;
+
+Wed Sep  5 17:37:45 2001
+	*fsearch.cc,dlist.cc[h],main.cc,face/lmenu.cc,face/fsface.cc:
+	added ability to do FTP-search even if fileseze is unknown;
+	*main.cc,dlist.h: some cleanups for splited downloads;
+
+Tue Sep  4 17:29:21 2001
+	*filter.cc[h],face/mywidget.cc[h],dlist.cc: added entry for parameter
+	of URL to a rule of a filter;
+	*main.cc: add "startup" event just before gtk_main();
+	*po/: updated Ukrainian translation by Cawko Xakep;
+	*ftpd.cc[h]: fixed weird memory deallocation bug;
+	
+Fri Aug 31 21:50:56 2001
+	*filter.cc[h],face/mywidget.cc[h],dlist.cc: added HTML-tag field
+	into rule of a filter;
+
+Fri Aug 24 21:50:56 2001
+	*face/list.cc[h],face/edit.cc[h],face/addd.cc[h]: added normal
+	download's preferences for automated adding feature; fixed memory
+	leak when "automated adding" match more than 1000 URLs;
+	*po/pl.po: updated Polish translation by Grzegorz Kowal;
+
+Wed Aug 22 15:16:16 2001
+	*Makefile: uncoment back sound support;
+	*face/list.cc,face/lmenu.cc[h]: added shortcut for "Protect" action;
+	*aoutadd.cc: fixed working with params like {01-90};
+
+Tue Aug 21 19:06:10 2001
+	*face/prefs.cc: added back "Default premissions";
+	*face/list.cc: one word fix for auto scrolling of main log;
+
 Sat Aug 11 21:31:56 2001
 	*face/dndtrash.cc: fixed appearing DnD basket in stored coords under
 	fvwm2, fixed moving DnD basket under Window Maker;

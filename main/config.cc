@@ -224,7 +224,8 @@ tConfigVariable config_variables[]={
 	{"sound_dnd_drop",	CV_TYPE_STRING,	&(CFG.SOUND_DND_DROP)},
 	{"sound_queue_finish",	CV_TYPE_STRING,	&(CFG.SOUND_QUEUE_FINISH)},
 	{"sound_startup",	CV_TYPE_STRING,	&(CFG.SOUND_STARTUP)},
-	{"clist_shift",		CV_TYPE_FLOAT,	&(CFG.CLIST_SHIFT)}
+	{"clist_shift",		CV_TYPE_FLOAT,	&(CFG.CLIST_SHIFT)},
+	{"default_filter",	CV_TYPE_STRING,	&(CFG.DEFAULT_FILTER)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);

@@ -50,9 +50,10 @@ class tHtmlParser{
 	void get_fields(tHtmlTag *tag);
 	char *extract_from_icommas(char *str);
 	void compact_string(char *str);
-	void look_for_meta_content(tHtmlTagField *where,tQueue *list,tAddr *papa);
+	void look_for_meta_content(tHtmlTagField *where,tQueue *list,
+				   tAddr *papa,const char *tag);
 	tHtmlTag *get_tag();
-	void fix_url(char *url,tQueue *list,tAddr *papa);
+	void fix_url(char *url,tQueue *list,tAddr *papa,const char *tag);
 	void write_left_fields(tHtmlTag *tag);
  public:
 	int out_fd,leave;

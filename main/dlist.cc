@@ -601,6 +601,7 @@ void tDownload::set_default_cfg(){
 	config.copy_ints(&(CFG.DEFAULT_CFG));
 	config.http_recursing=config.http_recurse_depth==1?0:1;
 	config.user_agent.set(CFG.USER_AGENT);
+	Filter.set(CFG.DEFAULT_FILTER);
 	if (CFG.SOCKS_HOST){
 		config.socks_host.set(CFG.SOCKS_HOST);
 		config.socks_port=CFG.SOCKS_PORT;
@@ -799,9 +800,10 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 			temp->info=NULL;
 			d4xFilter *filter=Filter.get()?FILTERS_DB->find(Filter.get()):NULL;
 			if (filter){
-				if (filter->match(onenew->info))
+				if (filter->match(onenew->info)){
+					onenew->info->tag.set(NULL); //this info is not needed any more
 					DIR->insert(onenew);
-				else
+				}else
 					delete(onenew);
 				filter->unref();
 			}else{
@@ -1174,6 +1176,35 @@ static void _tmp_info_remove_(void *addr){
 	delete(info);
 };
 
+void tDownload::ftp_search_sizes(){
+	WL->log(LOG_WARNING,_("Trying to determine filesizes"));
+	download_set_block(1);
+	delete(who);
+	who=NULL;
+	download_set_block(0);
+
+	tDownload *tmp=DIR->last();
+	config.number_of_attempts=5;
+	while(tmp){
+		tDownload *nexttmp=DIR->next();
+		who=new tFtpDownload;
+		if (who->init(tmp->info,WL,&(config))){
+			WL->log(LOG_ERROR,"Can't determine filesize");
+			tmp->finfo.size=-1;
+		}else{
+			who->init_download(tmp->info->path.get(),
+					   tmp->info->file.get());
+			tmp->finfo.size=who->get_size();
+		};
+		who->done();
+		download_set_block(1);
+		delete(who);
+		who=NULL;
+		download_set_block(0);
+		tmp=nexttmp;
+	};
+};
+
 void tDownload::ftp_search() {
 	/* FIXME: prepare new url for ftp search */
 	if (action!=ACTION_REPING){
@@ -1188,20 +1219,30 @@ void tDownload::ftp_search() {
 			tmpinfo->host.set("www.filesearch.ru");
 			tmpinfo->path.set("cgi-bin");
 			tmpinfo->file.set("s");
-			sprintf(data,"q=%s&w=a&t=f&e=on&m=%i&o=n&s1=%li&s2=%li&d=&p=&p2=&x=24&y=12",
-				info->file.get(),
-				CFG.SEARCH_ENTRIES,
-				finfo.size,finfo.size);
+			if (finfo.size>0)
+				sprintf(data,"q=%s&w=a&t=f&e=on&m=%i&o=n&s1=%li&s2=%li&d=&p=&p2=&x=24&y=12",
+					info->file.get(),
+					CFG.SEARCH_ENTRIES,
+					finfo.size,finfo.size);
+			else
+				sprintf(data,"q=%s&w=a&t=f&e=on&m=%i&o=n&d=&p=&p2=&x=24&y=12",
+					info->file.get(),
+					CFG.SEARCH_ENTRIES);
 			tmpinfo->params.set(data);
 			break;
 		default:
 			tmpinfo->host.set("download.lycos.com");
 			tmpinfo->path.set("swadv");
 			tmpinfo->file.set("AdvResults.asp");
-			sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=%i&limsize1=%li&limsize2=%li",
-				info->file.get(),
-				CFG.SEARCH_ENTRIES,
-				finfo.size,finfo.size);
+			if (finfo.size>0)
+				sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=%i&limsize1=%li&limsize2=%li",
+					info->file.get(),
+					CFG.SEARCH_ENTRIES,
+					finfo.size,finfo.size);
+			else
+				sprintf(data,"form=advanced&query=%s&doit=Search&type=Case+sensitive+glob+search&hits=%i",
+					info->file.get(),
+					CFG.SEARCH_ENTRIES);
 			tmpinfo->params.set(data);
 		};
 		if (who->init(tmpinfo,WL,&(config))) {
@@ -1231,6 +1272,8 @@ void tDownload::ftp_search() {
 		who->done();
 		remove_links();
 	};
+	if (finfo.size<0 && DIR->count()>0)
+		ftp_search_sizes();
 	sort_links();
 	WL->log(LOG_OK,_("Search had been completed!"));
 	status=DOWNLOAD_COMPLETE;

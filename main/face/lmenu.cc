@@ -104,6 +104,7 @@ void init_list_menu() {
 		       "Stop",
 		       "Continue downloads",
 		       "Copy",
+		       "(Un)Protect",
 		       "Properties",
 		       "Common properties",
 		       "Delete downloads",
@@ -147,7 +148,7 @@ void init_list_menu() {
 	ListMenuArray[LM_COPY]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(copy_download_to_clipboard),NULL);
 
-	menu_item=make_menu_item(_("(Un)Protect"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
+	menu_item=make_menu_item(_("(Un)Protect"),"Ctrl+Alt+P",(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_PROTECT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lm_inv_protect_flag),NULL);
@@ -232,7 +233,7 @@ void list_menu_prepare() {
 	} else {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],TRUE);
-		if (dwn->finfo.size>0 && dwn->info->file.get())
+		if (dwn->info->file.get())
 			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],TRUE);
 		else
 			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],FALSE);

@@ -17,5 +17,6 @@ void init_add_window(...);
 void init_add_clipboard_window(...);
 void init_add_dnd_window(char *url,char *desc);
 void init_edit_common_properties_window(int *array);
+void d4x_automated_add();
 
 #endif

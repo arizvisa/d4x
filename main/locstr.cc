@@ -1272,7 +1272,7 @@ tPStr::tPStr(){
 	a=NULL;
 };
 
-void tPStr::set(char *b){
+void tPStr::set(const char *b){
 	if (a) delete[] a;
 	a=copy_string(b);
 };

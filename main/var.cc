@@ -25,7 +25,7 @@ tMainCfg CFG={
 	{300,5,0,100,0,1,0,0,
 	 0,0,0,0,0,1,1,1,0,0,0,0,1,
 	 0,0},
-	100,1,NULL,NULL,NULL,NULL,NULL,0,0,
+	100,1,NULL,NULL,NULL,NULL,NULL,NULL,0,0,
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,0,0,600,0,0, //flags
@@ -122,6 +122,7 @@ void var_free(tMainCfg *dst){
 	if (dst->SOUND_DND_DROP) delete[] dst->SOUND_DND_DROP;
 	if (dst->SOUND_QUEUE_FINISH) delete[] dst->SOUND_QUEUE_FINISH;
 	if (dst->SOUND_STARTUP) delete[] dst->SOUND_STARTUP;
+	if (dst->DEFAULT_FILTER) delete[] dst->DEFAULT_FILTER;
 };
 
 void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
@@ -224,4 +225,5 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->SOUND_ADD=copy_string(src->SOUND_ADD);
 	dst->SOUND_DND_DROP=copy_string(src->SOUND_DND_DROP);
 	dst->SOUND_QUEUE_FINISH=copy_string(src->SOUND_QUEUE_FINISH);
+	dst->DEFAULT_FILTER=copy_string(src->DEFAULT_FILTER);
 };

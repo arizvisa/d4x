@@ -22,7 +22,7 @@ CXXFLAGS+=-D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS $(SOLARIS_TYPECASTED_X11_HEADE
 export CXXFLAGS LOCALEDIR
 
 NLS=-DENABLE_NLS # Remove or comment this line to disable gettext
-#OSS_SOUND=-DD4X_WITH_OSS # remove or comment this line to disable OSS sound
+OSS_SOUND=-DD4X_WITH_OSS # remove or comment this line to disable OSS sound
 
 LOCALEDIR=$(DEST)/share/locale
 PTHREAD=-lpthread
@@ -93,7 +93,7 @@ all:
 	-rm -f nt
 	$(MAKE) nt
 	[ -z "$(NLS)" ] || $(MAKE) -C po
-#	$(MAKE) strip
+	$(MAKE) strip
 
 $(FACE):
 	$(MAKE) -C face

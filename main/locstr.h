@@ -18,7 +18,7 @@ class tPStr{
 	char *a;
  public:
 	tPStr();
-	void set(char *a);
+	void set(const char *a);
 	char *get(){return a;};
 	~tPStr();
 };

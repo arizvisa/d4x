@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
-"POT-Creation-Date: 2001-07-16 16:07+0800\n"
+"POT-Creation-Date: 2001-09-08 12:55+0800\n"
 "PO-Revision-Date: 1999-08-24 17:12+07\n"
 "Last-Translator: Koshelev Maxim <mdem@chat.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,174 +65,174 @@ msgstr ""
 msgid "Expect URL as parameter for '--del' option"
 msgstr "The optie '--exit-time' heeft een getal nodig als parameter"
 
-#: ../config.cc:303
+#: ../config.cc:310
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "Kan instellingen in bestand '%s' niet openen\n"
 
-#: ../config.cc:304
+#: ../config.cc:311
 msgid "Use default cfg :))...\n"
 msgstr "Gebruik standaard instellingen :))...\n"
 
-#: ../config.cc:505
+#: ../config.cc:524
 msgid "Can't open limits configuration file!\n"
 msgstr "Kan bestand met limieten niet openen!!!\n"
 
-#: ../config.cc:528
+#: ../config.cc:547
 msgid "Can't write limits to file!!!\n"
 msgstr "Kan limiet-instellingen niet wegschrijven!!!\n"
 
 # config.cc:
-#: ../config.cc:558
+#: ../config.cc:577
 msgid "unknown option:"
 msgstr "onbekende optie:"
 
 # config.cc:
-#: ../config.cc:605
+#: ../config.cc:624
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Actieve downloads: %d\n"
 
 # config.cc:
-#: ../config.cc:607
+#: ../config.cc:626
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Onderbroken downloads: %d\n"
 
 # config.cc:
-#: ../config.cc:609
+#: ../config.cc:628
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Mislukte downloads: %d\n"
 
 # config.cc:
-#: ../config.cc:611
+#: ../config.cc:630
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Voltooide downloads: %d\n"
 
 # config.cc:
-#: ../config.cc:614
+#: ../config.cc:633
 #, c-format
 msgid "Total: %d\n"
 msgstr "Totaal: %d\n"
 
-#: ../config.cc:616
+#: ../config.cc:635
 #, fuzzy, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "%i bytes geladen."
 
 # config.cc:
-#: ../config.cc:618
+#: ../config.cc:637
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Huidige snelheid: %d\n"
 
 # config.cc:
-#: ../config.cc:624
+#: ../config.cc:643
 #, fuzzy, c-format
 msgid "Curent speed: %d\n"
 msgstr "Huidige snelheid: %d\n"
 
 # config.cc:
-#: ../config.cc:807
+#: ../config.cc:826
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Gebruik: nt [OPTIE] ... [URL]"
 
 # config.cc:
-#: ../config.cc:808
+#: ../config.cc:827
 msgid "print this page and exit"
 msgstr "druk deze pagina af en sluit af"
 
 # config.cc:
-#: ../config.cc:809
+#: ../config.cc:828
 msgid "show version information and exit"
 msgstr "laat versie informatie zien en sluit af"
 
 # config.cc:
-#: ../config.cc:810
+#: ../config.cc:829
 msgid "show information if already run"
 msgstr "laat informatie zien indien al opgestart"
 
 # config.cc:
-#: ../config.cc:811
+#: ../config.cc:830
 msgid "show current speed if already run"
 msgstr "laat huidige snelheid zien indien al opgestart"
 
 # config.cc
-#: ../config.cc:812
+#: ../config.cc:831
 msgid "run in minimized mode"
 msgstr "draai in geminimaliseerde mode"
 
 # config.cc
-#: ../config.cc:813
+#: ../config.cc:832
 msgid "set timeout for exiting if nothing to do"
 msgstr "zet timeout voor afsluiten na inactiviteit"
 
 # config.cc:
-#: ../config.cc:814
+#: ../config.cc:833
 msgid "set directory for saving files"
 msgstr "zet directory voor opgeslagen bestanden"
 
 # config.cc:
-#: ../config.cc:815
+#: ../config.cc:834
 msgid "set lower speed limitation"
 msgstr "gebruik langzame snelheid"
 
 # config.cc:
-#: ../config.cc:816
+#: ../config.cc:835
 msgid "set medium speed limitation"
 msgstr "gebruik normale snelheid"
 
 # config.cc:
-#: ../config.cc:817
+#: ../config.cc:836
 msgid "set unlimited speed"
 msgstr "onbeperkte snelheid"
 
-#: ../config.cc:818
+#: ../config.cc:837
 msgid "delete completed if already run"
 msgstr "verwijder voltooide downloads die klaar zijn"
 
-#: ../config.cc:819
+#: ../config.cc:838
 msgid "set maximum active downloads"
 msgstr "zet maximum aantal simultane downloads"
 
 # config.cc
-#: ../config.cc:820
+#: ../config.cc:839
 msgid "restart all failed downloads"
 msgstr "herhaal alle mislukte downloads"
 
-#: ../config.cc:821
+#: ../config.cc:840
 msgid "run program without X interface"
 msgstr "start programma zonder X interface"
 
-#: ../config.cc:822
+#: ../config.cc:841
 msgid "display info about URL in queue of downloads"
 msgstr ""
 
-#: ../config.cc:823
+#: ../config.cc:842
 #, fuzzy
 msgid "remove a download from queue"
 msgstr "Verwijder voltooide"
 
-#: ../config.cc:824
+#: ../config.cc:843
 #, fuzzy
 msgid "using colors if run without interface"
 msgstr "start programma zonder X interface"
 
 # cookie.cc
-#: ../cookie.cc:122
+#: ../cookie.cc:200
 msgid "Loading cookies"
 msgstr "Laden cookies"
 
 # cookie.cc
-#: ../cookie.cc:151
+#: ../cookie.cc:228
 #, c-format
 msgid "%i cookies loaded"
 msgstr "%i cookies geladen"
 
 # cookie.cc
-#: ../cookie.cc:153
+#: ../cookie.cc:230
 msgid "Can't open cookies file!"
 msgstr "Can cookie bestand niet openen!"
 
@@ -311,62 +311,67 @@ msgstr "Directory kon niet aangemaakt worden!"
 msgid "Downloader can't create devices..."
 msgstr "Downloader kan apparaten niet aanmaken..."
 
-#: ../dlist.cc:904
+#: ../dlist.cc:906
 #, fuzzy
 msgid "Downloading was successefully completed!"
 msgstr "Download gelukt!"
 
-#: ../dlist.cc:946
+#: ../dlist.cc:948
 #, fuzzy
 msgid "Downloading was failed..."
 msgstr "Download mislukt..."
 
-#: ../dlist.cc:1084
+#: ../dlist.cc:1086
 msgid "Redirect detected..."
 msgstr "Omleiding gevonden..."
 
-#: ../dlist.cc:1091
+#: ../dlist.cc:1093
 msgid "It is strange that we can't delete file which just created..."
 msgstr ""
 "Grappig, we kunnen het bestand dat net aangemaakt is, niet verwijderen..."
 
-#: ../dlist.cc:1095 ../dlist.cc:1267
+#: ../dlist.cc:1097 ../dlist.cc:1310
 msgid "File not found"
 msgstr "Bestand niet gevonden"
 
 # dlist.cc
-#: ../dlist.cc:1147
+#: ../dlist.cc:1149
 msgid "Sorting started"
 msgstr ""
 
-#: ../dlist.cc:1150
+#: ../dlist.cc:1152
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr ""
 
+#: ../dlist.cc:1180
+#, fuzzy
+msgid "Trying to determine filesizes"
+msgstr "Probeer een file aan te maken"
+
 # dlist.cc
-#: ../dlist.cc:1215
+#: ../dlist.cc:1256
 msgid "Searching failed"
 msgstr ""
 
 # dlist.cc:
-#: ../dlist.cc:1235
+#: ../dlist.cc:1278
 msgid "Search had been completed!"
 msgstr ""
 
-#: ../dlist.cc:1241
+#: ../dlist.cc:1284
 msgid "Was Started!"
 msgstr "Is gestart!"
 
-#: ../dlist.cc:1245
+#: ../dlist.cc:1288
 msgid "It is a link and we already load it"
 msgstr "Het is een link en we hebben hem al ingeladen"
 
-#: ../dlist.cc:1272
+#: ../dlist.cc:1315
 msgid "Trying to work without CWD"
 msgstr ""
 
-#: ../dlist.cc:1340
+#: ../dlist.cc:1383
 msgid "Can't split file to specified number of parts!"
 msgstr ""
 
@@ -462,59 +467,59 @@ msgstr ""
 msgid "Sleeping"
 msgstr "Wachten..."
 
-#: ../ftpd.cc:393
+#: ../ftpd.cc:399
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr ""
 
-#: ../ftpd.cc:418
+#: ../ftpd.cc:424 ../ftpd.cc:446
 #, c-format
 msgid "Length is %i"
 msgstr "Grootte is %i"
 
-#: ../ftpd.cc:434
+#: ../ftpd.cc:436
 msgid "This is a directory!"
 msgstr "Dit is een directory!"
 
-#: ../ftpd.cc:443
+#: ../ftpd.cc:465
 msgid "Couldn't get size :(("
 msgstr "Kan grootte niet bepalen :(("
 
-#: ../ftpd.cc:468
+#: ../ftpd.cc:483
 msgid "Loading directory..."
 msgstr "Directory inladen..."
 
-#: ../ftpd.cc:482
+#: ../ftpd.cc:497
 msgid "Listing was loaded"
 msgstr "Lijst ingeladen"
 
-#: ../ftpd.cc:485
+#: ../ftpd.cc:500
 msgid "Listing not loaded completelly"
 msgstr "Lijst niet compleet ingeladen"
 
-#: ../ftpd.cc:512
+#: ../ftpd.cc:527
 msgid "Link was loaded :))"
 msgstr "Link is ingeladen :))"
 
-#: ../ftpd.cc:546 ../httpd.cc:317
+#: ../ftpd.cc:561 ../httpd.cc:317
 #, c-format
 msgid "%i bytes loaded."
 msgstr "%i bytes geladen."
 
-#: ../hproxy.cc:174
+#: ../hproxy.cc:175
 msgid "Connection to the internet via proxy"
 msgstr "Verbinding met het Internet via proxy"
 
-#: ../hproxy.cc:176
+#: ../hproxy.cc:177
 msgid "Sending request to proxy"
 msgstr "Zend verzoek naar proxy"
 
 #. all ok
-#: ../hproxy.cc:180 ../httpd.cc:260
+#: ../hproxy.cc:181 ../httpd.cc:260
 msgid "Answer read ok"
 msgstr "Antwoord in orde"
 
 #. bad answer
-#: ../hproxy.cc:189
+#: ../hproxy.cc:190
 msgid "Probably it's problem of proxy server, retrying"
 msgstr ""
 
@@ -581,190 +586,191 @@ msgid "Loading default list of downloads"
 msgstr "Standaard lijst van downloads aan het inladen"
 
 # main.cc:
-#: ../main.cc:169
+#: ../main.cc:171
 msgid "Append list to current queue of downloads"
 msgstr "Voeg lijst to aan huidige lijst van downloads"
 
 # main.cc
-#: ../main.cc:259 ../main.cc:1122
+#: ../main.cc:261 ../main.cc:1121
 msgid "Delete completed downloads"
 msgstr "Verwijder voltooide downloads"
 
 # main.cc
-#: ../main.cc:272
+#: ../main.cc:274
 msgid "Delete failed downloads"
 msgstr "Verwijder mislukte downloads"
 
-#: ../main.cc:293
+#: ../main.cc:295
 msgid "Clear queue of downloads"
 msgstr "Maak download lijst leeg"
 
 # main.cc
-#: ../main.cc:347
+#: ../main.cc:349
 msgid "Run new thread for %z"
 msgstr "Draai %z in een nieuwe thread"
 
 # main.cc:
-#: ../main.cc:353
+#: ../main.cc:355
 msgid "Can't run new thread for downloading!"
 msgstr "Kan geen nieuwe thread aanmaken voor download!"
 
-#: ../main.cc:355
+#: ../main.cc:357
 #, fuzzy, c-format
 msgid "Maximum active downloads is set to %i"
 msgstr "Maximaal aantal actieve downloads"
 
-#: ../main.cc:405
+#: ../main.cc:407
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Download van bestand %s van %s is afgebroken [door gebruiker]"
 
-#: ../main.cc:459
+#: ../main.cc:461
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "Verwijder bestand %s van lijst van downloads"
 
-#: ../main.cc:537
+#: ../main.cc:539
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "Voortzetting downloaden van %s van %s..."
 
-#: ../face/mywidget.cc:371 ../face/mywidget.cc:613 ../main.cc:628
+#: ../face/mywidget.cc:385 ../face/mywidget.cc:687 ../main.cc:630
 msgid "file"
 msgstr "bestand"
 
-#: ../main.cc:727
+#: ../main.cc:729
 msgid "dir"
 msgstr "dir"
 
-#: ../main.cc:731
+#: ../main.cc:733
 msgid "link"
 msgstr "link"
 
-#: ../main.cc:735
+#: ../main.cc:737
 msgid "device"
 msgstr "apparaat"
 
-#: ../main.cc:774
+#: ../main.cc:776
 msgid "Too many redirections!"
 msgstr ""
 
 # main.cc:
-#: ../main.cc:789
+#: ../main.cc:791
 #, fuzzy
 msgid "Redirection from [%z] to the same location!"
 msgstr "Redirect van [%z] naar nergens!"
 
 # main.cc:
-#: ../main.cc:825
+#: ../main.cc:827
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Redirect van [%z] naar nergens!"
 
 # main.cc
-#: ../main.cc:833
+#: ../main.cc:835
 msgid "Prepare [%z] for stoping"
 msgstr "Bereid [%z] voor om te stoppen"
 
 # main.cc:
-#: ../main.cc:872
+#: ../main.cc:874
 msgid "Redirect from %z"
 msgstr "Redirect via %z"
 
-#: ../main.cc:876
+#: ../main.cc:878
 msgid "Downloading of directory %z was completed"
 msgstr "Download van directory %z voltooid"
 
-#: ../main.cc:880
+#: ../main.cc:882
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
 "Download van bestand %z (%i bytes) voltooid met snelheid van %i bytes/sec"
 
 # main.cc
-#: ../main.cc:886
+#: ../main.cc:888
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z is uit de lijst verwijderd als voltooid"
 
-#: ../main.cc:897
+#: ../main.cc:899
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Download van bestand %z afgebroken door fatale fout"
 
 # main.cc
-#: ../main.cc:900
+#: ../main.cc:902
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z is uit de lijst verwijderd als mislukt"
 
-#: ../main.cc:932
+#.				tmp->status=DOWNLOAD_REAL_STOP;
+#: ../main.cc:934
 msgid "Splited download [%z] was stopped because one of threads failed"
 msgstr ""
 
-#: ../main.cc:1075
+#: ../main.cc:1074
 msgid "Restarting failed downloads"
 msgstr ""
 
 # main.cc
-#: ../main.cc:1075 ../main.cc:1102 ../main.cc:1118 ../main.cc:1122
-#: ../main.cc:1127 ../main.cc:1140 ../main.cc:1145
+#: ../main.cc:1074 ../main.cc:1101 ../main.cc:1117 ../main.cc:1121
+#: ../main.cc:1126 ../main.cc:1139 ../main.cc:1144
 msgid "[control socket]"
 msgstr "[controle socket]"
 
 # main.cc
-#: ../main.cc:1086
+#: ../main.cc:1085
 #, fuzzy, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Voeg download toe via controle socket [%s]"
 
 # main.cc
-#: ../main.cc:1093
+#: ../main.cc:1092
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Voeg download toe via controle socket [%s]"
 
 # main.cc
-#: ../main.cc:1100
+#: ../main.cc:1099
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Zet snelheidslimiet op %s %s"
 
 # main.cc
-#: ../main.cc:1118
+#: ../main.cc:1117
 msgid "Setup maximum active downloads to"
 msgstr ""
 
-#: ../main.cc:1140
+#: ../main.cc:1139
 msgid "Exiting if nothing to do is switched off"
 msgstr "Afsluiten na inactiviteit is uitgezet"
 
-#: ../main.cc:1145
+#: ../main.cc:1144
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader sluit af na %i minuten niets inactiviteit %s"
 
-#: ../main.cc:1412
+#: ../main.cc:1410
 msgid "Normally started"
 msgstr "Normaal opgestart"
 
-#: ../main.cc:1460
+#: ../main.cc:1459
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Bestand %s van %s toegevoegd [door gebruiker]"
 
 # main.cc
-#: ../main.cc:1504
+#: ../main.cc:1503
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bytes geladen tijdens de sessie"
 
 # main.cc:
-#: ../main.cc:1505
+#: ../main.cc:1504
 msgid "Downloader exited normaly"
 msgstr "Downloader normaal afgesloten"
 
-#: ../main.cc:1544
+#: ../main.cc:1543
 #, fuzzy, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Kan bestand niet openen voor schrijven van log"
 
-#: ../main.cc:1575
+#: ../main.cc:1574
 #, fuzzy
 msgid "Such protocol is not supported!"
 msgstr "Reget wordt niet ondersteund!!!"
@@ -787,7 +793,7 @@ msgstr "Regel openen"
 msgid "Clear log"
 msgstr "Log leegmaken"
 
-#: ../face/fsched.cc:772 ../face/lmenu.cc:159 ../mainlog.cc:218
+#: ../face/fsched.cc:772 ../face/lmenu.cc:160 ../mainlog.cc:218
 msgid "Properties"
 msgstr "Eigenschappen"
 
@@ -800,12 +806,12 @@ msgstr "Regel %i van hoofdlog"
 msgid "Can't open file for saving log"
 msgstr "Kan bestand niet openen voor schrijven van log"
 
-#: ../nt.cc:118
+#: ../nt.cc:119
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "WAARSCHUWING!!! Variable HOME niet gevonden! Kan instellingen niet lezen!"
 
-#: ../nt.cc:131
+#: ../nt.cc:132
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s is waarschijnlijk al gestart\n"
@@ -853,50 +859,54 @@ msgstr "normaal"
 msgid "unlimited"
 msgstr "onbeperkt"
 
-#: ../face/about.cc:104
+#: ../face/about.cc:106
 msgid "About"
 msgstr "Info"
 
-#: ../face/about.cc:109
+#: ../face/about.cc:111
 msgid "Author: Koshelev Maxim"
 msgstr "Author: Koshelev Maxim"
 
-#: ../face/about.cc:111
+#: ../face/about.cc:113
 msgid "Translators team"
 msgstr "Vertalers"
 
 # face/about.cc
-#: ../face/about.cc:118
+#: ../face/about.cc:120
 msgid "Special thanks to"
 msgstr "Speciale dank aan"
 
 # face/
-#: ../face/about.cc:125 ../face/about.cc:193 ../face/about.cc:274
-#: ../face/buttons.cc:160 ../face/edit.cc:783 ../face/edit.cc:821
-#: ../face/edit.cc:2003 ../face/filtrgui.cc:165 ../face/fsched.cc:201
-#: ../face/fsched.cc:778 ../face/limface.cc:79 ../face/limface.cc:323
-#: ../face/list.cc:209 ../face/lod.cc:478 ../face/mywidget.cc:386
-#: ../face/mywidget.cc:658 ../face/passface.cc:79 ../face/passface.cc:263
-#: ../face/prefs.cc:1068 ../face/saveload.cc:141 ../face/saveload.cc:183
-#: ../face/saveload.cc:224
+#: ../face/about.cc:127 ../face/about.cc:195 ../face/about.cc:276
+#: ../face/buttons.cc:160 ../face/edit.cc:783 ../face/edit.cc:1970
+#: ../face/filtrgui.cc:165 ../face/fsched.cc:201 ../face/fsched.cc:778
+#: ../face/limface.cc:79 ../face/limface.cc:323 ../face/lod.cc:478
+#: ../face/mywidget.cc:454 ../face/mywidget.cc:730 ../face/mywidget.cc:818
+#: ../face/passface.cc:79 ../face/passface.cc:263 ../face/prefs.cc:1150
+#: ../face/saveload.cc:141 ../face/saveload.cc:183 ../face/saveload.cc:224
 msgid "Ok"
 msgstr "Ok"
 
-#: ../face/about.cc:194 ../face/buttons.cc:162 ../face/edit.cc:784
-#: ../face/edit.cc:822 ../face/fsched.cc:779 ../face/limface.cc:80
-#: ../face/list.cc:210 ../face/lod.cc:479 ../face/mywidget.cc:387
-#: ../face/passface.cc:80 ../face/prefs.cc:1069 ../face/saveload.cc:143
-#: ../face/saveload.cc:185 ../face/saveload.cc:226
+#: ../face/about.cc:196 ../face/buttons.cc:162 ../face/edit.cc:784
+#: ../face/fsched.cc:779 ../face/limface.cc:80 ../face/lod.cc:479
+#: ../face/mywidget.cc:455 ../face/mywidget.cc:819 ../face/passface.cc:80
+#: ../face/prefs.cc:1151 ../face/saveload.cc:143 ../face/saveload.cc:185
+#: ../face/saveload.cc:226
 msgid "Cancel"
 msgstr "Afbreken"
 
-#: ../face/about.cc:234
+#: ../face/about.cc:236
 msgid "Don't ask next time"
 msgstr ""
 
-#: ../face/addd.cc:105 ../face/addd.cc:173
+#: ../face/addd.cc:106 ../face/addd.cc:261
 msgid "Add new download"
 msgstr "Download toevoegen"
+
+#: ../face/addd.cc:199
+#, fuzzy
+msgid "Automated adding"
+msgstr "/Bestand/Lijst _laden"
 
 #: ../face/buttons.cc:48
 msgid " Add new download "
@@ -977,7 +987,7 @@ msgstr ""
 msgid " Configure buttons "
 msgstr ""
 
-#: ../face/buttons.cc:161 ../face/prefs.cc:1070
+#: ../face/buttons.cc:161 ../face/prefs.cc:1152
 msgid "Apply"
 msgstr ""
 
@@ -1052,52 +1062,57 @@ msgid "Showed columns"
 msgstr "afgebeelde kolommen"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:41
+#: ../face/dndtrash.cc:42
 msgid "/New Download"
 msgstr "/Nieuwe download"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:42
+#: ../face/dndtrash.cc:43
 msgid "/Paste Download"
 msgstr "/Plak download"
 
+#: ../face/dndtrash.cc:44
+#, fuzzy
+msgid "/Automated adding"
+msgstr "/Bestand/Lijst _laden"
+
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:43
+#: ../face/dndtrash.cc:45
 msgid "/Delete completed"
 msgstr ""
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:44
+#: ../face/dndtrash.cc:46
 msgid "/General options"
 msgstr "/Standaard instellingen"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:45
+#: ../face/dndtrash.cc:47
 msgid "/Speed"
 msgstr "/Snelheid"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:46
+#: ../face/dndtrash.cc:48
 msgid "/Speed/Low"
 msgstr "/Snelheid/Laagste"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:47
+#: ../face/dndtrash.cc:49
 msgid "/Speed/Medium"
 msgstr "/Snelheid/Normaal"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:48
+#: ../face/dndtrash.cc:50
 msgid "/Speed/Unlimited"
 msgstr "/Snelheid/Geen limiet"
 
 # face/dndtrash.cc
-#: ../face/dndtrash.cc:49
+#: ../face/dndtrash.cc:51
 msgid "/Exit"
 msgstr "/Sluit af"
 
 # face/dndtrash.cc:
-#: ../face/dndtrash.cc:263 ../face/list.cc:930 ../face/list.cc:947
+#: ../face/dndtrash.cc:269 ../face/list.cc:876 ../face/list.cc:893
 msgid "Drop link here"
 msgstr "Sleep link hierheen"
 
@@ -1135,11 +1150,11 @@ msgstr "Timeout voor herverbinden"
 msgid "Rollback after reconnecting"
 msgstr "Rollback bij herverbinden"
 
-#: ../face/edit.cc:68 ../face/edit.cc:535 ../face/prefs.cc:228
+#: ../face/edit.cc:68 ../face/edit.cc:535 ../face/prefs.cc:234
 msgid "Get date from the server"
 msgstr "Gebruik datum van de server"
 
-#: ../face/edit.cc:69 ../face/edit.cc:539 ../face/prefs.cc:232
+#: ../face/edit.cc:69 ../face/edit.cc:539 ../face/prefs.cc:238
 msgid "Retry if resuming is not supported"
 msgstr "Herhalen als voortzetten niet ondersteund wordt"
 
@@ -1148,31 +1163,31 @@ msgstr "Herhalen als voortzetten niet ondersteund wordt"
 msgid "Number of parts for spliting this download"
 msgstr "Aantal delen waarin deze download gesplitst wordt"
 
-#: ../face/edit.cc:71 ../face/edit.cc:577 ../face/prefs.cc:333
+#: ../face/edit.cc:71 ../face/edit.cc:577 ../face/prefs.cc:348
 msgid "Use passive mode for FTP"
 msgstr "Gebruik passieve FTP mode"
 
-#: ../face/edit.cc:72 ../face/edit.cc:583 ../face/prefs.cc:341
+#: ../face/edit.cc:72 ../face/edit.cc:583 ../face/prefs.cc:356
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "Gebruik permissies van het bestand op de server (alleen FTP)"
 
 # face/prefs.cc, face/edit.cc
-#: ../face/edit.cc:73 ../face/edit.cc:580 ../face/prefs.cc:337
+#: ../face/edit.cc:73 ../face/edit.cc:580 ../face/prefs.cc:352
 msgid "Don't send QUIT command (FTP)"
 msgstr ""
 
 # face/prefs.cc
-#: ../face/edit.cc:74 ../face/edit.cc:547 ../face/prefs.cc:248
+#: ../face/edit.cc:74 ../face/edit.cc:547 ../face/prefs.cc:254
 msgid "Compare date/time of remote file with local one"
 msgstr ""
 
 # face/edit.cc
-#: ../face/edit.cc:75 ../face/edit.cc:543 ../face/prefs.cc:236
+#: ../face/edit.cc:75 ../face/edit.cc:543 ../face/prefs.cc:242
 msgid "Sleep before completing"
 msgstr ""
 
 # face/edit.cc:
-#: ../face/edit.cc:76 ../face/edit.cc:586 ../face/prefs.cc:345
+#: ../face/edit.cc:76 ../face/edit.cc:586 ../face/prefs.cc:360
 msgid "Try to load symbolic link as file via FTP"
 msgstr "Probeer symbolische link te downloaden als een file"
 
@@ -1185,20 +1200,20 @@ msgid "Depth of recursing for HTTP"
 msgstr "Diepte van recursie voor HTTP"
 
 # face/edit.cc:
-#: ../face/edit.cc:79 ../face/edit.cc:616 ../face/prefs.cc:380
+#: ../face/edit.cc:79 ../face/edit.cc:616 ../face/prefs.cc:447
 msgid "Only subdirs"
 msgstr "Alleen subfolders"
 
 # face/edit.cc
-#: ../face/edit.cc:80 ../face/edit.cc:617 ../face/prefs.cc:381
+#: ../face/edit.cc:80 ../face/edit.cc:617 ../face/prefs.cc:448
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "Sta switchen van server toe tijdens http recursie"
 
-#: ../face/edit.cc:81 ../face/edit.cc:618 ../face/prefs.cc:382
+#: ../face/edit.cc:81 ../face/edit.cc:618 ../face/prefs.cc:449
 msgid "Change links in HTML file to local"
 msgstr ""
 
-#: ../face/edit.cc:82 ../face/edit.cc:641 ../face/prefs.cc:399
+#: ../face/edit.cc:82 ../face/edit.cc:641 ../face/prefs.cc:466
 msgid "User-Agent"
 msgstr ""
 
@@ -1211,7 +1226,7 @@ msgid "Cookie"
 msgstr ""
 
 #: ../face/edit.cc:85 ../face/edit.cc:770 ../face/edit.cc:773
-#: ../face/prefs.cc:422 ../face/prefs.cc:982 ../face/prefs.cc:1157
+#: ../face/prefs.cc:504 ../face/prefs.cc:1064 ../face/prefs.cc:1243
 msgid "Proxy"
 msgstr "Proxy"
 
@@ -1235,8 +1250,8 @@ msgstr ""
 msgid "Save download to file"
 msgstr "Download opslaan in bestand"
 
-#: ../face/edit.cc:410 ../face/edit.cc:1514 ../face/edit.cc:1577
-#: ../face/edit.cc:1614 ../face/passface.cc:69
+#: ../face/edit.cc:410 ../face/edit.cc:1481 ../face/edit.cc:1544
+#: ../face/edit.cc:1581 ../face/passface.cc:69
 msgid "password"
 msgstr "wachtwoord"
 
@@ -1252,7 +1267,7 @@ msgid "Default"
 msgstr "Standaard"
 
 # face/edit.cc:
-#: ../face/edit.cc:460 ../face/prefs.cc:244
+#: ../face/edit.cc:460 ../face/prefs.cc:250
 msgid "Pause this just after adding"
 msgstr "Pauzeer meteen na toevoegen"
 
@@ -1260,35 +1275,35 @@ msgstr "Pauzeer meteen na toevoegen"
 msgid "Add to top of queue"
 msgstr ""
 
-#: ../face/edit.cc:476 ../face/prefs.cc:226 ../face/prefs.cc:958
-#: ../face/prefs.cc:1110
+#: ../face/edit.cc:476 ../face/prefs.cc:232 ../face/prefs.cc:1040
+#: ../face/prefs.cc:1192
 msgid "Download"
 msgstr "Download"
 
-#: ../face/edit.cc:479 ../face/prefs.cc:710 ../face/prefs.cc:1042
-#: ../face/prefs.cc:1251
+#: ../face/edit.cc:479 ../face/prefs.cc:792 ../face/prefs.cc:1124
+#: ../face/prefs.cc:1337
 msgid "Main"
 msgstr "Algemeen"
 
-#: ../face/edit.cc:495 ../face/prefs.cc:278
+#: ../face/edit.cc:495 ../face/prefs.cc:293
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "Timeout voor het lezen van socket (in seconden)"
 
-#: ../face/edit.cc:502 ../face/prefs.cc:285
+#: ../face/edit.cc:502 ../face/prefs.cc:300
 msgid "Timeout before reconnection (in seconds)"
 msgstr "Timeout voor herverbinden (in seconden)"
 
-#: ../face/edit.cc:509 ../face/prefs.cc:292
+#: ../face/edit.cc:509 ../face/prefs.cc:307
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "Maximaal aantal pogingen (0 voor oneindig)"
 
 # face/refs.cc:
-#: ../face/edit.cc:516 ../face/prefs.cc:299
+#: ../face/edit.cc:516 ../face/prefs.cc:314
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "Rollback na herverbinden (in bytes)"
 
 # face/edit.cc
-#: ../face/edit.cc:523 ../face/prefs.cc:306
+#: ../face/edit.cc:523 ../face/prefs.cc:321
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "Snelheidslimiet in bytes/sec (0 is geen limiet)"
 
@@ -1306,18 +1321,19 @@ msgstr "Info"
 msgid "Common"
 msgstr "Algemeen"
 
-#: ../face/edit.cc:594 ../face/edit.cc:611 ../face/prefs.cc:352
-#: ../face/prefs.cc:393
+#: ../face/edit.cc:594 ../face/edit.cc:611 ../face/prefs.cc:367
+#: ../face/prefs.cc:460
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "Grens voor recursie (0 geen grens,1 niet recursief)"
 
-#: ../face/edit.cc:632
+#: ../face/edit.cc:632 ../face/prefs.cc:491
 #, fuzzy
 msgid "Filter"
 msgstr "Bestand"
 
 # face/mywidget.cc:
-#: ../face/edit.cc:633 ../face/lod.cc:497 ../face/mywidget.cc:233
+#: ../face/edit.cc:633 ../face/lod.cc:497 ../face/mywidget.cc:234
+#: ../face/prefs.cc:492
 msgid "Select"
 msgstr "Kies"
 
@@ -1333,70 +1349,60 @@ msgstr "Minuten"
 msgid "Start this downloading at:"
 msgstr "Download beginnen om:"
 
-#: ../face/edit.cc:806
-#, fuzzy
-msgid "Select filter"
-msgstr "Bestand kiezen"
-
-#: ../face/edit.cc:808 ../face/filtrgui.cc:152
-#, fuzzy
-msgid "filter name"
-msgstr "bestandsnaam"
-
-#: ../face/edit.cc:1448
+#: ../face/edit.cc:1415
 msgid "FTP proxy type"
 msgstr "ChangeLog"
 
-#: ../face/edit.cc:1459
+#: ../face/edit.cc:1426
 msgid "FTP (wingate)"
 msgstr ""
 
-#: ../face/edit.cc:1473
+#: ../face/edit.cc:1440
 msgid "Use this proxy for FTP"
 msgstr "Gebruik deze proxy voor FTP"
 
 #. gtk_entry_new();
-#: ../face/edit.cc:1484 ../face/edit.cc:1549 ../face/edit.cc:1599
+#: ../face/edit.cc:1451 ../face/edit.cc:1516 ../face/edit.cc:1566
 msgid "port"
 msgstr "poort"
 
-#: ../face/edit.cc:1491 ../face/edit.cc:1555
+#: ../face/edit.cc:1458 ../face/edit.cc:1522
 msgid "need password"
 msgstr "heeft wachtwoord nodig"
 
-#: ../face/edit.cc:1499 ../face/edit.cc:1563 ../face/edit.cc:1607
+#: ../face/edit.cc:1466 ../face/edit.cc:1530 ../face/edit.cc:1574
 #: ../face/passface.cc:68 ../face/passface.cc:249
 msgid "username"
 msgstr "gebruikersnaam"
 
 # face/lod.cc
-#: ../face/edit.cc:1531
+#: ../face/edit.cc:1498
 msgid "Don't get from cache"
 msgstr "Laad niet vanuit cache"
 
-#: ../face/edit.cc:1538
+#: ../face/edit.cc:1505
 msgid "Use this proxy for HTTP"
 msgstr "Gebruik deze proxy voor HTTP"
 
 #. SOCKS settings
-#: ../face/edit.cc:1585
+#: ../face/edit.cc:1552
 msgid "Use SOCKS5 proxy"
 msgstr ""
 
-#: ../face/edit.cc:1592 ../face/mywidget.cc:357 ../face/mywidget.cc:613
+#: ../face/edit.cc:1559 ../face/mywidget.cc:371 ../face/mywidget.cc:687
 #, fuzzy
 msgid "host"
 msgstr "Host"
 
-#: ../face/edit.cc:1985
+#: ../face/edit.cc:1952
 msgid "Select properties"
 msgstr "Selecteer eigenschappen"
 
-#: ../face/edit.cc:2009
+#: ../face/edit.cc:1976
 msgid "Unselect all"
 msgstr "Deselecteer alles"
 
-#: ../face/edit.cc:2015
+#: ../face/edit.cc:1982
 msgid "Select all"
 msgstr "Selecteer alles"
 
@@ -1446,79 +1452,85 @@ msgstr "Verwijder"
 msgid "Default limitation for all hosts (0 without limits)"
 msgstr "Standaard limiet voor alle hosts (0 is zonder limiet)"
 
-#: ../face/list.cc:104
+#: ../face/list.cc:103
 msgid "/_File"
 msgstr "/_Bestand"
 
-#: ../face/list.cc:105
+#: ../face/list.cc:104
 msgid "/File/_Save List"
 msgstr "/Bestand/Lijst _opslaan"
 
-#: ../face/list.cc:106
+#: ../face/list.cc:105
 msgid "/File/_Load List"
 msgstr "/Bestand/Lijst _laden"
 
 # face/list.cc:
-#: ../face/list.cc:107
+#: ../face/list.cc:106
 msgid "/File/Find links in file"
 msgstr "/Bestand/Vind links in bestand"
 
-#: ../face/list.cc:108
+#: ../face/list.cc:107
 msgid "/File/_New Download"
 msgstr "/Bestand/_Nieuwe download"
 
-#: ../face/list.cc:109
+#: ../face/list.cc:108
 msgid "/File/_Paste Download"
 msgstr "/Bestand/Download _plakken"
 
-#: ../face/list.cc:110
+#: ../face/list.cc:109
 #, fuzzy
 msgid "/File/_Automated adding"
 msgstr "/Bestand/Lijst _laden"
 
-#: ../face/list.cc:111
+#: ../face/list.cc:110
 msgid "/File/Exit"
 msgstr "/Bestand/_Afsluiten"
 
-#: ../face/list.cc:112
+#: ../face/list.cc:111
 msgid "/File/sep1"
 msgstr "/Bestand/sep1"
 
-#: ../face/list.cc:113
+#: ../face/list.cc:112
 msgid "/_Download"
 msgstr "/_Download"
 
-#: ../face/list.cc:114
+#: ../face/list.cc:113
 msgid "/Download/View _Log"
 msgstr "/Download/_Log bekijken"
 
-#: ../face/list.cc:115
+#: ../face/list.cc:114
 msgid "/Download/_Stop downloads"
 msgstr "/Download/Downloads _stoppen"
 
-#: ../face/list.cc:116
+#: ../face/list.cc:115
 msgid "/Download/Edit download"
 msgstr "/Download/Downloads _wijzigen"
 
-#: ../face/list.cc:117
+#: ../face/list.cc:116
 msgid "/Download/_Delete downloads"
 msgstr "/Download/Downloads _verwijderen"
 
-#: ../face/list.cc:118
+#: ../face/list.cc:117
 msgid "/Download/Continue downloads"
 msgstr "/Download/Downloads _doorgaan"
 
-#: ../face/list.cc:119
+#: ../face/list.cc:118
 msgid "/Download/Delete completed"
 msgstr "/Download/Verwijder na voltooiing"
 
-#: ../face/list.cc:120
+#: ../face/list.cc:119
 msgid "/Download/Delete failed"
 msgstr "/Download/Verwijdering mislukt"
 
-#: ../face/list.cc:121
+#: ../face/list.cc:120
 msgid "/Download/Rerun failed"
 msgstr "/Download/Herhaal mislukte"
+
+# face/list.cc
+#: ../face/list.cc:121
+#, fuzzy
+msgid "/Download/(Un)Protect"
+msgstr "/Download/Deselecteer alles"
 
 # face/list.cc
 #: ../face/list.cc:122
@@ -1620,95 +1632,91 @@ msgstr "/_Help"
 msgid "/_Help/About"
 msgstr "/_Help/Info"
 
-#: ../face/list.cc:207
-msgid "Enter expression"
-msgstr ""
-
-#: ../face/list.cc:620
+#: ../face/list.cc:565
 msgid "Do you really want to quit?"
 msgstr "Wil je echt afsluiten?"
 
-#: ../face/list.cc:620
+#: ../face/list.cc:565
 msgid "Quit?"
 msgstr "Afsluiten?"
 
-#: ../face/list.cc:649
+#: ../face/list.cc:594
 msgid "Delete selected downloads?"
 msgstr "Geselecteerde downloads verwijderen?"
 
-#: ../face/list.cc:649 ../face/list.cc:667 ../face/list.cc:685
+#: ../face/list.cc:594 ../face/list.cc:612 ../face/list.cc:630
 msgid "Delete?"
 msgstr "Verwijderen?"
 
-#: ../face/list.cc:667
+#: ../face/list.cc:612
 msgid "Do you wish delete completed downloads?"
 msgstr "Wil je voltooide downloads verwijderen?"
 
-#: ../face/list.cc:685
+#: ../face/list.cc:630
 msgid "Do you wish delete failed downloads?"
 msgstr "Wil je mislukte downloads verwijderen?"
 
-#: ../face/list.cc:748
+#: ../face/list.cc:693
 msgid "Ready to go ????"
 msgstr "Klaar om te beginnen ???"
 
-#: ../face/list.cc:937
+#: ../face/list.cc:883
 #, c-format
 msgid "%i-running %i-completed %i-total "
 msgstr "%i-bezig %i-klaar %i-totaal "
 
-#: ../face/lmenu.cc:126
+#: ../face/lmenu.cc:127
 msgid "View log"
 msgstr "Log bekijken"
 
-#: ../face/lmenu.cc:132
+#: ../face/lmenu.cc:133
 msgid "Stop"
 msgstr "Stop"
 
-#: ../face/lmenu.cc:139
+#: ../face/lmenu.cc:140
 msgid "Continue downloads"
 msgstr "Doorgaan"
 
 #.	pixmap=make_pixmap_from_xpm(&bitmap,runmini_xpm);
-#: ../face/lmenu.cc:145
+#: ../face/lmenu.cc:146
 msgid "Copy"
 msgstr ""
 
-#: ../face/lmenu.cc:150
+#: ../face/lmenu.cc:151
 msgid "(Un)Protect"
 msgstr ""
 
 # face/lmenu.cc
-#: ../face/lmenu.cc:164
+#: ../face/lmenu.cc:165
 msgid "Common properties"
 msgstr "Algemene eigenschappen"
 
-#: ../face/lmenu.cc:170
+#: ../face/lmenu.cc:171
 msgid "Delete downloads"
 msgstr "Downloads verwijderen"
 
-#: ../face/lmenu.cc:176
+#: ../face/lmenu.cc:177
 msgid "Delete completed"
 msgstr "Verwijder voltooide"
 
-#: ../face/lmenu.cc:182
+#: ../face/lmenu.cc:183
 msgid "Delete failed"
 msgstr "Verwijder mislukte"
 
-#: ../face/lmenu.cc:192
+#: ../face/lmenu.cc:193
 msgid "Move up"
 msgstr "Omhoog"
 
-#: ../face/lmenu.cc:198
+#: ../face/lmenu.cc:199
 msgid "Move down"
 msgstr "Omlaag"
 
-#: ../face/lmenu.cc:204
+#: ../face/lmenu.cc:205
 msgid "Set limitation"
 msgstr "Limieten instellen"
 
-#: ../face/lmenu.cc:209 ../face/prefs.cc:773 ../face/prefs.cc:1057
-#: ../face/prefs.cc:1239
+#: ../face/lmenu.cc:210 ../face/prefs.cc:855 ../face/prefs.cc:1139
+#: ../face/prefs.cc:1325
 msgid "FTP search"
 msgstr ""
 
@@ -1777,89 +1785,107 @@ msgstr "Regel %i [log]"
 msgid "Log: "
 msgstr "Log: "
 
-#: ../face/mywidget.cc:58
+#: ../face/mywidget.cc:59
 msgid "Select directory"
 msgstr "Kies directory"
 
-#: ../face/fsched.cc:298 ../face/mywidget.cc:61
+#: ../face/fsched.cc:298 ../face/mywidget.cc:62
 msgid "Select file"
 msgstr "Bestand kiezen"
 
-#: ../face/fsched.cc:438 ../face/fsched.cc:461 ../face/mywidget.cc:104
+#: ../face/fsched.cc:438 ../face/fsched.cc:461 ../face/mywidget.cc:105
 msgid "Browse"
 msgstr "Blader"
 
 # face/mywidget.cc:
-#: ../face/mywidget.cc:194
+#: ../face/mywidget.cc:195
 msgid "Select color"
 msgstr "Kies kleur"
 
-#: ../face/mywidget.cc:336
+#: ../face/mywidget.cc:350
 #, fuzzy
 msgid "Edit properties of Rule"
 msgstr "Selecteer eigenschappen"
 
 # face/passwords.cc
-#: ../face/mywidget.cc:339 ../face/mywidget.cc:613 ../face/passface.cc:57
+#: ../face/mywidget.cc:353 ../face/mywidget.cc:687 ../face/passface.cc:57
 msgid "protocol"
 msgstr "protocol"
 
-#: ../face/mywidget.cc:364 ../face/mywidget.cc:613
+#: ../face/mywidget.cc:378 ../face/mywidget.cc:687
 #, fuzzy
 msgid "path"
 msgstr "Poort:"
 
-#: ../face/mywidget.cc:379
+#: ../face/mywidget.cc:392
+msgid "?"
+msgstr ""
+
+#: ../face/mywidget.cc:399 ../face/mywidget.cc:687
+msgid "tag"
+msgstr ""
+
+#: ../face/mywidget.cc:447
 msgid "include"
 msgstr ""
 
-#: ../face/mywidget.cc:381
+#: ../face/mywidget.cc:449
 msgid "exclude"
 msgstr ""
 
-#: ../face/mywidget.cc:609
+#: ../face/mywidget.cc:683
 msgid "Modify filter"
 msgstr ""
 
-#: ../face/mywidget.cc:634
+#: ../face/mywidget.cc:706
 msgid "include by default"
 msgstr ""
 
 # face/prefs.cc
-#: ../face/mywidget.cc:636
+#: ../face/mywidget.cc:708
 #, fuzzy
 msgid "exclude by default"
 msgstr "Standaardwaarden"
 
-#: ../face/mywidget.cc:642
+#: ../face/mywidget.cc:714
 #, fuzzy
 msgid "Name of filter"
 msgstr "bestandstype"
 
-#: ../face/mywidget.cc:648
+#: ../face/mywidget.cc:720
 msgid "Up"
 msgstr ""
 
-#: ../face/mywidget.cc:649
+#: ../face/mywidget.cc:721
 #, fuzzy
 msgid "Add rule"
 msgstr "Toevoegen"
 
-#: ../face/mywidget.cc:650
+#: ../face/mywidget.cc:722
 #, fuzzy
 msgid "Down"
 msgstr "Download"
 
-#: ../face/filtrgui.cc:168 ../face/fsched.cc:204 ../face/mywidget.cc:659
+#: ../face/filtrgui.cc:168 ../face/fsched.cc:204 ../face/mywidget.cc:731
 msgid "Remove"
 msgstr ""
 
 # face/dndtrash.cc
 #: ../face/filtrgui.cc:167 ../face/fsched.cc:203 ../face/fsched.cc:419
-#: ../face/mywidget.cc:660
+#: ../face/mywidget.cc:732
 #, fuzzy
 msgid "Edit"
 msgstr "/Sluit af"
+
+#: ../face/mywidget.cc:807
+#, fuzzy
+msgid "Select filter"
+msgstr "Bestand kiezen"
+
+#: ../face/filtrgui.cc:152 ../face/mywidget.cc:809
+#, fuzzy
+msgid "filter name"
+msgstr "bestandsnaam"
 
 # face/passface.cc:
 #: ../face/passface.cc:42
@@ -1876,95 +1902,101 @@ msgstr "Standaard wachtwoorden en gebruikersnamen"
 msgid "#"
 msgstr ""
 
-#: ../face/prefs.cc:240
+#: ../face/prefs.cc:246
 msgid "Optimize recursive downloads"
 msgstr "Optimaliseer recursieve downloads"
 
-#: ../face/prefs.cc:258
+# face/prefs.cc:
+#: ../face/prefs.cc:262
+#, fuzzy
+msgid "Default permissions of local file"
+msgstr "Standaard permissies voor bestand"
+
+#: ../face/prefs.cc:273
 msgid "Save downloads to folder"
 msgstr "Downloads opslaan in folder"
 
-#: ../face/prefs.cc:267 ../face/prefs.cc:967 ../face/prefs.cc:1122
+#: ../face/prefs.cc:282 ../face/prefs.cc:1049 ../face/prefs.cc:1205
 msgid "Limits"
 msgstr "Limieten"
 
-#: ../face/prefs.cc:323
+#: ../face/prefs.cc:338
 msgid "Maximum lines in log"
 msgstr "Maximum aantal regels in log"
 
-#: ../face/prefs.cc:331 ../face/prefs.cc:972 ../face/prefs.cc:1131
+#: ../face/prefs.cc:346 ../face/prefs.cc:1054 ../face/prefs.cc:1214
 msgid "FTP"
 msgstr ""
 
 # face/prefs.cc
-#: ../face/prefs.cc:357
+#: ../face/prefs.cc:372
 msgid "Output FTP dirs in logs"
 msgstr ""
 
-#: ../face/prefs.cc:368
+#: ../face/prefs.cc:383
 msgid "default anonymous password"
 msgstr ""
 
-#: ../face/prefs.cc:378 ../face/prefs.cc:977 ../face/prefs.cc:1143
+#: ../face/prefs.cc:445 ../face/prefs.cc:1059 ../face/prefs.cc:1226
 msgid "HTTP"
 msgstr ""
 
 # face/prefs.cc:
-#: ../face/prefs.cc:413
+#: ../face/prefs.cc:480
 msgid "Filename for saving if it is unknown"
 msgstr "Bestandsnaam voor als de naam niet bekend is"
 
-#: ../face/prefs.cc:437 ../face/prefs.cc:1002 ../face/prefs.cc:1174
+#: ../face/prefs.cc:519 ../face/prefs.cc:1084 ../face/prefs.cc:1260
 msgid "Main window"
 msgstr ""
 
-#: ../face/prefs.cc:439
+#: ../face/prefs.cc:521
 msgid "Using title"
 msgstr "Gebruik titel"
 
-#: ../face/prefs.cc:443
+#: ../face/prefs.cc:525
 msgid "Use title of main window for info"
 msgstr "Gebruik titel van hoofdscherm voor info"
 
-#: ../face/prefs.cc:448
+#: ../face/prefs.cc:530
 msgid "Display queue statistics too"
 msgstr "Geef ook lijst-informatie weer"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:449
+#: ../face/prefs.cc:531
 msgid "Scroll title"
 msgstr "Titel scrollen"
 
-#: ../face/prefs.cc:454
+#: ../face/prefs.cc:536
 msgid "Iconfiy main window instead of closing"
 msgstr "Minimaliseer hoofdscherm bij afsluiten"
 
-#: ../face/prefs.cc:466 ../face/prefs.cc:1007 ../face/prefs.cc:1181
+#: ../face/prefs.cc:548 ../face/prefs.cc:1089 ../face/prefs.cc:1267
 msgid "Confirmation"
 msgstr "Bevestigingen"
 
-#: ../face/prefs.cc:468
+#: ../face/prefs.cc:550
 msgid "Confirm delete selected downloads"
 msgstr "Geselecteerde downloads verwijderen"
 
-#: ../face/prefs.cc:469
+#: ../face/prefs.cc:551
 msgid "Confirm delete all downloads"
 msgstr "Alle downloads verwijderen"
 
-#: ../face/prefs.cc:470
+#: ../face/prefs.cc:552
 msgid "Confirm delete completed downloads"
 msgstr "Voltooide downloads verwijderen"
 
-#: ../face/prefs.cc:471
+#: ../face/prefs.cc:553
 msgid "Confirm delete failed downloads"
 msgstr "Mislukte downloads verwijderen"
 
 # face/prefs.cc
-#: ../face/prefs.cc:472
+#: ../face/prefs.cc:554
 msgid "Confirm opening large amount of windows"
 msgstr "Bevestig het openen van grote aantallen schermen"
 
-#: ../face/prefs.cc:473
+#: ../face/prefs.cc:555
 msgid "Confirm exit from program"
 msgstr "Afsluiten programma"
 
@@ -1974,231 +2006,231 @@ msgstr "Afsluiten programma"
 #. gtk_tree_append(GTK_TREE(sub_tree), tmpitem);
 #. gtk_widget_show(tmpitem);
 #.
-#: ../face/prefs.cc:498 ../face/prefs.cc:1036 ../face/prefs.cc:1228
+#: ../face/prefs.cc:580 ../face/prefs.cc:1118 ../face/prefs.cc:1314
 msgid "Clipboard"
 msgstr "Plakboek"
 
 # face/prefs.cc
-#: ../face/prefs.cc:500
+#: ../face/prefs.cc:582
 msgid "Monitor clipboard"
 msgstr "Houd clipboard in de gaten"
 
 # face/prefs.cc
-#: ../face/prefs.cc:510
+#: ../face/prefs.cc:592
 msgid "Skip these extensions in clipboard"
 msgstr "Sla deze extensies in clipboard over"
 
-#: ../face/prefs.cc:518
+#: ../face/prefs.cc:600
 msgid "Catch these extensions in clipboard"
 msgstr "Vang deze extensies in het plakboek"
 
 # prefs.cc:
-#: ../face/prefs.cc:541 ../face/prefs.cc:1051 ../face/prefs.cc:1264
+#: ../face/prefs.cc:623 ../face/prefs.cc:1133 ../face/prefs.cc:1350
 msgid "Main log"
 msgstr "Hoofd log"
 
-#: ../face/prefs.cc:547
+#: ../face/prefs.cc:629
 msgid "Maximum lines in MAIN log"
 msgstr "Maximum aantal regels in MAIN log"
 
 # face/prefs.cc
-#: ../face/prefs.cc:551
+#: ../face/prefs.cc:633
 msgid "Output detailed information"
 msgstr "Laat gedetailleerde informatie zien"
 
-#: ../face/prefs.cc:555
+#: ../face/prefs.cc:637
 msgid "Save main log into file"
 msgstr "Hoofdlog opslaan in bestand"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:574
+#: ../face/prefs.cc:656
 msgid "Maximum size for file of main log (in KBytes)"
 msgstr "Maximale grootte voor hoofdlog (in KBytes)"
 
-#: ../face/prefs.cc:580
+#: ../face/prefs.cc:662
 msgid "Append to file"
 msgstr "Bestand uitbreiden"
 
-#: ../face/prefs.cc:583
+#: ../face/prefs.cc:665
 msgid "Overwrite file"
 msgstr "Bestand overschrijven"
 
-#: ../face/prefs.cc:598 ../face/prefs.cc:1023 ../face/prefs.cc:1219
+#: ../face/prefs.cc:680 ../face/prefs.cc:1105 ../face/prefs.cc:1305
 msgid "Integration"
 msgstr ""
 
 # prefs.cc:
-#: ../face/prefs.cc:600
+#: ../face/prefs.cc:682
 msgid "Exit if nothing to do after"
 msgstr "Verlaat na inactiviteit voor"
 
-#: ../face/prefs.cc:606 ../face/prefs.cc:726
+#: ../face/prefs.cc:688 ../face/prefs.cc:808
 msgid "minutes"
 msgstr "minuten op"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:617
+#: ../face/prefs.cc:699
 msgid "Run this on exit"
 msgstr "Voer dit uit bij afsluiten"
 
-#: ../face/prefs.cc:622
+#: ../face/prefs.cc:704
 msgid "Open dialog for Drag-n-Drop"
 msgstr "Open dialoog voor knippen/plakken"
 
-#: ../face/prefs.cc:630 ../face/prefs.cc:997 ../face/prefs.cc:1166
+#: ../face/prefs.cc:712 ../face/prefs.cc:1079 ../face/prefs.cc:1252
 msgid "Columns"
 msgstr "Kolommen"
 
-#: ../face/prefs.cc:634
+#: ../face/prefs.cc:716
 msgid "Size format"
 msgstr "Formaat voor grootte"
 
-#: ../face/prefs.cc:635
+#: ../face/prefs.cc:717
 msgid "Time format"
 msgstr "Tijd formaat"
 
-#: ../face/prefs.cc:716
+#: ../face/prefs.cc:798
 msgid "Maximum active downloads"
 msgstr "Maximaal aantal actieve downloads"
 
-#: ../face/prefs.cc:720
+#: ../face/prefs.cc:802
 msgid "Save list of downloads every"
 msgstr "Sla lijst van downloads elke"
 
-#: ../face/prefs.cc:733
+#: ../face/prefs.cc:815
 msgid "Automatically delete completed downloads"
 msgstr "Voltooide downloads automatisch verwijderen"
 
-#: ../face/prefs.cc:734
+#: ../face/prefs.cc:816
 msgid "Automatically delete failed downloads"
 msgstr "Mislukte downloads automatisch verwijderen"
 
-#: ../face/prefs.cc:735
+#: ../face/prefs.cc:817
 msgid "Allow to user force run downloads"
 msgstr "Geef gebruiker de mogelijkheid om downloads af te dwingen"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:736
+#: ../face/prefs.cc:818
 msgid "Remember passwords"
 msgstr "Onthoud wachtwoorden"
 
 # face/prefs.cc
-#: ../face/prefs.cc:737
+#: ../face/prefs.cc:819
 msgid "Write Descript.ion file"
 msgstr ""
 
-#: ../face/prefs.cc:751
+#: ../face/prefs.cc:833
 msgid "bytes/sec speed level one (red button)"
 msgstr "bytes/sec snelheidsnivo 1 (rode knop)"
 
-#: ../face/prefs.cc:759
+#: ../face/prefs.cc:841
 msgid "bytes/sec speed level two (yellow button)"
 msgstr "bytes/sec snelheidsnivo 2 (gele knop)"
 
-#: ../face/prefs.cc:779
+#: ../face/prefs.cc:861
 #, fuzzy
 msgid "Number of attempts to ping hosts"
 msgstr "aantal pogingen"
 
-#: ../face/prefs.cc:787
+#: ../face/prefs.cc:869
 msgid "Number of hosts in list"
 msgstr ""
 
-#: ../face/prefs.cc:813
+#: ../face/prefs.cc:895
 msgid "search engine to use"
 msgstr ""
 
 # face/prefs.cc
-#: ../face/prefs.cc:822 ../face/prefs.cc:988 ../face/prefs.cc:1161
+#: ../face/prefs.cc:904 ../face/prefs.cc:1070 ../face/prefs.cc:1247
 msgid "Interface"
 msgstr ""
 
 # face/prefs.cc:
-#: ../face/prefs.cc:824
+#: ../face/prefs.cc:906
 msgid "Show DnD basket"
 msgstr "Laat can zien voor DnD"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:825
+#: ../face/prefs.cc:907
 msgid "Use fixed font in logs"
 msgstr "Gebruik fixed lettertype in log"
 
-#: ../face/prefs.cc:842 ../face/prefs.cc:1012 ../face/prefs.cc:1190
+#: ../face/prefs.cc:924 ../face/prefs.cc:1094 ../face/prefs.cc:1276
 msgid "Graph"
 msgstr ""
 
-#: ../face/prefs.cc:844
+#: ../face/prefs.cc:926
 msgid "Revert drawing graph of speeds"
 msgstr "Teken snelheid van rechts naar links"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:850
+#: ../face/prefs.cc:932
 msgid "Color for picks"
 msgstr "Kleur voor picks"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:851
+#: ../face/prefs.cc:933
 msgid "Color for total speed"
 msgstr "Kleur voor totale snelheid"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:852
+#: ../face/prefs.cc:934
 msgid "Color for speed of selected"
 msgstr "Kleur voor geselecteerde snelheid"
 
 # face/prefs.cc:
-#: ../face/prefs.cc:853
+#: ../face/prefs.cc:935
 msgid "Background color"
 msgstr "Achtergrondkleur"
 
 # face/prefs.cc
-#: ../face/prefs.cc:862
+#: ../face/prefs.cc:944
 msgid "Reset to default"
 msgstr "Standaardwaarden"
 
-#: ../face/prefs.cc:865
+#: ../face/prefs.cc:947
 msgid "Colors for graph"
 msgstr "Kleuren voor grafiek"
 
-#: ../face/prefs.cc:891 ../face/prefs.cc:1017 ../face/prefs.cc:1198
+#: ../face/prefs.cc:973 ../face/prefs.cc:1099 ../face/prefs.cc:1284
 #, fuzzy
 msgid "Sounds"
 msgstr "Kolommen"
 
-#: ../face/prefs.cc:893
+#: ../face/prefs.cc:975
 msgid "enable sounds"
 msgstr ""
 
-#: ../face/prefs.cc:898
+#: ../face/prefs.cc:980
 #, fuzzy
 msgid "Startup"
 msgstr "status"
 
-#: ../face/prefs.cc:900
+#: ../face/prefs.cc:982
 #, fuzzy
 msgid "Adding a download"
 msgstr "Download wijzigen"
 
-#: ../face/prefs.cc:902
+#: ../face/prefs.cc:984
 #, fuzzy
 msgid "Downloading completed"
 msgstr "/Download/Verwijder na voltooiing"
 
-#: ../face/prefs.cc:904
+#: ../face/prefs.cc:986
 #, fuzzy
 msgid "Downloading failed"
 msgstr "/Download/Herhaal mislukte"
 
-#: ../face/prefs.cc:906
+#: ../face/prefs.cc:988
 #, fuzzy
 msgid "Downloading of queue is completed"
 msgstr "Download van directory %z voltooid"
 
-#: ../face/prefs.cc:908
+#: ../face/prefs.cc:990
 msgid "Drag'n'Drop event"
 msgstr ""
 
-#: ../face/prefs.cc:924
+#: ../face/prefs.cc:1006
 msgid "Options"
 msgstr "Opties"
 
@@ -2220,25 +2252,29 @@ msgstr "Lijst inladen"
 msgid "Find links in txt file"
 msgstr "Vind links in tekstbestand"
 
+#: ../face/fsface.cc:70
+msgid "bytes"
+msgstr ""
+
 # face/fsface.cc
-#: ../face/fsface.cc:72
+#: ../face/fsface.cc:82
 msgid "nothing found"
 msgstr ""
 
-#: ../face/fsface.cc:76
+#: ../face/fsface.cc:86
 msgid "searching"
 msgstr ""
 
 # face/fsface.cc
-#: ../face/fsface.cc:85
+#: ../face/fsface.cc:95
 msgid "reping"
 msgstr ""
 
-#: ../face/fsface.cc:89
+#: ../face/fsface.cc:99
 msgid "cumulative reping"
 msgstr ""
 
-#: ../face/fsface.cc:95
+#: ../face/fsface.cc:105
 msgid "remove"
 msgstr ""
 
@@ -2412,10 +2448,6 @@ msgstr "Bestand"
 
 #~ msgid "Day"
 #~ msgstr "Dag"
-
-# face/prefs.cc:
-#~ msgid "Default permissions of file"
-#~ msgstr "Standaard permissies voor bestand"
 
 # download.cc:
 #~ msgid "Can't do rollback!"

@@ -127,7 +127,7 @@ char *tProxyDownload::make_name(){
 	int auth_len=0;
 	if (ADDR.proto==D_PROTO_FTP && ADDR.username.get() &&
 	    ADDR.pass.get())
-		auth_len=strlen(ADDR.pass.get())+strlen(ADDR.username.get());
+		auth_len=strlen(ADDR.pass.get())+strlen(ADDR.username.get())+2;
 	int port_len = get_port_by_proto(ADDR.proto)!=ADDR.port ? int_to_strin_len(ADDR.port)+1 : 0;
 	char *rvalue=new char[strlen(get_name_by_proto(ADDR.proto))+strlen(parsed_path)+
 			     strlen(ADDR.host.get())+strlen(parsed_name)+
@@ -155,6 +155,7 @@ char *tProxyDownload::make_name(){
 		strcat(rvalue,"?");
 		strcat(rvalue,ADDR.params.get());
 	};
+	printf("%p %p\n",parsed_path,parsed_name);
 	delete[] parsed_path;
 	delete[] parsed_name;
 	return rvalue;

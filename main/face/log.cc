@@ -389,11 +389,13 @@ void log_window_init(tDownload *what) {
 		temp->adj->value=temp->adj->upper-temp->adj->page_size;
 		temp->value=temp->adj->value;
 		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
-		if (what->LOG->last_log>1 && what->split){
+		if (what->LOG->last_log>1 && what->split && what->LOG->last_log<what->split->NumOfParts){
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(temp->button),TRUE);
 			log_window_button(temp->button,
 					  what->LOG->last_log);
 	
+		}else{
+			what->LOG->last_log=1;
 		};
 	};
 };

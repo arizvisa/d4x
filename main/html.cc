@@ -569,12 +569,13 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave){
 	return(info);
 };
 
-void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa){
+void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa,const char *tag){
 	if (out_fd>=0) f_wstr(out_fd,"=\"");
 	tAddr *info=fix_url_global(url,papa,out_fd,leave);
 	if (out_fd>=0) f_wchar(out_fd,'\"');
 	if (info){
 		tHtmlUrl *node=new tHtmlUrl;
+		info->tag.set(tag);
 		node->info=info;
 		list->insert(node);
 	};
@@ -599,7 +600,10 @@ void tHtmlParser::write_left_fields(tHtmlTag *tag){
 	f_wchar(out_fd,'>');
 };
 
-void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tQueue *list,tAddr *papa){
+void tHtmlParser::look_for_meta_content(tHtmlTagField *where,
+					tQueue *list,
+					tAddr *papa,
+					const char *tag){
 	tHtmlTagField *field=(tHtmlTagField *)(where->prev);
 	while (field){
 		char *tmp=NULL;
@@ -621,7 +625,7 @@ void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tQueue *list,tAddr 
 				};
 				if (url){
 					url=skip_spaces(url);
-					fix_url(url,list,papa);
+					fix_url(url,list,papa,tag);
 				};
 			};
 			delete[] tmp;
@@ -669,7 +673,7 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
 						switch(HTML_TEGS[i].mod){
 						case HF_TYPE_META:
 							if (tmp && equal_uncase(tmp,"refresh"))
-								look_for_meta_content(field,list,papa);
+								look_for_meta_content(field,list,papa,temp->name);
 							break;
 						case HF_TYPE_BASE:
 							if (base) delete[] base;
@@ -690,7 +694,7 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa){
 									f_wchar(out_fd,' ');
 									f_wstr(out_fd,field->name);
 								};
-								fix_url(tmp,list,papa);
+								fix_url(tmp,list,papa,temp->name);
 							};
 						};
 						delete[] tmp;

@@ -30,6 +30,7 @@ extern gint n_download_drop_types;
 enum DND_MENU_ENUM{
 	DM_NEW,
 	DM_PASTE,
+	DM_AUTOMATED,
 	DM_DELCOMPLETED,
 	DM_OPTIONS,
 	DM_SPEED, DM_SPEED_1, DM_SPEED_2, DM_SPEED_3,
@@ -40,6 +41,7 @@ enum DND_MENU_ENUM{
 char *dnd_menu_inames[]={
 	N_("/New Download"),
 	N_("/Paste Download"),
+	N_("/Automated adding"),
 	N_("/Delete completed"),
 	N_("/General options"),
 	N_("/Speed"),
@@ -184,7 +186,6 @@ void dnd_trash_init(){
 //	gtk_window_set_transient_for(GTK_WINDOW(dnd_trash_window), GTK_WINDOW(MainWindow));
 	d4x_normalize_coords(&(CFG.DND_TRASH_X),&(CFG.DND_TRASH_Y));
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
-	printf("%i %i\n",CFG.DND_TRASH_X,CFG.DND_TRASH_Y);
 	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
 //	gtk_widget_set_events(dnd_trash_window,GDK_ALL_EVENTS_MASK);
 	gtk_widget_set_events(dnd_trash_window,
@@ -320,6 +321,7 @@ void dnd_trash_init_menu() {
 	GtkItemFactoryEntry menu_items[] = {
 		{_(dnd_menu_inames[DM_NEW]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
 		{_(dnd_menu_inames[DM_PASTE]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_clipboard_window,	0, (gchar *)NULL},
+		{_(dnd_menu_inames[DM_AUTOMATED]),	(gchar *)NULL,	(GtkItemFactoryCallback)d4x_automated_add,		0,(gchar *)NULL},
 		{_(dnd_menu_inames[DM_DELCOMPLETED]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_delete_completed,	0, (gchar *)NULL},
 		{_(dnd_menu_inames[DM_SEP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Separator>"},
 		{_(dnd_menu_inames[DM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)d4x_prefs_init,			0, (gchar *)NULL},

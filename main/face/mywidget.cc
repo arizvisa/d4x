@@ -18,6 +18,7 @@ static GtkWidgetClass *parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *color_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *rule_parent_class = (GtkWidgetClass *)NULL;
 static GtkWidgetClass *filter_parent_class = (GtkWidgetClass *)NULL;
+static GtkWidgetClass *filtersel_parent_class = (GtkWidgetClass *)NULL;
 
 static void my_gtk_filesel_destroy_browser(MyGtkFilesel *filesel){
 	if (filesel->browser){
@@ -322,6 +323,14 @@ void d4x_rule_edit_apply(d4xRuleEdit *edit){
 			edit->rule->file.set(text_from_combo(edit->file));
 		}else
 			edit->rule->file.set((char*)NULL);
+		if (*(text_from_combo(edit->params))){
+			edit->rule->params.set(text_from_combo(edit->params));
+		}else
+			edit->rule->params.set((char*)NULL);
+		if (*(text_from_combo(edit->tag))){
+			edit->rule->tag.set(text_from_combo(edit->tag));
+		}else
+			edit->rule->tag.set((char*)NULL);
 		edit->rule->proto=get_proto_by_name(text_from_combo(edit->proto));
 		edit->rule->include=GTK_TOGGLE_BUTTON(edit->include)->active;
 	};
@@ -380,6 +389,60 @@ static void d4x_rule_edit_init(d4xRuleEdit *edit){
 	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
 
 	hbox=gtk_hbox_new(FALSE,0);
+	label=gtk_label_new(_("?"));
+	edit->params=gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX(hbox),edit->params,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+
+	hbox=gtk_hbox_new(FALSE,0);
+	label=gtk_label_new(_("tag"));
+	edit->tag=gtk_combo_new();
+	list=(GList*)NULL;
+	char *tags[]={"",
+		      "a",
+		      "applet",
+		      "area",
+		      "bgsound",
+		      "blockqute",
+		      "col",
+		      "del",
+		      "div",
+		      "embed",
+		      "fig",
+		      "frame",
+		      "head",
+		      "iframe",
+		      "img",
+		      "input",
+		      "ins",
+		      "layer",
+		      "link",
+		      "meta",
+		      "object",
+		      "overlay",
+		      "q",
+		      "table",
+		      "tbody",
+		      "td",
+		      "tfoot",
+		      "th",
+		      "thead",
+		      "script",
+		      "sound",
+		      "span"
+	};
+	for (unsigned int i=0;i<sizeof(tags)/sizeof(char*);i++)
+		list = g_list_append (list, tags[i]);
+	gtk_combo_set_popdown_strings (GTK_COMBO (edit->tag), list);
+	g_list_free(list);
+	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(edit->tag)->entry),FALSE);
+	gtk_box_pack_start(GTK_BOX(hbox),edit->tag,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,0);
+	
+
+	hbox=gtk_hbox_new(FALSE,0);
 	edit->include=gtk_radio_button_new_with_label((GSList *)NULL,
 						      _("include"));
 	edit->exclude=gtk_radio_button_new_with_label(gtk_radio_button_group(GTK_RADIO_BUTTON(edit->include)),
@@ -434,6 +497,10 @@ GtkWidget *d4x_rule_edit_new(d4xRule *rule){
 			text_to_combo(edit->path,rule->path.get());
 		if (rule->file.get())
 			text_to_combo(edit->file,rule->file.get());
+		if (rule->params.get())
+			text_to_combo(edit->params,rule->params.get());
+		if (rule->tag.get())
+			text_to_combo(edit->tag,rule->tag.get());
 		GTK_TOGGLE_BUTTON(edit->include)->active=rule->include;
 		GTK_TOGGLE_BUTTON(edit->exclude)->active=!rule->include;
 	};
@@ -472,6 +539,8 @@ void d4x_filter_edit_add_rule(d4xFilterEdit *edit,d4xRule *rule){
 	data[2]=rule->host.get()?rule->host.get():(char*)("");
 	data[3]=rule->path.get()?rule->path.get():(char*)("");
 	data[4]=rule->file.get()?rule->file.get():(char*)("");
+	data[5]=rule->params.get()?rule->params.get():(char*)("");
+	data[6]=rule->tag.get()?rule->tag.get():(char*)("");
 	gint row=gtk_clist_append(GTK_CLIST(edit->clist),data);
 	gtk_clist_set_row_data(GTK_CLIST(edit->clist),row,rule);
 };
@@ -615,14 +684,12 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 	gtk_widget_set_usize(GTK_WIDGET (edit),-1,400);
 
 	edit->vbox=gtk_vbox_new(FALSE,0);
-	gchar *titles[]={"",_("protocol"),_("host"),_("path"),_("file")};
-	edit->clist=gtk_clist_new_with_titles(5,titles);;
+	gchar *titles[]={"",_("protocol"),_("host"),_("path"),_("file"),"?",_("tag")};
+	edit->clist=gtk_clist_new_with_titles(7,titles);;
 
 	gtk_clist_set_shadow_type(GTK_CLIST(edit->clist), GTK_SHADOW_IN);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(edit->clist),0,TRUE);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(edit->clist),1,TRUE);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(edit->clist),2,TRUE);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(edit->clist),3,TRUE);
+	for (int i=0;i<7;i++)
+		gtk_clist_set_column_auto_resize(GTK_CLIST(edit->clist),i,TRUE);
 //	gtk_clist_set_selection_mode(GTK_CLIST(clist),GTK_SELECTION_EXTENDED);
 	gtk_signal_connect(GTK_OBJECT(edit->clist),
 			   "select_row",
@@ -723,4 +790,83 @@ GtkWidget *d4x_filter_edit_new(d4xFNode *node){
 	GTK_TOGGLE_BUTTON(edit->include)->active=node->filter->default_inc;
 	GTK_TOGGLE_BUTTON(edit->exclude)->active=!node->filter->default_inc;
 	return GTK_WIDGET(edit);
+};
+
+/**********************************************************/
+static void d4x_filter_sel_destroy(GtkObject *widget){
+	g_return_if_fail(widget!=NULL);
+
+	if (GTK_OBJECT_CLASS (filtersel_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (filtersel_parent_class)->destroy) (widget);
+};
+
+static void d4x_filter_sel_init(d4xFilterSel *sel){
+	gtk_window_set_wmclass(GTK_WINDOW(sel),
+			       "D4X_FilterSel","D4X");
+	gtk_widget_set_usize(GTK_WIDGET(sel),-1,300);
+	gtk_window_set_title(GTK_WINDOW(sel),_("Select filter"));
+
+	gchar *titles[]={_("filter name")};
+	sel->clist = gtk_clist_new_with_titles(1, titles);
+	gtk_clist_set_shadow_type(GTK_CLIST(sel->clist), GTK_SHADOW_IN);
+	gtk_clist_set_column_auto_resize(GTK_CLIST(sel->clist),0,TRUE);
+	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
+	                                GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
+	gtk_container_add(GTK_CONTAINER(scroll_window),sel->clist);
+	sel->ok=gtk_button_new_with_label(_("Ok"));
+	sel->cancel=gtk_button_new_with_label(_("Cancel"));
+	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
+	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *hbox=gtk_hbutton_box_new();
+	gtk_box_set_spacing(GTK_BOX(vbox),5);
+	gtk_box_set_spacing(GTK_BOX(hbox),5);
+	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbox),sel->ok,FALSE,FALSE,0);
+	gtk_box_pack_end(GTK_BOX(hbox),sel->cancel,FALSE,FALSE,0);
+	gtk_container_add(GTK_CONTAINER(sel),vbox);
+	gtk_window_set_default(GTK_WINDOW(sel),sel->ok);
+	FILTERS_DB->print(sel);
+};
+
+static void d4x_filter_sel_class_init(d4xFilterSelClass *klass){
+	GtkObjectClass *object_class=(GtkObjectClass *)klass;
+	
+	object_class->destroy=d4x_filter_sel_destroy;
+	filtersel_parent_class=(GtkWidgetClass *)gtk_type_class(gtk_window_get_type());
+};
+
+guint d4x_filter_sel_get_type(){
+	static guint d4x_filter_sel_type=0;
+	if (!d4x_filter_sel_type){
+		GtkTypeInfo info={
+			"d4xFilterSel",
+			sizeof(d4xFilterSel),
+			sizeof(d4xFilterSelClass),
+			(GtkClassInitFunc) d4x_filter_sel_class_init,
+			(GtkObjectInitFunc) d4x_filter_sel_init,
+			NULL,NULL
+//			(GtkArgSetFunc) NULL,
+//			(GtkArgGetFunc) NULL
+		};
+		d4x_filter_sel_type = gtk_type_unique (gtk_window_get_type (),
+							&info);
+	};
+	return d4x_filter_sel_type;
+};
+
+GtkWidget *d4x_filter_sel_new(){
+	d4xFilterSel *sel=(d4xFilterSel *)gtk_type_new(d4x_filter_sel_get_type());
+	gtk_widget_show_all(GTK_WIDGET(sel));
+	return GTK_WIDGET(sel);
+};
+
+void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node){
+	gchar *data[1];
+	data[0]=node->filter->name.get();
+	gint row=gtk_clist_append(GTK_CLIST(sel->clist),data);
+	gtk_clist_set_row_data(GTK_CLIST(sel->clist),row,node);
 };

@@ -94,7 +94,7 @@ struct tDownload:public tAbstractSortNode{
 	//------------------------------------
 	time_t Start,Pause,Difference;
 	pthread_t thread_id;
-	int status,owner,action;
+	int status,owner,action,status_cp;
 	int NanoSpeed;
 	int BLOCKED;
 	int protect;
@@ -114,9 +114,10 @@ struct tDownload:public tAbstractSortNode{
 	void check_local_file_time();
 	void print_error(int err);
 	void prepare_splits();
-	void remove_links();
 	char *make_path_to_file();
+	void remove_links();
 	void sort_links();
+	void ftp_search_sizes();
 	fsize_t init_segmentator(int fdesc,fsize_t cursize,char *name);
 	void export_socket(tDownloader *what);
 	public:

@@ -17,6 +17,82 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <time.h>
+
+/* determine which cookies file is newer Netscape or Mozilla's one
+   It's allowed to use non reentrant variance of readdir() cos here's first
+   place where readdir() is used
+ */
+char *d4x_get_best_in_subdir(const char *path,time_t *a){
+	DIR *d=opendir(path);
+	char *best=NULL;
+	time_t besttime=0;
+	if (d){
+		struct dirent *de=NULL;
+		while((de=readdir(d))){
+			if (de->d_name && !equal(de->d_name,"..") &&
+			    !equal(de->d_name,".")){
+				char *tmppath=sum_strings(path,"/",de->d_name,NULL);
+				struct stat s;
+				stat(tmppath,&s);
+				if (S_ISDIR(s.st_mode)){
+					char *p=sum_strings(tmppath,"/","cookies.txt",NULL);
+					if (stat(p,&s)==0 && S_ISREG(s.st_mode) &&
+					    (best==NULL ||  besttime<s.st_mtime)){
+						if (best) delete[] best;
+						best=p;
+						besttime=s.st_mtime;
+					}else
+						delete[] p;
+				};
+				delete[] tmppath;
+			};
+		};
+		closedir(d);
+	};
+	*a=besttime;
+	return(best);
+};
+
+char *d4x_get_best_cookies(){
+	char *tmppath=sum_strings(HOME_VARIABLE,"/.mozilla",NULL);
+	DIR *d=opendir(tmppath);
+	delete[] tmppath;
+	char *best=NULL;
+	time_t besttime=0;
+	if (d){
+		struct dirent *de=NULL;
+		while((de=readdir(d))){
+			if (de->d_name && !equal(de->d_name,"..") &&
+			    !equal(de->d_name,".")){
+				tmppath=sum_strings(HOME_VARIABLE,"/.mozilla/",de->d_name,NULL);
+				struct stat s;
+				stat(tmppath,&s);
+				if (S_ISDIR(s.st_mode)){
+					time_t a;
+					char *p1=d4x_get_best_in_subdir(tmppath,&a);
+					if (p1 && a>besttime){
+						if (best) delete[] best;
+						best=p1;
+						besttime=a;
+					};
+				};
+				delete[] tmppath;
+			};
+		};
+		closedir(d);
+	};
+	tmppath=sum_strings(HOME_VARIABLE,"/.netscape/cookies",NULL);
+	struct stat s;
+	if (stat(tmppath,&s)==0 && S_ISREG(s.st_mode) &&
+	    (s.st_mtime>besttime || best==NULL)){
+		if (best) delete[] best;
+		best=tmppath;
+	};
+	return(best);
+};
+/*******************************************************/
 
 tCookie::tCookie(){
 	time_of_life=time_t(0);
@@ -119,8 +195,9 @@ void tCookiesTree::del(tCookie *what){
 };
 
 void tCookiesTree::load_cookies(){
+	char *path=d4x_get_best_cookies();
+	if (path==NULL) return;
 	MainLog->add(_("Loading cookies"),LOG_WARNING | LOG_DETAILED);
-	char *path=compose_path(HOME_VARIABLE,".netscape/cookies");
 	int fd=open(path,O_RDONLY);
 	if (fd>=0){
 		char temp[MAX_LEN];

@@ -25,6 +25,7 @@ char *TRANSLATORS[]={
 	"Oren Held",
 	"Marco Martin",
 	"Jerome Couderc",
+	"Cawko Xakep",
 	"Iordan Pavlov",
 	"Gorkem Cetin",
 	"DJ Art",

@@ -35,7 +35,7 @@ tMainCfg TMPCFG={
 	{300,5,100,0,1,0,0,0,
 	 0,0,0,0,0,1,1,1,0,0,0,0,0,
 	 0},
-	100,1,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,0,0,
+	100,1,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,(char*)NULL,0,0,
 	100,0,0,0,(char*)NULL,0,0, //Log
 	5,0, //List
 	1,0,0,600,0,0, //flags
@@ -71,6 +71,7 @@ struct D4xPrefsWidget{
 	GtkWidget *pause_check;
 	GtkWidget *check_time_check;
 	GtkWidget *change_links_check;
+	GtkWidget *permissions;
 	/* FTP */
 	GtkWidget *ftp_passive_check;
 	GtkWidget *dont_send_quit_check;
@@ -93,6 +94,8 @@ struct D4xPrefsWidget{
 	GtkWidget *http_recurse_depth_entry;
 	GtkWidget *user_agent_entry;
 	GtkWidget *unknown_filename;
+	GtkWidget *default_filter;
+	d4xFilterSel *filter_sel;
 	/* PROXY */
 	tProxyWidget proxy;
 	/* Main window */
@@ -182,12 +185,15 @@ void toggle_button_set_state(GtkToggleButton *tb,gboolean state) {
 	gtk_toggle_button_set_active(tb,state);
 #endif
 }
+static void prefs_filter_sel_delete();
 
 gint d4x_prefs_cancel() {
 	if (d4x_prefs_window){
 		gtk_widget_destroy(d4x_prefs_window);
 		d4x_prefs_window=(GtkWidget *)NULL;
 		D4XPWS.columns_order.reset();
+		if (D4XPWS.filter_sel)
+			prefs_filter_sel_delete();
 	};
 	return TRUE;
 };
@@ -248,6 +254,15 @@ void d4x_prefs_download(){
 	D4XPWS.check_time_check=gtk_check_button_new_with_label(_("Compare date/time of remote file with local one"));
 	GTK_TOGGLE_BUTTON(D4XPWS.check_time_check)->active=TMPCFG.DEFAULT_CFG.check_time;
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.check_time_check,FALSE,FALSE,0);
+
+	GtkWidget *tbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(tbox),5);
+	D4XPWS.permissions=my_gtk_entry_new_with_max_length(3,TMPCFG.DEFAULT_PERMISIONS);
+	gtk_box_pack_start(GTK_BOX(tbox),D4XPWS.permissions,FALSE,FALSE,0);
+	GtkWidget *tlabel=gtk_label_new(_("Default permissions of local file"));
+	gtk_box_pack_start(GTK_BOX(tbox),tlabel,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(tmpbox),tbox,FALSE,FALSE,0);
+
 
 	GtkWidget *prefs_other_sbox=gtk_vbox_new(FALSE,0);
 	D4XPWS.savepath=my_gtk_filesel_new(ALL_HISTORIES[PATH_HISTORY]);
@@ -374,6 +389,58 @@ void d4x_prefs_download_ftp(){
 	gtk_widget_show_all(tmpbox);
 };
 
+static void prefs_filter_sel_delete(){
+	gtk_widget_destroy(GTK_WIDGET(D4XPWS.filter_sel));
+	D4XPWS.filter_sel=NULL;
+};
+
+static void prefs_filter_sel_ok(){
+	GList *select=(GTK_CLIST(D4XPWS.filter_sel->clist))->selection_end;
+	if (select) {
+		char *name;
+		gint row=GPOINTER_TO_INT(select->data);
+		gtk_clist_get_text(GTK_CLIST(D4XPWS.filter_sel->clist),
+				   row,0,&name);
+		text_to_combo(D4XPWS.default_filter,name);
+	}else{
+		text_to_combo(D4XPWS.default_filter,"");
+	};
+	prefs_filter_sel_delete();
+};
+
+static void prefs_filter_sel_select(GtkWidget *clist, gint row, gint column,
+				    GdkEventButton *event,
+				    tDEdit *where) {
+	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1)
+		prefs_filter_sel_ok();
+};
+
+static void prefs_filter_sel_clicked(GtkWidget *parent){
+	if (D4XPWS.filter_sel){
+		gdk_window_show(GTK_WIDGET(D4XPWS.filter_sel)->window);
+		return;
+	};
+	D4XPWS.filter_sel=(d4xFilterSel*)d4x_filter_sel_new();
+	gtk_window_set_modal(GTK_WINDOW(D4XPWS.filter_sel),TRUE);
+	gtk_window_set_transient_for(GTK_WINDOW(D4XPWS.filter_sel),GTK_WINDOW(d4x_prefs_window));
+	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel->clist),
+			   "select_row",
+			   GTK_SIGNAL_FUNC(prefs_filter_sel_select),
+			   NULL);
+	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel->ok),
+			   "clicked",
+			   GTK_SIGNAL_FUNC(prefs_filter_sel_ok),
+			   NULL);
+	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel->cancel),
+			   "clicked",
+			   GTK_SIGNAL_FUNC(prefs_filter_sel_delete),
+			   NULL);
+	gtk_signal_connect(GTK_OBJECT(D4XPWS.filter_sel),
+			   "delete_event",
+			   GTK_SIGNAL_FUNC(prefs_filter_sel_delete),
+			   NULL);
+};
+
 void d4x_prefs_download_http(){
 	GtkWidget *tmpbox=d4x_prefs_child_destroy(_("HTTP"));
 
@@ -414,6 +481,21 @@ void d4x_prefs_download_http(){
 	gtk_box_pack_start(GTK_BOX(prefs_other_fbox),prefs_other_flabel,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_other_fbox),D4XPWS.unknown_filename,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),prefs_other_fbox,FALSE,FALSE,0);
+
+	D4XPWS.default_filter=gtk_entry_new();
+	gtk_entry_set_editable(GTK_ENTRY(D4XPWS.default_filter),FALSE);
+	if (CFG.DEFAULT_FILTER)
+		text_to_combo(D4XPWS.default_filter,CFG.DEFAULT_FILTER);
+	http_hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(http_hbox),5);
+	other_label=gtk_label_new(_("Filter"));
+	GtkWidget *button=gtk_button_new_with_label(_("Select"));
+ 	gtk_signal_connect(GTK_OBJECT(button),"clicked",
+			   GTK_SIGNAL_FUNC(prefs_filter_sel_clicked),NULL);
+	gtk_box_pack_start(GTK_BOX(http_hbox),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(http_hbox),D4XPWS.default_filter,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(http_hbox),button,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(tmpbox),http_hbox,FALSE,FALSE,0);
 	
 	gtk_widget_show_all(tmpbox);
 };
@@ -1114,6 +1196,7 @@ void d4x_prefs_apply_tmp(){
 		TMPCFG.RECURSIVE_OPTIMIZE=GTK_TOGGLE_BUTTON(D4XPWS.recursive)->active;
 		TMPCFG.PAUSE_AFTER_ADDING=GTK_TOGGLE_BUTTON(D4XPWS.pause_check)->active;
 		TMPCFG.DEFAULT_CFG.check_time=GTK_TOGGLE_BUTTON(D4XPWS.check_time_check)->active;
+		sscanf(gtk_entry_get_text(GTK_ENTRY(D4XPWS.permissions)),"%u",&(TMPCFG.DEFAULT_PERMISIONS));
 		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.savepath)->combo,
 					 &TMPCFG.GLOBAL_SAVE_PATH,
 					 ALL_HISTORIES[PATH_HISTORY]);
@@ -1152,6 +1235,9 @@ void d4x_prefs_apply_tmp(){
 		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.unknown_filename)->combo,
 				    &TMPCFG.DEFAULT_NAME,
 				    ALL_HISTORIES[FILE_HISTORY]);
+		if (TMPCFG.DEFAULT_FILTER)
+			delete[] TMPCFG.DEFAULT_FILTER;
+		TMPCFG.DEFAULT_FILTER=copy_string(text_from_combo(D4XPWS.default_filter));
 		return;
 	};
 	if (equal(label,_("Proxy"))){

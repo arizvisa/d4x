@@ -28,7 +28,7 @@ protected:
 	int ftp_get_size(tStringList *l);
 	void print_error(int error_code);
 	fsize_t ls_answer_short();
-	fsize_t ls_answer_long(tStringList *list);
+	fsize_t ls_answer_long();
 	int is_dir();
 public:
     	tFtpDownload();

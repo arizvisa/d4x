@@ -14,6 +14,7 @@
 
 struct tAddr{
 	tPStr host,username,pass,path,file,params;
+	tPStr tag; //temporary field for HTML recursion + filters
 	int proto,port;
 	int mask;
 	tAddr();

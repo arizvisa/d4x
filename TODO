@@ -1,11 +1,15 @@
 ----------------- to 2.0 ----------------------------------------
-different window managers need different coords for creating window
+different window managers need different coords for created window
+check segments.* code
+add mask for MIME type in a rule of a filter
+ability to do FTP-search in case insensetive mode
+what about accepting cookies?
 -----------------------------------------------------------------
 graph of speeds for separated download
 scale DnD-bascket icon according screen resolution
 browser for ftp and http
 profiles
-searching in queue
+searching in queue (by Ctrl-S like MC)
 "tree" window for displaiyng tree structure of a site(s)
 check free space on disk to prevent empty it
 uploading files to server
@@ -13,6 +17,7 @@ Auto detection of best proxy.
 automated FTP-search
 ability to create new queue
 rewrite face/lod.cc[h] in OO style
+move to GTK-2.0
 [????] do not use .segments file for downloading in one thread
 [????] option for configuring persentage in queue of downloads
 [????] stand_data_connection() should try another way to set it up
@@ -143,3 +148,15 @@ rewrite face/lod.cc[h] in OO style
 [DONE] history for "port" field in proxy settings
 [DONE] downloading via proxy must be less sensetive for proxy's problems 
 ---------------------------------------------------------------------
+----------------- to 1.29 ---------------------------------------
+[DONE] fix moving DnD basket under Enlightnment (need to be recompiled on the same machine if problems happened )
+[DONE] open Mozilla's cookie file if it's newer than Netscape's one
+[DONE] ability to do FTP-search even if filesize is unknown
+[DONE] add mask for "parameter" in a rule of a filter
+[DONE] "startup" sound must be activated slightly later
+[DONE] add mask for HTML tag in a rule of a filter
+[DONE] add normal preferences for "automated add"
+[DONE] add shortcut for "Un/Protect"
+[DONE] fix working "automated add" with paramters like '{01-99}'
+[DONE] add back "default permissions" to "common options"
+-----------------------------------------------------------------

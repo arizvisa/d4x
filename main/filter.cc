@@ -35,11 +35,25 @@ void d4xRule::print(){
 int d4xRule::match(tAddr *addr){
 	if (proto && addr->proto!=proto)
 		return(0);
-	if (file.get() && !check_mask2_uncase(addr->file.get(),file.get()))
+	if (file.get() &&
+	    (addr->file.get() ||
+	     !check_mask2_uncase(addr->file.get(),file.get())))
 		return(0);
-	if (host.get() && !check_mask2(addr->host.get(),host.get()))
+	if (host.get() &&
+	    (addr->host.get() ||
+	     !check_mask2(addr->host.get(),host.get())))
 		return(0);
-	if (path.get() && !check_mask2(addr->path.get(),path.get()))
+	if (path.get() &&
+	    (addr->path.get()==NULL ||
+	     !check_mask2(addr->path.get(),path.get())))
+		return(0);
+	if (tag.get() &&
+	    (addr->tag.get()==NULL ||
+	     equal_uncase(addr->tag.get(),tag.get())==0))
+		return(0);
+	if (params.get() &&
+	    (addr->params.get()==NULL ||
+	     !check_mask2(addr->params.get(),params.get())))
 		return(0);
 	return(1);
 };
@@ -58,8 +72,12 @@ void d4xRule::save(int fd){
 		else
 			write_named_string(fd,"path:",path.get());
 	};
+	if (tag.get())
+		write_named_string(fd,"tag:",tag.get());
 	if (file.get())
 		write_named_string(fd,"file:",file.get());
+	if (params.get())
+		write_named_string(fd,"params:",params.get());
 	f_wstr_lf(fd,"d4xRule_end");
 };
 
@@ -70,6 +88,8 @@ int d4xRule::load(int fd){
 		{"host:",	SV_TYPE_PSTR,	&(host)},
 		{"path:",	SV_TYPE_PSTR,	&(path)},
 		{"file:",   	SV_TYPE_PSTR,	&(file)},
+		{"tag:",   	SV_TYPE_PSTR,	&(tag)},
+		{"params:",   	SV_TYPE_PSTR,	&(params)},
 		{"d4xRule_end",SV_TYPE_END,	NULL}
 	};
 	char buf[MAX_LEN];
@@ -278,11 +298,11 @@ d4xFiltersTree::~d4xFiltersTree(){
 	pthread_mutex_destroy(&my_mutex);
 };
 
-void d4xFiltersTree::print_recurse(tDEdit *edit,d4xFNode *node){
+void d4xFiltersTree::print_recurse(d4xFilterSel *sel,d4xFNode *node){
 	if (node){
-		print_recurse(edit,(d4xFNode *)(node->less));
-		edit->add_filter(node);
-		print_recurse(edit,(d4xFNode *)(node->more));
+		print_recurse(sel,(d4xFNode *)(node->less));
+		d4x_filter_sel_add(sel,node);
+		print_recurse(sel,(d4xFNode *)(node->more));
 	};
 };
 
@@ -299,9 +319,9 @@ void d4xFiltersTree::print(){
 	print_recurse(tmp);
 };
 
-void d4xFiltersTree::print(tDEdit *edit){
+void d4xFiltersTree::print(d4xFilterSel *sel){
 	d4xFNode *tmp=(d4xFNode*)Top;
-	print_recurse(edit,tmp);
+	print_recurse(sel,tmp);
 };
 
 void d4xFiltersTree::save_recurse(int fd,d4xFNode *what){

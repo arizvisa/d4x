@@ -18,7 +18,7 @@
 
 struct d4xAASubStr:tNode{
 	int type;
-	int left_int,right_int,cur_int;
+	int left_int,right_int,cur_int,int_len;
 	char *left_str,*right_str,*cur_str;
 	int str_len;
 	int end_flag;
@@ -47,7 +47,7 @@ enum D4X_AUTO_ADD_ENUM{
 d4xAASubStr::d4xAASubStr(){
 	type=DAA_UNKNOWN;
 	period=1;
-	left_int=right_int=cur_int=0;
+	left_int=right_int=cur_int=int_len=0;
 	left_str=right_str=cur_str=NULL;
 };
 
@@ -154,6 +154,15 @@ char *d4xAASubStr::scan(char *str){
 		return(cur+1);
 	};
 	if (sscanf(cur,"%i-%i",&left_int,&right_int)==2){
+		char a[100];
+		sprintf(a,"%i-%i",left_int,right_int);
+		if (!begin_string(cur,a)){
+			char *b=index(cur,'-');
+			if (b)
+				int_len=b-cur;
+			else
+				int_len=0;
+		};
 		cur=str_skip_digits_or_(cur,'-');
 		if (sub_scan(&cur)) return(str);
 		type=DAA_INT_INT;
@@ -186,7 +195,12 @@ char *d4xAASubStr::first(){
 	if (type==DAA_INT_INT){
 		cur_int=left_int;
 		char tmp[100];
-		sprintf(tmp,"%i",cur_int);
+		if (int_len){
+			char a[100];
+			sprintf(a,"%%0%ii",int_len);
+			sprintf(tmp,a,cur_int);
+		}else
+			sprintf(tmp,"%i",cur_int);
 		return(copy_string(tmp));
 	};
 	if (type==DAA_STR_STR){
@@ -227,7 +241,12 @@ char *d4xAASubStr::next(){
 			end_flag=1;
 		};
 		char tmp[100];
-		sprintf(tmp,"%i",cur_int);
+		if (int_len){
+			char a[100];
+			sprintf(a,"%%0%ii",int_len);
+			sprintf(tmp,a,cur_int);
+		}else
+			sprintf(tmp,"%i",cur_int);
 		return(copy_string(tmp));
 	};
 	if (type==DAA_STR_STR){

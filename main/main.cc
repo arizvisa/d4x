@@ -675,7 +675,7 @@ void tMain::print_info(tDownload *what) {
 				what->NanoSpeed=0;
 		} else {
 			what->NanoSpeed=0;
-			if (what->status==DOWNLOAD_GO) {
+			if (what->status_cp==DOWNLOAD_GO) {
 				int Pause=NOWTMP-what->Pause;
 				if (Pause>=30) {
 					convert_time(Pause,data);
@@ -930,7 +930,7 @@ int tMain::get_status_split(tDownload *what){
 		};
 		case DOWNLOAD_FATAL:{
 			if (what->owner==DL_RUN){
-				tmp->status=DOWNLOAD_REAL_STOP;
+//				tmp->status=DOWNLOAD_REAL_STOP;
 				MainLog->myprintf(LOG_ERROR,_("Splited download [%z] was stopped because one of threads failed"),what);
 				stop_download(what);
 				what->action=ACTION_FAILED;
@@ -946,11 +946,8 @@ int tMain::get_status_split(tDownload *what){
 		tmp=tmp->split->next_part;
 	};
 	if (status[2]) return DOWNLOAD_GO;
-	if (status[1]==0){
-//		if (what->split->status)
+	if (status[1]==0)
 		return DOWNLOAD_COMPLETE;
-//		return DOWNLOAD_GO;
-	};
 	return DOWNLOAD_REAL_STOP;
 };
 
@@ -959,10 +956,11 @@ void tMain::main_circle_first(){
 	tDownload *temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->last();
 	while(temp) {
 		tDownload *temp1=DOWNLOAD_QUEUES[DL_STOPWAIT]->next();
-		if (temp->split) temp->status=get_status_split(temp);
-		if (temp->status==DOWNLOAD_REAL_STOP ||
-		        temp->status==DOWNLOAD_COMPLETE  ||
-		        temp->status==DOWNLOAD_FATAL) {
+		int status=temp->status;
+		if (temp->split) status=get_status_split(temp);
+		if (status==DOWNLOAD_REAL_STOP ||
+		    status==DOWNLOAD_COMPLETE  ||
+		    status==DOWNLOAD_FATAL) {
 			prepare_for_stoping(temp,DOWNLOAD_QUEUES[DL_STOPWAIT]);
 			real_stop_thread(temp);
 			DOWNLOAD_QUEUES[DL_PAUSE]->insert(temp);
@@ -999,13 +997,12 @@ void tMain::main_circle_second(){
 		int status=temp->status;
 		if (temp->split){
 			status=get_status_split(temp);
-//			status=DOWNLOAD_GO;
 			if (temp->status!=DOWNLOAD_FATAL &&
 			    temp->split->status==0){
 				try_to_run_split(temp);
-//			}else{
 			};
 		};
+		temp->status_cp=status;
 		if (CFG.WITHOUT_FACE==0) print_info(temp);
 		else speed_calculation(temp);
 		switch(status) {
@@ -1159,7 +1156,7 @@ void tMain::check_for_remote_commands(){
 //**********************************************/
 void tMain::ftp_search(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	if (what->info->file.get() && what->finfo.size>0){
+	if (what->info->file.get()){
 		tDownload *tmp=new tDownload;
 		tmp->info=new tAddr;
 		tmp->set_default_cfg();
@@ -1381,7 +1378,6 @@ void tMain::speed() {
 
 void tMain::run(int argv,char **argc) {
 	SOUND_SERVER->run_thread();
-	SOUND_SERVER->add_event(SND_STARTUP);
 	if (CFG.WITHOUT_FACE==0){
 		ftpsearch=new tFtpSearchCtrl;
 		init_face(argv,argc);
@@ -1413,9 +1409,10 @@ void tMain::run(int argv,char **argc) {
 	var_check_all_limits();
 	MainLog->add(_("Normally started"),LOG_WARNING);
 	check_for_remote_commands();
-	if (CFG.WITHOUT_FACE==0)
+	if (CFG.WITHOUT_FACE==0){
+		SOUND_SERVER->add_event(SND_STARTUP);
 		gtk_main();
-	else{
+	}else{
 		run_without_face();
 	};
 };

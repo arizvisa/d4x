@@ -425,7 +425,7 @@ fsize_t tFtpDownload::ls_answer_short(){
 	return D_FILE.size;
 };
 
-fsize_t tFtpDownload::ls_answer_long(tStringList *list){
+fsize_t tFtpDownload::ls_answer_long(){
 	tString *last=list->last();
 	while(last){
 		if (strstr(last->body,ADDR.file.get()))
@@ -460,7 +460,7 @@ fsize_t tFtpDownload::get_size() {
 				if (a==0 && list->count()<=2)
 					return(ls_answer_short());
 				if (a==0 && list->count()>2) {
-					return(ls_answer_long(list));
+					return(ls_answer_long());
 				};
 				LOG->log(LOG_WARNING,_("Couldn't get size :(("));
 			} else {

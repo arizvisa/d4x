@@ -50,7 +50,7 @@ struct d4xRule;
 
 struct d4xRuleEdit{
 	GtkWindow window;
-	GtkWidget *host,*proto,*path,*file;
+	GtkWidget *host,*proto,*path,*file,*params,*tag;
 	GtkWidget *include,*exclude;
 	GtkWidget *vbox;
 	GtkWidget *ok_button,*cancel_button;
@@ -85,4 +85,16 @@ struct d4xFilterEditClass{
 GtkWidget *d4x_filter_edit_new(d4xFNode *node);
 void d4x_filter_edit_add_rule(d4xFilterEdit *edit,d4xRule *rule);
 
+struct d4xFilterSel{
+	GtkWindow window;
+	GtkWidget *clist,*ok,*cancel;
+};
+struct d4xFilterSelClass{
+	GtkWindowClass parent_class;
+};
+
+struct d4xFNode;
+
+GtkWidget *d4x_filter_sel_new();
+void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node);
 #endif

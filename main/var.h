@@ -52,6 +52,7 @@ struct tMainCfg{
 	char *DEFAULT_NAME;
 	char *USER_AGENT;
 	char *ANONYMOUS_PASS;
+	char *DEFAULT_FILTER;
 	int DEFAULT_HOST_LIMIT;
 	int ALLOW_FORCE_RUN;
 /* Log
