@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -19,9 +19,11 @@ class tHttpClient:public tClient{
     int Offset;
     int Auth;
     int send_request(char *request);
+    int send_request(char *begin, char *center,char *end);
     int read_data(char *where,int len);
     int read_answer(tStringList *list);
     char *user_agent;
+    void send_cookies(char *host,char *path);
     public:
 		tHttpClient();
 		void init(char *host,tLog *log,int prt,int time_out);

@@ -1,3 +1,38 @@
+Wed Feb 16 08:58:21 2000
+	Added functions for manipulating with selections of downloads;
+	Added ability to configure speed via main menu as well as via menu of DnDtarsh;
+	Added ability to pause downloading just after adding (to prevent autamatically running);
+	Added ability to configure buttons bar;
+	Added various command line parameters;
+	Improved http recursion;
+	Hungarian translation was added;
+	French translation updated (thanks to Jerome Courdec)
+	German translation updated (thanks to Dirk Moebius)
+	Russian translation updated;
+	Fixed getting first content of clipboard;
+	More fast moving on top and bottom of queue;
+	Minor fix in http requests;
+	Show file sizes in queue of downloads if they are known;
+	Fixed small memory leaks when close and open dnd trash again;
+	Fixed memory leak in downloading via http proxy;
+	Fixes and improvements in ftp code;
+	Varios fixes and code cleanups;
+
+Sun Jan 30 16:01:38 2000
+    Added clippboard monitoring;
+    Added ability to setup list of extensions for skiping in clipboard;
+    Added new shortcuts: openinig log window by pressing Enter key, closing by Escape;
+    Fixed memory leak in analizing http answer;
+    Fixed creating log windows on old gtk libs;
+    Fixed deleting all downloads if user just stoped one of them;
+    Html parsing was fully rewritten;
+    New format for saved lists of download;
+    Closing log window by pressing Esc;
+    Update Japaniese translation;
+    Update French translation;
+    Cookies support added (Downloader will use cookies from your ~/.netscape/cookies);
+    Of course code cleanups, memory leak fixes;
+
 Mon Jan 17 09:59:13 2000
     French translation is updated;
     Spanish tranlsation is updated;

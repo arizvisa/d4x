@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -10,6 +10,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <stdio.h>
 #include "list.h"
 #include "../var.h"
@@ -17,6 +18,37 @@
 #include "../ntlocale.h"
 
 GtkWidget *AboutWindow=(GtkWidget *)NULL;
+char *TRANSLATORS[]={
+	"Jerome Couderc",
+	"Dirk Moebius",
+	"Vicente Aguilar",
+	"Paulo Henrique",
+	"Vittorio Rebecchi",
+	"A.J.",
+	"Josef Jahn",
+	"Marlin [TLC-ML]",
+	"Philippe Rigaux",
+	"Eric Seigne",
+	"Robin Verduijn",
+	"Priyadi Iman Nurcahyo",
+	"Kei Kodera",
+	"Guiliano Rangel Alves",
+	"Pavel Janousek"
+};
+
+static gint about_window_esc_handler(GtkWidget *window,GdkEvent *event){
+	if (event && event->type == GDK_KEY_PRESS) {
+		GdkEventKey *kevent=(GdkEventKey *)event;
+		switch(kevent->keyval) {
+		case GDK_Escape:{
+			destroy_about_window();
+			return TRUE;
+			break;
+		};
+		};
+	};
+	return FALSE;
+};
 
 void destroy_about_window() {
 	if (AboutWindow){
@@ -46,34 +78,10 @@ void init_about_window(...) {
 	gtk_frame_set_shadow_type(GTK_FRAME(frame),GTK_SHADOW_IN);
 	GtkWidget *box1=gtk_vbox_new(FALSE,0);
 	gtk_container_add(GTK_CONTAINER(frame),box1);
-	GtkWidget *label=gtk_label_new("Vicente Aguilar");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Vittorio Rebecchi");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Paulo Henrique");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("A.J.");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Josef Jahn");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Marlin [TLC-ML]");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Philippe Rigaux");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Jerome Couderc");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Eric Seigne");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Robin Verduijn");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Priyadi Iman Nurcahyo");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Kei Kodera");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Guiliano Rangel Alves");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
-	label=gtk_label_new("Pavel Janousek");
-	gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
+	for (unsigned int i=0;i<sizeof(TRANSLATORS)/sizeof(char *);i++){
+		GtkWidget *label=gtk_label_new(TRANSLATORS[i]);
+		gtk_box_pack_start(GTK_BOX(box1),label,FALSE,FALSE,0);
+	};
 	GtkWidget *Button=gtk_button_new_with_label(_("Ok"));
 	gtk_box_pack_start(GTK_BOX(box),label1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(box),label2,FALSE,FALSE,0);
@@ -84,6 +92,8 @@ void init_about_window(...) {
 	gtk_container_add(GTK_CONTAINER(AboutWindow),box);
 	gtk_signal_connect(GTK_OBJECT(Button),"clicked",
 	                   (GtkSignalFunc)destroy_about_window,NULL);
+	gtk_signal_connect(GTK_OBJECT(AboutWindow), "key_press_event",
+			   (GtkSignalFunc)about_window_esc_handler, NULL);
 	gtk_signal_connect(GTK_OBJECT(AboutWindow), "delete_event",
 	                   (GtkSignalFunc)destroy_about_window,NULL);
 	GTK_WIDGET_SET_FLAGS(Button,GTK_CAN_DEFAULT);

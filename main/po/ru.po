@@ -355,20 +355,20 @@ msgstr "устр."
 
 #: main.cc:637
 #, c-format
-msgid "Downloading of directory %s was completed"
-msgstr "Загрузка директории %s завершена"
+msgid "Downloading of directory %z was completed"
+msgstr "Загрузка директории %z завершена"
 
 #: main.cc:641
 #, c-format
 msgid ""
-"Downloading of file %s (%i bytes) was completed at speed %i "
+"Downloading of file %z (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "Загрузка файла %s (%i байт) завершена при скорости %i байт/сек"
+msgstr "Загрузка файла %z (%i байт) завершена при скорости %i байт/сек"
 
 #: main.cc:664
 #, c-format
-msgid "Downloading of file %s was terminated by fatal error"
-msgstr "Загрузка файла %s остановлена из-за ошибки"
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "Загрузка файла %z остановлена из-за ошибки"
 
 #: main.cc:809
 #, c-format
@@ -1114,8 +1114,8 @@ msgid "Can't do rollback!"
 msgstr "Не могу сделать откат!"
 
 #: main.cc:
-msgid "Redirect from %s"
-msgstr "Перенаправление с %s"
+msgid "Redirect from %z"
+msgstr "Перенаправление с %z"
 
 #: face/:
 msgid "Ok"
@@ -1202,20 +1202,20 @@ msgid "Output detailed information"
 msgstr "Выводить подробную информацию"
 
 #: main.cc
-msgid "Prepare [%s] for stoping"
-msgstr "Подготавливаю [%s] к останову"
+msgid "Prepare [%z] for stoping"
+msgstr "Подготавливаю [%z] к останову"
 
 #: main.cc
-msgid "Run new thread for %s"
-msgstr "Запускаю новый поток для %s"
+msgid "Run new thread for %z"
+msgstr "Запускаю новый поток для %z"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as completed download"
-msgstr "%s была удалена из очереди закачек как завершенная"
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%z была удалена из очереди закачек как завершенная"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as failed download"
-msgstr "%s была удалена из очереди закачек как неудачная"
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%z была удалена из очереди закачек как неудачная"
 
 #: main.cc
 msgid "Delete completed downloads"
@@ -1234,20 +1234,20 @@ msgid "Append list to curent queue of downloads"
 msgstr "Добавление списка к текущей очереди закачек"
 
 #: face/dndtrash.cc
-msgid "New Download"
-msgstr "Новая закачка"
+msgid "/New Download"
+msgstr "/Новая закачка"
 
 #: face/dndtrash.cc
-msgid "Paste Download"
-msgstr "Добавить из буффера"
+msgid "/Paste Download"
+msgstr "/Добавить из буффера"
 
 #: face/dndtrash.cc
-msgid "Common options"
-msgstr "Настройки программы"
+msgid "/Common options"
+msgstr "/Настройки программы"
 
 #: face/dndtrash.cc
-msgid "Exit"
-msgstr "Выход"
+msgid "/Exit"
+msgstr "/Выход"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
@@ -1296,3 +1296,103 @@ msgstr "Уже"
 #: face/edit.cc:
 msgid "Default"
 msgstr "По умолчанию"
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr "Добавление закачки через контрольный сокет [%s]"
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr "Не могу открыть файл с cookie!"
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr "%i cookie загружено"
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr "Загрузка cookie"
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr "Слежение за клипбордой"
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr "Пропускать эти расширения в клипборде"
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr "/Скорость"
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr "/Скорость/Минимальная"
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr "/Скорость/Средняя"
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr "/Скорость/Неограниченная"
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr "/Настройки/Скорость"
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr "/Настройки/Скорость/Минимальная"
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr "/Настройки/Скорость/Средняя"
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr "/Настройки/Скорость/Неограниченная"
+
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr "/Настройки/Кнопки"
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr "/Настройки/Кнопки/Операции"
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/Настройки/Кнопки/Скорость"
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/Настройки/Кнопки/Дополнительные"
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr "/Настройки/Кнопки/Добавление"
+
+#:main.cc
+msgid "[control socket]"
+msgstr "[контрольный сокет]"
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr "/Закачка/Сбросить выделение"
+
+# face/list.cc
+msgid "/Download/-"
+msgstr "/Закачка/-"
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr "Останвить сразу после добавления"
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr "/Закачка/Выделить все"
+
+# face/list.cc
+msgid "/Download/Invert selection"
+msgstr "/Закачка/Инвертировать выделение"

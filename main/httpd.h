@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -15,23 +15,14 @@
 #include "http.h"
 #include "liststr.h"
 
-struct tHtmlTeg{
-	char *tag,*field,*closetag;
-	int mod;
-};
-
-extern tHtmlTeg HTML_TEGS[];
-
 class tHttpDownload:public tDownloader{
 	protected:
 	tHttpClient *HTTP;
 	tStringList *answer;
 	int ReGet,MustNoReget,first,ETagChanged;
-	char *RealName,*NewRealName,*content_type;
+	char *RealName,*NewRealName,*content_type,*FULL_NAME_TEMP;
 	char *ETag,*Auth;
 	int analize_answer();
-	char *get_field(char *field);
-	void skip_for_tag(char *tag);
 	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
    	void make_full_pathes(const char *path,char **name,char **guess);
 	public:

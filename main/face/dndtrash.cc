@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -26,6 +26,28 @@ extern tMain aa;
 extern GtkTargetEntry download_drop_types[];
 extern gint n_download_drop_types;
 
+enum DND_MENU_ENUM{
+	DM_NEW,
+	DM_PASTE,
+	DM_OPTIONS,
+	DM_SPEED, DM_SPEED_1, DM_SPEED_2, DM_SPEED_3,
+	DM_EXIT,
+	DM_SEP
+};
+
+char *dnd_menu_inames[]={
+	"/New Download",
+	"/Paste Download",
+	"/Common options",
+	"/Speed",
+	"/Speed/Lowest",
+	"/Speed/Middle",
+	"/Speed/Unlimited",
+	"/Exit",
+	"/-"
+};
+
+GtkItemFactory *dnd_trash_item_factory;
 GtkWidget *dnd_trash_window=(GtkWidget *)NULL;
 GtkWidget *dnd_trash_menu=(GtkWidget *)NULL;
 GtkTooltips *dnd_trash_tooltips;
@@ -110,31 +132,31 @@ void dnd_trash_init(){
 	if (dnd_trash_window) return;
 	dnd_trash_moveable=0;
 #include "pixmaps/dndtrash.xpm"
-    /* GtkWidget is the storage type for widgets */
-    GtkWidget *pixmap, *fixed;
-    GdkPixmap *gdk_pixmap;
-    GdkBitmap *mask;
-    GtkStyle *style;
-    GdkGC *gc;
+	/* GtkWidget is the storage type for widgets */
+	GtkWidget *pixmap, *fixed;
+	GdkPixmap *gdk_pixmap;
+	GdkBitmap *mask;
+	GtkStyle *style;
+	GdkGC *gc;
     
-    /* Create the main window, and attach delete_event signal to terminate
-     * the application.  Note that the main window will not have a titlebar
-     * since we're making it a popup. */
-    dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
-    if (CFG.DND_TRASH_X>gdk_screen_width()) CFG.DND_TRASH_X=0;
-    if (CFG.DND_TRASH_Y>gdk_screen_height()) CFG.DND_TRASH_Y=0;
+	/* Create the main window, and attach delete_event signal to terminate
+	 * the application.  Note that the main window will not have a titlebar
+	 * since we're making it a popup. */
+	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
+	if (CFG.DND_TRASH_X>gdk_screen_width()) CFG.DND_TRASH_X=0;
+	if (CFG.DND_TRASH_Y>gdk_screen_height()) CFG.DND_TRASH_Y=0;
 	gtk_window_set_default_size(GTK_WINDOW(dnd_trash_window),50,50);
-    gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
+	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
 
-    gtk_widget_set_events(dnd_trash_window, GDK_FOCUS_CHANGE_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK);
-    gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "delete_event",
-                        GTK_SIGNAL_FUNC (dnd_trash_destroy), NULL);
-    gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "motion_notify_event",
-                        GTK_SIGNAL_FUNC (dnd_trash_motion), NULL);
-    gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "button_press_event",
-                        GTK_SIGNAL_FUNC (dnd_trash_button_press), NULL);
-    gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "button_release_event",
-                        GTK_SIGNAL_FUNC (dnd_trash_button_release), NULL);
+	gtk_widget_set_events(dnd_trash_window, GDK_FOCUS_CHANGE_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK);
+	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "delete_event",
+			    GTK_SIGNAL_FUNC (dnd_trash_destroy), NULL);
+	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "motion_notify_event",
+			    GTK_SIGNAL_FUNC (dnd_trash_motion), NULL);
+	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "button_press_event",
+			    GTK_SIGNAL_FUNC (dnd_trash_button_press), NULL);
+	gtk_signal_connect (GTK_OBJECT (dnd_trash_window), "button_release_event",
+			    GTK_SIGNAL_FUNC (dnd_trash_button_release), NULL);
 
 	gtk_signal_connect(GTK_OBJECT(dnd_trash_window),
 	                   "drag_data_received",
@@ -147,66 +169,75 @@ void dnd_trash_init(){
 	                  download_drop_types, n_download_drop_types,
 	                  (GdkDragAction)GDK_ACTION_COPY);
 
-    gtk_widget_show (dnd_trash_window);
+	gtk_widget_show (dnd_trash_window);
 
-    /* Now for the pixmap and the pixmap widget */
-    style = gtk_widget_get_default_style();
-    gc = style->black_gc;
-    gdk_pixmap = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &mask,
-                                             &style->bg[GTK_STATE_NORMAL],
-                                             dndtrash_xpm);
-    pixmap = gtk_pixmap_new( gdk_pixmap, mask );
-    gtk_widget_show( pixmap );
+	/* Now for the pixmap and the pixmap widget */
+	style = gtk_widget_get_default_style();
+	gc = style->black_gc;
+	gdk_pixmap = gdk_pixmap_create_from_xpm_d( dnd_trash_window->window, &mask,
+						   &style->bg[GTK_STATE_NORMAL],
+						   dndtrash_xpm);
+	pixmap = gtk_pixmap_new( gdk_pixmap, mask );
+	gtk_widget_show( pixmap );
 
-    /* To display the pixmap, we use a fixed widget to place the pixmap */
-    fixed = gtk_fixed_new();
-    gtk_widget_set_usize( fixed, 50, 50 );
-    gtk_fixed_put( GTK_FIXED(fixed), pixmap, 0, 0 );
-    gtk_container_add( GTK_CONTAINER(dnd_trash_window), fixed );
-    gtk_widget_show( fixed );
+	/* To display the pixmap, we use a fixed widget to place the pixmap */
+	fixed = gtk_fixed_new();
+	gtk_widget_set_usize( fixed, 50, 50 );
+	gtk_fixed_put( GTK_FIXED(fixed), pixmap, 0, 0 );
+	gtk_container_add( GTK_CONTAINER(dnd_trash_window), fixed );
+	gtk_widget_show( fixed );
 
 	dnd_trash_tooltips=gtk_tooltips_new();
-    gtk_tooltips_force_window(dnd_trash_tooltips);
+	gtk_tooltips_force_window(dnd_trash_tooltips);
 	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(dnd_trash_tooltips->tip_window));
 	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
+	current_style->font = MainWindow->style->font;
 	gtk_widget_set_style(dnd_trash_tooltips->tip_window, current_style);
 
 	gtk_tooltips_set_tip(dnd_trash_tooltips,dnd_trash_window,_("Drop link here"),(const gchar *)NULL);
 	gtk_tooltips_enable(dnd_trash_tooltips);
-    /* This masks out everything except for the image itself */
-    gtk_widget_shape_combine_mask( dnd_trash_window, mask, 0, 0 );
+	/* This masks out everything except for the image itself */
+	gtk_widget_shape_combine_mask( dnd_trash_window, mask, 0, 0 );
     
-    /* show the window */
-    gtk_widget_show( dnd_trash_window );
-    gdk_window_resize(dnd_trash_window->window,50,50);
-    set_dndtrash_button();
-    dnd_trash_init_menu();
+	/* show the window */
+	gtk_widget_show( dnd_trash_window );
+	gdk_window_resize(dnd_trash_window->window,50,50);
+	set_dndtrash_button();
+};
+
+void dnd_trash_menu_prepare(){
+	GtkWidget *menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_1]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==1?TRUE:FALSE;
+	menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_2]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==2?TRUE:FALSE;
+	menu_item=gtk_item_factory_get_widget(dnd_trash_item_factory,_(dnd_menu_inames[DM_SPEED_3]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==3?TRUE:FALSE;
+};
+
+void dnd_trash_menu_calback(gpointer *data, guint action, GtkWidget *widget){
+	if (action>0 && action<4){
+		CFG.SPEED_LIMIT=action;
+		set_speed_buttons();
+	};
 };
 
 void dnd_trash_init_menu() {
-	GtkWidget *popup_menu=gtk_menu_new();
-	GtkWidget *item=gtk_menu_item_new_with_label(_("New Download"));
-	gtk_menu_append(GTK_MENU(popup_menu),item);
-	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(init_add_window),NULL);
-
-	item=gtk_menu_item_new_with_label(_("Paste Download"));
-	gtk_menu_append(GTK_MENU(popup_menu),item);
-	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(init_add_clipboard_window),NULL);
-
-	item=gtk_menu_item_new();
-	gtk_menu_append(GTK_MENU(popup_menu),item);
-
-	item=gtk_menu_item_new_with_label(_("Common options"));
-	gtk_menu_append(GTK_MENU(popup_menu),item);
-	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(init_options_window),NULL);
-
-	item=gtk_menu_item_new();
-	gtk_menu_append(GTK_MENU(popup_menu),item);
-
-	item=gtk_menu_item_new_with_label(_("Exit"));
-	gtk_menu_append(GTK_MENU(popup_menu),item);
-	gtk_signal_connect(GTK_OBJECT(item),"activate",GTK_SIGNAL_FUNC(ask_exit),NULL);
-
-	gtk_widget_show_all(popup_menu);
-	dnd_trash_menu= popup_menu;
+	GtkItemFactoryEntry menu_items[] = {
+		{_(dnd_menu_inames[DM_NEW]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
+		{_(dnd_menu_inames[DM_PASTE]),		(gchar *)NULL,	(GtkItemFactoryCallback)init_add_clipboard_window,	0, (gchar *)NULL},
+		{_(dnd_menu_inames[DM_SEP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Separator>"},
+		{_(dnd_menu_inames[DM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)init_options_window,		0, (gchar *)NULL},
+		{_(dnd_menu_inames[DM_SPEED]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Branch>"},
+		{_(dnd_menu_inames[DM_SPEED_1]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_menu_calback,		1, "<RadioItem>"},
+		{_(dnd_menu_inames[DM_SPEED_2]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_menu_calback,		2, _(dnd_menu_inames[DM_SPEED_1])},
+		{_(dnd_menu_inames[DM_SPEED_3]),	(gchar *)NULL,	(GtkItemFactoryCallback)dnd_trash_menu_calback,		3, _(dnd_menu_inames[DM_SPEED_2])},
+		{_(dnd_menu_inames[DM_SEP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,				0, "<Separator>"},
+		{_(dnd_menu_inames[DM_EXIT]),		(gchar *)NULL,	(GtkItemFactoryCallback)ask_exit,			0, (gchar *)NULL}
+	};
+	int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
+	GtkAccelGroup *accel_group;
+	accel_group = gtk_accel_group_new();
+	dnd_trash_item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<main>",accel_group);
+	gtk_item_factory_create_items(dnd_trash_item_factory, nmenu_items, menu_items, NULL);
+	dnd_trash_menu= gtk_item_factory_get_widget(dnd_trash_item_factory, "<main>");
 };

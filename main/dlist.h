@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -27,6 +27,7 @@ struct tAddr{
 	tAddr();
 	void print();
 	void copy_host(tAddr *what);
+	void save_to_config(int fd);
 	~tAddr();
 };
 
@@ -61,28 +62,32 @@ struct tDownload:public tAbstractSortNode{
 private:
     char *SavePath;
     char *SaveName;
+	char *create_new_file_path();
+	char *create_new_save_path();
 public:
 	char *get_SavePath(){return SavePath;};
 	char *get_SaveName(){return SaveName;};
 	void set_SavePath(char *what);
 	void set_SaveName(char *what);
     //------------------------------------
-    tDList *DIR;
-    tSpeed *SpeedLimit;
-    time_t ScheduleTime;
-    //------------------------------------
-    tDownload();
-    void clear();
-    void delete_editor();
-    void set_default_cfg();
-    void print();
-    void convert_list_to_dir();
-    void convert_list_to_dir2();
-    void make_file_visible();
-    int create_file();
-    void set_date_file();
-    void update_trigers();
-    ~tDownload();
+	tDList *DIR;
+	tSpeed *SpeedLimit;
+	time_t ScheduleTime;
+	//------------------------------------
+	tDownload();
+	void clear();
+	void delete_editor();
+	void set_default_cfg();
+	void print();
+	void convert_list_to_dir();
+	void convert_list_to_dir2();
+	void make_file_visible();
+	int create_file();
+	void save_to_config(int fd);
+	int load_from_config(int fd);
+	void set_date_file();
+	void update_trigers();
+	~tDownload();
 };
 
 class tDList:public tQueue{
@@ -97,6 +102,7 @@ class tDList:public tQueue{
 		void del(tDownload *what);
 		void forward(tDownload *what);
 		void backward(tDownload *what);
+		void dispose();
 		tDownload *last();
 		tDownload *next();
 		tDownload *prev();
@@ -110,7 +116,7 @@ char * make_simply_url(tDownload *what);
 void make_dir_hier(char *path);
 
 enum {
-    DL_ALONE,
+    DL_ALONE=0,
     DL_RUN,
     DL_STOP,
     DL_WAIT,

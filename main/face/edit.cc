@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -120,7 +120,9 @@ gint edit_window_delete(GtkObject *parent) {
 void edit_window_ok(GtkWidget *which,tDEdit *where) {
 	if (where->apply_changes())
 		return;
-	aa.continue_download(where->get_parent());
+	list_of_downloads_update(where->get_parent());
+	if (!where->get_pause_check())
+		aa.continue_download(where->get_parent());
 	delete where;
 };
 
@@ -295,6 +297,9 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),button,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
+	pause_check=gtk_check_button_new_with_label(_("Pause this just after adding"));
+	GTK_TOGGLE_BUTTON(pause_check)->active=FALSE;
+	gtk_box_pack_start(GTK_BOX(vbox),pause_check,FALSE,FALSE,0);
 	GtkWidget *frame=gtk_frame_new(_("Download"));
 	gtk_container_border_width(GTK_CONTAINER(frame),5);
 	gtk_container_add(GTK_CONTAINER(frame),vbox);
@@ -517,6 +522,10 @@ void tDEdit::init(tDownload *who) {
 	setup_entries();
 };
 
+int tDEdit::get_pause_check(){
+	return(GTK_TOGGLE_BUTTON(pause_check)->active);
+};
+
 void tDEdit::disable_ok_button() {
 	if (window) gtk_widget_set_sensitive(ok_button,FALSE);
 };
@@ -544,7 +553,7 @@ void tDEdit::init_browser() {
 void tDEdit::init_browser2() {
 	if (dir_browser2) return;
 	dir_browser2=gtk_file_selection_new(_("Select file"));
-	char *tmp=sum_strings(text_from_combo(path_entry),"/");
+	char *tmp=sum_strings(text_from_combo(path_entry),"/",NULL);
 	if (tmp && *tmp)
 		gtk_file_selection_set_filename(GTK_FILE_SELECTION(dir_browser2),tmp);
 	delete tmp;
@@ -848,7 +857,9 @@ void tProxyWidget::init() {
 	gtk_box_set_spacing(GTK_BOX(hbox),3);
 	gtk_box_pack_start(GTK_BOX(hbox),proxy_frame1,FALSE,0,0);
 	gtk_box_pack_end(GTK_BOX(hbox),proxy_frame2,FALSE,0,0);
-	gtk_container_add(GTK_CONTAINER(frame),hbox);
+	GtkWidget *vbox_temp=gtk_vbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox_temp),hbox,FALSE,0,0);
+	gtk_container_add(GTK_CONTAINER(frame),vbox_temp);
 
 
 	vbox=gtk_vbox_new(FALSE,0);

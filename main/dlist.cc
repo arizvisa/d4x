@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -23,6 +23,7 @@
 #include "var.h"
 #include "ntlocale.h"
 #include "main.h"
+#include "config.h"
 
 extern tMain aa;
 
@@ -40,6 +41,31 @@ void tAddr::print() {
 	if (username) printf("username: %s\n",username);
 	if (pass) printf("pass: %s\n",pass);
 	printf("port: %i\n",port);
+};
+
+void tAddr::save_to_config(int fd){
+	write(fd,"URL:\n",strlen("URL:\n"));
+	write(fd,protocol,strlen(protocol));
+	write(fd,"://",strlen("://"));
+	if (username && !equal(username,DEFAULT_USER)){
+		write(fd,username,strlen(username));
+		write(fd,":",strlen(":"));
+		write(fd,pass,strlen(pass));
+		write(fd,"@",strlen("@"));
+	};
+	write(fd,host,strlen(host));
+	char port_str[MAX_LEN];
+	snprintf(port_str,MAX_LEN,"%d",port);
+	write(fd,":",strlen(":"));
+	write(fd,port_str,strlen(port_str));
+	if (path && *path!='/')
+		write(fd,"/",strlen("/"));
+	int temp=path==NULL ? 0:strlen(path);
+	write(fd,path,temp);
+	if (path && temp && path[temp-1]!='/')
+		write(fd,"/",strlen("/"));
+	write(fd,file,strlen(file));
+	write(fd,"\n",strlen("\n"));
 };
 
 void tAddr::copy_host(tAddr *what){
@@ -84,14 +110,16 @@ void make_url_from_download(tDownload *what,char *where) {
 
 char *make_simply_url(tDownload *what) {
 	char *URL=new char[strlen(what->info->protocol)+strlen(what->info->host)+
-	                   strlen(what->info->path)+strlen(what->info->file)+6];
+	                   strlen(what->info->path)+strlen(what->info->file)+7];
 	*URL=0;
 	/* Easy way to make URL from info  field
 	 */
 	if (what->info->protocol) strcat(URL,what->info->protocol);
 	strcat(URL,"://");
 	if (what->info->host) strcat(URL,what->info->host);
-	if (what->info->path){ strcat(URL,what->info->path);
+	if (what->info->path){
+		if (what->info->path[0]!='/') strcat(URL,"/");
+		strcat(URL,what->info->path);
 		if (what->info->path[strlen(what->info->path)-1]!='/')
 			strcat(URL,"/");
 	};
@@ -219,17 +247,36 @@ void tDownload::set_default_cfg(){
 	config.set_user_agent(CFG.USER_AGENT);
 };
 
+char *tDownload::create_new_file_path(){
+	if (info->mask==0) 
+		return (compose_path(info->path,info->file));
+	return(copy_string(info->path));
+};
+
+char *tDownload::create_new_save_path(){
+	if (info->mask==0) {
+		if (SavePath) {
+			if (SaveName && strlen(SaveName))
+				return(compose_path(SavePath,SaveName));
+			else 
+				return(compose_path(SavePath,info->file));
+		} else {
+			if (SaveName && strlen(SaveName))
+				return(copy_string(SaveName));
+			else
+				return(copy_string(info->file));
+		};
+	};
+	return(copy_string(SavePath));
+};
+
 void tDownload::convert_list_to_dir() {
-	if (!who) {
+	if (who==NULL || info==NULL) {
 		return;
 	};
 	tFtpDownload *tmp=(tFtpDownload *)(who);
 	tStringList *dir=tmp->dir();
-	if (!dir) {
-		return;
-	};
-	tString *temp=dir->first();
-	if (!temp) {
+	if (dir==NULL || dir->first()==NULL) {
 		return;
 	};
 	if (DIR) {
@@ -238,27 +285,9 @@ void tDownload::convert_list_to_dir() {
 		DIR=new tDList(DL_TEMP);
 		DIR->init(0);
 	};
-	char *path,*savepath;
-	if (info->mask==0) {
-		path=compose_path(info->path,info->file);
-		if (SavePath) {
-			if (SaveName && strlen(SaveName))
-				savepath=compose_path(SavePath,SaveName);
-			else 
-				savepath=compose_path(SavePath,info->file);
-		} else {
-			if (SaveName && strlen(SaveName))
-				savepath=copy_string(SaveName);
-			else
-				savepath=copy_string(info->file);
-		};
-	} else {
-		path=copy_string(info->path);
-		savepath=copy_string(SavePath);
-		normalize_path(savepath);
-		normalize_path(path);
-	};
-	temp=dir->last();
+	char *path=create_new_file_path();
+	char *savepath=create_new_save_path();
+	tString *temp=dir->last();
 	while (temp) {
 		tFileInfo prom;
 		prom.name=NULL;
@@ -341,7 +370,7 @@ void tDownload::convert_list_to_dir2() {
 	};
 	tString *temp=dir->last();
 	while (temp) {
-		if (!global_url(temp->body)) {
+		if (!global_url(temp->body) && !begin_string_uncase(temp->body,"javascript:")) {
 			tAddr *addrnew=new tAddr;
 			tDownload *onenew=new tDownload;
 			char *tmp=rindex(temp->body,'/');
@@ -404,6 +433,76 @@ void tDownload::convert_list_to_dir2() {
 		temp=dir->last();
 	};
 };
+
+void tDownload::save_to_config(int fd){
+	write(fd,"Download:\n",strlen("Download:\n"));
+	if (info) info->save_to_config(fd);
+	if (SaveName){
+		write_named_string(fd,"SaveName:",SaveName);
+	};
+	if (SavePath){
+		write_named_string(fd,"SavePath:",SavePath);
+	};
+	config.save_to_config(fd);
+	if (ScheduleTime)
+		write_named_time(fd,"Time:",ScheduleTime);
+	write_named_integer(fd,"State:",owner);
+	write(fd,"EndDownload:\n",strlen("EndDownload:\n"));
+};
+
+int tDownload::load_from_config(int fd){
+	char *table_of_fields[]={
+		"Url:",
+		"SaveName:",
+		"SavePath:",
+		"State:",
+		"Time:",
+		"Cfg:",
+		"EndDownload:"
+	};
+	char buf[MAX_LEN];
+	while(read_string(fd,buf,MAX_LEN)>0){
+		unsigned int i;
+		for (i=0;i<sizeof(table_of_fields)/sizeof(char *);i++){
+			if (equal_uncase(buf,table_of_fields[i])) break;
+		};
+		switch(i){
+		case 0:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			if (info) delete(info);
+			info=make_addr_from_url(copy_string(buf));
+			break;
+		};
+		case 1:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			set_SaveName(buf);
+			break;
+		};
+		case 2:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			set_SavePath(buf);
+			break;
+		};
+		case 3:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&owner);
+			break;
+		};		
+		case 4:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%ld",&ScheduleTime);
+			break;
+		};
+		case 5:{
+			if (config.load_from_config(fd)<0) return -1;
+			break;
+		};
+		case 6: return info==NULL?-1:0;
+		};
+	};
+	return -1;
+};
+
 
 tDownload::~tDownload() {
 	if (who) delete who;
@@ -488,6 +587,11 @@ void tDList::backward(tDownload *what) {
 	};
 };
 
+void tDList::dispose(){
+	ALL_DOWNLOADS->del((tDownload *)First);
+	tQueue::dispose();
+};
+
 tDownload *tDList::last() {
 	return (tDownload *)(Curent=Last);
 };
@@ -507,4 +611,5 @@ tDownload *tDList::prev() {
 };
 
 tDList::~tDList() {
+	done();
 };

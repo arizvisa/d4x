@@ -405,7 +405,7 @@ msgstr "Kann nicht in eine Datei schreiben in welche schon geschrieben wird :)"
 #: mainlog.cc:138
 #, c-format
 msgid "row number %i of main log"
-msgstr "Zeile %i vom Haupt-Log"
+msgstr "Zeile %i vom Haupt-Protokoll"
 
 #: mainlog.cc:166
 msgid "Can't open file for saving log"
@@ -496,7 +496,7 @@ msgstr " Log einsehen "
 
 #: face/buttons.cc:137
 msgid " Options "
-msgstr " Optionen "
+msgstr " Einstellungen "
 
 #: face/buttons.cc:140
 msgid " Speed level one "
@@ -629,7 +629,7 @@ msgstr "Port"
 
 #: face/edit.cc:627 face/edit.cc:681
 msgid "need password"
-msgstr "braucht Passwort"
+msgstr "benötigt Passwort"
 
 #: face/edit.cc:635 face/edit.cc:689
 msgid "username"
@@ -665,7 +665,7 @@ msgstr "Host"
 
 #: face/limface.cc:282
 msgid "N"
-msgstr "N"
+msgstr "Max.Verb."
 
 #: face/limface.cc:296
 msgid "Add new"
@@ -776,15 +776,15 @@ msgstr "/Download/Löschen wenn fehlgeschlagen"
 
 #: face/list.cc:143
 msgid "/_Options"
-msgstr "/_Optionen"
+msgstr "/_Einstellungen"
 
 #: face/list.cc:144
 msgid "/Options/Limitations"
-msgstr "/Optionen/Host-Limits"
+msgstr "/Einstellungen/Host-Limits"
 
 #: face/list.cc:145
 msgid "/Options/Common"
-msgstr "/Optionen/Allgemein"
+msgstr "/Einstellungen/Allgemein"
 
 #: face/list.cc:146
 msgid "/_Help"
@@ -890,7 +890,7 @@ msgstr "Datei wählen"
 
 #: face/prefs.cc:165 face/prefs.cc:182
 msgid "Options"
-msgstr "Optionen"
+msgstr "Einstellungen"
 
 #: face/prefs.cc:183
 msgid "Using title"
@@ -922,15 +922,15 @@ msgstr "Öffne Dialog für Drag-n-Drop"
 
 #: face/prefs.cc:213
 msgid "Iconify main window when closing"
-msgstr "Beim schliessen als Icon anzeigen"
+msgstr "Beim Schließen als Icon anzeigen"
 
 #: face/prefs.cc:215
 msgid "Save list of downloads every"
-msgstr "Downloadliste alle"
+msgstr "Downloadliste speichern alle"
 
 #: face/prefs.cc:221
 msgid "minutes"
-msgstr "Minuten speichern"
+msgstr "Minuten"
 
 #: face/prefs.cc:228
 msgid "Common"
@@ -950,7 +950,7 @@ msgstr "Maximale Anzahl Zeilen im Log"
 
 #: face/prefs.cc:300
 msgid "Maximum lines in MAIN log"
-msgstr "Maximale Anzahl Zeilen im Haupt-Log"
+msgstr "Maximale Anzahl Zeilen im Haupt-Protokoll"
 
 #: face/prefs.cc:338
 msgid "Save downloads to folder"
@@ -958,7 +958,7 @@ msgstr "Downloads speichern im Verzeichnis"
 
 #: face/prefs.cc:347
 msgid "Save main log into file"
-msgstr "Haupt-Log speichern unter"
+msgstr "Haupt-Protokoll speichern unter"
 
 #: face/prefs.cc:366
 msgid "Append to file"
@@ -1034,269 +1034,370 @@ msgstr "Download fehlgeschlagen..."
 
 #: face/prefs.cc:218
 msgid "Revert drawing graph of speeds"
-msgstr ""
+msgstr "Geschwindigkeitsgrafik umdrehen"
 
 #: face/edit.cc:322
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
-msgstr ""
+msgstr "Rekursionstiefe (0 unbegrent,1 keine Rekursion)"
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
-msgstr ""
+msgstr "Dateiname beim Speichern wenn unbekannt"
 
 #: face/about.cc:44
 msgid "Translators team"
-msgstr ""
+msgstr "Übersetzerteam"
 
 #: face/prefs.cc:
 msgid "Scroll title"
-msgstr ""
+msgstr "Titel rollen"
 
 #: face/prefs.cc:
 msgid "Default permisions of file"
-msgstr ""
+msgstr "Default-Zugriffsrecht der Datei"
 
 #: face/buttons.cc:
 msgid " Save list "
-msgstr ""
+msgstr " Liste speichern "
 
 #: face/columns.cc:22
 msgid "status"
-msgstr ""
+msgstr "Status"
 
 #: face/columns.cc:22
 msgid "file name"
-msgstr ""
+msgstr "Dateiname"
 
 #: face/columns.cc:22
 msgid "type of file"
-msgstr ""
+msgstr "Dateityp"
 
 #: face/columns.cc:22
 msgid "size of file"
-msgstr ""
+msgstr "Dateigröße"
 
 #: face/columns.cc:22
 msgid "downloaded size"
-msgstr ""
+msgstr "Download Größe"
 
 #: face/columns.cc:22
 msgid "percent"
-msgstr ""
+msgstr "Prozent"
 
 #: face/columns.cc:22
 msgid "speed"
-msgstr ""
+msgstr "Geschw."
 
 #: face/columns.cc:22
 msgid "elapsed time"
-msgstr ""
+msgstr "Bisherige Zeit"
 
 #: face/columns.cc:22
 msgid "estimated time"
-msgstr ""
+msgstr "Geschätzte Zeit"
 
 #: face/columns.cc:22
 msgid "time of pause"
-msgstr ""
+msgstr "Pausenzeit"
 
 #: face/columns.cc:22
 msgid "number of attempts"
-msgstr ""
+msgstr "Anzahl Versuche"
 
 #: face/columns.cc:22
 msgid "Showed columns"
-msgstr ""
+msgstr "Angezeigte Spalten"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr ""
+msgstr "Rollback nach Verbindungswiederholung (in Bytes)"
 
 #: download.cc:
 msgid "Can't do rollback!"
-msgstr ""
+msgstr "Kann keinen Rollback durchführen!"
 
 #: main.cc:
 msgid "Redirect from %s"
-msgstr ""
+msgstr "Umleitung von %s"
 
 #: face/
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: face/prefs.cc:
 msgid "Show trash for DnD"
-msgstr ""
+msgstr "Zeige DnD Papierkorb an"
 
 #: face/buttons.cc:
 msgid " DnD trash "
-msgstr ""
+msgstr " DnD Papierkorb "
 
 #: main.cc:
 msgid "Downloader exited normaly"
-msgstr ""
+msgstr "Downloader normal beendet"
 
 #: face/dndtrash.cc:
 msgid "Drop link here"
-msgstr ""
+msgstr "Hier Dateien fallenlassen"
 
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
-msgstr ""
+msgstr "Geschwindigkeitsbegrenzung Bytes/Sek. (0 unbegrenzt)"
 
 #: log.cc:
 msgid "Log was started!"
-msgstr ""
+msgstr "Log gestartet!"
 
 #: config.cc:
 msgid "Run downloads: %d\n"
-msgstr ""
+msgstr "Laufende Downloads: %d\n"
 
 #: config.cc:
 msgid "Paused downloads: %d\n"
-msgstr ""
+msgstr "Angehaltene Downloads: %d\n"
 
 #: config.cc:
 msgid "Failed downloads: %d\n"
-msgstr ""
+msgstr "Fehlgeschlagene Downloads: %d\n"
 
 #: config.cc:
 msgid "Completed downloads: %d\n"
-msgstr ""
+msgstr "Vollständige Downloads: %d\n"
 
 #: config.cc:
 msgid "Total: %d\n"
-msgstr ""
+msgstr "Gesamt: %d\n"
 
 #: config.cc:
 msgid "Curent speed: %d\n"
-msgstr ""
+msgstr "Geschwindigkeit: %d\n"
 
 #: config.cc:
 msgid "Usage: nt [OPTION] ... [URL]"
-msgstr ""
+msgstr "Benutzung: nt [Optionen] ... [URL]"
 
 #: config.cc:
 msgid "print this page and exit"
-msgstr ""
+msgstr "Hilfe anzeigen und beenden"
 
 #: config.cc:
 msgid "show version information and exit"
-msgstr ""
+msgstr "Versionsinformationen anzeigen und beenden"
 
 #: config.cc:
 msgid "show information if already run"
-msgstr ""
+msgstr "Zeige Informationen über laufenden Prozeß"
 
 #: config.cc:
 msgid "show curent speed if already run"
-msgstr ""
+msgstr "Zeige aktuelle Geschwindigkeit bei laufendem Prozeß"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
-msgstr ""
+msgstr "Beenden wenn untätig nach"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr""
+msgstr "Protokoll"
 
 #: face/prefs.cc
 msgid "Output detailed information"
-msgstr ""
+msgstr "Detaillierte Informationen ausgeben"
 
 #: main.cc
 msgid "Prepare [%s] for stoping"
-msgstr ""
+msgstr "[%s] für Beendigung vorbereiten"
 
 #: main.cc
 msgid "Run new thread for %s"
-msgstr ""
+msgstr "Starte neuen Thread für %s"
 
 #: main.cc
 msgid "%s was deleteted from queue of downloads as completed download"
-msgstr ""
+msgstr "%s wurde von der Download-Liste gelöscht als vollständiger Download"
 
 #: main.cc
 msgid "%s was deleteted from queue of downloads as failed download"
-msgstr ""
+msgstr "%s wurde von der Download-Liste gelöscht als fehlerhafter Download"
 
 #: main.cc
 msgid "Delete completed downloads"
-msgstr ""
+msgstr "Lösche vollständige Downloads"
 
 #: main.cc
 msgid "Delete failed downloads"
-msgstr ""
+msgstr "Lösche fehlgeschlagene Downloads"
 
 #:main.cc:
 msgid "Loading default list of downloads"
-msgstr ""
+msgstr "Lade Default-Download-Liste"
 
 #:main.cc:
 msgid "Append list to curent queue of downloads"
-msgstr ""
+msgstr "Füge Liste an aktuelle Download-Liste an"
 
 #: face/dndtrash.cc
-msgid "New Download"
-msgstr ""
+msgid "/New Download"
+msgstr "/Neuer Download"
 
 #: face/dndtrash.cc
-msgid "Paste Download"
-msgstr ""
+msgid "/Paste Download"
+msgstr "/Download einfügen"
 
 #: face/dndtrash.cc
-msgid "Common options"
-msgstr ""
+msgid "/Common options"
+msgstr "/Allgemeine Einstellungen"
 
 #: face/dndtrash.cc
-msgid "Exit"
-msgstr ""
+msgid "/Exit"
+msgstr "/Beenden"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
-msgstr ""
+msgstr "User-Agent für HTTP-Anfragen"
 
 #: face/columns.cc
 msgid "rest"
-msgstr ""
+msgstr "Rest"
 
 #: face/lod.cc
 msgid "Rest"
-msgstr ""
+msgstr "Rest"
 
 #: config.cc:
 msgid "set lower speed limitation"
-msgstr ""
+msgstr "Setze langsame Geschwindigkeitsbegrenzung"
 
 #: config.cc:
 msgid "set middle speed limitation"
-msgstr ""
+msgstr "Setze mittlere Geschwindigkeitsbegrenzung"
 
 #: config.cc:
 msgid "set unlimited speed"
-msgstr ""
+msgstr "Setze unbegrenzte Geschwindigkeit"
 
 #: http.cc
 msgid "Request was sent, waiting for the answer"
-msgstr ""
+msgstr "Anfrage wurde gesendet, warte auf Antwort"
 
 #: config.cc:
 msgid "unknown option:"
-msgstr ""
+msgstr "Unbekannte Option:"
 
 #: face/prefs.cc:
 msgid "Run this when exit"
-msgstr ""
+msgstr "Beim Beenden ausführen"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
-msgstr ""
+msgstr "Passwörter speichern"
 
 #: face/limface.cc:
 msgid "Now"
-msgstr ""
+msgstr "z.Zt."
 
 
 #: face/edit.cc:
 msgid "Default"
-msgstr ""
+msgstr "Vorgabe"
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr "Download via Control Socket [%s] angefügt"
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr "Kann Cookies-Datei nicht öffnen!"
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr "%i Cookies geladen"
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr "Lade Cookies"
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr "Überwache Zwischenablage"
+
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr "Ignorierte Erweiterungen in der Zwischenablage"
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr "/Geschwindigkeit"
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr "/Geschwindigkeit/Langsamste"
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr "/Geschwindigkeit/Mittel"
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr "/Geschwindigkeit/Unbegrenzt"
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr "/Einstellungen/Geschwindigkeit"
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr "/Einstellungen/Geschwindigkeit/Langsamste"
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr "/Einstellungen/Geschwindigkeit/Mittel"
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr "/Einstellungen/Geschwindigkeit/Unbegrenzt"
+
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr "/Einstellungen/Toolbar"
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr "/Einstellungen/Toolbar/Leiste Manipulation"
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr "/Einstellungen/Toolbar/Leiste Geschwindigkeit"
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr "/Einstellungen/Toolbar/Leiste Verschiedenes"
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr "/Einstellungen/Toolbar/Leiste Hinzufügen"
+
+#:main.cc
+msgid "[control socket]"
+msgstr "[control socket]"
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr "/Download/Nichts auswählen"
+
+# face/list.cc
+msgid "/Download/-"
+msgstr "/Download/-"
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr "Nach dem Hinzufügen sofort anhalten"
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr "/Download/Alles auswählen"
+
+# face/list.cc
+msgid "/Download/Invert selection"
+msgstr "/Download/Auswahl umkehren"

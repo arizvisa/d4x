@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -64,6 +64,8 @@ public:
 	void reset_proxy();
 	void copy(tCfg *src);
 	void copy_ints(tCfg *src);
+	void save_to_config(int fd);
+	int load_from_config(int fd);
 	~tCfg();
 };
 
@@ -103,6 +105,7 @@ class tDownloader{
     	virtual void set_file_info(tFileInfo *what);
     	virtual int get_child_status()=0;
     	virtual int get_size()=0;
+	virtual	void rollback_before();
      	virtual char *get_new_url();
      	virtual int reget()=0;
 	virtual tStringList *dir()=0;

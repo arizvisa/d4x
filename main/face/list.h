@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -31,6 +31,7 @@ extern tFaceLimits *FaceForLimits;
 extern GtkWidget *ContainerForCList;
 extern gint StatusBarContext;
 
+void main_menu_speed_prepare();
 void init_status_bar();
 void init_main_window();
 void init_face(int argc, char *argv[]);
@@ -54,7 +55,6 @@ void main_menu_prepare();
 void main_window_popup();
 void update_progress_bar();
 void update_mainwin_title();
-void open_log_for_selected(...);
 void open_edit_for_selected(...);
 void del_completed_downloads(...);
 void del_fataled_downloads(...);

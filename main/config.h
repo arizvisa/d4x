@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -23,6 +23,7 @@ int parse_command_line_preload(int argv,char **argc);
 void parse_command_line_postload(int argv,char **argc);
 int parse_command_line_already_run(int argv,char **argc);
 void help_print();
+int read_string(int fd,char *where,int max);
 
 extern const char *CFG_FILE;
 extern const char *CFG_DIR;
@@ -30,6 +31,20 @@ extern const char *CFG_DIR;
 struct tOption{
 	char *name;
 	int cmd;
+};
+struct tConfigVariable{
+	char *name;
+	int type;
+	void *pointer;
+};
+
+enum CONFIG_VARIABLE_TYPES{
+	CV_TYPE_UNKNOW=0,
+	CV_TYPE_STRING,
+	CV_TYPE_INT,
+	CV_TYPE_HEX,
+	CV_TYPE_GINT,
+	CV_TYPE_BOOL
 };
 
 extern tOption downloader_parsed_args[];
@@ -42,7 +57,10 @@ enum OPTION_ENUM{
 	OPT_TRAFFIC_MIDDLE,
 	OPT_TRAFFIC_HIGH,
 	OPT_INFO,
-	OPT_SPEED
+	OPT_SPEED,
+	OPT_SET_DIRECTORY,
+	OPT_DEL_COMPLETED,
+	OPT_SET_MAX_THREADS
 };
 
 #endif

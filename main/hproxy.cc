@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -26,37 +26,39 @@ void tHProxyClient::setup_host(char *host) {
 
 int tHProxyClient::get_size(char *filename,tStringList *list) {
 	char *real_filename=unparse_percents(filename);
-	char *data2=new char[strlen("GET  HTTP/1.0\r\n")+strlen(real_filename)+1];
-	sprintf(data2,"GET %s HTTP/1.0\r\n",real_filename);
-	send_request(data2);
+	send_request("GET ",real_filename," HTTP/1.0\r\n");
 	delete real_filename;
-	delete data2;
 
 	char data[MAX_LEN];
+	send_request("Accept: */*\r\n");
+	sprintf(data,"%i",Offset);
+	if (Offset){
+		sprintf(data,"%i",Offset);
+		send_request("Range: bytes=",data,"-\r\n");
+	};
+	send_request("Referer: ",HOME_PAGE,"\r\n");
 	if (user_agent && strlen(user_agent)){
 		if (equal(user_agent,"%version"))
-			sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
+			send_request("User-Agent: ",VERSION_NAME,"\r\n");
 		else
-			sprintf(data,"User-Agent: %s\r\n",user_agent);
-		send_request(data);
+			send_request("User-Agent: ",user_agent,"\r\n");
 	};
-	send_request("Accept: */*\r\n");
-	sprintf(data,"Range: bytes=%i-\r\n",Offset);
-	send_request(data);
-	sprintf(data,"Refer: %s\r\n",HOME_PAGE);
-	send_request(data);
-	sprintf(data,"Host: %s\r\n",real_host);
-	send_request(data);
+	send_request("Host: ",real_host,"\r\n");
+
 	if (username && userword) {
-		char *tmp=sum_strings(username,":",userword);
+		char *tmp=sum_strings(username,":",userword,NULL);
 		char *pass=string_to_base64(tmp);
 		delete tmp;
-		sprintf(data,"Proxy-Authorization: Basic %s\r\n",pass);
+		send_request("Proxy-Authorization: Basic ",pass,"\r\n");
 		delete pass;
-		send_request(data);
 	};
+	send_cookies(real_host,cookie_path);
 	send_request("\r\n");
 	return read_answer(list);
+};
+
+void tHProxyClient::set_cookie_search(char *what){
+	cookie_path=what;
 };
 
 tHProxyClient::~tHProxyClient() {
@@ -70,8 +72,9 @@ tProxyDownload::tProxyDownload() {
 	D_FILE.perm=get_permisions_from_int(CFG.DEFAULT_PERMISIONS);
 	StartSize=D_FILE.size=D_FILE.type=D_FILE.fdesc=0;
 	Status=D_NOTHING;
-
+	FULL_NAME_TEMP=NULL;
 	D_PROTO=NULL;
+	answer=NULL;
 };
 
 int tProxyDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
@@ -106,24 +109,20 @@ int tProxyDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 
 int tProxyDownload::get_size() {
 	// Make a URL from available data
-	char fullname[MAX_LEN];
-	fullname[0]=0;
-	strcat(fullname,D_PROTO);
-	strcat(fullname,"://");
-	if (USER) {
-		strcat(fullname,USER);
-		strcat(fullname,":");
-		if (PASS) strcat(fullname,PASS);
-		strcat(fullname,"@");
+	if (FULL_NAME_TEMP) delete (FULL_NAME_TEMP);
+	FULL_NAME_TEMP=NULL;
+	if (D_PATH[strlen(D_PATH)-1]!='/'){
+		if (USER && PASS)
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",USER,":",PASS,"@",HOST,"/",D_PATH,"/",D_FILE.name,NULL);
+		else
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",HOST,"/",D_PATH,"/",D_FILE.name,NULL);
+	}else{
+		if (USER && PASS)
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",USER,":",PASS,"@",HOST,"/",D_PATH,D_FILE.name,NULL);
+		else
+			FULL_NAME_TEMP=sum_strings(D_PROTO,"://",HOST,"/",D_PATH,D_FILE.name,NULL);
 	};
-	strcat(fullname,HOST);
-	char temp[MAX_LEN];
-	sprintf(temp,":%i",D_PORT);
-	strcat(fullname,temp);
-	strcat(fullname,D_PATH);
-	if (D_PATH[strlen(D_PATH)-1]!='/')
-		strcat(fullname,"/");
-	strcat(fullname,D_FILE.name);
+	((tHProxyClient *)HTTP)->set_cookie_search(D_PATH);
 	//begin request
 	if (!answer) {
 		answer=new tStringList;
@@ -135,7 +134,7 @@ int tProxyDownload::get_size() {
 		LOG->add(_("Connection to the internet via proxy"),LOG_OK);
 		LOG->add(_("Sending request to proxy"),LOG_OK);
 		if (USER && PASS) HTTP->set_auth(1);
-		int temp=HTTP->get_size(fullname,answer);
+		int temp=HTTP->get_size(FULL_NAME_TEMP,answer);
 		if (temp==0) {
 			LOG->add(_("Answer read ok"),LOG_OK);
 			D_FILE.size=analize_answer();

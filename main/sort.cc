@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -26,10 +26,16 @@ void tSortNode::print(){
 
 tAbstractSortTree::tAbstractSortTree() {
 	Top=NULL;
+	NUM=0;
 };
 
 void tAbstractSortTree::init() {
 	Top=NULL;
+	NUM=0;
+};
+
+int tAbstractSortTree::count() {
+	return(NUM);
 };
 
 void tAbstractSortTree::simple_add(tAbstractSortNode **where,tAbstractSortNode *what) {
@@ -44,6 +50,8 @@ void tAbstractSortTree::simple_add(tAbstractSortNode **where,tAbstractSortNode *
 };
 
 void tAbstractSortTree::add(tAbstractSortNode *what) {
+	if (what==NULL) return;
+	NUM+=1;
 	simple_add(&Top,what);
 	what->less=what->more=NULL;
 };
@@ -53,6 +61,7 @@ int tAbstractSortTree::empty(){
 };
 
 tAbstractSortNode *tAbstractSortTree::find(tAbstractSortNode *what) {
+	if (what==NULL) return NULL;
 	tAbstractSortNode **temp=&Top;
 	while (*temp) {
 		int a=compare_nodes(*temp,what);
@@ -70,6 +79,8 @@ tAbstractSortNode *tAbstractSortTree::find(tAbstractSortNode *what) {
 
 
 void tAbstractSortTree::del(tAbstractSortNode *what) {
+	if (what==NULL) return;
+	NUM-=1;
 	tAbstractSortNode **temp=&Top;
 	while (*temp && *temp!=what) {
 		if (compare_nodes(*temp,what)<0)

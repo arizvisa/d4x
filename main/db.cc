@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -65,6 +65,10 @@ tDB::tDB() {
 	tree=new tHostTree;
 };
 
+int tDB::empty(){
+	return tree->empty();
+};
+
 void tDB::insert(tDownload *what) {
 	tStringHostNode *temp=tree->find(what->info->host);
 	if (!temp){
@@ -91,7 +95,7 @@ tDownload *tDB::find(tDownload *what) {
 
 void tDB::del(tDownload *what) {
 	tStringHostNode *temp=tree->find(what->info->host);
-	if (temp)
+	if (temp){
 		if (temp->nodes[what->info->file[0]]){
 			temp->nodes[what->info->file[0]]->del(what);
 			if (temp->nodes[what->info->file[0]]->empty()){
@@ -104,6 +108,7 @@ void tDB::del(tDownload *what) {
 				};
 			};
 		};
+	};
 };
 
 tDB::~tDB() {

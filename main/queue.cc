@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -37,6 +37,7 @@ void tQueue::init(int n) {
 };
 
 void tQueue::insert(tNode *what) {
+	if (what==NULL) return;
 	if (MaxNum && Num>=MaxNum) {
 		while (Num>=MaxNum)
 			dispose();
@@ -52,6 +53,7 @@ void tQueue::insert(tNode *what) {
 };
 
 void tQueue::insert_before(tNode *what,tNode *where) {
+	if (what==NULL || where==NULL) return;
 	/* what and where != NULL
 	 * if First than .next==NULL
 	 * if Last than .prev==NULL
@@ -88,6 +90,7 @@ tNode *tQueue::prev() {
 };
 
 void tQueue::del(tNode *what) {
+	if (what==NULL) return;
 	Num-=1;
 	if (what->prev)
 		what->prev->next=what->next;

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -120,41 +120,46 @@ void tMsgServer::run(){
 			newfd=accept(fd,(sockaddr *)&addr,(socklen_t *)&tmp);
 			if (newfd>0 && read(newfd,&packet,sizeof (packet))>=0){
 				switch (packet.type){
-					case PACKET_SET_SPEED_LIMIT:
-					case PACKET_ADD:{
-						if (packet.len>0){
-							cmd_add(packet.len,packet.type);
-							break;
-						};
-					};
-					case PACKET_ASK_SPEED:{
-						cmd_return_int(GlobalMeter->last_value());
+				case PACKET_SET_MAX_THREADS:
+				case PACKET_DEL_COMPLETED:
+				case PACKET_SET_SAVE_PATH:
+				case PACKET_SET_SPEED_LIMIT:
+				case PACKET_ADD:{
+						cmd_add(packet.len,packet.type);
 						break;
-					};
-					case PACKET_ASK_RUN:{
-						cmd_return_int(RunList->count());
-						break;
-					};
-					case PACKET_ASK_STOP:{
-						cmd_return_int(StopList->count());
-						break;
-					};
-					case PACKET_ASK_PAUSE:{
-						cmd_return_int(PausedList->count()+WaitStopList->count());
-						break;
-					};
-					case PACKET_ASK_COMPLETE:{
-						cmd_return_int(CompleteList->count());
-						break;
-					};
-					case PACKET_ACK:{
-						cmd_ack();
-						break;
-					};
-					default:
-					case PACKET_NOP: break;
 				};
-       		};
+				case PACKET_ASK_SPEED:{
+					cmd_return_int(GlobalMeter->last_value());
+					break;
+				};
+				case PACKET_ASK_RUN:{
+					cmd_return_int(DOWNLOAD_QUEUES[DL_RUN]->count());
+					break;
+				};
+				case PACKET_ASK_STOP:{
+					cmd_return_int(DOWNLOAD_QUEUES[DL_STOP]->count());
+					break;
+				};
+				case PACKET_ASK_PAUSE:{
+					cmd_return_int(DOWNLOAD_QUEUES[DL_PAUSE]->count()+DOWNLOAD_QUEUES[DL_STOPWAIT]->count());
+					break;
+				};
+				case PACKET_ASK_COMPLETE:{
+					cmd_return_int(DOWNLOAD_QUEUES[DL_COMPLETE]->count());
+					break;
+				};
+				case PACKET_ASK_READED_BYTES:{
+					cmd_return_int(GVARS.READED_BYTES);
+					break;
+				};
+				case PACKET_ACK:{
+					cmd_ack();
+					break;
+				};
+				default:
+				case PACKET_NOP: break;
+				};
+			};
        		if (newfd>0) close(newfd);
 		newfd=0;
         };
@@ -200,15 +205,15 @@ int tMsgClient::send_command(int cmd,char *data,int len){
 	tPacket command;
 	command.type=cmd;
 	command.len = data!=NULL ? len:0;
-
-    write(fd, &command, sizeof (command));
-    if (command.len) write(fd, data, command.len);
-    if (read(fd,&command,sizeof(command))<0)
+	
+	write(fd, &command, sizeof (command));
+	if (command.len) write(fd, data, command.len);
+	if (read(fd,&command,sizeof(command))<0)
 		return -1;
-    if (command.type!=PACKET_ACK)
+	if (command.type!=PACKET_ACK)
 		return -1;
 	answer_int=command.len;
-    return 0;
+	return 0;
 };
 
 int tMsgClient::get_answer_int(){

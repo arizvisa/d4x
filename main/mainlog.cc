@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -23,6 +23,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdarg.h>
 
 static gint list_menu_open_row_main_log(GtkWidget *widget, tMLog *Log) {
 	Log->open_selected_row();
@@ -219,6 +220,50 @@ void tMLog::add(char *str) {
 	insert(ins);
 	add_to_list();
 	Size+=len;
+};
+
+void tMLog::myprintf(int type,char *fmt,...){
+	char str[MAX_LEN+1];
+	char *cur=str;
+	va_list ap;
+	va_start(ap,fmt);
+	*cur=0;
+	while (*fmt && cur-str<MAX_LEN){
+		if (*fmt=='%'){
+			fmt+=1;
+			switch(*fmt){
+			case 's':{
+				char *s=va_arg(ap,char *);
+				snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				break;
+			};
+			case 'z':{
+				char *s=make_simply_url(va_arg(ap,tDownload *));
+				snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				delete(s);
+				break;
+			};
+			case 'i':{
+				snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
+				break;
+			};
+			default:{
+				*cur=*fmt;
+				cur+=1;
+				*cur=0;			       
+			};
+			};
+			if (*fmt==0) break;
+			while(*cur) cur+=1;
+		}else{
+			*cur=*fmt;
+			cur+=1;
+			*cur=0;
+		};
+		fmt+=1;
+	};
+	va_end(ap);
+	add(str,type);
 };
 
 void tMLog::dispose() {

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -25,8 +25,6 @@ GtkWidget *ButtonsBar;
 GtkWidget *buttons_array[BUTTON_DND_TRASH+1];
 
 GtkWidget *HandleBox;
-extern gint SelectedRow;
-extern gint SizeListOfDownloads;
 
 tDialogWidget *AskDeleteAll=(tDialogWidget *)NULL;
 
@@ -52,23 +50,22 @@ void ask_delete_all(...) {
 
 void set_speed_buttons() {
 	switch (CFG.SPEED_LIMIT) {
-		case 1:
-			{
+		case 1:	{
 				gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_SPEED1]), "clicked");
 				break;
 			};
-		case 2:
-			{
+		case 2:	{
 				gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_SPEED2]), "clicked");
 				break;
 			};
 		case 3:
-		default:
-			{
+		default:{
 				gtk_signal_emit_by_name (GTK_OBJECT (buttons_array[BUTTON_SPEED3]), "clicked");
 				break;
 			};
 	};
+	main_menu_speed_prepare();
+	dnd_trash_menu_prepare();
 };
 
 static void set_speed_limit() {
@@ -80,6 +77,8 @@ static void set_speed_limit() {
 		else
 			CFG.SPEED_LIMIT=3;
 	};
+	main_menu_speed_prepare();
+	dnd_trash_menu_prepare();
 };
 
 static void dnd_trash_toggle(){
@@ -138,11 +137,11 @@ void init_buttons_bar() {
 	buttons_array[BUTTON_DEL_COMPLETED]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Del Completed downloads "), "", new_pixmap (del_com_xpm),
 	                  GTK_SIGNAL_FUNC (ask_delete_completed_downloads), NULL);
 	buttons_array[BUTTON_UP]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Move up "), "", new_pixmap (up_bar_xpm),
-	                                  GTK_SIGNAL_FUNC (list_of_downloads_move_selected_up), NULL);
+	                                  GTK_SIGNAL_FUNC (list_of_downloads_move_up), NULL);
 	buttons_array[BUTTON_DOWN]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Move down "), "", new_pixmap (down_bar_xpm),
-	                                    GTK_SIGNAL_FUNC (list_of_downloads_move_selected_down), NULL);
+	                                    GTK_SIGNAL_FUNC (list_of_downloads_move_down), NULL);
 	buttons_array[BUTTON_LOG]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" View log "), "", new_pixmap (openlog_xpm),
-	                                   GTK_SIGNAL_FUNC (open_log_for_selected), NULL);
+	                                   GTK_SIGNAL_FUNC (list_of_downloads_open_logs), NULL);
 	gtk_toolbar_append_space (GTK_TOOLBAR (ButtonsBar));
 	buttons_array[BUTTON_OPTIONS]=gtk_toolbar_append_item (GTK_TOOLBAR (ButtonsBar), "", _(" Options "), "", new_pixmap (prefs_xpm),
 	                                       GTK_SIGNAL_FUNC (init_options_window), NULL);
@@ -194,24 +193,63 @@ void init_buttons_bar() {
 	set_speed_buttons();
 	set_dndtrash_button();
 	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;
-    gtk_tooltips_force_window(tooltips);
+	gtk_tooltips_force_window(tooltips);
 	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(tooltips->tip_window));
+	current_style->font = MainWindow->style->font;
 	current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
 	gtk_widget_set_style(tooltips->tip_window, current_style);
+	gtk_widget_show(ButtonsBar);
+	buttons_cfg_init();
+};
 
+void buttons_cfg_init(){
+	if (CFG.BUTTONS_ADD){
+		for (int i=BUTTON_ADD;i<=BUTTON_DEL;i++)
+			gtk_widget_show(buttons_array[i]);
+	}else{
+		for (int i=BUTTON_ADD;i<=BUTTON_DEL;i++)
+			gtk_widget_hide(buttons_array[i]);
+	};
+	if (CFG.BUTTONS_MAN){
+		for (int i=BUTTON_STOP;i<=BUTTON_LOG;i++)
+			gtk_widget_show(buttons_array[i]);
+	}else{
+		for (int i=BUTTON_STOP;i<=BUTTON_LOG;i++)
+			gtk_widget_hide(buttons_array[i]);
+	};
+
+	if (CFG.BUTTONS_SPEED){
+		for (int i=BUTTON_SPEED1;i<=BUTTON_SPEED3;i++)
+			gtk_widget_show(buttons_array[i]);
+	}else{
+		for (int i=BUTTON_SPEED1;i<=BUTTON_SPEED3;i++)
+			gtk_widget_hide(buttons_array[i]);
+	};
+	if (CFG.BUTTONS_MISC){
+		for (int i=BUTTON_OPTIONS;i<=BUTTON_DND_TRASH;i++)
+			gtk_widget_show(buttons_array[i]);
+	}else{
+		for (int i=BUTTON_OPTIONS;i<=BUTTON_DND_TRASH;i++)
+			gtk_widget_hide(buttons_array[i]);
+	};
+	if (CFG.BUTTONS_ADD || CFG.BUTTONS_SPEED ||
+	    CFG.BUTTONS_MAN || CFG.BUTTONS_MISC){
+		gtk_widget_show(ButtonsBar);
+	}else{
+		gtk_widget_hide(ButtonsBar);
+	};
 };
 
 void prepare_buttons() {
-	if (PausedList->count() || WaitList->count() || RunList->count() ||StopList->count() || CompleteList->count())
+	if (amount_of_downloads_in_queues())
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],TRUE);
 	else
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_ALL],FALSE);
-	if (CompleteList->count())
+	if (DOWNLOAD_QUEUES[DL_COMPLETE]->count())
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_COMPLETED],TRUE);
 	else
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL_COMPLETED],FALSE);
-	GList *select=((GtkCList *)ListOfDownloads)->selection;
-	if (select==NULL) {
+	if (list_of_downloads_sel()) {
 		gtk_widget_set_sensitive(buttons_array[BUTTON_DEL],FALSE);
 		gtk_widget_set_sensitive(buttons_array[BUTTON_STOP],FALSE);
 		gtk_widget_set_sensitive(buttons_array[BUTTON_CONTINUE],FALSE);

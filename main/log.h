@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -40,6 +40,7 @@ class tLog:public tStringList{
 		void add(char *str,int len,int type);
 		void add(char *str,int type);
 		void add(char *str);
+		virtual void myprintf(int type,char *fmt,...);
 		void dispose();
 		void lock();
 		void unlock();

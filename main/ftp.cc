@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -10,6 +10,7 @@
  */
 
 #include <unistd.h>
+#include <ctype.h>
 #include "ftp.h"
 #include "client.h"
 #include "liststr.h"
@@ -28,6 +29,9 @@ char *FTP_QUIT_OK="221";
 char *FTP_READ_OK="226";
 char *FTP_ABOR_OK="225";
 char *FTP_REST_OK="350";
+char *FTP_LOGIN_OK[]={FTP_PASS_OK,
+		    FTP_USER_OK
+};
 
 int tFtpClient::accepting() {
 	if (passive) return RVALUE_OK;
@@ -43,26 +47,23 @@ int tFtpClient::accepting() {
 int  tFtpClient::send_command(char * comm,char *argv) {
 	int len=strlen(comm)+2;
 	if (argv) len+=strlen(argv)+1;
-	char *data=new char[strlen(comm)+(argv?strlen(argv)+1:0)+1+strlen("\r\n")];
-	data[0]=0;
-	strcat(data,comm);
-	if (argv && strlen(argv)) {
-		strcat(data," ");
-		strcat(data,argv);
-	};
-	strcat(data,"\r\n");
+	char *data=new char[strlen(comm)+(argv?strlen(argv)+strlen(" "):0)+1+strlen("\r\n")];
+	if (argv && strlen(argv))
+		sprintf(data,"%s %s\r\n",comm,argv);
+	else
+		sprintf(data,"%s\r\n",comm);
 	if (equal(comm,"PASS"))
 		LOG->add("PASS ***",LOG_TO_SERVER);
 	else
 		LOG->add(data,len,LOG_TO_SERVER);
-	if ((Status=CtrlSocket.send_string(data,timeout))) {
+	Status=CtrlSocket.send_string(data,timeout);
+	delete data;
+	if (Status) {
 		if (Status==STATUS_TIMEOUT)
 			LOG->add(_("Timeout send through control socket."),LOG_ERROR);
 		LOG->add(_("Control connection is lost"),LOG_WARNING);
-		delete data;
 		return RVALUE_TIMEOUT;
 	};
-	delete data;
 	return RVALUE_OK;
 };
 
@@ -100,31 +101,30 @@ int tFtpClient::analize(char *how) {
 int tFtpClient::analize_ctrl(int argc,char **argv) {
 	int ok;
 	do {
-		do {
-			if (read_control()) return RVALUE_TIMEOUT;
-			ok=1;
-			ok=analize("2");
-			for (int i=0;i<argc;i++) {
-				ok=(ok && analize(argv[i]));
-			};
-			ok=(ok && analize("5") && analize("4"));
-		} while (ok);
-		if (!analize("4")){
-			Status=STATUS_UNSPEC_ERR;
-			return RVALUE_UNSPEC_ERR;
-		};
-		if (!analize("5")){
-			Status=STATUS_CMD_ERR;
-			return RVALUE_BAD_COMMAND;
-		};
+		if (read_control()) return RVALUE_TIMEOUT;
 	} while (!last_answer());
+	if (!analize("4")){
+		Status=STATUS_UNSPEC_ERR;
+		return RVALUE_UNSPEC_ERR;
+	};
+	if (!analize("5")){
+		Status=STATUS_CMD_ERR;
+		return RVALUE_BAD_COMMAND;
+	};
+	ok=1;
+	ok=analize("2");
+	for (int i=0;i<argc;i++) {
+		ok=(ok && analize(argv[i]));
+	};
+	if (ok) return RVALUE_BAD_COMMAND;
 	return RVALUE_OK;
 };
 
 int tFtpClient::last_answer() {
 	tLogString *test=LOG->last();
-	if (test->body[3]!=' ' &&  test->body[3]!='\n') return 0;
-	return 1;
+	if (test->body && strlen(test->body)>=3 &&
+	    (isspace(test->body[3]) || test->body[3]==0)) return 1;
+	return 0;
 };
 
 int tFtpClient::rest(int offset) {
@@ -172,15 +172,11 @@ int tFtpClient::registr(char *user,char *password) {
 
 int tFtpClient::connect() {
 	ReGet=1;
-	char *temp[2];
-	temp[0]=FTP_PASS_OK;
-	temp[1]=FTP_USER_OK;
-
 	send_command("USER",username);
-	if (analize_ctrl(2,temp)) return -1;
+	if (analize_ctrl(sizeof(FTP_LOGIN_OK)/sizeof(char *),FTP_LOGIN_OK)) return -1;
 	if (analize(FTP_PASS_OK)){
 		send_command("PASS",userword);
-		if (analize_ctrl(2,temp)) return -2;
+		if (analize_ctrl(2,FTP_LOGIN_OK)) return -2;
 	};
 	return 0;
 };
@@ -196,9 +192,7 @@ int tFtpClient::stand_data_connection() {
 		tLogString *log=LOG->last();
 		int PASSIVE_ADDR[6]={0,0,0,0,0,0};
 		sscanf(index(log->body,'(')+1,"%i,%i,%i,%i,%i,%i",&PASSIVE_ADDR[0],&PASSIVE_ADDR[1],&PASSIVE_ADDR[2],&PASSIVE_ADDR[3],&PASSIVE_ADDR[4],&PASSIVE_ADDR[5]);
-		char data[MAX_LEN];
-		sprintf(data,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
-		LOG->add(data,LOG_OK);
+		LOG->myprintf(LOG_OK,_("try to connect to %i,%i,%i,%i,%i,%i"),PASSIVE_ADDR[0],PASSIVE_ADDR[1],PASSIVE_ADDR[2],PASSIVE_ADDR[3],PASSIVE_ADDR[4],PASSIVE_ADDR[5]);
 		if (DataSocket.open_port(PASSIVE_ADDR[0]+(PASSIVE_ADDR[1]<<8)+(PASSIVE_ADDR[2]<<16)+(PASSIVE_ADDR[3]<<24)/*hostname*/,PASSIVE_ADDR[4]*256+PASSIVE_ADDR[5])) {
 			LOG->add(_("Cant stand data connection"));
 			Status=STATUS_TRIVIAL;

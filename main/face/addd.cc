@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -31,15 +31,16 @@ void add_window_cancel() {
 
 void add_window_ok() {
 	if (OneDownload->editor->apply_changes()) return;
-	OneDownload->delete_editor();
-	if (ALL_DOWNLOADS->find(OneDownload))
-		delete(OneDownload);
-	else {
-		list_of_downloads_add(OneDownload);
-		WaitList->insert(OneDownload);
-		aa.add_download_message(OneDownload);
-		ALL_DOWNLOADS->insert(OneDownload);
+	if (OneDownload->editor->get_pause_check()){
+		OneDownload->owner=DL_PAUSE;
+		aa.add_downloading_to(OneDownload);
+	}else{
+		if (aa.add_downloading(OneDownload))
+			delete(OneDownload);
+		else 
+			aa.add_download_message(OneDownload);
 	};
+	OneDownload->delete_editor();
 	OneDownload=(tDownload *)NULL;
 };
 

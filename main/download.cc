@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -21,6 +21,7 @@
 #include "download.h"
 #include "locstr.h"
 #include "ntlocale.h"
+#include "config.h"
 
 tCfg::tCfg() {
 	proxy_host = proxy_user = proxy_pass = user_agent = NULL;
@@ -100,6 +101,162 @@ void tCfg::reset_proxy() {
 	proxy_user=proxy_pass=proxy_host=NULL;
 };
 
+void tCfg::save_to_config(int fd){
+	write(fd,"Cfg:\n",strlen("Cfg:\n"));
+	if (proxy_host){
+		write_named_string(fd,"Proxy:",proxy_host);
+		write_named_integer(fd,"proxy_port:",proxy_port);
+		write_named_integer(fd,"proxy_type:",proxy_type);
+		if(proxy_pass!=NULL && proxy_user!=NULL){
+			write_named_string(fd,"Proxy_pass:",proxy_pass);
+			write_named_string(fd,"Proxy_user:",proxy_user);
+		};
+	};
+	if (user_agent && *user_agent)
+		write_named_string(fd,"User_agent:",user_agent);
+		
+	write_named_integer(fd,"Timeout:",timeout);
+	write_named_integer(fd,"time_for_sleep:",time_for_sleep);
+	write_named_integer(fd,"number_of_attempts:",number_of_attempts);
+	write_named_integer(fd,"ftp_recurse_depth:",ftp_recurse_depth);
+	write_named_integer(fd,"http_recurse_depth:",http_recurse_depth);
+	write_named_integer(fd,"rollback:",rollback);
+	write_named_integer(fd,"speed:",speed);
+	write_named_integer(fd,"passive:",passive);
+	write_named_integer(fd,"retry:",retry);
+	write_named_integer(fd,"permisions:",permisions);
+	write_named_integer(fd,"get_date:",get_date);
+	write_named_integer(fd,"http_recursing:",http_recursing);
+
+	write(fd,"EndCfg:\n",strlen("EndCfg:\n"));
+};
+
+int tCfg::load_from_config(int fd){
+	char *table_of_fields[]={
+		"User_agent:", //0
+		"Proxy:",//1
+		"proxy_pass:",//2
+		"proxy_user:",//3
+		"proxy_port:",//4
+		"proxy_type:",//5
+		"timeout:",//6
+		"time_for_sleep:",//7
+		"number_of_attempts:",//8
+		"ftp_recurse_depth:",//9
+		"http_recurse_depth:",//10
+		"rollback:",//11
+		"speed:",//12
+		"passive:",//13
+		"retry:",//14
+		"permisions:", //15
+		"get_date:", //16
+		"http_recursing:",//17
+		"EndCfg:" //18
+	};
+	char buf[MAX_LEN];
+	while(read_string(fd,buf,MAX_LEN)>0){
+		unsigned int i;
+		for (i=0;i<sizeof(table_of_fields)/sizeof(char *);i++){
+			if (equal_uncase(buf,table_of_fields[i])) break;
+		};
+		switch(i){
+		case 0:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			set_user_agent(buf);
+			break;
+		};
+		case 1:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			set_proxy_host(buf);
+			break;
+		};
+		case 2:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			set_proxy_pass(buf);
+			break;
+		};
+		case 3:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			set_proxy_user(buf);
+			break;
+		};
+		case 4:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&proxy_port);
+			break;
+		};
+		case 5:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&proxy_type);
+			break;
+		};
+		case 6:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&timeout);
+			break;
+		};
+		case 7:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&time_for_sleep);
+			break;
+		};
+		case 8:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&number_of_attempts);
+			break;
+		};
+		case 9:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&ftp_recurse_depth);
+			break;
+		};		
+		case 10:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&http_recurse_depth);
+			break;
+		};		
+		case 11:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&rollback);
+			break;
+		};		
+		case 12:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&speed);
+			break;
+		};		
+		case 13:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&passive);
+			break;
+		};		
+		case 14:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&retry);
+			break;
+		};		
+		case 15:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&permisions);
+			break;
+		};		
+		case 16:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&get_date);
+			break;
+		};		
+		case 17:{
+			if (read_string(fd,buf,MAX_LEN)<0) return -1;
+			sscanf(buf,"%d",&http_recursing);
+			break;
+		};		
+		case 18:{
+			return 0;
+		};
+		};
+	};
+	return -1;
+};
 
 tCfg::~tCfg() {
 	reset_proxy();
@@ -177,12 +334,12 @@ void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 //	int flag=strlen(D_FILE.name);
 	char *temp;
 //	if (flag){
-		temp=sum_strings(".",D_FILE.name);
+		temp=sum_strings(".",D_FILE.name,NULL);
 		*name=compose_path(path,temp);
 		*guess=compose_path(path,D_FILE.name);
 /*
 	}else{
-		temp=sum_strings(".",CFG.DEFAULT_NAME);
+		temp=sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(path,temp);
 		*guess=compose_path(path,CFG.DEFAULT_NAME);
 	};*/
@@ -190,7 +347,7 @@ void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 };
 
 void tDownloader::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
-	char *temp=sum_strings(".",another_name);
+	char *temp=sum_strings(".",another_name,NULL);
 	*name=compose_path(path,temp);
 	*guess=compose_path(path,another_name);
 	delete temp;
@@ -274,6 +431,11 @@ int tDownloader::create_file(char *where,char *another_name) {
 	delete guess;
 	return rvalue;
 };
+
+void tDownloader::rollback_before(){
+	//do nothing
+};
+
 
 void tDownloader::make_file_visible(char *where,char *another_name) {
 	if (D_FILE.type==T_FILE) {

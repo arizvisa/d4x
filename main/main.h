@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -32,12 +32,12 @@ class tMain{
 	void case_download_failed(tDownload *what);
 	int run_new_thread(tDownload *what);
 	int try_to_run_download(tDownload *what);
-	int complete();
 	void add_dir(tDownload *parent);
 	void print_info(tDownload *what);
 	void redirect(tDownload *what);
 	void prepare_for_stoping(tDownload *what,tDList *list);
 	void absolute_delete_download(tDList *where,tDownload *what);
+	void del_all_from_list(tDList *list);
 	unsigned int get_precise_time();
 	void run_msg_server();
 	void check_for_remote_commands();
@@ -45,6 +45,7 @@ class tMain{
     	void init();
     	void init_main_log();
     	void speed();
+	int complete();
         void main_circle();
         void del_completed();
 	void del_fataled();
@@ -57,6 +58,8 @@ class tMain{
         int delete_download(tDownload *what);
         void continue_download(tDownload *what);
     	int add_downloading(char *adr,char *where,char *name);
+	int add_downloading(tDownload *what);
+	void add_downloading_to(tDownload *what);
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	void run_after_quit();
@@ -71,11 +74,6 @@ extern tMLog *MainLog;
 extern tMeter *GlobalMeter;
 extern tMeter *LocalMeter;
 
-extern tDList *RunList;
-extern tDList *StopList;
-extern tDList *CompleteList;
-extern tDList *PausedList;
-extern tDList *WaitList;
-extern tDList *WaitStopList;
+extern tDList *DOWNLOAD_QUEUES[DL_TEMP];
 //************************************************/
 #endif

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -20,8 +20,7 @@ int equal_first(const char *a,const char *b);
 int equal_first_uncase(const char *a,const char *b);
 int begin_string(const char *str,const char *begin);
 int begin_string_uncase(const char *str,const char *begin);
-char *sum_strings(const char *a,const char *b);
-char *sum_strings(const char *a,const char *b,const char *c);
+char *sum_strings(const char *a,...);
 int empty_string(char *a);
 void convert_time(int what,char *where);
 void string_to_low(char *what,char delim);
@@ -47,6 +46,11 @@ char *subtract_path(const char *a,const char *b);
 int reallocate_string(char **what, int len);
 int is_string(char *what);
 tAddr *make_addr_from_url(char *what);
+int string_ended(char *ended, char *what);
+char *skip_spaces(char *src);
+int write_named_string(int fd,char *name,char *str);
+int write_named_integer(int fd,char *name,int num);
+int write_named_time(int fd,char *name,time_t when);
 
 //**************************************************/
 #endif

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -38,6 +38,7 @@ enum{
 #include "dlist.h"
 #include "sortstr.h"
 #include "db.h"
+#include "cookie.h"
 
 struct tMainCfg{
 	int RETRY_TIME_OUT;
@@ -46,6 +47,7 @@ struct tMainCfg{
 	int MAX_THREADS;
 	int TIME_OUT;
 	char *GLOBAL_SAVE_PATH;
+	char *LOCAL_SAVE_PATH;
 	char *DEFAULT_NAME;
 	char *USER_AGENT;
 	int FTP_RECURSE_DEPTH;
@@ -91,6 +93,8 @@ struct tMainCfg{
 	int GRAPH_ORDER;
 	int DND_TRASH,DND_TRASH_X,DND_TRASH_Y;
 	int EXIT_COMPLETE,EXIT_COMPLETE_TIME;
+	int CLIPBOARD_MONITOR;
+	char *SKIP_IN_CLIPBOARD;
 /* Graph colors....
  */
 	int GRAPH_BACK;
@@ -128,9 +132,17 @@ struct tMainCfg{
  */
 	char *EXEC_WHEN_QUIT;
 	int REMEMBER_PASS;
+/* Buttons
+ */
+	int BUTTONS_ADD;
+	int BUTTONS_MAN;
+	int BUTTONS_SPEED;
+	int BUTTONS_MISC;
 };
 
 extern tMLog *MainLog;
+extern tCookiesTree *COOKIES;
+
 
 extern int METER_LENGTH;
 extern tMainCfg CFG;
@@ -153,6 +165,7 @@ enum HISTORIES_ENUM{
 	USER_AGENT_HISTORY,
 	EXEC_HISTORY,
 	PASS_HISTORY,
+	SKIP_HISTORY,
 	LAST_HISTORY
 };
 
@@ -181,4 +194,6 @@ extern int LOCK_FILE_D;
 extern int GLOBAL_SLEEP_DELAY; 
 
 extern tDB *ALL_DOWNLOADS;
+void var_check_all_limits();
+
 #endif

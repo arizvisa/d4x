@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -56,7 +56,11 @@ enum {
 	PACKET_ASK_STOP,
 	PACKET_ASK_PAUSE,
 	PACKET_ASK_COMPLETE,
+	PACKET_ASK_READED_BYTES,
 	PACKET_SET_SPEED_LIMIT,
+	PACKET_SET_SAVE_PATH,
+	PACKET_DEL_COMPLETED,
+	PACKET_SET_MAX_THREADS,
 	PACKET_UNKNOWN
 };
 

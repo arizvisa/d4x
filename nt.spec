@@ -1,4 +1,4 @@
-%define ver      1.10
+%define ver      1.12
 %define prefix   /usr
 
 Name: nt
@@ -18,11 +18,11 @@ ftp or http protocol.
 Main features:
     * multithreaded design
     * convient user-friendly interface
-    * automatic resuming after connection break
+    * automatic resuming after connection breaks
     * multiple simultaneous downloads
     * recursive ftp and http downloading
     * mask support for ftp recursing
-    * proxy support
+    * proxy support (ftp and http)
     * and other ...
 
 %prep
@@ -37,9 +37,10 @@ mkdir -p "${RPM_BUILD_ROOT}"%prefix/doc
 mkdir -p "${RPM_BUILD_ROOT}"/etc/X11/wmconfig
 mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet
 mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/pixmaps
-for i in es de it ru bg pt_BR fr cs nl ja id zh_CN.EUC; do
-    mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/locale/$i/LC_MESSAGES
-    cp -f main/po/$i.gmo "${RPM_BUILD_ROOT}"%prefix/share/locale/$i/LC_MESSAGES/nt.mo
+for i in main/po/*.gmo; do
+    j=`basename $i .gmo`
+    mkdir -p "${RPM_BUILD_ROOT}"%prefix/share/locale/$j/LC_MESSAGES
+    cp -f $i "${RPM_BUILD_ROOT}"%prefix/share/locale/$j/LC_MESSAGES/nt.mo
 done
 cp -f main/nt "${RPM_BUILD_ROOT}"%prefix/bin/
 cp -f nt.wmconfig "${RPM_BUILD_ROOT}"/etc/X11/wmconfig/nt
@@ -51,7 +52,7 @@ rm -rf ${RPM_BUILD_ROOT}
 
 %files
 %defattr(-, root, root)
-%doc ChangeLog FAQ FAQ.es FAQ.fr INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES
+%doc ChangeLog FAQ FAQ.es FAQ.fr INSTALL LICENSE NAMES PLANS README THANKS TODO TROUBLES README.ru
 %prefix/bin/nt
 /etc/X11/wmconfig/nt
 %prefix/share/gnome/apps/Internet/nt.desktop

@@ -1,4 +1,4 @@
-CCPLUS = c++
+CXX = c++
 
 NLS=-DENABLE_NLS # Remove or comment this line to disable gettext
 ifeq ($(DEST),)
@@ -20,10 +20,10 @@ GTKLIBS=`$(GTKCONFIG) --libs`
 GTKFLAGS=`$(GTKCONFIG) --cflags` `$(GLIBCONFIG) --cflags`
 LIBS=$(PTHREAD) $(GTKLIBS)
 
-EXECC=$(CCPLUS) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
+EXECC=$(CXX) $(CFLAGS) $(GTKFLAGS) $(NLS) -DLOCALE=\"${LOCALEDIR}\"
 
-MODULES=base64.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o srvclt.o
-MODULES2=client.o ftp.o http.o download.o ftpd.o httpd.o signal.o main.o config.o savelog.o mainlog.o var.o sortstr.o db.o
+MODULES=base64.o queue.o liststr.o dlist.o mdlist.o locstr.o log.o  sort.o meter.o socket.o history.o hproxy.o speed.o srvclt.o html.o
+MODULES2=client.o ftp.o http.o download.o ftpd.o httpd.o signal.o main.o config.o savelog.o mainlog.o var.o sortstr.o db.o cookie.o
 FACE=face/lmenu.o face/list.o face/addd.o face/graph.o face/log.o face/prefs.o face/buttons.o \
 face/about.o face/edit.o face/colors.o face/saveload.o face/limface.o face/misc.o face/lod.o \
 face/columns.o face/dndtrash.o
@@ -31,7 +31,6 @@ face/columns.o face/dndtrash.o
 MAKE=make
 
 all:
-	cd face && NLS=$(NLS) EXECC="$(EXECC)" GTKFLAGS="$(GTKFLAGS)" $(MAKE)
 	rm -f nt || test -z ""
 	$(MAKE) nt
 	if [ "$(NLS)" != "" ] ; then \
@@ -39,7 +38,8 @@ all:
 	fi
 	$(MAKE) strip
 
-nt: nt.cc $(MODULES) $(MODULES2) var.h
+nt:nt.cc $(MODULES) $(MODULES2) var.h
+	cd face && NLS=$(NLS) EXECC="$(EXECC)" GTKFLAGS="$(GTKFLAGS)" $(MAKE)
 	$(EXECC)  $(LIBS) nt.cc $(MODULES) $(MODULES2) $(FACE) -o nt
 
 strip: nt
@@ -134,6 +134,12 @@ srvclt.o: srvclt.cc srvclt.h
 
 db.o: db.cc db.h
 	$(EXECC) -c db.cc -o db.o
+
+cookie.o: cookie.cc cookie.h
+	$(EXECC) -c cookie.cc -o cookie.o
+
+html.o: html.cc html.h
+	$(EXECC) -c html.cc -o html.o
 
 clean: 
 	rm -f *.o nt TAGS *~ || test -z ""

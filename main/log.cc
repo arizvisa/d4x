@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -15,6 +15,7 @@
 //for messages queue
 #include <sys/types.h>
 #include <sys/ipc.h>
+#include <stdarg.h>
 
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
@@ -141,6 +142,44 @@ void tLog::unlock() {
 
 void tLog::lock() {
     pthread_mutex_lock(&mutex);
+};
+
+void tLog::myprintf(int type,char *fmt,...){
+	char str[MAX_LEN+1];
+	char *cur=str;
+	va_list ap;
+	va_start(ap,fmt);
+	*cur=0;
+	while (*fmt && cur-str<MAX_LEN){
+		if (*fmt=='%'){
+			fmt+=1;
+			switch(*fmt){
+			case 's':{
+				char *s=va_arg(ap,char *);
+				snprintf(cur,MAX_LEN-(str-cur),"%s",s);
+				break;
+			};
+			case 'i':{
+				snprintf(cur,MAX_LEN-(str-cur),"%i",va_arg(ap,int));
+				break;
+			};
+			default:{
+				*cur=*fmt;
+				cur+=1;
+				*cur=0;			       
+			};
+			};
+			if (*fmt==0) break;
+			while(*cur) cur+=1;
+		}else{
+			*cur=*fmt;
+			cur+=1;
+			*cur=0;
+		};
+		fmt+=1;
+	};
+	va_end(ap);
+	add(str,type);
 };
 
 tLogString *tLog::last() {

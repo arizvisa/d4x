@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WebDownloader for X 1.09\n"
+"Project-Id-Version: WebDownloader for X 1.11\n"
 "POT-Creation-Date: 1999-12-29 15:29+0100\n"
-"PO-Revision-Date: 2000-01-06 19:19+0100\n"
+"PO-Revision-Date: 2000-01-30 16:46+0100\n"
 "Last-Translator: Vicente Aguilar <vaguilar@linuxfreak.com>\n"
 "Language-Team: es\n"
 "MIME-Version: 1.0\n"
@@ -366,20 +366,20 @@ msgstr "dispositivo"
 
 #: ../main.cc:727 main.cc:637
 #, c-format
-msgid "Downloading of directory %s was completed"
-msgstr "Finalizó la descarga del directorio %s"
+msgid "Downloading of directory %z was completed"
+msgstr "Finalizó la descarga del directorio %z"
 
 #: ../main.cc:732 main.cc:641
 #, c-format
-msgid "Downloading of file %s (%i bytes) was completed at speed %i bytes/sec"
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
-"Finalizó la descarga del fichero %s (%i bytes) a una velocidad de %i "
+"Finalizó la descarga del fichero %z (%i bytes) a una velocidad de %i "
 "bytes/segundo"
 
 #: ../main.cc:762 main.cc:664
 #, c-format
-msgid "Downloading of file %s was terminated by fatal error"
-msgstr "Finalizó por un error la descarga del fichero %s"
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "Finalizó por un error la descarga del fichero %z"
 
 #: ../main.cc:991 main.cc:809
 #, c-format
@@ -928,11 +928,11 @@ msgstr "Título de la ventana : "
 
 #: ../face/prefs.cc:215 face/prefs.cc:191
 msgid "Automatically delete completed downloads"
-msgstr "Borrar autom. las descargas finalizadas"
+msgstr "Borrar automáticamente las descargas finalizadas"
 
 #: ../face/prefs.cc:217 face/prefs.cc:193
 msgid "Automatically delete failed downloads"
-msgstr "Borrar autom. las descargas erróneas"
+msgstr "Borrar automáticamente las descargas erróneas"
 
 #: ../face/prefs.cc:219 face/prefs.cc:195
 msgid "Optimize recursive downloads"
@@ -1077,7 +1077,7 @@ msgstr " Profundidad de la recursión (0 ilimitada, 1 sin recursión)"
 # face/prefs.cc:
 #: ../face/prefs.cc:437
 msgid "Filename for saving if it is unknown"
-msgstr "Nombre de fichero con que grabar (por si se desconoce)"
+msgstr "Nombre de fichero para grabar (por si se desconoce)"
 
 #: ../face/about.cc:45 face/about.cc:44
 msgid "Translators team"
@@ -1159,8 +1159,8 @@ msgstr "¡No se puede volver atrás!"
 # main.cc:
 #: ../main.cc:735
 #, c-format
-msgid "Redirect from %s"
-msgstr "Redireccionado de %s"
+msgid "Redirect from %z"
+msgstr "Redireccionado de %z"
 
 # face/
 #: ../face/about.cc:77 ../face/about.cc:136 ../face/about.cc:191
@@ -1279,26 +1279,26 @@ msgstr "Mostrar información detallada"
 # main.cc
 #: ../main.cc:710
 #, c-format
-msgid "Prepare [%s] for stoping"
-msgstr "Preparar [%s] para detener"
+msgid "Prepare [%z] for stoping"
+msgstr "Preparar [%z] para detener"
 
 # main.cc
 #: ../main.cc:378
 #, c-format
-msgid "Run new thread for %s"
-msgstr "Ejecutar nuevo hilo para %s"
+msgid "Run new thread for %z"
+msgstr "Ejecutar nuevo hilo para %z"
 
 # main.cc
 #: ../main.cc:746
 #, c-format
-msgid "%s was deleteted from queue of downloads as completed download"
-msgstr "%s ha sido borrado de la colaa de descargas al finalizar su descarga"
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%z ha sido borrado de la colaa de descargas al finalizar su descarga"
 
 # main.cc
 #: ../main.cc:766
 #, c-format
-msgid "%s was deleteted from queue of downloads as failed download"
-msgstr "%s ha sido borrado de la cola de descargas al fracasar su descarga"
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%z ha sido borrado de la cola de descargas al fracasar su descarga"
 
 # main.cc
 #: ../main.cc:239
@@ -1322,28 +1322,28 @@ msgstr "Añadir la lista a la cola de descargas actual"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:179
-msgid "New Download"
-msgstr "Nueva Descarga"
+msgid "/New Download"
+msgstr "/Nueva Descarga"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:183
-msgid "Paste Download"
-msgstr "Pegar Descarga"
+msgid "/Paste Download"
+msgstr "/Pegar Descarga"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:190
-msgid "Common options"
-msgstr "Opciones"
+msgid "/Common options"
+msgstr "/Opciones"
 
 # face/dndtrash.cc
 #: ../face/dndtrash.cc:197
-msgid "Exit"
-msgstr "Salir"
+msgid "/Exit"
+msgstr "/Salir"
 
 # face/prefs.cc:
 #: ../face/prefs.cc:445
 msgid "User-Agent for http requests"
-msgstr "Identificación del programa para peticiones http"
+msgstr "Identificación del programa para peticiones http (User-Agent)"
 
 # face/columns.cc
 msgid "rest"
@@ -1395,17 +1395,117 @@ msgstr "FTP (wingate)"
 
 #: ../face/prefs.cc:429
 msgid "Run this when exit"
-msgstr "Ejecutar al salir"
+msgstr "Ejecutar comando al salir"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
-msgstr ""
+msgstr "Recordar contraseñas"
 
 #: face/limface.cc:
 msgid "Now"
-msgstr ""
+msgstr "Ahora"
 
 
 #: face/edit.cc:
 msgid "Default"
+msgstr "Por Defecto"
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr "Añadida descarga por socket de control [%s]"
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr "¡No se pudo abrir el fichero de cookies!"
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr "Cargadas %i cookies"
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr "Cargando cookies"
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr "Monitorizar portapapeles"
+
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr "Ignorar estas extensiones al monitorizar el portapapeles"
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr ""
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr ""
+
+#:main.cc
+msgid "[control socket]"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/-"
+msgstr ""
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr ""
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Invert selection"
 msgstr ""

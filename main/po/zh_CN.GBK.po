@@ -396,20 +396,20 @@ msgstr "设备"
 
 #: main.cc:637
 #, c-format
-msgid "Downloading of directory %s was completed"
-msgstr "目录 %s 下载完成"
+msgid "Downloading of directory %z was completed"
+msgstr "目录 %z 下载完成"
 
 #: main.cc:641
 #, c-format
 msgid ""
-"Downloading of file %s (%i bytes) was completed at speed %i "
+"Downloading of file %z (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "文件 %s 下载完成, 速度: %i 字节/秒"
+msgstr "文件 %z 下载完成, 速度: %i 字节/秒"
 
 #: main.cc:664
 #, c-format
-msgid "Downloading of file %s was terminated by fatal error"
-msgstr "严重错误导致下载文件 %s 终止"
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "严重错误导致下载文件 %z 终止"
 
 #: main.cc:809
 #, c-format
@@ -1159,8 +1159,8 @@ msgid "Can't do rollback!"
 msgstr "不能回退！"
 
 #: main.cc:
-msgid "Redirect from %s"
-msgstr "从 %s 重定向"
+msgid "Redirect from %z"
+msgstr "从 %z 重定向"
 
 #: face/
 msgid "Ok"
@@ -1184,157 +1184,258 @@ msgstr "将链接拖放到这里"
 
 #: log.cc:
 msgid "Log was started!"
-msgstr ""
+msgstr "记录已经启动！"
 
 #: config.cc:
 msgid "Run downloads: %d\n"
-msgstr ""
+msgstr "运行下载：%d\n"
 
 #: config.cc:
 msgid "Paused downloads: %d\n"
-msgstr ""
+msgstr "暂停的下载：%d\n"
 
 #: config.cc:
 msgid "Failed downloads: %d\n"
-msgstr ""
+msgstr "失败的下载：%d\n"
 
 #: config.cc:
 msgid "Completed downloads: %d\n"
-msgstr ""
+msgstr "完成的下载：%d\n"
 
 #: config.cc:
 msgid "Total: %d\n"
-msgstr ""
+msgstr "总共：%d\n"
 
 #: config.cc:
 msgid "Curent speed: %d\n"
-msgstr ""
+msgstr "当前速度：%d\n"
 
 #: config.cc:
 msgid "Usage: nt [OPTION] ... [URL]"
-msgstr ""
+msgstr "使用方法：nt [选项]... [URL链接]"
 
 #: config.cc:
 msgid "print this page and exit"
-msgstr ""
+msgstr "列出此页，然后退出。"
 
 #: config.cc:
 msgid "show version information and exit"
-msgstr ""
+msgstr "显示版本信息，然后退出。"
 
 #: config.cc:
 msgid "show information if already run"
-msgstr ""
+msgstr "如果已经运行，显示信息"
 
 #: config.cc:
 msgid "show curent speed if already run"
-msgstr ""
+msgstr "如果已经运行，显示当前速度"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
-msgstr ""
+msgstr "退出，如果空闲时间超过"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr""
+msgstr "主记录"
 
 #: face/prefs.cc
 msgid "Output detailed information"
-msgstr ""
+msgstr "输出详细的信息"
 
 #: main.cc
-msgid "Prepare [%s] for stoping"
-msgstr ""
+msgid "Prepare [%z] for stoping"
+msgstr "准备停止 [%z]"
 
 #: main.cc
-msgid "Run new thread for %s"
-msgstr ""
+msgid "Run new thread for %z"
+msgstr "为 %z 运行新的线程"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as completed download"
-msgstr ""
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "删除了队列中的已完成下载 %z "
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as failed download"
-msgstr ""
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "删除了队列中的失败下载 %z "
 
 #: main.cc
 msgid "Delete completed downloads"
-msgstr ""
+msgstr "删除完成的下载"
 
 #: main.cc
 msgid "Delete failed downloads"
-msgstr ""
+msgstr "删除失败的下载"
 
 #:main.cc:
 msgid "Loading default list of downloads"
-msgstr ""
+msgstr "加载默认的下载列表"
 
 #:main.cc:
 msgid "Append list to curent queue of downloads"
-msgstr ""
+msgstr "添加列表内容到当前的下载队列"
 
 #: face/dndtrash.cc
-msgid "New Download"
-msgstr ""
+msgid "/New Download"
+msgstr "/新的下载"
 
 #: face/dndtrash.cc
-msgid "Paste Download"
-msgstr ""
+msgid "/Paste Download"
+msgstr "/粘贴下载"
 
 #: face/dndtrash.cc
-msgid "Common options"
-msgstr ""
+msgid "/Common options"
+msgstr "/公共选项"
 
 #: face/dndtrash.cc
-msgid "Exit"
-msgstr ""
+msgid "/Exit"
+msgstr "/退出"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
-msgstr ""
+msgstr "http 请求的用户代理"
 
 #: face/columns.cc
 msgid "rest"
-msgstr ""
+msgstr "剩余"
 
 #: face/lod.cc
 msgid "Rest"
-msgstr ""
+msgstr "剩余"
+
 
 #: config.cc:
 msgid "set lower speed limitation"
-msgstr ""
+msgstr "较低的速度"
 
 #: config.cc:
 msgid "set middle speed limitation"
-msgstr ""
+msgstr "中等速度"
 
 #: config.cc:
 msgid "set unlimited speed"
-msgstr ""
+msgstr "不限制速度"
 
 #: http.cc
 msgid "Request was sent, waiting for the answer"
-msgstr ""
+msgstr "请求已被发送，等待应答"
 
 #: config.cc:
 msgid "unknown option:"
-msgstr ""
+msgstr "未知的选项："
 
 #: face/prefs.cc:
 msgid "Run this when exit"
-msgstr ""
+msgstr "退出时运行此程序"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
-msgstr ""
+msgstr "保存口令"
 
 #: face/limface.cc:
 msgid "Now"
-msgstr ""
+msgstr "现在"
 
 
 #: face/edit.cc:
 msgid "Default"
+msgstr "默认"
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr ""
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr ""
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr ""
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr ""
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr ""
+
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr ""
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr ""
+
+#:main.cc
+msgid "[control socket]"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/-"
+msgstr ""
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr ""
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Invert selection"
 msgstr ""

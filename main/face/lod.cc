@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -11,6 +11,7 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include "lod.h"
+#include "log.h"
 #include "buttons.h"
 #include "list.h"
 #include "lmenu.h"
@@ -30,7 +31,6 @@ GdkBitmap *wait_mask,*stop_mask,*pause_mask,*complete_mask,*run_mask,*part_run_m
 GdkPixmap *wait_pixmap=(GdkPixmap *)NULL,*stop_pixmap=(GdkPixmap *)NULL,*pause_pixmap=(GdkPixmap *)NULL,*complete_pixmap=(GdkPixmap *)NULL;
 GdkPixmap *run_pixmap=(GdkPixmap *)NULL,*part_run_pixmap=(GdkPixmap *)NULL,*run_bad_pixmap=(GdkPixmap *)NULL,*stop_wait_pixmap=(GdkPixmap *)NULL;
 
-gint SizeListOfDownloads;
 gchar *ListTitles[]={" ","File","Type","Full Size","Downloaded","Rest","%","Speed","Time","Remaining","Pause","Attempt","URL"," "};
 tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
 						{FILE_COL,FILE_COL,				(char *)NULL,100},
@@ -86,7 +86,7 @@ void select_download(GtkWidget *clist, gint row, gint column,
 	else
 		gtk_statusbar_push(GTK_STATUSBAR(MainStatusBar),StatusBarContext,"");
 	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1)
-		open_log_for_selected();
+		list_of_downloads_open_logs();
 };
 
 tDownload *list_of_downloads_last_selected() {
@@ -105,12 +105,30 @@ void list_of_downloads_change_data(int row,int column,gchar *data) {
 		gtk_clist_set_text(GTK_CLIST(ListOfDownloads),row,real_col,data);
 };
 
+void list_of_downloads_update(tDownload *what) {
+	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file);
+	char *URL=make_simply_url(what);
+	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
+	delete(URL);
+};
+
+
 void list_of_downloads_get_sizes() {
 	if (!ListOfDownloads) return;
 	GtkCListColumn *tmp=GTK_CLIST(ListOfDownloads)->column;
 	for (int i=0;i<ListColumns[NOTHING_COL].enum_index;i++) {
 		ListColumns[i].size=int(tmp->width);
 		tmp++;
+	};
+};
+
+void list_of_downloads_print_size(tDownload *what){
+	if (what->finfo.size>=0 && what->finfo.type==T_FILE){
+		char data1[MAX_LEN];
+		make_number_nice(data1,what->finfo.size);
+		list_of_downloads_change_data(what->GTKCListRow,
+					      FULL_SIZE_COL,
+					      data1);
 	};
 };
 
@@ -124,10 +142,29 @@ void list_of_downloads_add(tDownload *what) {
 	what->GTKCListRow=gtk_clist_append(GTK_CLIST(ListOfDownloads),data);
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
 	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,temp);
+	list_of_downloads_print_size(what);
+
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),what->GTKCListRow,gpointer(what));
-	SizeListOfDownloads+=1;
 	list_of_downloads_set_pixmap(what->GTKCListRow,PIX_WAIT);
 	delete URL;
+};
+
+void list_of_downloads_set_run_icon(tDownload *what){
+	switch (what->Status.curent) {
+	case D_QUERYING:{
+		list_of_downloads_set_pixmap(what->GTKCListRow,PIX_RUN_PART);
+		break;
+	};
+	default:
+	case D_DOWNLOAD:{
+		list_of_downloads_set_pixmap(what->GTKCListRow,PIX_RUN);
+		break;
+	};
+	case D_DOWNLOAD_BAD:{
+		list_of_downloads_set_pixmap(what->GTKCListRow,PIX_RUN_BAD);
+		break;
+	};
+	};
 };
 
 void list_of_downloads_add(tDownload *what,int row) {
@@ -141,43 +178,28 @@ void list_of_downloads_add(tDownload *what,int row) {
 	list_of_downloads_change_data(row,URL_COL,URL);
 	delete (URL);
 	switch (what->owner) {
-		case DL_WAIT:
-			{
-				list_of_downloads_set_pixmap(row,PIX_WAIT);
-				break;
-			};
-		case DL_STOP:
-			{
-				list_of_downloads_set_pixmap(row,PIX_STOP);
-				break;
-			};
-		case DL_RUN:{
-			what->update_trigers();
-			switch (what->Status.curent) {
-				case D_QUERYING:{
-						list_of_downloads_set_pixmap(row,PIX_RUN_PART);
-						break;
-					};
-				default:
-				case D_DOWNLOAD:{
-						list_of_downloads_set_pixmap(row,PIX_RUN);
-						break;
-					};
-				case D_DOWNLOAD_BAD:{
-						list_of_downloads_set_pixmap(row,PIX_RUN_BAD);
-						break;
-					};
-				};
-				break;
-			};
-		case DL_PAUSE:
-			{
-				list_of_downloads_set_pixmap(row,PIX_PAUSE);
-				break;
-			};
-		case DL_COMPLETE:
-			list_of_downloads_set_pixmap(row,PIX_COMPLETE);
+	case DL_WAIT:{
+		list_of_downloads_set_pixmap(row,PIX_WAIT);
+		break;
 	};
+	case DL_STOP:{
+		list_of_downloads_set_pixmap(row,PIX_STOP);
+		break;
+	};
+	case DL_RUN:{
+		what->update_trigers();
+		list_of_downloads_set_run_icon(what);
+		break;
+	};
+	case DL_PAUSE:{
+		list_of_downloads_set_pixmap(row,PIX_PAUSE);
+		break;
+	};
+	case DL_COMPLETE:{
+		list_of_downloads_set_pixmap(row,PIX_COMPLETE);
+	};
+	};
+	list_of_downloads_print_size(what);
 };
 
 void move_download_up(int ROW){
@@ -190,20 +212,22 @@ void move_download_up(int ROW){
 	if (what2) what2->GTKCListRow=row;
 	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row-1);
 //	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
-	if (WaitList->owner(what) && WaitList->owner(what2)) WaitList->forward(what);
+	if (DOWNLOAD_QUEUES[DL_WAIT]->owner(what) && DOWNLOAD_QUEUES[DL_WAIT]->owner(what2))
+		DOWNLOAD_QUEUES[DL_WAIT]->forward(what);
 };
 
 void move_download_down(int ROW){
 	tDownload *what=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),ROW);
 	if (!what) return;
-	if (what->GTKCListRow>=SizeListOfDownloads-1) return;
+	if (what->GTKCListRow>=GTK_CLIST(ListOfDownloads)->rows-1) return;
 	int row=what->GTKCListRow;
 	what->GTKCListRow=row+1;
 	tDownload *what2=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),row+1);
 	if (what2) what2->GTKCListRow=row;
 	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),row,row+1);
 //	gtk_clist_select_row(GTK_CLIST(ListOfDownloads),what->GTKCListRow,0);
-	if (WaitList->owner(what) && WaitList->owner(what2)) WaitList->backward(what);
+	if (DOWNLOAD_QUEUES[DL_WAIT]->owner(what) && DOWNLOAD_QUEUES[DL_WAIT]->owner(what2))
+		DOWNLOAD_QUEUES[DL_WAIT]->backward(what);
 };
 static gint compare_nodes1(gconstpointer a,gconstpointer b){
     gint aa=GPOINTER_TO_INT(a);
@@ -229,12 +253,10 @@ int list_of_downloads_move_selected_up(){
 	sorted_select=g_list_sort(sorted_select,compare_nodes1);
 	select=sorted_select;
 	if (GPOINTER_TO_INT(select->data)<=0) return 0;
-	list_of_downloads_freeze();
 	while (select) {
 		move_download_up(GPOINTER_TO_INT(select->data));
 		select=select->next;
 	};
-	list_of_downloads_unfreeze();
 	g_list_free(sorted_select);
 	return 1;
 };
@@ -246,29 +268,43 @@ int list_of_downloads_move_selected_down(){
 	GList *sorted_select=g_list_copy(select);
 	sorted_select=g_list_sort(sorted_select,compare_nodes2);
 	select=sorted_select;
-	if (GPOINTER_TO_INT(select->data)>=SizeListOfDownloads-1) return 0;
-	list_of_downloads_freeze();
+	if (GPOINTER_TO_INT(select->data)>=GTK_CLIST(ListOfDownloads)->rows-1) return 0;
 	while (select) {
 		move_download_down(GPOINTER_TO_INT(select->data));
 		select=select->next;
 	};
-	list_of_downloads_unfreeze();
 	g_list_free(sorted_select);
 	return 1;
 };
 
+
+void list_of_downloads_move_up(){
+	list_of_downloads_freeze();
+	list_of_downloads_move_selected_up();
+	list_of_downloads_unfreeze();
+};
+
+void list_of_downloads_move_down(){
+	list_of_downloads_freeze();
+	list_of_downloads_move_selected_down();
+	list_of_downloads_unfreeze();
+};
+
 void list_of_downloads_move_selected_home(){
+	list_of_downloads_freeze();
 	while (list_of_downloads_move_selected_up());
+	list_of_downloads_unfreeze();
 };
 
 void list_of_downloads_move_selected_end(){
+	list_of_downloads_freeze();
 	while (list_of_downloads_move_selected_down());
+	list_of_downloads_unfreeze();
 };
 
 void list_of_downloads_del(tDownload *what) {
 	gtk_clist_remove(GTK_CLIST(ListOfDownloads),what->GTKCListRow);
-	SizeListOfDownloads-=1;
-	for (int i=what->GTKCListRow;i<SizeListOfDownloads;i++) {
+	for (int i=what->GTKCListRow;i<GTK_CLIST(ListOfDownloads)->rows;i++) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 		                    GTK_CLIST(ListOfDownloads),i);
 		if (temp) temp->GTKCListRow=i;
@@ -337,17 +373,22 @@ int list_event_callback(GtkWidget *widget,GdkEvent *event) {
 			ask_delete_download();
 			return TRUE;
 		};
+		case GDK_KP_Enter:
+		case GDK_Return:{
+			list_of_downloads_open_logs();
+			return TRUE;
+		};
 		};
 		if (kevent->state & GDK_SHIFT_MASK) {
 			switch (kevent->keyval) {
 			case GDK_KP_Up:
 			case GDK_Up:{
-				list_of_downloads_move_selected_up();
+				list_of_downloads_move_up();
 				return TRUE;
 			};
 			case GDK_KP_Down:
 			case GDK_Down:{
-				list_of_downloads_move_selected_down();
+				list_of_downloads_move_down();
 				return TRUE;
 			};
 			case GDK_KP_Page_Up:
@@ -504,4 +545,42 @@ void list_of_downloads_set_pixmap(int row,int type){
 	if (ListColumns[STATUS_COL].enum_index<ListColumns[NOTHING_COL].enum_index)
 		gtk_clist_set_pixmap (GTK_CLIST (ListOfDownloads), row,
 	                      ListColumns[STATUS_COL].enum_index, list_of_downloads_pixmaps[type], list_of_downloads_bitmaps[type]);
+};
+
+void list_of_downloads_unselect_all(){
+	if (GTK_CLIST(ListOfDownloads)->rows)
+		gtk_clist_unselect_all(GTK_CLIST(ListOfDownloads));
+};
+
+void list_of_downloads_select_all(){
+	if (GTK_CLIST(ListOfDownloads)->rows)
+		gtk_clist_select_all(GTK_CLIST(ListOfDownloads));
+};
+
+void list_of_downloads_invert_selection(){
+	if (GTK_CLIST(ListOfDownloads)->rows==0) return;
+	list_of_downloads_freeze();
+	GList *select=g_list_copy(((GtkCList *)ListOfDownloads)->selection);
+	gtk_clist_select_all(GTK_CLIST(ListOfDownloads));
+	while(select!=NULL){
+		gtk_clist_unselect_row(GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data),-1);
+		select=g_list_remove_link(select,select);
+	};
+	list_of_downloads_unfreeze();
+};
+
+int list_of_downloads_sel(){
+	return(GTK_CLIST(ListOfDownloads)->selection==NULL?1:0);
+};
+
+/* Various additional functions
+ */
+void list_of_downloads_open_logs(...) {
+	GList *select=GTK_CLIST(ListOfDownloads)->selection;
+	while (select) {
+		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
+		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
+		log_window_init(temp);
+		select=select->next;
+	};
 };

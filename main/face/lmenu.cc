@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -20,8 +20,6 @@ extern tMLog *MainLog;
 
 GtkWidget *ListMenu;
 GtkWidget *ListMenuArray[11];
-extern gint SelectedRow;
-extern gint SizeListOfDownloads;
 
 GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap) {
 	GtkWidget *menu_item=gtk_menu_item_new();
@@ -69,7 +67,7 @@ void init_list_menu() {
 	menu_item=make_menu_item(_("View log"),(char *)NULL,pixmap,bitmap);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_LOG]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(open_log_for_selected),NULL);
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_open_logs),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,stopmini_xpm);
 	menu_item=make_menu_item(_("Stop"),"Alt+S",pixmap,bitmap);
@@ -119,14 +117,14 @@ void init_list_menu() {
 	menu_item=make_menu_item(_("Move up"),"Shift+Up",pixmap,bitmap);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEUP]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_selected_up),NULL);
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_up),NULL);
 
 	pixmap=make_pixmap_from_xpm(&bitmap,downmini_xpm);
 	menu_item=make_menu_item(_("Move down"),"Shift+Down",pixmap,bitmap);
 	gtk_widget_set_usize(menu_item,200,-1);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_MOVEDOWN]=menu_item;
-	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_selected_down),NULL);
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(list_of_downloads_move_down),NULL);
 
 	menu_item=make_menu_item(_("Set limitation"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL);
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
@@ -137,19 +135,18 @@ void init_list_menu() {
 };
 
 void list_menu_prepare() {
-	GList *select=((GtkCList *)ListOfDownloads)->selection;
-	if (select==NULL) {
+	if (list_of_downloads_sel()) {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],FALSE);
 	} else {
 		for (int i=0;i<=LM_SET_LIMIT;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],TRUE);
 	};
-	if (CompleteList->count())
+	if (DOWNLOAD_QUEUES[DL_COMPLETE]->count())
 		gtk_widget_set_sensitive(ListMenuArray[LM_DELC],TRUE);
 	else
 		gtk_widget_set_sensitive(ListMenuArray[LM_DELC],FALSE);
-	if (StopList->count())
+	if (DOWNLOAD_QUEUES[DL_STOP]->count())
 		gtk_widget_set_sensitive(ListMenuArray[LM_DELF],TRUE);
 	else
 		gtk_widget_set_sensitive(ListMenuArray[LM_DELF],FALSE);

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -14,21 +14,12 @@
 #include "locstr.h"
 #include "var.h"
 #include "ntlocale.h"
+#include "html.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
-
-tHtmlTeg HTML_TEGS[]={
-	{"a",		"href",		(char *)NULL,	0},
-	{"!--",		(char *)NULL,	"--!",		0},
-	{"img",		"src",		(char *)NULL,	0},
-	{"link",	"href",		(char *)NULL,	0},
-	{"base",	"target",	(char *)NULL,	1},
-	{"frame",	"src",		(char *)NULL,	0},
-	{"/base>",	(char *)NULL,	(char *)NULL,	1}
-};
-const int HTML_TEGS_NUM=sizeof(HTML_TEGS)/sizeof(tHtmlTeg);
+#include <ctype.h>
 
 tHttpDownload::tHttpDownload() {
 	LOG=NULL;
@@ -43,6 +34,7 @@ tHttpDownload::tHttpDownload() {
 	RealName=NULL;
 	NewRealName=NULL;
 	content_type=NULL;
+	FULL_NAME_TEMP=NULL;
 };
 
 int tHttpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
@@ -82,13 +74,11 @@ int tHttpDownload::reconnect() {
 	Status=D_QUERYING;
 	while (success) {
 		RetrNum++;
-		char data[MAX_LEN];
 //		if (HTTP->get_status()==STATUS_FATAL) return -1;
 		if (config.number_of_attempts)
-			sprintf(data,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
+			LOG->myprintf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
 		else
-			sprintf(data,_("Retrying %i"),RetrNum);
-		LOG->add(data,LOG_OK);
+			LOG->myprintf(LOG_OK,_("Retrying %i ..."),RetrNum);
 		if (RetrNum==config.number_of_attempts) {
 			LOG->add(_("Max amount of retries was reached!"),LOG_ERROR);
 			return -1;
@@ -120,128 +110,9 @@ char * tHttpDownload::get_new_url() {
 	return NULL;
 };
 
-char *tHttpDownload::get_field(char *field) {
-	int buff_len=MAX_LEN;
-	char *buff=new char [buff_len+1];
-	int len=strlen(field);
-	int failed=0;
-	for (int i=0;i<len-1;i++){
-		if (read(D_FILE.fdesc,buff+i,1)<1)
-			failed=1;
-		if (buff[i]=='>')
-			failed=1;
-		if (failed){
-			delete(buff);return NULL;
-		};
-	};
-	failed=0;
-	buff[len-1]=0;
-	while(read(D_FILE.fdesc,buff+len-1,1)>0) {
-		buff[len]=0;
-		string_to_low(buff);
-		if (equal(field,buff)) {
-			do {
-				if (read(D_FILE.fdesc,buff,1)<=0){
-					delete buff;return NULL;
-				};
-			} while(*buff!='=');
-			char *cur=buff;
-			char close_symbol='>';
-			do {
-				if (read(D_FILE.fdesc,buff,1)<=0){
-					delete buff;return NULL;
-				};
-				if (*buff=='>'){
-					delete buff;return NULL;
-				};
-				if (*buff=='\"'){
-					close_symbol='\"';
-					break;
-				};
-				if (*buff=='\''){
-					close_symbol='\'';
-					break;
-				};
-				if (*buff > ' ')
-					if ((*buff>='a' && *buff<='z') || (*buff>=' ' && *buff<='Z')) {
-						cur+=1;
-						break;
-					};
-			} while(1);
-			while(read(D_FILE.fdesc,cur,1)>0) {
-				if (*cur==close_symbol || *cur<=' ' || *cur=='>') break;
-				cur+=1;
-				if (cur-buff>buff_len){ //reallocate buffer
-					delete buff;return NULL; //field too long
-				};
-			};
-			*cur=0;
-			char *rvalue=copy_string(buff);
-			delete buff;return rvalue;
-		};
-		if (buff[len-1]=='>') {
-			delete buff;return NULL;
-		};
-		for (int i=0;i<=len;i++)
-			buff[i]=buff[i+1];
-	};
-	delete buff;return NULL;
-};
-
-void tHttpDownload::skip_for_tag(char *tag) {
-	if (tag==NULL || *tag==0) return;
-	char buff[MAX_LEN];
-	int len=strlen(tag);
-	while (read(D_FILE.fdesc,buff+len,1)==1) {
-		buff[len]=0;
-		if (equal(tag,buff)) break;
-		for (int i=0;i<len;i++) buff[i]=buff[i+1];
-	};
-};
-
 void tHttpDownload::analize_html() {
-	char buff[MAX_LEN];
-	char *base=NULL;
-	int MAX_TAG_LEN=6;
-	answer->done();
-	answer->init(0);
-	lseek(D_FILE.fdesc,0,SEEK_SET);
-	while(read(D_FILE.fdesc,buff,1)>0) {
-		if (*buff=='<') {
-			if (read(D_FILE.fdesc,buff,MAX_TAG_LEN)<MAX_TAG_LEN) break;
-			buff[MAX_TAG_LEN]=0;
-			char *link=NULL;
-			int not_found=0;
-			for (int i=0;i<HTML_TEGS_NUM;i++){
-				if (begin_string_uncase(buff,HTML_TEGS[i].tag) && buff[strlen(HTML_TEGS[i].tag)]<=' '){
-					lseek(D_FILE.fdesc,strlen(HTML_TEGS[i].tag)-MAX_TAG_LEN,SEEK_CUR);
-					if (HTML_TEGS[i].field)
-						link=get_field(HTML_TEGS[i].field);
-					else
-						skip_for_tag(HTML_TEGS[i].closetag);
-					if (HTML_TEGS[i].mod){
-						if (base) delete(base);
-						base=link;
-						link=NULL;
-					};
-					not_found=1;
-				};
-			};
-			if (not_found)
-				lseek(D_FILE.fdesc,-MAX_TAG_LEN,SEEK_CUR);
-			if (link) {
-				if (base && !global_url(link)) {
-					char *tmp;
-					tmp=compose_path(base,link);
-					delete link;
-					link=tmp;
-				};
-				answer->add(link);
-				delete(link);
-			};
-		};
-	};
-	if (base) delete(base);
+	tHtmlParser html;
+	html.parse(D_FILE.fdesc,answer);
 };
 
 tStringList *tHttpDownload::dir() {
@@ -282,9 +153,7 @@ int tHttpDownload::analize_answer() {
 		};
 		if (begin_string(temp->body,CL)) {
 			sscanf(temp->body+strlen(CL),"%i",&rvalue);
-			char data[MAX_LEN];
-			sprintf(data,_("Size for download is %i bytes"),rvalue);
-			LOG->add(data,LOG_OK);
+			LOG->myprintf(LOG_OK,_("Size for download is %i bytes"),rvalue);
 		};
 		if (begin_string(temp->body,CR)) {
 			if (strstr(temp->body+strlen(CR),"bytes"))
@@ -343,11 +212,12 @@ int tHttpDownload::analize_answer() {
 };
 
 int tHttpDownload::get_size() {
-	char *fullname;
-	if (strlen(D_FILE.name))
-		fullname=compose_path(D_PATH,D_FILE.name);
+	if (FULL_NAME_TEMP) delete (FULL_NAME_TEMP);
+	FULL_NAME_TEMP=NULL;
+	if (D_PATH[strlen(D_PATH)-1]!='/')
+		FULL_NAME_TEMP=sum_strings("/",D_PATH,"/",D_FILE.name,NULL);
 	else
-		fullname=sum_strings(D_PATH,"/");
+		FULL_NAME_TEMP=sum_strings("/",D_PATH,D_FILE.name,NULL);
 	if (!answer) {
 		answer=new tStringList;
 		answer->init(0);
@@ -357,23 +227,20 @@ int tHttpDownload::get_size() {
 		HTTP->set_offset(data);
 		LOG->add(_("Sending http request..."),LOG_OK);
 		if (USER && PASS) HTTP->set_auth(1);
-		int temp=HTTP->get_size(fullname,answer);
+		int temp=HTTP->get_size(FULL_NAME_TEMP,answer);
 		if (temp==0) {
 			LOG->add(_("Answer read ok"),LOG_OK);
 			D_FILE.size=analize_answer();
 			if (ReGet && D_FILE.size>=0)
 				D_FILE.size+=data;
-			delete fullname;
 			return D_FILE.size;
 		};
 		if (temp==1){
-			delete fullname;
 			return -1;
 		};
 		if (HTTP->get_status()!=STATUS_TIMEOUT) break;
 		if (reconnect()) break;
 	};
-	delete fullname;
 	LOG->add(_("Could'nt get normal answer!"),LOG_ERROR);
 	return -2;
 };
@@ -454,11 +321,11 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 	char *question_sign=index(full_path,'?');
 	if (question_sign) *question_sign=0;
 	if (flag){
-		temp=sum_strings(".",D_FILE.name);
+		temp=sum_strings(".",D_FILE.name,NULL);
 		*name=compose_path(full_path,temp);
 		*guess=compose_path(full_path,D_FILE.name);
 	}else{
-		temp=sum_strings(".",CFG.DEFAULT_NAME);
+		temp=sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
 		*guess=compose_path(full_path,CFG.DEFAULT_NAME);
 	};
@@ -468,7 +335,7 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 };
 
 void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
-	char *temp=sum_strings(".",another_name);
+	char *temp=sum_strings(".",another_name,NULL);
 	char *full_path=compose_path(path,D_PATH);
 	char *question_sign=index(full_path,'?');
 	if (question_sign) *question_sign=0;
@@ -512,6 +379,7 @@ void tHttpDownload::done() {
 };
 
 tHttpDownload::~tHttpDownload() {
+	if (FULL_NAME_TEMP) delete(FULL_NAME_TEMP);
 	if (RealName) delete RealName;
 	if (NewRealName) delete NewRealName;
 	if (HTTP) delete HTTP;

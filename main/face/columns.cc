@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -47,36 +47,22 @@ void tColumnsPrefs::init(){
 	gtk_box_pack_start(GTK_BOX(box),gtk_hbox_new(FALSE,0),FALSE,FALSE,0);
 };
 
+static gint compare_nodes(gconstpointer a,gconstpointer b){
+    gint aa=((tDownload *)(a))->GTKCListRow;
+    gint bb=((tDownload *)(b))->GTKCListRow;
+    if (aa>bb) return 1;
+    if (aa==bb) return 0;
+    return -1;
+};
+
+
 void tColumnsPrefs::add_to_sort(tDownload *what){
-	tSortRows *newone=new tSortRows;
-	newone->download=what;
-	if (sort_list){
-		tSortRows *temp=sort_list;
-		while(temp->next && temp->download->GTKCListRow<what->GTKCListRow){
-			temp=(tSortRows *)(temp->next);
-		};
-		if (temp->download->GTKCListRow>what->GTKCListRow){
-			newone->next=temp;
-			newone->prev=temp->prev;
-			temp->prev=newone;
-			if (newone->prev==NULL) sort_list=newone;
-			else newone->prev->next=newone;
-		}else{
-			if ((newone->next=temp->next)) newone->next->prev=newone;
-			newone->prev=newone;
-			temp->next=newone;
-		};
-	}else{
-		sort_list=newone;
-		sort_list->next=sort_list->prev=(tSortRows *)NULL;
-	};
-	while(sort_list && sort_list->download->GTKCListRow==first){
-		list_of_downloads_add(sort_list->download,sort_list->download->GTKCListRow);
+	sort_list=g_list_insert_sorted(sort_list,what,compare_nodes);
+	while(sort_list && ((tDownload *)(sort_list->data))->GTKCListRow==first){
+		tDownload *tmp=(tDownload *)(sort_list->data);
+		list_of_downloads_add(tmp,tmp->GTKCListRow);
+		sort_list=g_list_remove(sort_list,tmp);
 		first+=1;
-		tSortRows *temp=sort_list;
-		sort_list=(tSortRows *)(sort_list->next);
-		if (sort_list) sort_list->prev=(tSortRows *)NULL;
-		delete temp;
 	};
 };
 
@@ -130,13 +116,9 @@ void tColumnsPrefs::apply_changes(){
 		init_columns_info();
 		list_of_downloads_init();
 		first=0;
-		sort_list=(tSortRows *)NULL;
-		add_to_list(RunList);
-		add_to_list(CompleteList);
-		add_to_list(PausedList);
-		add_to_list(WaitStopList);
-		add_to_list(StopList);
-		add_to_list(WaitList);
+		sort_list=NULL;
+		for(int i=DL_ALONE+1;i<DL_TEMP;i++)
+			add_to_list(DOWNLOAD_QUEUES[i]);
 		list_of_downloads_set_height();
 	};
 };

@@ -1,3 +1,152 @@
+Wed Feb 16 08:59:49 2000
+	*face/edit.cc: cosmetic fixes before releasing new version;
+	*ftp.cc: new way to change directory if user not anonymous;
+	*http.cc,httpd.cc[h],hproxy.cc: fixed memory leak and probability
+	of memory leak; cleanups;
+
+Tue Feb 15 12:04:10 2000
+	*face/prefs.cc,face/about.cc: now closing by 'esc';
+	*locstr.cc: changed routine for making tAddr from string
+	for loading ~directory via ftp;
+	*ftp.cc: various cleanups and fixes;
+
+Mon Feb 14 13:49:03 2000
+	*face/about.cc: codecleanups;
+	*po/de.po: is uptodate;
+
+Sun Feb 13 14:14:02 2000
+	*cookies.cc[h]: added time of live for cookies;
+
+Sat Feb 12 09:44:29 2000
+	*face/*.*: code cleanups and minor fixes;
+	*html.cc: added MANY of html tags; restore <base> functionality;
+	*main/*.*: changed copyright date to 1999-2000;
+	*po/de.po: is uptodate!;
+	*main.cc: all messages about control socket now have blue color in
+	main log;
+
+Fri Feb 11 10:39:26 2000
+	*main/[many of files]: code cleanups;
+	*face/lod.cc: fixed displaying file size when change number of
+	columns, code cleanups;
+	*face/buttons.cc,face/lmenu.cc: codecleanups;
+	*socket.cc: remove 'fd_set set' into object;
+
+Thu Feb 10 09:30:18 2000
+	*face/lod.cc: becouse there is a bug in gtk_clist_[un]select_all()
+	so I add some code to avoid segfaulting;
+
+Wed Feb  9 12:46:56 2000
+	*face/list.cc,face/lod.cc[h]: added ability to select all downloads,
+	and invert selection;
+
+Tue Feb  8 12:50:08 2000
+	*http.cc.hproxy.cc: small fix in http requests;
+	*face/edit.cc[h],face/addd.cc: added ability to pause downloading just
+	after adding;
+
+Mon Feb  7 10:08:13 2000
+	*face/list.cc,face/lod.cc[h],face/lmenu.cc: code cleanups, more
+	fast moving in top and to bottom of queue, deleting elements and other;
+	*face/lod.cc: if file size is known it will be visible in queue;
+	*face/list.cc: added ability to unselect all downloads from menu;
+
+Sat Feb  5 09:40:52 2000
+	*face/list.cc: fixed not getting first copying in clipboard if it
+	was empty before; code cleanups;
+	*face/list.cc,face/buttons.cc[h],config.cc,var.cc[h]: added ability
+	to configure buttons bar;
+	*face/dndtrash.cc: code cleanups;
+	*main.cc: amount of 'one time' server commands is limited to avoid
+	lockups;
+
+Fri Feb  4 07:54:41 2000
+	*dlist.cc: fixed javascript: loading when recursing;
+	*mainlog.cc[h]: added myprintf() for more clean code;
+	*main.cc: using MainLog->myprintf();
+	*po/*.*: replace %s to %z in some cases;
+	*log.cc[h]: added myprintf();
+	*ftpd.cc,httpd.cc,ftp.cc: using Log->myprintf();
+	*config.cc: extra info added for '-i' command line parameter;
+
+Thu Feb  3 11:38:41 2000
+	*config.cc[h],main.cc,srvclt.cc[h]: added '-c' and '-m' command
+	line parameters;
+	*var.cc[h],prefs.cc: code cleanups;
+	*face/list.cc[h],face/buttons.cc: added ability to setup speed
+	limitation from menu;
+	*face/dndtrash.cc: added speed options to menu of dnd trash; fixed 
+	memory leak when close/open dnd trash window; code cleanups;
+	*po/*.po: changed dndtrash menu ids;
+
+Wed Feb  2 15:10:02 2000
+	*nt.cc,var.cc[h],main.cc: separate save path for downloads which will
+	be added via socket;
+	*po/: hu.po was added!;
+
+Tue Feb  1 00:23:31 2000
+	*html.cc[h]: added support for ' as well as for " in values of fields;
+	*config.cc[h],main.cc[h],srvclt.cc[h]: added new command line
+	pararmenter for changing save path;
+
+Sat Jan 29 15:06:31 2000
+	*html.cc[h]: html parsing was fully rewritten from scratch;
+	*httpd.cc[h]: removing old html parsing;
+	*download.cc: saving one more field to file of list;
+
+Fri Jan 28 14:50:54 2000
+	*face/lod.cc,face/edit.cc: changing file and url columns after editing;
+
+Thu Jan 27 11:58:01 2000
+	*main/*.*: implement new format of saved lists;
+	*ftpd.cc: fixed "can't change dir" when timeouted;
+
+Wed Jan 26 17:45:53 2000
+	*dlist.cc[h],download.cc[h],savelog.cc: new format for lists of downloads
+	added (only saving yet);
+
+Tue Jan 25 09:42:17 2000
+	*po/: fr.po updated;
+	*httpd.cc: fixed parsing html if comments found;
+	*face/columns.cc: reiniting GtkCList was rewritten;
+
+Mon Jan 24 15:57:08 2000
+	*face/list.cc,face/prefs.cc,config.cc,var.cc[h]: added ability to
+	setup extensions for skiping if such URLs will be founded in clipboard;
+	*main.cc: code cleanups;
+	*config.cc: rewriten config reading and writing;
+
+Sat Jan 22 10:00:18 2000
+	*main.cc: added function tMain::add_downloading(tDownload *) for
+	more abstractive adding downloading;
+	*dlist.cc: deleting all downloads when exit (bug of gcc?);
+
+Fri Jan 21 10:17:12 2000
+	*main/*.*: now all list of downloads is placed in one array;
+	*main.cc: fixed deleting all downloads;
+	*face/log.cc: fixed creating log window;
+	*face/list.cc: added clipboard monitoring!;
+
+Thu Jan 20 11:03:29 2000
+	*main.cc,download.cc,locstr.cc,queue.cc: codecleanups;
+
+Wed Jan 19 07:38:20 2000
+	*face/list.cc: minor fixes;
+	*face/prefs.cc: rearangements for inserting new item;
+	*httpd.cc: fixed memory leak;
+	*http.cc[h],hproxy.cc,ftp.cc: code cleanups;
+	*face/log.cc: closing log window by esc pressed;
+	*face/lod.cc: open log by Enter pressing;
+
+Tue Jan 18 14:51:39 2000
+	*Makefile,main.cc,var.cc[h],cookie.cc[h],http.cc[h],hproxy.cc[h]:
+	    added cookies support which readed from ~/.netscape/cookies;
+	*locstr.cc,config.cc[h]: codecleanups;
+	*face/misc.cc[h],face/list.cc,face/prefs.cc: added first clipboard
+	    monitoring;
+	*face/buttons.cc,face/dndtrash.cc: use font in tooltips from .gtkrc;
+	*po/: updated Japaniese translation;
+
 Mon Jan 17 08:42:32 2000
 	*Makefile: minor cleanups;
 	*httpd.cc: fixed http parsing;

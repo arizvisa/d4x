@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -43,6 +43,13 @@ int tHttpClient::send_request(char *what) {
 	return CtrlSocket.send_string(what,timeout);
 };
 
+int tHttpClient::send_request(char *begin, char *center,char *end){
+	char *tmp=sum_strings(begin,center,end,NULL);
+	int rvalue=send_request(tmp);
+	delete(tmp);
+	return(rvalue);
+};
+
 int tHttpClient::read_data(char *where,int len) {
 	int all=CtrlSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
@@ -70,19 +77,16 @@ int tHttpClient::read_answer(tStringList *list) {
 			return -1;
 		};
 		switch (str2[0]) {
-			case '2':
-				{
+			case '2':{
 					LOG->add(_("All ok, reading file"),LOG_OK);
 					break;
 				};
-			case '3':
-				{
+			case '3':{
 					LOG->add(_("Redirect detected..."),LOG_WARNING);
 					rvalue=1;
 					break;
 				};
-			case '4':
-				{
+			case '4':{
 					if (equal_first("401",str2)) {
 						LOG->add(_("It seems to me that you need a password :)"),LOG_WARNING);
 						if (!Auth) {
@@ -90,59 +94,76 @@ int tHttpClient::read_answer(tStringList *list) {
 						};
 					};
 				};
-			default:
-				{
+			default:{
 					Status=STATUS_BAD_ANSWER;
 					LOG->add(_("Server return bad answer:(("),LOG_ERROR);
 					rvalue = -1;
 				};
 		};
 		list->del(last);
+		delete str1;
+		delete str2;
 		delete last;
 		do{
 			if (read_string(&CtrlSocket,list,MAX_LEN)) return -1;
 			last=list->last();
 			LOG->add(last->body,LOG_FROM_SERVER);
 		}while (!empty_string(last->body));
-		delete str1;
-		delete str2;
 		return rvalue;
 	};
 	return -1;
 };
 
+void tHttpClient::send_cookies(char *host,char *path){
+	tCookie *temp=COOKIES->find(host);
+	int need_send=0;
+	char *request_string=copy_string("Cookie: ");
+	while (temp){
+		if (begin_string(path,temp->get_path())){
+			need_send=1;
+			char *tmp=request_string;
+			request_string=sum_strings(tmp, temp->get_name(),
+						   "=", temp->get_value(),
+						   ";", NULL);
+			delete(tmp);
+		};
+		temp=COOKIES->find((tCookie **)&(temp->less),host);
+	};
+	if (need_send){
+		char *tmp=request_string;
+		request_string=sum_strings(tmp,"\r\n",NULL);
+		send_request(request_string);
+	};
+	delete(request_string);
+};
+
 int tHttpClient::get_size(char *filename,tStringList *list) {
 	char *real_filename=unparse_percents(filename);
-	char *data2=new char[strlen("GET  HTTP/1.0\r\n")+strlen(real_filename)+1];
-	sprintf(data2,"GET %s HTTP/1.0\r\n",real_filename);
-	send_request(data2);
+	send_request("GET ",real_filename," HTTP/1.0\r\n");
 	delete real_filename;
-	delete data2;
-	
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
-	sprintf(data,"Range: bytes=%i-\r\n",Offset);
-	send_request(data);
-	sprintf(data,"Refer: %s\r\n",HOME_PAGE);
-	send_request(data);
+	if (Offset){
+		sprintf(data,"%i",Offset);
+		send_request("Range: bytes=",data,"-\r\n");
+	};
+	send_request("Referer: ",HOME_PAGE,"\r\n");
 	if (user_agent && strlen(user_agent)){
 		if (equal(user_agent,"%version"))
-			sprintf(data,"User-Agent: %s\r\n",VERSION_NAME);
+			send_request("User-Agent: ",VERSION_NAME,"\r\n");
 		else
-			sprintf(data,"User-Agent: %s\r\n",user_agent);
-		send_request(data);
+			send_request("User-Agent: ",user_agent,"\r\n");
 	};
 
-	sprintf(data,"Host: %s\r\n",hostname);
-	send_request(data);
+	send_request("Host: ",hostname,"\r\n");
 	if (Auth && username && userword) {
-		char *tmp=sum_strings(username,":",userword);
+		char *tmp=sum_strings(username,":",userword,NULL);
 		char *pass=string_to_base64(tmp);
 		delete tmp;
-		sprintf(data,"Authorization: Basic %s\r\n",pass);
+		send_request("Authorization: Basic ",pass,"\r\n");
 		delete pass;
-		send_request(data);
 	};
+	send_cookies(hostname,filename);
 	send_request("\r\n");
 	return read_answer(list);
 };

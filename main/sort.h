@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -26,6 +26,7 @@ struct tSortNode:public tAbstractSortNode{
 class tAbstractSortTree{
 	protected:
 	tAbstractSortNode *Top;
+	int NUM;
 	virtual int compare_nodes(tAbstractSortNode *a,tAbstractSortNode *b)=0;
 	void simple_add(tAbstractSortNode **where,tAbstractSortNode *what);
 	public:
@@ -33,6 +34,7 @@ class tAbstractSortTree{
 		void init();
 		void add(tAbstractSortNode *what);
 		void del(tAbstractSortNode *what);
+		int count();
 		int empty();
 		virtual tAbstractSortNode *find(tAbstractSortNode *what);
 		tAbstractSortNode *max();

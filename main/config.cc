@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -28,6 +28,8 @@ void get_size_of_clist();
 
 const char *CFG_FILE=".ntrc/config";
 const char *CFG_DIR=".ntrc";
+int TEMP_COLUMN_SIZES[NOTHING_COL+1];
+int TEMP_COLUMN_POS[NOTHING_COL+1];
 tOption downloader_parsed_args[]={
 	{"--help",		OPT_HELP},
 	{"-h",			OPT_HELP},
@@ -42,8 +44,139 @@ tOption downloader_parsed_args[]={
 	{"-t2",			OPT_TRAFFIC_MIDDLE},
 	{"--traffic-middle",	OPT_TRAFFIC_MIDDLE},
 	{"-t3",			OPT_TRAFFIC_HIGH},
-	{"--traffic-high",	OPT_TRAFFIC_HIGH}
+	{"--traffic-high",	OPT_TRAFFIC_HIGH},
+	{"-d",			OPT_SET_DIRECTORY},
+	{"--directory",		OPT_SET_DIRECTORY},
+	{"-c",			OPT_DEL_COMPLETED},
+	{"--delete-completed",	OPT_DEL_COMPLETED},
+	{"-m",			OPT_SET_MAX_THREADS},
+	{"--max-running",	OPT_SET_MAX_THREADS}
 };
+
+char *downloader_args_errors[]={
+	(char *)NULL,
+	(char *)NULL,
+	(char *)NULL,
+	(char *)NULL,
+	(char *)NULL,
+	(char *)NULL,
+	(char *)NULL,	
+	(char *)NULL,
+	(char *)"You forgot to specify directory.",
+	(char *)NULL,
+	(char *)"You should specify number as second parameter for '-m' option"
+};
+
+
+tConfigVariable config_variables[]={
+	{"max_threads",		CV_TYPE_INT,	&(CFG.MAX_THREADS)},
+	{"max_log",		CV_TYPE_INT,	&(CFG.MAX_LOG_LENGTH)},
+	{"max_main_log",	CV_TYPE_INT,	&(CFG.MAX_MAIN_LOG_LENGTH)},
+	{"max_retries",		CV_TYPE_INT,	&(CFG.MAX_RETRIES)},
+	{"timeout",		CV_TYPE_INT,	&(CFG.TIME_OUT)},
+	{"break_timeout",	CV_TYPE_INT,	&(CFG.RETRY_TIME_OUT)},
+	{"optimize",		CV_TYPE_BOOL,	&(CFG.RECURSIVE_OPTIMIZE)},
+	{"del_completed",	CV_TYPE_BOOL,	&(CFG.DELETE_COMPLETED)},
+	{"del_fataled",		CV_TYPE_BOOL,	&(CFG.DELETE_FATAL)},
+	{"nice_decs",		CV_TYPE_INT,	&(CFG.NICE_DEC_DIGITALS.curent)},
+	{"time_format",		CV_TYPE_INT,	&(CFG.TIME_FORMAT)},
+	{"ftp_passive_mode",	CV_TYPE_BOOL,	&(CFG.FTP_PASSIVE_MODE)},
+	{"retry_if_noreget",	CV_TYPE_BOOL,	&(CFG.RETRY_IF_NOREGET)},
+	{"sleeptime",		CV_TYPE_INT,	&(CFG.RETRY_TIME_OUT)},
+	{"savepath",		CV_TYPE_STRING,	&(CFG.GLOBAL_SAVE_PATH)},
+	{"xposition",		CV_TYPE_INT,	&(CFG.WINDOW_X_POSITION)},
+	{"yposition",		CV_TYPE_INT,	&(CFG.WINDOW_Y_POSITION)},
+	{"windowwidth",		CV_TYPE_INT,	&(CFG.WINDOW_WIDTH)},
+	{"windowheight",	CV_TYPE_INT,	&(CFG.WINDOW_HEIGHT)},
+	{"clist_height",	CV_TYPE_INT,	&(CFG.WINDOW_CLIST_HEIGHT)},
+	{"ftp_proxy_host",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_HOST)},
+	{"ftp_proxy_user",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_USER)},
+	{"ftp_proxy_pass",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_PASS)},
+	{"ftp_proxy_type",	CV_TYPE_INT,	&(CFG.FTP_PROXY_TYPE)},
+	{"http_proxy_host",	CV_TYPE_STRING,	&(CFG.HTTP_PROXY_HOST)},
+	{"http_proxy_user",	CV_TYPE_STRING,	&(CFG.HTTP_PROXY_USER)},
+	{"http_proxy_pass",	CV_TYPE_STRING,	&(CFG.HTTP_PROXY_PASS)},
+	{"ftp_proxy_port",	CV_TYPE_INT,	&(CFG.FTP_PROXY_PORT)},
+	{"http_proxy_port",	CV_TYPE_INT,	&(CFG.HTTP_PROXY_PORT)},
+	{"need_pass_http_proxy",CV_TYPE_BOOL,	&(CFG.NEED_PASS_HTTP_PROXY)},
+	{"need_pass_ftp_proxy",	CV_TYPE_BOOL,	&(CFG.NEED_PASS_FTP_PROXY)},
+	{"use_proxy_for_ftp",	CV_TYPE_BOOL,	&(CFG.USE_PROXY_FOR_FTP)},
+	{"use_proxy_for_http",	CV_TYPE_BOOL,	&(CFG.USE_PROXY_FOR_HTTP)},
+	{"save_main_log",	CV_TYPE_BOOL,	&(CFG.SAVE_MAIN_LOG)},
+	{"append_rewrite_log",	CV_TYPE_INT,	&(CFG.APPEND_REWRITE_LOG)},
+	{"save_log_path",	CV_TYPE_STRING,	&(CFG.SAVE_LOG_PATH)},
+	{"ftp_permisions",	CV_TYPE_INT,	&(CFG.FTP_PERMISIONS)},
+	{"save_list",		CV_TYPE_BOOL,	&(CFG.SAVE_LIST)},
+	{"interval_save_list",	CV_TYPE_INT,	&(CFG.SAVE_LIST_INTERVAL)},
+	{"use_mainwin_title",	CV_TYPE_BOOL,	&(CFG.USE_MAINWIN_TITLE)},
+	{"use_mainwin_titleII",	CV_TYPE_BOOL,	&(CFG.USE_MAINWIN_TITLE2)},
+	{"get_date_from_server",CV_TYPE_BOOL,	&(CFG.GET_DATE)},
+	{"need_dialog_for_dnd",	CV_TYPE_BOOL,	&(CFG.NEED_DIALOG_FOR_DND)},
+	{"dl_status_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[STATUS_COL])},
+	{"dl_file_col",		CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[FILE_COL])},
+	{"dl_file_type_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[FILE_TYPE_COL])},
+	{"dl_full_size_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[FULL_SIZE_COL])},
+	{"dl_downloaded_size_col",CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[DOWNLOADED_SIZE_COL])},
+	{"dl_remain_size_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[REMAIN_SIZE_COL])},
+	{"dl_percent_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[PERCENT_COL])},
+	{"dl_speed_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[SPEED_COL])},
+	{"dl_time_col",		CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[TIME_COL])},
+	{"dl_elapsed_time_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[ELAPSED_TIME_COL])},
+	{"dl_pause_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[PAUSE_COL])},
+	{"dl_treat_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[TREAT_COL])},
+	{"fl_host_col",		CV_TYPE_INT,	&(CFG.FACE_LIMITS_SIZE1)},
+	{"fl_limit_col",	CV_TYPE_INT,	&(CFG.FACE_LIMITS_SIZE2)},
+	{"window_lower",	CV_TYPE_BOOL,	&(CFG.WINDOW_LOWER)},
+	{"confirm_exit",	CV_TYPE_BOOL,	&(CFG.CONFIRM_EXIT)},
+	{"confirm_delete",	CV_TYPE_BOOL,	&(CFG.CONFIRM_DELETE)},
+	{"confirm_delete_all",	CV_TYPE_BOOL,	&(CFG.CONFIRM_DELETE_ALL)},
+	{"confirm_delete_completed",CV_TYPE_BOOL,&(CFG.CONFIRM_DELETE_COMPLETED)},
+	{"confirm_delete_fataled",CV_TYPE_BOOL,	&(CFG.CONFIRM_DELETE_FATALED)},
+	{"speed_limit",		CV_TYPE_INT,	&(CFG.SPEED_LIMIT)},
+	{"speed_limit_one",	CV_TYPE_INT,	&(CFG.SPEED_LIMIT_1)},
+	{"speed_limit_two",	CV_TYPE_INT,	&(CFG.SPEED_LIMIT_2)},
+	{"graph_order",		CV_TYPE_BOOL,	&(CFG.GRAPH_ORDER)},
+	{"ftp_recurse_depth",	CV_TYPE_INT,	&(CFG.FTP_RECURSE_DEPTH)},
+	{"http_recurse_depth",	CV_TYPE_INT,	&(CFG.HTTP_RECURSE_DEPTH)},
+	{"default_name",	CV_TYPE_STRING,	&(CFG.DEFAULT_NAME)},
+	{"scroll_mainwin_title",CV_TYPE_BOOL,	&(CFG.SCROLL_MAINWIN_TITLE)},
+	{"default_permisions",	CV_TYPE_INT,	&(CFG.DEFAULT_PERMISIONS)},
+	{"dl_status_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[STATUS_COL])},
+	{"dl_file_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[FILE_COL])},
+	{"dl_file_type_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[FILE_TYPE_COL])},
+	{"dl_full_size_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[FULL_SIZE_COL])},
+	{"dl_downloaded_size_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[DOWNLOADED_SIZE_COL])},
+	{"dl_remain_size_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[REMAIN_SIZE_COL])},
+	{"dl_percent_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[PERCENT_COL])},
+	{"dl_speed_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[SPEED_COL])},
+	{"dl_time_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[TIME_COL])},
+	{"dl_elapsed_time_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[ELAPSED_TIME_COL])},
+	{"dl_pause_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[PAUSE_COL])},
+	{"dl_treat_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[TREAT_COL])},
+	{"dl_url_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[URL_COL])},
+	{"dl_nothing_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[NOTHING_COL])},
+	{"rollback",		CV_TYPE_INT,	&(CFG.ROLLBACK)},
+	{"dnd_trash",		CV_TYPE_BOOL,	&(CFG.DND_TRASH)},
+	{"dnd_trash_x",		CV_TYPE_INT,	&(CFG.DND_TRASH_X)},
+	{"dnd_trash_y",		CV_TYPE_INT,	&(CFG.DND_TRASH_Y)},
+	{"exit_complete",	CV_TYPE_BOOL,	&(CFG.EXIT_COMPLETE)},
+	{"exit_complete_time",	CV_TYPE_INT,	&(CFG.EXIT_COMPLETE_TIME)},
+	{"main_log_detailed",	CV_TYPE_BOOL,	&(CFG.MAIN_LOG_DETAILED)},
+	{"user_agent",		CV_TYPE_STRING,	&(CFG.USER_AGENT)},
+	{"graph_back",		CV_TYPE_HEX,	&(CFG.GRAPH_BACK)},
+	{"graph_fore1",		CV_TYPE_HEX,	&(CFG.GRAPH_FORE1)},
+	{"graph_fore2",		CV_TYPE_HEX,	&(CFG.GRAPH_FORE2)},
+	{"graph_pick",		CV_TYPE_HEX,	&(CFG.GRAPH_PICK)},
+	{"exec_when_quit",	CV_TYPE_STRING,	&(CFG.EXEC_WHEN_QUIT)},
+	{"remember_pass",	CV_TYPE_BOOL,	&(CFG.REMEMBER_PASS)},
+	{"clipboard_monitor",	CV_TYPE_BOOL,	&(CFG.CLIPBOARD_MONITOR)},
+	{"skip_in_clipboard",	CV_TYPE_STRING,	&(CFG.SKIP_IN_CLIPBOARD)},
+	{"buttons_add",		CV_TYPE_BOOL,	&(CFG.BUTTONS_ADD)},
+	{"buttons_man",		CV_TYPE_BOOL,	&(CFG.BUTTONS_MAN)},
+	{"buttons_speed",	CV_TYPE_BOOL,	&(CFG.BUTTONS_SPEED)},
+	{"buttons_misc",	CV_TYPE_BOOL,	&(CFG.BUTTONS_MISC)}
+};
+
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
 
 void set_column_position(int type,int col){
@@ -52,427 +185,48 @@ void set_column_position(int type,int col){
 		ListColumns[type].enum_index=col;
 	};
 };
-void set_config(char *line) {
-	if(*line!='\n' && *line!='#') {
-		char temp[MAX_LEN];
-		int prom=1;
-		int rvalue=sscanf(line,"%s %i",temp,&prom);
-		if (rvalue<1) return;
-		if (equal(temp,"max_threads")) {
-			if (prom<=50 && prom>0) CFG.MAX_THREADS=prom;
-			return;
-		};
-		if (equal(temp,"max_log")) {
-			if (prom>0 && prom<500) CFG.MAX_LOG_LENGTH=prom;
-			return;
-		};
-		if (equal(temp,"max_main_log")) {
-			if (prom>0 && prom<500) CFG.MAX_MAIN_LOG_LENGTH=prom;
-			return;
-		};
-		if (equal(temp,"max_retries")) {
-			if (prom>=0) CFG.MAX_RETRIES=prom;
-			return;
-		};
-		if (equal(temp,"timeout")) {
-			if (prom<500 && prom>0) CFG.TIME_OUT=prom;
-			return;
-		};
-		if (equal(temp,"break_timeout")) {
-			if (prom<=60 && prom>=0) CFG.RETRY_TIME_OUT=prom;
-			return;
-		};
-		if (equal(temp,"optimize")) {
-			if (prom==1 || prom==0) CFG.RECURSIVE_OPTIMIZE=prom;
-			return;
-		};
-		if (equal(temp,"del_completed")) {
-			if (prom==1 || prom==0) CFG.DELETE_COMPLETED=prom;
-			return;
-		};
-		if (equal(temp,"del_fataled")) {
-			if (prom==1 || prom==0) CFG.DELETE_FATAL=prom;
-			return;
-		};
-		if (equal(temp,"nice_decs")) {
-			CFG.NICE_DEC_DIGITALS.curent=prom;
-			return;
-		};
-		if (equal(temp,"time_format")) {
-			CFG.TIME_FORMAT=prom;
-			return;
-		};
-		if (equal(temp,"ftp_passive_mode")) {
-			CFG.FTP_PASSIVE_MODE=prom;
-			return;
-		};
-		if (equal(temp,"retry_if_noreget")) {
-			if (prom==1 || prom==0) CFG.RETRY_IF_NOREGET=prom;
-			return;
-		};
-		if (equal(temp,"sleeptime")) {
-			if (prom<60 && prom>0) CFG.RETRY_TIME_OUT=prom;
-			return;
-		};
-		if (equal(temp,"savepath")) {
-			CFG.GLOBAL_SAVE_PATH=copy_string(line+strlen("savepath")+1);
-			return;
-		};
-		if (equal(temp,"xposition")) {
-			CFG.WINDOW_X_POSITION=prom;
-			return;
-		};
-		if (equal(temp,"yposition")) {
-			CFG.WINDOW_Y_POSITION=prom;
-			return;
-		};
-		if (equal(temp,"windowwidth")) {
-			CFG.WINDOW_WIDTH=prom;
-			return;
-		};
-		if (equal(temp,"windowheight")) {
-			CFG.WINDOW_HEIGHT=prom;
-			return;
-		};
-		if (equal(temp,"clist_height")) {
-			CFG.WINDOW_CLIST_HEIGHT=prom;
-			return;
-		};
-		if (equal(temp,"ftp_proxy_host")) {
-			CFG.FTP_PROXY_HOST=copy_string(line+strlen("ftp_proxy_host")+1);
-			return;
-		};
-		if (equal(temp,"ftp_proxy_user")) {
-			CFG.FTP_PROXY_USER=copy_string(line+strlen("ftp_proxy_user")+1);
-			return;
-		};
-		if (equal(temp,"ftp_proxy_pass")) {
-			CFG.FTP_PROXY_PASS=copy_string(line+strlen("ftp_proxy_pass")+1);
-			return;
-		};
-		if (equal(temp,"ftp_proxy_type")) {
-			CFG.FTP_PROXY_TYPE=prom;
-			return;
-		};
-		if (equal(temp,"http_proxy_host")) {
-			CFG.HTTP_PROXY_HOST=copy_string(line+strlen("http_proxy_host")+1);
-			return;
-		};
-		if (equal(temp,"http_proxy_user")) {
-			CFG.HTTP_PROXY_USER=copy_string(line+strlen("http_proxy_user")+1);
-			return;
-		};
-		if (equal(temp,"http_proxy_pass")) {
-			CFG.HTTP_PROXY_PASS=copy_string(line+strlen("http_proxy_pass")+1);
-			return;
-		};
-		if (equal(temp,"ftp_proxy_port")) {
-			CFG.FTP_PROXY_PORT=prom;
-			return;
-		};
-		if (equal(temp,"http_proxy_port")) {
-			CFG.HTTP_PROXY_PORT=prom;
-			return;
-		};
-		if (equal(temp,"need_pass_http_proxy")) {
-			CFG.NEED_PASS_HTTP_PROXY=prom;
-			return;
-		};
-		if (equal(temp,"need_pass_ftp_proxy")) {
-			CFG.NEED_PASS_FTP_PROXY=prom;
-			return;
-		};
-		if (equal(temp,"use_proxy_for_ftp")) {
-			CFG.USE_PROXY_FOR_FTP=prom;
-			return;
-		};
-		if (equal(temp,"use_proxy_for_http")) {
-			CFG.USE_PROXY_FOR_HTTP=prom;
-			return;
-		};
-		if (equal(temp,"save_main_log")) {
-			CFG.SAVE_MAIN_LOG=prom;
-			return;
-		};
-		if (equal(temp,"append_rewrite_log")) {
-			CFG.APPEND_REWRITE_LOG=prom;
-			return;
-		};
-		if (equal(temp,"save_log_path")) {
-			CFG.SAVE_LOG_PATH=copy_string(line+strlen("save_log_path")+1);
-			return;
-		};
-		if (equal(temp,"ftp_permisions")) {
-			CFG.FTP_PERMISIONS=prom;
-			return;
-		};
-		if (equal(temp,"save_list")) {
-			CFG.SAVE_LIST=prom;
-			return;
-		};
-		if (equal(temp,"interval_save_list")) {
-			if (prom>0 && prom<1000)
-				CFG.SAVE_LIST_INTERVAL=prom;
-			return;
-		};
-		if (equal(temp,"use_mainwin_title")) {
-			CFG.USE_MAINWIN_TITLE=prom;
-			return;
-		};
-		if (equal(temp,"use_mainwin_titleII")) {
-			CFG.USE_MAINWIN_TITLE2=prom;
-			return;
-		};
-		if (equal(temp,"get_date_from_server")) {
-			CFG.GET_DATE=prom;
-			return;
-		};
-		if (equal(temp,"need_dialog_for_dnd")) {
-			CFG.NEED_DIALOG_FOR_DND=prom;
-			return;
-		};
-		/*
-		 *	Parsing sizes of columns :
-		 */
-		if (equal(temp,"dl_status_col")) {
-			ListColumns[ListColumns[STATUS_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_file_col")) {
-			ListColumns[ListColumns[FILE_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_file_type_col")) {
-			ListColumns[ListColumns[FILE_TYPE_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_full_size_col")) {
-			ListColumns[ListColumns[FULL_SIZE_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_downloaded_size_col")) {
-			ListColumns[ListColumns[DOWNLOADED_SIZE_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_remain_size_col")) {
-			ListColumns[ListColumns[REMAIN_SIZE_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_percent_col")) {
-			ListColumns[ListColumns[PERCENT_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_speed_col")) {
-			ListColumns[ListColumns[SPEED_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_time_col")) {
-			ListColumns[ListColumns[TIME_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_elapsed_time_col")) {
-			ListColumns[ListColumns[ELAPSED_TIME_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_pause_col")) {
-			ListColumns[ListColumns[PAUSE_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"dl_treat_col")) {
-			ListColumns[ListColumns[TREAT_COL].enum_index].size=prom;
-			return;
-		};
-		if (equal(temp,"fl_host_col")) {
-			CFG.FACE_LIMITS_SIZE1=prom;
-			return;
-		};
-		if (equal(temp,"fl_limit_col")) {
-			CFG.FACE_LIMITS_SIZE2=prom;
-			return;
-		};
-		if (equal(temp,"window_lower")) {
-			CFG.WINDOW_LOWER=prom;
-			return;
-		};
-		if (equal(temp,"confirm_exit")) {
-			CFG.CONFIRM_EXIT=prom;
-			return;
-		};
-		if (equal(temp,"confirm_delete")) {
-			CFG.CONFIRM_DELETE=prom;
-			return;
-		};
-		if (equal(temp,"confirm_delete_all")) {
-			CFG.CONFIRM_DELETE_ALL=prom;
-			return;
-		};
-		if (equal(temp,"confirm_delete_completed")) {
-			CFG.CONFIRM_DELETE_COMPLETED=prom;
-			return;
-		};
-		if (equal(temp,"confirm_delete_fataled")) {
-			CFG.CONFIRM_DELETE_FATALED=prom;
-			return;
-		};
-		if (equal(temp,"speed_limit")) {
-			CFG.SPEED_LIMIT=prom;
-			return;
-		};
-		if (equal(temp,"speed_limit_one")) {
-			CFG.SPEED_LIMIT_1=prom;
-			return;
-		};
-		if (equal(temp,"speed_limit_two")) {
-			CFG.SPEED_LIMIT_2=prom;
-			return;
-		};
-		if (equal(temp,"graph_order")) {
-			CFG.GRAPH_ORDER=prom;
-			return;
-		};
-		if (equal(temp,"ftp_recurse_depth")) {
-			CFG.FTP_RECURSE_DEPTH=prom;
-			return;
-		};
-		if (equal(temp,"http_recurse_depth")) {
-			CFG.HTTP_RECURSE_DEPTH=prom;
-			return;
-		};
-		if (equal(temp,"default_name")) {
-			CFG.DEFAULT_NAME=copy_string(line+strlen("default_name")+1);
-			return;
-		};
-		if (equal(temp,"scroll_mainwin_title")) {
-			CFG.SCROLL_MAINWIN_TITLE=prom;
-			return;
-		};
-		if (equal(temp,"default_permisions")) {
-			CFG.DEFAULT_PERMISIONS=prom;
-			return;
-		};
-		if (equal(temp,"dl_status_col_pos")) {
-			set_column_position(STATUS_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_file_col_pos")) {
-			set_column_position(FILE_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_file_type_col_pos")) {
-			set_column_position(FILE_TYPE_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_full_size_col_pos")) {
-			set_column_position(FULL_SIZE_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_downloaded_size_col_pos")) {
-			set_column_position(DOWNLOADED_SIZE_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_remain_size_col_pos")) {
-			set_column_position(REMAIN_SIZE_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_percent_col_pos")) {
-			set_column_position(PERCENT_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_speed_col_pos")) {
-			set_column_position(SPEED_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_time_col_pos")) {
-			set_column_position(TIME_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_elapsed_time_col_pos")) {
-			set_column_position(ELAPSED_TIME_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_pause_col_pos")) {
-			set_column_position(PAUSE_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_treat_col_pos")) {
-			set_column_position(TREAT_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_url_col_pos")) {
-			set_column_position(URL_COL,prom);
-			return;
-		};
-		if (equal(temp,"dl_nothing_col_pos")) {
-			set_column_position(NOTHING_COL,prom);
-			return;
-		};
-		if (equal(temp,"rollback")) {
-			if (prom>0) CFG.ROLLBACK=prom;
-			return;
-		};
-		if (equal(temp,"dnd_trash")) {
-			CFG.DND_TRASH=prom;
-			return;
-		};
-		if (equal(temp,"dnd_trash_x")) {
-			CFG.DND_TRASH_X=prom;
-			return;
-		};
-		if (equal(temp,"dnd_trash_y")) {
-			CFG.DND_TRASH_Y=prom;
-			return;
-		};
-		if (equal(temp,"exit_complete")) {
-			CFG.EXIT_COMPLETE=prom;
-			return;
-		};
-		if (equal(temp,"exit_complete_time")) {
-			CFG.EXIT_COMPLETE_TIME=prom;
-			return;
-		};
-		if (equal(temp,"main_log_detailed")) {
-			CFG.MAIN_LOG_DETAILED=prom;
-			return;
-		};
-		if (equal(temp,"user_agent")) {
-			CFG.USER_AGENT=copy_string(line+strlen("user_agent")+1);
-			return;
-		};
-		if (equal(temp,"graph_back")) {
-			sscanf(line+strlen("graph_back")+1,"%x",&prom);
-			CFG.GRAPH_BACK=prom;
-			return;
-		};
-		if (equal(temp,"graph_fore1")) {
-			sscanf(line+strlen("graph_back1")+1,"%x",&prom);
-			CFG.GRAPH_FORE1=prom;
-			return;
-		};
-		if (equal(temp,"graph_fore2")) {
-			sscanf(line+strlen("graph_back1")+1,"%x",&prom);
-			CFG.GRAPH_FORE2=prom;
-			return;
-		};
-		if (equal(temp,"graph_pick")) {
-			sscanf(line+strlen("graph_pick")+1,"%x",&prom);
-			CFG.GRAPH_PICK=prom;
-			return;
-		};
-		if (equal(temp,"exec_when_quit")) {
-			CFG.EXEC_WHEN_QUIT=copy_string(line+strlen("exec_when_quit")+1);
-			return;
-		};
-		if (equal(temp,"remember_pass")) {
-			CFG.REMEMBER_PASS=prom;
-			return;
+
+void set_config(char *line){
+	if(*line=='\n' || *line=='#') return;
+	char *temp=new char[strlen(line)+1];
+	char *next_word=extract_string(line,temp);
+	int cv_list_len=sizeof(config_variables)/sizeof(struct tConfigVariable);
+	for (int i=0;i<cv_list_len;i++){
+		if (equal(config_variables[i].name,temp)){
+			switch(config_variables[i].type){
+			case CV_TYPE_INT:{
+				extract_string(next_word,temp);
+				sscanf(temp,"%i",(int *)(config_variables[i].pointer));
+				break;
+			};
+			case CV_TYPE_BOOL:{
+				extract_string(next_word,temp);
+				int tmp;
+				if (sscanf(temp,"%i",&tmp)==1)
+					*((int *)(config_variables[i].pointer))=tmp?1:0;
+				break;
+			};
+			case CV_TYPE_HEX:{
+				extract_string(next_word,temp);
+				sscanf(temp,"%x",(int *)(config_variables[i].pointer));
+				break;
+			};
+			case CV_TYPE_STRING:{
+				char **tmp=(char **)(config_variables[i].pointer);
+				*tmp=copy_string(skip_spaces(next_word));
+				break;
+			};
+			};
+			break;
 		};
 	};
+	delete(temp);
 };
 
-static int read_string(int fd,char *where,int max) {
+int read_string(int fd,char *where,int max) {
 	char *cur=where;
 	int i=max;
-	while(read(fd,cur,1) && i) {
+	while(read(fd,cur,1)>0 && i>0) {
 		i-=1;
 		if (*cur=='\n') break;
 		cur+=1;
@@ -486,12 +240,21 @@ void read_config() {
 	char *cfgpath=compose_path(HOME_VARIABLE,CFG_FILE);
 	int fd=open(cfgpath,O_RDONLY);
 	if (fd>=0) {
+		for(int i=0;i<=NOTHING_COL;i++){
+			TEMP_COLUMN_POS[i]=i;
+			TEMP_COLUMN_SIZES[i]=ListColumns[ListColumns[i].enum_index].size;
+		};
 		char temp[MAX_LEN];
 		init_columns_info();
 		while(read_string(fd,temp,MAX_LEN)) {
 			set_config(temp);
 		};
 		close(fd);
+		for(int i=0;i<=NOTHING_COL;i++){
+			set_column_position(i,TEMP_COLUMN_POS[i]);
+		}
+		for(int i=0;i<NOTHING_COL;i++)
+			ListColumns[ListColumns[i].enum_index].size=TEMP_COLUMN_SIZES[i];
 	} else {
 		save_config();
 		printf(_("Can't open cfg file at '%s'\n"),cfgpath);
@@ -507,6 +270,7 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[FILE_HISTORY],".ntrc/history7",0);
 	load_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8",0);
 	load_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9",0);
+	load_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11",0);
 	if (CFG.REMEMBER_PASS) 
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");	
@@ -545,113 +309,40 @@ void save_config() {
 	};
 	char data[MAX_LEN];
 	if (fd>=0) {
-		save_integer_to_config(fd,"max_threads",CFG.MAX_THREADS);
-		save_integer_to_config(fd,"max_log",CFG.MAX_LOG_LENGTH);
-		save_integer_to_config(fd,"max_main_log",CFG.MAX_MAIN_LOG_LENGTH);
-		save_integer_to_config(fd,"max_retries",CFG.MAX_RETRIES);
-		save_integer_to_config(fd,"timeout",CFG.TIME_OUT);
-		save_integer_to_config(fd,"break_timeout",CFG.RETRY_TIME_OUT);
-		save_integer_to_config(fd,"sleeptime",CFG.RETRY_TIME_OUT);
-		save_integer_to_config(fd,"optimize",CFG.RECURSIVE_OPTIMIZE);
-		save_integer_to_config(fd,"retry_if_noreget",CFG.RETRY_IF_NOREGET);
-		save_integer_to_config(fd,"del_completed",CFG.DELETE_COMPLETED);
-		save_integer_to_config(fd,"del_fataled",CFG.DELETE_FATAL);
-		save_integer_to_config(fd,"nice_decs",CFG.NICE_DEC_DIGITALS.curent);
-		save_integer_to_config(fd,"time_format",CFG.TIME_FORMAT);
-		save_integer_to_config(fd,"ftp_passive_mode",CFG.FTP_PASSIVE_MODE);
-		save_string_to_config(fd,"savepath",CFG.GLOBAL_SAVE_PATH);
-		save_integer_to_config(fd,"xposition",CFG.WINDOW_X_POSITION);
-		save_integer_to_config(fd,"yposition",CFG.WINDOW_Y_POSITION);
-		save_integer_to_config(fd,"windowwidth",CFG.WINDOW_WIDTH);
-		save_integer_to_config(fd,"windowheight",CFG.WINDOW_HEIGHT);
 		list_of_downloads_get_height();
-		save_integer_to_config(fd,"clist_height",CFG.WINDOW_CLIST_HEIGHT);
-		save_string_to_config(fd,"ftp_proxy_host",CFG.FTP_PROXY_HOST);
-		save_string_to_config(fd,"ftp_proxy_user",CFG.FTP_PROXY_USER);
-		save_string_to_config(fd,"ftp_proxy_pass",CFG.FTP_PROXY_PASS);
-		save_string_to_config(fd,"http_proxy_host",CFG.HTTP_PROXY_HOST);
-		save_string_to_config(fd,"http_proxy_user",CFG.HTTP_PROXY_USER);
-		save_string_to_config(fd,"http_proxy_pass",CFG.HTTP_PROXY_PASS);
-		save_integer_to_config(fd,"ftp_proxy_port",CFG.FTP_PROXY_PORT);
-		save_integer_to_config(fd,"ftp_proxy_type",CFG.FTP_PROXY_TYPE);
-		save_integer_to_config(fd,"http_proxy_port",CFG.HTTP_PROXY_PORT);
-		save_integer_to_config(fd,"need_pass_ftp_proxy",CFG.NEED_PASS_FTP_PROXY);
-		save_integer_to_config(fd,"need_pass_http_proxy",CFG.NEED_PASS_HTTP_PROXY);
-		save_integer_to_config(fd,"use_proxy_for_ftp",CFG.USE_PROXY_FOR_FTP);
-		save_integer_to_config(fd,"use_proxy_for_http",CFG.USE_PROXY_FOR_HTTP);
-		save_integer_to_config(fd,"save_main_log",CFG.SAVE_MAIN_LOG);
-		save_integer_to_config(fd,"append_rewrite_log",CFG.APPEND_REWRITE_LOG);
-		save_string_to_config(fd,"save_log_path",CFG.SAVE_LOG_PATH);
-		save_integer_to_config(fd,"ftp_permisions",CFG.FTP_PERMISIONS);
-		save_integer_to_config(fd,"save_list",CFG.SAVE_LIST);
-		save_integer_to_config(fd,"interval_save_list",CFG.SAVE_LIST_INTERVAL);
-		save_integer_to_config(fd,"use_mainwin_title",CFG.USE_MAINWIN_TITLE);
-		save_integer_to_config(fd,"use_mainwin_titleII",CFG.USE_MAINWIN_TITLE2);
-		save_integer_to_config(fd,"get_date_from_server",CFG.GET_DATE);
-		save_integer_to_config(fd,"need_dialog_for_dnd",CFG.NEED_DIALOG_FOR_DND);
-		/* saving list columns
-		 */
-		save_integer_to_config(fd,"dl_status_col_pos",ListColumns[STATUS_COL].enum_index);
-		save_integer_to_config(fd,"dl_file_col_pos",ListColumns[FILE_COL].enum_index);
-		save_integer_to_config(fd,"dl_file_type_col_pos",ListColumns[FILE_TYPE_COL].enum_index);
-		save_integer_to_config(fd,"dl_full_size_col_pos",ListColumns[FULL_SIZE_COL].enum_index);
-		save_integer_to_config(fd,"dl_downloaded_size_col_pos",ListColumns[DOWNLOADED_SIZE_COL].enum_index);
-		save_integer_to_config(fd,"dl_remain_size_col_pos",ListColumns[REMAIN_SIZE_COL].enum_index);
-		save_integer_to_config(fd,"dl_percent_col_pos",ListColumns[PERCENT_COL].enum_index);
-		save_integer_to_config(fd,"dl_speed_col_pos",ListColumns[SPEED_COL].enum_index);
-		save_integer_to_config(fd,"dl_time_col_pos",ListColumns[TIME_COL].enum_index);
-		save_integer_to_config(fd,"dl_elapsed_time_col_pos",ListColumns[ELAPSED_TIME_COL].enum_index);
-		save_integer_to_config(fd,"dl_pause_col_pos",ListColumns[PAUSE_COL].enum_index);
-		save_integer_to_config(fd,"dl_treat_col_pos",ListColumns[TREAT_COL].enum_index);
-		save_integer_to_config(fd,"dl_url_col_pos",ListColumns[URL_COL].enum_index);
-		save_integer_to_config(fd,"dl_nothing_col_pos",ListColumns[NOTHING_COL].enum_index);
 		list_of_downloads_get_sizes();
-		save_integer_to_config(fd,"dl_status_col",ListColumns[ListColumns[STATUS_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_file_col",ListColumns[ListColumns[FILE_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_file_type_col",ListColumns[ListColumns[FILE_TYPE_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_full_size_col",ListColumns[ListColumns[FULL_SIZE_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_downloaded_size_col",ListColumns[ListColumns[DOWNLOADED_SIZE_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_remain_size_col",ListColumns[ListColumns[REMAIN_SIZE_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_percent_col",ListColumns[ListColumns[PERCENT_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_speed_col",ListColumns[ListColumns[SPEED_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_time_col",ListColumns[ListColumns[TIME_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_elapsed_time_col",ListColumns[ListColumns[ELAPSED_TIME_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_pause_col",ListColumns[ListColumns[PAUSE_COL].enum_index].size);
-		save_integer_to_config(fd,"dl_treat_col",ListColumns[ListColumns[TREAT_COL].enum_index].size);
 		if (FaceForLimits) {
 			FaceForLimits->get_sizes();
 		};
-		save_integer_to_config(fd,"fl_host_col", CFG.FACE_LIMITS_SIZE1);
-		save_integer_to_config(fd,"fl_limit_col",CFG.FACE_LIMITS_SIZE2);
-		save_integer_to_config(fd,"window_lower",CFG.WINDOW_LOWER);
-		save_integer_to_config(fd,"confirm_delete",CFG.CONFIRM_DELETE);
-		save_integer_to_config(fd,"confirm_delete_all",CFG.CONFIRM_DELETE_ALL);
-		save_integer_to_config(fd,"confirm_delete_completed",CFG.CONFIRM_DELETE_COMPLETED);
-		save_integer_to_config(fd,"confirm_delete_fataled",CFG.CONFIRM_DELETE_FATALED);
-		save_integer_to_config(fd,"confirm_exit",CFG.CONFIRM_EXIT);
-		save_integer_to_config(fd,"speed_limit",CFG.SPEED_LIMIT);
-		save_integer_to_config(fd,"speed_limit_one",CFG.SPEED_LIMIT_1);
-		save_integer_to_config(fd,"speed_limit_two",CFG.SPEED_LIMIT_2);
-		save_integer_to_config(fd,"graph_order",CFG.GRAPH_ORDER);
-		save_integer_to_config(fd,"ftp_recurse_depth",CFG.FTP_RECURSE_DEPTH);
-		save_integer_to_config(fd,"http_recurse_depth",CFG.HTTP_RECURSE_DEPTH);
-		save_string_to_config(fd,"default_name",CFG.DEFAULT_NAME);
-		save_integer_to_config(fd,"scroll_mainwin_title",CFG.SCROLL_MAINWIN_TITLE);
-		save_integer_to_config(fd,"default_permisions",CFG.DEFAULT_PERMISIONS);
-		save_integer_to_config(fd,"rollback",CFG.ROLLBACK);
-		save_integer_to_config(fd,"dnd_trash",CFG.DND_TRASH);
-		save_integer_to_config(fd,"dnd_trash_x",CFG.DND_TRASH_X);
-		save_integer_to_config(fd,"dnd_trash_y",CFG.DND_TRASH_Y);
-		save_integer_to_config(fd,"exit_complete",CFG.EXIT_COMPLETE);
-		save_integer_to_config(fd,"exit_complete_time",CFG.EXIT_COMPLETE_TIME);
-		save_integer_to_config(fd,"main_log_detailed",CFG.MAIN_LOG_DETAILED);
-		save_string_to_config(fd,"user_agent",CFG.USER_AGENT);
-		save_hex_integer_to_config(fd,"graph_back",CFG.GRAPH_BACK);
-		save_hex_integer_to_config(fd,"graph_fore1",CFG.GRAPH_FORE1);
-		save_hex_integer_to_config(fd,"graph_fore2",CFG.GRAPH_FORE2);
-		save_hex_integer_to_config(fd,"graph_pick",CFG.GRAPH_PICK);
-		save_string_to_config(fd,"exec_when_quit",CFG.EXEC_WHEN_QUIT);
-		save_integer_to_config(fd,"remember_pass",CFG.REMEMBER_PASS);
+		for(int i=0;i<=NOTHING_COL;i++){
+			TEMP_COLUMN_POS[i]=ListColumns[i].enum_index;
+			TEMP_COLUMN_SIZES[i]=ListColumns[ListColumns[i].enum_index].size;
+		};
+		int cv_list_len=sizeof(config_variables)/sizeof(struct tConfigVariable);
+		for (int i=0;i<cv_list_len;i++){
+			switch(config_variables[i].type){
+			case CV_TYPE_INT:{
+				int *cv_tmp=(int *)(config_variables[i].pointer);
+				save_integer_to_config(fd,config_variables[i].name,*cv_tmp);
+				break;
+			};
+			case CV_TYPE_BOOL:{
+				int *cv_tmp=(int *)(config_variables[i].pointer);
+				save_integer_to_config(fd,config_variables[i].name,*cv_tmp);
+				break;
+			};
+			case CV_TYPE_HEX:{
+				int *cv_tmp=(int *)(config_variables[i].pointer);
+				save_hex_integer_to_config(fd,config_variables[i].name,*cv_tmp);
+				break;
+			};
+			case CV_TYPE_STRING:{
+				char **cv_tmp=(char **)(config_variables[i].pointer);
+				save_string_to_config(fd,config_variables[i].name,*cv_tmp);
+				break;
+			};
+			};
+		};
 		close(fd);
 	} else {
 		if (MainLog) {
@@ -670,6 +361,7 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[USER_AGENT_HISTORY],".ntrc/history8");
 	save_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9");
 	save_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10");
+	save_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11");
 	delete cfgpath;
 };
 
@@ -775,10 +467,10 @@ int downloader_args_type(char *str){
 	return OPT_UNKNOWN;
 };
 
-int parse_command_line_preload(int argv,char **argc){
+int parse_command_line_preload(int argc,char **argv){
 	int rvalue=0;
-	for (int i=1;i<argv;i++){
-		int option=downloader_args_type(argc[i]);
+	for (int i=1;i<argc;i++){
+		int option=downloader_args_type(argv[i]);
 		switch(option){
 		case OPT_VERSION:{
 			puts(VERSION_NAME);
@@ -791,8 +483,10 @@ int parse_command_line_preload(int argv,char **argc){
 			break;
 		};
 		case OPT_UNKNOWN:{
-			printf(_("unknown option:"));
-			printf(" %s\n",argc[i]);
+			if (argv[i] && *argv[i]=='-') {
+				printf(_("unknown option:"));
+				printf(" %s\n",argv[i]);
+			}
 			break;
 		};
 		};
@@ -828,6 +522,8 @@ int parse_command_line_already_run(int argv,char **argc){
 					total+=clt->get_answer_int();
 					printf("-------------------------------\n");
 					printf(_("Total: %d\n"),total);
+					clt->send_command(PACKET_ASK_READED_BYTES,NULL,0);
+					printf(_("Total bytes loaded: %d\n"),clt->get_answer_int());
 					clt->send_command(PACKET_ASK_SPEED,NULL,0);
 					printf(_("Curent speed: %d\n"),clt->get_answer_int());
 					break;
@@ -853,6 +549,29 @@ int parse_command_line_already_run(int argv,char **argc){
 					rvalue=0;
 					break;
 				};
+				case OPT_SET_DIRECTORY:{
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						clt->send_command(PACKET_SET_SAVE_PATH,argc[i],strlen(argc[i]));
+					}else
+						printf("%s\n",_(downloader_args_errors[OPT_SET_DIRECTORY]));
+					break;
+				};
+				case OPT_DEL_COMPLETED:{
+					clt->send_command(PACKET_DEL_COMPLETED,NULL,0);
+					rvalue=0;
+					break;
+				};
+				case OPT_SET_MAX_THREADS:{
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						clt->send_command(PACKET_SET_MAX_THREADS,argc[i],strlen(argc[i]));
+					}else
+						printf("%s\n",_(downloader_args_errors[OPT_SET_MAX_THREADS]));
+					break;
+				};
 				};
 			};
 		};		
@@ -862,7 +581,10 @@ int parse_command_line_already_run(int argv,char **argc){
 };
 
 void parse_command_line_postload(int argv,char **argc){
-	for (int i=1;i<argv;i++){		
+	for (int i=1;i<argv;i++){
+		if (*(argc[i])!='-'){
+			aa.add_downloading(argc[i],NULL,NULL);
+		};
 		int option=downloader_args_type(argc[i]);
 		switch (option){
 		case OPT_TRAFFIC_LOW:{
@@ -875,6 +597,21 @@ void parse_command_line_postload(int argv,char **argc){
 		};
 		case OPT_TRAFFIC_HIGH:{
 			CFG.SPEED_LIMIT=3;
+			break;
+		};
+		case OPT_SET_MAX_THREADS:{
+			if (argv>i+1 && sscanf(argc[i+1],"%d",&CFG.MAX_THREADS)<1)
+				printf("%s\n",_(downloader_args_errors[OPT_SET_MAX_THREADS]));
+			i+=1;
+			break;
+		};
+		case OPT_SET_DIRECTORY:{
+			if (argv>i+1){
+				if (CFG.GLOBAL_SAVE_PATH) delete(CFG.GLOBAL_SAVE_PATH);
+				i+=1;
+				CFG.GLOBAL_SAVE_PATH=copy_string(argc[i]);
+			}else
+				printf("%s\n",_(downloader_args_errors[OPT_SET_DIRECTORY]));
 			break;
 		};
 		};
@@ -903,4 +640,8 @@ void help_print(){
 	help_print_args(OPT_TRAFFIC_LOW);printf(_("set lower speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_MIDDLE);printf(_("set middle speed limitation"));printf("\n");
 	help_print_args(OPT_TRAFFIC_HIGH);printf(_("set unlimited speed"));printf("\n");
+	help_print_args(OPT_SET_DIRECTORY);printf(_("set directory for saving files"));printf("\n");
+	help_print_args(OPT_DEL_COMPLETED);printf(_("delete completed if already run"));printf("\n");
+	help_print_args(OPT_SET_MAX_THREADS);printf(_("set maximum active downloads"));printf("\n");
+	printf("\n");
 };

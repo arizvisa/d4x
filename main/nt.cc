@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -25,7 +25,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.1";
+char *VERSION_NAME="WebDownloader for X 1.12";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -41,6 +41,9 @@ static void init_string_variables(){
 			CFG.GLOBAL_SAVE_PATH=copy_string("/");
 		};
 	};
+	if (CFG.SKIP_IN_CLIPBOARD==NULL)
+		CFG.SKIP_IN_CLIPBOARD=copy_string("html htm php3 gif jpg");
+	CFG.LOCAL_SAVE_PATH=copy_string(CFG.GLOBAL_SAVE_PATH);
 };
 
 int main(int argc,char **argv) {
@@ -52,7 +55,9 @@ int main(int argc,char **argv) {
 	HOME_VARIABLE=copy_string(getenv("HOME"));
 	if (!HOME_VARIABLE)
 		puts(_("WARNING!!! Can't find HOME variable! So can't read config!"));
-	LOCK_FILE=sum_strings(g_get_tmp_dir(),"/downloader_for_x_lock_", g_get_user_name());
+	LOCK_FILE=sum_strings(g_get_tmp_dir(),
+			      "/downloader_for_x_lock_",
+			      g_get_user_name(),NULL);
 /* init histories
  */
 	for (int i=0;i<LAST_HISTORY;i++)

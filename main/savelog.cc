@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -25,71 +25,28 @@
 #include "ntlocale.h"
 #include "main.h"
 
+extern tMain aa;
+
 tDownload *get_download_from_clist(int row);
 
 const char *LIST_FILE="list";
+const char *NEW_LIST_FILE="Default.dl";
 
-void write_one_node(int fd,tDownload *what) {
-/* save url
- */
-	tDownload *temp=what;
-	write(fd,temp->info->protocol,strlen(temp->info->protocol));
-	write(fd,"://",strlen("://"));
-	if (temp->info->username && !equal(temp->info->username,"anonymous")) {
-		write(fd,temp->info->username,strlen(temp->info->username));
-		write(fd,":",strlen(":"));
-		write(fd,temp->info->pass,strlen(temp->info->pass));
-		write(fd,"@",strlen("@"));
-	};
-	write(fd,temp->info->host,strlen(temp->info->host));
-	char data[MAX_LEN];
-	sprintf(data,":%i",temp->info->port);
-	write(fd,data,strlen(data));
-	write(fd,temp->info->path,strlen(temp->info->path));
-	if (temp->info->path[strlen(temp->info->path)-1]!='/')
-		write(fd,"/",1);
-	write(fd,temp->info->file,strlen(temp->info->file));
-	char zero=0;
-	write(fd,&zero,sizeof(zero));
-	sprintf(data,"%i",int(temp->ScheduleTime));
-	write(fd,data,strlen(data));
-	write(fd,"\n",strlen("\n"));
-/* save SavePath
- */
-	write(fd,temp->get_SavePath(),strlen(temp->get_SavePath()));
-	write(fd,&zero,sizeof(zero));
-	sprintf(data,"%i",what->config.get_flags());
-	write(fd,data,strlen(data));
-	write(fd,"\n",strlen("\n"));
-/* save SaveName
- */
-	if (temp->get_SaveName()) write(fd,temp->get_SaveName(),strlen(temp->get_SaveName()));
-	write(fd,&zero,sizeof(zero));
-	sprintf(data,"0");
-	if (CompleteList->owner(what))
-		sprintf(data,"1");
-	if (PausedList->owner(what) || WaitStopList->owner(what))
-		sprintf(data,"2");
-	if (StopList->owner(what))
-		sprintf(data,"3");
-	if (RunList->owner(what))
-		sprintf(data,"4");
-	write(fd,data,strlen(data));
-	write(fd,"\n",strlen("\n"));
+void remove_old_file(){
+	char *path=new char[strlen(LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
+	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,LIST_FILE);
+	remove(path);
+	delete(path);
 };
 
 void save_list() {
+	remove_old_file();
 	if (!HOME_VARIABLE) {
 		MainLog->add(_("Can't save default list of downloads!!! Becouse can't find HOME variable"),LOG_ERROR);
 		return;
 	};
-	char *path=new char[strlen(LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
-	*path=0;
-	strcat(path,HOME_VARIABLE);
-	strcat(path,"/");
-	strcat(path,CFG_DIR);
-	strcat(path,"/");
-	strcat(path,LIST_FILE);
+	char *path=new char[strlen(NEW_LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
+	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,NEW_LIST_FILE);
 	if (save_list_to_file(path)) {
 		MainLog->add(_("Can't save default list of downloads!!!"),LOG_ERROR);
 	};
@@ -102,30 +59,30 @@ int save_list_to_file(char *path) {
 	if (fd<0) return -1;
 	int i=0;
 	tDownload *temp=get_download_from_clist(i);
-	// *** Calculate amount of elements ***
 	while (temp) {
 		i++;
+		temp->save_to_config(fd);
 		temp=get_download_from_clist(i);
-	};
-	// *** Saving them in reverse order  ***
-	for (int a=i-1;a>=0;a--) {
-		temp=get_download_from_clist(a);
-		write_one_node(fd,temp);
 	};
 	close(fd);
 	return 0;
 };
 
+
 void read_list(tStringList *where) {
 	if (!HOME_VARIABLE) return;
 	char *path=new char[strlen(LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
-	*path=0;
-	strcat(path,HOME_VARIABLE);
-	strcat(path,"/");
-	strcat(path,CFG_DIR);
-	strcat(path,"/");
-	strcat(path,LIST_FILE);
-	if (read_list_from_file(path,where)) {
+	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,LIST_FILE);
+	read_list_from_file_old(path,where) ;
+	delete(path);
+};
+
+
+void read_list() {
+	if (!HOME_VARIABLE) return;
+	char *path=new char[strlen(NEW_LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
+	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,NEW_LIST_FILE);
+	if (read_list_from_file(path)) {
 		char *error_msg=_("Can't load default list of downloads!!!");
 		if (MainLog)
 			MainLog->add(error_msg,LOG_ERROR);
@@ -135,9 +92,29 @@ void read_list(tStringList *where) {
 	delete(path);
 };
 
-int read_list_from_file(char *path,tStringList *where) {
+int read_list_from_file(char *path) {
+	char buf[MAX_LEN];
 	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
-	if (fd>0) {
+	if (fd>=0) {
+		while(read_string(fd,buf,MAX_LEN)>0){
+			if (equal(buf,"Download:")){
+				tDownload *temp=new tDownload;
+				if (temp->load_from_config(fd)<0){
+					delete(temp);
+					break;
+				}else
+					aa.add_downloading_to(temp);
+			};
+		};
+		close(fd);
+	}else
+		return -1;
+	return 0;
+};
+
+int read_list_from_file_old(char *path,tStringList *where) {
+	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
+	if (fd>=0) {
 		char temp[MAX_LEN];
 		char *cur=temp;
 		while(read(fd,cur,1)>0) {

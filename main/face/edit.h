@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -38,6 +38,7 @@ class tDEdit{
 	GtkWidget *dir_browser,*dir_browser2;
 	GtkWidget *button;
 	GtkWidget *time_check;
+	GtkWidget *pause_check;
 	GtkWidget *year_entry,*month_entry,*day_entry,*hour_entry,*minute_entry;
 	tProxyWidget *proxy;
 	void setup_time(time_t when);
@@ -56,6 +57,7 @@ class tDEdit{
 		void done_browser2();
 		void browser_ok2();
 		int apply_changes();
+		int get_pause_check();
 		void disable_ok_button();
 		void enable_ok_button();
 		void setup_entries();

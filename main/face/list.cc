@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -69,11 +69,57 @@ pthread_mutex_t MAIN_GTK_MUTEX=(pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 
 int FirstConfigureEvent;
 int UpdateTitleCycle=0;
-
+char *OLD_CLIPBOARD_CONTENT=NULL;
 enum{
 	ROLL_STAT=0,
 	ROLL_INFO,
 	ROLL_LAST
+};
+
+enum MAIN_MENU_ENUM{
+	MM_FILE, MM_FILE_SAVE, MM_FILE_LOAD, MM_FILE_NEW, MM_FILE_PASTE, MM_FILE_EXIT, MM_FILE_SEP,
+	MM_DOWNLOAD, MM_DOWNLOAD_LOG, MM_DOWNLOAD_STOP, MM_DOWNLOAD_EDIT, MM_DOWNLOAD_DEL, MM_DOWNLOAD_RUN, MM_DOWNLOAD_DEL_C,
+	MM_DOWNLOAD_DEL_F, MM_DOWNLOAD_UNSELECT_ALL,MM_DOWNLOAD_SELECT_ALL ,MM_DOWNLOAD_INVERT, MM_DOWNLOAD_SEP,
+	MM_OPTIONS, MM_OPTIONS_LIMITS, MM_OPTIONS_COMMON,
+	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
+	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
+	MM_HELP, MM_HELP_ABOUT
+};
+
+char *main_menu_inames[]={
+	"/_File",
+	"/File/_Save List",
+	"/File/_Load List",
+	"/File/_New Download",
+	"/File/_Paste Download",
+	"/File/Exit",
+	"/File/sep1",
+	"/_Download",
+	"/Download/View _Log",
+	"/Download/_Stop downloads",
+	"/Download/Edit download",
+	"/Download/_Delete downloads",
+	"/Download/Continue downloads",
+	"/Download/Delete completed",
+	"/Download/Delete failed",
+	"/Download/Unselect all",
+	"/Download/Select all",
+	"/Download/Invert selection",
+	"/Download/-",
+	"/_Options",
+	"/Options/Limitations",
+	"/Options/Common",
+	"/Options/Speed",
+	"/Options/Speed/Lowest",
+	"/Options/Speed/Middle",
+	"/Options/Speed/Unlimited",
+	"/Options/Buttons",
+	"/Options/Buttons/Add buttons",
+	"/Options/Buttons/Manipulating",
+	"/Options/Buttons/Speed buttons",
+	"/Options/Buttons/Misc buttons",
+	"/_Help",
+	"/_Help/About"
 };
 
 
@@ -110,29 +156,92 @@ void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mou
 		       mouse_button,time);
 };
 
+void main_menu_speed_calback(gpointer data,guint action,GtkWidget *widget){
+	if (action>0 && action<4){
+		CFG.SPEED_LIMIT=action;
+		set_speed_buttons();
+	};
+};
+
+void main_menu_buttons_calback(gpointer data,guint action,GtkWidget *widget){
+	GtkWidget *menu_item=NULL;
+	switch (action){
+	case 1:
+		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_ADD]));
+		CFG.BUTTONS_ADD=GTK_CHECK_MENU_ITEM(menu_item)->active;
+		break;
+	case 2:
+		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MAN]));
+		CFG.BUTTONS_MAN=GTK_CHECK_MENU_ITEM(menu_item)->active;
+		break;
+	case 3:
+		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_SPEED]));
+		CFG.BUTTONS_SPEED=GTK_CHECK_MENU_ITEM(menu_item)->active;
+		break;
+	case 4:
+		menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MISC]));
+		CFG.BUTTONS_MISC=GTK_CHECK_MENU_ITEM(menu_item)->active;
+		break;
+	};
+	buttons_cfg_init();
+};
+
+void main_menu_buttons_prepare(){
+	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_ADD]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_ADD?TRUE:FALSE;
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_SPEED]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_SPEED?TRUE:FALSE;
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MISC]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_MISC?TRUE:FALSE;
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_BUTTONS_MAN]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.BUTTONS_MAN?TRUE:FALSE;
+};
+
+void main_menu_speed_prepare(){
+	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_SPEED_1]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==1?TRUE:FALSE;
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_SPEED_2]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==2?TRUE:FALSE;
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_OPTIONS_SPEED_3]));
+	GTK_CHECK_MENU_ITEM(menu_item)->active=CFG.SPEED_LIMIT==3?TRUE:FALSE;
+};
+
 void init_main_menu() {
 	GtkItemFactoryEntry menu_items[] = {
-		{_("/_File"),         			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_("/File/_Save List"),     		"<control>S",	init_save_list,			0, (gchar *)NULL},
-		{_("/File/_Load List"),     		"<control>L",	init_load_list,			0, (gchar *)NULL},
-		{_("/File/sep1"),     			(gchar *)NULL,  (GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_("/File/_New Download"),		"<control>N",	init_add_window,		0, (gchar *)NULL},
-		{_("/File/_Paste Download"), 		"<control>P",	init_add_clipboard_window,	0, (gchar *)NULL},
-		{_("/File/sep1"),     			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_("/File/Exit"),     			"<alt>X",	ask_exit,			0, (gchar *)NULL},
-		{_("/_Download"),      			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_("/Download/View _Log"),  		(gchar *)NULL,	open_log_for_selected,		0, (gchar *)NULL},
-		{_("/Download/_Stop downloads"),	"<alt>S",	stop_downloads,			0, (gchar *)NULL},
-		{_("/Download/Edit download"),		"<alt>E",	open_edit_for_selected,		0, (gchar *)NULL},
-		{_("/Download/_Delete downloads"),	"<alt>C",	ask_delete_download,		0, (gchar *)NULL},
-		{_("/Download/Continue downloads"),	"<alt>A",	continue_downloads,		0, (gchar *)NULL},
-		{_("/Download/Delete completed"),	(gchar *)NULL,	ask_delete_completed_downloads,	0, (gchar *)NULL},
-		{_("/Download/Delete failed"),		(gchar *)NULL,	ask_delete_fataled_downloads,	0, (gchar *)NULL},
-		{_("/_Options"),      			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_("/Options/Limitations"),		(gchar *)NULL,	open_limits_window,		0, (gchar *)NULL},
-		{_("/Options/Common"),			"<control>C",	init_options_window,		0, (gchar *)NULL},
-		{_("/_Help"),         			(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<LastBranch>"},
-		{_("/_Help/About"),   			(gchar *)NULL,	init_about_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_FILE_SAVE]),	"<control>S",	init_save_list,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_LOAD]),	"<control>L",	init_load_list,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,  (GtkItemFactoryCallback)NULL,	0, "<Separator>"},
+		{_(main_menu_inames[MM_FILE_NEW]),	"<control>N",	init_add_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_PASTE]),	"<control>P",	init_add_clipboard_window,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
+		{_(main_menu_inames[MM_FILE_EXIT]),	"<alt>X",	ask_exit,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD]),     	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	(gchar *)NULL,	list_of_downloads_open_logs,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	"<alt>S",	stop_downloads,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	"<alt>E",	open_edit_for_selected,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	"<alt>C",	ask_delete_download,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	"<alt>A",	continue_downloads,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL_C]),(gchar *)NULL,	ask_delete_completed_downloads,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),(gchar *)NULL,	ask_delete_fataled_downloads,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
+		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_unselect_all,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_select_all,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),(gchar *)NULL, (GtkItemFactoryCallback)list_of_downloads_invert_selection,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_OPTIONS_LIMITS]),(gchar *)NULL,	open_limits_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_COMMON]),"<control>C",	init_options_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_SPEED]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_OPTIONS_SPEED_1]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	1, "<RadioItem>"},
+		{_(main_menu_inames[MM_OPTIONS_SPEED_2]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	2, _(main_menu_inames[MM_OPTIONS_SPEED_1])},
+		{_(main_menu_inames[MM_OPTIONS_SPEED_3]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	3, _(main_menu_inames[MM_OPTIONS_SPEED_2])},
+		{_(main_menu_inames[MM_OPTIONS_BUTTONS]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_OPTIONS_BUTTONS_ADD]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	1, "<ToggleItem>"},
+		{_(main_menu_inames[MM_OPTIONS_BUTTONS_MAN]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	2, "<ToggleItem>"},
+		{_(main_menu_inames[MM_OPTIONS_BUTTONS_SPEED]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	3, "<ToggleItem>"},
+		{_(main_menu_inames[MM_OPTIONS_BUTTONS_MISC]),	(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_buttons_calback,	4, "<ToggleItem>"},
+		{_(main_menu_inames[MM_HELP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<LastBranch>"},
+		{_(main_menu_inames[MM_HELP_ABOUT]),	(gchar *)NULL,	init_about_window,		0, (gchar *)NULL},
 	};
 	int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
 	GtkAccelGroup *accel_group;
@@ -142,6 +251,7 @@ void init_main_menu() {
 	gtk_item_factory_create_items(main_menu_item_factory, nmenu_items, menu_items, NULL);
 	MainMenu= gtk_item_factory_get_widget(main_menu_item_factory, "<main>");
 	gtk_accel_group_attach(accel_group,GTK_OBJECT(MainWindow));
+	main_menu_buttons_prepare();
 };
 
 void main_menu_del_completed_set_state(gint a){
@@ -160,16 +270,16 @@ void main_menu_del_failed_set_state(gint a){
 
 void main_menu_prepare(){
 	GtkWidget *menu_item;
-	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_("/Download/Delete completed"));
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_DEL_C]));
 	if (menu_item){
-		if (CompleteList->count())
+		if (DOWNLOAD_QUEUES[DL_COMPLETE]->count())
 			gtk_widget_set_sensitive(menu_item,TRUE);
 		else
 			gtk_widget_set_sensitive(menu_item,FALSE);
 	};
-	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_("/Download/Delete failed"));
+	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_DEL_F]));
 	if (menu_item){
-		if (StopList->count())
+		if (DOWNLOAD_QUEUES[DL_STOP]->count())
 			gtk_widget_set_sensitive(menu_item,TRUE);
 		else
 			gtk_widget_set_sensitive(menu_item,FALSE);
@@ -201,16 +311,6 @@ void my_main_quit(...) {
 	gtk_main_quit();
 };
 
-void open_log_for_selected(...) {
-	GList *select=((GtkCList *)ListOfDownloads)->selection;
-	while (select) {
-		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
-		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
-		log_window_init(temp);
-		select=select->next;
-	};
-};
-
 void set_limit_to_download() {
 	tDownload *temp=list_of_downloads_last_selected();
 	if (temp)
@@ -223,13 +323,17 @@ void open_edit_for_selected(...) {
 };
 
 void del_completed_downloads(...) {
+	list_of_downloads_freeze();
 	aa.del_completed();
+	list_of_downloads_unfreeze();
 	main_menu_del_completed_set_state(FALSE);
 	if (AskDeleteCompleted) AskDeleteCompleted->done();
 };
 
 void del_fataled_downloads(...) {
+	list_of_downloads_freeze();
 	aa.del_fataled();
+	list_of_downloads_unfreeze();
 	main_menu_del_failed_set_state(FALSE);
 	if (AskDeleteFataled) AskDeleteFataled->done();
 };
@@ -290,6 +394,7 @@ void ask_delete_fataled_downloads(...) {
 };
 
 void delete_downloads(...) {
+	list_of_downloads_freeze();
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
@@ -300,6 +405,7 @@ void delete_downloads(...) {
 			select=select->next;
 	};
 	gtk_clist_unselect_all(GTK_CLIST(ListOfDownloads));
+	list_of_downloads_unfreeze();
 	prepare_buttons();
 	main_menu_prepare();
 	if (AskDelete) AskDelete->done();
@@ -435,7 +541,6 @@ void init_main_window() {
 	gtk_widget_show(ReadedBytesStatusBar);
 	gtk_progress_bar_update((GtkProgressBar *)ProgressOfDownload,0);
 	gtk_widget_show(ListOfDownloads);
-	gtk_widget_show(ButtonsBar);
 
 	gtk_widget_show(ContainerForCList);
 	gtk_widget_show(MainLogList);
@@ -482,7 +587,7 @@ void update_mainwin_title() {
 		} else {
 			if (CFG.USE_MAINWIN_TITLE2) {
 				int total=amount_of_downloads_in_queues();
-				sprintf(data,_("%i-running %i-completed %i-total "),RunList->count(),CompleteList->count(),total);
+				sprintf(data,_("%i-running %i-completed %i-total "),DOWNLOAD_QUEUES[DL_RUN]->count(),DOWNLOAD_QUEUES[DL_COMPLETE]->count(),total);
 				tmp_scroll_title(data,ROLL_INFO);
 				gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 			} else
@@ -496,12 +601,14 @@ void update_mainwin_title() {
 };
 
 int time_for_refresh(void *a) {
+	list_of_downloads_freeze();
 	aa.main_circle();
+	list_of_downloads_unfreeze();
 	update_progress_bar();
 	update_mainwin_title();
 	UpdateTitleCycle+=1;
 	tDownload *tmp=list_of_downloads_last_selected();
-	if (tmp && RunList->owner(tmp))
+	if (tmp && DOWNLOAD_QUEUES[DL_RUN]->owner(tmp))
 		LocalMeter->add(tmp->NanoSpeed);
 	else
 		LocalMeter->add(0);
@@ -538,8 +645,48 @@ int get_mainwin_sizes(GtkWidget *window) {
 	return FALSE;
 };
 
+int check_for_clipboard_skiping(char *buf){
+	char *extension=new char[strlen(CFG.SKIP_IN_CLIPBOARD)+1];
+	char *temp=CFG.SKIP_IN_CLIPBOARD;
+	do{
+		temp=extract_string(temp,extension);
+		if (string_ended(extension,buf)==0){
+			delete(extension);
+			return 0;
+		};
+	}while(temp!=NULL && strlen(temp)>0);
+	return 1;
+};
+
+void my_get_xselection(GtkWidget *window, GdkEvent *event) {
+	char *buf;
+	GdkAtom atom;
+	gint format, length;
+
+	length=gdk_selection_property_get(window->window, (guchar **)&buf, &atom, &format);
+	if (length) {
+		if (!equal(buf, OLD_CLIPBOARD_CONTENT)) {
+			if ((begin_string_uncase(buf,"ftp://") || begin_string_uncase(buf,"http://"))
+			    && OLD_CLIPBOARD_CONTENT!=NULL && check_for_clipboard_skiping(buf))
+				init_add_dnd_window(buf);
+			if (OLD_CLIPBOARD_CONTENT) g_free(OLD_CLIPBOARD_CONTENT);
+			OLD_CLIPBOARD_CONTENT = buf;
+		}else
+			g_free(buf);
+	} else {
+		if (OLD_CLIPBOARD_CONTENT==NULL) OLD_CLIPBOARD_CONTENT=copy_string("");
+		if (buf) g_free(buf);
+	}
+}
+
 int time_for_draw_graph(void *a) {
 	graph_draw();
+/* clipboard monitoring */
+	if (CFG.CLIPBOARD_MONITOR) {
+		gtk_selection_convert(MainWindow, GDK_SELECTION_PRIMARY,
+				      GDK_TARGET_STRING,
+				      GDK_CURRENT_TIME);
+	}
 	return 1;
 };
 
@@ -551,7 +698,7 @@ int time_for_save_list(void *a) {
 		};
 		SAVE_LIST_INTERVAL=CFG.SAVE_LIST_INTERVAL;
 	};
-	if (CFG.EXIT_COMPLETE && RunList->count()+WaitList->count()+WaitStopList->count()==0){
+	if (CFG.EXIT_COMPLETE && aa.complete()){
 		EXIT_COMPLETE_INTERVAL-=1;
 		if (EXIT_COMPLETE_INTERVAL<0)
 			my_main_quit();
@@ -591,6 +738,7 @@ void init_face(int argc, char *argv[]) {
 	gtk_widget_realize(MainWindow);
 	gtk_widget_set_usize( GTK_WIDGET (MainWindow), 400, 200);
 	MainWindowGC=gdk_gc_new(MainWindow->window);
+	dnd_trash_init_menu();
 	init_main_menu();
 	init_list_menu();
 	init_status_bar();
@@ -612,6 +760,8 @@ void init_face(int argc, char *argv[]) {
 	gtk_signal_connect(GTK_OBJECT(MainWindow), "delete_event",
 	                   GTK_SIGNAL_FUNC(ask_exit2),
 	                   NULL);
+	gtk_signal_connect(GTK_OBJECT(MainWindow), "selection_received",
+			   GTK_SIGNAL_FUNC(my_get_xselection),NULL);
 	if (CFG.DND_TRASH) dnd_trash_init();
 	main_log_mask=0;
 };

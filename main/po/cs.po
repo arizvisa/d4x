@@ -358,20 +358,20 @@ msgstr "zaøízení"
 
 #: main.cc:637
 #, c-format
-msgid "Downloading of directory %s was completed"
-msgstr "Stahování adresáøe %s je kompletní"
+msgid "Downloading of directory %z was completed"
+msgstr "Stahování adresáøe %z je kompletní"
 
 #: main.cc:641
 #, c-format
 msgid ""
-"Downloading of file %s (%i bytes) was completed at speed %i "
+"Downloading of file %z (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "Stahování souboru %s (%i bajtù) bylo dokonèeno rychlostí %i bajtù za sekundu."
+msgstr "Stahování souboru %z (%i bajtù) bylo dokonèeno rychlostí %i bajtù za sekundu."
 
 #: main.cc:664
 #, c-format
-msgid "Downloading of file %s was terminated by fatal error"
-msgstr "Stahování souboru %s bylo pøeru¹eno díky osudné chybì"
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "Stahování souboru %z bylo pøeru¹eno díky osudné chybì"
 
 #: main.cc:809
 #, c-format
@@ -1121,8 +1121,8 @@ msgid "Can't do rollback!"
 msgstr "Nemohu se vrátit zpìt!"
 
 #: main.cc:
-msgid "Redirect from %s"
-msgstr "Pøesmìrování z %s"
+msgid "Redirect from %z"
+msgstr "Pøesmìrování z %z"
 
 #: face/
 msgid "Ok"
@@ -1209,20 +1209,20 @@ msgid "Output detailed information"
 msgstr "Zobrazuj detailní informace"
 
 #: main.cc
-msgid "Prepare [%s] for stoping"
-msgstr "Pøipravuji [%s] k pøeru¹ení"
+msgid "Prepare [%z] for stoping"
+msgstr "Pøipravuji [%z] k pøeru¹ení"
 
 #: main.cc
-msgid "Run new thread for %s"
-msgstr "Spou¹tím nové vlákno pro %s"
+msgid "Run new thread for %z"
+msgstr "Spou¹tím nové vlákno pro %z"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as completed download"
-msgstr "%s byl smazán ze stahovací fronty nebo» stahování bylo dokonèeno"
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%z byl smazán ze stahovací fronty nebo» stahování bylo dokonèeno"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as failed download"
-msgstr "%s byl smazan ze stahovací fronty nebo» stahování bylo neúspì¹né"
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%z byl smazan ze stahovací fronty nebo» stahování bylo neúspì¹né"
 
 #: main.cc
 msgid "Delete completed downloads"
@@ -1241,20 +1241,20 @@ msgid "Append list to curent queue of downloads"
 msgstr "Pøipojuji seznam k aktuální stahovací frontì"
 
 #: face/dndtrash.cc
-msgid "New Download"
-msgstr "Nové stahování"
+msgid "/New Download"
+msgstr "/Nové stahování"
 
 #: face/dndtrash.cc
-msgid "Paste Download"
-msgstr "Vlo¾ení stahování"
+msgid "/Paste Download"
+msgstr "/Vlo¾ení stahování"
 
 #: face/dndtrash.cc
-msgid "Common options"
-msgstr "Standardní mo¾nosti"
+msgid "/Common options"
+msgstr "/Standardní mo¾nosti"
 
 #: face/dndtrash.cc
-msgid "Exit"
-msgstr "Konec programu"
+msgid "/Exit"
+msgstr "/Konec programu"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
@@ -1303,4 +1303,104 @@ msgstr ""
 
 #: face/edit.cc:
 msgid "Default"
+msgstr ""
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr ""
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr ""
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr ""
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr ""
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr ""
+
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr ""
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr ""
+
+#:main.cc
+msgid "[control socket]"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/-"
+msgstr ""
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr ""
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Invert selection"
 msgstr ""

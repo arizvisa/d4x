@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -54,11 +54,7 @@ gint load_save_list_cancel() {
 };
 
 void load_list_ok(GtkWidget *parent,GtkWidget *who) {
-	tStringList *temp=new tStringList;
-	temp->init(0);
-	read_list_from_file(text_from_combo(load_save_entry),temp);
-	aa.append_list(temp);
-	delete(temp);
+	read_list_from_file(text_from_combo(load_save_entry));
 	ALL_HISTORIES[LOAD_SAVE_HISTORY]->add(text_from_combo(load_save_entry));
 	load_save_list_cancel();
 };

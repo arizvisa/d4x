@@ -358,21 +358,21 @@ msgstr "apparaat"
 
 #: main.cc:637
 #, c-format
-msgid "Downloading of directory %s was completed"
-msgstr "Download van directory %s voltooid"
+msgid "Downloading of directory %z was completed"
+msgstr "Download van directory %z voltooid"
 
 #: main.cc:641
 #, c-format
 msgid ""
-"Downloading of file %s (%i bytes) was completed at speed %i "
+"Downloading of file %z (%i bytes) was completed at speed %i "
 "bytes/sec"
-msgstr "Download van bestand %s (%i bytes) voltooid met snelheid "
+msgstr "Download van bestand %z (%i bytes) voltooid met snelheid "
 "van %i bytes/sec"
 
 #: main.cc:664
 #, c-format
-msgid "Downloading of file %s was terminated by fatal error"
-msgstr "Download van bestand %s afgebroken door fatale fout"
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "Download van bestand %z afgebroken door fatale fout"
 
 #: main.cc:809
 #, c-format
@@ -1123,8 +1123,8 @@ msgid "Can't do rollback!"
 msgstr "Kan geen rollback doen!"
 
 #: main.cc:
-msgid "Redirect from %s"
-msgstr "Redirect via %s"
+msgid "Redirect from %z"
+msgstr "Redirect via %z"
 
 #: face/
 msgid "Ok"
@@ -1211,20 +1211,20 @@ msgid "Output detailed information"
 msgstr "Laat gedetailleerde informatie zien"
 
 #: main.cc
-msgid "Prepare [%s] for stoping"
-msgstr "Bereid [%s] voor om te stoppen"
+msgid "Prepare [%z] for stoping"
+msgstr "Bereid [%z] voor om te stoppen"
 
 #: main.cc
-msgid "Run new thread for %s"
-msgstr "Draai %s in een nieuwe thread"
+msgid "Run new thread for %z"
+msgstr "Draai %z in een nieuwe thread"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as completed download"
-msgstr "%s is uit de lijst verwijderd als voltooid"
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%z is uit de lijst verwijderd als voltooid"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as failed download"
-msgstr "%s is uit de lijst verwijderd als mislukt"
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%z is uit de lijst verwijderd als mislukt"
 
 #: main.cc
 msgid "Delete completed downloads"
@@ -1243,20 +1243,20 @@ msgid "Append list to curent queue of downloads"
 msgstr "Voeg lijst to aan huidige lijst van downloads"
 
 #: face/dndtrash.cc
-msgid "New Download"
-msgstr "Nieuwe download"
+msgid "/New Download"
+msgstr "/Nieuwe download"
 
 #: face/dndtrash.cc
-msgid "Paste Download"
-msgstr "Plak download"
+msgid "/Paste Download"
+msgstr "/Plak download"
 
 #: face/dndtrash.cc
-msgid "Common options"
-msgstr "Standaard instellingen"
+msgid "/Common options"
+msgstr "/Standaard instellingen"
 
 #: face/dndtrash.cc
-msgid "Exit"
-msgstr "Sluit af"
+msgid "/Exit"
+msgstr "/Sluit af"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
@@ -1296,13 +1296,113 @@ msgstr "Voer dit uit bij afsluiten"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
-msgstr ""
+msgstr "Onthoud wachtwoorden"
 
 #: face/limface.cc:
 msgid "Now"
-msgstr ""
+msgstr "Nu"
 
 
 #: face/edit.cc:
 msgid "Default"
+msgstr "Standaard"
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr "Voeg download toe via controle socket [%s]"
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr "Can cookie bestand niet openen!"
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr "%i cookies geladen"
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr "Laden cookies"
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr "Houd clipboard in de gaten"
+
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr "Sla deze extensies in clipboard over"
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr ""
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr ""
+
+#:main.cc
+msgid "[control socket]"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/-"
+msgstr ""
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr ""
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Invert selection"
 msgstr ""

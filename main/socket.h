@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -25,29 +25,30 @@
 #include "fcntl.h"
 
 class tSocket{
-  int fd;
-  sockaddr_in info;
-  hostent hp;
-  int temp_variable;
-  char *buffer;
-  int RBytes,SBytes;
-  int constr_name(char *host,int port);
-  int wait_for_read(int len);
-  int wait_for_write(int len); 
-  public:
-    tSocket();
-    int get_addr();
-    int get_port();
-    int readed_bytes();
-    int open_any(char * host);
-    int open_any(int host);
-    int accepting(char * host);
-    int open_port(char * host,int port);
-    int open_port(int host,int port);
-    int send_string(char *what,int timeout);
-    int rec_string(char * where,int len,int timeout);    
-    void down();
-    ~tSocket(); 
+	fd_set set;
+	int fd;
+	sockaddr_in info;
+	hostent hp;
+	int temp_variable;
+	char *buffer;
+	int RBytes,SBytes;
+	int constr_name(char *host,int port);
+	int wait_for_read(int len);
+	int wait_for_write(int len); 
+ public:
+	tSocket();
+	int get_addr();
+	int get_port();
+	int readed_bytes();
+	int open_any(char * host);
+	int open_any(int host);
+	int accepting(char * host);
+	int open_port(char * host,int port);
+	int open_port(int host,int port);
+	int send_string(char *what,int timeout);
+	int rec_string(char * where,int len,int timeout);    
+	void down();
+	~tSocket(); 
 };
 
 #define SOCKET_UNKNOWN_HOST -1

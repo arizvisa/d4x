@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -10,6 +10,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <stdio.h>
 #include <pthread.h>
 #include <string.h>
@@ -148,11 +149,26 @@ void log_window_add_string(tLog *log,tLogString *str) {
 	gtk_clist_set_background(GTK_CLIST(temp->clist),row,&back_color);
 };
 
-static void log_window_event_handler(	GtkWidget *clist, gint row, gint column,
+static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log){
+	if (event && event->type == GDK_KEY_PRESS) {
+		GdkEventKey *kevent=(GdkEventKey *)event;
+		switch(kevent->keyval) {
+		case GDK_Escape:{
+//			gtk_signal_emit_by_name(GTK_OBJECT(window),"delete_event");
+			log_window_destroy_by_log(log);
+			return TRUE;
+			break;
+		};
+		};
+	};
+	return FALSE;
+};
+
+static gint log_list_event_handler(	GtkWidget *clist, gint row, gint column,
                                       GdkEventButton *event,tDownload *what) {
 	if (event && event->type==GDK_2BUTTON_PRESS && event->button==1) {
 		tLog *log=what->LOG;
-		if (!log || !log->Window) return;
+		if (!log || !log->Window) return FALSE;
 		tLogWindow *temp=(tLogWindow *)(log->Window);
 		if (temp->string==NULL) temp->string=new tStringDialog;
 		char data[MAX_LEN];
@@ -160,7 +176,9 @@ static void log_window_event_handler(	GtkWidget *clist, gint row, gint column,
 		char *text;
 		gtk_clist_get_text(GTK_CLIST(clist),row,2,&text);
 		temp->string->init(text,data);
+		return TRUE;
 	};
+	return FALSE;
 };
 
 static void my_gtk_auto_scroll( GtkAdjustment *get,tLog *log){
@@ -191,22 +209,23 @@ void log_window_init(tDownload *what) {
 		temp->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 		int a[4];
 		what->LOG->get_geometry(a);
+		gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 200);
 		if (a[3]!=0 && a[2]!=0){
-			gtk_widget_set_usize( GTK_WIDGET (temp->window), a[2], a[3]);
+			gtk_window_set_default_size( GTK_WINDOW (temp->window), a[2], a[3]);
 			gtk_widget_set_uposition( GTK_WIDGET (temp->window), a[0], a[1]);
-		}else
-			gtk_widget_set_usize( GTK_WIDGET (temp->window), 400, 200);
-
+		};
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
 		strcat(title,what->info->file);
 		gtk_window_set_title(GTK_WINDOW (temp->window), title);
+		gtk_signal_connect(GTK_OBJECT(temp->window), "key_press_event",
+		                   (GtkSignalFunc)log_window_event_handler, what->LOG);
 		gtk_signal_connect(GTK_OBJECT(temp->window), "delete_event",
 		                   (GtkSignalFunc)log_window_destroy, what->LOG);
 
 		temp->clist = gtk_clist_new_with_titles( 3, titles);
-		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_window_event_handler),what);
+		gtk_signal_connect(GTK_OBJECT(temp->clist),"select_row",GTK_SIGNAL_FUNC(log_list_event_handler),what);
 		gtk_clist_column_titles_hide(GTK_CLIST(temp->clist));
 		gtk_clist_set_shadow_type (GTK_CLIST(temp->clist), GTK_SHADOW_IN);
 		gtk_clist_set_column_width (GTK_CLIST(temp->clist), 0 , 16);

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified 
  *	program but you can distribute unmodified program.
@@ -179,6 +179,9 @@ void cut_string_list(char *src,tFileInfo *dst,int flag) {
 int tFtpDownload::change_dir() {
 	int rvalue=0;
 	if (CWDFlag) return 0;
+	if (!equal(USER,DEFAULT_USER)){
+		if ((rvalue=FTP->change_dir("/"))) return(rvalue);
+	};
 	if ((rvalue=FTP->change_dir(D_PATH))) return(rvalue);
 	CWDFlag=1;
 	return RVALUE_OK;
@@ -227,16 +230,13 @@ int tFtpDownload::reconnect() {
 	Status=D_QUERYING;
 	while (success) {
 		RetrNum++;
-		char data[MAX_LEN];
-//		if (FTP->get_status()==STATUS_FATAL) return -1;
 		if (FTP->get_status()!=STATUS_TIMEOUT && FTP->get_status()!=0) {
 			LOG->add(_("Server refused login probably too many users of your class"),LOG_WARNING);
 		};
 		if (config.number_of_attempts)
-			snprintf(data,MAX_LEN,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
+			LOG->myprintf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
 		else
-			snprintf(data,MAX_LEN,_("Retrying %i ..."),RetrNum);
-		LOG->add(data,LOG_OK);
+			LOG->myprintf(LOG_OK,_("Retrying %i ..."),RetrNum);
 		if (RetrNum==config.number_of_attempts) {
 			LOG->add(_("Max amount of retries was reached!"),LOG_ERROR);
 			return -1;
@@ -285,11 +285,7 @@ int tFtpDownload::init(tAddr *hostinfo,tLog *log,tCfg *cfg) {
 		port[0]=0;
 		if (D_PORT!=21) sprintf(port,":%i",D_PORT);
 		char *temp=new char[strlen(USER)+strlen(HOST)+strlen("@")+strlen(port)+1];
-		*temp=0;
-		strcat(temp,USER);
-		strcat(temp,"@");
-		strcat(temp,HOST);
-		strcat(temp,port);
+		sprintf(temp,"%s@%s%s",USER,HOST,port);
 		delete USER;
 		USER=temp;
 	} else
@@ -335,7 +331,6 @@ int tFtpDownload::get_size() {
 						D_FILE.perm=S_IRUSR|S_IWUSR|S_IXUSR;
 						return 0;
 					};
-					char str1[MAX_LEN];
 					tFileInfo temp;
 					cut_string_list(last->body,&temp,0);
 					D_FILE.type=temp.type;
@@ -343,8 +338,7 @@ int tFtpDownload::get_size() {
 					D_FILE.size=temp.size;
 					D_FILE.perm=temp.perm;
 					D_FILE.date=temp.date;
-					sprintf(str1,_("Length is %i"),D_FILE.size);
-					LOG->add(str1,LOG_OK);
+					LOG->myprintf(LOG_OK,_("Length is %i"),D_FILE.size);
 					return D_FILE.size;
 				};
 				if (a==0 && list->count()>2) {
@@ -366,7 +360,7 @@ int tFtpDownload::get_size() {
 		} else {
 			LOG->add(_("Can't change dir!"),LOG_ERROR);
 			int s=FTP->get_status();
-			if (s!=STATUS_TIMEOUT && s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)
+			if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR))
 				break;
 		};
 		if (reconnect())
@@ -408,7 +402,7 @@ int tFtpDownload::download_dir() {
 			} else {
 				LOG->add(_("Can't change directory"),LOG_ERROR);
 				int s=FTP->get_status();
-				if (s!=STATUS_TIMEOUT && s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)
+				if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR))
 					return -1;
 			};
 			if (reconnect()) {
@@ -442,11 +436,9 @@ int tFtpDownload::download(unsigned int from,unsigned int len) {
 				Status=D_DOWNLOAD;
 				ind=FTP->get_file_from(D_FILE.name,offset,D_FILE.fdesc);
 				if (ind>0) {
-					char data[MAX_LEN];
 					length+=ind;
 					offset+=ind;
-					sprintf(data,_("%i bytes loaded."),length);
-					LOG->add(data,LOG_OK);
+					LOG->myprintf(LOG_OK,_("%i bytes loaded."),length);
 				};
 				if (!FTP->get_status()) {
 					if (config.permisions) fchmod(D_FILE.fdesc,D_FILE.perm);
@@ -458,7 +450,7 @@ int tFtpDownload::download(unsigned int from,unsigned int len) {
 		} else {
 			LOG->add(_("Can't change directory"),LOG_ERROR);
 			int s=FTP->get_status();
-			if (s!=STATUS_TIMEOUT && s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR)
+			if (s!=STATUS_TIMEOUT && (s!=STATUS_CMD_ERR || s!=STATUS_UNSPEC_ERR))
 				return -1;
 		};
 		if (reconnect()) {

@@ -1,5 +1,5 @@
 /*	WebDownloader for X-Window
- *	Copyright (C) 1999 Koshelev Maxim
+ *	Copyright (C) 1999-2000 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -15,7 +15,7 @@
 #include "../dlist.h"
 #include "../locstr.h"
 #include "../ntlocale.h"
-extern tDList *RunList;
+#include "../main.h"
 
 static gint dialog_delete(GtkWidget *widget, GdkEvent *event,tLimitDialog *parent) {
 	parent->done();
@@ -148,12 +148,12 @@ static int face_limits_list_event_callback(GtkWidget *widget,GdkEvent *event,tFa
 };
 
 int calc_curent_run(char *host,int port) {
-	tDownload *temp=RunList->last();
+	tDownload *temp=DOWNLOAD_QUEUES[DL_RUN]->last();
 	int count=0;
 	while(temp) {
 		if (strcmp(host,temp->info->host)==0 && port==temp->info->port)
 			count+=1;
-		temp=RunList->next();
+		temp=DOWNLOAD_QUEUES[DL_RUN]->next();
 	};
 	return count;
 };

@@ -125,11 +125,11 @@ msgid "Timeout send through control socket."
 msgstr "コントロールソケットを通してタイムアウトが送られてきました。"
 
 #: ftp.cc:49
-msgid "Control connection is lost"
+msgid "Control conection lost"
 msgstr "コントロールへの接続が失われました。"
 
 #: ftp.cc:58
-msgid "Data socket is lost!"
+msgid "Data socket lost!"
 msgstr "データソケットが消えました!"
 
 #: ftp.cc:66
@@ -154,7 +154,7 @@ msgid "Can't write to file"
 msgstr "ファイルに書き込めません。"
 
 #: ftpd.cc:139
-msgid "Reget is not supported!!!"
+msgid "Reget not supported!!!"
 msgstr "ファイルの再取得をサポートしていません!!!"
 
 #: ftpd.cc:178
@@ -227,7 +227,7 @@ msgstr "lseek()に問題が発生。"
 #: ftpd.cc:399
 #, c-format
 msgid "%i bytes loaded."
-msgstr "%i bytes のロードが完了しました。"
+msgstr "%i バイト のロードが完了しました。"
 
 #: hproxy.cc:140
 msgid "Connection to the internet via proxy"
@@ -281,7 +281,7 @@ msgstr "%i回目の接続。"
 #: httpd.cc:273
 #, c-format
 msgid "Size for download is %i bytes"
-msgstr "ダウンロードサイズは%i bytesです。"
+msgstr "ダウンロードサイズは%i バイトです。"
 
 #: httpd.cc:355
 msgid "Sending http request..."
@@ -316,36 +316,34 @@ msgstr "%sを%sからダウンロード中...。"
 
 #: main.cc:499
 msgid "file"
-msgstr "ファイル"
+msgstr ""
 
 #: main.cc:573
 msgid "dir"
-msgstr "ディレクトリ"
+msgstr ""
 
 #: main.cc:578
 msgid "link"
-msgstr "リンク"
+msgstr ""
 
 #: main.cc:583
 msgid "device"
-msgstr "デバイス"
+msgstr ""
 
 #: main.cc:678
 #, c-format
-msgid "Downloading of directory %s://%s%s/%s was completed"
-msgstr "ディレクトリ %s://%s%s%sのダウンロードが完了しました。"
+msgid "Downloading of directory %z was completed"
+msgstr "ディレクトリ %zのダウンロードが完了しました。"
 
 #: main.cc:682
 #, c-format
-msgid ""
-"Downloading of file %s://%s%s/%s (%i bytes) was completed at speed %i "
-"bytes/sec"
-msgstr "%s://%s%s%s (%i bytes)は%i bpsでダウンロードが完了しました。"
+msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+msgstr "%z (%i バイト)は%i バイト/秒でダウンロードが完了しました。"
 
 #: main.cc:705
 #, c-format
-msgid "Downloading of file %s://%s%s/%s was terminated by fatal error"
-msgstr "%s://%s%s/%sのダウンロードが中断しました。[by fatal error]"
+msgid "Downloading of file %z was terminated by fatal error"
+msgstr "%zのダウンロードが中断しました。[by fatal error]"
 
 #: main.cc:920
 #, c-format
@@ -699,11 +697,11 @@ msgstr "/_ファイル"
 
 #: face/list.cc:136
 msgid "/File/_Save List"
-msgstr "/ファイル/_セーブリスト"
+msgstr "/ファイル/_リストのセーブ"
 
 #: face/list.cc:137
 msgid "/File/_Load List"
-msgstr "/ファイル/_ロードリスト"
+msgstr "/ファイル/_リストのロード"
 
 #: face/list.cc:138 face/list.cc:141
 msgid "/File/sep1"
@@ -779,7 +777,7 @@ msgstr "本当に終了しますか?"
 
 #: face/list.cc:234
 msgid "Quit?"
-msgstr "終了しますか?"
+msgstr "終了?"
 
 #: face/list.cc:251
 msgid "Delete selected downloads?"
@@ -787,7 +785,7 @@ msgstr "選択したファイルのキューを削除しますか?"
 
 #: face/list.cc:251 face/list.cc:260 face/list.cc:269
 msgid "Delete?"
-msgstr "削除しますか?"
+msgstr "削除?"
 
 #: face/list.cc:260
 msgid "Do you wish delete completed downloads?"
@@ -812,15 +810,15 @@ msgstr "ファイル"
 
 #: face/list.cc:912
 msgid "Type"
-msgstr "タイプ"
+msgstr "形式"
 
 #: face/list.cc:913
 msgid "Full Size"
-msgstr "サイズ"
+msgstr "全サイズ"
 
 #: face/list.cc:914
 msgid "Downloaded"
-msgstr "ダウンロード"
+msgstr "サイズ"
 
 #: face/list.cc:916 face/prefs.cc:538 face/prefs.cc:559
 msgid "Speed"
@@ -828,7 +826,7 @@ msgstr "スピード"
 
 #: face/list.cc:918
 msgid "Remaining"
-msgstr "残り"
+msgstr "残り時間"
 
 #: face/list.cc:919
 msgid "Pause"
@@ -836,7 +834,7 @@ msgstr "停止"
 
 #: face/list.cc:920
 msgid "Attempt"
-msgstr "接続回数"
+msgstr "接続"
 
 #: face/list.cc:921
 msgid "URL"
@@ -937,7 +935,7 @@ msgstr "スピードグラフを逆送りする"
 
 #: face/prefs.cc:236
 msgid "Save list of downloads every"
-msgstr "全てのファイルのキューをセーブリストに保存する"
+msgstr "ダウンロードのリストを保存する間隔"
 
 #: face/prefs.cc:242
 msgid "minutes"
@@ -965,7 +963,7 @@ msgstr "ログの最大行数"
 
 #: face/prefs.cc:334
 msgid "Maximum lines in MAIN log"
-msgstr "メインログの最大行数"
+msgstr "行までメインログを表示"
 
 #: face/prefs.cc:394
 msgid "Save downloads to folder"
@@ -1025,19 +1023,19 @@ msgstr "プログラムの終了時に確認をする"
 
 #: face/prefs.cc:541
 msgid "bytes/sec speed level one (red button)"
-msgstr "bytes/sec スピードレベル １ (赤いボタン)"
+msgstr "バイト/秒 スピードレベル １ (赤いボタン)"
 
 #: face/prefs.cc:548
 msgid "bytes/sec speed level two (yellow button)"
-msgstr "bytes/sec スピードレベル ２ (黄色いボタン)"
+msgstr "バイト/秒 スピードレベル ２ (黄色いボタン)"
 
 #: face/saveload.cc:78
 msgid "Save list"
-msgstr "セーブリスト"
+msgstr "リストのセーブ"
 
 #: face/saveload.cc:125
 msgid "Load list"
-msgstr "ロードリスト"
+msgstr "リストのロード"
 
 #: face/columns.cc:22
 msgid "status"
@@ -1053,11 +1051,11 @@ msgstr "ファイルタイプ"
 
 #: face/columns.cc:22
 msgid "size of file"
-msgstr "ファイルサイズ"
+msgstr "ファイルの全サイズ"
 
 #: face/columns.cc:22
 msgid "downloaded size"
-msgstr "ダウンロードサイズ"
+msgstr "ダウンロード済のサイズ"
 
 #: face/columns.cc:22
 msgid "percent"
@@ -1089,15 +1087,15 @@ msgstr "表示項目"
 
 #: face/refs.cc:
 msgid "Rollback after reconnecting (in bytes)"
-msgstr "再接続後のRollback (bytes)"
+msgstr "再接続後の巻き戻し (バイト)"
 
 #: download.cc:
 msgid "Can't do rollback!"
-msgstr "Rollback 出来ません!"
+msgstr "巻き戻し 出来ません!"
 
 #: main.cc:
-msgid "Redirect from %s"
-msgstr "%sからのダウンロードに変更"
+msgid "Redirect from %z"
+msgstr "%zからのダウンロードに変更"
 
 #: face/
 msgid "Ok"
@@ -1121,35 +1119,35 @@ msgstr "ここにドロップ"
 
 #: face/edit.cc
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
-msgstr "ダウンロードの速度制限(bytes/sec、0 無制限)"
+msgstr "ダウンロードの速度制限(バイト/秒、0 無制限)"
 
 #: log.cc:
 msgid "Log was started!"
-msgstr ""
+msgstr "ログ開始!"
 
 #: config.cc:
 msgid "Run downloads: %d\n"
-msgstr ""
+msgstr "ダウンロード開始: %d\n"
 
 #: config.cc:
 msgid "Paused downloads: %d\n"
-msgstr ""
+msgstr "ダウンロード停止: %d\n"
 
 #: config.cc:
 msgid "Failed downloads: %d\n"
-msgstr ""
+msgstr "ダウンロード失敗: %d\n"
 
 #: config.cc:
 msgid "Completed downloads: %d\n"
-msgstr ""
+msgstr "ダウンロード完了: %d\n"
 
 #: config.cc:
 msgid "Total: %d\n"
-msgstr ""
+msgstr "合計: %d\n"
 
 #: config.cc:
 msgid "Curent speed: %d\n"
-msgstr ""
+msgstr "現在の速度: %d\n"
 
 #: config.cc:
 msgid "Usage: nt [OPTION] ... [URL]"
@@ -1157,125 +1155,229 @@ msgstr ""
 
 #: config.cc:
 msgid "print this page and exit"
-msgstr ""
+msgstr "このページを表示して終了"
 
 #: config.cc:
 msgid "show version information and exit"
-msgstr ""
+msgstr "バージョン情報を表示して終了"
 
 #: config.cc:
 msgid "show information if already run"
-msgstr ""
+msgstr "動作中の情報を表示"
 
 #: config.cc:
 msgid "show curent speed if already run"
-msgstr ""
+msgstr "動作中の現在の速度を表示"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
-msgstr ""
+msgstr "何も動作しなくなってから自動終了まで"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr""
+msgstr"メインログ"
 
 #: face/prefs.cc
 msgid "Output detailed information"
-msgstr ""
+msgstr "詳細情報の出力"
 
 #: main.cc
-msgid "Prepare [%s] for stoping"
-msgstr ""
+msgid "Prepare [%z] for stoping"
+msgstr "停止の準備 [%z]。"
 
 #: main.cc
-msgid "Run new thread for %s"
-msgstr ""
+msgid "Run new thread for %z"
+msgstr "%zのための新しいスレッドの開始。"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as completed download"
-msgstr ""
+msgid "%z was deleted from queue of downloads as completed download"
+msgstr "%zをダウンロードの完了したファイルとしてキューから削除します。"
 
 #: main.cc
-msgid "%s was deleteted from queue of downloads as failed download"
-msgstr ""
+msgid "%z was deleted from queue of downloads as failed download"
+msgstr "%zをダウンロードに失敗したファイルとしてキューから削除します。"
 
 #: main.cc
 msgid "Delete completed downloads"
-msgstr ""
+msgstr "ダウンロードの完了したファイルの削除"
 
 #: main.cc
 msgid "Delete failed downloads"
-msgstr ""
+msgstr "ダウンロードに失敗したファイルの削除"
 
 #:main.cc:
 msgid "Loading default list of downloads"
-msgstr ""
+msgstr "デフォルトのダウンロードリストをロードする"
 
 #:main.cc:
 msgid "Append list to curent queue of downloads"
-msgstr ""
+msgstr "現在のダウンロードのキューにリストを追加"
 
 #: face/dndtrash.cc
-msgid "New Download"
-msgstr ""
+msgid "/New Download"
+msgstr "/新規 ダウンロード"
 
 #: face/dndtrash.cc
-msgid "Paste Download"
-msgstr ""
+msgid "/Paste Download"
+msgstr "/ペースト ダウンロード"
 
 #: face/dndtrash.cc
-msgid "Common options"
-msgstr ""
+msgid "/Common options"
+msgstr "/一般のオプション"
 
 #: face/dndtrash.cc
-msgid "Exit"
-msgstr ""
+msgid "/Exit"
+msgstr "/終了"
+
+#: face/edit.cc
+msgid "User-Agent"
+msgstr "ユーザーエージェント"
 
 #: face/prefs.cc:
 msgid "User-Agent for http requests"
-msgstr ""
+msgstr "httpリクエスト時に送るユーザーエージェント名"
 
 #: face/columns.cc
 msgid "rest"
-msgstr ""
+msgstr "残りのサイズ"
 
 #: face/lod.cc
 msgid "Rest"
-msgstr ""
+msgstr "残り"
 
 #: config.cc:
 msgid "set lower speed limitation"
-msgstr ""
+msgstr "低速にセット"
 
 #: config.cc:
 msgid "set middle speed limitation"
-msgstr ""
+msgstr "中速にセット"
 
 #: config.cc:
 msgid "set unlimited speed"
-msgstr ""
+msgstr "速度無制限にセット"
 
 #: http.cc
 msgid "Request was sent, waiting for the answer"
-msgstr ""
+msgstr "リクエストを送信。応答を待っています。"
 
 #: config.cc:
 msgid "unknown option:"
-msgstr ""
+msgstr "不明なオプション:"
 
 #: face/prefs.cc:
 msgid "Run this when exit"
-msgstr ""
+msgstr "終了時に実行するコマンド"
 
 #: face/prefs.cc:
 msgid "Remember passwords"
-msgstr ""
+msgstr "パスワードを保存"
 
 #: face/limface.cc:
 msgid "Now"
-msgstr ""
-
+msgstr "現在"
 
 #: face/edit.cc:
 msgid "Default"
+msgstr "デフォルト"
+
+
+#main.cc
+msgid "Adding downloading via control socket [%s]"
+msgstr ""
+
+#cookie.cc
+msgid "Can't open cookies file!"
+msgstr ""
+
+#cookie.cc
+msgid "%i cookies loaded"
+msgstr ""
+
+#cookie.cc
+msgid "Loading cookies"
+msgstr ""
+
+#face/prefs.cc
+msgid "Monitor clipboard"
+msgstr ""
+
+
+#: face/prefs.cc
+msgid "Skip these extensions in clipboard"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Lowest"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Middle"
+msgstr ""
+
+#: face/dndtrash.cc
+msgid "/Speed/Unlimited"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Lowest"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Middle"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Speed/Unlimited"
+msgstr ""
+#: face/list.cc
+msgid "/Options/Buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Manipulating"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Speed buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Misc buttons"
+msgstr ""
+
+#: face/list.cc
+msgid "/Options/Buttons/Add buttons"
+msgstr ""
+
+#:main.cc
+msgid "[control socket]"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Unselect all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/-"
+msgstr ""
+
+#: face/edit.cc:
+msgid "Pause this just after adding"
+msgstr ""
+
+#face/list.cc:
+msgid "/Download/Select all"
+msgstr ""
+
+# face/list.cc
+msgid "/Download/Invert selection"
 msgstr ""
