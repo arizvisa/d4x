@@ -351,3 +351,29 @@ d4xXmlObject *d4x_xml_find_obj(tQueue *q,char *name){
 	delete[] n;
 	return(NULL);
 };
+
+/* path can be specified in next format:
+   "ObjectName SubObjectName SubSubObjectName[>FieldName]"
+ */
+
+char *d4x_xml_find_obj_value(tQueue *q,char *path){
+	char *n=copy_string(path);
+	char *s=index(n,'>');
+	if (s){
+		*s=0;
+		d4xXmlObject *obj=d4x_xml_find_obj(q,n);
+		d4xXmlField *f=obj?obj->get_attr(s+1):NULL;
+		if (f){
+			delete[] n;
+			return(f->value.get());
+		};
+	}else{
+		d4xXmlObject *obj=d4x_xml_find_obj(q,n);
+		if (obj){
+			delete[] n;
+			return(obj->value.get());
+		};
+	};
+	delete[] n;
+	return(NULL);
+};

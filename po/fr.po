@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt-2.0beta3\n"
-"POT-Creation-Date: 2002-03-19 23:21+0700\n"
+"POT-Creation-Date: 2002-03-22 15:00+0700\n"
 "PO-Revision-Date: 2002-03-13 18:30+0100\n"
 "Last-Translator: Jerome COUDERC <j.couderc@ifrance.com>\n"
 "Language-Team: French\n"
@@ -609,7 +609,7 @@ msgstr "Impossible d'initialiser le contrôle de socket!\n"
 msgid "Loading default list of downloads"
 msgstr "Chargement de la liste par défaut des downloads"
 
-#: main/main.cc:234 main/main.cc:1178
+#: main/main.cc:234 main/main.cc:1179
 msgid "Delete completed downloads"
 msgstr "Supprimer les downloads terminés"
 
@@ -702,72 +702,72 @@ msgstr "Récupération du fichier %z terminée par une erreur fatale"
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z a été effacé de la queue des downloads en tant que download échoué"
 
-#: main/main.cc:1122
+#: main/main.cc:1123
 msgid "Restarting failed downloads"
 msgstr "Reprise des downloads échoués"
 
-#: main/main.cc:1122 main/main.cc:1158 main/main.cc:1174 main/main.cc:1178
-#: main/main.cc:1183 main/main.cc:1196 main/main.cc:1201
+#: main/main.cc:1123 main/main.cc:1159 main/main.cc:1175 main/main.cc:1179
+#: main/main.cc:1184 main/main.cc:1197 main/main.cc:1202
 msgid "[control socket]"
 msgstr "[contrôle de socket]"
 
-#: main/main.cc:1140
+#: main/main.cc:1141
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Suppression du download via le contrôleur de socket [%s]"
 
-#: main/main.cc:1148
+#: main/main.cc:1149
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Ajout d'un téléchargerment via le controleur de socket [%s]"
 
-#: main/main.cc:1156
+#: main/main.cc:1157
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Limitation de vitesse réglée sur %s %s"
 
-#: main/main.cc:1174
+#: main/main.cc:1175
 msgid "Setup maximum active downloads to"
 msgstr "Paramétrage du nombre maxi de downloads actifs à"
 
-#: main/main.cc:1196
+#: main/main.cc:1197
 msgid "Exiting if nothing to do is switched off"
 msgstr "Fermeture automatique s'il n'y a plus rien à faire, désactivée"
 
-#: main/main.cc:1201
+#: main/main.cc:1202
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader se fermera s'il n'y a plus rien à faire après %i minutes %s"
 
-#: main/main.cc:1214
+#: main/main.cc:1215
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "La liste par défaut est maintenant '%s'."
 
-#: main/main.cc:1452
+#: main/main.cc:1453
 msgid "Normally started"
 msgstr "Démarrage normal"
 
-#: main/main.cc:1508
+#: main/main.cc:1509
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Ajout du téléchargement du fichier %s depuis %s [par l'utilisateur]"
 
-#: main/main.cc:1563
+#: main/main.cc:1564
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu octets reçus lors de cette session"
 
-#: main/main.cc:1564
+#: main/main.cc:1565
 msgid "Downloader exited normaly"
 msgstr "Fermeture normale de Downloader"
 
-#: main/main.cc:1601
+#: main/main.cc:1602
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Impossible d'ouvrir le fichier '%s' pour sauvegarder le log"
 
-#: main/main.cc:1632
+#: main/main.cc:1633
 msgid "Such protocol is not supported!"
 msgstr "Ce protocole n'est pas supporté!"
 
@@ -803,13 +803,13 @@ msgstr "Ligne numéro %i du log principal"
 msgid "Can't open file for saving log"
 msgstr "Impossible d'ouvrir le fichier pour sauvegarder le log"
 
-#: main/nt.cc:122
+#: main/nt.cc:123
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "ATTENTION!!! Je n'arrive pas à trouver la variable HOME! Impossible de lire "
 "la configuration!"
 
-#: main/nt.cc:135
+#: main/nt.cc:136
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s est probablement en cours d'exécution\n"
@@ -1096,11 +1096,11 @@ msgstr "/Vitesse/Illimitée"
 msgid "/Exit"
 msgstr "/Quitter"
 
-#: main/face/dndtrash.cc:370
+#: main/face/dndtrash.cc:369
 msgid "DnD basket"
 msgstr " Corbeille DnD "
 
-#: main/face/dndtrash.cc:506
+#: main/face/dndtrash.cc:496
 msgid "Drop link here"
 msgstr "Glisser le lien ici"
 
@@ -1572,7 +1572,7 @@ msgstr "Voulez-vous supprimer les downloads qui ont échoué ?"
 msgid "Ready to go ????"
 msgstr "Prêt à démarrer ???"
 
-#: main/face/list.cc:1194
+#: main/face/list.cc:1197
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-en cours %i-terminé %i-total "

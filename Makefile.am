@@ -1,5 +1,5 @@
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.16 2002/03/19 16:01:17 max Exp $
+# $Header: /var/cvs/d4x/Makefile.am,v 1.18 2002/03/20 03:43:27 max Exp $
 #
 
 SUBDIRS = intl main po share DOC
@@ -19,7 +19,7 @@ src-rpm: dist
 # Remove all generated and autoinstalled (linked) files
 MAINTAINERCLEANFILES = aclocal.m4 config.log config.status configure Makefile.in \
 package_config.h.in stamp-h.in INSTALL po/Makefile.in.in ABOUT-NLS \
-po/ChangeLog po/$(PACKAGE).pot main/*~ face/*~ po/*~ ChangeLog
+po/ChangeLog po/$(PACKAGE).pot main/*~ face/*~ po/*~
 
 maintainer-clean-local:
 	rm -rf $(top_srcdir)/intl

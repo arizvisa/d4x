@@ -14,7 +14,7 @@
 @SET_MAKE@
 
 #
-# $Header: /var/cvs/d4x/Makefile.am,v 1.16 2002/03/19 16:01:17 max Exp $
+# $Header: /var/cvs/d4x/Makefile.am,v 1.18 2002/03/20 03:43:27 max Exp $
 #
 
 SHELL = @SHELL@
@@ -119,7 +119,7 @@ ABOUT-NLS AUTHORS NEWS PLANS README TODO ChangeLog ChangeLog-1.x reconf nt.spec
 # Remove all generated and autoinstalled (linked) files
 MAINTAINERCLEANFILES = aclocal.m4 config.log config.status configure Makefile.in \
 package_config.h.in stamp-h.in INSTALL po/Makefile.in.in ABOUT-NLS \
-po/ChangeLog po/$(PACKAGE).pot main/*~ face/*~ po/*~ ChangeLog
+po/ChangeLog po/$(PACKAGE).pot main/*~ face/*~ po/*~
 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

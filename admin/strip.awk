@@ -1,17 +1,23 @@
 #
-# $Header: /var/cvs/d4x/admin/strip.awk,v 1.1 2002/03/16 12:44:40 zaufi Exp $
+# $Header: /var/cvs/d4x/admin/strip.awk,v 1.3 2002/03/20 15:15:14 zaufi Exp $
 #
-# Split incoming string, sort, and merge excluding duplicates
+# Split incoming strings, sort, and merge excluding duplicates
 #
+BEGIN {
+    curpos = 0
+}
+{
+    for (i = 1; i <= NF; i++) array[curpos++] = $i;
+}
 END {
-    for (i = 1; i <= NF; i++) a[i]=$i
-    n = asort(a)
-    result=a[1]
-    prev=a[1]
-    for (i = 2; i <= n; i++)
+    r_curpos = 0
+    for (i = 0; i < curpos; i++)
     {
-	if (prev != a[i]) result = result " " a[i]
-	prev = a[i]
+	for (j = 0; j < r_curpos; j++)  if (result[j] == array[i]) break;
+	if (j == r_curpos)  result[r_curpos++] = array[i];
     }
-    print result
+    result_str = result[0]
+    for (i = 1; i < r_curpos; result_str = result_str " " result[i++]);
+
+    print result_str
 }

@@ -985,8 +985,11 @@ void list_dnd_drop_internal(GtkWidget *widget,
 		printf("%s\n",gdk_atom_name(selection_data->selection));
 		*/
 		if (selection_data->data != NULL) {
-			if (!GTK_IS_SCROLLED_WINDOW(widget))
+			int is_dnd_basket=0;
+			if (!GTK_IS_SCROLLED_WINDOW(widget)){
 				dnd_trash_animation();
+				is_dnd_basket=1;
+			};
 			SOUND_SERVER->add_event(SND_DND_DROP);
 			int len = strlen((char*)selection_data->data);
 			if (len && selection_data->data[len-1] == '\n')
@@ -1013,15 +1016,15 @@ void list_dnd_drop_internal(GtkWidget *widget,
 				sbd=1;
 			};
 			char *desc=ent?ent+1:(char *)NULL;
+			d4xDownloadQueue *tmpq=D4X_QUEUE;
+			if (is_dnd_basket && dnd_trash_target_queue)
+				D4X_QUEUE=dnd_trash_target_queue;
 			if (CFG.NEED_DIALOG_FOR_DND){
 				init_add_dnd_window(str,desc);
 			}else{
-				d4xDownloadQueue *tmpq=D4X_QUEUE;
-				if (dnd_trash_target_queue)
-					D4X_QUEUE=dnd_trash_target_queue;
 				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL,desc);
-				D4X_QUEUE=tmpq;
 			};
+			D4X_QUEUE=tmpq;
 			if (sbd) delete[] str;
 		}
 	}

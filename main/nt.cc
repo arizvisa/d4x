@@ -30,7 +30,8 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 2.0RC1";
+char *VERSION_NAME="WebDownloader for X "
+			VERSION;
 char *LOCK_FILE;
 
 static void init_string_variables(){

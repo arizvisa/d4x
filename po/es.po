@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WebDownloader for X 1.18\n"
-"POT-Creation-Date: 2002-03-19 23:21+0700\n"
+"POT-Creation-Date: 2002-03-22 15:00+0700\n"
 "PO-Revision-Date: 2002-03-13 11:38GMT\n"
 "Last-Translator: Gustavo D. Vranjes <gvranjes@abaconet.com.ar>\n"
 "Language-Team: Castellano <es@li.org>\n"
@@ -632,7 +632,7 @@ msgid "Loading default list of downloads"
 msgstr "Cargando lista de descargas por defecto"
 
 # main.cc
-#: main/main.cc:234 main/main.cc:1178
+#: main/main.cc:234 main/main.cc:1179
 msgid "Delete completed downloads"
 msgstr "Borrar descargas finalizadas"
 
@@ -735,79 +735,79 @@ msgstr "Finalizó por un error fatal la descarga del archivo %z"
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z ha sido borrado de la cola de descargas al fracasar su descarga"
 
-#: main/main.cc:1122
+#: main/main.cc:1123
 msgid "Restarting failed downloads"
 msgstr "Reiniciando descargas fallidas"
 
 # main.cc
-#: main/main.cc:1122 main/main.cc:1158 main/main.cc:1174 main/main.cc:1178
-#: main/main.cc:1183 main/main.cc:1196 main/main.cc:1201
+#: main/main.cc:1123 main/main.cc:1159 main/main.cc:1175 main/main.cc:1179
+#: main/main.cc:1184 main/main.cc:1197 main/main.cc:1202
 msgid "[control socket]"
 msgstr "[socket de control]"
 
 # main.cc
-#: main/main.cc:1140
+#: main/main.cc:1141
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Remover la descarga por socket de control [%s]"
 
 # main.cc
-#: main/main.cc:1148
+#: main/main.cc:1149
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Añadida la descarga por socket de control [%s]"
 
 # main.cc
-#: main/main.cc:1156
+#: main/main.cc:1157
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Establecer límite de velocidad a %s %s"
 
 # main.cc
-#: main/main.cc:1174
+#: main/main.cc:1175
 msgid "Setup maximum active downloads to"
 msgstr "Configurar máximo número de descargas activas a"
 
-#: main/main.cc:1196
+#: main/main.cc:1197
 msgid "Exiting if nothing to do is switched off"
 msgstr "Saliendo si nada para hacer está desactivado"
 
-#: main/main.cc:1201
+#: main/main.cc:1202
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader finalizará si no se realiza nada después de %i minutos %s"
 
-#: main/main.cc:1214
+#: main/main.cc:1215
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "La cola predeterminad ahora es %s."
 
-#: main/main.cc:1452
+#: main/main.cc:1453
 msgid "Normally started"
 msgstr "Inicio normal"
 
-#: main/main.cc:1508
+#: main/main.cc:1509
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Añadida descarga del archivo %s desde %s [por el usuario]"
 
 # main.cc
-#: main/main.cc:1563
+#: main/main.cc:1564
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "Se cargaron %lu bytes durante la sesión"
 
 # main.cc:
-#: main/main.cc:1564
+#: main/main.cc:1565
 msgid "Downloader exited normaly"
 msgstr "Downloader finalizó normalmente"
 
-#: main/main.cc:1601
+#: main/main.cc:1602
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "No se puede abrir el archivo de bitácoras '%s' para guardarlo"
 
-#: main/main.cc:1632
+#: main/main.cc:1633
 msgid "Such protocol is not supported!"
 msgstr "¡No se puede usar ese protocolo!"
 
@@ -844,13 +844,13 @@ msgstr "línea número %i del log principal"
 msgid "Can't open file for saving log"
 msgstr "No se puede abrir el archivo de bitácoras para guardarlo"
 
-#: main/nt.cc:122
+#: main/nt.cc:123
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "¡¡¡ADVERTENCIA!!! ¡No se puede encontrar la veriable HOME! ¡Sin ella no se "
 "puede leer la configuración!"
 
-#: main/nt.cc:135
+#: main/nt.cc:136
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s probablemente ya se está descargando\n"
@@ -1153,12 +1153,12 @@ msgid "/Exit"
 msgstr "/Salir"
 
 # face/buttons.cc:
-#: main/face/dndtrash.cc:370
+#: main/face/dndtrash.cc:369
 msgid "DnD basket"
 msgstr " Ícono DnD "
 
 # face/dndtrash.cc:
-#: main/face/dndtrash.cc:506
+#: main/face/dndtrash.cc:496
 msgid "Drop link here"
 msgstr "Soltar un enlace aquí"
 
@@ -1658,7 +1658,7 @@ msgstr "¿Quiere borrar las descargas fallidas?"
 msgid "Ready to go ????"
 msgstr "¿¿¿ Preparado ???"
 
-#: main/face/list.cc:1194
+#: main/face/list.cc:1197
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-descargando %i-finalizadas %i-total "

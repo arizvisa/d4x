@@ -1033,14 +1033,15 @@ void tMain::main_circle_nano2(){
 	main_circle_nano1();
 	int i=0;
 	while (D4X_UPDATE.first_s && i<10){
-		tDownload *gp=D4X_UPDATE.first_s;
+		tDownload *dwn=D4X_UPDATE.first_s;
+		tDownload *gp=dwn;
 		D4X_UPDATE.del_s();
-		if (gp->split)
-			gp=gp->split->grandparent;
+		if (dwn->split)
+			gp=dwn->split->grandparent;
 		switch(gp->owner()){
 		case DL_RUN:
-			if (gp->split){
-				check_split(gp);
+			if (dwn->split){
+				check_split(dwn);
 				break;
 			}else
 				prepare_for_stoping(gp);

@@ -441,8 +441,8 @@ fsize_t tHttpDownload::get_size() {
 int tHttpDownload::download(fsize_t len) {
 	int success=1;
 	int first=1;
-	fsize_t length_to_load=len>0?LOADED+len:0;
 	StartSize=LOADED;
+	fsize_t length_to_load=len>0?LOADED+len:0;
 	while(success) {
 		if (!first) StartSize=rollback();
 		HTTP->set_offset(LOADED);

@@ -591,9 +591,9 @@ void init_buttons_bar() {
 	gdk_font_unref(current_style->font);
 	current_style->font = MainWindow->style->font;
 	gdk_font_ref(current_style->font);
-	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"buttonsbar tipcolor");
-	if (xmlobj && xmlobj->value.get()){
-		gdk_color_parse(xmlobj->value.get(),&(current_style->bg[GTK_STATE_NORMAL]));
+	char *tcolor=d4x_xml_find_obj_value(D4X_THEME_DATA,"buttonsbar tipcolor");
+	if (tcolor){
+		gdk_color_parse(tcolor,&(current_style->bg[GTK_STATE_NORMAL]));
 	}else{
 		current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
 	};
@@ -607,9 +607,9 @@ void init_buttons_bar() {
 void buttons_theme_changed(){
 	GtkTooltips *tooltips=((GtkToolbar *)(ButtonsBar))->tooltips;
 	GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(tooltips->tip_window));
-	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"buttonsbar tipcolor");
-	if (xmlobj && xmlobj->value.get()){
-		gdk_color_parse(xmlobj->value.get(),&(current_style->bg[GTK_STATE_NORMAL]));
+	char *tcolor=d4x_xml_find_obj_value(D4X_THEME_DATA,"buttonsbar tipcolor");
+	if (tcolor){
+		gdk_color_parse(tcolor,&(current_style->bg[GTK_STATE_NORMAL]));
 	}else{
 		current_style->bg[GTK_STATE_NORMAL] = LYELLOW;
 	};

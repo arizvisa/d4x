@@ -1,3 +1,74 @@
+2002-03-22 12:28  max
+
+	* main/autoadd.cc: fixed generating URLs by "autoadding" if autoadd
+	expression is closed by constant substring.
+
+2002-03-22 10:25  max
+
+	* main/nt.cc: use VERSION defined by autoconf
+
+2002-03-22 09:58  max
+
+	* main/main.cc: fixed stopping apropriate thread of splited
+	download
+
+2002-03-21 11:58  max
+
+	* main/face/list.cc: display valid "save path" in "Add new
+	Download" dialog for DnD via basket
+
+2002-03-21 11:43  max
+
+	* main/: xml.cc, xml.h, face/buttons.cc, face/dndtrash.cc: added
+	routine for easy getting value of a xml object related code
+	cleanups
+
+2002-03-20 22:15  zaufi
+
+	* admin/strip.awk: Fix for Slackware wich is have strange awk...
+
+2002-03-20 14:31  max
+
+	* po/: bg.po, de.po, es.po, fr.po, it.po, ru.po: po files after
+	last 'make update-po'
+
+2002-03-20 10:43  max
+
+	* Makefile.am: added back 'nt.spec' to EXTRA_DISTS
+
+2002-03-20 10:39  max
+
+	* main/nt.cc: version number is RC2
+
+2002-03-20 10:39  max
+
+	* NEWS: added RC1 changes
+
+2002-03-20 10:32  max
+
+	* main/: dlist.cc, httpd.cc: fixed loading via HTTP with rollback
+	enabled
+
+2002-03-20 09:29  zaufi
+
+	* Makefile.am: Remove ChangeLog from list of cleaned files
+
+2002-03-20 09:28  zaufi
+
+	* reconf: do KILL 'EM ALL! only if maintainer mode configured
+
+2002-03-20 09:02  zaufi
+
+	* README: make it cleaner... but future update still req
+
+2002-03-20 08:56  zaufi
+
+	* admin/strip.awk: Improved version
+
+2002-03-20 08:46  max
+
+	* ChangeLog: Added changlog produced by cvs2pl
+
 2002-03-19 23:01  max
 
 	* ChangeLog, Makefile.am, NEWS, configure.in, main/nt.cc,

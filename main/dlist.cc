@@ -1252,7 +1252,7 @@ void tDownload::download_http() {
 	if (split && !im_first)
 		CurentSize=split->FirstByte;
 	who->set_loaded(CurentSize);
-	who->rollback();
+	CurentSize=who->rollback();
 	
 	int size=who->get_size();
 	/* In the case if file already loaded

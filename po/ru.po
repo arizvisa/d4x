@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
-"POT-Creation-Date: 2002-03-19 23:21+0700\n"
+"POT-Creation-Date: 2002-03-22 15:00+0700\n"
 "PO-Revision-Date: 1999-08-24 17:12+07\n"
 "Last-Translator: Koshelev Maxim <mdem@chat.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -628,7 +628,7 @@ msgid "Loading default list of downloads"
 msgstr "Загрузка сохраненного списка закачек"
 
 # main.cc
-#: main/main.cc:234 main/main.cc:1178
+#: main/main.cc:234 main/main.cc:1179
 msgid "Delete completed downloads"
 msgstr "Удаление завершенных закачек"
 
@@ -728,79 +728,79 @@ msgstr "Загрузка файла %z остановлена из-за ошибки"
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z была удалена из очереди закачек, как неудачная"
 
-#: main/main.cc:1122
+#: main/main.cc:1123
 msgid "Restarting failed downloads"
 msgstr "Перезапуск неудавшихся закачек"
 
 # main.cc
-#: main/main.cc:1122 main/main.cc:1158 main/main.cc:1174 main/main.cc:1178
-#: main/main.cc:1183 main/main.cc:1196 main/main.cc:1201
+#: main/main.cc:1123 main/main.cc:1159 main/main.cc:1175 main/main.cc:1179
+#: main/main.cc:1184 main/main.cc:1197 main/main.cc:1202
 msgid "[control socket]"
 msgstr "[контрольный сокет]"
 
 # main.cc
-#: main/main.cc:1140
+#: main/main.cc:1141
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Удаление закачки через контрольный сокет [%s]"
 
 # main.cc
-#: main/main.cc:1148
+#: main/main.cc:1149
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Добавление закачки через контрольный сокет [%s]"
 
 # main.cc
-#: main/main.cc:1156
+#: main/main.cc:1157
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Устанвливаю ограничение скорости в %s %s"
 
 # main.cc
-#: main/main.cc:1174
+#: main/main.cc:1175
 msgid "Setup maximum active downloads to"
 msgstr "Максимум качающих установлено в"
 
-#: main/main.cc:1196
+#: main/main.cc:1197
 msgid "Exiting if nothing to do is switched off"
 msgstr "\"выход если нечего делать\" отключен"
 
-#: main/main.cc:1201
+#: main/main.cc:1202
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader выйдет если нечего делать через %i минут %s"
 
-#: main/main.cc:1214
+#: main/main.cc:1215
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "'%s' очередь по умолчанию."
 
-#: main/main.cc:1452
+#: main/main.cc:1453
 msgid "Normally started"
 msgstr "Нормальный запуск"
 
-#: main/main.cc:1508
+#: main/main.cc:1509
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Добавлена закачка файла %s из %s"
 
 # main.cc
-#: main/main.cc:1563
+#: main/main.cc:1564
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu байт загружено за сессию"
 
 # main.cc:
-#: main/main.cc:1564
+#: main/main.cc:1565
 msgid "Downloader exited normaly"
 msgstr "Нормальный выход"
 
-#: main/main.cc:1601
+#: main/main.cc:1602
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Не удается открыть файл '%s' для записи лога"
 
-#: main/main.cc:1632
+#: main/main.cc:1633
 msgid "Such protocol is not supported!"
 msgstr "Этот протокол не поддерживается!"
 
@@ -836,11 +836,11 @@ msgstr "строка %i главного лога"
 msgid "Can't open file for saving log"
 msgstr "Не удается открыть файл для записи лога"
 
-#: main/nt.cc:122
+#: main/nt.cc:123
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr "ВНИМАНИЕ!!! Переменная HOME не найдена! Настройки не прочитаны!"
 
-#: main/nt.cc:135
+#: main/nt.cc:136
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s возможно уже запущен\n"
@@ -1141,12 +1141,12 @@ msgid "/Exit"
 msgstr "/Выход"
 
 # face/buttons.cc:
-#: main/face/dndtrash.cc:370
+#: main/face/dndtrash.cc:369
 msgid "DnD basket"
 msgstr "Корзина для DnD"
 
 # face/dndtrash.cc:
-#: main/face/dndtrash.cc:506
+#: main/face/dndtrash.cc:496
 msgid "Drop link here"
 msgstr "Брось сюда ссылку"
 
@@ -1646,7 +1646,7 @@ msgstr "Хотите удалить неудачные закачки?"
 msgid "Ready to go ????"
 msgstr "Готов ???"
 
-#: main/face/list.cc:1194
+#: main/face/list.cc:1197
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-запущено %i-завершено %i-всего "

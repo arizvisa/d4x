@@ -1,10 +1,15 @@
 #!/bin/sh
 #
-# $Header: /var/cvs/d4x/reconf,v 1.11 2002/03/15 03:46:16 max Exp $
+# $Header: /var/cvs/d4x/reconf,v 1.12 2002/03/20 02:28:40 zaufi Exp $
 #
 
+#
 # If we r start in already dirty directory -- KILL 'EM ALL!
-test -f Makefile && make maintainer-clean
+# (only when maintainer-mode configured)
+#
+if test -f Makefile; then
+    cat Makefile | grep "MAINT = #" > /dev/null || make maintainer-clean
+fi
 
 # If this script will be started by usual user
 # we don't show anything 2 him (to keep it relaxed :)

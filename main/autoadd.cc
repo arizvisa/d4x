@@ -373,7 +373,7 @@ char *d4xAutoGenerator::next(){
 		delete[] rval;
 		delete[] a;
 		rval=b;
-		if (tmp->end_flag && tmp->prev==NULL) end_flag=1;
+		if (tmp->end_flag && tmp->prev==NULL && flast) end_flag=1;
 		else end_flag=0;
 		tmp=(d4xAASubStr *)(tmp->prev);
 	};

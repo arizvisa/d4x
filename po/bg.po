@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-03-19 23:21+0700\n"
+"POT-Creation-Date: 2002-03-22 15:00+0700\n"
 "PO-Revision-Date: 2002-03-09 19:08GMT\n"
 "Last-Translator: Miroslav B. Iordaniov <m_iordo@yahoo.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -597,7 +597,7 @@ msgstr "Не мога да инициализирам контролното гнездо!\n"
 msgid "Loading default list of downloads"
 msgstr "Зареждам списък със подразбиращите се тегления"
 
-#: main/main.cc:234 main/main.cc:1178
+#: main/main.cc:234 main/main.cc:1179
 msgid "Delete completed downloads"
 msgstr "Махни завършените тегления"
 
@@ -688,72 +688,72 @@ msgstr "Тегленето на файл %z беше ликвидирано от фатална грешка"
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z беше махнат от опашката със тегления като провалено теглене"
 
-#: main/main.cc:1122
+#: main/main.cc:1123
 msgid "Restarting failed downloads"
 msgstr "Рестартирам провалените тегления"
 
-#: main/main.cc:1122 main/main.cc:1158 main/main.cc:1174 main/main.cc:1178
-#: main/main.cc:1183 main/main.cc:1196 main/main.cc:1201
+#: main/main.cc:1123 main/main.cc:1159 main/main.cc:1175 main/main.cc:1179
+#: main/main.cc:1184 main/main.cc:1197 main/main.cc:1202
 msgid "[control socket]"
 msgstr "[контролно гнездо]"
 
-#: main/main.cc:1140
+#: main/main.cc:1141
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Премахни тегленето през контролното гнездо [%s]"
 
-#: main/main.cc:1148
+#: main/main.cc:1149
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Добавям теглене през контролното гнездо [%s]"
 
-#: main/main.cc:1156
+#: main/main.cc:1157
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Настрой ограничението на скороста на %s %s"
 
-#: main/main.cc:1174
+#: main/main.cc:1175
 msgid "Setup maximum active downloads to"
 msgstr "Нагласи максималния брой активни тегления на"
 
-#: main/main.cc:1196
+#: main/main.cc:1197
 msgid "Exiting if nothing to do is switched off"
 msgstr "Излизането при липса на работа е изключено"
 
-#: main/main.cc:1201
+#: main/main.cc:1202
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "D4X ще се затвори ако няма работа след %i минути %s"
 
-#: main/main.cc:1214
+#: main/main.cc:1215
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr ""
 
-#: main/main.cc:1452
+#: main/main.cc:1453
 msgid "Normally started"
 msgstr "Нормално стартиран"
 
-#: main/main.cc:1508
+#: main/main.cc:1509
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Файлът %s е прибавен за теглене от %s [от потребител]"
 
-#: main/main.cc:1563
+#: main/main.cc:1564
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu байта заредени по време на сесията"
 
-#: main/main.cc:1564
+#: main/main.cc:1565
 msgid "Downloader exited normaly"
 msgstr "D4X е затворен нормално"
 
-#: main/main.cc:1601
+#: main/main.cc:1602
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Не мога да отворя '%s' за да запазя дневника"
 
-#: main/main.cc:1632
+#: main/main.cc:1633
 msgid "Such protocol is not supported!"
 msgstr "Такъв протокол не се поддържа!"
 
@@ -788,13 +788,13 @@ msgstr "ред №%i от главния дневник"
 msgid "Can't open file for saving log"
 msgstr "Не мога да отворя файл за да запазя дневник"
 
-#: main/nt.cc:122
+#: main/nt.cc:123
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr ""
 "ВНИМАНИЕ!Не мога да намеря НОМЕ променливата!Не мога да прочета "
 "конфигурацията!"
 
-#: main/nt.cc:135
+#: main/nt.cc:136
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "може би %s е вече стартиран\n"
@@ -1081,11 +1081,11 @@ msgstr "/Скорост/Неограничена"
 msgid "/Exit"
 msgstr "/Изход"
 
-#: main/face/dndtrash.cc:370
+#: main/face/dndtrash.cc:369
 msgid "DnD basket"
 msgstr " DnD кошница "
 
-#: main/face/dndtrash.cc:506
+#: main/face/dndtrash.cc:496
 msgid "Drop link here"
 msgstr "Пуснете връзката тук"
 
@@ -1554,7 +1554,7 @@ msgstr "Искате ли да махнете провалените тегления?"
 msgid "Ready to go ????"
 msgstr "Готов ???"
 
-#: main/face/list.cc:1194
+#: main/face/list.cc:1197
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-стартирани %i-завършени %i-всички"

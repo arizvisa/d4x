@@ -42,6 +42,7 @@ struct d4xXmlObject:public tNode{
 tQueue *d4x_xml_parse_fd(int fd);
 tQueue *d4x_xml_parse_file(const char *filename);
 d4xXmlObject *d4x_xml_find_obj(tQueue *q,char *name);
+char *d4x_xml_find_obj_value(tQueue *q,char *path);
 void d4x_xml_out(tQueue *q);
 
 #endif// _D4X_XML_HEADER_

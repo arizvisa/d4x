@@ -362,7 +362,6 @@ void dnd_trash_init(){
 	GtkWidget *pixmap;
 	GtkStyle *style;
 	GdkGC *gc;
-	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"dndbasket");
     
 //	dnd_trash_window = gtk_window_new( GTK_WINDOW_POPUP );
 	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -388,21 +387,12 @@ void dnd_trash_init(){
 	if (dnd_trash_pixmap1==NULL){
 		char *iconfile1=NULL;
 		char *iconfile2=NULL;
-		d4xXmlObject *themeicon=NULL;
-		if (xmlobj){
-			d4xXmlField *fld=NULL;
-			themeicon=xmlobj->find_obj("icon");
-			if (themeicon)
-				fld=themeicon->get_attr("file");
-			if (fld)
-				iconfile1=sum_strings(D4X_SHARE_PATH,"/themes/",fld->value.get(),NULL);
-			fld=NULL;
-			themeicon=xmlobj->find_obj("dropicon");
-			if (themeicon)
-				fld=themeicon->get_attr("file");
-			if (fld)
-				iconfile2=sum_strings(D4X_SHARE_PATH,"/themes/",fld->value.get(),NULL);
-		};
+		char *themeicon=d4x_xml_find_obj_value(D4X_THEME_DATA,"dndbasket icon>file");
+		if (themeicon)
+			iconfile1=sum_strings(D4X_SHARE_PATH,"/themes/",themeicon,NULL);
+		themeicon=d4x_xml_find_obj_value(D4X_THEME_DATA,"dndbasket dropicon>file");
+		if (themeicon)
+			iconfile2=sum_strings(D4X_SHARE_PATH,"/themes/",themeicon,NULL);
 		GdkPixbuf *pixbuf=NULL;
 		if (iconfile1 && (pixbuf=gdk_pixbuf_new_from_file(iconfile1))){
 			gdk_pixbuf_render_pixmap_and_mask(pixbuf,&dnd_trash_pixmap1,&dnd_trash_mask1,1);
@@ -476,7 +466,7 @@ void dnd_trash_init(){
 	gtk_container_add( GTK_CONTAINER(dnd_trash_window), dnd_trash_fixed );
 	gtk_widget_show_all( dnd_trash_fixed );
 
-	d4xXmlObject *xmltip=xmlobj?xmlobj->find_obj("tooltip"):NULL;
+	d4xXmlObject *xmltip=d4x_xml_find_obj(D4X_THEME_DATA,"dndbasket tooltip");
 	if (dnd_trash_tooltips==NULL){
 		dnd_trash_tooltips=gtk_tooltips_new();
 		gtk_tooltips_force_window(dnd_trash_tooltips);
