@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include <pthread.h>
 #include "var.h"
 #include "dbc.h"
@@ -55,7 +55,6 @@ tHistory *ALL_HISTORIES[LAST_HISTORY];
 tCookiesTree *COOKIES=NULL;
 tQueue *D4X_THEME_DATA=(tQueue *)NULL;
 
-tUserPassTree *PasswordsForHosts=NULL;
 tDB *ALL_DOWNLOADS;
 char *HOME_VARIABLE=NULL;
 int GLOBAL_SLEEP_DELAY=2;

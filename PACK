@@ -1,0 +1,8 @@
+#!/bin/bash
+cd main;
+make clean;
+rm -f Makefile.dep face/Makefile.dep
+cd ..
+rm ../main.tar.bz2 ../main.rar >/dev/null
+tar cvo * --exclude-from EXCLUDE|bzip2 -9 >../main.tar.bz2
+rar a ../main.rar * -r -m5 -mdg -s -x@EXCLUDE

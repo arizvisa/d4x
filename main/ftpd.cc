@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include "ftpd.h"
 #include "ftp.h"
 #include "client.h"
@@ -373,6 +373,7 @@ int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 		FTP->import_ctrl_socket(s);
 		CWDFlag=0;
 		RetrNum=1;
+		tDownloader::reconnect();
 		return(0);
 	};
 	while(reconnect()==0){

@@ -17,6 +17,7 @@ class tFtpClient:public tClient{
 	int DSFlag;
 	int passive;
 	fsize_t TEMP_SIZE,OLD_SIZE;
+	fsize_t CUR_REST;
 	int log_flag;
 	int DONT_SEND_QUIT;
 	int RETRY_IF_NO_REGET;

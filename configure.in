@@ -1,0 +1,278 @@
+# -*-m4-*-
+# Process this file with autoconf to produce a configure script.
+#
+AC_REVISION($Revision: 1.21 $)
+AC_PREREQ(2.52)
+
+# -----------------------------------------------------------------------------
+# Initialize environment
+# -----------------------------------------------------------------------------
+AC_INIT([d4x], 2.0beta3, [chuchelo@krasu.ru])
+
+AC_CONFIG_SRCDIR([nt.spec.in])
+AC_CONFIG_AUX_DIR(admin)
+AM_CONFIG_HEADER([package_config.h])
+
+# This ksh/zsh (and bash >= 2.05) feature conflict with `cd blah; pwd`
+unset CDPATH
+
+AC_CANONICAL_BUILD
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
+
+AM_INIT_AUTOMAKE($PACKAGE_NAME, $PACKAGE_VERSION)
+
+AC_PREFIX_DEFAULT(/usr/local)
+
+# -----------------------------------------------------------------------------
+# Parse some configuration keys
+# -----------------------------------------------------------------------------
+
+AM_MAINTAINER_MODE
+
+CXXFLAGS="-O0"
+AC_ARG_ENABLE(release, 
+    AC_HELP_STRING([--enable-release], [Compile with maximum optimization]),
+    [if test "x$enable_release" = "xyes"; then
+	CXXFLAGS="-O3" 
+    fi])
+AC_ARG_ENABLE(debug,
+    AC_HELP_STRING([--enable-debug], [Enable debug info and some debugging code to be compiled]),
+    [if test "x$enable_debug" = "xyes"; then
+	CXXFLAGS=$CXXFLAGS" -ggdb"
+        CPPFLAGS=$CPPFLAGS" -DDEBUG_ALL"
+    fi])
+AC_ARG_ENABLE(warnings,
+    AC_HELP_STRING([--enable-warnings], [Enable all warnings at compile time]),
+    [if test "x$enable_warnings" = "xyes"; then
+	CXXFLAGS=$CXXFLAGS" -Wall"
+    fi])
+AC_ARG_ENABLE(esd,
+    AC_HELP_STRING([--disable-esd], [Disable esound output (default=enabled)]),,
+    enable_esd="yes")
+AC_ARG_ENABLE(oss,
+    AC_HELP_STRING([--disable-oss], [Disable OSS sound output (default=enabled)]),,
+    enable_oss="yes")
+
+# -----------------------------------------------------------------------------
+# Checks for arch/OS
+# -----------------------------------------------------------------------------
+
+dnl Check for OS
+case ${host} in
+    *-linux*)
+    ;;
+    *-solaris*)
+	dnl From original Makefile: SOLARIS_TYPECASTED_X11_HEADERS
+	OS_INCLUDES="-I/var/tmp/src"
+	OS_CPPFLAGS="-D_POSIX_THREADS_SEMANTICS"
+    ;;
+    *-freebsd*)
+    ;;
+    *-irix*)
+	OS_CXXFLAGS="-fpermissive"
+    ;;
+esac
+
+dnl check for CPU
+dnl
+dnl I know exactly that on Intel and ADM CPUs this improve code
+dnl but 'bout others I can say nothing...
+dnl
+am_intel_amd_common="-fexpensive-optimizations -malign-loops=4 -malign-jumps=4 -malign-functions=4 -fomit-frame-pointer"
+AC_MSG_CHECKING(host CPU architecture) 
+case ${host} in
+    i586-* | i686-*)
+	AC_MSG_RESULT([Intel x86])
+	if test "x$enable_release" = "xyes"; then
+	    OS_CXXFLAGS=${am_intel_amd_common}
+	fi
+    ;;
+    athlon-*)
+	AC_MSG_RESULT([AMD Athlon])
+	if test "x$enable_release" = "xyes"; then
+	    OS_CXXFLAGS=${am_intel_amd_common}" -mcpu=athlon"
+	fi
+    ;;
+    *)
+	AC_MSG_RESULT([unknown])
+    ;;
+esac
+
+# -----------------------------------------------------------------------------
+# Checks for programs
+# -----------------------------------------------------------------------------
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_INSTALL
+AM_PROG_INSTALL_STRIP
+AC_PROG_RANLIB
+
+dnl Set of available languages.
+ALL_LINGUAS="de it es ru bg"
+
+dnl Workaround for bug in gettext version 0.10.38 (and maybe below)
+dnl (wich is doesn't aware with new autoconf)
+test -n "$ac_given_srcdir" || ac_given_srcdir="$srcdir"
+
+AM_GNU_GETTEXT
+
+# -----------------------------------------------------------------------------
+# Checks for libraries.
+# -----------------------------------------------------------------------------
+dnl Should we check for esound?
+if test "x$enable_esd" = xyes; then
+    AM_PATH_ESD(,[have_esd=yes AC_DEFINE(HAVE_ESD,,[Define if have libesd])], have_esd=no)
+else
+    have_esd=no
+fi
+AM_CONDITIONAL(HAVE_ESD, [test "x$have_esd" = xyes])
+
+AM_PATH_GLIB(1.2.10,, AC_MSG_ERROR([*** GLIB >= 1.2.10 not installed! ***]))
+AM_PATH_GTK(1.2.10,, AC_MSG_ERROR([*** GTK >= 1.2.10 not installed! ***]))
+AM_PATH_GDK_PIXBUF(,, AC_MSG_ERROR([*** GdkPixbuf not installed! ***]))
+
+dnl POSIX threads should be always present...
+AC_CHECK_LIB([pthread], [pthread_testcancel],, AC_MSG_ERROR([*** POSIX threads not found! ***]))
+
+
+AC_CACHE_CHECK([for GNU regex in libc],
+    am_cv_gnu_regex,
+    AC_TRY_LINK([], [extern int re_max_failures; re_max_failures = 1],
+                am_cv_gnu_regex=yes, am_cv_gnu_regex=no))
+if test $am_cv_gnu_regex = no; then
+    AC_MSG_RESULT(failure)
+    AC_MSG_ERROR([*** Can't find regex functions in your libc])
+else
+    AC_DEFINE(WITH_REGEX,, [Define when compile with regex available])
+fi
+
+dnl Other libraries wich is autoscan found...
+dnl AC_CHECK_LIB([ibs], [main])
+dnl AC_CHECK_LIB([stdc], [main])
+
+# -----------------------------------------------------------------------------
+# Checks for header files.
+# -----------------------------------------------------------------------------
+AC_PATH_X
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_CHECK_HEADERS([arpa/inet.h errno.h fcntl.h netdb.h])
+AC_CHECK_HEADERS([netinet/in.h sys/file.h regex.h])
+AC_CHECK_HEADERS([sys/ioctl.h sys/socket.h])
+AC_CHECK_HEADERS([utime.h pthread.h sys/timeb.h])
+if test "x$enable_oss" = "xyes"; then
+    AC_CHECK_HEADERS([sys/soundcard.h],
+                     [have_oss=yes AC_DEFINE(D4X_WITH_OSS,,
+                     [Define if OSS enabled])], have_oss=no)
+fi
+
+# -----------------------------------------------------------------------------
+# Checks for typedefs, structures, and compiler characteristics.
+# -----------------------------------------------------------------------------
+AC_C_CONST
+AC_TYPE_OFF_T
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+AC_STRUCT_TM
+AC_TYPE_UID_T
+
+# -----------------------------------------------------------------------------
+# Checks for library functions.
+# -----------------------------------------------------------------------------
+AC_FUNC_FORK
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_MALLOC
+AC_FUNC_MKTIME
+AC_TYPE_SIGNAL
+AC_FUNC_STAT
+AC_FUNC_STRFTIME
+AC_FUNC_UTIME_NULL
+AC_CHECK_FUNCS([ftime ftruncate gethostbyname gettimeofday localtime_r])
+AC_CHECK_FUNCS([memmove memset mkdir select socket])
+AC_CHECK_FUNCS([strerror strncasecmp strstr utime flock])
+
+# -----------------------------------------------------------------------------
+# Additianal actions before produce output files
+# -----------------------------------------------------------------------------
+
+dnl It's time to define $prefix if it was ommited...
+if test "x$prefix" = "xNONE"; then
+  prefix=$ac_default_prefix
+  ac_configure_args="$ac_configure_args --prefix $prefix"
+fi
+
+dnl Make gettext > 0.10.35 work
+dnl GMSGFMT="OLD_PO_FILE_INPUT=yes $GMSGFMT"
+dnl MSGFMT="OLD_PO_FILE_INPUT=yes $MSGFMT"
+localedir=${prefix}/share/locale
+AC_SUBST(localedir)
+
+AC_DEFINE_UNQUOTED(LOCALEDIR,
+                   "$localedir",
+                   [Location of locales])
+AC_DEFINE_UNQUOTED(D4X_SHARE_PATH,
+                   "$prefix/share/d4x",
+                   [Location of architecture independed files])
+
+dnl Prepare all requiered flags
+CXXFLAGS="${CXXFLAGS} ${OS_CXXFLAGS}"
+CPPFLAGS="${CPPFLAGS} -DREENTRANT ${ESD_CFLAGS} ${GLIB_CFLAGS} ${GTK_CFLAGS} ${GDK_PIXBUF_CFLAGS} ${OS_CPPFLAGS}"
+INCLUDES="${INCLUDES} ${OS_INCLUDES}"
+LIBS="${LIBS} ${ESD_LIBS} ${GLIB_LIBS} ${GTK_LIBS} ${GDK_PIXBUF_LIBS}"
+
+# -----------------------------------------------------------------------------
+# Create output files
+# -----------------------------------------------------------------------------
+AC_CONFIG_FILES([Makefile \
+                 DOC/Makefile \
+		 intl/Makefile \
+                 main/Makefile \
+                 main/face/Makefile \
+                 po/Makefile.in \
+		 share/Makefile \
+		 nt.spec])
+AC_OUTPUT
+
+# -----------------------------------------------------------------------------
+# Show our configuration
+# -----------------------------------------------------------------------------
+# 1) calculate all what we need to display
+cxx_version=`${CXX} --version`
+if test x${have_esd} = xno; then
+    esd_spam="disabled"
+else
+    esd_spam="$esd_major_version.$esd_minor_version.$esd_micro_version"
+fi
+if test x${have_oss} = xyes; then
+    oss_spam="yes"
+else
+    oss_spam="disabled"
+fi
+
+# 2) show config
+echo "------------------------------------------------------------------------------"
+cat << EOF
+
+    Configuration:
+
+      Host system type:    ${host}
+          Install path:    ${prefix}
+          C++ compiler:    ${CXX} (${cxx_version})
+
+            ESD output:    ${esd_spam}
+            OSS output:    ${oss_spam}
+
+EOF
+if test "x$USE_MAINTAINER_MODE" = "xyes"; then
+    echo "    Preprocessor flags:"
+    echo ${CPPFLAGS} | fold -sw 50 | nl -w 26 -bn
+    echo "        Compiler flags:"
+    echo ${CXXFLAGS} | fold -sw 50 | nl -w 26 -bn
+    echo "          Linker flags:"
+    echo ${LDFLAGS} | fold -sw 50 | nl -w 26 -bn
+    echo "       Addon libraries:"
+    echo ${LIBS} | fold -sw 50 | nl -w 26 -bn
+    echo
+fi
+echo "------------------------------------------------------------------------------"

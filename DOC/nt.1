@@ -51,7 +51,7 @@ The speed is a part of information which is displayed by \fB--info\fP.
 Start Downloader in the minimized (iconified) state.  This will not minimize a
 pre-existing instance of the program.
 .TP
-\fB--exit-time\fP
+\fB--exit-time minutes\fP
 Set the timeout for exiting when the program is idle.
 .TP
 \fB-t1, --traffic-low\fP
@@ -63,7 +63,7 @@ Switch to medium speed.
 \fB-t3, --traffic-high\fP
 Disable speed limit.
 .TP
-\fB-d, --directory\fP
+\fB-d, --directory PATH\fP
 Set directory for saving downloaded files.  This applies only to files
 added to an pre-existing instance by running the \fBnt\fP command with URLs
 on the command line.
@@ -79,17 +79,32 @@ Start Downloader without X interface.  (It will display the log on stdout but
 there will be no user interface of any kind.  The only way to control it is by
 running \fBnt\fP with appropriate options.)
 .TP
-\fB-m, --max-running\fP
-Set the maximum total number of active downloads.
+\fB-m, --max-running integer\fP
+Set the maximum total number of active downloads for current queue.
 .TP
-\fB--ls\fP
-View information about specified URL from queue of downloads.
+\fB--ls [integer | URL] \fP
+Display tree of queues, queue listing or information about separate URL.
+.TP
+\fB--switch integer \fP
+Change current queue. Queue number must be specified as it displayed by 
+\fB--ls\fP command line parameter
 .TP
 \fB--color\fP
 Use colors in main log when run without interface. This option has no
 effect when Downloader was run with X interface.
+.TP
+\fB-geometry [WIDTHxHEIGHT][+X][+Y]\fP
+Specify geometry of main window. Programm will ignore stored position and size
+of the main window if this option is specified.
+.TP
+\fB--del URL\fP
+Remove URL from programs's queues.
+.TP
+\fB--stop URL\fP
+Stop downloading file. You can continue downloading this file by specifying
+the same \fBURL\fP as command line parameter.
 .SH COPYRIGHT
-Copyright (C) 1999-2001, Maxim Koshelev <chuchelo@krasu.ru>
+Copyright (C) 1999-2002, Maxim Koshelev <chuchelo@krasu.ru>
 This program is free sources but not GPL!!!!!
 You may not distribute modified sources without an agreement with the author,
 but you may distribute unmodified sources.

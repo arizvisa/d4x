@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include "dlist.h"
 #include "ftpd.h"
 #include "locstr.h"
@@ -1540,12 +1540,15 @@ void tDownload::download_ftp(){
 	if (finfo.size && CurentSize>finfo.size)
 		CurentSize=finfo.size;
 	
-	if (split && im_first){
-		if (who->reget()){
-			prepare_splits();
+	if (split){
+		if (im_first){
+			if (who->reget())
+				prepare_splits();
+			else
+				split->LastByte=CurentSize;
+		}else{
 			CurentSize=split->FirstByte;
-		}else
-			split->LastByte=CurentSize;
+		};
 	};
 	check_local_file_time();
 	who->set_loaded(CurentSize);
@@ -1749,7 +1752,7 @@ void tDList::insert(tDownload *what) {
 		non_empty();
 	tQueue::insert(what);
 	what->myowner=this;
-	if (Pixmap!=PIX_UNKNOWN)
+	if (Pixmap!=PIX_UNKNOWN && PAPA)
 		PAPA->qv.set_pixmap(what,Pixmap);
 };
 
@@ -1758,7 +1761,7 @@ void tDList::insert_before(tDownload *what,tDownload *where) {
 	DBC_RETURN_IF_FAIL(where->myowner==this);
 	tQueue::insert_before(what,where);
 	what->myowner=this;
-	if (Pixmap!=PIX_UNKNOWN)
+	if (Pixmap!=PIX_UNKNOWN && PAPA)
 		PAPA->qv.set_pixmap(what,Pixmap);
 };
 

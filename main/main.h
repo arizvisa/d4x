@@ -58,7 +58,6 @@ class tMain{
     	int init();
     	void init_main_log();
     	void speed();
-	int complete();
         void main_circle();
 	void main_circle_nano1();
 	void main_circle_nano2();

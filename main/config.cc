@@ -9,6 +9,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <package_config.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -56,6 +57,7 @@ tOption downloader_parsed_args[]={
 	{"--minimized",		OPT_RUN_MINIMIZED},
 	{"--exit-time",		OPT_EXIT_TIME},
 	{"--ls",		OPT_LS},
+	{"--switch",		OPT_SWITCH},
 	{"--del",		OPT_DEL},
 	{"--stop",		OPT_STOP},
 	{"--color",		OPT_COLOR},
@@ -557,10 +559,13 @@ static void _do_lstree_(tMsgClient *clt){
 	int N=1;
 	while(clt->readdata(&b,sizeof(b))==sizeof(b)){
 		int len=0;
+		int def_queue=0;
 		switch(b){
 		case LST_SUBQUEUE:
 			depth+=1;
 			break;
+		case LST_DQUEUE:
+			def_queue=1;
 		case LST_QUEUE:{
 			clt->readdata(&len,sizeof(len));
 			printf("[%i] ",N);
@@ -574,7 +579,9 @@ static void _do_lstree_(tMsgClient *clt){
 			clt->readdata(&run,sizeof(run));
 			clt->readdata(&complete,sizeof(complete));
 			clt->readdata(&maxrun,sizeof(maxrun));
-			printf("\t %i %i %i/%i\n",num,run,complete,maxrun);
+			printf("\t %i %i %i/%i",num,complete,run,maxrun);
+			if (def_queue) printf("\t<--");
+			printf("\n");
 			N++;
 			break;
 		};
@@ -708,6 +715,16 @@ int parse_command_line_already_run(int argv,char **argc){
 						_do_lstree_(clt);
 					break;
 				};
+				case OPT_SWITCH:{
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						clt->send_command(PACKET_SWITCH_QUEUE,argc[i],strlen(argc[i]));
+					}else{
+						opt_error=1;
+					};
+					break;
+				};
 				};
 			};
 			if (opt_error && downloader_args_errors[option])
@@ -818,6 +835,7 @@ void help_print(){
 	help_print_args(OPT_RERUN_FAILED);printf(_("restart all failed downloads"));printf("\n");
 	help_print_args(OPT_WITHOUT_FACE);printf(_("run program without X interface"));printf("\n");
 	help_print_args(OPT_LS);printf(_("display info about URL in queue of downloads"));printf("\n");
+	help_print_args(OPT_SWITCH);printf(_("change current default queue"));printf("\n");
 	help_print_args(OPT_DEL);printf(_("remove a download from queue"));printf("\n");
 	help_print_args(OPT_STOP);printf(_("stop a download"));printf("\n");
 	help_print_args(OPT_COLOR);printf(_("using colors if run without interface"));printf("\n");

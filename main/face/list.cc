@@ -8,13 +8,14 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <pthread.h>
 #include <string.h>
 #include <strings.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include "../dlist.h"
 #include "../main.h"
@@ -73,8 +74,6 @@ tConfirmedDialog *AskDeleteCompleted=(tConfirmedDialog *)NULL;
 tConfirmedDialog *AskDeleteFataled=(tConfirmedDialog *)NULL;
 tConfirmedDialog *AskExit=(tConfirmedDialog *)NULL;
 
-tFacePass *FaceForPasswords=(tFacePass *)NULL;
-
 gint StatusBarContext,RBStatusBarContext;
 int MainTimer,LogsTimer,GraphTimer,ListTimer;
 int SAVE_LIST_INTERVAL,EXIT_COMPLETE_INTERVAL;
@@ -99,6 +98,50 @@ enum MAIN_MENU_ENUM{
 	MM_OPTIONS_SPEED, MM_OPTIONS_SPEED_1, MM_OPTIONS_SPEED_2, MM_OPTIONS_SPEED_3,
 	MM_OPTIONS_BUTTONS, MM_OPTIONS_BUTTONS_ADD, MM_OPTIONS_BUTTONS_MAN, MM_OPTIONS_BUTTONS_SPEED, MM_OPTIONS_BUTTONS_MISC,
 	MM_HELP, MM_HELP_ABOUT
+};
+
+char *main_menu_kb[MM_HELP_ABOUT+1];
+
+char *main_menu_kbnames[]={
+	"file",
+	"save",
+	"load",
+	"findlinks",
+	"new",
+	"paste",
+	"auto",
+	"exit",
+	"",
+	"download",
+	"log",
+	"stop",
+	"edit",
+	"delete",
+	"continue",
+	"delcompleted",
+	"delfailed",
+	"rerunfailed",
+	"protect",
+	"unselect",
+	"select",
+	"invert",
+	"",
+	"options",
+	"scheduler",
+	"urlmanager",
+	"general",
+	"filters",
+	"speed",
+	"low",
+	"medium",
+	"unlimited",
+	"buttons",
+	"",
+	"",
+	"",
+	"",
+	"help",
+	"about"
 };
 
 char *main_menu_inames[]={
@@ -127,7 +170,7 @@ char *main_menu_inames[]={
 	N_("/Download/-"),
 	N_("/_Options"),
 	N_("/Options/Scheduler"),
-	N_("/Options/Passwords"),
+	N_("/Options/URL-manager"),
 	N_("/Options/General"),
 	N_("/Options/Filters"),
 	N_("/Options/Speed"),
@@ -142,6 +185,8 @@ char *main_menu_inames[]={
 	N_("/_Help"),
 	N_("/_Help/About")
 };
+
+void d4x_load_accelerators();
 
 char *old_clipboard_content(){
 	if (CFG.CLIPBOARD_MONITOR)
@@ -338,46 +383,48 @@ void mmenu_invert_selection(){
 	D4X_QUEUE->qv.invert_selection();
 };
 
+
 void init_main_menu() {
+	d4x_load_accelerators();
 	GtkItemFactoryEntry menu_items[] = {
 		{_(main_menu_inames[MM_FILE]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_FILE_SAVE]),	"<control>S",	(GtkItemFactoryCallback)init_save_list,			0, (gchar *)NULL},
-		{_(main_menu_inames[MM_FILE_LOAD]),	"<control>L",	(GtkItemFactoryCallback)init_load_list,			0, (gchar *)NULL},
-		{_(main_menu_inames[MM_FILE_TXT]),	"<control><alt>L",	(GtkItemFactoryCallback)init_load_txt_list,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_SAVE]),	main_menu_kb[MM_FILE_SAVE],	(GtkItemFactoryCallback)init_save_list,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_LOAD]),	main_menu_kb[MM_FILE_LOAD],	(GtkItemFactoryCallback)init_load_list,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_TXT]),	main_menu_kb[MM_FILE_TXT],	(GtkItemFactoryCallback)init_load_txt_list,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,  (GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_(main_menu_inames[MM_FILE_NEW]),	"<control>N",	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
-		{_(main_menu_inames[MM_FILE_PASTE]),	"<control>P",	(GtkItemFactoryCallback)init_add_clipboard_window,	0, (gchar *)NULL},
-		{_(main_menu_inames[MM_FILE_AUTO]),	"<control><alt>A",	(GtkItemFactoryCallback)d4x_automated_add,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_NEW]),	main_menu_kb[MM_FILE_NEW],	(GtkItemFactoryCallback)init_add_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_PASTE]),	main_menu_kb[MM_FILE_PASTE],	(GtkItemFactoryCallback)init_add_clipboard_window,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_AUTO]),	main_menu_kb[MM_FILE_AUTO],	(GtkItemFactoryCallback)d4x_automated_add,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_FILE_SEP]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_(main_menu_inames[MM_FILE_EXIT]),	"<alt>X",	(GtkItemFactoryCallback)ask_exit,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_FILE_EXIT]),	main_menu_kb[MM_FILE_EXIT],	(GtkItemFactoryCallback)ask_exit,			0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD]),     	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	(gchar *)NULL,	(GtkItemFactoryCallback)mmenu_open_logs,	100+MM_DOWNLOAD_LOG, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	"<alt>S",	(GtkItemFactoryCallback)stop_downloads,		        100+MM_DOWNLOAD_STOP, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	"<alt>E",	(GtkItemFactoryCallback)open_edit_for_selected,		100+MM_DOWNLOAD_EDIT, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	"<alt>C",	(GtkItemFactoryCallback)ask_delete_download,		100+MM_DOWNLOAD_DEL, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	"<alt>A",	(GtkItemFactoryCallback)continue_downloads,		100+MM_DOWNLOAD_RUN, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_LOG]), 	main_menu_kb[MM_DOWNLOAD_LOG],	(GtkItemFactoryCallback)mmenu_open_logs,	100+MM_DOWNLOAD_LOG, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_STOP]),	main_menu_kb[MM_DOWNLOAD_STOP],	(GtkItemFactoryCallback)stop_downloads,		        100+MM_DOWNLOAD_STOP, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_EDIT]),	main_menu_kb[MM_DOWNLOAD_EDIT],	(GtkItemFactoryCallback)open_edit_for_selected,		100+MM_DOWNLOAD_EDIT, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL]),	main_menu_kb[MM_DOWNLOAD_DEL],	(GtkItemFactoryCallback)ask_delete_download,		100+MM_DOWNLOAD_DEL, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_RUN]),	main_menu_kb[MM_DOWNLOAD_RUN],	(GtkItemFactoryCallback)continue_downloads,		100+MM_DOWNLOAD_RUN, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_(main_menu_inames[MM_DOWNLOAD_DEL_C]),(gchar *)NULL,	(GtkItemFactoryCallback)ask_delete_completed_downloads,	0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),(gchar *)NULL,	(GtkItemFactoryCallback)ask_delete_fataled_downloads,	0, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_RERUN]),(gchar *)NULL,	(GtkItemFactoryCallback)_rerun_failed_downloads,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL_C]),main_menu_kb[MM_DOWNLOAD_DEL_C],	(GtkItemFactoryCallback)ask_delete_completed_downloads,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_DEL_F]),main_menu_kb[MM_DOWNLOAD_DEL_F],	(GtkItemFactoryCallback)ask_delete_fataled_downloads,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_RERUN]),main_menu_kb[MM_DOWNLOAD_RERUN],	(GtkItemFactoryCallback)_rerun_failed_downloads,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_(main_menu_inames[MM_DOWNLOAD_PROTECT]),"<alt><control>P",	(GtkItemFactoryCallback)lm_inv_protect_flag,	100+MM_DOWNLOAD_PROTECT, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_PROTECT]),main_menu_kb[MM_DOWNLOAD_PROTECT],	(GtkItemFactoryCallback)lm_inv_protect_flag,	100+MM_DOWNLOAD_PROTECT, (gchar *)NULL},
 		{_(main_menu_inames[MM_DOWNLOAD_SEP]),(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Separator>"},
-		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)mmenu_unselect_all,	100+MM_DOWNLOAD_UNSELECT_ALL, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),(gchar *)NULL, (GtkItemFactoryCallback)mmenu_select_all,	100+MM_DOWNLOAD_SELECT_ALL, (gchar *)NULL},
-		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),(gchar *)NULL, (GtkItemFactoryCallback)mmenu_invert_selection,	100+MM_DOWNLOAD_INVERT, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_UNSELECT_ALL]),main_menu_kb[MM_DOWNLOAD_UNSELECT_ALL], (GtkItemFactoryCallback)mmenu_unselect_all,	100+MM_DOWNLOAD_UNSELECT_ALL, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_SELECT_ALL]),main_menu_kb[MM_DOWNLOAD_SELECT_ALL], (GtkItemFactoryCallback)mmenu_select_all,	100+MM_DOWNLOAD_SELECT_ALL, (gchar *)NULL},
+		{_(main_menu_inames[MM_DOWNLOAD_INVERT]),main_menu_kb[MM_DOWNLOAD_INVERT], (GtkItemFactoryCallback)mmenu_invert_selection,	100+MM_DOWNLOAD_INVERT, (gchar *)NULL},
 		{_(main_menu_inames[MM_OPTIONS]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_OPTIONS_SCHEDULER]),(gchar *)NULL,	(GtkItemFactoryCallback)d4x_scheduler_init,		0, (gchar *)NULL},
-		{_(main_menu_inames[MM_OPTIONS_PASSWORDS]),(gchar *)NULL,	(GtkItemFactoryCallback)open_passwords_window,		0, (gchar *)NULL},
-		{_(main_menu_inames[MM_OPTIONS_COMMON]),"<control>C",	(GtkItemFactoryCallback)d4x_prefs_init,			0, (gchar *)NULL},
-		{_(main_menu_inames[MM_OPTIONS_FILTERS]),"<control>F",	(GtkItemFactoryCallback)d4x_filters_window_init,			0, (gchar *)NULL},
-		{_(main_menu_inames[MM_OPTIONS_SPEED]),	(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
-		{_(main_menu_inames[MM_OPTIONS_SPEED_1]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	1, "<RadioItem>"},
-		{_(main_menu_inames[MM_OPTIONS_SPEED_2]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	2, _(main_menu_inames[MM_OPTIONS_SPEED_1])},
-		{_(main_menu_inames[MM_OPTIONS_SPEED_3]),(gchar *)NULL,	(GtkItemFactoryCallback)main_menu_speed_calback,	3, _(main_menu_inames[MM_OPTIONS_SPEED_2])},
-		{_(main_menu_inames[MM_OPTIONS_BUTTONS]),(gchar *)NULL, (GtkItemFactoryCallback)buttons_configure,	0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_SCHEDULER]),main_menu_kb[MM_OPTIONS_SCHEDULER],	(GtkItemFactoryCallback)d4x_scheduler_init,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_PASSWORDS]),main_menu_kb[MM_OPTIONS_PASSWORDS],	(GtkItemFactoryCallback)open_passwords_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_COMMON]),main_menu_kb[MM_OPTIONS_COMMON],	(GtkItemFactoryCallback)d4x_prefs_init,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_FILTERS]),main_menu_kb[MM_OPTIONS_FILTERS],	(GtkItemFactoryCallback)d4x_filters_window_init,			0, (gchar *)NULL},
+		{_(main_menu_inames[MM_OPTIONS_SPEED]),	(gchar*)NULL,	(GtkItemFactoryCallback)NULL,	0, "<Branch>"},
+		{_(main_menu_inames[MM_OPTIONS_SPEED_1]),main_menu_kb[MM_OPTIONS_SPEED_1],	(GtkItemFactoryCallback)main_menu_speed_calback,	1, "<RadioItem>"},
+		{_(main_menu_inames[MM_OPTIONS_SPEED_2]),main_menu_kb[MM_OPTIONS_SPEED_2],	(GtkItemFactoryCallback)main_menu_speed_calback,	2, _(main_menu_inames[MM_OPTIONS_SPEED_1])},
+		{_(main_menu_inames[MM_OPTIONS_SPEED_3]),main_menu_kb[MM_OPTIONS_SPEED_3],	(GtkItemFactoryCallback)main_menu_speed_calback,	3, _(main_menu_inames[MM_OPTIONS_SPEED_2])},
+		{_(main_menu_inames[MM_OPTIONS_BUTTONS]),main_menu_kb[MM_OPTIONS_BUTTONS], (GtkItemFactoryCallback)buttons_configure,	0, (gchar *)NULL},
 		{_(main_menu_inames[MM_HELP]),		(gchar *)NULL,	(GtkItemFactoryCallback)NULL,	0, "<LastBranch>"},
-		{_(main_menu_inames[MM_HELP_ABOUT]),	(gchar *)NULL,	(GtkItemFactoryCallback)init_about_window,		0, (gchar *)NULL},
+		{_(main_menu_inames[MM_HELP_ABOUT]),	main_menu_kb[MM_HELP_ABOUT],	(GtkItemFactoryCallback)init_about_window,		0, (gchar *)NULL},
 	};
 	int nmenu_items = sizeof(menu_items) / sizeof(menu_items[0]);
 	GtkAccelGroup *accel_group = gtk_accel_group_new();
@@ -396,6 +443,11 @@ void init_main_menu() {
 			    GTK_SIGNAL_FUNC (main_menu_enable_all),
 			    NULL);
 	main_menu_speed_prepare();
+	for (int i=0;i<=MM_HELP_ABOUT;i++)
+		if (main_menu_kb[i]){
+			delete[] main_menu_kb[i];
+			main_menu_kb[i]=NULL;
+		};
 };
 
 void main_menu_completed_empty(){
@@ -477,6 +529,141 @@ gint main_menu_prepare(){
 	return FALSE;
 };
 
+static int _fd_kb_=-1;
+
+static void d4x_menuitem_foreach(GtkWidget *widget,gpointer data){
+	if (GTK_IS_ACCEL_LABEL (widget) && (GTK_ACCEL_LABEL (widget))->accel_string){
+		char *s=unparse_percents(skip_spaces((GTK_ACCEL_LABEL (widget))->accel_string));
+		f_wstr(_fd_kb_,s);
+		delete[] s;
+	};
+};
+
+static void d4x_save_kb(int menu){
+	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[menu]));
+	if (menu_item){
+		f_wstr(_fd_kb_,"\t<");
+		f_wstr(_fd_kb_,main_menu_kbnames[menu]);
+		f_wchar(_fd_kb_,'>');
+		gtk_container_foreach(GTK_CONTAINER (menu_item),d4x_menuitem_foreach,NULL);
+		f_wstr(_fd_kb_,"</");
+		f_wstr(_fd_kb_,main_menu_kbnames[menu]);
+		f_wstr(_fd_kb_,">\n");
+	};
+};
+
+static void d4x_lap(tQueue *q,char *menu,int name){
+	char *s=sum_strings(menu," ",main_menu_kbnames[name],NULL);
+	d4xXmlObject *xml=d4x_xml_find_obj(q,s);
+	delete[] s;
+	if (xml){
+		s=xml->value.get();
+		if (s && strlen(s)){
+			int alt=0,ctrl=0,shift=0;
+			if (strstr(s,"Ctl+")) ctrl=1;
+			if (strstr(s,"Alt+")) alt=1;
+			if (strstr(s,"Shft+")) shift=1;
+			char c[2]={0,0};
+			c[0]=s[strlen(s)-1];
+			main_menu_kb[name]=sum_strings(alt?"<alt>":"",ctrl?"<control>":"",shift?"<shift>":"",c,NULL);
+		};
+	};
+};
+
+void d4x_load_accelerators(){
+	for (int i=0;i<=MM_HELP_ABOUT;i++) main_menu_kb[i]=NULL;
+	char *path=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/keybinds.xml",NULL);
+	tQueue *q=d4x_xml_parse_file(path);
+	delete[] path;
+	if (q==NULL){
+		main_menu_kb[MM_FILE_SAVE]=copy_string("<control>S");
+		main_menu_kb[MM_FILE_LOAD]=copy_string("<control>L");
+		main_menu_kb[MM_FILE_TXT]=copy_string("<control><alt>L");
+		main_menu_kb[MM_FILE_NEW]=copy_string("<control>N");
+		main_menu_kb[MM_FILE_PASTE]=copy_string("<control>P");
+		main_menu_kb[MM_FILE_AUTO]=copy_string("<control><alt>A");
+		main_menu_kb[MM_FILE_EXIT]=copy_string("<alt>X");
+		main_menu_kb[MM_DOWNLOAD_STOP]=copy_string("<alt>S");
+		main_menu_kb[MM_DOWNLOAD_EDIT]=copy_string("<alt>E");
+		main_menu_kb[MM_DOWNLOAD_DEL]=copy_string("<alt>C");
+		main_menu_kb[MM_DOWNLOAD_RUN]=copy_string("<alt>A");
+		main_menu_kb[MM_DOWNLOAD_PROTECT]=copy_string("<alt><control>P");
+		main_menu_kb[MM_OPTIONS_COMMON]=copy_string("<control>C");
+		main_menu_kb[MM_OPTIONS_FILTERS]=copy_string("<control>F");
+	}else{
+		d4x_lap(q,"file",MM_FILE_SAVE);
+		d4x_lap(q,"file",MM_FILE_LOAD);
+		d4x_lap(q,"file",MM_FILE_TXT);
+		d4x_lap(q,"file",MM_FILE_NEW);
+		d4x_lap(q,"file",MM_FILE_PASTE);
+		d4x_lap(q,"file",MM_FILE_AUTO);
+		d4x_lap(q,"file",MM_FILE_EXIT);
+		d4x_lap(q,"download",MM_DOWNLOAD_LOG);
+		d4x_lap(q,"download",MM_DOWNLOAD_STOP);
+		d4x_lap(q,"download",MM_DOWNLOAD_EDIT);
+		d4x_lap(q,"download",MM_DOWNLOAD_DEL);
+		d4x_lap(q,"download",MM_DOWNLOAD_RUN);
+		d4x_lap(q,"download",MM_DOWNLOAD_DEL_C);
+		d4x_lap(q,"download",MM_DOWNLOAD_DEL_F);
+		d4x_lap(q,"download",MM_DOWNLOAD_RERUN);
+		d4x_lap(q,"download",MM_DOWNLOAD_PROTECT);
+		d4x_lap(q,"download",MM_DOWNLOAD_UNSELECT_ALL);
+		d4x_lap(q,"download",MM_DOWNLOAD_SELECT_ALL);
+		d4x_lap(q,"download",MM_DOWNLOAD_INVERT);
+		d4x_lap(q,"options",MM_OPTIONS_SCHEDULER);
+		d4x_lap(q,"options",MM_OPTIONS_PASSWORDS);
+		d4x_lap(q,"options",MM_OPTIONS_COMMON);
+		d4x_lap(q,"options",MM_OPTIONS_FILTERS);
+		d4x_lap(q,"options",MM_OPTIONS_SPEED_1);
+		d4x_lap(q,"options",MM_OPTIONS_SPEED_2);
+		d4x_lap(q,"options",MM_OPTIONS_SPEED_3);
+		d4x_lap(q,"options",MM_OPTIONS_BUTTONS);
+		d4x_lap(q,"options",MM_HELP_ABOUT);
+		delete(q);
+	};
+};
+
+void d4x_save_accelerators(){
+	char *path=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/keybinds.xml",NULL);
+	int fd=_fd_kb_=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
+	delete[] path;
+	if (fd<0) return;
+	f_wstr(fd,"<file>\n");
+	d4x_save_kb(MM_FILE_SAVE);
+	d4x_save_kb(MM_FILE_LOAD);
+	d4x_save_kb(MM_FILE_TXT);
+	d4x_save_kb(MM_FILE_NEW);
+	d4x_save_kb(MM_FILE_PASTE);
+	d4x_save_kb(MM_FILE_AUTO);
+	d4x_save_kb(MM_FILE_EXIT);
+	f_wstr(fd,"</file>\n<download>\n");
+	d4x_save_kb(MM_DOWNLOAD_LOG);
+	d4x_save_kb(MM_DOWNLOAD_STOP);
+	d4x_save_kb(MM_DOWNLOAD_EDIT);
+	d4x_save_kb(MM_DOWNLOAD_DEL);
+	d4x_save_kb(MM_DOWNLOAD_RUN);
+	d4x_save_kb(MM_DOWNLOAD_DEL_C);
+	d4x_save_kb(MM_DOWNLOAD_DEL_F);
+	d4x_save_kb(MM_DOWNLOAD_RERUN);
+	d4x_save_kb(MM_DOWNLOAD_PROTECT);
+	d4x_save_kb(MM_DOWNLOAD_UNSELECT_ALL);
+	d4x_save_kb(MM_DOWNLOAD_SELECT_ALL);
+	d4x_save_kb(MM_DOWNLOAD_INVERT);
+	f_wstr(fd,"</download>\n<options>\n");
+	d4x_save_kb(MM_OPTIONS_SCHEDULER);
+	d4x_save_kb(MM_OPTIONS_PASSWORDS);
+	d4x_save_kb(MM_OPTIONS_COMMON);
+	d4x_save_kb(MM_OPTIONS_FILTERS);
+	d4x_save_kb(MM_OPTIONS_SPEED_1);
+	d4x_save_kb(MM_OPTIONS_SPEED_2);
+	d4x_save_kb(MM_OPTIONS_SPEED_3);
+	d4x_save_kb(MM_OPTIONS_BUTTONS);
+	f_wstr(fd,"</options>\n<help>\n");
+	d4x_save_kb(MM_HELP_ABOUT);
+	f_wstr(fd,"</help>\n");
+	close(fd);
+};
+
 void my_main_quit(...) {
 	if (CFG.WITHOUT_FACE==0){
 		CFG.HIDE_MAIN_WINDOW=!gdk_window_is_visible(MainWindow->window);
@@ -484,9 +671,10 @@ void my_main_quit(...) {
 		gtk_timeout_remove(LogsTimer);
 		gtk_timeout_remove(GraphTimer);
 		D4X_QUEUE->qv.get_adj();
+		d4x_save_accelerators();
 	};
 	save_list();
-	save_passwords(PasswordsForHosts);
+	FaceForPasswords->save();
 	save_config();
 	aa.done();
 	if (FaceForPasswords)
@@ -708,9 +896,10 @@ void update_progress_bar() {
 	gtk_statusbar_push(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext,data1);
 };
 /* ******************************************************************** */
-void d4x_normalize_coords(gint *x,gint *y){
+void d4x_normalize_coords(gint *x,gint *y,gint width=0,gint heigh=0){
 	int temp,w,h;
 	gdk_window_get_geometry((GdkWindow *)NULL,&temp,&temp,&w,&h,&temp);
+	if (*x+width<w && *y+heigh<h && *x+width>0 && *y+width>0) return;
 	if (*x<0){
 		while (*x<0)
 			*x+=w;
@@ -1143,7 +1332,7 @@ int time_for_save_list(void *a) {
 		};
 		SAVE_LIST_INTERVAL=CFG.SAVE_LIST_INTERVAL;
 	};
-	if (CFG.EXIT_COMPLETE && aa.complete()){
+	if (CFG.EXIT_COMPLETE && d4x_run_or_wait_downloads()==0){
 		EXIT_COMPLETE_INTERVAL-=1;
 		if (EXIT_COMPLETE_INTERVAL<0  &&
 		    (list_for_adding==NULL || list_for_adding->count()==0)){
@@ -1281,7 +1470,7 @@ void init_face(int argc, char *argv[]) {
 	gtk_set_locale();
 	gtk_init(&argc, &argv);
 	gdk_rgb_init();
-	d4x_normalize_coords(&(CFG.WINDOW_X_POSITION),&(CFG.WINDOW_Y_POSITION));
+	d4x_normalize_coords(&(CFG.WINDOW_X_POSITION),&(CFG.WINDOW_Y_POSITION),CFG.WINDOW_WIDTH,CFG.WINDOW_HEIGHT);
 	MainWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(MainWindow),"D4X_Main", "D4X");
 	d4x_mw_set_targets();
@@ -1307,6 +1496,7 @@ void init_face(int argc, char *argv[]) {
 	for (int i=0;i<ROLL_LAST;i++)
 		ScrollShift[i]=0;
 	FaceForPasswords=new tFacePass;
+	FaceForPasswords->load();
 #include "pixmaps/main.xpm"
 	GdkBitmap *bitmap;
 	GdkPixmap *pixmap=make_pixmap_from_xpm(&bitmap,main_xpm);

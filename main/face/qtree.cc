@@ -8,6 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <package_config.h>
 #include "qtree.h"
 #include "list.h"
 #include "misc.h"
@@ -338,12 +339,9 @@ void d4xQsTree::switch_to(d4xDownloadQueue *what){
 	what->set_defaults();
 	D4X_QUEUE=what;
 	prepare_buttons();
-	if (GTK_CLIST(tree)->selection==NULL){
-		GtkCTreeNode *node=gtk_ctree_find_by_row_data(tree,
-							      NULL,what);
-		if (node)
-			gtk_ctree_select(tree,node);
- 	};
+	GtkCTreeNode *node=gtk_ctree_find_by_row_data(tree,NULL,what);
+	if (node)
+		gtk_ctree_select(tree,node);
 };
 
 void d4xQsTree::select_row(int row){
@@ -456,7 +454,10 @@ void d4xQsTree::prefs_init(){
 
 	GtkWidget *prefs_limits_tbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(prefs_limits_tbox),5);
-	max_threads=my_gtk_entry_new_with_max_length(3,q->MAX_ACTIVE);
+	GtkAdjustment *adj = (GtkAdjustment *) gtk_adjustment_new (q->MAX_ACTIVE, 0, 50.0, 1.0, 3.0, 0.0);
+//	max_threads=my_gtk_entry_new_with_max_length(3,q->MAX_ACTIVE);
+	max_threads = gtk_spin_button_new (adj, 0, 0);
+	gtk_spin_button_set_wrap (GTK_SPIN_BUTTON (max_threads), TRUE);
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tbox),max_threads,FALSE,FALSE,0);
 	GtkWidget *prefs_limits_tlabel=gtk_label_new(_("Maximum active downloads"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tbox),prefs_limits_tlabel,FALSE,FALSE,0);
@@ -600,7 +601,8 @@ void d4xQsTree::prefs_ok(){
 	q->save_path.set(path);
 	delete[] path;
 	q->update();
-	sscanf(gtk_entry_get_text(GTK_ENTRY(max_threads)),"%u",&(q->MAX_ACTIVE));
+//	sscanf(gtk_entry_get_text(GTK_ENTRY(max_threads)),"%u",&(q->MAX_ACTIVE));
+	q->MAX_ACTIVE=gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON (max_threads));
 	if (q->MAX_ACTIVE<0) q->MAX_ACTIVE=0;
 	if (q->MAX_ACTIVE>50) q->MAX_ACTIVE=50;
 	q->AUTODEL_FAILED=GTK_TOGGLE_BUTTON(del_fataled)->active;

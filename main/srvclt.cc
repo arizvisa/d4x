@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include "srvclt.h"
 #include "var.h"
 #include "main.h"
@@ -153,7 +153,7 @@ static d4xDownloadQueue *_get_queue_sub_(tQueue *q,int &N){
 	return(NULL);
 };
 
-static d4xDownloadQueue *_get_queue_(int N){
+d4xDownloadQueue *d4x_get_queue_num(int N){
 	return(_get_queue_sub_(&D4X_QTREE,N));
 };
 
@@ -175,7 +175,7 @@ void tMsgServer::cmd_ls(int len,int type){
 		write_dwn_status(answer);
 	}else{ // output whole list
 		ALL_DOWNLOADS->lock();
-		d4xDownloadQueue *q=_get_queue_(N);
+		d4xDownloadQueue *q=d4x_get_queue_num(N);
 		if (q!=NULL){
 			d4xWFNode *node=(d4xWFNode *)(q->qv.ListOfDownloadsWF.first());
 			while (node) {
@@ -200,7 +200,10 @@ void tMsgServer::cmd_lstree_sub(tQueue *q){
 	d4xDownloadQueue *dq=(d4xDownloadQueue *)(q->first());
 	write(newfd,&b,sizeof(b));
 	while(dq){
-		b=LST_QUEUE;
+		if (dq==D4X_QUEUE)
+			b=LST_DQUEUE;
+		else
+			b=LST_QUEUE;
 		write(newfd,&b,sizeof(b));
 		int len=strlen(dq->name.get());
 		write(newfd,&len,sizeof(len));
@@ -311,6 +314,10 @@ void tMsgServer::run(){
 				};
 				case PACKET_LSTREE:{
 					cmd_lstree();
+					break;
+				};
+				case PACKET_SWITCH_QUEUE:{
+					cmd_add(packet.len,packet.type);
 					break;
 				};
 				default:

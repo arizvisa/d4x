@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include "httpd.h"
 #include "ftpd.h"
 #include "locstr.h"
@@ -202,6 +202,7 @@ int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s=NULL) {
 	if (s){
 		HTTP->import_ctrl_socket(s);
 		RetrNum=1;
+		tDownloader::reconnect();
 		return(0);
 	};
 	return reconnect();
@@ -441,8 +442,8 @@ int tHttpDownload::download(fsize_t len) {
 	int success=1;
 	int first=1;
 	fsize_t length_to_load=len>0?LOADED+len:0;
+	StartSize=LOADED;
 	while(success) {
-		StartSize=LOADED;
 		if (!first) StartSize=rollback();
 		HTTP->set_offset(LOADED);
 		if (ReGet && len==0 && LOADED &&

@@ -8,111 +8,25 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <package_config.h>
 #include <stdio.h>
+#include <sys/stat.h>
 #include "passface.h"
 #include "misc.h"
+#include "edit.h"
 #include "../addr.h"
 #include "../ntlocale.h"
 #include "../var.h"
 #include <gdk/gdkkeysyms.h>
+#include <regex.h>
 
-static gint dialog_delete(GtkWidget *widget, GdkEvent *event,tPassDialog *parent) {
-	parent->done();
-	return TRUE;
-};
-
-static void dialog_delete2(GtkWidget *widget,tPassDialog *parent) {
-	parent->done();
-};
-
-/* tPassDialog functions
- */
-
-tPassDialog::tPassDialog() {
-};
-
-int tPassDialog::init(){
-	if (window) {
-		gdk_window_show(window->window);
-		return 0;
-	};
-	window = gtk_window_new(GTK_WINDOW_DIALOG);
-	gtk_window_set_wmclass(GTK_WINDOW(window),
-			       "D4X_PassDialog","D4X");
-	gtk_window_set_title(GTK_WINDOW (window),_("Password and username"));
-	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
-	gtk_container_border_width(GTK_CONTAINER(window),5);
-	host_entry=gtk_entry_new();
-	user_entry=gtk_entry_new();
-	pass_entry=gtk_entry_new();
-	gtk_entry_set_visibility(GTK_ENTRY(pass_entry),FALSE);
-	proto_select=gtk_combo_new();
-	GList *list=NULL;
-	list = g_list_append (list, get_name_by_proto(D_PROTO_FTP));
-	list = g_list_append (list, get_name_by_proto(D_PROTO_HTTP));
-	gtk_combo_set_popdown_strings (GTK_COMBO (proto_select), list);
-	g_list_free(list);
-	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(proto_select)->entry),FALSE);
-
-	GtkWidget *proto_label=gtk_label_new(_("protocol"));
-	GtkWidget *host_label=gtk_label_new(_("Host"));
-	GtkWidget *hbox0=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox0),5);
-	gtk_box_pack_start(GTK_BOX(hbox0),proto_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(hbox0),proto_select,FALSE,FALSE,0);
-	GtkWidget *hbox1=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox1),5);
-	gtk_box_pack_start(GTK_BOX(hbox1),host_label,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(hbox1),host_entry,TRUE,TRUE,0);
-
-	GtkWidget *user_label=gtk_label_new(_("username"));
-	GtkWidget *pass_label=gtk_label_new(_("password"));
-	GtkWidget *hbox2=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox2),5);
-	gtk_box_pack_start(GTK_BOX(hbox2),user_entry,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(hbox2),user_label,FALSE,FALSE,0);
-	GtkWidget *hbox3=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(hbox3),5);
-	gtk_box_pack_start(GTK_BOX(hbox3),pass_entry,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(hbox3),pass_label,FALSE,FALSE,0);
-
-	ok_button=gtk_button_new_with_label(_("Ok"));
-	cancel_button=gtk_button_new_with_label(_("Cancel"));
-	GTK_WIDGET_SET_FLAGS(ok_button,GTK_CAN_DEFAULT);
-	GTK_WIDGET_SET_FLAGS(cancel_button,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,0);
-	GtkWidget *hbox=gtk_hbutton_box_new();
-	gtk_box_set_spacing(GTK_BOX(vbox),5);
-	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox0,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox1,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox2,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox3,FALSE,FALSE,0);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),ok_button,FALSE,FALSE,0);
-	gtk_box_pack_end(GTK_BOX(hbox),cancel_button,FALSE,FALSE,0);
-	gtk_container_add(GTK_CONTAINER(window),vbox);
-	gtk_window_set_default(GTK_WINDOW(window),cancel_button);
-	gtk_widget_show_all(window);
-	gtk_signal_connect(GTK_OBJECT(cancel_button),"clicked",GTK_SIGNAL_FUNC(dialog_delete2),this);
-	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(dialog_delete), this);
-	d4x_eschandler_init(window,this);
-	return 1;
-};
-
-void tPassDialog::done(){
-	tDialog::done();
-};
-
-tPassDialog::~tPassDialog() {
-};
+tFacePass *FaceForPasswords=(tFacePass *)NULL;
 
 /*
  */
 static void face_pass_ok(GtkWidget *widget, tFacePass *parent) {
 	parent->close();
 };
-
 
 static void face_pass_add(GtkWidget *widget, tFacePass *parent) {
 	parent->open_dialog();
@@ -153,86 +67,119 @@ static int face_pass_list_event_callback(GtkWidget *widget,GdkEvent *event,tFace
 	return FALSE;
 };
 
+static void add_url_cancel(GtkWidget *widget, tDownload *dwn){
+	FaceForPasswords->addlist_del(dwn);
+};
+static void add_url_ok(GtkWidget *widget, tDownload *dwn){
+	FaceForPasswords->addlist_add(dwn);
+};
+static void add_url_delete(GtkWidget *widget,GdkEvent *event, tDownload *dwn){
+	FaceForPasswords->addlist_del(dwn);
+};
+
+static void edit_url_cancel(GtkWidget *widget, tDownload *dwn){
+	dwn->delete_editor();
+};
+static void edit_url_ok(GtkWidget *widget, tDownload *dwn){
+	if (dwn->editor->apply_changes()) return;
+	dwn->Name2Save.set(dwn->editor->get_url());
+	dwn->delete_editor();
+	FaceForPasswords->redraw_url(dwn);
+};
+static void edit_url_delete(GtkWidget *widget,GdkEvent *event, tDownload *dwn){
+	dwn->delete_editor();
+};
 
 tFacePass::tFacePass(){
 	window=NULL;
-	dialog=NULL;
 };
 
 tFacePass::~tFacePass(){
-	if (dialog)
-		delete(dialog);
 	close();
 };
 
-void tFacePass::open_dialog() {
-	if (!dialog) dialog=new tPassDialog;
-	if (dialog->init()){
-		gtk_signal_connect(GTK_OBJECT(dialog->ok_button),"clicked",GTK_SIGNAL_FUNC(face_pass_dialog_ok),this);
-		dialog->set_modal(window);
+void tFacePass::addlist_del(tDownload *dwn){
+	addlist.del(dwn);
+	delete(dwn);
+};
+
+void tFacePass::show_url(tDownload *dwn){
+	char *URL=dwn->Name2Save.get();
+	char *data[]={URL};
+	gint row=gtk_clist_append(GTK_CLIST(clist),data);
+	gtk_clist_set_row_data(GTK_CLIST(clist),row,gpointer(dwn));
+};
+
+void tFacePass::redraw_url(tDownload *dwn){
+	gint row=gtk_clist_find_row_from_data(GTK_CLIST(clist),dwn);
+	if (row>=0){
+		gtk_clist_set_text(GTK_CLIST(clist),row,0,dwn->Name2Save.get());
 	};
-	dialog->data=NULL;
-	dialog->row=-1;
+};
+
+void tFacePass::addlist_add(tDownload *dwn){
+	if (dwn->editor->apply_changes()) return;
+	addlist.del(dwn);
+	dwn->Name2Save.set(dwn->editor->get_url());
+	dwn->delete_editor();
+	dlist.insert(dwn);
+	show_url(dwn);
+};
+
+void tFacePass::open_dialog() {
+	tDownload *dwn=new tDownload;
+	dwn->config=new tCfg;
+	dwn->config->isdefault=0;
+	dwn->set_default_cfg();
+	addlist.insert(dwn);
+	dwn->info=new tAddr("ftp://somesite.org");
+	dwn->editor=new tDEdit;
+	dwn->editor->add_or_edit=1;
+	dwn->editor->init(dwn);
+	gtk_window_set_title(GTK_WINDOW(dwn->editor->window),_("Add new URL to URL-manager"));
+	gtk_signal_connect(GTK_OBJECT(dwn->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(add_url_cancel), dwn);
+	gtk_signal_connect(GTK_OBJECT(dwn->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(add_url_ok),dwn);
+	gtk_signal_connect(GTK_OBJECT(dwn->editor->window),"delete_event",GTK_SIGNAL_FUNC(add_url_delete), dwn);
+	d4x_eschandler_init(dwn->editor->window,dwn);
+	gtk_widget_set_sensitive(dwn->editor->isdefault_check,FALSE);
+	dwn->editor->clear_save_name();
+	dwn->editor->disable_time();
+	dwn->editor->disable_save_name();
+	dwn->editor->clear_url();
 };
 
 void tFacePass::delete_rows() {
-	GList *select=((GtkCList *)clist)->selection;
+        GList *select=GTK_CLIST(clist)->selection;
 	if (select) {
 		int row=GPOINTER_TO_INT(select->data);
-		char *host;
-		gtk_clist_get_text(GTK_CLIST(clist),row,0,&host);
-		int proto=get_proto_by_name(host);
-		gtk_clist_get_text(GTK_CLIST(clist),row,1,&host);
-		tUserPass *tmp=PasswordsForHosts->find(proto,host);
-		if (tmp)
-			PasswordsForHosts->del(tmp);
+		tDownload *dwn=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(clist),row);
+		dlist.del(dwn);
+		delete(dwn);
 		gtk_clist_remove(GTK_CLIST(clist),row);
+		select=GTK_CLIST(clist)->selection;
 	};
 };
 
 void tFacePass::edit_row(int row) {
-	char *host;
-	gtk_clist_get_text(GTK_CLIST(clist),row,0,&host);
-	int proto=get_proto_by_name(host);
-	gtk_clist_get_text(GTK_CLIST(clist),row,1,&host);
-	tUserPass *tmp=PasswordsForHosts->find(proto,host);
-	if (tmp) {
-		open_dialog();
-		dialog->data=tmp;
-		dialog->row=row;
-		gtk_entry_set_text(GTK_ENTRY(dialog->host_entry),tmp->host.get());
-		gtk_entry_set_text(GTK_ENTRY(dialog->user_entry),tmp->user.get());
-		gtk_entry_set_text(GTK_ENTRY(dialog->pass_entry),tmp->pass.get());
-		text_to_combo(dialog->proto_select,get_name_by_proto(proto));
-	};
+	tDownload *dwn=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(clist),row);
+	if (!dwn) return;
+	if (dwn->editor) return;
+	dwn->editor=new tDEdit;
+	dwn->editor->add_or_edit=1;
+	dwn->editor->init(dwn);
+	gtk_window_set_title(GTK_WINDOW(dwn->editor->window),_("Edit default preferences"));
+	gtk_signal_connect(GTK_OBJECT(dwn->editor->cancel_button),"clicked",GTK_SIGNAL_FUNC(edit_url_cancel), dwn);
+	gtk_signal_connect(GTK_OBJECT(dwn->editor->ok_button),"clicked",GTK_SIGNAL_FUNC(edit_url_ok),dwn);
+	gtk_signal_connect(GTK_OBJECT(dwn->editor->window),"delete_event",GTK_SIGNAL_FUNC(edit_url_delete), dwn);
+	d4x_eschandler_init(dwn->editor->window,dwn);
+	gtk_widget_set_sensitive(dwn->editor->isdefault_check,FALSE);
+	dwn->editor->clear_save_name();
+	dwn->editor->disable_time();
+	dwn->editor->disable_save_name();
+	dwn->editor->set_url(dwn->Name2Save.get());
 };
 
 void tFacePass::apply_dialog() {
-	if (!dialog) return;
-	if (dialog->data)
-		PasswordsForHosts->del(dialog->data);
-	dialog->data=NULL;
-	tUserPass *a=new tUserPass;
-	a->proto=get_proto_by_name(text_from_combo(dialog->proto_select));
-	a->host.set(gtk_entry_get_text(GTK_ENTRY(dialog->host_entry)));
-	a->user.set(gtk_entry_get_text(GTK_ENTRY(dialog->user_entry)));
-	a->pass.set(gtk_entry_get_text(GTK_ENTRY(dialog->pass_entry)));
-	tUserPass *tmp=PasswordsForHosts->find(a->proto,a->host.get());
-	if (tmp){
-		PasswordsForHosts->del(tmp);
-		PasswordsForHosts->add(a);
-		gtk_clist_clear(GTK_CLIST(clist));
-		PasswordsForHosts->fill_face(this);
-	}else{
-		PasswordsForHosts->add(a);
-		if (dialog->row>=0){
-			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,0,get_name_by_proto(a->proto));
-			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,1,a->host.get());
-			gtk_clist_set_text(GTK_CLIST(clist),dialog->row,2,a->user.get());
-		}else
-			add(a);
-	};
-	dialog->done();
 };
 
 void tFacePass::init(){
@@ -243,19 +190,15 @@ void tFacePass::init(){
 	window = gtk_window_new(GTK_WINDOW_DIALOG);
 	gtk_window_set_wmclass(GTK_WINDOW(window),
 			       "D4X_Passwords","D4X");
-	gtk_window_set_title(GTK_WINDOW (window),_("Default passwords and usernames"));
+	gtk_window_set_title(GTK_WINDOW (window),_("Default settings"));
 	gtk_window_set_position(GTK_WINDOW(window),GTK_WIN_POS_CENTER);
 	gtk_widget_set_usize(window,-1,400);
 	gtk_container_border_width(GTK_CONTAINER(window),5);
-	gchar *titles[]={_("#"),_("Host"),_("username")};
-	clist = gtk_clist_new_with_titles(3, titles);
+	gchar *titles[]={"URL regexp"};
+	clist = gtk_clist_new_with_titles(1, titles);
 	gtk_signal_connect(GTK_OBJECT(clist),"select_row",GTK_SIGNAL_FUNC(face_pass_clist_handler),this);
 	gtk_clist_set_shadow_type (GTK_CLIST(clist), GTK_SHADOW_IN);
-	gtk_clist_set_column_width (GTK_CLIST(clist), 0 , 50);
-	gtk_clist_set_column_width (GTK_CLIST(clist), 1 , 180);
-	gtk_clist_set_column_width (GTK_CLIST(clist), 2 , 50);
 	gtk_clist_set_column_auto_resize(GTK_CLIST(clist),0,TRUE);
-	gtk_clist_set_column_auto_resize(GTK_CLIST(clist),2,TRUE);
 //	gtk_clist_set_selection_mode(GTK_CLIST(clist),GTK_SELECTION_EXTENDED);
 	GtkWidget *scroll_window=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window),
@@ -278,13 +221,17 @@ void tFacePass::init(){
 	gtk_box_pack_end(GTK_BOX(hbox),button,FALSE,FALSE,0);
 	gtk_container_add(GTK_CONTAINER(window),vbox);
 	gtk_window_set_default(GTK_WINDOW(window),button);
-	PasswordsForHosts->fill_face(this);
 	gtk_widget_show_all(window);
 	gtk_signal_connect(GTK_OBJECT(clist),"event",GTK_SIGNAL_FUNC(face_pass_list_event_callback),this);
 	gtk_signal_connect(GTK_OBJECT(button),"clicked",GTK_SIGNAL_FUNC(face_pass_ok),this);
 	gtk_signal_connect(GTK_OBJECT(del_button),"clicked",GTK_SIGNAL_FUNC(face_pass_del),this);
 	gtk_signal_connect(GTK_OBJECT(add_button),"clicked",GTK_SIGNAL_FUNC(face_pass_add),this);
 	gtk_signal_connect(GTK_OBJECT(window),"delete_event",GTK_SIGNAL_FUNC(face_pass_delete), this);
+	tDownload *dwn=dlist.first();
+	while(dwn){
+		show_url(dwn);
+		dwn=dlist.prev();
+	};
 	d4x_eschandler_init(window,this);
 };
 
@@ -293,9 +240,78 @@ void tFacePass::close() {
 		gtk_widget_destroy(window);
 		window=NULL;
 	};
+	tDownload *dwn=addlist.first();
+	while(dwn){
+		addlist_del(dwn);
+		dwn=addlist.first();
+	};
 };
 
-void tFacePass::add(tUserPass *a){
-	char *row[]={get_name_by_proto(a->proto),a->host.get(),a->user.get()};
-	gtk_clist_append(GTK_CLIST(clist),row);
+static char *CFG_URLMANAGER="urlmanager";
+
+void tFacePass::save(){
+	if (!HOME_VARIABLE) return;
+	char *cfgpath=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",CFG_URLMANAGER,NULL);
+	int fd=open(cfgpath,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
+	delete[] cfgpath;
+	if (fd<0) return;
+	tDownload *dwn=dlist.first();
+	while(dwn){
+		dwn->save_to_config(fd);
+		dwn=dlist.prev();
+	};
+	::close(fd);
+};
+
+void tFacePass::load(){
+	if (!HOME_VARIABLE) return;
+	char *cfgpath=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",CFG_URLMANAGER,NULL);
+	int fd=open(cfgpath,O_RDONLY);
+	delete[] cfgpath;
+	if (fd<0) return;
+	char buf[MAX_LEN];
+	while(f_rstr(fd,buf,MAX_LEN)>0){
+		if (equal_uncase(buf,"Download:")){
+			tDownload *tmp=new tDownload;
+			if (tmp->load_from_config(fd))
+				delete(tmp);
+			else
+				dlist.insert(tmp);
+		};
+	};
+	::close(fd);
+};
+
+void tFacePass::set_cfg(tDownload *what){
+	char *url=what->info->url();
+	tDownload *dwn=dlist.first();
+	while(dwn){
+		regex_t reg;
+		if (regcomp(&reg,dwn->Name2Save.get(),REG_NOSUB)==0){
+			if (regexec(&reg,url,0,NULL,0)==0){
+				regfree(&reg);
+				break;
+			};
+			regfree(&reg);
+		};
+		dwn=dlist.prev();
+	};
+	delete[] url;
+	if (dwn){
+		if (dwn->config){
+			if (what->config==NULL) what->config=new tCfg;
+			what->config->copy(dwn->config);
+			what->config->restart_from_begin=dwn->config->restart_from_begin;
+			what->config->referer.set(dwn->config->referer.get());
+			what->config->save_path.set(dwn->config->save_path.get());
+			what->config->log_save_path.set(dwn->config->log_save_path.get());
+			what->config->isdefault=0;
+		};
+		if (dwn->split==NULL && what->split)
+			delete(what->split);
+		if (dwn->split){
+			if (what->split==NULL) what->split=new tSplitInfo;
+			what->split->NumOfParts=dwn->split->NumOfParts;
+		};
+	};
 };

@@ -9,6 +9,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <package_config.h>
 #include <sys/file.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -29,7 +30,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 2.0beta2";
+char *VERSION_NAME="WebDownloader for X 2.beta3";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -106,8 +107,8 @@ void segv_handler(int signum) {
 int main(int argc,char **argv) {
 //	free(malloc(10)); //hack for electricFence which does not work with threads :(
 #ifdef ENABLE_NLS
-	bindtextdomain("nt", LOCALE);
-	textdomain("nt");
+	bindtextdomain("d4x", LOCALEDIR);
+	textdomain("d4x");
 	setlocale(LC_ALL,"");
 #endif
 

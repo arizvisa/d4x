@@ -8,6 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <package_config.h>
 #include <stdio.h>
 #include <time.h>
 #include "dndtrash.h"
@@ -63,7 +64,7 @@ static GdkBitmap *dnd_trash_mask1=(GdkBitmap *)NULL,*dnd_trash_mask2=(GdkBitmap 
 static int dnd_trash_raise_count=0;
 static time_t dnd_trash_last_raise=0;
 GtkTooltips *dnd_trash_tooltips=(GtkTooltips *)NULL;
-static gint dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
+static gint dnd_trash_moveable,dnd_trash_x,dnd_trash_y,dnd_trash_move_x,dnd_trash_move_y;
 static GtkTooltips *dnd_trash_speed_tooltips[2];
 static GtkWidget *dnd_trash_speed_menu[2];
 char *dnd_trash_tooltip_text=NULL;
@@ -121,15 +122,14 @@ void dnd_trash_destroy(){
 
 void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 	if (dnd_trash_moveable){
-		motion_notify_get_coords(event);
 		gint mx,my;
 		GdkModifierType modmask;
 		gdk_window_get_pointer((GdkWindow *)NULL, &mx, &my, &modmask);
-		CFG.DND_TRASH_X+=mx-dnd_trash_x;
-		CFG.DND_TRASH_Y+=my-dnd_trash_y;
+		dnd_trash_move_x+=mx-dnd_trash_x;
+		dnd_trash_move_y+=my-dnd_trash_y;
 		gdk_window_move(widget->window,
-				CFG.DND_TRASH_X,
-				CFG.DND_TRASH_Y);
+				dnd_trash_move_x,
+				dnd_trash_move_y);
 		dnd_trash_x=mx;
 		dnd_trash_y=my;
 		gdk_flush();
@@ -152,17 +152,19 @@ int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 		if (event->type==GDK_2BUTTON_PRESS)
 			main_window_toggle();
 		else{
-			dnd_trash_moveable=1;
-//			GdkModifierType modmask;
-//			gdk_window_get_pointer((GdkWindow *)NULL, &dnd_trash_x, &dnd_trash_y, &modmask);
-			dnd_trash_x=gint(event->x_root);
-			dnd_trash_y=gint(event->y_root);
-			gtk_grab_add (widget);
-			gdk_pointer_grab (widget->window,TRUE,
-					  GdkEventMask(GDK_BUTTON_RELEASE_MASK |
-						       GDK_BUTTON_MOTION_MASK |
-						       GDK_POINTER_MOTION_HINT_MASK),
-					  NULL, NULL, 0);
+			if (!dnd_trash_moveable){
+				dnd_trash_move_x=CFG.DND_TRASH_X;
+				dnd_trash_move_y=CFG.DND_TRASH_Y;
+				dnd_trash_moveable=1;
+				dnd_trash_x=gint(event->x_root);
+				dnd_trash_y=gint(event->y_root);
+				gtk_grab_add (widget);
+				gdk_pointer_grab (widget->window,TRUE,
+						  GdkEventMask(GDK_BUTTON_RELEASE_MASK |
+							       GDK_BUTTON_MOTION_MASK |
+							       GDK_POINTER_MOTION_HINT_MASK),
+						  NULL, NULL, 0);
+			};
 		};
 		break;
 	};
@@ -264,8 +266,6 @@ void dnd_trash_init(){
 	dnd_trash_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_wmclass(GTK_WINDOW(dnd_trash_window),"D4X_DnDBasket", "D4X_DnDBasket");
 	gtk_window_set_title(GTK_WINDOW (dnd_trash_window), _("DnD basket"));
-	d4x_normalize_coords(&(CFG.DND_TRASH_X),&(CFG.DND_TRASH_Y));
-	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
 	gtk_widget_set_events(dnd_trash_window,
 			      gtk_widget_get_events(dnd_trash_window) |
 			      GDK_FOCUS_CHANGE_MASK |
@@ -321,6 +321,8 @@ void dnd_trash_init(){
 	};
 	gdk_window_get_size((GdkWindow*)dnd_trash_pixmap1,
 			    &width,&height);
+	d4x_normalize_coords(&(CFG.DND_TRASH_X),&(CFG.DND_TRASH_Y),width,height);
+	gtk_widget_set_uposition( dnd_trash_window, gint(CFG.DND_TRASH_X),gint(CFG.DND_TRASH_Y));
 	/* Create the main window, and attach delete_event signal to terminate
 	 * the application.  Note that the main window will not have a titlebar
 	 * since we're making it a popup. */

@@ -1,15 +1,19 @@
-%define ver      2.0beta2
+%define version	2.0beta3
+%define name	d4x
+%define prefix	/usr
 
-Name: nt
-Version: %ver
-Release: 1
-Copyright: free source but restricted to change
-URL: http://www.krasu.ru/soft/chuchelo
-Group: Applications/Internet
-Summary: ftp/http download manager for X window system
-Source: http://www.krasu.ru/soft/chuchelo/files/nt-%{ver}.tar.gz
-BuildRoot: /tmp/nt-root
-Packager: Anton Voloshin (vav@isv.ru)
+Name:		%{name}
+Version:	%{version}
+Release:	1
+Serial:		1
+Copyright:	free source but restricted to change
+URL:		http://www.krasu.ru/soft/chuchelo
+Group:		Applications/Internet
+Summary:	FTP/HTTP download manager for X window system
+Source:		%{name}-%{version}.tar.gz
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+Packager:	Anton Voloshin (vav@isv.ru)
+Requires:	gtk+ >= 1.2.10
 
 %description
 This program lets you download files from internet/intranet using
@@ -23,7 +27,7 @@ Main features:
     * ability to change links in HTML file for offline browsing
     * wildcards support for FTP recursing
     * filters support for HTTP recursing
-    * proxy support (FTP and HTTP)
+    * proxy support (FTP,HTTP and SOCKS5)
     * supports for traffic limitation
     * mass downloading function
     * FTP search
@@ -34,24 +38,16 @@ Main features:
 %setup
 
 %build
-make -C main CCFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="${RPM_OPT_FLAGS} -s" DEST=%{_prefix}
+./configure --enable-release --prefix=%{prefix}
+make
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
-for i in main/po/*.gmo; do
-    j=`basename $i .gmo`
-    mkdir -p $RPM_BUILD_ROOT%{_datadir}/locale/$j/LC_MESSAGES
-    cp -f $i $RPM_BUILD_ROOT%{_datadir}/locale/$j/LC_MESSAGES/nt.mo
-done
-for i in main/sounds/*.wav; do
-    mkdir -p $RPM_BUILD_ROOT%{_datadir}/d4x/sounds
-    cp -f $i $RPM_BUILD_ROOT%{_datadir}/d4x/sounds/
-done
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/d4x
-cp -fr main/themes $RPM_BUILD_ROOT%{_datadir}/d4x/
+make prefix=${RPM_BUILD_ROOT}%{prefix} install
 cp -f main/nt $RPM_BUILD_ROOT%{_bindir}/
 cp -f nt.desktop $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet/nt.desktop
 cp -f nt.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.xpm
@@ -64,14 +60,13 @@ cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
 %find_lang %{name}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
-rm -rf nt-%{ver}
+[ "${RPM_BUILD_ROOT}" != "/" ] && [ -d ${RPM_BUILD_ROOT} ] && rm -rf ${RPM_BUILD_ROOT};
 
 %files -f %{name}.lang
 %defattr(-, root, root)
 %doc DOC/*
 %{_bindir}/nt
-%{_mandir}/man1/*1.gz
+%{_mandir}/man1/*
 %{_sysconfdir}/X11/applnk/Internet/nt.desktop
 %{_datadir}/pixmaps/nt.xpm
 %{_datadir}/pixmaps/nt-mini.xpm
@@ -82,6 +77,9 @@ rm -rf nt-%{ver}
 %{_datadir}/d4x/themes/*
 
 %changelog
+
+* Sat Mar 9 2002 max@krascoal.ru
+- rewrite to spec.in for autoconf/automake
 
 * Sat Oct 6 2001 leon@asplinux.ru
 - rewrite spec using new macros system, langify

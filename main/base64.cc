@@ -9,6 +9,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <package_config.h>
 #include "base64.h"
 #include <string.h>
 #include <stdio.h>

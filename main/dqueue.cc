@@ -8,12 +8,19 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <package_config.h>
 #include "dqueue.h"
 #include "dbc.h"
 #include "face/list.h"
 #include "face/lod.h"
 #include "var.h"
 #include "savedvar.h"
+
+int RUN_OR_WAIT_DOWNLOADS=0;
+
+int d4x_run_or_wait_downloads(){
+	return(RUN_OR_WAIT_DOWNLOADS);
+};
 
 d4xDownloadQueue::d4xDownloadQueue(){
 	MAX_ACTIVE=5;
@@ -119,13 +126,19 @@ void d4xDownloadQueue::insert_before(tDownload *what,tDownload *where){
 };
 
 void d4xDownloadQueue::add(tDownload *what,int where=DL_WAIT){
+	if (where==DL_WAIT || where==DL_RUN)
+		RUN_OR_WAIT_DOWNLOADS+=1;
 	queues[where]->insert(what);
 	update();
 };
 
 void d4xDownloadQueue::del(tDownload *what){
-	if (what->myowner)
+	if (what->myowner){
+		if (what->myowner->get_key()==DL_WAIT ||
+		    what->myowner->get_key()==DL_RUN)
+			RUN_OR_WAIT_DOWNLOADS-=1;
 		what->myowner->del(what);
+	};
 	update();
 };
 

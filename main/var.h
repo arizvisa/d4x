@@ -37,7 +37,6 @@ enum{
 #include "history.h"
 #include "mainlog.h"
 #include "dlist.h"
-#include "pass.h"
 #include "db.h"
 #include "cookie.h"
 #include "dbc.h"
@@ -213,8 +212,6 @@ enum HISTORIES_ENUM{
 };
 
 extern tHistory *ALL_HISTORIES[LAST_HISTORY];
-
-extern tUserPassTree *PasswordsForHosts;
 
 extern char *VERSION_NAME;
 extern char *DEFAULT_PASS;

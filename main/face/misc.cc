@@ -10,6 +10,7 @@
  */
 /* including stdio.h only for NULL on BSD
  */
+#include <package_config.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>

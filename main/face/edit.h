@@ -95,6 +95,7 @@ public:
 	void file_check();
 	void select_url();
 	void clear_url();
+	void clear_save_name();
 	void set_url(char *a);
 	char *get_url();
 	void done();
@@ -105,6 +106,7 @@ public:
 	void disable_items(int *array);
 	void disable_time();
 	void auto_fill_log();
+	void disable_save_name();
 	~tDEdit();
 };
 

@@ -9,6 +9,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <package_config.h>
 #include <gtk/gtk.h>
 #include <string.h>
 #include "list.h"

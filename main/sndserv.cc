@@ -8,6 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <package_config.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -94,7 +95,7 @@ public:
 	~d4xWaveFile();
 };
 
-#ifdef D4X_WITH_ESD
+#ifdef HAVE_ESD
 #include <esd.h>
 class d4xEsdFile:public d4xSndFile{
 	int fd;
@@ -122,7 +123,7 @@ void d4xEsdFile::play(){
 d4xEsdFile::~d4xEsdFile(){
 	if (fd>=0) esd_close(fd);
 };
-#endif //D4X_WITH_ESD
+#endif //HAVE_ESD
 
 /***********************************************************/
 
@@ -362,7 +363,7 @@ d4xOssAudio::~d4xOssAudio(){
 		close(fd);
 	};
 };
-#endif
+#endif //D4X_WITH_OSS
 
 /***********************************************************/
 
@@ -437,11 +438,11 @@ void d4xSndServer::play_sound(int event){
 	if (event>=0 && event<SND_LAST &&
 	    snd_table[event]!=NULL){
 		d4xSndFile *wav=NULL;
-#ifdef D4X_WITH_ESD		
+#ifdef HAVE_ESD
 		if (CFG.ESD_SOUND)
 			wav=new d4xEsdFile(snd_table[event]);
 		else
-#endif// D4X_WITH_ESD
+#endif// HAVE_ESD
 			wav=new d4xWaveFile(snd_table[event]);
 		wav->play();
 		delete(wav);

@@ -74,4 +74,6 @@ public:
 	~d4xDUpdate();
 };
 
+int d4x_run_or_wait_downloads();
+
 #endif // define _D4X_DOWNLOAD_QUEUE_HEADER_

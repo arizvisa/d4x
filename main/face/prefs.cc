@@ -8,6 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+#include <package_config.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include "../ntlocale.h"
@@ -755,7 +756,7 @@ void d4x_prefs_main(){
 	GtkWidget *label=gtk_label_new(_("bytes/sec speed level one (red button)"));
 	GtkWidget *hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	D4XPWS.speed_limit_1=my_gtk_entry_new_with_max_length(5,TMPCFG.SPEED_LIMIT_1);
+	D4XPWS.speed_limit_1=my_gtk_entry_new_with_max_length(6,TMPCFG.SPEED_LIMIT_1);
 	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed1_xpm,NULL),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),D4XPWS.speed_limit_1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
@@ -763,7 +764,7 @@ void d4x_prefs_main(){
 	label=gtk_label_new(_("bytes/sec speed level two (yellow button)"));
 	hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(hbox),5);
-	D4XPWS.speed_limit_2=my_gtk_entry_new_with_max_length(5,TMPCFG.SPEED_LIMIT_2);
+	D4XPWS.speed_limit_2=my_gtk_entry_new_with_max_length(6,TMPCFG.SPEED_LIMIT_2);
 	gtk_box_pack_start(GTK_BOX(hbox),new_pixmap(speed2_xpm,NULL),FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),D4XPWS.speed_limit_2,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(hbox),label,FALSE,FALSE,0);
@@ -902,11 +903,11 @@ void d4x_prefs_sounds(){
 	GTK_TOGGLE_BUTTON(D4XPWS.snd_enable)->active=TMPCFG.ENABLE_SOUNDS;
 	gtk_box_pack_start(GTK_BOX(hbox),D4XPWS.snd_enable,FALSE,FALSE,0);
 
-#ifdef D4X_WITH_ESD
+#ifdef HAVE_ESD
 	D4XPWS.esd_sound=gtk_check_button_new_with_label(_("output via ESD"));
 	GTK_TOGGLE_BUTTON(D4XPWS.esd_sound)->active=TMPCFG.ESD_SOUND;
 	gtk_box_pack_start(GTK_BOX(hbox),D4XPWS.esd_sound,FALSE,FALSE,0);
-#endif// D4X_WITH_ESD
+#endif// HAVE_ESD
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,0);
 
 	GtkWidget *label;
@@ -1266,6 +1267,7 @@ void d4x_prefs_init_page(int page){
 		gtk_tree_select_item(GTK_TREE(D4XPWS.root_tree),3);
 		break;
 	};
+	gtk_widget_queue_draw(D4XPWS.root_tree);
 };
 
 void d4x_prefs_init(){
@@ -1371,9 +1373,9 @@ void d4x_prefs_apply_tmp(){
 	};
 	if (equal(label,_("Sounds"))){
 		TMPCFG.ENABLE_SOUNDS=GTK_TOGGLE_BUTTON(D4XPWS.snd_enable)->active;
-#ifdef D4X_WITH_ESD
+#ifdef HAVE_ESD
 		TMPCFG.ESD_SOUND=GTK_TOGGLE_BUTTON(D4XPWS.esd_sound)->active;
-#endif //D4X_WITH_ESD
+#endif //HAVE_ESD
 		d4x_prefs_get_field(MY_GTK_FILESEL(D4XPWS.snd_startup)->combo,
 				    &TMPCFG.SOUND_STARTUP,
 				    ALL_HISTORIES[SOUNDS_HISTORY]);

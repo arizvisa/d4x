@@ -76,7 +76,7 @@ char *old_clipboard_content();
 
 void d4x_mw_clipboard_set(char *str);
 char *d4x_mw_clipboard_get();
-void d4x_normalize_coords(gint *x,gint *y);
+void d4x_normalize_coords(gint *x,gint *y,gint width=0,gint heigh=0);
 
 void list_dnd_drop_internal(GtkWidget *widget,
 			    GdkDragContext *context,

@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -50,6 +50,7 @@
 #include "filter.h"
 #include "sndserv.h"
 #include "xml.h"
+#include "face/passface.h"
 
 tMLog *MainLog=NULL;
 
@@ -83,7 +84,6 @@ int tMain::init() {
 	
 	FILTERS_DB=new d4xFiltersTree;
 	FILTERS_DB->load_from_ntrc();
-	PasswordsForHosts=load_passwords();
 	SpeedScheduler=new tSpeedQueue;
 	SpeedScheduler->init(0);
 	MainScheduler=new d4xScheduler;
@@ -506,10 +506,6 @@ void tMain::continue_download(tDownload *what) {
 	what->finfo.size=-1;
 };
 
-int tMain::complete() {
-	return((D4X_QUEUE->count(DL_WAIT)+D4X_QUEUE->count(DL_RUN)+D4X_QUEUE->count(DL_STOPWAIT))>0?0:1);
-};
-
 void tMain::add_dir(tDownload *parent) {
 	if (parent==NULL || parent->DIR==NULL) return;
 	tDownload *temp=parent->DIR->last();
@@ -612,7 +608,7 @@ void tMain::print_info(tDownload *what) {
 			what->Pause = Pause;
 			if (what->Size.old<=0 && what->who) what->Size.old=what->start_size();
 		} else {
-			if (what->status_cp==DOWNLOAD_GO) {
+			if (what->status==DOWNLOAD_GO) {
 				int Pause=NOWTMP-what->Pause;
 				if (Pause>=30) {
 					convert_time(Pause,data,PAPA->TIME_FORMAT);
@@ -1201,6 +1197,21 @@ void tMain::check_for_remote_commands(){
 			};
 			break;
 		};
+		case PACKET_SWITCH_QUEUE:{
+			int num=0;
+			if (addnew->body && sscanf(addnew->body,"%d",&num)==1 && num>0){
+				d4xDownloadQueue *q=d4x_get_queue_num(num);
+				if (q){
+					if (CFG.WITHOUT_FACE==0){
+						D4X_QVT->switch_to(q);
+					}else{
+						MainLog->myprintf(LOG_FROM_SERVER,_("Default queue is '%s' now."),q->name.get());
+						D4X_QUEUE=q;
+					};
+				};
+			};
+			break;
+		};
 		};
 		delete(addnew);
 		i+=1;
@@ -1261,14 +1272,8 @@ int tMain::add_downloading(tDownload *what,int to_top=0) {
 		MainScheduler->add_scheduled(what);
 		return(0);
 	};
-	if (what->info->username.get()==NULL){
-		tUserPass *tmp=PasswordsForHosts->find(what->info->proto,
-						       what->info->host.get());
-		if (tmp){
-			what->info->username.set(tmp->user.get());
-			what->info->pass.set(tmp->pass.get());
-		};
-	};
+	if (what->config==NULL)
+		FaceForPasswords->set_cfg(what);
 	ALL_DOWNLOADS->insert(what);
 	tDownload *f=D4X_QUEUE->first(DL_WAIT);
 	if (to_top && f)
@@ -1471,7 +1476,7 @@ void tMain::run_without_face(){
 			};
 			TIME_FOR_SAVING=CFG.SAVE_LIST_INTERVAL * 60;
 		};
-		if (CFG.EXIT_COMPLETE && aa.complete()){
+		if (CFG.EXIT_COMPLETE && d4x_run_or_wait_downloads()==0){
 			COMPLETE_INTERVAL-=1;
 			if (COMPLETE_INTERVAL<0){
 				break;
@@ -1481,7 +1486,6 @@ void tMain::run_without_face(){
 		};
 	};
 	save_list();
-	save_passwords(PasswordsForHosts);
 	done();
 	save_config();
 	for (int i=0;i<LAST_HISTORY;i++)
@@ -1554,7 +1558,6 @@ void tMain::done() {
 	MainLog->add(_("Downloader exited normaly"),LOG_OK);
 	delete(MainLog);
 	delete(SpeedScheduler);
-	delete(PasswordsForHosts);
 
 	close(LOCK_FILE_D);
 	delete (server);

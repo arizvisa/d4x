@@ -1,3 +1,35 @@
+Tue Mar 12 10:26:48  Maxim Koshelev  <mdem@chat.ru>
+
+	* dlist.cc: fixed downloading in number of thread via FTP;
+	* face/pixmap/del_all.xpm: replaced by dinamite icon;
+	* dqueue.*, main.*, face/list.cc: fixed 'exit if nothing to do';
+
+Mon Mar 11 17:10:24  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/list.*, face/dndtrash.cc: changed coords-normalization routine;
+	* face/qtree.cc: interface cleanups;
+
+Sun Mar 10 15:10:45  Maxim Koshelev  <mdem@chat.ru>
+
+	* main.cc, var.*, face/passface.*, face/edit.*, face/list.cc:
+	begin to replace passwords settings by URL-manager;
+
+Sat Mar 09 14:49:33  Maxim Koshelev  <mdem@chat.ru>
+
+	* config.cc, srvclt.*, main.cc: mark default queue when print list by '--ls',
+	added ability to change current queue from command line;
+
+Thu Mar 07 11:31:08  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/prefs.cc: fixed double lines in preferences tree;
+	* face/dndtrash.cc: fixed moving DnD-basket;
+
+Fri Mar 01 16:01:10  Maxim Koshelev  <mdem@chat.ru>
+
+	* face/list.cc: implement storing keybinds of main menu;
+	* main.cc: fixed displaying pause;
+	* httpd.cc: fixed wrong speed calculation;
+
 Thu Feb 28 15:34:03  Maxim Koshelev  <mdem@chat.ru>
 
 	* face/about.cc: replaced email;

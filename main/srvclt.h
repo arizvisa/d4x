@@ -98,13 +98,18 @@ enum {
 	PACKET_DEL,
 	PACKET_STOP,
 	PACKET_LSTREE,
+	PACKET_SWITCH_QUEUE,
 	PACKET_UNKNOWN
 };
 
 enum {
 	LST_QUEUE,
 	LST_SUBQUEUE,
-	LST_UPQUEUE
+	LST_UPQUEUE,
+	LST_DQUEUE
 };
+
+struct d4xDownloadQueue;
+d4xDownloadQueue *d4x_get_queue_num(int N);
 
 #endif

@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
@@ -1149,6 +1149,10 @@ void tDEdit::clear_url() {
 	text_to_combo(url_entry,"");
 };
 
+void tDEdit::clear_save_name() {
+	text_to_combo(MY_GTK_FILESEL(file_entry)->combo,"");
+};
+
 char *tDEdit::get_url(){
 	return(text_from_combo(url_entry));
 };
@@ -1159,6 +1163,10 @@ void tDEdit::set_url(char *a) {
 
 void tDEdit::disable_time(){
 	gtk_widget_set_sensitive(time_check,FALSE);
+};
+
+void tDEdit::disable_save_name(){
+	gtk_widget_set_sensitive(file_entry,FALSE);
 };
 
 void tDEdit::disable_items(int *array){

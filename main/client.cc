@@ -9,6 +9,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+#include <package_config.h>
 #include "socket.h"
 #include "liststr.h"
 #include "client.h"

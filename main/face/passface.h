@@ -12,44 +12,35 @@
 #define MY_FACE_FOR_PASS
 
 #include <gtk/gtk.h>
-#include "about.h"
-#include "../pass.h"
-
-struct tPassDialog:public tDialog{
-	GtkWidget *host_entry,*user_entry,*pass_entry;
-	GtkWidget *proto_select;
-	GtkWidget *frame;
-	GtkWidget *cancel_button;
-	tUserPass *data;
-	int row;
-
-	tPassDialog();
-	int init();
-	void done();
-	~tPassDialog();
-};
+#include "../dlist.h"
 
 class tFacePass{
-	protected:
+protected:
 	GtkWidget *window;
 	GtkWidget *clist;
 	GtkWidget *button;
 	GtkWidget *add_button;
 	GtkWidget *del_button;
-	tPassDialog *dialog;
+	tDList dlist,addlist;
 	void del_row(int row);
-	public:
-		tFacePass();
-		void init();
-		void add();
-		void add(tUserPass *a);
-		void edit_row(int row);
-		void apply_dialog();
-		void delete_rows();
-		void open_dialog();
-		void close();
-		~tFacePass();
+	void show_url(tDownload *dwn);
+public:
+	tFacePass();
+	void init();
+	void edit_row(int row);
+	void apply_dialog();
+	void addlist_del(tDownload *dwn);
+	void addlist_add(tDownload *dwn);
+	void redraw_url(tDownload *dwn);
+	void delete_rows();
+	void open_dialog();
+	void save();
+	void load();
+	void close();
+	void set_cfg(tDownload *dwn);
+	~tFacePass();
 };
 
+extern tFacePass *FaceForPasswords;
 
 #endif

@@ -8,7 +8,7 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+#include <package_config.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <strings.h>
@@ -174,7 +174,7 @@ int tFtpClient::last_answer(char *first) {
 
 int tFtpClient::rest(int offset) {
 	ReGet=1;
-	if (offset && ReGet) {
+	if (offset || CUR_REST!=0) {
 		char data[MAX_LEN];
 		sprintf(data,"%i",offset);
 		send_command("REST",data);
@@ -183,7 +183,9 @@ int tFtpClient::rest(int offset) {
 		if (a!=RVALUE_OK){
 			ReGet=0;
 			LOG->log(LOG_WARNING,_("Reget is not supported!!!"));
-		};
+			CUR_REST=0;
+		}else
+			CUR_REST=offset;
 	};
 	return RVALUE_OK;
 };
@@ -203,6 +205,7 @@ tFtpClient::tFtpClient():tClient(){
 	METHOD_TO_LIST=0;
 	DataSocket=new tSocket;
 	log_flag=0;
+	CUR_REST=0;
 };
 
 tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl=NULL):tClient(cfg,ctrl){
@@ -219,6 +222,7 @@ tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl=NULL):tClient(cfg,ctrl){
 					    cfg->socks_pass.get());
 	}else
 		DataSocket=new tSocket;
+	CUR_REST=0;
 };
 
 void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
@@ -232,6 +236,7 @@ void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
 
 int tFtpClient::reinit() {
 	ReGet=1;
+	CUR_REST=0;
 	int rvalue=0;
 	quit();
 	vdisconnect();

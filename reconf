@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# $Header: /var/cvs/d4x/reconf,v 1.7 2002/03/12 12:08:21 vav Exp $
+#
+
+# If this script will be started by usual user
+# we don't show anything 2 him (to keep it relaxed :)
+gettextize --copy --force 2>&1 >/dev/null
+
+# Make an empty file (after 1st run ./reconf ABOUT-NLS.orig
+# become not existed and mv command issue an error)
+> ABOUT-NLS
+
+aclocal -I admin
+autoconf
+autoheader
+automake -a
