@@ -335,6 +335,9 @@ int tHttpDownload::reget() {
 };
 
 void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) {
+	DBC_RETURN_IF_FAIL(path!=NULL);
+	DBC_RETURN_IF_FAIL(name!=NULL);
+	DBC_RETURN_IF_FAIL(guess!=NULL);
 	char *full_path;
 	int flag=strlen(ADDR.file.get());
 	if (config.http_recursing){
@@ -352,27 +355,39 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 			sum_strings(".",ADDR.file.get(),"?",ADDR.params.get(),NULL):
 			sum_strings(".",ADDR.file.get(),NULL);
 		*name=compose_path(full_path,temp);
-		*guess=compose_path(full_path,ADDR.file.get());
+		delete(temp);
+		temp=(config.http_recursing && ADDR.params.get())?
+			sum_strings(ADDR.file.get(),"?",ADDR.params.get(),NULL):
+			sum_strings(ADDR.file.get(),NULL);
+		*guess=compose_path(full_path,temp);
 	}else{
 		temp=(config.http_recursing && ADDR.params.get())?
 			sum_strings(".",CFG.DEFAULT_NAME,"?",ADDR.params.get(),NULL):
 			sum_strings(".",CFG.DEFAULT_NAME,NULL);
 		*name=compose_path(full_path,temp);
-		*guess=compose_path(full_path,CFG.DEFAULT_NAME);
+		delete(temp);
+		temp=(config.http_recursing && ADDR.params.get())?
+			sum_strings(CFG.DEFAULT_NAME,"?",ADDR.params.get(),NULL):
+			sum_strings(CFG.DEFAULT_NAME,NULL);
+		*guess=compose_path(full_path,temp);
 	};
 	delete full_path;
 	delete temp;
 };
 
 void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
+	DBC_RETURN_IF_FAIL(path!=NULL);
+	DBC_RETURN_IF_FAIL(another_name!=NULL);
+	DBC_RETURN_IF_FAIL(name!=NULL);
+	DBC_RETURN_IF_FAIL(guess!=NULL);
 	char *temp=sum_strings(".",another_name,NULL);
 	char *full_path=NULL;
 	if (config.http_recursing)
 		full_path=compose_path(path,ADDR.path.get());
 	else
 		full_path=copy_string(path);
-	char *question_sign=index(full_path,'?');
-	if (question_sign) *question_sign=0;
+//	char *question_sign=index(full_path,'?');
+//	if (question_sign) *question_sign=0;
 	*name=compose_path(full_path,temp);
 	*guess=compose_path(full_path,another_name);
 	delete full_path;

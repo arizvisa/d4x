@@ -146,6 +146,7 @@ void tMLog::print() {
 };
 
 void tMLog::add(char *str,int len,int type) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	if ((type & LOG_DETAILED)  && !CFG.MAIN_LOG_DETAILED) return;
 	tLogString *temp=new tLogString(str,len,type);
 	temp->time=time(NULL);
@@ -155,6 +156,7 @@ void tMLog::add(char *str,int len,int type) {
 };
 
 void tMLog::add(char *str,int type) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	if ((type & LOG_DETAILED)  && !CFG.MAIN_LOG_DETAILED) return;	
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,type);
@@ -164,6 +166,7 @@ void tMLog::add(char *str,int type) {
 };
 
 void tMLog::init_list(GtkCList *clist) {
+	DBC_RETURN_IF_FAIL(clist!=NULL);
 	list=clist;
 	gtk_signal_connect(GTK_OBJECT(list),"select_row",GTK_SIGNAL_FUNC(main_log_event_handler),this);
 	gtk_signal_connect(GTK_OBJECT(list),"event",GTK_SIGNAL_FUNC(main_log_event_handler2),this);
@@ -240,6 +243,7 @@ void tMLog::reinit_file() {
 };
 
 void tMLog::add(char *str) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,LOG_FROM_SERVER);
 	insert(ins);
@@ -248,6 +252,8 @@ void tMLog::add(char *str) {
 };
 
 void tMLog::myprintf(int type,char *fmt,...){
+	DBC_RETURN_IF_FAIL(fmt!=NULL);
+
 	char str[MAX_LEN+1];
 	char *cur=str;
 	va_list ap;
@@ -259,14 +265,21 @@ void tMLog::myprintf(int type,char *fmt,...){
 			switch(*fmt){
 			case 's':{
 				char *s=va_arg(ap,char *);
-				g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+				if (s)
+					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+				else
+					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");
 				break;
 			};
 			case 'z':{
 				tDownload *temp=va_arg(ap,tDownload *);
-				char *s=temp->info->url();
-				g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
-				delete(s);
+				if (temp && temp->info){
+					char *s=temp->info->url();
+					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+					delete(s);
+				}else{
+					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");
+				};
 				break;
 			};
 			case 'i':{

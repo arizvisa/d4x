@@ -54,6 +54,7 @@ void save_list() {
 };
 
 int save_list_to_file(char *path) {
+	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
 	remove(path);
 	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
 	if (fd<0) return -1;
@@ -79,6 +80,7 @@ int save_list_to_file(char *path) {
 };
 
 void read_list(tStringList *where) {
+	DBC_RETURN_IF_FAIL(where!=NULL);
 	if (!HOME_VARIABLE) return;
 	char *path=new char[strlen(LIST_FILE)+strlen(HOME_VARIABLE)+strlen(CFG_DIR)+3];
 	sprintf(path,"%s/%s/%s",HOME_VARIABLE,CFG_DIR,LIST_FILE);
@@ -102,6 +104,7 @@ void read_list() {
 };
 
 int read_list_from_file(char *path) {
+	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
 	char buf[MAX_LEN];
 	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
 	if (fd>=0) {
@@ -122,6 +125,8 @@ int read_list_from_file(char *path) {
 };
 
 int read_list_from_file_old(char *path,tStringList *where) {
+	DBC_RETVAL_IF_FAIL(path!=NULL,-1);
+	DBC_RETVAL_IF_FAIL(where!=NULL,-1);
 	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
 	if (fd>=0) {
 		char temp[MAX_LEN];

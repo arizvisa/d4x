@@ -27,7 +27,7 @@
 //-------------------------------------------------
 tMain aa;
 
-char *VERSION_NAME="WebDownloader for X 1.18";
+char *VERSION_NAME="WebDownloader for X 1.19";
 char *LOCK_FILE;
 
 static void init_string_variables(){
@@ -46,15 +46,50 @@ static void init_string_variables(){
 	if (CFG.SKIP_IN_CLIPBOARD==NULL)
 		CFG.SKIP_IN_CLIPBOARD=copy_string("html htm php3 gif jpg png");
 	if (CFG.CATCH_IN_CLIPBOARD==NULL)
-		CFG.CATCH_IN_CLIPBOARD=copy_string("zip tar.gz rar arj exe rpm tar.bz2");
+		CFG.CATCH_IN_CLIPBOARD=copy_string("zip .gz rar arj exe rpm .bz2 deb tgz mp3");
 	CFG.LOCAL_SAVE_PATH=copy_string(CFG.GLOBAL_SAVE_PATH);
 };
+
+#ifdef DEBUG_ALL
+
+static char *prog_name;
+
+/* aught! got sigsegv :(
+ *  try to attach gdb to failed process to look around
+ */
+void segv_handler(int signum) {
+	char pid_str[128];
+	volatile int tmp;
+	
+	fprintf(stderr, "pid %d got sinal SIGSEGV\n", getpid());
+	if ((tmp=fork()) < 0) {
+		perror("fork"); exit(EXIT_FAILURE);
+	}
+	if (tmp) {
+		while (tmp) { /* do nothing forever :) */ }
+	} else {
+		sprintf(pid_str, "%d", getppid());
+		if (CFG.WITHOUT_FACE) {
+			execlp("gdb", "gdb", prog_name, pid_str);
+		} else {
+			execlp("xterm", "xterm", "-e", "gdb", prog_name, pid_str);
+		}
+		perror("execlp");
+		exit(EXIT_FAILURE);
+	}
+}
+#endif
 
 int main(int argc,char **argv) {
 //	free(malloc(10)); //hack for electricFence which does not work with threads :(
 #ifdef ENABLE_NLS
 	bindtextdomain("nt", LOCALE);
 	textdomain("nt");
+#endif
+
+#ifdef DEBUG_ALL
+	prog_name = argv[0];
+	signal(SIGSEGV, segv_handler);
 #endif
 	if (parse_command_line_preload(argc,argv)) return 0;
 	HOME_VARIABLE=copy_string(getenv("HOME"));

@@ -82,6 +82,7 @@ unsigned short int tSocket::get_port() {
 };
 
 int tSocket::open_port(char *host, int port) {
+	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	int len=constr_name(host,port);
 	if (len<0) return SOCKET_UNKNOWN_HOST;
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
@@ -93,6 +94,7 @@ int tSocket::open_port(char *host, int port) {
 	return 0;
 }
 int tSocket::open_port(int *ftp_addr) {
+	DBC_RETVAL_IF_FAIL(ftp_addr!=NULL,SOCKET_CANT_CONNECT);
 	unsigned char addr[6];
 	for (int i=0;i<6;i++) addr[i]=(unsigned char)(ftp_addr[i]&0xff);
 	unsigned long int host=0;
@@ -118,6 +120,7 @@ int tSocket::open_port(unsigned long int host,unsigned short int port) {
 }
 
 int tSocket::open_any(char *host) {
+	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	constr_name(NULL,0);
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
 		return(-1);
@@ -178,6 +181,7 @@ void tSocket::flush(){
 };
 
 int tSocket::accepting(char * host) {
+	DBC_RETVAL_IF_FAIL(host!=NULL,-1);
 	sockaddr_in addr;
 	unsigned int len=sizeof(addr);
 	int oldfd=fd;
@@ -191,6 +195,7 @@ int tSocket::accepting(char * host) {
 };
 
 int tSocket::send_string(char * what,int timeout) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	int a=strlen(what);
 	int b=send(fd,what,a,0);
 	if (b<0) return -1;
@@ -202,6 +207,7 @@ int tSocket::send_string(char * what,int timeout) {
 };
 
 int tSocket::rec_string(char * where,int len,int timeout) {
+	DBC_RETVAL_IF_FAIL(where!=NULL,-1);
 	if (wait_for_read(timeout))
 		return STATUS_TIMEOUT;
 	tDownload **download=my_pthread_key_get();

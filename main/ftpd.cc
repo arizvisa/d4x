@@ -331,6 +331,7 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	} else
 		FTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
 	FTP->set_passive(config.passive);
+	FTP->set_dont_set_quit(config.dont_send_quit);
 	return reconnect();
 };
 

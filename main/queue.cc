@@ -48,7 +48,7 @@ void tQueue::init(int n) {
 };
 
 void tQueue::insert(tNode *what) {
-	if (what==NULL) return;
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	free_to_limit();
 	Num+=1;
 	what->prev=NULL;
@@ -61,7 +61,9 @@ void tQueue::insert(tNode *what) {
 };
 
 void tQueue::insert_before(tNode *what,tNode *where) {
-	if (what==NULL || where==NULL) return;
+	DBC_RETURN_IF_FAIL(what!=NULL);
+	DBC_RETURN_IF_FAIL(where!=NULL);
+//	if (what==NULL || where==NULL) return;
 	/* what and where != NULL
 	 * if First than .next==NULL
 	 * if Last than .prev==NULL
@@ -95,7 +97,8 @@ tNode *tQueue::prev() {
 };
 
 void tQueue::del(tNode *what) {
-	if (what==NULL) return;
+	DBC_RETURN_IF_FAIL(what!=NULL);
+//	if (what==NULL) return;
 	Num-=1;
 	if (what->prev)
 		what->prev->next=what->next;

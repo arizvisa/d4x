@@ -80,6 +80,7 @@ void list_of_downloads_set_pixmap(int row,int type);
 void list_of_downloads_set_run_icon(tDownload *what);
 int list_of_downloads_sel();
 
+void list_of_downloads_swap(tDownload *a,tDownload *b);
 void list_of_downloads_move_up();
 void list_of_downloads_move_down();
 void list_of_downloads_unselect_all();

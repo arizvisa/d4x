@@ -403,7 +403,7 @@ void tHtmlParser::parse(int fd,tStringList *list){
 			   temp->fields){
 				tHtmlTagField *field=(tHtmlTagField *)(temp->fields->first());
 				while(field){
-					if (equal_uncase(field->name,HTML_TEGS[i].field)){
+					if (field->value && equal_uncase(field->name,HTML_TEGS[i].field)){
 						char *tmp=extract_from_icommas(field->value);
 						if (HTML_TEGS[i].mod==HF_TYPE_BASE){
 							if (base) delete(base);

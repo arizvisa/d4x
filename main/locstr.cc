@@ -15,7 +15,10 @@
 #include <unistd.h>
 #include <time.h>
 #include <glib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include "var.h"
+#include "dbc.h"
 
 char *copy_string(const char *src,int len) {
 	if (src==NULL) len=0;
@@ -31,6 +34,11 @@ char *copy_string(const char *src) {
 	int len=strlen(src);
 	return copy_string(src,len);
 };
+
+/* int equal(const char, const char)
+   will return nonzero if string 'a' is equal to 'b'
+   and zero if 'a' is not equal 'b'
+ */
 
 int equal(const char *a,const char *b) {
 	if (!a) {
@@ -57,8 +65,8 @@ int equal_uncase(const char *a,const char *b) {
 };
 
 int equal_first(const char *a,const char *b) {
-	g_return_val_if_fail(a!=NULL,0);
-	g_return_val_if_fail(b!=NULL,0);
+	DBC_RETVAL_IF_FAIL(a!=NULL,0);
+	DBC_RETVAL_IF_FAIL(b!=NULL,0);
 	int la=strlen(a);
 	int lb=strlen(b);
 	if (la==0 || lb==0) return 0;
@@ -67,8 +75,8 @@ int equal_first(const char *a,const char *b) {
 };
 
 int equal_first_uncase(const char *a,const char *b) {
-	g_return_val_if_fail(a!=NULL,0);
-	g_return_val_if_fail(b!=NULL,0);
+	DBC_RETVAL_IF_FAIL(a!=NULL,0);
+	DBC_RETVAL_IF_FAIL(b!=NULL,0);
 	int la=strlen(a);
 	int lb=strlen(b);
 	if (la==0 || lb==0) return 0;
@@ -78,21 +86,21 @@ int equal_first_uncase(const char *a,const char *b) {
 
 
 int begin_string(const char *str,const char *begin) {
-	g_return_val_if_fail(str!=NULL,0);
-	g_return_val_if_fail(begin!=NULL,0);
+	DBC_RETVAL_IF_FAIL(str!=NULL,0);
+	DBC_RETVAL_IF_FAIL(begin!=NULL,0);
 	if (equal_first(str,begin) && strlen(str)>=strlen(begin)) return 1;
 	return 0;
 };
 
 int begin_string_uncase(const char *str,const char *begin) {
-	g_return_val_if_fail(str!=NULL,0);
-	g_return_val_if_fail(begin!=NULL,0);
+	DBC_RETVAL_IF_FAIL(str!=NULL,0);
+	DBC_RETVAL_IF_FAIL(begin!=NULL,0);
 	if (equal_first_uncase(str,begin) && strlen(str)>=strlen(begin)) return 1;
 	return 0;
 };
 
 char *sum_strings(const char *a,...){
-	g_return_val_if_fail(a!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(a!=NULL,NULL);
 	va_list args;
 
 	int l=strlen(a)+1;
@@ -128,7 +136,7 @@ int reallocate_string(char **what, int len){
 };
 
 int empty_string(char *a) {
-	g_return_val_if_fail(a!=NULL,0);
+	DBC_RETVAL_IF_FAIL(a!=NULL,0);
 	int len=strlen(a);
 	for (int i=0;i<len;i++,a++) {
 		if (!isspace(*a))
@@ -138,7 +146,7 @@ int empty_string(char *a) {
 };
 
 void convert_int_to_2(int what,char *where) {
-	g_return_if_fail(where!=NULL);
+	DBC_RETURN_IF_FAIL(where!=NULL);
 	char tmp[MAX_LEN];
 	*where=0;
 	sprintf(tmp,"%i",what);
@@ -147,7 +155,7 @@ void convert_int_to_2(int what,char *where) {
 };
 
 void convert_time(int what,char *where) {
-	g_return_if_fail(where!=NULL);
+	DBC_RETURN_IF_FAIL(where!=NULL);
 	int hours=what/int(3600);
 	int mins=(what - hours*3600)/int(60);
 	int secs= what-mins*60-hours*3600;
@@ -173,7 +181,7 @@ void convert_time(int what,char *where) {
 };
 
 void string_to_low(char *what) {
-	g_return_if_fail(what!=NULL);
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	while (*what) {
 		if (*what>='A' && *what<='Z')
 			*what+='a'-'A';
@@ -182,7 +190,7 @@ void string_to_low(char *what) {
 };
 
 void string_to_low(char *what,char delim) {
-	g_return_if_fail(what!=NULL);
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	char *temp=index(what,delim);
 	while (*what && what!=temp) {
 		if (*what>='A' && *what<='Z')
@@ -202,7 +210,7 @@ int convert_from_hex(char what) {
 };
 
 char *parse_percents(char *what) {
-	g_return_val_if_fail(what!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	/* Next string is too ugly because I use "new" in separate threads;
 	 */
 	char *temp=new char[strlen(what)+1];
@@ -233,7 +241,7 @@ char *parse_percents(char *what) {
 };
 
 void convert_to_hex(char what,char *where) {
-	g_return_if_fail(where!=NULL);
+	DBC_RETURN_IF_FAIL(where!=NULL);
 	char hi=what/16;
 	char lo=(what-(hi*16));
 	if (hi>9)
@@ -247,7 +255,7 @@ void convert_to_hex(char what,char *where) {
 };
 
 char *unparse_percents(char *what) {
-	g_return_val_if_fail(what!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	const char *true_chars=".-+%";
 	const char *false_chars=":<>~";
 	char *temp=what;
@@ -279,7 +287,7 @@ char *unparse_percents(char *what) {
 };
 
 char *escape_char(const char *where,char what,char bywhat){
-	g_return_val_if_fail(where!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(where!=NULL,NULL);
 	int num=0;
 	char *tmp=index(where,what);
 	while(tmp){
@@ -310,7 +318,7 @@ char *escape_char(const char *where,char what,char bywhat){
 };
 
 void str_non_print_replace(char *what,char symbol){
-	g_return_if_fail(what!=NULL);
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	unsigned char *temp=(unsigned char *)what;
 	while (*temp){
 		if (*temp<' ') *temp=(unsigned char )symbol;
@@ -319,7 +327,7 @@ void str_non_print_replace(char *what,char symbol){
 };
 
 void del_crlf(char *what) {
-	g_return_if_fail(what!=NULL);
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	char *tmp;
 	while((tmp=rindex(what,'\n')) || (tmp=rindex(what,'\r'))) {
 		*tmp=0;
@@ -327,7 +335,7 @@ void del_crlf(char *what) {
 };
 
 void make_number_nice(char *where,int num) {
-	g_return_if_fail(where!=NULL);
+	DBC_RETURN_IF_FAIL(where!=NULL);
 	switch (CFG.NICE_DEC_DIGITALS.curent) {
 		case 1:
 		case 3:{
@@ -365,7 +373,7 @@ void make_number_nice(char *where,int num) {
 };
 
 void make_number_nicel(char *where,unsigned long num) {
-	g_return_if_fail(where!=NULL);
+	DBC_RETURN_IF_FAIL(where!=NULL);
 	switch (CFG.NICE_DEC_DIGITALS.curent) {
 		case 1:
 		case 3:{
@@ -403,7 +411,7 @@ void make_number_nicel(char *where,unsigned long num) {
 };
 
 int is_string(char *what){
-	g_return_val_if_fail(what!=NULL,0);
+	DBC_RETVAL_IF_FAIL(what!=NULL,0);
 	char *current=what;
 	while (*current){
 		if (*current<'0' || *current>'9') return 1;
@@ -420,7 +428,7 @@ int is_string(char *what){
  */
 
 char *my_space_locate(char *what){
-	g_return_val_if_fail(what!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	char *tmp=what;
 	while (*tmp){
 		if (isspace(*tmp)) return(tmp);
@@ -430,8 +438,8 @@ char *my_space_locate(char *what){
 };
 
 char *extract_string(char *src,char *dst) {
-	g_return_val_if_fail(src!=NULL,NULL);
-	g_return_val_if_fail(dst!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(src!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(dst!=NULL,NULL);
 	char *tmp=src;
 	while (*tmp && isspace(*tmp)) tmp++;
 	char *space=my_space_locate(tmp);
@@ -445,8 +453,8 @@ char *extract_string(char *src,char *dst) {
 };
 
 char *extract_string(char *src,char *dst,int num){
-	g_return_val_if_fail(src!=NULL,NULL);
-	g_return_val_if_fail(dst!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(src!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(dst!=NULL,NULL);
 	char *new_src=src;
 	for (int i=0;i<num;i++){
 		new_src=extract_string(new_src,dst);
@@ -455,8 +463,8 @@ char *extract_string(char *src,char *dst,int num){
 };
 
 char *extract_from_prefixed_string(char *str,char *begin){
-	g_return_val_if_fail(str!=NULL,NULL);
-	g_return_val_if_fail(begin!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(str!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(begin!=NULL,NULL);
 	char *tmp=str+strlen(begin);
 	while (isspace(*tmp)) tmp+=1;
 	char *rvalue=copy_string(tmp);
@@ -464,7 +472,7 @@ char *extract_from_prefixed_string(char *str,char *begin){
 };
 
 char *skip_spaces(char *src){
-	g_return_val_if_fail(src!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(src!=NULL,NULL);
 	char *tmp=src;
 	while(isspace(*tmp))
 		tmp+=1;
@@ -472,7 +480,7 @@ char *skip_spaces(char *src){
 };
 
 char *skip_strings(char *src,int num){
-	g_return_val_if_fail(src!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(src!=NULL,NULL);
 	char *tmp=src;
 	for (int i=0;i<num;i++) {
 		char *tmp1=my_space_locate(tmp);
@@ -485,7 +493,7 @@ char *skip_strings(char *src,int num){
 
 
 int convert_month(char *src) {
-	g_return_val_if_fail(src!=NULL,0);
+	DBC_RETVAL_IF_FAIL(src!=NULL,0);
 	switch(*src) {
 	case 'j':
 	case 'J':{
@@ -523,7 +531,7 @@ int convert_month(char *src) {
 };
 
 int ctime_to_time(char *src) {
-	g_return_val_if_fail(src!=NULL,0);
+	DBC_RETVAL_IF_FAIL(src!=NULL,0);
 	char data[MAX_LEN];
 	char *tmp=extract_string(src,data);
 	time_t NOW=time(NULL);
@@ -558,8 +566,8 @@ int ctime_to_time(char *src) {
 };
 
 int check_mask(char *src,char *mask) {
-	g_return_val_if_fail(mask!=NULL,0);
-	g_return_val_if_fail(src!=NULL,0);
+	DBC_RETVAL_IF_FAIL(mask!=NULL,0);
+	DBC_RETVAL_IF_FAIL(src!=NULL,0);
 	char *m=mask;
 	char *s=src;
 	while (*m) {
@@ -581,7 +589,7 @@ int check_mask(char *src,char *mask) {
 };
 
 void normalize_path(char *src) {
-	g_return_if_fail(src!=NULL);
+	DBC_RETURN_IF_FAIL(src!=NULL);
 	int len=strlen(src);
 	while (len>1 && src[len-1]=='/') {
 		src[len-1]=0;
@@ -594,8 +602,8 @@ void normalize_path(char *src) {
  */
 
 char *compose_path(const char *left,const char *right) {
-	g_return_val_if_fail(left!=NULL,NULL);
-	g_return_val_if_fail(right!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(left!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(right!=NULL,NULL);
 	char *newpath=NULL;
 	int len=strlen(left);
 	if (*right!='/' && (len==0 || left[len-1]!='/'))
@@ -634,8 +642,8 @@ char *compose_path(const char *left,const char *right) {
 
 /*
 char *compose_path(const char *left,const char *right) {
-	g_return_val_if_fail(left!=NULL,NULL);
-	g_return_val_if_fail(right!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(left!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(right!=NULL,NULL);
 	unsigned int ll=strlen(left);
 	unsigned int rl=strlen(right);
 	char *updir="../";
@@ -666,8 +674,8 @@ char *compose_path(const char *left,const char *right) {
 */
 
 char *subtract_path(const char *a,const char *b){
-	g_return_val_if_fail(a!=NULL,NULL);
-	g_return_val_if_fail(b!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(a!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(b!=NULL,NULL);
 	int i=0;
 	char *temp=index(b,'/');
 	while (temp){
@@ -692,15 +700,14 @@ char *subtract_path(const char *a,const char *b){
 };
 
 int global_url(char *url) {
-	g_return_val_if_fail(url!=NULL,0);
+	DBC_RETVAL_IF_FAIL(url!=NULL,0);
 	if (!begin_string_uncase(url,"ftp://") && !begin_string_uncase(url,"http://")
 	        && !begin_string_uncase(url,"mailto:") && !begin_string_uncase(url,"news:")) return 0;
 	return 1;
 };
 
 void scroll_string_left(char *str,unsigned int shift){
-	g_return_if_fail(str!=NULL);
-/*	if (str==NULL) return; */
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	unsigned int len=strlen(str);
 	if (len<=shift || shift==0) return;
 	char *temp=new char[len+1];
@@ -719,9 +726,11 @@ void scroll_string_left(char *str,unsigned int shift){
 
 int get_permisions_from_int(int a){
 	int rvalue=0;
-	int a1=a/(int)10;
-	int a2=a/(int)100;
-	rvalue=(a-a1*10)+(a1-a2*10)*8+a2*64;
+	int a1=a/(int)100;
+	int a2=(a-a1*100)/(int)10;
+	int a3=(a-a1*100-a2*10);
+	rvalue=(a1*64)+(a2*8)+(a3);
+//	printf("%i:%i,%i,%i:%i(%i)\n",a,a1,a2,a3,rvalue,S_IRUSR|S_IWUSR);
 	return rvalue;
 };
 
@@ -748,10 +757,12 @@ int string_ended(const char *ended, const char *what){
  */
 
 int f_wstr(int fd,char *str){
+	DBC_RETVAL_IF_FAIL(str!=NULL,0);
 	return(write(fd,str,strlen(str)));
 };
 
 int f_wstr_lf(int fd,char *str){
+	DBC_RETVAL_IF_FAIL(str!=NULL,0);
 	int a=f_wstr(fd,str);
 	if (a<0) return a;
 	int b=f_wstr(fd,"\n");
@@ -760,6 +771,7 @@ int f_wstr_lf(int fd,char *str){
 };
 
 int f_rstr(int fd,char *where,int max) {
+	DBC_RETVAL_IF_FAIL(where!=NULL,0);
 	char *cur=where;
 	max-=1;
 	if (max>0){
@@ -813,12 +825,13 @@ int int_to_strin_len(int num){
 };
 
 /* scanf for int begined from zero */
-/* FIXME: if begined with more than one zero */
 
 int sscanf_int(char *str,int *where){
+	DBC_RETVAL_IF_FAIL(str!=NULL,0);
+	DBC_RETVAL_IF_FAIL(where!=NULL,0);
 	if (str==NULL) return 0;
-	if (*str && *str=='0')
-		return (sscanf(str+1,"%i",where));
+	while (*str && *str=='0')
+		str+=1;
 	return(sscanf(str,"%i",where));
 };
 

@@ -18,6 +18,7 @@
 #include <pthread.h>
 
 tUrlParser::tUrlParser(const char *filename){
+	DBC_RETURN_IF_FAIL(filename!=NULL);
 	fd=open(filename,O_RDONLY);
 	full=current=0;
 	if (fd>=0){
@@ -29,6 +30,9 @@ tUrlParser::tUrlParser(const char *filename){
 };
 
 int tUrlParser::sequence(unsigned char *where, char *str){
+	DBC_RETVAL_IF_FAIL(where!=NULL,0);
+	DBC_RETVAL_IF_FAIL(str!=NULL,0);
+
 	while(read(fd,where,1)>0){
 		if (*str){
 			if (*str!=*where){
@@ -45,6 +49,9 @@ int tUrlParser::sequence(unsigned char *where, char *str){
 };
 
 int tUrlParser::read_url(unsigned char *where, tStringList *list){
+	DBC_RETVAL_IF_FAIL(where!=NULL,0);
+	DBC_RETVAL_IF_FAIL(list!=NULL,0);
+
 	char *bad_chars="[]()\"'`*";
 	while(read(fd,where,1)>0){
 		if (*where<=' ' || *where>127 || index(bad_chars,*where)){

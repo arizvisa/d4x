@@ -22,6 +22,7 @@ tWriterLoger::tWriterLoger(){};
 tWriterLoger::~tWriterLoger(){};
 
 void tWriterLoger::log_printf(int type,const char *fmt,...){
+	DBC_RETURN_IF_FAIL(fmt!=NULL);
 	char str[MAX_LEN+1];
 	char *cur=str;
 	va_list ap;
@@ -33,7 +34,10 @@ void tWriterLoger::log_printf(int type,const char *fmt,...){
 			switch(*fmt){
 			case 's':{
 				char *s=va_arg(ap,char *);
-				g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+				if (s)
+					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
+				else
+					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");
 				break;
 			};
 			case 'i':{
@@ -78,6 +82,9 @@ tClient::~tClient() {
 };
 
 void tClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
+	DBC_RETURN_IF_FAIL(host!=NULL);
+	DBC_RETURN_IF_FAIL(log!=NULL);
+
 	Status=0;
 	LOG=log;
 	port=prt;
@@ -103,6 +110,9 @@ int tClient::get_readed() {
 };
 
 int tClient::read_string(tSocket *sock,tStringList *list,int maxlen) {
+	DBC_RETVAL_IF_FAIL(sock!=NULL,0);
+	DBC_RETVAL_IF_FAIL(list!=NULL,0);
+
 	int rvalue;
 	char temp[maxlen+1];
 	char *cur=temp;

@@ -11,12 +11,16 @@
 
 #include "history.h"
 #include "locstr.h"
+#include "dbc.h"
+#include <stdio.h>
+
 tHistory::tHistory() {
 	init(30);
 	Size=0;
 };
 
 void tHistory::insert(tNode *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);	
 	tString *tmp=last();
 	while(tmp) {
 		if (equal(tmp->body,((tString *)what)->body)) {

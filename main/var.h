@@ -42,6 +42,7 @@ enum{
 #include "pass.h"
 #include "db.h"
 #include "cookie.h"
+#include "dbc.h"
 
 struct tMainCfg{
 	int RETRY_TIME_OUT;
@@ -80,6 +81,8 @@ struct tMainCfg{
 	int FTP_PERMISIONS;
 	int GET_DATE;
 	int DEFAULT_PERMISIONS;
+	int FTP_DIR_IN_LOG;
+	int DONT_SEND_QUIT;
 /* Interface
  */
 	tTriger NICE_DEC_DIGITALS;

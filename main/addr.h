@@ -28,6 +28,7 @@ struct tAddr{
 	void copy(tAddr *what);
 	void save_to_config(int fd);
 	int is_valid();
+	int cmp(tAddr *b);
 	~tAddr();
 };
 enum D_PROTOS{

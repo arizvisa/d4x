@@ -43,6 +43,7 @@ void tCookie::print(){
 };
 
 int tCookie::cmp(tAbstractSortNode *b){
+	DBC_RETVAL_IF_FAIL(b!=NULL,0);
 	return(string_ended(((tCookie *)b)->host.get(),host.get()));
 };
 
@@ -53,6 +54,7 @@ tCookie::~tCookie(){
  */
 
 tCookie *tCookiesTree::find(const char *what) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	return find((tCookie **)(&Top),what);
 };
 	

@@ -72,6 +72,7 @@ tString *tStringList::prev() {
 
 
 int tStringList::add_strings(char *what,int len) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,0);
 	int length=1;
 	char *where=what,*begin=what;
 	while(len--) {
@@ -90,12 +91,14 @@ int tStringList::add_strings(char *what,int len) {
 };
 
 void tStringList::add(const char *str,int len) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	tString *ins=new tString(str,len);
 	insert(ins);
 	Size+=len;
 };
 
 void tStringList::add(const char *str) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	int len=strlen(str);
 	tString *ins=new tString(str,len);
 	insert(ins);

@@ -18,6 +18,7 @@
 #include "var.h"
 #include "ntlocale.h"
 
+char *FTP_CTRL_TIMEOUT="421";
 char *FTP_SERVER_OK="220";
 char *FTP_USER_OK="331";
 char *FTP_PASS_OK="230";
@@ -45,6 +46,8 @@ int tFtpClient::accepting() {
 };
 
 int  tFtpClient::send_command(char * comm,char *argv) {
+	DBC_RETVAL_IF_FAIL(comm!=NULL,RVALUE_OK);
+
 	char *data=NULL;
 	if (argv && strlen(argv)){
 		data=sum_strings(comm," ",argv,"\r\n",NULL);
@@ -68,6 +71,7 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 };
 
 int tFtpClient::read_data(char *where,int len) {
+	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
 	int all=DataSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->log(LOG_WARNING,_("Data socket is lost!"));
@@ -95,6 +99,7 @@ int tFtpClient::read_control() {
 };
 
 int tFtpClient::analize(char *how) {
+	DBC_RETVAL_IF_FAIL(how!=NULL,0);
 	tString *log=CTRL->last();
 	if (log) {
 		int ind=0;
@@ -118,6 +123,11 @@ int tFtpClient::analize_ctrl(int argc,char **argv) {
 	} while (!last_answer(FIRST_REPLY));
 	if (FIRST_REPLY) delete(FIRST_REPLY);
 	FIRST_REPLY = NULL;
+	if (!analize(FTP_CTRL_TIMEOUT)){
+		Status=STATUS_TIMEOUT;
+		vdisconnect();
+		return RVALUE_TIMEOUT;
+	};
 	if (!analize("4")){
 		Status=STATUS_UNSPEC_ERR;
 		return RVALUE_UNSPEC_ERR;
@@ -281,6 +291,9 @@ int tFtpClient::change_dir(char *where) {
 
 
 int tFtpClient::get_size(char *filename,tStringList *list) {
+//	DBC_RETVAL_IF_FAIL(filename!=NULL,RVALUE_OK);
+	DBC_RETVAL_IF_FAIL(list!=NULL,RVALUE_OK);
+
 	int rvalue=0;;
 	if ((rvalue=rest(list->size()))) return(rvalue);
 	if (!ReGet) list->done();
@@ -302,12 +315,14 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 			DataSocket.down(); // Added by Terence Haddock
 			break;
 		};
-//		LOG->log(LOG_FROM_SERVER,(list->last())->body);
+		if (CFG.FTP_DIR_IN_LOG)
+			LOG->log(LOG_FROM_SERVER,(list->last())->body);
 	};
 	return (analize_ctrl(1,&FTP_READ_OK));
 };
 
 int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,RVALUE_OK);
 	int rvalue=0;;
 	FileLoaded=begin;
 	char data[25];
@@ -377,6 +392,10 @@ void tFtpClient::set_passive(int a) {
 	passive=a;
 };
 
+void tFtpClient::set_dont_set_quit(int a){
+	DONT_SEND_QUIT=a;
+};
+
 void tFtpClient::down() {
 	CtrlSocket.down();
 	DataSocket.down();
@@ -385,6 +404,8 @@ void tFtpClient::down() {
 
 
 void tFtpClient::quit() {
+	if (DONT_SEND_QUIT)
+		return;
 	if ((CON_FLAGS & CON_FLAG_LOGGED) &&
 	    (CON_FLAGS & CON_FLAG_CONNECTED)){
 		send_command("QUIT",NULL);

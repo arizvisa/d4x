@@ -54,6 +54,7 @@ GtkWidget *prefs_common_dnd_trash;
 GtkWidget *prefs_common_fixed_font_log;
 GtkWidget *prefs_common_exit_complete,*prefs_common_exit_complete_time;
 GtkWidget *prefs_common_allow_force_run;
+GtkWidget *prefs_common_ftp_dir_in_log;
 
 GtkWidget *prefs_limits_frame;
 GtkWidget *prefs_limits_vbox;
@@ -75,6 +76,7 @@ GtkWidget *prefs_other_filename,*prefs_other_fbox,*prefs_other_flabel;
 GtkWidget *prefs_other_user_agent,*prefs_other_ubox,*prefs_other_ulabel;
 GtkWidget *prefs_other_ftp_passive;
 GtkWidget *prefs_other_remember_pass;
+GtkWidget *prefs_other_dont_send_quit;
 
 GtkWidget *prefs_log_table;
 GtkWidget *prefs_log_save;
@@ -253,13 +255,17 @@ void init_options_window(...) {
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_exit_complete_time,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(prefs_common_hbox),prefs_common_label,FALSE,FALSE,0);
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_hbox,0,1,8,9);
-	
+
+	prefs_common_ftp_dir_in_log=gtk_check_button_new_with_label(_("Output ftp dirs in logs"));
+	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_ftp_dir_in_log,1,2,8,9);
+
 	prefs_common_fixed_font_log=gtk_check_button_new_with_label(_("Use fixed font in logs"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_fixed_font_log,0,1,9,10);
 	prefs_common_allow_force_run=gtk_check_button_new_with_label(_("Allow to user force run downloads"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_allow_force_run,1,2,9,10);
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_common_vbox,gtk_label_new(_("Common")));
 
+	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_ftp_dir_in_log),CFG.FTP_DIR_IN_LOG);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_del_fataled),CFG.DELETE_FATAL);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_del_completed),CFG.DELETE_COMPLETED);
 	toggle_button_set_state(GTK_TOGGLE_BUTTON(prefs_common_recursive),CFG.RECURSIVE_OPTIMIZE);
@@ -414,6 +420,10 @@ void init_options_window(...) {
 	prefs_other_remember_pass=gtk_check_button_new_with_label(_("Remember passwords"));
 	GTK_TOGGLE_BUTTON(prefs_other_remember_pass)->active=CFG.REMEMBER_PASS;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_remember_pass,0,1,6,7);
+
+	prefs_other_dont_send_quit=gtk_check_button_new_with_label(_("Don't send QUIT command (ftp)"));
+	GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active=CFG.DONT_SEND_QUIT;
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_dont_send_quit,0,1,7,8);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_other_vbox,gtk_label_new(_("Other")));
 
@@ -622,6 +632,10 @@ void init_options_window(...) {
 	prefs_speed_color_fore1=my_gtk_colorsel_new(CFG.GRAPH_FORE1,_("Color for total speed"));
 	prefs_speed_color_fore2=my_gtk_colorsel_new(CFG.GRAPH_FORE2,_("Color for speed of selected"));
 	prefs_speed_color_back=my_gtk_colorsel_new(CFG.GRAPH_BACK,_("Background color"));
+	MY_GTK_COLORSEL(prefs_speed_color_pick)->modal=GTK_WINDOW(options_window);
+	MY_GTK_COLORSEL(prefs_speed_color_fore1)->modal=GTK_WINDOW(options_window);
+	MY_GTK_COLORSEL(prefs_speed_color_fore2)->modal=GTK_WINDOW(options_window);
+	MY_GTK_COLORSEL(prefs_speed_color_back)->modal=GTK_WINDOW(options_window);
 	gtk_box_pack_start(GTK_BOX(vbox_colors),prefs_speed_color_back,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox_colors),prefs_speed_color_fore1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox_colors),prefs_speed_color_fore2,FALSE,FALSE,0);
@@ -741,6 +755,8 @@ void options_window_ok() {
 	CFG.CLIPBOARD_SKIP_OR_CATCH=GTK_TOGGLE_BUTTON(prefs_clipboard_catch_button)->active;
 	CFG.FIXED_LOG_FONT=GTK_TOGGLE_BUTTON(prefs_common_fixed_font_log)->active;
 	CFG.ALLOW_FORCE_RUN=GTK_TOGGLE_BUTTON(prefs_common_allow_force_run)->active;
+	CFG.FTP_DIR_IN_LOG=GTK_TOGGLE_BUTTON(prefs_common_ftp_dir_in_log)->active;
+	CFG.DONT_SEND_QUIT=GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active;
 	if (CFG.DND_TRASH) dnd_trash_init();
 	else dnd_trash_destroy();
 
@@ -801,7 +817,7 @@ void options_window_ok() {
 				 ALL_HISTORIES[USER_AGENT_HISTORY]);
 	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_common_save_list_entry)),"%u",&CFG.SAVE_LIST_INTERVAL);
 	temp=0;
-	sscanf(gtk_entry_get_text(GTK_ENTRY(prefs_common_default_permisions)),"%u",&temp);
+	sscanf_int(gtk_entry_get_text(GTK_ENTRY(prefs_common_default_permisions)),&temp);
 	CFG.DEFAULT_PERMISIONS=temp;
 /* are graph's colors changed? */
 	gint graph_back=my_gtk_colorsel_get_color(MY_GTK_COLORSEL(prefs_speed_color_back));

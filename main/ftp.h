@@ -18,6 +18,7 @@ class tFtpClient:public tClient{
 	int passive;
 	int TEMP_SIZE;
 	int CON_FLAGS;
+	int DONT_SEND_QUIT;
 	/* to avoid memory leaks next variable is global */
 	char *FIRST_REPLY;
 	tStringList *CTRL;
@@ -36,6 +37,7 @@ class tFtpClient:public tClient{
 	tFtpClient();
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_passive(int a);
+	void set_dont_set_quit(int a);
 	int reinit();
 	int connect();
 	int registr(char *user,char *password);

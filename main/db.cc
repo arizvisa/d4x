@@ -11,6 +11,7 @@
 #include "db.h"
 #include "locstr.h"
 #include <stdio.h>
+#include "dbc.h"
 
 /* data base is used for avoiding adding the same URLs in Downloader */
 
@@ -54,6 +55,8 @@ int tDB::empty(){
 };
 
 void tDB::insert(tDownload *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
+
 	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (!temp){
 		temp=new tStringHostNode;
@@ -69,6 +72,7 @@ void tDB::insert(tDownload *what) {
 };
 
 tDownload *tDB::find(tDownload *what) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
 		unsigned char *a=(unsigned char *)(what->info->file.get());
@@ -80,6 +84,7 @@ tDownload *tDB::find(tDownload *what) {
 };
 
 void tDB::del(tDownload *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	tStringHostNode *temp=tree->find(what->info->host.get());
 	if (temp){
 		unsigned char *file=(unsigned char *)(what->info->file.get());

@@ -53,7 +53,9 @@ gint ask_exit2();
 gint main_menu_prepare();
 
 void main_window_iconify();
+void main_window_toggle();
 void main_window_popup();
+
 void update_progress_bar();
 void update_mainwin_title();
 void open_edit_for_selected(...);

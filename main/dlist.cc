@@ -61,6 +61,7 @@ tDefaultWL::tDefaultWL(){
 	LOG=NULL;
 };
 int tDefaultWL::write(const void *buff, int len){
+	DBC_RETVAL_IF_FAIL(buff!=NULL,0);
 	if (fd>=0){
 		int saved_size=::write(fd,buff,len);
 		if (saved_size<len)
@@ -100,12 +101,15 @@ void tDefaultWL::truncate(){
 };
 
 void tDefaultWL::log(int type,const char *str){
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	if (LOG){
 		LOG->add(str,type);
 	};
 };
 
 char *tDefaultWL::cookie(const char *host, const char *path){
+	DBC_RETVAL_IF_FAIL(host!=NULL,NULL);
+	DBC_RETVAL_IF_FAIL(path!=NULL,NULL);
 	tCookie *temp=COOKIES->find(host);
 	char *request_string=NULL;
 	while (temp){
@@ -169,6 +173,7 @@ tDownload::tDownload() {
 };
 
 int tDownload::cmp(tAbstractSortNode *b){
+	DBC_RETVAL_IF_FAIL(b!=NULL,0);
 	tDownload *bb=(tDownload*)b;
 	int r=strcmp(info->file.get(),bb->info->file.get());
 	if (r)
@@ -198,6 +203,26 @@ void tDownload::delete_editor() {
 		delete editor;
 };
 
+void tDownload::print_error(int err){
+	switch(err){
+	case ERROR_ACCESS:
+		WL->log_printf(LOG_ERROR,
+			      _("You have no permissions to create file at path %s"),
+			      config.save_path.get());
+		break;
+	case ERROR_NO_SPACE:{
+		WL->log_printf(LOG_ERROR,
+			      _("You have no space at path %s for creating file"),
+			      config.save_path.get());
+		break;
+	};
+	case ERROR_DIRECTORY:{
+		WL->log(LOG_ERROR,_("Directory already created!:))"));
+		break;
+	};
+	};
+};
+
 void tDownload::print() {
 	//do nothing
 };
@@ -218,6 +243,8 @@ int tDownload::delete_file() {
 };
 
 void tDownload::make_file_names(char **name, char **guess){
+	DBC_RETURN_IF_FAIL(name!=NULL);
+	DBC_RETURN_IF_FAIL(guess!=NULL);
 	if (config.save_name.get() && strlen(config.save_name.get()))
 		who->make_full_pathes(config.save_path.get(),
 				 config.save_name.get(),
@@ -248,7 +275,8 @@ int tDownload::create_file() {
 				WL->log(LOG_ERROR,_("Link already created!:))"));
 				break;
 			case EACCES:
-				who->print_error(ERROR_ACCESS);
+				print_error(ERROR_ACCESS);
+				break;
 			default:
 				WL->log(LOG_ERROR,_("Can't create link"));
 				rvalue=-1;
@@ -273,11 +301,11 @@ int tDownload::create_file() {
 			if (fdesc<0) {
 				switch (errno){
 				case EACCES:
-					who->print_error(ERROR_ACCESS);
+					print_error(ERROR_ACCESS);
 					rvalue=-1;
 					break;
 				case ENOSPC:
-					who->print_error(ERROR_NO_SPACE);
+					print_error(ERROR_NO_SPACE);
 					rvalue=-1;
 					break;
 				default:
@@ -303,7 +331,7 @@ int tDownload::create_file() {
 	{ //this is a directory
 		WL->log(LOG_WARNING,_("Trying to create a dir"));
 		if (strlen(info->file.get())==0){
-			who->print_error(ERROR_DIRECTORY);
+			print_error(ERROR_DIRECTORY);
 			break;
 		};
 		int temp=0;
@@ -315,7 +343,7 @@ int tDownload::create_file() {
 				rvalue=-1;
 				break;
 			};
-			who->print_error(ERROR_DIRECTORY);
+			print_error(ERROR_DIRECTORY);
 		};
 		chmod(guess,D_FILE->perm | S_IWUSR |S_IXUSR);
 		break;
@@ -353,10 +381,10 @@ void tDownload::set_date_file() {
 		delete name;
 		delete guess;
 	};
-	if (config.permisions){
-		if (config.permisions)
-			fchmod(((tDefaultWL *)(WL))->get_fd(),D_FILE->perm);
-	};
+	if (config.permisions)
+		fchmod(((tDefaultWL *)(WL))->get_fd(),D_FILE->perm);
+	else
+		fchmod(((tDefaultWL *)(WL))->get_fd(),get_permisions_from_int(CFG.DEFAULT_PERMISIONS));
 };
 
 void tDownload::update_trigers() {
@@ -387,6 +415,7 @@ void tDownload::set_default_cfg(){
 	config.time_for_sleep=CFG.RETRY_TIME_OUT;
 	config.number_of_attempts=CFG.MAX_RETRIES;
 	config.passive=CFG.FTP_PASSIVE_MODE;
+	config.dont_send_quit=CFG.DONT_SEND_QUIT;
 	config.permisions=CFG.FTP_PERMISIONS;
 	config.get_date=CFG.GET_DATE;
 	config.retry=CFG.RETRY_IF_NOREGET;
@@ -494,6 +523,7 @@ void tDownload::convert_list_to_dir() {
 
 
 void make_dir_hier(char *path) {
+	DBC_RETURN_IF_FAIL(path!=NULL);
 	char *temp=path;
 	while (temp) {
 		temp=index(temp+1,'/');
@@ -504,6 +534,7 @@ void make_dir_hier(char *path) {
 };
 
 void make_dir_hier_without_last(char *path) {
+	DBC_RETURN_IF_FAIL(path!=NULL);
 	char *temp=rindex(path,'/');
 	if (temp){
 		*temp=0;
@@ -513,6 +544,7 @@ void make_dir_hier_without_last(char *path) {
 };
 
 int tDownload::http_check_settings(tAddr *what){
+	DBC_RETVAL_IF_FAIL(what!=NULL,0);
 	if (!equal(what->host.get(),info->host.get())){
 		return (config.leave_server);
 	};
@@ -960,25 +992,27 @@ int tDList::owner(tDownload *which) {
 };
 
 void tDList::insert(tDownload *what) {
-	what->owner=OwnerKey;
 	tQueue::insert(what);
+	what->owner=OwnerKey;
 	if (Pixmap!=PIX_UNKNOWN) list_of_downloads_set_pixmap(what->GTKCListRow,Pixmap);
 };
 
 void tDList::insert_before(tDownload *what,tDownload *where) {
-	what->owner=OwnerKey;
+	DBC_RETURN_IF_FAIL(where!=NULL);
+	DBC_RETURN_IF_FAIL(where->owner==OwnerKey);
 	tQueue::insert_before(what,where);
+	what->owner=OwnerKey;
 	if (Pixmap!=PIX_UNKNOWN) list_of_downloads_set_pixmap(what->GTKCListRow,Pixmap);
 };
 
 void tDList::del(tDownload *what) {
-	if (owner(what)) tQueue::del(what);
-	else puts(_("***WARN***!!!"
-		            "Attempt to delete download from list which does'nt contain it!"));
+	DBC_RETURN_IF_FAIL(what->owner==OwnerKey);
+	tQueue::del(what);
 	what->owner=DL_ALONE;
 };
 
 void tDList::forward(tDownload *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	if (what->next) {
 		tDownload *temp=(tDownload *)(what->next);
 		if ((temp->prev=what->prev))
@@ -995,6 +1029,7 @@ void tDList::forward(tDownload *what) {
 };
 
 void tDList::backward(tDownload *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	if (what->prev) {
 		tDownload *temp=(tDownload *)(what->prev);
 		if ((temp->next=what->next))
@@ -1024,13 +1059,11 @@ tDownload *tDList::first() {
 };
 
 tDownload *tDList::next() {
-	Curent=Curent->next;
-	return (tDownload *)Curent;
+	return (tDownload *)tQueue::next();
 };
 
 tDownload *tDList::prev() {
-	Curent=Curent->prev;
-	return (tDownload *)Curent;
+	return (tDownload *)tQueue::prev();
 };
 
 tDList::~tDList() {

@@ -45,6 +45,7 @@ enum EDIT_OPTIONS_ENUM{
 	EDIT_OPT_DATE,
 	EDIT_OPT_IFNOREGET,
 	EDIT_OPT_SPLIT,
+	EDIT_OPT_DONT_SEND_QUIT,
 	EDIT_OPT_LASTOPTION
 };
 
@@ -69,7 +70,8 @@ char *edit_fields_labels[]={
 	"Get permissions of the file from server (FTP only)",
 	"Get date from the server",
 	"Retry if resuming is not supported",
-	"Number of parts for spliting this download"
+	"Number of parts for spliting this download",
+	"Don't send QUIT command (ftp)"
 };
 
 extern tMain aa;
@@ -249,6 +251,8 @@ void tDEdit::init_main(tDownload *who) {
 	};
 	path_entry=my_gtk_filesel_new(ALL_HISTORIES[PATH_HISTORY]);//my_gtk_combo_new(ALL_HISTORIES[PATH_HISTORY]);
 	file_entry=my_gtk_filesel_new(ALL_HISTORIES[FILE_HISTORY]);//my_gtk_combo_new(ALL_HISTORIES[FILE_HISTORY]);
+	MY_GTK_FILESEL(path_entry)->modal=GTK_WINDOW(window);
+	MY_GTK_FILESEL(file_entry)->modal=GTK_WINDOW(window);
 	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
 	user_agent_entry=my_gtk_combo_new(ALL_HISTORIES[USER_AGENT_HISTORY]);
 	MY_GTK_FILESEL(path_entry)->only_dirs=TRUE;
@@ -414,6 +418,9 @@ void tDEdit::init_other(tDownload *who) {
 	ftp_passive_check=gtk_check_button_new_with_label(_("Use passive mode for ftp"));
 	GTK_TOGGLE_BUTTON(ftp_passive_check)->active=who->config.passive;
 	gtk_box_pack_start(GTK_BOX(other_vbox),ftp_passive_check,FALSE,FALSE,0);
+	dont_send_quit_check=gtk_check_button_new_with_label(_("Don't send QUIT command (ftp)"));
+	GTK_TOGGLE_BUTTON(dont_send_quit_check)->active=who->config.dont_send_quit;
+	gtk_box_pack_start(GTK_BOX(other_vbox),dont_send_quit_check,FALSE,FALSE,0);	
 	permisions_check=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
 	GTK_TOGGLE_BUTTON(permisions_check)->active=who->config.permisions;
 	gtk_box_pack_start(GTK_BOX(other_vbox),permisions_check,FALSE,FALSE,0);
@@ -636,6 +643,7 @@ int tDEdit::apply_changes() {
 	sscanf(gtk_entry_get_text(GTK_ENTRY(speed_entry)),"%u",&temp1);
 	if (temp1>=0) parent->config.speed=temp1;
 	parent->config.passive=GTK_TOGGLE_BUTTON(ftp_passive_check)->active;
+	parent->config.dont_send_quit=GTK_TOGGLE_BUTTON(dont_send_quit_check)->active;
 	parent->config.permisions=GTK_TOGGLE_BUTTON(permisions_check)->active;
 	parent->config.get_date=GTK_TOGGLE_BUTTON(get_date_check)->active;
 	parent->config.retry=GTK_TOGGLE_BUTTON(retry_check)->active;
@@ -787,6 +795,8 @@ void tDEdit::disable_items(int *array){
 		gtk_widget_set_sensitive(split_entry,FALSE);
 	if (array[EDIT_OPT_PROXY]==0)
 		gtk_widget_set_sensitive(proxy->frame,FALSE);
+	if (array[EDIT_OPT_DONT_SEND_QUIT]==0)
+		gtk_widget_set_sensitive(dont_send_quit_check,FALSE);
 };
 
 void tDEdit::apply_enabled_changes(){
@@ -858,6 +868,8 @@ void tDEdit::apply_enabled_changes(){
 	};
 	if (GTK_WIDGET_SENSITIVE(ftp_passive_check))
 		parent->config.passive=GTK_TOGGLE_BUTTON(ftp_passive_check)->active;
+	if (GTK_WIDGET_SENSITIVE(dont_send_quit_check))
+		parent->config.dont_send_quit=GTK_TOGGLE_BUTTON(dont_send_quit_check)->active;
 	if (GTK_WIDGET_SENSITIVE(permisions_check))
 		parent->config.permisions=GTK_TOGGLE_BUTTON(permisions_check)->active;
 	if (GTK_WIDGET_SENSITIVE(get_date_check))

@@ -1,37 +1,20 @@
-#################### to version 1.18 ####################################
+"Hot list" (ability to define URLs for automatic download by d4x)
+[????] regular expressions in URLs
 [????] change "remove" to "remove from queue"
-[DONE] ability to configure common options for number of downloads
-[DONE] blinking of dndtrash icon when link was dropped
-[DONE] fix problem with downloading from limited site in number of threads
-[DONE] fix problem with saving to definet file
-[DONE] ability to cancel finding links in file
-[DONE] latest saved/loaded lists in "File" menu
-[DONE] fix overflow readed bytes
-[DONE] use GtkCalendar for scheduling downloads
-[DONE] time by default should be set 1:00 this night
-[DONE] options for "catching" extensions in clipboard instead of skiping
-[DONE] an option for disabling/enabling ability to force starting download
-[DONE] move all clipboard settings into separate place (relayering of options dialog?)
-[DONE] auto retry after 'bad answer' when download via http-proxy
-[DONE] parse date in DOS style ftp listing
-[DONE] check time of local file and file on a server to avoid broken downloads
-################### end of todo to 1.18 #################################
-"Hot list" (ability to define urls for automatic download by d4x)
-check for redirection to the same URL
 check for maximum redirections
 double click on error message in mainlog open log with this error
 SOCKS support
 "conditions" system (user can setup conditions for starting download e.g. "time" is one type of conditions)
 searching in queue
 add sounds (in integraition with gnome)
-"tree" window for displaiyng tree structure of a site 
+"tree" window for displaiyng tree structure of a site(s)
 check free space on disk to prevent empty it
 mask support via http
 browser for ftp and http
-ability to hide main window
 uploading files to server
 ftp search capabilities
 Auto detection of best proxy.
+[DONE] ability to hide main window
 [DONE] force download by start button;
 [DONE] default limitation to the host;
 [DONE] ability to select colors for graph of speeds
@@ -71,3 +54,28 @@ Auto detection of best proxy.
 [DONE] right clicking on options button open preferences of downloads
 [DONE] more info on progress bar
 ############ END OF LIST #####################
+#################### to version 1.18 ####################################
+[DONE] ability to configure common options for number of downloads
+[DONE] blinking of dndtrash icon when link was dropped
+[DONE] fix problem with downloading from limited site in number of threads
+[DONE] fix problem with saving to definet file
+[DONE] ability to cancel finding links in file
+[DONE] latest saved/loaded lists in "File" menu
+[DONE] fix overflow readed bytes
+[DONE] use GtkCalendar for scheduling downloads
+[DONE] time by default should be set 1:00 this night
+[DONE] options for "catching" extensions in clipboard instead of skiping
+[DONE] an option for disabling/enabling ability to force starting download
+[DONE] move all clipboard settings into separate place (relayering of options dialog?)
+[DONE] auto retry after 'bad answer' when download via http-proxy
+[DONE] parse date in DOS style ftp listing
+[DONE] check time of local file and file on a server to avoid broken downloads
+################### end of todo to 1.18 #################################
+************************** to version 1.19 *******************************
+[DONE] "Don't send QUIT command" option
+[DONE] info in DnD trash's tooltip
+[DONE] check for redirection to the same URL
+[DONE] sorting active downloads by persentage,rest,remaining time
+[DONE] "Show ftp directory listing in logs" option
+[DONE] redirections should work for splited downloads
+************************** end to ver 1.19 *******************************

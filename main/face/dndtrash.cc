@@ -58,6 +58,7 @@ int dnd_trash_moveable,dnd_trash_x,dnd_trash_y;
 
 void dnd_trash_real_destroy(){
 	if (dnd_trash_window){
+		main_window_popup();
 		gtk_widget_destroy(dnd_trash_window);
 		dnd_trash_window=(GtkWidget *)NULL;
 	};
@@ -97,7 +98,7 @@ int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 	};
 	case 1:{
 		if (event->type==GDK_2BUTTON_PRESS)
-			main_window_popup();
+			main_window_toggle();
 		else{
 			dnd_trash_moveable=1;
 			GdkModifierType modmask;
@@ -274,6 +275,51 @@ void dnd_trash_animation(){
 				       dnd_trash_pixmap2,dnd_trash_mask2);
 			gtk_widget_queue_draw(dnd_trash_gtk_pixmap);
 			gtk_timeout_add (1300, dnd_trash_animation_end , NULL);
+		};
+	};
+};
+
+void dnd_trash_set_tooltip(char *str){
+	if (str && dnd_trash_window && dnd_trash_tooltips->tip_window){
+		GtkTooltipsData *data=dnd_trash_tooltips->active_tips_data;
+		if (data==NULL && dnd_trash_tooltips->tips_data_list)
+			data=(GtkTooltipsData *)(dnd_trash_tooltips->tips_data_list->data);
+		/* only if data changed */
+		if (data && data->row && !equal((char*)(data->row->data),str)){
+			/* we need only one row so other
+			   rows should be freed */
+			GList *tmp=data->row->next;
+			data->row->next=NULL;
+			while (tmp){
+				GList *tmp1=tmp->next;
+				if (tmp->data) g_free(tmp->data);
+				g_free(tmp);
+				tmp=tmp1;
+			};
+			g_free(data->row->data);
+			data->row->data=g_strdup(str);
+			GtkWidget *window=GTK_WIDGET(dnd_trash_tooltips->tip_window);
+			GtkStyle *style = gtk_widget_get_style(window);
+/*			
+			gint gap = (style->font->ascent + style->font->descent) / 4;
+			if (gap < 2)
+				gap = 2;
+*/
+			gint new_width=data->width=gdk_string_width(style->font,str)+8;
+			if (GTK_WIDGET_VISIBLE(window)){
+				gint scr_w = gdk_screen_width();
+				gint x,y;
+				gdk_window_get_position(window->window,&x,&y);
+				if (x+new_width>scr_w)
+					gdk_window_move (window->window, scr_w-new_width,y);
+				else{
+					if (new_width<window->allocation.width)
+						gdk_window_move (window->window, x+(window->allocation.width-new_width)/2,y);
+				};
+				gtk_widget_set_usize(window,new_width,
+						     window->allocation.height);
+				gtk_widget_queue_draw(window);
+			};
 		};
 	};
 };

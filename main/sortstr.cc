@@ -13,6 +13,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "main.h"
+#include "dbc.h"
 
 tSortString::tSortString() {
 	body=NULL;
@@ -56,6 +57,7 @@ int tSortString::cmp(tAbstractSortNode *a){
 };
 //---------------------------------------------------------
 tSortString *tStrSortTree::find(char *what,int key) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
 	tSortString temp;
 	temp.body=what;
 	temp.key=key;
@@ -75,6 +77,7 @@ tHostsLimits::tHostsLimits() {
 };
 
 void tHostsLimits::add(char *str,int port,int curent,int upper) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	int len=strlen(str);
 	tSortString *ins=new tSortString(str,len);
 	insert(ins);
@@ -101,6 +104,7 @@ void tHostsLimits::del(tSortString *what) {
 };
 
 void tHostsLimits::decrement(tDownload *what){
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	tSortString *tmp=find(what->info->host.get(),what->info->port);
 	if (tmp) tmp->decrement();
 };
@@ -130,6 +134,7 @@ void tHostsLimits::dispose() {
 };
 
 tSortString *tHostsLimits::find(char *host,int port) {
+	DBC_RETVAL_IF_FAIL(host!=NULL,NULL);
 	tSortString *tmp=tree->find(host,port);
 	if (tmp==NULL && default_limit!=0){
 		add(host,port,calc_curent_run(host,port),default_limit);

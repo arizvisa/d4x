@@ -26,6 +26,7 @@ void tHProxyClient::setup_data(char *host,int cache) {
 };
 
 int tHProxyClient::get_size(char *filename,tStringList *list) {
+	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
 	send_request("GET ",filename," HTTP/1.0\r\n");
 
 //	send_request("Referer: ",HOME_PAGE,"\r\n");
@@ -85,6 +86,9 @@ tProxyDownload::tProxyDownload() {
 };
 
 int tProxyDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
+	DBC_RETVAL_IF_FAIL(hostinfo!=NULL,-1);
+	DBC_RETVAL_IF_FAIL(log!=NULL,-1);
+	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
 	LOG=log;
 	HTTP=new tHProxyClient;
 	RetrNum=0;

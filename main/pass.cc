@@ -42,6 +42,7 @@ void tUserPass::save(int fd){
 };
 
 int tUserPass::cmp(tAbstractSortNode *b){
+	DBC_RETVAL_IF_FAIL(b!=NULL,0);
 	int r=strcmp(host.get(),((tUserPass*)b)->host.get());
 	if (r) return r;
 	return(proto - ((tUserPass*)b)->proto);	
@@ -93,7 +94,7 @@ int tUserPass::load(int fd){
 /*
  */
 
-void tUserPassTree::save_node(tUserPass *node,int fd){
+void tUserPassTree::save_node(tUserPass *node,int fd){	
 	if (node->less) save_node((tUserPass *)(node->less),fd);
 	if (node->more) save_node((tUserPass *)(node->more),fd);
 	node->save(fd);
@@ -106,6 +107,7 @@ void tUserPassTree::fill_face_node(tUserPass *node,tFacePass *a){
 };
 
 tUserPass *tUserPassTree::find(int proto,char *host){
+	DBC_RETVAL_IF_FAIL(host!=NULL,NULL);
 	tUserPass *tmp=new tUserPass;
 	tmp->host.set(host);
 	tmp->proto=proto;
@@ -119,6 +121,7 @@ void tUserPassTree::save(int fd){
 };
 
 void tUserPassTree::fill_face(tFacePass *a){
+	DBC_RETURN_IF_FAIL(a!=NULL);
 	if (Top) fill_face_node((tUserPass *)Top,a);
 };
 
@@ -150,6 +153,7 @@ tUserPassTree *load_passwords(){
 };
 
 void save_passwords(tUserPassTree *tree){
+	DBC_RETURN_IF_FAIL(tree!=NULL);
 	if (!HOME_VARIABLE) return;
 	char *cfgpath=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/",CFG_PASSWORDS,NULL);
 	int fd=open(cfgpath,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);

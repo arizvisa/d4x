@@ -103,12 +103,14 @@ void tLog::print() {
 };
 
 void tLog::insert(tNode *what){
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	current_row+=1;
 	((tLogString *)what)->temp=current_row;
 	tQueue::insert(what);
 };
 
 void tLog::add(const char *str,int len,int type) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	tLogString *temp=new tLogString(str,len,type);
 	temp->time=time(NULL);
 	lock();
@@ -119,6 +121,7 @@ void tLog::add(const char *str,int len,int type) {
 };
 
 void tLog::add(const char *str,int type) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,type);
 	lock();
@@ -129,6 +132,7 @@ void tLog::add(const char *str,int type) {
 };
 
 void tLog::add(const char *str) {
+	DBC_RETURN_IF_FAIL(str!=NULL);
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,LOG_FROM_SERVER);
 	lock();
@@ -139,6 +143,7 @@ void tLog::add(const char *str) {
 };
 
 void tLog::dispose() {
+	unlock();
 	send_msg(1,NULL);
 	tStringList::dispose();
 };

@@ -86,6 +86,7 @@ struct tDownload:public tAbstractSortNode{
 	char *create_new_save_path();
 	void make_file_names(char **name, char **guess);
 	void check_local_file_time();
+	void print_error(int err);
 	public:
 	//------------------------------------
 	tDList *DIR;

@@ -5,8 +5,8 @@ INSTALATION MANUAL
 You need GTK version higher than 1.2.0 for compiling,
 safethread libraries (e.g. libc6) and of course sources of program.
 I (author) was testing old versions of this program on RedHat 5.x,
-RedHat 6.0 and Slackware 3.6. But unfortunately newest versions are
-stable only with libpthread-0.8 and above.
+RedHat 6.0 and Slackware 3.6. But unfortunately newest versions of
+Downloader for X are stable only with libpthread-0.8 and above.
 
 1.1	Compiling program.
 
@@ -17,10 +17,17 @@ If you have problem with compiling make sure that:
 -you have GTK+ version 1.2.0 or later (www.gtk.org)
 -you have gettext (if you haven't it just remove one string from Makefile)
 
+If you have Mandrake,RedHat or SuSE distribution you can install
+RPM file which can be found at home page of this program.
+
 1.2	Where can i find binary after compiling?
 
-  In directory 'main' in sources tree. It will have name 'nt'.
-'make install' also  will place  all files into /usr/local/bin
+  You can find binary file in directory 'main' of sources tree.
+It will have name 'nt'. Don't ask me why did it be called 'nt'.
+But this name is short (easy to type) and easy to remember. So
+I think this name is quite suitable for useful program.
+
+  'make install' also  will place  all files into /usr/local/bin
 and  /user/local/share/locale  and you can run executable from
 /usr/local/bin. If you no needed localisation you can use only
 executable...

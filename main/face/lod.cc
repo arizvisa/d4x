@@ -23,6 +23,7 @@
 #include "../locstr.h"
 #include "../main.h"
 #include "../var.h"
+#include "stdlib.h"
 
 GtkWidget *ListOfDownloads=(GtkWidget *)NULL;
 tDialogWidget *AskOpening=(tDialogWidget *)NULL;
@@ -67,6 +68,10 @@ GtkTargetEntry download_drop_types[] = {
 
 // calculate the number of mime-types listed
 gint n_download_drop_types = sizeof(download_drop_types) / sizeof(download_drop_types[0]);
+
+/*********************************************************************
+    End of first part of DnD's code
+ *********************************************************************/
 
 
 void init_columns_info() {
@@ -436,24 +441,28 @@ void list_dnd_drop_internal(GtkWidget *widget,
 	g_return_if_fail(widget!=NULL);
 
 	switch (info) {
-			// covers all single URLs
-			// a uri-list mime-type will need special handling
-		case TARGET_URL:
-			{
-				// make sure our url (in selection_data->data) is good
-				if (selection_data->data != NULL) {
-					int len = strlen((char*)selection_data->data);
-					if (len && selection_data->data[len-1] == '\n')
-						selection_data->data[len-1] = 0;
-					// add the new download
-					if (CFG.NEED_DIALOG_FOR_DND)
-						init_add_dnd_window((char*)selection_data->data);
-					else
-						aa.add_downloading((char*)selection_data->data, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL);
-					if (!GTK_IS_CLIST(widget))
-						dnd_trash_animation();
-				}
-			}
+		// covers all single URLs
+		// a uri-list mime-type will need special handling
+	case TARGET_URL:{
+		// make sure our url (in selection_data->data) is good
+		if (selection_data->data != NULL) {
+			int len = strlen((char*)selection_data->data);
+			if (len && selection_data->data[len-1] == '\n')
+				selection_data->data[len-1] = 0;
+			// add the new download
+			char *str = (char*)selection_data->data;
+			/* check for gmc style URL */
+			const char *gmc_url="file:/#ftp:";
+			if (begin_string((char*)selection_data->data,gmc_url))
+				str = (char*)selection_data->data + strlen(gmc_url);
+			if (CFG.NEED_DIALOG_FOR_DND)
+				init_add_dnd_window(str);
+			else
+				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL);
+			if (!GTK_IS_SCROLLED_WINDOW(widget))
+				dnd_trash_animation();
+		}
+	}
 	}
 }
 
@@ -461,9 +470,73 @@ void list_dnd_drop_internal(GtkWidget *widget,
     End of handler for DnD 
  **********************************************************/
 
+static int _cmp_bypercent(tDownload *a,tDownload *b){
+	return( a->Percent.curent - b->Percent.curent );
+};
+
+static int _cmp_bysize(tDownload *a,tDownload *b){
+	return( a->Size.curent - b->Size.curent );
+};
+
+static int _cmp_byremain(tDownload *a,tDownload *b){
+	return( a->Remain.curent - b->Remain.curent );
+};
+
+static int _cmp_byspeed(tDownload *a,tDownload *b){
+	return( a->Speed.curent - b->Speed.curent);
+};
+
+static void list_of_downloads_sort(GtkWidget *widget,int how){
+	int count=DOWNLOAD_QUEUES[DL_RUN]->count();
+	if (count<2) return; //nothing todo
+	int (*cmp_func)(tDownload *,tDownload *)=NULL;
+	switch(how){
+	case PERCENT_COL:
+		cmp_func=_cmp_bypercent;
+		break;
+	case DOWNLOADED_SIZE_COL:
+		cmp_func=_cmp_bysize;		
+		break;
+	case REMAIN_SIZE_COL:
+		cmp_func=_cmp_byremain;		
+		break;
+	case SPEED_COL:
+		cmp_func=_cmp_byspeed;		
+		break;
+	};
+	if (cmp_func==NULL) return;
+	list_of_downloads_freeze();
+	tDownload *tmp=DOWNLOAD_QUEUES[DL_RUN]->last();
+	tDownload *cur=(tDownload*)(tmp->next);
+	int changed;
+	do{
+		changed=0;
+		while (cur){
+			if ((cur->GTKCListRow<tmp->GTKCListRow && cmp_func(cur,tmp)<0) ||
+			    (cur->GTKCListRow>tmp->GTKCListRow && cmp_func(cur,tmp)>0)){
+				list_of_downloads_swap(tmp,cur);
+				changed=1;
+			};
+			cur=(tDownload*)(cur->next);
+		};
+		if (changed==0){
+			tmp=(tDownload*)(tmp->next);
+			changed=1;
+		};
+		cur=(tDownload*)(tmp->next);
+	}while(changed && cur);
+	list_of_downloads_unfreeze();
+};
+
 static void my_gtk_clist_set_column_justification (GtkWidget *clist, int col, GtkJustification justify){
-	if (ListColumns[col].enum_index<NOTHING_COL)
+	if (ListColumns[col].enum_index<ListColumns[NOTHING_COL].enum_index)
 		gtk_clist_set_column_justification (GTK_CLIST(clist), ListColumns[col].enum_index, justify);
+};
+
+static GtkWidget *my_gtk_clist_get_column_widget(GtkWidget *clist, int col){
+	if (ListColumns[col].enum_index<ListColumns[NOTHING_COL].enum_index)
+		return (GTK_CLIST(clist)->column[ListColumns[col].enum_index].button);
+	return NULL;
 };
 
 void list_of_downloads_init() {
@@ -518,6 +591,30 @@ void list_of_downloads_init() {
 	my_gtk_clist_set_column_justification (ListOfDownloads, TIME_COL, GTK_JUSTIFY_RIGHT);
 	my_gtk_clist_set_column_justification (ListOfDownloads, PAUSE_COL, GTK_JUSTIFY_RIGHT);
 	gtk_clist_set_column_auto_resize(GTK_CLIST(ListOfDownloads),ListColumns[URL_COL].enum_index,TRUE);
+	GtkWidget *button=my_gtk_clist_get_column_widget(ListOfDownloads,PERCENT_COL);
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
+				   GINT_TO_POINTER(PERCENT_COL));
+	button=my_gtk_clist_get_column_widget(ListOfDownloads,DOWNLOADED_SIZE_COL);
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
+				   GINT_TO_POINTER(DOWNLOADED_SIZE_COL));
+	button=my_gtk_clist_get_column_widget(ListOfDownloads,SPEED_COL);
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
+				   GINT_TO_POINTER(SPEED_COL));
+	button=my_gtk_clist_get_column_widget(ListOfDownloads,REMAIN_SIZE_COL);
+	if (button)
+		gtk_signal_connect(GTK_OBJECT(button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(list_of_downloads_sort),
+				   GINT_TO_POINTER(REMAIN_SIZE_COL));
 
 	gtk_widget_show(ListOfDownloads);
 	gtk_container_add(GTK_CONTAINER(ContainerForCList),ListOfDownloads);
@@ -605,6 +702,13 @@ void list_of_downloads_invert_selection(){
 
 int list_of_downloads_sel(){
 	return(GTK_CLIST(ListOfDownloads)->selection==NULL?1:0);
+};
+
+void list_of_downloads_swap(tDownload *a,tDownload *b){
+	gtk_clist_swap_rows(GTK_CLIST(ListOfDownloads),a->GTKCListRow,b->GTKCListRow);
+	gint row=a->GTKCListRow;
+	a->GTKCListRow=b->GTKCListRow;
+	b->GTKCListRow=row;
 };
 
 /* Various additional functions

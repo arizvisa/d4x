@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt-1.1.5\n"
 "POT-Creation-Date: 2000-02-01 15:56+0100\n"
-"PO-Revision-Date: 2000-02-01 15:56+0100\n"
+"PO-Revision-Date: 2000-08-07 22:57+0100\n"
 "Last-Translator: Grzegorz Kowal <g_kowal@poczta.onet.pl>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -141,7 +141,7 @@ msgstr "Akceptacja nie powiod³a siê"
 
 #: ftp.cc:47
 msgid "Timeout send through control socket."
-msgstr "Przekroczony czas próby przesy³ania gniazdkiem kontrolnym."
+msgstr "Przekroczony limit czasu przesy³ania gniazdkiem kontrolnym."
 
 #: ftp.cc:48
 msgid "Control connection is lost"
@@ -254,7 +254,7 @@ msgstr "Po³±czenie do internetu poprzez proxy"
 
 #: hproxy.cc:137
 msgid "Sending request to proxy"
-msgstr "Wysy³anie pro¶by do proxy"
+msgstr "Wysy³anie ¿±dania do proxy"
 
 #: hproxy.cc:141 httpd.cc:220
 msgid "Answer read ok"
@@ -825,7 +825,7 @@ msgstr "Jeste¶ gotowy???"
 #: face/list.cc:768
 #, c-format
 msgid "%i-running %i-completed %i-total "
-msgstr "%i uruchomionych, %i zakoñczony, %i wszystkich"
+msgstr "%i uruchomionych, %i zakoñczonych, %i wszystkich"
 
 #: face/lmenu.cc:69
 msgid "View log"
@@ -922,15 +922,15 @@ msgstr "Otwórz okienko dla Przeci±gnij-i-Upu¶æ"
 
 #: face/prefs.cc:213
 msgid "Iconify main window when closing"
-msgstr "Zmniejsz okno przy zamkniêciu do ikony"
+msgstr "Zmniejsz okno do ikony przy zamkniêciu"
 
 #: face/prefs.cc:215
 msgid "Save list of downloads every"
-msgstr "Zapisz listê pobierañ co"
+msgstr "Zapisz listê pobierañ po ka¿dych"
 
 #: face/prefs.cc:221
 msgid "minutes"
-msgstr "minut"
+msgstr "minutach"
 
 #: face/prefs.cc:228
 msgid "Common"
@@ -958,11 +958,11 @@ msgstr "Zapisuj pobierania do folderu"
 
 #: face/prefs.cc:347
 msgid "Save main log into file"
-msgstr "Zapisz g³ówny dziennik do pliku"
+msgstr "Zapisz dziennik g³ówny do pliku"
 
 #: face/prefs.cc:366
 msgid "Append to file"
-msgstr "Dodaj fo pliku"
+msgstr "Dodaj do pliku"
 
 #: face/prefs.cc:369
 msgid "Overwrite file"
@@ -1046,7 +1046,7 @@ msgstr "Zespó³ t³umaczy"
 
 #: face/prefs.cc:
 msgid "Filename for saving if it is unknown"
-msgstr "Nazwa pliku dla zapisu je¶li nie jest znana"
+msgstr "Nazwa zapisywanego pliku je¶li nie jest znana"
 
 #: face/prefs.cc:
 msgid "Scroll title"
@@ -1194,7 +1194,7 @@ msgstr "poka¿ aktualn± szybko¶æ je¶li pobieranie trwa"
 
 #: prefs.cc:
 msgid "Exit if nothing to do after"
-msgstr "Zakoñcz je¶li nie zosta³o nic do zrobienia po zakoñczeniu"
+msgstr "Zakoñcz je¶li nie zosta³o nic do pobrania po"
 
 #: prefs.cc:
 msgid "Main log"
@@ -1202,7 +1202,7 @@ msgstr "Dziennik g³ówny"
 
 #: face/prefs.cc
 msgid "Output detailed information"
-msgstr "Wyprowadzaj informacje szczegó³e"
+msgstr "Wyprowadzaj informacje szczegó³owe"
 
 #: main.cc
 msgid "Prepare [%z] for stoping"
@@ -1445,7 +1445,7 @@ msgstr "Brakuje miejsca, aby utworzyæ plik w %s"
 
 #face/edit.cc:
 msgid "Only subdirs"
-msgstr "Tylko podkatalogu"
+msgstr "Tylko podkatalogi"
 
 # face/edit.cc
 msgid "Restart this download from begining"
@@ -1490,7 +1490,7 @@ msgstr "/Plik/Wy_szukaj ³±cza w pliku"
 
 # face/prefs.cc:
 msgid "Use fixed font in logs"
-msgstr "U¿yj sta³ej czcionki w dzienniku"
+msgstr "U¿yj w dzienniku czcionki o sta³ej szeroko¶ci"
 
 # face/edit.cc:
 msgid "Number of parts for spliting this download"
@@ -1555,71 +1555,86 @@ msgstr "Potwierd¼ otwarcie du¿ej ilo¶ci okien"
 
 #face/about.cc
 msgid "Special thanks to"
-msgstr "Specialne podziêkowania dla"
+msgstr "Specjalne podziêkowania dla"
 
 
 #face/prefs.cc
 msgid "Clipboard"
-msgstr ""
+msgstr "Schowek"
 
 msgid "Catch these extensions in clipboard"
-msgstr ""
+msgstr "Przechwytuj nastêpuj±ce rozszerzenia w schowku"
 
 msgid "Allow to user force run downloads"
-msgstr ""
+msgstr "Pozwól u¿ytkownikowi wymusiæ rozpoczêcie pobierañ"
 
 #face/saveload.cc
 msgid "Loading"
-msgstr ""
+msgstr "£adowanie"
 
 #main.cc
 msgid "%lu bytes loaded during the session"
-msgstr ""
+msgstr "%lu bajtów za³adowanych podczas tej sesji"
 
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr ""
+msgstr "Downloader zakoñczy dzia³anie je¶li nie zosta³o nic do zrobienia po %i minutach %s"
 
 msgid "Exiting if nothing to do is switched off"
-msgstr ""
+msgstr "Zakoñczenie jest nie zosta³o nic do pobrania jest wy³±czone"
 
 #face/edit.cc
 msgid "Timeout for reading from socket"
-msgstr ""
+msgstr "Limit czasu dla odczytu z gniazdka"
 
 msgid "Maximum attempts"
-msgstr ""
+msgstr "Maksymalna liczba prób"
 
 msgid "Timeout before reconnection"
-msgstr ""
+msgstr "Limit czasu przed ponownym po³±czeniem"
 
 msgid "Rollback after reconnecting"
-msgstr ""
+msgstr "Odwiniêcie po ponownym po³±czeniu"
 
 msgid "Depth of recursing for HTTP"
-msgstr ""
+msgstr "G³êboko¶æ rekursji dla HTTP"
 
 msgid "Depth of recursing for FTP"
-msgstr ""
+msgstr "G³êboko¶æ rekursji dla FTP"
 
 msgid "Speed limitation"
-msgstr ""
+msgstr "Ograniczenie prêdko¶ci"
 
 msgid "Unselect all"
-msgstr ""
+msgstr "Odznacz wszystko"
 
 msgid "Select all"
-msgstr ""
+msgstr "Zaznacz wszystko"
 
 msgid "Select properties"
-msgstr ""
+msgstr "W³a¶ciwo¶ci wyboru"
 
 #face/lmenu.cc
 msgid "Common properties"
-msgstr ""
+msgstr "W³a¶ciwo¶ci wspólne"
 
 #config.cc
 msgid "set timeout for exiting if nothing to do"
-msgstr ""
+msgstr "ustaw limit czasu zakoñczenia je¶li nic nie zosta³o do pobrania"
 
 msgid "You should specify number as parameter for '--exit-time' option"
+msgstr "Powiniene¶ okre¶liæ numer jako parametr opcji '--exit-time'"
+
+#face/prefs.cc
+msgid "Output ftp dirs in logs"
+msgstr ""
+
+#main.cc
+msgid "Setup maximum active downloads to"
+msgstr ""
+
+msgid "Restarting failed downloads"
+msgstr ""
+
+# face/prefs.cc, face/edit.cc
+msgid "Don't send QUIT command (ftp)"
 msgstr ""

@@ -1,3 +1,60 @@
+Mon Aug 28 15:06:18 2000
+	*main.cc: fixed setting recurse depth for splited downloads;
+
+Sun Aug 27 14:26:37 2000
+	*face/dndtrash.cc: only one row in tooltip;
+
+Sat Aug 26 14:17:49 2000
+	*face/dndtrash.cc[h],face/list.cc: DnD trash's tooltip show info
+	about selected download;
+	*po/: added new messages in .po files;
+
+Fri Aug 25 11:19:47 2000	
+	*http.cc: fixed status after reading http answer;
+
+Thu Aug 24 11:19:47 2000
+	*httpd.cc: fixed making pathes for storing files;
+	*nt.cc: some additional extesion for catching in clipboard;
+	*main.cc: fixed yesterday changes with redirection;
+	*face/lod.cc: fixed working with gmc ftp urls; fixed blinking DnD
+	trash by droping in queue of downloads;
+
+Wed Aug 23 14:49:57 2000
+	*nt.cc: added debug SIGSEGV handler;
+	*main.cc: join threads after completing;
+	*face/list.cc[h],face/dndtrash.cc: change behavior by double click
+	on dndtrash;
+
+Tue Aug 22 17:35:30 2000
+	*[many files]: DBC style debug prechecks added;
+	*dlist.cc: fixed very old probability of sefault;
+	*face/edit.cc: change transient state for file/dir selection
+	dialogs;
+	*face/prefs.cc: the same for color selection;
+
+Sun Aug 20 17:48:56 2000
+	*addr.cc[h],main.cc: check for redirection to the same URL, code
+	cleanups;
+
+Sat Aug 19 10:47:17 2000
+	*html.cc: fix probrability of segfaulting;
+	*fac/lod.cc: sort active downloads by clicking on column's button;
+	fixed some problems with invisible columns;
+
+Thu Aug 17 10:21:10 2000
+	*main.cc: primitive fix redirection for splited downloads;
+	*ftp.cc: ftp realisation improved;
+	*var.cc[h],config.cc,prefs.cc: added ability to show ftp dirs in logs;
+	*client.cc,mainlog.cc: extra checking for NULL added;
+
+Wed Aug 16 10:07:42 2000
+	*dlist.cc,locstr.cc,face/prefs.cc: code cleanups, fixed setting default
+	permissions;
+	*download.cc: fixed segfaulting on ERROR_ACCESS;
+
+Sun Aug 13 14:23:34 2000
+	*main.cc,face/log.cc[h]: freeze logs before updating;
+
 Wed Aug  9 09:16:47 2000
 	*po/: nl.po and de.po updated;
 

@@ -140,10 +140,6 @@ static void open_limits_window(...) {
 	FaceForLimits->init();
 };
 
-/*********************************************************************
-    End of first part of DnD's code
- *********************************************************************/
-
 void util_item_factory_popup(GtkItemFactory *ifactory,guint x, guint y,guint mouse_button,guint32 time) {
 	static GQuark quark_user_menu_pos=0;
 	struct Pos {
@@ -475,6 +471,7 @@ void my_main_quit(...) {
 	if (FaceForPasswords)
 		delete (FaceForPasswords);
 	if (CFG.WITHOUT_FACE==0){
+		dnd_trash_real_destroy();
 		delete(list_for_adding);
 		options_window_cancel();
 		destroy_about_window();
@@ -483,7 +480,6 @@ void my_main_quit(...) {
 		if (AskDeleteCompleted) delete(AskDeleteCompleted);
 		if (AskDeleteFataled) delete(AskDeleteFataled);
 		if (AskExit) delete(AskExit);
-		dnd_trash_real_destroy();
 		load_save_list_cancel();
 	};
 	for (int i=0;i<LAST_HISTORY;i++)
@@ -789,6 +785,7 @@ void update_mainwin_title() {
 			else
 				sprintf(data3,"???");
 			sprintf(data,"%i%c %s/%s %s ",temp->Percent.curent,'%',data2,data3,temp->info->file.get());
+			dnd_trash_set_tooltip(data);
 			tmp_scroll_title(data,ROLL_STAT);
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 		} else {
@@ -797,12 +794,16 @@ void update_mainwin_title() {
 				sprintf(data,_("%i-running %i-completed %i-total "),DOWNLOAD_QUEUES[DL_RUN]->count(),DOWNLOAD_QUEUES[DL_COMPLETE]->count(),total);
 				tmp_scroll_title(data,ROLL_INFO);
 				gtk_window_set_title(GTK_WINDOW (MainWindow), data);
-			} else
+			} else{
 				gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
+				dnd_trash_set_tooltip(_("Drop link here"));
+			};
 		};
 	} else{
-		if (mainwin_title_state)
+		if (mainwin_title_state){
 			gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
+			dnd_trash_set_tooltip(_("Drop link here"));
+		};
 		mainwin_title_state=0;
 	};
 };
@@ -958,6 +959,15 @@ void main_window_iconify(){
 void main_window_popup(){
 	if (MainWindow)
 		gdk_window_show(MainWindow->window);
+};
+
+void main_window_toggle(){
+	if (MainWindow){
+		if (gdk_window_is_visible(MainWindow->window))
+			gdk_window_hide(MainWindow->window);
+		else
+			gdk_window_show(MainWindow->window);
+	};
 };
 
 void init_face(int argc, char *argv[]) {

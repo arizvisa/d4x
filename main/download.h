@@ -43,6 +43,7 @@ struct tCfg{
 	int full_server_loading;
 	int link_as_file;
 	int restart_from_begin;
+	int dont_send_quit;
 /* proxy
  */
 	int proxy_port;

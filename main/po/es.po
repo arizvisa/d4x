@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: WebDownloader for X 1.13\n"
+"Project-Id-Version: WebDownloader for X 1.18\n"
 "POT-Creation-Date: 1999-12-29 15:29+0100\n"
-"PO-Revision-Date: 2000-05-13 19:00+0100\n"
+"PO-Revision-Date: 2000-08-07 18:32+0100\n"
 "Last-Translator: Vicente Aguilar <vaguilar@linuxfreak.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -721,11 +721,11 @@ msgstr "Descargado"
 #: ../face/prefs.cc:615 ../face/prefs.cc:639 face/list.cc:70 face/prefs.cc:471
 #: face/prefs.cc:492
 msgid "Speed"
-msgstr "Velocidad"
+msgstr "Veloc."
 
 #: face/list.cc:70
 msgid "Remaining"
-msgstr "T.Est."
+msgstr "T.Rest."
 
 #: face/list.cc:70
 msgid "Pause"
@@ -989,7 +989,7 @@ msgstr "Guardar descargas en el directorio"
 
 #: ../face/prefs.cc:478 face/prefs.cc:347
 msgid "Save main log into file"
-msgstr "Guardar bitácora principal en el fichero"
+msgstr "Guardar bitácora principal en un fichero"
 
 #: ../face/prefs.cc:496 face/prefs.cc:366
 msgid "Append to file"
@@ -1492,7 +1492,7 @@ msgstr "[socket de control]"
 
 # face/list.cc
 msgid "/Download/Unselect all"
-msgstr "/Descargas/Deseleccionar Todos"
+msgstr "/Descargas/Deseleccionar Todas"
 
 # face/list.cc
 msgid "/Download/-"
@@ -1504,7 +1504,7 @@ msgstr "Detener justo tras añadir"
 
 #face/list.cc:
 msgid "/Download/Select all"
-msgstr "/Descargas/Seleccionar Todos"
+msgstr "/Descargas/Seleccionar Todas"
 
 # face/list.cc
 msgid "/Download/Invert selection"
@@ -1645,7 +1645,7 @@ msgstr "Colores para el gráfico"
 
 #face/limface.cc
 msgid "Default limitation for all hosts (0 without limits)"
-msgstr "Limitación por defecto para todos los servidores (0 sin límites)"
+msgstr " Limite por defecto (0 - descargas ilimitadas)"
 
 #face/lod.cc
 msgid "Continue open log windows?"
@@ -1666,71 +1666,86 @@ msgstr "Pedir confirmación para abrir muchas ventanas"
 
 #face/about.cc
 msgid "Special thanks to"
-msgstr "Agradecimiento especial a"
+msgstr "Agradecimiento especial a : "
 
 
 #face/prefs.cc
 msgid "Clipboard"
-msgstr ""
+msgstr "Portapapeles"
 
 msgid "Catch these extensions in clipboard"
-msgstr ""
+msgstr "Extensiones a descargar desde el portapapeles"
 
 msgid "Allow to user force run downloads"
-msgstr ""
+msgstr "Permitir que el usuario fuerce descargas"
 
 #face/saveload.cc
 msgid "Loading"
-msgstr ""
+msgstr "Cargando"
 
 #main.cc
 msgid "%lu bytes loaded during the session"
-msgstr ""
+msgstr "Se cargaron %lu bytes durante la sesión"
 
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr ""
+msgstr "Downloader finalizará la ejecución si no se realiza nada después de %i minutos %s"
 
 msgid "Exiting if nothing to do is switched off"
-msgstr ""
+msgstr "La finalización si no se hace nada está desactivada"
 
 #face/edit.cc
 msgid "Timeout for reading from socket"
-msgstr ""
+msgstr "Tiempo máximo para lectura del socket"
 
 msgid "Maximum attempts"
-msgstr ""
+msgstr "Máximo número de intentos"
 
 msgid "Timeout before reconnection"
-msgstr ""
+msgstr "Timepo de espera antes de volver a conectar"
 
 msgid "Rollback after reconnecting"
-msgstr ""
+msgstr "Vuelta atrás después de volver a conectar"
 
 msgid "Depth of recursing for HTTP"
-msgstr ""
+msgstr "Nivel de profundidad en la recursión por HTTP"
 
 msgid "Depth of recursing for FTP"
-msgstr ""
+msgstr "Nivel de profundidad en la recursión por FTP"
 
 msgid "Speed limitation"
-msgstr ""
+msgstr "Límite de velocidad"
 
 msgid "Unselect all"
-msgstr ""
+msgstr "Desactivar todos"
 
 msgid "Select all"
-msgstr ""
+msgstr "Activar todos"
 
 msgid "Select properties"
-msgstr ""
+msgstr "Propiedades de selección"
 
 #face/lmenu.cc
 msgid "Common properties"
-msgstr ""
+msgstr "Propiedades comunes"
 
 #config.cc
 msgid "set timeout for exiting if nothing to do"
-msgstr ""
+msgstr "establecer espera antes de finalizar si no se hace nada"
 
 msgid "You should specify number as parameter for '--exit-time' option"
+msgstr "Debe introducir un número como parámetro para la opción '--exit-time'"
+
+#face/prefs.cc
+msgid "Output ftp dirs in logs"
+msgstr ""
+
+#main.cc
+msgid "Setup maximum active downloads to"
+msgstr ""
+
+msgid "Restarting failed downloads"
+msgstr ""
+
+# face/prefs.cc, face/edit.cc
+msgid "Don't send QUIT command (ftp)"
 msgstr ""

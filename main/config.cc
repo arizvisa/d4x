@@ -190,7 +190,9 @@ tConfigVariable config_variables[]={
 	{"main_log_file_limit",	CV_TYPE_LONG,	&(CFG.MAIN_LOG_FILE_LIMIT)},
 	{"fixed_log_font",	CV_TYPE_BOOL,	&(CFG.FIXED_LOG_FONT)},
 	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)},
-	{"allow_force_run",	CV_TYPE_BOOL,	&(CFG.ALLOW_FORCE_RUN)}
+	{"allow_force_run",	CV_TYPE_BOOL,	&(CFG.ALLOW_FORCE_RUN)},
+	{"ftp_dir_in_log",	CV_TYPE_BOOL,	&(CFG.FTP_DIR_IN_LOG)},
+	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DONT_SEND_QUIT)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -203,6 +205,7 @@ void set_column_position(int type,int col){
 };
 
 void set_config(char *line){
+	DBC_RETURN_IF_FAIL(line!=NULL);
 	if(*line=='\n' || *line=='#') return;
 	char *temp=new char[strlen(line)+1];
 	char *next_word=extract_string(line,temp);
@@ -289,24 +292,28 @@ void read_config() {
 };
 
 static void save_integer_to_config(int fd,char *name,int num) {
+	DBC_RETURN_IF_FAIL(name!=NULL);
 	char data[MAX_LEN];
 	sprintf(data,"%s %i\n\n",name,num);
 	f_wstr(fd,data);
 };
 
 static void save_long_to_config(int fd,char *name,long int num) {
+	DBC_RETURN_IF_FAIL(name!=NULL);
 	char data[MAX_LEN];
 	sprintf(data,"%s %li\n\n",name,num);
 	f_wstr(fd,data);
 };
 	
 static void save_hex_integer_to_config(int fd,char *name,int num) {
+	DBC_RETURN_IF_FAIL(name!=NULL);
 	char data[MAX_LEN];
 	sprintf(data,"%s 0x%06x\n\n",name,num);
 	f_wstr(fd,data);
 };
 
 static void save_string_to_config(int fd,char *name,char *str) {
+	DBC_RETURN_IF_FAIL(name!=NULL);
 	if (!str) return;
 	char data[MAX_LEN];
 	sprintf(data,"%s %s\n\n",name,str);
@@ -481,6 +488,7 @@ void save_limits() {
 };
 
 int downloader_args_type(char *str){
+	DBC_RETVAL_IF_FAIL(str!=NULL,OPT_UNKNOWN);
 	for (int i=0;i<downloader_parsed_args_num;i++){
 		if (equal(str,downloader_parsed_args[i].name))
 			return downloader_parsed_args[i].cmd;

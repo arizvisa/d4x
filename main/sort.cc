@@ -11,6 +11,7 @@
 
 #include "sort.h"
 #include "stdio.h"
+#include "dbc.h"
 tAbstractSortNode::tAbstractSortNode(){
 	less=more=NULL;
 };
@@ -43,6 +44,8 @@ int tAbstractSortTree::count() {
 };
 
 void tAbstractSortTree::simple_add(tAbstractSortNode **where,tAbstractSortNode *what) {
+	DBC_RETURN_IF_FAIL(where!=NULL);
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	tAbstractSortNode **temp=where;
 	while (*temp) {
 		if ((*temp)->cmp(what)<0)
@@ -54,6 +57,7 @@ void tAbstractSortTree::simple_add(tAbstractSortNode **where,tAbstractSortNode *
 };
 
 void tAbstractSortTree::add(tAbstractSortNode *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	if (what==NULL) return;
 	NUM+=1;
 	simple_add(&Top,what);

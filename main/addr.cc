@@ -272,6 +272,7 @@ void tAddr::file_del_sq(){
 };
 
 void tAddr::make_url(char *where){
+	DBC_RETURN_IF_FAIL(where!=NULL);
 	*where=0;
 	strcat(where,proto_infos[proto].name);
 	strcat(where,"://");
@@ -330,7 +331,21 @@ int tAddr::is_valid(){
 	return 1;
 };
 
+int tAddr::cmp(tAddr *b){
+	DBC_RETVAL_IF_FAIL(b!=NULL,0);
+	if (!equal_uncase(host.get(),b->host.get()) ||
+	    !equal(path.get(),b->path.get()) ||
+	    !equal(file.get(),b->file.get()) ||
+	    !equal(params.get(),b->params.get()) ||
+	    proto!=b->proto)
+		return 0;
+	if (proto==D_PROTO_FTP && !equal(username.get(),b->username.get()))
+		return 0;
+	return 1;
+};
+
 void tAddr::copy_host(tAddr *what){
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	host.set(what->host.get());
 	pass.set(what->pass.get());
 	username.set(what->username.get());
@@ -339,6 +354,7 @@ void tAddr::copy_host(tAddr *what){
 };
 
 void tAddr::copy(tAddr *what){
+	DBC_RETURN_IF_FAIL(what!=NULL);
 	copy_host(what);
 	file.set(what->file.get());
 	path.set(what->path.get());

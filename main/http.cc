@@ -38,11 +38,13 @@ void tHttpClient::set_offset(int a) {
 };
 
 int tHttpClient::send_request(char *what) {
+	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	LOG->log(LOG_TO_SERVER,what);
 	return CtrlSocket.send_string(what,timeout);
 };
 
 int tHttpClient::send_request(char *begin, char *center,char *end){
+	DBC_RETVAL_IF_FAIL(begin!=NULL,-1);
 	char *tmp=sum_strings(begin,center,end,NULL);
 	int rvalue=send_request(tmp);
 	delete(tmp);
@@ -50,6 +52,7 @@ int tHttpClient::send_request(char *begin, char *center,char *end){
 };
 
 int tHttpClient::read_data(char *where,int len) {
+	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
 	int all=CtrlSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
 		LOG->log(LOG_ERROR,_("Socket lost!"));
@@ -59,10 +62,14 @@ int tHttpClient::read_data(char *where,int len) {
 };
 
 int tHttpClient::read_answer(tStringList *list) {
+	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
 	list->done();
 	int rvalue=0;
 	LOG->log(LOG_OK,_("Request was sent, waiting for the answer"));
-	if (read_string(&CtrlSocket,list,MAX_LEN)!=0) return -1;
+	if (read_string(&CtrlSocket,list,MAX_LEN)!=0){
+		Status=STATUS_TIMEOUT;
+		return -1;
+	};
 	tString *last=list->last();
 	if (last) {
 		LOG->log(LOG_FROM_SERVER,last->body);
@@ -121,6 +128,8 @@ void tHttpClient::send_cookies(char *host,char *path){
 };
 
 int tHttpClient::get_size(char *filename,tStringList *list) {
+	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
 	send_request("GET ",filename," HTTP/1.0\r\n");
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");

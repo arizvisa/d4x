@@ -21,6 +21,7 @@ extern GtkWidget *MainWindow;
 
 void my_gdk_window_iconify(GdkWindow *window) {
 	XIconifyWindow( GDK_DISPLAY() , GDK_WINDOW_XWINDOW(window),DefaultScreen(GDK_DISPLAY()));
+//	XUnmapWindow( GDK_DISPLAY(), GDK_WINDOW_XWINDOW(window));
 };
 
 GdkPixmap *make_pixmap_from_xpm(GdkBitmap **mask,char **xpm,GtkWidget *parent) {

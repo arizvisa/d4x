@@ -43,6 +43,7 @@ struct tLogWindow {
 	GtkWidget *button;
 	tDownload *papa; // :))
 	float value;
+	int freezed;
 	tStringDialog *string;
 	tLogWindow();
 	~tLogWindow();
@@ -51,6 +52,7 @@ struct tLogWindow {
 
 tLogWindow::tLogWindow() {
 	string=(tStringDialog *)NULL;
+	freezed=0;
 };
 
 tLogWindow::~tLogWindow() {
@@ -392,4 +394,21 @@ void del_first_from_log(tLog *what) {
 		gtk_clist_remove(GTK_CLIST(temp->clist),0);
 	};
 
+};
+
+GList *log_window_freeze(GList *list,tLog *what){
+	tLogWindow *temp=(tLogWindow *)what->Window;
+	if (temp && temp->freezed){
+		list=g_list_append(list,what);
+		temp->freezed=1;
+		gtk_clist_freeze(GTK_CLIST(temp->clist));
+	};
+	return(list);
+};
+
+void log_window_unfreeze(tLog *what){
+	tLogWindow *temp=(tLogWindow *)what->Window;
+	if (temp && temp->freezed){
+		gtk_clist_thaw(GTK_CLIST(temp->clist));
+	};
 };

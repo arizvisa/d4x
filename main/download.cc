@@ -43,6 +43,7 @@ void tCfg::copy_ints(tCfg *src){
 	number_of_attempts = src->number_of_attempts;
 
 	passive = src->passive;
+	dont_send_quit = src->dont_send_quit;
 	permisions = src->permisions;
 	get_date = src->get_date;
 	retry = src->retry;
@@ -112,6 +113,7 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"rollback:",rollback);
 	write_named_integer(fd,"speed:",speed);
 	write_named_integer(fd,"passive:",passive);
+	write_named_integer(fd,"dont_send_quit:",dont_send_quit);
 	write_named_integer(fd,"retry:",retry);
 	write_named_integer(fd,"permisions:",permisions);
 	write_named_integer(fd,"get_date:",get_date);
@@ -146,6 +148,7 @@ int tCfg::load_from_config(int fd){
 		{"rollback:",	SV_TYPE_INT,	&rollback},
 		{"speed:",	SV_TYPE_INT,	&speed},
 		{"passive:",	SV_TYPE_INT,	&passive},
+		{"dont_send_quit:",	SV_TYPE_INT,	&dont_send_quit},
 		{"retry:",	SV_TYPE_INT,	&retry},
 		{"permisions:",	SV_TYPE_INT,	&permisions},
 		{"get_date:",	SV_TYPE_INT,	&get_date},
@@ -204,22 +207,6 @@ void tDownloader::print_error(int error_code){
 			LOG->log_printf(LOG_OK,_("Retrying %i ..."),RetrNum);
 		break;
 	};
-	case ERROR_DIRECTORY:{
-		LOG->log(LOG_ERROR,_("Directory already created!:))"));
-		break;
-	};
-	case ERROR_ACCESS:{
-		LOG->log_printf(LOG_ERROR,
-			      _("You have no permissions to create file at path %s"),
-			      config.save_path.get());
-		break;
-	};
-	case ERROR_NO_SPACE:{
-		LOG->log_printf(LOG_ERROR,
-			      _("You have no space at path %s for creating file"),
-			      config.save_path.get());
-		break;
-	};
 	case ERROR_FILE_UPDATED:
 		LOG->log(LOG_WARNING,_("File on server is newest then local file, restarting from begin\n"));
 		break;
@@ -244,6 +231,8 @@ char * tDownloader::get_new_url() {
 };
 
 void tDownloader::set_file_info(tFileInfo *what) {
+	DBC_RETURN_IF_FAIL(what!=NULL);
+
 	D_FILE.type=what->type;
 	if (D_FILE.type==T_LINK)
 		D_FILE.body.set(what->body.get());
@@ -297,6 +286,10 @@ int tDownloader::get_start_size() {
 };
 
 void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
+	DBC_RETURN_IF_FAIL(path!=NULL);
+	DBC_RETURN_IF_FAIL(guess!=NULL);
+	DBC_RETURN_IF_FAIL(name!=NULL);
+
 	char *temp;
 	temp=sum_strings(".",ADDR.file.get(),NULL);
 	*name=compose_path(path,temp);
@@ -305,6 +298,11 @@ void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 };
 
 void tDownloader::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
+	DBC_RETURN_IF_FAIL(path!=NULL);
+	DBC_RETURN_IF_FAIL(another_name!=NULL);
+	DBC_RETURN_IF_FAIL(guess!=NULL);
+	DBC_RETURN_IF_FAIL(name!=NULL);
+
 	char *temp=sum_strings(".",another_name,NULL);
 	*name=compose_path(path,temp);
 	*guess=compose_path(path,another_name);
