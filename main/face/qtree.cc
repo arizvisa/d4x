@@ -611,6 +611,8 @@ void d4xQsTree::prefs_ok(){
 		gtk_container_add(GTK_CONTAINER(ContainerForCList),q->qv.ListOfDownloads);
 		gtk_widget_show(q->qv.ListOfDownloads);
 	};
+	if (q->AUTODEL_COMPLETED) aa.del_completed(q);
+	if (q->AUTODEL_FAILED) aa.del_fataled(q);
 	update(q);
 	aa.try_to_run_wait(q);
 	prefs_cancel();

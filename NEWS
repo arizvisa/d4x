@@ -1,0 +1,36 @@
+Tue Mar 19 23:04:37 2002 (2.0RC1)
+    Continue to work under autoconf/automake support (thanks to Zaufi)
+    DnD-basket will transform into DnD-queue if link dragged over it
+    Fixed generating URLs by 'autoadding'
+    Fixed segfaults due using pointer after freeing in main cicle!!!
+    Fixed storing keybinds
+    Fixed some segfaults with scheduling downloads
+    Fixed switching to alternate for single-threaded downloads
+    Updated translation to German (thanks to Thomas R. Koll)
+    Updated translation to Spanish (thanks to Gustavo D. Vranjes)
+    Updated translation to French (thanks to Jerome Courdec)
+
+Tue Mar 12 23:01:24 2002
+    Added configure scripts (thanks to Zaufi)
+    Added '--switch' comand line parameter
+    Replaced Password-manager by URL-manager
+    Now D4X stores all acelerator keys of main menu
+    Fixed wrong speed display for HTTP downloads
+    Fixed pause displayng
+    Fixed splited downloading via FTP
+    Fixed 'exit if nothing to do'
+    Updated Italian translation
+    Updated Spanish translation
+    Updated Bulgarian translation (thanks to Miroslav B. Iordaniov)
+    Interface cleanups
+
+Thu Feb 28 20:20:07 2002
+    Added ability to change color of buttonsbar's tooltip from theme
+    Fixed playing sound on bigendian machines;
+    Fixed applying properties for a download which is not from current queue
+    Fixed and improved '--ls' command line option
+    Fixed wrong attempts counter for splited downloads
+    Fixed wrong queue's stats after applying new preferences for any download from queue
+    Fixed runing without interface
+    Rplaced ftpsearch.lycos.com by another engine
+    Updated German translation (thanks to Thomas R. Koll)

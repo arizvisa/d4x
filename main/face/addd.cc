@@ -21,6 +21,7 @@
 #include "../sndserv.h"
 #include "../autoadd.h"
 #include "misc.h"
+#include "dndtrash.h"
 
 extern tMain aa;
 
@@ -47,6 +48,9 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 	list_for_adding->del(what);
 	int tmp=what->editor->get_pause_check();
 	int to_top=what->editor->get_to_top_check();
+	d4xDownloadQueue *tmpq=D4X_QUEUE;
+	if (what->editor->dnd && dnd_trash_target_queue)
+		D4X_QUEUE=dnd_trash_target_queue;
 	what->delete_editor();
 	if (what->config->isdefault){
 		delete(what->config);
@@ -56,13 +60,16 @@ void add_window_ok(GtkWidget *widget, tDownload *what) {
 		what->status=DL_PAUSE;
 		aa.add_downloading_to(what,to_top);
 		SOUND_SERVER->add_event(SND_ADD);
+		D4X_QUEUE=tmpq;
 	}else{
 		if (aa.add_downloading(what,to_top)){
+			D4X_QUEUE=tmpq;
 			tDownload *dwn=ALL_DOWNLOADS->find(what);
 			delete(what);
 			if (dwn)
 				D4X_QVT->move_to(dwn);
 		}else{
+			D4X_QUEUE=tmpq;
 			aa.add_download_message(what);
 			SOUND_SERVER->add_event(SND_ADD);
 		};
@@ -104,6 +111,7 @@ void init_add_dnd_window(char *url,char *desc) {
 	if (!url) return;
 	init_add_window();
 	tDownload *what=list_for_adding->last();
+	what->editor->dnd=1;
 	what->editor->set_url(url);
 	what->editor->set_description(desc);
 	gtk_widget_grab_focus(what->editor->ok_button);

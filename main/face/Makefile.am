@@ -1,15 +1,41 @@
 #
-# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.2 2002/03/09 03:50:49 zaufi Exp $
+# $Header: /var/cvs/d4x/main/face/Makefile.am,v 1.4 2002/03/14 01:21:54 zaufi Exp $
 #
 
-EXTRA_DIST = $(srcdir)/pixmaps $(srcdir)/pixmaps2
-noinst_LIBRARIES = libface.a
+MAINTAINERCLEANFILES = Makefile.in
 
-libface_a_SOURCES = lod.cc list.cc colors.cc addd.cc graph.cc edit.cc \
-log.cc prefs.cc lmenu.cc buttons.cc about.cc saveload.cc misc.cc \
-columns.cc dndtrash.cc passface.cc mywidget.cc myclist.cc fsface.cc \
-fsched.cc filtrgui.cc qtree.cc
+EXTRA_DIST           = $(srcdir)/pixmaps $(srcdir)/pixmaps2
+noinst_LIBRARIES     = libface.a
 
-noinst_HEADERS = about.h addd.h buttons.h colors.h columns.h dndtrash.h \
-edit.h filtrgui.h fsched.h fsface.h graph.h list.h lmenu.h lod.h log.h \
-misc.h myclist.h mywidget.h passface.h prefs.h qtree.h saveload.h
+libface_a_SOURCES = $(strip           \
+  about.cc     fsched.cc  myclist.cc  \
+  addd.cc      fsface.cc  mywidget.cc \
+  buttons.cc   graph.cc   passface.cc \
+  colors.cc    list.cc    prefs.cc    \
+  columns.cc   lmenu.cc   qtree.cc    \
+  dndtrash.cc  lod.cc     saveload.cc \
+  edit.cc      log.cc                 \
+  filtrgui.cc  misc.cc                \
+)
+
+noinst_HEADERS = $(strip              \
+  about.h     fsched.h  myclist.h     \
+  addd.h      fsface.h  mywidget.h    \
+  buttons.h   graph.h   passface.h    \
+  colors.h    list.h    prefs.h       \
+  columns.h   lmenu.h   qtree.h       \
+  dndtrash.h  lod.h     saveload.h    \
+  edit.h      log.h                   \
+  filtrgui.h  misc.h                  \
+)
+
+# HINT:
+# We can use fact that all files in that directory
+# have the same name for 2 extensions (*.cc | *.h)
+# and use this in the following trick:
+#
+# noinst_HEADERS = $(patsubst %.cc, %.h, $(libface_a_SOURCES))
+#
+# this helps us to avoid maintain 2 lists (long lists :) of files
+# and exclude possible errors (i.e. unsyncronized lists)
+#

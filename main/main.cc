@@ -64,6 +64,11 @@ int calc_curent_run(char *host,int port) {
 	return (D4X_QUEUE->current_run(host,port));
 };
 
+int d4x_only_one_queue(){
+	if (D4X_QTREE.count()>1 && D4X_QTREE.first()) return(0);
+	return(1);
+};
+
 //**********************************************/
 
 typedef void (*SigactionHandler)(int);
@@ -225,9 +230,9 @@ void tMain::absolute_delete_download(tDownload *what) {
 };
 
 
-void tMain::del_completed() {
+void tMain::del_completed(d4xDownloadQueue *queue=NULL) {
 	MainLog->add(_("Delete completed downloads"),LOG_OK|LOG_DETAILED);
-	del_all_from_list(DL_COMPLETE);
+	del_all_from_list(DL_COMPLETE,queue);
 };
 
 void tMain::rerun_failed(){
@@ -238,13 +243,13 @@ void tMain::rerun_failed(){
 	};
 };
 
-void tMain::del_fataled() {
+void tMain::del_fataled(d4xDownloadQueue *queue=NULL){
 	MainLog->add(_("Delete failed downloads"),LOG_OK|LOG_DETAILED);
-	del_all_from_list(DL_STOP);
+	del_all_from_list(DL_STOP,queue);
 };
 
-void tMain::del_all_from_list(int list){
-	tDownload *temp=D4X_QUEUE->first(list);
+void tMain::del_all_from_list(int list,d4xDownloadQueue *queue=NULL){
+	tDownload *temp=queue?queue->first(list):D4X_QUEUE->first(list);
 	while (temp) {
 		tDownload *next=(tDownload *)(temp->prev);
 		if (!temp->protect){
@@ -985,6 +990,7 @@ void tMain::main_circle_second(tDownload *dwn){
 		break;
 	};
 	case DOWNLOAD_FATAL:{
+		if (dwn->split==NULL && try_to_switch(dwn)) return;
 		case_download_failed(dwn);
 		real_stop_thread(dwn);
 		post_stopping(dwn);
@@ -1028,24 +1034,24 @@ void tMain::main_circle_nano2(){
 	int i=0;
 	while (D4X_UPDATE.first_s && i<10){
 		tDownload *gp=D4X_UPDATE.first_s;
+		D4X_UPDATE.del_s();
 		if (gp->split)
 			gp=gp->split->grandparent;
 		switch(gp->owner()){
 		case DL_RUN:
 			if (gp->split){
-				check_split(D4X_UPDATE.first_s);
+				check_split(gp);
 				break;
 			}else
 				prepare_for_stoping(gp);
-			main_circle_second(D4X_UPDATE.first_s);
+			main_circle_second(gp);
 			break;
 		case DL_STOPWAIT:
-			main_circle_first(D4X_UPDATE.first_s);
+			main_circle_first(gp);
 			break;
 		default:
 			break;
 		};
-		D4X_UPDATE.del_s();
 		i++;
 	};
 	D4X_UPDATE.unlock_s();
@@ -1299,7 +1305,7 @@ void tMain::add_downloading_to(tDownload *what,int to_top=0) {
 		DONTRY2RUN=1;
 		if (add_downloading(what,to_top)){
 			tDownload *dwn=ALL_DOWNLOADS->find(what);
-			if (dwn && CFG.WITHOUT_FACE==0){
+			if (dwn && CFG.WITHOUT_FACE==0 && CFG.NEED_DIALOG_FOR_DND==0){
 				D4X_QVT->move_to(dwn);
 			};
 			delete (what);

@@ -28,11 +28,14 @@ struct d4xAASubStr:tNode{
 	void print();
 	char *first();
 	char *next();
+	char *last();
 	char *scan(char *str);
 	~d4xAASubStr();
 private:
+	char *last_str;
 	int sub_scan(char **cur);
 	void next_str();
+	void set_last(char *str);
 };
 
 enum D4X_AUTO_ADD_ENUM{
@@ -50,6 +53,16 @@ d4xAASubStr::d4xAASubStr(){
 	period=1;
 	left_int=right_int=cur_int=int_len=0;
 	left_str=right_str=cur_str=NULL;
+	last_str=NULL;
+};
+
+char *d4xAASubStr::last(){
+	return(copy_string(last_str));
+};
+
+void d4xAASubStr::set_last(char *a){
+	if (last_str) delete[] last_str;
+	last_str=copy_string(a);
 };
 
 void d4xAASubStr::print(){
@@ -191,8 +204,11 @@ char *d4xAASubStr::scan(char *str){
 
 char *d4xAASubStr::first(){
 	end_flag=0;
-	if (type==DAA_STR)
+	if (type==DAA_STR){
+		end_flag=1;
+		set_last(left_str);
 		return(copy_string(left_str));
+	};
 	if (type==DAA_INT_INT){
 		cur_int=left_int;
 		char tmp[100];
@@ -202,14 +218,17 @@ char *d4xAASubStr::first(){
 			sprintf(tmp,a,cur_int);
 		}else
 			sprintf(tmp,"%i",cur_int);
+		set_last(tmp);
 		return(copy_string(tmp));
 	};
 	if (type==DAA_STR_STR){
+		set_last(left_str);
 		cur_str=copy_string(left_str);
 		return(copy_string(left_str));
 	};
 	if (type==DAA_STRS){
 		cur_int=0;
+		set_last(left_str);
 		return(copy_string(left_str));
 	};
 	return(NULL);
@@ -232,6 +251,7 @@ void d4xAASubStr::next_str(){
 char *d4xAASubStr::next(){
  	if (type==DAA_STR){
 		end_flag=1;
+		set_last(left_str);
 		return(copy_string(left_str));
 	};
 	if (type==DAA_INT_INT){		
@@ -248,6 +268,7 @@ char *d4xAASubStr::next(){
 			sprintf(tmp,a,cur_int);
 		}else
 			sprintf(tmp,"%i",cur_int);
+		set_last(tmp);
 		return(copy_string(tmp));
 	};
 	if (type==DAA_STR_STR){
@@ -255,15 +276,20 @@ char *d4xAASubStr::next(){
 			next_str();
 		}else
 			end_flag=1;
+		set_last(cur_str);
 		return(copy_string(cur_str));
 	};
 	if (type==DAA_STRS){
 		char *rval=left_str;
-		if (cur_int+1<left_int)
+		if (cur_int+1<left_int){
 			cur_int+=1;
+			end_flag=1;
+		};
 		for (int i=0;i<cur_int;i++){
 			rval+=strlen(rval)+1;
 		};
+		
+		set_last(rval);
 		return(copy_string(rval));
 	};
 	return(NULL);
@@ -273,6 +299,7 @@ d4xAASubStr::~d4xAASubStr(){
 	if (left_str) delete[] left_str;
 	if (right_str) delete[] right_str;
 	if (cur_str) delete[] cur_str;
+	if (last_str) delete[] last_str;
 };
 
 /******************************************************************/
@@ -317,16 +344,37 @@ char *d4xAutoGenerator::first(){
 char *d4xAutoGenerator::next(){
 	d4xAASubStr *tmp=(d4xAASubStr *)list.first();
 	if (tmp==NULL) return(NULL);
-	char *rval=tmp->next();
-	int end_flag=tmp->end_flag;
+	char *rval=NULL;
+	int end_flag=0;
+	int last=0;
+	if (tmp->end_flag){
+		end_flag=1;
+		last=1;
+		rval=tmp->first();
+	}else{
+		rval=tmp->next();
+	};
 	tmp=(d4xAASubStr *)(tmp->prev);
+	int flast=1;
 	while(tmp){
-		char *a=tmp->next();
+		char *a=NULL;
+		if (last && flast){
+			if (tmp->end_flag){
+				last=1;
+				a=tmp->first();
+			}else{
+				flast=0;
+				a=tmp->next();
+			};
+		}else{
+			a=tmp->last();
+		};
 		char *b=sum_strings(rval,a,NULL);
 		delete[] rval;
 		delete[] a;
 		rval=b;
-		if (tmp->end_flag==0) end_flag=0;
+		if (tmp->end_flag && tmp->prev==NULL) end_flag=1;
+		else end_flag=0;
 		tmp=(d4xAASubStr *)(tmp->prev);
 	};
 	if (end_flag){

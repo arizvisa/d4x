@@ -1,6 +1,8 @@
 #
-# $Header: /var/cvs/d4x/share/Makefile.am,v 1.4 2002/03/12 00:43:55 zaufi Exp $
+# $Header: /var/cvs/d4x/share/Makefile.am,v 1.5 2002/03/13 04:34:46 zaufi Exp $
 #
+
+MAINTAINERCLEANFILES = Makefile.in
 
 EXTRA_DIST = $(srcdir)/sounds $(srcdir)/themes
 
@@ -15,3 +17,4 @@ install-data-local:
 
 uninstall-local:
 	rm -rf $(pkgdatadir)
+

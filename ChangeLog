@@ -1,24 +1,753 @@
-Tue Mar 12 23:01:24 2002
-    Added configure scripts (thanks to Zaufi)
-    Added '--switch' comand line parameter
-    Replaced Password-manager by URL-manager
-    Now D4X stores all acelerator keys of main menu
-    Fixed wrong speed display for HTTP downloads
-    Fixed pause displayng
-    Fixed splited downloading via FTP
-    Fixed 'exit if nothing to do'
-    Updated Italian translation
-    Updated Spanish translation
-    Updated Bulgarian translation (thanks to Miroslav B. Iordaniov)
-    Interface cleanups
+2002-03-19 23:01  max
 
-Thu Feb 28 20:20:07 2002
-    Added ability to change color of buttonsbar's tooltip from theme
-    Fixed playing sound on bigendian machines;
-    Fixed applying properties for a download which is not from current queue
-    Fixed and improved '--ls' command line option
-    Fixed wrong attempts counter for splited downloads
-    Fixed wrong queue's stats after applying new preferences for any download from queue
-    Fixed runing without interface
-    Rplaced ftpsearch.lycos.com by another engine
-    Updated German translation (thanks to Thomas R. Koll)
+	* ChangeLog, Makefile.am, NEWS, configure.in, main/nt.cc,
+	main/face/dndtrash.cc: global changelog moved to NEWS fixed active
+	size of DnD-menu of DnD-basket
+
+2002-03-19 16:53  max
+
+	* PLANS: changed plans about port to GTK2
+
+2002-03-18 14:23  max
+
+	* po/de.po: update translation to German by Thomas R. Koll
+
+2002-03-18 14:19  max
+
+	* main/: autoadd.cc, nt.cc: fixed generating strings by 'automating
+	adding' feature
+
+2002-03-17 22:54  zaufi
+
+	* configure.in: Add --enable-extra-optimize for highly optimize
+	code, --enable-release now produce -O2 optimized code
+
+2002-03-17 22:39  zaufi
+
+	* admin/acinclude.m4: fix comments
+
+2002-03-17 20:06  max
+
+	* configure.in, main/dqueue.cc, main/main.cc: changed default
+	optimization flag to -O2 fixed using memory after freeing
+
+2002-03-16 20:03  zaufi
+
+	* configure.in: Fix incorrect directory
+
+2002-03-16 19:52  zaufi
+
+	* .cvsignore: Add ignore list
+
+2002-03-16 19:45  zaufi
+
+	* configure.in: strip.awk moved to admin
+
+2002-03-16 19:44  zaufi
+
+	* admin/strip.awk, strip.awk: Move strip.awk to admin
+
+2002-03-16 15:46  max
+
+	* main/: main.cc, main.h, nt.cc, face/qtree.cc: remove
+	completed/failed downloads if apropriate feature was set on queue
+
+2002-03-16 06:11  zaufi
+
+	* configure.in: Comment 'bout maintainer mode
+
+2002-03-16 04:05  zaufi
+
+	* po/.cvsignore: Add files to ignore list
+
+2002-03-16 04:04  zaufi
+
+	* DOC/.cvsignore: Add .cvsignore
+
+2002-03-16 01:39  max
+
+	* main/: nt.cc, face/dndtrash.cc, face/list.cc: added border to
+	tree menu of DnD-basket fixed storing keybinds
+
+2002-03-15 16:55  max
+
+	* main/: dqueue.cc, dqueue.h, main.cc, main.h, nt.cc, face/addd.cc,
+	face/dndtrash.cc, face/dndtrash.h, face/edit.cc, face/edit.h,
+	face/list.cc, face/lod.cc: DnD-basket will transform to queues menu
+	when queues is more than one.  Some code was cleanuped and fixed.
+
+2002-03-15 10:46  max
+
+	* configure.in, reconf, main/Makefile.am, main/face/edit.cc,
+	main/face/fsched.cc, po/es.po: remove cond.o from main/Makefile.am
+	fixed segfault when shedule a download from queue fixed segfault
+	when edit properties of scheduled download from scheduler if a
+	download has "use default properties" set Spanish translation have
+	update by Gustavo D. Vranjes
+
+2002-03-14 13:33  zaufi
+
+	* configure.in, admin/acinclude.m4: Little fixes
+
+2002-03-14 13:12  zaufi
+
+	* admin/acinclude.m4: Add support to choose between gawk regex and
+	rx
+
+2002-03-14 13:12  zaufi
+
+	* configure.in: Add support to choose betwen gawk regex and rx
+
+2002-03-14 12:57  zaufi
+
+	* reconf, Makefile.am: Remove killing ./admin dir -- now we need it
+	in CVS :)
+
+2002-03-14 12:54  zaufi
+
+	* configure.in: Fix for FreeBSD (wich is not req -lpthread)
+
+2002-03-14 12:27  zaufi
+
+	* configure.in: Remove duplicate options from CPPFLAGS and LIBS
+
+2002-03-14 12:16  zaufi
+
+	* strip.awk: Remove duplicates from list
+
+2002-03-14 08:51  max
+
+	* configure.in, po/fr.po, po/fuzzy/fr.po: Jerome Courdec has
+	updated French translation
+
+2002-03-14 08:21  zaufi
+
+	* main/: Makefile.am, face/Makefile.am: Cool aligned file list :)
+
+2002-03-13 23:13  zaufi
+
+	* configure.in: Misconfiguration fix
+
+2002-03-13 15:22  max
+
+	* main/main.cc: switching to alternate for single-threaded
+	downloads
+
+2002-03-13 11:47  max
+
+	* Makefile.am: I use emacs :-) remove backup files
+
+2002-03-13 11:32  zaufi
+
+	* main/Makefile.am, main/face/Makefile.am, DOC/Makefile.am,
+	share/Makefile.am, Makefile.am, configure.in, reconf: KILL THEM ALL
+	IMPLEMENTED :)
+
+2002-03-13 09:10  max
+
+	* PLANS, README: plans changed gettext >= 0.10.38 needed
+
+2002-03-13 08:56  max
+
+	* po/it.po: Marco Martin has updated italian translation
+
+2002-03-13 07:06  zaufi
+
+	* reconf: Checking admin dir presence. Remove inactual comments :)
+
+2002-03-13 06:48  zaufi
+
+	* DOC/Makefile.am: Use macro AWK instead direct call to awk :)
+
+2002-03-13 06:45  zaufi
+
+	* Makefile.am: Remove files is not neccessary to be listed in
+	EXTRA_DIST
+
+2002-03-13 00:00  max
+
+	* ChangeLog, main/ChangeLog, main/dqueue.cc, main/dqueue.h,
+	main/main.cc, main/main.h, main/face/list.cc: Fixed one more bug
+
+2002-03-12 19:08  vav
+
+	* reconf: reconf: removed unneeded echo
+
+2002-03-12 18:22  vav
+
+	* configure.in: configure.in: GTK_PIXBUG_CFLAGS =>
+	GTK_PIXBUF_CFLAGS :)
+
+2002-03-12 13:31  max
+
+	* main/face/prefs.cc: extend traffic limitation entry by one
+	character
+
+2002-03-12 11:40  max
+
+	* ChangeLog, main/ftp.cc, main/ftp.h: fixed one more problem with
+	splited loading via FTP
+
+2002-03-12 10:35  max
+
+	* main/: ChangeLog, dlist.cc, nt.cc, face/pixmaps/del_all.xpm:
+	fixed splited downloading via FTP replaced "Delete All" icon by new
+	one
+
+2002-03-12 08:28  zaufi
+
+	* DOC/Makefile.am: Add .Z to list of possible man's extensions
+
+2002-03-12 07:43  zaufi
+
+	* share/Makefile.am: Avoid using yet another variable...  will be
+	enough
+
+2002-03-12 07:32  zaufi
+
+	* configure.in: * Maintainer mode fix. Possibility to install
+	stripped executable
+
+2002-03-12 06:50  zaufi
+
+	* main/face/passface.cc: * Fix compile error: passface.cc:254:
+	S_IRUSR undeclared (first use this function)
+
+2002-03-12 06:46  zaufi
+
+	* Makefile.am: * Change order of subdirs to produce correctnes
+	sequence during 'make install'
+
+2002-03-12 06:36  zaufi
+
+	* DOC/Makefile.am: * Man pages compression with 'system wide'
+	archiver on the fly
+
+2002-03-11 17:15  max
+
+	* main/: ChangeLog, face/dndtrash.cc, face/list.cc: real fix coords
+	normalization
+
+2002-03-11 17:01  max
+
+	* main/face/: list.cc, list.h: changed coordinates normalization
+	routine
+
+2002-03-11 14:27  max
+
+	* main/: ftpd.cc, httpd.cc: fixed wrong percentage for downloads
+	which use already opened socket
+
+2002-03-11 12:20  max
+
+	* ChangeLog: updated
+
+2002-03-11 11:23  max
+
+	* main/face/qtree.cc: 'maximum active downloads' entry was replaced
+	by spinbutton widget
+
+2002-03-11 11:01  zaufi
+
+	* configure.in: * Regex chacking added. Workaround for gettext
+	0.10.38 added
+
+2002-03-11 10:10  zaufi
+
+	* DOC/Makefile.am: * bzip2 man pages on the fly
+
+2002-03-11 08:42  max
+
+	* configure.in, po/bg.po, po/fuzzy/bg.po: Added updated Bulgarian
+	translation (thanks to Miroslav Iordanov)
+
+2002-03-10 22:40  max
+
+	* DOC/nt.1: completed manual
+
+2002-03-10 19:21  max
+
+	* DOC/nt.1: slightly change manual page
+
+2002-03-10 18:55  max
+
+	* ChangeLog, main/main.cc, main/nt.cc, main/face/list.cc,
+	main/face/passface.cc, main/face/passface.h, po/de.po, po/es.po,
+	po/it.po, po/ru.po: URL-manager is completed done 'make update-po',
+	ru.po is uptodate;
+
+2002-03-10 15:13  max
+
+	* main/: ChangeLog, Makefile.am, dlist.cc, main.cc, pass.cc,
+	pass.h, var.cc, var.h, face/edit.cc, face/edit.h, face/list.cc,
+	face/passface.cc, face/passface.h: begin to implement URL-manager
+
+2002-03-10 13:16  max
+
+	* po/fuzzy/: de.po, es.po, it.po: removed
+
+2002-03-10 06:22  zaufi
+
+	* Makefile.am: * Add goal to create src rpms
+
+2002-03-10 06:18  zaufi
+
+	* configure.in: * Fix CPU detection bug
+
+2002-03-09 22:46  max
+
+	* main/config.cc: small fix of the output queue-list by '--ls'
+
+2002-03-09 22:34  max
+
+	* ChangeLog, PLANS, TODO, nt.spec.in: Updated spec.in (yeah package
+	name is d4x now) Populate changelog
+
+2002-03-09 15:43  max
+
+	* main/nt.cc: changed textdomain from 'nt' to 'd4x'
+
+2002-03-09 15:29  max
+
+	* main/ChangeLog, main/config.cc, main/config.h, main/main.cc,
+	main/nt.cc, main/srvclt.cc, main/srvclt.h, main/face/qtree.cc,
+	po/de.po, po/es.po, po/it.po, po/ru.po: More detailed output by
+	'--ls' Added one more command line parameter to switch queue 'make
+	update-po' was done
+
+2002-03-09 10:57  zaufi
+
+	* main/face/list.cc: * Fix compile error: 629: S_IRUSR undeclared
+	(first use this function)
+
+2002-03-09 10:52  zaufi
+
+	* configure.in: * cosmetic fix
+
+2002-03-09 10:50  zaufi
+
+	* Makefile.am, configure.in, DOC/Makefile.am, main/Makefile.am,
+	main/face/Makefile.am, share/Makefile.am: * Fix make distr and make
+	install to produce distr and provide successful installation
+	process
+
+2002-03-09 08:43  zaufi
+
+	* configure.in: * Fix output files
+
+2002-03-09 08:39  zaufi
+
+	* Makefile.am: * Update list of files should be in distribute
+
+2002-03-09 08:34  zaufi
+
+	* configure.in: Continue to import features from old Makefile
+
+2002-03-09 08:14  zaufi
+
+	* po/.cvsignore: Add list of files to be ignored by CVS
+
+2002-03-09 08:08  zaufi
+
+	* .cvsignore, main/.cvsignore, main/face/.cvsignore,
+	main/.cvsignore: Add list of files to be ignored by CVS
+
+2002-03-09 08:04  zaufi
+
+	* .cvsignore, share/.cvsignore: Add list of files to be ignored by
+	CVS
+
+2002-03-09 00:56  max
+
+	* ABOUT-NLS.orig, nt.spec.in, po/ru.po: cleanups sources, it's
+	enough for today
+
+2002-03-09 00:26  max
+
+	* COPYING, LICENSE: oops :-)
+
+2002-03-09 00:23  max
+
+	* AUTHORS, LICENSE: populate this files by info about project
+
+2002-03-08 19:02  max
+
+	* nt.spec.in: now rpms be built without errors
+
+2002-03-08 18:45  max
+
+	* nt.spec.in: hmm
+
+2002-03-08 18:24  max
+
+	* configure.in: fixed AC_CONFIG_SRCDIR fixed my email
+
+2002-03-08 18:04  max
+
+	* Makefile.am, configure.in: fixed some typos
+
+2002-03-08 18:00  max
+
+	* Makefile.am: added spec files to extradist
+
+2002-03-08 17:58  max
+
+	* configure.in: added spec file to the output targets list
+
+2002-03-08 17:57  max
+
+	* nt.spec: replaced by spec.in
+
+2002-03-08 17:56  max
+
+	* nt.spec.in: first version of spec.in
+
+2002-03-07 16:06  max
+
+	* configure.in: po/Makefile will be generated even on my PC
+
+2002-03-07 12:20  zaufi
+
+	* Makefile.am: * Add non source files that should be in distr
+
+2002-03-07 12:06  zaufi
+
+	* configure.in: * Remove duplicate tests + cosmetic fixes
+
+2002-03-07 11:39  zaufi
+
+	* reconf: * Fix bug if ./reconf started more than once. Remove
+	gettextize spam.
+
+2002-03-07 11:34  max
+
+	* main/ChangeLog: updated
+
+2002-03-07 11:29  max
+
+	* ChangeLog, reconf, main/face/prefs.cc: interface cleanups
+
+2002-03-07 11:06  zaufi
+
+	* share/Makefile.am: * Skip cvs related files installing
+
+2002-03-07 10:36  max
+
+	* main/face/dndtrash.cc: fixed wrong positioning DnD-basket during
+	moving
+
+2002-03-07 10:00  max
+
+	* ChangeLog, main/face/dndtrash.cc: Updated changelog Code cleanups
+	in dnd-basket code
+
+2002-03-07 09:13  max
+
+	* share/sounds/Makefile: removed as unused
+
+2002-03-06 17:12  max
+
+	* ABOUT-NLS, ABOUT-NLS.orig, reconf: to avoid adding big gettext's
+	NLS file to cvs and package
+
+2002-03-06 17:07  max
+
+	* Makefile.am, configure.in: generate po/Makefile too
+
+2002-03-06 17:00  max
+
+	* po/POTFILES.in: forgot to add
+
+2002-03-06 16:44  max
+
+	* Makefile.am, configure.in, reconf: gettext support added (I hope)
+
+2002-03-06 16:28  max
+
+	* ABOUT-NLS: cleared
+
+2002-03-06 16:26  max
+
+	* ABOUT-NLS, Makefile.am, configure.in, reconf: one more
+	reincarnation
+
+2002-03-06 15:04  max
+
+	* po/nt.pot: removed as autogenerated
+
+2002-03-06 14:26  max
+
+	* ABOUT-NLS: is needed for gettext
+
+2002-03-06 14:25  max
+
+	* po/: Makefile, POTFILES: removed
+
+2002-03-06 14:21  max
+
+	* configure.in, main/sndserv.cc: continue to work under autoconf
+
+2002-03-06 12:59  max
+
+	* main/: sndserv.cc, face/prefs.cc: real using new defines;
+
+2002-03-06 10:59  max
+
+	* main/nt.cc: using LOCALEDIR define instead of LOCALE
+
+2002-03-06 10:54  max
+
+	* main/sndserv.cc: using new defines for sound support
+
+2002-03-06 10:27  max
+
+	* configure.in: new version from zaufi;
+
+2002-03-06 09:46  zaufi
+
+	* configure.in: [no log message]
+
+2002-03-06 09:23  max
+
+	* AUTHORS, ChangeLog, ChangeLog-1.x, EXCLUDE, Makefile.am, NEWS,
+	PACK, PLANS, README, TODO, configure.in, nt-gray.png, nt-mini.xpm,
+	nt-wm.png, nt.desktop, nt.png, nt.spec, nt.wmconfig, nt.xpm,
+	reconf, DOC/FAQ, DOC/FAQ.de, DOC/FAQ.es, DOC/FAQ.fr, DOC/FAQ.gr,
+	DOC/INSTALL, DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr,
+	DOC/INSTALL.gr, DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR,
+	DOC/LICENSE, DOC/NAMES, DOC/README, DOC/README.de, DOC/README.en,
+	DOC/README.es, DOC/README.gr, DOC/README.pl, DOC/README.pt_BR,
+	DOC/README.ru, DOC/THANKS, DOC/TROUBLES, DOC/nt.1, main/ChangeLog,
+	main/Makefile.am, main/addr.cc, main/addr.h, main/alt.cc,
+	main/alt.h, main/autoadd.cc, main/autoadd.h, main/base64.cc,
+	main/base64.h, main/client.cc, main/client.h, main/cond.cc,
+	main/cond.h, main/config.cc, main/config.h, main/cookie.cc,
+	main/cookie.h, main/db.cc, main/db.h, main/dbc.h, main/dlist.cc,
+	main/dlist.h, main/download.cc, main/download.h, main/dqueue.cc,
+	main/dqueue.h, main/eff.cc, main/eff.h, main/filter.cc,
+	main/filter.h, main/fsearch.cc, main/fsearch.h, main/ftp.cc,
+	main/ftp.h, main/ftpd.cc, main/ftpd.h, main/history.cc,
+	main/history.h, main/hproxy.cc, main/hproxy.h, main/html.cc,
+	main/html.h, main/http.cc, main/http.h, main/httpd.cc,
+	main/httpd.h, main/liststr.cc, main/liststr.h, main/locstr.cc,
+	main/locstr.h, main/log.cc, main/log.h, main/main.cc, main/main.h,
+	main/mainlog.cc, main/mainlog.h, main/memwl.cc, main/memwl.h,
+	main/meter.cc, main/meter.h, main/msgqueue.cc, main/msgqueue.h,
+	main/mutex.cc, main/mutex.h, main/nt.cc, main/ntlocale.h,
+	main/pass.cc, main/pass.h, main/ping.cc, main/ping.h,
+	main/queue.cc, main/queue.h, main/savedvar.cc, main/savedvar.h,
+	main/savelog.cc, main/savelog.h, main/schedule.cc, main/schedule.h,
+	main/segments.cc, main/segments.h, main/signal.cc, main/signal.h,
+	main/sm.cc, main/sm.h, main/sndserv.cc, main/sndserv.h,
+	main/socket.cc, main/socket.h, main/socks.cc, main/socks.h,
+	main/sort.cc, main/sort.h, main/speed.cc, main/speed.h,
+	main/srvclt.cc, main/srvclt.h, main/var.cc, main/var.h,
+	main/xml.cc, main/xml.h, main/face/Makefile.am, main/face/about.cc,
+	main/face/about.h, main/face/addd.cc, main/face/addd.h,
+	main/face/buttons.cc, main/face/buttons.h, main/face/colors.cc,
+	main/face/colors.h, main/face/columns.cc, main/face/columns.h,
+	main/face/dndtrash.cc, main/face/dndtrash.h, main/face/edit.cc,
+	main/face/edit.h, main/face/filtrgui.cc, main/face/filtrgui.h,
+	main/face/fsched.cc, main/face/fsched.h, main/face/fsface.cc,
+	main/face/fsface.h, main/face/graph.cc, main/face/graph.h,
+	main/face/list.cc, main/face/list.h, main/face/lmenu.cc,
+	main/face/lmenu.h, main/face/lod.cc, main/face/lod.h,
+	main/face/log.cc, main/face/log.h, main/face/misc.cc,
+	main/face/misc.h, main/face/myclist.cc, main/face/myclist.h,
+	main/face/mywidget.cc, main/face/mywidget.h, main/face/passface.cc,
+	main/face/passface.h, main/face/prefs.cc, main/face/prefs.h,
+	main/face/qtree.cc, main/face/qtree.h, main/face/saveload.cc,
+	main/face/saveload.h, main/face/pixmaps/add.xpm,
+	main/face/pixmaps/add_clipboard.xpm, main/face/pixmaps/cfgbt.xpm,
+	main/face/pixmaps/complete.xpm, main/face/pixmaps/continue.xpm,
+	main/face/pixmaps/del.xpm, main/face/pixmaps/del_all.xpm,
+	main/face/pixmaps/del_com.xpm, main/face/pixmaps/delcommini.xpm,
+	main/face/pixmaps/delmini.xpm, main/face/pixmaps/dnd.xpm,
+	main/face/pixmaps/dndtrash.xpm, main/face/pixmaps/dndtrash_bar.xpm,
+	main/face/pixmaps/dndtrashi.xpm, main/face/pixmaps/down_bar.xpm,
+	main/face/pixmaps/downmini.xpm, main/face/pixmaps/folder.xpm,
+	main/face/pixmaps/load.xpm, main/face/pixmaps/logmini.xpm,
+	main/face/pixmaps/main.xpm, main/face/pixmaps/ofolder.xpm,
+	main/face/pixmaps/openlog.xpm, main/face/pixmaps/paused.xpm,
+	main/face/pixmaps/percent.xpm, main/face/pixmaps/percent1.xpm,
+	main/face/pixmaps/percent2.xpm, main/face/pixmaps/percent3.xpm,
+	main/face/pixmaps/prefs.xpm, main/face/pixmaps/run1.xpm,
+	main/face/pixmaps/run2.xpm, main/face/pixmaps/run3.xpm,
+	main/face/pixmaps/run4.xpm, main/face/pixmaps/run5.xpm,
+	main/face/pixmaps/run6.xpm, main/face/pixmaps/run7.xpm,
+	main/face/pixmaps/run8.xpm, main/face/pixmaps/run_bad.xpm,
+	main/face/pixmaps/run_bad1.xpm, main/face/pixmaps/run_bad2.xpm,
+	main/face/pixmaps/run_bad3.xpm, main/face/pixmaps/run_bad4.xpm,
+	main/face/pixmaps/run_bad5.xpm, main/face/pixmaps/run_bad6.xpm,
+	main/face/pixmaps/run_bad7.xpm, main/face/pixmaps/run_bad8.xpm,
+	main/face/pixmaps/run_part.xpm, main/face/pixmaps/run_part1.xpm,
+	main/face/pixmaps/run_part2.xpm, main/face/pixmaps/run_part3.xpm,
+	main/face/pixmaps/run_part4.xpm, main/face/pixmaps/run_part5.xpm,
+	main/face/pixmaps/run_part6.xpm, main/face/pixmaps/run_part7.xpm,
+	main/face/pixmaps/run_part8.xpm, main/face/pixmaps/run_xpm.xpm,
+	main/face/pixmaps/runmini.xpm, main/face/pixmaps/save.xpm,
+	main/face/pixmaps/speed1.xpm, main/face/pixmaps/speed2.xpm,
+	main/face/pixmaps/speed3.xpm, main/face/pixmaps/stop_bar.xpm,
+	main/face/pixmaps/stop_wait.xpm, main/face/pixmaps/stop_xpm.xpm,
+	main/face/pixmaps/stopmini.xpm, main/face/pixmaps/up_bar.xpm,
+	main/face/pixmaps/upmini.xpm, main/face/pixmaps/wait_xpm.xpm,
+	main/face/pixmaps2/error.xpm, main/face/pixmaps2/from_server.xpm,
+	main/face/pixmaps2/ok.xpm, main/face/pixmaps2/to_server.xpm,
+	main/face/pixmaps2/warning.xpm, po/Makefile, po/NEW, po/POTFILES,
+	po/REPLACE, po/TODO, po/de.po, po/es.po, po/it.po, po/new,
+	po/nt.pot, po/ru.po, po/fuzzy/bg.po, po/fuzzy/cs.po,
+	po/fuzzy/de.po, po/fuzzy/el_GR.po, po/fuzzy/es.po, po/fuzzy/fi.po,
+	po/fuzzy/fr.po, po/fuzzy/he.po, po/fuzzy/hu.po, po/fuzzy/id.po,
+	po/fuzzy/it.po, po/fuzzy/iw.po, po/fuzzy/ja.po, po/fuzzy/ko.po,
+	po/fuzzy/nl.po, po/fuzzy/pl.po, po/fuzzy/pt_BR.po, po/fuzzy/sk.po,
+	po/fuzzy/tr.po, po/fuzzy/uk.po, po/fuzzy/zh_CN.GBK.po,
+	po/fuzzy/zh_TW.po, share/Makefile.am, share/sounds/Makefile,
+	share/sounds/add.wav, share/sounds/complete.wav,
+	share/sounds/dnd.wav, share/sounds/fail.wav,
+	share/sounds/finish.wav, share/sounds/startup.wav,
+	share/themes/glass.xml, share/themes/old_theme.xml,
+	share/themes/tooltip.xml, share/themes/glass/dnd1.png,
+	share/themes/glass/dnd2.png, share/themes/old_theme/dnd1.png,
+	share/themes/old_theme/dnd2.png,
+	share/themes/old_theme/dndmini.png,
+	share/themes/old_theme/buttons/add.png,
+	share/themes/old_theme/buttons/clearlist.png,
+	share/themes/old_theme/buttons/clipboardadd.png,
+	share/themes/old_theme/buttons/continue.png,
+	share/themes/old_theme/buttons/del.png,
+	share/themes/old_theme/buttons/delcompleted.png,
+	share/themes/old_theme/buttons/dnd.png,
+	share/themes/old_theme/buttons/load.png,
+	share/themes/old_theme/buttons/movedown.png,
+	share/themes/old_theme/buttons/moveup.png,
+	share/themes/old_theme/buttons/openlog.png,
+	share/themes/old_theme/buttons/preferences.png,
+	share/themes/old_theme/buttons/progress.png,
+	share/themes/old_theme/buttons/save.png,
+	share/themes/old_theme/buttons/speedhigh.png,
+	share/themes/old_theme/buttons/speedlow.png,
+	share/themes/old_theme/buttons/speedmedium.png,
+	share/themes/old_theme/buttons/stop.png: Initial revision
+
+2002-03-06 09:23  max
+
+	* AUTHORS, ChangeLog, ChangeLog-1.x, EXCLUDE, Makefile.am, NEWS,
+	PACK, PLANS, README, TODO, configure.in, nt-gray.png, nt-mini.xpm,
+	nt-wm.png, nt.desktop, nt.png, nt.spec, nt.wmconfig, nt.xpm,
+	reconf, DOC/FAQ, DOC/FAQ.de, DOC/FAQ.es, DOC/FAQ.fr, DOC/FAQ.gr,
+	DOC/INSTALL, DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr,
+	DOC/INSTALL.gr, DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR,
+	DOC/LICENSE, DOC/NAMES, DOC/README, DOC/README.de, DOC/README.en,
+	DOC/README.es, DOC/README.gr, DOC/README.pl, DOC/README.pt_BR,
+	DOC/README.ru, DOC/THANKS, DOC/TROUBLES, DOC/nt.1, main/ChangeLog,
+	main/Makefile.am, main/addr.cc, main/addr.h, main/alt.cc,
+	main/alt.h, main/autoadd.cc, main/autoadd.h, main/base64.cc,
+	main/base64.h, main/client.cc, main/client.h, main/cond.cc,
+	main/cond.h, main/config.cc, main/config.h, main/cookie.cc,
+	main/cookie.h, main/db.cc, main/db.h, main/dbc.h, main/dlist.cc,
+	main/dlist.h, main/download.cc, main/download.h, main/dqueue.cc,
+	main/dqueue.h, main/eff.cc, main/eff.h, main/filter.cc,
+	main/filter.h, main/fsearch.cc, main/fsearch.h, main/ftp.cc,
+	main/ftp.h, main/ftpd.cc, main/ftpd.h, main/history.cc,
+	main/history.h, main/hproxy.cc, main/hproxy.h, main/html.cc,
+	main/html.h, main/http.cc, main/http.h, main/httpd.cc,
+	main/httpd.h, main/liststr.cc, main/liststr.h, main/locstr.cc,
+	main/locstr.h, main/log.cc, main/log.h, main/main.cc, main/main.h,
+	main/mainlog.cc, main/mainlog.h, main/memwl.cc, main/memwl.h,
+	main/meter.cc, main/meter.h, main/msgqueue.cc, main/msgqueue.h,
+	main/mutex.cc, main/mutex.h, main/nt.cc, main/ntlocale.h,
+	main/pass.cc, main/pass.h, main/ping.cc, main/ping.h,
+	main/queue.cc, main/queue.h, main/savedvar.cc, main/savedvar.h,
+	main/savelog.cc, main/savelog.h, main/schedule.cc, main/schedule.h,
+	main/segments.cc, main/segments.h, main/signal.cc, main/signal.h,
+	main/sm.cc, main/sm.h, main/sndserv.cc, main/sndserv.h,
+	main/socket.cc, main/socket.h, main/socks.cc, main/socks.h,
+	main/sort.cc, main/sort.h, main/speed.cc, main/speed.h,
+	main/srvclt.cc, main/srvclt.h, main/var.cc, main/var.h,
+	main/xml.cc, main/xml.h, main/face/Makefile.am, main/face/about.cc,
+	main/face/about.h, main/face/addd.cc, main/face/addd.h,
+	main/face/buttons.cc, main/face/buttons.h, main/face/colors.cc,
+	main/face/colors.h, main/face/columns.cc, main/face/columns.h,
+	main/face/dndtrash.cc, main/face/dndtrash.h, main/face/edit.cc,
+	main/face/edit.h, main/face/filtrgui.cc, main/face/filtrgui.h,
+	main/face/fsched.cc, main/face/fsched.h, main/face/fsface.cc,
+	main/face/fsface.h, main/face/graph.cc, main/face/graph.h,
+	main/face/list.cc, main/face/list.h, main/face/lmenu.cc,
+	main/face/lmenu.h, main/face/lod.cc, main/face/lod.h,
+	main/face/log.cc, main/face/log.h, main/face/misc.cc,
+	main/face/misc.h, main/face/myclist.cc, main/face/myclist.h,
+	main/face/mywidget.cc, main/face/mywidget.h, main/face/passface.cc,
+	main/face/passface.h, main/face/prefs.cc, main/face/prefs.h,
+	main/face/qtree.cc, main/face/qtree.h, main/face/saveload.cc,
+	main/face/saveload.h, main/face/pixmaps/add.xpm,
+	main/face/pixmaps/add_clipboard.xpm, main/face/pixmaps/cfgbt.xpm,
+	main/face/pixmaps/complete.xpm, main/face/pixmaps/continue.xpm,
+	main/face/pixmaps/del.xpm, main/face/pixmaps/del_all.xpm,
+	main/face/pixmaps/del_com.xpm, main/face/pixmaps/delcommini.xpm,
+	main/face/pixmaps/delmini.xpm, main/face/pixmaps/dnd.xpm,
+	main/face/pixmaps/dndtrash.xpm, main/face/pixmaps/dndtrash_bar.xpm,
+	main/face/pixmaps/dndtrashi.xpm, main/face/pixmaps/down_bar.xpm,
+	main/face/pixmaps/downmini.xpm, main/face/pixmaps/folder.xpm,
+	main/face/pixmaps/load.xpm, main/face/pixmaps/logmini.xpm,
+	main/face/pixmaps/main.xpm, main/face/pixmaps/ofolder.xpm,
+	main/face/pixmaps/openlog.xpm, main/face/pixmaps/paused.xpm,
+	main/face/pixmaps/percent.xpm, main/face/pixmaps/percent1.xpm,
+	main/face/pixmaps/percent2.xpm, main/face/pixmaps/percent3.xpm,
+	main/face/pixmaps/prefs.xpm, main/face/pixmaps/run1.xpm,
+	main/face/pixmaps/run2.xpm, main/face/pixmaps/run3.xpm,
+	main/face/pixmaps/run4.xpm, main/face/pixmaps/run5.xpm,
+	main/face/pixmaps/run6.xpm, main/face/pixmaps/run7.xpm,
+	main/face/pixmaps/run8.xpm, main/face/pixmaps/run_bad.xpm,
+	main/face/pixmaps/run_bad1.xpm, main/face/pixmaps/run_bad2.xpm,
+	main/face/pixmaps/run_bad3.xpm, main/face/pixmaps/run_bad4.xpm,
+	main/face/pixmaps/run_bad5.xpm, main/face/pixmaps/run_bad6.xpm,
+	main/face/pixmaps/run_bad7.xpm, main/face/pixmaps/run_bad8.xpm,
+	main/face/pixmaps/run_part.xpm, main/face/pixmaps/run_part1.xpm,
+	main/face/pixmaps/run_part2.xpm, main/face/pixmaps/run_part3.xpm,
+	main/face/pixmaps/run_part4.xpm, main/face/pixmaps/run_part5.xpm,
+	main/face/pixmaps/run_part6.xpm, main/face/pixmaps/run_part7.xpm,
+	main/face/pixmaps/run_part8.xpm, main/face/pixmaps/run_xpm.xpm,
+	main/face/pixmaps/runmini.xpm, main/face/pixmaps/save.xpm,
+	main/face/pixmaps/speed1.xpm, main/face/pixmaps/speed2.xpm,
+	main/face/pixmaps/speed3.xpm, main/face/pixmaps/stop_bar.xpm,
+	main/face/pixmaps/stop_wait.xpm, main/face/pixmaps/stop_xpm.xpm,
+	main/face/pixmaps/stopmini.xpm, main/face/pixmaps/up_bar.xpm,
+	main/face/pixmaps/upmini.xpm, main/face/pixmaps/wait_xpm.xpm,
+	main/face/pixmaps2/error.xpm, main/face/pixmaps2/from_server.xpm,
+	main/face/pixmaps2/ok.xpm, main/face/pixmaps2/to_server.xpm,
+	main/face/pixmaps2/warning.xpm, po/Makefile, po/NEW, po/POTFILES,
+	po/REPLACE, po/TODO, po/de.po, po/es.po, po/it.po, po/new,
+	po/nt.pot, po/ru.po, po/fuzzy/bg.po, po/fuzzy/cs.po,
+	po/fuzzy/de.po, po/fuzzy/el_GR.po, po/fuzzy/es.po, po/fuzzy/fi.po,
+	po/fuzzy/fr.po, po/fuzzy/he.po, po/fuzzy/hu.po, po/fuzzy/id.po,
+	po/fuzzy/it.po, po/fuzzy/iw.po, po/fuzzy/ja.po, po/fuzzy/ko.po,
+	po/fuzzy/nl.po, po/fuzzy/pl.po, po/fuzzy/pt_BR.po, po/fuzzy/sk.po,
+	po/fuzzy/tr.po, po/fuzzy/uk.po, po/fuzzy/zh_CN.GBK.po,
+	po/fuzzy/zh_TW.po, share/Makefile.am, share/sounds/Makefile,
+	share/sounds/add.wav, share/sounds/complete.wav,
+	share/sounds/dnd.wav, share/sounds/fail.wav,
+	share/sounds/finish.wav, share/sounds/startup.wav,
+	share/themes/glass.xml, share/themes/old_theme.xml,
+	share/themes/tooltip.xml, share/themes/glass/dnd1.png,
+	share/themes/glass/dnd2.png, share/themes/old_theme/dnd1.png,
+	share/themes/old_theme/dnd2.png,
+	share/themes/old_theme/dndmini.png,
+	share/themes/old_theme/buttons/add.png,
+	share/themes/old_theme/buttons/clearlist.png,
+	share/themes/old_theme/buttons/clipboardadd.png,
+	share/themes/old_theme/buttons/continue.png,
+	share/themes/old_theme/buttons/del.png,
+	share/themes/old_theme/buttons/delcompleted.png,
+	share/themes/old_theme/buttons/dnd.png,
+	share/themes/old_theme/buttons/load.png,
+	share/themes/old_theme/buttons/movedown.png,
+	share/themes/old_theme/buttons/moveup.png,
+	share/themes/old_theme/buttons/openlog.png,
+	share/themes/old_theme/buttons/preferences.png,
+	share/themes/old_theme/buttons/progress.png,
+	share/themes/old_theme/buttons/save.png,
+	share/themes/old_theme/buttons/speedhigh.png,
+	share/themes/old_theme/buttons/speedlow.png,
+	share/themes/old_theme/buttons/speedmedium.png,
+	share/themes/old_theme/buttons/stop.png: Downloader for X
+

@@ -236,9 +236,11 @@ void edit_window_ok(GtkWidget *which,tDEdit *where) {
 		delete(dwn->config);
 		dwn->config=NULL;
 	};
-	DQV(dwn).update(dwn);;
-	if (!where->get_pause_check() && where->parent_in_db)
-		aa.continue_download(dwn);
+	if (where->parent_in_db){
+		DQV(dwn).update(dwn);
+		if (!where->get_pause_check())
+			aa.continue_download(dwn);
+	};
 	delete where;
 };
 
@@ -291,7 +293,7 @@ tDEdit::tDEdit() {
 	proxy=NULL;
 	filter_sel=NULL;
 	parent_in_db=0;
-	add_or_edit=0;
+	add_or_edit=dnd=0;
 };
 
 void tDEdit::popup() {

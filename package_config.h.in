@@ -159,8 +159,14 @@
 /* Define if you have the <pthread.h> header file. */
 #undef HAVE_PTHREAD_H
 
+/* Define if you have the `pthread_testcancel' function. */
+#undef HAVE_PTHREAD_TESTCANCEL
+
 /* Define if you have the `putenv' function. */
 #undef HAVE_PUTENV
+
+/* Define if you have the `regcomp' function. */
+#undef HAVE_REGCOMP
 
 /* Define if you have the <regex.h> header file. */
 #undef HAVE_REGEX_H
@@ -327,9 +333,6 @@
 
 /* Version number of package */
 #undef VERSION
-
-/* Define when compile with regex available */
-#undef WITH_REGEX
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const

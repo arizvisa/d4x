@@ -1,27 +1,52 @@
 #
-# $Header: /var/cvs/d4x/main/Makefile.am,v 1.3 2002/03/10 08:13:15 max Exp $
+# $Header: /var/cvs/d4x/main/Makefile.am,v 1.6 2002/03/15 03:46:16 max Exp $
 #
 
 SUBDIRS = face
+
+MAINTAINERCLEANFILES = Makefile.in
 
 # FIXME: We override 'default' value used by automake to avoid headers conflict
 DEFAULT_INCLUDES = -I$(top_srcdir)
 
 bin_PROGRAMS = nt
 
-nt_SOURCES = base64.cc addr.cc queue.cc liststr.cc dlist.cc locstr.cc \
-log.cc  sort.cc meter.cc socket.cc history.cc  speed.cc srvclt.cc html.cc \
-client.cc ftp.cc http.cc download.cc ftpd.cc httpd.cc hproxy.cc signal.cc \
-main.cc config.cc savelog.cc mainlog.cc var.cc db.cc cookie.cc nt.cc \
-eff.cc segments.cc memwl.cc fsearch.cc msgqueue.cc ping.cc savedvar.cc \
-schedule.cc socks.cc filter.cc sndserv.cc sm.cc autoadd.cc dqueue.cc \
-mutex.cc alt.cc xml.cc
+#
+# HINT: c note from face/Makefile.am
+#       I suppose it can be applied here too... :)
+#       (with little modification of couse :)
 
-noinst_HEADERS = addr.h alt.h autoadd.h base64.h client.h cond.h config.h \
-cookie.h dbc.h db.h dlist.h download.h dqueue.h eff.h filter.h fsearch.h \
-ftpd.h ftp.h history.h hproxy.h html.h httpd.h http.h liststr.h locstr.h \
-log.h main.h mainlog.h memwl.h meter.h msgqueue.h mutex.h ntlocale.h \
-ping.h queue.h savedvar.h savelog.h schedule.h segments.h signal.h sm.h \
-sndserv.h socket.h socks.h sort.h speed.h srvclt.h var.h xml.h
+# List of C++ modules (got from `ls -w50 -q *.cc
+nt_SOURCES = $(strip                                \
+  addr.cc      eff.cc      log.cc       schedule.cc \
+  alt.cc       filter.cc   main.cc      segments.cc \
+  autoadd.cc   fsearch.cc  mainlog.cc   signal.cc   \
+  base64.cc    ftp.cc      memwl.cc     sm.cc       \
+  client.cc    ftpd.cc     meter.cc     sndserv.cc  \
+  xml.cc       history.cc  msgqueue.cc  socket.cc   \
+  config.cc    hproxy.cc   mutex.cc     socks.cc    \
+  cookie.cc    html.cc     nt.cc        sort.cc     \
+  db.cc        http.cc     ping.cc      speed.cc    \
+  dlist.cc     httpd.cc    queue.cc     srvclt.cc   \
+  download.cc  liststr.cc  savedvar.cc  var.cc      \
+  dqueue.cc    locstr.cc   savelog.cc               \
+)
+
+# List of headers (got from `ls -w50 -q *.h`)
+noinst_HEADERS = $(strip                            \
+  addr.h      eff.h      main.h      signal.h       \
+  alt.h       filter.h   mainlog.h   sm.h           \
+  autoadd.h   fsearch.h  memwl.h     sndserv.h      \
+  base64.h    ftpd.h     meter.h     socket.h       \
+  client.h    ftp.h      msgqueue.h  socks.h        \
+  cond.h      history.h  mutex.h     sort.h         \
+  config.h    hproxy.h   ntlocale.h  speed.h        \
+  cookie.h    html.h     ping.h      srvclt.h       \
+  dbc.h       httpd.h    queue.h     var.h          \
+  db.h        http.h     savedvar.h  xml.h          \
+  dlist.h     liststr.h  savelog.h                  \
+  download.h  locstr.h   schedule.h                 \
+  dqueue.h    log.h      segments.h                 \
+)
 
 nt_LDADD = $(srcdir)/face/libface.a

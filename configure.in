@@ -1,16 +1,16 @@
 # -*-m4-*-
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.21 $)
+AC_REVISION($Revision: 1.35 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
 # Initialize environment
 # -----------------------------------------------------------------------------
-AC_INIT([d4x], 2.0beta3, [chuchelo@krasu.ru])
+AC_INIT([d4x],[2.0RC1],[chuchelo@krasu.ru])
 
 AC_CONFIG_SRCDIR([nt.spec.in])
-AC_CONFIG_AUX_DIR(admin)
+AC_CONFIG_AUX_DIR([admin])
 AM_CONFIG_HEADER([package_config.h])
 
 # This ksh/zsh (and bash >= 2.05) feature conflict with `cd blah; pwd`
@@ -20,6 +20,9 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
+dnl Automake 1.5 doesn't ready for this feature yet...
+dnl AM_INIT_AUTOMAKE([gnu])
+dnl ... so use an old fashioned call.
 AM_INIT_AUTOMAKE($PACKAGE_NAME, $PACKAGE_VERSION)
 
 AC_PREFIX_DEFAULT(/usr/local)
@@ -28,13 +31,20 @@ AC_PREFIX_DEFAULT(/usr/local)
 # Parse some configuration keys
 # -----------------------------------------------------------------------------
 
+dnl NOTE: Automatic Makefiles rebuild works ONLY in maintainer mode!!!
 AM_MAINTAINER_MODE
 
 CXXFLAGS="-O0"
-AC_ARG_ENABLE(release, 
-    AC_HELP_STRING([--enable-release], [Compile with maximum optimization]),
-    [if test "x$enable_release" = "xyes"; then
+AC_ARG_ENABLE(extra-optimize,
+    AC_HELP_STRING([--enable-extra-optimize],
+                   [Such as --enable-release + compile with maximum optimizations]),
+    [if test "x$enable_extra_optimize" = "xyes"; then
 	CXXFLAGS="-O3" 
+    fi])
+AC_ARG_ENABLE(release, 
+    AC_HELP_STRING([--enable-release], [Compile with usual optimization level without debug code]),
+    [if test "x$enable_release" = "xyes"; then
+	CXXFLAGS="-O2" 
     fi])
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debug info and some debugging code to be compiled]),
@@ -68,6 +78,8 @@ case ${host} in
 	OS_CPPFLAGS="-D_POSIX_THREADS_SEMANTICS"
     ;;
     *-freebsd*)
+	OS_CXXFLAGS="-pthread"
+	ac_pthread_strict_check=no
     ;;
     *-irix*)
 	OS_CXXFLAGS="-fpermissive"
@@ -80,17 +92,19 @@ dnl I know exactly that on Intel and ADM CPUs this improve code
 dnl but 'bout others I can say nothing...
 dnl
 am_intel_amd_common="-fexpensive-optimizations -malign-loops=4 -malign-jumps=4 -malign-functions=4 -fomit-frame-pointer"
+ac_pthread_strict_check="yes"
+
 AC_MSG_CHECKING(host CPU architecture) 
 case ${host} in
     i586-* | i686-*)
 	AC_MSG_RESULT([Intel x86])
-	if test "x$enable_release" = "xyes"; then
+	if test "x$enable_extra_optimize" = "xyes"; then
 	    OS_CXXFLAGS=${am_intel_amd_common}
 	fi
     ;;
     athlon-*)
 	AC_MSG_RESULT([AMD Athlon])
-	if test "x$enable_release" = "xyes"; then
+	if test "x$enable_extra_optimize" = "xyes"; then
 	    OS_CXXFLAGS=${am_intel_amd_common}" -mcpu=athlon"
 	fi
     ;;
@@ -106,10 +120,11 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
 AM_PROG_INSTALL_STRIP
+AC_PROG_AWK
 AC_PROG_RANLIB
 
 dnl Set of available languages.
-ALL_LINGUAS="de it es ru bg"
+ALL_LINGUAS="de it es ru bg fr"
 
 dnl Workaround for bug in gettext version 0.10.38 (and maybe below)
 dnl (wich is doesn't aware with new autoconf)
@@ -133,23 +148,12 @@ AM_PATH_GTK(1.2.10,, AC_MSG_ERROR([*** GTK >= 1.2.10 not installed! ***]))
 AM_PATH_GDK_PIXBUF(,, AC_MSG_ERROR([*** GdkPixbuf not installed! ***]))
 
 dnl POSIX threads should be always present...
-AC_CHECK_LIB([pthread], [pthread_testcancel],, AC_MSG_ERROR([*** POSIX threads not found! ***]))
-
-
-AC_CACHE_CHECK([for GNU regex in libc],
-    am_cv_gnu_regex,
-    AC_TRY_LINK([], [extern int re_max_failures; re_max_failures = 1],
-                am_cv_gnu_regex=yes, am_cv_gnu_regex=no))
-if test $am_cv_gnu_regex = no; then
-    AC_MSG_RESULT(failure)
-    AC_MSG_ERROR([*** Can't find regex functions in your libc])
-else
-    AC_DEFINE(WITH_REGEX,, [Define when compile with regex available])
+if test "x$ac_pthread_strict_check" = "xyes"; then
+    AC_CHECK_LIB([pthread], [pthread_testcancel],, AC_MSG_ERROR([*** POSIX threads not found! ***]))
 fi
 
-dnl Other libraries wich is autoscan found...
-dnl AC_CHECK_LIB([ibs], [main])
-dnl AC_CHECK_LIB([stdc], [main])
+dnl Choose regex library
+dnl AM_WITH_RX
 
 # -----------------------------------------------------------------------------
 # Checks for header files.
@@ -171,6 +175,7 @@ fi
 # Checks for typedefs, structures, and compiler characteristics.
 # -----------------------------------------------------------------------------
 AC_C_CONST
+AC_C_INLINE
 AC_TYPE_OFF_T
 AC_TYPE_SIZE_T
 AC_HEADER_TIME
@@ -184,13 +189,14 @@ AC_FUNC_FORK
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_MALLOC
 AC_FUNC_MKTIME
+AC_FUNC_MMAP
 AC_TYPE_SIGNAL
 AC_FUNC_STAT
 AC_FUNC_STRFTIME
 AC_FUNC_UTIME_NULL
 AC_CHECK_FUNCS([ftime ftruncate gethostbyname gettimeofday localtime_r])
-AC_CHECK_FUNCS([memmove memset mkdir select socket])
-AC_CHECK_FUNCS([strerror strncasecmp strstr utime flock])
+AC_CHECK_FUNCS([memmove memset mkdir regcomp select socket])
+AC_CHECK_FUNCS([strerror strncasecmp strstr utime flock pthread_testcancel])
 
 # -----------------------------------------------------------------------------
 # Additianal actions before produce output files
@@ -217,9 +223,17 @@ AC_DEFINE_UNQUOTED(D4X_SHARE_PATH,
 
 dnl Prepare all requiered flags
 CXXFLAGS="${CXXFLAGS} ${OS_CXXFLAGS}"
-CPPFLAGS="${CPPFLAGS} -DREENTRANT ${ESD_CFLAGS} ${GLIB_CFLAGS} ${GTK_CFLAGS} ${GDK_PIXBUF_CFLAGS} ${OS_CPPFLAGS}"
-INCLUDES="${INCLUDES} ${OS_INCLUDES}"
-LIBS="${LIBS} ${ESD_LIBS} ${GLIB_LIBS} ${GTK_LIBS} ${GDK_PIXBUF_LIBS}"
+CPPFLAGS="${CPPFLAGS} -DREENTRANT ${OS_CPPFLAGS} ${ESD_CFLAGS} ${GLIB_CFLAGS} ${GTK_CFLAGS} ${GDK_PIXBUF_CFLAGS} ${OS_INCLUDES}"
+LIBS="${LIBS} ${ESD_LIBS} ${GLIB_LIBS} ${GTK_LIBS} ${GDK_PIXBUF_LIBS} ${LIBRX}"
+
+dnl Remove duplicates from options
+CPPFLAGS=`echo $CPPFLAGS | $AWK -f ${srcdir}/admin/strip.awk`
+LIBS=`echo $LIBS | $AWK -f ${srcdir}/admin/strip.awk`
+
+dnl Remove -lpthread for some OS'es
+if test "x$ac_pthread_strict_check" = "xno"; then
+    LIBS=`echo $LIBS | sed 's/\(-lpthread\)//'`
+fi
 
 # -----------------------------------------------------------------------------
 # Create output files
@@ -249,12 +263,22 @@ if test x${have_oss} = xyes; then
 else
     oss_spam="disabled"
 fi
+acm="debug"
+if test "x$enable_extra_optimize" = "xyes"; then
+    acm="release (extra optimize)"
+fi
+if test "x$enable_release" = "xyes"; then
+    acm="release"
+fi
+if test "x$USE_MAINTAINER_MODE" = "xyes"; then
+    acm=${acm}" (maintainer mode)"
+fi
 
 # 2) show config
 echo "------------------------------------------------------------------------------"
 cat << EOF
 
-    Configuration:
+         Configuration:    ${acm}
 
       Host system type:    ${host}
           Install path:    ${prefix}

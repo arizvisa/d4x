@@ -1194,7 +1194,8 @@ void d4xQueueView::move_to(tDownload *dwn){
 
 void d4xQueueView::get_adj(){
 	GtkAdjustment *adj=gtk_clist_get_vadjustment(GTK_CLIST(ListOfDownloads));
-	CFG.CLIST_SHIFT=adj->value;
+	if (adj)
+		CFG.CLIST_SHIFT=adj->value;
 };
 
 // manipulating with downloads

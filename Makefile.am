@@ -1,10 +1,11 @@
-AUTOMAKE_OPTION = gnu
+#
+# $Header: /var/cvs/d4x/Makefile.am,v 1.16 2002/03/19 16:01:17 max Exp $
+#
 
 SUBDIRS = intl main po share DOC
 
-EXTRA_DIST = admin nt-gray.png nt-mini.xpm nt-wm.png nt.desktop nt.png nt.spec nt.wmconfig nt.xpm \
-             ABOUT-NLS AUTHORS README ChangeLog ChangeLog-1.x Makefile.am Makefile.in NEWS \
-             PACK PLANS TODO configure configure.in reconf nt.spec nt.spec.in
+EXTRA_DIST = admin nt-gray.png nt-mini.xpm nt-wm.png nt.desktop nt.png nt.wmconfig nt.xpm \
+ABOUT-NLS AUTHORS NEWS PLANS README TODO ChangeLog ChangeLog-1.x reconf nt.spec
 
 # Remove CVS related dirs during distribute creation
 dist-hook:
@@ -14,3 +15,11 @@ dist-hook:
 src-rpm: dist
 	cp -f $(PACKAGE)-$(VERSION).tar.gz /usr/src/RPM/SOURCES
 	mv -f `rpm -bs nt.spec  | sed 's/Wrote: \(.*\)/\1/'` $(top_srcdir)
+
+# Remove all generated and autoinstalled (linked) files
+MAINTAINERCLEANFILES = aclocal.m4 config.log config.status configure Makefile.in \
+package_config.h.in stamp-h.in INSTALL po/Makefile.in.in ABOUT-NLS \
+po/ChangeLog po/$(PACKAGE).pot main/*~ face/*~ po/*~ ChangeLog
+
+maintainer-clean-local:
+	rm -rf $(top_srcdir)/intl

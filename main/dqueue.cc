@@ -323,7 +323,7 @@ void d4xDUpdate::del(){
 void d4xDUpdate::del_s(){
 	if (first_s){
 		tDownload *a=first_s;
-		if ((first_s=first_s->next2stop)==NULL)
+		if ((first_s=a->next2stop)==NULL)
 			last_s=NULL;
 		a->next2stop=NULL;
 	};
@@ -359,4 +359,3 @@ d4xDUpdate::~d4xDUpdate(){
 	pthread_mutex_destroy(&mylock);
 	pthread_mutex_destroy(&mylock_s);
 };
-

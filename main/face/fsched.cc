@@ -253,13 +253,15 @@ static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor)
 	int flag=0;
 	if (editor->dwn==NULL){
 		editor->dwn=new tDownload;
-		editor->dwn->config=new tCfg;
-		editor->dwn->set_default_cfg();
-		editor->dwn->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
 		char *url_entry_cont=text_from_combo(editor->url_entry);
 		editor->dwn->info=new tAddr(url_entry_cont);
 		if (url_entry_cont==NULL || *url_entry_cont==0)
 			flag=1;
+	};
+	if (editor->dwn->config==NULL){
+		editor->dwn->config=new tCfg;
+		editor->dwn->set_default_cfg();
+		editor->dwn->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
 	};
 	what=editor->dwn;
 	init_edit_window_without_ok(what);

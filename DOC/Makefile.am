@@ -1,6 +1,8 @@
 #
-# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.4 2002/03/12 01:28:42 zaufi Exp $
+# $Header: /var/cvs/d4x/DOC/Makefile.am,v 1.6 2002/03/13 04:33:48 zaufi Exp $
 #
+
+MAINTAINERCLEANFILES = Makefile.in
 
 pkgdata_DATA = INSTALL* FAQ* THANKS LICENSE NAMES TROUBLES
 EXTRA_DIST = $(pkgdata_DATA)
@@ -15,7 +17,7 @@ install-data-hook:
 	if test -f $(man_conf); then \
 	  echo "found"; \
 	  echo -n "Compressed man pages extension... "; \
-	  man_ext=`grep "COMPRESS_EXT" $(man_conf) | head -1 | awk '{print $$2}'`; \
+	  man_ext=`grep "COMPRESS_EXT" $(man_conf) | head -1 | $(AWK) '{print $$2}'`; \
 	  echo \'$$man_ext\'; \
 	else \
 	  echo "not found"; \

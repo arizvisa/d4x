@@ -75,6 +75,7 @@ public:
 	GtkWidget *window;
 	int parent_in_db;
 	int add_or_edit;
+	int dnd;
 	tDEdit();
 	void init(tDownload *who);
 	int apply_changes();

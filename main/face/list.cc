@@ -274,6 +274,12 @@ static void _remove_underscore(char *where){
 	*q=0;
 };
 
+static char *copy_without_underscore(char *what){
+	char *d=copy_string(what);
+	_remove_underscore(d);
+	return(d);
+};
+
 void init_load_accelerators(){
 	tString *str=ALL_HISTORIES[SAVE_HISTORY]->last();
 	char *path=copy_string(_(main_menu_inames[MM_FILE_SEP]));
@@ -540,7 +546,9 @@ static void d4x_menuitem_foreach(GtkWidget *widget,gpointer data){
 };
 
 static void d4x_save_kb(int menu){
-	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[menu]));
+	char *name=copy_without_underscore(_(main_menu_inames[menu]));
+	GtkWidget *menu_item=gtk_item_factory_get_widget(main_menu_item_factory,name);
+	delete[] name;
 	if (menu_item){
 		f_wstr(_fd_kb_,"\t<");
 		f_wstr(_fd_kb_,main_menu_kbnames[menu]);
@@ -1008,7 +1016,11 @@ void list_dnd_drop_internal(GtkWidget *widget,
 			if (CFG.NEED_DIALOG_FOR_DND){
 				init_add_dnd_window(str,desc);
 			}else{
+				d4xDownloadQueue *tmpq=D4X_QUEUE;
+				if (dnd_trash_target_queue)
+					D4X_QUEUE=dnd_trash_target_queue;
 				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL,desc);
+				D4X_QUEUE=tmpq;
 			};
 			if (sbd) delete[] str;
 		}
