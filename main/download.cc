@@ -45,6 +45,7 @@ void tSimplyCfg::copy_ints(tSimplyCfg *src){
 	rollback = src->rollback;
 	link_as_file = src->link_as_file;
 	leave_server = src->leave_server;
+	sleep_before_complete = src->sleep_before_complete;
 };
 
 /* ---------------------------------------- */
@@ -55,6 +56,7 @@ tCfg::tCfg() {
 	link_as_file=leave_server=0;
 	dont_leave_dir=0;
 	restart_from_begin=0;
+	sleep_before_complete=0;
 };
 
 int tCfg::get_flags(){
@@ -114,6 +116,7 @@ void tCfg::save_to_config(int fd){
 	write_named_integer(fd,"Timeout:",timeout);
 	write_named_integer(fd,"time_for_sleep:",time_for_sleep);
 	write_named_integer(fd,"number_of_attempts:",number_of_attempts);
+	write_named_integer(fd,"sleep_before_complete:",sleep_before_complete);
 	write_named_integer(fd,"ftp_recurse_depth:",ftp_recurse_depth);
 	write_named_integer(fd,"http_recurse_depth:",http_recurse_depth);
 	write_named_integer(fd,"rollback:",rollback);
@@ -135,6 +138,8 @@ void tCfg::save_to_config(int fd){
 		write_named_string(fd,"save_path:",save_path.get());
 	if (referer.get())
 		write_named_string(fd,"referer:",referer.get());
+	if (log_save_path.get())
+		write_named_string(fd,"log_save_path:",log_save_path.get());
 	f_wstr_lf(fd,"EndCfg:");
 };
 
@@ -148,6 +153,7 @@ int tCfg::load_from_config(int fd){
 		{"proxy_type:",	SV_TYPE_INT,	&proxy_type},
 		{"timeout:",	SV_TYPE_INT,	&timeout},
 		{"time_for_sleep:",SV_TYPE_INT,	&time_for_sleep},
+		{"sleep_before_complete:",SV_TYPE_INT,	&sleep_before_complete},
 		{"number_of_attempts:",SV_TYPE_INT,&number_of_attempts},
 		{"ftp_recurse_depth:",SV_TYPE_INT,&ftp_recurse_depth},
 		{"http_recurse_depth:",SV_TYPE_INT,&http_recurse_depth},
@@ -167,7 +173,8 @@ int tCfg::load_from_config(int fd){
 		{"referer:",	SV_TYPE_PSTR,	&referer},
 		{"proxy_no_cache:",SV_TYPE_INT,	&proxy_no_cache},
 		{"EndCfg:",	SV_TYPE_END,	NULL},
-		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin}
+		{"restart_from_begin:",SV_TYPE_INT,&restart_from_begin},
+		{"log_save_path:",SV_TYPE_PSTR,	&log_save_path}
 	};
 	char buf[MAX_LEN];
 	while(f_rstr(fd,buf,MAX_LEN)>0){
@@ -203,14 +210,14 @@ tCfg::~tCfg() {
 void tDownloader::print_error(int error_code){
 	switch(error_code){
 	case ERROR_ATTEMPT_LIMIT:{
-		LOG->log(LOG_ERROR,_("Max amount of retries was reached!"));
+		LOG->log(LOG_ERROR,_("Maximum number of retries reached!"));
 		break;
 	};
 	case ERROR_ATTEMPT:{
 		if (config.number_of_attempts)
-			LOG->log_printf(LOG_OK,_("Retrying %i of %i...."),RetrNum,config.number_of_attempts);
+			LOG->log_printf(LOG_OK,_("Retry %i of %i...."),RetrNum,config.number_of_attempts);
 		else
-			LOG->log_printf(LOG_OK,_("Retrying %i ..."),RetrNum);
+			LOG->log_printf(LOG_OK,_("Retry %i ..."),RetrNum);
 		break;
 	};
 	case ERROR_FILE_UPDATED:
@@ -254,6 +261,8 @@ tFileInfo *tDownloader::get_file_info() {
 int tDownloader::rollback(){
 	LOADED = LOADED<config.rollback ? 0 : LOADED-config.rollback;
 	LOG->shift(LOADED);
+	if (config.rollback>0)
+		LOG->truncate();
 	return(LOADED);
 };
 
@@ -262,7 +271,7 @@ void tDownloader::init_download(char *path,char *file) {
 	ADDR.path.set(path);
 };
 
-void tDownloader::set_loaded(int a) {
+void tDownloader::set_loaded(fsize_t a) {
 	LOADED=a;
 };
 
@@ -280,7 +289,7 @@ int tDownloader::treat() {
 	return RetrNum;
 };
 
-int tDownloader::another_way_get_size() {
+fsize_t tDownloader::another_way_get_size() {
 	return 0;
 };
 
@@ -288,7 +297,7 @@ int tDownloader::get_status() {
 	return(Status);
 };
 
-int tDownloader::get_start_size() {
+fsize_t tDownloader::get_start_size() {
 	return(StartSize);
 };
 

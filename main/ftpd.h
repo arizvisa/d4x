@@ -27,15 +27,15 @@ class tFtpDownload:public tDownloader{
     public:
     	tFtpDownload();
     	int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
-    	int download(int len);
-    	int get_size();
+    	int download(fsize_t len);
+    	fsize_t get_size();
     	void done();
 
-    	int get_start_size();
-    	int get_readed();
+    	fsize_t get_start_size();
+    	fsize_t get_readed();
     	int get_child_status();
     	int reget();
-     	int another_way_get_size();
+     	fsize_t another_way_get_size();
     	tStringList *dir();
     	~tFtpDownload();
 };

@@ -1,3 +1,21 @@
+Fri Jan 26 14:18:17 2001
+	Resuming for splited downloads has been implemented;
+	Added ftpsearch capabilities;
+	Added ability to write logs of downloads into file;
+	Added new command line option;
+	Added new column in queue of downloads;
+	Added ability to write info about downloaded files into Descript.ion file;
+	Added ability to remove temporary files from the disk (Shift+);
+	Logs of splited downloads will not be more destroyed after stoping;
+	Chinese translation had been updated (thanks to Marlin);
+	Getting description from Mozilla's drops has been implemented;
+	Fixed segfaulting in log switching for splited downloads;
+	Fixed doubled time in main window;
+	Fixed memory leak on log updates;
+	Fixed saving option "load symbolic link as file" to config;
+	Many spell fixes (thanks to David Chappell);
+	Various part of code was rewritten for better portability;
+
 Sat Dec 23 09:26:44 2000
 	Values of traffic limitations in tooltips of buttons bar;
 	Intelegent algorithm to get FTP listing;

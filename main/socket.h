@@ -21,8 +21,9 @@
 #include <netinet/in.h>
 #include <errno.h>
 #include <sys/time.h>
+#include <fcntl.h>
+#include "speed.h"
 
-#include "fcntl.h"
 
 class tSocket{
 	fd_set set;
@@ -47,7 +48,7 @@ class tSocket{
 	int open_port(unsigned long int host,unsigned short int port);
 	int open_port(int *ftp_addr);
 	int send_string(char *what,int timeout);
-	int rec_string(char * where,int len,int timeout);
+	int rec_string(char * where,fsize_t len,int timeout);
 	void flush();
 	void down();
 	~tSocket(); 
@@ -56,5 +57,13 @@ class tSocket{
 #define SOCKET_UNKNOWN_HOST -1
 #define SOCKET_CANT_ALLOCATE -2
 #define SOCKET_CANT_CONNECT -3
+
+int my_get_host_by_name(char *host,
+			int port,
+			sockaddr_in *info,
+			hostent *hp,
+			char *buf,
+			int bufsize,
+			int *rvalbuf);
 
 #endif

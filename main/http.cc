@@ -32,7 +32,7 @@ void tHttpClient::set_user_agent(char *agent,char *refer){
 	referer=refer;
 };
 
-void tHttpClient::set_offset(int a) {
+void tHttpClient::set_offset(fsize_t a) {
 	FileLoaded=Offset=a;
 };
 
@@ -50,7 +50,7 @@ int tHttpClient::send_request(char *begin, char *center,char *end){
 	return(rvalue);
 };
 
-int tHttpClient::read_data(char *where,int len) {
+int tHttpClient::read_data(char *where,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
 	int all=CtrlSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
@@ -129,14 +129,14 @@ void tHttpClient::send_cookies(char *host,char *path){
 	};
 };
 
-int tHttpClient::get_size(char *filename,tStringList *list) {
+fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
 	send_request("GET ",filename," HTTP/1.0\r\n");
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
-		sprintf(data,"%i",Offset);
+		sprintf(data,"%li",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
 	if (referer==NULL){
@@ -164,11 +164,11 @@ int tHttpClient::get_size(char *filename,tStringList *list) {
 };
 
 
-int tHttpClient::get_file_from(char *what,unsigned int begin,int len) {
+int tHttpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 	DSize=0;
 	int complete=1;
 	FileLoaded=begin;
-	int llen=len;
+	fsize_t llen=len;
 	do {
 		if ((complete=tClient::read_data())<0) {
 			LOG->log(LOG_WARNING,_("Data connection closed."));

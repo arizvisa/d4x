@@ -38,6 +38,10 @@
 #include "dndtrash.h"
 #include "passface.h"
 #include "colors.h"
+#include "fsface.h"
+
+#undef FLT_ROUNDS
+#define FLT_ROUNDS 3
 
 GtkWidget *MainMenu;
 GtkAdjustment *ProgressBarValues;
@@ -47,9 +51,10 @@ GtkWidget *MainWindow=(GtkWidget *)NULL;
 GtkWidget *MainHBox;
 GtkWidget *ContainerForCList=(GtkWidget *)NULL;
 GdkGC *MainWindowGC=(GdkGC *)NULL;
+GtkCList *FSearchCList;
 GtkWidget *BoxForGraph;
 GtkItemFactory *main_menu_item_factory=NULL;
-GtkWidget *MainLogList,*MAIN_PANED=(GtkWidget *)NULL;
+GtkWidget *MainLogList,*MAIN_PANED=(GtkWidget *)NULL,*MAIN_PANED2=(GtkWidget *)NULL;
 int main_log_mask;
 unsigned int ScrollShift[2];
 int mainwin_title_state;
@@ -69,7 +74,7 @@ tFacePass *FaceForPasswords=(tFacePass *)NULL;
 gint StatusBarContext,RBStatusBarContext;
 int MainTimer,LogsTimer,GraphTimer,ListTimer;
 int SAVE_LIST_INTERVAL,EXIT_COMPLETE_INTERVAL;
-pthread_mutex_t MAIN_GTK_MUTEX=(pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+//pthread_mutex_t MAIN_GTK_MUTEX=(pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 
 int FirstConfigureEvent;
 int UpdateTitleCycle=0;
@@ -119,8 +124,8 @@ char *main_menu_inames[]={
 	"/Options/Passwords",
 	"/Options/General",
 	"/Options/Speed",
-	"/Options/Speed/Lowest",
-	"/Options/Speed/Middle",
+	"/Options/Speed/Low",
+	"/Options/Speed/Medium",
 	"/Options/Speed/Unlimited",
 	"/Options/Buttons",
 	"/Options/Buttons/Add buttons",
@@ -335,10 +340,6 @@ void init_load_accelerators(){
 
 static gint main_menu_enable_all(){
 	GtkWidget *menu_item;
-	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_DEL_F]));
-	if (menu_item)	gtk_widget_set_sensitive(menu_item,TRUE);
-	menu_item=gtk_item_factory_get_widget(main_menu_item_factory,_(main_menu_inames[MM_DOWNLOAD_RERUN]));
-	if (menu_item)	gtk_widget_set_sensitive(menu_item,TRUE);
 	for (int i=MM_DOWNLOAD_LOG;i<=MM_DOWNLOAD_RUN;i++){
 		menu_item=gtk_item_factory_get_item_by_action(main_menu_item_factory,
 							      i+100);
@@ -577,15 +578,24 @@ gint ask_exit2() {
 	return TRUE;
 };
 
+static void a_delete_downloads(GtkWidget *widget, gpointer data){
+	delete_downloads(GPOINTER_TO_INT(data));
+};
 
 void ask_delete_download(...) {
+	GdkModifierType mask;
+	gint x,y;
+	gdk_window_get_pointer(MainWindow->window,&x,&y,&mask);
 	if (CFG.CONFIRM_DELETE) {
 		if (!AskDelete) AskDelete=new tDialogWidget;
 		if (AskDelete->init(_("Delete selected downloads?"),_("Delete?")))
-			gtk_signal_connect(GTK_OBJECT(AskDelete->ok_button),"clicked",GTK_SIGNAL_FUNC(delete_downloads),NULL);
+			gtk_signal_connect(GTK_OBJECT(AskDelete->ok_button),
+					   "clicked",
+					   GTK_SIGNAL_FUNC(a_delete_downloads),
+					   GINT_TO_POINTER(mask & GDK_SHIFT_MASK));
 		AskDelete->set_modal(MainWindow);
 	} else
-		delete_downloads();
+		delete_downloads(mask & GDK_SHIFT_MASK);
 };
 
 void ask_delete_completed_downloads(...) {
@@ -608,12 +618,12 @@ void ask_delete_fataled_downloads(...) {
 		del_completed_downloads();
 };
 
-void delete_downloads(...) {
+void delete_downloads(gint flag) {
 	GList *select=((GtkCList *)ListOfDownloads)->selection;
 	while (select) {
 		tDownload *temp=(tDownload *)gtk_clist_get_row_data(
 		                    GTK_CLIST(ListOfDownloads),GPOINTER_TO_INT(select->data));
-		aa.delete_download(temp);
+		aa.delete_download(temp,flag);
 		select=select->next;
 	};
 	list_of_downloads_freeze();
@@ -670,11 +680,15 @@ void update_progress_bar() {
 	char data[MAX_LEN];
 	if (adj){
 		if(temp && (temp->finfo.size>0 || temp->Size.curent>0)){
+			if (temp->Percent>99 && temp->Percent<100)
+				sprintf(data,"%2.1f%%%%(%%v/%%u)",temp->Percent);
+			else
+				sprintf(data,"%2.0f%%%%(%%v/%%u)",temp->Percent);
 			adj->lower=0;
 			adj->upper = temp->finfo.size>temp->Size.curent ? temp->finfo.size : temp->Size.curent;
 			gtk_progress_set_value(GTK_PROGRESS(ProgressOfDownload),temp->Size.curent);
 			gtk_progress_set_format_string (GTK_PROGRESS (ProgressOfDownload),
-							"%p%%(%v/%u)");
+							data);
 			gtk_progress_set_show_text(GTK_PROGRESS(ProgressOfDownload),TRUE);
 		}else{
 			adj->lower=0;
@@ -750,8 +764,11 @@ void init_main_window() {
 	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), ML_COL_DATE, GTK_JUSTIFY_LEFT);
 	gtk_clist_set_column_justification (GTK_CLIST(MainLogList), ML_COL_STRING, GTK_JUSTIFY_LEFT);
 
+	FSearchCList=fs_list_init();
 	GtkWidget *hpaned=gtk_vpaned_new();
+	GtkWidget *vpaned=gtk_hpaned_new();
 	MAIN_PANED=hpaned;
+	MAIN_PANED2=vpaned;
 	main_log_adj = (GtkAdjustment *)gtk_adjustment_new (0.0, 0.0, 0.0, 0.1, 1.0, 1.0);
 	main_log_value=0.0;
 	gtk_signal_connect (GTK_OBJECT (main_log_adj), "changed",
@@ -761,8 +778,15 @@ void init_main_window() {
 	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scroll_window),MainLogList);
 	gtk_paned_add1(GTK_PANED(hpaned),ContainerForCList);
-	gtk_paned_add2(GTK_PANED(hpaned),scroll_window);
-
+	gtk_paned_add2(GTK_PANED(hpaned),vpaned);
+	gtk_paned_add1(GTK_PANED(vpaned),scroll_window);
+	
+	GtkWidget *scroll_window1=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll_window1),
+	                                GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
+	gtk_container_add(GTK_CONTAINER(scroll_window1),(GtkWidget *)FSearchCList);
+	gtk_paned_add2(GTK_PANED(vpaned),scroll_window1);
+	
 	GtkWidget *TEMP=my_gtk_graph_new();//gtk_statusbar_new();
 	GLOBAL_GRAPH=(MyGtkGraph *)TEMP;
 	gtk_widget_set_usize(TEMP,104,-1);
@@ -784,8 +808,11 @@ void init_main_window() {
 
 	gtk_widget_show(ContainerForCList);
 	gtk_widget_show(MainLogList);
+	gtk_widget_show((GtkWidget *)FSearchCList);
 	gtk_widget_show(scroll_window);
+	gtk_widget_show(scroll_window1);
 	gtk_widget_show(hpaned);
+	gtk_widget_show(vpaned);
 	gtk_widget_show(MainMenu);
 	gtk_widget_show(hbox);
 	gtk_widget_show(vbox);
@@ -794,6 +821,8 @@ void init_main_window() {
 												gint(CFG.WINDOW_WIDTH),gint(CFG.WINDOW_HEIGHT));
 	gtk_signal_connect (GTK_OBJECT (MAIN_PANED), "size_allocate",
 	                    GTK_SIGNAL_FUNC (list_of_downloads_allocation), NULL);
+	gtk_signal_connect (GTK_OBJECT (MAIN_PANED2), "size_allocate",
+	                    GTK_SIGNAL_FUNC (fs_list_allocation), NULL);
 };
 
 /* ******************************************************************* */
@@ -818,7 +847,7 @@ void update_mainwin_title() {
 				make_number_nice(data3,temp->finfo.size);
 			else
 				sprintf(data3,"???");
-			sprintf(data,"%i%% %s/%s %s ",temp->Percent.curent,data2,data3,temp->info->file.get());
+			sprintf(data,"%2.0f%% %s/%s %s ",temp->Percent,data2,data3,temp->info->file.get());
 			dnd_trash_set_tooltip(data);
 		}else
 			dnd_trash_set_tooltip(_("Drop link here"));
@@ -933,7 +962,7 @@ void my_get_xselection(GtkWidget *window, GdkEvent *event) {
 		if (!equal(buf, OLD_CLIPBOARD_CONTENT)) {
 			if ((begin_string_uncase(buf,"ftp://") || begin_string_uncase(buf,"http://"))
 			    && OLD_CLIPBOARD_CONTENT!=NULL && check_for_clipboard_skiping(buf))
-				init_add_dnd_window(buf);
+				init_add_dnd_window(buf,NULL);
 			if (OLD_CLIPBOARD_CONTENT) g_free(OLD_CLIPBOARD_CONTENT);
 			OLD_CLIPBOARD_CONTENT = buf;
 		}else

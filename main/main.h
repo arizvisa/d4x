@@ -16,31 +16,32 @@
 #include "meter.h"
 #include "mainlog.h"
 #include "srvclt.h"
+#include "fsearch.h"
+#include "msgqueue.h"
 
 class tMain{
 	int prev_speed_limit;
 	unsigned int LastTime;
 	GList *list_to_delete;
-	int MsgQueue;
 	tMsgServer *server;
+	tMsgQueue *MsgQueue;
+	tFtpSearchCtrl *ftpsearch;
 	pthread_t server_thread_id;
 	tSpeedQueue *SpeedScheduler;
 	int LastReadedBytes;
 	void case_download_completed(tDownload *what);
 	void case_download_failed(tDownload *what);
-	int run_new_thread(tDownload *what);
-	int try_to_run_download(tDownload *what);
 
 	void try_to_run_split(tDownload *what);
 	void stop_split(tDownload *what);
 	int get_status_split(tDownload *what);
 	int get_split_loaded(tDownload *what);
+	int try_to_run_download(tDownload *what);
+	void absolute_delete_download(tDList *where,tDownload *what);
 
 	void add_dir(tDownload *parent);
 	void print_info(tDownload *what);
 	void redirect(tDownload *what);
-	void prepare_for_stoping(tDownload *what,tDList *list);
-	void absolute_delete_download(tDList *where,tDownload *what);
 	void del_all_from_list(tDList *list);
 	unsigned int get_precise_time();
 	void run_msg_server();
@@ -65,16 +66,21 @@ class tMain{
         void redraw_logs();
         void reinit_main_log();
         void stop_download(tDownload *what);
-        int delete_download(tDownload *what);
+        int delete_download(tDownload *what,int flag);
         void continue_download(tDownload *what);
-    	int add_downloading(char *adr,char *where,char *name);
+    	int add_downloading(char *adr,char *where,char *name,char *desc=(char *)NULL);
 	int add_downloading(tDownload *what);
+	void ftp_search(tDownload *what);
 	void add_downloading_to(tDownload *what);
     	void add_download_message(tDownload *what);
     	void run(int argv, char **argc);
 	void run_after_quit();
 	void go_to_delete();
 	void done();
+	/* next methods are public especialy for tFtpSearchCtrl */
+	void prepare_for_stoping(tDownload *what,tDList *list);
+	int run_new_thread(tDownload *what);
+	void ftp_search_remove(tDownload *what);
 };
 
 void *download_last(void *);

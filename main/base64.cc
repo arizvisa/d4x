@@ -50,14 +50,15 @@ char *string_to_base64(char *what) {
 	};
 	if (len) {
 		unsigned char three[3]={0,0,0};
-		for (int i=0;i<len;i++) {
+		int i=0;
+		for (i=0;i<len;i++) {
 			three[i]=*((unsigned char*)what);
 			what++;
 		};
 		three_to_four(three,four);
-		for (int i=3-(len==1);i<4;i++)
+		for (i=3-(len==1);i<4;i++)
 			four[i]='=';
-		for (int i=0;i<4;i++)
+		for (i=0;i<4;i++)
 			*(tmp++)=four[i];
 	};
 	*tmp=0;

@@ -11,6 +11,7 @@
 #ifndef MY_HTML_PARSE
 #define MY_HTML_PARSE
 #include "liststr.h"
+#include "client.h"
 
 struct tHtmlTagField:public tNode{
 	char *name;
@@ -29,7 +30,7 @@ struct tHtmlTag:public tNode{
 };
 
 class tHtmlParser{
-	int fdesc;
+	tWriterLoger *WL;
 	char *base;
 	char *get_string_back(int len,int shift);
 	char *get_word(int shift);
@@ -41,7 +42,7 @@ class tHtmlParser{
 	void look_for_meta_content(tHtmlTagField *where,tStringList *list);
 	tHtmlTag *get_tag();
  public:
-	void parse(int fd, tStringList *list);
+	void parse(tWriterLoger *wl, tStringList *list);
 };
 
 #endif

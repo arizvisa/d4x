@@ -21,14 +21,13 @@ int LOCK_FILE_D=0;
 
 tMainCfg CFG={
 	{300,5,100,0,1,0,0,
-	 0,0,0,0,1,1,1,0,0,0,0},
+	 0,0,0,0,1,1,1,0,0,0,0,
+	 0},
 	100,1,NULL,NULL,NULL,NULL,0,0,
-//	5,100,100,1,300,NULL,NULL,NULL,NULL,2,1,0,0,0,
-	100,0,0,0,NULL,0,
-	5,0,
+	100,0,0,0,NULL,0,0, //Log
+	5,0, //List
 	1,0,0,600,0, //flags
-//	1,1,0,0,0,1,1,600,0,0, //flags
-	{0,0},0,1,0,0,40,40,500,400,300,1,150,50,0,1,0,20,30,0,5,1,//interface
+	{0,0},0,1,0,0,40,40,500,400,300,300,1,150,50,0,1,0,20,30,0,5,1,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,
 	/* Proxy */
@@ -87,6 +86,6 @@ const char *CFG_DIR=".ntrc";
 char *SPEED_LIMITATIONS_NAMES[]={
 	"",
 	"low",
-	"middle",
+	"medium",
 	"unlimited"
 };

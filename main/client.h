@@ -17,8 +17,10 @@
 class tWriterLoger{
  public:
 	tWriterLoger();
-	virtual int write(const void *buf,int len)=0;
-	virtual int shift(int shift)=0;
+	virtual fsize_t write(const void *buf,fsize_t len)=0;
+	virtual fsize_t shift(fsize_t shift);
+	virtual fsize_t shift(fsize_t shift,int mode)=0; // for html parser
+	virtual fsize_t read(void *dst,fsize_t len)=0; //for html parser
 	virtual void log(int type,const char *str)=0;
 	virtual void log_printf(int type, const char *format,...);
 	virtual char *cookie(const char *host, const char *path);
@@ -31,7 +33,7 @@ class tClient{
     char *hostname,*username,*userword;
     int port;
     int timeout;
-    int FillSize,FileLoaded;
+    fsize_t FillSize,FileLoaded;
     unsigned int DSize;
     int ReGet,Status;
     tSocket CtrlSocket;
@@ -42,7 +44,7 @@ class tClient{
     int read_string(tSocket *sock,tStringList *list,int maxlen);
     int socket_err_handler(int err);
     virtual int read_data();
-    virtual int read_data(char *dst,int len)=0;
+    virtual int read_data(char *dst,fsize_t len)=0;
     int write_buffer();
     public:
     	tClient();
@@ -51,8 +53,8 @@ class tClient{
         virtual int reinit();
     	virtual void down()=0;
     	virtual int registr(char *user,char *password)=0;
-    	virtual int get_size(char *filename,tStringList *list)=0;
-	virtual int get_file_from(char *what,unsigned int begin,int len)=0;
+    	virtual fsize_t get_size(char *filename,tStringList *list)=0;
+	virtual int get_file_from(char *what,unsigned int begin,fsize_t len)=0;
     	int get_status();
     	int test_reget();
     	virtual void done()=0;

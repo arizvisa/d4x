@@ -116,7 +116,7 @@ void my_pthreads_mutex_init(pthread_mutex_t *lock){
 #elseif defined(__mips__)
 	pthread_mutexattr_settype(&ma,MUTEX_TYPE_NORMAL);	
 #endif
-	pthread_mutex_init(&lock,&ma);
+	pthread_mutex_init(lock,&ma);
 	pthread_mutexattr_destroy(&ma);
 #endif
 };

@@ -36,6 +36,7 @@ enum {
     ELAPSED_TIME_COL,
     PAUSE_COL,
     TREAT_COL,
+    DESCRIPTION_COL,
     URL_COL,
     NOTHING_COL
 };
@@ -44,7 +45,7 @@ enum{
 	TARGET_URL
 };
 
-enum {
+enum STATUS_PIXMAPS_ENUM{
 	PIX_WAIT=0,
 	PIX_STOP,
 	PIX_STOP_WAIT,
@@ -56,6 +57,8 @@ enum {
 	PIX_UNKNOWN
 };
 
+extern GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
+extern GdkBitmap *list_of_downloads_bitmaps[PIX_UNKNOWN];
 
 extern tColumn ListColumns[NOTHING_COL+1];
 

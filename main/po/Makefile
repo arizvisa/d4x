@@ -1,6 +1,6 @@
 all:
 	for i in `ls *.po`; do \
-		msgfmt $$i -o `echo $$i | sed -e s/.po//`.gmo ; \
+		msgfmt -o `echo $$i | sed -e s/.po//`.gmo $$i; \
 	done
 
 install:

@@ -32,6 +32,42 @@
 #define INADDR_NONE ((unsigned long) -1)
 #endif
 
+int my_get_host_by_name(char *host,int port,
+			sockaddr_in *info,
+			hostent *hp,
+			char *buf,
+			int bufsize,
+			int *rvalbuf){
+	info->sin_family=AF_INET;
+	if (host) {
+		info->sin_addr.s_addr = inet_addr(host);
+		if (info->sin_addr.s_addr == INADDR_NONE){
+			hostent *hpr=hp;
+			download_set_block(1);
+			*rvalbuf=0;
+#if !(defined(BSD) && (BSD >= 199306))
+#if (defined(__sparc__) || defined(__mips__)) && !(defined(__linux__))
+			gethostbyname_r(host,hp,buf,bufsize,rvalbuf);
+#else /* (defined(__sparc__) || defined(__mips__)) && !(defined(__linux__)) */
+			gethostbyname_r(host,hp,buf,bufsize,&hpr,rvalbuf);
+#endif
+			if (*rvalbuf) return -1;
+			memcpy((char *)&(info->sin_addr),hpr->h_addr_list[0],
+			       (size_t) hpr->h_length);
+#else /* !(defined(BSD) && (BSD >= 199306)) */
+			hostent *hpa=gethostbyname(host);
+			if (!hpa) return -1;
+			memcpy((char *)&(info->sin_addr),hpa->h_addr_list[0],
+			       (size_t) hpa->h_length);
+#endif /* !(defined(BSD) && (BSD >= 199306)) */
+			download_set_block(0);
+		};
+	} else info->sin_addr.s_addr=INADDR_ANY;
+	info->sin_port=htons(port);
+	return sizeof(sockaddr_in);
+};
+
+/******************************************************************/
 tSocket::tSocket() {
 	fd=0;
 	RBytes=0;
@@ -220,7 +256,7 @@ int tSocket::send_string(char * what,int timeout) {
 	return a-b;
 };
 
-int tSocket::rec_string(char * where,int len,int timeout) {
+int tSocket::rec_string(char * where,fsize_t len,int timeout) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,-1);
 	if (wait_for_read(timeout))
 		return STATUS_TIMEOUT;

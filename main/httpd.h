@@ -23,21 +23,21 @@ class tHttpDownload:public tDownloader{
 	char *content_type;
 	char *REQUESTED_URL;
 	char *ETag,*OldETag,*Auth;
-	int analize_answer();
+	fsize_t analize_answer();
 	char *make_name();
 	virtual void print_error(int error_code);
 	public:
 		tHttpDownload();
 		int reconnect();
 		int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
-		int get_size();
-		int get_readed();
+		fsize_t get_size();
+		fsize_t get_readed();
 		int get_child_status();
 		char *get_new_url();
 		int reget();
 		char *get_content_type();
 		tStringList *dir();
-		int download(int len);
+		int download(fsize_t len);
 		void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
 		void make_full_pathes(const char *path,char **name,char **guess);
 		void done();

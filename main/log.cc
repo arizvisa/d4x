@@ -12,19 +12,15 @@
 #include "log.h"
 #include <time.h>
 #include <stdio.h>
-//for messages queue
 #include <sys/types.h>
-#include <sys/ipc.h>
 #include <stdarg.h>
+
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
-#endif
-
-#if (defined(BSD) && (BSD >= 199306))
-#include <sys/msgbuf.h>
-#else
-#include <sys/msg.h>
 #endif
 
 #include "dlist.h"
@@ -32,7 +28,7 @@
 #include "var.h"
 #include "ntlocale.h"
 #include "signal.h"
-
+#include "msgqueue.h"
 tLogString::tLogString():tString(){
 	time=0;
 	type=LOG_FROM_SERVER;
@@ -55,6 +51,8 @@ tLogString::~tLogString() {
 //******************************************//
 tLog::tLog():tStringList(){
 	my_pthreads_mutex_init(&mutex);
+	freezed_flag=0;
+	fd=-1;
 	start=time(NULL);
 	Window=NULL;
 	for (int i=0;i<4;i++)
@@ -65,7 +63,19 @@ tLog::tLog():tStringList(){
 	char *msg=_("Log was started!");
 	tLogString *temp=new tLogString(msg,strlen(msg),LOG_OK);
 	temp->time=time(NULL);
+	ref_count=0;
 	insert(temp);
+};
+
+void tLog::ref_inc(){
+	ref_count+=1;
+};
+void tLog::ref_dec(){
+	ref_count-=1;
+	if (ref_count<0)
+		printf("WARNING: ref_count is less than zero!\n");
+	if (ref_count==0)
+		delete(this);
 };
 
 void tLog::store_geometry(int *a) {
@@ -82,11 +92,19 @@ void tLog::send_msg(int type,tLogString *what) {
 	MaxNum=CFG.MAX_LOG_LENGTH;
 //	if (what) printf("%s\n", what->body);
 	if (Window) {
-		mbuf Msg;
-		Msg.mtype=type;
-		Msg.what=what;
-		Msg.which=this;
-		msgsnd(MsgQueue,(struct msgbuf *)&Msg,sizeof(mbuf)-sizeof(long),0);
+		/* FIXME: do this atomic */
+		tLogMsg *Msg=new tLogMsg;
+		Msg->type=type;
+		Msg->what=what;
+		Msg->which=this;
+		ref_inc();
+		MsgQueue->insert(Msg);
+		if (MsgQueue->count()>=100){
+			lock();
+			lock();
+			/* sleep here */
+			unlock();
+		};
 	};
 };
 
@@ -101,8 +119,33 @@ void tLog::print() {
 //	unlock();
 };
 
+void tLog::init_save(char *path){
+	if (fd>=0) close(fd);
+	if (path)
+		fd=open(path,O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR);
+	else
+		fd=-1;
+		
+};
+
 void tLog::insert(tNode *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
+	/* save string to file */
+	if (fd>=0){
+		tLogString *temp=(tLogString *)what;
+		struct tm msgtime;
+		localtime_r(&(temp->time),&msgtime);
+		strftime(timebuf,LOG_TIME_STR_LEN,"%T %d %b %Y ",&(msgtime));
+		int len=strlen(temp->body);
+		if (write(fd,timebuf,strlen(timebuf))<0 ||
+		    write(fd,temp->body,len)<0){
+			close(fd);
+			fd=-1;
+		};
+		if (len && temp->body[len-1]!='\n'){
+			write(fd,"\n",sizeof(char));
+		};
+	};
 	current_row+=1;
 	((tLogString *)what)->temp=current_row;
 	tQueue::insert(what);
@@ -171,4 +214,5 @@ tLog::~tLog() {
 	log_window_destroy_by_log(this);
 	done();// will be used by tStringList::~tStringList();
 	pthread_mutex_destroy(&mutex);
+	if (fd>=0) close(fd);
 };

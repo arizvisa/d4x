@@ -8,12 +8,11 @@ ifndef CXXFLAGS
 CXXFLAGS=-Wall -O2 $(SOLARIS_TYPECASTED_X11_HEADERS)
 endif
 
-CXXFLAGS+=-D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS $(SOLARIS_TYPECASTED_X11_HEADERS) -DDEBUG_ALL
+CXXFLAGS+=-D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS $(SOLARIS_TYPECASTED_X11_HEADERS)
+# -DDEBUG_ALL
 # -ggdb
 
 export CXXFLAGS LOCALEDIR
-
-#CXX = c++
 
 NLS=-DENABLE_NLS # Remove or comment this line to disable gettext
 ifeq ($(DEST),)
@@ -55,12 +54,12 @@ FACE=face/lmenu.o face/list.o face/addd.o face/graph.o face/log.o \
 	face/prefs.o face/buttons.o face/about.o face/edit.o \
 	face/colors.o face/saveload.o face/limface.o face/misc.o \
 	face/lod.o face/columns.o face/dndtrash.o face/passface.o \
-	face/mywidget.o face/myclist.o
+	face/mywidget.o face/myclist.o face/fsface.o
 MODULES1=base64.o addr.o queue.o liststr.o dlist.o mdlist.o locstr.o \
 	log.o  sort.o meter.o socket.o history.o  speed.o srvclt.o html.o \
 	client.o ftp.o http.o download.o ftpd.o httpd.o hproxy.o signal.o \
 	main.o config.o savelog.o mainlog.o var.o sortstr.o db.o cookie.o \
-	pass.o eff.o
+	pass.o eff.o segments.o memwl.o fsearch.o msgqueue.o
 MODULES = $(FACE) $(MODULES1)
 
 all:
@@ -96,7 +95,7 @@ uninstall:
 	-rm -f $(DEST)/bin/nt
 	$(MAKE) uninstall -C po
 
-Makefile.dep: *.h
-	$(CXX) $(CXXFLAGS) -MM *.cc >> Makefile.dep
+Makefile.dep:
+	$(CXX) $(CXXFLAGS) -MM *.cc > Makefile.dep
 
 -include Makefile.dep

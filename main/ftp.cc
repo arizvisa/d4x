@@ -69,19 +69,19 @@ int  tFtpClient::send_command(char * comm,char *argv) {
 	delete data;
 	if (Status) {
 		if (Status==STATUS_TIMEOUT)
-			LOG->log(LOG_ERROR,_("Timeout send through control socket."));
-		LOG->log(LOG_ERROR,_("Control connection is lost"));
+			LOG->log(LOG_ERROR,_("Timeout while sending through control socket."));
+		LOG->log(LOG_ERROR,_("Control connection lost"));
 		vdisconnect();
 		return RVALUE_TIMEOUT;
 	};
 	return RVALUE_OK;
 };
 
-int tFtpClient::read_data(char *where,int len) {
+int tFtpClient::read_data(char *where,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,RVALUE_TIMEOUT);
 	int all=DataSocket.rec_string(where,len,timeout);
 	if (socket_err_handler(all)) {
-		LOG->log(LOG_WARNING,_("Data socket is lost!"));
+		LOG->log(LOG_WARNING,_("Data connection lost!"));
 		vdisconnect();
 		return RVALUE_TIMEOUT;
 	};
@@ -91,7 +91,7 @@ int tFtpClient::read_data(char *where,int len) {
 int tFtpClient::read_control() {
 	CTRL->done();
 	if (read_string(&CtrlSocket,CTRL,MAX_LEN)<0) {
-		LOG->log(LOG_WARNING,_("Control socket lost!"));
+		LOG->log(LOG_WARNING,_("Control connection lost!"));
 		vdisconnect();
 		return RVALUE_TIMEOUT;
 	};
@@ -297,11 +297,11 @@ int tFtpClient::change_dir(char *where) {
 }
 
 
-int tFtpClient::get_size(char *filename,tStringList *list) {
+fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 //	DBC_RETVAL_IF_FAIL(filename!=NULL,RVALUE_OK);
 	DBC_RETVAL_IF_FAIL(list!=NULL,RVALUE_OK);
 
-	int rvalue=0;;
+	fsize_t rvalue=0;;
 	if ((rvalue=rest(list->size()))) return(rvalue);
 	if (!ReGet) list->done();
 	switch (METHOD_TO_LIST){
@@ -341,7 +341,7 @@ int tFtpClient::get_size(char *filename,tStringList *list) {
 	return(rvalue);
 };
 
-int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
+int tFtpClient::get_file_from(char *what,unsigned int begin,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,RVALUE_OK);
 	int rvalue=0;;
 	FileLoaded=begin;
@@ -352,8 +352,10 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
 	if ((rvalue=analize_ctrl(1,&FTP_PORT_OK))) return(rvalue);
 	if ((rvalue=rest(begin))) return rvalue;
 	if (!ReGet) {
+		if (!RETRY_IF_NO_REGET) return(-1);
 		LOG->shift(0);
 		FileLoaded=0;
+		LOG->truncate(); //to avoid displaing wron size
 	};
 	send_command("RETR",what);
 	if ((rvalue=analize_ctrl(sizeof(FTP_EXIST_DATA)/sizeof(char*),FTP_EXIST_DATA))) return(rvalue);
@@ -362,7 +364,7 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
 	TEMP_SIZE=0;
 	if (log) {
 		char *str=rindex(log->body,'(');
-		if (str) sscanf(str+1,"%i",&TEMP_SIZE);
+		if (str) sscanf(str+1,"%li",&TEMP_SIZE);
 	};
 
 	if ((rvalue=accepting())) return(rvalue);
@@ -406,6 +408,10 @@ int tFtpClient::get_file_from(char *what,unsigned int begin,int len) {
 
 int tFtpClient::another_way_get_size() {
 	return TEMP_SIZE;
+};
+
+void tFtpClient::set_retry(int a){
+	RETRY_IF_NO_REGET=a;
 };
 
 void tFtpClient::set_passive(int a) {

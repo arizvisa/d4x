@@ -24,7 +24,7 @@ void tHProxyClient::setup_data(char *host,int cache) {
 	no_cache=cache;
 };
 
-int tHProxyClient::get_size(char *filename,tStringList *list) {
+fsize_t tHProxyClient::get_size(char *filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
 	send_request("GET ",filename," HTTP/1.0\r\n");
 
@@ -36,9 +36,8 @@ int tHProxyClient::get_size(char *filename,tStringList *list) {
 
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
-	sprintf(data,"%i",Offset);
 	if (Offset){
-		sprintf(data,"%i",Offset);
+		sprintf(data,"%li",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
 
@@ -146,7 +145,7 @@ char *tProxyDownload::make_name(){
 	return rvalue;
 };
 
-int tProxyDownload::get_size() {
+fsize_t tProxyDownload::get_size() {
 	// Make a URL from available data
 	((tHProxyClient *)HTTP)->set_cookie_search(ADDR.pathfile());
 	//begin request
@@ -160,7 +159,7 @@ int tProxyDownload::get_size() {
 		LOG->log(LOG_OK,_("Connection to the internet via proxy"));
 
 		LOG->log(LOG_OK,_("Sending request to proxy"));
-		int temp=HTTP->get_size(REQUESTED_URL,answer);
+		fsize_t temp=HTTP->get_size(REQUESTED_URL,answer);
 		if (temp==0) {
 			LOG->log(LOG_OK,_("Answer read ok"));
 			D_FILE.size=analize_answer();

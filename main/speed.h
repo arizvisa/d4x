@@ -14,17 +14,19 @@
 #include "queue.h"
 #include <pthread.h>
 
+typedef long int fsize_t;
+
 struct tSpeed: public tNode{
 	private:
 int last_gived;
 	public:
 	pthread_mutex_t lock,lock1;
-	int bytes,base;
+	fsize_t bytes,base;
 	tSpeed();
 	virtual void print();
-	int init(int a);
-	void set(int a);
-	void decrement(int a);
+	fsize_t init(fsize_t a);
+	void set(fsize_t a);
+	void decrement(fsize_t a);
 	~tSpeed();
 };
 
@@ -36,7 +38,7 @@ class tSpeedQueue:public tQueue{
 		virtual tSpeed *first();
 		virtual tSpeed *next();
 		virtual tSpeed *prev();
-		void schedule(int a,int flag);
+		void schedule(fsize_t a,int flag);
 		void schedule(unsigned int period);
 		~tSpeedQueue();
 };

@@ -21,11 +21,11 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 
 #: client.cc:65
-msgid "Timeout when socket read!"
+msgid "Timeout while reading from socket!"
 msgstr "Timeout per le letture dal socket!"
 
 #: client.cc:70
-msgid "Error when reading from socket!"
+msgid "Error while reading from socket!"
 msgstr "Errore durante la lettura da socket!"
 
 #: client.cc:79
@@ -70,7 +70,7 @@ msgid "bad read\n"
 msgstr "Lettura errata\n"
 
 #: config.cc:567
-msgid "Can't open file of limits!!!\n"
+msgid "Can't open limits configuration file!\n"
 msgstr "Non posso aprire il file dei limiti!!!\n"
 
 #: config.cc:592
@@ -139,20 +139,16 @@ msgid "Accepting faild"
 msgstr "Accettazione fallita"
 
 #: ftp.cc:47
-msgid "Timeout send through control socket."
+msgid "Timeout while sending through control socket."
 msgstr "Inviato timeout nel socket di controllo."
 
 #: ftp.cc:48
-msgid "Control connection is lost"
+msgid "Control connection lost!"
 msgstr "La connessione di controllo è andata perduta"
 
 #: ftp.cc:57
-msgid "Data socket is lost!"
+msgid "Data connection lost!"
 msgstr "Il socket dei dati è andato perduto!"
-
-#: ftp.cc:65
-msgid "Control socket lost!"
-msgstr "Il socket di controllo è andato perduto!"
 
 #: ftp.cc:174
 #, c-format
@@ -176,21 +172,21 @@ msgid "Reget is not supported!!!"
 msgstr "Comando Reget non supportato!!!"
 
 #: ftpd.cc:183
-msgid "Server refused login probably too many users of your class"
+msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "Il server rifiuta la connessione: probabilmente vi sono troppi utenti"
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
-msgid "Retrying %i of %i...."
+msgid "Retry %i of %i...."
 msgstr "Tentativo %i di %i...."
 
 #: ftpd.cc:188
 #, c-format
-msgid "Retrying %i ..."
+msgid "Retry %i ..."
 msgstr "Tentativo %i ..."
 
 #: ftpd.cc:191 httpd.cc:81
-msgid "Max amount of retries was reached!"
+msgid "Maximum number of retries reached!"
 msgstr "È stato raggiunto il numero massimo di tentativi!"
 
 #: ftpd.cc:197 httpd.cc:87
@@ -260,7 +256,7 @@ msgid "Answer read ok"
 msgstr "Risposta affermativa"
 
 #: hproxy.cc:151 httpd.cc:230
-msgid "Could'nt get normal answer!"
+msgid "Couldn't get normal answer!"
 msgstr "Non riesco a ricevere una risposta normale!"
 
 #: http.cc:43
@@ -293,7 +289,7 @@ msgstr "Connessione chiusa."
 
 #: httpd.cc:78
 #, c-format
-msgid "Retrying %i"
+msgid "Retry %i"
 msgstr "Tentativo %i"
 
 #: httpd.cc:143
@@ -922,7 +918,7 @@ msgid "Open dialog for Drag-n-Drop"
 msgstr "Apri finestra per il Drag-n-Drop"
 
 #: face/prefs.cc:213
-msgid "Iconify main window when closing"
+msgid "Iconfiy main window instead of closing"
 msgstr "Iconifica la finestra principale alla chiusura"
 
 #: face/prefs.cc:215
@@ -1191,7 +1187,7 @@ msgstr "Esci se inattivo per"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr"Log principale"
+msgstr "Log principale"
 
 #: face/prefs.cc
 msgid "Output detailed information"
@@ -1238,7 +1234,7 @@ msgid "/Paste Download"
 msgstr "/Incolla scaricamento"
 
 #: face/dndtrash.cc
-msgid "/Common options"
+msgid "/General options"
 msgstr "/Opzioni comuni"
 
 #: face/dndtrash.cc
@@ -1324,11 +1320,11 @@ msgid "/Speed"
 msgstr "/Velocità"
 
 #: face/dndtrash.cc
-msgid "/Speed/Lowest"
+msgid "/Speed/Low"
 msgstr "/Velocità/Bassa"
 
 #: face/dndtrash.cc
-msgid "/Speed/Middle"
+msgid "/Speed/Medium"
 msgstr "/Velocità/Media"
 
 #: face/dndtrash.cc
@@ -1340,11 +1336,11 @@ msgid "/Options/Speed"
 msgstr "/Opzioni/Velocità"
 
 #: face/list.cc
-msgid "/Options/Speed/Lowest"
+msgid "/Options/Speed/Low"
 msgstr "/Opzioni/Velocità/Bassa"
 
 #: face/list.cc
-msgid "/Options/Speed/Middle"
+msgid "/Options/Speed/Medium"
 msgstr "/Opzioni/Velocità/Media"
 
 #: face/list.cc
@@ -1396,7 +1392,7 @@ msgid "/Download/Invert selection"
 msgstr "/Scaricamento/Inverti selezione"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via FTP"
+msgid "Try to load symbolic link as file via FTP"
 msgstr "Prova a scaricare i link simbolici come file via FTP"
 
 # face/list.cc
@@ -1462,7 +1458,7 @@ msgstr "Imposta limite di velocità a %s %s"
 msgid "low"
 msgstr "bassa"
 
-msgid "middle"
+msgid "medium"
 msgstr "media"
 
 msgid "unlimited"
@@ -1644,3 +1640,40 @@ msgstr "Il file sul server è più recente della copia locale. Riavvio dall'inizio
 #:face/dndtrash.cc
 msgid "/Delete completed"
 msgstr "/Elimina i completati"
+
+#:face/fsface.cc
+msgid "nothing found"
+msgstr ""
+
+msgid "searching"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+#:face/prefs.cc
+msgid "Write Descript.ion file"
+msgstr ""
+
+#:face/columns.cc
+msgid "description"
+msgstr ""
+
+#:face/lod.cc
+msgid "Description"
+msgstr ""
+
+#:dlist.cc:
+msgid "Search has been completed!"
+msgstr ""
+
+#:config.cc:
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+#: face/edit.cc
+msgid "Sleep before completing"
+msgstr ""

@@ -54,11 +54,11 @@ void buttons_speed_set_text(){
 	sprintf(text,"%s (%i B/s)",_(" Speed level one "),CFG.SPEED_LIMIT_1);
 	gtk_tooltips_set_tip(GTK_TOOLBAR(ButtonsBar)->tooltips,
 			     buttons_array[BUTTON_SPEED1],
-			     text,NULL);
+			     text,(char*) NULL);
 	sprintf(text,"%s (%i B/s)",_(" Speed level two "),CFG.SPEED_LIMIT_2);
 	gtk_tooltips_set_tip(GTK_TOOLBAR(ButtonsBar)->tooltips,
 			     buttons_array[BUTTON_SPEED2],
-			     text,NULL);
+			     text,(char *)NULL);
 };
 
 
@@ -144,6 +144,7 @@ gint buttons_save_release(GtkButton *button,GdkEventButton *event,gint code){
 	};
 	return FALSE;
 };
+
 
 void init_buttons_bar() {
 #include "pixmaps/add.xpm"

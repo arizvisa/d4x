@@ -22,7 +22,7 @@ class tHProxyClient:public tHttpClient{
 		tHProxyClient();
 		void setup_data(char *host,int cache);
 		void set_cookie_search(char *what);
-		int get_size(char *filename,tStringList *list);
+		fsize_t get_size(char *filename,tStringList *list);
 		void proxy_registr(char *user,char *password);
 		~tHProxyClient();
 };
@@ -33,7 +33,7 @@ class tProxyDownload:public tHttpDownload{
 	public:
 		tProxyDownload();
 		int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg);
-		int get_size();
+		fsize_t get_size();
 		~tProxyDownload();
 };
 #endif

@@ -22,11 +22,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: client.cc:65
-msgid "Timeout when socket read!"
+msgid "Timeout while reading from socket!"
 msgstr "Λήξη χρόνου διαβάσματος του socket!"
 
 #: client.cc:70
-msgid "Error when reading from socket!"
+msgid "Error while reading from socket!"
 msgstr "Σφάλμα κατά το διάβασμα από το socket!"
 
 #: client.cc:79
@@ -72,7 +72,7 @@ msgid "bad read\n"
 msgstr "Σφάλμα στο διάβασμα\n"
 
 #: config.cc:567
-msgid "Can't open file of limits!!!\n"
+msgid "Can't open limits configuration file!\n"
 msgstr "Δεν μπορώ να ανοίξω το αρχείο με τους περιορισμούς!!!\n"
 
 #: config.cc:592
@@ -141,20 +141,16 @@ msgid "Accepting faild"
 msgstr "Απέτυχε η αποδοχή"
 
 #: ftp.cc:47
-msgid "Timeout send through control socket."
+msgid "Timeout while sending through control socket."
 msgstr "Χρόνος λήξης στάλθηκε μέσω του socket ελέγχου."
 
 #: ftp.cc:48
-msgid "Control connection is lost"
+msgid "Control connection lost!"
 msgstr "Χάθηκε η σύνδεση"
 
 #: ftp.cc:57
-msgid "Data socket is lost!"
+msgid "Data connection lost!"
 msgstr "Χάθηκε το socket δεδομένων!"
-
-#: ftp.cc:65
-msgid "Control socket lost!"
-msgstr "Χάθηκε το socket ελέγχου!"
 
 #: ftp.cc:174
 #, c-format
@@ -178,21 +174,21 @@ msgid "Reget is not supported!!!"
 msgstr "Το συνέχισμα δεν υποστηρίζεται!!!"
 
 #: ftpd.cc:183
-msgid "Server refused login probably too many users of your class"
+msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "Ο server αρνήθηκε το login, πιθανότατα πολλοί χρήστες της τάξης σας"
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
-msgid "Retrying %i of %i...."
+msgid "Retry %i of %i...."
 msgstr "Ξαναπροσπαθώ %i του %i...."
 
 #: ftpd.cc:188
 #, c-format
-msgid "Retrying %i ..."
+msgid "Retry %i ..."
 msgstr "Ξαναπροσπαθώ %i ..."
 
 #: ftpd.cc:191 httpd.cc:81
-msgid "Max amount of retries was reached!"
+msgid "Maximum number of retries reached!"
 msgstr "Φτάσατε τον μέγιστο αριθμό προσπαθειών!"
 
 #: ftpd.cc:197 httpd.cc:87
@@ -262,7 +258,7 @@ msgid "Answer read ok"
 msgstr "Σωστή ανάγνωση απάντησης"
 
 #: hproxy.cc:151 httpd.cc:230
-msgid "Could'nt get normal answer!"
+msgid "Couldn't get normal answer!"
 msgstr "Δεν μπόρεσα να λάβω σωστή απάντηση!"
 
 #: http.cc:43
@@ -295,7 +291,7 @@ msgstr "Έκλεισε η σύνδεση"
 
 #: httpd.cc:78
 #, c-format
-msgid "Retrying %i"
+msgid "Retry %i"
 msgstr "Ξαναπροσπαθώ %i"
 
 #: httpd.cc:143
@@ -919,7 +915,7 @@ msgid "Open dialog for Drag-n-Drop"
 msgstr "¶νοιγμα διαλόγου για τα Drag-n-Drop"
 
 #: face/prefs.cc:213
-msgid "Iconify main window when closing"
+msgid "Iconfiy main window instead of closing"
 msgstr "Ελαχιστοποίηση κεντρικού παραθύρου κατά την έξοδο"
 
 #: face/prefs.cc:215
@@ -1196,7 +1192,7 @@ msgstr "Έξοδος αν δεν έχεις τίποτα να κάνεις μετά από"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr"Κύριο log"
+msgstr "Κύριο log"
 
 #: face/prefs.cc
 msgid "Output detailed information"
@@ -1243,7 +1239,7 @@ msgid "/Paste Download"
 msgstr "/Επικόλληση Κατεβάσματος"
 
 #: face/dndtrash.cc
-msgid "/Common options"
+msgid "/General options"
 msgstr "/Κοινές ρυθμίσεις"
 
 #: face/dndtrash.cc
@@ -1327,11 +1323,11 @@ msgid "/Speed"
 msgstr "/Ταχύτητα"
 
 #: face/dndtrash.cc
-msgid "/Speed/Lowest"
+msgid "/Speed/Low"
 msgstr "/Ταχύτητα/Κατώτερη"
 
 #: face/dndtrash.cc
-msgid "/Speed/Middle"
+msgid "/Speed/Medium"
 msgstr "/Ταχύτητα/Μεσαία"
 
 #: face/dndtrash.cc
@@ -1343,11 +1339,11 @@ msgid "/Options/Speed"
 msgstr "/Επιλογές/Ταχύτητα"
 
 #: face/list.cc
-msgid "/Options/Speed/Lowest"
+msgid "/Options/Speed/Low"
 msgstr "/Επιλογές/Ταχύτητα/Κατώτερη"
 
 #: face/list.cc
-msgid "/Options/Speed/Middle"
+msgid "/Options/Speed/Medium"
 msgstr "/Επιλογές/Ταχύτητα/Μεσαία"
 
 #: face/list.cc
@@ -1399,7 +1395,7 @@ msgid "/Download/Invert selection"
 msgstr "/Κατέβασμα/Αντιστροφή επιλογής"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via FTP"
+msgid "Try to load symbolic link as file via FTP"
 msgstr "Προσπάθεια ανάγνωσης symbolic link ως αρχείο μέσω ftp"
 
 # face/list.cc
@@ -1464,7 +1460,7 @@ msgstr "Ορισμός του ορίου ταχύτητας στο %s %s"
 msgid "low"
 msgstr "κατώτερη"
 
-msgid "middle"
+msgid "medium"
 msgstr "μεσαία"
 
 msgid "unlimited"
@@ -1636,8 +1632,45 @@ msgstr "Μην στείλεις την εντολή QUIT (ftp)"
 
 #:download.cc
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr ""
+msgstr "Το αρχείο στον server είναι νεότερο από το τοπικό αρχείο. Επανεκκίνηση κατεβάσματος από την αρχή\n"
 
 #:face/dndtrash.cc
 msgid "/Delete completed"
+msgstr "/Σβήσιμο Ολοκληρώθηκε"
+
+#:face/fsface.cc
+msgid "nothing found"
+msgstr ""
+
+msgid "searching"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+#:face/prefs.cc
+msgid "Write Descript.ion file"
+msgstr ""
+
+#:face/columns.cc
+msgid "description"
+msgstr ""
+
+#:face/lod.cc
+msgid "Description"
+msgstr ""
+
+#:dlist.cc:
+msgid "Search has been completed!"
+msgstr ""
+
+#:config.cc:
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+#: face/edit.cc
+msgid "Sleep before completing"
 msgstr ""

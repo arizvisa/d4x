@@ -21,11 +21,11 @@ msgstr ""
 "Content-Type: text/plain; charset=koi8-r\n"
 
 #: client.cc:65
-msgid "Timeout when socket read!"
+msgid "Timeout while reading from socket!"
 msgstr "Таймаут во время чтения из сокета"
 
 #: client.cc:70
-msgid "Error when reading from socket!"
+msgid "Error while reading from socket!"
 msgstr "Ошибка во время чтения из сокета"
 
 #: client.cc:79
@@ -71,7 +71,7 @@ msgid "bad read\n"
 msgstr "плохой файл\n"
 
 #: config.cc:567
-msgid "Can't open file of limits!!!\n"
+msgid "Can't open limits configuration file!\n"
 msgstr "Не удается открыть файл ограничений!!!\n"
 
 #: config.cc:592
@@ -140,20 +140,16 @@ msgid "Accepting faild"
 msgstr "Операция accept не удалась"
 
 #: ftp.cc:47
-msgid "Timeout send through control socket."
+msgid "Timeout while sending through control socket."
 msgstr "Таймаут передачи через контрольный сокет"
 
 #: ftp.cc:48
-msgid "Control connection is lost"
+msgid "Control connection lost!"
 msgstr "Контрольное соединение потреряно"
 
 #: ftp.cc:57
-msgid "Data socket is lost!"
+msgid "Data connection lost!"
 msgstr "Сокет данных потерян!"
-
-#: ftp.cc:65
-msgid "Control socket lost!"
-msgstr "Контрольный сокет потерян!"
 
 #: ftp.cc:174
 #, c-format
@@ -177,21 +173,21 @@ msgid "Reget is not supported!!!"
 msgstr "Докачка не поддерживается!!!"
 
 #: ftpd.cc:183
-msgid "Server refused login probably too many users of your class"
+msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "Сервер отказал в доступе, возможно слишком много пользователей"
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
-msgid "Retrying %i of %i...."
+msgid "Retry %i of %i...."
 msgstr "Попытка %i из %i...."
 
 #: ftpd.cc:188
 #, c-format
-msgid "Retrying %i ..."
+msgid "Retry %i ..."
 msgstr "Попытка %i ..."
 
 #: ftpd.cc:191 httpd.cc:81
-msgid "Max amount of retries was reached!"
+msgid "Maximum number of retries reached!"
 msgstr "Достигнуто максимальное количество попыток!"
 
 #: ftpd.cc:197 httpd.cc:87
@@ -261,7 +257,7 @@ msgid "Answer read ok"
 msgstr "Ответ прочитан"
 
 #: hproxy.cc:151 httpd.cc:230
-msgid "Could'nt get normal answer!"
+msgid "Couldn't get normal answer!"
 msgstr "Не удается получить нормальный ответ!"
 
 #: http.cc:43
@@ -294,7 +290,7 @@ msgstr "Соединение закрыто"
 
 #: httpd.cc:78
 #, c-format
-msgid "Retrying %i"
+msgid "Retry %i"
 msgstr "Попытка %i"
 
 #: httpd.cc:143
@@ -918,7 +914,7 @@ msgid "Open dialog for Drag-n-Drop"
 msgstr "Открывать окно для Drag-n-Drop"
 
 #: face/prefs.cc:213
-msgid "Iconify main window when closing"
+msgid "Iconfiy main window instead of closing"
 msgstr "Сворачивать окно при закрытии"
 
 #: face/prefs.cc:215
@@ -1195,7 +1191,7 @@ msgstr "Выйти если ничего не происходит через"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr"Главный лог"
+msgstr "Главный лог"
 
 #: face/prefs.cc
 msgid "Output detailed information"
@@ -1242,7 +1238,7 @@ msgid "/Paste Download"
 msgstr "/Добавить из буффера"
 
 #: face/dndtrash.cc
-msgid "/Common options"
+msgid "/General options"
 msgstr "/Настройки программы"
 
 #: face/dndtrash.cc
@@ -1326,11 +1322,11 @@ msgid "/Speed"
 msgstr "/Скорость"
 
 #: face/dndtrash.cc
-msgid "/Speed/Lowest"
+msgid "/Speed/Low"
 msgstr "/Скорость/Минимальная"
 
 #: face/dndtrash.cc
-msgid "/Speed/Middle"
+msgid "/Speed/Medium"
 msgstr "/Скорость/Средняя"
 
 #: face/dndtrash.cc
@@ -1342,11 +1338,11 @@ msgid "/Options/Speed"
 msgstr "/Настройки/Скорость"
 
 #: face/list.cc
-msgid "/Options/Speed/Lowest"
+msgid "/Options/Speed/Low"
 msgstr "/Настройки/Скорость/Минимальная"
 
 #: face/list.cc
-msgid "/Options/Speed/Middle"
+msgid "/Options/Speed/Medium"
 msgstr "/Настройки/Скорость/Средняя"
 
 #: face/list.cc
@@ -1398,7 +1394,7 @@ msgid "/Download/Invert selection"
 msgstr "/Закачка/Инвертировать выделение"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via FTP"
+msgid "Try to load symbolic link as file via FTP"
 msgstr "Загружать символическую ссылку как файл (ftp)"
 
 # face/list.cc
@@ -1463,7 +1459,7 @@ msgstr "Устанвливаю ограничение скорости в %s %s"
 msgid "low"
 msgstr "минимум"
 
-msgid "middle"
+msgid "medium"
 msgstr "среднее"
 
 msgid "unlimited"
@@ -1640,3 +1636,40 @@ msgstr "Файл на сервере новее чем локальный. Начинаем сначала\n"
 #:face/dndtrash.cc
 msgid "/Delete completed"
 msgstr "/Удалить завершенные"
+
+#:face/fsface.cc
+msgid "nothing found"
+msgstr "ничего не найдено"
+
+msgid "searching"
+msgstr "идет поиск"
+
+msgid "remove"
+msgstr "удалить"
+
+#:face/prefs.cc
+msgid "Write Descript.ion file"
+msgstr "Писать файл Descript.ion"
+
+#:face/columns.cc
+msgid "description"
+msgstr "описание"
+
+#:face/lod.cc
+msgid "Description"
+msgstr "Описание"
+
+#:dlist.cc:
+msgid "Search has been completed!"
+msgstr "Поиск завершен"
+
+#:config.cc:
+msgid "Expect URL as parameter for '--ls' option"
+msgstr "Ожидается АДРЕС как параметр для команды --ls"
+
+msgid "display info about URL in queue of downloads"
+msgstr "отобразить информацию о АДРЕСЕ в очереди закачек"
+
+#: face/edit.cc
+msgid "Sleep before completing"
+msgstr "Спать перед завершением"

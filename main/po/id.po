@@ -498,7 +498,7 @@ msgid "Optimize recursive downloads"
 msgstr "Mengoptimasi download rekursif"
 
 #: face/prefs.cc:206
-msgid "Iconify main window when closing"
+msgid "Iconfiy main window instead of closing"
 msgstr "Mengikonkan window utama sewaktu menutup"
 
 #: face/prefs.cc:210
@@ -627,11 +627,11 @@ msgid "Load list"
 msgstr "Muat daftar"
 
 #: client.cc:67
-msgid "Timeout when socket read!"
+msgid "Timeout while reading from socket!"
 msgstr "Terlalu lama menunggu pembacaan socket!"
 
 #: client.cc:72
-msgid "Error when reading from socket!"
+msgid "Error while reading from socket!"
 msgstr "Kesalahan sewaktu membaca dari socket!"
 
 #: client.cc:81
@@ -664,7 +664,7 @@ msgid "Use default cfg :))...\n"
 msgstr "Menggunakan konfigurasi default :))..\n"
 
 #: config.cc:565
-msgid "Can't open file of limits!!!\n"
+msgid "Can't open limits configuration file!\n"
 msgstr "Tak dapat membuka berkas batasan\n"
 
 #: config.cc:589
@@ -737,20 +737,16 @@ msgid "Accepting faild"
 msgstr "Menerima kesalahan"
 
 #: ftp.cc:48
-msgid "Timeout send through control socket."
+msgid "Timeout while sending through control socket."
 msgstr "Terlalu lama menunggu socket kontrol."
 
 #: ftp.cc:49
-msgid "Control connection is lost"
+msgid "Control connection lost!"
 msgstr "Koneksi kontrol terputus"
 
 #: ftp.cc:58
-msgid "Data socket is lost!"
+msgid "Data connection lost!"
 msgstr "Koneksi data terputus!"
-
-#: ftp.cc:66
-msgid "Control socket lost!"
-msgstr "Koneksi kontrol terputus!"
 
 #: ftp.cc:175
 #, c-format
@@ -774,21 +770,21 @@ msgid "Reget is not supported!!!"
 msgstr "Penerusan download tidak didukung!!!"
 
 #: ftpd.cc:178
-msgid "Server refused login probably too many users of your class"
+msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "Server menolak login, kemungkinan karena terlalu banyak user di kelas anda"
 
 #: ftpd.cc:181 httpd.cc:74
 #, c-format
-msgid "Retrying %i of %i...."
+msgid "Retry %i of %i...."
 msgstr "Mencoba %i dari %i...."
 
 #: ftpd.cc:183
 #, c-format
-msgid "Retrying %i ..."
+msgid "Retry %i ..."
 msgstr "Mencoba %i ..."
 
 #: ftpd.cc:186 httpd.cc:79
-msgid "Max amount of retries was reached!"
+msgid "Maximum number of retries reached!"
 msgstr "Jumlah pengulangan maksimum telah tercapai!"
 
 #: ftpd.cc:192 httpd.cc:85
@@ -858,7 +854,7 @@ msgid "Answer read ok"
 msgstr "Jawaban berhasil diterima dengan baik"
 
 #: hproxy.cc:142 httpd.cc:357
-msgid "Could'nt get normal answer!"
+msgid "Couldn't get normal answer!"
 msgstr "Tak mendapatkan jawaban normal!"
 
 #: http.cc:44
@@ -891,7 +887,7 @@ msgstr "Koneksi ditutup"
 
 #: httpd.cc:76
 #, c-format
-msgid "Retrying %i"
+msgid "Retry %i"
 msgstr "Mencoba %i"
 
 #: httpd.cc:271
@@ -1184,7 +1180,7 @@ msgstr ""
 
 #: prefs.cc:
 msgid "Main log"
-msgstr""
+msgstr ""
 
 #: face/prefs.cc
 msgid "Output detailed information"
@@ -1231,7 +1227,7 @@ msgid "/Paste Download"
 msgstr ""
 
 #: face/dndtrash.cc
-msgid "/Common options"
+msgid "/General options"
 msgstr ""
 
 #: face/dndtrash.cc
@@ -1317,11 +1313,11 @@ msgid "/Speed"
 msgstr ""
 
 #: face/dndtrash.cc
-msgid "/Speed/Lowest"
+msgid "/Speed/Low"
 msgstr ""
 
 #: face/dndtrash.cc
-msgid "/Speed/Middle"
+msgid "/Speed/Medium"
 msgstr ""
 
 #: face/dndtrash.cc
@@ -1333,11 +1329,11 @@ msgid "/Options/Speed"
 msgstr ""
 
 #: face/list.cc
-msgid "/Options/Speed/Lowest"
+msgid "/Options/Speed/Low"
 msgstr ""
 
 #: face/list.cc
-msgid "/Options/Speed/Middle"
+msgid "/Options/Speed/Medium"
 msgstr ""
 
 #: face/list.cc
@@ -1388,7 +1384,7 @@ msgid "/Download/Invert selection"
 msgstr ""
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via FTP"
+msgid "Try to load symbolic link as file via FTP"
 msgstr ""
 
 # face/list.cc
@@ -1454,7 +1450,7 @@ msgstr ""
 msgid "low"
 msgstr ""
 
-msgid "middle"
+msgid "medium"
 msgstr ""
 
 msgid "unlimited"
@@ -1633,4 +1629,41 @@ msgstr ""
 
 #:face/dndtrash.cc
 msgid "/Delete completed"
+msgstr ""
+
+#:face/fsface.cc
+msgid "nothing found"
+msgstr ""
+
+msgid "searching"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+#:face/prefs.cc
+msgid "Write Descript.ion file"
+msgstr ""
+
+#:face/columns.cc
+msgid "description"
+msgstr ""
+
+#:face/lod.cc
+msgid "Description"
+msgstr ""
+
+#:dlist.cc:
+msgid "Search has been completed!"
+msgstr ""
+
+#:config.cc:
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+#: face/edit.cc
+msgid "Sleep before completing"
 msgstr ""

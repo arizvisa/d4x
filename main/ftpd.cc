@@ -168,11 +168,11 @@ void ftp_cut_string_list(char *src,tFileInfo *dst,int flag) {
 		char *tmp;
 		if (!is_string(str1)){
 			tmp=skip_strings(src,8);
-			sscanf(src,"%s %u %s %s %u %s %u %s %s",
+			sscanf(src,"%s %u %s %s %li %s %u %s %s",
 	       		str1,&par1,str1,str1,&dst->size,str1,&par1,str1,name);
 		}else{
 			tmp=skip_strings(src,7);
-			sscanf(src,"%s %u %s %u %s %u %s %s",
+			sscanf(src,"%s %u %s %li %s %u %s %s",
 	       		str1,&par1,str1,&dst->size,str1,&par1,str1,name);
 		};
 		dst->type=ftp_type_from_str(src);
@@ -204,7 +204,7 @@ void ftp_cut_string_list(char *src,tFileInfo *dst,int flag) {
 				dst->type=T_DIR;
 				dst->perm=0775;
 			}else{
-				sscanf(str1,"%u",&(dst->size));
+				sscanf(str1,"%li",&(dst->size));
 				dst->type=T_FILE;
 				dst->perm=0664;
 			};
@@ -229,7 +229,7 @@ void tFtpDownload::print_error(int error_code){
 		LOG->log(LOG_ERROR,_("Can't change directory"));
 		break;
 	case ERROR_TOO_MANY_USERS:
-		LOG->log(LOG_WARNING,_("Server refused login probably too many users of your class"));
+		LOG->log(LOG_WARNING,_("Server refused login, perhaps there are too many users of your class"));
 		break;
 	default:
 		tDownloader::print_error(error_code);
@@ -277,11 +277,8 @@ int tFtpDownload::reconnect() {
 		RetrNum++;
 		print_error(ERROR_ATTEMPT);
 		if (RetrNum>1) {
-			if (FTP->test_reget() || config.retry) {
-				LOG->log(LOG_OK,_("Sleeping"));
-				sleep(config.time_for_sleep+1);
-			}
-			else return -1;
+			LOG->log(LOG_OK,_("Sleeping"));
+			sleep(config.time_for_sleep+1);
 		};
 		if (FTP->reinit()==0){
 			success=0;
@@ -312,6 +309,10 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	list=NULL;
 
 	config.copy_ints(cfg);
+	if (cfg->split){
+		config.retry=0;
+		config.rollback=0;
+	};
 	config.copy_proxy(cfg);
 
 	if (config.proxy_host.get() && config.proxy_port) {
@@ -327,6 +328,7 @@ int tFtpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	} else
 		FTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
 	FTP->set_passive(config.passive);
+	FTP->set_retry(config.retry);
 	FTP->set_dont_set_quit(config.dont_send_quit);
 	return reconnect();
 };
@@ -335,7 +337,7 @@ tStringList *tFtpDownload::dir() {
 	return DIR;
 };
 
-int tFtpDownload::get_size() {
+fsize_t tFtpDownload::get_size() {
 	if (!list) {
 		list=new tStringList;
 		list->init(0);
@@ -437,7 +439,7 @@ int tFtpDownload::download_dir() {
 	return 0;
 };
 
-int tFtpDownload::download(int len) {
+int tFtpDownload::download(fsize_t len) {
 	int rvalue=0;
 	switch (D_FILE.type){
 	case T_DIR: {
@@ -452,20 +454,22 @@ int tFtpDownload::download(int len) {
 	default:{
 		if (LOADED && remote_file_changed()){
 			print_error(ERROR_FILE_UPDATED);
+			if (config.retry==0) return(-1);
 			LOADED=0;
 			LOG->shift(0);
 			LOG->truncate();
 		};
-		int length_to_load=len>0?LOADED+len:0;
-		int ind=0;
+		fsize_t length_to_load=len>0?LOADED+len:0;
+		fsize_t ind=0;
 		while(1) {
 			if (!change_dir()) {
 				if (!FTP->stand_data_connection()) {
 					StartSize=rollback();
 					Status=D_DOWNLOAD;
-					int to_load=len>0?length_to_load-LOADED:0;
+					fsize_t to_load=len>0?length_to_load-LOADED:0;
 					ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
 					if (!FTP->test_reget()){
+						if (config.retry==0) break;
 						StartSize=LOADED=0;
 					};
 					if (ind>0) {
@@ -497,14 +501,14 @@ int tFtpDownload::download(int len) {
 	return rvalue;
 };
 
-int tFtpDownload::get_readed() {
+fsize_t tFtpDownload::get_readed() {
 	if (D_FILE.type==T_FILE) return (FTP->get_readed());
 	if (DIR) return DIR->size();
 	if (list) return list->size();
 	return 0;
 };
 
-int tFtpDownload::another_way_get_size() {
+fsize_t tFtpDownload::another_way_get_size() {
 	return FTP->another_way_get_size();
 };
 
@@ -512,7 +516,7 @@ int tFtpDownload::get_child_status() {
 	return(FTP->get_status());
 };
 
-int tFtpDownload::get_start_size() {
+fsize_t tFtpDownload::get_start_size() {
 	if (FTP && !FTP->test_reget())
 		return 0;
 	return(StartSize);

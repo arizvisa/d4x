@@ -61,7 +61,8 @@ tProtoInfo begin_protos[]={
 tProtoInfo proto_infos[]={
 	{"?",0,D_PROTO_UNKNOWN},
 	{"ftp",21,D_PROTO_FTP},
-	{"http",80,D_PROTO_HTTP}
+	{"http",80,D_PROTO_HTTP},
+	{"search",80,D_PROTO_SEARCH}
 };
 
 int global_url(char *url) {
@@ -310,6 +311,29 @@ void tAddr::save_to_config(int fd){
 		f_wstr(fd,params.get());
 	};
 	f_wstr(fd,"\n");
+};
+
+void tAddr::save_to_description(int fd){
+	f_wstr(fd,proto_infos[proto].name);
+	f_wstr(fd,"://");
+	f_wstr(fd,host.get());
+	if (port!=proto_infos[proto].port){
+		char port_str[MAX_LEN];
+		g_snprintf(port_str,MAX_LEN,"%d",port);
+		f_wstr(fd,":");
+		f_wstr(fd,port_str);
+	};
+	if (!_str_first_char(path.get(),'/'))
+		f_wstr(fd,"/");
+	if (path.get())
+		f_wstr(fd,path.get());
+	if (!_str_last_char(path.get(),'/'))
+		f_wstr(fd,"/");
+	f_wstr(fd,file.get());
+	if (params.get()){
+		f_wstr(fd,"?");
+		f_wstr(fd,params.get());
+	};
 };
 
 

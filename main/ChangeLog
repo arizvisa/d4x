@@ -1,3 +1,116 @@
+Fri Jan 26 13:59:06 2001
+	*many files,po/*.po: spell fixes;
+	*config.cc: improved --ls option;
+
+Thu Jan 25 12:46:45 2001
+	*dlist.cc: attempts to do sorting of urls which was found during ftp
+	search;
+
+Wed Jan 24 14:19:41 2001
+	*various files: code cleanups for better compatibility;
+	*po/Makefile: support for old msgfmt;
+	*po/*.po: cleanups for old msgfmt;
+
+Tue Jan 23 11:40:18 2001
+	*config.cc: fixed storing "load symbolic link as file" option;
+	*dlist.cc[h],addr.cc[h]: implement writing of Descript.ion file,
+	code cleanups;
+	*Makefile: back some changes;
+
+Mon Jan 22 10:50:37 2001
+	*main.cc[h],config.cc,var.h,face/addd.cc[h],face/lod.cc,
+	face/edit.cc[h]: new column in queue of downloads, getting description
+	from Mozilla's drops;
+	*Makefile: cleanups;
+	*face/lod.cc: fixed DnD problems with Mozilla :-);
+
+Sat Jan 20 11:39:36 2001
+	*msgqueue.cc[h],main.cc[h],log.cc: replace msgqueue of SysV IPC by
+	my own msg queue with real prosses ordering;
+	*var.h: codecleanups;
+	*face/log.cc[h],main.cc: codecleanups, fixed old memory leak while
+	redraw logs;
+
+Fri Jan 19 13:10:53 2001
+	*face/list.cc: fixed enabling menu items for manipulations with
+	failed downloads in main menu;
+
+Thu Jan 18 16:25:42 2001
+	*srvclt.cc[h],config.cc[h],db.cc[h]: added '--ls' command line option;
+
+Wed Jan 17 09:10:02 2001
+	*face/fsface.cc: fixed unnesessary overdraws;
+
+Tue Jan 16 10:31:48 2001
+	*main.cc,log.cc[h],download.cc[h],var.h,config.cc,face/edit.cc[h]:
+	added ability to save log in file;
+	*dlist.cc: saving logs of splited downloads in separate files;
+
+Mon Jan 15 20:27:00 2001
+	*main.cc: fixed doubled time;
+
+Mon Jan 15 11:27:33 2001
+	*main.cc[h],face/fsface.cc,fsearch.cc[h]: complete interface for
+	ftpsearch;
+
+Sat Jan 13 18:12:06 2001
+	*main.cc[h],dlist.cc[h]: added ability to remove file from disk;
+	*face/list.cc: selecting "delete downloads" with Shift key will
+	remove files from disk;
+	*face/fsface.cc: continue working under face for ftp search;
+
+Fri Jan 12 11:25:43 2001
+	*main.cc[h],face/list.cc[h],config.cc,face/fsface.cc[h],fsearch.cc[h]:
+	begin to implement interface for ftp search;
+
+Thu Jan 11 19:13:29 2001
+	*main.h,fsearch.cc[h]: begin to implement interface for ftp search;
+
+Wed Jan 10 10:09:30 2001
+	*face/log.cc: fixed segfault on log switching for splited downloads;
+	*main.cc,dlist.cc: logs of splited downloads will not be destroyed
+	after completing;
+
+Sun Jan  7 22:12:49 2001
+	*face/edit.cc: fixed double url when pasted;
+
+Sat Jan  6 17:13:47 2001
+	*main.cc[h],face/lod.cc[h],dlist.cc: completed core of ftp searching;
+	code cleanups;
+
+Wed Jan  3 22:39:09 2001
+	*main.cc,dlist.cc[h],addr.h: preparing for ftpsearch;
+
+Fri Dec 29 11:27:15 2000
+	*log.cc[h],main.cc,dlist.cc: fixed probability of segfault after
+	destroing logs;
+
+Thu Dec 28 09:42:28 2000
+	*dlist.cc: new algorithm for spliting file;
+	*client.cc[h],html.cc: code cleanups;
+
+Wed Dec 27 11:32:10 2000
+	*main.cc,dlist.cc[h],face/lod.cc: code cleanups;
+	*face/list.cc,face/myclist.cc: changed mode of displaing percentage;
+	*ftpd.cc,ftp.cc[h]: fixed config.retry feature;
+	*dlist.cc: fixed rollbacking if file already loaded; fixed segmentation
+	if file already loaded;
+	*main.cc: fixed running and getting status for splited downloads;
+	*po/zh_CN.BK.po: Chinese translation has been updated;
+
+Tue Dec 26 10:24:18 2000
+	*segments.cc,main.cc,dlist.cc: continue work with splited downloads;
+	codecleanups;
+	*face/log.cc: fixed segfaulting?;
+
+Mon Dec 25 19:58:53 2000
+	*segments.cc[h],main.cc,dlist.cc: continue implement resuming splited
+	downloads;
+
+Sun Dec 24 21:11:29 2000
+	*many files: code cleanups;
+	*main.cc,dlist.cc[h],segments.cc[h]: resuming splited downloads;
+
 Sat Dec 23 09:21:50 2000
 	*httpd.cc,ftpd.cc: truncating file to 0 if it was changed on server;
 

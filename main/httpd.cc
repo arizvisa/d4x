@@ -54,7 +54,7 @@ tHttpDownload::tHttpDownload():tDownloader(){
 void tHttpDownload::print_error(int error_code){
 	switch(error_code){
 	case ERROR_BAD_ANSWER:
-		LOG->log(LOG_ERROR,_("Could'nt get normal answer!"));
+		LOG->log(LOG_ERROR,_("Couldn't get normal answer!"));
 		break;
 	default:
 		tDownloader::print_error(error_code);
@@ -71,6 +71,10 @@ int tHttpDownload::init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg) {
 	Auth=NULL;
 	D_FILE.type=T_FILE; //we don't know any other when download via http
 	config.copy_ints(cfg);
+	if (cfg->split){
+		config.retry=0;
+		config.rollback=0;
+	};
 	HTTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
 	config.user_agent.set(cfg->user_agent.get());
 	config.referer.set(cfg->referer.get());
@@ -84,7 +88,6 @@ int tHttpDownload::reconnect() {
 	int success=1;
 	Status=D_QUERYING;
 	while (success) {
-//		if (HTTP->get_status()==STATUS_FATAL) return -1;
 		if (config.number_of_attempts &&
 		    RetrNum>=config.number_of_attempts+1) {
 			print_error(ERROR_ATTEMPT_LIMIT);
@@ -94,10 +97,8 @@ int tHttpDownload::reconnect() {
 		print_error(ERROR_ATTEMPT);
 		HTTP->down();
 		if (RetrNum>1) {
-			if (HTTP->test_reget() || config.retry) {
-				LOG->log(LOG_WARNING,_("Sleeping"));
-				sleep(config.time_for_sleep+1);
-			}else return -1;
+			LOG->log(LOG_WARNING,_("Sleeping"));
+			sleep(config.time_for_sleep+1);
 		};
 		if (HTTP->reinit()==0)
 			success=0;
@@ -124,7 +125,7 @@ tStringList *tHttpDownload::dir() {
 	return answer;
 };
 
-int tHttpDownload::analize_answer() {
+fsize_t tHttpDownload::analize_answer() {
 	/*  Here we need few analisation of http answer
 	 *	AcceptRanges: bytes
 	 *	Content-Length: (int)
@@ -136,7 +137,7 @@ int tHttpDownload::analize_answer() {
 	ETag=NULL;
 	tString *temp=answer->last();
 	if (!temp) return -1;
-	int rvalue=0;
+	fsize_t rvalue=0;
 	ReGet=0;
 	MustNoReget=0;
 	while(temp) {
@@ -162,7 +163,7 @@ int tHttpDownload::analize_answer() {
 			break;
 		};
 		case H_CONTENT_LENGTH:{
-			sscanf(temp->body+strlen(STR),"%i",&rvalue);
+			sscanf(temp->body+strlen(STR),"%li",&rvalue);
 			break;
 		};
 		case H_CONTENT_RANGE:{
@@ -240,7 +241,7 @@ char *tHttpDownload::make_name(){
 	return rvalue;
 };
 
-int tHttpDownload::get_size() {
+fsize_t tHttpDownload::get_size() {
 	if (!answer) {
 		answer=new tStringList;
 		answer->init(0);
@@ -268,10 +269,10 @@ int tHttpDownload::get_size() {
 	return -2;
 };
 
-int tHttpDownload::download(int len) {
+int tHttpDownload::download(fsize_t len) {
 	int success=1;
 	int first=1;
-	int length_to_load=len>0?LOADED+len:0;
+	fsize_t length_to_load=len>0?LOADED+len:0;
 	while(success) {
 		StartSize=LOADED;
 		if (!first) StartSize=rollback();
@@ -279,6 +280,7 @@ int tHttpDownload::download(int len) {
 		if (ReGet && len==0 && LOADED &&
 		    remote_file_changed()){
 			print_error(ERROR_FILE_UPDATED);
+			if (config.retry==0) return(-1);
 			first=0;
 			LOADED=0;
 			LOG->shift(0);
@@ -286,20 +288,23 @@ int tHttpDownload::download(int len) {
 		};
 		while (first || get_size()>=0) {
 			if (!ReGet) {
-				if (LOADED)
+				if (LOADED){
 					LOG->log(LOG_WARNING,_("It is seemed REGET not supported! Loading from begin.."));
+				};
 				if (ETagChanged && LOADED!=0){
 					LOG->log(LOG_WARNING,_("ETag was changed, restarting again..."));
 					StartSize=LOADED=0;
 					LOG->shift(0);
 					break;
 				};
+				if (config.retry==0) break;
 				StartSize=LOADED=0;
 				LOG->shift(0);
+				LOG->truncate(); //to avoid displaing wron size
 			};
 			Status=D_DOWNLOAD;
-			int to_load=len>0?length_to_load-LOADED:0;
-			int ind=HTTP->get_file_from(NULL,LOADED,to_load);
+			fsize_t to_load=len>0?length_to_load-LOADED:0;
+			fsize_t ind=HTTP->get_file_from(NULL,LOADED,to_load);
 			if (ind>=0) {
 				LOADED+=ind;
 				LOG->log_printf(LOG_OK,_("%i bytes loaded."),ind);
@@ -320,7 +325,7 @@ int tHttpDownload::get_child_status() {
 	return HTTP->get_status();
 };
 
-int tHttpDownload::get_readed() {
+fsize_t tHttpDownload::get_readed() {
 	return (HTTP->get_readed());
 };
 

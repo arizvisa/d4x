@@ -15,11 +15,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: client.cc:67
-msgid "Timeout when socket read!"
+msgid "Timeout while reading from socket!"
 msgstr "소켓읽는 중 시간 초과!"
 
 #: client.cc:72
-msgid "Error when reading from socket!"
+msgid "Error while reading from socket!"
 msgstr "소켓을 읽는 중 오류 발생!"
 
 #: client.cc:81
@@ -52,7 +52,7 @@ msgid "Use default cfg :))...\n"
 msgstr "초기 설정을 사용하세요 :))...\n"
 
 #: config.cc:601
-msgid "Can't open file of limits!!!\n"
+msgid "Can't open limits configuration file!\n"
 msgstr "제한 값 파일을 열 수 없습니다!!!\n"
 
 #: config.cc:625
@@ -121,7 +121,7 @@ msgid "Accepting faild"
 msgstr "받아들이지 않습니다"
 
 #: ftp.cc:48
-msgid "Timeout send through control socket."
+msgid "Timeout while sending through control socket."
 msgstr "콘트롤 소켓을 통해 보내는 시간 초과."
 
 #: ftp.cc:49
@@ -131,10 +131,6 @@ msgstr "콘트롤 연결을 잃어버렸습니다"
 #: ftp.cc:58
 msgid "Data socket lost!"
 msgstr "데이타 소켓을 잃어버렸습니다!"
-
-#: ftp.cc:66
-msgid "Control socket lost!"
-msgstr "콘트롤 소켓을 잃어버렸습니다!"
 
 #: ftp.cc:175
 #, c-format
@@ -158,21 +154,21 @@ msgid "Reget not supported!!!"
 msgstr "이어받기가 지원되지 않습니다!!!"
 
 #: ftpd.cc:178
-msgid "Server refused login probably too many users of your class"
+msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "사용자가 너무 많아 서버가 로그인을 거절했습니다"
 
 #: ftpd.cc:181 httpd.cc:76
 #, c-format
-msgid "Retrying %i of %i...."
+msgid "Retry %i of %i...."
 msgstr "%i의 %i 재시도 중..."
 
 #: ftpd.cc:183
 #, c-format
-msgid "Retrying %i ..."
+msgid "Retry %i ..."
 msgstr "%i 재시도 중..."
 
 #: ftpd.cc:186 httpd.cc:81
-msgid "Max amount of retries was reached!"
+msgid "Maximum number of retries reached!"
 msgstr "최대 재시도에 도달했습니다!"
 
 #: ftpd.cc:192 httpd.cc:87
@@ -242,7 +238,7 @@ msgid "Answer read ok"
 msgstr "답변 읽기 확인"
 
 #: hproxy.cc:155 httpd.cc:369
-msgid "Could'nt get normal answer!"
+msgid "Couldn't get normal answer!"
 msgstr "정상적인 답변을 구할 수 없었습니다!"
 
 #: http.cc:44
@@ -275,7 +271,7 @@ msgstr "연결이 닫혔습니다."
 
 #: httpd.cc:78
 #, c-format
-msgid "Retrying %i"
+msgid "Retry %i"
 msgstr "%i 재시도 중"
 
 #: httpd.cc:273
@@ -910,7 +906,7 @@ msgid "Optimize recursive downloads"
 msgstr "재귀적 내려받기 최적화하기"
 
 #: face/prefs.cc:216
-msgid "Iconify main window when closing"
+msgid "Iconfiy main window instead of closing"
 msgstr "닫을때 기본 창을 아이콘화 하기"
 
 #: face/prefs.cc:220
@@ -1175,7 +1171,7 @@ msgstr "다음에 할 일 없으면 종료하기"
 
 #: prefs.cc:
 msgid "Main log"
-msgstr"기본 로그"
+msgstr "기본 로그"
 
 #: face/prefs.cc
 msgid "Output detailed information"
@@ -1222,7 +1218,7 @@ msgid "/Paste Download"
 msgstr "/내려받기 붙여넣기"
 
 #: face/dndtrash.cc
-msgid "/Common options"
+msgid "/General options"
 msgstr "/공통 옵션"
 
 #: face/dndtrash.cc
@@ -1312,11 +1308,11 @@ msgid "/Speed"
 msgstr "/속도"
 
 #: face/dndtrash.cc
-msgid "/Speed/Lowest"
+msgid "/Speed/Low"
 msgstr "/속도/최저"
 
 #: face/dndtrash.cc
-msgid "/Speed/Middle"
+msgid "/Speed/Medium"
 msgstr "/속도/중간"
 
 #: face/dndtrash.cc
@@ -1328,11 +1324,11 @@ msgid "/Options/Speed"
 msgstr "/옵션/속도"
 
 #: face/list.cc
-msgid "/Options/Speed/Lowest"
+msgid "/Options/Speed/Low"
 msgstr "/옵션/속도/최저"
 
 #: face/list.cc
-msgid "/Options/Speed/Middle"
+msgid "/Options/Speed/Medium"
 msgstr "/옵션/속도/중간"
 
 #: face/list.cc
@@ -1384,7 +1380,7 @@ msgid "/Download/Invert selection"
 msgstr "/내려받기/선택 반전하기"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via FTP"
+msgid "Try to load symbolic link as file via FTP"
 msgstr "FTP로 링크를 파일로 로드 시도하기"
 
 # face/list.cc
@@ -1450,7 +1446,7 @@ msgstr "%s %s로 속도 제한을 정합니다"
 msgid "low"
 msgstr "낮음"
 
-msgid "middle"
+msgid "medium"
 msgstr "중간"
 
 msgid "unlimited"
@@ -1629,3 +1625,40 @@ msgstr "서버에 있는 파일이 하드에 있는 것보다 새 것입니다. 처음부터 다시 시작하�
 #:face/dndtrash.cc
 msgid "/Delete completed"
 msgstr "/끝난 것 지우기"
+
+#:face/fsface.cc
+msgid "nothing found"
+msgstr ""
+
+msgid "searching"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+#:face/prefs.cc
+msgid "Write Descript.ion file"
+msgstr ""
+
+#:face/columns.cc
+msgid "description"
+msgstr ""
+
+#:face/lod.cc
+msgid "Description"
+msgstr ""
+
+#:dlist.cc:
+msgid "Search has been completed!"
+msgstr ""
+
+#:config.cc:
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+#: face/edit.cc
+msgid "Sleep before completing"
+msgstr ""

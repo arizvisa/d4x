@@ -23,16 +23,24 @@ struct tLogString:public tString{
 	~tLogString();
 };
 
+#define LOG_TIME_STR_LEN 40
+
+class tMsgQueue;
+
 class tLog:public tStringList{
 	protected:
+	char timebuf[LOG_TIME_STR_LEN]; //for outputing time into file
 	time_t start;
 	pthread_mutex_t mutex;
 	int key;
 	int current_row;
 	void send_msg(int type,tLogString *what);
 	int geometry[4];
+	int ref_count;
+	int fd;
 	public:
-		int MsgQueue;
+		tMsgQueue *MsgQueue;
+		int freezed_flag;
 		void *Window;
 		tLog();
 		void store_geometry(int *a);
@@ -41,20 +49,17 @@ class tLog:public tStringList{
 		void add(const char *str,int len,int type);
 		void add(const char *str,int type);
 		void add(const char *str);
+		void init_save(char *path);
 		void insert(tNode *what);
 		void dispose();
 		void lock();
 		void unlock();
+		void ref_inc();
+		void ref_dec();
 		tLogString *last();
 		tLogString *next();
 		tLogString *first();
 		~tLog();
-};
-
-struct mbuf{
-	long mtype;
-	tLogString *what;
-	tLog *which;
 };
 
 #endif

@@ -83,12 +83,50 @@ void tMsgServer::init(){
 void tMsgServer::cmd_return_int(int what){
 	tPacket packet;
 	packet.type=PACKET_ACK;
-	packet.len=what;
+	packet.len=sizeof(int);
 	write(newfd,&packet,sizeof(packet));
+	write(newfd,&what,sizeof(what));
 };
 
 void tMsgServer::cmd_ack(){
 	cmd_return_int(0);
+};
+
+void tMsgServer::cmd_ls(int len,int type){
+	char *temp=new char[len+1];
+	if (read(newfd,temp,len)==len){
+		temp[len]=0;
+		tDownload *dl=new tDownload;
+		dl->info=new tAddr(temp);
+		ALL_DOWNLOADS->lock();
+		tDownload *answer=ALL_DOWNLOADS->find(dl);
+		
+		tPacketStatus status;
+		if (answer){
+			status.Size=answer->finfo.size;
+			status.Download=answer->Size.curent;
+			status.Time=answer->Start;
+			status.Speed=answer->Speed.curent;
+			status.Status=answer->owner;
+			status.Attempt=answer->Attempt.curent;
+			status.MaxAttempt=answer->config.number_of_attempts;
+		};
+		
+		ALL_DOWNLOADS->unlock();
+		delete(dl);
+		
+		tPacket packet;
+		packet.type=PACKET_ACK;
+		if (answer){
+			packet.len=sizeof(tPacketStatus);
+			write(newfd,&packet,sizeof(packet));
+			write(newfd,&status,sizeof(status));
+		}else{
+			packet.len=0;
+			write(newfd,&packet,sizeof(packet));
+		};
+	};
+	delete temp;
 };
 
 void tMsgServer::cmd_add(int len,int type){
@@ -132,8 +170,8 @@ void tMsgServer::run(){
 				case PACKET_POPUP:
 				case PACKET_MSG:
 				case PACKET_ADD:{
-						cmd_add(packet.len,packet.type);
-						break;
+					cmd_add(packet.len,packet.type);
+					break;
 				};
 				case PACKET_ASK_SPEED:{
 					cmd_return_int(GlobalMeter->last_value());
@@ -170,6 +208,10 @@ void tMsgServer::run(){
 					cmd_ack();
 					break;
 				};
+				case PACKET_LS:{
+					cmd_ls(packet.len,packet.type);
+					break;
+				};
 				default:
 				case PACKET_NOP: break;
 				};
@@ -194,7 +236,8 @@ tString *tMsgServer::get_string(){
  */
 tMsgClient::tMsgClient(){
     fd=0;
-    answer_int=0;
+    buf=NULL;
+    bufsize=0;
 };
 
 int tMsgClient::init(){
@@ -227,21 +270,41 @@ int tMsgClient::send_command(int cmd,char *data,int len){
 		return -1;
 	if (command.type!=PACKET_ACK)
 		return -1;
-	answer_int=command.len;
+	if (buf)
+		delete(buf);
+	if (command.len){
+		buf=new char[command.len];
+		read(fd,buf,command.len);
+	}else
+		buf=NULL;
+	bufsize=command.len;
 	return 0;
 };
 
 int tMsgClient::get_answer_int(){
-	return answer_int;
+	int tmp=0;
+	if (bufsize==sizeof(int)){
+		memcpy(&tmp,buf,sizeof(int));
+	};
+	return tmp;
+};
+
+int tMsgClient::get_answer_status(tPacketStatus *status){
+	if (bufsize==sizeof(tPacketStatus)){
+		memcpy(status,buf,sizeof(tPacketStatus));
+		return(1);
+	};
+	return(0);
 };
 
 void tMsgClient::done(){
-    if (fd>0){
+	if (fd>0){
 		close(fd);
 		fd=0;
-    };
+	};
 };
 
 tMsgClient::~tMsgClient(){
-    done();
+	done();
+	if (buf) delete(buf);
 };

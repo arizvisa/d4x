@@ -19,7 +19,7 @@
 class tFileInfo{
  public:
 	tPStr name,body;
-	int size;
+	fsize_t size;
 	int type,oldtype;
 	int perm;
 	time_t date;
@@ -28,6 +28,7 @@ class tFileInfo{
 struct tSimplyCfg{
 	int timeout;
 	int time_for_sleep;
+	int sleep_before_complete;
 	int number_of_attempts;
 	int ftp_recurse_depth,http_recurse_depth;
 	int rollback;
@@ -44,6 +45,7 @@ struct tSimplyCfg{
 	int link_as_file;
 	int restart_from_begin;
 	int dont_send_quit;
+	int split; //temporary flag
 	void copy_ints(tSimplyCfg *src);
 };
 
@@ -56,6 +58,7 @@ struct tCfg:public tSimplyCfg{
 	tPStr proxy_pass;
 	tPStr user_agent,referer;
 	tPStr save_name,save_path;
+	tPStr log_save_path;
 	tCfg();
 	int get_flags();
 	void set_flags(int what);
@@ -78,21 +81,20 @@ class tDownloader{
 	tAddr ADDR;
 	tFileInfo D_FILE;
 	time_t local_filetime;
-	int StartSize;
-	int LOADED;
+	fsize_t StartSize,LOADED;
  public:
     	tDownloader();
     	int treat();
      	int get_status();
-     	virtual int get_start_size();
+     	virtual fsize_t get_start_size();
      	virtual void init_download(char *file,char *path);
-     	void set_loaded(int a);
+     	void set_loaded(fsize_t a);
     	virtual void set_file_info(tFileInfo *what);
 	void set_local_filetime(time_t lt);
 	virtual int remote_file_changed();
     	virtual tFileInfo *get_file_info();
      	virtual char *get_new_url();
-     	virtual int another_way_get_size();
+     	virtual fsize_t another_way_get_size();
 
 	int rollback();
 	virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
@@ -101,12 +103,12 @@ class tDownloader{
 
      	virtual int reconnect()=0;
     	virtual int init(tAddr *hostinfo,tWriterLoger *log,tCfg *cfg)=0;
-    	virtual int get_readed()=0;
+    	virtual fsize_t get_readed()=0;
+    	virtual fsize_t get_size()=0;
     	virtual int get_child_status()=0;
-    	virtual int get_size()=0;
      	virtual int reget()=0;
 	virtual tStringList *dir()=0;
-    	virtual int download(int len)=0;
+    	virtual int download(fsize_t len)=0;
     	virtual void done()=0;
 
     	virtual ~tDownloader();

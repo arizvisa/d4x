@@ -20,10 +20,10 @@ tSpeed::tSpeed() {
 };
 
 void tSpeed::print() {
-	printf("%i\n",bytes);
+	printf("%li\n",bytes);
 };
 
-int tSpeed::init(int a) {
+fsize_t tSpeed::init(fsize_t a) {
 	pthread_mutex_lock(&lock);
 	if (bytes<0) {
 		last_gived=bytes=a;
@@ -31,16 +31,16 @@ int tSpeed::init(int a) {
 		pthread_mutex_unlock(&lock1);
 		return 0;
 	};
-	int temp=(last_gived>0?last_gived:a)-bytes;
+	fsize_t temp=(last_gived>0?last_gived:a)-bytes;
 	if((bytes=temp)<=0)
 		bytes=1;
 	last_gived=bytes;
-	int rvalue=a-bytes;
+	fsize_t rvalue=a-bytes;
 	pthread_mutex_unlock(&lock);
 	return(rvalue);
 };
 
-void tSpeed::set(int a){
+void tSpeed::set(fsize_t a){
 	pthread_mutex_lock(&lock);
 	if (bytes<0) {
 		last_gived=bytes=a;
@@ -52,7 +52,7 @@ void tSpeed::set(int a){
 	};
 };
 
-void tSpeed::decrement(int a) {
+void tSpeed::decrement(fsize_t a) {
 	pthread_mutex_lock(&lock);
 	bytes-=a;
 	if (bytes<0) {
@@ -99,11 +99,11 @@ void tSpeedQueue::schedule(unsigned int period) {
 	};
 };
 
-void tSpeedQueue::schedule(int a,int flag) {
+void tSpeedQueue::schedule(fsize_t a,int flag) {
 	if (Num==0) return;
 	if (a){
-		int part=a / Num;
-		int Full=0;
+		fsize_t part=a / Num;
+		fsize_t Full=0;
 		if (part<=0) part=1;
 		tSpeed *temp=last();
 		tSpeed *tmpbeg=NULL;

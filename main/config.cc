@@ -21,6 +21,7 @@
 #include "history.h"
 #include "config.h"
 #include "face/list.h"
+#include "face/fsface.h"
 #include "ntlocale.h"
 #include "srvclt.h"
 
@@ -54,7 +55,8 @@ tOption downloader_parsed_args[]={
 	{"-w",			OPT_WITHOUT_FACE},
 	{"--without-face",	OPT_WITHOUT_FACE},
 	{"--minimized",		OPT_RUN_MINIMIZED},
-	{"--exit-time",		OPT_EXIT_TIME}
+	{"--exit-time",		OPT_EXIT_TIME},
+	{"--ls",		OPT_LS}
 };
 
 char *downloader_args_errors[]={
@@ -68,11 +70,13 @@ char *downloader_args_errors[]={
 	(char *)NULL,
 	(char *)"You forgot to specify directory.",
 	(char *)NULL,
-	(char *)"You should specify number as second parameter for '-m' option",
+	(char *)"You must specify number as second parameter for '-m' option",
 	(char *)NULL,
 	(char *)NULL,
 	(char *)NULL,
-	(char *)"You should specify number as parameter for '--exit-time' option"
+	(char *)"You must specify number as parameter for '--exit-time' option",
+	(char *)"Expect URL as parameter for '--ls' option"
+	
 };
 
 
@@ -97,6 +101,7 @@ tConfigVariable config_variables[]={
 	{"windowwidth",		CV_TYPE_INT,	&(CFG.WINDOW_WIDTH)},
 	{"windowheight",	CV_TYPE_INT,	&(CFG.WINDOW_HEIGHT)},
 	{"clist_height",	CV_TYPE_INT,	&(CFG.WINDOW_CLIST_HEIGHT)},
+	{"clist_width",		CV_TYPE_INT,	&(CFG.WINDOW_CLIST_WIDTH)},
 	{"ftp_proxy_host",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_HOST)},
 	{"ftp_proxy_user",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_USER)},
 	{"ftp_proxy_pass",	CV_TYPE_STRING,	&(CFG.FTP_PROXY_PASS)},
@@ -133,6 +138,7 @@ tConfigVariable config_variables[]={
 	{"dl_elapsed_time_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[ELAPSED_TIME_COL])},
 	{"dl_pause_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[PAUSE_COL])},
 	{"dl_treat_col",	CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[TREAT_COL])},
+	{"dl_desc_col",		CV_TYPE_INT,	&(TEMP_COLUMN_SIZES[DESCRIPTION_COL])},
 	{"fl_host_col",		CV_TYPE_INT,	&(CFG.FACE_LIMITS_SIZE1)},
 	{"fl_limit_col",	CV_TYPE_INT,	&(CFG.FACE_LIMITS_SIZE2)},
 	{"window_lower",	CV_TYPE_BOOL,	&(CFG.WINDOW_LOWER)},
@@ -163,6 +169,7 @@ tConfigVariable config_variables[]={
 	{"dl_elapsed_time_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[ELAPSED_TIME_COL])},
 	{"dl_pause_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[PAUSE_COL])},
 	{"dl_treat_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[TREAT_COL])},
+	{"dl_desc_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[DESCRIPTION_COL])},
 	{"dl_url_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[URL_COL])},
 	{"dl_nothing_col_pos",	CV_TYPE_INT,	&(TEMP_COLUMN_POS[NOTHING_COL])},
 	{"rollback",		CV_TYPE_INT,	&(CFG.DEFAULT_CFG.rollback)},
@@ -192,7 +199,9 @@ tConfigVariable config_variables[]={
 	{"default_host_limit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_HOST_LIMIT)},
 	{"allow_force_run",	CV_TYPE_BOOL,	&(CFG.ALLOW_FORCE_RUN)},
 	{"ftp_dir_in_log",	CV_TYPE_BOOL,	&(CFG.FTP_DIR_IN_LOG)},
-	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_send_quit)}
+	{"dont_send_quit",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.dont_send_quit)},
+	{"link_as_file",	CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.link_as_file)},
+	{"write_description",	CV_TYPE_BOOL,	&(CFG.WRITE_DESCRIPTION)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);
@@ -284,6 +293,8 @@ void read_config() {
 	load_strlist(ALL_HISTORIES[EXEC_HISTORY],".ntrc/history9",0);
 	load_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11",0);
 	load_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12",1);
+	load_strlist(ALL_HISTORIES[LOG_SAVE_HISTORY],".ntrc/history13",1);
+	load_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14",0);
 	if (CFG.REMEMBER_PASS)
 		load_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10",0);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add("%version");
@@ -334,6 +345,7 @@ void save_config() {
 	if (fd>=0) {
 		list_of_downloads_get_height();
 		list_of_downloads_get_sizes();
+		fs_list_get_size();
 		CFG.DEFAULT_HOST_LIMIT=LimitsForHosts==NULL?0:LimitsForHosts->get_default_limit();
 		if (FaceForLimits) {
 			FaceForLimits->get_sizes();
@@ -392,6 +404,8 @@ void save_config() {
 	save_strlist(ALL_HISTORIES[PASS_HISTORY],".ntrc/history10");
 	save_strlist(ALL_HISTORIES[SKIP_HISTORY],".ntrc/history11");
 	save_strlist(ALL_HISTORIES[SAVE_HISTORY],".ntrc/history12");
+	save_strlist(ALL_HISTORIES[LOG_SAVE_HISTORY],".ntrc/history13");
+	save_strlist(ALL_HISTORIES[DESC_HISTORY],".ntrc/history14");
 	delete cfgpath;
 };
 
@@ -460,7 +474,7 @@ void read_limits() {
 		};
 		close(fd);
 	} else {
-		printf(_("Can't open file of limits!!!\n"));
+		printf(_("Can't open limits configuration file!\n"));
 	};
 };
 
@@ -627,6 +641,48 @@ int parse_command_line_already_run(int argv,char **argc){
 					}else
 						printf("%s\n",_(downloader_args_errors[OPT_EXIT_TIME]));
 					break;
+				case OPT_LS:{
+					rvalue=0;
+					if (argv>i+1){
+						tPacketStatus status;
+						i+=1;
+						clt->send_command(PACKET_LS,argc[i],strlen(argc[i]));
+						printf("%s:\n",argc[i]);
+						if (clt->get_answer_status(&status)){
+							switch(status.Status){
+							case DL_RUN:
+								printf(">");
+								break;
+							case DL_STOP:
+								printf("X");
+								break;
+							case DL_WAIT:
+								printf("o");
+								break;
+							case DL_PAUSE:
+								printf("=");
+								break;
+							case DL_COMPLETE:
+								printf("+");
+								break;
+							case DL_STOPWAIT:
+								printf("-");
+								break;
+							default:
+								printf("?");
+								break;
+							};
+							printf(" %i/%i bytes %i B/s %i/%i attempts\n",
+							       status.Download,status.Size,
+							       status.Speed,
+							       status.Attempt,status.MaxAttempt);
+						}else{
+							printf(_("is absent in the queue\n"));
+						};
+					}else
+						printf("%s\n",_(downloader_args_errors[OPT_LS]));
+					break;
+				};
 				};
 			};
 		};		
@@ -719,5 +775,6 @@ void help_print(){
 	help_print_args(OPT_SET_MAX_THREADS);printf(_("set maximum active downloads"));printf("\n");
 	help_print_args(OPT_RERUN_FAILED);printf(_("restart all failed downloads"));printf("\n");
 	help_print_args(OPT_WITHOUT_FACE);printf(_("run program without X interface"));printf("\n");
+	help_print_args(OPT_LS);printf(_("display info about URL in queue of downloads"));printf("\n");
 	printf("\n");
 };

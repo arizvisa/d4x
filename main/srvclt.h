@@ -20,6 +20,7 @@ class tMsgServer{
 	pthread_mutex_t lock;
 	int fd,newfd; /* socket descriptors */
 	void cmd_add(int len,int type);
+	void cmd_ls(int len,int type);
 	void cmd_ack();
 	void cmd_return_int(int what);
  public:
@@ -30,14 +31,26 @@ class tMsgServer{
 	~tMsgServer();
 };
 
+struct tPacketStatus{
+	int Status;
+	int Size;
+	int Download;
+	int Speed;
+	int Time;
+	int Attempt;
+	int MaxAttempt;
+};
+
 class tMsgClient{
     int fd;
-    int answer_int;
+    char *buf;
+    int bufsize;
     public:
 		tMsgClient();
 		int init();
 		int send_command(int cmd,char *data,int len);
 		int get_answer_int();
+		int get_answer_status(tPacketStatus *status);
 		void done();
 		~tMsgClient();
 };
@@ -68,6 +81,7 @@ enum {
 	PACKET_ASK_FULLAMOUNT,	// amount of all downloads
 	PACKET_RERUN_FAILED,
 	PACKET_EXIT_TIME,
+	PACKET_LS,
 	PACKET_UNKNOWN
 };
 

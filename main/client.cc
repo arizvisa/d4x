@@ -19,6 +19,11 @@
 #include <sys/types.h>
 
 tWriterLoger::tWriterLoger(){};
+
+fsize_t tWriterLoger::shift(fsize_t len){
+	return(shift(len,SEEK_SET));
+};
+
 tWriterLoger::~tWriterLoger(){};
 
 void tWriterLoger::log_printf(int type,const char *fmt,...){
@@ -131,12 +136,12 @@ int tClient::read_string(tSocket *sock,tStringList *list,int maxlen) {
 int tClient::socket_err_handler(int err) {
 	if (err==STATUS_TIMEOUT) {
 		Status=STATUS_TIMEOUT;
-		LOG->log(LOG_ERROR,_("Timeout when socket read!"));
+		LOG->log(LOG_ERROR,_("Timeout while reading from socket!"));
 		return RVALUE_TIMEOUT;
 	};
 	if (err<0) {
 		Status=STATUS_TRIVIAL;
-		LOG->log(LOG_ERROR,_("Error when reading from socket!"));
+		LOG->log(LOG_ERROR,_("Error while reading from socket!"));
 		return RVALUE_TIMEOUT;
 	};
 	return RVALUE_OK;

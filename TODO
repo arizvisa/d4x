@@ -1,19 +1,8 @@
--------- for version 1.21 -----------------------
-real queue for thread ordering while log updatings 
-option for configuring persentage in queue of downloads
-description column and getting description from Mozilla's drops
-Descript.ion file in directory
-resuming splited downloads
-history for "port" field in proxy settings
-ftp search capabilities
-'--ls URL' command line option
-ability to save logs in file
-------------------------------------------------
+pause before completed option
 add sounds (in integraition with gnome)
-[????] stand_data_connection() should try another way to set it up
-[????] regular expressions in URLs
-[????] change "remove" to "remove from queue"
+history for "port" field in proxy settings
 pause download just after adding in common options
+profiles
 autofilling "filename for saving" field by data from URL
 "Hot list" (ability to define URLs for automatic download by d4x)
 sheduller for various actions
@@ -29,6 +18,10 @@ mask support via http
 browser for ftp and http
 uploading files to server
 Auto detection of best proxy.
+[????] option for configuring persentage in queue of downloads
+[????] stand_data_connection() should try another way to set it up
+[????] regular expressions in URLs
+[????] change "remove" to "remove from queue"
 [DONE] ability to hide main window
 [DONE] force download by start button;
 [DONE] default limitation to the host;
@@ -97,3 +90,13 @@ Auto detection of best proxy.
 [DONE] symbolic link as file in common options
 [DONE] implement <META http-equiv="refresh" content="">
 [DONE] support for Content-Type: multipart/x-byteranges; boundary=multipart-boundary
+-------- for version 1.21 -----------------------
+[DONE] resuming splited downloads
+[DONE] ftp search capabilities
+[DONE] remove temporary files from disk by Shift+delete
+[DONE] '--ls URL' command line option
+[DONE] ability to save logs in file
+[DONE] real queue for thread ordering while log updatings 
+[DONE] description column and getting description from Mozilla's drops
+[DONE] Descript.ion file in a directory with downloaded file
+------------------------------------------------

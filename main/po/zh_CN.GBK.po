@@ -21,11 +21,11 @@ msgstr ""
 "Content-Type: text/plain; charset=gb2312\n"
 
 #: client.cc:65
-msgid "Timeout when socket read!"
+msgid "Timeout while reading from socket!"
 msgstr "读套接字超时"
 
 #: client.cc:70
-msgid "Error when reading from socket!"
+msgid "Error while reading from socket!"
 msgstr "读套接字错误"
 
 #: client.cc:79
@@ -76,7 +76,7 @@ msgstr "读错误\n"
 
 
 #: config.cc:567
-msgid "Can't open file of limits!!!\n"
+msgid "Can't open limits configuration file!\n"
 msgstr "不能打开限制文件！！！\n"
 
 
@@ -162,23 +162,18 @@ msgstr "接受失败"
 
 
 #: ftp.cc:47
-msgid "Timeout send through control socket."
+msgid "Timeout while sending through control socket."
 msgstr "控制套接字端口发送超时."
 
 
 #: ftp.cc:48
-msgid "Control connection is lost"
+msgid "Control connection lost!"
 msgstr "控制连接丢失！"
 
 
 #: ftp.cc:57
-msgid "Data socket is lost!"
+msgid "Data connection lost!"
 msgstr "数据套接字连接丢失！"
-
-
-#: ftp.cc:65
-msgid "Control socket lost!"
-msgstr "控制套接字连接丢失！"
 
 
 #: ftp.cc:174
@@ -208,24 +203,24 @@ msgstr "不支持断点续传！！！"
 
 
 #: ftpd.cc:183
-msgid "Server refused login probably too many users of your class"
+msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "服务器拒绝登录，可能有太多的用户正在使用。"
 
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
-msgid "Retrying %i of %i...."
+msgid "Retry %i of %i...."
 msgstr "重试 %i / %i...."
 
 
 #: ftpd.cc:188
 #, c-format
-msgid "Retrying %i ..."
+msgid "Retry %i ..."
 msgstr "重试 %i ..."
 
 
 #: ftpd.cc:191 httpd.cc:81
-msgid "Max amount of retries was reached!"
+msgid "Maximum number of retries reached!"
 msgstr "已经达到最大重试次数！"
 
 
@@ -302,7 +297,7 @@ msgid "Answer read ok"
 msgstr "应答成功"
 
 #: hproxy.cc:151 httpd.cc:230
-msgid "Could'nt get normal answer!"
+msgid "Couldn't get normal answer!"
 msgstr "不能得到正常的应答！"
 
 #: http.cc:43
@@ -335,7 +330,7 @@ msgstr "连接关闭。"
 
 #: httpd.cc:78
 #, c-format
-msgid "Retrying %i"
+msgid "Retry %i"
 msgstr "重试 - %i"
 
 #: httpd.cc:143
@@ -963,7 +958,7 @@ msgid "Open dialog for Drag-n-Drop"
 msgstr "打开拖拽对话框"
 
 #: face/prefs.cc:213
-msgid "Iconify main window when closing"
+msgid "Iconfiy main window instead of closing"
 msgstr "关闭时最小化主窗口"
 
 #: face/prefs.cc:215
@@ -1287,7 +1282,7 @@ msgid "/Paste Download"
 msgstr "/粘贴下载"
 
 #: face/dndtrash.cc
-msgid "/Common options"
+msgid "/General options"
 msgstr "/公共选项"
 
 #: face/dndtrash.cc
@@ -1362,23 +1357,23 @@ msgstr "正在加载 cookie"
 
 #face/prefs.cc
 msgid "Monitor clipboard"
-msgstr "监视粘贴板"
+msgstr "监视粘贴板内容"
 
 
 #: face/prefs.cc
 msgid "Skip these extensions in clipboard"
-msgstr "跳过这些粘贴板中的扩展"
+msgstr "跳过粘贴板中的这些扩展名"
 
 #: face/dndtrash.cc
 msgid "/Speed"
 msgstr "/速度"
 
 #: face/dndtrash.cc
-msgid "/Speed/Lowest"
+msgid "/Speed/Low"
 msgstr "/速度/低速"
 
 #: face/dndtrash.cc
-msgid "/Speed/Middle"
+msgid "/Speed/Medium"
 msgstr "/速度/中速"
 
 #: face/dndtrash.cc
@@ -1390,11 +1385,11 @@ msgid "/Options/Speed"
 msgstr "/选项/速度"
 
 #: face/list.cc
-msgid "/Options/Speed/Lowest"
+msgid "/Options/Speed/Low"
 msgstr "/选项/速度/低速"
 
 #: face/list.cc
-msgid "/Options/Speed/Middle"
+msgid "/Options/Speed/Medium"
 msgstr "/选项/速度/中速"
 
 #: face/list.cc
@@ -1445,7 +1440,7 @@ msgid "/Download/Invert selection"
 msgstr "下载/反向选择"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via FTP"
+msgid "Try to load symbolic link as file via FTP"
 msgstr "尝试将文件链接作为文件进行FTP下载"
 
 # face/list.cc
@@ -1511,7 +1506,7 @@ msgstr "设置限制速度为 %s %s"
 msgid "low"
 msgstr "低"
 
-msgid "middle"
+msgid "medium"
 msgstr "中"
 
 msgid "unlimited"
@@ -1598,89 +1593,126 @@ msgstr "特别感谢:"
 
 #face/prefs.cc
 msgid "Clipboard"
-msgstr ""
+msgstr "粘贴板"
 
 msgid "Catch these extensions in clipboard"
-msgstr ""
+msgstr "从粘贴板捕获这些扩展名"
 
 msgid "Allow to user force run downloads"
-msgstr ""
+msgstr "允许强制运行下载"
 
 #face/saveload.cc
 msgid "Loading"
-msgstr ""
+msgstr "加载"
 
 #main.cc
 msgid "%lu bytes loaded during the session"
-msgstr ""
+msgstr "此对话装载了 %lu 字节"
 
 msgid "Downloader will exit if nothing to do after %i minutes %s"
-msgstr ""
+msgstr "如果空闲 %i 分钟 %s, 本程序将退出"
 
 msgid "Exiting if nothing to do is switched off"
-msgstr ""
+msgstr "空闲退出功能被关闭"
 
 #face/edit.cc
 msgid "Timeout for reading from socket"
-msgstr ""
+msgstr "读取套接字超时"
 
 msgid "Maximum attempts"
-msgstr ""
+msgstr "最大尝试次数"
 
 msgid "Timeout before reconnection"
-msgstr ""
+msgstr "重新连接之前的延时"
 
 msgid "Rollback after reconnecting"
-msgstr ""
+msgstr "重新连接后回退量"
 
 msgid "Depth of recursing for HTTP"
-msgstr ""
+msgstr "HTTP 下载遍历深度"
 
 msgid "Depth of recursing for FTP"
-msgstr ""
+msgstr "FTP 下载遍历深度"
 
 msgid "Speed limitation"
-msgstr ""
+msgstr "速度限制"
 
 msgid "Unselect all"
-msgstr ""
+msgstr "清除选择"
 
 msgid "Select all"
-msgstr ""
+msgstr "全部选择"
 
 msgid "Select properties"
-msgstr ""
+msgstr "选择属性"
 
 #face/lmenu.cc
 msgid "Common properties"
-msgstr ""
+msgstr "公共属性"
 
 #config.cc
 msgid "set timeout for exiting if nothing to do"
-msgstr ""
+msgstr "设置空闲退出时间"
 
 msgid "You should specify number as parameter for '--exit-time' option"
-msgstr ""
+msgstr "您需要使用数字作为 '--exit-time' 选项的参数"
 
 #face/prefs.cc
 msgid "Output FTP dirs in logs"
-msgstr ""
+msgstr "输出 FTP 目录到日志"
 
 #main.cc
 msgid "Setup maximum active downloads to"
-msgstr ""
+msgstr "设置最大活动下载数目到"
 
 msgid "Restarting failed downloads"
-msgstr ""
+msgstr "重新下载失败的文件"
 
 # face/prefs.cc, face/edit.cc
 msgid "Don't send QUIT command (FTP)"
-msgstr ""
+msgstr "不发送 QUIT 命令(FTP)"
 
 #:download.cc
 msgid "File on a server is newer then local one. Restarting from begin\n"
-msgstr ""
+msgstr "服务器上的文件比本地的新. 从头开始.\n"
 
 #:face/dndtrash.cc
 msgid "/Delete completed"
+msgstr "/删除完毕"
+
+#:face/fsface.cc
+msgid "nothing found"
+msgstr ""
+
+msgid "searching"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+#:face/prefs.cc
+msgid "Write Descript.ion file"
+msgstr ""
+
+#:face/columns.cc
+msgid "description"
+msgstr ""
+
+#:face/lod.cc
+msgid "Description"
+msgstr ""
+
+#:dlist.cc:
+msgid "Search has been completed!"
+msgstr ""
+
+#:config.cc:
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+#: face/edit.cc
+msgid "Sleep before completing"
 msgstr ""

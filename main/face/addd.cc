@@ -114,11 +114,12 @@ void init_add_clipboard_window(...) {
 	gtk_widget_grab_focus(what->editor->ok_button);
 };
 
-void init_add_dnd_window(char *url) {
+void init_add_dnd_window(char *url,char *desc) {
 	if (!url) return;
 	init_add_window();
 	tDownload *what=list_for_adding->last();
 	what->editor->set_url(url);
+	what->editor->set_description(desc);
 	gtk_widget_grab_focus(what->editor->ok_button);
 };
 

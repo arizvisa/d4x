@@ -11,13 +11,6 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/ipc.h>
-
-#if (defined(BSD) && (BSD >= 199306))
-#include <sys/msgbuf.h>
-#else
-#include <sys/msg.h>
-#endif
 
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
 #include <sys/param.h>
@@ -28,6 +21,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <errno.h>
 #include <signal.h>
 #include "var.h"
@@ -49,16 +43,17 @@
 #include "face/log.h"
 #include "face/edit.h"
 #include "face/addd.h"
+#include "face/fsface.h"
 #include "config.h"
 #include "ntlocale.h"
-
+#include "memwl.h"
 
 tMLog *MainLog=NULL;
 
 tDList *DOWNLOAD_QUEUES[DL_TEMP];
 tMeter *GlobalMeter=NULL;
 tMeter *LocalMeter=NULL;
-key_t LogsMsgQueue;
+tMsgQueue *LogsMsgQueue;
 
 int amount_of_downloads_in_queues(){
 	int num=0;
@@ -93,6 +88,7 @@ int calc_curent_run(char *host,int port) {
 typedef void (*SigactionHandler)(int);
 
 void tMain::init() {
+	ftpsearch=NULL;
 	prev_speed_limit=0;
 	for (int i=DL_ALONE+1;i<DL_TEMP;i++){
 		DOWNLOAD_QUEUES[i]=new tDList(i);
@@ -115,24 +111,10 @@ void tMain::init() {
 
 	LastReadedBytes=0;
 	/* Create msgqueue for logs update */
-	LogsMsgQueue=100+int(getuid());
-	while ((MsgQueue=msgget(LogsMsgQueue,IPC_CREAT|0600))<0) {
-		LogsMsgQueue+=1;
-	};
-	msgctl(MsgQueue,IPC_RMID,NULL);
-	MsgQueue=msgget(LogsMsgQueue,IPC_CREAT|0600);
-	struct msqid_ds msgbf;
-	msgctl(MsgQueue,IPC_STAT,&msgbf);
-	msgbf.msg_qbytes=(sizeof(mbuf)-sizeof(long))*100;
-	msgctl(MsgQueue,IPC_SET,&msgbf);
-	/* Clearing msgqueue */
-	int complete=0;
-	while (!complete) {
-		mbuf Msg;
-		complete=1;
-		if (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),0,IPC_NOWAIT)>0)
-			complete=0;
-	};
+	MsgQueue=new tMsgQueue;
+	MsgQueue->init(0);
+	LogsMsgQueue=MsgQueue;
+	/* setting up signal handlers */
 	struct sigaction action,old_action;
 	action.sa_handler=SigactionHandler(my_main_quit);
 	action.sa_flags=0;//SA_NOCLDSTOP;
@@ -211,25 +193,28 @@ void tMain::init_main_log() {
 };
 
 void tMain::redraw_logs() {
-	mbuf Msg;
-	int limit = 15;
+	int limit = 12;
 	GList *tmplist=NULL;
 	while (limit>0) {
 		limit--;
-		if (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),0,IPC_NOWAIT|MSG_NOERROR)>0) {
-			if (Msg.what){
-//					Msg.which->lock();
-				tmplist=log_window_freeze(tmplist,Msg.which);
-				log_window_add_string(Msg.which,Msg.what);
-//					Msg.which->unlock();
+		tLogMsg *Msg=(tLogMsg*)MsgQueue->first();
+		if (Msg) {
+			if (Msg->what){
+				if (Msg->which->freezed_flag==0){
+					tmplist=log_window_freeze(tmplist,Msg->which);
+				};
+				log_window_add_string(Msg->which,Msg->what);
 			}else
-				del_first_from_log(Msg.which);
+				del_first_from_log(Msg->which);
+			Msg->which->unlock();
+			Msg->which->ref_dec();
+			MsgQueue->del(Msg);
+			delete(Msg);
 		}else
-			return;
+			break;
 	};
 	while(tmplist){
-		log_window_unfreeze((tLog *)(tmplist->data));
-		tmplist=g_list_remove_link(tmplist,tmplist);
+		tmplist=log_window_unfreeze(tmplist);
 	};
 };
 
@@ -320,15 +305,22 @@ int tMain::run_new_thread(tDownload *what) {
 	what->BLOCKED=0;
 	if (!what->LOG) {
 		what->LOG=new tLog;
+		what->LOG->ref_inc();
 		what->LOG->init(CFG.MAX_LOG_LENGTH);
 	};
-	what->WL=new tDefaultWL;
-	((tDefaultWL *)(what->WL))->set_log(what->LOG);	
+	if (what->info->proto==D_PROTO_SEARCH){
+		what->WL=new tMemoryWL;
+		((tMemoryWL *)(what->WL))->set_log(what->LOG);
+	}else{
+		what->WL=new tDefaultWL;
+		((tDefaultWL *)(what->WL))->set_log(what->LOG);
+	};
 	what->update_trigers();
 	what->Size.old=what->Size.curent; // no need update size
 	what->NanoSpeed=0;
 
 	what->SpeedLimit=new tSpeed;
+	what->StartSize=0;
 /* set speed limitation */
 	if (what->split && what->split->NumOfParts){
 		what->split->stopped=0;
@@ -396,7 +388,7 @@ void tMain::stop_download(tDownload *what) {
 	};
 };
 
-int tMain::delete_download(tDownload *what) {
+int tMain::delete_download(tDownload *what,int flag) {
 	if (!what) return 0;
 	switch (what->owner) {
 		case DL_ALONE:{
@@ -419,17 +411,22 @@ int tMain::delete_download(tDownload *what) {
 			};
 		};
 		case DL_STOPWAIT:{
-			what->action=ACTION_DELETE;
+			if (flag)
+				what->action=ACTION_REAL_DELETE;
+			else
+				what->action=ACTION_DELETE;
 			return 0;
 		};
 		case DL_PAUSE:{
 				DOWNLOAD_QUEUES[DL_PAUSE]->del(what);
 				break;
-			};
+		};
 		case DL_WAIT:
 				DOWNLOAD_QUEUES[DL_WAIT]->del(what);
 	};
 	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info->file.get());
+	if (flag)
+		what->remove_tmp_files();
 	absolute_delete_download(NULL,what);
 	return 1;
 };
@@ -437,29 +434,20 @@ int tMain::delete_download(tDownload *what) {
 void tMain::try_to_run_split(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	if (what->status==DOWNLOAD_GO || what->status==DOWNLOAD_COMPLETE){
-		if (what->finfo.size>MINIMUM_SIZE_TO_SPLIT){
-			int part=what->split->NumOfParts-1;
-			tSortString *tmp=LimitsForHosts->find(what->info->host.get(),what->info->port);
-			tDownload *dwn=what;
-			while (part>0){
-				if (tmp && tmp->curent>=tmp->upper)
-					return;
-				if (dwn->split->next_part==NULL){
-					dwn->prepare_next_split();
-					if (run_new_thread(dwn->split->next_part)){
-						delete(dwn->split->next_part);
-						dwn->split->next_part=NULL;
-						return;
-					};
-					if (tmp) tmp->increment();
-				};
-				part-=1;
-				dwn=dwn->split->next_part;
+		tSortString *tmp=LimitsForHosts->find(what->info->host.get(),what->info->port);
+		tDownload *dwn=what->split->next_part;
+		while (dwn){
+			if (tmp && tmp->curent>=tmp->upper)
+				return;
+			if (dwn->split->status==0 &&
+			    run_new_thread(dwn)){
+				return;
 			};
-			what->split->status=1;
-		}else{
-			what->split->status=1;
+			if (tmp) tmp->increment();
+			dwn->split->status=1;
+			dwn=dwn->split->next_part;
 		};
+		what->split->status=1;
 	};
 };
 
@@ -504,7 +492,7 @@ void tMain::continue_download(tDownload *what) {
 	if (!what) return;
 	switch (what->owner) {
 	case DL_STOPWAIT:
-		if (what->action!=ACTION_DELETE)
+		if (what->action!=ACTION_DELETE && what->action!=ACTION_REAL_DELETE)
 			what->action=ACTION_CONTINUE;
 		break;
 	case DL_RUN:
@@ -555,7 +543,7 @@ void tMain::speed_calculation(tDownload *what){
 		/* detecting clock skew */
 		if (difdif<1800)
 			what->Start+=difdif;
-		else if (difdif>1800)
+		else if (difdif>-1800)
 			what->Start-=difdif;
 		what->Difference=NOWTMP-what->Start;
 		int REAL_SIZE=what->finfo.size;
@@ -564,7 +552,7 @@ void tMain::speed_calculation(tDownload *what){
 		if (what->who) what->Size.set(what->who->get_readed());
 		what->Remain.set(REAL_SIZE-what->Size.curent);
 		if (what->Difference!=0 && what->who) {
-			float tmp=float(what->Size.curent-what->who->get_start_size());
+			float tmp=float(what->Size.curent-what->start_size());
 			if (tmp>0) {
 				what->Speed.set(int(tmp/what->Difference));
 			};
@@ -605,7 +593,7 @@ void tMain::print_info(tDownload *what) {
 	switch(what->finfo.type) {
 	case T_FILE:{
 		if (what->finfo.type!=what->finfo.oldtype) list_of_downloads_change_data(what->GTKCListRow,FILE_TYPE_COL,_("file"));
-		int REAL_SIZE=what->finfo.size;
+		fsize_t REAL_SIZE=what->finfo.size;
 		if (REAL_SIZE==0 && what->who!=NULL)
 			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
 		if (REAL_SIZE<0) REAL_SIZE=0;
@@ -613,10 +601,7 @@ void tMain::print_info(tDownload *what) {
 		if (downloading_started){
 			list_of_downloads_change_data(what->GTKCListRow,FULL_SIZE_COL,data);
 			if (what->who){
-				if (what->split)
-					what->Size.set(get_split_loaded(what));
-				else
-					what->Size.set(what->who->get_readed());
+					what->Size.set(what->get_loaded());
 			};
 			what->Remain.set(REAL_SIZE-what->Size.curent);
 		};
@@ -631,7 +616,7 @@ void tMain::print_info(tDownload *what) {
 			time_t newdiff=NOWTMP-what->Start;
 			time_t difdif=what->Difference-newdiff;
 			/* detecting clock skew */
-			if (difdif<1800)
+			if (difdif<-1800)
 				what->Start+=difdif;
 			else if (difdif>1800)
 				what->Start-=difdif;
@@ -648,7 +633,7 @@ void tMain::print_info(tDownload *what) {
 			what->Pause = Pause;
 			// calculating speed for graph
 			unsigned int TimeLeft=get_precise_time()-LastTime;
-			if (what->Size.old<=0 && what->who) what->Size.old=what->who->get_start_size();
+			if (what->Size.old<=0 && what->who) what->Size.old=what->start_size();
 			if (TimeLeft!=0 && what->Size.curent>what->Size.old)
 				what->NanoSpeed=((what->Size.curent-what->Size.old)*1000)/TimeLeft;
 			else
@@ -663,32 +648,30 @@ void tMain::print_info(tDownload *what) {
 				};
 			};
 		};
-		float temp=100;
+		what->Percent=100;
 		if (REAL_SIZE!=0)
-			temp=(float(what->Size.curent)*float(100))/float(REAL_SIZE);
+			what->Percent=(float(what->Size.curent)*float(100))/float(REAL_SIZE);
 /* setting new title of log*/
 		if (CFG.USE_MAINWIN_TITLE){
 			char title[MAX_LEN];
-			sprintf(title,"%2.0f%% %i/%i %s",temp,what->Size.curent,REAL_SIZE,what->info->file.get());
+			sprintf(title,"%2.0f%% %li/%li %s",what->Percent,what->Size.curent,REAL_SIZE,what->info->file.get());
 			log_window_set_title(what,title);
 		};
 
-		what->Percent.set(int(temp));
 		if (what->Size.change()) {
 			list_of_downloads_set_percent(what->GTKCListRow,
 						      PERCENT_COL,
-						      temp);
+						      what->Percent);
 		};
-		what->Percent.reset();
 		what->Size.reset();
 	/*	Speed calculation
 	 */
-		if (what->Difference!=0 && what->who && what->who->get_start_size()>=0) {
-			float tmp=float(what->Size.curent-what->who->get_start_size());
+		if (what->Difference!=0 && what->who && what->start_size()>=0) {
+			float tmp=float(what->Size.curent-what->start_size());
 			if (tmp>0) {
 				what->Speed.set(int(tmp/what->Difference));
 				if (what->Speed.change()) {
-					sprintf(data,"%i",what->Speed.curent);
+					sprintf(data,"%li",what->Speed.curent);
 					list_of_downloads_change_data(what->GTKCListRow,SPEED_COL,data);
 					what->Speed.reset();
 				};
@@ -736,9 +719,9 @@ void tMain::print_info(tDownload *what) {
 		if (what->Attempt.change()) {
 			what->Attempt.reset();
 			if (what->config.number_of_attempts > 0)
-				sprintf(data,"%i/%i",what->Attempt.curent, what->config.number_of_attempts);
+				sprintf(data,"%li/%i",what->Attempt.curent, what->config.number_of_attempts);
 			else
-				sprintf(data,"%i",what->Attempt.curent);
+				sprintf(data,"%li",what->Attempt.curent);
 			list_of_downloads_change_data(what->GTKCListRow,TREAT_COL,data);
 		};
 	};
@@ -836,12 +819,17 @@ void tMain::prepare_for_stoping(tDownload *what,tDList *list) {
 		delete(what->WL);
 		what->WL=NULL;
 	};
+	/* dispose tSegmentator only for main thread */
+	if (list && what->segments){
+		delete(what->segments);
+		what->segments=NULL;
+	};
 	if (what->split && what->split->next_part){
 		if (what->split->stopped==0) LimitsForHosts->decrement(what);
 		prepare_for_stoping(what->split->next_part,NULL);
 		real_stop_thread(what->split->next_part);
-		delete(what->split->next_part);
-		what->split->next_part=NULL;
+//		delete(what->split->next_part);
+//		what->split->next_part=NULL;
 	};
 };
 
@@ -942,8 +930,11 @@ void tMain::main_circle_first(){
 			prepare_for_stoping(temp,DOWNLOAD_QUEUES[DL_STOPWAIT]);
 			DOWNLOAD_QUEUES[DL_PAUSE]->insert(temp);
 			switch(temp->action){
+			case ACTION_REAL_DELETE:
+				delete_download(temp,1);
+				break;
 			case ACTION_DELETE:
-				delete_download(temp);
+				delete_download(temp,0);
 				break;
 			case ACTION_CONTINUE:
 				continue_download(temp);
@@ -971,7 +962,8 @@ void tMain::main_circle_second(){
 		if (temp->split){
 			status=get_status_split(temp);
 //			status=DOWNLOAD_GO;
-			if (temp->status!=DOWNLOAD_FATAL && temp->split->status==0){
+			if (temp->status!=DOWNLOAD_FATAL &&
+			    temp->split->status==0){
 				try_to_run_split(temp);
 //			}else{
 			};
@@ -979,13 +971,16 @@ void tMain::main_circle_second(){
 		if (CFG.WITHOUT_FACE==0) print_info(temp);
 		else speed_calculation(temp);
 		switch(status) {
-			case DOWNLOAD_COMPLETE:{
-				case_download_completed(temp);
-				break;
-			};
-			case DOWNLOAD_FATAL:{
-				case_download_failed(temp);
-			};
+		case DOWNLOAD_COMPLETE:{
+			if (temp->segments)
+				temp->segments->complete();
+			case_download_completed(temp);
+			break;
+		};
+		case DOWNLOAD_FATAL:{
+			case_download_failed(temp);
+			break;
+		};
 		};
 		temp=temp1;
 	};
@@ -994,6 +989,7 @@ void tMain::main_circle_second(){
 void tMain::main_circle() {
 	main_circle_first();
 	main_circle_second();
+	if (ftpsearch) ftpsearch->cycle();
 /* look for run new */
 	tDownload *temp=DOWNLOAD_QUEUES[DL_WAIT]->first();
 	while(temp && DOWNLOAD_QUEUES[DL_RUN]->count()<CFG.MAX_THREADS) {
@@ -1028,7 +1024,7 @@ void tMain::check_for_remote_commands(){
 		};
 		case PACKET_ADD_OPEN:{
 			if (CFG.WITHOUT_FACE==0){
-				init_add_dnd_window(addnew->body);
+				init_add_dnd_window(addnew->body,NULL);
 				break;
 			};
 		};
@@ -1100,6 +1096,32 @@ void tMain::check_for_remote_commands(){
 	};
 };
 //**********************************************/
+void tMain::ftp_search(tDownload *what){
+	DBC_RETURN_IF_FAIL(what!=NULL);
+	if (what->info->file.get() && what->finfo.size>0){
+		tDownload *tmp=new tDownload;
+		tmp->info=new tAddr;
+		tmp->info->copy(what->info);
+		tmp->finfo.size=what->finfo.size;
+		tmp->info->proto=D_PROTO_SEARCH;
+		tmp->config.copy_ints(&(CFG.DEFAULT_CFG));
+		if (CFG.USE_PROXY_FOR_HTTP) {
+			tmp->config.proxy_host.set(CFG.HTTP_PROXY_HOST);
+			tmp->config.proxy_port=CFG.HTTP_PROXY_PORT;
+			if (CFG.NEED_PASS_HTTP_PROXY) {
+				tmp->config.proxy_user.set(CFG.HTTP_PROXY_USER);
+				tmp->config.proxy_pass.set(CFG.HTTP_PROXY_PASS);
+			};
+		};
+		ftpsearch->add(tmp);
+	};
+};
+
+void tMain::ftp_search_remove(tDownload *what){
+	if (ftpsearch)
+		ftpsearch->remove(what);
+};
+
 int tMain::add_downloading(tDownload *what) {
 	if (ALL_DOWNLOADS->find(what) || !what->info->is_valid()) 
 		return 1;
@@ -1156,7 +1178,7 @@ void tMain::add_downloading_to(tDownload *what) {
 	};
 };
 
-int tMain::add_downloading(char *adr,char *where,char *name) {
+int tMain::add_downloading(char *adr,char *where,char *name,char *desc=NULL) {
 	if (adr==NULL) return -1;
 	tAddr *addr=new tAddr(adr);
 //	if (!addr->is_valid()) return -1;
@@ -1181,6 +1203,7 @@ int tMain::add_downloading(char *adr,char *where,char *name) {
 	whatadd->set_default_cfg();
 
 	whatadd->config.proxy_type=CFG.FTP_PROXY_TYPE;
+	whatadd->Description.set(desc);
 	switch(whatadd->info->proto){
 	case D_PROTO_FTP:{
 		if (CFG.USE_PROXY_FOR_FTP) {
@@ -1268,7 +1291,9 @@ void tMain::run_msg_server(){
 
 void tMain::run(int argv,char **argc) {
 	if (CFG.WITHOUT_FACE==0){
+		ftpsearch=new tFtpSearchCtrl;
 		init_face(argv,argc);
+		ftpsearch->init(FSearchCList,this,MainLog);
 		DOWNLOAD_QUEUES[DL_COMPLETE]->init_pixmap(PIX_COMPLETE);
 		DOWNLOAD_QUEUES[DL_RUN]->init_pixmap(PIX_RUN_PART);
 		DOWNLOAD_QUEUES[DL_WAIT]->init_pixmap(PIX_WAIT);
@@ -1281,8 +1306,10 @@ void tMain::run(int argv,char **argc) {
 			  
 	COOKIES=new tCookiesTree;
 	COOKIES->load_cookies();
-	if (CFG.WITHOUT_FACE==0)
+	if (CFG.WITHOUT_FACE==0){
 		list_of_downloads_set_height();
+		fs_list_set_size();
+	};
 	load_defaults();
 	if (CFG.WITHOUT_FACE==0){
 		prepare_buttons();
@@ -1370,8 +1397,6 @@ void tMain::done() {
 		};
 		temp=DOWNLOAD_QUEUES[DL_STOPWAIT]->last();
 		if (temp==NULL) break;
-		mbuf Msg;
-		while (msgrcv(MsgQueue,(struct msgbuf *)&Msg,sizeof(Msg)-sizeof(long),0,IPC_NOWAIT)>0);
 		sleep(1);
 	}while(1);
 
@@ -1388,9 +1413,9 @@ void tMain::done() {
 	delete(LimitsForHosts);
 	delete(SpeedScheduler);
 
-	msgctl(MsgQueue,IPC_RMID,NULL);
 	close(LOCK_FILE_D);
 	delete (server);
+	delete (MsgQueue);
 	/*
 	for (int i=URL_HISTORY;i<LAST_HISTORY;i++)
 		if (ALL_HISTORIES[i]) delete(ALL_HISTORIES[i]);
@@ -1411,13 +1436,8 @@ void *download_last(void *nothing) {
 	init_signal_handler();
 	if (what) {
 		tAddr *addr=what->info;
-		what->LOG->MsgQueue=msgget(LogsMsgQueue,0);
-		if (what->LOG->MsgQueue<0) {
-			what->WL->log(LOG_ERROR,_("Can't open messages queue!"));
-			what->status=DOWNLOAD_FATAL;
-			pthread_exit(NULL);
-			return NULL;
-		};
+		what->LOG->MsgQueue=LogsMsgQueue;
+		what->LOG->init_save(what->config.log_save_path.get());
 		if (what->config.proxy_host.get()  &&
 		    (what->config.proxy_type || addr->proto==D_PROTO_HTTP)) {
 			what->who=new tProxyDownload;
@@ -1426,6 +1446,9 @@ void *download_last(void *nothing) {
 			return NULL;
 		};
 		switch(addr->proto){
+		case D_PROTO_SEARCH:
+			what->ftp_search();
+			break;
 		case D_PROTO_HTTP:
 			what->download_http();
 			break;

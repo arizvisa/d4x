@@ -64,7 +64,7 @@ char *edit_fields_labels[]={
 	"Use passive mode for FTP",
 	"Get permissions of the file from server (FTP only)",
 	"Don't send QUIT command (FTP)",
-	"Try to load simbolyc link as file via FTP",
+	"Try to load symbolic link as file via FTP",
 	"Depth of recursing for FTP",
 	"Depth of recursing for HTTP",
 	"Only subdirs",
@@ -255,7 +255,9 @@ void tDEdit::init_main(tDownload *who) {
 	MY_GTK_FILESEL(file_entry)->modal=GTK_WINDOW(window);
 	url_entry=my_gtk_combo_new(ALL_HISTORIES[URL_HISTORY]);
 	MY_GTK_FILESEL(path_entry)->only_dirs=TRUE;
-
+	desc_entry=my_gtk_combo_new(ALL_HISTORIES[DESC_HISTORY]);
+	set_description("");
+	
 //	char temp[MAX_LEN];
 //	make_url_from_download(who,temp);
 //	text_to_combo(url_entry,temp);
@@ -276,6 +278,7 @@ void tDEdit::init_main(tDownload *who) {
 	/* initing labels
 	 */
 	GtkWidget *url_label=gtk_label_new("URL:");
+	GtkWidget *desc_label=gtk_label_new(_("Description"));
 	GtkWidget *path_label=gtk_label_new(_("Save download to folder"));
 	GtkWidget *file_label=gtk_label_new(_("Save download to file"));
 	GtkWidget *pass_label=gtk_label_new(_("password"));
@@ -289,15 +292,19 @@ void tDEdit::init_main(tDownload *who) {
 	GtkWidget *url_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *path_vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *file_vbox=gtk_vbox_new(FALSE,0);
+	GtkWidget *desc_vbox=gtk_vbox_new(FALSE,0);
 	GtkWidget *pass_box=gtk_hbox_new(FALSE,0);
 	GtkWidget *user_box=gtk_hbox_new(FALSE,0);
 	gtk_box_set_spacing(GTK_BOX(url_box),5);
 	gtk_box_set_spacing(GTK_BOX(path_vbox),2);
 	gtk_box_set_spacing(GTK_BOX(file_vbox),2);
+	gtk_box_set_spacing(GTK_BOX(desc_vbox),2);
 	gtk_box_set_spacing(GTK_BOX(user_box),5);
 	gtk_box_set_spacing(GTK_BOX(pass_box),5);
 	gtk_box_pack_start(GTK_BOX(url_box),url_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(url_box),url_entry,TRUE,TRUE,0);
+	gtk_box_pack_start(GTK_BOX(desc_vbox),desc_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(desc_vbox),desc_entry,TRUE,TRUE,0);
 	gtk_box_pack_start(GTK_BOX(path_entry),path_set_as_default,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_label,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(path_vbox),path_entry,FALSE,FALSE,0);
@@ -320,6 +327,7 @@ void tDEdit::init_main(tDownload *who) {
 	gtk_box_pack_start(GTK_BOX(vbox),url_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),path_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),file_vbox,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),desc_vbox,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),use_pass_check,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),user_box,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),pass_box,FALSE,FALSE,0);	
@@ -391,9 +399,28 @@ void tDEdit::init_other(tDownload *who) {
 	get_date_check=gtk_check_button_new_with_label(_("Get date from the server"));
 	GTK_TOGGLE_BUTTON(get_date_check)->active=who->config.get_date;
 	gtk_box_pack_start(GTK_BOX(other_vbox),get_date_check,FALSE,FALSE,0);
+
 	retry_check=gtk_check_button_new_with_label(_("Retry if resuming is not supported"));
 	GTK_TOGGLE_BUTTON(retry_check)->active=who->config.retry;
 	gtk_box_pack_start(GTK_BOX(other_vbox),retry_check,FALSE,FALSE,0);
+
+	sleep_check=gtk_check_button_new_with_label(_("Sleep before completing"));
+	GTK_TOGGLE_BUTTON(sleep_check)->active=who->config.sleep_before_complete;
+	gtk_box_pack_start(GTK_BOX(other_vbox),sleep_check,FALSE,FALSE,0);
+
+	other_label=gtk_label_new(_("Save log to file"));
+	GtkWidget *other_box=gtk_vbox_new(FALSE,0);
+	gtk_box_set_spacing(GTK_BOX(other_box),5);
+	log_save_entry=my_gtk_filesel_new(ALL_HISTORIES[LOG_SAVE_HISTORY]);
+	MY_GTK_FILESEL(log_save_entry)->modal=GTK_WINDOW(window);
+	if (who->config.log_save_path.get())
+		text_to_combo(MY_GTK_FILESEL(log_save_entry)->combo,
+			      who->config.log_save_path.get());
+	else
+		text_to_combo(MY_GTK_FILESEL(log_save_entry)->combo,"");
+	gtk_box_pack_start(GTK_BOX(other_box),other_label,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_box),log_save_entry,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(other_vbox),other_box,FALSE,FALSE,0);
 	
 	GtkWidget *other_frame=gtk_frame_new(_("Common"));
 	gtk_container_border_width(GTK_CONTAINER(other_frame),5);
@@ -420,7 +447,7 @@ void tDEdit::init_ftp(tDownload *who){
 	
 	ftp_recurse_depth_entry=my_gtk_entry_new_with_max_length(3,who->config.ftp_recurse_depth);
 	GtkWidget *ftp_hbox=gtk_hbox_new(FALSE,0);
-	gtk_box_set_spacing(GTK_BOX(ftp_hbox),5);
+	gtk_box_set_spacing(GTK_BOX(ftp_hbox),2);
 	GtkWidget *other_label=gtk_label_new(_("Depth of recursing (0 unlimited,1 no recurse)"));
 	gtk_box_pack_start(GTK_BOX(ftp_hbox),ftp_recurse_depth_entry,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(ftp_hbox),other_label,FALSE,FALSE,0);
@@ -620,6 +647,8 @@ int tDEdit::apply_changes() {
 	parent->config.save_name.set(NULL);
 	if (strlen(text_from_combo(MY_GTK_FILESEL(file_entry)->combo)))
 		parent->config.save_name.set(text_from_combo(MY_GTK_FILESEL(file_entry)->combo));
+	else
+		parent->config.save_name.set(NULL);
 	if (parent->config.save_name.get())
 		ALL_HISTORIES[FILE_HISTORY]->add(parent->config.save_name.get());
 	normalize_path(parent->config.save_path.get());
@@ -638,6 +667,19 @@ int tDEdit::apply_changes() {
 	ALL_HISTORIES[PATH_HISTORY]->add(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
 	ALL_HISTORIES[URL_HISTORY]->add(URL);
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add(text_from_combo(user_agent_entry));
+	char *save_log=text_from_combo(MY_GTK_FILESEL(log_save_entry)->combo);
+	if (save_log && *save_log){
+		ALL_HISTORIES[LOG_SAVE_HISTORY]->add(save_log);
+		parent->config.log_save_path.set(save_log);
+	}else
+		parent->config.log_save_path.set(NULL);
+	char *desc=text_from_combo(desc_entry);
+	if (desc && *desc){
+		ALL_HISTORIES[DESC_HISTORY]->add(desc);
+		parent->Description.set(desc);
+	}else
+		parent->Description.set(NULL);
+
 	/*change data in list if available
 	 */
 	if (parent->GTKCListRow > 0) {
@@ -673,6 +715,7 @@ int tDEdit::apply_changes() {
 	parent->config.leave_server=GTK_TOGGLE_BUTTON(leave_server_check)->active;
 	parent->config.dont_leave_dir=GTK_TOGGLE_BUTTON(leave_dir_check)->active;
 	parent->config.restart_from_begin=GTK_TOGGLE_BUTTON(restart_from_begin_check)->active;
+	parent->config.sleep_before_complete=GTK_TOGGLE_BUTTON(sleep_check)->active;
 	parent->config.http_recursing=parent->config.http_recurse_depth==1?0:1;
 
 	temp1=0;
@@ -715,6 +758,10 @@ void tDEdit::toggle_time() {
 };
 
 
+void tDEdit::set_description(char *desc){
+	text_to_combo(desc_entry,desc);
+};
+
 void tDEdit::setup_entries() {
 	set_editable_for_combo(pass_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(user_entry)->entry),GTK_TOGGLE_BUTTON(use_pass_check)->active);
@@ -749,11 +796,22 @@ void tDEdit::setup_time(time_t when) {
 
 
 void  tDEdit::paste_url() {
-	gtk_editable_paste_clipboard(GTK_EDITABLE(GTK_COMBO(url_entry)->entry));
-	if ((text_from_combo(url_entry)==NULL || text_from_combo(url_entry)[0]==0) &&
-	    old_clipboard_content()!=NULL){
-		set_url(old_clipboard_content());
+/*
+	char *clipboard=my_xclipboard_get();
+	if (clipboard){
+		if (*clipboard){
+			set_url(clipboard);
+		}else{
+			if (old_clipboard_content()!=NULL)
+				set_url(old_clipboard_content());
+		};
+		my_xclipboard_free(clipboard);
 	};
+*/
+	if (old_clipboard_content()!=NULL)
+		set_url(old_clipboard_content());
+	else
+		gtk_editable_paste_clipboard(GTK_EDITABLE(GTK_COMBO(url_entry)->entry));
 //	printf("%s\n",text_from_combo(url_entry));
 };
 
@@ -773,6 +831,7 @@ void tDEdit::disable_items(int *array){
 	gtk_widget_set_sensitive(url_entry,FALSE);
 	gtk_widget_set_sensitive(file_entry,FALSE);
 	gtk_widget_set_sensitive(pause_check,FALSE);
+	gtk_widget_set_sensitive(log_save_entry,FALSE);
 	if (array[EDIT_OPT_USERPASS]==0){
 		gtk_widget_set_sensitive(pass_entry,FALSE);
 		gtk_widget_set_sensitive(user_entry,FALSE);

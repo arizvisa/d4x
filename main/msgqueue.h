@@ -8,14 +8,28 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef T_GTK_ADD_DOWNLOAD_DIALOG
-#define T_GTK_ADD_DOWNLOAD_DIALOG
+#ifndef __MY_MSG_QUEUE_HEADER__
+#define __MY_MSG_QUEUE_HEADER__
 
-extern GtkWidget *AddWindow; 
-extern tDList *list_for_adding;
-void init_add_window(...);
-void init_add_clipboard_window(...);
-void init_add_dnd_window(char *url,char *desc);
-void init_edit_common_properties_window(int *array);
+#include "queue.h"
+#include <pthread.h>
+#include "log.h"
+
+struct tLogMsg:public tNode{
+	long type;
+	tLogString *what;
+	tLog *which;
+	void print(){};
+};
+
+class tMsgQueue:public tQueue{
+	pthread_mutex_t mylock;
+ public:
+	tMsgQueue();
+	void insert(tNode *what);
+    	void insert_before(tNode *what,tNode *where);
+	void del(tNode *what);
+	~tMsgQueue();
+};
 
 #endif

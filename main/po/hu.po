@@ -22,11 +22,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: client.cc:65
-msgid "Timeout when socket read!"
+msgid "Timeout while reading from socket!"
 msgstr "Idõtúllépés a SOCKET olvasása közben!"
 
 #: client.cc:70
-msgid "Error when reading from socket!"
+msgid "Error while reading from socket!"
 msgstr "Hiba a SOCKET olvasása közben!"
 
 #: client.cc:79
@@ -71,7 +71,7 @@ msgid "bad read\n"
 msgstr "olvasási hiba\n"
 
 #: config.cc:567
-msgid "Can't open file of limits!!!\n"
+msgid "Can't open limits configuration file!\n"
 msgstr "Nem lehet megnyitni a korlát-leíró állományt!!!\n"
 
 #: config.cc:592
@@ -141,20 +141,16 @@ msgid "Accepting faild"
 msgstr "Elfogadás sikertelen"
 
 #: ftp.cc:47
-msgid "Timeout send through control socket."
+msgid "Timeout while sending through control socket."
 msgstr "Idõtúllépés a vezérlõ SOCKET-tel való kommunikáció közben."
 
 #: ftp.cc:48
-msgid "Control connection is lost"
+msgid "Control connection lost!"
 msgstr "Vezér kapcsolat elveszett"
 
 #: ftp.cc:57
-msgid "Data socket is lost!"
+msgid "Data connection lost!"
 msgstr "Adat SOCKET elveszett!"
-
-#: ftp.cc:65
-msgid "Control socket lost!"
-msgstr "Vezérlõ SOCKET elveszett!"
 
 #: ftp.cc:174
 #, c-format
@@ -178,21 +174,21 @@ msgid "Reget is not supported!!!"
 msgstr "Folytatás nem támogatott!!!"
 
 #: ftpd.cc:183
-msgid "Server refused login probably too many users of your class"
+msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "A szerver visszautasította belépését, valószínûleg túlterheltség miatt"
 
 #: ftpd.cc:186 httpd.cc:76
 #, c-format
-msgid "Retrying %i of %i...."
+msgid "Retry %i of %i...."
 msgstr "Újra próbálás: %i / %i..."
 
 #: ftpd.cc:188
 #, c-format
-msgid "Retrying %i ..."
+msgid "Retry %i ..."
 msgstr "Újra próbálás: %i ..."
 
 #: ftpd.cc:191 httpd.cc:81
-msgid "Max amount of retries was reached!"
+msgid "Maximum number of retries reached!"
 msgstr "Elértük az újra próbálások felsõ határát!"
 
 #: ftpd.cc:197 httpd.cc:87
@@ -262,7 +258,7 @@ msgid "Answer read ok"
 msgstr "Válasz rendben"
 
 #: hproxy.cc:151 httpd.cc:230
-msgid "Could'nt get normal answer!"
+msgid "Couldn't get normal answer!"
 msgstr "Hibás válasz!"
 
 #: http.cc:43
@@ -295,7 +291,7 @@ msgstr "Kapcsolat lezárva."
 
 #: httpd.cc:78
 #, c-format
-msgid "Retrying %i"
+msgid "Retry %i"
 msgstr "Újabb próba: %i"
 
 #: httpd.cc:143
@@ -924,7 +920,7 @@ msgid "Open dialog for Drag-n-Drop"
 msgstr "Drag-n-Drop dialógus megnyitása"
 
 #: face/prefs.cc:213
-msgid "Iconify main window when closing"
+msgid "Iconfiy main window instead of closing"
 msgstr "Fõablak ikonizálása bezáráskor"
 
 #: face/prefs.cc:215
@@ -1248,7 +1244,7 @@ msgid "/Paste Download"
 msgstr "/Letöltés beillesztése"
 
 #: face/dndtrash.cc
-msgid "/Common options"
+msgid "/General options"
 msgstr "/Általános opciók"
 
 #: face/dndtrash.cc
@@ -1333,11 +1329,11 @@ msgid "/Speed"
 msgstr "/Sebesség"
 
 #: face/dndtrash.cc
-msgid "/Speed/Lowest"
+msgid "/Speed/Low"
 msgstr "/Sebesség/Legalacsonyabb"
 
 #: face/dndtrash.cc
-msgid "/Speed/Middle"
+msgid "/Speed/Medium"
 msgstr "/Sepesség/Közepes"
 
 #: face/dndtrash.cc
@@ -1349,11 +1345,11 @@ msgid "/Options/Speed"
 msgstr "/Beállítások/Sebesség"
 
 #: face/list.cc
-msgid "/Options/Speed/Lowest"
+msgid "/Options/Speed/Low"
 msgstr "/Beállítások/Sebesség/Legalacsonyabb"
 
 #: face/list.cc
-msgid "/Options/Speed/Middle"
+msgid "/Options/Speed/Medium"
 msgstr "/Beállítások/Sebesség/Közepes"
 
 #: face/list.cc
@@ -1405,7 +1401,7 @@ msgid "/Download/Invert selection"
 msgstr "/Letöltés/Kiválasztás megfordítása"
 
 #face/edit.cc:
-msgid "Try to load simbolyc link as file via FTP"
+msgid "Try to load symbolic link as file via FTP"
 msgstr ""
 
 # face/list.cc
@@ -1470,7 +1466,7 @@ msgstr ""
 msgid "low"
 msgstr ""
 
-msgid "middle"
+msgid "medium"
 msgstr ""
 
 msgid "unlimited"
@@ -1649,4 +1645,41 @@ msgstr ""
 
 #:face/dndtrash.cc
 msgid "/Delete completed"
+msgstr ""
+
+#:face/fsface.cc
+msgid "nothing found"
+msgstr ""
+
+msgid "searching"
+msgstr ""
+
+msgid "remove"
+msgstr ""
+
+#:face/prefs.cc
+msgid "Write Descript.ion file"
+msgstr ""
+
+#:face/columns.cc
+msgid "description"
+msgstr ""
+
+#:face/lod.cc
+msgid "Description"
+msgstr ""
+
+#:dlist.cc:
+msgid "Search has been completed!"
+msgstr ""
+
+#:config.cc:
+msgid "Expect URL as parameter for '--ls' option"
+msgstr ""
+
+msgid "display info about URL in queue of downloads"
+msgstr ""
+
+#: face/edit.cc
+msgid "Sleep before completing"
 msgstr ""

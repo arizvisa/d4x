@@ -20,13 +20,14 @@
 #include <time.h>
 #include <pthread.h>
 #include "addr.h"
+#include "segments.h"
 
 #define MINIMUM_SIZE_TO_SPLIT 102400
 
 class tDEdit;
 
 struct tTriger{
-	int curent,old;
+	fsize_t curent,old;
 	void reset();
 	void set(int a);
 	void clear();
@@ -37,13 +38,16 @@ struct tTriger{
 class tDefaultWL:public tWriterLoger{
 	int fd;
 	tLog *LOG;
+	tSegmentator *segments;
  public:
 	tDefaultWL();
 	void set_fd(int newfd);
+	void set_segments(tSegmentator *newseg);
 	int get_fd();
 	void set_log(tLog *log);
-	int write(const void *buff, int len);
-	int shift(int shift);
+	fsize_t write(const void *buff, fsize_t len);
+	fsize_t read(void *dst,fsize_t len);
+	fsize_t shift(fsize_t shift,int mode);
 	void truncate();
 	char *cookie(const char *host, const char *path);
 	void log(int type, const char *str);
@@ -54,7 +58,8 @@ class tDList;
 struct tDownload;
 
 struct tSplitInfo{
-	int NumOfParts,FirstByte,LastByte;
+	int NumOfParts;
+	fsize_t FirstByte,LastByte;
 	int status,stopped;
 	tDownload *next_part,*parent;
 	tSplitInfo();
@@ -69,6 +74,7 @@ struct tDownload:public tAbstractSortNode{
 	tLog *LOG,*CurrentLog;// CurrentLog is used for splited downloads
 	tWriterLoger *WL;
 	tDEdit *editor;
+	tSegmentator *segments;
 	//------Split information-------------
 	tSplitInfo *split;
 	//------------------------------------
@@ -78,16 +84,23 @@ struct tDownload:public tAbstractSortNode{
 	int NanoSpeed;
 	int GTKCListRow;
 	int BLOCKED;
-	tTriger Percent,Size,Attempt,Status,Speed,Remain;
+	float Percent;
+	tTriger Size,Attempt,Status,Speed,Remain;
+	fsize_t StartSize;
 	//------------------------------------
+	tPStr Description;
 //	tQueue *conditions;
 	private:
-	int need_to_rename;
+	int need_to_rename,im_first;
 	char *create_new_file_path();
 	char *create_new_save_path();
 	void make_file_names(char **name, char **guess);
 	void check_local_file_time();
 	void print_error(int err);
+	void prepare_splits();
+	void remove_links();
+	char *make_path_to_file();
+	void sort_links();
 	public:
 	//------------------------------------
 	tDList *DIR;
@@ -110,14 +123,17 @@ struct tDownload:public tAbstractSortNode{
 	void recurse_http();
 	void download_ftp();
 	void download_http();
+	void ftp_search();
 	/*file manipulations*/
 	void make_file_visible();
 	void set_date_file();
-	int create_file();
+	long int create_file();
 	int delete_file();
+	void remove_tmp_files();
 	int file_type();
-
-	void prepare_next_split();
+	fsize_t get_loaded();
+	fsize_t start_size();
+	
 	void save_to_config(int fd);
 	int load_from_config(int fd);
 	void update_trigers();
@@ -167,6 +183,7 @@ enum {
 	ACTION_DELETE,
 	ACTION_CONTINUE,
 	ACTION_STOP,
-	ACTION_FAILED
+	ACTION_FAILED,
+	ACTION_REAL_DELETE
 };
 #endif

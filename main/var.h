@@ -31,8 +31,6 @@ enum{
 	DOWNLOAD_REAL_STOP
 };
 #include <pthread.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
 #include <sys/types.h>
 #include <glib.h>
 #include "history.h"
@@ -68,6 +66,7 @@ struct tMainCfg{
 	int APPEND_REWRITE_LOG;
 	char *SAVE_LOG_PATH;
 	long int MAIN_LOG_FILE_LIMIT;
+	int WRITE_DESCRIPTION;
 /* List
  */
 	int SAVE_LIST_INTERVAL;
@@ -96,6 +95,7 @@ struct tMainCfg{
 	int WINDOW_WIDTH;
 	int WINDOW_HEIGHT;
 	int WINDOW_CLIST_HEIGHT;
+	int WINDOW_CLIST_WIDTH;
 	int NEED_DIALOG_FOR_DND;
 	int FACE_LIMITS_SIZE1;
 	int FACE_LIMITS_SIZE2;
@@ -188,6 +188,8 @@ enum HISTORIES_ENUM{
 	PASS_HISTORY,
 	SKIP_HISTORY,
 	SAVE_HISTORY,
+	LOG_SAVE_HISTORY,
+	DESC_HISTORY,
 	LAST_HISTORY
 };
 
@@ -195,9 +197,6 @@ extern tHistory *ALL_HISTORIES[LAST_HISTORY];
 
 extern tUserPassTree *PasswordsForHosts;
 extern tHostsLimits *LimitsForHosts;
-
-extern key_t LogsMsgQueue;
-
 
 extern char *VERSION_NAME;
 extern char *DEFAULT_PASS;

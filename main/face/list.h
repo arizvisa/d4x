@@ -22,7 +22,7 @@
 extern tMain aa;
 
 extern GtkWidget *MainMenu;
-extern GtkWidget *MainLogList,*MAIN_PANED;
+extern GtkWidget *MainLogList,*MAIN_PANED,*MAIN_PANED2;
 extern GtkAdjustment *ProgressBarValues;
 extern GtkWidget *ProgressOfDownload;
 extern GtkWidget *MainStatusBar;
@@ -31,6 +31,7 @@ extern GdkGC *MainWindowGC;
 extern tFaceLimits *FaceForLimits;
 extern GtkWidget *ContainerForCList;
 extern gint StatusBarContext;
+extern GtkCList *FSearchCList;
 
 void main_menu_speed_prepare();
 void main_menu_completed_empty();
@@ -66,7 +67,7 @@ void open_edit_for_selected(...);
 void del_completed_downloads(...);
 void del_fataled_downloads(...);
 void stop_downloads(...);
-void delete_downloads(...);
+void delete_downloads(gint flag);
 void continue_downloads(...);
 void my_main_quit(...);
 char *old_clipboard_content();

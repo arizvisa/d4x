@@ -1,4 +1,4 @@
-%define ver      1.20
+%define ver      1.21
 %define prefix   /usr
 
 Name: nt
@@ -25,6 +25,7 @@ Main features:
     * proxy support (ftp and http)
     * supports for traffic limitation
     * mass downloading function
+    * ftp search
     * and other ...
 
 %prep
@@ -50,6 +51,7 @@ cp -f nt.wmconfig "${RPM_BUILD_ROOT}"/etc/X11/wmconfig/nt
 cp -f nt.desktop "${RPM_BUILD_ROOT}"%prefix/share/gnome/apps/Internet/nt.desktop
 cp -f nt.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.xpm
 cp -f nt-mini.xpm "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-mini.xpm
+cp -f nt-gray.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt-gray.png
 cp -f nt.png "${RPM_BUILD_ROOT}"%prefix/share/pixmaps/nt.png
 cp -f nt.1 "${RPM_BUILD_ROOT}"%prefix/man/man1/nt.1
 
@@ -65,6 +67,7 @@ rm -rf ${RPM_BUILD_ROOT}
 %prefix/share/gnome/apps/Internet/nt.desktop
 %prefix/share/pixmaps/nt.xpm
 %prefix/share/pixmaps/nt-mini.xpm
+%prefix/share/pixmaps/nt-gray.png
 %prefix/share/pixmaps/nt.png
 %{prefix}/share/locale/*/*/*
 

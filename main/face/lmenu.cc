@@ -17,11 +17,21 @@
 #include "../mainlog.h"
 #include "../ntlocale.h"
 #include <gdk/gdkkeysyms.h>
+#include "../main.h"
+#include "lod.h"
+
+extern tMain aa;
+
+void lmenu_ftp_search_go(){
+	tDownload *tmp=list_of_downloads_last_selected();
+	if (tmp)
+		aa.ftp_search(tmp);
+};
 
 extern tMLog *MainLog;
 
 GtkWidget *ListMenu;
-GtkWidget *ListMenuArray[11];
+GtkWidget *ListMenuArray[LM_LAST];
 
 GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,int size) {
 	GtkWidget *menu_item=gtk_menu_item_new();
@@ -158,6 +168,11 @@ void init_list_menu() {
 	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
 	ListMenuArray[LM_SET_LIMIT]=menu_item;
 	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(set_limit_to_download),NULL);
+
+	menu_item=make_menu_item(_("FTP-search"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,MAX_STR_LENGTH);
+	gtk_menu_append(GTK_MENU(ListMenu),menu_item);
+	ListMenuArray[LM_SEARCH]=menu_item;
+	gtk_signal_connect(GTK_OBJECT(menu_item),"activate",GTK_SIGNAL_FUNC(lmenu_ftp_search_go),NULL);
 
 	GtkAccelGroup *accel_group = gtk_accel_group_new();
 	gtk_accel_group_add(accel_group,GDK_E,

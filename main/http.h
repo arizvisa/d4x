@@ -15,10 +15,10 @@
 
 class tHttpClient:public tClient{
  protected:
-	int Offset;
+	fsize_t Offset;
 	int send_request(char *request);
 	int send_request(char *begin, char *center,char *end);
-	int read_data(char *where,int len);
+	int read_data(char *where,fsize_t len);
 	int read_answer(tStringList *list);
 	char *user_agent,*referer;
 	void send_cookies(char *host,char *path);
@@ -26,10 +26,10 @@ class tHttpClient:public tClient{
 	tHttpClient();
 	void init(char *host,tWriterLoger *log,int prt,int time_out);
 	void set_user_agent(char *agent,char *refer);
-	void set_offset(int a);
+	void set_offset(fsize_t a);
 	int registr(char *user,char *password);
-	int get_size(char *filename,tStringList *list);
-	int get_file_from(char *what,unsigned int begin,int len);
+	fsize_t get_size(char *filename,tStringList *list);
+	int get_file_from(char *what,unsigned int begin,fsize_t len);
 	void down();
         void done();
         ~tHttpClient();

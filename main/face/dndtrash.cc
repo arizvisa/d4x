@@ -40,10 +40,10 @@ char *dnd_menu_inames[]={
 	"/New Download",
 	"/Paste Download",
 	"/Delete completed",
-	"/Common options",
+	"/General options",
 	"/Speed",
-	"/Speed/Lowest",
-	"/Speed/Middle",
+	"/Speed/Low",
+	"/Speed/Medium",
 	"/Speed/Unlimited",
 	"/Exit",
 	"/-"

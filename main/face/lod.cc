@@ -11,6 +11,8 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 #include <stdlib.h>
+#include <string.h>
+#include <strings.h>
 #include "lod.h"
 #include "log.h"
 #include "buttons.h"
@@ -36,7 +38,7 @@ GdkBitmap *wait_mask,*stop_mask,*pause_mask,*complete_mask,*run_mask,*part_run_m
 GdkPixmap *wait_pixmap=(GdkPixmap *)NULL,*stop_pixmap=(GdkPixmap *)NULL,*pause_pixmap=(GdkPixmap *)NULL,*complete_pixmap=(GdkPixmap *)NULL;
 GdkPixmap *run_pixmap=(GdkPixmap *)NULL,*part_run_pixmap=(GdkPixmap *)NULL,*run_bad_pixmap=(GdkPixmap *)NULL,*stop_wait_pixmap=(GdkPixmap *)NULL;
 
-gchar *ListTitles[]={" ","File","Type","Full Size","Downloaded","Rest","%","Speed","Time","Remaining","Pause","Attempt","URL"," "};
+gchar *ListTitles[]={" ","File","Type","Full Size","Downloaded","Rest","%","Speed","Time","Remaining","Pause","Attempt","Description","URL"," "};
 tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
 						{FILE_COL,FILE_COL,				(char *)NULL,100},
 						{FILE_TYPE_COL,FILE_TYPE_COL,			(char *)NULL,40},
@@ -49,6 +51,7 @@ tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
 						{ELAPSED_TIME_COL,ELAPSED_TIME_COL,		(char *)NULL,60},
 						{PAUSE_COL,PAUSE_COL,				(char *)NULL,40},
 						{TREAT_COL,TREAT_COL,				(char *)NULL,40},
+						{DESCRIPTION_COL,DESCRIPTION_COL,		(char *)NULL,100},
 						{URL_COL,URL_COL,				(char *)NULL,500},
 						{NOTHING_COL,NOTHING_COL,			(char *)NULL,0}};
 
@@ -64,7 +67,8 @@ tColumn ListColumns[]={				{STATUS_COL,STATUS_COL,				(char *)NULL,25},
 GtkTargetEntry download_drop_types[] = {
 	{ "x-url/http",		0, TARGET_URL},
 	{ "x-url/ftp",		0, TARGET_URL},
-	{ "_NETSCAPE_URL",	0, TARGET_URL}
+	{ "_NETSCAPE_URL",	0, TARGET_URL},
+	{ "x-url/*",		0, TARGET_URL}
 };
 
 // calculate the number of mime-types listed
@@ -109,6 +113,17 @@ tDownload *list_of_downloads_last_selected() {
 	return((tDownload *)NULL);
 };
 
+void list_of_downloads_set_desc(tDownload *what){
+	if (what->Description.get())
+		list_of_downloads_change_data(what->GTKCListRow,
+					      DESCRIPTION_COL,
+					      what->Description.get());
+};
+
+void list_of_downloads_set_filename(tDownload *what){
+	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
+};
+
 void list_of_downloads_set_percent(int row,int column,float percent){
 	int real_col=ListColumns[column].enum_index;	
 	if (real_col<ListColumns[NOTHING_COL].enum_index)
@@ -122,10 +137,11 @@ void list_of_downloads_change_data(int row,int column,gchar *data) {
 };
 
 void list_of_downloads_update(tDownload *what) {
-	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
 	char *URL=what->info->url();
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
 	delete(URL);
+	list_of_downloads_set_desc(what);
+	list_of_downloads_set_filename(what);
 };
 
 
@@ -148,10 +164,6 @@ void list_of_downloads_print_size(tDownload *what){
 	};
 };
 
-void list_of_downloads_set_filename(tDownload *what){
-	list_of_downloads_change_data(what->GTKCListRow,FILE_COL,what->info->file.get());
-};
-
 void list_of_downloads_add(tDownload *what) {
 	gchar *data[NOTHING_COL+1];
 	char *URL=what->info->url();
@@ -159,8 +171,13 @@ void list_of_downloads_add(tDownload *what) {
 		data[ListColumns[i].enum_index]="";
 	what->GTKCListRow=gtk_clist_append(GTK_CLIST(ListOfDownloads),data);
 	list_of_downloads_change_data(what->GTKCListRow,URL_COL,URL);
+	if (what->Description.get())
+		list_of_downloads_change_data(what->GTKCListRow,
+					      DESCRIPTION_COL,
+					      what->Description.get());
 	list_of_downloads_set_filename(what);
 	list_of_downloads_print_size(what);
+	list_of_downloads_set_desc(what);
 
 	gtk_clist_set_row_data(GTK_CLIST(ListOfDownloads),what->GTKCListRow,gpointer(what));
 	list_of_downloads_set_pixmap(what->GTKCListRow,PIX_WAIT);
@@ -219,6 +236,7 @@ void list_of_downloads_add(tDownload *what,int row) {
 	};
 	list_of_downloads_print_size(what);
 	list_of_downloads_set_filename(what);
+	list_of_downloads_set_desc(what);
 };
 
 void move_download_up(int ROW){
@@ -453,6 +471,11 @@ void list_dnd_drop_internal(GtkWidget *widget,
 		// a uri-list mime-type will need special handling
 	case TARGET_URL:{
 		// make sure our url (in selection_data->data) is good
+		/*
+		printf("%s\n",gdk_atom_name(selection_data->type));
+		printf("%s\n",gdk_atom_name(selection_data->target));
+		printf("%s\n",gdk_atom_name(selection_data->selection));
+		*/
 		if (selection_data->data != NULL) {
 			int len = strlen((char*)selection_data->data);
 			if (len && selection_data->data[len-1] == '\n')
@@ -467,13 +490,15 @@ void list_dnd_drop_internal(GtkWidget *widget,
 			if (begin_string((char*)selection_data->data,gmc_url)){
 				str = sum_strings("ftp://",
 						  (char*)selection_data->data + strlen(gmc_url),
-						  NULL);
+						  (char*)NULL);
 				sbd=1;
 			};
-			if (CFG.NEED_DIALOG_FOR_DND)
-				init_add_dnd_window(str);
-			else
-				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL);
+			char *desc=ent?ent+1:(char *)NULL;
+			if (CFG.NEED_DIALOG_FOR_DND){
+				init_add_dnd_window(str,desc);
+			}else{
+				aa.add_downloading(str, (char*)CFG.GLOBAL_SAVE_PATH,(char*)NULL,desc);
+			};
 			if (sbd) delete(str);
 			if (!GTK_IS_SCROLLED_WINDOW(widget))
 				dnd_trash_animation();
@@ -487,7 +512,7 @@ void list_dnd_drop_internal(GtkWidget *widget,
  **********************************************************/
 
 static int _cmp_bypercent(tDownload *a,tDownload *b){
-	return( a->Percent.curent - b->Percent.curent );
+	return( a->Percent>b->Percent?-1:1);
 };
 
 static int _cmp_bysize(tDownload *a,tDownload *b){

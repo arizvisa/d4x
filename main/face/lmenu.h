@@ -28,7 +28,9 @@ enum {
 	LM_MOVEDOWN,
 	LM_SET_LIMIT,
 	LM_DELC,
-	LM_DELF
+	LM_DELF,
+	LM_SEARCH,
+	LM_LAST
 };
 
 #endif

@@ -12,6 +12,7 @@
 #define LOC_STRING
 
 #include <time.h>
+#include "speed.h"
 
 class tPStr{
 	char *a;
@@ -42,7 +43,7 @@ char *unparse_percents(char *what);
 char *escape_char(const char *where,char what,char bywhat);
 void del_crlf(char *what);
 void str_non_print_replace(char *what, char symbol);
-void make_number_nice(char *where,int num);
+void make_number_nice(char *where,fsize_t num);
 void make_number_nicel(char *where,unsigned long num);
 int convert_month(char *src);
 int ctime_to_time(char *src);

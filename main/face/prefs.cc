@@ -78,6 +78,7 @@ GtkWidget *prefs_other_ftp_passive;
 GtkWidget *prefs_other_remember_pass;
 GtkWidget *prefs_other_dont_send_quit;
 GtkWidget *prefs_other_link_as_file;
+GtkWidget *prefs_other_description;
 
 GtkWidget *prefs_log_table;
 GtkWidget *prefs_log_save;
@@ -209,7 +210,7 @@ void init_options_window_page(int page_num) {
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_recursive,0,1,2,3);
 	prefs_common_retry_if_noreget=gtk_check_button_new_with_label(_("Retry if resuming is not supported"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_retry_if_noreget,0,1,3,4);
-	prefs_common_window_lower=gtk_check_button_new_with_label(_("Iconify main window when closing"));
+	prefs_common_window_lower=gtk_check_button_new_with_label(_("Iconfiy main window instead of closing"));
 	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_window_lower,0,1,4,5);
 	prefs_common_ftp_permisions=gtk_check_button_new_with_label(_("Get permissions of the file from server (FTP only)"));
        	gtk_table_attach_defaults(GTK_TABLE(prefs_common_table),prefs_common_ftp_permisions,0,1,5,6);
@@ -431,10 +432,14 @@ void init_options_window_page(int page_num) {
 	GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active=CFG.DEFAULT_CFG.passive;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_dont_send_quit,0,1,7,8);
 
-	prefs_other_link_as_file=gtk_check_button_new_with_label(_("Try to load simbolyc link as file via FTP"));
+	prefs_other_link_as_file=gtk_check_button_new_with_label(_("Try to load symbolic link as file via FTP"));
 	GTK_TOGGLE_BUTTON(prefs_other_link_as_file)->active=CFG.DEFAULT_CFG.link_as_file;
 	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_link_as_file,0,1,8,9);
-
+	
+	prefs_other_description=gtk_check_button_new_with_label(_("Write Descript.ion file"));
+	GTK_TOGGLE_BUTTON(prefs_other_description)->active=CFG.WRITE_DESCRIPTION;
+	gtk_table_attach_defaults(GTK_TABLE(prefs_other_table),prefs_other_description,0,1,9,10);
+	
 	gtk_notebook_append_page(GTK_NOTEBOOK(options_window_notebook),prefs_other_vbox,gtk_label_new(_("Other")));
 
 	/**************************
@@ -769,6 +774,7 @@ void options_window_ok() {
 	CFG.FTP_DIR_IN_LOG=GTK_TOGGLE_BUTTON(prefs_common_ftp_dir_in_log)->active;
 	CFG.DEFAULT_CFG.dont_send_quit=GTK_TOGGLE_BUTTON(prefs_other_dont_send_quit)->active;
 	CFG.DEFAULT_CFG.link_as_file=GTK_TOGGLE_BUTTON(prefs_other_link_as_file)->active;
+	CFG.WRITE_DESCRIPTION=GTK_TOGGLE_BUTTON(prefs_other_description)->active;
 	if (CFG.DND_TRASH) dnd_trash_init();
 	else dnd_trash_destroy();
 

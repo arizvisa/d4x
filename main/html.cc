@@ -245,9 +245,9 @@ tHtmlTag::~tHtmlTag(){
  */
 
 char *tHtmlParser::get_string_back(int len,int shift){
-	lseek(fdesc,-(len+shift),SEEK_CUR);
+	WL->shift(-(len+shift),SEEK_CUR);
 	char *temp=new char[len+1];
-	read(fdesc,temp,len);
+	WL->read(temp,len);
 	temp[len]=0;
 	return temp;
 };
@@ -255,7 +255,7 @@ char *tHtmlParser::get_string_back(int len,int shift){
 char *tHtmlParser::get_word(){
 	int i=0;
 	char p;
-	while(read(fdesc,&p,sizeof(p))>0){
+	while(WL->read(&p,sizeof(p))>0){
 		if (isspace(p) || p=='>'){
 			return(get_string_back(i,1));
 		};
@@ -267,7 +267,7 @@ char *tHtmlParser::get_word(){
 char *tHtmlParser::get_word(int shift){
 	int i=shift;
 	char p;
-	while(read(fdesc,&p,sizeof(p))>0){
+	while(WL->read(&p,sizeof(p))>0){
 		if (isspace(p) || p=='=' || p=='>'){
 			return(get_string_back(i,1));
 		};
@@ -279,7 +279,7 @@ char *tHtmlParser::get_word(int shift){
 char *tHtmlParser::get_word_icommas(){
 	int i=1;
 	char p;
-	while(read(fdesc,&p,sizeof(p))>0){
+	while(WL->read(&p,sizeof(p))>0){
 		if (p=='>'){
 			return(get_string_back(i,1));
 		};
@@ -294,7 +294,7 @@ char *tHtmlParser::get_word_icommas(){
 char *tHtmlParser::get_word_icommas2(){
 	int i=1;
 	char p;
-	while(read(fdesc,&p,sizeof(p))>0){
+	while(WL->read(&p,sizeof(p))>0){
 		if (p=='>'){
 			return(get_string_back(i,1));
 		};
@@ -310,13 +310,13 @@ void tHtmlParser::get_fields(tHtmlTag *tag){
 	char p;
 	tag->fields=new tQueue;
 	tag->fields->init(0);
-	while(read(fdesc,&p,sizeof(p)>0)){
+	while(WL->read(&p,sizeof(p)>0)){
 		if (p=='>') return;
 		if (!isspace(p)){
 			tHtmlTagField *field=new tHtmlTagField;
 			field->name=get_word(1);
 			tag->fields->insert(field);
-			while(read(fdesc,&p,sizeof(p)>0)){
+			while(WL->read(&p,sizeof(p)>0)){
 				if (p=='>') return;
 				if (!isspace(p) && p!='='){
 					switch(p){
@@ -362,14 +362,14 @@ char *tHtmlParser::extract_from_icommas(char *str){
 tHtmlTag *tHtmlParser::get_tag(){
 	char p;
 	tHtmlTag *rvalue=NULL;
-	while(read(fdesc,&p,sizeof(p))>0){
+	while(WL->read(&p,sizeof(p))>0){
 		if (p=='<'){
 			char *name=NULL;
 			if ((name=get_word())){
 				rvalue=new tHtmlTag;
 				rvalue->name=name;
 				if (name && equal(name,"!--")){
-					while(read(fdesc,&p,sizeof(p))>0){
+					while(WL->read(&p,sizeof(p))>0){
 						if (p=='>') break;
 					};
 				}else
@@ -397,12 +397,12 @@ void tHtmlParser::look_for_meta_content(tHtmlTagField *where,tStringList *list){
 	};
 };
 
-void tHtmlParser::parse(int fd,tStringList *list){
+void tHtmlParser::parse(tWriterLoger *wl,tStringList *list){
 	list->done();
 	list->init(0);
 	base=NULL;
-	fdesc=fd;
-	lseek(fd,0,SEEK_SET);
+	WL=wl;
+	WL->shift(0);
 	while(1){
 		tHtmlTag *temp=get_tag();
 		if (temp==NULL) return;

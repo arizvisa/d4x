@@ -29,11 +29,12 @@ class tSegmentator{
 	tSegment *FIRST,*LAST;
 	pthread_mutex_t lockmutex;
 	int fd;
+	char *filename;
+	unsigned long int total;
 	int load();
 	int save();
 	void lock();
 	void unlock();
-	void done();
 	int join(tSegment *what);
 	void remove(tSegment *what);
 	void save_from(tSegment *what);
@@ -43,7 +44,12 @@ class tSegmentator{
 	void init(char *path);
 	void print();
 	void insert(unsigned long int begin, unsigned long int end);
+	void truncate(unsigned long int shift);
 	tSegment *get_first();
+	tSegment *to_holes(unsigned long int size);
+	unsigned long int get_total();
+	void done();
+	void complete();
 	~tSegmentator();
 };
 

@@ -38,8 +38,11 @@ class tHostTree:public tAbstractSortTree{
 class tDB{
 	tHostTree *tree;
 	tDownloadTree **hash(tStringHostNode *temp,tDownload *what);
+	pthread_mutex_t mylock;
 	public:
 		tDB();
+		void lock();
+		void unlock();
 		void insert(tDownload *what);
 		void del(tDownload *what);
 		int empty();

@@ -438,12 +438,12 @@ void del_crlf(char *what) {
     action: fill buffer by formated integer;
  */
 
-void make_number_nice(char *where,int num) {
+void make_number_nice(char *where,fsize_t num) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
 	switch (CFG.NICE_DEC_DIGITALS.curent) {
 		case 1:
 		case 3:{
-				sprintf(where,"%i",num);
+				sprintf(where,"%li",num);
 				int len=strlen(where);
 				if (len<4) return;
 				for (int i=len-3;i>0;i-=3,len++) {
@@ -462,7 +462,7 @@ void make_number_nice(char *where,int num) {
 				if (megs==0 && kils<1000) {
 					int bytes=((num-kils*1024)*10)/1024;
 					if (kils==0 && bytes<1000)
-						sprintf(where,"%i",num);
+						sprintf(where,"%li",num);
 					else
 						sprintf(where,"%i.%iK",kils,bytes);
 				} else{
@@ -472,7 +472,7 @@ void make_number_nice(char *where,int num) {
 				break;
 			};
 		default:
-			sprintf(where,"%i",num);
+			sprintf(where,"%li",num);
 	};
 };
 

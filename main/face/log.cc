@@ -43,7 +43,6 @@ struct tLogWindow {
 	GtkWidget *button;
 	tDownload *papa; // :))
 	float value;
-	int freezed;
 	tStringDialog *string;
 	tLogWindow();
 	~tLogWindow();
@@ -52,7 +51,6 @@ struct tLogWindow {
 
 tLogWindow::tLogWindow() {
 	string=(tStringDialog *)NULL;
-	freezed=0;
 };
 
 tLogWindow::~tLogWindow() {
@@ -106,6 +104,7 @@ int log_window_destroy(GtkWidget *window,GdkEvent *event, tLog *log) {
 	if (log) {
 		tLogWindow *temp=(tLogWindow *)log->Window;
 		if (temp) {
+			temp->papa->CurrentLog=NULL;
 			log->Window=NULL;
 			log_window_remember_geometry(window,temp);
 			gtk_widget_destroy(GTK_WIDGET(window));
@@ -247,7 +246,7 @@ gint log_window_button(GtkWidget *button,int a){
 		if (a==0) break;
 		forlog=forlog->split->next_part;
 	};
-	if (forlog && forlog!=withlog){
+	if (forlog && forlog!=withlog && forlog->LOG!=NULL){
 		withlog->LOG->lock();
 		forlog->LOG->lock();
 		forlog->LOG->Window=withlog->LOG->Window;
@@ -269,7 +268,7 @@ gint log_window_button(GtkWidget *button,int a){
 		                   (GtkSignalFunc)log_window_event_handler, forlog->LOG);
 		gtk_signal_emit_by_name (GTK_OBJECT (temp->adj), "changed");
 	};
-	if (forlog==NULL)
+	if (forlog==NULL || forlog->LOG==NULL)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(((tLogWindow *)(withlog->LOG->Window))->button),TRUE);
 	return TRUE;
 };
@@ -282,6 +281,7 @@ void log_window_init(tDownload *what) {
 		if (what->LOG==NULL){
 			what->LOG=new tLog;
 			what->LOG->init(CFG.MAX_LOG_LENGTH);
+			what->LOG->ref_inc();
 		};
 		if (what->LOG->Window) {
 			tLogWindow *temp=(tLogWindow *)what->LOG->Window;
@@ -381,7 +381,7 @@ void log_window_init(tDownload *what) {
 		gtk_widget_show_all(temp->window);
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
 		what->LOG->print();
-		what->LOG->unlock();
+		what->LOG->unlock(); // unlock by main thread?
 		what->CurrentLog=what->LOG;
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
 
@@ -409,17 +409,26 @@ void del_first_from_log(tLog *what) {
 
 GList *log_window_freeze(GList *list,tLog *what){
 	tLogWindow *temp=(tLogWindow *)what->Window;
-	if (temp && temp->freezed){
-		list=g_list_append(list,what);
-		temp->freezed=1;
+	if (temp){
+		what->freezed_flag=1;
+		GList *tlist=(GList *)g_malloc(sizeof(GList));
+		tlist->next=list;
+		tlist->data=what;
+		tlist->prev=NULL;
 		gtk_clist_freeze(GTK_CLIST(temp->clist));
+		return(tlist);
 	};
 	return(list);
 };
 
-void log_window_unfreeze(tLog *what){
+GList *log_window_unfreeze(GList *list){
+	tLog *what=(tLog *)list->data;
 	tLogWindow *temp=(tLogWindow *)what->Window;
-	if (temp && temp->freezed){
+	GList *next=list->next;
+	g_free(list);
+	what->freezed_flag=0;
+	if (temp){
 		gtk_clist_thaw(GTK_CLIST(temp->clist));
 	};
+	return(next);
 };

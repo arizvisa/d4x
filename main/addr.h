@@ -26,6 +26,7 @@ struct tAddr{
 	char *url();
 	void copy_host(tAddr *what);
 	void copy(tAddr *what);
+	void save_to_description(int fd);
 	void save_to_config(int fd);
 	int is_valid();
 	int cmp(tAddr *b);
@@ -35,6 +36,7 @@ enum D_PROTOS{
 	D_PROTO_UNKNOWN,
 	D_PROTO_FTP,
 	D_PROTO_HTTP,
+	D_PROTO_SEARCH,
 	D_PROTO_LAST
 };
 

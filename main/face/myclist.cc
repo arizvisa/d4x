@@ -1,7 +1,21 @@
+/*	WebDownloader for X-Window
+ *	Copyright (C) 1999-2000 Koshelev Maxim
+ *	This Program is free but not GPL!!! You can't modify it
+ *	without agreement with author. You can't distribute modified
+ *	program but you can distribute unmodified program.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 #include "myclist.h"
 #include "gdk/gdk.h"
 #include <stdio.h>
 
+#ifdef FLT_ROUNDS
+#undef FLT_ROUNDS
+#endif
+#define FLT_ROUNDS 3
 static GtkWidgetClass *parent_class = (GtkWidgetClass *)NULL;
 
 static void my_draw_row(GtkCList      *clist,
@@ -338,7 +352,11 @@ static void my_cell_size_request (GtkCList       *clist,
 		break;
 	case GTK_CELL_PROGRESS:
 		char tmptext[100];
-		g_snprintf(tmptext,100,"%2.0f",GTK_CELL_PROGRESS(clist_row->cell[column])->value);
+		if (GTK_CELL_PROGRESS(clist_row->cell[column])->value<100 &&
+		    GTK_CELL_PROGRESS(clist_row->cell[column])->value>99)
+			g_snprintf(tmptext,100,"%2.1f",GTK_CELL_PROGRESS(clist_row->cell[column])->value);
+		else
+			g_snprintf(tmptext,100,"%2.0f",GTK_CELL_PROGRESS(clist_row->cell[column])->value);
 		requisition->width = gdk_string_width (style->font,
 						       tmptext);
 		requisition->height = style->font->ascent + style->font->descent;
@@ -519,8 +537,13 @@ static void my_draw_row (GtkCList     *clist,
 		gint offset = 0;
 		gint row_center_offset;
 		char tmptext[100];
-		if (clist_row->cell[i].type==(GtkCellType)GTK_CELL_PROGRESS)
-			g_snprintf(tmptext,100,"%2.0f",GTK_CELL_PROGRESS(clist_row->cell[i])->value);
+		if (clist_row->cell[i].type==(GtkCellType)GTK_CELL_PROGRESS){
+			if (GTK_CELL_PROGRESS(clist_row->cell[i])->value<100 &&
+			    GTK_CELL_PROGRESS(clist_row->cell[i])->value>99)
+				g_snprintf(tmptext,100,"%2.1f",GTK_CELL_PROGRESS(clist_row->cell[i])->value);
+			else
+				g_snprintf(tmptext,100,"%2.0f",GTK_CELL_PROGRESS(clist_row->cell[i])->value);
+		};
 
 		if (!clist->column[i].visible)
 			continue;
