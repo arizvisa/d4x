@@ -21,7 +21,8 @@
 #include "../main.h"
 #include "../fsearch.h"
 #include "lod.h"
-
+#include <sys/types.h>
+#include <sys/wait.h>
 
 static void _open_alternates_(GtkTreeModel *model,GtkTreePath *path,
 			      GtkTreeIter *iter,gpointer data){
@@ -112,6 +113,37 @@ void lm_inv_protect_flag(){
 	D4X_QUEUE->qv.inv_protect_flag();
 };
 
+void _lm_open_folder_(){
+	tDownload *dwn=D4X_QUEUE->qv.last_selected;
+	if (!dwn) return;
+	volatile pid_t __tmp;
+	int __rval;
+	if ((__tmp=fork())<0){
+	}else{
+		if (!__tmp){
+			execlp("gnome-open","gnome-open",
+			       dwn->config?dwn->config->save_path.get():D4X_QUEUE->save_path.get(),NULL);
+		}else
+			waitpid(__tmp,&__rval,0);
+	};
+};
+
+void lm_open_file(){
+	tDownload *dwn=D4X_QUEUE->qv.last_selected;
+	if (!dwn || !dwn->info) return;
+	volatile pid_t __tmp;
+	int __rval;
+	if ((__tmp=fork())<0){
+	}else{
+		if (!__tmp){
+			char *v=sum_strings(dwn->config?dwn->config->save_path.get():D4X_QUEUE->save_path.get(),"/",
+					    dwn->Name2Save.get()?dwn->Name2Save.get():dwn->info->file.get(),NULL);
+			execlp("gnome-open","gnome-open",v,NULL);
+		}else
+			waitpid(__tmp,&__rval,0);
+	};
+};
+
 void init_list_menu() {
 #include "pixmaps/stopmini.xpm"
 #include "pixmaps/logmini.xpm"
@@ -192,6 +224,20 @@ void init_list_menu() {
 	gtk_widget_set_sensitive(menu_item,FALSE);
 	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
 
+	menu_item=make_menu_item(_("Open folder"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
+	ListMenuArray[LM_OPENFOLDER]=menu_item;
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(_lm_open_folder_),NULL);
+
+	menu_item=make_menu_item(_("Open file"),(char *)NULL,(GdkPixmap *)NULL,(GdkPixmap *)NULL,sgroup);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
+	ListMenuArray[LM_OPENFILE]=menu_item;
+	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(lm_open_file),NULL);
+
+	menu_item=gtk_menu_item_new();
+	gtk_widget_set_sensitive(menu_item,FALSE);
+	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
+
 	pixmap=make_pixmap_from_xpm(&bitmap,upmini_xpm);
 	menu_item=make_menu_item(_("Move up"),"Shift+Up",pixmap,bitmap,sgroup);
 	gtk_menu_shell_append(GTK_MENU_SHELL(ListMenu),menu_item);
@@ -230,12 +276,20 @@ void init_list_menu() {
 void list_menu_prepare() {
 	tDownload *dwn=D4X_QUEUE->qv.last_selected;
 	if (dwn==NULL) {
-		for (int i=0;i<=LM_DELF;i++)
+		for (int i=0;i<=LM_OPENFILE;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],FALSE);
 		
 		gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],FALSE);
 		gtk_widget_set_sensitive(ListMenuArray[LM_ALT],FALSE);
+			
 	} else {
+		if (dwn->owner()==DL_COMPLETE){
+			gtk_widget_set_sensitive(ListMenuArray[LM_OPENFOLDER],TRUE);
+			gtk_widget_set_sensitive(ListMenuArray[LM_OPENFILE],TRUE);
+		}else{
+			gtk_widget_set_sensitive(ListMenuArray[LM_OPENFOLDER],FALSE);
+			gtk_widget_set_sensitive(ListMenuArray[LM_OPENFILE],FALSE);
+		};
 		for (int i=0;i<=LM_DELF;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],TRUE);
 		if (dwn->info->file.get()){

@@ -1,3 +1,21 @@
+2.5.1
+	Added an ability to open file and folder from D4X (GNOME only);
+	Added ability to select action for double click on downloading item;
+	Added basic HTTPS support;
+	Added ability to setup icon for offline button in theme;
+	Added setting URL description automaticaly during HTTP-recursion;
+	New theme called GNOME added (thanks a lot to Dan Korostelev);
+	During HTTP-recursing D4X will get description from tags' contents;
+	Interface cleanups for Offline/Online mode switching;
+	In "allow force run" mode first click moves download from stop to wait state;
+	Fixed nt.spec file;
+	Fixed changing links to local during HTTP-recursion;
+	Fixed freeze interface when sound is played;
+	Fixed core string routines to avoid wrong memory access;
+	Fixed global speed values on fast channels (type overflow error)
+	Fixed impossibility to clear HTTP-filter;
+	Fixed Ctrl+Num key match in log of single-threaded downloading;
+
 2.5.0final
 	Added translation to Serbian in latin (thanks to Brane Jovanovic);
 	Added support for icons with alpha channel (thanks to Sergey Fionov);
@@ -7,7 +25,6 @@
 	Fixed changin theme;
 	Fixed segfault after modifying scheduled download properties;
 	Fixed segfault after removing download wich size is queried by F5;
-	Fixed compilation with --disable-nls;
 	Updated Hungarian translation (thanks to Sa'ndor Pinte'r);
 	Updated Serbian translation (thanks to Brane Jovanovic);
 	Updated simplified Chinese translation (thanks to Liu Songhe);

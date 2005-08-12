@@ -1,0 +1,45 @@
+#
+# $Header: /home/cvs/d4x/admin/Makefile.deps,v 1.2 2005/03/03 14:25:33 zaufi Exp $
+#
+
+# Include automatic dependencies tracking in maintainer mode only
+if MAINTAINER_MODE
+
+# Get all depended targets for all 'main' (primary) targets as space separated list
+AM_MAIN_TGTS = $(sort $(bin_PROGRAMS) \
+                      $(lib_LTLIBRARIES) \
+                      $(pkglib_LTLIBRARIES) \
+                      $(noinst_LIBRARIES) \
+                      $(LIBRARIES) \
+                      $(check_PROGRAMS) \
+                      $(AM_CUSTOM_PRIMARIES))
+
+AM_DEPTGTS := $(sort $(foreach t, $(AM_MAIN_TGTS), \
+                $($(addsuffix _DEPENDENCIES, $(subst .,_,$(subst -,_,$(t)))))))
+
+#
+# Rule to make all depended libs
+#
+$(AM_DEPTGTS):
+	+@$(MKMSG) "Make depended target '$(@)'"; \
+	$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F) || exit 1
+
+#
+# Debug spam
+#
+spam-deps:
+	@if test -z "$(AM_DEPTGTS)"; then \
+	    echo "There is no depended targets to build..."; \
+	else \
+	    echo "List of depended targets:"; \
+	    for i in $(AM_DEPTGTS); do \
+	        echo "  $$i"; \
+	    done \
+	fi
+
+spam-test:
+	@echo "AM_MAIN_TGTS  = $(AM_MAIN_TGTS)"
+
+endif
+
+.PHONY: $(AM_DEPTGTS) spam-deps spam-test

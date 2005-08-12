@@ -5,8 +5,9 @@
 Name:		%{name}
 Version:	%{version}
 Release:	1
-Serial:		1
-Copyright:	free source but restricted to change
+#Serial:	1
+#Copyright:	free source but restricted to change
+License:	Artistic
 URL:		http://www.krasu.ru/soft/chuchelo
 Group:		Applications/Internet
 Summary:	FTP/HTTP download manager for X window system
@@ -43,19 +44,19 @@ make
 
 %install
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/d4x
 make prefix=${RPM_BUILD_ROOT}%{prefix} install
-cp -f main/nt $RPM_BUILD_ROOT%{_bindir}/
-cp -f share/nt.desktop $RPM_BUILD_ROOT%{_sysconfdir}/X11/applnk/Internet/nt.desktop
-cp -f share/nt.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.xpm
+cp -f main/nt           $RPM_BUILD_ROOT%{_bindir}/
+cp -f share/nt.desktop  $RPM_BUILD_ROOT%{_datadir}/applications/nt.desktop
+cp -f share/nt.xpm      $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.xpm
 cp -f share/nt-mini.xpm $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-mini.xpm
 cp -f share/nt-gray.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-gray.png
-cp -f share/nt.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.png
-cp -f share/nt-wm.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-wm.png
-cp -f DOC/nt.1 $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
+cp -f share/nt.png      $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt.png
+cp -f share/nt-wm.png   $RPM_BUILD_ROOT%{_datadir}/pixmaps/nt-wm.png
+cp -f DOC/nt.1          $RPM_BUILD_ROOT%{_mandir}/man1/nt.1
 rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/FAQ.*
 rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/README.*
 rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/README
@@ -63,6 +64,18 @@ rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/FAQ
 rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/TROUBLES
 rm -f $RPM_BUILD_ROOT%{_datadir}/d4x/LICENSE
 rm -f $RPM_BUILD_ROOT%{prefix}/man/man1/*
+
+DESKTOPS="nt.desktop"
+for D in $DESKTOPS; do
+    desktop-file-install --vendor %{desktop_vendor} \
+    --dir %{buildroot}%{_datadir}/applications \
+    --remove-category Office \
+    --add-category X-Red-Hat-Extra \
+    --add-category Application \
+    --add-category Network \
+    %{buildroot}%{_datadir}/applications/nt.desktop
+    mv %{buildroot}%{_datadir}/applications/%{desktop_vendor}-$D %{buildroot}%{_datadir}/applications/$D
+done 
 
 %find_lang %{name}
 
@@ -74,7 +87,7 @@ rm -f $RPM_BUILD_ROOT%{prefix}/man/man1/*
 %doc DOC/*
 %{_bindir}
 %{_mandir}/man1/*
-%{_sysconfdir}/X11/applnk/Internet/nt.desktop
+%{_datadir}/applications/nt.desktop 
 %{_datadir}/pixmaps/nt.xpm
 %{_datadir}/pixmaps/nt-mini.xpm
 %{_datadir}/pixmaps/nt-gray.png
@@ -85,6 +98,9 @@ rm -f $RPM_BUILD_ROOT%{prefix}/man/man1/*
 %{_datadir}/d4x/ftpsearch.xml
 
 %changelog
+
+* Fri Jul 01 2005 chuchelo@gmail.com
+- fixed nt.desktop location (thanks to x999 from forum)
 
 * Wed Dec 19 2002 max@krascoal.ru
 - small optimization to include link bin/d4x into rpm

@@ -39,6 +39,7 @@ class tSocket{
 	int constr_name(char *host,guint16 port);
 	int wait_for_read(int len);
 	int wait_for_write(int len);
+	virtual fsize_t lowlevel_read(char *where,fsize_t len);
  public:
 	tSocket();
 	virtual unsigned int get_addr();
@@ -51,7 +52,7 @@ class tSocket{
 	virtual int open_port(guint32 host,guint16 port);
 	int open_port(int *ftp_addr);
 	int direct_send(char *what);
-	int send_string(char *what,int timeout);
+	virtual int send_string(char *what,int timeout);
 	fsize_t rec_string(char * where,fsize_t len,int timeout);
 	void flush();
 	int connected();

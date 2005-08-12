@@ -13,6 +13,7 @@
 #include "liststr.h"
 #include "client.h"
 #include "addr.h"
+#include <string>
 
 struct tHtmlTagField:public tNode{
 	char *name;
@@ -25,6 +26,7 @@ struct tHtmlTagField:public tNode{
 
 struct tHtmlUrl:public tNode{
 	tAddr *info;
+	char *descr;
 	tHtmlUrl();
 	void print();
 	~tHtmlUrl();
@@ -32,8 +34,10 @@ struct tHtmlUrl:public tNode{
 
 struct tHtmlTag:public tNode{
 	char *name;
+	char *descr;
 	tQueue *fields;
 	tHtmlTag();
+	tHtmlTagField *find_field(const char *name);
 	void print();
 	~tHtmlTag();
 };
@@ -41,6 +45,7 @@ struct tHtmlTag:public tNode{
 class tHtmlParser{
 	tWriterLoger *WL;
 	char *base;
+	std::string codepage;
 	int quest_sign_replace;
 	char *get_string_back(int len,int shift);
 	char *get_word(int shift);
@@ -53,10 +58,14 @@ class tHtmlParser{
 	void compact_string(char *str);
 	void look_for_meta_content(tHtmlTagField *where,tQueue *list,
 				   tAddr *papa,const char *tag);
+	void get_charset_from_meta(tHtmlTagField *fld);
 	tHtmlTag *get_tag();
-	void fix_url(char *url,tQueue *list,tAddr *papa,const char *tag);
+	void get_tag_descr(tHtmlTag *tag);
+	void fix_url(char *url,tQueue *list,tAddr *papa,const char *tag,const char *descr=NULL);
 	void write_left_fields(tHtmlTag *tag);
+	char *convert_to_utf8(const char *src);
  public:
+	void set_content_type(const char *ct);
 	int out_fd,leave;
 	void parse(tWriterLoger *wl, tQueue *list,tAddr *papa,int qsignreplace=0);
 };

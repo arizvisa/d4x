@@ -336,7 +336,7 @@ tDownload::tDownload() {
 	finfo.type=T_NONE;
 	DIR=NULL;
 	finfo.perm=S_IWUSR | S_IRUSR;
-	Start=Pause=Difference=0;
+	Start=Pause=Difference=HistoryTime=0;
 	Percent=0;
 	Attempt.clear();
 	ActStatus.clear();
@@ -942,6 +942,7 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		onenew->config->http_recurse_depth = config->http_recurse_depth ? config->http_recurse_depth-1 : 0;
 		onenew->config->ftp_recurse_depth = config->ftp_recurse_depth;
 		onenew->config->referer.set(URL);
+		onenew->Description.set(temp->descr);
 		if (temp->info->is_valid() && http_check_settings(temp->info)){
 			onenew->info=temp->info;
 			temp->info=NULL;
@@ -975,6 +976,8 @@ void tDownload::save_to_config(int fd){
 		config->save_to_config(fd);
 	if (ScheduleTime)
 		write_named_time(fd,"Time:",ScheduleTime);
+	if (HistoryTime)
+		write_named_time(fd,"HTime:",HistoryTime);
 	int tmpid=owner();
 	if (tmpid==DL_SIZEQUERY)
 		write_named_integer(fd,"State:",action);
@@ -1003,6 +1006,7 @@ int tDownload::load_from_config(int fd){
 		{"Url:",	SV_TYPE_URL,	&(info)},
 		{"State:",	SV_TYPE_INT,	&status},
 		{"Time:",	SV_TYPE_TIME,	&ScheduleTime},
+		{"HTime:",	SV_TYPE_TIME,	&HistoryTime},
 		{"Cfg:",	SV_TYPE_CFG,	&config},
 		{"SavePath:",	SV_TYPE_PSTR,	&(config->save_path)},
 		{"SaveName:",	SV_TYPE_PSTR,	&(Name2Save)},
@@ -1205,6 +1209,8 @@ void tDownload::http_recurse() {
 	    type && begin_string_uncase(type,"text/html")){
 		tQueue *dir=new tQueue;
 		tHtmlParser *html=new tHtmlParser;
+		if (who)
+			html->set_content_type(((tHttpDownload*)who)->get_content_type());
 		pthread_cleanup_push(_html_parser_dir_destroy_,dir);
 		pthread_cleanup_push(_html_parser_destroy_,html);
 		dir->init(0);

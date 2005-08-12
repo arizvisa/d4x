@@ -1,8 +1,8 @@
 #
-# $Header: /home/cvs/d4x/main/Makefile.am,v 1.1.1.1 2004/07/01 15:41:03 max Exp $
+# $Header: /home/cvs/d4x/main/Makefile.am,v 1.3.2.3 2005/08/10 06:47:57 max Exp $
 #
 
-include $(top_srcdir)/admin/Makefile.addons
+include $(top_srcdir)/admin/Makefile.all
 
 SUBDIRS = face
 
@@ -20,43 +20,41 @@ else
 nt_SOURCES = $(nt_SOURCES_LIST)
 endif
 
-#
-# HINT: c note from face/Makefile.am
-#       I suppose it can be applied here too... :)
-#
-# List of C++ modules (got from `ls -w50 -q *.cc
-nt_SOURCES_LIST = $(strip                           \
-  addr.cc      eff.cc      log.cc       schedule.cc \
-  alt.cc       filter.cc   main.cc      segments.cc \
-  autoadd.cc   fsearch.cc  mainlog.cc   signal.cc   \
-  base64.cc    ftp.cc      memwl.cc     sm.cc       \
-  client.cc    ftpd.cc     meter.cc     sndserv.cc  \
-  xml.cc       history.cc  msgqueue.cc  socket.cc   \
-  config.cc    hproxy.cc   mutex.cc     socks.cc    \
-  cookie.cc    html.cc     nt.cc        sort.cc     \
-  db.cc        http.cc     ping.cc      speed.cc    \
-  dlist.cc     httpd.cc    queue.cc     srvclt.cc   \
-  download.cc  liststr.cc  savedvar.cc  var.cc      \
-  dqueue.cc    locstr.cc   savelog.cc   recode.cc   \
+# List of C++ modules (got from `ls -w50 -q *.cc)
+nt_SOURCES_LIST = $(strip                   \
+    addr.cc      queue.cc                   \
+    alt.cc       history.cc   recode.cc     \
+    autoadd.cc   hproxy.cc    savedvar.cc   \
+    base64.cc    html.cc      savelog.cc    \
+    client.cc    http.cc      schedule.cc   \
+    httpd.cc     segments.cc  sslsocket.cc  \
+    config.cc    liststr.cc   signal.cc     \
+    cookie.cc    locstr.cc    sm.cc         \
+    db.cc        log.cc       sndserv.cc    \
+    dlist.cc     main.cc      socket.cc     \
+    download.cc  mainlog.cc   socks.cc      \
+    dqueue.cc    memwl.cc     sort.cc       \
+    eff.cc       meter.cc     speed.cc      \
+    filter.cc    msgqueue.cc  srvclt.cc     \
+    fsearch.cc   mutex.cc     var.cc        \
+    ftp.cc       nt.cc        xml.cc        \
+    ftpd.cc      ping.cc                    \
 )
-
-# List of headers (got from `ls -w50 -q *.h`)
-noinst_HEADERS = $(strip                            \
-  addr.h      eff.h      main.h      signal.h       \
-  alt.h       filter.h   mainlog.h   sm.h           \
-  autoadd.h   fsearch.h  memwl.h     sndserv.h      \
-  base64.h    ftpd.h     meter.h     socket.h       \
-  client.h    ftp.h      msgqueue.h  socks.h        \
-  cond.h      history.h  mutex.h     sort.h         \
-  config.h    hproxy.h   ntlocale.h  speed.h        \
-  cookie.h    html.h     ping.h      srvclt.h       \
-  dbc.h       httpd.h    queue.h     var.h          \
-  db.h        http.h     savedvar.h  xml.h          \
-  dlist.h     liststr.h  savelog.h   recode.h       \
-  download.h  locstr.h   schedule.h                 \
-  dqueue.h    log.h      segments.h                 \
+noinst_HEADERS = $(strip                           \
+    addr.h      eff.h       log.h       schedule.h \
+    alt.h       filter.h    main.h      segments.h \
+    autoadd.h   fsearch.h   mainlog.h   signal.h   \
+    base64.h    ftp.h       memwl.h     sm.h       \
+    client.h    ftpd.h      meter.h     sndserv.h  \
+    msgqueue.h  socket.h    sslsocket.h            \
+    config.h    history.h   mutex.h     socks.h    \
+    cookie.h    hproxy.h    ntlocale.h  sort.h     \
+    db.h        html.h      ping.h      speed.h    \
+    dbc.h       http.h      queue.h     srvclt.h   \
+    dlist.h     httpd.h     recode.h    var.h      \
+    download.h  liststr.h   savedvar.h  xml.h      \
+    dqueue.h    locstr.h    savelog.h              \
 )
-
 nt_LDADD = $(top_builddir)/main/face/libface.a
 
 #

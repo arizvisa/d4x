@@ -1,0 +1,10 @@
+#
+# $Header: /home/cvs/d4x/admin/Makefile.all,v 1.2 2005/03/03 14:25:33 zaufi Exp $
+#
+
+include $(top_srcdir)/admin/Makefile.common
+include $(top_srcdir)/admin/Makefile.misc
+# Include automatic dependencies tracking
+include $(top_srcdir)/admin/Makefile.deps
+# Include special support for gengetopt
+include $(top_srcdir)/admin/Makefile.gengetopt

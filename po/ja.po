@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d4x-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-17 19:38+0800\n"
+"POT-Creation-Date: 2005-08-12 15:32+0800\n"
 "PO-Revision-Date: 2004-01-09 07:44+0100\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -82,152 +82,152 @@ msgstr ""
 msgid "Expect URL as parameter for '-a' option"
 msgstr ""
 
-#: main/config.cc:281
+#: main/config.cc:282
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "'%s' のcfgファイルを開けません\n"
 
-#: main/config.cc:282
+#: main/config.cc:283
 msgid "Use default cfg :))...\n"
 msgstr "デフォルトのcfgを使う :))..\n"
 
-#: main/config.cc:513
+#: main/config.cc:514
 msgid "unknown option:"
 msgstr "不明なオプション:"
 
-#: main/config.cc:587
+#: main/config.cc:588
 msgid "List of queues:\n"
 msgstr "キューのリスト:\n"
 
-#: main/config.cc:642
+#: main/config.cc:643
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "ダウンロードを実行: %d\n"
 
-#: main/config.cc:644
+#: main/config.cc:645
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "ダウンロードを一時停止: %d\n"
 
-#: main/config.cc:646
+#: main/config.cc:647
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "失敗したダウンロード: %d\n"
 
-#: main/config.cc:648
+#: main/config.cc:649
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "完了したダウンロード: %d\n"
 
-#: main/config.cc:651
+#: main/config.cc:652
 #, c-format
 msgid "Total: %d\n"
 msgstr "全体: %d\n"
 
-#: main/config.cc:653
+#: main/config.cc:654
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "ロードした全体のbytes: %d\n"
 
-#: main/config.cc:655
+#: main/config.cc:656
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "現在の速度: %d\n"
 
-#: main/config.cc:661
+#: main/config.cc:662
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "現在の速度: %d\n"
 
-#: main/config.cc:790
+#: main/config.cc:791
 msgid "Added from command line"
 msgstr "コマンドラインから追加しました"
 
-#: main/config.cc:871
+#: main/config.cc:872
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "使いかた: nt [OPTION] .. [URL]"
 
-#: main/config.cc:872
+#: main/config.cc:873
 msgid "print this page and exit"
 msgstr "このページを印刷して終了"
 
-#: main/config.cc:873
+#: main/config.cc:874
 msgid "show version information and exit"
 msgstr "バージョン情報を表示して終了"
 
-#: main/config.cc:874
+#: main/config.cc:875
 msgid "show information if already run"
 msgstr "既に起動している場合は情報を表示"
 
-#: main/config.cc:875
+#: main/config.cc:876
 msgid "show current speed if already run"
 msgstr "既に起動している場合は現在の速度を表示"
 
-#: main/config.cc:876
+#: main/config.cc:877
 msgid "run in minimized mode"
 msgstr "最小モードで起動"
 
-#: main/config.cc:877
+#: main/config.cc:878
 msgid "set timeout for exiting if nothing to do"
 msgstr "動作対象がなくなったときに終了するタイムアウト"
 
-#: main/config.cc:878
+#: main/config.cc:879
 msgid "set directory for saving files"
 msgstr "ファイルを保存するディレクトリを設定"
 
-#: main/config.cc:879
+#: main/config.cc:880
 msgid "set lower speed limitation"
 msgstr "低速を設定"
 
-#: main/config.cc:880
+#: main/config.cc:881
 msgid "set medium speed limitation"
 msgstr "中速を設定"
 
-#: main/config.cc:881
+#: main/config.cc:882
 msgid "set unlimited speed"
 msgstr "速度を無制限に設定"
 
-#: main/config.cc:882
+#: main/config.cc:883
 msgid "delete completed if already run"
 msgstr "既に起動している場合は完了したダウンロードを削除"
 
-#: main/config.cc:883
+#: main/config.cc:884
 msgid "set maximum active downloads"
 msgstr "ダウンロードの最大実行数を指定"
 
-#: main/config.cc:884
+#: main/config.cc:885
 msgid "restart all failed downloads"
 msgstr "全ての失敗したダウンロードを再スタート"
 
-#: main/config.cc:885
+#: main/config.cc:886
 msgid "run program without X interface"
 msgstr "Xインタフェース無しでプログラムを起動"
 
-#: main/config.cc:886
+#: main/config.cc:887
 msgid "display info about URL in queue of downloads"
 msgstr "ダウンロードのキューにあるURLの情報を表示"
 
-#: main/config.cc:887
+#: main/config.cc:888
 msgid "change current default queue"
 msgstr "現在のデフォルトキューを変更"
 
-#: main/config.cc:888
+#: main/config.cc:889
 msgid "remove a download from queue"
 msgstr "キューからダウンロードを削除"
 
-#: main/config.cc:889
+#: main/config.cc:890
 msgid "stop a download"
 msgstr "ダウンロードを停止"
 
-#: main/config.cc:890
+#: main/config.cc:891
 msgid "using colors if run without interface"
 msgstr "インタフェースなしで実行するときにカラーを使用"
 
-#: main/config.cc:891
+#: main/config.cc:892
 msgid "specifies preferred size and position of main window"
 msgstr "メインウィンドウのサイズと位置を指定"
 
-#: main/config.cc:892
+#: main/config.cc:893
 msgid "open \"Add new download\" dialog for the URL"
 msgstr "'新しいダウンロードを追加'のダイアログを開く"
 
@@ -320,36 +320,36 @@ msgstr "ディレクトリを作成できません"
 msgid "Downloader can't create devices..."
 msgstr "デバイスを作成できません.."
 
-#: main/dlist.cc:1068
+#: main/dlist.cc:1072
 #, c-format
 msgid "Trying to copy %s to %s due 'Content-Disposition'"
 msgstr ""
 
-#: main/dlist.cc:1071
+#: main/dlist.cc:1075
 msgid "Error during copying!"
 msgstr "コピー中にエラー発生"
 
-#: main/dlist.cc:1106
+#: main/dlist.cc:1110
 msgid "Downloading was successefully completed!"
 msgstr "ダウンロードが完了しました"
 
-#: main/dlist.cc:1159
+#: main/dlist.cc:1163
 msgid "Downloading was failed..."
 msgstr "ダウンロード失敗.."
 
-#: main/dlist.cc:1306
+#: main/dlist.cc:1312
 msgid "Redirection blocked by filter"
 msgstr ""
 
-#: main/dlist.cc:1312
+#: main/dlist.cc:1318
 msgid "Redirect detected..."
 msgstr "Redirectを検出.."
 
-#: main/dlist.cc:1316 main/dlist.cc:1331
+#: main/dlist.cc:1322 main/dlist.cc:1337
 msgid "Size detection only!"
 msgstr "サイズ検出のみ"
 
-#: main/dlist.cc:1385
+#: main/dlist.cc:1391
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
@@ -357,52 +357,52 @@ msgstr ""
 "サーバ側の制限により複数同時ダウンロードができません (レジュームをサポートし"
 "ていません)"
 
-#: main/dlist.cc:1396
+#: main/dlist.cc:1402
 msgid "Local file is seems to be equal to remote one"
 msgstr "リモートファイルはローカルファイルと同一のようです"
 
-#: main/dlist.cc:1417
+#: main/dlist.cc:1423
 msgid "It is strange that we can't delete file which just created..."
 msgstr "作ったばかりのファイルを削除できません"
 
-#: main/dlist.cc:1421 main/dlist.cc:1673
+#: main/dlist.cc:1427 main/dlist.cc:1679
 msgid "File not found"
 msgstr "ファイルがありません"
 
-#: main/dlist.cc:1495
+#: main/dlist.cc:1501
 msgid "Sorting started"
 msgstr "ソート開始"
 
-#: main/dlist.cc:1498
+#: main/dlist.cc:1504
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Pingしています(atempt %i of %i)"
 
-#: main/dlist.cc:1526
+#: main/dlist.cc:1532
 msgid "Trying to determine filesizes"
 msgstr "ファイルサイズを計算しようとしています"
 
-#: main/dlist.cc:1579
+#: main/dlist.cc:1585
 msgid "Searching failed"
 msgstr "検索失敗"
 
-#: main/dlist.cc:1636
+#: main/dlist.cc:1642
 msgid "Search had been completed!"
 msgstr "検索が完了しました"
 
-#: main/dlist.cc:1642
+#: main/dlist.cc:1648
 msgid "Was Started!"
 msgstr "開始しました"
 
-#: main/dlist.cc:1651
+#: main/dlist.cc:1657
 msgid "It is a link and we already load it"
 msgstr "これはリンクであり、既にロードしています"
 
-#: main/dlist.cc:1678
+#: main/dlist.cc:1684
 msgid "Trying to work without CWD"
 msgstr "CWDなしで動かしてみる"
 
-#: main/dlist.cc:1810
+#: main/dlist.cc:1816
 msgid "Can't split file to specified number of parts!"
 msgstr "指定した数にファイルを分割することができません"
 
@@ -466,7 +466,7 @@ msgstr "次回は聞かない"
 msgid "Add new download"
 msgstr "新しいダウンロードを追加"
 
-#: main/face/addd.cc:184 main/face/dndtrash.cc:615
+#: main/face/addd.cc:184 main/face/dndtrash.cc:625
 msgid "Automated adding"
 msgstr "自動的に追加"
 
@@ -606,8 +606,8 @@ msgstr "試行回数"
 msgid "description"
 msgstr "説明"
 
-#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1081
-#: main/face/mywidget.cc:1340
+#: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1088
+#: main/face/mywidget.cc:1347
 msgid "URL"
 msgstr "URL"
 
@@ -619,49 +619,58 @@ msgstr ""
 msgid "DnD basket"
 msgstr "DnDバスケット"
 
-#: main/face/dndtrash.cc:526
+#: main/face/dndtrash.cc:527
 msgid "Drop link here"
 msgstr "リンクをここにドロップ"
 
-#: main/face/dndtrash.cc:612 main/face/list.cc:488 main/face/lod.cc:52
+#: main/face/dndtrash.cc:570
+#, fuzzy
+msgid "Offline"
+msgstr "オフライン/オンライン"
+
+#: main/face/dndtrash.cc:570 main/face/dndtrash.cc:631
+msgid "Online"
+msgstr ""
+
+#: main/face/dndtrash.cc:622 main/face/list.cc:489 main/face/lod.cc:52
 msgid "Speed"
 msgstr "速度"
 
-#: main/face/dndtrash.cc:613
+#: main/face/dndtrash.cc:623
 #, fuzzy
 msgid "New Download"
 msgstr "/新しいダウンロード"
 
-#: main/face/dndtrash.cc:614
+#: main/face/dndtrash.cc:624
 #, fuzzy
 msgid "Paste Download"
 msgstr "/ダウンロードを貼り付け"
 
-#: main/face/dndtrash.cc:616 main/face/lmenu.cc:180
+#: main/face/dndtrash.cc:626 main/face/lmenu.cc:212
 msgid "Delete completed"
 msgstr "完了したものを削除"
 
-#: main/face/dndtrash.cc:617
+#: main/face/dndtrash.cc:627
 #, fuzzy
 msgid "General options"
 msgstr "/オプション全般"
 
-#: main/face/dndtrash.cc:618
+#: main/face/dndtrash.cc:628
 #, fuzzy
 msgid "Exit"
 msgstr "/終了"
 
-#: main/face/dndtrash.cc:621
+#: main/face/dndtrash.cc:634
 #, fuzzy
 msgid "Low"
 msgstr "低"
 
-#: main/face/dndtrash.cc:622
+#: main/face/dndtrash.cc:635
 #, fuzzy
 msgid "Medium"
 msgstr "中"
 
-#: main/face/dndtrash.cc:623
+#: main/face/dndtrash.cc:636
 #, fuzzy
 msgid "Unlimited"
 msgstr "無制限"
@@ -698,11 +707,11 @@ msgstr "再接続するまでに空ける時間"
 msgid "Rollback after reconnecting"
 msgstr "再接続後の巻き戻し"
 
-#: main/face/edit.cc:73 main/face/edit.cc:563 main/face/prefs.cc:242
+#: main/face/edit.cc:73 main/face/edit.cc:563 main/face/prefs.cc:245
 msgid "Get date from the server"
 msgstr "サーバから日付を取得"
 
-#: main/face/edit.cc:74 main/face/edit.cc:567 main/face/prefs.cc:246
+#: main/face/edit.cc:74 main/face/edit.cc:567 main/face/prefs.cc:249
 msgid "Retry if resuming is not supported"
 msgstr "レジュームできない場合は最初からやり直す"
 
@@ -710,31 +719,31 @@ msgstr "レジュームできない場合は最初からやり直す"
 msgid "Number of parts for spliting this download"
 msgstr "ダウンロードの分割数"
 
-#: main/face/edit.cc:76 main/face/edit.cc:605 main/face/prefs.cc:347
+#: main/face/edit.cc:76 main/face/edit.cc:605 main/face/prefs.cc:350
 msgid "Use passive mode for FTP"
 msgstr "FTPにはpassiveモードを使う"
 
-#: main/face/edit.cc:77 main/face/edit.cc:611 main/face/prefs.cc:355
+#: main/face/edit.cc:77 main/face/edit.cc:611 main/face/prefs.cc:358
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "サーバからファイルの権限を取得(FTPのみ)"
 
-#: main/face/edit.cc:78 main/face/edit.cc:608 main/face/prefs.cc:351
+#: main/face/edit.cc:78 main/face/edit.cc:608 main/face/prefs.cc:354
 msgid "Don't send QUIT command (FTP)"
 msgstr "QUITコマンドを送らない(FTP)"
 
-#: main/face/edit.cc:79 main/face/edit.cc:626 main/face/prefs.cc:371
+#: main/face/edit.cc:79 main/face/edit.cc:626 main/face/prefs.cc:374
 msgid "Put directories on the top of queue during recursion"
 msgstr "再帰中はディレクトリをキューの１番上におく"
 
-#: main/face/edit.cc:80 main/face/edit.cc:575 main/face/prefs.cc:262
+#: main/face/edit.cc:80 main/face/edit.cc:575 main/face/prefs.cc:265
 msgid "Compare date/time of remote file with local one"
 msgstr "ローカルファイルとリモートファイルの日付/時間を比較"
 
-#: main/face/edit.cc:81 main/face/edit.cc:571 main/face/prefs.cc:250
+#: main/face/edit.cc:81 main/face/edit.cc:571 main/face/prefs.cc:253
 msgid "Sleep before completing"
 msgstr "完了する前にスリープする"
 
-#: main/face/edit.cc:82 main/face/edit.cc:614 main/face/prefs.cc:359
+#: main/face/edit.cc:82 main/face/edit.cc:614 main/face/prefs.cc:362
 msgid "Follow symbolic links"
 msgstr "シンボリックリンクを追跡"
 
@@ -746,19 +755,19 @@ msgstr "FTPを再帰検索する深さ"
 msgid "Depth of recursing for HTTP"
 msgstr "HTTPを再帰検索する深さ"
 
-#: main/face/edit.cc:85 main/face/edit.cc:654 main/face/prefs.cc:449
+#: main/face/edit.cc:85 main/face/edit.cc:654 main/face/prefs.cc:452
 msgid "Only subdirs"
 msgstr "サブディレクトリのみ"
 
-#: main/face/edit.cc:86 main/face/edit.cc:655 main/face/prefs.cc:450
+#: main/face/edit.cc:86 main/face/edit.cc:655 main/face/prefs.cc:453
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "HTTPで再帰中にサーバから離れることを許可"
 
-#: main/face/edit.cc:87 main/face/edit.cc:656 main/face/prefs.cc:451
+#: main/face/edit.cc:87 main/face/edit.cc:656 main/face/prefs.cc:454
 msgid "Change links in HTML file to local"
 msgstr "HTMLファイル内のリンクをローカルに変換"
 
-#: main/face/edit.cc:88 main/face/edit.cc:657 main/face/prefs.cc:452
+#: main/face/edit.cc:88 main/face/edit.cc:657 main/face/prefs.cc:455
 msgid "Ignore ETag field in reply"
 msgstr "replyのETag欄を無視"
 
@@ -766,7 +775,7 @@ msgstr "replyのETag欄を無視"
 msgid "Use '_' instead of '?' in stored filenames"
 msgstr "保存時のファイル名には '?' の代わりに '_' を使う"
 
-#: main/face/edit.cc:90 main/face/edit.cc:684 main/face/prefs.cc:470
+#: main/face/edit.cc:90 main/face/edit.cc:684 main/face/prefs.cc:473
 msgid "User-Agent"
 msgstr "ユーザエージェント"
 
@@ -779,7 +788,7 @@ msgid "Cookie"
 msgstr "Cookie"
 
 #: main/face/edit.cc:93 main/face/edit.cc:809 main/face/edit.cc:812
-#: main/face/prefs.cc:506 main/face/prefs.cc:1286 main/face/prefs.cc:1420
+#: main/face/prefs.cc:509 main/face/prefs.cc:1323 main/face/prefs.cc:1457
 msgid "Proxy"
 msgstr "プロクシ"
 
@@ -801,7 +810,7 @@ msgid "Save download to file"
 msgstr "ダウンロードをファイルに保存"
 
 #: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
-#: main/face/edit.cc:1683 main/face/mywidget.cc:1396
+#: main/face/edit.cc:1683 main/face/mywidget.cc:1403
 msgid "password"
 msgstr "パスワード"
 
@@ -821,7 +830,7 @@ msgstr "CP1251->UTF8"
 msgid "Connections limit:"
 msgstr "接続制限:"
 
-#: main/face/edit.cc:490 main/face/prefs.cc:258
+#: main/face/edit.cc:490 main/face/prefs.cc:261
 msgid "Pause this just after adding"
 msgstr "追加後は一時停止"
 
@@ -829,33 +838,33 @@ msgstr "追加後は一時停止"
 msgid "Add to top of queue"
 msgstr "キューの先頭に追加"
 
-#: main/face/edit.cc:509 main/face/lod.cc:291 main/face/prefs.cc:240
-#: main/face/prefs.cc:1277 main/face/prefs.cc:1362
+#: main/face/edit.cc:509 main/face/lod.cc:291 main/face/prefs.cc:243
+#: main/face/prefs.cc:1314 main/face/prefs.cc:1399
 msgid "Download"
 msgstr "ダウンロード"
 
-#: main/face/edit.cc:512 main/face/prefs.cc:718 main/face/prefs.cc:1268
-#: main/face/prefs.cc:1522
+#: main/face/edit.cc:512 main/face/prefs.cc:740 main/face/prefs.cc:1305
+#: main/face/prefs.cc:1568
 msgid "Main"
 msgstr "メイン"
 
-#: main/face/edit.cc:528 main/face/prefs.cc:299
+#: main/face/edit.cc:528 main/face/prefs.cc:302
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "サーバからの反応を待つ時間(秒)"
 
-#: main/face/edit.cc:534 main/face/prefs.cc:305
+#: main/face/edit.cc:534 main/face/prefs.cc:308
 msgid "Timeout before reconnection (in seconds)"
 msgstr "再接続するまでに空ける時間(秒)"
 
-#: main/face/edit.cc:540 main/face/prefs.cc:311
+#: main/face/edit.cc:540 main/face/prefs.cc:314
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "最大試行回数(0＝無制限)"
 
-#: main/face/edit.cc:546 main/face/prefs.cc:317
+#: main/face/edit.cc:546 main/face/prefs.cc:320
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "再接続後の巻き戻し(単位＝bytes)"
 
-#: main/face/edit.cc:552 main/face/prefs.cc:323
+#: main/face/edit.cc:552 main/face/prefs.cc:326
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "速度制限(bytes/秒。0＝無制限)"
 
@@ -871,25 +880,25 @@ msgstr "自動"
 msgid "Common"
 msgstr "共通"
 
-#: main/face/edit.cc:618 main/face/prefs.cc:363
+#: main/face/edit.cc:618 main/face/prefs.cc:366
 msgid "Load links as links"
 msgstr "リンクをリンクとしてロード"
 
-#: main/face/edit.cc:622 main/face/prefs.cc:367
+#: main/face/edit.cc:622 main/face/prefs.cc:370
 msgid "Load links as file"
 msgstr "リンクをファイルとしてロード"
 
-#: main/face/edit.cc:632 main/face/edit.cc:649 main/face/prefs.cc:377
-#: main/face/prefs.cc:464
+#: main/face/edit.cc:632 main/face/edit.cc:649 main/face/prefs.cc:380
+#: main/face/prefs.cc:467
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "下位Dirの探索(0=無制限, 1=このDirのみ)"
 
-#: main/face/edit.cc:675 main/face/prefs.cc:493
+#: main/face/edit.cc:675 main/face/prefs.cc:496
 msgid "Filter"
 msgstr "フィルタ"
 
 #: main/face/edit.cc:676 main/face/lod.cc:928 main/face/mywidget.cc:250
-#: main/face/prefs.cc:494
+#: main/face/prefs.cc:497
 msgid "Select"
 msgstr "選択"
 
@@ -913,7 +922,7 @@ msgstr "デフォルトの設定を使う"
 msgid "FTP proxy type"
 msgstr "FTPプロクシの種類"
 
-#: main/face/edit.cc:1530 main/face/mywidget.cc:1346
+#: main/face/edit.cc:1530 main/face/mywidget.cc:1353
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
@@ -922,16 +931,16 @@ msgid "Use this proxy for FTP"
 msgstr "FTPにプロクシを使う"
 
 #: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
-#: main/face/mywidget.cc:1369
+#: main/face/mywidget.cc:1376
 msgid "port"
 msgstr "ポート"
 
-#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1375
+#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1382
 msgid "need password"
 msgstr "パスワードが必要"
 
 #: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
-#: main/face/mywidget.cc:1382
+#: main/face/mywidget.cc:1389
 msgid "username"
 msgstr "ユーザ名"
 
@@ -967,7 +976,7 @@ msgstr "全て選択"
 msgid "filter name"
 msgstr "フィルタ名"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1323
+#: main/face/filtrgui.cc:187 main/face/list.cc:1337
 msgid "Filters"
 msgstr "フィルタ"
 
@@ -1027,7 +1036,7 @@ msgstr "動作"
 msgid "Info"
 msgstr "情報"
 
-#: main/face/fsched.cc:239 main/face/list.cc:1324
+#: main/face/fsched.cc:239 main/face/list.cc:1338
 msgid "Scheduler"
 msgstr "スケジューラ"
 
@@ -1067,7 +1076,7 @@ msgstr "繰り返す回数(-1＝無制限)"
 msgid "period (day/hour:min)"
 msgstr "期間(日/時:分)"
 
-#: main/face/fsched.cc:799 main/face/lmenu.cc:130 main/face/qtree.cc:492
+#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:492
 #: main/mainlog.cc:202
 msgid "Properties"
 msgstr "プロパティ"
@@ -1124,288 +1133,301 @@ msgstr "Ping"
 msgid "Url"
 msgstr "URL"
 
-#: main/face/list.cc:484
+#: main/face/list.cc:485
 #, fuzzy
 msgid "_File"
 msgstr "/ファイル(_F)"
 
-#: main/face/list.cc:485
+#: main/face/list.cc:486
 #, fuzzy
 msgid "_Download"
 msgstr "/ダウンロード(_D)"
 
-#: main/face/list.cc:486
+#: main/face/list.cc:487
 #, fuzzy
 msgid "_Queue"
 msgstr "/キュー(_Q)"
 
-#: main/face/list.cc:487
+#: main/face/list.cc:488
 #, fuzzy
 msgid "_Options"
 msgstr "/オプション"
 
-#: main/face/list.cc:489
+#: main/face/list.cc:490
 #, fuzzy
 msgid "_Help"
 msgstr "/ヘルプ(_H)"
 
-#: main/face/list.cc:490
+#: main/face/list.cc:491
 #, fuzzy
 msgid "_Save List"
 msgstr "リストを保存"
 
-#: main/face/list.cc:491
+#: main/face/list.cc:492
 #, fuzzy
 msgid "_Load List"
 msgstr "リストをロード"
 
-#: main/face/list.cc:492
+#: main/face/list.cc:493
 #, fuzzy
 msgid "_Find links in file"
 msgstr "テキストファイルからリンクを抽出"
 
-#: main/face/list.cc:493
+#: main/face/list.cc:494
 #, fuzzy
 msgid "_New Download"
 msgstr "/新しいダウンロード"
 
-#: main/face/list.cc:494
+#: main/face/list.cc:495
 #, fuzzy
 msgid "_Paste Download"
 msgstr "/ダウンロードを貼り付け"
 
-#: main/face/list.cc:495
+#: main/face/list.cc:496
 #, fuzzy
 msgid "_Automated adding"
 msgstr "自動的に追加"
 
-#: main/face/list.cc:496
+#: main/face/list.cc:497
 #, fuzzy
 msgid "_Exit"
 msgstr "/終了"
 
-#: main/face/list.cc:497
+#: main/face/list.cc:498
 #, fuzzy
 msgid "_View Log"
 msgstr "ログを見る"
 
-#: main/face/list.cc:498
+#: main/face/list.cc:499
 #, fuzzy
 msgid "_Stop downloads"
 msgstr " ダウンロードを停止 "
 
-#: main/face/list.cc:499
+#: main/face/list.cc:500
 #, fuzzy
 msgid "_Edit downloads"
 msgstr "ダウンロードを編集"
 
-#: main/face/list.cc:500
+#: main/face/list.cc:501
 #, fuzzy
 msgid "_Delete downloads"
 msgstr "選んだものを削除"
 
-#: main/face/list.cc:501
+#: main/face/list.cc:502
 #, fuzzy
 msgid "_Continue downloads"
 msgstr "ダウンロードを継続"
 
-#: main/face/list.cc:502
+#: main/face/list.cc:503
 #, fuzzy
 msgid "Delete Completed"
 msgstr "完了したものを削除"
 
-#: main/face/list.cc:503
+#: main/face/list.cc:504
 #, fuzzy
 msgid "Delete _Failed"
 msgstr "失敗したものを削除"
 
-#: main/face/list.cc:504
+#: main/face/list.cc:505
 #, fuzzy
 msgid "_Rerun failed"
 msgstr "検索失敗"
 
-#: main/face/list.cc:505 main/face/lmenu.cc:159
+#: main/face/list.cc:506 main/face/lmenu.cc:191
 msgid "(Un)Protect"
 msgstr "プロテクト/解除"
 
-#: main/face/list.cc:506
+#: main/face/list.cc:507
 #, fuzzy
 msgid "_Unselect All"
 msgstr "選択を全て解除"
 
-#: main/face/list.cc:507
+#: main/face/list.cc:508
 #, fuzzy
 msgid "Select _All"
 msgstr "全て選択"
 
-#: main/face/list.cc:508
+#: main/face/list.cc:509
 #, fuzzy
 msgid "_Invert selection"
 msgstr "/ダウンロード(_D)/選択を反転"
 
-#: main/face/list.cc:509
+#: main/face/list.cc:510
 #, fuzzy
 msgid "_Create new queue"
 msgstr "新しいキューを作成"
 
-#: main/face/list.cc:510
+#: main/face/list.cc:511
 #, fuzzy
 msgid "Create new _Subqueue"
 msgstr "/新しいサブキューを作成"
 
-#: main/face/list.cc:511
+#: main/face/list.cc:512
 #, fuzzy
 msgid "_Remove this queue"
 msgstr "/キュー(_Q)/このキューを削除"
 
-#: main/face/list.cc:512
+#: main/face/list.cc:513
 #, fuzzy
 msgid "_Properties"
 msgstr "プロパティ"
 
-#: main/face/list.cc:513
+#: main/face/list.cc:514
 #, fuzzy
 msgid "_Scheduler"
 msgstr "スケジューラ"
 
-#: main/face/list.cc:514
+#: main/face/list.cc:515
 #, fuzzy
 msgid "_URL-manager"
 msgstr "URLマネージャ"
 
-#: main/face/list.cc:515
+#: main/face/list.cc:516
 msgid "_General"
 msgstr ""
 
-#: main/face/list.cc:516
+#: main/face/list.cc:517
 #, fuzzy
 msgid "_Filters"
 msgstr "フィルタ"
 
-#: main/face/list.cc:517
+#: main/face/list.cc:518
 msgid "_Buttons"
 msgstr ""
 
-#: main/face/list.cc:518
+#: main/face/list.cc:519
 #, fuzzy
 msgid "_About"
 msgstr "About"
 
-#: main/face/list.cc:521
+#: main/face/list.cc:522
 msgid "_Low"
 msgstr ""
 
-#: main/face/list.cc:522
+#: main/face/list.cc:523
 #, fuzzy
 msgid "_Medium"
 msgstr "中"
 
-#: main/face/list.cc:523
+#: main/face/list.cc:524
 #, fuzzy
 msgid "_Unlimited"
 msgstr "無制限"
 
-#: main/face/list.cc:868
+#: main/face/list.cc:869
 msgid "Do you really want to quit?"
 msgstr "本当に終了しますか？"
 
-#: main/face/list.cc:868
+#: main/face/list.cc:869
 msgid "Quit?"
 msgstr "終了しますか？"
 
-#: main/face/list.cc:897
+#: main/face/list.cc:898
 msgid "Delete selected downloads?"
 msgstr "選んだダウンロードを削除しますか？"
 
-#: main/face/list.cc:897 main/face/list.cc:915 main/face/list.cc:933
+#: main/face/list.cc:898 main/face/list.cc:916 main/face/list.cc:934
 msgid "Delete?"
 msgstr "削除しますか？"
 
-#: main/face/list.cc:915
+#: main/face/list.cc:916
 msgid "Do you wish delete completed downloads?"
 msgstr "完了したダウンロードを削除しますか？"
 
-#: main/face/list.cc:933
+#: main/face/list.cc:934
 msgid "Do you wish delete failed downloads?"
 msgstr "失敗したダウンロードを削除しますか？"
 
-#: main/face/list.cc:980
+#: main/face/list.cc:981
 msgid "Ready to go ????"
 msgstr "準備完了"
 
-#: main/face/list.cc:1319 main/face/list.cc:1584
+#: main/face/list.cc:1333 main/face/list.cc:1609
 msgid "Downloads"
 msgstr "ダウンロード"
 
-#: main/face/list.cc:1320 main/face/list.cc:1368 main/face/prefs.cc:628
-#: main/face/prefs.cc:1271 main/face/prefs.cc:1532
+#: main/face/list.cc:1334 main/face/list.cc:1382 main/face/prefs.cc:650
+#: main/face/prefs.cc:1308 main/face/prefs.cc:1578
 msgid "Main log"
 msgstr "メインログ"
 
-#: main/face/list.cc:1321 main/face/passface.cc:428
+#: main/face/list.cc:1335 main/face/passface.cc:428
 msgid "URL-manager"
 msgstr "URLマネージャ"
 
-#: main/face/list.cc:1322 main/face/list.cc:1382
+#: main/face/list.cc:1336 main/face/list.cc:1396
 msgid "FTP-search"
 msgstr "FTPサーチ"
 
-#: main/face/list.cc:1386
+#: main/face/list.cc:1400
 msgid "Filename:"
 msgstr "ファイル名:"
 
-#: main/face/list.cc:1606
-msgid "Offline/Online"
-msgstr "オフライン/オンライン"
+#: main/face/list.cc:1565
+msgid "Switch to online mode"
+msgstr ""
 
-#: main/face/list.cc:1723
+#: main/face/list.cc:1565 main/face/list.cc:1631
+msgid "Switch to offline mode"
+msgstr ""
+
+#: main/face/list.cc:1761
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-実行中 %i-完了 %i-全体 "
 
-#: main/face/lmenu.cc:136
+#: main/face/lmenu.cc:168
 msgid "View log"
 msgstr "ログを見る"
 
-#: main/face/lmenu.cc:142
+#: main/face/lmenu.cc:174
 msgid "Stop"
 msgstr "停止"
 
-#: main/face/lmenu.cc:148
+#: main/face/lmenu.cc:180
 msgid "Continue downloads"
 msgstr "ダウンロードを継続"
 
-#: main/face/lmenu.cc:154
+#: main/face/lmenu.cc:186
 msgid "Copy"
 msgstr "コピー"
 
-#: main/face/lmenu.cc:168
+#: main/face/lmenu.cc:200
 msgid "Common properties"
 msgstr "共通のプロパティ"
 
-#: main/face/lmenu.cc:174
+#: main/face/lmenu.cc:206
 msgid "Delete downloads"
 msgstr "選んだものを削除"
 
-#: main/face/lmenu.cc:186
+#: main/face/lmenu.cc:218
 msgid "Delete failed"
 msgstr "失敗したものを削除"
 
-#: main/face/lmenu.cc:196
+#: main/face/lmenu.cc:227
+msgid "Open folder"
+msgstr ""
+
+#: main/face/lmenu.cc:232
+#, fuzzy
+msgid "Open file"
+msgstr "ファイルに追加"
+
+#: main/face/lmenu.cc:242
 msgid "Move up"
 msgstr "上に移動"
 
-#: main/face/lmenu.cc:202
+#: main/face/lmenu.cc:248
 msgid "Move down"
 msgstr "下に移動"
 
-#: main/face/lmenu.cc:207
+#: main/face/lmenu.cc:253
 #, fuzzy
 msgid "Alternates"
 msgstr "フィルタ名"
 
-#: main/face/lmenu.cc:212 main/face/prefs.cc:783 main/face/prefs.cc:1274
-#: main/face/prefs.cc:1501
+#: main/face/lmenu.cc:258 main/face/prefs.cc:805 main/face/prefs.cc:1311
+#: main/face/prefs.cc:1547
 msgid "FTP search"
 msgstr "FTPサーチ"
 
@@ -1453,7 +1475,7 @@ msgstr "ワイルドカードを入力"
 msgid "Unselect"
 msgstr "選択から外す"
 
-#: main/face/lod.cc:1399
+#: main/face/lod.cc:1409
 msgid "Status"
 msgstr "状態"
 
@@ -1462,7 +1484,7 @@ msgstr "状態"
 msgid "Row number %i [log of %s]"
 msgstr ""
 
-#: main/face/log.cc:441
+#: main/face/log.cc:442
 msgid "Log: "
 msgstr "ログ: "
 
@@ -1526,19 +1548,19 @@ msgstr "フィルタ名"
 msgid "Select filter"
 msgstr "フィルタを選択"
 
-#: main/face/mywidget.cc:1072
+#: main/face/mywidget.cc:1079
 msgid "List of links"
 msgstr "リンクのリスト"
 
-#: main/face/mywidget.cc:1144
+#: main/face/mywidget.cc:1151
 msgid "Add"
 msgstr "追加"
 
-#: main/face/mywidget.cc:1343
+#: main/face/mywidget.cc:1350
 msgid "proxy type"
 msgstr "プロクシの種類"
 
-#: main/face/mywidget.cc:1358
+#: main/face/mywidget.cc:1365
 msgid "Use different proxy for this alternate"
 msgstr ""
 
@@ -1559,323 +1581,352 @@ msgstr "制限"
 msgid "con."
 msgstr "動作"
 
-#: main/face/prefs.cc:254
+#: main/face/prefs.cc:257
 msgid "Optimize recursive downloads"
 msgstr "再帰ダウンロードを最適化"
 
-#: main/face/prefs.cc:269
+#: main/face/prefs.cc:272
 msgid "Default permissions of local file"
 msgstr "ローカルファイルのデフォルトの権限"
 
-#: main/face/prefs.cc:280
+#: main/face/prefs.cc:283
 msgid "Save downloads to folder"
 msgstr "ダウンロードをフォルダに保存"
 
-#: main/face/prefs.cc:289 main/face/prefs.cc:1280 main/face/prefs.cc:1375
+#: main/face/prefs.cc:292 main/face/prefs.cc:1317 main/face/prefs.cc:1412
 msgid "Limits"
 msgstr "制限"
 
-#: main/face/prefs.cc:329
+#: main/face/prefs.cc:332
 msgid "Number of parts to split files"
 msgstr "ファイルの分割数"
 
-#: main/face/prefs.cc:337
+#: main/face/prefs.cc:340
 msgid "Maximum lines in log"
 msgstr "ログの最大行数"
 
-#: main/face/prefs.cc:345 main/face/prefs.cc:1282 main/face/prefs.cc:1385
+#: main/face/prefs.cc:348 main/face/prefs.cc:1319 main/face/prefs.cc:1422
 msgid "FTP"
 msgstr "FTP"
 
-#: main/face/prefs.cc:382
+#: main/face/prefs.cc:385
 msgid "Output FTP dirs in logs"
 msgstr "ログにFTPのdirを出力"
 
-#: main/face/prefs.cc:393
+#: main/face/prefs.cc:396
 msgid "default anonymous password"
 msgstr "デフォルトのanonymousパスワード"
 
-#: main/face/prefs.cc:447 main/face/prefs.cc:1284 main/face/prefs.cc:1402
+#: main/face/prefs.cc:450 main/face/prefs.cc:1321 main/face/prefs.cc:1439
 msgid "HTTP"
 msgstr "HTTP"
 
-#: main/face/prefs.cc:483
+#: main/face/prefs.cc:486
 msgid "Filename for saving if it is unknown"
 msgstr "ファイル名が不明なときに使う保存用ファイル名"
 
-#: main/face/prefs.cc:521 main/face/prefs.cc:1292 main/face/prefs.cc:1431
+#: main/face/prefs.cc:526 main/face/prefs.cc:1329 main/face/prefs.cc:1473
 msgid "Main window"
 msgstr "メインウィンドウ"
 
-#: main/face/prefs.cc:523
+#: main/face/prefs.cc:528
 msgid "Using title"
 msgstr "タイトルの使用"
 
-#: main/face/prefs.cc:527
+#: main/face/prefs.cc:532
 msgid "Use title of main window for info"
 msgstr "メインウィンドウにタイトルを使う"
 
-#: main/face/prefs.cc:532
+#: main/face/prefs.cc:538
+#, fuzzy
+msgid "Do not display queue statistics"
+msgstr "キューの状態を表示"
+
+#: main/face/prefs.cc:540
 msgid "Display queue statistics too"
 msgstr "キューの状態を表示"
 
-#: main/face/prefs.cc:533
+#: main/face/prefs.cc:542
+#, fuzzy
+msgid "Display only queue statistics"
+msgstr "キューの状態を表示"
+
+#: main/face/prefs.cc:543
 msgid "Scroll title"
 msgstr "タイトルをスクロール"
 
-#: main/face/prefs.cc:538
+#: main/face/prefs.cc:550
 msgid "Iconfiy main window instead of closing"
 msgstr "メインウィンドウは閉じずにアイコン化する"
 
-#: main/face/prefs.cc:540
+#: main/face/prefs.cc:552
 msgid "Do not remember position of the main window"
 msgstr "メインウィンドウの位置を記憶しない"
 
-#: main/face/prefs.cc:553 main/face/prefs.cc:1294 main/face/prefs.cc:1439
+#: main/face/prefs.cc:575 main/face/prefs.cc:1331 main/face/prefs.cc:1485
 msgid "Confirmation"
 msgstr "確認"
 
-#: main/face/prefs.cc:555
+#: main/face/prefs.cc:577
 msgid "Confirm delete selected downloads"
 msgstr "選択したダウンロードを削除するときに確認"
 
-#: main/face/prefs.cc:556
+#: main/face/prefs.cc:578
 msgid "Confirm delete all downloads"
 msgstr "全てのダウンロードを削除するときに確認"
 
-#: main/face/prefs.cc:557
+#: main/face/prefs.cc:579
 msgid "Confirm delete completed downloads"
 msgstr "完了したダウンロードを削除するときに確認"
 
-#: main/face/prefs.cc:558
+#: main/face/prefs.cc:580
 msgid "Confirm delete failed downloads"
 msgstr "失敗したダウンロードを削除するときに確認"
 
-#: main/face/prefs.cc:559
+#: main/face/prefs.cc:581
 msgid "Confirm opening large amount of windows"
 msgstr "大量のウィンドウを開くときに確認"
 
-#: main/face/prefs.cc:560
+#: main/face/prefs.cc:582
 msgid "Confirm exit from program"
 msgstr "プログラムを終了するときに確認"
 
-#: main/face/prefs.cc:585 main/face/prefs.cc:1306 main/face/prefs.cc:1490
+#: main/face/prefs.cc:607 main/face/prefs.cc:1343 main/face/prefs.cc:1536
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: main/face/prefs.cc:587
+#: main/face/prefs.cc:609
 msgid "Monitor clipboard"
 msgstr "クリップボードを監視する"
 
-#: main/face/prefs.cc:597
+#: main/face/prefs.cc:619
 msgid "Skip these extensions in clipboard"
 msgstr "これらの拡張子は除外する"
 
-#: main/face/prefs.cc:605
+#: main/face/prefs.cc:627
 msgid "Catch these extensions in clipboard"
 msgstr "これらの拡張子を取得する"
 
-#: main/face/prefs.cc:633
+#: main/face/prefs.cc:655
 msgid "Maximum lines in MAIN log"
 msgstr "行＝メインログの最大行数"
 
-#: main/face/prefs.cc:637
+#: main/face/prefs.cc:659
 msgid "Output detailed information"
 msgstr "詳細な情報を出力"
 
-#: main/face/prefs.cc:641
+#: main/face/prefs.cc:663
 msgid "Save main log into file"
 msgstr "メインログをファイルに保存"
 
-#: main/face/prefs.cc:660
+#: main/face/prefs.cc:682
 msgid "Maximum size for file of main log (in KBytes)"
 msgstr "KBytes＝メインログの最大サイズ"
 
-#: main/face/prefs.cc:665
+#: main/face/prefs.cc:687
 msgid "Append to file"
 msgstr "ファイルに追加"
 
-#: main/face/prefs.cc:668
+#: main/face/prefs.cc:690
 msgid "Overwrite file"
 msgstr "ファイルを上書き"
 
-#: main/face/prefs.cc:683 main/face/prefs.cc:1303 main/face/prefs.cc:1481
+#: main/face/prefs.cc:705 main/face/prefs.cc:1340 main/face/prefs.cc:1527
 msgid "Integration"
 msgstr "全体"
 
-#: main/face/prefs.cc:685
+#: main/face/prefs.cc:707
 msgid "Exit if nothing to do after"
 msgstr "実行するものがなくなれば終了する"
 
-#: main/face/prefs.cc:690 main/face/prefs.cc:727
+#: main/face/prefs.cc:712 main/face/prefs.cc:749
 msgid "minutes"
 msgstr "分"
 
-#: main/face/prefs.cc:701
+#: main/face/prefs.cc:723
 msgid "Run this on exit"
 msgstr "終了時にこれを実行"
 
-#: main/face/prefs.cc:706
+#: main/face/prefs.cc:728
 msgid "Open dialog for Drag-n-Drop"
 msgstr "Drag-n-Dropのダイアログを開く"
 
-#: main/face/prefs.cc:722
+#: main/face/prefs.cc:744
 msgid "Save list of downloads every"
 msgstr "時間おきにダウンロードリストを保存"
 
-#: main/face/prefs.cc:734
+#: main/face/prefs.cc:756
 msgid "Allow to user force run downloads"
 msgstr "強制的にダウンロードを実行する"
 
-#: main/face/prefs.cc:735
+#: main/face/prefs.cc:757
 msgid "Remember passwords"
 msgstr "パスワードを記憶する"
 
-#: main/face/prefs.cc:736
+#: main/face/prefs.cc:758
 msgid "Write Descript.ion file"
 msgstr "Descript.ionファイルを書き込む"
 
-#: main/face/prefs.cc:746
+#: main/face/prefs.cc:768
 msgid "bytes/sec speed level one (red button)"
 msgstr "bytes/秒＝速度１(赤ボタン)"
 
-#: main/face/prefs.cc:753
+#: main/face/prefs.cc:775
 msgid "bytes/sec speed level two (yellow button)"
 msgstr "bytes/秒＝速度２(黄ボタン)"
 
-#: main/face/prefs.cc:788
+#: main/face/prefs.cc:810
 msgid "Number of attempts to ping hosts"
 msgstr "ホストにpingを試行する回数"
 
-#: main/face/prefs.cc:795
+#: main/face/prefs.cc:817
 msgid "Number of hosts in list"
 msgstr "リストの中のホスト数"
 
-#: main/face/prefs.cc:803
+#: main/face/prefs.cc:825
 msgid "Number of links per searching engine"
 msgstr "サーチエンジンごとのリンク数"
 
-#: main/face/prefs.cc:844
+#: main/face/prefs.cc:866
 msgid "search engine to use"
 msgstr "使用するサーチエンジン"
 
-#: main/face/prefs.cc:859 main/face/prefs.cc:1289 main/face/prefs.cc:1424
+#: main/face/prefs.cc:881 main/face/prefs.cc:1326 main/face/prefs.cc:1461
 msgid "Interface"
 msgstr "インタフェース"
 
-#: main/face/prefs.cc:861
+#: main/face/prefs.cc:883
 msgid "Show DnD basket"
 msgstr "DnDバスケットを表示"
 
-#: main/face/prefs.cc:862
+#: main/face/prefs.cc:884
 msgid "Use fixed font in logs"
 msgstr "ログにはfixedフォントを使う"
 
-#: main/face/prefs.cc:863
+#: main/face/prefs.cc:885
 msgid "Display graph on DnD-basket"
 msgstr "DnDバスケットにグラフを表示"
 
-#: main/face/prefs.cc:864
+#: main/face/prefs.cc:886
 msgid "Display current speed value on DnD-basket"
 msgstr "DnDバスケットに現在の速度を表示"
 
-#: main/face/prefs.cc:890 main/face/prefs.cc:1296 main/face/prefs.cc:1448
+#: main/face/prefs.cc:897
+msgid "Double click on downloading item"
+msgstr ""
+
+#: main/face/prefs.cc:900
+#, fuzzy
+msgid "Open log"
+msgstr "ファイルに追加"
+
+#: main/face/prefs.cc:902
+#, fuzzy
+msgid "Edit preferences"
+msgstr "デフォルトのオプションを編集"
+
+#: main/face/prefs.cc:904
+#, fuzzy
+msgid "Open downloaded file"
+msgstr "ダウンロードしたサイズ"
+
+#: main/face/prefs.cc:927 main/face/prefs.cc:1333 main/face/prefs.cc:1494
 msgid "Graph"
 msgstr "グラフ"
 
-#: main/face/prefs.cc:892
+#: main/face/prefs.cc:929
 msgid "Revert drawing graph of speeds"
 msgstr ""
 
-#: main/face/prefs.cc:895
+#: main/face/prefs.cc:932
 msgid "Compressed mode"
 msgstr "圧縮モード"
 
-#: main/face/prefs.cc:900
+#: main/face/prefs.cc:937
 msgid "Color for picks"
 msgstr "選択したもの"
 
-#: main/face/prefs.cc:901
+#: main/face/prefs.cc:938
 msgid "Color for total speed"
 msgstr "全体の速度"
 
-#: main/face/prefs.cc:902
+#: main/face/prefs.cc:939
 msgid "Color for current speed value"
 msgstr "現在の速度"
 
-#: main/face/prefs.cc:903
+#: main/face/prefs.cc:940
 msgid "Background color"
 msgstr "背景"
 
-#: main/face/prefs.cc:912
+#: main/face/prefs.cc:949
 msgid "Reset to default"
 msgstr "デフォルトに戻す"
 
-#: main/face/prefs.cc:915
+#: main/face/prefs.cc:952
 msgid "Colors for graph"
 msgstr "グラフの色"
 
-#: main/face/prefs.cc:940 main/face/prefs.cc:1298 main/face/prefs.cc:1457
+#: main/face/prefs.cc:977 main/face/prefs.cc:1335 main/face/prefs.cc:1503
 msgid "Sounds"
 msgstr "サウンド"
 
-#: main/face/prefs.cc:943
+#: main/face/prefs.cc:980
 msgid "enable sounds"
 msgstr "サウンド有効"
 
-#: main/face/prefs.cc:948
+#: main/face/prefs.cc:985
 msgid "output via ESD"
 msgstr "ESD経由で出力"
 
-#: main/face/prefs.cc:955
+#: main/face/prefs.cc:992
 msgid "Startup"
 msgstr "起動"
 
-#: main/face/prefs.cc:957
+#: main/face/prefs.cc:994
 msgid "Adding a download"
 msgstr "ダウンロードを追加"
 
-#: main/face/prefs.cc:959
+#: main/face/prefs.cc:996
 msgid "Downloading completed"
 msgstr "ダウンロード完了"
 
-#: main/face/prefs.cc:961
+#: main/face/prefs.cc:998
 msgid "Downloading failed"
 msgstr "ダウンロード失敗"
 
-#: main/face/prefs.cc:963
+#: main/face/prefs.cc:1000
 msgid "Downloading of queue is completed"
 msgstr "キューのダウンロードが完了"
 
-#: main/face/prefs.cc:965
+#: main/face/prefs.cc:1002
 msgid "Drag'n'Drop event"
 msgstr "Drag'n'Dropを行った"
 
-#: main/face/prefs.cc:1003 main/face/prefs.cc:1004
+#: main/face/prefs.cc:1040 main/face/prefs.cc:1041
 msgid "No info about this theme."
 msgstr "テーマ情報なし"
 
-#: main/face/prefs.cc:1024
+#: main/face/prefs.cc:1061
 msgid "Default theme"
 msgstr "デフォルトのテーマ"
 
-#: main/face/prefs.cc:1055 main/face/prefs.cc:1300
+#: main/face/prefs.cc:1092 main/face/prefs.cc:1337
 msgid "Themes"
 msgstr "テーマ"
 
-#: main/face/prefs.cc:1062
+#: main/face/prefs.cc:1099
 msgid "Themes' directory"
 msgstr "テーマのディレクトリ"
 
-#: main/face/prefs.cc:1063
+#: main/face/prefs.cc:1100
 msgid "Rescan"
 msgstr "再スキャン"
 
-#: main/face/prefs.cc:1072
+#: main/face/prefs.cc:1109
 msgid "Name"
 msgstr "名前"
 
-#: main/face/prefs.cc:1219
+#: main/face/prefs.cc:1256
 msgid "Options"
 msgstr "オプション"
 
@@ -2014,7 +2065,7 @@ msgstr "ディレクトリを変更できません"
 msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "サーバにログインできません。ユーザが多すぎるのでしょう"
 
-#: main/ftpd.cc:313 main/httpd.cc:228
+#: main/ftpd.cc:313 main/httpd.cc:233
 msgid "Sleeping"
 msgstr "スリープ"
 
@@ -2059,7 +2110,7 @@ msgstr "リンクはロード済みです :))"
 msgid "Sending request to proxy (%s:%i)"
 msgstr "プロクシ(%s:%i)にリクエストを送信"
 
-#: main/hproxy.cc:203 main/hproxy.cc:236 main/httpd.cc:425 main/httpd.cc:454
+#: main/hproxy.cc:203 main/hproxy.cc:236 main/httpd.cc:430 main/httpd.cc:459
 msgid "Answer read ok"
 msgstr "応答を受信しました"
 
@@ -2107,28 +2158,28 @@ msgstr ""
 msgid "It's last chunk!"
 msgstr ""
 
-#: main/httpd.cc:178
+#: main/httpd.cc:179
 msgid "Couldn't get normal answer!"
 msgstr "正常な応答を得られませんでした"
 
-#: main/httpd.cc:381
+#: main/httpd.cc:386
 #, c-format
 msgid "Size for download is %i bytes"
 msgstr "ダウンロードのサイズは %i bytes"
 
-#: main/httpd.cc:421 main/httpd.cc:450
+#: main/httpd.cc:426 main/httpd.cc:455
 msgid "Sending HTTP request..."
 msgstr "HTTPリクエストを送信.."
 
-#: main/httpd.cc:498
+#: main/httpd.cc:503
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "REGETをサポートしていないようです。最初からロード.."
 
-#: main/httpd.cc:501
+#: main/httpd.cc:506
 msgid "ETag was changed, restarting again..."
 msgstr "ETagを変更しました。再スタート.."
 
-#: main/httpd.cc:516
+#: main/httpd.cc:521
 msgid "%ll bytes loaded."
 msgstr "%ll bytes ロードしました"
 
@@ -2140,179 +2191,179 @@ msgstr "ログを開始しました"
 msgid "Can't init control socket!\n"
 msgstr ""
 
-#: main/main.cc:192
+#: main/main.cc:194
 msgid "Loading default list of downloads"
 msgstr "デフォルトのダウンロードリストをロード"
 
-#: main/main.cc:272 main/main.cc:1309
+#: main/main.cc:274 main/main.cc:1311
 msgid "Delete completed downloads"
 msgstr "完了したダウンロードを削除"
 
-#: main/main.cc:285
+#: main/main.cc:287
 msgid "Delete failed downloads"
 msgstr "失敗したダウンロードを削除"
 
-#: main/main.cc:302
+#: main/main.cc:304
 msgid "Clear queue of downloads"
 msgstr "ダウンロードのキューを消去"
 
-#: main/main.cc:359
+#: main/main.cc:361
 msgid "Run new thread for %z"
 msgstr "%z の新しいスレッドを実行"
 
-#: main/main.cc:365
+#: main/main.cc:367
 msgid "Can't run new thread for downloading!"
 msgstr "新しいスレッドでダウンロードすることができません"
 
-#: main/main.cc:424
+#: main/main.cc:426
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "ユーザによりファイル %s(%s)のダウンロードを中断"
 
-#: main/main.cc:467
+#: main/main.cc:469
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "ダウンロードのキューからファイル %s を削除"
 
-#: main/main.cc:562
+#: main/main.cc:564
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "ファイル %s(%s)のダウンロードを継続.."
 
-#: main/main.cc:653
+#: main/main.cc:655
 msgid "file"
 msgstr "ファイル"
 
-#: main/main.cc:737
+#: main/main.cc:739
 msgid "dir"
 msgstr "Dir"
 
-#: main/main.cc:742
+#: main/main.cc:744
 msgid "link"
 msgstr "リンク"
 
-#: main/main.cc:747
+#: main/main.cc:749
 msgid "device"
 msgstr "デバイス"
 
-#: main/main.cc:780
+#: main/main.cc:782
 msgid "Too many redirections!"
 msgstr "リダイレクトが多すぎます"
 
-#: main/main.cc:798
+#: main/main.cc:800
 msgid "Redirection from [%z] to the same location!"
 msgstr "[%z]から同じ場所にリダイレクトしています"
 
-#: main/main.cc:834
+#: main/main.cc:836
 msgid "Redirection from [%z] to nowhere!"
 msgstr "[%z]からのリダイレクト先がありません"
 
-#: main/main.cc:860
+#: main/main.cc:862
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "スレッド %i of [%z] の停止を準備"
 
-#: main/main.cc:886
+#: main/main.cc:888
 msgid "Redirect from %z"
 msgstr "%z からリダイレクト"
 
-#: main/main.cc:893
+#: main/main.cc:895
 msgid "Downloading of directory %z was completed"
 msgstr "ディレクトリ %z のダウンロードが完了しました"
 
-#: main/main.cc:897
+#: main/main.cc:899
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr "ファイル %z(%i bytes)のダウンロードが速度%i bytes/秒で完了しました"
 
-#: main/main.cc:904
+#: main/main.cc:906
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z は完了したダウンロードとしてキューから削除しました"
 
-#: main/main.cc:915
+#: main/main.cc:917
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "ファイル %z のダウンロードが不慮のエラーで停止"
 
-#: main/main.cc:917
+#: main/main.cc:919
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z は失敗したダウンロードとしてキューから削除しました"
 
-#: main/main.cc:1251
+#: main/main.cc:1253
 msgid "Restarting failed downloads"
 msgstr "失敗したダウンロードを再試行"
 
-#: main/main.cc:1251 main/main.cc:1287 main/main.cc:1304 main/main.cc:1309
-#: main/main.cc:1314 main/main.cc:1327 main/main.cc:1332
+#: main/main.cc:1253 main/main.cc:1289 main/main.cc:1306 main/main.cc:1311
+#: main/main.cc:1316 main/main.cc:1329 main/main.cc:1334
 msgid "[control socket]"
 msgstr "[control socket]"
 
-#: main/main.cc:1269
+#: main/main.cc:1271
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "control socket[%s]からのダウンロードを削除"
 
-#: main/main.cc:1277
+#: main/main.cc:1279
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "control socket[%s]からのダウンロードを追加"
 
-#: main/main.cc:1285
+#: main/main.cc:1287
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "速度制限を %s %s に指定"
 
-#: main/main.cc:1304
+#: main/main.cc:1306
 msgid "Setup maximum active downloads to"
 msgstr "ダウンロードの最大実行数を以下に設定"
 
-#: main/main.cc:1327
+#: main/main.cc:1329
 msgid "Exiting if nothing to do is switched off"
 msgstr "実行するものがなくなれば終了する"
 
-#: main/main.cc:1332
+#: main/main.cc:1334
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "%i 分の %s ののち実行するものがなければ終了する"
 
-#: main/main.cc:1345
+#: main/main.cc:1347
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "デフォルトのキューは現在 '%s' です"
 
-#: main/main.cc:1645
+#: main/main.cc:1647
 msgid "Loading FTP-Search engines"
 msgstr "FTPサーチエンジンをロード"
 
-#: main/main.cc:1647
+#: main/main.cc:1649
 msgid "Normally started"
 msgstr "正常に開始"
 
-#: main/main.cc:1705
+#: main/main.cc:1707
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "ユーザによりファイル %s(%s)のダウンロードを追加"
 
-#: main/main.cc:1756
+#: main/main.cc:1758
 msgid "Downloader is in offline mode now"
 msgstr "ダウンローダは現在オフラインモードです"
 
-#: main/main.cc:1763
+#: main/main.cc:1765
 msgid "Offline mode is turned off"
 msgstr "オフラインモードをオフに変更"
 
-#: main/main.cc:1794
+#: main/main.cc:1799
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "このセッションで %lu bytesをロードしました"
 
-#: main/main.cc:1795
+#: main/main.cc:1800
 msgid "Downloader exited normaly"
 msgstr "正常に終了しました"
 
-#: main/main.cc:1835
+#: main/main.cc:1840
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "ログ保存のために '%s' を開けません"
 
-#: main/main.cc:1866
+#: main/main.cc:1874
 msgid "Such protocol is not supported!"
 msgstr "そのようなプロトコルはサポートしていません"
 
@@ -2346,11 +2397,11 @@ msgstr "ログ保存用にファイルを開くことができません"
 msgid "BUG: Wrong mode of lseek!\n"
 msgstr "バグ: lseekの間違ったモード\n"
 
-#: main/nt.cc:156
+#: main/nt.cc:163
 msgid "WARNING!!! Can't find HOME variable! So can't read config!"
 msgstr "警告: HOME変数が見つかりません。従って設定を読めません"
 
-#: main/nt.cc:172
+#: main/nt.cc:179
 #, c-format
 msgid "%s probably is already running\n"
 msgstr "%s は実行中のようです\n"
@@ -2380,15 +2431,15 @@ msgstr "デフォルトのダウンロードリストをロードできません
 msgid "Download  was stopped by user"
 msgstr "ユーザの指示によりダウンロードを中止"
 
-#: main/var.cc:100
+#: main/var.cc:101
 msgid "low"
 msgstr "低"
 
-#: main/var.cc:101
+#: main/var.cc:102
 msgid "medium"
 msgstr "中"
 
-#: main/var.cc:102
+#: main/var.cc:103
 msgid "unlimited"
 msgstr "無制限"
 

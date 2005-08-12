@@ -1,0 +1,106 @@
+#
+# $Header: /home/cvs/d4x/admin/Makefile.common,v 1.2 2005/03/03 14:25:33 zaufi Exp $
+#
+# Rules to be included in every Makefile
+#
+
+MKMSG=echo make[$(MAKELEVEL)]:
+
+#
+# Rule to autogen new class files from template
+#
+new-class: $(top_srcdir)/support/class.tpl
+	@if test -n "$(class)"; then \
+	    echo "autogen definitions $(<F);" > $(class).def || exit 1; \
+	    echo "classname=$(class);" >> $(class).def || exit 1; \
+	    $(AUTOGEN) -L $(<D) $(class).def || exit 1; \
+	    test -z "$(DONT_REMOVE_DEFS)" && rm -f $(class).def; \
+	    $(MKMSG) "Generated files: $(class).cc, $(class).hh"; \
+	    if test "$(top_builddir)" != "$(top_srcdir)"; then \
+		$(MKMSG) "Move $(class).* ==> $(srcdir)"; \
+		mv -f $(class).* $(srcdir); \
+	    fi; \
+	    if test -d $(srcdir)/src; then \
+		$(MKMSG) "Move $(srcdir)$(class).cc ==> $(srcdir)/src"; \
+		mv -f $(srcdir)/$(class).cc $(srcdir)/src; \
+	    fi; \
+	    if test -d $(srcdir)/include; then \
+		$(MKMSG) "Move $(srcdir)$(class).hh ==> $(srcdir)/include"; \
+		mv -f $(srcdir)/$(class).hh $(srcdir)/include; \
+	    fi; \
+	else \
+	    $(MKMSG) "Class name is not provided. Use 'make $(@) class=ClassName'"; \
+	    exit 1; \
+	fi
+
+#
+# Make skeleton source tree
+#
+new-lib new-prg new-shlib new-noinst-lib:
+	@if test -n "$(name)"; then \
+	    $(MKMSG) "Create new skeleton source tree for $(name)..."; \
+	    if test -d $(srcdir)/$(name); then \
+		$(MKMSG) "$(srcdir)/$(name) already exist. Creation aborted..."; \
+		exit 1; \
+	    else \
+		am_d2m="$(srcdir)/$(name) $(srcdir)/$(name)/src $(srcdir)/$(name)/include $(srcdir)/$(name)/tests"; \
+		$(MKMSG) "Directories to create: $$am_d2m"; \
+		mkdir $$am_d2m || exit 1; \
+		for i in $$am_d2m; do \
+		    cp $(top_srcdir)/admin/cvsignore.template $$i/.cvsignore || exit 1; \
+		done; \
+		case "$(@)" in \
+		new-lib )        target=LIBRARIES ;; \
+		new-prg )        target=bin_PROGRAMS ;; \
+		new-shlib )      target=lib_LTLIBRARIES ;; \
+		new-noinst-lib ) target=noinst_LIBRARIES ;; \
+		*) exit 1 ;; \
+		esac; \
+		cat $(top_srcdir)/admin/Makefile.template \
+		| sed -e "s,target_type,$$target," \
+		> $(srcdir)/$(name)/Makefile.am; \
+	    fi; \
+	else \
+	    $(MKMSG) "Target name is not provided. Use \`make $@ name=name_of_target'"; \
+	    exit 1; \
+	fi
+
+#
+# Rule to create Makefile.am for tests/ directory
+#
+new-test:
+	@if test -d $(srcdir)/tests; then \
+	    cp $(top_srcdir)/admin/Makefile.tests.template $(srcdir)/tests/Makefile.am ;\
+	    $(MKMSG) "DO NOT FORGET TO..."; \
+	    $(MKMSG) " 1) Add $(srcdir)/tests/Makefile into AC_CONFIG_FILES() list"; \
+	    $(MKMSG) " 2) Add 'tests' into SUBDIRS list in $(srcdir)/Makefile.am"; \
+	else \
+	    $(MKMSG) "There is no directory $(srcdir)/tests here!"; \
+	    exit 1; \
+	fi
+
+#
+# Update .cvsignore files
+#
+add-to-cvsignore:
+	@if test "x$(what)" == "x"; then \
+	    $(MKMSG) " No file to add specified. Use \`make $(@) what=file2ignore'"; \
+	    exit 1; \
+	else \
+	    for i in `find $(srcdir) -name .cvsignore`; do \
+		echo "Update $$i"; \
+		echo "$(what)" >> $$i; \
+	    done \
+	fi
+
+help:
+	@test "$@" = "help" || \
+	echo -e "make: *** No rule to make target \`$@'. Stop."
+	@$(MKMSG) " Available targets are:"
+	@cat Makefile \
+	| grep '^[A-Za-z-]\+:' \
+	| sed 's,^\([A-Za-z-]\+\):.*$$,\1,' \
+	| sort \
+	| awk 'BEGIN{i = 0}{printf("%-25s", $$1); i++; if (i > 2) {printf("\n"); i = 0; }}END{printf("\n")}'
+
+.PHONY: new-class new-lib new-prg new-shlib new-noinst-lib new-test help

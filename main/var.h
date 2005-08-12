@@ -44,6 +44,12 @@ enum{
 #include "dqueue.h"
 #include "mutex.h"
 
+enum DOUBLE_CLICK_ACTIONS{
+	DBCLA_OPENLOG,
+	DBCLA_EDIT,
+	DBCLA_OPENFILE,
+	DBCLA_LAST
+};
 struct tMainCfg{
 	tSimplyCfg DEFAULT_CFG;
 	int MAX_LOG_LENGTH;
@@ -98,6 +104,7 @@ struct tMainCfg{
 	int HIDE_MAIN_WINDOW;
 	int GRAPH_ON_BASKET;
 	int SHOW_SPEED_ON_BASKET;
+	int DBLCLK_ACT;
 /* Clipboard
  */
 	int CLIPBOARD_MONITOR;
@@ -192,7 +199,7 @@ extern tMainCfg CFG;
 
 struct tGlobalVars{
 	d4xMutex MUTEX;
-	unsigned long int READED_BYTES;
+	unsigned long long READED_BYTES;
 	d4xSocketsHistory *SOCKETS;
 };
 

@@ -1,0 +1,73 @@
+<info author="Dan Korostelev" email="dan@ats.energo.ru">
+This theme makes Downloader for X look more GNOME-ish,
+by using GNOME icons for toolbars, components and queues.
+</info>
+
+<buttonsbar>
+    <tipcolor>#ffffee</tipcolor>
+    <add file="gnome/toolbar/add.png" />
+    <clipboardadd file="gnome/toolbar/add_from_clipboard.png" />
+    <del file="gnome/toolbar/remove.png" />
+    <continue file="gnome/toolbar/start.png" />
+    <stop file="gnome/toolbar/pause.png" />
+    <delcompleted file="gnome/toolbar/remove_completed.png" />
+    <moveup file="gnome/toolbar/up.png" />
+    <movedown file="gnome/toolbar/down.png" />
+    <openlog file="gnome/toolbar/log.png" />
+    <preferences file="gnome/toolbar/preferences.png" />
+    <speedlow file="gnome/toolbar/speed_low.png" />
+    <speedmedium file="gnome/toolbar/speed_medium.png" />
+    <speedhigh file="gnome/toolbar/speed_high.png" />
+    <save file="gnome/toolbar/save.png" />
+    <load file="gnome/toolbar/load.png" />
+    <clearlist file="gnome/toolbar/clear.png" />
+    <progress1 file="gnome/toolbar/progress_none.png"/>
+    <progress2 file="gnome/toolbar/progress_normal.png"/>
+    <progress3 file="gnome/toolbar/progress_segmented.png"/>
+    <dnd file="gnome/toolbar/basket.png" />
+</buttonsbar>
+
+<queue>
+    <failedpix file="gnome/queue/failed.png"/>
+    <stopwaitpix file="gnome/queue/waiting_stop.png"/>
+    <waitpix file="gnome/queue/waiting.png"/>
+    <completepix file="gnome/queue/complete.png"/>
+    <pausedpix file="gnome/queue/paused.png"/>
+    <runpix file="gnome/queue/run.png"/>
+    <runpix1 file="gnome/queue/run1.png"/>
+    <runpix2 file="gnome/queue/run2.png"/>
+    <runpix3 file="gnome/queue/run3.png"/>
+    <runpix4 file="gnome/queue/run4.png"/>
+    <runpix5 file="gnome/queue/run5.png"/>
+    <runpix6 file="gnome/queue/run6.png"/>
+    <runpix7 file="gnome/queue/run7.png"/>
+    <runpix8 file="gnome/queue/run8.png"/>
+    <runpartpix file="gnome/queue/run_part.png"/>
+    <runpartpix1 file="gnome/queue/run_part.png"/>
+    <runpartpix2 file="gnome/queue/run_part.png"/>
+    <runpartpix3 file="gnome/queue/run_part.png"/>
+    <runpartpix4 file="gnome/queue/run_part.png"/>
+    <runpartpix5 file="gnome/queue/run_part.png"/>
+    <runpartpix6 file="gnome/queue/run_part.png"/>
+    <runpartpix7 file="gnome/queue/run_part.png"/>
+    <runpartpix8 file="gnome/queue/run_part.png"/>
+    <runbadpix file="gnome/queue/run_noresume.png"/>
+    <runbadpix1 file="gnome/queue/run_noresume1.png"/>
+    <runbadpix2 file="gnome/queue/run_noresume2.png"/>
+    <runbadpix3 file="gnome/queue/run_noresume3.png"/>
+    <runbadpix4 file="gnome/queue/run_noresume4.png"/>
+    <runbadpix5 file="gnome/queue/run_noresume5.png"/>
+    <runbadpix6 file="gnome/queue/run_noresume6.png"/>
+    <runbadpix7 file="gnome/queue/run_noresume7.png"/>
+    <runbadpix8 file="gnome/queue/run_noresume8.png"/>
+    <sizepix file="gnome/queue/size.png"/>
+</queue>
+
+<toolbar>
+    <queues file="gnome/components/queue.png"/>
+    <mainlog file="gnome/components/log.png"/>
+    <urlmng file="gnome/components/url_manager.png"/>
+    <ftpsearch file="gnome/components/search.png"/>
+    <filters file="gnome/components/filters.png"/>
+    <scheduler file="gnome/components/scheduler.png"/>
+</toolbar>

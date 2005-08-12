@@ -30,6 +30,9 @@
 #include "ftpd.h"
 #include "segments.h"
 #include "srvclt.h"
+#ifdef HAVE_SSL
+#include "openssl/ssl.h"
+#endif //HAVE_SSL
 //-------------------------------------------------
 tMain _aa_;
 
@@ -145,6 +148,10 @@ int main(int argc,char **argv) {
 		LOCALE_CODEPAGE="UTF-8";
 	setlocale(LC_ALL,"");
 #endif
+#ifdef HAVE_SSL
+	SSL_load_error_strings();
+	SSL_library_init();
+#endif //HAVE_SSL
 
 #ifdef DEBUG_ALL
 	prog_name = argv[0];

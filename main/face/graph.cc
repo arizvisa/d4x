@@ -15,6 +15,7 @@
 #include "../var.h"
 #include "../ntlocale.h"
 #include "graph.h"
+#include "colors.h"
 
 /********************************************************************/
 MyGtkGraph *GLOBAL_GRAPH;
@@ -195,6 +196,20 @@ static void my_gtk_graph_draw(GtkWidget *widget,GdkRectangle *area){
 					    layout,
 					    &graph->TextColor,
 					    NULL);
+		if (graph->show_offline && CFG.OFFLINE_MODE){
+//#include "pixmaps/dndoffline.xpm"
+			GdkGC *gc=gdk_gc_new(widget->window);
+			gdk_gc_set_background(gc,&RED);
+			gdk_gc_set_foreground(gc,&RED);
+			gdk_gc_set_rgb_fg_color(gc,&RED);
+			gdk_gc_set_rgb_bg_color(gc,&RED);
+			gdk_draw_arc(widget->window,gc,
+				     TRUE,
+				     widget->allocation.width-12,
+				     widget->allocation.height-12,
+				     7,7,0,23040);
+			gdk_gc_unref(gc);
+		};
 //		gtk_paint_layout (widget->style,
 //				  widget->window,
 //				  GtkStateType(GTK_WIDGET_STATE (widget)),

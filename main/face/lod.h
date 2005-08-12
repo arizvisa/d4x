@@ -23,6 +23,7 @@ struct tColumn{
 	int type;
 	int visible;
 	int size;
+	int enum_index;
 };
 
 enum {

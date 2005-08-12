@@ -1,9 +1,16 @@
 ###################### to version 2.9-3.0 ##########################
+ABILITY TO CLEAR FILTER OF DOWNLOADING
 Add WM icon to every window
 Add progress bar to DnD-basket in Graph mode;
-Add "Offline/Online" menu item to DnD-basket's menu;
-Add "Offline/Online" indicator to DnD-basket;
+[DONE] fix displaing wrong speed in DnD-basket
+
 GLOBAL CODECLEANUPS!!!
+	implement one interface class with states
+	namespaces are alive!
+	everything to STL and BOOST
+
+[DONE] Add "Offline/Online" menu item to DnD-basket's menu;
+[DONE] Add "Offline/Online" indicator to DnD-basket;
 fix segfault after removing download which filesize is currently checked (by F5)
 [DONE] add ability to show current speed on DnD-basket when it is graph
 [DONE] add ability to specify different proxy for alternates

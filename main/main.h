@@ -28,7 +28,7 @@ class tMain{
 	tMsgQueue *MsgQueue;
 	tFtpSearchCtrl *ftpsearch;
 	tSpeedQueue *SpeedScheduler;
-	int LastReadedBytes;
+	tMeter::BSize LastReadedBytes;
 	int TO_WAIT_IF_HERE,DONTRY2RUN;
 	void case_download_completed(tDownload *what);
 	void case_download_failed(tDownload *what);

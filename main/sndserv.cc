@@ -153,7 +153,7 @@ int d4xWaveFile::read_long(long *len){
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 	*len =(buf[3] << 24) | (buf[2] << 16) | (buf[1] << 8) | buf[0];
-#elif
+#else
 	*len =(buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
 #endif
 
@@ -166,7 +166,7 @@ int d4xWaveFile::read_short(short *val){
 		return 0;
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 	*val = (buf[1] << 8) | buf[0];
-#elif
+#else
 	*val = (buf[0] << 8) | buf[1];
 #endif
 	return 1;
@@ -457,7 +457,6 @@ d4xSndServer::d4xSndServer(){
 	stop_now=0;
 	for (int i=0;i<SND_LAST;i++)
 		snd_table[i]=NULL;
-	queue=new tQueue;
 	thread_id=0;
 	pthread_cond_init(&cond,NULL);
 
@@ -468,7 +467,6 @@ d4xSndServer::d4xSndServer(){
 };
 
 d4xSndServer::~d4xSndServer(){
-	delete(queue);
 	pthread_cond_destroy(&cond);
 	for (int i=0;i<SND_LAST;i++)
 		if (snd_table[i]) delete[] snd_table[i];
@@ -502,11 +500,8 @@ void d4xSndServer::run_thread(){
 void d4xSndServer::add_event(int event){
 	if (thread_id==0 || CFG.ENABLE_SOUNDS==0 || CFG.WITHOUT_FACE)
 		return;
-	d4xSndEvent *snd=new d4xSndEvent;
-	snd->event=event;
-	snd->birth=time(NULL);
 	my_mutex.lock();
-	queue->insert(snd);
+	queue.push_back(d4x::SndEvent(event));
 	pthread_cond_signal(&cond);
 	my_mutex.unlock();
 };
@@ -530,17 +525,20 @@ void d4xSndServer::run(){
 	my_mutex.lock();
 	while(1){
 		pthread_cond_wait(&cond,&(my_mutex.m));
-		while(queue->first()){
-			d4xSndEvent *snd=(d4xSndEvent *)(queue->first());
-			queue->del(snd);
+		std::list<d4x::SndEvent> tmpqueue=queue;
+		queue.clear();
+		my_mutex.unlock();
+		while(!tmpqueue.empty()){
+			d4x::SndEvent snd=tmpqueue.front();
 			time_t now=time(NULL);
-			if (snd->birth-now<4 && snd->birth-now>-4){
+			if (snd.birth-now<4 && snd.birth-now>-4){
 				/* playing */
-				play_sound(snd->event);
+				play_sound(snd.event);
 			};
-			delete(snd);
+			tmpqueue.pop_front();
 		};
 		if (stop_now) break;
+		my_mutex.unlock();
 	};
 	my_mutex.unlock();
 };

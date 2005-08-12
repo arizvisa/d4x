@@ -41,7 +41,7 @@ tMainCfg TMPCFG={
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,600,0,0, //flags
-	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,0,//interface
+	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,0,0,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,0,
 	/* Proxy */
@@ -109,7 +109,9 @@ struct D4xPrefsWidget{
 	tProxyWidget proxy;
 	/* Main window */
 	GtkWidget *mw_use_title;
+	GtkWidget *mw_use_title1;
 	GtkWidget *mw_use_title2;
+	GtkWidget *mw_use_title3;
 	GtkWidget *mw_scroll_title;
 	GtkWidget *window_lower;
 	GtkWidget *winpos;
@@ -158,6 +160,7 @@ struct D4xPrefsWidget{
 	GtkWidget *graph_on_basket;
 	GtkWidget *show_speed_on_basket;
 	GtkWidget *fixed_font_log;
+	GtkWidget *dblclk_acts[DBCLA_LAST];
 	/* GRAPH */
 	GtkWidget *graph_order;
 	GtkWidget *graph_mode;
@@ -513,7 +516,9 @@ void d4x_prefs_proxy(){
 };
 
 static void d4x_prefs_toggle_title(GtkWidget *parent) {
+	gtk_widget_set_sensitive(D4XPWS.mw_use_title1,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(D4XPWS.mw_use_title2,GTK_TOGGLE_BUTTON(parent)->active);
+	gtk_widget_set_sensitive(D4XPWS.mw_use_title3,GTK_TOGGLE_BUTTON(parent)->active);
 	gtk_widget_set_sensitive(D4XPWS.mw_scroll_title,GTK_TOGGLE_BUTTON(parent)->active);
 };
 
@@ -529,10 +534,17 @@ void d4x_prefs_mwin(){
 			   "clicked",
 			   G_CALLBACK(d4x_prefs_toggle_title),
 			   NULL);
-	D4XPWS.mw_use_title2=gtk_check_button_new_with_label(_("Display queue statistics too"));
+	D4XPWS.mw_use_title1=gtk_radio_button_new_with_label((GSList*)NULL,
+							     _("Do not display queue statistics"));
+	D4XPWS.mw_use_title2=gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.mw_use_title1)),
+							     _("Display queue statistics too"));
+	D4XPWS.mw_use_title3=gtk_radio_button_new_with_label(gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.mw_use_title2)),
+							     _("Display only queue statistics"));
 	D4XPWS.mw_scroll_title=gtk_check_button_new_with_label(_("Scroll title"));
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.mw_use_title,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.mw_use_title1,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.mw_use_title2,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.mw_use_title3,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.mw_scroll_title,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(tmpbox),frame,FALSE,FALSE,0);
 	D4XPWS.window_lower=gtk_check_button_new_with_label(_("Iconfiy main window instead of closing"));
@@ -541,7 +553,17 @@ void d4x_prefs_mwin(){
 	gtk_box_pack_start(GTK_BOX(tmpbox),D4XPWS.winpos,FALSE,FALSE,0);
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title),TMPCFG.USE_MAINWIN_TITLE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title2),TMPCFG.USE_MAINWIN_TITLE2);
+	switch(TMPCFG.USE_MAINWIN_TITLE2){
+	case 0:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title1),TRUE);
+		break;
+	case 1:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title2),TRUE);
+		break;
+	case 2:
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title3),TRUE);
+		break;
+	};
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.mw_scroll_title),TMPCFG.SCROLL_MAINWIN_TITLE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.window_lower),TMPCFG.WINDOW_LOWER);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4XPWS.winpos),TMPCFG.DONOTSET_WINPOS);
@@ -871,6 +893,21 @@ void d4x_prefs_interface(){
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.fixed_font_log,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.graph_on_basket,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),D4XPWS.show_speed_on_basket,FALSE,FALSE,0);
+
+	GtkWidget *frame_dblclk=gtk_frame_new(_("Double click on downloading item"));
+	GtkWidget *tmpvbox=gtk_vbox_new(FALSE,0);
+	gtk_container_add(GTK_CONTAINER(frame_dblclk),tmpvbox);
+	D4XPWS.dblclk_acts[DBCLA_OPENLOG]=gtk_radio_button_new_with_label(NULL,_("Open log"));
+	GSList *proxy_group1=gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.dblclk_acts[DBCLA_OPENLOG]));
+	D4XPWS.dblclk_acts[DBCLA_EDIT]=gtk_radio_button_new_with_label(proxy_group1,_("Edit preferences"));
+	proxy_group1=gtk_radio_button_get_group(GTK_RADIO_BUTTON(D4XPWS.dblclk_acts[DBCLA_EDIT]));
+	D4XPWS.dblclk_acts[DBCLA_OPENFILE]=gtk_radio_button_new_with_label(proxy_group1,_("Open downloaded file"));
+	for(int i=DBCLA_OPENLOG;i<DBCLA_LAST;i++){
+		GTK_TOGGLE_BUTTON(D4XPWS.dblclk_acts[i])->active=(i==CFG.DBLCLK_ACT?1:0);
+		gtk_box_pack_start(GTK_BOX(tmpvbox),D4XPWS.dblclk_acts[i],FALSE,FALSE,0);
+	};
+	gtk_box_pack_start(GTK_BOX(vbox),frame_dblclk,FALSE,FALSE,0);
+	
 	if (TMPCFG.GRAPH_ON_BASKET)
 		gtk_widget_set_sensitive(D4XPWS.show_speed_on_basket,TRUE);
 	else
@@ -1426,11 +1463,20 @@ void d4x_prefs_apply_tmp(){
 		TMPCFG.GRAPH_ON_BASKET=GTK_TOGGLE_BUTTON(D4XPWS.graph_on_basket)->active;
 		TMPCFG.SHOW_SPEED_ON_BASKET=GTK_TOGGLE_BUTTON(D4XPWS.show_speed_on_basket)->active;
 		TMPCFG.FIXED_LOG_FONT=GTK_TOGGLE_BUTTON(D4XPWS.fixed_font_log)->active;
+		for(int i=DBCLA_OPENLOG;i<DBCLA_LAST;i++)
+			if (GTK_TOGGLE_BUTTON(D4XPWS.dblclk_acts[i])->active){
+				TMPCFG.DBLCLK_ACT=i;
+				break;
+			};
 		return;
 	};
 	if (equal(label,_("Main window"))){
 		TMPCFG.USE_MAINWIN_TITLE=GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title)->active;
-		TMPCFG.USE_MAINWIN_TITLE2=GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title2)->active;
+		TMPCFG.USE_MAINWIN_TITLE2=0;
+		if (GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title2)->active)
+			TMPCFG.USE_MAINWIN_TITLE2=1;
+		else if (GTK_TOGGLE_BUTTON(D4XPWS.mw_use_title3)->active)
+			TMPCFG.USE_MAINWIN_TITLE2=2;
 		TMPCFG.SCROLL_MAINWIN_TITLE=GTK_TOGGLE_BUTTON(D4XPWS.mw_scroll_title)->active;
 		TMPCFG.WINDOW_LOWER=GTK_TOGGLE_BUTTON(D4XPWS.window_lower)->active;
 		TMPCFG.DONOTSET_WINPOS=GTK_TOGGLE_BUTTON(D4XPWS.winpos)->active;

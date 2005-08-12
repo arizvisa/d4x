@@ -56,7 +56,7 @@ public:
 	void save_to_config_list(int fd);
 	int load_from_config(int fd);
 	int load_from_config_list(int fd);
-	void inherit_settings(d4xDownloadQueue *papa);
+	void inherit_settings(d4xDownloadQueue *papa,const char *path=NULL);
 };
 
 class d4xDUpdate{

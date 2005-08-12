@@ -81,6 +81,7 @@ GtkWidget *D4X_TOOL_UP;
 GtkWidget *D4X_TOOL_DOWN;
 GtkWidget *D4X_TOOL_BUTTON_FIND;
 GtkWidget *D4X_VTOOLBAR_CONTAINER;
+GtkWidget *D4X_OFFLINE_BUTTON;
 GtkWidget *d4x_vtoolbar_pixmaps[6];
 
 d4xDisplayLogInfo D4X_LOG_DISPLAY;
@@ -1268,6 +1269,19 @@ void d4x_vertical_toolbar_change_theme(){
 //	gtk_widget_get_size_request(d4x_vtoolbar_pixmaps[0],&w,&h);
 //	gtk_widget_set_size_request(D4X_VTOOLBAR_CONTAINER,w,-1);
 	gtk_widget_set_size_request(D4X_VTOOLBAR_CONTAINER,-1,-1);
+
+#include "pixmaps2/offline.xpm"
+#include "pixmaps2/offline1.xpm"
+
+	GtkWidget *tmp=GTK_BIN(D4X_OFFLINE_BUTTON)->child;
+	if (CFG.OFFLINE_MODE){
+		gtk_image_set_from_pixbuf(GTK_IMAGE(tmp),pixbuf_from_theme("main offline>file",(const char**)offline1_xpm));
+		gtk_image_set_from_pixbuf(GTK_IMAGE(D4X_OFFLINE_PIXMAP),pixbuf_from_theme("main online>file",(const char**)offline_xpm));
+	}else{
+		gtk_image_set_from_pixbuf(GTK_IMAGE(tmp),pixbuf_from_theme("main online>file",(const char**)offline_xpm));
+		gtk_image_set_from_pixbuf(GTK_IMAGE(D4X_OFFLINE_PIXMAP),pixbuf_from_theme("main offline>file",(const char**)offline1_xpm));
+	};
+	
 };
 
 
@@ -1537,14 +1551,25 @@ GtkWidget *d4x_main_dwn_log_init(){
 	return(hbox);
 }
 
-void d4x_main_offline_click(GtkWidget *button){
-	GtkWidget *tmp=GTK_BIN(button)->child;
+void d4x_main_offline_mode(){
+	GtkWidget *tmp=GTK_BIN(D4X_OFFLINE_BUTTON)->child;
 	g_object_ref(G_OBJECT(tmp));
-	gtk_container_remove(GTK_CONTAINER(button),tmp);
-	gtk_container_add(GTK_CONTAINER(button),D4X_OFFLINE_PIXMAP);
+	gtk_container_remove(GTK_CONTAINER(D4X_OFFLINE_BUTTON),tmp);
+	gtk_container_add(GTK_CONTAINER(D4X_OFFLINE_BUTTON),D4X_OFFLINE_PIXMAP);
 	g_object_unref(D4X_OFFLINE_PIXMAP);
 	gtk_widget_show(D4X_OFFLINE_PIXMAP);
 	D4X_OFFLINE_PIXMAP=tmp;
+	GtkTooltipsData  *tooltipdata=gtk_tooltips_data_get(D4X_OFFLINE_BUTTON);
+	if (tooltipdata){
+		gtk_tooltips_set_tip(tooltipdata->tooltips,D4X_OFFLINE_BUTTON,
+				     CFG.OFFLINE_MODE?_("Switch to online mode"):_("Switch to offline mode"),
+				     (const gchar *)NULL);
+	};
+	dnd_trash_menu_prepare();
+	dnd_trash_redraw();
+};
+
+void d4x_main_offline_click(GtkWidget *button){
 	_aa_.switch_offline_mode();
 };
 
@@ -1600,10 +1625,10 @@ void init_main_window() {
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll_window1),
 					    GTK_SHADOW_IN);
 
-	GtkWidget *offline=gtk_toggle_button_new();
+	GtkWidget *offline=D4X_OFFLINE_BUTTON=gtk_button_new();
 
 	GtkTooltips *tooltip=gtk_tooltips_new();
-	gtk_tooltips_set_tip(tooltip,offline,_("Offline/Online"),(const gchar *)NULL);
+	gtk_tooltips_set_tip(tooltip,offline,_("Switch to offline mode"),(const gchar *)NULL);
 	gtk_tooltips_enable(tooltip);
 				
 	GtkRcStyle *rc_style = gtk_rc_style_new ();
@@ -1612,8 +1637,8 @@ void init_main_window() {
 	gtk_widget_modify_style (offline, rc_style);
 	g_object_unref(G_OBJECT(rc_style));
 	GTK_WIDGET_UNSET_FLAGS(offline,GTK_CAN_FOCUS);
-	GtkWidget *offline_pixmap=gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)offline_xpm));
-	D4X_OFFLINE_PIXMAP=gtk_image_new_from_pixbuf(gdk_pixbuf_new_from_xpm_data((const char**)offline1_xpm));
+	GtkWidget *offline_pixmap= gtk_image_new_from_pixbuf(pixbuf_from_theme("main online>file",(const char**)offline_xpm));
+	D4X_OFFLINE_PIXMAP=gtk_image_new_from_pixbuf(pixbuf_from_theme("main offline>file",(const char**)offline1_xpm));
 	g_object_ref(G_OBJECT(D4X_OFFLINE_PIXMAP));
  	g_signal_connect(G_OBJECT(offline),"clicked",
 			   G_CALLBACK(d4x_main_offline_click),NULL);
@@ -1697,25 +1722,38 @@ static void tmp_scroll_title(char *title,int index){
 void update_mainwin_title() {
 	if (CFG.USE_MAINWIN_TITLE) {
 		mainwin_title_state=1;
-		tDownload *temp=D4X_QUEUE->qv.last_selected;
+		tDownload *temp=D4X_QUEUE->first(DL_RUN);
 		char data[MAX_LEN];
 		char data2[MAX_LEN];
 		char data3[MAX_LEN];
 		if (temp){
-			make_number_nice(data2,temp->Size.curent,D4X_QUEUE->NICE_DEC_DIGITALS);
-			if (temp->finfo.size>=0)
-				make_number_nice(data3,temp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
-			else
-				sprintf(data3,"???");
-			char b[100];
-			d4x_percent_str(temp->Percent,b,sizeof(b));
-			char *rfile=unparse_percents(temp->info->file.get());
-			sprintf(data,"%s%% %s/%s %s ",b,data2,data3,rfile);
-			delete[] rfile;
-			dnd_trash_set_tooltip(data,temp->Percent);
+			int i=0;
+			char *tipstr=NULL;
+			tDownload *frst=temp;
+			while(temp && i++<3){
+				make_number_nice(data2,temp->Size.curent,D4X_QUEUE->NICE_DEC_DIGITALS);
+				if (temp->finfo.size>=0)
+					make_number_nice(data3,temp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
+				else
+					sprintf(data3,"???");
+				char b[100];
+				d4x_percent_str(temp->Percent,b,sizeof(b));
+				char *rfile=unparse_percents(temp->info->file.get());
+				sprintf(data,"%s%% %s/%s %s ",b,data2,data3,rfile);
+				if (tipstr){
+					char *tmp=sum_strings(tipstr,"\n",data,NULL);
+					delete[] tipstr;
+					tipstr=tmp;
+				}else
+					tipstr=copy_string(data);
+				delete[] rfile;
+				temp=(tDownload*)(temp->prev);
+			};
+			dnd_trash_set_tooltip(tipstr,frst->Percent);
+			delete[] tipstr;
 		}else
 			dnd_trash_set_tooltip(NULL);
-		if (temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {
+		if (CFG.USE_MAINWIN_TITLE2!=2 && temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {
 			tmp_scroll_title(data,ROLL_STAT);
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
 		} else {

@@ -22,6 +22,7 @@ struct MyGtkGraph{
 	PangoFontDescription *font_desc;
 	guchar *rgb_data;
 	int show_speed;
+	int show_offline;
 };
 
 struct MyGtkGraphClass{

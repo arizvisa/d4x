@@ -240,6 +240,7 @@ static gint log_window_event_handler(GtkWidget *window,GdkEvent *event,tLog *log
 	if (event && event->type == GDK_KEY_PRESS) {
 		GdkEventKey *kevent=(GdkEventKey *)event;
 		tLogWindow *wnd=(tLogWindow *)log->Window;
+		if (!wnd->toolbar) return FALSE;
 		int num=-1;
 		if (kevent->state & GDK_CONTROL_MASK){
 			switch(kevent->keyval) {

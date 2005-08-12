@@ -456,7 +456,7 @@ void str_non_print_replace(char *what,char symbol){
 		if (*temp<' ') *temp=(unsigned char )symbol;
 		temp+=1;
 	};
-	while (temp >= (unsigned char *)what){
+	while (temp > (unsigned char *)what){
 		temp--;
 		if (*temp==' ') *temp=0;
 		else break;
@@ -854,17 +854,17 @@ void normalize_path(char *src) {
 	while (*a) {
 		if (*a=='/'){
 			int need_exit=0;
-			while(!need_exit){
-				switch(*(a+1)){
+			do {
+				switch(a[1]){
 				case '/':
 					a+=1;
 					break;
 				case '.':{
-					if (*(a+2)=='/' || *(a+2)==0){
+					if (a[2]=='/' || a[2]==0){
 						a+=2;
 						break;
 					};
-					if (*(a+2)=='.'  && (*(a+3)=='/' || *(a+3)==0)){
+					if (a[2]=='.'  && (a[3]=='/' || a[3]==0)){
 						if (b>src) b-=1;
 						while (b>src && *b!='/') b-=1;
 						a+=3;
@@ -874,7 +874,8 @@ void normalize_path(char *src) {
 				default:
 					need_exit=1;
 				};
-			};
+				if (*a==0) break;
+			}while(!need_exit);
 		};
 		if ((*b=*a)==0) return;
 		b+=1;
@@ -1347,6 +1348,10 @@ char *parse_save_path(const char *str,char *file){
 
 tPStr::tPStr(){
 	a=NULL;
+};
+
+tPStr::tPStr(const char*s){
+	a=copy_string(s);
 };
 
 bool tPStr::notempty(){

@@ -1,8 +1,8 @@
 #
-# $Header: /home/cvs/d4x/main/face/Makefile.am,v 1.1.1.1 2004/07/01 15:41:41 max Exp $
+# $Header: /home/cvs/d4x/main/face/Makefile.am,v 1.3.2.2 2005/08/08 11:54:39 zaufi Exp $
 #
 
-include $(top_srcdir)/admin/Makefile.addons
+include $(top_srcdir)/admin/Makefile.all
 
 MAINTAINERCLEANFILES = Makefile.in
 CLEANFILES = *~
@@ -17,36 +17,24 @@ else
 libface_a_SOURCES    = $(libface_a_SOURCES_LIST)
 endif
 
-libface_a_SOURCES_LIST = $(strip      \
-  about.cc     fsched.cc  misc.cc     \
-  addd.cc      fsface.cc  mywidget.cc \
-  buttons.cc   graph.cc   passface.cc \
-  colors.cc    list.cc    prefs.cc    \
-  filtrgui.cc  lmenu.cc   qtree.cc    \
-  dndtrash.cc  lod.cc     saveload.cc \
-  edit.cc      log.cc     themes.cc   \
+libface_a_SOURCES_LIST = $(strip         \
+    about.cc     fsched.cc               \
+    addd.cc      fsface.cc  mywidget.cc  \
+    buttons.cc   graph.cc   passface.cc  \
+    colors.cc    list.cc    prefs.cc     \
+    columns.cc   lmenu.cc   qtree.cc     \
+    dndtrash.cc  lod.cc     saveload.cc  \
+    edit.cc      log.cc     themes.cc    \
+    filtrgui.cc  misc.cc                 \
 )
-
-noinst_HEADERS = $(strip              \
-  about.h     fsched.h  misc.h        \
-  addd.h      fsface.h  mywidget.h    \
-  buttons.h   graph.h   passface.h    \
-  colors.h    list.h    prefs.h       \
-  filtrgui.h  lmenu.h   qtree.h       \
-  dndtrash.h  lod.h     saveload.h    \
-  edit.h      log.h     themes.h      \
+noinst_HEADERS = $(strip                           \
+    about.h     edit.h      lmenu.h     passface.h \
+    addd.h      filtrgui.h  lod.h       prefs.h    \
+    buttons.h   fsched.h    log.h       qtree.h    \
+    colors.h    fsface.h    misc.h      saveload.h \
+    columns.h   graph.h     themes.h               \
+    dndtrash.h  list.h      mywidget.h             \
 )
-
-# HINT:
-# We can use fact that all files in this directory
-# have the same name for 2 extensions (*.cc | *.h)
-# and use this in the following trick:
-#
-# noinst_HEADERS = $(patsubst %.cc, %.h, $(libface_a_SOURCES))
-#
-# this helps us to avoid maintain 2 lists (long lists :) of files
-# and exclude possible errors (i.e. unsyncronized lists)
-#
 
 #
 # Rule to join all sources in one compilation unit

@@ -1,5 +1,5 @@
 #
-# $Header: /home/cvs/d4x/Makefile.am,v 1.1.1.1 2004/07/01 15:37:55 max Exp $
+# $Header: /home/cvs/d4x/Makefile.am,v 1.2.2.1 2005/08/08 11:54:38 zaufi Exp $
 #
 
 ACLOCAL_AMFLAGS = -I m4
@@ -7,19 +7,15 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS         = DOC intl main po share
 
 # Extra files/dirs to be included in distribution
-EXTRA_DIST      = admin/config.rpath admin/mkinstalldirs  admin/config.rpath  admin/config.rpath              \
-                  admin/mkinstalldirs             \
-                  admin/strip.awk                 \
-                  admin/Makefile.addons           \
-                  admin/Doxyfile.in               \
-                  m4/am_with_rx.m4                \
-                  m4/d4xao.m4                     \
-                  m4/gcc_check_obsolete_option.m4 \
-                  po/Makevars                     \
-                  ChangeLog-1.x                   \
-                  PLANS                           \
-                  VERSION                         \
-                  nt.spec
+EXTRA_DIST = $(top_srcdir)/admin/Makefile.template \
+             $(top_srcdir)/admin/config.rpath \
+             $(top_srcdir)/admin/mkinstalldirs \
+             $(top_srcdir)/admin/strip.awk \
+             $(top_srcdir)/support/class.tpl \
+             $(top_srcdir)/support/nt.spec \
+             $(top_srcdir)/ChangeLog-1.x \
+             $(top_srcdir)/PLANS \
+             $(top_srcdir)/po/Makevars
 
 # RPMs we can build
 RPM_TARGETS     = rpm src-rpm all-rpms
@@ -32,38 +28,6 @@ CLEANFILES = $(top_srcdir)/*~            \
              $(top_srcdir)/admin/*~      \
              $(top_builddir)/doxygen.log \
              $(top_builddir)/rpm-build.log
-
-# Remove all maintainer specific files
-MAINTAINERCLEANFILES =                 \
-    $(top_srcdir)/ABOUT-NLS            \
-    $(top_srcdir)/ChangeLog.bak        \
-    $(top_srcdir)/INSTALL              \
-    $(top_srcdir)/Makefile.in          \
-    $(top_srcdir)/aclocal.m4           \
-    $(top_srcdir)/config.h.in          \
-    $(top_srcdir)/configure            \
-    $(top_srcdir)/po/Makefile.in.in    \
-    $(top_srcdir)/po/Makevars.template \
-    $(top_srcdir)/po/Rules-quot        \
-    $(top_srcdir)/po/*.sed             \
-    $(top_srcdir)/po/*.header          \
-    $(top_srcdir)/po/*.sin             \
-    $(top_srcdir)/admin/depcomp        \
-    $(top_srcdir)/admin/missing        \
-    $(top_srcdir)/admin/mkinstalldirs  \
-    $(top_srcdir)/admin/maintainer.log \
-    $(top_srcdir)/admin/install-sh     \
-    $(top_srcdir)/admin/Makefile.am    \
-    $(top_srcdir)/admin/Makefile.in    \
-    $(top_builddir)/admin/Doxyfile     \
-    $(top_srcdir)/m4/*~                \
-    $(top_srcdir)/m4/Makefile*         \
-    $(shell find $(top_srcdir)/admin -name 'config.*')
-
-# Remove generated directories
-maintainer-clean-local:
-	rm -rf $(top_srcdir)/intl
-	rm -rf $(top_srcdir)/autom4te*.cache
 
 # Goal to create source rpm
 # (use copy instead move to allow increment of packet version)
@@ -85,8 +49,9 @@ $(RPM_TARGETS):
 #
 # Run doxygen to produce html documentation for source code
 #
-html-docs: $(top_builddir)/admin/Doxyfile
+doxy-docs: $(top_builddir)/support/Doxyfile
 	if test -f $<; then \
-	    cd $(top_builddir)/admin; \
-	    $(DOXYGEN); \
+	    $(DOXYGEN) $(top_builddir)/support/Doxyfile; \
 	fi
+
+.PHONY: doxy-docs

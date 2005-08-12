@@ -476,6 +476,7 @@ void dnd_trash_init(){
 		dnd_basket_graph=my_gtk_graph_new();
 		D4X_DND_GRAPH=(MyGtkGraph *)dnd_basket_graph;
 		D4X_DND_GRAPH->show_speed=CFG.SHOW_SPEED_ON_BASKET;
+		D4X_DND_GRAPH->show_offline=1;
 		D4X_DND_GRAPH->GlobalM=GraphMeter;
 		D4X_DND_GRAPH->LocalM=GraphLMeter;
 		gtk_widget_ref(dnd_basket_graph);
@@ -564,6 +565,9 @@ void dnd_trash_menu_prepare(){
 		gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action3),TRUE);
 	};
 	};
+	GtkAction *action=gtk_ui_manager_get_action(dnd_trash_ui_manager,"/DndTrash/offline");
+	gtk_toggle_action_set_active(GTK_TOGGLE_ACTION(action),CFG.OFFLINE_MODE?TRUE:FALSE);
+	g_object_set(G_OBJECT(action),"label",CFG.OFFLINE_MODE?_("Offline"):_("Online"),NULL);
 	_no_speed_callback_dnd_=false;
 };
 
@@ -585,6 +589,11 @@ void dnd_trash_set_del_completed(gint how){
 		gtk_widget_set_sensitive(menu_item,how);
 };
 
+void dnd_trash_offline(){
+	if (_no_speed_callback_dnd_) return;
+	_aa_.switch_offline_mode();
+};
+
 static gint dnd_trash_menu_umap(){
 	CFG.DND_NEED_POPUP=1;
 	dnd_trash_no_expose();
@@ -604,6 +613,7 @@ void dnd_trash_init_menu() {
 		"        <menuitem action='speedmedium' />"
 		"        <menuitem action='speedunlim' />"
 		"   </menu>"
+		"   <menuitem action='offline' />"
 		"   <separator name='sep2' />"
 		"   <menuitem action='exit' />"
 		"</popup>";
@@ -617,6 +627,9 @@ void dnd_trash_init_menu() {
 		{ "props",GTK_STOCK_PREFERENCES,N_("General options"), NULL, "open main preferences dialog",  G_CALLBACK(d4x_prefs_init)},
 		{ "exit",GTK_STOCK_QUIT,N_("Exit"), NULL, "open main preferences dialog",  G_CALLBACK(ask_exit)}
 	};
+	static GtkToggleActionEntry toggle_entries[]={
+		{ "offline",NULL,N_("Online"), NULL, "switch to or from offline mode",  G_CALLBACK(dnd_trash_offline),FALSE}
+	};
 	static GtkRadioActionEntry radio_entries[] = {
 		{ "speedlow", NULL, N_("Low"), NULL, "set low traffic limitation", 0 },
 		{ "speedmedium", NULL, N_("Medium"), NULL, "set medium traffic limitation", 1 },
@@ -627,6 +640,7 @@ void dnd_trash_init_menu() {
 	gtk_action_group_set_translate_func(action_group,d4x_menu_translate_func,NULL,NULL);
 	dnd_trash_ui_manager=gtk_ui_manager_new ();
 	gtk_action_group_add_actions (action_group, entries, G_N_ELEMENTS (entries), NULL);
+	gtk_action_group_add_toggle_actions (action_group, toggle_entries, G_N_ELEMENTS (toggle_entries), NULL);
 	gtk_action_group_add_radio_actions (action_group, radio_entries, G_N_ELEMENTS (radio_entries), CFG.SPEED_LIMIT-1, G_CALLBACK(dnd_trash_menu_callback), NULL);
 	gtk_ui_manager_insert_action_group (dnd_trash_ui_manager, action_group, 0);
 	GError *error = NULL;
@@ -691,4 +705,9 @@ void dnd_trash_set_tooltip(char *str,float percent){
 			     dnd_trash_window,
 			     str,NULL);
 
+};
+
+
+void dnd_trash_redraw(){
+	gtk_widget_queue_draw(GTK_WIDGET(dnd_trash_window));
 };

@@ -1,0 +1,119 @@
+#
+# $Header: /home/cvs/d4x/admin/Makefile.misc,v 1.2 2005/03/03 14:25:33 zaufi Exp $
+#
+
+
+#
+# Create list of programs and their servers list in format:
+#
+# program1=[server1 ... serverN] ... programN=[...]
+#
+AM_RPG_TO_INSTALL_TO=$(foreach prs,                                                   \
+                     $(patsubst %, %_REMOTE_SERVERS, $(bin_PROGRAMS) $(bin_SCRIPTS)), \
+                     $(subst _REMOTE_SERVERS,,$(prs))=[$(strip $($(prs)))])
+
+#
+# Install to remote server (making backups)
+# 
+# NOTES:
+#	1) To define server (or list of servers) use xxx_REMOTE_SERVERS macro
+#          where 'xxx' name of target
+#	2) Also the rule assume that rmeote path equ to configured $prefix
+#
+remote-install-exec: $(bin_PROGRAMS)
+	@if test -z '$(bin_PROGRAMS) $(bin_SCRIPTS)'; then \
+	  echo "make[$(MAKELEVEL)]: Nothing to install here..."; \
+	  exit 0; \
+	fi
+	@programs='$(bin_PROGRAMS) $(bin_SCRIPTS)'; for prg in $$programs; do \
+	  servers=`echo "$(AM_RPG_TO_INSTALL_TO)" | \
+	           sed -e "s/.*$$prg=\[\(.*\)\].*/\1/" \
+	               -e ": strip" \
+	               -e "s/\(^.*\)\].*/\1/" \
+	               -e "t strip"`; \
+	  if test "x$$servers" != "x"; then \
+	    echo "make[$(MAKELEVEL)]: Compress $$prg before transfer..."; \
+	    $(GZIP) -9 -c -f $$prg > $$prg.gz; \
+	  fi; \
+	  for server in $$servers; do \
+	    prg_bak=$$prg-`date +%k\:%M\:%S-%d.%m.%Y | sed 's/ //'`; \
+	    echo "make[$(MAKELEVEL)]: Backup $(prefix)/bin/$$prg to $(prefix)/bin/$$prg_bak ... "; \
+	    $(SSH) $$server mv -f $(prefix)/bin/$$prg $(prefix)/bin/$$prg_bak > /dev/null 2>&1; \
+	    echo "make[$(MAKELEVEL)]: Transfer $$prg.gz to $$server:$(prefix)/bin ..."; \
+	    $(SCP) $$prg.gz $$server:$(prefix)/bin || exit 1; \
+	    echo "make[$(MAKELEVEL)]: Decompress $$prg.gz on $$server..."; \
+	    $(SSH) $$server $(GZIP) -d $(prefix)/bin/$$prg.gz || exit 1; \
+	    $(SSH) $$server chmod +x $(prefix)/bin/$$prg || exit 1; \
+	  done; \
+	  rm -f $$prg.gz; \
+	done
+
+#
+# Yet another rule to install to remote servers.
+# Difference for the previous one:
+#   1) Installing whole package (not single program).
+#      Package will be created by `make install` command, so all
+#      usual (local) features work OK (you can define install-xxx-local
+#      to extend this process).
+#   2) As follow from 1 this rule use REMOTE_SERVERS macro
+#      (not per target xxx_REMOTE_SERVERS) 'bcouse we install
+#      all files (binary programs and data) at once.
+#
+remote-install-all:
+	@if test -z '$(REMOTE_SERVERS)'; then \
+	  echo "make[$(MAKELEVEL)]: No destination specified here..."; \
+	  exit 0; \
+	fi; \
+	DESTDIR=/tmp/`basename $(srcdir)`; \
+	$(MAKE) $(AM_MAKEFLAGS) -C DESTDIR=$$DESTDIR install-exec install-data; \
+	echo "make[$(MAKELEVEL)]: Create package to be transfered..."; \
+	curdir=`pwd`; tar_name=`basename $(srcdir)`.tar.gz; \
+	$(AMTAR) -C $$DESTDIR -zcf $$tar_name *; \
+	cd $$curdir; \
+	for server in '$(REMOTE_SERVERS)'; do \
+	  echo "make[$(MAKELEVEL)]: Transfer $$tar_name to $$server:/tmp ..."; \
+	  $(SCP) $$tar_name $$server:$$DESTDIR || exit 1; \
+	  echo "make[$(MAKELEVEL)]: Install package at $$server ..."; \
+	  $(SSH) $$server " \
+	    for file in `tar -C $$DESTDIR -zvxf $$tar_name | sed '/^.*\/$/d'`; do
+	      test -f /$$file \
+	      && mv /$file /`dirname $$file`/`basename $$file`-`date +%k\:%M\:%S-%d.%m.%Y | sed 's/ //'`; \
+	      mv -f $$file $$/file; \
+	    done" || exit 1; \
+	done
+
+
+#
+RES_COL=70
+# 'OK' message
+SUCCESS = echo -e "\\033[$(RES_COL)G" '[ ' "\\033[1;32m"OK"\\033[0;39m" ' ]'
+# 'Fail' message
+FAILURE = echo -e "\\033[$(RES_COL)G" '[' "\\033[1;31m"Fail"\\033[0;39m" ']'
+
+#
+# Scan and check header files: whether it can be included along
+# so if u c the 'Fail' (it is already too late :)... look to
+# tests log file and try to fix bugs in problem header...
+#
+# Idea: Try to compile test program which is include given header
+#       Normaly (if header independed) it should be successful
+#
+check-headers: $(DEPDIR)/includes
+	echo "<<< `date` >>>" > hdr_test.log
+	for hdr in `find $(srcdir) -name '*.hh'`; do \
+	  echo -e "#include <`basename $$hdr`>\nusing namespace std;\nint main(void){}\n" > hdr_test.cc; \
+	  echo -e "\n>>> Testing $$hdr" >> hdr_test.log; \
+	  echo -n "make[$(MAKELEVEL)]: Testing `echo $$hdr | sed 's,$(srcdir)/,,'`... "; \
+	  $(CXXCOMPILE) -I`dirname $$hdr` -c -o hdr_test.o hdr_test.cc >> hdr_test.log 2>&1 \
+	    && $(SUCCESS) \
+	    || $(FAILURE); \
+	  echo -e "<<< $$hdr testing finished\n" >> hdr_test.log; \
+	done
+
+#
+# Rule to make PostScript file with include graph
+#
+%.ps: %.cc %.hh
+	AM_SRCDIR=$(srcdir) $(top_srcdir)/admin/cinclude2ps  -n $(<) > $(*F).ps
+
+.PHONY: remote-install remote-install-exec check-headers

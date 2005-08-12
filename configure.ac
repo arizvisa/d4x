@@ -1,28 +1,22 @@
 # -*-m4-*-
+# $Header: /home/cvs/d4x/configure.ac,v 1.2.2.8 2005/08/11 13:13:31 zaufi Exp $
+#
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.2 $)
+AC_REVISION($Revision: 1.2.2.8 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
 # Initialize environment
 # -----------------------------------------------------------------------------
-AC_INIT([d4x],
-        esyscmd([. VERSION && echo -n ${MAJOR}.${MINOR}.${PATCH_LEVEL}${EXTRA_VERSION}]),
-        [chuchelo@krasu.ru])
+m4_include([support/version.m4])
+AC_INIT([d4x], [VERSION_STR], [chuchelo@krasu.ru])
 
+AC_PKG_INFO_HDR([$PACKAGE_NAME -- Web Downloader for X])
 
-cat << EOF
-------------------------------------------------------------------------------
-
-                  D4X -- Web Downloader for X (`. VERSION && echo -n ${MAJOR}.${MINOR}.${PATCH_LEVEL}${EXTRA_VERSION}`)
-
-------------------------------------------------------------------------------
-EOF
-
-AC_CONFIG_SRCDIR([nt.spec.in])
+AC_CONFIG_SRCDIR([admin/strip.awk])
 AC_CONFIG_AUX_DIR([admin])
-AM_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 # This ksh/zsh (and bash >= 2.05) feature conflict with `cd blah; pwd`
 unset CDPATH
@@ -47,22 +41,21 @@ AM_MAINTAINER_MODE
 # ATTENTION: We shouldn't redefine CXXFLAGS! Possible config.site already loaded!
 OPTFLAGS="-O0"
 
-AC_STRUCT_TIMEZONE
 
 # Optimization options
 AC_ARG_ENABLE(release, 
     AC_HELP_STRING([--enable-release], [Compile with usual optimization level without debug code (default)]),,
-    [enable_release="yes"])
-if test "$enable_release" = "yes"; then
+    [enable_release='yes'])
+if test "$enable_release" = 'yes'; then
     OPTFLAGS="-O2"
 fi
 AC_ARG_ENABLE(extra-optimize,
     AC_HELP_STRING([--enable-extra-optimize],
                    [Such as --enable-release + compile with maximum optimizations]))
-if test "$enable_extra_optimize" = "yes"; then
-    OPTFLAGS="-O3 -fexpensive-optimizations"
+if test "$enable_extra_optimize" = 'yes'; then
+    OPTFLAGS="-O3 -fexpensive-optimizations -fomit-frame-pointer"
 fi
-AM_CONDITIONAL(EXTRA_OPTIMIZE, test "$enable_extra_optimize" = "yes")
+AM_CONDITIONAL(EXTRA_OPTIMIZE, test "$enable_extra_optimize" = 'yes')
 CXXFLAGS="$CXXFLAGS $OPTFLAGS"
 
 AC_DEFINE(_FILE_OFFSET_BITS, 64, [To support files over 2GB])
@@ -70,38 +63,42 @@ AC_DEFINE(_FILE_OFFSET_BITS, 64, [To support files over 2GB])
 # Maintainer helpers
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING([--enable-debug], [Enable debug info and some debugging code to be compiled]),
-    [if test "$enable_debug" = "yes"; then
+    [if test "$enable_debug" = 'yes'; then
 	CXXFLAGS="$CXXFLAGS -ggdb"
         AC_DEFINE(DEBUG_ALL, , [Activate debug code])
     fi])
 AC_ARG_ENABLE(warnings,
     AC_HELP_STRING([--enable-warnings], [Enable all warnings at compile time]),
-    [if test "$enable_warnings" = "yes"; then
+    [if test "$enable_warnings" = 'yes'; then
 	CXXFLAGS="$CXXFLAGS -Wall"
     fi])
 AC_ARG_ENABLE(profile,
     AC_HELP_STRING([--enable-profile], [Enable profiling info]),
-    [if test "$enable_profile" == "yes"; then
-        CXXFLAGS=$CXXFLAGS" -pg"
+    [if test "$enable_profile" == 'yes'; then
+        CXXFLAGS="$CXXFLAGS -pg"
     fi])
+
+AC_ARG_ENABLE(openssl,
+    AC_HELP_STRING([--disable-openssl], [Disable Open SSL support (default=autodetect)]),,
+    [enable_openssl='yes'])
 
 # Extra features options
 AC_ARG_ENABLE(esd,
     AC_HELP_STRING([--disable-esd], [Disable esound output (default=enabled)]),,
-    enable_esd="yes")
+    enable_esd='yes')
 AC_ARG_ENABLE(oss,
     AC_HELP_STRING([--disable-oss], [Disable OSS sound output (default=enabled)]),,
-    enable_oss="yes")
+    enable_oss='yes')
 AC_ARG_ENABLE(libao,
     AC_HELP_STRING([--enable-libao],
     [Enable libao sound output and disable all others sound libs (default=disabled)]),,
-    enable_libao="no")
+    enable_libao='no')
 
 # -----------------------------------------------------------------------------
 # Checks for OS depended options
 # -----------------------------------------------------------------------------
 
-ac_pthread_strict_check="yes"
+ac_pthread_strict_check='yes'
 # Check for OS
 case "$host" in
     *-solaris*)
@@ -137,20 +134,13 @@ AC_PROG_CC
 # Note that you can add more options in config.site file
 # (c info automake)
 #
-# Warning: Since gcc > 3.0.x -malign-xxx option become obsolete
-#          so to avoid warning message we'll check this...
-#
-if test "$enable_extra_optimize" = "yes"; then
-    GCC_CHECK_OBSOLETE_OPTION([-malign-loops=8],
-	[am_align_opts="-falign-loops=8 -falign-jumps=8 -falign-functions=8"],
-	[am_align_opts="-malign-loops=8 -malign-jumps=8 -malign-functions=8"])
-
+if test "$enable_extra_optimize" = 'yes'; then
     AC_MSG_CHECKING(host CPU architecture) 
 
     case "$host" in
 	i586-* | i686-*)
 	    AC_MSG_RESULT([AMD/Intel x86])
-    	    if test "$enable_extra_optimize" = "yes"; then
+    	    if test "$enable_extra_optimize" = 'yes'; then
 		OS_CXXFLAGS="$OS_CXXFLAGS $am_align_opts -fomit-frame-pointer"
 	    fi
 	;;
@@ -181,17 +171,20 @@ AC_PROG_LN_S
 test -n "$DOT" && HAVE_DOT=YES && DOT=`dirname "$DOT"`
 AC_SUBST(HAVE_DOT)
 
+AC_PATH_GENGETOPT([2.11], [ac_gengetopt=yes],[ac_gengetopt=no])
+AC_PATH_PROG(AUTOGEN, autogen, [${am_missing_run}autogen], /usr/local/bin:$PATH)
+
 # -----------------------------------------------------------------------------
 # Checks for libraries.
 # -----------------------------------------------------------------------------
 # Should we check for ao?
-if test "$enable_libao" = "yes"; then
+if test "$enable_libao" = 'yes'; then
     D4X_PATH_AO([AC_DEFINE(D4X_WITH_AO,,[Define if libao should be used])])
     enable_esd=no
     enable_oss=no
 fi
 # Should we check for esound?
-if test "$enable_esd" = "yes"; then
+if test "$enable_esd" = 'yes'; then
     AM_PATH_ESD(,[AC_DEFINE(HAVE_ESD,,[Define if have libesd])])
     AC_SUBST(ESD_CFLAGS)
     AC_SUBST(ESD_LIBS)
@@ -199,12 +192,16 @@ fi
 
 AM_PATH_GLIB_2_0(2.4.0,, AC_MSG_ERROR([*** GLIB >= 2.4.0 not installed! ***]))
 AM_PATH_GTK_2_0(2.4.0,, AC_MSG_ERROR([*** GTK >= 2.4.0 not installed! ***]))
-#PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.6 glib-2.0 >= 2.0.6)
+if test "$enable_openssl" = 'yes'; then
+    AC_FIND_OPENSSL([>= 0.9.7f])
+fi
 
 # POSIX threads should be always present...
-if test "$ac_pthread_strict_check" = "yes"; then
+if test "$ac_pthread_strict_check" = 'yes'; then
     AC_CHECK_LIB([pthread], [pthread_testcancel],, AC_MSG_ERROR([*** POSIX threads not found! ***]))
 fi
+
+AM_PATH_CPPUNIT(1.8.0, [ac_cppunit=yes],[ac_cppunit=no])
 
 # Choose regex library
 # AM_WITH_RX
@@ -219,9 +216,21 @@ AC_CHECK_HEADERS([arpa/inet.h errno.h fcntl.h netdb.h])
 AC_CHECK_HEADERS([netinet/in.h sys/file.h regex.h])
 AC_CHECK_HEADERS([sys/ioctl.h sys/socket.h])
 AC_CHECK_HEADERS([utime.h pthread.h sys/timeb.h])
-if test "$enable_oss" = "yes"; then
+if test "$enable_oss" = 'yes'; then
     AC_CHECK_HEADERS([sys/soundcard.h], [AC_DEFINE(D4X_WITH_OSS,, [Define if OSS enabled])])
 fi
+
+# Test C++ header files...
+AC_LANG_PUSH(C++)
+
+# do not test CppUnit headers if no gengetopt found or cppunit-config not found/failed
+if test "$ac_cppunit" = 'yes' -a "$ac_gengetopt" = 'yes'; then
+    AC_CHECK_HEADERS([cppunit/extensions/HelperMacros.h cppunit/extensions/TestFactoryRegistry.h \
+                      cppunit/ui/text/TestRunner.h],
+                     [ac_cppunit_hdrs=yes], [ac_cppunit_hdrs=no])
+fi
+
+AC_LANG_POP(C++)
 
 # -----------------------------------------------------------------------------
 # Checks for typedefs, structures, and compiler characteristics.
@@ -232,6 +241,7 @@ AC_TYPE_OFF_T
 AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_STRUCT_TM
+AC_STRUCT_TIMEZONE
 AC_TYPE_UID_T
 
 # -----------------------------------------------------------------------------
@@ -253,6 +263,8 @@ AC_CHECK_FUNCS([strerror strncasecmp strstr utime flock pthread_testcancel])
 # -----------------------------------------------------------------------------
 # Additianal actions before produce output files
 # -----------------------------------------------------------------------------
+
+AM_CONDITIONAL([WITH_UNIT_TESTS], test "$ac_cppunit" = 'yes' -a "$ac_gengetopt" = 'yes' -a "$ac_cppunit_hdrs" = 'yes')
 
 # It's time to define $prefix if it was ommited...
 if test "$prefix" = "NONE"; then
@@ -279,15 +291,16 @@ AC_DEFINE(GTK_DISABLE_DEPRECATED, , [Enable warnings about deprecated functions 
 
 # Prepare all requiered flags
 CXXFLAGS="$CXXFLAGS $OS_CXXFLAGS"
-CPPFLAGS="$CPPFLAGS $ESD_CFLAGS $ESD_CFLAGS $GLIB_CFLAGS $GTK_CFLAGS $OS_INCLUDES $AO_CFLAGS"
-LIBS="$LIBS $ESD_LIBS $GLIB_LIBS $GTK_LIBS $LIBRX $AO_LIBS"
+CPPFLAGS="$CPPFLAGS $ESD_CFLAGS $ESD_CFLAGS $GLIB_CFLAGS $GTK_CFLAGS $OS_INCLUDES $AO_CFLAGS $SSL_CFLAGS"
+LIBS="$LIBS $ESD_LIBS $GLIB_LIBS $GTK_LIBS $LIBRX $AO_LIBS $SSL_LIBS"
+LDFLAGS="$LDFLAGS $SSL_LDFLAGS"
 
 # Remove duplicates from options
 CPPFLAGS=`echo $CPPFLAGS | $AWK -f ${srcdir}/admin/strip.awk`
 LIBS=`echo $LIBS | $AWK -f ${srcdir}/admin/strip.awk`
 
 # Remove -lpthread for some OS'es
-if test "$ac_pthread_strict_check" = "no"; then
+if test "$ac_pthread_strict_check" = 'no'; then
     LIBS=`echo $LIBS | sed 's/\(-lpthread\)//'`
 fi
 
@@ -295,6 +308,16 @@ fi
 if test "x$ac_config_headers" != "x"; then
     CPPFLAGS="$CPPFLAGS -include \$(CONFIG_HEADER)"
 fi
+
+# Search (and remove) some `-D' compiler options which we are already have in our config.h
+new_CPPFLAGS=''
+for i in $CPPFLAGS; do
+    case $i in
+    -D_REENTRANT) ;;
+    *) new_CPPFLAGS="$new_CPPFLAGS $i" ;;
+    esac
+done
+CPPFLAGS=$new_CPPFLAGS
 
 # Schedule commands to execute after Makefiles creation
 # (included gettext doesn't need our CPPFLAGS, moreover
@@ -305,8 +328,7 @@ AC_CONFIG_COMMANDS(fixer,
     # The following command will be executed by config.status
     # with `pwd` == $top_builddir...
     if test -f intl/Makefile; then
-	cat intl/Makefile \
-	| sed 's/^CPPFLAGS *=.*/CPPFLAGS = /' > intl/Makefile.tmp
+	cat intl/Makefile | sed 's/^CPPFLAGS *=.*/CPPFLAGS = /' > intl/Makefile.tmp
 	mv -f intl/Makefile.tmp intl/Makefile
     fi
 ])
@@ -323,71 +345,86 @@ AH_BOTTOM([#endif /* !__D4X_CONFIG_H */])
 # -----------------------------------------------------------------------------
 # Create output files
 # -----------------------------------------------------------------------------
-AC_CONFIG_FILES([Makefile            po/Makefile.in \
-                 DOC/Makefile       \
-		 intl/Makefile      \
-		 admin/Doxyfile     \
-                 main/Makefile      \
-                 main/face/Makefile \
-		 share/Makefile     \
-		 nt.spec])
+AC_CONFIG_FILES([      \
+    Makefile           \
+    po/Makefile.in     \
+    DOC/Makefile       \
+    intl/Makefile      \
+    main/Makefile      \
+    main/face/Makefile \
+    share/Makefile     \
+    support/Doxyfile   \
+    support/nt.spec    \
+])
 AC_OUTPUT
 
 # -----------------------------------------------------------------------------
 # Show our configuration
 # -----------------------------------------------------------------------------
 # 1) calculate all what we need to display
-cxx_version=`${CXX} --version | head -1`
-if test "$enable_esd" = "no"; then
+cxx_version=`${CXX} --version | head -n 1`
+if test "$enable_esd" = 'no'; then
     esd_spam="disabled"
 else
     esd_spam="enabled"
 fi
-if test "$enable_oss" = "yes"; then
+if test "$enable_oss" = 'yes'; then
     oss_spam="enabled"
 else
     oss_spam="disabled"
 fi
-if test "$enable_libao" = "yes"; then
+if test "$enable_libao" = 'yes'; then
     ao_spam="enabled"
 else
     ao_spam="disabled"
 fi
 acm="debug"
-if test "$enable_release" = "yes"; then
+if test "$enable_release" = 'yes'; then
     acm="release"
 fi
-if test "$enable_extra_optimize" = "yes"; then
+if test "$enable_extra_optimize" = 'yes'; then
     acm="release (extra optimize)"
 fi
-if test "$USE_MAINTAINER_MODE" = "yes"; then
+if test "$USE_MAINTAINER_MODE" = 'yes'; then
     acm="$acm (maintainer mode)"
+fi
+if test "$ac_cppunit" = 'yes' -a "$ac_gengetopt" = 'yes'; then
+    unit_tests='yes (use `make check`)'
+else
+    unit_tests='no ('
+    c=''
+    if test "$ac_cppunit" = 'no' -o "$ac_cppunit_hdrs" = 'no'; then
+        unit_tests="${unit_tests}no CppUnit found"
+        c=', '
+    fi
+    if test "$ac_gengetopt" = 'no'; then
+        unit_tests="${unit_tests}${c}no gengetopt found"
+    fi
+    unit_tests="${unit_tests})"
 fi
 
 # 2) show config
-echo "------------------------------------------------------------------------------"
-cat << EOF
-
-         Configuration:    $acm
-
-      Host system type:    $host
-          Install path:    $prefix
-          C++ compiler:    $CXX ($cxx_version)
-
-            ESD output:    $esd_spam
-            OSS output:    $oss_spam
-          libao output:    $ao_spam
-
-EOF
-if test "$USE_MAINTAINER_MODE" = "yes"; then
-    echo "    Preprocessor flags:"
-    echo $CPPFLAGS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
-    echo "        Compiler flags:"
-    echo $CXXFLAGS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
-    echo "          Linker flags:"
-    echo $LDFLAGS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
-    echo "       Addon libraries:"
-    echo $LIBS | fold -sw 50 | sed 's/\(.*\)/                           \1/'
-    echo
+AC_SUM_INFO_HDR(77, [Summary])
+    AC_SET_INFO_INDENT(21, 56)
+    AC_MSG_INFO_LINE([      Configuration: ], [$acm])
+    AC_MSG_INFO_LINE
+    AC_MSG_INFO_LINE([   Host system type: ], [$host])
+    AC_MSG_INFO_LINE([       C++ compiler: ], [$cxx_version])
+    AC_MSG_INFO_LINE([       Install path: ], [$prefix])
+    AC_MSG_INFO_LINE
+    AC_MSG_INFO_LINE([         ESD output: ], [$esd_spam])
+    AC_MSG_INFO_LINE([         OSS output: ], [$oss_spam])
+    AC_MSG_INFO_LINE([       libao output: ], [$ao_spam])
+    AC_MSG_INFO_LINE
+    AC_MSG_INFO_LINE([        SSL enabled: ], [$enable_openssl])
+    AC_MSG_INFO_LINE
+if test "$USE_MAINTAINER_MODE" = 'yes'; then
+    AC_MSG_INFO_LINE([ Preprocessor flags: ], [$CPPFLAGS])
+    AC_MSG_INFO_LINE([     Compiler flags: ], [$CXXFLAGS])
+    AC_MSG_INFO_LINE([       Linker flags: ], [$LDFLAGS])
+    AC_MSG_INFO_LINE([    Addon libraries: ], [$LIBS])
+    AC_MSG_INFO_LINE
+    AC_MSG_INFO_LINE([  Can compile tests: ], [$unit_tests])
+    AC_MSG_INFO_LINE
 fi
-echo "------------------------------------------------------------------------------"
+AC_SUM_INFO_HDR(77)

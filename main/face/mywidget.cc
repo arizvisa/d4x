@@ -931,6 +931,13 @@ static void d4x_filter_sel_init(d4xFilterSel *sel){
 	gtk_box_pack_end(GTK_BOX(hbox),sel->cancel,FALSE,FALSE,0);
 	gtk_container_add(GTK_CONTAINER(sel),vbox);
 	gtk_window_set_default(GTK_WINDOW(sel),sel->ok);
+	// adding empty line to select no filter
+	GtkTreeIter iter;
+	gtk_list_store_append(list_store, &iter);
+	gtk_list_store_set(list_store, &iter,
+			   0,"",
+			   1,NULL,
+			   -1);
 	FILTERS_DB->print(sel);
 };
 

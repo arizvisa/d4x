@@ -1,0 +1,49 @@
+#
+# $Header: /home/cvs/d4x/admin/Makefile.template,v 1.2 2005/03/03 14:25:33 zaufi Exp $
+#
+
+# WARNING: Do not forget to add `pwd`/Makefile to list of
+#          files to be generated in $(top_srddir)/configure.ac,
+#          and into SUBDIRS list to ../Makefile.am
+
+# Header files should be distributed, but not installed
+noinst_HEADERS = $(wildcard $(srcdir)/*.hh)
+
+# Main target(s)
+target_type = 
+
+# Do not forget to define the following variables
+
+# xxx_SOURCES      =
+#
+# ... to list of source files (from src/ directory)
+
+# xxx_DEPENDENCIES = 
+#
+# ... to define targets to be build before link current main target.
+# (usualy not req for static libs)
+#
+# NOTE: what you must use $(top_builddir) relative path.
+#       4ex: $(top_builddir)/shared/libshared.a
+
+# xxx_LDADD        = 
+#
+# (usualy not req for static libs)
+# At least this variable should contain all libs from _DEPENDENCIES var
+# wich is part of current project, so the most popular case define it like this:
+#
+# foo_LDADD = $(foo_DEPENDENCIES)
+#
+
+# AM_INCLUDES = 
+#
+# ... to list all needed include directories
+#
+# NOTE: what you must use $(top_srcdir) relative path.
+#       4ex: $(top_srcddir)/shared/include
+#
+# NOTE: do not use -I option before include path
+#
+
+# Rules what _must_ be a part of any Makefile
+include $(top_srcdir)/admin/Makefile.all

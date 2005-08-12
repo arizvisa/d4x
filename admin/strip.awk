@@ -1,5 +1,5 @@
 #
-# $Header: /home/cvs/d4x/admin/strip.awk,v 1.1.1.1 2004/07/01 15:42:36 max Exp $
+# $Header: /home/cvs/d4x/admin/strip.awk,v 1.2 2005/03/03 14:25:33 zaufi Exp $
 #
 # Split incoming strings, sort, and merge excluding duplicates
 #

@@ -120,7 +120,7 @@ struct tDownload:public tAbstractSortNode{
 	//------Split information-------------
 	tSplitInfo *split;
 	//------------------------------------
-	time_t Start,Pause,Difference;
+	time_t Start,Pause,Difference,HistoryTime;
 	pthread_t thread_id;
 	tDList *myowner;
 	int status,action,status_cp;

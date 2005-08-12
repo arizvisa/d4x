@@ -274,6 +274,10 @@ int tSocket::send_string(char * what,int timeout) {
 	return a-b;
 };
 
+fsize_t tSocket::lowlevel_read(char *where,fsize_t bytes){
+	return recv(fd,where,bytes,0);
+};
+
 fsize_t tSocket::rec_string(char * where,fsize_t len,int timeout) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,-1);
 	if (wait_for_read(timeout))
@@ -284,7 +288,7 @@ fsize_t tSocket::rec_string(char * where,fsize_t len,int timeout) {
 		bytes=(*download)->SpeedLimit->bytes >= len ? len: (*download)->SpeedLimit->bytes+1;
 	else
 		bytes=len;
-	fsize_t temp=recv(fd,where,bytes,0);
+	fsize_t temp=lowlevel_read(where,bytes);
 	if (temp>0) {
 		RBytes+=temp;
 		GVARS.MUTEX.lock();

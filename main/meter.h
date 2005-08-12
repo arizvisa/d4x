@@ -14,23 +14,25 @@
 #include "queue.h"
 
 class tMeter:public tQueue{
+public:
+	typedef unsigned long long BSize;
 protected:
 	tSortTree *sort;
-	int MAX,NUM;
+	BSize MAX,NUM;
 	int counter,mode;
-	int lastval;
+	BSize lastval;
 public:
 	tMeter();
-	void add(int speed);
+	void add(BSize speed);
 	void dispose();
 	tSortNode *first();
 	tSortNode *last();
 	tSortNode *next();
-	int max();
-	int last_speed();
-	int first_value();
-	int last_value();
-	int next_value();
+	BSize max();
+	BSize last_speed();
+	BSize first_value();
+	BSize last_value();
+	BSize next_value();
 	void set_mode(int mode);
 	~tMeter();
 };

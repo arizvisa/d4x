@@ -132,7 +132,7 @@ tConfigVariable config_variables[]={
 	{"save_list",		CV_TYPE_BOOL,	&(CFG.SAVE_LIST)},
 	{"interval_save_list",	CV_TYPE_INT,	&(CFG.SAVE_LIST_INTERVAL)},
 	{"use_mainwin_title",	CV_TYPE_BOOL,	&(CFG.USE_MAINWIN_TITLE)},
-	{"use_mainwin_titleII",	CV_TYPE_BOOL,	&(CFG.USE_MAINWIN_TITLE2)},
+	{"use_mainwin_titleII",	CV_TYPE_INT,	&(CFG.USE_MAINWIN_TITLE2)},
 	{"get_date_from_server",CV_TYPE_BOOL,	&(CFG.DEFAULT_CFG.get_date)},
 	{"need_dialog_for_dnd",	CV_TYPE_BOOL,	&(CFG.NEED_DIALOG_FOR_DND)},
 	{"window_lower",	CV_TYPE_BOOL,	&(CFG.WINDOW_LOWER)},
@@ -213,7 +213,8 @@ tConfigVariable config_variables[]={
 	{"use_default_cfg",	CV_TYPE_BOOL,	&(CFG.USE_DEFAULT_CFG)},
 	{"number_of_parts",	CV_TYPE_INT,	&(CFG.NUMBER_OF_PARTS)},
 	{"graph_on_basket",	CV_TYPE_INT,	&(CFG.GRAPH_ON_BASKET)},
-	{"speed_on_basket",	CV_TYPE_INT,	&(CFG.SHOW_SPEED_ON_BASKET)}
+	{"speed_on_basket",	CV_TYPE_INT,	&(CFG.SHOW_SPEED_ON_BASKET)},
+	{"dblclk_act",		CV_TYPE_INT,	&(CFG.DBLCLK_ACT)}
 };
 
 int downloader_parsed_args_num=sizeof(downloader_parsed_args)/sizeof(tOption);

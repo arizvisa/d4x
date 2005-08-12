@@ -231,7 +231,7 @@ tHtmlTagField::~tHtmlTagField(){
 };
 
 tHtmlTag::tHtmlTag(){
-	name=NULL;
+	descr=name=NULL;
 	fields=NULL;
 };
 
@@ -239,13 +239,25 @@ void tHtmlTag::print(){
 	printf("Name:\t%s\n",name==NULL?"*NULL*":name);
 };
 
+tHtmlTagField *tHtmlTag::find_field(const char *n){
+	tHtmlTagField *fld=(tHtmlTagField *)(fields->first());
+	while(fld){
+		if (strcasecmp(fld->name,n)==0)
+			return fld;
+		fld=(tHtmlTagField *)(fields->prev());
+	};
+	return 0;
+};
+
 tHtmlTag::~tHtmlTag(){
 	if (name) delete[] name;
+	if (descr) delete[] descr;
 	if (fields) delete(fields);
 };
 /********************************************************/
 tHtmlUrl::tHtmlUrl(){
 	info=NULL;
+	descr=NULL;
 };
 
 void tHtmlUrl::print(){
@@ -253,6 +265,7 @@ void tHtmlUrl::print(){
 
 tHtmlUrl::~tHtmlUrl(){
 	if (info) delete(info);
+	if (descr) delete[] descr;
 };
 
 
@@ -416,6 +429,30 @@ char *tHtmlParser::extract_from_icommas(char *str){
 	return(copy_string(temp));
 };
 
+void tHtmlParser::get_tag_descr(tHtmlTag *tag){
+	if (strcasecmp(tag->name,"img")==0){
+		//get descr from ALT or TITLE field
+		tHtmlTagField *fld=tag->find_field("alt");
+		if (!fld)
+			fld=tag->find_field("title");
+		if (fld) tag->descr=copy_string(fld->value);
+	}else if (strcasecmp(tag->name,"a")==0){
+		//get descr from content of tag
+		char *str=new char[51];
+		char *p=str;
+		while(p-str<50 && WL->read(p,sizeof(char))>0){
+			if (*p=='<'){
+				WL->shift(-1,SEEK_CUR);
+				break;
+			};
+			p++;
+		};
+		*p=0;
+		WL->shift(str-p,SEEK_CUR);
+		tag->descr=str;
+	};
+};
+
 tHtmlTag *tHtmlParser::get_tag(){
 	char p;
 	tHtmlTag *rvalue=NULL;
@@ -438,6 +475,7 @@ tHtmlTag *tHtmlParser::get_tag(){
 					rvalue=new tHtmlTag;
 					rvalue->name=name;
 					get_fields(rvalue);
+					get_tag_descr(rvalue);
 				};
 			};
 			break;
@@ -533,7 +571,10 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_
 				f_wchar(out_fd,'/');
 				f_wstr(out_fd,info->path.get());
 				f_wchar(out_fd,'/');
-				f_wstr(out_fd,info->file.get());
+				if (quest_sign_replace && info->file.get()[0]==0)
+					f_wstr(out_fd,"index_html");
+				else
+					f_wstr(out_fd,info->file.get());
 				if (info->params.get()){
 					f_wstr(out_fd,quest_sign_replace?"%5f":"%3f");
 					f_wstr(out_fd,info->params.get());
@@ -568,7 +609,10 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_
 				f_wstr(out_fd,l);
 				f_wchar(out_fd,'/');
 			};
-			f_wstr(out_fd,info->file.get());
+			if (quest_sign_replace && info->file.get()[0]==0)
+				f_wstr(out_fd,"index.html");
+			else
+				f_wstr(out_fd,info->file.get());
 			if (info->params.get()){
 				f_wstr(out_fd,quest_sign_replace?"%5f":"%3f");
 				f_wstr(out_fd,info->params.get());
@@ -582,7 +626,18 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_
 	return(info);
 };
 
-void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa,const char *tag){
+char *tHtmlParser::convert_to_utf8(const char *src){
+	if (!src) return 0;
+	if((g_utf8_validate(src, -1, NULL)) == TRUE)
+		return copy_string(src);
+	//to avoid different memory freing schemes
+	char *tmp=g_convert(src,-1,"UTF-8",codepage.c_str(),NULL,NULL,NULL);
+	char *rval=copy_string(tmp);
+	g_free(tmp);
+	return rval;
+};
+
+void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa,const char *tag,const char *descr){
 	if (out_fd>=0) f_wstr(out_fd,"=\"");
 	tAddr *info=fix_url_global(url,papa,out_fd,leave,quest_sign_replace);
 	if (out_fd>=0) f_wchar(out_fd,'\"');
@@ -590,6 +645,7 @@ void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa,const char *tag){
 		tHtmlUrl *node=new tHtmlUrl;
 		info->tag.set(tag);
 		node->info=info;
+		node->descr=convert_to_utf8(descr);
 		list->insert(node);
 	};
 };
@@ -647,6 +703,21 @@ void tHtmlParser::look_for_meta_content(tHtmlTagField *where,
 	};
 };
 
+void tHtmlParser::set_content_type(const char *ct){
+	//Example: text/html; charset=koi8-r
+	char *a=index(ct,'=');
+	if (a) codepage=a+1;
+};
+
+
+void tHtmlParser::get_charset_from_meta(tHtmlTagField *fld){
+	if (fld && fld->value){
+		char *val=extract_from_icommas(fld->value);
+		set_content_type(val);
+		delete [] val;
+	};
+};
+
 void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa,int qsignreplace){
 	quest_sign_replace=qsignreplace;
 	list->done();
@@ -688,6 +759,8 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa,int qsignrepla
 						case HF_TYPE_META:
 							if (tmp && equal_uncase(tmp,"refresh"))
 								look_for_meta_content(field,list,papa,temp->name);
+							if (tmp && equal_uncase(tmp,"Content-Type"))
+								get_charset_from_meta(temp->find_field("content"));
 							break;
 						case HF_TYPE_BASE:
 							if (base) delete[] base;
@@ -708,7 +781,7 @@ void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa,int qsignrepla
 									f_wchar(out_fd,' ');
 									f_wstr(out_fd,field->name);
 								};
-								fix_url(tmp,list,papa,temp->name);
+								fix_url(tmp,list,papa,temp->name,temp->descr);
 							};
 						};
 						delete[] tmp;

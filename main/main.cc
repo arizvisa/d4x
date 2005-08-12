@@ -156,8 +156,10 @@ void create_new_queue(char *name,d4xDownloadQueue *papa){
 	if (papa){
 		q->inherit_settings(papa);
 		papa->subq_add(q);
-	}else
+	}else{
+		q->inherit_settings((d4xDownloadQueue*)D4X_QTREE.last(),CFG.GLOBAL_SAVE_PATH);
 		D4X_QTREE.insert(q);
+	};
 	if (CFG.WITHOUT_FACE==0){
 		q->qv.init();
 		q->init_pixmaps();
@@ -563,7 +565,7 @@ void tMain::continue_download(tDownload *what) {
 				  what->info->file.get(),
 				  what->info->host.get());
 		d4xDownloadQueue *papa=what->myowner->PAPA;
-		if (CFG.ALLOW_FORCE_RUN && try_to_run_download(what)) {
+		if (CFG.ALLOW_FORCE_RUN && what->owner()!=DL_PAUSE &&  try_to_run_download(what)) {
 			papa->del(what);
 			papa->add(what,DL_RUN);
 		} else {
@@ -1582,8 +1584,8 @@ unsigned int tMain::get_precise_time(){
 void tMain::speed() {
 	unsigned int curent_time=get_precise_time();
 	unsigned int TimeLeft=curent_time-LastTime;
-	int readed_bytes=GVARS.READED_BYTES;
-	int bytes=readed_bytes-LastReadedBytes;
+	tMeter::BSize readed_bytes=GVARS.READED_BYTES;
+	tMeter::BSize bytes=readed_bytes-LastReadedBytes;
 	if (TimeLeft!=0){
 		int Speed=((bytes*1000)/TimeLeft);
 		LastReadedBytes=readed_bytes;
@@ -1762,6 +1764,9 @@ void tMain::switch_offline_mode(){
 		CFG.ALLOW_FORCE_RUN=tmpfr;
 		MainLog->add(_("Offline mode is turned off"),LOG_WARNING|LOG_DETAILED);
 	};
+	if (!CFG.WITHOUT_FACE){
+		d4x_main_offline_mode();
+	};
 };
 
 void tMain::done() {
@@ -1856,6 +1861,9 @@ void *download_last(void *nothing) {
 			};
 			what->ftp_search();
 			break;
+#ifdef HAVE_SSL
+		case D_PROTO_HTTPS:
+#endif //HAVE_SSL
 		case D_PROTO_HTTP:
 			what->download_http();
 			break;

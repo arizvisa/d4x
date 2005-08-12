@@ -127,24 +127,24 @@ void d4xQueueView::add_wf(tDownload *what){
 
 /***************************************************************/
 
-struct GtkCellRendererProgress{
+struct D4XCellRendererProgress{
 	GtkCellRenderer parent;
 	gfloat percent;
 	tDownload *dwn;
 };
 
-struct GtkCellRendererProgressClass{
+struct D4XCellRendererProgressClass{
 	GtkCellRendererClass parent_class;
 };
 
-GtkType          gtk_cell_renderer_progress_get_type (void);
-GtkCellRenderer *gtk_cell_renderer_progress_new      (void);
+GtkType          d4x_cell_renderer_progress_get_type (void);
+GtkCellRenderer *d4x_cell_renderer_progress_new      (void);
 
-static void gtk_cell_renderer_progress_init (GtkCellRendererProgress *cellpixbuf){
+static void d4x_cell_renderer_progress_init (D4XCellRendererProgress *cellpixbuf){
 };
 
 static void
-gtk_cell_renderer_progress_get_size (GtkCellRenderer *cell,
+d4x_cell_renderer_progress_get_size (GtkCellRenderer *cell,
 				     GtkWidget       *widget,
 				     GdkRectangle    *cell_area,
 				     gint            *x_offset,
@@ -160,7 +160,7 @@ gtk_cell_renderer_progress_get_size (GtkCellRenderer *cell,
 };
 
 static void
-gtk_cell_renderer_progress_get_property (GObject        *object,
+d4x_cell_renderer_progress_get_property (GObject        *object,
 					 guint           param_id,
 					 GValue         *value,
 					 GParamSpec     *pspec){
@@ -168,11 +168,11 @@ gtk_cell_renderer_progress_get_property (GObject        *object,
 };
 
 static void
-gtk_cell_renderer_progress_set_property (GObject      *object,
+d4x_cell_renderer_progress_set_property (GObject      *object,
 					 guint         param_id,
 					 const GValue *value,
 					 GParamSpec   *pspec){
-	GtkCellRendererProgress *renderer = (GtkCellRendererProgress *)object;
+	D4XCellRendererProgress *renderer = (D4XCellRendererProgress *)object;
 	switch (param_id){
 	case 1:
 		renderer->percent=g_value_get_float(value);
@@ -187,7 +187,7 @@ gtk_cell_renderer_progress_set_property (GObject      *object,
 };
 
 static void
-gtk_cell_renderer_progress_render (GtkCellRenderer    *cell,
+d4x_cell_renderer_progress_render (GtkCellRenderer    *cell,
 				   GdkWindow          *window,
 				   GtkWidget          *widget,
 				   GdkRectangle       *background_area,
@@ -195,7 +195,7 @@ gtk_cell_renderer_progress_render (GtkCellRenderer    *cell,
 				   GdkRectangle       *expose_area,
 				   GtkCellRendererState flags){
 	char tmpc[100];
-	float p=((GtkCellRendererProgress*)cell)->percent;
+	float p=((D4XCellRendererProgress*)cell)->percent;
 
 	if (p>99.0 && p<100.0)
 		sprintf(tmpc,"%.1f",p);
@@ -223,7 +223,7 @@ gtk_cell_renderer_progress_render (GtkCellRenderer    *cell,
 	switch (CFG.PROGRESS_MODE){
 	case 2:{
 		if (p<=0) break;
-		tDownload *temp=((GtkCellRendererProgress*)cell)->dwn;;
+		tDownload *temp=((D4XCellRendererProgress*)cell)->dwn;;
 		if (temp && temp->segments && temp->finfo.size>0){
 			temp->segments->lock_public();
 			tSegment *tmp=temp->segments->get_first();
@@ -271,14 +271,14 @@ gtk_cell_renderer_progress_render (GtkCellRenderer    *cell,
 };
 
 
-static void gtk_cell_renderer_progress_class_init (GtkCellRendererProgressClass *klass){
+static void d4x_cell_renderer_progress_class_init (D4XCellRendererProgressClass *klass){
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (klass);
 
-	cell_class->get_size = gtk_cell_renderer_progress_get_size;
-	cell_class->render = gtk_cell_renderer_progress_render;
-	object_class->set_property = gtk_cell_renderer_progress_set_property;
-	object_class->get_property = gtk_cell_renderer_progress_get_property;
+	cell_class->get_size = d4x_cell_renderer_progress_get_size;
+	cell_class->render = d4x_cell_renderer_progress_render;
+	object_class->set_property = d4x_cell_renderer_progress_set_property;
+	object_class->get_property = d4x_cell_renderer_progress_get_property;
 
 	g_object_class_install_property (object_class, 1,
 					 g_param_spec_float ("percent",
@@ -293,26 +293,26 @@ static void gtk_cell_renderer_progress_class_init (GtkCellRendererProgressClass 
 							       (GParamFlags)(G_PARAM_READABLE | G_PARAM_WRITABLE)));
 };
 
-GtkType gtk_cell_renderer_progress_get_type (void){
+GtkType d4x_cell_renderer_progress_get_type (void){
 	static GtkType cell_progress_type = 0;
 
 	if (!cell_progress_type)
 	{
 		static const GTypeInfo cell_progress_info =
 		{
-			sizeof (GtkCellRendererProgressClass),
+			sizeof (D4XCellRendererProgressClass),
 			NULL,		/* base_init */
 			NULL,		/* base_finalize */
-			(GClassInitFunc) gtk_cell_renderer_progress_class_init,
+			(GClassInitFunc) d4x_cell_renderer_progress_class_init,
 			NULL,		/* class_finalize */
 			NULL,		/* class_data */
-			sizeof (GtkCellRendererProgress),
+			sizeof (D4XCellRendererProgress),
 			0,              /* n_preallocs */
-			(GInstanceInitFunc) gtk_cell_renderer_progress_init,
+			(GInstanceInitFunc) d4x_cell_renderer_progress_init,
 		};
 
 		cell_progress_type = g_type_register_static (GTK_TYPE_CELL_RENDERER,
-							     "GtkCellRendererProgress",
+							     "D4XCellRendererProgress",
 							     &cell_progress_info,
 							     GTypeFlags(0));
 	}
@@ -321,8 +321,8 @@ GtkType gtk_cell_renderer_progress_get_type (void){
 }
 
 
-GtkCellRenderer *gtk_cell_renderer_progress_new (void){
-  return GTK_CELL_RENDERER (g_object_new (gtk_cell_renderer_progress_get_type (),NULL));
+GtkCellRenderer *d4x_cell_renderer_progress_new (void){
+  return GTK_CELL_RENDERER (g_object_new (d4x_cell_renderer_progress_get_type (),NULL));
 }
 
 /***************************************************************/
@@ -985,8 +985,18 @@ int list_event_callback(GtkTreeView *view,GdkEvent *event,d4xQueueView *qv) {
 		if (gtk_tree_view_get_path_at_pos(view,int(bevent->x),int(bevent->y),&path,NULL,NULL,NULL)){
 			gtk_tree_selection_unselect_all(sel);
 			gtk_tree_selection_select_path(sel,path);
-			qv->open_logs();
-			gtk_tree_path_free(path);
+			switch (CFG.DBLCLK_ACT){
+			case DBCLA_OPENLOG:
+				qv->open_logs();
+				gtk_tree_path_free(path);
+				break;
+			case DBCLA_EDIT:
+				open_edit_for_selected();
+				break;
+			case DBCLA_OPENFILE:
+				lm_open_file();
+				break;
+			};
 		};
 	};
 	if (event->type == GDK_KEY_PRESS) {
@@ -1465,7 +1475,7 @@ void d4xQueueView::init() {
 								      NULL);
 			break;
 		case PERCENT_COL:
-			renderer = gtk_cell_renderer_progress_new ();
+			renderer = d4x_cell_renderer_progress_new ();
 			col=gtk_tree_view_column_new_with_attributes (_(ListTitles[prefs.cols[i].type]),
 								      renderer,
 								      "percent",prefs.cols[i].type,

@@ -14,6 +14,7 @@
 #include "queue.h"
 #include "mutex.h"
 #include <pthread.h>
+#include <list>
 
 enum SOUND_EVENTS{
 	SND_STARTUP,
@@ -25,14 +26,19 @@ enum SOUND_EVENTS{
 	SND_LAST
 };
 
-struct d4xSndEvent:public tNode{
-	int event;
-	time_t birth;
-	void print(){};
+namespace d4x{
+
+	struct SndEvent{
+		int event;
+		time_t birth;
+		SndEvent(int _event):event(_event),birth(time(NULL)){};
+		SndEvent(const SndEvent &ev):event(ev.event),birth(ev.birth){};
+	};
+
 };
 
 class d4xSndServer{
-	tQueue *queue;
+	std::list<d4x::SndEvent> queue;
 	d4xMutex my_mutex,exit_lock;
 	pthread_t thread_id;
 	char *snd_table[SND_LAST];

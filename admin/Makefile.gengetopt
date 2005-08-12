@@ -1,0 +1,38 @@
+#
+# $Header: /home/cvs/d4x/admin/Makefile.gengetopt,v 1.1 2005/03/03 14:25:33 zaufi Exp $
+#
+# Support to generate command line parsers
+#
+
+%$(CMDLINE_PARSER_SUFFIX).c: %.ggo
+	so=`cat $(MAKEFILE_LIST) | grep '^$(*F)_GGOFLAGS[ ]*=' | sed 's,.*=[ ]*\(.*\),\1,'`; \
+	$(GENGETOPT) $(AM_GGOFLAGS) $$so -i $< -F $(*F)$(CMDLINE_PARSER_SUFFIX)
+	sed -e 's/HAVE_CONFIG_H/DONT_USE_CONFIG/' \
+	< $(*F)$(CMDLINE_PARSER_SUFFIX).c > $(*F)$(CMDLINE_PARSER_SUFFIX).c.tmp
+	mv -f $(*F)$(CMDLINE_PARSER_SUFFIX).c.tmp $(*F)$(CMDLINE_PARSER_SUFFIX).c
+	sed -e '/#ifndef PACKAGE/ {'  -e 'i \' -e '#undef PACKAGE' -e '}' \
+	    -e '/#ifndef VERSION/ {'  -e 'i \' -e '#undef VERSION' -e '}' \
+	    -e 's/HAVE_CONFIG_H/DONT_USE_CONFIG/' \
+	 < $(*F)$(CMDLINE_PARSER_SUFFIX).h > $(*F)$(CMDLINE_PARSER_SUFFIX).h.tmp
+	mv -f $(*F)$(CMDLINE_PARSER_SUFFIX).h.tmp $(*F)$(CMDLINE_PARSER_SUFFIX).h
+	$(MAKE) $(AM_MAKEFLAGS) fix_arg0 TGT_FILE=$(@)
+	list="$(GGO_POSTGEN_ACTIONS)"`cat $(MAKEFILE_LIST) \
+		| grep '^$(*F)_GGO_POSTGEN_ACTIONS[ ]*=' \
+		|  sed 's,.*=[ ]*\(.*\),\1,'`; \
+	for i in $$list; do \
+	    $(MAKE) $(AM_MAKEFLAGS) $$i TGT_FILE=$(@) SRC_FILE=$(<); \
+	done
+
+%$(CMDLINE_PARSER_SUFFIX).h: %$(CMDLINE_PARSER_SUFFIX).c ;
+
+fix_arg0:
+	cat $(TGT_FILE) | sed \
+	  -e 's,cmdline_parser_print_help[ ]*(void),cmdline_parser_print_help(const char* bin_prg_name),' \
+	  -e '/Usage:/ s,CMDLINE_PARSER_PACKAGE,bin_prg_name,' \
+	  -e 's,cmdline_parser_print_help[ ]*();,cmdline_parser_print_help(argv[0]);,' \
+	  > $(TGT_FILE).tmp
+	mv -f $(TGT_FILE).tmp $(TGT_FILE)
+	cat `basename $(TGT_FILE) .c`.h | sed \
+	  -e 's,cmdline_parser_print_help[ ]*(void),cmdline_parser_print_help(const char*),' \
+	  > `basename $(TGT_FILE) .c`.tmp
+	mv -f `basename $(TGT_FILE) .c`.tmp `basename $(TGT_FILE) .c`.h

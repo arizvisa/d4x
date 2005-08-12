@@ -25,7 +25,7 @@ void tMeter::set_mode(int m){
 	mode=m;
 };
 
-void tMeter::add(int speed) {
+void tMeter::add(BSize speed) {
 	lastval=speed;
 	if (mode && counter<10){
 		counter+=1;
@@ -61,31 +61,31 @@ tSortNode *tMeter::next() {
 	return (tSortNode *)(tQueue::next());
 };
 
-int tMeter::max() {
+tMeter::BSize tMeter::max() {
 	tSortNode *temp=(tSortNode *)(sort->max());
 	if (temp) return(temp->key);
 	return 0;
 };
 
-int tMeter::first_value() {
+tMeter::BSize tMeter::first_value() {
 	tSortNode *temp=first();
 	if (temp) return temp->key;
 	return 0;
 };
 
-int tMeter::last_value() {
+tMeter::BSize tMeter::last_value() {
 	tSortNode *temp=last();
 	if (temp) return temp->key;
 	return 0;
 };
 
-int tMeter::next_value() {
+tMeter::BSize tMeter::next_value() {
 	tSortNode *temp=next();
 	if (temp)  return temp->key;
 	return 0;
 };
 
-int tMeter::last_speed(){
+tMeter::BSize tMeter::last_speed(){
 	return(lastval);
 };
 

@@ -277,14 +277,15 @@ int d4xDownloadQueue::load_from_config(int fd){
 	return -1;
 };
 
-void d4xDownloadQueue::inherit_settings(d4xDownloadQueue *papa){
+void d4xDownloadQueue::inherit_settings(d4xDownloadQueue *papa,const char *path){
 	MAX_ACTIVE=papa->MAX_ACTIVE;
 	TIME_FORMAT=papa->TIME_FORMAT;
 	SPEED_FORMAT=papa->SPEED_FORMAT;
 	NICE_DEC_DIGITALS=papa->NICE_DEC_DIGITALS;
 	AUTODEL_COMPLETED=papa->AUTODEL_COMPLETED;
 	AUTODEL_FAILED=papa->AUTODEL_FAILED;
-	char *p=sum_strings(papa->save_path.get(),"/",name.get(),NULL);
+	
+	char *p=sum_strings(path?path:papa->save_path.get(),"/",name.get(),NULL);
 	save_path.set(p);
 	delete[] p;
 	qv.inherit_settings(&(papa->qv));

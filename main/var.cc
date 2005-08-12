@@ -31,7 +31,7 @@ tMainCfg CFG={
 	100,0,0,0,NULL,0,0, //Log
 	5,0, //List
 	1,600,0,0, //flags
-	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,0,//interface
+	1,0,0,40,40,500,400,300,300,1,0,1,0,20,30,0,5,1,1,0,0,100,0,0,0,0,//interface
 	0,1,NULL,NULL, //clipboard
 	0xFFFFFF,0x555555,0xAAAAAA,0,0,
 	/* Proxy */
@@ -90,6 +90,7 @@ void var_check_all_limits(){
 	var_check_limits_int(0,10,&CFG.NUMBER_OF_PARTS);
 	var_check_limits_int(0,100,&CFG.SEARCH_ENTRIES);
 	var_check_limits_int(0,50,&CFG.SEARCH_PERSERVER);
+	var_check_limits_int(DBCLA_OPENLOG,DBCLA_LAST-1,&CFG.DBLCLK_ACT);
 };
 
 const char *CFG_FILE=".ntrc_2/config";
@@ -207,6 +208,7 @@ void var_copy_cfg(tMainCfg *dst,tMainCfg *src){
 	dst->NUMBER_OF_PARTS=src->NUMBER_OF_PARTS;
 	dst->GRAPH_ON_BASKET=src->GRAPH_ON_BASKET;
 	dst->SHOW_SPEED_ON_BASKET=src->SHOW_SPEED_ON_BASKET;
+	dst->DBLCLK_ACT=src->DBLCLK_ACT;
 	/* strings */
 	var_free(dst);
 	dst->EXEC_WHEN_QUIT=copy_string(src->EXEC_WHEN_QUIT);

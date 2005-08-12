@@ -1,4 +1,4 @@
-/* config.h.in.  Generated from configure.in by autoheader.  */
+/* config.h.in.  Generated from configure.ac by autoheader.  */
 
 
 #ifdef __D4X_CONFIG_H
@@ -52,6 +52,17 @@
 
 /* Define to 1 if you have the `asprintf' function. */
 #undef HAVE_ASPRINTF
+
+/* Define to 1 if you have the <cppunit/extensions/HelperMacros.h> header
+   file. */
+#undef HAVE_CPPUNIT_EXTENSIONS_HELPERMACROS_H
+
+/* Define to 1 if you have the <cppunit/extensions/TestFactoryRegistry.h>
+   header file. */
+#undef HAVE_CPPUNIT_EXTENSIONS_TESTFACTORYREGISTRY_H
+
+/* Define to 1 if you have the <cppunit/ui/text/TestRunner.h> header file. */
+#undef HAVE_CPPUNIT_UI_TEXT_TESTRUNNER_H
 
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
@@ -244,6 +255,9 @@
 
 /* Define to 1 if you have the `socket' function. */
 #undef HAVE_SOCKET
+
+/* If we are going to use OpenSSL */
+#undef HAVE_SSL
 
 /* Define to 1 if `stat' has the bug that it succeeds when given the
    zero-length file name argument. */

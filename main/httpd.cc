@@ -21,6 +21,7 @@
 #include <strings.h>
 #include <ctype.h>
 #include "signal.h"
+#include "sslsocket.h"
 
 enum HTTP_ANSWERS_ENUM{
 	H_CONTENT_LENGTH,
@@ -184,7 +185,11 @@ void tHttpDownload::print_error(int error_code){
 
 int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	Persistent=0;
+#ifdef HAVE_SSL
+	HTTP=new tHttpClient(cfg,(hostinfo->proto==D_PROTO_HTTPS && s==0) ? new d4x::SSLSocket:0);
+#else
 	HTTP=new tHttpClient(cfg);
+#endif //HAVE_SSL	
 	RetrNum=0;
 	ADDR.copy(hostinfo);
 	answer=NULL;

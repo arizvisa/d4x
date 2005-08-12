@@ -17,6 +17,7 @@ GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bi
 void init_list_menu();
 void list_menu_prepare();
 void lm_inv_protect_flag();
+void lm_open_file();
 
 enum {
 	LM_LOG,
@@ -31,6 +32,8 @@ enum {
 	LM_MOVEDOWN,
 	LM_DELC,
 	LM_DELF,
+	LM_OPENFOLDER,
+	LM_OPENFILE,
 	LM_ALT,
 	LM_SEARCH,
 	LM_LAST
