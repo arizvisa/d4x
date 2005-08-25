@@ -136,6 +136,7 @@ struct tDownload:public tAbstractSortNode{
 	//------------------------------------
 private:
 	int need_to_rename,im_first,im_last;
+	tAddr *RedirectURL;
 	char *create_new_file_path();
 	char *create_new_save_path();
 	void make_file_names(char **name, char **guess);

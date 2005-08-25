@@ -157,7 +157,8 @@ void create_new_queue(char *name,d4xDownloadQueue *papa){
 		q->inherit_settings(papa);
 		papa->subq_add(q);
 	}else{
-		q->inherit_settings((d4xDownloadQueue*)D4X_QTREE.last(),CFG.GLOBAL_SAVE_PATH);
+		if (D4X_QTREE.last())
+			q->inherit_settings((d4xDownloadQueue*)D4X_QTREE.last(),CFG.GLOBAL_SAVE_PATH);
 		D4X_QTREE.insert(q);
 	};
 	if (CFG.WITHOUT_FACE==0){

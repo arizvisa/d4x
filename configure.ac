@@ -1,9 +1,9 @@
 # -*-m4-*-
-# $Header: /home/cvs/d4x/configure.ac,v 1.2.2.8 2005/08/11 13:13:31 zaufi Exp $
+# $Header: /home/cvs/d4x/configure.ac,v 1.2.2.11 2005/08/24 09:08:58 max Exp $
 #
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.2.2.8 $)
+AC_REVISION($Revision: 1.2.2.11 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
@@ -58,7 +58,6 @@ fi
 AM_CONDITIONAL(EXTRA_OPTIMIZE, test "$enable_extra_optimize" = 'yes')
 CXXFLAGS="$CXXFLAGS $OPTFLAGS"
 
-AC_DEFINE(_FILE_OFFSET_BITS, 64, [To support files over 2GB])
 
 # Maintainer helpers
 AC_ARG_ENABLE(debug,
@@ -78,10 +77,6 @@ AC_ARG_ENABLE(profile,
         CXXFLAGS="$CXXFLAGS -pg"
     fi])
 
-AC_ARG_ENABLE(openssl,
-    AC_HELP_STRING([--disable-openssl], [Disable Open SSL support (default=autodetect)]),,
-    [enable_openssl='yes'])
-
 # Extra features options
 AC_ARG_ENABLE(esd,
     AC_HELP_STRING([--disable-esd], [Disable esound output (default=enabled)]),,
@@ -93,6 +88,10 @@ AC_ARG_ENABLE(libao,
     AC_HELP_STRING([--enable-libao],
     [Enable libao sound output and disable all others sound libs (default=disabled)]),,
     enable_libao='no')
+
+AC_ARG_ENABLE(openssl,
+    AC_HELP_STRING([--disable-openssl], [Disable Open SSL support (default=autodetect)]),,
+    [enable_openssl='yes'])
 
 # -----------------------------------------------------------------------------
 # Checks for OS depended options
@@ -138,10 +137,10 @@ if test "$enable_extra_optimize" = 'yes'; then
     AC_MSG_CHECKING(host CPU architecture) 
 
     case "$host" in
-	i586-* | i686-*)
-	    AC_MSG_RESULT([AMD/Intel x86])
+	i586-* | i686-* | x86_64-* )
+	    AC_MSG_RESULT([AMD/Intel 32 or 64 bit])
     	    if test "$enable_extra_optimize" = 'yes'; then
-		OS_CXXFLAGS="$OS_CXXFLAGS $am_align_opts -fomit-frame-pointer"
+		OS_CXXFLAGS="$OS_CXXFLAGS -fforce-addr -maccumulate-outgoing-args -ffast-math -fprefetch-loop-arrays"
 	    fi
 	;;
         *)
@@ -193,7 +192,7 @@ fi
 AM_PATH_GLIB_2_0(2.4.0,, AC_MSG_ERROR([*** GLIB >= 2.4.0 not installed! ***]))
 AM_PATH_GTK_2_0(2.4.0,, AC_MSG_ERROR([*** GTK >= 2.4.0 not installed! ***]))
 if test "$enable_openssl" = 'yes'; then
-    AC_FIND_OPENSSL([>= 0.9.7f])
+    AC_FIND_OPENSSL([>= 0.9.7])
 fi
 
 # POSIX threads should be always present...
@@ -288,6 +287,7 @@ AC_DEFINE_UNQUOTED(D4X_SHARE_PATH,
 # Other needed defines
 AC_DEFINE(_REENTRANT, , [Enable reenrant code of glibc])
 AC_DEFINE(GTK_DISABLE_DEPRECATED, , [Enable warnings about deprecated functions usage])
+AC_DEFINE(_FILE_OFFSET_BITS, 64, [To support files over 2GB])
 
 # Prepare all requiered flags
 CXXFLAGS="$CXXFLAGS $OS_CXXFLAGS"
@@ -297,6 +297,7 @@ LDFLAGS="$LDFLAGS $SSL_LDFLAGS"
 
 # Remove duplicates from options
 CPPFLAGS=`echo $CPPFLAGS | $AWK -f ${srcdir}/admin/strip.awk`
+CXXFLAGS=`echo $CXXFLAGS | $AWK -f ${srcdir}/admin/strip.awk`
 LIBS=`echo $LIBS | $AWK -f ${srcdir}/admin/strip.awk`
 
 # Remove -lpthread for some OS'es

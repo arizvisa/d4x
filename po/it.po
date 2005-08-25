@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-12 15:32+0800\n"
+"POT-Creation-Date: 2005-08-25 13:33+0800\n"
 "PO-Revision-Date: 2003-01-22 23:23+0100\n"
 "Last-Translator: m4rt <m4rt@libero.it>\n"
 "Language-Team: italiano <it@li.org>\n"
@@ -374,19 +374,19 @@ msgstr "Completato scaricamento nella directory %z"
 msgid "Downloading was failed..."
 msgstr "Scaricamento fallito..."
 
-#: main/dlist.cc:1312
+#: main/dlist.cc:1337
 msgid "Redirection blocked by filter"
 msgstr "Redirezione bloccata dal filtro"
 
-#: main/dlist.cc:1318
+#: main/dlist.cc:1343
 msgid "Redirect detected..."
 msgstr "Individuata una redirezione..."
 
-#: main/dlist.cc:1322 main/dlist.cc:1337
+#: main/dlist.cc:1347 main/dlist.cc:1362
 msgid "Size detection only!"
 msgstr ""
 
-#: main/dlist.cc:1391
+#: main/dlist.cc:1416
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
@@ -394,55 +394,55 @@ msgstr ""
 "Il download segmentato non e' possibile a causa di limitazioni da parte del "
 "server (resume non supportato)"
 
-#: main/dlist.cc:1402
+#: main/dlist.cc:1427
 msgid "Local file is seems to be equal to remote one"
 msgstr "Il file locale sembra essere uguale a quello remoto"
 
-#: main/dlist.cc:1423
+#: main/dlist.cc:1448
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Non riesco a cancellare un file che ho appena creato. Strano..."
 
-#: main/dlist.cc:1427 main/dlist.cc:1679
+#: main/dlist.cc:1452 main/dlist.cc:1704
 msgid "File not found"
 msgstr "File non trovato"
 
 # dlist.cc
-#: main/dlist.cc:1501
+#: main/dlist.cc:1526
 msgid "Sorting started"
 msgstr "Inizio ordinamento"
 
-#: main/dlist.cc:1504
+#: main/dlist.cc:1529
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Eseguo Ping (tentativo %i di %i)"
 
-#: main/dlist.cc:1532
+#: main/dlist.cc:1557
 msgid "Trying to determine filesizes"
 msgstr "Tentativo di determinare le dimensioni dei file"
 
 # dlist.cc
-#: main/dlist.cc:1585
+#: main/dlist.cc:1610
 msgid "Searching failed"
 msgstr "Ricerca fallita"
 
 # dlist.cc:
-#: main/dlist.cc:1642
+#: main/dlist.cc:1667
 msgid "Search had been completed!"
 msgstr "Ricerca completata!"
 
-#: main/dlist.cc:1648
+#: main/dlist.cc:1673
 msgid "Was Started!"
 msgstr "Inizio!"
 
-#: main/dlist.cc:1657
+#: main/dlist.cc:1682
 msgid "It is a link and we already load it"
 msgstr "E' un collegamento, e l'ho gia' caricato"
 
-#: main/dlist.cc:1684
+#: main/dlist.cc:1709
 msgid "Trying to work without CWD"
 msgstr "Provo a procedere senza CWD"
 
-#: main/dlist.cc:1816
+#: main/dlist.cc:1841
 msgid "Can't split file to specified number of parts!"
 msgstr "Non posso suddividere il file nel numero specificato di parti!"
 
@@ -510,7 +510,7 @@ msgstr "Non mostrare piu' questo avviso"
 msgid "Add new download"
 msgstr "Aggiungi nuovo scaricamento"
 
-#: main/face/addd.cc:184 main/face/dndtrash.cc:625
+#: main/face/addd.cc:184 main/face/dndtrash.cc:629
 msgid "Automated adding"
 msgstr "Aggiunta automatica"
 
@@ -664,67 +664,67 @@ msgid "Showed columns"
 msgstr "colonne mostrate"
 
 # face/buttons.cc:
-#: main/face/dndtrash.cc:394
+#: main/face/dndtrash.cc:398
 msgid "DnD basket"
 msgstr " Recipiente D-n-D "
 
 # face/dndtrash.cc:
-#: main/face/dndtrash.cc:527
+#: main/face/dndtrash.cc:531
 msgid "Drop link here"
 msgstr "Rilascia QUI il link."
 
-#: main/face/dndtrash.cc:570
+#: main/face/dndtrash.cc:574
 msgid "Offline"
 msgstr ""
 
-#: main/face/dndtrash.cc:570 main/face/dndtrash.cc:631
+#: main/face/dndtrash.cc:574 main/face/dndtrash.cc:635
 msgid "Online"
 msgstr ""
 
-#: main/face/dndtrash.cc:622 main/face/list.cc:489 main/face/lod.cc:52
+#: main/face/dndtrash.cc:626 main/face/list.cc:490 main/face/lod.cc:52
 msgid "Speed"
 msgstr "Velocita'"
 
 # face/dndtrash.cc
-#: main/face/dndtrash.cc:623
+#: main/face/dndtrash.cc:627
 #, fuzzy
 msgid "New Download"
 msgstr "/Nuovo scaricamento"
 
 # face/dndtrash.cc
-#: main/face/dndtrash.cc:624
+#: main/face/dndtrash.cc:628
 #, fuzzy
 msgid "Paste Download"
 msgstr "/Incolla scaricamento"
 
-#: main/face/dndtrash.cc:626 main/face/lmenu.cc:212
+#: main/face/dndtrash.cc:630 main/face/lmenu.cc:212
 msgid "Delete completed"
 msgstr "Elimina completati"
 
 # face/dndtrash.cc
-#: main/face/dndtrash.cc:627
+#: main/face/dndtrash.cc:631
 #, fuzzy
 msgid "General options"
 msgstr "/Opzioni comuni"
 
 # face/dndtrash.cc
-#: main/face/dndtrash.cc:628
+#: main/face/dndtrash.cc:632
 #, fuzzy
 msgid "Exit"
 msgstr "/Esci"
 
 # face/limface.cc:
-#: main/face/dndtrash.cc:634
+#: main/face/dndtrash.cc:638
 #, fuzzy
 msgid "Low"
 msgstr "Adesso"
 
-#: main/face/dndtrash.cc:635
+#: main/face/dndtrash.cc:639
 #, fuzzy
 msgid "Medium"
 msgstr "media"
 
-#: main/face/dndtrash.cc:636
+#: main/face/dndtrash.cc:640
 #, fuzzy
 msgid "Unlimited"
 msgstr "illimitata"
@@ -1046,7 +1046,7 @@ msgstr "Seleziona tutto"
 msgid "filter name"
 msgstr "nome del filtro"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1337
+#: main/face/filtrgui.cc:187 main/face/list.cc:1383
 msgid "Filters"
 msgstr "Filtri"
 
@@ -1107,7 +1107,7 @@ msgstr "Azioni"
 msgid "Info"
 msgstr "Informazioni"
 
-#: main/face/fsched.cc:239 main/face/list.cc:1338
+#: main/face/fsched.cc:239 main/face/list.cc:1384
 msgid "Scheduler"
 msgstr "Tempo"
 
@@ -1210,255 +1210,255 @@ msgstr ""
 msgid "Url"
 msgstr ""
 
-#: main/face/list.cc:485
+#: main/face/list.cc:486
 #, fuzzy
 msgid "_File"
 msgstr "/_File"
 
-#: main/face/list.cc:486
+#: main/face/list.cc:487
 #, fuzzy
 msgid "_Download"
 msgstr "/_Scaricamento"
 
-#: main/face/list.cc:487
+#: main/face/list.cc:488
 #, fuzzy
 msgid "_Queue"
 msgstr "/_Coda"
 
-#: main/face/list.cc:488
+#: main/face/list.cc:489
 #, fuzzy
 msgid "_Options"
 msgstr "/_Opzioni"
 
-#: main/face/list.cc:490
+#: main/face/list.cc:491
 #, fuzzy
 msgid "_Help"
 msgstr "/_Aiuto"
 
-#: main/face/list.cc:491
+#: main/face/list.cc:492
 #, fuzzy
 msgid "_Save List"
 msgstr "Salva lista"
 
-#: main/face/list.cc:492
+#: main/face/list.cc:493
 #, fuzzy
 msgid "_Load List"
 msgstr "Carica Lista"
 
 # face/saveload.cc
-#: main/face/list.cc:493
+#: main/face/list.cc:494
 #, fuzzy
 msgid "_Find links in file"
 msgstr "Estrai collegamenti da file di testo"
 
 # face/dndtrash.cc
-#: main/face/list.cc:494
+#: main/face/list.cc:495
 #, fuzzy
 msgid "_New Download"
 msgstr "/Nuovo scaricamento"
 
 # face/dndtrash.cc
-#: main/face/list.cc:495
+#: main/face/list.cc:496
 #, fuzzy
 msgid "_Paste Download"
 msgstr "/Incolla scaricamento"
 
-#: main/face/list.cc:496
+#: main/face/list.cc:497
 #, fuzzy
 msgid "_Automated adding"
 msgstr "Aggiunta automatica"
 
 # face/dndtrash.cc
-#: main/face/list.cc:497
+#: main/face/list.cc:498
 #, fuzzy
 msgid "_Exit"
 msgstr "/Esci"
 
-#: main/face/list.cc:498
+#: main/face/list.cc:499
 #, fuzzy
 msgid "_View Log"
 msgstr "Visualizza registro"
 
-#: main/face/list.cc:499
+#: main/face/list.cc:500
 #, fuzzy
 msgid "_Stop downloads"
 msgstr " Interrompi scaricamenti "
 
-#: main/face/list.cc:500
+#: main/face/list.cc:501
 #, fuzzy
 msgid "_Edit downloads"
 msgstr "Modifica scaricamento"
 
-#: main/face/list.cc:501
+#: main/face/list.cc:502
 #, fuzzy
 msgid "_Delete downloads"
 msgstr "Elimina selezionati"
 
-#: main/face/list.cc:502
+#: main/face/list.cc:503
 #, fuzzy
 msgid "_Continue downloads"
 msgstr "Riprendi selezionati"
 
-#: main/face/list.cc:503
+#: main/face/list.cc:504
 #, fuzzy
 msgid "Delete Completed"
 msgstr "Elimina completati"
 
-#: main/face/list.cc:504
+#: main/face/list.cc:505
 #, fuzzy
 msgid "Delete _Failed"
 msgstr "Elimina non riusciti"
 
 # dlist.cc
-#: main/face/list.cc:505
+#: main/face/list.cc:506
 #, fuzzy
 msgid "_Rerun failed"
 msgstr "Ricerca fallita"
 
-#: main/face/list.cc:506 main/face/lmenu.cc:191
+#: main/face/list.cc:507 main/face/lmenu.cc:191
 msgid "(Un)Protect"
 msgstr "Proteggi/Sproteggi"
 
-#: main/face/list.cc:507
+#: main/face/list.cc:508
 #, fuzzy
 msgid "_Unselect All"
 msgstr "Deseleziona tutto"
 
-#: main/face/list.cc:508
+#: main/face/list.cc:509
 #, fuzzy
 msgid "Select _All"
 msgstr "Seleziona tutto"
 
 # face/list.cc
-#: main/face/list.cc:509
+#: main/face/list.cc:510
 #, fuzzy
 msgid "_Invert selection"
 msgstr "/Scaricamento/Inverti selezione"
 
-#: main/face/list.cc:510
+#: main/face/list.cc:511
 #, fuzzy
 msgid "_Create new queue"
 msgstr "Crea una nuova coda"
 
-#: main/face/list.cc:511
+#: main/face/list.cc:512
 #, fuzzy
 msgid "Create new _Subqueue"
 msgstr "/Crea una nuova sottocoda"
 
-#: main/face/list.cc:512
+#: main/face/list.cc:513
 #, fuzzy
 msgid "_Remove this queue"
 msgstr "/Coda/Rimuovi coda"
 
-#: main/face/list.cc:513
+#: main/face/list.cc:514
 #, fuzzy
 msgid "_Properties"
 msgstr "Proprieta'"
 
-#: main/face/list.cc:514
+#: main/face/list.cc:515
 #, fuzzy
 msgid "_Scheduler"
 msgstr "Tempo"
 
-#: main/face/list.cc:515
+#: main/face/list.cc:516
 #, fuzzy
 msgid "_URL-manager"
 msgstr "Gestione URL"
 
-#: main/face/list.cc:516
+#: main/face/list.cc:517
 msgid "_General"
 msgstr ""
 
-#: main/face/list.cc:517
+#: main/face/list.cc:518
 #, fuzzy
 msgid "_Filters"
 msgstr "Filtri"
 
-#: main/face/list.cc:518
+#: main/face/list.cc:519
 msgid "_Buttons"
 msgstr ""
 
-#: main/face/list.cc:519
+#: main/face/list.cc:520
 #, fuzzy
 msgid "_About"
 msgstr "Informazioni"
 
-#: main/face/list.cc:522
+#: main/face/list.cc:523
 msgid "_Low"
 msgstr ""
 
-#: main/face/list.cc:523
+#: main/face/list.cc:524
 #, fuzzy
 msgid "_Medium"
 msgstr "media"
 
-#: main/face/list.cc:524
+#: main/face/list.cc:525
 #, fuzzy
 msgid "_Unlimited"
 msgstr "illimitata"
 
-#: main/face/list.cc:869
+#: main/face/list.cc:870
 msgid "Do you really want to quit?"
 msgstr "Vuoi veramente uscire?"
 
-#: main/face/list.cc:869
+#: main/face/list.cc:870
 msgid "Quit?"
 msgstr "Abbandonare?"
 
-#: main/face/list.cc:898
+#: main/face/list.cc:899
 msgid "Delete selected downloads?"
 msgstr "Cancellare gli scaricamenti selezionati?"
 
-#: main/face/list.cc:898 main/face/list.cc:916 main/face/list.cc:934
+#: main/face/list.cc:899 main/face/list.cc:917 main/face/list.cc:935
 msgid "Delete?"
 msgstr "Eliminare?"
 
-#: main/face/list.cc:916
+#: main/face/list.cc:917
 msgid "Do you wish delete completed downloads?"
 msgstr "Vuoi cancellare gli scaricamenti completi?"
 
-#: main/face/list.cc:934
+#: main/face/list.cc:935
 msgid "Do you wish delete failed downloads?"
 msgstr "Vuoi cancellare gli scaricamenti non riusciti?"
 
-#: main/face/list.cc:981
+#: main/face/list.cc:982
 msgid "Ready to go ????"
 msgstr "Pronto a partire ???"
 
-#: main/face/list.cc:1333 main/face/list.cc:1609
+#: main/face/list.cc:1379 main/face/list.cc:1655
 #, fuzzy
 msgid "Downloads"
 msgstr "Scaricamento"
 
 # prefs.cc:
-#: main/face/list.cc:1334 main/face/list.cc:1382 main/face/prefs.cc:650
+#: main/face/list.cc:1380 main/face/list.cc:1428 main/face/prefs.cc:650
 #: main/face/prefs.cc:1308 main/face/prefs.cc:1578
 msgid "Main log"
 msgstr "Log principale"
 
-#: main/face/list.cc:1335 main/face/passface.cc:428
+#: main/face/list.cc:1381 main/face/passface.cc:428
 msgid "URL-manager"
 msgstr "Gestione URL"
 
-#: main/face/list.cc:1336 main/face/list.cc:1396
+#: main/face/list.cc:1382 main/face/list.cc:1442
 #, fuzzy
 msgid "FTP-search"
 msgstr "Ricerca FTP"
 
-#: main/face/list.cc:1400
+#: main/face/list.cc:1446
 #, fuzzy
 msgid "Filename:"
 msgstr "nome del file"
 
-#: main/face/list.cc:1565
+#: main/face/list.cc:1611
 msgid "Switch to online mode"
 msgstr ""
 
-#: main/face/list.cc:1565 main/face/list.cc:1631
+#: main/face/list.cc:1611 main/face/list.cc:1677
 msgid "Switch to offline mode"
 msgstr ""
 
-#: main/face/list.cc:1761
+#: main/face/list.cc:1810
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-attivi %i-completi %i-totale "
@@ -2322,198 +2322,198 @@ msgid "Can't init control socket!\n"
 msgstr "Non posso inizializzare il socket di controllo!\n"
 
 # main.cc:
-#: main/main.cc:194
+#: main/main.cc:195
 msgid "Loading default list of downloads"
 msgstr "Carica lista base di scaricamenti"
 
 # main.cc
-#: main/main.cc:274 main/main.cc:1311
+#: main/main.cc:275 main/main.cc:1312
 msgid "Delete completed downloads"
 msgstr "Cancella scaricamenti completati"
 
 # main.cc
-#: main/main.cc:287
+#: main/main.cc:288
 msgid "Delete failed downloads"
 msgstr "Cancella scaricamenti falliti"
 
-#: main/main.cc:304
+#: main/main.cc:305
 msgid "Clear queue of downloads"
 msgstr "Lista degli scaricamenti cancellata"
 
 # main.cc
-#: main/main.cc:361
+#: main/main.cc:362
 msgid "Run new thread for %z"
 msgstr "Esegui nuovo thread per %z"
 
 # main.cc:
-#: main/main.cc:367
+#: main/main.cc:368
 msgid "Can't run new thread for downloading!"
 msgstr "Non riesco ad eseguire un nuovo thread per lo scaricamento!"
 
-#: main/main.cc:426
+#: main/main.cc:427
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Lo scaricamento del file %s da %s e' stato concluso [dall'utente]"
 
-#: main/main.cc:469
+#: main/main.cc:470
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "Cancella file %s dalla lista degli scaricamenti"
 
-#: main/main.cc:564
+#: main/main.cc:565
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "Continua lo scaricamento del file %s da %s..."
 
-#: main/main.cc:655
+#: main/main.cc:656
 msgid "file"
 msgstr "file"
 
-#: main/main.cc:739
+#: main/main.cc:740
 msgid "dir"
 msgstr "directory"
 
-#: main/main.cc:744
+#: main/main.cc:745
 msgid "link"
 msgstr "collegamento"
 
-#: main/main.cc:749
+#: main/main.cc:750
 msgid "device"
 msgstr "dispositivo"
 
-#: main/main.cc:782
+#: main/main.cc:783
 msgid "Too many redirections!"
 msgstr "Troppi redirect!"
 
 # main.cc:
-#: main/main.cc:800
+#: main/main.cc:801
 msgid "Redirection from [%z] to the same location!"
 msgstr "Redirezione da [%z] verso la stessa locazione!"
 
 # main.cc:
-#: main/main.cc:836
+#: main/main.cc:837
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Redirezione da [%z] verso niente!"
 
 # main.cc
-#: main/main.cc:862
+#: main/main.cc:863
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "Prepara il thread %i di [%z] a fermarsi"
 
 # main.cc:
-#: main/main.cc:888
+#: main/main.cc:889
 msgid "Redirect from %z"
 msgstr "Rediretto da %z"
 
-#: main/main.cc:895
+#: main/main.cc:896
 msgid "Downloading of directory %z was completed"
 msgstr "Completato scaricamento della directory %z"
 
-#: main/main.cc:899
+#: main/main.cc:900
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
 "File %z (%i bytes) scaricato completamente, alla velocita' di %i bytes/"
 "secondo"
 
 # main.cc
-#: main/main.cc:906
+#: main/main.cc:907
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z e' stato cancellato dalla coda degli scaricamenti perche' completo"
 
-#: main/main.cc:917
+#: main/main.cc:918
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Lo scaricamento del file %z e' terminato a causa di un errore fatale"
 
 # main.cc
-#: main/main.cc:919
+#: main/main.cc:920
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z e' stato cancellato dalla coda degli scaricamenti perche' fallito"
 
-#: main/main.cc:1253
+#: main/main.cc:1254
 msgid "Restarting failed downloads"
 msgstr "Riavvio degli scaricamenti non riusciti"
 
 # main.cc
-#: main/main.cc:1253 main/main.cc:1289 main/main.cc:1306 main/main.cc:1311
-#: main/main.cc:1316 main/main.cc:1329 main/main.cc:1334
+#: main/main.cc:1254 main/main.cc:1290 main/main.cc:1307 main/main.cc:1312
+#: main/main.cc:1317 main/main.cc:1330 main/main.cc:1335
 msgid "[control socket]"
 msgstr "[socket di controllo]"
 
 # main.cc
-#: main/main.cc:1271
+#: main/main.cc:1272
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Aggiungi scaricamento via socket di controllo [%s]"
 
 # main.cc
-#: main/main.cc:1279
+#: main/main.cc:1280
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Aggiungi scaricamento via socket di controllo [%s]"
 
 # main.cc
-#: main/main.cc:1287
+#: main/main.cc:1288
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Imposta limite di velocita' a %s %s"
 
 # main.cc
-#: main/main.cc:1306
+#: main/main.cc:1307
 msgid "Setup maximum active downloads to"
 msgstr "Imposta il numero massimo di scaricamenti attivi a"
 
-#: main/main.cc:1329
+#: main/main.cc:1330
 msgid "Exiting if nothing to do is switched off"
 msgstr "Uscita automatica se \"inattivo\" disabilitata"
 
-#: main/main.cc:1334
+#: main/main.cc:1335
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader esce se inattivo per %i minuti %s"
 
-#: main/main.cc:1347
+#: main/main.cc:1348
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Ora la coda predefinita e' '%s'"
 
-#: main/main.cc:1647
+#: main/main.cc:1648
 msgid "Loading FTP-Search engines"
 msgstr "Caricamento dei motori di ricerca FTP"
 
-#: main/main.cc:1649
+#: main/main.cc:1650
 msgid "Normally started"
 msgstr "Inizio normale"
 
-#: main/main.cc:1707
+#: main/main.cc:1708
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Aggiunto lo scaricamento del file %s da %s [dall'utente]"
 
-#: main/main.cc:1758
+#: main/main.cc:1759
 msgid "Downloader is in offline mode now"
 msgstr ""
 
-#: main/main.cc:1765
+#: main/main.cc:1766
 msgid "Offline mode is turned off"
 msgstr ""
 
 # main.cc
-#: main/main.cc:1799
+#: main/main.cc:1800
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu byte scaricati nel corso di questa sessione"
 
 # main.cc:
-#: main/main.cc:1800
+#: main/main.cc:1801
 msgid "Downloader exited normaly"
 msgstr "Downloader terminato normalmente"
 
-#: main/main.cc:1840
+#: main/main.cc:1841
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Non riesco ad aprire il file '%s' per salvare il registro"
 
-#: main/main.cc:1874
+#: main/main.cc:1875
 msgid "Such protocol is not supported!"
 msgstr "Questo protocollo non e' supportato!"
 

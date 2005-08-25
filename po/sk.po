@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d4x.sk.po \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-12 15:32+0800\n"
+"POT-Creation-Date: 2005-08-25 13:33+0800\n"
 "PO-Revision-Date: 2003-12-08 21:21+0100\n"
 "Last-Translator: Zdenko Podobný <zdpo@mailbox.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -340,19 +340,19 @@ msgstr "Sťahovanie bolo úspešne dokončené!"
 msgid "Downloading was failed..."
 msgstr "Sťahovanie bolo neúspešné..."
 
-#: main/dlist.cc:1312
+#: main/dlist.cc:1337
 msgid "Redirection blocked by filter"
 msgstr "Presmerovanie blokované filtrom"
 
-#: main/dlist.cc:1318
+#: main/dlist.cc:1343
 msgid "Redirect detected..."
 msgstr "Zistené presmerovanie..."
 
-#: main/dlist.cc:1322 main/dlist.cc:1337
+#: main/dlist.cc:1347 main/dlist.cc:1362
 msgid "Size detection only!"
 msgstr "Iba detekcia veľkosti!"
 
-#: main/dlist.cc:1391
+#: main/dlist.cc:1416
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
@@ -360,52 +360,52 @@ msgstr ""
 "Viacvláknové sťahovanie nie je možné kvôli obmedzeniam servera (pokračovanie "
 "v sťahovaní nie je podporované)"
 
-#: main/dlist.cc:1402
+#: main/dlist.cc:1427
 msgid "Local file is seems to be equal to remote one"
 msgstr "Zdá sa, že lokálny a vzdialený súbor sú rovnaké"
 
-#: main/dlist.cc:1423
+#: main/dlist.cc:1448
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Je to zvláštne, že nie je možné zmazať práve vytvorený súbor..."
 
-#: main/dlist.cc:1427 main/dlist.cc:1679
+#: main/dlist.cc:1452 main/dlist.cc:1704
 msgid "File not found"
 msgstr "Súbor nenájdený"
 
-#: main/dlist.cc:1501
+#: main/dlist.cc:1526
 msgid "Sorting started"
 msgstr "Spustené triedenie"
 
-#: main/dlist.cc:1504
+#: main/dlist.cc:1529
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Pingovanie (pokus %i z %i)"
 
-#: main/dlist.cc:1532
+#: main/dlist.cc:1557
 msgid "Trying to determine filesizes"
 msgstr "Pokus o zistenie veľkosti súborov"
 
-#: main/dlist.cc:1585
+#: main/dlist.cc:1610
 msgid "Searching failed"
 msgstr "Hľadanie zlyhalo"
 
-#: main/dlist.cc:1642
+#: main/dlist.cc:1667
 msgid "Search had been completed!"
 msgstr "Prehladávanie bolo dokončené!"
 
-#: main/dlist.cc:1648
+#: main/dlist.cc:1673
 msgid "Was Started!"
 msgstr "Bolo spustené!"
 
-#: main/dlist.cc:1657
+#: main/dlist.cc:1682
 msgid "It is a link and we already load it"
 msgstr "Je to odkaz a už je načítaný"
 
-#: main/dlist.cc:1684
+#: main/dlist.cc:1709
 msgid "Trying to work without CWD"
 msgstr "Pokus o prácu bez CWD"
 
-#: main/dlist.cc:1816
+#: main/dlist.cc:1841
 msgid "Can't split file to specified number of parts!"
 msgstr "Nie je možné rozdeliť súbor na určený počet častí!"
 
@@ -468,7 +468,7 @@ msgstr "Nepýtať sa v budúcnosti"
 msgid "Add new download"
 msgstr "Pridať nové sťahovanie"
 
-#: main/face/addd.cc:184 main/face/dndtrash.cc:625
+#: main/face/addd.cc:184 main/face/dndtrash.cc:629
 msgid "Automated adding"
 msgstr "Automatické pridávanie"
 
@@ -617,62 +617,62 @@ msgstr "URL"
 msgid "Showed columns"
 msgstr "Zobrazené stĺpce"
 
-#: main/face/dndtrash.cc:394
+#: main/face/dndtrash.cc:398
 msgid "DnD basket"
 msgstr "PnP kôš"
 
-#: main/face/dndtrash.cc:527
+#: main/face/dndtrash.cc:531
 msgid "Drop link here"
 msgstr "Pustite sem odkaz"
 
-#: main/face/dndtrash.cc:570
+#: main/face/dndtrash.cc:574
 #, fuzzy
 msgid "Offline"
 msgstr "Offline/Online"
 
-#: main/face/dndtrash.cc:570 main/face/dndtrash.cc:631
+#: main/face/dndtrash.cc:574 main/face/dndtrash.cc:635
 msgid "Online"
 msgstr ""
 
-#: main/face/dndtrash.cc:622 main/face/list.cc:489 main/face/lod.cc:52
+#: main/face/dndtrash.cc:626 main/face/list.cc:490 main/face/lod.cc:52
 msgid "Speed"
 msgstr "Rýchlosť"
 
-#: main/face/dndtrash.cc:623
+#: main/face/dndtrash.cc:627
 #, fuzzy
 msgid "New Download"
 msgstr "/Nové sťahovanie"
 
-#: main/face/dndtrash.cc:624
+#: main/face/dndtrash.cc:628
 #, fuzzy
 msgid "Paste Download"
 msgstr "/Vložiť sťahovanie"
 
-#: main/face/dndtrash.cc:626 main/face/lmenu.cc:212
+#: main/face/dndtrash.cc:630 main/face/lmenu.cc:212
 msgid "Delete completed"
 msgstr "Zmazať dokončené"
 
-#: main/face/dndtrash.cc:627
+#: main/face/dndtrash.cc:631
 #, fuzzy
 msgid "General options"
 msgstr "/Všeobecné nastavenia"
 
-#: main/face/dndtrash.cc:628
+#: main/face/dndtrash.cc:632
 #, fuzzy
 msgid "Exit"
 msgstr "/Koniec"
 
-#: main/face/dndtrash.cc:634
+#: main/face/dndtrash.cc:638
 #, fuzzy
 msgid "Low"
 msgstr "nízka"
 
-#: main/face/dndtrash.cc:635
+#: main/face/dndtrash.cc:639
 #, fuzzy
 msgid "Medium"
 msgstr "stredná"
 
-#: main/face/dndtrash.cc:636
+#: main/face/dndtrash.cc:640
 #, fuzzy
 msgid "Unlimited"
 msgstr "neobmedzená"
@@ -978,7 +978,7 @@ msgstr "Označiť všetko"
 msgid "filter name"
 msgstr "názov filtra"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1337
+#: main/face/filtrgui.cc:187 main/face/list.cc:1383
 msgid "Filters"
 msgstr "Filtre"
 
@@ -1038,7 +1038,7 @@ msgstr "Akcia"
 msgid "Info"
 msgstr "Info"
 
-#: main/face/fsched.cc:239 main/face/list.cc:1338
+#: main/face/fsched.cc:239 main/face/list.cc:1384
 msgid "Scheduler"
 msgstr "Rozvrh"
 
@@ -1135,245 +1135,245 @@ msgstr "Ping"
 msgid "Url"
 msgstr "Url"
 
-#: main/face/list.cc:485
+#: main/face/list.cc:486
 #, fuzzy
 msgid "_File"
 msgstr "/_Súbor"
 
-#: main/face/list.cc:486
+#: main/face/list.cc:487
 #, fuzzy
 msgid "_Download"
 msgstr "/Sťahovanie"
 
-#: main/face/list.cc:487
+#: main/face/list.cc:488
 #, fuzzy
 msgid "_Queue"
 msgstr "/_Front"
 
-#: main/face/list.cc:488
+#: main/face/list.cc:489
 #, fuzzy
 msgid "_Options"
 msgstr "/_Nastavenia"
 
-#: main/face/list.cc:490
+#: main/face/list.cc:491
 #, fuzzy
 msgid "_Help"
 msgstr "/_Pomoc"
 
-#: main/face/list.cc:491
+#: main/face/list.cc:492
 #, fuzzy
 msgid "_Save List"
 msgstr "Uložiť zoznam"
 
-#: main/face/list.cc:492
+#: main/face/list.cc:493
 #, fuzzy
 msgid "_Load List"
 msgstr "Načítať zoznam"
 
-#: main/face/list.cc:493
+#: main/face/list.cc:494
 #, fuzzy
 msgid "_Find links in file"
 msgstr "Nájsť odkazy v txt súbore"
 
-#: main/face/list.cc:494
+#: main/face/list.cc:495
 #, fuzzy
 msgid "_New Download"
 msgstr "/Nové sťahovanie"
 
-#: main/face/list.cc:495
+#: main/face/list.cc:496
 #, fuzzy
 msgid "_Paste Download"
 msgstr "/Vložiť sťahovanie"
 
-#: main/face/list.cc:496
+#: main/face/list.cc:497
 #, fuzzy
 msgid "_Automated adding"
 msgstr "Automatické pridávanie"
 
-#: main/face/list.cc:497
+#: main/face/list.cc:498
 #, fuzzy
 msgid "_Exit"
 msgstr "/Koniec"
 
-#: main/face/list.cc:498
+#: main/face/list.cc:499
 #, fuzzy
 msgid "_View Log"
 msgstr "Zobraziť záznam"
 
-#: main/face/list.cc:499
+#: main/face/list.cc:500
 #, fuzzy
 msgid "_Stop downloads"
 msgstr " Zastaviť sťahovania "
 
-#: main/face/list.cc:500
+#: main/face/list.cc:501
 #, fuzzy
 msgid "_Edit downloads"
 msgstr "Upraviť sťahovanie"
 
-#: main/face/list.cc:501
+#: main/face/list.cc:502
 #, fuzzy
 msgid "_Delete downloads"
 msgstr "Zmazať sťahovania"
 
-#: main/face/list.cc:502
+#: main/face/list.cc:503
 #, fuzzy
 msgid "_Continue downloads"
 msgstr "Pokračovať v sťahovaní"
 
-#: main/face/list.cc:503
+#: main/face/list.cc:504
 #, fuzzy
 msgid "Delete Completed"
 msgstr "Zmazať dokončené"
 
-#: main/face/list.cc:504
+#: main/face/list.cc:505
 #, fuzzy
 msgid "Delete _Failed"
 msgstr "Zmazať neúspešné"
 
-#: main/face/list.cc:505
+#: main/face/list.cc:506
 #, fuzzy
 msgid "_Rerun failed"
 msgstr "Hľadanie zlyhalo"
 
-#: main/face/list.cc:506 main/face/lmenu.cc:191
+#: main/face/list.cc:507 main/face/lmenu.cc:191
 msgid "(Un)Protect"
 msgstr "(Ne)Chrániť"
 
-#: main/face/list.cc:507
+#: main/face/list.cc:508
 #, fuzzy
 msgid "_Unselect All"
 msgstr "Všetko odznačiť"
 
-#: main/face/list.cc:508
+#: main/face/list.cc:509
 #, fuzzy
 msgid "Select _All"
 msgstr "Označiť všetko"
 
-#: main/face/list.cc:509
+#: main/face/list.cc:510
 #, fuzzy
 msgid "_Invert selection"
 msgstr "/Sťahovanie/Invertovať výber"
 
-#: main/face/list.cc:510
+#: main/face/list.cc:511
 #, fuzzy
 msgid "_Create new queue"
 msgstr "Vytvoriť nový front"
 
-#: main/face/list.cc:511
+#: main/face/list.cc:512
 #, fuzzy
 msgid "Create new _Subqueue"
 msgstr "/Vytvoriť nový podfront"
 
-#: main/face/list.cc:512
+#: main/face/list.cc:513
 #, fuzzy
 msgid "_Remove this queue"
 msgstr "/Front/Odstrániť tento front"
 
-#: main/face/list.cc:513
+#: main/face/list.cc:514
 #, fuzzy
 msgid "_Properties"
 msgstr "Nastavenia"
 
-#: main/face/list.cc:514
+#: main/face/list.cc:515
 #, fuzzy
 msgid "_Scheduler"
 msgstr "Rozvrh"
 
-#: main/face/list.cc:515
+#: main/face/list.cc:516
 #, fuzzy
 msgid "_URL-manager"
 msgstr "Správca URL"
 
-#: main/face/list.cc:516
+#: main/face/list.cc:517
 msgid "_General"
 msgstr ""
 
-#: main/face/list.cc:517
+#: main/face/list.cc:518
 #, fuzzy
 msgid "_Filters"
 msgstr "Filtre"
 
-#: main/face/list.cc:518
+#: main/face/list.cc:519
 msgid "_Buttons"
 msgstr ""
 
-#: main/face/list.cc:519
+#: main/face/list.cc:520
 #, fuzzy
 msgid "_About"
 msgstr "O programe"
 
-#: main/face/list.cc:522
+#: main/face/list.cc:523
 msgid "_Low"
 msgstr ""
 
-#: main/face/list.cc:523
+#: main/face/list.cc:524
 #, fuzzy
 msgid "_Medium"
 msgstr "stredná"
 
-#: main/face/list.cc:524
+#: main/face/list.cc:525
 #, fuzzy
 msgid "_Unlimited"
 msgstr "neobmedzená"
 
-#: main/face/list.cc:869
+#: main/face/list.cc:870
 msgid "Do you really want to quit?"
 msgstr "Naozaj chcete skončiť?"
 
-#: main/face/list.cc:869
+#: main/face/list.cc:870
 msgid "Quit?"
 msgstr "Ukončiť?"
 
-#: main/face/list.cc:898
+#: main/face/list.cc:899
 msgid "Delete selected downloads?"
 msgstr "Zmazať označené sťahovania?"
 
-#: main/face/list.cc:898 main/face/list.cc:916 main/face/list.cc:934
+#: main/face/list.cc:899 main/face/list.cc:917 main/face/list.cc:935
 msgid "Delete?"
 msgstr "Odstrániť?"
 
-#: main/face/list.cc:916
+#: main/face/list.cc:917
 msgid "Do you wish delete completed downloads?"
 msgstr "Prajete si odstrániť dokončené sťahovania?"
 
-#: main/face/list.cc:934
+#: main/face/list.cc:935
 msgid "Do you wish delete failed downloads?"
 msgstr "Prajete si odstrániť neúspešné sťahovania?"
 
-#: main/face/list.cc:981
+#: main/face/list.cc:982
 msgid "Ready to go ????"
 msgstr "Pripravený ísť ????"
 
-#: main/face/list.cc:1333 main/face/list.cc:1609
+#: main/face/list.cc:1379 main/face/list.cc:1655
 msgid "Downloads"
 msgstr "Stiahnutia"
 
-#: main/face/list.cc:1334 main/face/list.cc:1382 main/face/prefs.cc:650
+#: main/face/list.cc:1380 main/face/list.cc:1428 main/face/prefs.cc:650
 #: main/face/prefs.cc:1308 main/face/prefs.cc:1578
 msgid "Main log"
 msgstr "Hlavný záznam"
 
-#: main/face/list.cc:1335 main/face/passface.cc:428
+#: main/face/list.cc:1381 main/face/passface.cc:428
 msgid "URL-manager"
 msgstr "Správca URL"
 
-#: main/face/list.cc:1336 main/face/list.cc:1396
+#: main/face/list.cc:1382 main/face/list.cc:1442
 msgid "FTP-search"
 msgstr "FTP hľadanie"
 
-#: main/face/list.cc:1400
+#: main/face/list.cc:1446
 msgid "Filename:"
 msgstr "Názov súboru:"
 
-#: main/face/list.cc:1565
+#: main/face/list.cc:1611
 msgid "Switch to online mode"
 msgstr ""
 
-#: main/face/list.cc:1565 main/face/list.cc:1631
+#: main/face/list.cc:1611 main/face/list.cc:1677
 msgid "Switch to offline mode"
 msgstr ""
 
-#: main/face/list.cc:1761
+#: main/face/list.cc:1810
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-spustených %i-dokončených %i-celkom "
@@ -2201,180 +2201,180 @@ msgstr "Záznam bol spustený!"
 msgid "Can't init control socket!\n"
 msgstr "Nie je možné inicializovať kontrolný soket!\n"
 
-#: main/main.cc:194
+#: main/main.cc:195
 msgid "Loading default list of downloads"
 msgstr "Načítavam štandardný zoznam sťahovaní"
 
-#: main/main.cc:274 main/main.cc:1311
+#: main/main.cc:275 main/main.cc:1312
 msgid "Delete completed downloads"
 msgstr "Zmazať dokončené sťahovania"
 
-#: main/main.cc:287
+#: main/main.cc:288
 msgid "Delete failed downloads"
 msgstr "Zmazať neúspešné sťahovania"
 
-#: main/main.cc:304
+#: main/main.cc:305
 msgid "Clear queue of downloads"
 msgstr "Vyčistiť front sťahovaní"
 
-#: main/main.cc:361
+#: main/main.cc:362
 msgid "Run new thread for %z"
 msgstr "Spustiť nové vlákno pre %z"
 
-#: main/main.cc:367
+#: main/main.cc:368
 msgid "Can't run new thread for downloading!"
 msgstr "Nie je možné spustiť nové vlákno pre sťahovanie!"
 
-#: main/main.cc:426
+#: main/main.cc:427
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Sťahovanie súboru %s z %s bolo prerušené [používateľom]"
 
-#: main/main.cc:469
+#: main/main.cc:470
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "Odstránenie súboru %s z frontu sťahovaní"
 
-#: main/main.cc:564
+#: main/main.cc:565
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "Pokračujem v sťahovaní súboru %s z %s..."
 
-#: main/main.cc:655
+#: main/main.cc:656
 msgid "file"
 msgstr "súbor "
 
-#: main/main.cc:739
+#: main/main.cc:740
 msgid "dir"
 msgstr "priečinok"
 
-#: main/main.cc:744
+#: main/main.cc:745
 msgid "link"
 msgstr "odkaz"
 
-#: main/main.cc:749
+#: main/main.cc:750
 msgid "device"
 msgstr "zariadenie"
 
-#: main/main.cc:782
+#: main/main.cc:783
 msgid "Too many redirections!"
 msgstr "Príliš veľa presmerovaní"
 
-#: main/main.cc:800
+#: main/main.cc:801
 msgid "Redirection from [%z] to the same location!"
 msgstr "Presmerovanie z [%z] na to isté umiestnenie!"
 
-#: main/main.cc:836
+#: main/main.cc:837
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Presmerovanie z [%z] nevedie nikde"
 
-#: main/main.cc:862
+#: main/main.cc:863
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "Pripraviť vlákno %i z [%z] na zastavenie"
 
-#: main/main.cc:888
+#: main/main.cc:889
 msgid "Redirect from %z"
 msgstr "Presmerovanie z %z"
 
-#: main/main.cc:895
+#: main/main.cc:896
 msgid "Downloading of directory %z was completed"
 msgstr "Sťahovanie priečinku %z bolo dokončené"
 
-#: main/main.cc:899
+#: main/main.cc:900
 msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
 msgstr ""
 "Sťahovanie súboru %z (%i bajtov) bolo dokončené pri rýchlosti %i bajtov/sek"
 
-#: main/main.cc:906
+#: main/main.cc:907
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z bol zmazaný z frontu sťahovaní ako dokončené sťahovanie"
 
-#: main/main.cc:917
+#: main/main.cc:918
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Sťahovanie súboru %z bolo prerušené kvôli závažnej chybe"
 
-#: main/main.cc:919
+#: main/main.cc:920
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z bolo zmazané z frontu sťahovaní ako neúspešné sťahovanie"
 
-#: main/main.cc:1253
+#: main/main.cc:1254
 msgid "Restarting failed downloads"
 msgstr "Opäť spúšťam neúspešné sťahovania"
 
-#: main/main.cc:1253 main/main.cc:1289 main/main.cc:1306 main/main.cc:1311
-#: main/main.cc:1316 main/main.cc:1329 main/main.cc:1334
+#: main/main.cc:1254 main/main.cc:1290 main/main.cc:1307 main/main.cc:1312
+#: main/main.cc:1317 main/main.cc:1330 main/main.cc:1335
 msgid "[control socket]"
 msgstr "[kontrolný soket]"
 
-#: main/main.cc:1271
+#: main/main.cc:1272
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Odstránenie sťahovania cez kontrolný soket [%s]"
 
-#: main/main.cc:1279
+#: main/main.cc:1280
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Pridávam sťahovanie cez kontrolný soket [%s]"
 
-#: main/main.cc:1287
+#: main/main.cc:1288
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Nastaviť obmedzenie rýchlosti na %s %s"
 
-#: main/main.cc:1306
+#: main/main.cc:1307
 msgid "Setup maximum active downloads to"
 msgstr "Nastaviť maximálny počet aktívnych sťahovaní na"
 
-#: main/main.cc:1329
+#: main/main.cc:1330
 msgid "Exiting if nothing to do is switched off"
 msgstr "Ukončenie, ak nie je čo robiť je vypnuté"
 
-#: main/main.cc:1334
+#: main/main.cc:1335
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Sťahovač sa ukončí, ak nebude mať čo robiť po %i minútach %s"
 
-#: main/main.cc:1347
+#: main/main.cc:1348
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Štandardný front je teraz '%s'."
 
-#: main/main.cc:1647
+#: main/main.cc:1648
 msgid "Loading FTP-Search engines"
 msgstr "Načítavam FTP vyhľadávacie služby"
 
-#: main/main.cc:1649
+#: main/main.cc:1650
 msgid "Normally started"
 msgstr "Spustené normálne"
 
-#: main/main.cc:1707
+#: main/main.cc:1708
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Pridanie sťahovania súboru %s z %s [používateľom]"
 
-#: main/main.cc:1758
+#: main/main.cc:1759
 msgid "Downloader is in offline mode now"
 msgstr "Downloader je teraz v režime offline"
 
-#: main/main.cc:1765
+#: main/main.cc:1766
 msgid "Offline mode is turned off"
 msgstr "Offline režim je teraz vypnutý"
 
-#: main/main.cc:1799
+#: main/main.cc:1800
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bajtov načítaných počas sedenia"
 
-#: main/main.cc:1800
+#: main/main.cc:1801
 msgid "Downloader exited normaly"
 msgstr "Sťahovač ukončený normálne"
 
-#: main/main.cc:1840
+#: main/main.cc:1841
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Nie je možné otvoriť '%s' na uloženie záznamu"
 
-#: main/main.cc:1874
+#: main/main.cc:1875
 msgid "Such protocol is not supported!"
 msgstr "Taký protokol nie je podporovaný"
 

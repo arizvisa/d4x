@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 #
-# $Header: /home/cvs/d4x/main/face/Makefile.am,v 1.3.2.2 2005/08/08 11:54:39 zaufi Exp $
+# $Header: /home/cvs/d4x/main/face/Makefile.am,v 1.3.2.3 2005/08/25 03:26:47 max Exp $
 #
 
 #
@@ -104,18 +104,19 @@ AR = ar
 ARFLAGS = cru
 libface_a_AR = $(AR) $(ARFLAGS)
 libface_a_LIBADD =
-am__libface_a_SOURCES_DIST = $(strip about.cc fsched.cc addd.cc \
-	fsface.cc mywidget.cc buttons.cc graph.cc passface.cc \
+am__libface_a_SOURCES_DIST = $(strip about.cc fsched.cc eggtrayicon.c \
+	addd.cc fsface.cc mywidget.cc buttons.cc graph.cc passface.cc \
 	colors.cc list.cc prefs.cc columns.cc lmenu.cc qtree.cc \
 	dndtrash.cc lod.cc saveload.cc edit.cc log.cc themes.cc \
 	filtrgui.cc misc.cc ) libface_a.all_cc.cc
-am__objects_1 = about.$(OBJEXT) fsched.$(OBJEXT) addd.$(OBJEXT) \
-	fsface.$(OBJEXT) mywidget.$(OBJEXT) buttons.$(OBJEXT) \
-	graph.$(OBJEXT) passface.$(OBJEXT) colors.$(OBJEXT) \
-	list.$(OBJEXT) prefs.$(OBJEXT) columns.$(OBJEXT) \
-	lmenu.$(OBJEXT) qtree.$(OBJEXT) dndtrash.$(OBJEXT) \
-	lod.$(OBJEXT) saveload.$(OBJEXT) edit.$(OBJEXT) log.$(OBJEXT) \
-	themes.$(OBJEXT) filtrgui.$(OBJEXT) misc.$(OBJEXT)
+am__objects_1 = about.$(OBJEXT) fsched.$(OBJEXT) eggtrayicon.$(OBJEXT) \
+	addd.$(OBJEXT) fsface.$(OBJEXT) mywidget.$(OBJEXT) \
+	buttons.$(OBJEXT) graph.$(OBJEXT) passface.$(OBJEXT) \
+	colors.$(OBJEXT) list.$(OBJEXT) prefs.$(OBJEXT) \
+	columns.$(OBJEXT) lmenu.$(OBJEXT) qtree.$(OBJEXT) \
+	dndtrash.$(OBJEXT) lod.$(OBJEXT) saveload.$(OBJEXT) \
+	edit.$(OBJEXT) log.$(OBJEXT) themes.$(OBJEXT) \
+	filtrgui.$(OBJEXT) misc.$(OBJEXT)
 @EXTRA_OPTIMIZE_FALSE@am_libface_a_OBJECTS = $(am__objects_1)
 @EXTRA_OPTIMIZE_TRUE@am_libface_a_OBJECTS =  \
 @EXTRA_OPTIMIZE_TRUE@	libface_a.all_cc.$(OBJEXT)
@@ -123,6 +124,10 @@ libface_a_OBJECTS = $(am_libface_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 am__depfiles_maybe = depfiles
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -326,30 +331,30 @@ EXTRA_DIST = pixmaps pixmaps2
 noinst_LIBRARIES = libface.a
 @EXTRA_OPTIMIZE_FALSE@libface_a_SOURCES = $(libface_a_SOURCES_LIST)
 @EXTRA_OPTIMIZE_TRUE@libface_a_SOURCES = libface_a.all_cc.cc
-libface_a_SOURCES_LIST = $(strip         \
-    about.cc     fsched.cc               \
-    addd.cc      fsface.cc  mywidget.cc  \
-    buttons.cc   graph.cc   passface.cc  \
-    colors.cc    list.cc    prefs.cc     \
-    columns.cc   lmenu.cc   qtree.cc     \
-    dndtrash.cc  lod.cc     saveload.cc  \
-    edit.cc      log.cc     themes.cc    \
-    filtrgui.cc  misc.cc                 \
+libface_a_SOURCES_LIST = $(strip          \
+    about.cc     fsched.cc  eggtrayicon.c \
+    addd.cc      fsface.cc  mywidget.cc   \
+    buttons.cc   graph.cc   passface.cc   \
+    colors.cc    list.cc    prefs.cc      \
+    columns.cc   lmenu.cc   qtree.cc      \
+    dndtrash.cc  lod.cc     saveload.cc   \
+    edit.cc      log.cc     themes.cc     \
+    filtrgui.cc  misc.cc                  \
 )
 
-noinst_HEADERS = $(strip                           \
-    about.h     edit.h      lmenu.h     passface.h \
-    addd.h      filtrgui.h  lod.h       prefs.h    \
-    buttons.h   fsched.h    log.h       qtree.h    \
-    colors.h    fsface.h    misc.h      saveload.h \
-    columns.h   graph.h     themes.h               \
-    dndtrash.h  list.h      mywidget.h             \
+noinst_HEADERS = $(strip                              \
+    about.h     edit.h      lmenu.h     passface.h    \
+    addd.h      filtrgui.h  lod.h       prefs.h       \
+    buttons.h   fsched.h    log.h       qtree.h       \
+    colors.h    fsface.h    misc.h      saveload.h    \
+    columns.h   graph.h     themes.h    eggtrayicon.h \
+    dndtrash.h  list.h      mywidget.h                \
 )
 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .cc .o .obj
+.SUFFIXES: .c .cc .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(top_srcdir)/admin/Makefile.all $(top_srcdir)/admin/Makefile.common $(top_srcdir)/admin/Makefile.misc $(top_srcdir)/admin/Makefile.deps $(top_srcdir)/admin/Makefile.gengetopt $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -400,6 +405,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/columns.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dndtrash.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/edit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eggtrayicon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filtrgui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fsched.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fsface.Po@am__quote@
@@ -416,6 +422,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/qtree.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/saveload.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/themes.Po@am__quote@
+
+.c.o:
+@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c $<
+
+.c.obj:
+@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ `$(CYGPATH_W) '$<'`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
 .cc.o:
 @am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \

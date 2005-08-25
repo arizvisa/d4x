@@ -776,7 +776,7 @@ int parse_command_line_already_run(int argv,char **argc){
 	return rvalue;
 };
 
-void init_add_dnd_window(char *url,char *desc);
+void init_add_dnd_window(const char *url,const char *desc);
 
 void parse_command_line_postload(int argv,char **argc){
 	for (int i=1;i<argv;i++){

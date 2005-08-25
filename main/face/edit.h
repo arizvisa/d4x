@@ -93,7 +93,7 @@ public:
 	void toggle_isdefault();
 	void set_path_as_default();
 	void paste_url();
-	void set_description(char *desc);
+	void set_description(const char *desc);
 	tDownload *get_parent();
 	void set_parent(tDownload *);
 	void file_from_url();
@@ -101,7 +101,7 @@ public:
 	void select_url();
 	void clear_url();
 	void clear_save_name();
-	void set_url(char *a);
+	void set_url(const char *a);
 	char *get_url();
 	void done();
 	void popup();

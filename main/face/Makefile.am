@@ -1,5 +1,5 @@
 #
-# $Header: /home/cvs/d4x/main/face/Makefile.am,v 1.3.2.2 2005/08/08 11:54:39 zaufi Exp $
+# $Header: /home/cvs/d4x/main/face/Makefile.am,v 1.3.2.3 2005/08/25 03:26:47 max Exp $
 #
 
 include $(top_srcdir)/admin/Makefile.all
@@ -17,23 +17,24 @@ else
 libface_a_SOURCES    = $(libface_a_SOURCES_LIST)
 endif
 
-libface_a_SOURCES_LIST = $(strip         \
-    about.cc     fsched.cc               \
-    addd.cc      fsface.cc  mywidget.cc  \
-    buttons.cc   graph.cc   passface.cc  \
-    colors.cc    list.cc    prefs.cc     \
-    columns.cc   lmenu.cc   qtree.cc     \
-    dndtrash.cc  lod.cc     saveload.cc  \
-    edit.cc      log.cc     themes.cc    \
-    filtrgui.cc  misc.cc                 \
+libface_a_SOURCES_LIST = $(strip          \
+    about.cc     fsched.cc  eggtrayicon.c \
+    addd.cc      fsface.cc  mywidget.cc   \
+    buttons.cc   graph.cc   passface.cc   \
+    colors.cc    list.cc    prefs.cc      \
+    columns.cc   lmenu.cc   qtree.cc      \
+    dndtrash.cc  lod.cc     saveload.cc   \
+    edit.cc      log.cc     themes.cc     \
+    filtrgui.cc  misc.cc                  \
 )
-noinst_HEADERS = $(strip                           \
-    about.h     edit.h      lmenu.h     passface.h \
-    addd.h      filtrgui.h  lod.h       prefs.h    \
-    buttons.h   fsched.h    log.h       qtree.h    \
-    colors.h    fsface.h    misc.h      saveload.h \
-    columns.h   graph.h     themes.h               \
-    dndtrash.h  list.h      mywidget.h             \
+
+noinst_HEADERS = $(strip                              \
+    about.h     edit.h      lmenu.h     passface.h    \
+    addd.h      filtrgui.h  lod.h       prefs.h       \
+    buttons.h   fsched.h    log.h       qtree.h       \
+    colors.h    fsface.h    misc.h      saveload.h    \
+    columns.h   graph.h     themes.h    eggtrayicon.h \
+    dndtrash.h  list.h      mywidget.h                \
 )
 
 #

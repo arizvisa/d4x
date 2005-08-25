@@ -18,6 +18,7 @@ struct tAddr{
 	int proto,port;
 	int mask;
 	tAddr();
+	tAddr(const tAddr *a);
 	tAddr(char *str);
 	void from_string(char *str);
 	void print();
@@ -29,8 +30,8 @@ struct tAddr{
 	char *url();
 	char *url_parsed();
 	char *url_full();
-	void copy_host(tAddr *what);
-	void copy(tAddr *what);
+	void copy_host(const tAddr *what);
+	void copy(const tAddr *what);
 	void save_to_description(int fd);
 	void save_to_config(int fd);
 	void clear();

@@ -266,16 +266,20 @@ void dnd_trash_motion(GtkWidget *widget,GdkEventMotion *event){
 	};
 };
 
+void dnd_trash_menu_popdown(GdkEventButton *event){
+	gtk_menu_popup(GTK_MENU(dnd_trash_menu),
+		       (GtkWidget *)NULL,
+		       (GtkWidget *)NULL,
+		       (GtkMenuPositionFunc)NULL,
+		       (gpointer)NULL,
+		       event->button,event->time);
+};
+
 int dnd_trash_button_press(GtkWidget *widget,GdkEventButton *event){
 	switch (event->button){
 	case 3:{
 		CFG.DND_NEED_POPUP=0;
-		gtk_menu_popup(GTK_MENU(dnd_trash_menu),
-			       (GtkWidget *)NULL,
-			       (GtkWidget *)NULL,
-			       (GtkMenuPositionFunc)NULL,
-			       (gpointer)NULL,
-			       event->button,event->time);
+		dnd_trash_menu_popdown(event);
 		break;
 	};
 	case 1:{

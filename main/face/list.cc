@@ -46,6 +46,7 @@
 #include "../xml.h"
 #include <ctype.h>
 #include "themes.h"
+#include "eggtrayicon.h"
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -1005,7 +1006,50 @@ void update_progress_bar() {
 	gtk_statusbar_pop(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext);
 	gtk_statusbar_push(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext,data1);
 };
+
 /* ******************************************************************** */
+
+static void d4x_tray_clicked(GtkWidget *button, GdkEventButton *event, void *data){
+	if (event->type==GDK_2BUTTON_PRESS){
+		main_window_toggle();
+	}else if (event->button==3){
+		dnd_trash_menu_popdown(event);
+	};
+};
+
+namespace d4x{
+	
+	class Tray{
+		EggTrayIcon *tray;
+		GtkWidget *image,*box;
+		GtkTooltips *tooltip;
+	public:
+		Tray():tray(0),image(0),box(0),tooltip(0){
+#include "pixmaps/dndtrash_bar.xpm"
+			EggTrayIcon *tray=egg_tray_icon_new("D4X");
+			if (tray){
+				box = gtk_event_box_new();
+				image = gtk_image_new();
+				tooltip=gtk_tooltips_new();
+				gtk_tooltips_set_tip(tooltip,box,"Downloader for X",(const gchar *)NULL);
+				gtk_tooltips_enable(tooltip);
+				gtk_image_set_from_pixbuf(GTK_IMAGE(image),pixbuf_from_theme("main tray>file",(const char**)dndtrash_bar_xpm));
+				gtk_container_add(GTK_CONTAINER(box), image);
+				gtk_container_add(GTK_CONTAINER(tray), box);
+				g_signal_connect(G_OBJECT(box), "button-press-event", G_CALLBACK(d4x_tray_clicked),this);
+				gtk_widget_show_all(GTK_WIDGET(tray));
+			};
+		};
+		void set_tooltip(const gchar *txt){
+			if (box && tooltip)
+				gtk_tooltips_set_tip(tooltip,box,txt?txt:"Downloader for X",NULL);
+		};
+	};
+	static Tray *TRAY;
+};
+
+/*****************************************************************************/
+
 void d4x_normalize_coords(gint *x,gint *y,gint width,gint heigh){
 	int temp,w,h;
 	gdk_window_get_geometry((GdkWindow *)NULL,&temp,&temp,&w,&h,&temp);
@@ -1141,6 +1185,8 @@ void list_dnd_drop_internal(GtkWidget *widget,
 /**********************************************************
     End of handler for DnD 
  **********************************************************/
+
+
 
 void list_of_downloads_allocation(GtkWidget *paned,GtkAllocation *allocation){
 	if (MAIN_PANED_HEIGHT && allocation->height!=MAIN_PANED_HEIGHT){
@@ -1749,10 +1795,13 @@ void update_mainwin_title() {
 				delete[] rfile;
 				temp=(tDownload*)(temp->prev);
 			};
+			d4x::TRAY->set_tooltip(tipstr);
 			dnd_trash_set_tooltip(tipstr,frst->Percent);
 			delete[] tipstr;
-		}else
+		}else{
 			dnd_trash_set_tooltip(NULL);
+			d4x::TRAY->set_tooltip(0);
+		};
 		if (CFG.USE_MAINWIN_TITLE2!=2 && temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {
 			tmp_scroll_title(data,ROLL_STAT);
 			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
@@ -1773,10 +1822,12 @@ void update_mainwin_title() {
 		if (mainwin_title_state){
 			gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
 			dnd_trash_set_tooltip(NULL);
+			d4x::TRAY->set_tooltip(0);
 		};
 		mainwin_title_state=0;
 	};
 };
+
 
 int time_for_refresh(void *a) {
 	_aa_.main_circle();
@@ -2029,7 +2080,8 @@ static void d4x_mw_selection_get (GtkWidget        *widget,
 		}
 	};
 	g_free (str);
-}
+};
+
 
 static void d4x_mw_set_targets(){
 	static const GtkTargetEntry targets[] = {
@@ -2101,4 +2153,5 @@ void init_face(int argc, char *argv[]) {
 	};
 	main_log_mask=0;
 	buttons_cfg_init();
+	d4x::TRAY=new d4x::Tray;
 };

@@ -326,7 +326,7 @@ tDownload::tDownload() {
 	next=prev=NULL;
 	split=NULL;
 	who=NULL;
-	info=NULL;
+	RedirectURL=info=0;
 	CurrentLog=LOG=NULL;
 	WL=NULL;
 	editor=NULL;
@@ -1251,6 +1251,31 @@ void tDownload::http_recurse() {
 			convert_list_to_dir2(dir);
 		};
 		pthread_cleanup_pop(1);
+	}else if(begin_string_uncase(type,"text/html")){
+		tQueue *dir=new tQueue;
+		pthread_cleanup_push(_html_parser_dir_destroy_,dir);
+		tHtmlParser *html=new tHtmlParser;
+		pthread_cleanup_push(_html_parser_destroy_,html);
+		if (who)
+			html->set_content_type(((tHttpDownload*)who)->get_content_type());
+		dir->init(0);
+		html->out_fd=-1;
+		html->parse(WL,dir,info,0);
+		pthread_cleanup_pop(1);
+
+//look for meta tag to redirect
+		
+		tHtmlUrl *temp=(tHtmlUrl *)dir->last();
+		while(temp){
+			if (temp->info->tag.get() && strcasecmp(temp->info->tag.get(),"meta")==0){
+				finfo.type=T_REDIRECT;
+				if (RedirectURL) delete RedirectURL;
+				RedirectURL=new tAddr(temp->info);
+				break;
+			};
+			temp=(tHtmlUrl *)dir->next();
+		};
+		pthread_cleanup_pop(1);
 	};
 };
 
@@ -1931,13 +1956,16 @@ void tDownload::delete_who(){
 
 
 tAddr *tDownload::redirect_url(){
-	char *newurl=NULL;
-	if (who)
+	if (RedirectURL){
+		return new tAddr(RedirectURL);
+	}else if (who){
+		char *newurl=NULL;
 		newurl=who->get_new_url();
-	if (newurl) {
-		tAddr *addr=fix_url_global(newurl,info,-1,0);
-		delete[] newurl;
-		return(addr);
+		if (newurl) {
+			tAddr *addr=fix_url_global(newurl,info,-1,0);
+			delete[] newurl;
+			return(addr);
+		};
 	};
 	return(NULL);
 };
@@ -1968,6 +1996,7 @@ tDownload::~tDownload() {
 	if (WL) delete(WL);
 	if (split) delete(split);
 	if (ALTS) delete(ALTS);
+	if (RedirectURL) delete RedirectURL;
 };
 
 

@@ -1,5 +1,5 @@
-/*	WebDownloader for X-Window
- *	Copyright (C) 1999-2002 Koshelev Maxim
+/*	Downloader for X
+ *	Copyright (C) 1999-2005 Koshelev Maxim
  *	This Program is free but not GPL!!! You can't modify it
  *	without agreement with author. You can't distribute modified
  *	program but you can distribute unmodified program.
@@ -159,6 +159,13 @@ tAddr::tAddr() {
 	proto=D_PROTO_UNKNOWN;
 	port=0;
 	mask=0;
+};
+
+tAddr::tAddr(const tAddr *a) {
+	proto=D_PROTO_UNKNOWN;
+	port=0;
+	mask=0;
+	copy(a);
 };
 
 void tAddr::from_string(char *str){
@@ -511,7 +518,7 @@ int tAddr::cmp(tAddr *b){
 	return 1;
 };
 
-void tAddr::copy_host(tAddr *what){
+void tAddr::copy_host(const tAddr *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	host.set(what->host.get());
 	pass.set(what->pass.get());
@@ -520,7 +527,7 @@ void tAddr::copy_host(tAddr *what){
 	port=what->port;
 };
 
-void tAddr::copy(tAddr *what){
+void tAddr::copy(const tAddr *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	copy_host(what);
 	file.set(what->file.get());

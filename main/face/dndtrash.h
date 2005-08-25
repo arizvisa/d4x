@@ -24,6 +24,7 @@ void dnd_trash_set_del_completed(gint how);
 void dnd_trash_set_speed_text();
 void dnd_trash_destroy_theme();
 void dnd_trash_redraw();
+void dnd_trash_menu_popdown(GdkEventButton *event);
 
 class d4xDownloadQueue;
 extern d4xDownloadQueue *dnd_trash_target_queue;

@@ -20,7 +20,7 @@ class tPStr{
 	tPStr(const char *a);
 	tPStr();
 	void set(const char *a);
-	char *get(){return a;};
+	char *get()const{return a;};
 	bool notempty();
 	~tPStr();
 };

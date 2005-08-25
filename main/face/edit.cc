@@ -1110,7 +1110,7 @@ void tDEdit::toggle_time() {
 };
 
 
-void tDEdit::set_description(char *desc){
+void tDEdit::set_description(const char *desc){
 	if (desc)
 		text_to_combo(desc_entry,desc);
 	else
@@ -1180,7 +1180,7 @@ char *tDEdit::get_url(){
 	return(text_from_combo(url_entry));
 };
 
-void tDEdit::set_url(char *a) {
+void tDEdit::set_url(const char *a) {
 	text_to_combo(url_entry,a);
 };
 
