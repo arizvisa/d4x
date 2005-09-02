@@ -11,37 +11,44 @@
 #ifndef DOWNLOADER_SPEEDS_HEADER
 #define DOWNLOADER_SPEEDS_HEADER
 
-#include "queue.h"
 #include <pthread.h>
 #include "mutex.h"
+#include <set>
+#include <list>
+
+class d4xDownloadQueue;
 
 typedef long long fsize_t;
 
-struct tSpeed: public tNode{
+namespace d4x{
+	struct Speed{
 	private:
-int last_gived;
+		fsize_t last_gived;
 	public:
-	d4xMutex lock,lock1;
-	fsize_t bytes,base;
-	tSpeed();
-	virtual void print();
-	fsize_t init(fsize_t a);
-	void set(fsize_t a);
-	void decrement(fsize_t a);
-	~tSpeed();
-};
+		d4xMutex lock,lock1;
+		fsize_t bytes,base,base2;
+		Speed();
+		fsize_t init(fsize_t a);
+		void set(fsize_t a);
+		void decrement(fsize_t a);
+	};
 
 
-class tSpeedQueue:public tQueue{
+	class SpeedQueue{
+		std::set<Speed *> tolimit;
+		std::set<d4xDownloadQueue *> queues;
+		std::list<Speed *> qskip;
 	public:
-		tSpeedQueue();
-		virtual tSpeed *last();
-		virtual tSpeed *first();
-		virtual tSpeed *next();
-		virtual tSpeed *prev();
+		SpeedQueue();
+		void insert(d4xDownloadQueue *);
+		void del(d4xDownloadQueue *);
+		void insert(Speed *);
+		void del(Speed *);
+		void schedule(std::list<Speed*> &lst,fsize_t a);
 		void schedule(fsize_t a,int flag);
 		void schedule(unsigned int period);
-		~tSpeedQueue();
+		~SpeedQueue();
+	};
 };
 
 class d4xSpeedCalc{

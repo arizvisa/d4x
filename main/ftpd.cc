@@ -357,7 +357,8 @@ int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	};
 	config.copy_proxy(cfg);
 
-	if (config.proxy.type==0 && config.proxy.ftp_host.get() && config.proxy.ftp_port) {
+	if (config.proxy.type==0 && config.proxy.ftp_host.get()
+	    && config.proxy.ftp_host.get()[0] && config.proxy.ftp_port) {
 		FTP->init(config.proxy.ftp_host.get(),LOG,config.proxy.ftp_port,config.timeout);
 		char port[MAX_LEN];
 		port[0]=0;

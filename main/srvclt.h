@@ -11,13 +11,23 @@
 
 #ifndef MY_SERVER_CLIENT
 #define MY_SERVER_CLIENT
-#include "liststr.h"
 #include "mutex.h"
+#include <string>
+#include <list>
+#include <vector>
+#include "queue.h"
 
 struct tDownload;
 
+namespace d4x{
+	struct RemoteCommand{
+		int type;
+		std::vector<std::string> params;
+	};
+};
+
 class tMsgServer{
-	tStringList *list;
+	std::list<d4x::RemoteCommand> COMMANDS;
 	char *file;
 	d4xMutex lock;
 	pthread_t thread_id;
@@ -35,7 +45,8 @@ class tMsgServer{
         void run();
 	void run_thread();
 	void stop_thread();
-	tString *get_string();
+	d4x::RemoteCommand get_command();
+	bool empty();
 	~tMsgServer();
 };
 
@@ -99,6 +110,8 @@ enum {
 	PACKET_STOP,
 	PACKET_LSTREE,
 	PACKET_SWITCH_QUEUE,
+	PACKET_REFERER,
+	PACKET_OPENLIST,
 	PACKET_UNKNOWN
 };
 

@@ -1,11 +1,22 @@
+2.5.3
+	Added theme called 'gnomeria' from Ciprian Popovici;
+	Added theme called 'bluecurve' from Lucky;
+	Added ability to specify speed limit per queue;
+	Added '--referer' command line parameter;
+	Added '--al' command line parameter;
+	Fixed tray when DnD-basket isn't activated;
+	Fixed segfault after removing all alternates;
+	Fixed connecting to FTP alternates after restart of programm;
+
 2.5.2
 	Added automatically redirection by content of <META> tag of HTML file;
-	Added Czech translation (thanks to Luboš Staněk);
+	Added Czech translation (thanks to Lubo�¡ Staněk);
 	Added GNOME-tray support (thanks to egglib of Anders Carlsson);
 	Fixed segfault of first run;
 	Updated Hungarian translation (thanks to Sa'ndor Pinte'r);
 
 2.5.1
+	Added ability to show only queue info into title of the main window;
 	Added an ability to open file and folder from D4X (GNOME only);
 	Added ability to select action for double click on downloading item;
 	Added basic HTTPS support;
@@ -32,6 +43,7 @@
 	Fixed changin theme;
 	Fixed segfault after modifying scheduled download properties;
 	Fixed segfault after removing download wich size is queried by F5;
+	Fixed compilation with --disable-nls;
 	Updated Hungarian translation (thanks to Sa'ndor Pinte'r);
 	Updated Serbian translation (thanks to Brane Jovanovic);
 	Updated simplified Chinese translation (thanks to Liu Songhe);

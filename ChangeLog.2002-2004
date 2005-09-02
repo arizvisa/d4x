@@ -1,0 +1,2896 @@
+2004-05-23  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add admin/config.rpath admin/mkinstalldirs.
+	* configure.in (AC_CONFIG_FILES): Add po/Makefile.in,
+	(AM_GNU_GETTEXT_VERSION): Bump to 0.14.1.
+
+2003-06-23 04:44  max
+
+	* README.maint, VERSION: Release 2.5.0-beta2 tagged
+
+2003-06-22 18:39  max
+
+	* main/: nt.cc, segments.cc: fixed problems with downloading in
+	number of threads when two thread are write in the same part of
+	file;
+
+2003-06-22 14:59  max
+
+	* share/ftpsearch.xml: removed archie.is.co.za and ftpsystem.com
+	from FTP-search engines (first one was downgraded second one was
+	selled);
+
+2003-06-22 00:28  max
+
+	* main/face/: edit.cc, prefs.cc: some  interface cleanups;
+
+2003-06-21 15:00  max
+
+	* main/face/: list.cc, prefs.cc: fixed grabage about graph!=NULL in
+	stderr; fixed changing colors of graph on DnD-basket after applying
+	preferences;
+
+2003-06-20 20:52  max
+
+	* main/face/: about.cc, buttons.cc, dndtrash.cc, edit.cc,
+	filtrgui.cc, fsched.cc, list.cc, lod.cc, mywidget.cc, passface.cc,
+	prefs.cc, qtree.cc, saveload.cc: Interface and interface's code
+	cleanups from Syomin Pavel;
+
+2003-06-20 20:27  max
+
+	* ChangeLog, NEWS: again 2.5.0beta1 commiting;
+
+2003-06-20 20:26  max
+
+	* po/: bg.po, de.po, fr.po, hu.po, it.po, pt_BR.po, uk.po:
+	commiting 2.5.0 changes;
+
+2003-06-19 06:07  zaufi
+
+	* README, README.maint, admin/cvs.sh, m4/ac_pkg_info_header.m4:
+	Some fixes
+
+2003-06-19 00:38  max
+
+	* nt.spec.in: changes to built RPM on RedHat9;
+
+2003-06-19 00:38  max
+
+	* po/es.po: fixed
+
+2003-06-18 21:20  max
+
+	* po/: es.po, pt_BR.po: Updated Spanish and Portuguese-Brasillian
+	translation
+
+2003-06-18 21:14  max
+
+	* NEWS: updated for 2.5.0-beta1 release;
+
+2003-06-17 12:32  max
+
+	* main/: config.cc, dlist.cc, var.cc, var.h, face/list.cc,
+	face/lod.cc, face/prefs.cc: implemented number of links per
+	searching engine for FTP-search;
+
+2003-06-17 12:30  max
+
+	* TODO, po/ru.po: update Russian translation (by me); updated TODO
+	list;
+
+2003-06-11 22:59  max
+
+	* README, VERSION: Release 2.5.0-beta1 tagged
+
+2003-06-11 22:50  max
+
+	* TODO: updated info;
+
+2003-06-11 22:49  max
+
+	* main/face/pixmaps/size.xpm: one new icon for queue of downloads;
+
+2003-06-11 22:49  max
+
+	* main/face/pixmaps2/: offline.xpm, offline1.xpm: some icons added;
+
+2003-06-11 22:48  max
+
+	* main/: dlist.cc, dlist.h, download.h, dqueue.cc, dqueue.h,
+	fsearch.cc, fsearch.h, ftpd.cc, ftpd.h, hproxy.cc, hproxy.h,
+	http.cc, http.h, httpd.cc, httpd.h, main.cc, main.h, var.cc, var.h,
+	face/colors.cc, face/colors.h, face/edit.cc, face/filtrgui.cc,
+	face/fsched.cc, face/fsface.cc, face/fsface.h, face/list.cc,
+	face/lod.cc, face/lod.h, face/misc.cc, face/misc.h,
+	face/passface.cc, face/prefs.cc, face/pixmaps/clocks.xpm,
+	face/pixmaps/ftpsearch.xpm, face/pixmaps/mainlog.xpm,
+	face/pixmaps/urlmng.xpm: offline mode has been implemented;
+	implemented detection filesize without downloading by clicking F5
+	button; interface cleanups;
+
+2003-05-18 22:06  max
+
+	* main/face/: fsface.cc, fsface.h, list.cc, list.h: updated
+	FTP-search interface;
+
+2003-05-06 07:15  zaufi
+
+	* admin/cvs.sh: Fix error then local file found
+
+2003-04-30 18:45  vav
+
+	* Makefile.am, configure.in: More fixes of autoconf/automake stuff
+	(hopefull now compilation goes Ok).
+
+2003-04-30 16:37  vav
+
+	* Makefile.cvs, configure.in, admin/cvs.sh: Some fixes for
+	automake/autoconf stuff.
+
+2003-04-27 18:05  zaufi
+
+	* configure.in: Rollback AC_PREREQ
+
+2003-04-25 22:25  max
+
+	* main/: dlist.cc, dlist.h, log.cc, log.h, main.cc, msgqueue.cc,
+	msgqueue.h, face/list.cc, face/pixmaps/queues.xpm: fixed segfault
+	on removing download; no duplicate links in FTP-search's results;
+	interface changes;
+
+2003-04-25 07:47  zaufi
+
+	* Doxyfile.in, Makefile.am, Makefile.cvs, VERSION, configure.in,
+	admin/.cvsignore, admin/Doxyfile.in, admin/acinclude.m4,
+	admin/cvs-clean.pl, admin/cvs.sh, m4/am_with_rx.m4, m4/d4xao.m4,
+	m4/gcc_check_obsolete_option.m4, share/Makefile.am: Backport
+	configs
+
+2003-04-24 23:07  max
+
+	* TODO: updated;
+
+2003-04-24 23:06  max
+
+	* main/: config.cc, config.h, dlist.cc, fsearch.cc, fsearch.h,
+	main.cc, main.h, nt.cc, var.cc, var.h, face/filtrgui.cc,
+	face/fsched.cc, face/fsface.cc, face/list.cc, face/passface.cc,
+	face/prefs.cc: implemented FTP-search using number of engines (not
+	only one); implement searching for user typed filename; interface
+	cleanups;
+
+2003-04-23 22:31  max
+
+	* main/: alt.cc, alt.h, fsearch.cc: block "Find" button in
+	alternates dialog during search;
+
+2003-04-21 23:44  max
+
+	* main/face/pixmaps/: down.xpm, up.xpm: up and down icons;
+
+2003-04-21 23:42  max
+
+	* TODO: updated;
+
+2003-04-21 23:41  max
+
+	* main/face/pixmaps/: clocks.xpm, filters.xpm, ftpsearch.xpm,
+	mainlog.xpm, queues.xpm, urlmng.xpm: debug icons set;
+
+2003-04-21 23:40  max
+
+	* main/: config.cc, dlist.cc, dqueue.h, log.cc, main.cc, main.h,
+	nt.cc, segments.cc, segments.h, signal.cc, socket.cc, var.cc,
+	var.h, face/colors.cc, face/dndtrash.cc, face/filtrgui.cc,
+	face/filtrgui.h, face/fsched.cc, face/fsched.h, face/graph.cc,
+	face/graph.h, face/list.cc, face/list.h, face/lod.cc, face/log.cc,
+	face/log.h, face/misc.cc, face/misc.h, face/mywidget.cc,
+	face/mywidget.h, face/passface.cc, face/passface.h, face/prefs.cc,
+	face/qtree.cc, face/qtree.h: changed interface (MANY CHANGES);
+	rewritten segmentator code; implmented graph on DnD-basket;
+
+2003-03-02 00:09  max
+
+	* main/httpd.cc, main/face/misc.cc, po/bg.po, po/de.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/pt_BR.po, po/ru.po, po/uk.po,
+	po/fuzzy/pt_BR.po: updated Portuguese Brasilian translation by
+	Edson Lucas M Nascimento; fixed downloading via HTTP with empty
+	Content-Disposition in answer; fixed compilation without
+	--enable-extra-optimize;
+
+2003-02-28 15:03  zaufi
+
+	* README: BTW note added :)
+
+2003-02-28 14:48  zaufi
+
+	* README, configure.in: Fix --enable-extra-optimize options rewrite
+
+2003-02-28 14:10  zaufi
+
+	* admin/cvs.sh: gettext detection fixed for alphanumeric version
+	numbers (such as 0.12pre1)
+
+2003-02-26 20:47  max
+
+	* main/: alt.cc, config.cc, dlist.cc, dlist.h, fsearch.cc, main.cc,
+	main.h, mainlog.cc, nt.cc, savelog.cc, schedule.cc, face/addd.cc,
+	face/buttons.cc, face/dndtrash.cc, face/edit.cc, face/fsched.cc,
+	face/fsface.cc, face/list.cc, face/list.h, face/lmenu.cc,
+	face/lod.cc, face/log.h, face/misc.cc, face/misc.h,
+	face/mywidget.cc, face/passface.cc, face/prefs.cc, face/qtree.cc,
+	face/saveload.cc: fixed '--enable-extra-optimize'
+
+2003-02-12 19:48  zaufi
+
+	* share/Makefile.am: Fix DESTDIR support
+
+2003-01-29 09:45  zaufi
+
+	* Makefile.am: Fix: add admin/Makefile.addons to distr to make
+	automake happy
+
+2003-01-27 22:28  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.1 branched
+
+2003-01-27 12:40  max
+
+	* NEWS: Updated
+
+2003-01-27 12:37  zaufi
+
+	* admin/cvs.sh: Fix patch-release
+
+2003-01-27 12:19  max
+
+	* main/: dlist.cc, http.cc, http.h, httpd.cc, httpd.h: fixed
+	continued downloading in one thread vi HTTP;
+
+2003-01-26 14:24  max
+
+	* ChangeLog, NEWS: releasing 2.4.0
+
+2003-01-26 14:13  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.0 branched
+
+2003-01-26 14:05  max
+
+	* main/: main.cc, schedule.cc, schedule.h, sndserv.cc: do not run
+	too old scheduled actions; do not wait a second for completing
+	sndserver thread;
+
+2003-01-26 13:42  max
+
+	* configure.in: commented out PKG_CHECK_MODULES
+
+2003-01-26 13:10  max
+
+	* configure.in: fixed conflicts
+
+2003-01-24 07:43  max
+
+	* po/it.po: Updated Italian translation by diau
+
+2003-01-23 13:29  max
+
+	* main/sndserv.cc: fixed race condition
+
+2003-01-23 03:03  zaufi
+
+	* main/: Makefile.am, face/Makefile.am: Cosmetic fixes for
+	--enable-extra-optimize
+
+2003-01-19 10:23  zaufi
+
+	* configure.in, main/Makefile.am, main/face/Makefile.am: New
+	feature to make extra optimized release even more optimized :)
+
+2003-01-18 19:34  zaufi
+
+	* admin/cvs.sh: Replace reconf with link to cvs.sh
+
+2003-01-18 19:29  zaufi
+
+	* reconf, admin/cvs.sh: Replace reconf with link to cvs.sh
+
+2003-01-18 19:18  zaufi
+
+	* admin/cvs.sh: Fix version report
+
+2003-01-17 19:51  max
+
+	* main/face/list.cc: Decreased updating info in main winodw
+	frequence
+
+2003-01-16 15:05  max
+
+	* README.maint: added question
+
+2003-01-16 15:03  max
+
+	* TODO: updated
+
+2003-01-14 08:19  zaufi
+
+	* Makefile.cvs, README.maint: Just 4 fun fixes :)
+
+2002-12-27 15:05  zaufi
+
+	* admin/cvs.sh: Include path added to aclocal call
+
+2002-12-27 15:04  zaufi
+
+	* configure.in: Rollback to correct way gtk/glib detection
+
+2002-12-27 14:57  max
+
+	* TODO: updated
+
+2002-12-27 09:32  max
+
+	* TODO: update TODO file to version 2.9-3.0
+
+2002-12-26 08:00  max
+
+	* po/hu.po: Pinter Sandor finally fixed Hungarian translation :-)
+
+2002-12-25 12:57  max
+
+	* main/dlist.cc: different minimum sizes of the parts of splited
+	downloads for HTTP and FTP;
+
+2002-12-25 11:49  max
+
+	* main/: dlist.cc, dlist.h, main.cc, face/edit.cc, face/lod.cc:
+	fixed inheriting 'number of parts to split' for recursed files;
+	code cleanups;
+
+2002-12-25 06:30  zaufi
+
+	* main/Makefile.am: Fix symlink creation during rpm making
+
+2002-12-25 05:52  zaufi
+
+	* main/Makefile.am: make automake happy with install-exec-local
+
+2002-12-22 23:29  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po: make
+	new release (updated es and hu)
+
+2002-12-22 23:23  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.0-rc2
+	tagged
+
+2002-12-21 21:09  max
+
+	* NEWS: prepare to relase 2.4rc2
+
+2002-12-21 21:05  max
+
+	* ChangeLog, NEWS, main/Makefile.am: fixed creating link 'bin/d4x'
+	if it has been already created
+
+2002-12-19 20:16  zaufi
+
+	* Makefile.am: Redir stderr to stdout when build rpms
+
+2002-12-19 17:08  max
+
+	* main/: main.cc, main.h: implemeted rerun all URLs in queue
+	matched by http-recursing if new recursion depth is greater
+
+2002-12-19 11:16  max
+
+	* nt.spec.in: update changelog
+
+2002-12-19 11:09  max
+
+	* nt.spec.in: update for including symlink bin/d4x into rpm
+
+2002-12-18 07:53  max
+
+	* main/main.cc: some cleanups
+
+2002-12-18 07:44  max
+
+	* main/sndserv.cc: pthread_cancel
+
+2002-12-18 07:43  max
+
+	* main/sndserv.cc: added pthread_cancel()
+
+2002-12-17 09:55  max
+
+	* main/sndserv.cc: open /dev/dsp with O_NONBLOCK (I'll test it at
+	home today);
+
+2002-12-17 09:49  max
+
+	* main/face/: addd.cc, edit.cc, edit.h, passface.cc: fixed setting
+	username/password for URLs added automatically; do not ad automated
+	URL in history;
+
+2002-12-16 23:12  max
+
+	* main/sndserv.cc: code cleanups
+
+2002-12-16 22:55  max
+
+	* main/nt.cc, po/hu.po: fixed working with non utf locales (thanks
+	to Aleksandr Blokhin); update hungarian translation (thanks to
+	Pinter Sandor);
+
+2002-12-11 00:44  zaufi
+
+	* main/Makefile.am: Remove symlink when uninstall
+
+2002-12-11 00:34  zaufi
+
+	* admin/cvs.sh: Cleanups after gettextize
+
+2002-12-11 00:33  zaufi
+
+	* admin/Makefile.addons, README.maint: new make target added
+
+2002-12-01 02:57  zaufi
+
+	* Makefile.am: Remove 2nd 'intl' added by gettextize
+
+2002-12-01 02:48  zaufi
+
+	* main/Makefile.am: Fix error when symlink already exist (simplify
+	code :)
+
+2002-12-01 02:47  zaufi
+
+	* main/Makefile.am: Fix error when symlink already exist
+
+2002-12-01 02:37  zaufi
+
+	* Makefile.am: gettext 0.11.5 oriented support added
+
+2002-11-29 01:32  zaufi
+
+	* configure.in: dot detection fixed
+
+2002-11-29 01:05  zaufi
+
+	* Makefile.am: Fix doxygen start
+
+2002-11-29 00:53  zaufi
+
+	* configure.in: AC_PATH_PROG rollback (I have an old docs :)
+
+2002-11-28 19:56  zaufi
+
+	* Makefile.am: Error message fixed to be compatible with make
+	format
+
+2002-11-28 19:36  zaufi
+
+	* Makefile.cvs, admin/cvs.sh: code-stats goal added to maintainers
+	Makefile.cvs
+
+2002-11-28 08:59  zaufi
+
+	* README.maint: Forget to add autogen req
+
+2002-11-28 08:57  zaufi
+
+	* admin/cvs.sh: Fix english format release timestamps
+
+2002-11-28 08:51  zaufi
+
+	* admin/Makefile.addons: Make errors detection more correctness +
+	fix case when  !=
+
+2002-11-28 08:27  zaufi
+
+	* Doxyfile.in, README.maint, configure.in, admin/Makefile.addons,
+	admin/class.tpl, admin/cvs.sh, main/Makefile.am,
+	main/face/Makefile.am: * fix programs detection * added graphviz
+	dot tool detection * doxygen config fixed * set locale to 'en' when
+	add release date to README.maint * added files generation for new
+	class (as make new-class target)
+
+2002-11-24 23:38  max
+
+	* nt.spec.in: just pointing to links does not work :-(
+
+2002-11-24 23:30  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po:
+	after update-po (fixed hu.po);
+
+2002-11-24 23:22  max
+
+	* po/hu.po: Updated hungarian translation;
+
+2002-11-24 23:20  max
+
+	* ChangeLog, NEWS, nt.spec.in: prepare to release rc1
+
+2002-11-24 23:09  max
+
+	* Makefile.cvs, README.maint, configure.in: Release 2.4.0-rc1
+	tagged
+
+2002-11-24 23:04  max
+
+	* main/: autoadd.cc, face/edit.cc: fixed automatic adding with [];
+	fixed signal handler for focus-in/out event;
+
+2002-11-21 18:22  zaufi
+
+	* main/.cvsignore: Added bin_PROGRAMS as ignored file
+
+2002-11-20 15:10  zaufi
+
+	* configure.in, main/Makefile.am: Make symlink d4x --> nt while
+	install
+
+2002-11-13 18:32  max
+
+	* main/: dlist.cc, face/list.cc: fixed yesterday changes :-)
+
+2002-11-13 04:29  zaufi
+
+	* share/Makefile.am: Remove debugging rule
+
+2002-11-12 12:16  max
+
+	* main/face/: list.cc, lod.cc, lod.h, qtree.cc: try to implement
+	ability to remember current adjustement for queue
+
+2002-11-12 11:08  max
+
+	* main/var.cc: fixed five-digits limit for speed-limit (new limit
+	is six digits)
+
+2002-11-12 11:07  max
+
+	* main/: dlist.cc, main.cc, segments.cc, segments.h, face/list.cc:
+	implemented workarround for new apaches when they return 'request
+	is out of range' error; code cleanups;
+
+2002-11-10 19:38  zaufi
+
+	* .cvsignore: Add ignore files
+
+2002-11-10 19:37  zaufi
+
+	* .cvsignore, Makefile.am: Add clean and ignore files
+
+2002-11-10 11:36  zaufi
+
+	* configure.in: Spam little fixed :)
+
+2002-11-10 11:05  zaufi
+
+	* configure.in, admin/acinclude.m4: Add caching for obsolete option
+	checking
+
+2002-11-09 00:16  zaufi
+
+	* Doxyfile.in, Makefile.am, configure.in: Little fixes for doxygen
+	and rpm support
+
+2002-11-07 10:26  zaufi
+
+	* README, README.maint, admin/cvs.sh: Split README in2 users and
+	developers parts
+
+2002-11-07 10:06  zaufi
+
+	* configure.in: Fix race condition :)
+
+2002-11-07 09:36  zaufi
+
+	* configure.in, admin/acinclude.m4: --enable-extra-optimize tests
+	redesigned
+
+2002-11-07 08:05  zaufi
+
+	* configure.in: Fix sound libs support
+
+2002-11-07 07:34  zaufi
+
+	* Makefile.am, DOC/Makefile.am: Exclude doxygened html docs from
+	distr + new rpm builder added
+
+2002-11-07 06:52  zaufi
+
+	* Doxyfile.in, Makefile.am: Missed doxygen config added + enhanced
+	RPM build support coded
+
+2002-11-07 04:15  zaufi
+
+	* Makefile.am: Missed path fixed
+
+2002-11-07 04:06  zaufi
+
+	* Makefile.am, configure.in, admin/cvs.sh: Some bugs fixed +
+	doxygen support added
+
+2002-11-06 15:17  zaufi
+
+	* admin/cvs.sh: Fix '-' char for rpm creation
+
+2002-11-06 14:59  zaufi
+
+	* admin/cvs.sh: Fix spam and some bugs in version control code
+
+2002-11-06 14:21  zaufi
+
+	* Makefile.cvs, admin/cvs.sh: Fix cvs reconfigure
+
+2002-11-06 13:58  zaufi
+
+	* .cvsignore, ChangeLog, EXCLUDE, Makefile.am, NEWS, PACK, PLANS,
+	README, TODO, configure.in, nt-gray.png, nt-mini.xpm, nt-wm.png,
+	nt.desktop, nt.png, nt.spec.in, nt.wmconfig, nt.xpm, reconf: Merge
+	with current devel branch
+
+2002-11-06 13:53  zaufi
+
+	* main/addr.cc, main/addr.h, main/alt.cc, main/alt.h,
+	main/client.cc, main/client.h, main/config.cc, main/cookie.cc,
+	main/db.cc, main/db.h, main/dlist.cc, main/dlist.h, main/dqueue.cc,
+	main/dqueue.h, main/filter.h, main/fsearch.cc, main/fsearch.h,
+	main/ftp.cc, main/html.cc, main/html.h, main/http.cc,
+	main/httpd.cc, main/locstr.cc, main/locstr.h, main/log.cc,
+	main/main.cc, main/main.h, main/mainlog.cc, main/mainlog.h,
+	main/nt.cc, main/schedule.cc, main/schedule.h, main/segments.cc,
+	main/segments.h, main/sndserv.cc, main/socket.cc, main/sort.cc,
+	main/speed.h, main/var.cc, main/var.h, main/xml.cc,
+	main/face/Makefile.am, main/face/about.cc, main/face/addd.cc,
+	main/face/buttons.cc, main/face/columns.cc, main/face/dndtrash.cc,
+	main/face/edit.cc, main/face/edit.h, main/face/filtrgui.cc,
+	main/face/fsched.cc, main/face/fsface.cc, main/face/fsface.h,
+	main/face/graph.cc, main/face/list.cc, main/face/list.h,
+	main/face/lmenu.cc, main/face/lod.cc, main/face/lod.h,
+	main/face/log.cc, main/face/misc.cc, main/face/misc.h,
+	main/face/mywidget.cc, main/face/mywidget.h, main/face/passface.cc,
+	main/face/passface.h, main/face/prefs.cc, main/face/qtree.cc,
+	main/face/qtree.h, main/face/saveload.cc,
+	main/face/pixmaps/openlog.xpm, po/.cvsignore, po/Makevars, po/NEW,
+	po/POTFILES.in, po/REPLACE, po/bg.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ru.po, po/uk.po, share/Makefile.am,
+	share/d4x_aqua.png, share/nt-gray.png, share/nt-mini.xpm,
+	share/nt-wm.png, share/nt.desktop, share/nt.png, share/nt.wmconfig,
+	share/nt.xpm: Merge with current devel branch
+
+2002-11-06 13:49  zaufi
+
+	* DOC/INSTALL, DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr,
+	DOC/INSTALL.gr, DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR,
+	DOC/Makefile.am, DOC/nt.1, admin/acinclude.m4, admin/.cvsignore,
+	admin/EXCLUDE, admin/cvs.sh: Merge with current devel branch
+
+2002-11-06 13:46  zaufi
+
+	* DOC/Makefile.am: Merge with current devel
+
+2002-10-27 15:47  max
+
+	* DOC/nt.1, main/nt.cc: fixed segfault if LANG env variable does
+	not set; updated manual page
+
+2002-10-26 14:04  max
+
+	* po/es.po: updated Spanish translation by Gustavo D. Vranjes
+
+2002-10-26 00:58  max
+
+	* configure.in, nt.spec.in: fixed building rpms
+
+2002-10-26 00:33  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po:
+	fixed po files, update Russian translation
+
+2002-10-25 17:01  max
+
+	* NEWS: updated, preparing to release
+
+2002-10-25 16:13  max
+
+	* main/face/lod.cc: fixed unselecting files in queue by mask
+
+2002-10-25 15:17  max
+
+	* configure.in, admin/acinclude.m4, admin/d4xao.m4: moved all from
+	admin/d4xao.m4 to admin/acinclude.m4; remove duplicated
+	GTK_DISABLE_DEPRECATED from configure.in;
+
+2002-10-25 13:37  max
+
+	* admin/d4xao.m4: file d4xao.m4 was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-25 13:37  max
+
+	* NEWS, configure.in, admin/d4xao.m4: added workarround to detect
+	libao
+
+2002-10-25 09:32  max
+
+	* README: fixed my English :-)
+
+2002-10-25 09:17  max
+
+	* configure.in: revert back AM_PATH_ESD
+
+2002-10-25 09:14  zaufi
+
+	* Makefile.cvs: Add cvs-clean target
+
+2002-10-25 07:33  max
+
+	* main/face/: dndtrash.cc, list.cc: continue to cleanup DnD-basket;
+	remove some debug printf
+
+2002-10-25 01:16  max
+
+	* main/face/dndtrash.cc: do not allow to minimize or maximize
+	DnD-basket's window
+
+2002-10-25 01:05  max
+
+	* main/face/dndtrash.cc: set type of DnD-basket's window to DIALOG
+	(one way to hide it from task list)
+
+2002-10-25 00:47  max
+
+	* main/face/about.cc: added some graphics to about window :-)
+
+2002-10-24 21:57  max
+
+	* ChangeLog, NEWS: Updated :-)
+
+2002-10-24 21:50  max
+
+	* NEWS: updated
+
+2002-10-24 21:47  max
+
+	* main/face/about.cc: added pause before switching direction of
+	scrolling
+
+2002-10-24 16:34  max
+
+	* main/face/about.cc: redesigned about window
+
+2002-10-24 14:45  max
+
+	* main/face/prefs.cc: use gtk_window_present instead of
+	gdk_window_show
+
+2002-10-24 14:44  max
+
+	* main/face/mywidget.cc: real fix for displaying color :-)
+
+2002-10-24 14:40  max
+
+	* main/: log.cc, face/list.cc, face/lod.cc, face/log.cc,
+	face/mywidget.cc: fixed poping log window if it has been already
+	opened truncate files to save logs fixed displaing color in
+	selection widget
+
+2002-10-23 20:05  max
+
+	* README: added some info about upgrading from 2.0x to 2.4 with
+	storing data
+
+2002-10-23 14:44  max
+
+	* main/: dlist.cc, main.cc: fixed downloading from servers which
+	not support resuming
+
+2002-10-23 13:42  max
+
+	* NEWS, configure.in, main/dlist.cc, main/ftp.cc: added
+	GTK_DISABLE_DEPRECATED define to compilation stage do not send
+	'ABORT' command after breaking connection during downloading via
+	FTP fixed allocating best parts for download fixed loading if
+	resuming is not supported by server but we detected it in second
+	request
+
+2002-10-23 00:12  max
+
+	* configure.in, main/sndserv.cc: implemented libao patch from
+	Julien Blache
+
+2002-10-22 08:06  max
+
+	* configure.in, po/bg.po: fixed method to detect GTK2 (works fine
+	under RH8) updated bg.po
+
+2002-10-18 10:09  max
+
+	* configure.in: check for ESD via PKG_ macro
+
+2002-10-17 17:11  zaufi
+
+	* admin/cvs.sh: Fix missed backslash
+
+2002-10-17 17:11  max
+
+	* ChangeLog: updated
+
+2002-10-17 17:10  max
+
+	* NEWS: prepare to release 2.4beta2
+
+2002-10-17 17:00  max
+
+	* nt.spec.in: fixed requirements
+
+2002-10-17 16:59  max
+
+	* TODO: update
+
+2002-10-17 12:33  max
+
+	* main/client.cc: by default replacing '?' by '_' is turned off
+
+2002-10-17 12:22  max
+
+	* main/: client.cc, client.h, dlist.cc, html.cc, html.h, httpd.cc,
+	locstr.cc, locstr.h, face/edit.cc, face/edit.h: added option to use
+	'_' instead of '?' in stored filenames
+
+2002-10-16 17:26  max
+
+	* main/face/: list.cc, lod.cc, log.cc: use gtk_window_present in
+	some cases changed method to show utf-8 filenames in queue of
+	downloads
+
+2002-10-16 15:44  zaufi
+
+	* admin/.cvsignore: file .cvsignore was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-16 15:44  zaufi
+
+	* .cvsignore, admin/.cvsignore, po/.cvsignore: Added new files to
+	be ignored by CVS
+
+2002-10-16 14:03  max
+
+	* main/face/lod.cc: fixed unselecting all items on right mouse
+	button click
+
+2002-10-16 13:19  max
+
+	* main/: cookie.cc, db.cc, db.h, fsearch.cc, main.cc, sort.cc,
+	xml.cc: fixed memory leak in searching best cookie file code
+	cleanup memory before shutdown fixed memory leak in xml code
+
+2002-10-16 09:57  max
+
+	* main/config.cc: fixed storing and loading histories
+
+2002-10-16 09:27  zaufi
+
+	* admin/cvs.sh: Forget to remove unneeded flags for cvs2cl
+
+2002-10-16 09:25  zaufi
+
+	* Makefile.cvs, configure.in, admin/cvs.sh: Versions control coded
+	and tested
+
+2002-10-15 16:02  max
+
+	* main/face/lod.cc: fixed adding new download to the top of queue
+
+2002-10-14 14:24  zaufi
+
+	* admin/cvs.sh: Add gettext version checking
+
+2002-10-13 06:48  zaufi
+
+	* README: ...
+
+2002-10-13 06:44  zaufi
+
+	* Makefile.am, configure.in, admin/cvs.sh, po/.cvsignore,
+	po/Makevars, po/Makevars.in, po/NEW, po/REPLACE, share/Makefile.am:
+	Lot of fixes
+
+2002-10-13 06:44  zaufi
+
+	* po/Makevars: file Makevars was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/d4x_aqua.png: file d4x_aqua.png was initially added on
+	branch rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* admin/EXCLUDE: file EXCLUDE was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* admin/cvs.sh: file cvs.sh was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt-mini.xpm: file nt-mini.xpm was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt-gray.png: file nt-gray.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.png: file nt.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.wmconfig: file nt.wmconfig was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.desktop: file nt.desktop was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* po/Makevars.in: file Makevars.in was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt-wm.png: file nt-wm.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* share/nt.xpm: file nt.xpm was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* Makefile.cvs: file Makefile.cvs was initially added on branch
+	rel-2-0-gtk2.
+
+2002-10-12 02:58  zaufi
+
+	* ChangeLog, EXCLUDE, Makefile.am, Makefile.cvs, PACK,
+	configure.in, d4x_aqua.png, nt-gray.png, nt-mini.xpm, nt-wm.png,
+	nt.desktop, nt.png, nt.wmconfig, nt.xpm, reconf, DOC/INSTALL,
+	DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr, DOC/INSTALL.gr,
+	DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR, DOC/Makefile.am,
+	admin/EXCLUDE, admin/cvs.sh, po/Makevars.in, po/POTFILES.in,
+	share/Makefile.am, share/d4x_aqua.png, share/nt-gray.png,
+	share/nt-mini.xpm, share/nt-wm.png, share/nt.desktop, share/nt.png,
+	share/nt.wmconfig, share/nt.xpm: We r ready for GTK+ 2 + some new
+	features started to be intergated
+
+2002-10-11 19:31  max
+
+	* main/: ftp.cc, http.cc, main.cc, nt.cc: Log cleanups
+
+2002-10-10 00:33  max
+
+	* TODO: update TODO
+
+2002-10-08 14:28  max
+
+	* main/dlist.cc: fixed holes in downloaded file
+
+2002-10-08 11:09  max
+
+	* main/segments.cc: fixed joining overlaped areas in segmentator
+
+2002-10-06 19:01  max
+
+	* configure.in: changed version from 2.4-beta to 2.4beta (due spec
+	file's limitations)
+
+2002-10-06 19:00  max
+
+	* Makefile.am: EXTRA_DIST updated
+
+2002-10-06 18:55  max
+
+	* main/var.cc, po/bg.po, po/de.po, po/es.po, po/fr.po, po/hu.po,
+	po/it.po, po/ru.po, po/uk.po: make update-po done, Hungarian
+	translation updated
+
+2002-10-04 18:11  max
+
+	* main/: main.cc, speed.h: reset speed statistics from time to time
+
+2002-10-04 17:17  max
+
+	* main/dlist.cc: change minimal part of multithreaded downloads
+
+2002-10-04 17:04  max
+
+	* main/: main.cc, face/log.cc: fixed non utf strings in log titles
+
+2002-10-04 16:56  max
+
+	* main/face/list.cc: only utf8 strings in windows title!
+
+2002-10-04 16:55  max
+
+	* main/face/lod.cc: fixed non UTF strings in status bar
+
+2002-10-04 16:41  max
+
+	* NEWS, main/addr.cc, main/addr.h, main/dlist.cc, main/main.cc,
+	main/mainlog.cc, main/socket.cc, main/face/edit.cc,
+	main/face/list.cc, main/face/lmenu.cc, main/face/lod.cc,
+	main/face/misc.cc, main/face/mywidget.cc: color selection in
+	'Graph' section of Common properties works now fixed various non
+	UTF-8 strings (e.g. if url contain non utf-8 strings) fixed speed
+	calculation again fixed recursion via http for multithreaded
+	downloads
+
+2002-10-04 10:40  max
+
+	* ChangeLog, NEWS: preparing to new release
+
+2002-10-04 10:18  max
+
+	* main/face/: lod.cc, qtree.cc: expand queue tree during loading
+
+2002-10-04 09:24  max
+
+	* NEWS, PLANS, TODO, configure.in: updated
+
+2002-10-04 09:24  max
+
+	* main/face/qtree.cc: removed debug printf
+
+2002-10-04 09:21  max
+
+	* main/dlist.cc: fixed sgfaults when link loading in number of
+	threads
+
+2002-10-04 08:53  max
+
+	* main/face/mywidget.cc: forgot to commit yesterday (fixed typos)
+
+2002-10-03 17:11  max
+
+	* main/: dlist.cc, dlist.h, ftp.cc, main.cc, mainlog.cc,
+	segments.cc, socket.cc, speed.h, face/about.cc, face/buttons.cc,
+	face/dndtrash.cc, face/edit.cc, face/filtrgui.cc, face/fsched.cc,
+	face/fsface.cc, face/graph.cc, face/list.cc, face/lmenu.cc,
+	face/lod.cc, face/log.cc, face/misc.cc, face/mywidget.cc,
+	face/mywidget.h, face/passface.cc, face/prefs.cc, face/qtree.cc,
+	face/saveload.cc: all deprecated GTK routines have been replaced by
+	nondepricated! conitunue to work on overlaping detection
+
+2002-10-03 08:21  max
+
+	* main/: dlist.cc, log.cc, main.cc, mainlog.cc, segments.cc,
+	face/edit.cc, face/list.cc: fixed segfaults on startup and shutdown
+	(due my last changes)
+
+2002-10-02 17:40  max
+
+	* main/segments.cc: fixed overlaping detection
+
+2002-10-02 17:18  max
+
+	* main/: client.cc, client.h, config.cc, dlist.cc, dlist.h, ftp.cc,
+	http.cc, httpd.cc, main.cc, main.h, mainlog.cc, nt.cc, segments.cc,
+	segments.h, var.cc, var.h, face/list.cc, face/mywidget.cc,
+	face/prefs.cc: fixed some non-utf locale problems (eg DnD from
+	mozilla) extended downloading splited files! "number of parts to
+	split files" property in "Default properties" now!
+
+2002-10-01 14:59  max
+
+	* main/client.cc: fixed storing username and password for
+	HTTP-proxy
+
+2002-09-30 19:39  max
+
+	* main/face/: buttons.cc, edit.cc, pixmaps/openlog.xpm: fixed
+	sizing of "open log" icon in buttonsbar fixed wrong percentage set
+	when applying new download's preferences
+
+2002-09-30 16:24  max
+
+	* nt.spec.in, main/face/about.cc, main/face/buttons.cc,
+	main/face/edit.cc, main/face/mywidget.cc, main/face/saveload.cc:
+	replaced deprecated gtk_window_set_policy by
+	gtk_window_set_resizable changed gtk>=1.2.10 requirements by
+	gtk>=2.0.6
+
+2002-09-30 15:31  max
+
+	* configure.in: ESD support via PKG_ defines
+
+2002-09-29 14:09  max
+
+	* TODO: forget to point out
+
+2002-09-29 14:08  max
+
+	* configure.in, main/alt.cc, main/mainlog.cc, main/face/about.cc,
+	main/face/addd.cc, main/face/buttons.cc, main/face/dndtrash.cc,
+	main/face/edit.cc, main/face/filtrgui.cc, main/face/fsched.cc,
+	main/face/fsface.cc, main/face/list.cc, main/face/lmenu.cc,
+	main/face/lod.cc, main/face/log.cc, main/face/misc.cc,
+	main/face/mywidget.cc, main/face/passface.cc, main/face/prefs.cc,
+	main/face/qtree.cc, main/face/saveload.cc: almost all
+	gtk_signal_... instanses  have been replaced by apropriate
+	g_signal_...  no more GtkPixmaps only GtkImage instead of use
+	GtkImageMenuItem in context menu of queue of downloads interface
+	cleanups in "Edit common properties" dialog continue to working
+	under 2.4-beta!
+
+2002-09-28 15:39  max
+
+	* main/face/: lod.cc, qtree.cc, qtree.h: DnD from one queue to
+	another has been fully implemented
+
+2002-09-27 21:23  max
+
+	* d4x_aqua.png: file d4x_aqua.png was initially added on branch
+	rel-2-0-gtk2.
+
+2002-09-27 21:23  max
+
+	* d4x_aqua.png: added new icon to CVS tree
+
+2002-09-27 21:21  max
+
+	* main/face/lod.cc: continue to reimplement DnD on GTK2
+
+2002-09-26 14:03  max
+
+	* configure.in, main/face/dndtrash.cc, main/face/list.cc,
+	main/face/lod.cc: DnD-basket has been ported to GTK2!
+
+2002-09-15 15:12  max
+
+	* main/: filter.h, main.cc, face/dndtrash.cc, face/filtrgui.cc,
+	face/lod.cc, face/misc.cc, face/misc.h, face/mywidget.cc,
+	face/mywidget.h, face/passface.cc: code cleanups replace CList in
+	filter selection dialog by TreeView
+
+2002-09-15 15:11  max
+
+	* TODO: updated
+
+2002-09-14 21:50  max
+
+	* main/face/: buttons.cc, lod.cc, prefs.cc: Themes selector uses
+	GtkTreeView+ListStore! It seems to me that only filter manager uses
+	CList!!!
+
+2002-09-14 19:58  max
+
+	* main/face/: dndtrash.cc, passface.cc: yeah, DnD-basket is able to
+	show now. No real DnD yet
+
+2002-09-14 18:28  max
+
+	* main/face/: lod.cc, passface.cc, passface.h: one more CList
+	replaced
+
+2002-09-13 10:41  max
+
+	* main/face/: edit.cc, lod.cc: replaced gtk_signal_* by g_signal_*
+	in these two files
+
+2002-09-13 09:10  max
+
+	* main/face/edit.cc: one more CList replaced
+
+2002-09-13 08:34  max
+
+	* TODO: updated
+
+2002-09-12 17:59  max
+
+	* main/: schedule.cc, schedule.h, face/fsched.cc, face/mywidget.cc:
+	interface of scheduler has been ported to GTK2's widgets
+
+2002-09-12 11:19  max
+
+	* main/face/: edit.cc, mywidget.cc, mywidget.h, prefs.cc: fliter
+	selector uses TreeView+ListStore instead of CList
+
+2002-09-11 18:02  max
+
+	* main/: alt.cc, alt.h, http.cc, face/fsface.cc, face/lod.cc,
+	face/misc.h, face/mywidget.cc, face/mywidget.h, face/saveload.cc:
+	double click on FTP-search process now works d4xLinksSel widget
+	uses GtkTreeView+GtkListStore instead of GtkCList fixed wrong %lli
+	format in printing chunk sizes to the log
+
+2002-09-11 11:50  max
+
+	* main/: mainlog.cc, face/list.cc, face/lod.cc, face/log.cc: log
+	windows of downloads use GtkTreeView+GtkListStore instead of
+	GtkCList changed method to colorize main log
+
+2002-09-10 16:41  max
+
+	* main/face/lod.cc: check loaded info about columns visibility and
+	sizes
+
+2002-09-10 16:25  max
+
+	* main/face/lod.cc: view for queue of downloads is almost fully
+	realized
+
+2002-09-10 09:08  max
+
+	* main/face/: lod.cc, lod.h: changing columns' visibility has been
+	implemented
+
+2002-09-09 19:10  max
+
+	* main/face/: lod.cc, lod.h: begin to implement ability to hide
+	columns of download's queue
+
+2002-09-09 16:30  max
+
+	* main/face/qtree.cc: code cleanups
+
+2002-09-09 16:17  max
+
+	* main/face/lod.cc: storing and restoring sizes of columns has been
+	implmented
+
+2002-09-09 15:32  max
+
+	* main/face/: list.cc, lod.cc, lod.h: store columns visibility and
+	order of queue of downloads fixed saving keybinds
+
+2002-09-08 19:05  max
+
+	* main/: mainlog.cc, face/list.cc, face/lod.cc, face/qtree.cc,
+	face/qtree.h: MainLog widget has almost fully functionality (except
+	open errors) All ScrolledWindows of main window has SHADOW_IN
+	shadow
+
+2002-09-08 12:02  max
+
+	* main/: mainlog.cc, face/list.cc: colored strings in main log (via
+	markup abilities)
+
+2002-09-08 03:46  max
+
+	* configure.in, main/fsearch.cc, main/fsearch.h, main/main.cc,
+	main/mainlog.cc, main/mainlog.h, main/face/dndtrash.cc,
+	main/face/edit.cc, main/face/fsface.cc, main/face/fsface.h,
+	main/face/list.cc, main/face/list.h, main/face/lod.cc,
+	main/face/lod.h: deep hacking to gtk2 :-) main log and fTP-search
+	list is GTK2 widgets now dnd trash also begin to be ported!!!
+
+2002-09-06 19:36  max
+
+	* main/: main.cc, face/dndtrash.cc, face/lod.cc, face/qtree.cc:
+	continue to make port
+
+2002-09-06 18:12  max
+
+	* main/: dqueue.cc, dqueue.h, main.cc, face/list.cc, face/lod.cc,
+	face/prefs.cc, face/qtree.cc, face/qtree.h: one more step to
+	version 2.2 :-)
+
+2002-09-06 15:53  max
+
+	* TODO, main/face/lod.cc: only DnD left to implement for queue of
+	downloads
+
+2002-09-06 15:05  max
+
+	* main/face/lod.cc: double click on the download opens log window
+
+2002-09-06 14:47  max
+
+	* main/face/: Makefile.am, buttons.cc, fsface.cc, list.cc,
+	lmenu.cc, lod.cc, prefs.cc, qtree.cc, qtree.h: preferences dialog
+	is worked! :-) continue to work under queue of downloads
+
+2002-09-06 09:35  max
+
+	* main/face/lod.cc: implement moving items up and down in GTK2
+
+2002-09-05 18:41  max
+
+	* main/face/lod.cc: moving downloads up does work (moving down does
+	not)
+
+2002-09-05 18:17  max
+
+	* TODO, main/face/addd.cc, main/face/list.cc, main/face/lmenu.cc,
+	main/face/lod.cc, main/face/prefs.cc: Uahahaaaa!!! It's worked
+	(DnD-Basket must be turned off, LANG="C") :-) of course most part
+	of the work wait for us ahead :-)
+
+2002-09-05 16:13  max
+
+	* main/: dqueue.cc, main.cc, face/buttons.cc, face/columns.cc,
+	face/fsface.cc, face/list.cc, face/lod.cc, face/lod.h: it compiles
+	now with GTK2 but I didn't run it yet :-) all CList and CTree
+	structures must be replaced by TreeView/Store
+
+2002-09-04 18:25  max
+
+	* main/: dlist.cc, face/addd.cc, face/columns.cc, face/list.cc,
+	face/lmenu.cc, face/lod.cc, face/lod.h: oooh last changes for today
+	%-/
+
+2002-09-04 17:04  max
+
+	* main/: dlist.h, face/edit.cc, face/filtrgui.cc, face/lod.cc,
+	face/lod.h, face/log.cc, face/saveload.cc: continue conitnue
+	continue cont.... porting to GTK+2 (-Beavis! It's sux! - Ya,
+	Butthead...)
+
+2002-09-04 15:17  max
+
+	* main/face/: columns.cc, dndtrash.cc, lmenu.cc, prefs.cc,
+	qtree.cc: more GTK2 changes (porting in the progress)
+
+2002-09-04 12:28  max
+
+	* main/face/: Makefile.am, buttons.cc, fsface.cc, graph.cc,
+	list.cc, lod.cc, misc.cc, mywidget.cc, passface.cc, prefs.cc: many
+	GTK2 changes
+
+2002-08-31 13:18  max
+
+	* README: updated some info
+
+2002-08-30 21:27  max
+
+	* configure.in, main/face/about.cc, main/face/fsched.cc,
+	main/face/misc.cc, main/face/misc.h: begin to implement gtk2 port
+
+2002-08-30 21:07  max
+
+	* configure.in, main/face/about.cc, main/face/fsched.cc,
+	main/face/misc.cc, main/face/misc.h: move back some gtk-1.2.x stuff
+
+2002-08-30 18:00  max
+
+	* configure.in: GTK2.0 changes
+
+2002-08-30 17:29  max
+
+	* main/face/: about.cc, fsched.cc, misc.cc, misc.h: begin updating
+	new branch with port to gtk2
+
+2002-08-29 09:44  max
+
+	* nt.spec.in: forget about ftpsearch.xml file
+
+2002-08-28 23:46  max
+
+	* main/face/log.cc: forget about chaging %li to %lli
+
+2002-08-28 12:54  max
+
+	* NEWS: release 2.03
+
+2002-08-27 20:28  max
+
+	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ru.po, uk.po:
+	'make udpdate-po' has been executed Russian translation updated
+
+2002-08-27 20:18  max
+
+	* main/fsearch.cc, po/POTFILES.in: fixed localization of some
+	strings
+
+2002-08-27 18:27  max
+
+	* main/: dlist.cc, locstr.cc, locstr.h: fixed loading and saving
+	sizes of download-queue
+
+2002-08-27 17:46  max
+
+	* main/sm.cc: fixed last fix :-)
+
+2002-08-27 14:32  max
+
+	* NEWS, configure.in, main/sm.cc, main/socket.cc, main/socket.h:
+	send QUIT command before closing stored FTP-sockets increment
+	version
+
+2002-08-27 12:27  max
+
+	* ChangeLog, NEWS: updated info
+
+2002-08-27 12:09  max
+
+	* main/: dlist.cc, ftp.h, socket.cc: fixed sending QUIT command
+	after completing loading via FTP fixed "follow symbolic links"
+	during recursion via FTP
+
+2002-08-26 09:29  max
+
+	* main/dlist.cc: fixed loading links as file from recursion
+
+2002-08-21 17:45  max
+
+	* share/themes/old_theme.xml: slightly chaged to demostrate new
+	abilities
+
+2002-08-21 17:42  max
+
+	* main/: fsearch.cc, locstr.cc, locstr.h, xml.cc: code cleanups;
+	it's possible now use &gt; &lt; codes in xml files;
+
+2002-08-21 16:46  max
+
+	* share/themes/: glass2.xml, glass2/dnd1.png, glass2/dnd2.png:
+	added modified 'The Glass' theme
+
+2002-08-21 15:48  max
+
+	* ChangeLog, NEWS: updated
+
+2002-08-21 14:00  max
+
+	* main/: config.cc, config.h: added '-a' command line switch
+
+2002-08-20 13:12  max
+
+	* configure.in, main/client.cc, main/client.h, main/dlist.cc,
+	main/download.cc, main/download.h, main/ftp.cc, main/ftp.h,
+	main/ftpd.cc, main/http.cc, main/http.h, main/httpd.cc,
+	main/locstr.cc, main/main.cc, main/savedvar.cc, main/savedvar.h,
+	main/speed.h, main/var.cc, main/var.h: fixed working with BIG files
+	(over 2.1GB) loading via FTP was tested loading via HTTP not yet
+	testet due problems with apache I do not know yet what to do with
+	SIGFSX
+
+2002-08-19 16:24  max
+
+	* NEWS: updated again :-)
+
+2002-08-19 15:57  max
+
+	* main/: alt.cc, alt.h, dlist.cc, dlist.h, fsearch.cc, main.cc,
+	main.h, face/lmenu.cc, face/mywidget.cc, face/mywidget.h:
+	FTP-search in context menu do not arrange alternates any more added
+	"Find" button to "alternates" dialog
+
+2002-08-19 13:22  max
+
+	* NEWS: updated too :-)
+
+2002-08-19 13:13  max
+
+	* ChangeLog: updated
+
+2002-08-17 13:11  max
+
+	* main/fsearch.cc: fixed segfaults after reping
+
+2002-08-16 15:04  max
+
+	* ChangeLog, Makefile.am, configure.in, main/dqueue.cc,
+	main/main.cc, main/face/qtree.cc: fixed reping on FTP-search
+	cleanuped queues tree interface
+
+2002-08-15 21:42  max
+
+	* main/dlist.cc, main/fsearch.cc, main/locstr.cc,
+	share/ftpsearch.xml: fixed str_replace_regex added more ftp-search
+	engines
+
+2002-08-15 18:50  max
+
+	* main/: alt.cc, dlist.cc: fixed search when ftpsearch.xml file not
+	found
+
+2002-08-15 17:50  max
+
+	* main/: dlist.cc, dlist.h, fsearch.cc, fsearch.h, main.cc,
+	face/prefs.cc: extended number of FTP-search engines
+
+2002-08-15 17:46  max
+
+	* share/ftpsearch.xml: added two more engines
+
+2002-08-15 16:21  max
+
+	* share/: Makefile.am, ftpsearch.xml: added file describing
+	FTP-search engines;
+
+2002-08-13 19:02  max
+
+	* po/: hu.po, fuzzy/hu.po: Hungarian translation updated thanks to
+	Sandor Pinter.
+
+2002-08-01 15:17  max
+
+	* main/: client.cc, client.h, dlist.cc, dlist.h, main.cc,
+	face/addd.cc, face/buttons.cc, face/edit.cc, face/list.cc,
+	face/lod.cc, face/lod.h, face/passface.cc: move "restar from begin"
+	out from default scope; fixed compilation with --enable-debug;
+	"Shift+continue download" now restart downloads from begin;
+
+2002-07-30 09:01  max
+
+	* main/: recode.cc, recode.h: forget to add :-)
+
+2002-07-19 08:52  max
+
+	* main/: main.cc, main.h, face/addd.cc: fixed displaying the
+	download which is already added when 'stop after adding' was
+	selected
+
+2002-07-18 17:32  max
+
+	* share/themes/old_theme/dnd1.png: slightly changed old DND-Basket
+
+2002-07-18 16:22  max
+
+	* configure.in: increment version number
+
+2002-07-18 15:08  max
+
+	* main/: Makefile.am, face/edit.cc, face/edit.h: implemented recode
+	from cp1251 to koi8r of filenames
+
+2002-07-16 08:36  zaufi
+
+	* reconf: use -q instead /dev/null
+
+2002-07-06 03:55  zaufi
+
+	* configure.in: Fix case when no optimiztations req
+
+2002-07-03 23:29  max
+
+	* po/ru.po: typos fixing
+
+2002-06-29 08:45  zaufi
+
+	* configure.in: Fix compiling of included get text + fix default
+	mode to release
+
+2002-06-27 10:55  zaufi
+
+	* Makefile.am: Fixed dist-hook
+
+2002-06-27 10:47  zaufi
+
+	* DOC/Makefile.am: Missing READMEs fixed
+
+2002-06-27 10:37  zaufi
+
+	* Makefile.am, configure.in, DOC/Makefile.am, main/Makefile.am,
+	main/face/Makefile.am, po/bg.po, po/de.po, po/es.po, po/fr.po,
+	po/it.po, po/ru.po, po/uk.po, share/Makefile.am: Fixed support for
+	building with $srcdir != $builddir
+
+2002-06-24 08:58  max
+
+	* main/ftpd.cc: fixed getting date of the file from ftp.gnome.org
+
+2002-06-22 20:16  max
+
+	* po/ru.po: Updated Russian translation
+
+2002-06-22 20:11  max
+
+	* ChangeLog, NEWS, TODO: prepare to release 2.02
+
+2002-06-21 12:01  max
+
+	* main/: config.cc, main.cc, nt.cc, var.cc, var.h, face/buttons.cc,
+	face/dndtrash.cc, face/lod.cc, face/prefs.cc: added ability to
+	change themes directory
+
+2002-06-20 23:21  max
+
+	* main/face/lod.cc: fixed changing icon to wait-icon after sorting
+	whole queue
+
+2002-06-19 15:14  max
+
+	* main/: addr.cc, addr.h, dlist.cc: fixed loading directories with
+	spaces in the name during recursion from non RFC sites
+
+2002-06-16 22:37  max
+
+	* po/uk.po: Ukrainian translation updated by Olexander Kunytsa
+
+2002-06-15 02:19  max
+
+	* share/themes/old_theme/queue/: complete.png, failed.png,
+	paused.png, run.png, runbad.png, runpart.png, stopwait.png,
+	wait.png: [no log message]
+
+2002-06-15 02:13  max
+
+	* main/: main.cc, main.h, face/lod.cc, face/lod.h, face/prefs.cc:
+	redraw all icons in queue after theme changes
+
+2002-06-14 13:25  max
+
+	* TODO, configure.in, main/face/buttons.cc, main/face/lod.cc,
+	share/themes/old_theme.xml: extended old-theme!
+
+2002-06-14 10:55  max
+
+	* main/: client.h, dlist.cc, face/edit.cc, face/edit.h,
+	face/list.cc, face/prefs.cc: added back "load links as file" option
+
+2002-06-13 12:05  max
+
+	* po/: bg.po, de.po, es.po, fr.po, it.po, ru.po, uk.po: updated
+	Italian and Spanish translations
+
+2002-06-13 12:05  max
+
+	* main/dqueue.cc: fixed compiling under gcc3.01
+
+2002-06-11 23:38  max
+
+	* main/: dqueue.cc, httpd.cc: fixed compilling with gcc-3.1 fixed
+	updating info during download
+
+2002-06-07 09:12  max
+
+	* main/hproxy.cc: fixed compilation problems with gcc3.1
+
+2002-06-06 09:20  max
+
+	* TODO: updated
+
+2002-06-06 09:20  max
+
+	* ChangeLog, NEWS: prepare to release version 2.01
+
+2002-06-06 09:16  max
+
+	* po/: bg.po, de.po, es.po, fr.po, it.po, uk.po: make update-po
+
+2002-06-06 09:08  max
+
+	* main/face/passface.cc, po/ru.po: remove fuzzy mark
+
+2002-06-06 09:05  max
+
+	* po/ru.po: added two more messages
+
+2002-06-06 08:58  max
+
+	* po/ru.po: updated russian translationn
+
+2002-06-06 08:49  max
+
+	* po/: ru.po, uk.po, fuzzy/uk.po: Olexander Kunytsa have updated
+	Ukrainian translation;
+
+2002-06-05 15:47  max
+
+	* ChangeLog, NEWS: prepare to release 2.01
+
+2002-06-05 12:49  max
+
+	* main/: config.cc, var.cc, var.h, face/addd.cc, face/edit.cc,
+	face/prefs.cc: remember last state of "use default cfg" checkbox
+
+2002-06-05 09:38  max
+
+	* main/dlist.cc: implemented recurse through ram files.
+
+2002-06-02 18:05  max
+
+	* NEWS: updated
+
+2002-06-02 16:18  max
+
+	* main/face/list.cc: added "Queue" submenu to main menu
+
+2002-06-01 12:55  max
+
+	* main/face/: passface.cc, passface.h: fixed recalc run downloads
+	after changing URL-regexp in URL-manager fixed rerun wait subqueues
+
+2002-05-31 20:12  max
+
+	* main/face/passface.cc: begin to implement but too busy now
+
+2002-05-29 16:49  max
+
+	* configure.in: increment version number
+
+2002-05-29 16:35  max
+
+	* main/face/passface.cc: fixed changing connections' limit; remove
+	some debug printfs;
+
+2002-05-28 23:04  max
+
+	* main/face/dndtrash.cc: no delays beetween appear tooltip and
+	showing progress
+
+2002-05-28 11:11  max
+
+	* NEWS, main/client.cc, main/face/edit.cc, main/face/edit.h,
+	main/face/fsched.cc: Fixed storing preset preferences of scheduled
+	download;
+
+2002-05-28 09:27  max
+
+	* NEWS: updated
+
+2002-05-28 09:07  max
+
+	* ChangeLog: updated
+
+2002-05-28 09:02  max
+
+	* main/: dqueue.cc, main.cc: fixed working connections limits with
+	splited downloads; fixed adding to queue of update;
+
+2002-05-27 08:53  max
+
+	* main/ftpd.cc: fixed downloading wildcard by FTP
+
+2002-05-26 10:26  max
+
+	* main/face/: dndtrash.cc, dndtrash.h, list.cc: show progress bar
+	in tooltip of DnD-Basket
+
+2002-05-26 08:09  max
+
+	* main/face/edit.cc: forgot about changing URL of downloads and
+	connections' limits
+
+2002-05-26 02:30  max
+
+	* configure.in, main/dqueue.cc, main/main.cc, main/savedvar.cc,
+	main/face/edit.cc, main/face/passface.cc, main/face/passface.h:
+	absolutely forgot about DL_LIMIT :-)
+
+2002-05-26 00:11  max
+
+	* main/face/edit.cc: cleanuped "edit download's preferences"
+	dialog; do not store regex-URL in history
+
+2002-05-25 23:11  max
+
+	* TODO, main/main.cc: fixed race condition in queue update cicle
+
+2002-05-25 22:04  max
+
+	* main/main.cc: fixed removing from matched list at removing from
+	queue
+
+2002-05-25 17:43  max
+
+	* main/: main.cc, face/passface.cc, face/passface.h: connections'
+	limits seems to be completed (bug hunting begin :-))
+
+2002-05-25 16:23  max
+
+	* configure.in, main/main.cc, main/main.h, main/face/lod.cc,
+	main/face/passface.cc, main/face/passface.h: continue to work under
+	implementation of connections' limits.	Only few things left to be
+	implemented
+
+2002-05-24 17:26  max
+
+	* main/: dlist.h, main.cc, face/passface.cc, face/passface.h: one
+	more step to implement connections' limits
+
+2002-05-23 22:35  max
+
+	* main/: dlist.cc, dlist.h, face/edit.cc, face/passface.cc,
+	face/passface.h: one more step to implment connections limits
+
+2002-05-23 12:19  max
+
+	* main/client.cc: fixed compilations problems
+
+2002-05-22 19:20  max
+
+	* main/dqueue.cc: fixed updating queues during load after today's
+	optimisations
+
+2002-05-22 16:02  max
+
+	* main/: client.cc, client.h, dlist.h, dqueue.cc, main.cc,
+	savedvar.cc, face/edit.cc, face/edit.h, face/passface.cc: begin to
+	impletment connections limitats
+
+2002-05-22 09:40  max
+
+	* main/: dlist.cc, dlist.h, dqueue.cc, dqueue.h, main.cc: optimize
+	queues updates
+
+2002-05-21 19:31  zaufi
+
+	* Makefile.am: Clean *~
+
+2002-05-21 19:19  zaufi
+
+	* Makefile.am, main/Makefile.am, main/face/Makefile.am: Clean *~
+
+2002-05-21 18:33  vav
+
+	* main/main.cc: bug in detecting multiple subqueues when only one
+	root queue exists fixed again
+
+2002-05-21 18:22  vav
+
+	* main/dqueue.cc: bugfix: PAPA was not initialized on queue
+	replacing
+
+2002-05-21 14:17  max
+
+	* main/: ftpd.cc, ftpd.h: fixed double PORT on downloading
+	directories
+
+2002-05-21 11:30  max
+
+	* main/ftp.cc: fixed switching active-passive modes
+
+2002-05-21 10:47  max
+
+	* TODO, configure.in, main/face/lod.cc: fixed wrong queue stats in
+	queues-trees after sorting whole queue
+
+2002-05-07 23:46  max
+
+	* ChangeLog, po/bg.po, po/de.po, po/es.po, po/fr.po, po/it.po,
+	po/ru.po: Forget to commit after releasing 2.0
+
+2002-05-07 08:44  max
+
+	* main/main.cc: fixed segfault during any FTP-search if traffic was
+	limited
+
+2002-05-06 22:25  max
+
+	* main/dlist.cc: fixed wrong locking
+
+2002-05-06 11:38  max
+
+	* main/face/: buttons.cc, fsched.cc, list.cc: fixed segfault during
+	loading queues in some cases fixed segfault when opening Scheduler
+
+2002-04-29 21:34  max
+
+	* NEWS, configure.in: Prepare to release new version
+
+2002-04-29 18:56  max
+
+	* main/: ftp.h, ftpd.h, hproxy.h, http.h, httpd.h, socks.h: fixed
+	compilation with gcc3.0.4
+
+2002-04-29 18:54  max
+
+	* main/: main.h, face/about.h, face/qtree.h: fixed compiling with
+	gcc3.0.4
+
+2002-04-29 10:53  max
+
+	* NEWS: Updated NEWS file
+
+2002-04-29 10:18  max
+
+	* main/face/pixmaps/: add.xpm, add_clipboard.xpm, continue.xpm,
+	delcommini.xpm, delmini.xpm, downmini.xpm, logmini.xpm,
+	runmini.xpm, stop_bar.xpm, stopmini.xpm, upmini.xpm: Toolbar's
+	icons have been cleanuped Menu icons was replaced
+
+2002-04-28 11:29  max
+
+	* main/main.h: fixed compilation under gcc-3.0.4
+
+2002-04-27 16:08  max
+
+	* share/themes/glass/: dnd1.png, dnd2.png: cleanup Glass theme
+
+2002-04-27 16:06  max
+
+	* main/: main.cc, face/log.cc: show 'not active' state in the log
+	window for parts of splited download which are stopped
+
+2002-04-23 21:13  max
+
+	* main/main.cc: fixed '-d' command line parameter
+
+2002-04-18 14:08  max
+
+	* main/main.cc: decreased number of started/stopped downloads per
+	second to 5-10
+
+2002-04-14 16:18  max
+
+	* main/: main.cc, face/log.cc: fixed creating 'Main' queue at first
+	run without face.  fixed segfault by Ctrl+NUM in log window of
+	single threaded download.
+
+2002-04-10 14:45  max
+
+	* main/face/passface.cc: fixed setting user/password by URL-manager
+
+2002-04-07 07:53  zaufi
+
+	* Makefile.am: Update list of maintainder-clean files (I'm already
+	use automake 1.6)
+
+2002-04-07 07:42  zaufi
+
+	* configure.in: Move all -D compiler options as defines in config.h
+
+2002-04-07 07:36  zaufi
+
+	* main/face/Makefile.am: ... maybe we need to use some tricks? :)
+
+2002-04-07 06:35  zaufi
+
+	* configure.in: Use .po files list to define ALL_LINGUAS instead of
+	static list
+
+2002-04-06 13:24  max
+
+	* NEWS: prepare to release RC3
+
+2002-04-05 16:07  max
+
+	* ChangeLog: updated using cvs2pl
+
+2002-04-05 16:06  max
+
+	* configure.in: prepare to RC3
+
+2002-04-04 10:03  max
+
+	* main/: cookie.cc, dlist.cc, dqueue.cc, ftp.cc, ftpd.cc,
+	hproxy.cc, http.cc, main.cc, socks.cc, srvclt.cc, face/about.cc,
+	face/fsched.cc, face/list.cc, face/lod.cc, face/qtree.cc: removed
+	default parameters from *.cc files if them was declared in *.h
+
+2002-04-04 09:02  max
+
+	* PLANS: updated plans
+
+2002-04-04 08:33  max
+
+	* po/bg.po: updated Bulgarian translation by Miroslav Iordanov
+
+2002-04-02 09:48  max
+
+	* main/dlist.cc: removed debug code
+
+2002-04-02 09:46  max
+
+	* main/dlist.cc: fixed "only subdirs" option
+
+2002-04-01 16:05  max
+
+	* main/main.cc: fix last fix :-)
+
+2002-04-01 16:03  max
+
+	* main/main.cc: fixed transform DnD-basket to menu for one queue
+	with many subqueues
+
+2002-03-30 23:40  max
+
+	* TODO, main/dlist.cc, main/ftpd.cc, main/locstr.cc: replaced
+	lockf() by fcntl() call when lock Descript.ion file remove spaces
+	from then end of the strings in the log support one more nonRFC
+	FTP-server
+
+2002-03-30 19:12  max
+
+	* main/face/log.cc: interface cleanups
+
+2002-03-29 05:39  zaufi
+
+	* .cvsignore: Fix ignore list
+
+2002-03-28 16:40  max
+
+	* main/: addr.cc, alt.cc, autoadd.cc, base64.cc, client.cc,
+	config.cc, cookie.cc, db.cc, dlist.cc, download.cc, dqueue.cc,
+	eff.cc, filter.cc, fsearch.cc, ftp.cc, ftpd.cc, history.cc,
+	hproxy.cc, html.cc, http.cc, httpd.cc, liststr.cc, locstr.cc,
+	log.cc, main.cc, mainlog.cc, memwl.cc, meter.cc, msgqueue.cc,
+	mutex.cc, nt.cc, ping.cc, queue.cc, savedvar.cc, savelog.cc,
+	schedule.cc, segments.cc, signal.cc, sm.cc, sndserv.cc, socket.cc,
+	socks.cc, sort.cc, speed.cc, srvclt.cc, var.cc, xml.cc,
+	face/about.cc, face/addd.cc, face/buttons.cc, face/colors.cc,
+	face/columns.cc, face/dndtrash.cc, face/edit.cc, face/filtrgui.cc,
+	face/fsched.cc, face/fsface.cc, face/graph.cc, face/list.cc,
+	face/lmenu.cc, face/lod.cc, face/log.cc, face/misc.cc,
+	face/myclist.cc, face/mywidget.cc, face/passface.cc, face/prefs.cc,
+	face/qtree.cc, face/saveload.cc: remove #include <package_config.h>
+
+2002-03-28 16:29  max
+
+	* TODO: updated
+
+2002-03-28 15:43  zaufi
+
+	* configure.in: Fix for format of maintainer spam under MDK 8.2
+
+2002-03-28 15:25  zaufi
+
+	* Makefile.am, configure.in: Fix uncompilable included gettext
+
+2002-03-28 14:03  max
+
+	* main/: main.cc, face/log.cc, face/log.h: show additional info in
+	log window for splited downloads
+
+2002-03-28 12:18  max
+
+	* main/: dlist.cc, socket.cc, face/edit.cc, face/lmenu.cc: first
+	part of splited download is always larger than other check for
+	returned value of "gethostbyname_r" rearranged right mouse click
+	menu of queue dim "common properties" if only one download selected
+	fixed applying "compare date of remote file with local one"
+
+2002-03-28 11:25  max
+
+	* main/: main.cc, face/list.cc: fixed stoping splited downloads
+	(manualy or at exiting) fixed run without interface fixed info
+	about running download when run with '-w'
+
+2002-03-28 09:56  max
+
+	* TODO: add some bugs to fix, some features to implement
+
+2002-03-24 06:13  zaufi
+
+	* Makefile.am: Remove files from EXTRA_DIST wich is duplicates of
+	std distributed files (automake take care bout this)
+
+2002-03-22 14:17  max
+
+	* ChangeLog, NEWS, configure.in: prepare to release 2.0RC2
+
+2002-03-22 12:28  max
+
+	* main/autoadd.cc: fixed generating URLs by "autoadding" if autoadd
+	expression is closed by constant substring.
+
+2002-03-22 10:25  max
+
+	* main/nt.cc: use VERSION defined by autoconf
+
+2002-03-22 09:58  max
+
+	* main/main.cc: fixed stopping apropriate thread of splited
+	download
+
+2002-03-21 11:58  max
+
+	* main/face/list.cc: display valid "save path" in "Add new
+	Download" dialog for DnD via basket
+
+2002-03-21 11:43  max
+
+	* main/: xml.cc, xml.h, face/buttons.cc, face/dndtrash.cc: added
+	routine for easy getting value of a xml object related code
+	cleanups
+
+2002-03-20 22:15  zaufi
+
+	* admin/strip.awk: Fix for Slackware wich is have strange awk...
+
+2002-03-20 14:31  max
+
+	* po/: bg.po, de.po, es.po, fr.po, it.po, ru.po: po files after
+	last 'make update-po'
+
+2002-03-20 10:43  max
+
+	* Makefile.am: added back 'nt.spec' to EXTRA_DISTS
+
+2002-03-20 10:39  max
+
+	* main/nt.cc: version number is RC2
+
+2002-03-20 10:39  max
+
+	* NEWS: added RC1 changes
+
+2002-03-20 10:32  max
+
+	* main/: dlist.cc, httpd.cc: fixed loading via HTTP with rollback
+	enabled
+
+2002-03-20 09:29  zaufi
+
+	* Makefile.am: Remove ChangeLog from list of cleaned files
+
+2002-03-20 09:28  zaufi
+
+	* reconf: do KILL 'EM ALL! only if maintainer mode configured
+
+2002-03-20 09:02  zaufi
+
+	* README: make it cleaner... but future update still req
+
+2002-03-20 08:56  zaufi
+
+	* admin/strip.awk: Improved version
+
+2002-03-20 08:46  max
+
+	* ChangeLog: Added changlog produced by cvs2pl
+
+2002-03-19 23:01  max
+
+	* ChangeLog, Makefile.am, NEWS, configure.in, main/nt.cc,
+	main/face/dndtrash.cc: global changelog moved to NEWS fixed active
+	size of DnD-menu of DnD-basket
+
+2002-03-19 16:53  max
+
+	* PLANS: changed plans about port to GTK2
+
+2002-03-18 14:23  max
+
+	* po/de.po: update translation to German by Thomas R. Koll
+
+2002-03-18 14:19  max
+
+	* main/: autoadd.cc, nt.cc: fixed generating strings by 'automating
+	adding' feature
+
+2002-03-17 22:54  zaufi
+
+	* configure.in: Add --enable-extra-optimize for highly optimize
+	code, --enable-release now produce -O2 optimized code
+
+2002-03-17 22:39  zaufi
+
+	* admin/acinclude.m4: fix comments
+
+2002-03-17 20:06  max
+
+	* configure.in, main/dqueue.cc, main/main.cc: changed default
+	optimization flag to -O2 fixed using memory after freeing
+
+2002-03-16 20:03  zaufi
+
+	* configure.in: Fix incorrect directory
+
+2002-03-16 19:52  zaufi
+
+	* .cvsignore: Add ignore list
+
+2002-03-16 19:45  zaufi
+
+	* configure.in: strip.awk moved to admin
+
+2002-03-16 19:44  zaufi
+
+	* admin/strip.awk, strip.awk: Move strip.awk to admin
+
+2002-03-16 15:46  max
+
+	* main/: main.cc, main.h, nt.cc, face/qtree.cc: remove
+	completed/failed downloads if apropriate feature was set on queue
+
+2002-03-16 06:11  zaufi
+
+	* configure.in: Comment 'bout maintainer mode
+
+2002-03-16 04:05  zaufi
+
+	* po/.cvsignore: Add files to ignore list
+
+2002-03-16 04:04  zaufi
+
+	* DOC/.cvsignore: Add .cvsignore
+
+2002-03-16 01:39  max
+
+	* main/: nt.cc, face/dndtrash.cc, face/list.cc: added border to
+	tree menu of DnD-basket fixed storing keybinds
+
+2002-03-15 16:55  max
+
+	* main/: dqueue.cc, dqueue.h, main.cc, main.h, nt.cc, face/addd.cc,
+	face/dndtrash.cc, face/dndtrash.h, face/edit.cc, face/edit.h,
+	face/list.cc, face/lod.cc: DnD-basket will transform to queues menu
+	when queues is more than one.  Some code was cleanuped and fixed.
+
+2002-03-15 10:46  max
+
+	* configure.in, reconf, main/Makefile.am, main/face/edit.cc,
+	main/face/fsched.cc, po/es.po: remove cond.o from main/Makefile.am
+	fixed segfault when shedule a download from queue fixed segfault
+	when edit properties of scheduled download from scheduler if a
+	download has "use default properties" set Spanish translation have
+	update by Gustavo D. Vranjes
+
+2002-03-14 13:33  zaufi
+
+	* configure.in, admin/acinclude.m4: Little fixes
+
+2002-03-14 13:12  zaufi
+
+	* admin/acinclude.m4: Add support to choose between gawk regex and
+	rx
+
+2002-03-14 13:12  zaufi
+
+	* configure.in: Add support to choose betwen gawk regex and rx
+
+2002-03-14 12:57  zaufi
+
+	* reconf, Makefile.am: Remove killing ./admin dir -- now we need it
+	in CVS :)
+
+2002-03-14 12:54  zaufi
+
+	* configure.in: Fix for FreeBSD (wich is not req -lpthread)
+
+2002-03-14 12:27  zaufi
+
+	* configure.in: Remove duplicate options from CPPFLAGS and LIBS
+
+2002-03-14 12:16  zaufi
+
+	* strip.awk: Remove duplicates from list
+
+2002-03-14 08:51  max
+
+	* configure.in, po/fr.po, po/fuzzy/fr.po: Jerome Courdec has
+	updated French translation
+
+2002-03-14 08:21  zaufi
+
+	* main/: Makefile.am, face/Makefile.am: Cool aligned file list :)
+
+2002-03-13 23:13  zaufi
+
+	* configure.in: Misconfiguration fix
+
+2002-03-13 15:22  max
+
+	* main/main.cc: switching to alternate for single-threaded
+	downloads
+
+2002-03-13 11:47  max
+
+	* Makefile.am: I use emacs :-) remove backup files
+
+2002-03-13 11:32  zaufi
+
+	* main/Makefile.am, main/face/Makefile.am, DOC/Makefile.am,
+	share/Makefile.am, Makefile.am, configure.in, reconf: KILL THEM ALL
+	IMPLEMENTED :)
+
+2002-03-13 09:10  max
+
+	* PLANS, README: plans changed gettext >= 0.10.38 needed
+
+2002-03-13 08:56  max
+
+	* po/it.po: Marco Martin has updated italian translation
+
+2002-03-13 07:06  zaufi
+
+	* reconf: Checking admin dir presence. Remove inactual comments :)
+
+2002-03-13 06:48  zaufi
+
+	* DOC/Makefile.am: Use macro AWK instead direct call to awk :)
+
+2002-03-13 06:45  zaufi
+
+	* Makefile.am: Remove files is not neccessary to be listed in
+	EXTRA_DIST
+
+2002-03-13 00:00  max
+
+	* ChangeLog, main/ChangeLog, main/dqueue.cc, main/dqueue.h,
+	main/main.cc, main/main.h, main/face/list.cc: Fixed one more bug
+
+2002-03-12 19:08  vav
+
+	* reconf: reconf: removed unneeded echo
+
+2002-03-12 18:22  vav
+
+	* configure.in: configure.in: GTK_PIXBUG_CFLAGS =>
+	GTK_PIXBUF_CFLAGS :)
+
+2002-03-12 13:31  max
+
+	* main/face/prefs.cc: extend traffic limitation entry by one
+	character
+
+2002-03-12 11:40  max
+
+	* ChangeLog, main/ftp.cc, main/ftp.h: fixed one more problem with
+	splited loading via FTP
+
+2002-03-12 10:35  max
+
+	* main/: ChangeLog, dlist.cc, nt.cc, face/pixmaps/del_all.xpm:
+	fixed splited downloading via FTP replaced "Delete All" icon by new
+	one
+
+2002-03-12 08:28  zaufi
+
+	* DOC/Makefile.am: Add .Z to list of possible man's extensions
+
+2002-03-12 07:43  zaufi
+
+	* share/Makefile.am: Avoid using yet another variable...  will be
+	enough
+
+2002-03-12 07:32  zaufi
+
+	* configure.in: * Maintainer mode fix. Possibility to install
+	stripped executable
+
+2002-03-12 06:50  zaufi
+
+	* main/face/passface.cc: * Fix compile error: passface.cc:254:
+	S_IRUSR undeclared (first use this function)
+
+2002-03-12 06:46  zaufi
+
+	* Makefile.am: * Change order of subdirs to produce correctnes
+	sequence during 'make install'
+
+2002-03-12 06:36  zaufi
+
+	* DOC/Makefile.am: * Man pages compression with 'system wide'
+	archiver on the fly
+
+2002-03-11 17:15  max
+
+	* main/: ChangeLog, face/dndtrash.cc, face/list.cc: real fix coords
+	normalization
+
+2002-03-11 17:01  max
+
+	* main/face/: list.cc, list.h: changed coordinates normalization
+	routine
+
+2002-03-11 14:27  max
+
+	* main/: ftpd.cc, httpd.cc: fixed wrong percentage for downloads
+	which use already opened socket
+
+2002-03-11 12:20  max
+
+	* ChangeLog: updated
+
+2002-03-11 11:23  max
+
+	* main/face/qtree.cc: 'maximum active downloads' entry was replaced
+	by spinbutton widget
+
+2002-03-11 11:01  zaufi
+
+	* configure.in: * Regex chacking added. Workaround for gettext
+	0.10.38 added
+
+2002-03-11 10:10  zaufi
+
+	* DOC/Makefile.am: * bzip2 man pages on the fly
+
+2002-03-11 08:42  max
+
+	* configure.in, po/bg.po, po/fuzzy/bg.po: Added updated Bulgarian
+	translation (thanks to Miroslav Iordanov)
+
+2002-03-10 22:40  max
+
+	* DOC/nt.1: completed manual
+
+2002-03-10 19:21  max
+
+	* DOC/nt.1: slightly change manual page
+
+2002-03-10 18:55  max
+
+	* ChangeLog, main/main.cc, main/nt.cc, main/face/list.cc,
+	main/face/passface.cc, main/face/passface.h, po/de.po, po/es.po,
+	po/it.po, po/ru.po: URL-manager is completed done 'make update-po',
+	ru.po is uptodate;
+
+2002-03-10 15:13  max
+
+	* main/: ChangeLog, Makefile.am, dlist.cc, main.cc, pass.cc,
+	pass.h, var.cc, var.h, face/edit.cc, face/edit.h, face/list.cc,
+	face/passface.cc, face/passface.h: begin to implement URL-manager
+
+2002-03-10 13:16  max
+
+	* po/fuzzy/: de.po, es.po, it.po: removed
+
+2002-03-10 06:22  zaufi
+
+	* Makefile.am: * Add goal to create src rpms
+
+2002-03-10 06:18  zaufi
+
+	* configure.in: * Fix CPU detection bug
+
+2002-03-09 22:46  max
+
+	* main/config.cc: small fix of the output queue-list by '--ls'
+
+2002-03-09 22:34  max
+
+	* ChangeLog, PLANS, TODO, nt.spec.in: Updated spec.in (yeah package
+	name is d4x now) Populate changelog
+
+2002-03-09 15:43  max
+
+	* main/nt.cc: changed textdomain from 'nt' to 'd4x'
+
+2002-03-09 15:29  max
+
+	* main/ChangeLog, main/config.cc, main/config.h, main/main.cc,
+	main/nt.cc, main/srvclt.cc, main/srvclt.h, main/face/qtree.cc,
+	po/de.po, po/es.po, po/it.po, po/ru.po: More detailed output by
+	'--ls' Added one more command line parameter to switch queue 'make
+	update-po' was done
+
+2002-03-09 10:57  zaufi
+
+	* main/face/list.cc: * Fix compile error: 629: S_IRUSR undeclared
+	(first use this function)
+
+2002-03-09 10:52  zaufi
+
+	* configure.in: * cosmetic fix
+
+2002-03-09 10:50  zaufi
+
+	* Makefile.am, configure.in, DOC/Makefile.am, main/Makefile.am,
+	main/face/Makefile.am, share/Makefile.am: * Fix make distr and make
+	install to produce distr and provide successful installation
+	process
+
+2002-03-09 08:43  zaufi
+
+	* configure.in: * Fix output files
+
+2002-03-09 08:39  zaufi
+
+	* Makefile.am: * Update list of files should be in distribute
+
+2002-03-09 08:34  zaufi
+
+	* configure.in: Continue to import features from old Makefile
+
+2002-03-09 08:14  zaufi
+
+	* po/.cvsignore: Add list of files to be ignored by CVS
+
+2002-03-09 08:08  zaufi
+
+	* .cvsignore, main/.cvsignore, main/face/.cvsignore,
+	main/.cvsignore: Add list of files to be ignored by CVS
+
+2002-03-09 08:04  zaufi
+
+	* .cvsignore, share/.cvsignore: Add list of files to be ignored by
+	CVS
+
+2002-03-09 00:56  max
+
+	* ABOUT-NLS.orig, nt.spec.in, po/ru.po: cleanups sources, it's
+	enough for today
+
+2002-03-09 00:26  max
+
+	* COPYING, LICENSE: oops :-)
+
+2002-03-09 00:23  max
+
+	* AUTHORS, LICENSE: populate this files by info about project
+
+2002-03-08 19:02  max
+
+	* nt.spec.in: now rpms be built without errors
+
+2002-03-08 18:45  max
+
+	* nt.spec.in: hmm
+
+2002-03-08 18:24  max
+
+	* configure.in: fixed AC_CONFIG_SRCDIR fixed my email
+
+2002-03-08 18:04  max
+
+	* Makefile.am, configure.in: fixed some typos
+
+2002-03-08 18:00  max
+
+	* Makefile.am: added spec files to extradist
+
+2002-03-08 17:58  max
+
+	* configure.in: added spec file to the output targets list
+
+2002-03-08 17:57  max
+
+	* nt.spec: replaced by spec.in
+
+2002-03-08 17:56  max
+
+	* nt.spec.in: first version of spec.in
+
+2002-03-07 16:06  max
+
+	* configure.in: po/Makefile will be generated even on my PC
+
+2002-03-07 12:20  zaufi
+
+	* Makefile.am: * Add non source files that should be in distr
+
+2002-03-07 12:06  zaufi
+
+	* configure.in: * Remove duplicate tests + cosmetic fixes
+
+2002-03-07 11:39  zaufi
+
+	* reconf: * Fix bug if ./reconf started more than once. Remove
+	gettextize spam.
+
+2002-03-07 11:34  max
+
+	* main/ChangeLog: updated
+
+2002-03-07 11:29  max
+
+	* ChangeLog, reconf, main/face/prefs.cc: interface cleanups
+
+2002-03-07 11:06  zaufi
+
+	* share/Makefile.am: * Skip cvs related files installing
+
+2002-03-07 10:36  max
+
+	* main/face/dndtrash.cc: fixed wrong positioning DnD-basket during
+	moving
+
+2002-03-07 10:00  max
+
+	* ChangeLog, main/face/dndtrash.cc: Updated changelog Code cleanups
+	in dnd-basket code
+
+2002-03-07 09:13  max
+
+	* share/sounds/Makefile: removed as unused
+
+2002-03-06 17:12  max
+
+	* ABOUT-NLS, ABOUT-NLS.orig, reconf: to avoid adding big gettext's
+	NLS file to cvs and package
+
+2002-03-06 17:07  max
+
+	* Makefile.am, configure.in: generate po/Makefile too
+
+2002-03-06 17:00  max
+
+	* po/POTFILES.in: forgot to add
+
+2002-03-06 16:44  max
+
+	* Makefile.am, configure.in, reconf: gettext support added (I hope)
+
+2002-03-06 16:28  max
+
+	* ABOUT-NLS: cleared
+
+2002-03-06 16:26  max
+
+	* ABOUT-NLS, Makefile.am, configure.in, reconf: one more
+	reincarnation
+
+2002-03-06 15:04  max
+
+	* po/nt.pot: removed as autogenerated
+
+2002-03-06 14:26  max
+
+	* ABOUT-NLS: is needed for gettext
+
+2002-03-06 14:25  max
+
+	* po/: Makefile, POTFILES: removed
+
+2002-03-06 14:21  max
+
+	* configure.in, main/sndserv.cc: continue to work under autoconf
+
+2002-03-06 12:59  max
+
+	* main/: sndserv.cc, face/prefs.cc: real using new defines;
+
+2002-03-06 10:59  max
+
+	* main/nt.cc: using LOCALEDIR define instead of LOCALE
+
+2002-03-06 10:54  max
+
+	* main/sndserv.cc: using new defines for sound support
+
+2002-03-06 10:27  max
+
+	* configure.in: new version from zaufi;
+
+2002-03-06 09:46  zaufi
+
+	* configure.in: [no log message]
+
+2002-03-06 09:23  max
+
+	* AUTHORS, ChangeLog, ChangeLog-1.x, EXCLUDE, Makefile.am, NEWS,
+	PACK, PLANS, README, TODO, configure.in, nt-gray.png, nt-mini.xpm,
+	nt-wm.png, nt.desktop, nt.png, nt.spec, nt.wmconfig, nt.xpm,
+	reconf, DOC/FAQ, DOC/FAQ.de, DOC/FAQ.es, DOC/FAQ.fr, DOC/FAQ.gr,
+	DOC/INSTALL, DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr,
+	DOC/INSTALL.gr, DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR,
+	DOC/LICENSE, DOC/NAMES, DOC/README, DOC/README.de, DOC/README.en,
+	DOC/README.es, DOC/README.gr, DOC/README.pl, DOC/README.pt_BR,
+	DOC/README.ru, DOC/THANKS, DOC/TROUBLES, DOC/nt.1, main/ChangeLog,
+	main/Makefile.am, main/addr.cc, main/addr.h, main/alt.cc,
+	main/alt.h, main/autoadd.cc, main/autoadd.h, main/base64.cc,
+	main/base64.h, main/client.cc, main/client.h, main/cond.cc,
+	main/cond.h, main/config.cc, main/config.h, main/cookie.cc,
+	main/cookie.h, main/db.cc, main/db.h, main/dbc.h, main/dlist.cc,
+	main/dlist.h, main/download.cc, main/download.h, main/dqueue.cc,
+	main/dqueue.h, main/eff.cc, main/eff.h, main/filter.cc,
+	main/filter.h, main/fsearch.cc, main/fsearch.h, main/ftp.cc,
+	main/ftp.h, main/ftpd.cc, main/ftpd.h, main/history.cc,
+	main/history.h, main/hproxy.cc, main/hproxy.h, main/html.cc,
+	main/html.h, main/http.cc, main/http.h, main/httpd.cc,
+	main/httpd.h, main/liststr.cc, main/liststr.h, main/locstr.cc,
+	main/locstr.h, main/log.cc, main/log.h, main/main.cc, main/main.h,
+	main/mainlog.cc, main/mainlog.h, main/memwl.cc, main/memwl.h,
+	main/meter.cc, main/meter.h, main/msgqueue.cc, main/msgqueue.h,
+	main/mutex.cc, main/mutex.h, main/nt.cc, main/ntlocale.h,
+	main/pass.cc, main/pass.h, main/ping.cc, main/ping.h,
+	main/queue.cc, main/queue.h, main/savedvar.cc, main/savedvar.h,
+	main/savelog.cc, main/savelog.h, main/schedule.cc, main/schedule.h,
+	main/segments.cc, main/segments.h, main/signal.cc, main/signal.h,
+	main/sm.cc, main/sm.h, main/sndserv.cc, main/sndserv.h,
+	main/socket.cc, main/socket.h, main/socks.cc, main/socks.h,
+	main/sort.cc, main/sort.h, main/speed.cc, main/speed.h,
+	main/srvclt.cc, main/srvclt.h, main/var.cc, main/var.h,
+	main/xml.cc, main/xml.h, main/face/Makefile.am, main/face/about.cc,
+	main/face/about.h, main/face/addd.cc, main/face/addd.h,
+	main/face/buttons.cc, main/face/buttons.h, main/face/colors.cc,
+	main/face/colors.h, main/face/columns.cc, main/face/columns.h,
+	main/face/dndtrash.cc, main/face/dndtrash.h, main/face/edit.cc,
+	main/face/edit.h, main/face/filtrgui.cc, main/face/filtrgui.h,
+	main/face/fsched.cc, main/face/fsched.h, main/face/fsface.cc,
+	main/face/fsface.h, main/face/graph.cc, main/face/graph.h,
+	main/face/list.cc, main/face/list.h, main/face/lmenu.cc,
+	main/face/lmenu.h, main/face/lod.cc, main/face/lod.h,
+	main/face/log.cc, main/face/log.h, main/face/misc.cc,
+	main/face/misc.h, main/face/myclist.cc, main/face/myclist.h,
+	main/face/mywidget.cc, main/face/mywidget.h, main/face/passface.cc,
+	main/face/passface.h, main/face/prefs.cc, main/face/prefs.h,
+	main/face/qtree.cc, main/face/qtree.h, main/face/saveload.cc,
+	main/face/saveload.h, main/face/pixmaps/add.xpm,
+	main/face/pixmaps/add_clipboard.xpm, main/face/pixmaps/cfgbt.xpm,
+	main/face/pixmaps/complete.xpm, main/face/pixmaps/continue.xpm,
+	main/face/pixmaps/del.xpm, main/face/pixmaps/del_all.xpm,
+	main/face/pixmaps/del_com.xpm, main/face/pixmaps/delcommini.xpm,
+	main/face/pixmaps/delmini.xpm, main/face/pixmaps/dnd.xpm,
+	main/face/pixmaps/dndtrash.xpm, main/face/pixmaps/dndtrash_bar.xpm,
+	main/face/pixmaps/dndtrashi.xpm, main/face/pixmaps/down_bar.xpm,
+	main/face/pixmaps/downmini.xpm, main/face/pixmaps/folder.xpm,
+	main/face/pixmaps/load.xpm, main/face/pixmaps/logmini.xpm,
+	main/face/pixmaps/main.xpm, main/face/pixmaps/ofolder.xpm,
+	main/face/pixmaps/openlog.xpm, main/face/pixmaps/paused.xpm,
+	main/face/pixmaps/percent.xpm, main/face/pixmaps/percent1.xpm,
+	main/face/pixmaps/percent2.xpm, main/face/pixmaps/percent3.xpm,
+	main/face/pixmaps/prefs.xpm, main/face/pixmaps/run1.xpm,
+	main/face/pixmaps/run2.xpm, main/face/pixmaps/run3.xpm,
+	main/face/pixmaps/run4.xpm, main/face/pixmaps/run5.xpm,
+	main/face/pixmaps/run6.xpm, main/face/pixmaps/run7.xpm,
+	main/face/pixmaps/run8.xpm, main/face/pixmaps/run_bad.xpm,
+	main/face/pixmaps/run_bad1.xpm, main/face/pixmaps/run_bad2.xpm,
+	main/face/pixmaps/run_bad3.xpm, main/face/pixmaps/run_bad4.xpm,
+	main/face/pixmaps/run_bad5.xpm, main/face/pixmaps/run_bad6.xpm,
+	main/face/pixmaps/run_bad7.xpm, main/face/pixmaps/run_bad8.xpm,
+	main/face/pixmaps/run_part.xpm, main/face/pixmaps/run_part1.xpm,
+	main/face/pixmaps/run_part2.xpm, main/face/pixmaps/run_part3.xpm,
+	main/face/pixmaps/run_part4.xpm, main/face/pixmaps/run_part5.xpm,
+	main/face/pixmaps/run_part6.xpm, main/face/pixmaps/run_part7.xpm,
+	main/face/pixmaps/run_part8.xpm, main/face/pixmaps/run_xpm.xpm,
+	main/face/pixmaps/runmini.xpm, main/face/pixmaps/save.xpm,
+	main/face/pixmaps/speed1.xpm, main/face/pixmaps/speed2.xpm,
+	main/face/pixmaps/speed3.xpm, main/face/pixmaps/stop_bar.xpm,
+	main/face/pixmaps/stop_wait.xpm, main/face/pixmaps/stop_xpm.xpm,
+	main/face/pixmaps/stopmini.xpm, main/face/pixmaps/up_bar.xpm,
+	main/face/pixmaps/upmini.xpm, main/face/pixmaps/wait_xpm.xpm,
+	main/face/pixmaps2/error.xpm, main/face/pixmaps2/from_server.xpm,
+	main/face/pixmaps2/ok.xpm, main/face/pixmaps2/to_server.xpm,
+	main/face/pixmaps2/warning.xpm, po/Makefile, po/NEW, po/POTFILES,
+	po/REPLACE, po/TODO, po/de.po, po/es.po, po/it.po, po/new,
+	po/nt.pot, po/ru.po, po/fuzzy/bg.po, po/fuzzy/cs.po,
+	po/fuzzy/de.po, po/fuzzy/el_GR.po, po/fuzzy/es.po, po/fuzzy/fi.po,
+	po/fuzzy/fr.po, po/fuzzy/he.po, po/fuzzy/hu.po, po/fuzzy/id.po,
+	po/fuzzy/it.po, po/fuzzy/iw.po, po/fuzzy/ja.po, po/fuzzy/ko.po,
+	po/fuzzy/nl.po, po/fuzzy/pl.po, po/fuzzy/pt_BR.po, po/fuzzy/sk.po,
+	po/fuzzy/tr.po, po/fuzzy/uk.po, po/fuzzy/zh_CN.GBK.po,
+	po/fuzzy/zh_TW.po, share/Makefile.am, share/sounds/Makefile,
+	share/sounds/add.wav, share/sounds/complete.wav,
+	share/sounds/dnd.wav, share/sounds/fail.wav,
+	share/sounds/finish.wav, share/sounds/startup.wav,
+	share/themes/glass.xml, share/themes/old_theme.xml,
+	share/themes/tooltip.xml, share/themes/glass/dnd1.png,
+	share/themes/glass/dnd2.png, share/themes/old_theme/dnd1.png,
+	share/themes/old_theme/dnd2.png,
+	share/themes/old_theme/dndmini.png,
+	share/themes/old_theme/buttons/add.png,
+	share/themes/old_theme/buttons/clearlist.png,
+	share/themes/old_theme/buttons/clipboardadd.png,
+	share/themes/old_theme/buttons/continue.png,
+	share/themes/old_theme/buttons/del.png,
+	share/themes/old_theme/buttons/delcompleted.png,
+	share/themes/old_theme/buttons/dnd.png,
+	share/themes/old_theme/buttons/load.png,
+	share/themes/old_theme/buttons/movedown.png,
+	share/themes/old_theme/buttons/moveup.png,
+	share/themes/old_theme/buttons/openlog.png,
+	share/themes/old_theme/buttons/preferences.png,
+	share/themes/old_theme/buttons/progress.png,
+	share/themes/old_theme/buttons/save.png,
+	share/themes/old_theme/buttons/speedhigh.png,
+	share/themes/old_theme/buttons/speedlow.png,
+	share/themes/old_theme/buttons/speedmedium.png,
+	share/themes/old_theme/buttons/stop.png: Downloader for X
+
+2002-03-06 09:23  max
+
+	* AUTHORS, ChangeLog, ChangeLog-1.x, EXCLUDE, Makefile.am, NEWS,
+	PACK, PLANS, README, TODO, configure.in, nt-gray.png, nt-mini.xpm,
+	nt-wm.png, nt.desktop, nt.png, nt.spec, nt.wmconfig, nt.xpm,
+	reconf, DOC/FAQ, DOC/FAQ.de, DOC/FAQ.es, DOC/FAQ.fr, DOC/FAQ.gr,
+	DOC/INSTALL, DOC/INSTALL.de, DOC/INSTALL.es, DOC/INSTALL.fr,
+	DOC/INSTALL.gr, DOC/INSTALL.he, DOC/INSTALL.pl, DOC/INSTALL.pt_BR,
+	DOC/LICENSE, DOC/NAMES, DOC/README, DOC/README.de, DOC/README.en,
+	DOC/README.es, DOC/README.gr, DOC/README.pl, DOC/README.pt_BR,
+	DOC/README.ru, DOC/THANKS, DOC/TROUBLES, DOC/nt.1, main/ChangeLog,
+	main/Makefile.am, main/addr.cc, main/addr.h, main/alt.cc,
+	main/alt.h, main/autoadd.cc, main/autoadd.h, main/base64.cc,
+	main/base64.h, main/client.cc, main/client.h, main/cond.cc,
+	main/cond.h, main/config.cc, main/config.h, main/cookie.cc,
+	main/cookie.h, main/db.cc, main/db.h, main/dbc.h, main/dlist.cc,
+	main/dlist.h, main/download.cc, main/download.h, main/dqueue.cc,
+	main/dqueue.h, main/eff.cc, main/eff.h, main/filter.cc,
+	main/filter.h, main/fsearch.cc, main/fsearch.h, main/ftp.cc,
+	main/ftp.h, main/ftpd.cc, main/ftpd.h, main/history.cc,
+	main/history.h, main/hproxy.cc, main/hproxy.h, main/html.cc,
+	main/html.h, main/http.cc, main/http.h, main/httpd.cc,
+	main/httpd.h, main/liststr.cc, main/liststr.h, main/locstr.cc,
+	main/locstr.h, main/log.cc, main/log.h, main/main.cc, main/main.h,
+	main/mainlog.cc, main/mainlog.h, main/memwl.cc, main/memwl.h,
+	main/meter.cc, main/meter.h, main/msgqueue.cc, main/msgqueue.h,
+	main/mutex.cc, main/mutex.h, main/nt.cc, main/ntlocale.h,
+	main/pass.cc, main/pass.h, main/ping.cc, main/ping.h,
+	main/queue.cc, main/queue.h, main/savedvar.cc, main/savedvar.h,
+	main/savelog.cc, main/savelog.h, main/schedule.cc, main/schedule.h,
+	main/segments.cc, main/segments.h, main/signal.cc, main/signal.h,
+	main/sm.cc, main/sm.h, main/sndserv.cc, main/sndserv.h,
+	main/socket.cc, main/socket.h, main/socks.cc, main/socks.h,
+	main/sort.cc, main/sort.h, main/speed.cc, main/speed.h,
+	main/srvclt.cc, main/srvclt.h, main/var.cc, main/var.h,
+	main/xml.cc, main/xml.h, main/face/Makefile.am, main/face/about.cc,
+	main/face/about.h, main/face/addd.cc, main/face/addd.h,
+	main/face/buttons.cc, main/face/buttons.h, main/face/colors.cc,
+	main/face/colors.h, main/face/columns.cc, main/face/columns.h,
+	main/face/dndtrash.cc, main/face/dndtrash.h, main/face/edit.cc,
+	main/face/edit.h, main/face/filtrgui.cc, main/face/filtrgui.h,
+	main/face/fsched.cc, main/face/fsched.h, main/face/fsface.cc,
+	main/face/fsface.h, main/face/graph.cc, main/face/graph.h,
+	main/face/list.cc, main/face/list.h, main/face/lmenu.cc,
+	main/face/lmenu.h, main/face/lod.cc, main/face/lod.h,
+	main/face/log.cc, main/face/log.h, main/face/misc.cc,
+	main/face/misc.h, main/face/myclist.cc, main/face/myclist.h,
+	main/face/mywidget.cc, main/face/mywidget.h, main/face/passface.cc,
+	main/face/passface.h, main/face/prefs.cc, main/face/prefs.h,
+	main/face/qtree.cc, main/face/qtree.h, main/face/saveload.cc,
+	main/face/saveload.h, main/face/pixmaps/add.xpm,
+	main/face/pixmaps/add_clipboard.xpm, main/face/pixmaps/cfgbt.xpm,
+	main/face/pixmaps/complete.xpm, main/face/pixmaps/continue.xpm,
+	main/face/pixmaps/del.xpm, main/face/pixmaps/del_all.xpm,
+	main/face/pixmaps/del_com.xpm, main/face/pixmaps/delcommini.xpm,
+	main/face/pixmaps/delmini.xpm, main/face/pixmaps/dnd.xpm,
+	main/face/pixmaps/dndtrash.xpm, main/face/pixmaps/dndtrash_bar.xpm,
+	main/face/pixmaps/dndtrashi.xpm, main/face/pixmaps/down_bar.xpm,
+	main/face/pixmaps/downmini.xpm, main/face/pixmaps/folder.xpm,
+	main/face/pixmaps/load.xpm, main/face/pixmaps/logmini.xpm,
+	main/face/pixmaps/main.xpm, main/face/pixmaps/ofolder.xpm,
+	main/face/pixmaps/openlog.xpm, main/face/pixmaps/paused.xpm,
+	main/face/pixmaps/percent.xpm, main/face/pixmaps/percent1.xpm,
+	main/face/pixmaps/percent2.xpm, main/face/pixmaps/percent3.xpm,
+	main/face/pixmaps/prefs.xpm, main/face/pixmaps/run1.xpm,
+	main/face/pixmaps/run2.xpm, main/face/pixmaps/run3.xpm,
+	main/face/pixmaps/run4.xpm, main/face/pixmaps/run5.xpm,
+	main/face/pixmaps/run6.xpm, main/face/pixmaps/run7.xpm,
+	main/face/pixmaps/run8.xpm, main/face/pixmaps/run_bad.xpm,
+	main/face/pixmaps/run_bad1.xpm, main/face/pixmaps/run_bad2.xpm,
+	main/face/pixmaps/run_bad3.xpm, main/face/pixmaps/run_bad4.xpm,
+	main/face/pixmaps/run_bad5.xpm, main/face/pixmaps/run_bad6.xpm,
+	main/face/pixmaps/run_bad7.xpm, main/face/pixmaps/run_bad8.xpm,
+	main/face/pixmaps/run_part.xpm, main/face/pixmaps/run_part1.xpm,
+	main/face/pixmaps/run_part2.xpm, main/face/pixmaps/run_part3.xpm,
+	main/face/pixmaps/run_part4.xpm, main/face/pixmaps/run_part5.xpm,
+	main/face/pixmaps/run_part6.xpm, main/face/pixmaps/run_part7.xpm,
+	main/face/pixmaps/run_part8.xpm, main/face/pixmaps/run_xpm.xpm,
+	main/face/pixmaps/runmini.xpm, main/face/pixmaps/save.xpm,
+	main/face/pixmaps/speed1.xpm, main/face/pixmaps/speed2.xpm,
+	main/face/pixmaps/speed3.xpm, main/face/pixmaps/stop_bar.xpm,
+	main/face/pixmaps/stop_wait.xpm, main/face/pixmaps/stop_xpm.xpm,
+	main/face/pixmaps/stopmini.xpm, main/face/pixmaps/up_bar.xpm,
+	main/face/pixmaps/upmini.xpm, main/face/pixmaps/wait_xpm.xpm,
+	main/face/pixmaps2/error.xpm, main/face/pixmaps2/from_server.xpm,
+	main/face/pixmaps2/ok.xpm, main/face/pixmaps2/to_server.xpm,
+	main/face/pixmaps2/warning.xpm, po/Makefile, po/NEW, po/POTFILES,
+	po/REPLACE, po/TODO, po/de.po, po/es.po, po/it.po, po/new,
+	po/nt.pot, po/ru.po, po/fuzzy/bg.po, po/fuzzy/cs.po,
+	po/fuzzy/de.po, po/fuzzy/el_GR.po, po/fuzzy/es.po, po/fuzzy/fi.po,
+	po/fuzzy/fr.po, po/fuzzy/he.po, po/fuzzy/hu.po, po/fuzzy/id.po,
+	po/fuzzy/it.po, po/fuzzy/iw.po, po/fuzzy/ja.po, po/fuzzy/ko.po,
+	po/fuzzy/nl.po, po/fuzzy/pl.po, po/fuzzy/pt_BR.po, po/fuzzy/sk.po,
+	po/fuzzy/tr.po, po/fuzzy/uk.po, po/fuzzy/zh_CN.GBK.po,
+	po/fuzzy/zh_TW.po, share/Makefile.am, share/sounds/Makefile,
+	share/sounds/add.wav, share/sounds/complete.wav,
+	share/sounds/dnd.wav, share/sounds/fail.wav,
+	share/sounds/finish.wav, share/sounds/startup.wav,
+	share/themes/glass.xml, share/themes/old_theme.xml,
+	share/themes/tooltip.xml, share/themes/glass/dnd1.png,
+	share/themes/glass/dnd2.png, share/themes/old_theme/dnd1.png,
+	share/themes/old_theme/dnd2.png,
+	share/themes/old_theme/dndmini.png,
+	share/themes/old_theme/buttons/add.png,
+	share/themes/old_theme/buttons/clearlist.png,
+	share/themes/old_theme/buttons/clipboardadd.png,
+	share/themes/old_theme/buttons/continue.png,
+	share/themes/old_theme/buttons/del.png,
+	share/themes/old_theme/buttons/delcompleted.png,
+	share/themes/old_theme/buttons/dnd.png,
+	share/themes/old_theme/buttons/load.png,
+	share/themes/old_theme/buttons/movedown.png,
+	share/themes/old_theme/buttons/moveup.png,
+	share/themes/old_theme/buttons/openlog.png,
+	share/themes/old_theme/buttons/preferences.png,
+	share/themes/old_theme/buttons/progress.png,
+	share/themes/old_theme/buttons/save.png,
+	share/themes/old_theme/buttons/speedhigh.png,
+	share/themes/old_theme/buttons/speedlow.png,
+	share/themes/old_theme/buttons/speedmedium.png,
+	share/themes/old_theme/buttons/stop.png: Initial revision
+

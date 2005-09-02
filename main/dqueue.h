@@ -21,6 +21,7 @@ class d4xDownloadQueue:public tNode{
 public:
 	int MAX_ACTIVE,TIME_FORMAT,SPEED_FORMAT,NICE_DEC_DIGITALS;
 	int AUTODEL_COMPLETED,AUTODEL_FAILED;
+	int SpdLmt;
 	int IamDefault;
 	int inserted;
 	GtkTreeIter tree_iter;

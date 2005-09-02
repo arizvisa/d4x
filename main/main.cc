@@ -51,6 +51,7 @@
 #include "sndserv.h"
 #include "xml.h"
 #include "face/passface.h"
+#include "face/saveload.h"
 
 tMLog *MainLog=NULL;
 
@@ -109,8 +110,7 @@ int tMain::init() {
 	
 	FILTERS_DB=new d4xFiltersTree;
 	FILTERS_DB->load_from_ntrc();
-	SpeedScheduler=new tSpeedQueue;
-	SpeedScheduler->init(0);
+	SpeedScheduler=new d4x::SpeedQueue;
 	MainScheduler=new d4xScheduler;
 	MainScheduler->load();
 
@@ -174,6 +174,8 @@ void create_new_queue(char *name,d4xDownloadQueue *papa){
 void tMain::init_qtree(tQueue *list,d4xDownloadQueue *papa){
 	d4xDownloadQueue *q=(d4xDownloadQueue *)(list->first());
 	while(q){
+		if (q->SpdLmt)
+			SpeedScheduler->insert(q);
 		q->parent=papa;
 		if (CFG.WITHOUT_FACE==0){
 			D4X_QVT->add(q,papa);
@@ -346,16 +348,14 @@ int tMain::run_new_thread(tDownload *what) {
 	what->config->redirect_count=0;
 	what->Size.old=what->Size.curent; // no need update size
 
-	if (what->SpeedLimit==NULL) what->SpeedLimit=new tSpeed;
+	if (what->SpeedLimit==NULL) what->SpeedLimit=new d4x::Speed;
 /* set speed limitation */
 	if (what->split && what->split->NumOfParts){
 		what->SpeedLimit->base = what->config->speed/what->split->NumOfParts;
 	}else{
 		what->SpeedLimit->base = what->config->speed;
 	};
-	if (CFG.SPEED_LIMIT<3 && CFG.SPEED_LIMIT>0){
-		what->SpeedLimit->set((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2)/50+1);
-	};
+	what->set_initial_speedlimit();
 	SpeedScheduler->insert(what->SpeedLimit);
 	if (what->editor) what->editor->disable_ok_button();
 
@@ -1246,44 +1246,57 @@ void tMain::set_speed(int speed){
 };
 
 void tMain::check_for_remote_commands(){
-	tString *addnew=server->get_string();
 	int i=0;
-	while (addnew){
-		switch (addnew->temp){
+	while (!server->empty()){
+		d4x::RemoteCommand addnew=server->get_command();
+		switch (addnew.type){
 		case PACKET_RERUN_FAILED:{
 			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,"%s %s",_("Restarting failed downloads"),_("[control socket]"));
 			rerun_failed();
 			break;
 		};
+		case PACKET_OPENLIST:{
+			if (CFG.WITHOUT_FACE==0){
+				d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new_with_ok();
+				for(std::vector<std::string>::iterator it=addnew.params.begin();
+				    it!=addnew.params.end();it++){
+					d4x_links_sel_add(sel,it->c_str(),NULL);
+				};
+			};
+			break;
+		};
 		case PACKET_ADD_OPEN:{
 			if (CFG.WITHOUT_FACE==0){
-				init_add_dnd_window(addnew->body,NULL);
-				break;
+				init_add_dnd_window(addnew.params[0].c_str(),NULL);
 			};
+			break;
 		};
 		case PACKET_STOP:{
-//			MainLog->myprintf(LOG_FROM_SERVER,_("Stop the download via control socket [%s]"),addnew->body);
-			tAddr *addr=new tAddr(addnew->body);
+//			MainLog->myprintf(LOG_FROM_SERVER,_("Stop the download via control socket [%s]"),addnew.params[0].c_str());
+			tAddr *addr=new tAddr(addnew.params[0].c_str());
 			stop_download_url(addr);
 			delete(addr);
 			break;
 		};
 		case PACKET_DEL:{
-			MainLog->myprintf(LOG_FROM_SERVER,_("Remove the download via control socket [%s]"),addnew->body);
-			tAddr *addr=new tAddr(addnew->body);
+			MainLog->myprintf(LOG_FROM_SERVER,_("Remove the download via control socket [%s]"),addnew.params[0].c_str());
+			tAddr *addr=new tAddr(addnew.params[0].c_str());
 			delete_download_url(addr);
 			delete(addr);
 			break;
 		};
 		case PACKET_ADD:{
 			TO_WAIT_IF_HERE=1;
-			MainLog->myprintf(LOG_FROM_SERVER,_("Adding downloading via control socket [%s]"),addnew->body);
-			add_downloading(addnew->body,CFG.LOCAL_SAVE_PATH);
+			MainLog->myprintf(LOG_FROM_SERVER,_("Adding downloading via control socket [%s]"),addnew.params[0].c_str());
+			if (addnew.params.size()>1)
+			add_downloading(addnew.params[0].c_str(),CFG.LOCAL_SAVE_PATH,0,0,addnew.params[1].c_str());
+			else
+				add_downloading(addnew.params[0].c_str(),CFG.LOCAL_SAVE_PATH);
 			TO_WAIT_IF_HERE=0;
 			break;
 		};
 		case PACKET_SET_SPEED_LIMIT:{
-			sscanf(addnew->body,"%i",&CFG.SPEED_LIMIT);
+			sscanf(addnew.params[0].c_str(),"%i",&CFG.SPEED_LIMIT);
 			set_speed(CFG.SPEED_LIMIT);
 			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,_("Set speed limitation to %s %s"),
 					  _(SPEED_LIMITATIONS_NAMES[CFG.SPEED_LIMIT]),
@@ -1294,14 +1307,14 @@ void tMain::check_for_remote_commands(){
 			/* to avoid misunderstandings we allow only absolute
 			   pathes here 
 			 */
-			if (addnew->body && addnew->body[0]=='/'){
+			if (addnew.params[0].c_str() && addnew.params[0].c_str()[0]=='/'){
 				delete[] CFG.LOCAL_SAVE_PATH;
-				CFG.LOCAL_SAVE_PATH=copy_string(addnew->body);
+				CFG.LOCAL_SAVE_PATH=copy_string(addnew.params[0].c_str());
 			};
 			break;
 		};
 		case PACKET_SET_MAX_THREADS:{
-			sscanf(addnew->body,"%i",&(D4X_QUEUE->MAX_ACTIVE));
+			sscanf(addnew.params[0].c_str(),"%i",&(D4X_QUEUE->MAX_ACTIVE));
 			if (D4X_QUEUE->MAX_ACTIVE>50) D4X_QUEUE->MAX_ACTIVE=50;
 			if (D4X_QUEUE->MAX_ACTIVE<0) D4X_QUEUE->MAX_ACTIVE=0;
 			MainLog->myprintf(LOG_FROM_SERVER|LOG_DETAILED,"%s %i %s",_("Setup maximum active downloads to"),D4X_QUEUE->MAX_ACTIVE,_("[control socket]"));
@@ -1314,7 +1327,7 @@ void tMain::check_for_remote_commands(){
 			break;
 		};
 		case PACKET_MSG:
-			MainLog->myprintf(LOG_FROM_SERVER,"%s %s",addnew->body,_("[control socket]"));
+			MainLog->myprintf(LOG_FROM_SERVER,"%s %s",addnew.params[0].c_str(),_("[control socket]"));
 			break;
 		case PACKET_ICONIFY:
 			if (CFG.WITHOUT_FACE==0) main_window_iconify();
@@ -1324,7 +1337,7 @@ void tMain::check_for_remote_commands(){
 			break;
 		case PACKET_EXIT_TIME:{
 			int tmp;
-			if (addnew->body && sscanf(addnew->body,"%d",&tmp)){
+			if (addnew.params[0].c_str() && sscanf(addnew.params[0].c_str(),"%d",&tmp)){
 				if (tmp==0){
 					CFG.EXIT_COMPLETE=0;
 					MainLog->myprintf(LOG_FROM_SERVER,_("Exiting if nothing to do is switched off"),_("[control socket]"));
@@ -1339,7 +1352,7 @@ void tMain::check_for_remote_commands(){
 		};
 		case PACKET_SWITCH_QUEUE:{
 			int num=0;
-			if (addnew->body && sscanf(addnew->body,"%d",&num)==1 && num>0){
+			if (addnew.params[0].c_str() && sscanf(addnew.params[0].c_str(),"%d",&num)==1 && num>0){
 				d4xDownloadQueue *q=d4x_get_queue_num(num);
 				if (q){
 					if (CFG.WITHOUT_FACE==0){
@@ -1353,10 +1366,8 @@ void tMain::check_for_remote_commands(){
 			break;
 		};
 		};
-		delete(addnew);
 		i+=1;
 		if (i>10) break;
-		addnew=server->get_string();
 	};
 };
 //**********************************************/
@@ -1538,17 +1549,20 @@ tDownload *tMain::add_downloading_to(tDownload *what,int to_top) {
 	return(NULL);
 };
 
-int tMain::add_downloading(char *adr,char *where,char *name,char *desc) {
+int tMain::add_downloading(const char *adr,char *where,char *name,char *desc,const char *referer) {
 	if (adr==NULL) return -1;
 	tAddr *addr=new tAddr(adr);
 //	if (!addr->is_valid()) return -1;
 	tDownload *whatadd=new tDownload;
 	whatadd->info=addr;
-	if (where!=NULL && strlen(where)>0) {
+	if (where && *where) {
 		whatadd->config=new tCfg;
 		whatadd->set_default_cfg();
 		whatadd->config->save_path.set(where);
 		whatadd->config->isdefault=0;
+		if (referer && *referer){
+			whatadd->config->referer.set(referer);
+		};
 	};
 	if (strlen(addr->file.get())==0) {
 		whatadd->finfo.type=T_DIR;

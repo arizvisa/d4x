@@ -411,6 +411,7 @@ void d4xQsTree::add(d4xDownloadQueue *what,d4xDownloadQueue *papa){
 
 void d4xQsTree::del(d4xDownloadQueue *what){
 	gtk_tree_store_remove(store,&(what->tree_iter));
+	_aa_.SpeedScheduler->del(what);
 	what->inserted=0;
 };
 
@@ -600,6 +601,15 @@ void d4xQsTree::prefs_init(){
 	GtkWidget *prefs_limits_tlabel=gtk_label_new(_("Maximum active downloads"));
 	gtk_box_pack_start(GTK_BOX(prefs_limits_tbox),prefs_limits_tlabel,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(vbox),prefs_limits_tbox,FALSE,FALSE,0);
+	
+	adj = (GtkAdjustment *) gtk_adjustment_new (q->SpdLmt, 0, 999999.0, 1.0, 3.0, 0.0);
+	speed_limit = gtk_spin_button_new (adj,0,0);
+	gtk_spin_button_set_wrap (GTK_SPIN_BUTTON (speed_limit), TRUE);
+	prefs_limits_tbox=gtk_hbox_new(FALSE,5);
+	prefs_limits_tlabel=gtk_label_new(_("Speed limitation per queue (Bytes/sec, 0 unlimited)"));
+	gtk_box_pack_start(GTK_BOX(prefs_limits_tbox),speed_limit,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(prefs_limits_tbox),prefs_limits_tlabel,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),prefs_limits_tbox,FALSE,FALSE,0);
 
 	del_completed=gtk_check_button_new_with_label(_("Automatically delete completed downloads"));
 	del_fataled=gtk_check_button_new_with_label(_("Automatically delete failed downloads"));
@@ -755,12 +765,18 @@ void d4xQsTree::prefs_ok(){
 	q->update();
 //	sscanf(gtk_entry_get_text(GTK_ENTRY(max_threads)),"%u",&(q->MAX_ACTIVE));
 	q->MAX_ACTIVE=gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON (max_threads));
+	q->SpdLmt=gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON (speed_limit));
 	if (q->MAX_ACTIVE<0) q->MAX_ACTIVE=0;
 	if (q->MAX_ACTIVE>50) q->MAX_ACTIVE=50;
 	q->AUTODEL_FAILED=GTK_TOGGLE_BUTTON(del_fataled)->active;
 	q->AUTODEL_COMPLETED=GTK_TOGGLE_BUTTON(del_completed)->active;
 	if (q->AUTODEL_COMPLETED) _aa_.del_completed(q);
 	if (q->AUTODEL_FAILED) _aa_.del_fataled(q);
+	if (q->SpdLmt){
+		_aa_.SpeedScheduler->insert(q);
+	}else{
+		_aa_.SpeedScheduler->del(q);
+	};
 	update(q);
 	_aa_.try_to_run_wait(q);
 	prefs_cancel();

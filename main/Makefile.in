@@ -73,7 +73,7 @@ DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(top_srcdir)/admin/Makefile.common \
 	$(top_srcdir)/admin/Makefile.deps \
 	$(top_srcdir)/admin/Makefile.gengetopt \
-	$(top_srcdir)/admin/Makefile.misc ChangeLog
+	$(top_srcdir)/admin/Makefile.misc
 bin_PROGRAMS = nt$(EXEEXT)
 subdir = main
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

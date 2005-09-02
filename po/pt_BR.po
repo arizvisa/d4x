@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 13:33+0800\n"
+"POT-Creation-Date: 2005-09-02 14:45+0800\n"
 "PO-Revision-Date: 2003-03-10 22:17-0300\n"
 "Last-Translator: Legnar WinShadow <legnar@bol.com.br>\n"
 "Language-Team: Portugues do Brasil <pt@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Add new alternate"
 msgstr "Adicionar nova mirror"
 
-#: main/alt.cc:380
+#: main/alt.cc:383
 msgid "Modify alternate"
 msgstr "Modificar mirror"
 
@@ -34,7 +34,8 @@ msgid "Error while reading from socket!"
 msgstr "Erro quando estava lendo socket"
 
 #: main/client.cc:462
-msgid "Trying to connect..."
+#, fuzzy, c-format
+msgid "Trying to connect to %s:%i..."
 msgstr "Tentando conectar"
 
 #: main/client.cc:464
@@ -53,185 +54,199 @@ msgstr "Não foi possivel alocar socket"
 msgid "Can't connect"
 msgstr "Não foi possível conectar"
 
-#: main/config.cc:77
+#: main/config.cc:79
 msgid "You forgot to specify directory."
 msgstr "Você esqueceu de especificar diretório"
 
-#: main/config.cc:79
+#: main/config.cc:81
 msgid "You must specify number as second parameter for '-m' option"
 msgstr "Você deve informar um numero para o segundo paramentro da opção -m"
 
-#: main/config.cc:83
+#: main/config.cc:85
 msgid "You must specify number as parameter for '--exit-time' option"
 msgstr "Você deve informar um número para o parametro da opção '--exit-time'."
 
-#: main/config.cc:84
+#: main/config.cc:86
 msgid "Expect URL as parameter for '--ls' option"
 msgstr "URL esperada como parametro para opção '--ls'"
 
-#: main/config.cc:86
+#: main/config.cc:88
 msgid "Expect URL as parameter for '--del' option"
 msgstr "URL esperada como parametro para opção '--del'"
 
-#: main/config.cc:87
+#: main/config.cc:89
 msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
 msgstr ""
 "String no formato TAMANHOxALTRA+X+Y esperada para o parametro '-geometry'"
 
-#: main/config.cc:88
+#: main/config.cc:90
 msgid "Expect URL as parameter for '--stop' option"
 msgstr "URL esperada como parametro para a opção '--stop'"
 
-#: main/config.cc:90
+#: main/config.cc:92
+#, fuzzy
+msgid "Expect URL as parameter for '--referer' option"
+msgstr "URL esperada como parametro para opção '--del'"
+
+#: main/config.cc:94
 msgid "Expect URL as parameter for '-a' option"
 msgstr "URL esperada como parametro para a opção '-a'"
 
-#: main/config.cc:282
+#: main/config.cc:95
+#, fuzzy
+msgid "Expect at least one URL as parameter for '--al' option"
+msgstr "URL esperada como parametro para opção '--ls'"
+
+#: main/config.cc:287
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "Não foi possível abrir o arquivo de configuração em '%s'\n"
 
-#: main/config.cc:283
+#: main/config.cc:288
 msgid "Use default cfg :))...\n"
 msgstr "Usando arquivo de configuração padrão...\n"
 
-#: main/config.cc:514
+#: main/config.cc:519
 msgid "unknown option:"
 msgstr "Opção desconhecida"
 
-#: main/config.cc:588
+#: main/config.cc:593
 msgid "List of queues:\n"
 msgstr "Lista de espera:\n"
 
-#: main/config.cc:643
+#: main/config.cc:681
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Download em progresso: %d\n"
 
-#: main/config.cc:645
+#: main/config.cc:683
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Download parado: %d\n"
 
-#: main/config.cc:647
+#: main/config.cc:685
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Download falhou: %d\n"
 
-#: main/config.cc:649
+#: main/config.cc:687
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Download completado: %d\n"
 
-#: main/config.cc:652
+#: main/config.cc:690
 #, c-format
 msgid "Total: %d\n"
 msgstr "Total: %d\n"
 
-#: main/config.cc:654
+#: main/config.cc:692
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "Total de bytes lidos: %d\n"
 
-#: main/config.cc:656
+#: main/config.cc:694
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Velocidade atual: %d\n"
 
-#: main/config.cc:662
+#: main/config.cc:700
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "Velocidade atual: %d\n"
 
-#: main/config.cc:791
+#: main/config.cc:838
 msgid "Added from command line"
 msgstr ""
 
-#: main/config.cc:872
+#: main/config.cc:919
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Use: nt [OPÇÔES] ... [URL]"
 
-#: main/config.cc:873
+#: main/config.cc:920
 msgid "print this page and exit"
 msgstr "Imprime essa página e termina"
 
-#: main/config.cc:874
+#: main/config.cc:921
 msgid "show version information and exit"
 msgstr "Mostra informações sobre versão e termina"
 
-#: main/config.cc:875
+#: main/config.cc:922
 msgid "show information if already run"
 msgstr "mostra informações, se estiver executando"
 
-#: main/config.cc:876
+#: main/config.cc:923
 msgid "show current speed if already run"
 msgstr "Mostra a velocidade atual, se estiver executando"
 
-#: main/config.cc:877
+#: main/config.cc:924
 msgid "run in minimized mode"
 msgstr "executar em modo minimizado"
 
-#: main/config.cc:878
+#: main/config.cc:925
 msgid "set timeout for exiting if nothing to do"
 msgstr "configura o timeout para terminar, se não tiver nada a fazer."
 
-#: main/config.cc:879
+#: main/config.cc:926
 msgid "set directory for saving files"
 msgstr "configura diretório para salvar arquivos"
 
-#: main/config.cc:880
+#: main/config.cc:927
 msgid "set lower speed limitation"
 msgstr "configura limite de velocidade baixa"
 
-#: main/config.cc:881
+#: main/config.cc:928
 msgid "set medium speed limitation"
 msgstr "configura limite médio de velocidade"
 
-#: main/config.cc:882
+#: main/config.cc:929
 msgid "set unlimited speed"
 msgstr "Configura sem limite de velocidade"
 
-#: main/config.cc:883
+#: main/config.cc:930
 msgid "delete completed if already run"
 msgstr "apagar downloads completos se estiver executando"
 
-#: main/config.cc:884
+#: main/config.cc:931
 msgid "set maximum active downloads"
 msgstr "configura número máximo de downloads ativos"
 
-#: main/config.cc:885
+#: main/config.cc:932
 msgid "restart all failed downloads"
 msgstr "reiniciar todos downloads que falharam"
 
-#: main/config.cc:886
+#: main/config.cc:933
 msgid "run program without X interface"
 msgstr "executa programa sem interface gráfica"
 
-#: main/config.cc:887
+#: main/config.cc:934
 msgid "display info about URL in queue of downloads"
 msgstr "mostra informações sobre URLs na lista de espera para download"
 
-#: main/config.cc:888
+#: main/config.cc:935
 msgid "change current default queue"
 msgstr "mudar lista de espera padrão atual"
 
-#: main/config.cc:889
+#: main/config.cc:936
 msgid "remove a download from queue"
 msgstr "remove um download da lista de espera"
 
-#: main/config.cc:890
+#: main/config.cc:937
 msgid "stop a download"
 msgstr "para um download"
 
-#: main/config.cc:891
+#: main/config.cc:938
 msgid "using colors if run without interface"
 msgstr "usar cores se executando sem interface"
 
-#: main/config.cc:892
+#: main/config.cc:939
 msgid "specifies preferred size and position of main window"
 msgstr "especificar tamanho e prosições preferidas para a janela principal"
 
-#: main/config.cc:893
+#: main/config.cc:940
+msgid "specify rerferer for next added URL"
+msgstr ""
+
+#: main/config.cc:941
 msgid "open \"Add new download\" dialog for the URL"
 msgstr "abrir janela \"Adicionar no download\" para a URL"
 
@@ -1082,7 +1097,7 @@ msgstr "tempo para repetir (-1 ilimitado)"
 msgid "period (day/hour:min)"
 msgstr "periódo (dia/hora:min)"
 
-#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:492
+#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:493
 #: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Propriedades"
@@ -1947,70 +1962,75 @@ msgstr "Nome"
 msgid "Options"
 msgstr "Opções"
 
-#: main/face/qtree.cc:110 main/face/qtree.cc:489
+#: main/face/qtree.cc:110 main/face/qtree.cc:490
 msgid "Create new queue"
 msgstr "Crear nova lista de espera"
 
-#: main/face/qtree.cc:490
+#: main/face/qtree.cc:491
 #, fuzzy
 msgid "Create new subqueue"
 msgstr "/Crear nova sub entrada na lista de espera"
 
-#: main/face/qtree.cc:491
+#: main/face/qtree.cc:492
 #, fuzzy
 msgid "Delete queue"
 msgstr "/Apagar entrada"
 
-#: main/face/qtree.cc:589
+#: main/face/qtree.cc:590
 msgid "Queue properties"
 msgstr "Propriedade da entrada"
 
-#: main/face/qtree.cc:600
+#: main/face/qtree.cc:601
 msgid "Maximum active downloads"
 msgstr "Máximo de downloads ativos"
 
-#: main/face/qtree.cc:604
+#: main/face/qtree.cc:609
+#, fuzzy
+msgid "Speed limitation per queue (Bytes/sec, 0 unlimited)"
+msgstr "Limite de velocidade em Bytes/seg (0 para ilimitado)"
+
+#: main/face/qtree.cc:614
 msgid "Automatically delete completed downloads"
 msgstr "Apagar automaticamente downloads completados"
 
-#: main/face/qtree.cc:605
+#: main/face/qtree.cc:615
 msgid "Automatically delete failed downloads"
 msgstr "Apagar automaticamente downloads que falharam"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:625
 msgid "Default folder to save downloaded files"
 msgstr "Pasta padrão para salvar arquivos de download"
 
-#: main/face/qtree.cc:622
+#: main/face/qtree.cc:632
 msgid "Size format"
 msgstr "Formato do tamanho"
 
-#: main/face/qtree.cc:623
+#: main/face/qtree.cc:633
 msgid "Time format"
 msgstr "Formato da Hora"
 
-#: main/face/qtree.cc:624
+#: main/face/qtree.cc:634
 #, fuzzy
 msgid "Speed format"
 msgstr "Formato do tamanho"
 
-#: main/face/qtree.cc:708
+#: main/face/qtree.cc:718
 msgid "Name of the queue"
 msgstr "Nome da lista de espera"
 
-#: main/face/saveload.cc:88
+#: main/face/saveload.cc:96
 msgid "Loading"
 msgstr "Lendo"
 
-#: main/face/saveload.cc:139
+#: main/face/saveload.cc:147
 msgid "Save list"
 msgstr "Salvar lista"
 
-#: main/face/saveload.cc:181
+#: main/face/saveload.cc:189
 msgid "Load list"
 msgstr "Ler lista"
 
-#: main/face/saveload.cc:223
+#: main/face/saveload.cc:231
 msgid "Find links in txt file"
 msgstr "Localizar links em aquivo txt"
 
@@ -2088,40 +2108,40 @@ msgstr "Servidor recusou login, talvez exista muitos usuários conectados "
 msgid "Sleeping"
 msgstr "Esperando"
 
-#: main/ftpd.cc:423
+#: main/ftpd.cc:424
 #, fuzzy
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr "Resposta vazia. Tentando mudar o diretório para o tipo do arquivo."
 
-#: main/ftpd.cc:448 main/ftpd.cc:474
+#: main/ftpd.cc:449 main/ftpd.cc:475
 msgid "Length is %ll"
 msgstr "tamanho é %ll"
 
-#: main/ftpd.cc:460
+#: main/ftpd.cc:461
 msgid "This is a directory!"
 msgstr "Este é um diretório!"
 
-#: main/ftpd.cc:470
+#: main/ftpd.cc:471
 msgid "No such file or directory!"
 msgstr "Diretório ou arquivo não encontrado"
 
-#: main/ftpd.cc:505
+#: main/ftpd.cc:506
 msgid "Couldn't get size :(("
 msgstr "Não pode obter o tamanho :(("
 
-#: main/ftpd.cc:520
+#: main/ftpd.cc:521
 msgid "Loading directory..."
 msgstr "Lendo diretório..."
 
-#: main/ftpd.cc:534
+#: main/ftpd.cc:535
 msgid "Listing was loaded"
 msgstr "Lista lida"
 
-#: main/ftpd.cc:537
+#: main/ftpd.cc:538
 msgid "Listing not loaded completelly"
 msgstr "Lista não foi lida completamente"
 
-#: main/ftpd.cc:567
+#: main/ftpd.cc:568
 msgid "Link was loaded :))"
 msgstr "Link lido :))"
 
@@ -2212,19 +2232,19 @@ msgstr "Log iniciado"
 msgid "Can't init control socket!\n"
 msgstr "Não posso inicializar socket de controle\n"
 
-#: main/main.cc:195
+#: main/main.cc:197
 msgid "Loading default list of downloads"
 msgstr "Lendo lista padrão de downloads"
 
-#: main/main.cc:275 main/main.cc:1312
+#: main/main.cc:277 main/main.cc:1325
 msgid "Delete completed downloads"
 msgstr "Apagar downloads completados"
 
-#: main/main.cc:288
+#: main/main.cc:290
 msgid "Delete failed downloads"
 msgstr "Apagar downloads que falharam"
 
-#: main/main.cc:305
+#: main/main.cc:307
 msgid "Clear queue of downloads"
 msgstr "Apagar lista de espera de downloads"
 
@@ -2313,81 +2333,81 @@ msgstr "%z apagado da lista de espera de downloads como download que falhou"
 msgid "Restarting failed downloads"
 msgstr "Reiniciando downloads que falharam"
 
-#: main/main.cc:1254 main/main.cc:1290 main/main.cc:1307 main/main.cc:1312
-#: main/main.cc:1317 main/main.cc:1330 main/main.cc:1335
+#: main/main.cc:1254 main/main.cc:1303 main/main.cc:1320 main/main.cc:1325
+#: main/main.cc:1330 main/main.cc:1343 main/main.cc:1348
 msgid "[control socket]"
 msgstr "[sockete de controle]"
 
-#: main/main.cc:1272
+#: main/main.cc:1282
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "removendo o downlod via socket de controle [%s]"
 
-#: main/main.cc:1280
+#: main/main.cc:1290
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Adicionando download via socket de controle [%s]"
 
-#: main/main.cc:1288
+#: main/main.cc:1301
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "configurando limitação de velocidade para %s %s"
 
-#: main/main.cc:1307
+#: main/main.cc:1320
 msgid "Setup maximum active downloads to"
 msgstr "Configurando máximo de downloads para"
 
-#: main/main.cc:1330
+#: main/main.cc:1343
 #, fuzzy
 msgid "Exiting if nothing to do is switched off"
 msgstr "Sair se não tiver nada para fazer mudando para off"
 
-#: main/main.cc:1335
+#: main/main.cc:1348
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader sairá se não tiver nada para sair depois %i minutos %s"
 
-#: main/main.cc:1348
+#: main/main.cc:1361
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Lista de espera padrão é '%s' agora."
 
-#: main/main.cc:1648
+#: main/main.cc:1662
 msgid "Loading FTP-Search engines"
 msgstr "Lendo Sistema de busca FTP"
 
-#: main/main.cc:1650
+#: main/main.cc:1664
 msgid "Normally started"
 msgstr "Iniciado normalmente"
 
-#: main/main.cc:1708
+#: main/main.cc:1722
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Download adicionado do arquivo %s de %s [pelo usuário]"
 
-#: main/main.cc:1759
+#: main/main.cc:1773
 msgid "Downloader is in offline mode now"
 msgstr ""
 
-#: main/main.cc:1766
+#: main/main.cc:1780
 msgid "Offline mode is turned off"
 msgstr ""
 
-#: main/main.cc:1800
+#: main/main.cc:1814
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bytes lidos durante a seção"
 
-#: main/main.cc:1801
+#: main/main.cc:1815
 msgid "Downloader exited normaly"
 msgstr "Downloader saiu normalmente"
 
-#: main/main.cc:1841
+#: main/main.cc:1855
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Não pode abirr '%s' para salvar log"
 
-#: main/main.cc:1875
+#: main/main.cc:1889
 msgid "Such protocol is not supported!"
 msgstr "Protocolo não é suportado!"
 

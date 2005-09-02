@@ -24,7 +24,7 @@ struct d4xQsTree{
 	GtkWidget *columns_nums1,*columns_nums2,*columns_nums3,*columns_nums4;
 	GtkWidget *columns_time1,*columns_time2;
 	GtkWidget *columns_speed1,*columns_speed2;
-	GtkWidget *del_completed,*del_fataled,*max_threads;
+	GtkWidget *del_completed,*del_fataled,*max_threads,*speed_limit;
 	GtkWidget *name,*path_entry;
 	int create_mode;
 	d4xQsTree():store(NULL){};

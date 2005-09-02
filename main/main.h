@@ -27,7 +27,6 @@ class tMain{
 	tMsgServer *server;
 	tMsgQueue *MsgQueue;
 	tFtpSearchCtrl *ftpsearch;
-	tSpeedQueue *SpeedScheduler;
 	tMeter::BSize LastReadedBytes;
 	int TO_WAIT_IF_HERE,DONTRY2RUN;
 	void case_download_completed(tDownload *what);
@@ -57,6 +56,7 @@ class tMain{
 	void prepare_for_stoping_pre(tDownload *what);
 	void sizequery_run_first(d4xDownloadQueue *q);
  public:
+	d4x::SpeedQueue *SpeedScheduler;
     	int init();
     	void init_main_log();
     	void speed();
@@ -83,7 +83,7 @@ class tMain{
         void stop_download(tDownload *what);
         int delete_download(tDownload *what,int flag=0);
         void continue_download(tDownload *what);
-    	int add_downloading(char *adr,char *where=(char *)NULL,char *name=(char *)NULL,char *desc=(char *)NULL);
+    	int add_downloading(const char *adr,char *where=0,char *name=0,char *desc=0,const char *ref=0);
 	tDownload *add_downloading(tDownload *what,int to_top=0);
 	tDownload *add_downloading_to(tDownload *what,int to_top=0);
 	void ftp_search(tDownload *what,int type=0);

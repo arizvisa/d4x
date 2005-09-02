@@ -157,7 +157,7 @@ public:
 	//------------------------------------
 	d4xDwnLink *regex_match; //is neded for URL-manager's limits
 	tDList *DIR;
-	tSpeed *SpeedLimit;
+	d4x::Speed *SpeedLimit;
 	d4xSpeedCalc SpeedCalc;
 	time_t ScheduleTime;
 	//------------------------------------
@@ -190,6 +190,7 @@ public:
 	fsize_t filesize();
 
 	int find_best_split();
+	void set_initial_speedlimit();
 
 	void save_to_config(int fd);
 	int load_from_config(int fd);

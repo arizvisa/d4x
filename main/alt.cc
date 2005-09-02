@@ -298,6 +298,12 @@ int d4xAltList::save_to_config(int fd){
 	d4xAlt *alt=END;
 	while(alt){
 		char *url=alt->info.url_full();
+		f_wstr_lf(fd,url);
+		delete[] url;
+		url=alt->proxy.url_full();
+		f_wstr_lf(fd,url);
+		delete[] url;
+		/*
 		char *parsed=unparse_percents(url);
 		delete[] url;
 		f_wstr_lf(fd,parsed);
@@ -307,6 +313,7 @@ int d4xAltList::save_to_config(int fd){
 		delete[] url;
 		f_wstr_lf(fd,parsed);
 		delete[] parsed;
+		*/
 		alt=alt->prev;
 	};
 	f_wstr_lf(fd,"EndAlt");
@@ -322,16 +329,12 @@ int d4xAltList::load_from_config(int fd){
 			return(0);
 		};
 		if (alt){
-			char *url=parse_percents(buf);
-			alt->proxy.from_string(url);
-			delete[] url;
+			alt->proxy.from_string(buf);
 			add(alt);
 			alt=NULL;
 		}else{
 			alt=new d4xAlt;
-			char *url=parse_percents(buf);
-			alt->info.from_string(url);
-			delete[] url;
+			alt->info.from_string(buf);
 		};
 	};
 	if (alt)

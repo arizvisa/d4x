@@ -41,6 +41,7 @@ int equal_first_uncase(const char *a,const char *b);
 int begin_string(const char *str,const char *begin);
 int begin_string_uncase(const char *str,const char *begin);
 char *sum_strings(const char *a,...);
+char *compose_strings_array(int *len,const char *a,int la,const char *b);
 int empty_string(char *a);
 void convert_time(int what,char *where,int TIME_FORMAT);
 void string_to_low(char *what,char delim);

@@ -1,5 +1,5 @@
 #
-# $Header: /home/cvs/d4x/Makefile.am,v 1.2.2.1 2005/08/08 11:54:38 zaufi Exp $
+# $Header: /home/cvs/d4x/Makefile.am,v 1.2.2.2 2005/08/11 13:50:48 zaufi Exp $
 #
 
 ACLOCAL_AMFLAGS = -I m4
@@ -14,6 +14,7 @@ EXTRA_DIST = $(top_srcdir)/admin/Makefile.template \
              $(top_srcdir)/support/class.tpl \
              $(top_srcdir)/support/nt.spec \
              $(top_srcdir)/ChangeLog-1.x \
+             $(top_srcdir)/ChangeLog.2002-2004 \
              $(top_srcdir)/PLANS \
              $(top_srcdir)/po/Makevars
 

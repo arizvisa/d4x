@@ -61,8 +61,10 @@ tOption downloader_parsed_args[]={
 	{"--del",		OPT_DEL},
 	{"--stop",		OPT_STOP},
 	{"--color",		OPT_COLOR},
+	{"--referer",		OPT_REFERER},
 	{"-geometry",		OPT_GEOMETRY},
-	{"-a",			OPT_ADD_OPEN}
+	{"-a",			OPT_ADD_OPEN},
+	{"--al",		OPT_ADD_OPENLIST}
 };
 
 char *downloader_args_errors[]={
@@ -87,7 +89,10 @@ char *downloader_args_errors[]={
 	(char *)N_("Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"),
 	(char *)N_("Expect URL as parameter for '--stop' option"),
 	(char *)NULL,
-	(char *)N_("Expect URL as parameter for '-a' option")
+	(char *)N_("Expect URL as parameter for '--referer' option"),
+	(char *)NULL,
+	(char *)N_("Expect URL as parameter for '-a' option"),
+	(char *)N_("Expect at least one URL as parameter for '--al' option")
 };
 
 
@@ -624,8 +629,11 @@ static void _do_lstree_(tMsgClient *clt){
 	};
 };
 
+
+
 int parse_command_line_already_run(int argv,char **argc){
 	int rvalue=1;
+	char *referer=0;
 	if (argv>1){
 		tMsgClient *clt=new tMsgClient;
 		for (int i=1;i<argv;i++){
@@ -633,10 +641,40 @@ int parse_command_line_already_run(int argv,char **argc){
 			int option=OPT_UNKNOWN;
 			if (*(argc[i])!='-'){
 				rvalue=0;
-				if (clt->send_command(PACKET_ADD,argc[i],strlen(argc[i])+1)) break;
+				int len=0;
+				char *tmpbuf=compose_strings_array(&len,argc[i],strlen(argc[i])+1,referer);
+				if (clt->send_command(PACKET_ADD,tmpbuf,len)) break;
+				delete [] tmpbuf;
 			}else{
 				option=downloader_args_type(argc[i]);
 				switch(option){
+				case OPT_ADD_OPENLIST:{
+					char *ar=0;
+					int len;
+					while(argv>i+1){
+						i++;
+						if (argc[i][0]==0 || argc[i][0]=='-'){
+							i--;
+							break;
+						};
+						if (ar){
+							char *t=compose_strings_array(&len,ar,len,argc[i]);
+							delete [] ar;
+							ar=t;
+						}else{
+							ar=copy_string(argc[i]);
+							len=strlen(ar)+1;
+						};
+					};
+					if (ar){
+						clt->send_command(PACKET_OPENLIST,ar,len);
+						delete[] ar;
+						rvalue=0;
+					}else{
+						opt_error=1;
+					};
+					break;
+				};
 				case OPT_INFO:{
 					rvalue=0;
 					clt->send_command(PACKET_ASK_RUN,NULL,0);
@@ -675,6 +713,15 @@ int parse_command_line_already_run(int argv,char **argc){
 				case OPT_TRAFFIC_HIGH:{
 					clt->send_command(PACKET_SET_SPEED_LIMIT,"3",2);
 					rvalue=0;
+					break;
+				};
+				case OPT_REFERER:{
+					rvalue=0;
+					if (argv>i+1){
+						i+=1;
+						referer=argc[i];
+					}else
+						opt_error=1;
 					break;
 				};
 				case OPT_SET_DIRECTORY:{
@@ -890,6 +937,7 @@ void help_print(){
 	help_print_args(OPT_STOP);g_print(_("stop a download"));printf("\n");
 	help_print_args(OPT_COLOR);g_print(_("using colors if run without interface"));printf("\n");
 	help_print_args(OPT_GEOMETRY);g_print(_("specifies preferred size and position of main window"));printf("\n");
+	help_print_args(OPT_REFERER);g_print(_("specify rerferer for next added URL"));printf("\n");
 	help_print_args(OPT_ADD_OPEN);g_print(_("open \"Add new download\" dialog for the URL"));printf("\n");
 	printf("\n");
 };

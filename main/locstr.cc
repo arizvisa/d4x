@@ -151,6 +151,16 @@ char *sum_strings(const char *a,...){
 	return r;
 };
 
+char *compose_strings_array(int *len,const char *a,int la,const char *b){
+	DBC_RETVAL_IF_FAIL(a!=NULL,NULL);
+	int lb=strlen(b)+1;
+	char *r=new char[la+lb];
+	memcpy(r,a,la);
+	memcpy(r+la,b,lb);
+	*len=la+lb;
+	return r;
+};
+
 
 // next function reallocate memory for string and return new size
 int reallocate_string(char **what, int len){

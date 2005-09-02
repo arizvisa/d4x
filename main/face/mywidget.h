@@ -124,7 +124,7 @@ struct d4xLinksSelClass{
 typedef void (* d4xLinksSelForeachFunc) (d4xLinksSel *sel, GtkTreeIter *iter,const gchar *text, gpointer rowdata,gpointer userdata);
 
 GtkWidget *d4x_links_sel_new();
-void d4x_links_sel_add(d4xLinksSel *sel,char *url,gpointer data);
+void d4x_links_sel_add(d4xLinksSel *sel,const char *url,gpointer data);
 void d4x_links_sel_foreach(d4xLinksSel *sel,d4xLinksSelForeachFunc func,gpointer data);
 void d4x_links_sel_selected_foreach(d4xLinksSel *sel,d4xLinksSelForeachFunc func,gpointer data);
 void d4x_links_sel_del(d4xLinksSel *sel,GtkTreeIter *iter);

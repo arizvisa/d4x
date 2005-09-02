@@ -1,4 +1,4 @@
-%define version	2.5.2
+%define version	2.5.3
 %define name	d4x
 %define prefix	/usr
 
@@ -14,7 +14,7 @@ Summary:	FTP/HTTP download manager for X window system
 Source:		%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 Packager:	Anton Voloshin (vav@isv.ru)
-Requires:	gtk2 >= 2.0.6 , openssl >= 0.9.7
+Requires:	gtk2 >= 2.4.0 , openssl >= 0.9.7
 BuildRequires:	openssl-devel >= 0.9.7
 
 %description

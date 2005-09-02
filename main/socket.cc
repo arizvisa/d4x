@@ -141,9 +141,10 @@ int tSocket::open_port(char *host, guint16 port) {
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
 		return(SOCKET_CANT_ALLOCATE);
 	int a=1;
-//	size_t sl=5000;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
-//	setsockopt(fd,SOL_SOCKET,SO_RCVBUF,(char *)&sl,sizeof(sl));
+	
+	size_t sl=2000; //set receive buffer to default+30% MTU size
+	setsockopt(fd,SOL_SOCKET,SO_RCVBUF,(char *)&sl,sizeof(sl));
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
 		return(SOCKET_CANT_CONNECT);
 	con_flag=1;
@@ -284,7 +285,7 @@ fsize_t tSocket::rec_string(char * where,fsize_t len,int timeout) {
 		return STATUS_TIMEOUT;
 	tDownload **download=my_pthread_key_get();
 	fsize_t bytes;
-	if (download!=NULL && *download!=NULL && (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0))
+	if (download!=NULL && *download!=NULL && (CFG.SPEED_LIMIT!=3 || (*download)->SpeedLimit->base>0 || (*download)->SpeedLimit->base2>0))
 		bytes=(*download)->SpeedLimit->bytes >= len ? len: (*download)->SpeedLimit->bytes+1;
 	else
 		bytes=len;
@@ -306,7 +307,7 @@ fsize_t tSocket::rec_string(char * where,fsize_t len,int timeout) {
 				if (dwn->myowner && dwn->myowner->PAPA)
 					dwn->myowner->PAPA->speed.inc(temp);
 			};
-			if (CFG.SPEED_LIMIT!=3 || dwn->SpeedLimit->base>0)
+			if (CFG.SPEED_LIMIT!=3 || dwn->SpeedLimit->base>0 || dwn->SpeedLimit->base2>0)
 				dwn->SpeedLimit->decrement(temp);
 			D4X_UPDATE.add(dwn);
 		};

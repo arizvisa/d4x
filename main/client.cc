@@ -459,7 +459,7 @@ int tClient::socket_err_handler(int err) {
 int tClient::reinit() {
 	Status=0;
 	int err=-1;
-	LOG->log(LOG_OK,_("Trying to connect..."));
+	LOG->log_printf(LOG_OK,_("Trying to connect to %s:%i..."),hostname?hostname:"<null>",port);
 	if (hostname && (err=CtrlSocket->open_port(hostname,port))==0) {
 		LOG->log(LOG_WARNING,_("Socket was opened!"));
 		return RVALUE_OK;

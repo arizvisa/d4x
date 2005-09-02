@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt 2.5.0rc4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 13:33+0800\n"
+"POT-Creation-Date: 2005-09-02 14:45+0800\n"
 "PO-Revision-Date: 2004-07-04 12:27+0200\n"
 "Last-Translator: Branislav Jovanović <fangorn@eunet.yu>\n"
 "Language-Team: Serbian (sr) <sr@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Add new alternate"
 msgstr "Dodaj novu alternativu"
 
-#: main/alt.cc:380
+#: main/alt.cc:383
 msgid "Modify alternate"
 msgstr "Promeni alternativu"
 
@@ -34,7 +34,8 @@ msgid "Error while reading from socket!"
 msgstr "Greška pri čitanju sa utičnice"
 
 #: main/client.cc:462
-msgid "Trying to connect..."
+#, fuzzy, c-format
+msgid "Trying to connect to %s:%i..."
 msgstr "Pokušavam da se povežem..."
 
 #: main/client.cc:464
@@ -53,185 +54,199 @@ msgstr "Ne mogu da odvojim utičnicu!"
 msgid "Can't connect"
 msgstr "Ne mogu da se povežem"
 
-#: main/config.cc:77
+#: main/config.cc:79
 msgid "You forgot to specify directory."
 msgstr "Zaboravili ste da odredite direktorijum"
 
-#: main/config.cc:79
+#: main/config.cc:81
 msgid "You must specify number as second parameter for '-m' option"
 msgstr "Drugi argument opcije '-m' mora biti broj"
 
-#: main/config.cc:83
+#: main/config.cc:85
 msgid "You must specify number as parameter for '--exit-time' option"
 msgstr "Za opciju '--exit-time' kao argument morate navesti broj"
 
-#: main/config.cc:84
+#: main/config.cc:86
 msgid "Expect URL as parameter for '--ls' option"
 msgstr "Očekujem URL kao argument '--ls' opcije"
 
-#: main/config.cc:86
+#: main/config.cc:88
 msgid "Expect URL as parameter for '--del' option"
 msgstr "Očekujem URL kao argument '--del' opcije"
 
-#: main/config.cc:87
+#: main/config.cc:89
 msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
 msgstr ""
 "Očekujem string u formatu ŠIRINAxVISINA+H+Y kao argument za '--geometry'"
 
-#: main/config.cc:88
+#: main/config.cc:90
 msgid "Expect URL as parameter for '--stop' option"
 msgstr "Očekujem URL kao argument '--stop' opcije"
 
-#: main/config.cc:90
+#: main/config.cc:92
+#, fuzzy
+msgid "Expect URL as parameter for '--referer' option"
+msgstr "Očekujem URL kao argument '--del' opcije"
+
+#: main/config.cc:94
 msgid "Expect URL as parameter for '-a' option"
 msgstr "Očekujem URL kao argument '--a' opcije"
 
-#: main/config.cc:282
+#: main/config.cc:95
+#, fuzzy
+msgid "Expect at least one URL as parameter for '--al' option"
+msgstr "Očekujem URL kao argument '--ls' opcije"
+
+#: main/config.cc:287
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "Ne mogu da otvorim cfg datoteku na '%s'\n"
 
-#: main/config.cc:283
+#: main/config.cc:288
 msgid "Use default cfg :))...\n"
 msgstr "Koristi podrazumevani cfg :))...\n"
 
-#: main/config.cc:514
+#: main/config.cc:519
 msgid "unknown option:"
 msgstr "nepoznata opcija:"
 
-#: main/config.cc:588
+#: main/config.cc:593
 msgid "List of queues:\n"
 msgstr "Lista redova:\n"
 
-#: main/config.cc:643
+#: main/config.cc:681
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Pokreni preuzimanje: %d\n"
 
-#: main/config.cc:645
+#: main/config.cc:683
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Pauzirana preuzimanja: %d\n"
 
-#: main/config.cc:647
+#: main/config.cc:685
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Neuspela preuzimanja: %d\n"
 
-#: main/config.cc:649
+#: main/config.cc:687
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Završena preuzimanja: %d\n"
 
-#: main/config.cc:652
+#: main/config.cc:690
 #, c-format
 msgid "Total: %d\n"
 msgstr "Ukupno: %d\n"
 
-#: main/config.cc:654
+#: main/config.cc:692
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "Ukupno bajtova učitano: %d\n"
 
-#: main/config.cc:656
+#: main/config.cc:694
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Trenutna brzina: %d\n"
 
-#: main/config.cc:662
+#: main/config.cc:700
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "Trenutna brzina: %d\n"
 
-#: main/config.cc:791
+#: main/config.cc:838
 msgid "Added from command line"
 msgstr "Dodato sa komandne linije"
 
-#: main/config.cc:872
+#: main/config.cc:919
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Upotreba: nt [OPCIJA] ... [URL]"
 
-#: main/config.cc:873
+#: main/config.cc:920
 msgid "print this page and exit"
 msgstr "Ispiši ovu stranu i završi"
 
-#: main/config.cc:874
+#: main/config.cc:921
 msgid "show version information and exit"
 msgstr "pokaži podatke o verziji i izađi"
 
-#: main/config.cc:875
+#: main/config.cc:922
 msgid "show information if already run"
 msgstr "pokaži informacije ako je već pokrenut"
 
-#: main/config.cc:876
+#: main/config.cc:923
 msgid "show current speed if already run"
 msgstr "pokaži trenutnu brzinu ako je već pokrenut"
 
-#: main/config.cc:877
+#: main/config.cc:924
 msgid "run in minimized mode"
 msgstr "pokreni umanjeno"
 
-#: main/config.cc:878
+#: main/config.cc:925
 msgid "set timeout for exiting if nothing to do"
 msgstr "postavi vreme za izlaz ako nema šta da se radi"
 
-#: main/config.cc:879
+#: main/config.cc:926
 msgid "set directory for saving files"
 msgstr "postavi direktorijum za snimanje dokumenata"
 
-#: main/config.cc:880
+#: main/config.cc:927
 msgid "set lower speed limitation"
 msgstr "odredi donju brzinsku granicu"
 
-#: main/config.cc:881
+#: main/config.cc:928
 msgid "set medium speed limitation"
 msgstr "odredi srednju brzinu"
 
-#: main/config.cc:882
+#: main/config.cc:929
 msgid "set unlimited speed"
 msgstr "odredi neograničenu brzinu"
 
-#: main/config.cc:883
+#: main/config.cc:930
 msgid "delete completed if already run"
 msgstr "obriši skinuto ako je već pokrenut"
 
-#: main/config.cc:884
+#: main/config.cc:931
 msgid "set maximum active downloads"
 msgstr "postavi najviše aktivnih preuzimanja"
 
-#: main/config.cc:885
+#: main/config.cc:932
 msgid "restart all failed downloads"
 msgstr "ponovo pokreni sva neuspela preuzimanja"
 
-#: main/config.cc:886
+#: main/config.cc:933
 msgid "run program without X interface"
 msgstr "pokreni program bez Iks sučelja"
 
-#: main/config.cc:887
+#: main/config.cc:934
 msgid "display info about URL in queue of downloads"
 msgstr "pokaži informacije o URL-u u redu za preuzimanje"
 
-#: main/config.cc:888
+#: main/config.cc:935
 msgid "change current default queue"
 msgstr "promeni trenutni podrazumevani red"
 
-#: main/config.cc:889
+#: main/config.cc:936
 msgid "remove a download from queue"
 msgstr "ukloni preuzimanje iz reda"
 
-#: main/config.cc:890
+#: main/config.cc:937
 msgid "stop a download"
 msgstr "zaustavi preuzimanje"
 
-#: main/config.cc:891
+#: main/config.cc:938
 msgid "using colors if run without interface"
 msgstr "koristi boje ako je pokrenut bez sučelja"
 
-#: main/config.cc:892
+#: main/config.cc:939
 msgid "specifies preferred size and position of main window"
 msgstr "određuje poželjnu veličinu i mesto glavnog prozora"
 
-#: main/config.cc:893
+#: main/config.cc:940
+msgid "specify rerferer for next added URL"
+msgstr ""
+
+#: main/config.cc:941
 msgid "open \"Add new download\" dialog for the URL"
 msgstr "otvori \"Dodaj novo preuzimanje\" dijalog za URL"
 
@@ -1074,7 +1089,7 @@ msgstr "ponavljanja (-1 beskonačno)"
 msgid "period (day/hour:min)"
 msgstr "period (dan/sat:minut)"
 
-#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:492
+#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:493
 #: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Osobine"
@@ -1893,67 +1908,72 @@ msgstr "Naziv"
 msgid "Options"
 msgstr "Opcije"
 
-#: main/face/qtree.cc:110 main/face/qtree.cc:489
+#: main/face/qtree.cc:110 main/face/qtree.cc:490
 msgid "Create new queue"
 msgstr "Napravi novi red"
 
-#: main/face/qtree.cc:490
+#: main/face/qtree.cc:491
 msgid "Create new subqueue"
 msgstr "Napravi novi podred"
 
-#: main/face/qtree.cc:491
+#: main/face/qtree.cc:492
 msgid "Delete queue"
 msgstr "Ukloni red"
 
-#: main/face/qtree.cc:589
+#: main/face/qtree.cc:590
 msgid "Queue properties"
 msgstr "Osobine reda"
 
-#: main/face/qtree.cc:600
+#: main/face/qtree.cc:601
 msgid "Maximum active downloads"
 msgstr "Najveći broj aktivnih preuzimanja"
 
-#: main/face/qtree.cc:604
+#: main/face/qtree.cc:609
+#, fuzzy
+msgid "Speed limitation per queue (Bytes/sec, 0 unlimited)"
+msgstr "Ograničenje brzine u bajtovima/sekundi (0 za neograničeno)"
+
+#: main/face/qtree.cc:614
 msgid "Automatically delete completed downloads"
 msgstr "Automatski obriši završena preuzimanja"
 
-#: main/face/qtree.cc:605
+#: main/face/qtree.cc:615
 msgid "Automatically delete failed downloads"
 msgstr "Automatski obriši neuspela preuzimanja"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:625
 msgid "Default folder to save downloaded files"
 msgstr "Podrazumevani direktorijum za snimanje skinutih datoteka"
 
-#: main/face/qtree.cc:622
+#: main/face/qtree.cc:632
 msgid "Size format"
 msgstr "Format za veličinu"
 
-#: main/face/qtree.cc:623
+#: main/face/qtree.cc:633
 msgid "Time format"
 msgstr "Format za vreme"
 
-#: main/face/qtree.cc:624
+#: main/face/qtree.cc:634
 msgid "Speed format"
 msgstr "Format za brzinu"
 
-#: main/face/qtree.cc:708
+#: main/face/qtree.cc:718
 msgid "Name of the queue"
 msgstr "Naziv reda"
 
-#: main/face/saveload.cc:88
+#: main/face/saveload.cc:96
 msgid "Loading"
 msgstr "Učitavam"
 
-#: main/face/saveload.cc:139
+#: main/face/saveload.cc:147
 msgid "Save list"
 msgstr "Snimi listu"
 
-#: main/face/saveload.cc:181
+#: main/face/saveload.cc:189
 msgid "Load list"
 msgstr "Učitaj listu"
 
-#: main/face/saveload.cc:223
+#: main/face/saveload.cc:231
 msgid "Find links in txt file"
 msgstr "Pronađi veze u tekstualnoj datoteci"
 
@@ -2031,41 +2051,41 @@ msgstr "Server je odbio prijavu, možda već ima previše korisnika vaše klase"
 msgid "Sleeping"
 msgstr "Spava"
 
-#: main/ftpd.cc:423
+#: main/ftpd.cc:424
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr ""
 "Prazan odgovor. Pokušavam da promenim direktorijum da bih odredio tip "
 "datoteke."
 
-#: main/ftpd.cc:448 main/ftpd.cc:474
+#: main/ftpd.cc:449 main/ftpd.cc:475
 msgid "Length is %ll"
 msgstr "Dužina je %ll"
 
-#: main/ftpd.cc:460
+#: main/ftpd.cc:461
 msgid "This is a directory!"
 msgstr "Ovo je direktorijum!"
 
-#: main/ftpd.cc:470
+#: main/ftpd.cc:471
 msgid "No such file or directory!"
 msgstr "Ne postoji takva datoteka ili direktorijum!"
 
-#: main/ftpd.cc:505
+#: main/ftpd.cc:506
 msgid "Couldn't get size :(("
 msgstr "Nisam uspeo da dobijem veličinu :(("
 
-#: main/ftpd.cc:520
+#: main/ftpd.cc:521
 msgid "Loading directory..."
 msgstr "Učitavam direktorijum..."
 
-#: main/ftpd.cc:534
+#: main/ftpd.cc:535
 msgid "Listing was loaded"
 msgstr "Listing je učitan"
 
-#: main/ftpd.cc:537
+#: main/ftpd.cc:538
 msgid "Listing not loaded completelly"
 msgstr "Listing nije potpuno učitan"
 
-#: main/ftpd.cc:567
+#: main/ftpd.cc:568
 msgid "Link was loaded :))"
 msgstr "Veza je učitana :))"
 
@@ -2155,19 +2175,19 @@ msgstr "Dnevnik je započet!"
 msgid "Can't init control socket!\n"
 msgstr "Ne mogu da inicijalizujem kontrolnu utičnicu!\n"
 
-#: main/main.cc:195
+#: main/main.cc:197
 msgid "Loading default list of downloads"
 msgstr "Učitavam podrazumevanu listu preuzimanja"
 
-#: main/main.cc:275 main/main.cc:1312
+#: main/main.cc:277 main/main.cc:1325
 msgid "Delete completed downloads"
 msgstr "Obriši završena preuzimanja"
 
-#: main/main.cc:288
+#: main/main.cc:290
 msgid "Delete failed downloads"
 msgstr "Obriši neuspela preuzimanja"
 
-#: main/main.cc:305
+#: main/main.cc:307
 msgid "Clear queue of downloads"
 msgstr "Očisti red preuzimanja"
 
@@ -2256,80 +2276,80 @@ msgstr "%z je obrisana iz reda za preuzimanje kao neuspelo preuzimanje"
 msgid "Restarting failed downloads"
 msgstr "Ponovo pokrećem neuspela preuzimanja"
 
-#: main/main.cc:1254 main/main.cc:1290 main/main.cc:1307 main/main.cc:1312
-#: main/main.cc:1317 main/main.cc:1330 main/main.cc:1335
+#: main/main.cc:1254 main/main.cc:1303 main/main.cc:1320 main/main.cc:1325
+#: main/main.cc:1330 main/main.cc:1343 main/main.cc:1348
 msgid "[control socket]"
 msgstr "[kontrolna utičnica]"
 
-#: main/main.cc:1272
+#: main/main.cc:1282
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Ukloni skidanje preko kontrolne utičnice [%s]"
 
-#: main/main.cc:1280
+#: main/main.cc:1290
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Dodajem preuzimanje preko kontrolne utičnice [%s]"
 
-#: main/main.cc:1288
+#: main/main.cc:1301
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Postavi ograničenje brzine na %s %s"
 
-#: main/main.cc:1307
+#: main/main.cc:1320
 msgid "Setup maximum active downloads to"
 msgstr "Postavi najveći broj aktivnih preuzimanja na"
 
-#: main/main.cc:1330
+#: main/main.cc:1343
 msgid "Exiting if nothing to do is switched off"
 msgstr "Izlaz ako nema šta da se radi je isključen"
 
-#: main/main.cc:1335
+#: main/main.cc:1348
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Preuzimač će izaći ako nema šta da radi posle %i minuta %s"
 
-#: main/main.cc:1348
+#: main/main.cc:1361
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "'%s' je sada podrazumevani red."
 
-#: main/main.cc:1648
+#: main/main.cc:1662
 msgid "Loading FTP-Search engines"
 msgstr "Učitavam FTP mašine za pretraživanje"
 
-#: main/main.cc:1650
+#: main/main.cc:1664
 msgid "Normally started"
 msgstr "Pokrenuto normalno"
 
-#: main/main.cc:1708
+#: main/main.cc:1722
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Dodato preuzimanje datoteke %s sa %s [od strane korisnika]"
 
-#: main/main.cc:1759
+#: main/main.cc:1773
 msgid "Downloader is in offline mode now"
 msgstr "Preuzimač sada nije na liniji"
 
-#: main/main.cc:1766
+#: main/main.cc:1780
 msgid "Offline mode is turned off"
 msgstr "Ofline mod je isključen"
 
-#: main/main.cc:1800
+#: main/main.cc:1814
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bajtova učitano tokom sesije"
 
-#: main/main.cc:1801
+#: main/main.cc:1815
 msgid "Downloader exited normaly"
 msgstr "Preuzimač je izašao normalno"
 
-#: main/main.cc:1841
+#: main/main.cc:1855
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Ne mogu da otvorim '%s' za snimanje dnevnika"
 
-#: main/main.cc:1875
+#: main/main.cc:1889
 msgid "Such protocol is not supported!"
 msgstr "Takav protokol nije podržan!"
 

@@ -23,6 +23,7 @@ int d4x_run_or_wait_downloads(){
 };
 
 d4xDownloadQueue::d4xDownloadQueue(){
+	SpdLmt=0;
 	inserted=0;
 	MAX_ACTIVE=5;
 	TIME_FORMAT=NICE_DEC_DIGITALS=SPEED_FORMAT=0;
@@ -201,6 +202,7 @@ void d4xDownloadQueue::save_to_config_list(int fd){
 void d4xDownloadQueue::save_to_config(int fd){
 	f_wstr_lf(fd,"Queue:");
 	write_named_integer(fd,"Max_active:",MAX_ACTIVE);
+	write_named_integer(fd,"Speed_limit:",SpdLmt);
 	write_named_string(fd,"Name:",name.get());
 	write_named_string(fd,"SavePath:",save_path.get());
 	if (D4X_QUEUE==this)
@@ -238,6 +240,7 @@ int d4xDownloadQueue::load_from_config(int fd){
 		{"Name:",	SV_TYPE_PSTR,	&name},
 		{"SavePath:",	SV_TYPE_PSTR,	&save_path},
 		{"Max_active:",	SV_TYPE_INT,	&MAX_ACTIVE},
+		{"Speed_limit:",	SV_TYPE_INT,	&SpdLmt},
 		{"Delcompleted:",	SV_TYPE_INT,	&AUTODEL_COMPLETED},
 		{"Delfailed:",	SV_TYPE_INT,	&AUTODEL_FAILED},
 		{"Timeformat:",	SV_TYPE_INT,	&TIME_FORMAT},

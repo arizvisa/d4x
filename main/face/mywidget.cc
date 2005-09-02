@@ -1168,7 +1168,7 @@ GtkWidget *d4x_links_sel_new(){
 	return GTK_WIDGET(sel);
 };
 
-void d4x_links_sel_add(d4xLinksSel *sel,char *url,gpointer p){
+void d4x_links_sel_add(d4xLinksSel *sel,const char *url,gpointer p){
 	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(sel->view));
 	GtkTreeIter iter;
 	gtk_list_store_append(list_store, &iter);

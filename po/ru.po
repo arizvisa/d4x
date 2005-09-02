@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-25 13:33+0800\n"
+"POT-Creation-Date: 2005-09-02 14:45+0800\n"
 "PO-Revision-Date: 1999-08-24 17:12+07\n"
 "Last-Translator: Koshelev Maxim <chuchelo@krasu.ru>\n"
 "Language-Team: Russian <chuchelo@krasu.ru>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Add new alternate"
 msgstr "Добавить альтернативу"
 
-#: main/alt.cc:380
+#: main/alt.cc:383
 msgid "Modify alternate"
 msgstr "Изменить альтернативу"
 
@@ -31,8 +31,9 @@ msgid "Error while reading from socket!"
 msgstr "Ошибка во время чтения из сокета"
 
 #: main/client.cc:462
-msgid "Trying to connect..."
-msgstr "Пытаюсь установить соединение..."
+#, c-format
+msgid "Trying to connect to %s:%i..."
+msgstr "Пытаюсь установить соединение с %s:%i..."
 
 #: main/client.cc:464
 msgid "Socket was opened!"
@@ -50,208 +51,222 @@ msgstr "Не удается выделить сокет"
 msgid "Can't connect"
 msgstr "Не удается соединиться"
 
-#: main/config.cc:77
+#: main/config.cc:79
 msgid "You forgot to specify directory."
 msgstr "Вы забыли указать директорию."
 
-#: main/config.cc:79
+#: main/config.cc:81
 msgid "You must specify number as second parameter for '-m' option"
 msgstr "Вы должны указать число как второй параметр к опции '-m'"
 
-#: main/config.cc:83
+#: main/config.cc:85
 msgid "You must specify number as parameter for '--exit-time' option"
 msgstr "Вы должны указать число как параметр для опции '--exit-time'"
 
 # config.cc:
-#: main/config.cc:84
+#: main/config.cc:86
 msgid "Expect URL as parameter for '--ls' option"
 msgstr "Ожидается АДРЕС как параметр для команды --ls"
 
 # config.cc:
-#: main/config.cc:86
+#: main/config.cc:88
 msgid "Expect URL as parameter for '--del' option"
 msgstr "Ожидается АДРЕС как параметр для команды --del"
 
-#: main/config.cc:87
+#: main/config.cc:89
 msgid "Expect string in format WIDTHxHEIGHT+X+Y as parameter for '-geometry'"
 msgstr "Ожидаю строку в формате ШИРИНАxВЫСОТА+X+Y как параметр для '-geometry'"
 
 # config.cc:
-#: main/config.cc:88
+#: main/config.cc:90
 msgid "Expect URL as parameter for '--stop' option"
 msgstr "Ожидается АДРЕС как параметр для команды --stop"
 
 # config.cc:
-#: main/config.cc:90
+#: main/config.cc:92
+msgid "Expect URL as parameter for '--referer' option"
+msgstr "Ожидается АДРЕС как параметр для команды --referer"
+
+# config.cc:
+#: main/config.cc:94
 msgid "Expect URL as parameter for '-a' option"
 msgstr "Ожидается АДРЕС как параметр для команды -a"
 
-#: main/config.cc:282
+# config.cc:
+#: main/config.cc:95
+msgid "Expect at least one URL as parameter for '--al' option"
+msgstr "Ожидается как минимум один АДРЕС как параметр для команды --al"
+
+#: main/config.cc:287
 #, c-format
 msgid "Can't open cfg file at '%s'\n"
 msgstr "Не удается открыть конфигурационный файл по пути '%s'\n"
 
-#: main/config.cc:283
+#: main/config.cc:288
 msgid "Use default cfg :))...\n"
 msgstr "Используются настройки по умолчанию...\n"
 
 # config.cc:
-#: main/config.cc:514
+#: main/config.cc:519
 msgid "unknown option:"
 msgstr "неизвестный параметр:"
 
-#: main/config.cc:588
+#: main/config.cc:593
 msgid "List of queues:\n"
 msgstr "Список очередей:\n"
 
 # config.cc:
-#: main/config.cc:643
+#: main/config.cc:681
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Запущеных закачек: %d\n"
 
 # config.cc:
-#: main/config.cc:645
+#: main/config.cc:683
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Остановленных закачек: %d\n"
 
 # config.cc:
-#: main/config.cc:647
+#: main/config.cc:685
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Неудачных закачек: %d\n"
 
 # config.cc:
-#: main/config.cc:649
+#: main/config.cc:687
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Завершенных закачек: %d\n"
 
 # config.cc:
-#: main/config.cc:652
+#: main/config.cc:690
 #, c-format
 msgid "Total: %d\n"
 msgstr "Всего: %d\n"
 
-#: main/config.cc:654
+#: main/config.cc:692
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "Всего байт загружено: %d\n"
 
 # config.cc:
-#: main/config.cc:656
+#: main/config.cc:694
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Текущая скорость: %d\n"
 
 # config.cc:
-#: main/config.cc:662
+#: main/config.cc:700
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "Текущая скорость: %d\n"
 
-#: main/config.cc:791
+#: main/config.cc:838
 msgid "Added from command line"
 msgstr "Добавлено из коммандной строки"
 
 # config.cc:
-#: main/config.cc:872
+#: main/config.cc:919
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Использование: nt [ОПЦИЯ] ... [АДРЕС]"
 
 # config.cc:
-#: main/config.cc:873
+#: main/config.cc:920
 msgid "print this page and exit"
 msgstr "вывести эту страницу и выйти"
 
 # config.cc:
-#: main/config.cc:874
+#: main/config.cc:921
 msgid "show version information and exit"
 msgstr "показать версию и выйти"
 
 # config.cc:
-#: main/config.cc:875
+#: main/config.cc:922
 msgid "show information if already run"
 msgstr "показать статистику если уже запущен"
 
 # config.cc:
-#: main/config.cc:876
+#: main/config.cc:923
 msgid "show current speed if already run"
 msgstr "показать текущую скорость если уже запущен"
 
 # config.cc
-#: main/config.cc:877
+#: main/config.cc:924
 msgid "run in minimized mode"
 msgstr "запустить в минимизированном состоянии"
 
 # config.cc
-#: main/config.cc:878
+#: main/config.cc:925
 msgid "set timeout for exiting if nothing to do"
 msgstr "установить таймаут для выхода если нечего делать"
 
 # config.cc:
-#: main/config.cc:879
+#: main/config.cc:926
 msgid "set directory for saving files"
 msgstr "установить директорию для записи файлов"
 
 # config.cc:
-#: main/config.cc:880
+#: main/config.cc:927
 msgid "set lower speed limitation"
 msgstr "установить нижний предел скорости"
 
 # config.cc:
-#: main/config.cc:881
+#: main/config.cc:928
 msgid "set medium speed limitation"
 msgstr "установить средний предел скорости"
 
 # config.cc:
-#: main/config.cc:882
+#: main/config.cc:929
 msgid "set unlimited speed"
 msgstr "установить не ограниченную скорость"
 
-#: main/config.cc:883
+#: main/config.cc:930
 msgid "delete completed if already run"
 msgstr "удалить завершенные если уже запущен"
 
-#: main/config.cc:884
+#: main/config.cc:931
 msgid "set maximum active downloads"
 msgstr "установить максимум одновременно качающих"
 
 # config.cc
-#: main/config.cc:885
+#: main/config.cc:932
 msgid "restart all failed downloads"
 msgstr "перезапустить все неудачные закачки"
 
-#: main/config.cc:886
+#: main/config.cc:933
 msgid "run program without X interface"
 msgstr "запустить программу без X интерфейса"
 
-#: main/config.cc:887
+#: main/config.cc:934
 msgid "display info about URL in queue of downloads"
 msgstr "отобразить информацию о АДРЕСЕ в очереди закачек"
 
-#: main/config.cc:888
+#: main/config.cc:935
 msgid "change current default queue"
 msgstr "поменять текущую очередь поумолчанию"
 
-#: main/config.cc:889
+#: main/config.cc:936
 msgid "remove a download from queue"
 msgstr "удалить закачку из очереди"
 
-#: main/config.cc:890
+#: main/config.cc:937
 msgid "stop a download"
 msgstr "остановить закачку"
 
-#: main/config.cc:891
+#: main/config.cc:938
 msgid "using colors if run without interface"
 msgstr "использовать цвета если запущена без интерфейса"
 
-#: main/config.cc:892
+#: main/config.cc:939
 msgid "specifies preferred size and position of main window"
 msgstr "указывает предпочтительный размер и расположение главного окна"
 
-#: main/config.cc:893
+#: main/config.cc:940
+msgid "specify rerferer for next added URL"
+msgstr "указывает referer для следущего добавленного АДРЕСА"
+
+#: main/config.cc:941
 msgid "open \"Add new download\" dialog for the URL"
 msgstr "открыть диалог \"Добавить закачку\" для АДРЕСА"
 
@@ -1131,7 +1146,7 @@ msgstr "количество попыток (-1 не ограничено)"
 msgid "period (day/hour:min)"
 msgstr "период (дней/час:мин)"
 
-#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:492
+#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:493
 #: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Свойства"
@@ -1984,71 +1999,76 @@ msgstr "Имя"
 msgid "Options"
 msgstr "Настройки"
 
-#: main/face/qtree.cc:110 main/face/qtree.cc:489
+#: main/face/qtree.cc:110 main/face/qtree.cc:490
 msgid "Create new queue"
 msgstr "Создать новую очередь"
 
-#: main/face/qtree.cc:490
+#: main/face/qtree.cc:491
 msgid "Create new subqueue"
 msgstr "Создать новую подочередь"
 
 # face/dndtrash.cc
-#: main/face/qtree.cc:491
+#: main/face/qtree.cc:492
 msgid "Delete queue"
 msgstr "Удалить очередь"
 
-#: main/face/qtree.cc:589
+#: main/face/qtree.cc:590
 msgid "Queue properties"
 msgstr "Свойства очереди"
 
-#: main/face/qtree.cc:600
+#: main/face/qtree.cc:601
 msgid "Maximum active downloads"
 msgstr "Количество качающих"
 
-#: main/face/qtree.cc:604
+# face/edit.cc
+#: main/face/qtree.cc:609
+msgid "Speed limitation per queue (Bytes/sec, 0 unlimited)"
+msgstr "Ограничение скорости на очередь (Байт/сек 0 не ограничено)"
+
+#: main/face/qtree.cc:614
 msgid "Automatically delete completed downloads"
 msgstr "Автоматически удалять завершенные"
 
-#: main/face/qtree.cc:605
+#: main/face/qtree.cc:615
 msgid "Automatically delete failed downloads"
 msgstr "Автоматически удалять неудачные"
 
 # main.cc
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:625
 msgid "Default folder to save downloaded files"
 msgstr "Папка по умолчанию для сохранения загружаемых файлов"
 
-#: main/face/qtree.cc:622
+#: main/face/qtree.cc:632
 msgid "Size format"
 msgstr "Формат размера"
 
-#: main/face/qtree.cc:623
+#: main/face/qtree.cc:633
 msgid "Time format"
 msgstr "Формат времени"
 
-#: main/face/qtree.cc:624
+#: main/face/qtree.cc:634
 msgid "Speed format"
 msgstr "Формат скорости"
 
-#: main/face/qtree.cc:708
+#: main/face/qtree.cc:718
 msgid "Name of the queue"
 msgstr "Имя очереди"
 
 # face/saveload.cc
-#: main/face/saveload.cc:88
+#: main/face/saveload.cc:96
 msgid "Loading"
 msgstr "Загрузка"
 
-#: main/face/saveload.cc:139
+#: main/face/saveload.cc:147
 msgid "Save list"
 msgstr "Сохранить список"
 
-#: main/face/saveload.cc:181
+#: main/face/saveload.cc:189
 msgid "Load list"
 msgstr "Загрузить список"
 
 # face/saveload.cc
-#: main/face/saveload.cc:223
+#: main/face/saveload.cc:231
 msgid "Find links in txt file"
 msgstr "Найти ссылки в текстовом файле"
 
@@ -2125,39 +2145,39 @@ msgstr "Сервер отказал в доступе, возможно слиш
 msgid "Sleeping"
 msgstr "Спим..."
 
-#: main/ftpd.cc:423
+#: main/ftpd.cc:424
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr "Пустой ответ. Пытаемся сменить директорию чтобы определить тип файла."
 
-#: main/ftpd.cc:448 main/ftpd.cc:474
+#: main/ftpd.cc:449 main/ftpd.cc:475
 msgid "Length is %ll"
 msgstr "Длина is %ll"
 
-#: main/ftpd.cc:460
+#: main/ftpd.cc:461
 msgid "This is a directory!"
 msgstr "Это директория"
 
-#: main/ftpd.cc:470
+#: main/ftpd.cc:471
 msgid "No such file or directory!"
 msgstr "Нет такого файла или директории!"
 
-#: main/ftpd.cc:505
+#: main/ftpd.cc:506
 msgid "Couldn't get size :(("
 msgstr "Не удается определить размер"
 
-#: main/ftpd.cc:520
+#: main/ftpd.cc:521
 msgid "Loading directory..."
 msgstr "Загружаю директорию"
 
-#: main/ftpd.cc:534
+#: main/ftpd.cc:535
 msgid "Listing was loaded"
 msgstr "Листинг загружен"
 
-#: main/ftpd.cc:537
+#: main/ftpd.cc:538
 msgid "Listing not loaded completelly"
 msgstr "Листинг не загружен полностью"
 
-#: main/ftpd.cc:567
+#: main/ftpd.cc:568
 msgid "Link was loaded :))"
 msgstr "Ссылка загружена :))"
 
@@ -2251,21 +2271,21 @@ msgid "Can't init control socket!\n"
 msgstr "Не могу инициализировать контрольный сокет!\n"
 
 # main.cc:
-#: main/main.cc:195
+#: main/main.cc:197
 msgid "Loading default list of downloads"
 msgstr "Загрузка сохраненного списка закачек"
 
 # main.cc
-#: main/main.cc:275 main/main.cc:1312
+#: main/main.cc:277 main/main.cc:1325
 msgid "Delete completed downloads"
 msgstr "Удаление завершенных закачек"
 
 # main.cc
-#: main/main.cc:288
+#: main/main.cc:290
 msgid "Delete failed downloads"
 msgstr "Удаление неудачных закачек"
 
-#: main/main.cc:305
+#: main/main.cc:307
 msgid "Clear queue of downloads"
 msgstr "Очистка очереди закачек"
 
@@ -2361,86 +2381,86 @@ msgid "Restarting failed downloads"
 msgstr "Перезапуск неудавшихся закачек"
 
 # main.cc
-#: main/main.cc:1254 main/main.cc:1290 main/main.cc:1307 main/main.cc:1312
-#: main/main.cc:1317 main/main.cc:1330 main/main.cc:1335
+#: main/main.cc:1254 main/main.cc:1303 main/main.cc:1320 main/main.cc:1325
+#: main/main.cc:1330 main/main.cc:1343 main/main.cc:1348
 msgid "[control socket]"
 msgstr "[контрольный сокет]"
 
 # main.cc
-#: main/main.cc:1272
+#: main/main.cc:1282
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Удаление закачки через контрольный сокет [%s]"
 
 # main.cc
-#: main/main.cc:1280
+#: main/main.cc:1290
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Добавление закачки через контрольный сокет [%s]"
 
 # main.cc
-#: main/main.cc:1288
+#: main/main.cc:1301
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Устанвливаю ограничение скорости в %s %s"
 
 # main.cc
-#: main/main.cc:1307
+#: main/main.cc:1320
 msgid "Setup maximum active downloads to"
 msgstr "Максимум качающих установлено в"
 
-#: main/main.cc:1330
+#: main/main.cc:1343
 msgid "Exiting if nothing to do is switched off"
 msgstr "\"выход если нечего делать\" отключен"
 
-#: main/main.cc:1335
+#: main/main.cc:1348
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader выйдет если нечего делать через %i минут %s"
 
-#: main/main.cc:1348
+#: main/main.cc:1361
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "'%s' очередь по умолчанию."
 
-#: main/main.cc:1648
+#: main/main.cc:1662
 msgid "Loading FTP-Search engines"
 msgstr "Загружаю настройки FTP-поисковиков"
 
-#: main/main.cc:1650
+#: main/main.cc:1664
 msgid "Normally started"
 msgstr "Нормальный запуск"
 
-#: main/main.cc:1708
+#: main/main.cc:1722
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Добавлена закачка файла %s из %s"
 
-#: main/main.cc:1759
+#: main/main.cc:1773
 msgid "Downloader is in offline mode now"
 msgstr "Программа перешла в автономномный режим (оффлайн)"
 
-#: main/main.cc:1766
+#: main/main.cc:1780
 msgid "Offline mode is turned off"
 msgstr "Автономнйы режим (оффлайн) отключен"
 
 # main.cc
-#: main/main.cc:1800
+#: main/main.cc:1814
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu байт загружено за сессию"
 
 # main.cc:
-#: main/main.cc:1801
+#: main/main.cc:1815
 msgid "Downloader exited normaly"
 msgstr "Нормальный выход"
 
-#: main/main.cc:1841
+#: main/main.cc:1855
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Не удается открыть файл '%s' для записи лога"
 
-#: main/main.cc:1875
+#: main/main.cc:1889
 msgid "Such protocol is not supported!"
 msgstr "Этот протокол не поддерживается!"
 

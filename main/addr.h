@@ -19,8 +19,8 @@ struct tAddr{
 	int mask;
 	tAddr();
 	tAddr(const tAddr *a);
-	tAddr(char *str);
-	void from_string(char *str);
+	tAddr(const char *str);
+	void from_string(const char *str);
 	void print();
 	void compose_path(char *aa,char *bb);
 	void compose_path2(char *aa,char *bb);

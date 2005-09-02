@@ -116,7 +116,7 @@ char *get_name_by_proto(int proto){
 	return(proto_infos[proto].name);
 };
 
-static int get_proto_by_string(char *str){
+static int get_proto_by_string(const char *str){
 	if (str==NULL) return D_PROTO_UNKNOWN;
 	if (begin_string_uncase(str,"www")) return D_PROTO_HTTP;
 	if (begin_string_uncase(str,"ftp")) return D_PROTO_FTP;
@@ -168,7 +168,12 @@ tAddr::tAddr(const tAddr *a) {
 	copy(a);
 };
 
-void tAddr::from_string(char *str){
+
+tAddr::tAddr(const char *str){
+	from_string(str);
+};
+
+void tAddr::from_string(const char *str){
 	clear();
 	char *host1=NULL,*username1=NULL,*pass1=NULL,*path1=NULL,*file1=NULL;
 	char *proto_name=NULL;
@@ -185,7 +190,7 @@ void tAddr::from_string(char *str){
 		};
 	};
 	if (proto_name) {
-		char *tmp=str+strlen(proto_name);
+		const char *tmp=str+strlen(proto_name);
 		while (*tmp=='/') tmp+=1;
 		host1=copy_string(tmp);
 	} else {
@@ -267,10 +272,6 @@ void tAddr::from_string(char *str){
 	pass.set(pass1);if (pass1) delete[] pass1;
 	path.set(path1);if (path1) delete[] path1;
 	file.set(file1);if (file1) delete[] file1;
-};
-
-tAddr::tAddr(char *str){
-	from_string(str);
 };
 
 void tAddr::print() {

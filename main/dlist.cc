@@ -1926,7 +1926,7 @@ void tDownload::prepare_splits(){
 				temp->info->copy(info);
 			};
 			if (ALTS){
-				if (alt->next){
+				if (alt && alt->next){
 					alt=alt->next;
 					alt_num++;
 				}else{
@@ -1981,6 +1981,17 @@ void tDownload::set_split_count(int num){
 		if (split)
 			delete(split);
 		split=NULL;
+	};
+};
+
+void tDownload::set_initial_speedlimit(){
+	if (CFG.SPEED_LIMIT<3 && CFG.SPEED_LIMIT>0){
+		SpeedLimit->set((CFG.SPEED_LIMIT==1 ? CFG.SPEED_LIMIT_1:CFG.SPEED_LIMIT_2)/50+1);
+	}else if (myowner && myowner->PAPA){
+		SpeedLimit->base2=myowner->PAPA->SpdLmt/myowner->count();
+	}else if (split && split->grandparent && split->grandparent->myowner){
+		tDList *o=split->grandparent->myowner;
+		SpeedLimit->base2=o->PAPA->SpdLmt/o->count();
 	};
 };
 

@@ -53,8 +53,6 @@ static void *server_thread_run(void *what){
 
 
 tMsgServer::tMsgServer(){
-	list=new tStringList;
-	list->init(0);
 	file=NULL;
 	fd=newfd=0;
 };
@@ -62,7 +60,6 @@ tMsgServer::tMsgServer(){
 tMsgServer::~tMsgServer(){
     if (fd>0) close(fd);
     if (newfd>0) close(newfd);
-    delete(list);
     unlink(file);
     delete[] file;
 };
@@ -233,11 +230,18 @@ void tMsgServer::cmd_add(int len,int type){
 	char *temp=new char[len+1];
 	if (read(newfd,temp,len)==len){
 		temp[len]=0;
-		tString *newstr=new tString;
-		newstr->body=temp;
-		newstr->temp=type;
+		
+		d4x::RemoteCommand ncmd;
+		ncmd.type=type;
+		char *a=temp;
+		
+		while(a-temp<len){
+			ncmd.params.push_back(a);
+			a+=strlen(a)+1;
+		};
+		
 		lock.lock();
-		list->insert(newstr);
+		COMMANDS.push_back(ncmd);
 		lock.unlock();
 		cmd_ack();
 	}else
@@ -271,6 +275,7 @@ void tMsgServer::run(){
 				case PACKET_MSG:
 				case PACKET_STOP:
 				case PACKET_DEL:
+				case PACKET_OPENLIST:
 				case PACKET_ADD:{
 					cmd_add(packet.len,packet.type);
 					break;
@@ -331,15 +336,22 @@ void tMsgServer::run(){
     pthread_exit(NULL);
 };
 
-tString *tMsgServer::get_string(){
+bool tMsgServer::empty(){
     lock.lock();
-    tString *temp=list->first();
-    if (temp){
-		list->del(temp);
-    };
+    bool rval=COMMANDS.empty();
+    lock.unlock();
+    return rval;
+};
+
+d4x::RemoteCommand tMsgServer::get_command(){
+    lock.lock();
+    
+    d4x::RemoteCommand temp=*(COMMANDS.begin());
+    COMMANDS.pop_front();
     lock.unlock();
     return temp;
 };
+
 /* tMsgClient, send command if Downloader already run
  */
 tMsgClient::tMsgClient(){

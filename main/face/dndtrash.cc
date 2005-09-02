@@ -321,7 +321,7 @@ int dnd_trash_button_release(GtkWidget *widget,GdkEventButton *event){
 
 
 static int dnd_trash_no_expose(){
-	if (CFG.DND_NEED_POPUP){
+	if (CFG.DND_NEED_POPUP && dnd_trash_window){
 		time_t now=time(NULL);
 		if (now == dnd_trash_last_raise)
 			dnd_trash_raise_count+=1;

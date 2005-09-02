@@ -15,5 +15,6 @@ void init_save_list(...);
 void init_load_list(...);
 void init_load_txt_list(...);
 gint load_save_list_cancel();
+d4xLinksSel *d4x_links_sel_new_with_ok();
 
 #endif

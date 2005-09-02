@@ -46,6 +46,14 @@ static void d4x_links_sel_ok(GtkWidget *button, d4xLinksSel *sel){
 	gtk_widget_destroy(GTK_WIDGET(sel));
 };
 
+d4xLinksSel *d4x_links_sel_new_with_ok(){
+	d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new();
+	g_signal_connect(G_OBJECT(sel->ok),"clicked",
+			 G_CALLBACK(d4x_links_sel_ok),
+			 sel);
+	return sel;
+};
+
 static gint time_for_load_refresh(GtkWidget *pbar){
 	if (thread_for_parse_txt_status()==1){
 		char text[100];
