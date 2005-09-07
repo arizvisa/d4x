@@ -113,7 +113,8 @@ void d4x_filter_sel_to_combo(d4xFilterSel *sel,GtkWidget *combo);
 struct d4xLinksSel{
 	GtkWindow window;
 	GtkTreeView *view;
-	GtkWidget *hbbox;
+	GtkWidget *hbbox,*vbox;
+	GtkWidget *referer;
 	GtkWidget *ok,*cancel,*remove,*find;
 };
 
@@ -133,6 +134,7 @@ gpointer d4x_links_sel_get_data(d4xLinksSel *sel,GtkTreeIter *iter);
 void d4x_links_sel_set(d4xLinksSel *sel,GtkTreeIter *iter,char *url,gpointer p);
 
 GtkWidget *d4x_links_sel_new_with_add();
+GtkWidget *d4x_links_sel_new_with_referer(const char*);
 
 struct d4xStringEdit{
 	GtkWindow window;

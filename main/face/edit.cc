@@ -1117,6 +1117,13 @@ void tDEdit::set_description(const char *desc){
 		text_to_combo(desc_entry,"");		
 };
 
+void tDEdit::set_referer(const char *ref){
+	if (ref)
+		text_to_combo(referer_entry,ref);
+	else
+		text_to_combo(referer_entry,"");
+};
+
 void tDEdit::setup_entries() {
 	set_editable_for_combo(pass_entry,GTK_TOGGLE_BUTTON(use_pass_check)->active);
 	gtk_editable_set_editable(GTK_EDITABLE(GTK_BIN(user_entry)->child),GTK_TOGGLE_BUTTON(use_pass_check)->active);

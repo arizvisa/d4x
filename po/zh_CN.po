@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d4x 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-02 14:45+0800\n"
+"POT-Creation-Date: 2005-09-07 20:01+0800\n"
 "PO-Revision-Date: 2004-05-30 20:45+0800\n"
 "Last-Translator: Liu Songhe <jackliu9999@263.net>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -110,139 +110,139 @@ msgstr "未知选项："
 msgid "List of queues:\n"
 msgstr "队列列表：\n"
 
-#: main/config.cc:681
+#: main/config.cc:682
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "运行下载任务：%d\n"
 
-#: main/config.cc:683
+#: main/config.cc:684
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "暂停的下载任务：%d\n"
 
-#: main/config.cc:685
+#: main/config.cc:686
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "失败的下载任务：%d\n"
 
-#: main/config.cc:687
+#: main/config.cc:688
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "完成的下载任务：%d\n"
 
-#: main/config.cc:690
+#: main/config.cc:691
 #, c-format
 msgid "Total: %d\n"
 msgstr "共：%d\n"
 
-#: main/config.cc:692
+#: main/config.cc:693
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "共下载 %d 字节\n"
 
-#: main/config.cc:694
+#: main/config.cc:695
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "当前速度：%d\n"
 
-#: main/config.cc:700
+#: main/config.cc:701
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "当前速度：%d\n"
 
-#: main/config.cc:838
+#: main/config.cc:851
 msgid "Added from command line"
 msgstr "从命令行中添加"
 
-#: main/config.cc:919
+#: main/config.cc:946
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "用法：nt [选项] ... [URL]"
 
-#: main/config.cc:920
+#: main/config.cc:947
 msgid "print this page and exit"
 msgstr "打印此页并退出"
 
-#: main/config.cc:921
+#: main/config.cc:948
 msgid "show version information and exit"
 msgstr "显示版本信息并退出"
 
-#: main/config.cc:922
+#: main/config.cc:949
 msgid "show information if already run"
 msgstr "如果已经运行则显示信息"
 
-#: main/config.cc:923
+#: main/config.cc:950
 msgid "show current speed if already run"
 msgstr "如果已经运行则显示当前速度"
 
-#: main/config.cc:924
+#: main/config.cc:951
 msgid "run in minimized mode"
 msgstr "以最小化模式运行"
 
-#: main/config.cc:925
+#: main/config.cc:952
 msgid "set timeout for exiting if nothing to do"
 msgstr "设置空闲时退出的超时时间"
 
-#: main/config.cc:926
+#: main/config.cc:953
 msgid "set directory for saving files"
 msgstr "设置保存文件的目录"
 
-#: main/config.cc:927
+#: main/config.cc:954
 msgid "set lower speed limitation"
 msgstr "设置低速限制"
 
-#: main/config.cc:928
+#: main/config.cc:955
 msgid "set medium speed limitation"
 msgstr "设置中速限制"
 
-#: main/config.cc:929
+#: main/config.cc:956
 msgid "set unlimited speed"
 msgstr "设置不限速"
 
-#: main/config.cc:930
+#: main/config.cc:957
 msgid "delete completed if already run"
 msgstr "如果已经完成则从任务列表中删除"
 
-#: main/config.cc:931
+#: main/config.cc:958
 msgid "set maximum active downloads"
 msgstr "设置最大活动下载任务数目"
 
-#: main/config.cc:932
+#: main/config.cc:959
 msgid "restart all failed downloads"
 msgstr "重新启动所有失败的下载任务"
 
-#: main/config.cc:933
+#: main/config.cc:960
 msgid "run program without X interface"
 msgstr "以非 X 界面运行程序"
 
-#: main/config.cc:934
+#: main/config.cc:961
 msgid "display info about URL in queue of downloads"
 msgstr "显示下载任务队列里 URL 的有关信息"
 
-#: main/config.cc:935
+#: main/config.cc:962
 msgid "change current default queue"
 msgstr "改变当前的默认队列"
 
-#: main/config.cc:936
+#: main/config.cc:963
 msgid "remove a download from queue"
 msgstr "从列表中删除一个下载任务"
 
-#: main/config.cc:937
+#: main/config.cc:964
 msgid "stop a download"
 msgstr "停止一个下载任务"
 
-#: main/config.cc:938
+#: main/config.cc:965
 msgid "using colors if run without interface"
 msgstr "如果不以(图形)界面运行则使用颜色表示"
 
-#: main/config.cc:939
+#: main/config.cc:966
 msgid "specifies preferred size and position of main window"
 msgstr "指定主窗口首选的大小和位置"
 
-#: main/config.cc:940
+#: main/config.cc:967
 msgid "specify rerferer for next added URL"
 msgstr ""
 
-#: main/config.cc:941
+#: main/config.cc:968
 msgid "open \"Add new download\" dialog for the URL"
 msgstr "为 URL 打开“添加新的下载任务”对话框"
 
@@ -476,11 +476,11 @@ msgstr "特别感谢"
 msgid "Don't ask next time"
 msgstr "下次不再提问"
 
-#: main/face/addd.cc:95 main/face/addd.cc:247
+#: main/face/addd.cc:95 main/face/addd.cc:248
 msgid "Add new download"
 msgstr "添加新的下载任务"
 
-#: main/face/addd.cc:184 main/face/dndtrash.cc:629
+#: main/face/addd.cc:185 main/face/dndtrash.cc:629
 msgid "Automated adding"
 msgstr "自动添加下载任务"
 
@@ -621,7 +621,7 @@ msgid "description"
 msgstr "描述"
 
 #: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1088
-#: main/face/mywidget.cc:1347
+#: main/face/mywidget.cc:1361
 msgid "URL"
 msgstr "URL"
 
@@ -816,8 +816,8 @@ msgstr "描述"
 msgid "Save download to file"
 msgstr "保存下载任务为文件"
 
-#: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
-#: main/face/edit.cc:1683 main/face/mywidget.cc:1403
+#: main/face/edit.cc:433 main/face/edit.cc:1592 main/face/edit.cc:1653
+#: main/face/edit.cc:1690 main/face/mywidget.cc:1417
 msgid "password"
 msgstr "密码"
 
@@ -925,57 +925,57 @@ msgstr "开始这个下载任务在："
 msgid "Use default settings"
 msgstr "使用默认设置"
 
-#: main/face/edit.cc:1519
+#: main/face/edit.cc:1526
 msgid "FTP proxy type"
 msgstr "FTP 代理类型"
 
-#: main/face/edit.cc:1530 main/face/mywidget.cc:1353
+#: main/face/edit.cc:1537 main/face/mywidget.cc:1367
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1543
+#: main/face/edit.cc:1550
 msgid "Use this proxy for FTP"
 msgstr "对 FTP 使用此代理"
 
-#: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
-#: main/face/mywidget.cc:1376
+#: main/face/edit.cc:1565 main/face/edit.cc:1627 main/face/edit.cc:1673
+#: main/face/mywidget.cc:1390
 msgid "port"
 msgstr "端口"
 
-#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1382
+#: main/face/edit.cc:1571 main/face/edit.cc:1632 main/face/mywidget.cc:1396
 msgid "need password"
 msgstr "需要密码"
 
-#: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
-#: main/face/mywidget.cc:1389
+#: main/face/edit.cc:1579 main/face/edit.cc:1640 main/face/edit.cc:1684
+#: main/face/mywidget.cc:1403
 msgid "username"
 msgstr "用户名"
 
-#: main/face/edit.cc:1599
+#: main/face/edit.cc:1606
 msgid "Don't get from cache"
 msgstr "不从缓存里读取数据"
 
-#: main/face/edit.cc:1605
+#: main/face/edit.cc:1612
 msgid "Use this proxy for HTTP"
 msgstr "对 HTTP 使用此代理"
 
-#: main/face/edit.cc:1653
+#: main/face/edit.cc:1660
 msgid "Use SOCKS5 proxy"
 msgstr "使用 SOCKS5 代理"
 
-#: main/face/edit.cc:1659
+#: main/face/edit.cc:1666
 msgid "host"
 msgstr "主机"
 
-#: main/face/edit.cc:2039
+#: main/face/edit.cc:2046
 msgid "Select properties"
 msgstr "选择属性"
 
-#: main/face/edit.cc:2084
+#: main/face/edit.cc:2091
 msgid "Unselect all"
 msgstr "取消所有选择"
 
-#: main/face/edit.cc:2090
+#: main/face/edit.cc:2097
 msgid "Select all"
 msgstr "全选"
 
@@ -1083,7 +1083,7 @@ msgstr "重复次数(-1 是无限制)"
 msgid "period (day/hour:min)"
 msgstr "时间周期(天/时:分)"
 
-#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:493
+#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:495
 #: main/mainlog.cc:202
 msgid "Properties"
 msgstr "属性"
@@ -1529,11 +1529,16 @@ msgstr "链接列表"
 msgid "Add"
 msgstr "添加"
 
-#: main/face/mywidget.cc:1350
+#: main/face/mywidget.cc:1160
+#, fuzzy
+msgid "Referer:"
+msgstr "引用"
+
+#: main/face/mywidget.cc:1364
 msgid "proxy type"
 msgstr "代理类型"
 
-#: main/face/mywidget.cc:1365
+#: main/face/mywidget.cc:1379
 msgid "Use different proxy for this alternate"
 msgstr "对此候选项使用不同的代理"
 
@@ -1902,72 +1907,72 @@ msgstr "名称"
 msgid "Options"
 msgstr "选项"
 
-#: main/face/qtree.cc:110 main/face/qtree.cc:490
+#: main/face/qtree.cc:110 main/face/qtree.cc:492
 msgid "Create new queue"
 msgstr "创建新的下载队列"
 
-#: main/face/qtree.cc:491
+#: main/face/qtree.cc:493
 msgid "Create new subqueue"
 msgstr "创建新的子下载队列"
 
-#: main/face/qtree.cc:492
+#: main/face/qtree.cc:494
 msgid "Delete queue"
 msgstr "删除队列"
 
-#: main/face/qtree.cc:590
+#: main/face/qtree.cc:592
 msgid "Queue properties"
 msgstr "队列属性"
 
-#: main/face/qtree.cc:601
+#: main/face/qtree.cc:603
 msgid "Maximum active downloads"
 msgstr "活动下载任务的最大数目"
 
-#: main/face/qtree.cc:609
+#: main/face/qtree.cc:611
 #, fuzzy
 msgid "Speed limitation per queue (Bytes/sec, 0 unlimited)"
 msgstr "速度限制(单位：字节/秒，0 代表不限制)"
 
-#: main/face/qtree.cc:614
+#: main/face/qtree.cc:616
 msgid "Automatically delete completed downloads"
 msgstr "自动从任务列表中删除完成的下载任务"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:617
 msgid "Automatically delete failed downloads"
 msgstr "自动从任务列表中删除失败的下载任务"
 
-#: main/face/qtree.cc:625
+#: main/face/qtree.cc:627
 msgid "Default folder to save downloaded files"
 msgstr "保存下载文件的默认目录"
 
-#: main/face/qtree.cc:632
+#: main/face/qtree.cc:634
 msgid "Size format"
 msgstr "大小格式"
 
-#: main/face/qtree.cc:633
+#: main/face/qtree.cc:635
 msgid "Time format"
 msgstr "时间格式"
 
-#: main/face/qtree.cc:634
+#: main/face/qtree.cc:636
 msgid "Speed format"
 msgstr "速度格式"
 
-#: main/face/qtree.cc:718
+#: main/face/qtree.cc:720
 msgid "Name of the queue"
 msgstr "队列的名称"
 
-#: main/face/saveload.cc:96
+#: main/face/saveload.cc:100
 msgid "Loading"
 msgstr "载入"
 
-#: main/face/saveload.cc:147
+#: main/face/saveload.cc:151
 msgid "Save list"
 msgstr "保存任务列表"
 
-#: main/face/saveload.cc:189
+#: main/face/saveload.cc:193
 msgid "Load list"
 msgstr "载入任务列表"
 
-#: main/face/saveload.cc:231
+#: main/face/saveload.cc:235
 msgid "Find links in txt file"
 msgstr "在 txt 文件里查找链接"
 
@@ -2172,27 +2177,27 @@ msgstr "无法初始化控制套接字！\n"
 msgid "Loading default list of downloads"
 msgstr "正在载入默认的下载任务列表"
 
-#: main/main.cc:277 main/main.cc:1325
+#: main/main.cc:279 main/main.cc:1322
 msgid "Delete completed downloads"
 msgstr "删除已完成的下载任务"
 
-#: main/main.cc:290
+#: main/main.cc:292
 msgid "Delete failed downloads"
 msgstr "删除失败的下载任务"
 
-#: main/main.cc:307
+#: main/main.cc:309
 msgid "Clear queue of downloads"
 msgstr "清除下载任务队列"
 
-#: main/main.cc:362
+#: main/main.cc:364
 msgid "Run new thread for %z"
 msgstr "为 %z 运行新线程"
 
-#: main/main.cc:368
+#: main/main.cc:370
 msgid "Can't run new thread for downloading!"
 msgstr "无法运行新线程下载！"
 
-#: main/main.cc:427
+#: main/main.cc:429
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "对文件 %s(来自 %s)的下载被用户中止"
@@ -2267,80 +2272,80 @@ msgstr "作为失败的下载任务，%z 已经从下载任务队列中删除"
 msgid "Restarting failed downloads"
 msgstr "重新开始失败的下载任务"
 
-#: main/main.cc:1254 main/main.cc:1303 main/main.cc:1320 main/main.cc:1325
-#: main/main.cc:1330 main/main.cc:1343 main/main.cc:1348
+#: main/main.cc:1254 main/main.cc:1300 main/main.cc:1317 main/main.cc:1322
+#: main/main.cc:1327 main/main.cc:1340 main/main.cc:1345
 msgid "[control socket]"
 msgstr "[控制套接字]"
 
-#: main/main.cc:1282
+#: main/main.cc:1279
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "通过控制套接字 [%s] 删除下载"
 
-#: main/main.cc:1290
+#: main/main.cc:1287
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "通过控制套接字 [%s] 添加下载任务"
 
-#: main/main.cc:1301
+#: main/main.cc:1298
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "设置速度限制为 %s %s"
 
-#: main/main.cc:1320
+#: main/main.cc:1317
 msgid "Setup maximum active downloads to"
 msgstr "设置最大活动下载数目为"
 
-#: main/main.cc:1343
+#: main/main.cc:1340
 msgid "Exiting if nothing to do is switched off"
 msgstr "“如果无下载任务可运行就退出”已关闭"
 
-#: main/main.cc:1348
+#: main/main.cc:1345
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "过 %i 分钟 %s 如果无下载任务可运行则下载程序自动退出"
 
-#: main/main.cc:1361
+#: main/main.cc:1358
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "现在 %s 是默认队列。"
 
-#: main/main.cc:1662
+#: main/main.cc:1664
 msgid "Loading FTP-Search engines"
 msgstr "正在载入 ftp 搜索引擎"
 
-#: main/main.cc:1664
+#: main/main.cc:1666
 msgid "Normally started"
 msgstr "正常开始"
 
-#: main/main.cc:1722
+#: main/main.cc:1724
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "用户已添加下载任务文件 %s(来自 %s)"
 
-#: main/main.cc:1773
+#: main/main.cc:1775
 msgid "Downloader is in offline mode now"
 msgstr "下载程序现在是离线模式"
 
-#: main/main.cc:1780
+#: main/main.cc:1782
 msgid "Offline mode is turned off"
 msgstr "离线模式已关闭"
 
-#: main/main.cc:1814
+#: main/main.cc:1816
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "此次运行期间下载了 %lu 字节"
 
-#: main/main.cc:1815
+#: main/main.cc:1817
 msgid "Downloader exited normaly"
 msgstr "下载程序正常退出"
 
-#: main/main.cc:1855
+#: main/main.cc:1857
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "无法保存日志到“%s”"
 
-#: main/main.cc:1889
+#: main/main.cc:1891
 msgid "Such protocol is not supported!"
 msgstr "不支持此协议！"
 

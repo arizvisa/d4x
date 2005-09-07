@@ -38,7 +38,7 @@ void load_list_ok(GtkWidget *parent,GtkWidget *who) {
 };
 
 static void _tmp_foreach_(d4xLinksSel *sel,GtkTreeIter *iter,const gchar *s,gpointer rd,gpointer ud){
-	_aa_.add_downloading((char*)s);
+	_aa_.add_downloading((char*)s,0,0,0,text_from_combo(sel->referer));
 };
 
 static void d4x_links_sel_ok(GtkWidget *button, d4xLinksSel *sel){
@@ -46,12 +46,16 @@ static void d4x_links_sel_ok(GtkWidget *button, d4xLinksSel *sel){
 	gtk_widget_destroy(GTK_WIDGET(sel));
 };
 
-d4xLinksSel *d4x_links_sel_new_with_ok(){
-	d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new();
-	g_signal_connect(G_OBJECT(sel->ok),"clicked",
-			 G_CALLBACK(d4x_links_sel_ok),
-			 sel);
-	return sel;
+void create_addlinks_with_referer(const std::vector<std::string> &v){
+	if (CFG.WITHOUT_FACE==0 && v.size()>1){
+		d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new_with_referer(v[0].c_str());
+		g_signal_connect(G_OBJECT(sel->ok),"clicked",
+				 G_CALLBACK(d4x_links_sel_ok),
+				 sel);
+		for(std::vector<std::string>::const_iterator it=v.begin()+1;it!=v.end();it++){
+			d4x_links_sel_add(sel,it->c_str(),NULL);
+		};
+	};
 };
 
 static gint time_for_load_refresh(GtkWidget *pbar){

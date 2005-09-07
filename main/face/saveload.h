@@ -11,10 +11,13 @@
 #ifndef MY_SAVE_WINDOWS
 #define MY_SAVE_WINDOWS
 
+#include <vector>
+#include <string>
+
 void init_save_list(...);
 void init_load_list(...);
 void init_load_txt_list(...);
 gint load_save_list_cancel();
-d4xLinksSel *d4x_links_sel_new_with_ok();
+void create_addlinks_with_referer(const std::vector<std::string> &v);
 
 #endif

@@ -1,22 +1,22 @@
 # translation of cs.po to čeština
-# Czech translations of d4x.
-# This file is distributed under the same license as the d4x package.
+# Czech translations of nt/d4x.
+# This file is distributed under the same license as the nt/d4x package.
 # Lubos Stanek <lubek@users.sourceforge.net>, 2005.
+# Luboš Staněk <lubek@users.sourceforge.net>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-02 14:45+0800\n"
-"PO-Revision-Date: 2005-08-20 21:01+0200\n"
-"Last-Translator: Lubos Stanek <lubek@users.sourceforge.net>\n"
+"POT-Creation-Date: 2005-09-07 20:01+0800\n"
+"PO-Revision-Date: 2005-09-06 21:58+0200\n"
+"Last-Translator: Luboš Staněk <lubek@users.sourceforge.net>\n"
 "Language-Team: čeština <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.10.2\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: main/alt.cc:274
 msgid "Add new alternate"
@@ -35,9 +35,9 @@ msgid "Error while reading from socket!"
 msgstr "Chyba čtení ze soketu!"
 
 #: main/client.cc:462
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to connect to %s:%i..."
-msgstr "Pokus o připojení..."
+msgstr "Pokouším se o připojení k %s:%i..."
 
 #: main/client.cc:464
 msgid "Socket was opened!"
@@ -85,18 +85,16 @@ msgid "Expect URL as parameter for '--stop' option"
 msgstr "Očekává se URL jako parametr pro volbu '--stop'"
 
 #: main/config.cc:92
-#, fuzzy
 msgid "Expect URL as parameter for '--referer' option"
-msgstr "Očekává se URL jako parametr pro volbu '--del'"
+msgstr "Očekává se URL jako parametr pro volbu '--referer'"
 
 #: main/config.cc:94
 msgid "Expect URL as parameter for '-a' option"
-msgstr "Očekává se URL jako parametr pro voľbu '-a'"
+msgstr "Očekává se URL jako parametr pro volbu '-a'"
 
 #: main/config.cc:95
-#, fuzzy
 msgid "Expect at least one URL as parameter for '--al' option"
-msgstr "Očekává se URL jako parametr pro volbu '--ls'"
+msgstr "Očekává se alespoň jeden URL jako parametr pro volbu '--al'"
 
 #: main/config.cc:287
 #, c-format
@@ -115,139 +113,140 @@ msgstr "neznámá volba:"
 msgid "List of queues:\n"
 msgstr "Seznam front:\n"
 
-#: main/config.cc:681
+#: main/config.cc:682
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Spustit stahování: %d\n"
 
-#: main/config.cc:683
+#: main/config.cc:684
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Pozastavená stahování: %d\n"
 
-#: main/config.cc:685
+#: main/config.cc:686
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Neúspěšná stahování: %d\n"
 
-#: main/config.cc:687
+#: main/config.cc:688
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Dokončená stahování: %d\n"
 
-#: main/config.cc:690
+#: main/config.cc:691
 #, c-format
 msgid "Total: %d\n"
 msgstr "Celkem: %d\n"
 
-#: main/config.cc:692
+#: main/config.cc:693
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "Celkem načteno bajtů: %d\n"
 
-#: main/config.cc:694
+#: main/config.cc:695
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Aktuální rychlost: %d\n"
 
-#: main/config.cc:700
+#: main/config.cc:701
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "Aktuální rychlost: %d\n"
 
-#: main/config.cc:838
+#: main/config.cc:851
 msgid "Added from command line"
 msgstr "Přidáno z příkazové řádky"
 
-#: main/config.cc:919
+#: main/config.cc:946
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Použití nt [VOLBA] ... [URL]"
 
-#: main/config.cc:920
+#: main/config.cc:947
 msgid "print this page and exit"
 msgstr "vytisknout tuto stranu a skončit"
 
-#: main/config.cc:921
+#: main/config.cc:948
 msgid "show version information and exit"
 msgstr "zobrazit informace o verzi a skončit"
 
-#: main/config.cc:922
+#: main/config.cc:949
 msgid "show information if already run"
 msgstr "zobrazit informace, pokud již běží"
 
-#: main/config.cc:923
+#: main/config.cc:950
 msgid "show current speed if already run"
 msgstr "zobrazit aktuální rychlost, pokud již běží"
 
-#: main/config.cc:924
+#: main/config.cc:951
 msgid "run in minimized mode"
 msgstr "spustit v minimalizovaném režimu"
 
-#: main/config.cc:925
+#: main/config.cc:952
 msgid "set timeout for exiting if nothing to do"
 msgstr "nastavi časový limit pro ukončení, pokud není nic na práci"
 
-#: main/config.cc:926
+#: main/config.cc:953
 msgid "set directory for saving files"
 msgstr "nastavit adresář pro ukládání souborů"
 
-#: main/config.cc:927
+#: main/config.cc:954
 msgid "set lower speed limitation"
 msgstr "nastavit limit nižší rychlosti"
 
-#: main/config.cc:928
+#: main/config.cc:955
 msgid "set medium speed limitation"
 msgstr "nastavit limit střední rychlosti"
 
-#: main/config.cc:929
+#: main/config.cc:956
 msgid "set unlimited speed"
 msgstr "nastavit neomezenou rychlost"
 
-#: main/config.cc:930
+#: main/config.cc:957
 msgid "delete completed if already run"
 msgstr "smazat dokončené, pokud již běží"
 
-#: main/config.cc:931
+#: main/config.cc:958
 msgid "set maximum active downloads"
 msgstr "nastavit maximum aktivních stahování"
 
-#: main/config.cc:932
+#: main/config.cc:959
 msgid "restart all failed downloads"
 msgstr "restartovat všechna neúspěšná stahování"
 
-#: main/config.cc:933
+#: main/config.cc:960
 msgid "run program without X interface"
 msgstr "spustit program pro X rozhraní"
 
-#: main/config.cc:934
+#: main/config.cc:961
 msgid "display info about URL in queue of downloads"
 msgstr "zobrazit informace o URL ve frontě stahování"
 
-#: main/config.cc:935
+#: main/config.cc:962
 msgid "change current default queue"
 msgstr "změnit aktuální výchozí frontu"
 
-#: main/config.cc:936
+#: main/config.cc:963
 msgid "remove a download from queue"
 msgstr "odstranit stahování z fronty"
 
-#: main/config.cc:937
+#: main/config.cc:964
 msgid "stop a download"
 msgstr "zastavit stahování"
 
-#: main/config.cc:938
+#: main/config.cc:965
 msgid "using colors if run without interface"
 msgstr "používání barev, pokud běží bez rozhraní"
 
-#: main/config.cc:939
+#: main/config.cc:966
 msgid "specifies preferred size and position of main window"
 msgstr "zadání preferované velikosti a umístění hlavního okna"
 
-#: main/config.cc:940
+#: main/config.cc:967
+#, fuzzy
 msgid "specify rerferer for next added URL"
-msgstr ""
+msgstr "zadejte referer (odkazující) pro následující přidaný URL"
 
-#: main/config.cc:941
+#: main/config.cc:968
 msgid "open \"Add new download\" dialog for the URL"
 msgstr "otevřít dialog  \"Přidat nové stahování\" pro URL"
 
@@ -482,11 +481,11 @@ msgstr "Speciální poděkování patří"
 msgid "Don't ask next time"
 msgstr "Příště se neptat"
 
-#: main/face/addd.cc:95 main/face/addd.cc:247
+#: main/face/addd.cc:95 main/face/addd.cc:248
 msgid "Add new download"
 msgstr "Přidat nové stahování"
 
-#: main/face/addd.cc:184 main/face/dndtrash.cc:629
+#: main/face/addd.cc:185 main/face/dndtrash.cc:629
 msgid "Automated adding"
 msgstr "Automatické přidání"
 
@@ -627,7 +626,7 @@ msgid "description"
 msgstr "popis"
 
 #: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1088
-#: main/face/mywidget.cc:1347
+#: main/face/mywidget.cc:1361
 msgid "URL"
 msgstr "URL"
 
@@ -821,8 +820,8 @@ msgstr "Popis"
 msgid "Save download to file"
 msgstr "Uložit stahování do souboru"
 
-#: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
-#: main/face/edit.cc:1683 main/face/mywidget.cc:1403
+#: main/face/edit.cc:433 main/face/edit.cc:1592 main/face/edit.cc:1653
+#: main/face/edit.cc:1690 main/face/mywidget.cc:1417
 msgid "password"
 msgstr "heslo"
 
@@ -930,57 +929,57 @@ msgstr "Spustit toto stahování v:"
 msgid "Use default settings"
 msgstr "Použít výchozí nastavení"
 
-#: main/face/edit.cc:1519
+#: main/face/edit.cc:1526
 msgid "FTP proxy type"
 msgstr "Typ FTP proxy"
 
-#: main/face/edit.cc:1530 main/face/mywidget.cc:1353
+#: main/face/edit.cc:1537 main/face/mywidget.cc:1367
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1543
+#: main/face/edit.cc:1550
 msgid "Use this proxy for FTP"
 msgstr "Použít proxy pro FTP"
 
-#: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
-#: main/face/mywidget.cc:1376
+#: main/face/edit.cc:1565 main/face/edit.cc:1627 main/face/edit.cc:1673
+#: main/face/mywidget.cc:1390
 msgid "port"
 msgstr "port"
 
-#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1382
+#: main/face/edit.cc:1571 main/face/edit.cc:1632 main/face/mywidget.cc:1396
 msgid "need password"
 msgstr "vyžaduje heslo"
 
-#: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
-#: main/face/mywidget.cc:1389
+#: main/face/edit.cc:1579 main/face/edit.cc:1640 main/face/edit.cc:1684
+#: main/face/mywidget.cc:1403
 msgid "username"
 msgstr "uživatelské jméno"
 
-#: main/face/edit.cc:1599
+#: main/face/edit.cc:1606
 msgid "Don't get from cache"
 msgstr "Nepřebírat z keše"
 
-#: main/face/edit.cc:1605
+#: main/face/edit.cc:1612
 msgid "Use this proxy for HTTP"
 msgstr "Použít proxy pro HTTP"
 
-#: main/face/edit.cc:1653
+#: main/face/edit.cc:1660
 msgid "Use SOCKS5 proxy"
 msgstr "Použít SOCKS5 proxy"
 
-#: main/face/edit.cc:1659
+#: main/face/edit.cc:1666
 msgid "host"
 msgstr "hostitel"
 
-#: main/face/edit.cc:2039
+#: main/face/edit.cc:2046
 msgid "Select properties"
 msgstr "Vybrat vlastnosti"
 
-#: main/face/edit.cc:2084
+#: main/face/edit.cc:2091
 msgid "Unselect all"
 msgstr "Zrušit výběr"
 
-#: main/face/edit.cc:2090
+#: main/face/edit.cc:2097
 msgid "Select all"
 msgstr "Vybrat vše"
 
@@ -1088,7 +1087,7 @@ msgstr "Počet opakování (-1 neomezené)"
 msgid "period (day/hour:min)"
 msgstr "perioda (den/hodina:min)"
 
-#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:493
+#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:495
 #: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -1533,11 +1532,16 @@ msgstr "Seznam odkazů"
 msgid "Add"
 msgstr "Přidat"
 
-#: main/face/mywidget.cc:1350
+#: main/face/mywidget.cc:1160
+#, fuzzy
+msgid "Referer:"
+msgstr "Referer"
+
+#: main/face/mywidget.cc:1364
 msgid "proxy type"
 msgstr "typ proxy"
 
-#: main/face/mywidget.cc:1365
+#: main/face/mywidget.cc:1379
 msgid "Use different proxy for this alternate"
 msgstr "Použít jné nastavení proxy pro tuto alternativu"
 
@@ -1901,72 +1905,71 @@ msgstr "Jméno"
 msgid "Options"
 msgstr "Možnosti"
 
-#: main/face/qtree.cc:110 main/face/qtree.cc:490
+#: main/face/qtree.cc:110 main/face/qtree.cc:492
 msgid "Create new queue"
 msgstr "Vytvořit novou frontu"
 
-#: main/face/qtree.cc:491
+#: main/face/qtree.cc:493
 msgid "Create new subqueue"
 msgstr "Vytvořit novou podfrontu"
 
-#: main/face/qtree.cc:492
+#: main/face/qtree.cc:494
 msgid "Delete queue"
 msgstr "Smazat frontu"
 
-#: main/face/qtree.cc:590
+#: main/face/qtree.cc:592
 msgid "Queue properties"
 msgstr "Vlastnosti fronty"
 
-#: main/face/qtree.cc:601
+#: main/face/qtree.cc:603
 msgid "Maximum active downloads"
 msgstr "Maximum aktivních stahování"
 
-#: main/face/qtree.cc:609
-#, fuzzy
+#: main/face/qtree.cc:611
 msgid "Speed limitation per queue (Bytes/sec, 0 unlimited)"
-msgstr "Omezení rychlosti v bajtech/s (0 je neomezená)"
+msgstr "Omezení rychlosti na frontu (bajtů/s, 0 je neomezená)"
 
-#: main/face/qtree.cc:614
+#: main/face/qtree.cc:616
 msgid "Automatically delete completed downloads"
 msgstr "Automaticky smazat dokončená stahování"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:617
 msgid "Automatically delete failed downloads"
 msgstr "Automaticky smazat neúspěšná stahování"
 
-#: main/face/qtree.cc:625
+#: main/face/qtree.cc:627
 msgid "Default folder to save downloaded files"
 msgstr "Výchozí adresář pro ukládání stažených souborů"
 
-#: main/face/qtree.cc:632
+#: main/face/qtree.cc:634
 msgid "Size format"
 msgstr "Formát velikosti"
 
-#: main/face/qtree.cc:633
+#: main/face/qtree.cc:635
 msgid "Time format"
 msgstr "Formát času"
 
-#: main/face/qtree.cc:634
+#: main/face/qtree.cc:636
 msgid "Speed format"
 msgstr "Formát rychlosti"
 
-#: main/face/qtree.cc:718
+#: main/face/qtree.cc:720
 msgid "Name of the queue"
 msgstr "Název fronty"
 
-#: main/face/saveload.cc:96
+#: main/face/saveload.cc:100
 msgid "Loading"
 msgstr "Načítání"
 
-#: main/face/saveload.cc:147
+#: main/face/saveload.cc:151
 msgid "Save list"
 msgstr "Uložit seznam"
 
-#: main/face/saveload.cc:189
+#: main/face/saveload.cc:193
 msgid "Load list"
 msgstr "Načíst seznam"
 
-#: main/face/saveload.cc:231
+#: main/face/saveload.cc:235
 msgid "Find links in txt file"
 msgstr "Najít odkazy v souboru txt"
 
@@ -2171,27 +2174,27 @@ msgstr "Není možné inicializovat řídící soket!\n"
 msgid "Loading default list of downloads"
 msgstr "Načítání výchozího seznamu stahování"
 
-#: main/main.cc:277 main/main.cc:1325
+#: main/main.cc:279 main/main.cc:1322
 msgid "Delete completed downloads"
 msgstr "Smazat dokončená stahování"
 
-#: main/main.cc:290
+#: main/main.cc:292
 msgid "Delete failed downloads"
 msgstr "Smazat neúspěšná stahování"
 
-#: main/main.cc:307
+#: main/main.cc:309
 msgid "Clear queue of downloads"
 msgstr "Vyčistit frontu stahování"
 
-#: main/main.cc:362
+#: main/main.cc:364
 msgid "Run new thread for %z"
 msgstr "Spustit nové vlákno pro %z"
 
-#: main/main.cc:368
+#: main/main.cc:370
 msgid "Can't run new thread for downloading!"
 msgstr "Není možné spustit nové vlákno pro stahování!"
 
-#: main/main.cc:427
+#: main/main.cc:429
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Stahování soubor %s z %s bylo zrušeno [uživatelem]"
@@ -2266,80 +2269,80 @@ msgstr "%z byl smazán z fronty stahování jako neúspěšné stahování"
 msgid "Restarting failed downloads"
 msgstr "Restartuji neúspěšná stahování"
 
-#: main/main.cc:1254 main/main.cc:1303 main/main.cc:1320 main/main.cc:1325
-#: main/main.cc:1330 main/main.cc:1343 main/main.cc:1348
+#: main/main.cc:1254 main/main.cc:1300 main/main.cc:1317 main/main.cc:1322
+#: main/main.cc:1327 main/main.cc:1340 main/main.cc:1345
 msgid "[control socket]"
 msgstr "řídící soket"
 
-#: main/main.cc:1282
+#: main/main.cc:1279
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Odstranit stahování pomocí řídícího soket [%s]"
 
-#: main/main.cc:1290
+#: main/main.cc:1287
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Přidávání stahování pomocí řídícího soketu [%s]"
 
-#: main/main.cc:1301
+#: main/main.cc:1298
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Nastavit omezení rychlosti na %s %s"
 
-#: main/main.cc:1320
+#: main/main.cc:1317
 msgid "Setup maximum active downloads to"
 msgstr "Nastavení maximální počet aktivních stahování na"
 
-#: main/main.cc:1343
+#: main/main.cc:1340
 msgid "Exiting if nothing to do is switched off"
 msgstr "Ukončení, pokud není co na práci, je vypnuto"
 
-#: main/main.cc:1348
+#: main/main.cc:1345
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader se ukončí, pokud nebude mít co dělat po %i minutách %s"
 
-#: main/main.cc:1361
+#: main/main.cc:1358
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Výchozí fronta je nyní '%s'."
 
-#: main/main.cc:1662
+#: main/main.cc:1664
 msgid "Loading FTP-Search engines"
 msgstr "Načítání vyhledávacích služeb FTP"
 
-#: main/main.cc:1664
+#: main/main.cc:1666
 msgid "Normally started"
 msgstr "Normálně spuštěno"
 
-#: main/main.cc:1722
+#: main/main.cc:1724
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Přidáno stahování souboru %s z %s [uživatelem]"
 
-#: main/main.cc:1773
+#: main/main.cc:1775
 msgid "Downloader is in offline mode now"
 msgstr "Downloader je nyní v režimu offline"
 
-#: main/main.cc:1780
+#: main/main.cc:1782
 msgid "Offline mode is turned off"
 msgstr "Režim offline je vypnutý"
 
-#: main/main.cc:1814
+#: main/main.cc:1816
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bajtů načteno v průběhu sezení"
 
-#: main/main.cc:1815
+#: main/main.cc:1817
 msgid "Downloader exited normaly"
 msgstr "Downloader skončil normálně"
 
-#: main/main.cc:1855
+#: main/main.cc:1857
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Nelze otevřít '%s' pro uložení záznamu"
 
-#: main/main.cc:1889
+#: main/main.cc:1891
 msgid "Such protocol is not supported!"
 msgstr "Tento protokol není podporován!"
 

@@ -371,6 +371,8 @@ void tFtpSearchCtrl::cycle(){
 							if (a){
 								if (a->ALTS==NULL) a->ALTS=new d4xAltList;
 								a->ALTS->fill_from_ftpsearch(tmp);
+								a->ALTS->ftp_searching=0;
+								a->ALTS->set_find_sens();
 								remove_from_clist(tmp);
 								delete(tmp);
 								tmp=NULL;

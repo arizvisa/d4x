@@ -94,6 +94,7 @@ public:
 	void set_path_as_default();
 	void paste_url();
 	void set_description(const char *desc);
+	void set_referer(const char *desc);
 	tDownload *get_parent();
 	void set_parent(tDownload *);
 	void file_from_url();

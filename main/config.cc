@@ -660,10 +660,11 @@ int parse_command_line_already_run(int argv,char **argc){
 						if (ar){
 							char *t=compose_strings_array(&len,ar,len,argc[i]);
 							delete [] ar;
+							
 							ar=t;
 						}else{
-							ar=copy_string(argc[i]);
-							len=strlen(ar)+1;
+							ar=compose_strings_array(&len,referer?referer:"",
+										      referer?strlen(referer)+1:1,argc[i]);
 						};
 					};
 					if (ar){
@@ -807,7 +808,10 @@ int parse_command_line_already_run(int argv,char **argc){
 					rvalue=0;
 					if (argv>i+1){
 						i+=1;
-						clt->send_command(PACKET_ADD_OPEN,argc[i],strlen(argc[i]));
+						int len=0;
+						char *tmpbuf=compose_strings_array(&len,argc[i],strlen(argc[i])+1,referer);
+						if (clt->send_command(PACKET_ADD_OPEN,tmpbuf,len)) break;
+						delete [] tmpbuf;
 					}else{
 						opt_error=1;
 					};
@@ -823,20 +827,43 @@ int parse_command_line_already_run(int argv,char **argc){
 	return rvalue;
 };
 
-void init_add_dnd_window(const char *url,const char *desc);
+void init_add_dnd_window(const char *url,const char *desc,const char *ref=0);
+void create_addlinks_with_referer(const std::vector<std::string> &v);
 
 void parse_command_line_postload(int argv,char **argc){
+	char *referer=0;
 	for (int i=1;i<argv;i++){
 		if (*(argc[i])!='-'){
-			_aa_.add_downloading(argc[i]);
+			_aa_.add_downloading(argc[i],0,0,0,referer);
 		};
 		int option=downloader_args_type(argc[i]);
 		switch (option){
+		case OPT_REFERER:{
+			if (argv>i+1){
+				i+=1;
+				referer=argc[i];
+			};
+			break;
+		};
 		case OPT_ADD_OPEN:{
 			if (argv>i+1){
 				i++;
-				init_add_dnd_window(argc[i],_("Added from command line"));
+				init_add_dnd_window(argc[i],_("Added from command line"),referer);
 			};
+			break;
+		};
+		case OPT_ADD_OPENLIST:{
+			std::vector<std::string> v;
+			v.push_back(referer?referer:"");
+			while(argv>i+1){
+				i++;
+				if (argc[i][0]==0 || argc[i][0]=='-'){
+					i--;
+					break;
+				};
+				v.push_back(argc[i]);
+			};
+			create_addlinks_with_referer(v);
 			break;
 		};
 		case OPT_TRAFFIC_LOW:{

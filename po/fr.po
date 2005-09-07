@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt-2.0beta3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-02 14:45+0800\n"
+"POT-Creation-Date: 2005-09-07 20:01+0800\n"
 "PO-Revision-Date: 2002-03-13 18:30+0100\n"
 "Last-Translator: Jerome COUDERC <j.couderc@ifrance.com>\n"
 "Language-Team: French\n"
@@ -122,140 +122,140 @@ msgstr "option inconnue:"
 msgid "List of queues:\n"
 msgstr "Listes de téléchargements.\n"
 
-#: main/config.cc:681
+#: main/config.cc:682
 #, c-format
 msgid "Run downloads: %d\n"
 msgstr "Downloads en cours: %d\n"
 
-#: main/config.cc:683
+#: main/config.cc:684
 #, c-format
 msgid "Paused downloads: %d\n"
 msgstr "Downloads arrêtés : %d\n"
 
-#: main/config.cc:685
+#: main/config.cc:686
 #, c-format
 msgid "Failed downloads: %d\n"
 msgstr "Downloads échoués : %d\n"
 
-#: main/config.cc:687
+#: main/config.cc:688
 #, c-format
 msgid "Completed downloads: %d\n"
 msgstr "Downloads terminés: %d\n"
 
-#: main/config.cc:690
+#: main/config.cc:691
 #, c-format
 msgid "Total: %d\n"
 msgstr "Total: %d\n"
 
-#: main/config.cc:692
+#: main/config.cc:693
 #, c-format
 msgid "Total bytes loaded: %d\n"
 msgstr "Total des octets chargés: %d\n"
 
-#: main/config.cc:694
+#: main/config.cc:695
 #, c-format
 msgid "Current speed: %d\n"
 msgstr "Vitesse courante: %d\n"
 
-#: main/config.cc:700
+#: main/config.cc:701
 #, c-format
 msgid "Curent speed: %d\n"
 msgstr "Vitesse courante: %d\n"
 
-#: main/config.cc:838
+#: main/config.cc:851
 msgid "Added from command line"
 msgstr ""
 
-#: main/config.cc:919
+#: main/config.cc:946
 msgid "Usage: nt [OPTION] ... [URL]"
 msgstr "Usage: nt [OPTION] ... [URL]"
 
-#: main/config.cc:920
+#: main/config.cc:947
 msgid "print this page and exit"
 msgstr "afficher cette page et quitter"
 
-#: main/config.cc:921
+#: main/config.cc:948
 msgid "show version information and exit"
 msgstr "afficher la version et quitter"
 
-#: main/config.cc:922
+#: main/config.cc:949
 msgid "show information if already run"
 msgstr "afficher les informations (si le programme est lancé)"
 
-#: main/config.cc:923
+#: main/config.cc:950
 msgid "show current speed if already run"
 msgstr "afficher la vitesse courante (si prog. lancé)"
 
-#: main/config.cc:924
+#: main/config.cc:951
 msgid "run in minimized mode"
 msgstr "executer en mode minimisé"
 
-#: main/config.cc:925
+#: main/config.cc:952
 msgid "set timeout for exiting if nothing to do"
 msgstr "règle le délai avant de quitter s'il n'y a plus rien à faire"
 
-#: main/config.cc:926
+#: main/config.cc:953
 msgid "set directory for saving files"
 msgstr "répertoire de sauvegarde des fichiers"
 
-#: main/config.cc:927
+#: main/config.cc:954
 msgid "set lower speed limitation"
 msgstr "vitesse basse activée"
 
-#: main/config.cc:928
+#: main/config.cc:955
 msgid "set medium speed limitation"
 msgstr "vitesse moyenne activée"
 
-#: main/config.cc:929
+#: main/config.cc:956
 msgid "set unlimited speed"
 msgstr "vitesse illimitée activée"
 
 # Rajout de \t pour une meilleure mise en forme
-#: main/config.cc:930
+#: main/config.cc:957
 msgid "delete completed if already run"
 msgstr "effacer les downloads terminés (si prog. lancé)"
 
-#: main/config.cc:931
+#: main/config.cc:958
 msgid "set maximum active downloads"
 msgstr "nombre maximum de downloads actifs"
 
-#: main/config.cc:932
+#: main/config.cc:959
 msgid "restart all failed downloads"
 msgstr "relancer tous les downloads échoués"
 
-#: main/config.cc:933
+#: main/config.cc:960
 msgid "run program without X interface"
 msgstr "exécuter le programme sans l'interface X"
 
-#: main/config.cc:934
+#: main/config.cc:961
 msgid "display info about URL in queue of downloads"
 msgstr "afficher les infos sur l'URL dans la liste des downloads"
 
-#: main/config.cc:935
+#: main/config.cc:962
 msgid "change current default queue"
 msgstr "change la liste courante par défaut"
 
-#: main/config.cc:936
+#: main/config.cc:963
 msgid "remove a download from queue"
 msgstr "supprimer un download de la liste"
 
-#: main/config.cc:937
+#: main/config.cc:964
 msgid "stop a download"
 msgstr "stopper un download"
 
-#: main/config.cc:938
+#: main/config.cc:965
 msgid "using colors if run without interface"
 msgstr "utilisation des couleurs si lancé sans interface"
 
-#: main/config.cc:939
+#: main/config.cc:966
 msgid "specifies preferred size and position of main window"
 msgstr "spécifie la taille et la position souhaitées de la fenêtre principale"
 
-#: main/config.cc:940
+#: main/config.cc:967
 msgid "specify rerferer for next added URL"
 msgstr ""
 
-#: main/config.cc:941
+#: main/config.cc:968
 #, fuzzy
 msgid "open \"Add new download\" dialog for the URL"
 msgstr " Ajouter un nouveau download "
@@ -497,11 +497,11 @@ msgstr "Remerciements à"
 msgid "Don't ask next time"
 msgstr "Ne pas demander la prochaine fois"
 
-#: main/face/addd.cc:95 main/face/addd.cc:247
+#: main/face/addd.cc:95 main/face/addd.cc:248
 msgid "Add new download"
 msgstr "Ajouter un nouveau download"
 
-#: main/face/addd.cc:184 main/face/dndtrash.cc:629
+#: main/face/addd.cc:185 main/face/dndtrash.cc:629
 msgid "Automated adding"
 msgstr "Ajout automatique"
 
@@ -644,7 +644,7 @@ msgid "description"
 msgstr "description"
 
 #: main/face/columns.cc:34 main/face/lod.cc:58 main/face/mywidget.cc:1088
-#: main/face/mywidget.cc:1347
+#: main/face/mywidget.cc:1361
 msgid "URL"
 msgstr "URL"
 
@@ -847,8 +847,8 @@ msgstr "Description"
 msgid "Save download to file"
 msgstr "Enregistrer le download dans le fichier"
 
-#: main/face/edit.cc:433 main/face/edit.cc:1585 main/face/edit.cc:1646
-#: main/face/edit.cc:1683 main/face/mywidget.cc:1403
+#: main/face/edit.cc:433 main/face/edit.cc:1592 main/face/edit.cc:1653
+#: main/face/edit.cc:1690 main/face/mywidget.cc:1417
 msgid "password"
 msgstr "Mot de Passe"
 
@@ -959,57 +959,57 @@ msgstr "Démarrer ce download à:"
 msgid "Use default settings"
 msgstr "Utilisation des paramêtres par défaut"
 
-#: main/face/edit.cc:1519
+#: main/face/edit.cc:1526
 msgid "FTP proxy type"
 msgstr "Type de proxy FTP"
 
-#: main/face/edit.cc:1530 main/face/mywidget.cc:1353
+#: main/face/edit.cc:1537 main/face/mywidget.cc:1367
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1543
+#: main/face/edit.cc:1550
 msgid "Use this proxy for FTP"
 msgstr "Utiliser ce proxy pour le FTP"
 
-#: main/face/edit.cc:1558 main/face/edit.cc:1620 main/face/edit.cc:1666
-#: main/face/mywidget.cc:1376
+#: main/face/edit.cc:1565 main/face/edit.cc:1627 main/face/edit.cc:1673
+#: main/face/mywidget.cc:1390
 msgid "port"
 msgstr "Port"
 
-#: main/face/edit.cc:1564 main/face/edit.cc:1625 main/face/mywidget.cc:1382
+#: main/face/edit.cc:1571 main/face/edit.cc:1632 main/face/mywidget.cc:1396
 msgid "need password"
 msgstr "Mot de Passe nécessaire"
 
-#: main/face/edit.cc:1572 main/face/edit.cc:1633 main/face/edit.cc:1677
-#: main/face/mywidget.cc:1389
+#: main/face/edit.cc:1579 main/face/edit.cc:1640 main/face/edit.cc:1684
+#: main/face/mywidget.cc:1403
 msgid "username"
 msgstr "Nom d'utilisateur"
 
-#: main/face/edit.cc:1599
+#: main/face/edit.cc:1606
 msgid "Don't get from cache"
 msgstr "Ne pas lire dans le cache"
 
-#: main/face/edit.cc:1605
+#: main/face/edit.cc:1612
 msgid "Use this proxy for HTTP"
 msgstr "Utiliser ce proxy pour le HTTP"
 
-#: main/face/edit.cc:1653
+#: main/face/edit.cc:1660
 msgid "Use SOCKS5 proxy"
 msgstr "Utiliser un proxy SOCKS5"
 
-#: main/face/edit.cc:1659
+#: main/face/edit.cc:1666
 msgid "host"
 msgstr "Hôte"
 
-#: main/face/edit.cc:2039
+#: main/face/edit.cc:2046
 msgid "Select properties"
 msgstr "Sélectionner les propriétés"
 
-#: main/face/edit.cc:2084
+#: main/face/edit.cc:2091
 msgid "Unselect all"
 msgstr "Tout déselectionner"
 
-#: main/face/edit.cc:2090
+#: main/face/edit.cc:2097
 msgid "Select all"
 msgstr "Tout séléctionner"
 
@@ -1117,7 +1117,7 @@ msgstr "fois (-1 pour illimité)"
 msgid "period (day/hour:min)"
 msgstr "Période (jour/heure/min)"
 
-#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:493
+#: main/face/fsched.cc:799 main/face/lmenu.cc:162 main/face/qtree.cc:495
 #: main/mainlog.cc:202
 msgid "Properties"
 msgstr "Propriétés"
@@ -1608,12 +1608,16 @@ msgstr "Liste des liens"
 msgid "Add"
 msgstr "Ajouter"
 
-#: main/face/mywidget.cc:1350
+#: main/face/mywidget.cc:1160
+msgid "Referer:"
+msgstr ""
+
+#: main/face/mywidget.cc:1364
 #, fuzzy
 msgid "proxy type"
 msgstr "Type de proxy FTP"
 
-#: main/face/mywidget.cc:1365
+#: main/face/mywidget.cc:1379
 msgid "Use different proxy for this alternate"
 msgstr ""
 
@@ -1990,75 +1994,75 @@ msgstr "Nom"
 msgid "Options"
 msgstr "Options"
 
-#: main/face/qtree.cc:110 main/face/qtree.cc:490
+#: main/face/qtree.cc:110 main/face/qtree.cc:492
 msgid "Create new queue"
 msgstr "Créer une nouvelle liste"
 
-#: main/face/qtree.cc:491
+#: main/face/qtree.cc:493
 #, fuzzy
 msgid "Create new subqueue"
 msgstr "/Créer une nouvelle sous-liste"
 
-#: main/face/qtree.cc:492
+#: main/face/qtree.cc:494
 #, fuzzy
 msgid "Delete queue"
 msgstr "/Supprimer la liste"
 
-#: main/face/qtree.cc:590
+#: main/face/qtree.cc:592
 msgid "Queue properties"
 msgstr "Propriétés de la liste"
 
-#: main/face/qtree.cc:601
+#: main/face/qtree.cc:603
 msgid "Maximum active downloads"
 msgstr "Nombre maximum de downloads actifs"
 
-#: main/face/qtree.cc:609
+#: main/face/qtree.cc:611
 #, fuzzy
 msgid "Speed limitation per queue (Bytes/sec, 0 unlimited)"
 msgstr "Limitation de vitesse en Octets/sec (0 pour illimité)"
 
-#: main/face/qtree.cc:614
+#: main/face/qtree.cc:616
 msgid "Automatically delete completed downloads"
 msgstr "Supprimer automatiquement les downloads terminés"
 
-#: main/face/qtree.cc:615
+#: main/face/qtree.cc:617
 msgid "Automatically delete failed downloads"
 msgstr "Supprimer automatiquement les downloads échoués"
 
-#: main/face/qtree.cc:625
+#: main/face/qtree.cc:627
 msgid "Default folder to save downloaded files"
 msgstr "Répertoire par défaut de sauvegarde des fichiers téléchargés"
 
-#: main/face/qtree.cc:632
+#: main/face/qtree.cc:634
 msgid "Size format"
 msgstr "Format de la taille"
 
-#: main/face/qtree.cc:633
+#: main/face/qtree.cc:635
 msgid "Time format"
 msgstr "Format du temps"
 
-#: main/face/qtree.cc:634
+#: main/face/qtree.cc:636
 #, fuzzy
 msgid "Speed format"
 msgstr "Format de la taille"
 
-#: main/face/qtree.cc:718
+#: main/face/qtree.cc:720
 msgid "Name of the queue"
 msgstr "Nom de la liste"
 
-#: main/face/saveload.cc:96
+#: main/face/saveload.cc:100
 msgid "Loading"
 msgstr "Chargement"
 
-#: main/face/saveload.cc:147
+#: main/face/saveload.cc:151
 msgid "Save list"
 msgstr "Enregistrer la liste"
 
-#: main/face/saveload.cc:189
+#: main/face/saveload.cc:193
 msgid "Load list"
 msgstr "Charger la liste"
 
-#: main/face/saveload.cc:231
+#: main/face/saveload.cc:235
 msgid "Find links in txt file"
 msgstr "Trouver les liens dans le fichier txt"
 
@@ -2269,27 +2273,27 @@ msgstr "Impossible d'initialiser le contrôle de socket!\n"
 msgid "Loading default list of downloads"
 msgstr "Chargement de la liste par défaut des downloads"
 
-#: main/main.cc:277 main/main.cc:1325
+#: main/main.cc:279 main/main.cc:1322
 msgid "Delete completed downloads"
 msgstr "Supprimer les downloads terminés"
 
-#: main/main.cc:290
+#: main/main.cc:292
 msgid "Delete failed downloads"
 msgstr "Supprimer les downloads échoués"
 
-#: main/main.cc:307
+#: main/main.cc:309
 msgid "Clear queue of downloads"
 msgstr "La liste des downloads est vidée"
 
-#: main/main.cc:362
+#: main/main.cc:364
 msgid "Run new thread for %z"
 msgstr "Lancement d'un nouveau processus pour %z"
 
-#: main/main.cc:368
+#: main/main.cc:370
 msgid "Can't run new thread for downloading!"
 msgstr "Impossible de lancer un nouveau processus pour le téléchargement!"
 
-#: main/main.cc:427
+#: main/main.cc:429
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "Le téléchargement du fichier %s depuis %s a été interrompu"
@@ -2366,80 +2370,80 @@ msgstr "%z a été effacé de la queue des downloads en tant que download échoué"
 msgid "Restarting failed downloads"
 msgstr "Reprise des downloads échoués"
 
-#: main/main.cc:1254 main/main.cc:1303 main/main.cc:1320 main/main.cc:1325
-#: main/main.cc:1330 main/main.cc:1343 main/main.cc:1348
+#: main/main.cc:1254 main/main.cc:1300 main/main.cc:1317 main/main.cc:1322
+#: main/main.cc:1327 main/main.cc:1340 main/main.cc:1345
 msgid "[control socket]"
 msgstr "[contrôle de socket]"
 
-#: main/main.cc:1282
+#: main/main.cc:1279
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Suppression du download via le contrôleur de socket [%s]"
 
-#: main/main.cc:1290
+#: main/main.cc:1287
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Ajout d'un téléchargerment via le controleur de socket [%s]"
 
-#: main/main.cc:1301
+#: main/main.cc:1298
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Limitation de vitesse réglée sur %s %s"
 
-#: main/main.cc:1320
+#: main/main.cc:1317
 msgid "Setup maximum active downloads to"
 msgstr "Paramétrage du nombre maxi de downloads actifs à"
 
-#: main/main.cc:1343
+#: main/main.cc:1340
 msgid "Exiting if nothing to do is switched off"
 msgstr "Fermeture automatique s'il n'y a plus rien à faire, désactivée"
 
-#: main/main.cc:1348
+#: main/main.cc:1345
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Downloader se fermera s'il n'y a plus rien à faire après %i minutes %s"
 
-#: main/main.cc:1361
+#: main/main.cc:1358
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "La liste par défaut est maintenant '%s'."
 
-#: main/main.cc:1662
+#: main/main.cc:1664
 msgid "Loading FTP-Search engines"
 msgstr ""
 
-#: main/main.cc:1664
+#: main/main.cc:1666
 msgid "Normally started"
 msgstr "Démarrage normal"
 
-#: main/main.cc:1722
+#: main/main.cc:1724
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Ajout du téléchargement du fichier %s depuis %s [par l'utilisateur]"
 
-#: main/main.cc:1773
+#: main/main.cc:1775
 msgid "Downloader is in offline mode now"
 msgstr ""
 
-#: main/main.cc:1780
+#: main/main.cc:1782
 msgid "Offline mode is turned off"
 msgstr ""
 
-#: main/main.cc:1814
+#: main/main.cc:1816
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu octets reçus lors de cette session"
 
-#: main/main.cc:1815
+#: main/main.cc:1817
 msgid "Downloader exited normaly"
 msgstr "Fermeture normale de Downloader"
 
-#: main/main.cc:1855
+#: main/main.cc:1857
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Impossible d'ouvrir le fichier '%s' pour sauvegarder le log"
 
-#: main/main.cc:1889
+#: main/main.cc:1891
 msgid "Such protocol is not supported!"
 msgstr "Ce protocole n'est pas supporté!"
 

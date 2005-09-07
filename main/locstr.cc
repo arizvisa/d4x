@@ -153,10 +153,11 @@ char *sum_strings(const char *a,...){
 
 char *compose_strings_array(int *len,const char *a,int la,const char *b){
 	DBC_RETVAL_IF_FAIL(a!=NULL,NULL);
-	int lb=strlen(b)+1;
+	int lb=(b?strlen(b)+1:0);
 	char *r=new char[la+lb];
 	memcpy(r,a,la);
-	memcpy(r+la,b,lb);
+	if (b)
+		memcpy(r+la,b,lb);
 	*len=la+lb;
 	return r;
 };

@@ -214,6 +214,8 @@ void d4xQsTree::drop_from(GtkTreeView *src_view){
 			src->del(temp);
 			src->qv.remove(temp);
 			dst->add(temp,type);
+			if (dst->SpdLmt==0 && temp->SpeedLimit)
+				temp->SpeedLimit->base2=0;
 			dst->qv.add(temp);
 			t=t->next;
 		};

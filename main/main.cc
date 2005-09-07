@@ -264,6 +264,8 @@ void tMain::redraw_logs() {
 
 void tMain::absolute_delete_download(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
+	if (CFG.WITHOUT_FACE==0 && D4X_LOG_DISPLAY.papa==what)
+		D4X_LOG_DISPLAY.papa=NULL;
 	DQV(what).remove(what);
 	d4xDownloadQueue *q=what->myowner->PAPA;
 	q->del(what);
@@ -465,8 +467,6 @@ int tMain::delete_download(tDownload *what,int flag) {
 			what->action=ACTION_DELETE;
 		return 0;
 	};
-	if (CFG.WITHOUT_FACE==0 && D4X_LOG_DISPLAY.papa==what)
-		D4X_LOG_DISPLAY.papa=NULL;
 	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info->file.get());
 	if (flag)
 		what->remove_tmp_files();
@@ -950,18 +950,18 @@ void tMain::main_circle_first(tDownload *dwn){
 			break;
 		case ACTION_CONTINUE:
 			continue_download(grandpapa);
-			dwn->action=ACTION_NONE;
+			grandpapa->action=ACTION_NONE;
 			break;
 		case ACTION_STOP:
-			dwn->action=ACTION_NONE;
+			grandpapa->action=ACTION_NONE;
 			break;
 		case ACTION_FAILED:
-			dwn->action=ACTION_NONE;
+			grandpapa->action=ACTION_NONE;
 			papa->del(grandpapa);
 			papa->add(grandpapa,DL_STOP);
 			break;
 		case ACTION_SIZEQUERY:
-			move_to_sizequery(dwn);
+			move_to_sizequery(grandpapa);
 			break;
 		};
 	};
@@ -1256,18 +1256,15 @@ void tMain::check_for_remote_commands(){
 			break;
 		};
 		case PACKET_OPENLIST:{
-			if (CFG.WITHOUT_FACE==0){
-				d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new_with_ok();
-				for(std::vector<std::string>::iterator it=addnew.params.begin();
-				    it!=addnew.params.end();it++){
-					d4x_links_sel_add(sel,it->c_str(),NULL);
-				};
-			};
+			create_addlinks_with_referer(addnew.params);
 			break;
 		};
 		case PACKET_ADD_OPEN:{
 			if (CFG.WITHOUT_FACE==0){
-				init_add_dnd_window(addnew.params[0].c_str(),NULL);
+				if (addnew.params.size()>1)
+					init_add_dnd_window(addnew.params[0].c_str(),NULL,addnew.params[1].c_str());
+				else
+					init_add_dnd_window(addnew.params[0].c_str(),NULL);
 			};
 			break;
 		};
@@ -1289,7 +1286,7 @@ void tMain::check_for_remote_commands(){
 			TO_WAIT_IF_HERE=1;
 			MainLog->myprintf(LOG_FROM_SERVER,_("Adding downloading via control socket [%s]"),addnew.params[0].c_str());
 			if (addnew.params.size()>1)
-			add_downloading(addnew.params[0].c_str(),CFG.LOCAL_SAVE_PATH,0,0,addnew.params[1].c_str());
+				add_downloading(addnew.params[0].c_str(),CFG.LOCAL_SAVE_PATH,0,0,addnew.params[1].c_str());
 			else
 				add_downloading(addnew.params[0].c_str(),CFG.LOCAL_SAVE_PATH);
 			TO_WAIT_IF_HERE=0;
@@ -1560,9 +1557,14 @@ int tMain::add_downloading(const char *adr,char *where,char *name,char *desc,con
 		whatadd->set_default_cfg();
 		whatadd->config->save_path.set(where);
 		whatadd->config->isdefault=0;
-		if (referer && *referer){
-			whatadd->config->referer.set(referer);
+	};
+	if (referer && *referer){
+		if (whatadd->config==0){
+			whatadd->config=new tCfg;
+			whatadd->set_default_cfg();
+			whatadd->config->isdefault=0;
 		};
+		whatadd->config->referer.set(referer);
 	};
 	if (strlen(addr->file.get())==0) {
 		whatadd->finfo.type=T_DIR;

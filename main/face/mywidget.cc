@@ -1107,7 +1107,7 @@ static void d4x_links_sel_init(d4xLinksSel *sel){
 	GTK_WIDGET_SET_FLAGS(sel->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->remove,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(sel->cancel,GTK_CAN_DEFAULT);
-	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
+	GtkWidget *vbox=sel->vbox=gtk_vbox_new(FALSE,5);
 	sel->hbbox=gtk_hbutton_box_new();
 	gtk_box_set_spacing(GTK_BOX(sel->hbbox),5);
 	gtk_box_pack_start(GTK_BOX(vbox),scroll_window,TRUE,TRUE,0);
@@ -1150,6 +1150,20 @@ GtkWidget *d4x_links_sel_new_with_add(){
 	gtk_box_pack_end(GTK_BOX(sel->hbbox),sel->cancel,FALSE,FALSE,0);
 	gtk_button_set_label(GTK_BUTTON(sel->cancel),_("Add"));
 	gtk_widget_show_all(GTK_WIDGET(sel));
+	return GTK_WIDGET(sel);
+};
+
+GtkWidget *d4x_links_sel_new_with_referer(const char *ref){
+	d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new();
+	sel->referer=gtk_entry_new();
+ 	gtk_entry_set_text(GTK_ENTRY(sel->referer),ref);
+	GtkWidget *lab=gtk_label_new(_("Referer:"));
+	gtk_box_pack_start(GTK_BOX(sel->vbox),lab,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(sel->vbox),sel->referer,FALSE,FALSE,0);
+	gtk_box_reorder_child(GTK_BOX(sel->vbox),lab,1);
+	gtk_box_reorder_child(GTK_BOX(sel->vbox),sel->referer,2);
+ 	gtk_widget_show(GTK_WIDGET(sel->referer));
+	gtk_widget_show(GTK_WIDGET(lab));
 	return GTK_WIDGET(sel);
 };
 
