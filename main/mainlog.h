@@ -28,7 +28,7 @@ class tMLog:public tStringList{
 	void add_to_list();
 	int fd;
 	tStringDialog *string;
-	tAddr *last_error;
+	d4x::URL last_error;
 	void real_open_row(GtkTreeIter *iter);
 	public:
 		GtkWidget *popup_menu;

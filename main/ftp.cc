@@ -45,7 +45,7 @@ char *FTP_EXIST_DATA[]={
 int tFtpClient::accepting() {
 	if (passive) return RVALUE_OK;
 	DSFlag=1;
-	if (DataSocket->accepting(hostname)) {
+	if (DataSocket->accepting(hostname.c_str())) {
 		Status=STATUS_TRIVIAL;
 		LOG->log(LOG_ERROR,_("Accepting faild"));
 		return RVALUE_TIMEOUT;
@@ -53,7 +53,7 @@ int tFtpClient::accepting() {
 	return RVALUE_OK;
 };
 
-int  tFtpClient::send_command(char * comm,char *argv) {
+int  tFtpClient::send_command(const char * comm,const char *argv) {
 	DBC_RETVAL_IF_FAIL(comm!=NULL,RVALUE_OK);
 
 	char *data=NULL;
@@ -227,7 +227,7 @@ tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl):tClient(cfg,ctrl){
 	CUR_REST=0;
 };
 
-void tFtpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
+void tFtpClient::init(const std::string &host,tWriterLoger *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
 	DSFlag=0;
 	BuffSize=BLOCK_READ;
@@ -249,17 +249,17 @@ int tFtpClient::reinit() {
 };
 
 
-int tFtpClient::registr(char *user,char *password) {
+int tFtpClient::registr(const std::string &user,const std::string &password) {
 	username=user;
 	userword=password;
 	return 0;
 };
 
 int tFtpClient::connect() {
-	send_command("USER",username);
+	send_command("USER",username.c_str());
 	if (analize_ctrl(sizeof(FTP_LOGIN_OK)/sizeof(char *),FTP_LOGIN_OK)) return -1;
 	if (analize(FTP_PASS_OK)){
-		send_command("PASS",userword);
+		send_command("PASS",userword.c_str());
 		if (analize_ctrl(1,&FTP_PASS_OK)) return -2;
 	};
 	log_flag=1;
@@ -336,7 +336,7 @@ void tFtpClient::vdisconnect(){
 	log_flag=0;
 };
 
-int tFtpClient::change_dir(char *where) {
+int tFtpClient::change_dir(const char *where) {
 	if (where !=NULL && strlen(where)) {
 		send_command("CWD",where);
 		return analize_ctrl(1,&FTP_CWD_OK);
@@ -349,7 +349,7 @@ void _ftp_filename_destroy_(void *a){
 	delete[] b;
 };
 
-fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
+fsize_t tFtpClient::get_size(const char *filename,tStringList *list) {
 //	DBC_RETVAL_IF_FAIL(filename!=NULL,RVALUE_OK);
 	DBC_RETVAL_IF_FAIL(list!=NULL,RVALUE_OK);
 
@@ -394,7 +394,7 @@ fsize_t tFtpClient::get_size(char *filename,tStringList *list) {
 	return(rvalue);
 };
 
-fsize_t tFtpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
+fsize_t tFtpClient::get_file_from(const char *what,fsize_t begin,fsize_t len) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,RVALUE_OK);
 #ifdef DEBUG_ALL
 	LOG->log_printf(LOG_OK,"tFtpClient::get_file_from(%s,%ll,%ll)",what,begin,len);

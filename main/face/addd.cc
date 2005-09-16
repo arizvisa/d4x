@@ -82,8 +82,6 @@ void init_add_window(...) {
 		list_for_adding->init(0);
 	};
 	tDownload *what=new tDownload;
-	tAddr *info=new tAddr("ftp://somesite.org");
-	what->info=info;
 	what->config=new tCfg;
 	what->set_default_cfg();
 	what->config->isdefault=CFG.USE_DEFAULT_CFG;
@@ -137,15 +135,15 @@ void d4x_automated_ok(GtkWidget *widget, tDownload *what) {
 	char *tmp=gen->first();
 	while(tmp){
 		tDownload *dwn=new tDownload;
-		dwn->info=new tAddr(tmp);
-		dwn->info->username.set(what->info->username.get());
-		dwn->info->pass.set(what->info->pass.get());
+		dwn->info=std::string(tmp);
+		dwn->info.user=what->info.user;
+		dwn->info.pass=what->info.pass;
 		if (what->config->isdefault==0){
 			dwn->config=new tCfg;
 			dwn->config->copy(what->config);
 			dwn->restart_from_begin=what->restart_from_begin;
 			dwn->config->referer.set(what->config->referer.get());
-			dwn->Name2Save.set(what->Name2Save.get());
+			dwn->Name2Save=what->Name2Save;
 			dwn->config->save_path.set(what->config->save_path.get());
 			dwn->config->log_save_path.set(what->config->log_save_path.get());
 		};
@@ -172,8 +170,6 @@ void d4x_automated_add(){
 		list_for_adding->init(0);
 	};
 	tDownload *what=new tDownload;
-	tAddr *info=new tAddr("ftp://somesite.org");
-	what->info=info;
 	what->config=new tCfg;
 	what->set_default_cfg();
 	what->config->save_path.set(D4X_QUEUE->save_path.get());
@@ -234,8 +230,6 @@ void init_edit_common_properties_window(int *array) {
 		list_for_adding->init(0);
 	};
 	tDownload *what=new tDownload;
-	tAddr *info=new tAddr("ftp://somesite.org");
-	what->info=info;
 	what->config=new tCfg;
 	what->config->isdefault=0;
 	what->config->save_path.set(CFG.GLOBAL_SAVE_PATH);

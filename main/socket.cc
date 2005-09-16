@@ -32,7 +32,7 @@
 #define INADDR_NONE ((unsigned long) -1)
 #endif
 
-int my_get_host_by_name(char *host,int port,
+int my_get_host_by_name(const char *host,int port,
 			sockaddr_in *info,
 			hostent *hp,
 			char *buf,
@@ -76,7 +76,7 @@ tSocket::tSocket() {
 	con_flag=0;
 };
 
-int tSocket::constr_name(char *host,guint16 port) {
+int tSocket::constr_name(const char *host,guint16 port) {
 	info.sin_family=AF_INET;
 	if (host) {
 		info.sin_addr.s_addr = inet_addr(host);
@@ -134,7 +134,7 @@ unsigned short int tSocket::get_port() {
 	return htons(info.sin_port);
 };
 
-int tSocket::open_port(char *host, guint16 port) {
+int tSocket::open_port(const char *host, guint16 port) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	int len=constr_name(host,port);
 	if (len<0) return SOCKET_UNKNOWN_HOST;
@@ -177,7 +177,7 @@ int tSocket::open_port(guint32 host,guint16 port) {
 	return 0;
 }
 
-int tSocket::open_any(char *host) {
+int tSocket::open_any(const char *host) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	constr_name(NULL,0);
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
@@ -240,7 +240,7 @@ void tSocket::flush(){
 		read(fd,&a,1);
 };
 
-int tSocket::accepting(char * host) {
+int tSocket::accepting(const char * host) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,-1);
 	sockaddr_in addr;
 #if defined(__sparc__) && !(defined(__linux__))
@@ -263,7 +263,7 @@ int tSocket::direct_send(char *what){
 	return(send(fd,what,strlen(what),0));
 };
 
-int tSocket::send_string(char * what,int timeout) {
+int tSocket::send_string(const char * what,int timeout) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	int a=strlen(what);
 	int b=send(fd,what,a,0);

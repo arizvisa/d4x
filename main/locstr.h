@@ -13,6 +13,7 @@
 
 #include <time.h>
 #include "speed.h"
+#include <string>
 
 class tPStr{
 	char *a;
@@ -50,6 +51,10 @@ int convert_from_hex(unsigned char what);
 void convert_to_hex(unsigned char what,char *where);
 char *parse_percents(char *what);
 char *unparse_percents(char *what);
+
+std::string hexed_string(const std::string &str);
+std::string unhexed_string(const std::string &str);
+
 char *escape_char(const char *where,char what,char bywhat);
 void del_crlf(char *what);
 void str_non_print_replace(char *what, char symbol);
@@ -57,9 +62,9 @@ void make_number_nice(char *where,fsize_t num,int NICE_DEC_DIGITALS);
 void make_number_nicel(char *where,unsigned long num,int NICE_DEC_DIGITALS);
 int convert_month(char *src);
 int ctime_to_time(char *src);
-int check_mask(char *src,char *mask);
-int check_mask2(char *src,char *mask);
-int check_mask2_uncase(char *src,char *mask);
+int check_mask(const char *src,const char *mask);
+int check_mask2(const char *src,const char *mask);
+int check_mask2_uncase(const char *src,const char *mask);
 void normalize_path(char *src);
 char *normalize_path_full(char *src);
 char *compose_path(const char *left,const char *right);
@@ -79,13 +84,13 @@ int f_wchar(int fd,char c);
 int f_rstr(int fd,char *where,int max);
 int f_wstr(int fd,const char *str);
 int f_wstr_lf(int fd,const char *str);
-int write_named_string(int fd,char *name,char *str);
-int write_named_integer(int fd,char *name,int num);
-int write_named_time(int fd,char *name,time_t when);
-int write_named_fsize(int fd,char *name,fsize_t size);
+int write_named_string(int fd,const char *name,const char *str);
+int write_named_integer(int fd,const char *name,int num);
+int write_named_time(int fd,const char *name,time_t when);
+int write_named_fsize(int fd,const char *name,fsize_t size);
 int int_to_strin_len(int num);
 int sscanf_int(char *str,int *where);
-char *parse_save_path(const char *str,char *file);
+char *parse_save_path(const char *str,const char *file);
 char *index_mult(char *str,const char *what);
 int file_copy(char *from,char *to,char *buf,int size);
 char *str_replace(const char *str,const char *where,const char *what);

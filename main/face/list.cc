@@ -1784,15 +1784,14 @@ void update_mainwin_title() {
 					sprintf(data3,"???");
 				char b[100];
 				d4x_percent_str(temp->Percent,b,sizeof(b));
-				char *rfile=unparse_percents(temp->info->file.get());
-				sprintf(data,"%s%% %s/%s %s ",b,data2,data3,rfile);
+				std::string rfile(hexed_string(temp->info.file));
+				sprintf(data,"%s%% %s/%s %s ",b,data2,data3,rfile.c_str());
 				if (tipstr){
 					char *tmp=sum_strings(tipstr,"\n",data,NULL);
 					delete[] tipstr;
 					tipstr=tmp;
 				}else
 					tipstr=copy_string(data);
-				delete[] rfile;
 				temp=(tDownload*)(temp->prev);
 			};
 			d4x::TRAY->set_tooltip(tipstr);
@@ -2032,7 +2031,7 @@ char *d4x_mw_clipboard_get(){
 	return(NULL);
 };
 
-void d4x_mw_clipboard_set(char *str){
+void d4x_mw_clipboard_set(const char *str){
 	if (D4X_CLIPBOARD) delete[] D4X_CLIPBOARD;
 	D4X_CLIPBOARD=copy_string(str);
 	gtk_selection_owner_set (MainWindow,
@@ -2121,7 +2120,7 @@ void init_face(int argc, char *argv[]) {
 	init_status_bar();
 	init_buttons_bar();
 	init_main_window();
-	init_pixmaps_for_log();
+	d4x::CUR_THEME=new d4x::Theme;
 /* initing table of shifts
  */
 	for (int i=0;i<ROLL_LAST;i++)
@@ -2145,7 +2144,6 @@ void init_face(int argc, char *argv[]) {
 			   "key_press_event",
 			   G_CALLBACK (main_menu_prepare),
 			   NULL);
-	lod_init_pixmaps();
 	lod_set_height();
 	if (CFG.DND_TRASH){
 		dnd_trash_init();

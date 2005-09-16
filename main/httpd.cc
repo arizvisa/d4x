@@ -160,7 +160,6 @@ tHttpDownload::tHttpDownload():tDownloader(){
 	HTTP=NULL;
 	OldETag=ETag=Auth=NULL;
 	content_type=NULL;
-	REQUESTED_URL=NULL;
 	content_disp=NULL;
 };
 
@@ -169,7 +168,6 @@ tHttpDownload::tHttpDownload(tWriterLoger *log):tDownloader(log){
 	HTTP=NULL;
 	OldETag=ETag=Auth=NULL;
 	content_type=NULL;
-	REQUESTED_URL=NULL;
 	content_disp=NULL;
 };
 
@@ -183,15 +181,15 @@ void tHttpDownload::print_error(int error_code){
 	};
 };
 
-int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
+int tHttpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
 	Persistent=0;
 #ifdef HAVE_SSL
-	HTTP=new tHttpClient(cfg,(hostinfo->proto==D_PROTO_HTTPS && s==0) ? new d4x::SSLSocket:0);
+	HTTP=new tHttpClient(cfg,(hostinfo.proto==D_PROTO_HTTPS && s==0) ? new d4x::SSLSocket:0);
 #else
 	HTTP=new tHttpClient(cfg);
 #endif //HAVE_SSL	
 	RetrNum=0;
-	ADDR.copy(hostinfo);
+	ADDR=hostinfo;
 	answer=NULL;
 	ETag=NULL;
 	Auth=NULL;
@@ -201,11 +199,11 @@ int tHttpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 		config.retry=0;
 		config.rollback=0;
 	};
-	HTTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
+	HTTP->init(ADDR.host,LOG,ADDR.port,config.timeout);
 	config.user_agent.set(cfg->user_agent.get());
 	config.referer.set(cfg->referer.get());
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
-	HTTP->registr(ADDR.username.get(),ADDR.pass.get());
+	HTTP->registr(ADDR.user,ADDR.pass);
 	REQUESTED_URL=make_name();
 	if (s){
 		HTTP->import_ctrl_socket(s);
@@ -359,7 +357,7 @@ fsize_t tHttpDownload::analize_answer() {
 // Set-Cookie: zzzplayuniq=free3-chi-48-2001-Dec-28_04:57:07; expires=Sat, 31 Dec 2005 00:00:00 GMT; path=/; domain=.playboy.com;
 			/* FIXME: to avoid lost cookies, parse answer before redirection */
 			tCookie *cookie=new tCookie;
-			if (cookie->parse(temp->body+strlen(STR),ADDR.host.get(),ADDR.path.get())==0){
+			if (cookie->parse(temp->body+strlen(STR),ADDR.host.c_str(),ADDR.path.c_str())==0){
 				download_set_block(1);
 				LOG->cookie_set(cookie);
 				download_set_block(0);
@@ -393,26 +391,8 @@ fsize_t tHttpDownload::analize_answer() {
 	return rvalue;
 };
 
-char *tHttpDownload::make_name(){
-	char *parsed_name=unparse_percents(ADDR.file.get());
-	char *parsed_path=unparse_percents(ADDR.path.get());
-	char *rvalue=new char[strlen(parsed_path)+strlen(parsed_name)+
-			     (ADDR.params.get() ? strlen(ADDR.params.get())+1:0)+
-			     strlen("//")+1];
-	*rvalue=0;
-	strcat(rvalue,"/");
-	strcat(rvalue,parsed_path);
-	int len=strlen(parsed_path);
-	if (*parsed_path!=0 && len && parsed_path[len-1]!='/')
-		strcat(rvalue,"/");
-	strcat(rvalue,parsed_name);
-	if (ADDR.params.get()){
-		strcat(rvalue,"?");
-		strcat(rvalue,ADDR.params.get());
-	};
-	delete[] parsed_path;
-	delete[] parsed_name;
-	return rvalue;
+std::string tHttpDownload::make_name(){
+	return hexed_string((ADDR.path/ADDR.file)+(ADDR.params.empty()?std::string():std::string("?")+ADDR.params));
 };
 
 fsize_t tHttpDownload::get_size_only() {
@@ -424,7 +404,7 @@ fsize_t tHttpDownload::get_size_only() {
 		answer->done();
 		HTTP->set_offset(0);
 		LOG->log(LOG_OK,_("Sending HTTP request..."));
-		int temp=HTTP->get_size_only(REQUESTED_URL,answer);
+		int temp=HTTP->get_size_only(REQUESTED_URL.c_str(),answer);
 		switch (temp){
 		case 0:{ // all ok
 			LOG->log(LOG_OK,_("Answer read ok"));
@@ -453,7 +433,7 @@ fsize_t tHttpDownload::get_size() {
 		answer->done();
 		HTTP->set_offset(LOADED);
 		LOG->log(LOG_OK,_("Sending HTTP request..."));
-		int temp=HTTP->get_size(REQUESTED_URL,answer);
+		int temp=HTTP->get_size(REQUESTED_URL.c_str(),answer);
 		switch (temp){
 		case 0:{ // all ok
 			LOG->log(LOG_OK,_("Answer read ok"));
@@ -558,60 +538,39 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 	DBC_RETURN_IF_FAIL(path!=NULL);
 	DBC_RETURN_IF_FAIL(name!=NULL);
 	DBC_RETURN_IF_FAIL(guess!=NULL);
-	char *full_path;
-	int flag=strlen(ADDR.file.get());
+	d4x::Path full_path(path);
 	if (config.http_recursing){
 		if (config.leave_server){
-			char *tmp=compose_path(path,ADDR.host.get());
-			full_path=compose_path(tmp,ADDR.path.get());
-			delete[] tmp;
+			full_path/=d4x::Path(ADDR.host)/ADDR.path;
 		}else
-			full_path=compose_path(path,ADDR.path.get());
-	}else
-		full_path=copy_string(path);
-	char *temp;
-	if (flag){
-		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(".",ADDR.file.get(),config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
-			sum_strings(".",ADDR.file.get(),NULL);
-		*name=compose_path(full_path,temp);
-		delete[] temp;
-		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(ADDR.file.get(),config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
-			sum_strings(ADDR.file.get(),NULL);
-		*guess=compose_path(full_path,temp);
-	}else{
-		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(".",CFG.DEFAULT_NAME,config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
-			sum_strings(".",CFG.DEFAULT_NAME,NULL);
-		*name=compose_path(full_path,temp);
-		delete[] temp;
-		temp=(config.http_recursing && ADDR.params.get())?
-			sum_strings(CFG.DEFAULT_NAME,config.quest_sign_replace?"_":"?",ADDR.params.get(),NULL):
-			sum_strings(CFG.DEFAULT_NAME,NULL);
-		*guess=compose_path(full_path,temp);
+			full_path/=ADDR.path;
 	};
-	delete[] full_path;
-	delete[] temp;
+	std::string temp=std::string(".")+(ADDR.file.empty()?std::string(CFG.DEFAULT_NAME):ADDR.file);
+	if (config.http_recursing && !ADDR.params.empty())
+		temp+=std::string(config.quest_sign_replace?"_":"?")+ADDR.params;
+	full_path/=temp;
+	*name=copy_string(full_path.c_str());
+	*guess=copy_string(full_path.c_str()+1);
 };
 
-void tHttpDownload::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
+void tHttpDownload::make_full_pathes(const char *path,const char *another_name,char **name,char **guess) {
 	DBC_RETURN_IF_FAIL(path!=NULL);
 	DBC_RETURN_IF_FAIL(another_name!=NULL);
 	DBC_RETURN_IF_FAIL(name!=NULL);
 	DBC_RETURN_IF_FAIL(guess!=NULL);
-	char *temp=sum_strings(".",another_name,NULL);
-	char *full_path=NULL;
-	if (config.http_recursing)
-		full_path=compose_path(path,ADDR.path.get());
-	else
-		full_path=copy_string(path);
-//	char *question_sign=index(full_path,'?');
-//	if (question_sign) *question_sign=0;
-	*name=compose_path(full_path,temp);
-	*guess=compose_path(full_path,another_name);
-	delete[] full_path;
-	delete[] temp;
+	d4x::Path full_path(path);
+	if (config.http_recursing){
+		if (config.leave_server){
+			full_path/=d4x::Path(ADDR.host)/ADDR.path;
+		}else
+			full_path/=ADDR.path;
+	};
+	std::string temp=std::string(".")+another_name;
+	if (config.http_recursing && !ADDR.params.empty())
+		temp+=std::string(config.quest_sign_replace?"_":"?")+ADDR.params;
+	full_path/=temp;
+	*name=copy_string(full_path.c_str());
+	*guess=copy_string(full_path.c_str()+1);
 };
 
 void tHttpDownload::done() {
@@ -624,7 +583,6 @@ tSocket *tHttpDownload::export_ctrl_socket(){
 };
 
 tHttpDownload::~tHttpDownload() {
-	if (REQUESTED_URL) delete[] REQUESTED_URL;
 	if (HTTP) delete HTTP;
 	if (ETag) delete[] ETag;
 	if (OldETag) delete[] OldETag;

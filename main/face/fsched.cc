@@ -74,10 +74,8 @@ void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev){
 	};
 	case SACT_ADD_DOWNLOAD:{
 		d4xSAAddDownload *a=(d4xSAAddDownload *)act;
-		if (a->dwn && a->dwn->info){
-			char *url=a->dwn->info->url();
-			g_snprintf(buf2,MAX_LEN,"%s",url);
-			delete[] url;
+		if (a->dwn){
+			g_snprintf(buf2,MAX_LEN,"%s",std::string(a->dwn->info).c_str());
 		};
 		break;
 	};
@@ -86,10 +84,8 @@ void d4x_scheduler_insert(d4xSchedAction *act,d4xSchedAction *prev){
 	case SACT_RUN_DOWNLOAD:
 	case SACT_PAUSE_DOWNLOAD:{
 		d4xSAUrl *a=(d4xSAUrl *)act;
-		if (a->url){
-			char *url=a->url->url();
-			g_snprintf(buf2,MAX_LEN,"%s",url);
-			delete[] url;
+		if (a->url.is_valid()){
+			g_snprintf(buf2,MAX_LEN,"%s",std::string(a->url).c_str());
 		};
 		break;
 	};
@@ -264,9 +260,7 @@ static void my_gtk_aeditor_edit_ok(GtkWidget *widget,MyGtkAEditor *editor){
 	tDownload *what=editor->dwn;
 	what->editor->apply_changes();
 	what->delete_editor();
-	char *url=what->info->url();
-	text_to_combo(editor->url_entry,url);
-	delete[] url;
+	text_to_combo(editor->url_entry,std::string(editor->dwn->info).c_str());
 };
 
 static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor){
@@ -275,7 +269,7 @@ static void my_gtk_aeditor_edit_download(GtkWidget *widget,MyGtkAEditor *editor)
 	if (editor->dwn==NULL){
 		editor->dwn=new tDownload;
 		char *url_entry_cont=text_from_combo(editor->url_entry);
-		editor->dwn->info=new tAddr(url_entry_cont);
+		editor->dwn->info=std::string(url_entry_cont);
 		if (url_entry_cont==NULL || *url_entry_cont==0)
 			flag=1;
 	};
@@ -399,10 +393,8 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 			gtk_container_add(GTK_CONTAINER(editor->frame),hbox);
 			if (editor->action && _is_sa_url_(editor->action->type())){
 				d4xSAUrl *act=(d4xSAUrl *)(editor->action);
-				if (act->url){
-					char *url=act->url->url();
-					text_to_combo(editor->url_entry,url);
-					delete[] url;
+				if (act->url.is_valid()){
+					text_to_combo(editor->url_entry,std::string(act->url).c_str());
 				};
 			};
 			break;
@@ -422,12 +414,10 @@ static void aeditor_select_mode_int(MyGtkAEditor *editor,int i){
 				editor->dwn->copy(a->dwn);
 			};
 			if (editor->dwn){
-				if (editor->dwn && editor->dwn->info){
-					char *url=editor->dwn->info->url();
-					text_to_combo(editor->url_entry,url);
-					delete[] url;
+				if (editor->dwn && editor->dwn->info.is_valid()){
+					text_to_combo(editor->url_entry,std::string(editor->dwn->info).c_str());
 				}else
-				text_to_combo(editor->url_entry,"");
+					text_to_combo(editor->url_entry,"");
 			}else
 				text_to_combo(editor->url_entry,"");
 			GtkWidget *button=gtk_button_new_from_stock(GTK_STOCK_PROPERTIES);
@@ -639,19 +629,19 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 	};
 	case SACT_RUN_DOWNLOAD:{
 		d4xSARunDownload *act=new d4xSARunDownload;
-		act->url=new tAddr(text_from_combo(editor->url_entry));
+		act->url=std::string(text_from_combo(editor->url_entry));
 		action=act;
 		break;
 	};
 	case SACT_PAUSE_DOWNLOAD:{
 		d4xSAStopDownload *act=new d4xSAStopDownload;
-		act->url=new tAddr(text_from_combo(editor->url_entry));
+		act->url=std::string(text_from_combo(editor->url_entry));
 		action=act;
 		break;
 	};
 	case SACT_DELETE_DOWNLOAD:{
 		d4xSADelDownload *act=new d4xSADelDownload;
-		act->url=new tAddr(text_from_combo(editor->url_entry));
+		act->url=std::string(text_from_combo(editor->url_entry));
 		action=act;
 		break;
 	};
@@ -676,7 +666,7 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 			editor->dwn->config=new tCfg;
 			editor->dwn->set_default_cfg();
 			editor->dwn->config->save_path.set(CFG.GLOBAL_SAVE_PATH);
-			editor->dwn->info=new tAddr(text_from_combo(editor->url_entry));
+			editor->dwn->info=std::string(text_from_combo(editor->url_entry));
 		};
 		act->dwn=editor->dwn;
 		editor->dwn=(tDownload*)NULL;
@@ -685,7 +675,7 @@ static void my_gtk_aeditor_ok(GtkWidget *widget,MyGtkAEditor *editor){
 	};
 	case SACT_DEL_IF_COMPLETED:{
 		d4xSADelIfCompleted *act=new d4xSADelIfCompleted;
-		act->url=new tAddr(text_from_combo(editor->url_entry));
+		act->url=std::string(text_from_combo(editor->url_entry));
 		action=act;
 		break;
 	};

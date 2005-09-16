@@ -24,43 +24,43 @@ char Table64[64]={  'A','B','C','D','E','F','G','H',
 		    '4','5','6','7','8','9','+','/'
 };
 
-void three_to_four(unsigned char *what,unsigned char *where) {
+void three_to_four(const unsigned char *what,unsigned char *where) {
 	*where=(*what >> 2) & 63;
 	*(where+1)=((*what << 4) | (*(what+1) >> 4)) & 63;
 	*(where+2)=((*(what+1) << 2) | (*(what+2) >> 6)) & 63;
 	*(where+3)=*(what+2) & 63;
-	for (int i=0;i<4;i++) {
-		where[i]= Table64[where[i]];
-	};
+	// Unroll this loop to produce faster code:
+	//   for (int i=0;i<4;where[i++]= Table64[where[i]]);
+	where[0]= Table64[where[0]];
+	where[1]= Table64[where[1]];
+	where[2]= Table64[where[2]];
+	where[3]= Table64[where[3]];
 };
 
-char *string_to_base64(char *what) {
+char *string_to_base64(const char *what) {
 	int len=strlen(what),len2=0;
 	char *rvalue;
-	if (len%3) len2=(len/3 +1)*4 +1;
-	else len2=(len/3)*4 +1;
+	len2=(len/3 + int((len%3)!=0))*4 +1;
 	rvalue=new char[len2];
 	unsigned char *tmp=(unsigned char *)rvalue;
 	unsigned char four[4];
 	while (len>=3) {
 		three_to_four((unsigned char *)what,four);
-		for (int i=0;i<4;i++)
-			*(tmp++)=four[i];
+		//*tmp=*four; *++tmp=four[1]; *++tmp=four[2]; *++tmp=four[3]; ++tmp;
+		*((uint32_t *)tmp)=*((uint32_t*)four);
+		tmp+=4;
 		len-=3;
 		what+=3;
 	};
 	if (len) {
-		unsigned char three[3]={0,0,0};
-		int i=0;
-		for (i=0;i<len;i++) {
-			three[i]=*((unsigned char*)what);
-			what++;
-		};
+ 		unsigned char three[3]={0,0,0};
+		int i;
+		for (i=0;i<len;three[i++]=*((unsigned char*)what++));
 		three_to_four(three,four);
-		for (i=3-(len==1);i<4;i++)
-			four[i]='=';
-		for (i=0;i<4;i++)
-			*(tmp++)=four[i];
+		for (i+=1;i<4;four[i++]='=');
+		// *tmp=*four; *++tmp=four[1]; *++tmp=four[2]; *++tmp=four[3]; ++tmp;
+		*((uint32_t *)tmp)=*((uint32_t*)four);
+		tmp+=4;
 	};
 	*tmp=0;
 	return rvalue;

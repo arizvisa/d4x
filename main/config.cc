@@ -828,7 +828,7 @@ int parse_command_line_already_run(int argv,char **argc){
 };
 
 void init_add_dnd_window(const char *url,const char *desc,const char *ref=0);
-void create_addlinks_with_referer(const std::vector<std::string> &v);
+void create_addlinks_with_referer(const std::vector<std::string> &v,const char *savepath);
 
 void parse_command_line_postload(int argv,char **argc){
 	char *referer=0;
@@ -863,7 +863,7 @@ void parse_command_line_postload(int argv,char **argc){
 				};
 				v.push_back(argc[i]);
 			};
-			create_addlinks_with_referer(v);
+			create_addlinks_with_referer(v,CFG.GLOBAL_SAVE_PATH);
 			break;
 		};
 		case OPT_TRAFFIC_LOW:{

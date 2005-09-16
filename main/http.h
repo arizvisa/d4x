@@ -13,30 +13,45 @@
 #include "client.h"
 #include "liststr.h"
 
+/*
+namespace d4x{
+
+	struct HTTPAnswerField{
+		std::string name;
+		std::string value;
+	};
+	
+	struct HTTPAnswer:public std::list<HTTPAnswerField>{
+		std::string head;
+		std::list<std::string> lst;
+	};
+};
+*/
+
 class tHttpClient:public tClient{
  protected:
 	fsize_t Offset;
 	int pass_first;
-	int send_request(char *request);
-	int send_request(char *begin, char *center,char *end);
+	int send_request(const char *request);
+	int send_request(const char *begin, const char *center,const char *end);
 	fsize_t read_data(char *where,fsize_t len);
 	int read_answer(tStringList *list);
 	char *user_agent,*referer;
-	void send_cookies(char *host,char *path);
+	void send_cookies(const char *host,const char *path);
 	virtual fsize_t get_size_sub(tStringList *list);
  public:
 	int CHUNKED,HTTP_VER,HTTP_SUBVER;
 	int ERROR_CODE;
 	tHttpClient();
 	tHttpClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
-	void init(char *host,tWriterLoger *log,int prt,int time_out);
+	void init(const std::string &host,tWriterLoger *log,int prt,int time_out);
 	void set_user_agent(char *agent,char *refer);
 	void set_offset(fsize_t a);
 	void pass_first_segment();
-	int registr(char *user,char *password);
-	virtual fsize_t get_size_only(char *filename,tStringList *list);
-	fsize_t get_size(char *filename,tStringList *list);
-	fsize_t get_file_from(char *what,fsize_t begin,fsize_t len);
+	int registr(const std::string &user,const std::string &password);
+	virtual fsize_t get_size_only(const char *filename,tStringList *list);
+	fsize_t get_size(const char *filename,tStringList *list);
+	fsize_t get_file_from(const char *what,fsize_t begin,fsize_t len);
 	void down();
         void done();
         ~tHttpClient();

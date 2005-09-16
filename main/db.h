@@ -34,7 +34,7 @@ struct tStringHostNode:public tAbstractSortNode{
 class tHostTree:public tAbstractSortTree{
 protected:
 public:
-	tStringHostNode *find(char *what,int port);
+	tStringHostNode *find(const char *what,int port);
 	~tHostTree();
 };
 
@@ -50,7 +50,7 @@ public:
 	void lock(){mylock.lock();};
 	void unlock(){mylock.unlock();};
 	tDownload *find(tDownload *what);
-	tDownload *find(tAddr *addr);
+	tDownload *find(const d4x::URL &addr);
 	~tDB();
 };
 

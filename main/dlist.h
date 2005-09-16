@@ -58,7 +58,7 @@ class tDefaultWL:public tWriterLoger{
 	fsize_t read(void *dst,fsize_t len);
 	fsize_t shift(fsize_t shift,int mode);
 	void truncate();
-	char *cookie(const char *host, const char *path);
+	std::string cookie(const char *host, const char *path);
 	void cookie_set(tCookie *cookie);
 	void log(int type, const char *str);
 	~tDefaultWL();
@@ -104,11 +104,11 @@ struct d4xSearchEngine;
 struct tDownload:public tAbstractSortNode{
 	GtkTreeIter *list_iter;
 	tCfg *config;
-	tPStr Name2Save;
+	std::string Name2Save;
 	int restart_from_begin;
 	char fsearch; // 0 - just search, not 0 - arrange alternates
 	tFileInfo finfo;
-	tAddr *info;
+	d4x::URL info;
 	tDownloader *who;
 	d4xAltList *ALTS;
 	tLog *LOG,*CurrentLog;// CurrentLog is used for splited downloads
@@ -136,14 +136,14 @@ struct tDownload:public tAbstractSortNode{
 	//------------------------------------
 private:
 	int need_to_rename,im_first,im_last;
-	tAddr *RedirectURL;
-	char *create_new_file_path();
-	char *create_new_save_path();
+	d4x::URL RedirectURL;
+	d4x::Path create_new_file_path();
+	d4x::Path create_new_save_path();
 	void make_file_names(char **name, char **guess);
 	void check_local_file_time();
 	void print_error(int err);
 	void prepare_splits();
-	char *make_path_to_file();
+	d4x::Path make_path_to_file();
 	void remove_links(d4xSearchEngine *engine);
 	void sort_links();
 	void http_check_redirect(bool removefiles);
@@ -170,7 +170,7 @@ public:
 	void convert_list_to_dir();
 	void convert_list_to_dir2(tQueue *dir);
 	/* downloading functions*/
-	int http_check_settings(tAddr *what);
+	int http_check_settings(const d4x::URL &what);
 	void delete_who();
 	void download_completed(int type);
 	void download_failed();
@@ -195,7 +195,7 @@ public:
 	void save_to_config(int fd);
 	int load_from_config(int fd);
 	int owner();
-	tAddr *redirect_url();
+	d4x::URL redirect_url();
 	void update_trigers();
 	void set_split_count(int num);
 	~tDownload();
@@ -214,7 +214,7 @@ public:
 	tDList();
 	tDList(int key);
 	int get_key();
-	tDownload *find(tAddr *addr);
+	tDownload *find(const d4x::URL &addr);
 	void insert(tDownload *what);
 	void init_pixmap(int a);
 	void insert_before(tDownload *what,tDownload *where);

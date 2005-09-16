@@ -18,7 +18,7 @@ SSLSocket::~SSLSocket(){
 };
 
 
-int SSLSocket::open_port(char * host,guint16 port){
+int SSLSocket::open_port(const char * host,guint16 port){
 	if (tSocket::open_port(host,port)!=0)
 		return(SOCKET_CANT_CONNECT);
 	con_flag=0;
@@ -40,7 +40,7 @@ int SSLSocket::open_port(guint32 host,guint16 port){
 	return 0;
 };
 
-int SSLSocket::send_string(char *what,int timeout){
+int SSLSocket::send_string(const char *what,int timeout){
 	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	int a=strlen(what);
 	int b=SSL_write(Handler,what,a);

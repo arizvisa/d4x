@@ -25,7 +25,7 @@ struct tHtmlTagField:public tNode{
 };
 
 struct tHtmlUrl:public tNode{
-	tAddr *info;
+	d4x::URL info;
 	char *descr;
 	tHtmlUrl();
 	void print();
@@ -57,19 +57,19 @@ class tHtmlParser{
 	char *extract_from_icommas(char *str);
 	void compact_string(char *str);
 	void look_for_meta_content(tHtmlTagField *where,tQueue *list,
-				   tAddr *papa,const char *tag);
+				   const d4x::URL &papa,const char *tag);
 	void get_charset_from_meta(tHtmlTagField *fld);
 	tHtmlTag *get_tag();
 	void get_tag_descr(tHtmlTag *tag);
-	void fix_url(char *url,tQueue *list,tAddr *papa,const char *tag,const char *descr=NULL);
+	void fix_url(char *url,tQueue *list,const d4x::URL &papa,const char *tag,const char *descr=NULL);
 	void write_left_fields(tHtmlTag *tag);
 	char *convert_to_utf8(const char *src);
  public:
 	void set_content_type(const char *ct);
 	int out_fd,leave;
-	void parse(tWriterLoger *wl, tQueue *list,tAddr *papa,int qsignreplace=0);
+	void parse(tWriterLoger *wl, tQueue *list,const d4x::URL &papa,int qsignreplace=0);
 };
 
-tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_replace=0);
+d4x::URL fix_url_global(char *url,const d4x::URL &papa,int out_fd,int leave,int quest_sign_replace=0);
 
 #endif

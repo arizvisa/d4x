@@ -11,7 +11,9 @@
 #ifndef MY_MIME_BASE64
 #define MY_MIME_BASE64
 
-void three_to_four(unsigned char *what,unsigned char *where);
-char * string_to_base64( char *what);
+#include <string>
+
+void three_to_four(const unsigned char *what,unsigned char *where);
+char * string_to_base64(const char *what);
 
 #endif

@@ -94,7 +94,7 @@ class tWriterLoger{
 	virtual fsize_t read(void *dst,fsize_t len)=0; //for html parser
 	virtual void log(int type,const char *str)=0;
 	virtual void log_printf(int type, const char *format,...);
-	virtual char *cookie(const char *host, const char *path);
+	virtual std::string cookie(const char *host, const char *path);
 	virtual void cookie_set(tCookie *cookie);
 	virtual void truncate();
 	virtual ~tWriterLoger();
@@ -102,19 +102,19 @@ class tWriterLoger{
 
 class tClient{
     protected:
-    char *hostname,*username,*userword;
-    int port;
-    int timeout;
-    fsize_t FillSize,FileLoaded;
-    fsize_t DSize;
-    int ReGet,Status;
-    tSocket *CtrlSocket;
-    unsigned int BuffSize;
-    char *buffer;
-    tWriterLoger *LOG;
+	std::string hostname,username,userword;
+	int port;
+	int timeout;
+	fsize_t FillSize,FileLoaded;
+	fsize_t DSize;
+	int ReGet,Status;
+	tSocket *CtrlSocket;
+	fsize_t BuffSize;
+	char *buffer;
+	tWriterLoger *LOG;
 //-----------------------------------------------
-	char *read_string(tSocket *sock,int maxlen);
-	int read_string(tSocket *sock,tStringList *list,int maxlen);
+	char *read_string(tSocket *sock,fsize_t maxlen);
+	int read_string(tSocket *sock,tStringList *list,fsize_t maxlen);
 	int socket_err_handler(int err);
 	virtual fsize_t read_data(fsize_t len);
 	virtual fsize_t read_data(char *dst,fsize_t len)=0;
@@ -123,12 +123,12 @@ public:
     	tClient();
     	tClient(tCfg *cfg,tSocket *ctrl=(tSocket*)NULL);
     	int get_readed();
-    	virtual void init(char *host,tWriterLoger *log,int prt,int time_out);
+    	virtual void init(const std::string &host,tWriterLoger *log,int prt,int time_out);
         virtual int reinit();
     	virtual void down()=0;
-    	virtual int registr(char *user,char *password)=0;
-    	virtual fsize_t get_size(char *filename,tStringList *list)=0;
-	virtual fsize_t get_file_from(char *what,fsize_t begin,fsize_t len)=0;
+    	virtual int registr(const std::string &user,const std::string &password)=0;
+    	virtual fsize_t get_size(const char *filename,tStringList *list)=0;
+	virtual fsize_t get_file_from(const char *what,fsize_t begin,fsize_t len)=0;
     	int get_status();
     	int test_reget();
     	virtual void done()=0;

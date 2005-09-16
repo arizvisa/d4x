@@ -23,6 +23,9 @@
 #include "colors.h"
 #include "about.h"
 #include "misc.h"
+#include "themes.h"
+
+using namespace d4x;
 
 enum LOG_COLUMNS{
 	L_COL_TYPE,
@@ -32,8 +35,6 @@ enum LOG_COLUMNS{
 	L_COL_LAST
 };
 
-
-GdkPixbuf *log_pixbufs[5];
 
 struct tLogWindow {
 	GtkWidget *window;
@@ -61,18 +62,6 @@ tLogWindow::~tLogWindow() {
 
 gint log_window_button(GtkWidget *button,int a);
 
-void init_pixmaps_for_log() {
-#include "pixmaps2/ok.xpm"
-#include "pixmaps2/from_server.xpm"
-#include "pixmaps2/to_server.xpm"
-#include "pixmaps2/error.xpm"
-#include "pixmaps2/warning.xpm"
-	log_pixbufs[0]=gdk_pixbuf_new_from_xpm_data((const char **)ok_xpm);
-	log_pixbufs[1]=gdk_pixbuf_new_from_xpm_data((const char **)to_server_xpm);
-	log_pixbufs[2]=gdk_pixbuf_new_from_xpm_data((const char **)from_server_xpm);
-	log_pixbufs[3]=gdk_pixbuf_new_from_xpm_data((const char **)error_xpm);
-	log_pixbufs[4]=gdk_pixbuf_new_from_xpm_data((const char **)warning_xpm);
-};
 
 void log_window_remember_geometry(GtkWidget *window, tLogWindow *temp){
 	if (window->window) {
@@ -131,31 +120,31 @@ void log_model_view_add_string(GtkTreeView *view,tLogString *str){
 	const GdkColor *color,*back_color;
 	switch (str->type) {
 	case LOG_OK:{
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[0],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_OK],-1);
 		color=&BLACK;
 		back_color=&WHITE;
 		break;
 	};
 	case LOG_TO_SERVER: {
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[1],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_SEND],-1);
 		color=&CYAN;
 		back_color=&LCYAN;
 		break;
 	};
 	case LOG_FROM_SERVER: {
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[2],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_RECEIVE],-1);
 		color=&BLUE;
 		back_color=&LBLUE;
 		break;
 	};
 	case LOG_WARNING:{
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[4],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_WARNING],-1);
 		color=&GREEN;
 		back_color=&LGREEN;
 		break;
 	};
 	case LOG_ERROR: {
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,log_pixbufs[3],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_ERROR],-1);
 		color=&RED;
 		back_color=&LRED;
 		break;
@@ -189,9 +178,8 @@ static gint log_list_event_handler(GtkWidget *widget,GdkEventButton *event,tLogW
 		gtk_tree_model_get_value(model,&iter,L_COL_NUM,&val);
 		int num=g_value_get_int(&val);
 		char data[MAX_LEN];
-		char *rfile=unparse_percents(temp->papa->info->file.get());
-		sprintf(data,_("Row number %i [log of %s]"),num,rfile);
-		delete[] rfile;
+		std::string rfile(hexed_string(temp->papa->info.file));
+		sprintf(data,_("Row number %i [log of %s]"),num,rfile.c_str());
 		g_value_unset(&val);
 		gtk_tree_model_get_value(model,&iter,L_COL_STRING,&val);
 		char *text=(char*)g_value_get_string(&val);
@@ -383,16 +371,27 @@ GtkTreeView *log_model_view_init(){
 						      renderer,
 						      "pixbuf",0,
 						      NULL);
+	gtk_tree_view_column_set_sizing(col,GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	gtk_tree_view_column_set_resizable (col,FALSE);
 	gtk_tree_view_append_column(view,col);
-	for (int i=L_COL_NUM;i<L_COL_LAST;i++){
+	gtk_tree_view_column_set_min_width (col,22);
+	gtk_tree_view_column_pack_start (col,renderer=gtk_cell_renderer_text_new(),false);
+	gtk_tree_view_column_add_attribute(col,renderer,"text",L_COL_NUM);
+	g_object_set(G_OBJECT(renderer),"xalign",1.0,0);
+//	gtk_tree_view_column_add_attribute(col,renderer,"background-gdk",L_COL_LAST+1);
+//	gtk_tree_view_column_add_attribute(col,renderer,"foreground-gdk",L_COL_LAST);
+	for (int i=L_COL_NUM+1;i<L_COL_LAST;i++){
 		renderer = gtk_cell_renderer_text_new();
+		if (CFG.FIXED_LOG_FONT)
+			g_object_set(G_OBJECT(renderer),"family","Fixed",0);
 		col=gtk_tree_view_column_new_with_attributes("Tittle",
 							     renderer,
 							     "text",i,
-							     "foreground-gdk",ML_COL_LAST,
-							     "background-gdk",ML_COL_LAST+1,
+							     "foreground-gdk",L_COL_LAST,
+							     "background-gdk",L_COL_LAST+1,
 							     NULL);
 		gtk_tree_view_append_column(view,col);
+		gtk_tree_view_column_set_spacing(col,0);
 	};
 	
 	gtk_tree_view_set_headers_visible(view,FALSE);
@@ -440,9 +439,8 @@ void log_window_init(tDownload *what) {
 		char title[MAX_LEN];
 		title[0]=0;
 		strcat(title,_("Log: "));
-		char *rfile=unparse_percents(what->info->file.get());
-		strcat(title,rfile);
-		delete[] rfile;
+		std::string rfile(hexed_string(what->info.file));
+		strcat(title,rfile.c_str());
 		gtk_window_set_title(GTK_WINDOW (temp->window), title);
 		g_signal_connect(G_OBJECT(temp->window), "key_press_event",
 		                   (GtkSignalFunc)log_window_event_handler, what->LOG);
@@ -507,18 +505,6 @@ void log_window_init(tDownload *what) {
 
 		g_object_set_data(G_OBJECT(temp->window),"d4x_user_data",what->LOG);
 
-/*
-		if (CFG.FIXED_LOG_FONT){
-			GtkStyle *current_style =gtk_style_copy(gtk_widget_get_style(GTK_WIDGET(temp->view)));
-			GdkFont *font=gdk_fontset_load("-*-fixed-medium-r-*-*-*-120-*-*-*-*-*-*");
-			if (font==NULL){
-				font = gdk_fontset_load("-*-*-medium-r-*-*-*-120-*-*-m-*-*-*");;
-			};
-			if (font)
-				gtk_style_set_font(current_style,font);
-			gtk_widget_set_style(GTK_WIDGET(temp->view), current_style);
-		};
-*/
 		gtk_widget_show_all(temp->window);
 		what->LOG->print();
 		what->LOG->unlock(); // unlock by main thread?

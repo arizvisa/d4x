@@ -13,8 +13,11 @@
 #include "dbc.h"
 #include "face/list.h"
 #include "face/lod.h"
+#include "face/themes.h"
 #include "var.h"
 #include "savedvar.h"
+
+using namespace d4x;
 
 int RUN_OR_WAIT_DOWNLOADS=0;
 
@@ -66,14 +69,14 @@ void d4xDownloadQueue::set_defaults(){
 };
 
 void d4xDownloadQueue::init_pixmaps(){
-	queues[DL_COMPLETE]->init_pixmap(PIX_COMPLETE);
-	queues[DL_RUN]->init_pixmap(PIX_RUN_PART);
-	queues[DL_WAIT]->init_pixmap(PIX_WAIT);
-	queues[DL_PAUSE]->init_pixmap(PIX_PAUSE);
-	queues[DL_LIMIT]->init_pixmap(PIX_WAIT);
-	queues[DL_STOP]->init_pixmap(PIX_STOP);
-	queues[DL_STOPWAIT]->init_pixmap(PIX_STOP_WAIT);
-	queues[DL_SIZEQUERY]->init_pixmap(PIX_SIZE);
+	queues[DL_COMPLETE]->init_pixmap(LPE_COMPLETE);
+	queues[DL_RUN]->init_pixmap(LPE_RUN_PART);
+	queues[DL_WAIT]->init_pixmap(LPE_WAIT);
+	queues[DL_PAUSE]->init_pixmap(LPE_PAUSE);
+	queues[DL_LIMIT]->init_pixmap(LPE_WAIT);
+	queues[DL_STOP]->init_pixmap(LPE_STOP);
+	queues[DL_STOPWAIT]->init_pixmap(LPE_STOP_WAIT);
+	queues[DL_SIZEQUERY]->init_pixmap(LPE_SIZE);
 };
 
 int d4xDownloadQueue::current_run(char *host,int port){
@@ -82,8 +85,8 @@ int d4xDownloadQueue::current_run(char *host,int port){
 	tDownload *temp=queues[DL_RUN]->last();
 	int count=0;
 	while(temp) {
-		if (strcasecmp(host,temp->info->host.get())==0 &&
-		    port==temp->info->port){
+		if (strcasecmp(host,temp->info.host.c_str())==0 &&
+		    port==temp->info.port){
 			count+=1;	
 		if (temp->split){
 				tDownload *temp1=temp->split->next_part;

@@ -53,7 +53,7 @@ void d4xPing::run(tDList *list,tWriterLoger *WL){
 		tmp->status=0;
 		tmp->action=0;
 		tmp->Attempt.curent+=1; // Used for calculation number of attempts
-		int len=my_get_host_by_name(tmp->info->host.get(),tmp->info->port,
+		int len=my_get_host_by_name(tmp->info.host.c_str(),tmp->info.port,
 					    &info,&hp,
 					    buf,MAX_LEN,&rval);
 		if (len<0 || (pf[TOTAL].fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0){

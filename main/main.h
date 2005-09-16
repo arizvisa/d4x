@@ -74,11 +74,11 @@ class tMain{
         void reinit_main_log();
 	void schedule_download(tDownload *what);
 	/* manipulation by url */
-	tDownload *find_url(tAddr *adr);
+	tDownload *find_url(const d4x::URL &adr);
 	void move_to_sizequery(tDownload *what);
-	void stop_download_url(tAddr *adr);
-	void delete_download_url(tAddr *adr);
-        void continue_download_url(tAddr *adr);
+	void stop_download_url(const d4x::URL &adr);
+	void delete_download_url(const d4x::URL &adr);
+        void continue_download_url(const d4x::URL &adr);
 	/* manipulations with downloads */
         void stop_download(tDownload *what);
         int delete_download(tDownload *what,int flag=0);

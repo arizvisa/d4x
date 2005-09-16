@@ -10,84 +10,73 @@
  */
 
 #include "sm.h"
+#include <functional>
 
-d4xOldSocket::d4xOldSocket(){
-	info=NULL;
-	sock=NULL;
+using namespace d4x;
+
+OldSocket::OldSocket(const d4x::URL &a, tSocket *s):info(a),sock(s),birth(time(NULL)){
 };
 
-d4xOldSocket::d4xOldSocket(tAddr *a, tSocket *s){
-	info=a;
-	sock=s;
-};
-
-void d4xOldSocket::print(){
-};
-
-d4xOldSocket::~d4xOldSocket(){
-	if (info && info->proto==D_PROTO_FTP && sock)
+OldSocket::~OldSocket(){
+	if (info.proto==D_PROTO_FTP && sock)
 		sock->direct_send("QUIT\r\n");
 	if (sock) delete(sock);
-	if (info) delete(info);
 };
 
 /*********************************************************/
 
-d4xSocketsHistory::d4xSocketsHistory():tQueue(){
-	MaxNum=50; /* FIXME: it's bad to use such constants*/
-};
-
-d4xSocketsHistory::~d4xSocketsHistory(){
+static void _destroy_(OldSocket *s){
+	delete s;
 };
 
 
-void d4xSocketsHistory::insert(d4xOldSocket *what){
+SocketsHistory::~SocketsHistory(){
+	std::for_each(lst.begin(),lst.end(),_destroy_);
+};
+
+
+void SocketsHistory::insert(const URL&_u,tSocket *what){
 	my_lock.lock();
-	what->birth=time(NULL);
-	tQueue::insert(what);
-	my_lock.unlock();
-};
-
-void d4xSocketsHistory::del(d4xOldSocket *what){
-	my_lock.lock();
-	tQueue::del(what);
+	lst.push_back(new OldSocket(_u,what));
 	my_lock.unlock();
 };
 
 
-tSocket *d4xSocketsHistory::find(tAddr *info){
+void SocketsHistory::del(OldSocket *what){
 	my_lock.lock();
-	d4xOldSocket *s=(d4xOldSocket *)First;
-	while(s){
-		if (equal(s->info->host.get(),info->host.get()) &&
-		    s->info->port==info->port &&
-		    s->info->proto==info->proto &&
-		    equal(s->info->username.get(),info->username.get())){
-			tQueue::del(s);
-			tSocket *rval=s->sock;
-			s->sock=NULL;
-			delete(s);
-			my_lock.unlock();
-			return(rval);
-		}
-		s=(d4xOldSocket *)(s->prev);
+	lst.erase(std::remove(lst.begin(),lst.end(),what),lst.end());
+	my_lock.unlock();
+};
+
+static bool _cmp_with_url_(URL *info,OldSocket *s){
+	return *info==s->info;
+};
+
+tSocket *SocketsHistory::find(const URL &info){
+	my_lock.lock();
+	tSocket *rval=0;
+	OldSockList::iterator it=find_if(lst.begin(),lst.end(),std::bind1st(std::ptr_fun(_cmp_with_url_),&info));
+	if (it!=lst.end()){
+		OldSocket *old=*it;
+		rval=(*it)->sock;
+		(*it)->sock=0;
+		lst.erase(it);
+		delete old;
 	};
 	my_lock.unlock();
-	return(NULL);
+	return rval;
 };
 
-void d4xSocketsHistory::kill_old(){
+static bool _time_too_old_(time_t now,OldSocket *s){
+	time_t d=s->birth-now;
+	return d<-50 || d>50;
+};
+
+void SocketsHistory::kill_old(){
 	time_t now=time(NULL);
 	my_lock.lock();
-	while(First){
-		d4xOldSocket *s=(d4xOldSocket *)First;
-		time_t diff=s->birth-now;
-		/* FIXME: constants again */
-		if (diff<-50 || diff>50){
-			tQueue::del(s);
-			delete(s);
-		}else
-			break;
-	};
+	OldSockList::iterator it=std::remove_if(lst.begin(),lst.end(),std::bind1st(std::ptr_fun(_time_too_old_),now));
+	std::for_each(it,lst.end(),_destroy_);
+	lst.erase(it,lst.end());
 	my_lock.unlock();
 };

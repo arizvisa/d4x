@@ -32,7 +32,7 @@ void tHttpClient::pass_first_segment(){
 	pass_first=1;
 };
 
-void tHttpClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
+void tHttpClient::init(const std::string &host,tWriterLoger *log,int prt,int time_out) {
 	tClient::init(host,log,prt,time_out);
 	BuffSize=BLOCK_READ;
 	buffer=new char[BuffSize];
@@ -47,13 +47,13 @@ void tHttpClient::set_offset(fsize_t a) {
 	FileLoaded=Offset=a;
 };
 
-int tHttpClient::send_request(char *what) {
+int tHttpClient::send_request(const char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	LOG->log(LOG_TO_SERVER,what);
 	return CtrlSocket->send_string(what,timeout);
 };
 
-int tHttpClient::send_request(char *begin, char *center,char *end){
+int tHttpClient::send_request(const char *begin, const char *center,const char *end){
 	DBC_RETVAL_IF_FAIL(begin!=NULL,-1);
 	char *tmp=sum_strings(begin,center,end,NULL);
 	int rvalue=send_request(tmp);
@@ -136,13 +136,12 @@ int tHttpClient::read_answer(tStringList *list) {
 	return -1;
 };
 
-void tHttpClient::send_cookies(char *host,char *path){
+void tHttpClient::send_cookies(const char *host,const char *path){
 	download_set_block(1);
-	char *request_string=LOG->cookie(host,path);
+	std::string request_string=LOG->cookie(host,path);
 	download_set_block(0);
-	if (request_string){
-		send_request("Cookie: ",request_string,"\r\n");
-		delete[] request_string;
+	if (!request_string.empty()){
+		send_request("Cookie: ",request_string.c_str(),"\r\n");
 	};
 };
 
@@ -164,11 +163,9 @@ fsize_t tHttpClient::get_size_sub(tStringList *list){
 			send_request("User-Agent: ",user_agent,"\r\n");
 	};
 
-	send_request("Host: ",hostname,"\r\n");
-	if (username && userword) {
-		char *tmp=sum_strings(username,":",userword,NULL);
-		char *pass=string_to_base64(tmp);
-		delete[] tmp;
+	send_request("Host: ",hostname.c_str(),"\r\n");
+	if (!username.empty() && !userword.empty()) {
+		char *pass=string_to_base64((username+":"+userword).c_str());
 		send_request("Authorization: Basic ",pass,"\r\n");
 		delete[] pass;
 	};
@@ -176,25 +173,25 @@ fsize_t tHttpClient::get_size_sub(tStringList *list){
 	return read_answer(list);
 };
 
-fsize_t tHttpClient::get_size_only(char *filename,tStringList *list) {
+fsize_t tHttpClient::get_size_only(const char *filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
 	send_request("HEAD ",filename," HTTP/1.1\r\n");
-	send_cookies(hostname,filename);
+	send_cookies(hostname.c_str(),filename);
 	return(get_size_sub(list));
 };
 
 
-fsize_t tHttpClient::get_size(char *filename,tStringList *list) {
+fsize_t tHttpClient::get_size(const char *filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
 	send_request("GET ",filename," HTTP/1.1\r\n");
-	send_cookies(hostname,filename);
+	send_cookies(hostname.c_str(),filename);
 	return(get_size_sub(list));
 };
 
 
-fsize_t tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
+fsize_t tHttpClient::get_file_from(const char *what,fsize_t begin,fsize_t len) {
 	DSize=0;
 	fsize_t llen=len;
 	do{
@@ -261,7 +258,7 @@ fsize_t tHttpClient::get_file_from(char *what,fsize_t begin,fsize_t len) {
 	return DSize;
 };
 
-int tHttpClient::registr(char *user,char *password) {
+int tHttpClient::registr(const std::string &user,const std::string &password) {
 	username=user;
 	userword=password;
 	return 0;

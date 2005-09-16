@@ -30,16 +30,20 @@ int sv_parse_file(int fd,tSavedVar *var,char *buf,int bufsize){
 		sscanf(buf,"%lli",(long long int*)(var->where));
 		break;
 	};
+	case SV_TYPE_STDSTR:{
+		if (f_rstr(fd,buf,bufsize)<0) return -1;
+		*((std::string *)(var->where))=buf;
+		break;
+	};
 	case SV_TYPE_PSTR:{
 		if (f_rstr(fd,buf,bufsize)<0) return -1;
 		((tPStr *)(var->where))->set(buf);
 		break;
 	};
 	case SV_TYPE_URL:{
-		tAddr **info=(tAddr **)(var->where);
+		d4x::URL *info=(d4x::URL *)(var->where);
 		if (f_rstr(fd,buf,bufsize)<0) return -1;
-		if (*info) delete(*info);
-		*info=new tAddr(buf);
+		*info=std::string(buf);
 		break;
 	};
 	case SV_TYPE_TIME:{

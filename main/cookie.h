@@ -21,14 +21,14 @@ struct tCookie:public tAbstractSortNode{
 	time_t time_of_life;
 	public:
 	int myown;
-	tPStr host,path,name,value;
+	std::string host,path,name,value;
 	tCookie();
-	void set_time(char *what);
+	void set_time(const std::string &what);
 	void set_time(time_t t);
 	void init(char *a,char *b,char *c,char *d);
 	time_t get_time();
 	int cmp(tAbstractSortNode *a);
-	int parse(char *str,char *srchost,char *srcpath);
+	int parse(char *str,const char *srchost,const char *srcpath);
 	void print();
 	~tCookie();
 };

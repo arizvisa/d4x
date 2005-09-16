@@ -19,6 +19,9 @@
 #include "main.h"
 #include "xml.h"
 #include "ntlocale.h"
+#include "face/themes.h"
+
+using namespace d4x;
 
 d4xEnginesList D4X_SEARCH_ENGINES;
 
@@ -57,7 +60,7 @@ char *str_regex_replace(const char *str){
 
 /****************************************************************/
 
-void d4xSearchEngine::prepare_url(tAddr *adr,int size,const char *file,int num){
+void d4xSearchEngine::prepare_url(d4x::URL &adr,int size,const char *file,int num){
 	char data[100];
 	char *tmp=NULL,*tmp1;
 	char *f=unparse_percents((char*)file);
@@ -75,7 +78,7 @@ void d4xSearchEngine::prepare_url(tAddr *adr,int size,const char *file,int num){
 		tmp=tmp1;
 	};
 	delete[] f;
-	adr->from_string(tmp);
+	adr=std::string(tmp);
 	delete[] tmp;
 };
 
@@ -254,7 +257,7 @@ void tFtpSearchCtrl::init(GtkTreeView *v, tMain *papa,tMLog *mylog){
 
 void tFtpSearchCtrl::add(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	what->info->proto=D_PROTO_SEARCH;
+	what->info.proto=D_PROTO_SEARCH;
 	what->action=ACTION_NONE; //reping only flag
 	what->ActStatus.curent=0; //cumulative reping flag
 	queues[DL_FS_WAIT]->insert(what);
@@ -276,7 +279,7 @@ void tFtpSearchCtrl::reping(tDownload *what){
 		what->split=NULL;
 	};
 	queues[DL_FS_WAIT]->insert(what);
-	fs_list_set_icon(view,what,PIX_WAIT);
+	fs_list_set_icon(view,what,LPE_WAIT);
 };
 
 void tFtpSearchCtrl::remove(tDownload *what){
@@ -285,7 +288,7 @@ void tFtpSearchCtrl::remove(tDownload *what){
 	case DL_FS_RUN:
 		stop_thread(what);
 		what->action=ACTION_DELETE;
-		fs_list_set_icon(view,what,PIX_STOP_WAIT);
+		fs_list_set_icon(view,what,LPE_STOP_WAIT);
 		break;
 	case DL_FS_STOP:
 	case DL_FS_WAIT:
@@ -350,7 +353,7 @@ void tFtpSearchCtrl::cycle(){
 			};
 			case ACTION_CONTINUE:{
 				queues[DL_FS_WAIT]->insert(tmp);
-				fs_list_set_icon(view,tmp,PIX_WAIT);
+				fs_list_set_icon(view,tmp,LPE_WAIT);
 				if (tmp->config==NULL){
 					tmp->config=new tCfg;
 					tmp->set_default_cfg();
@@ -365,7 +368,7 @@ void tFtpSearchCtrl::cycle(){
 				if (view){
 					switch (tmp->status){
 					case DOWNLOAD_COMPLETE:{
-						fs_list_set_icon(view,tmp,PIX_COMPLETE);
+						fs_list_set_icon(view,tmp,LPE_COMPLETE);
 						if (tmp->fsearch){
 							tDownload *a=ALL_DOWNLOADS->find(tmp);
 							if (a){
@@ -381,10 +384,10 @@ void tFtpSearchCtrl::cycle(){
 						break;
 					};
 					case DOWNLOAD_REAL_STOP:
-						fs_list_set_icon(view,tmp,PIX_PAUSE);
+						fs_list_set_icon(view,tmp,LPE_PAUSE);
 						break;
 					default:
-						fs_list_set_icon(view,tmp,PIX_STOP);
+						fs_list_set_icon(view,tmp,LPE_STOP);
 					};
 				};
 				if (tmp) queues[DL_FS_STOP]->insert(tmp);
@@ -403,7 +406,7 @@ void tFtpSearchCtrl::cycle(){
 		queues[DL_FS_WAIT]->del(tmp);
 		queues[DL_FS_RUN]->insert(tmp);
 		if (view)
-			fs_list_set_icon(view,tmp,PIX_RUN);
+			fs_list_set_icon(view,tmp,LPE_RUN);
 		tmp=tmpnext;
 	};
 };

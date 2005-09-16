@@ -33,28 +33,19 @@ d4xRule::d4xRule(){
 void d4xRule::print(){
 };
 
-int d4xRule::match(tAddr *addr){
-	if (proto && addr->proto!=proto)
+int d4xRule::match(const d4x::URL &addr){
+	if (proto && addr.proto!=proto)
 		return(0);
-	if (file.get() &&
-	    addr->file.get() &&
-	    !check_mask2_uncase(addr->file.get(),file.get()))
+	if (!check_mask2_uncase(addr.file.c_str(),file.get()))
 		return(0);
-	if (host.get() &&
-	    addr->host.get() &&
-	    !check_mask2(addr->host.get(),host.get()))
+	if (!check_mask2(addr.host.c_str(),host.get()))
 		return(0);
-	if (path.get() &&
-	    addr->path.get() &&
-	    !check_mask2(addr->path.get(),path.get()))
+	if (!check_mask2(addr.path.c_str(),path.get()))
 		return(0);
-	if (tag.get() && addr->tag.get()  &&
-	    equal_uncase(addr->tag.get(),tag.get())==0){
+	if (equal_uncase(addr.tag.c_str(),tag.get())==0){
 		return(0);
 	};
-	if (params.get() &&
-	    (addr->params.get()==NULL ||
-	     !check_mask2(addr->params.get(),params.get())))
+	if (!check_mask2(addr.params.c_str(),params.get()))
 		return(0);
 	return(1);
 };
@@ -146,7 +137,7 @@ void d4xFilter::del(tNode *node){
 	my_mutex.unlock();
 };
 
-int d4xFilter::match(tAddr *addr){
+int d4xFilter::match(const d4x::URL &addr){
 	DBC_RETVAL_IF_FAIL(addr!=NULL,0);
 	download_set_block(1);
 	my_mutex.lock();

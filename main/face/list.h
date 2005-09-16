@@ -85,7 +85,7 @@ void continue_downloads(...);
 void my_main_quit(...);
 char *old_clipboard_content();
 
-void d4x_mw_clipboard_set(char *str);
+void d4x_mw_clipboard_set(const char *str);
 char *d4x_mw_clipboard_get();
 void d4x_normalize_coords(gint *x,gint *y,gint width=0,gint heigh=0);
 void d4x_main_switch_log(tDownload *dwn);

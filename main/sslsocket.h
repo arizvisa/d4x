@@ -13,9 +13,9 @@ namespace d4x{
 		fsize_t lowlevel_read(char *where,fsize_t len);
 	public:
 		SSLSocket();
-		int open_port(char * host,guint16 port);
+		int open_port(const char * host,guint16 port);
 		int open_port(guint32 host,guint16 port);
-		int send_string(char *what,int timeout);
+		int send_string(const char *what,int timeout);
 		void down();
 		~SSLSocket(); 
 	};

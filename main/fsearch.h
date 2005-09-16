@@ -29,7 +29,7 @@ struct d4xSearchEngine:public tNode{
 	int used;
 	d4xSearchEngine():tNode(){used=0;};
 	void print(){printf("%s\n%s\n",name.get(),match.get());};
-	void prepare_url(tAddr *adr,int size,const char *file,int num);
+	void prepare_url(d4x::URL &adr,int size,const char *file,int num);
 };
 
 struct d4xFtpRegex{

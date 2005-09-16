@@ -16,16 +16,12 @@
 #include "ntlocale.h"
 
 tHProxyClient::tHProxyClient():tHttpClient(){
-	real_host=NULL;
-	cookie_path=NULL;
 };
 
 tHProxyClient::tHProxyClient(tCfg *cfg,tSocket *ctrl):tHttpClient(cfg,ctrl){
-	real_host=NULL;
-	cookie_path=NULL;
 };
 
-void tHProxyClient::setup_data(char *host,int cache) {
+void tHProxyClient::setup_data(const std::string &host,int cache) {
 	real_host=host;
 	no_cache=cache;
 };
@@ -46,7 +42,7 @@ fsize_t tHProxyClient::get_size_sub(tStringList *list){
 		else
 			send_request("User-Agent: ",user_agent,"\r\n");
 	};
-	send_request("Host: ",real_host,"\r\n");
+	send_request("Host: ",real_host.c_str(),"\r\n");
 
 	if (username_proxy && userword_proxy) {
 		char *tmp=sum_strings(username_proxy,":",userword_proxy,NULL);
@@ -55,16 +51,15 @@ fsize_t tHProxyClient::get_size_sub(tStringList *list){
 		send_request("Proxy-Authorization: Basic ",pass,"\r\n");
 		delete[] pass;
 	};
-	if (username && userword) {
-		char *tmp=sum_strings(username,":",userword,NULL);
-		char *pass=string_to_base64(tmp);
-		delete[] tmp;
+	if (!username.empty() && !userword.empty()) {
+		std::string tmp=username+":"+userword;
+		char *pass=string_to_base64(tmp.c_str());
 		send_request("Authorization: Basic ",pass,"\r\n");
 		delete[] pass;
 	};
 	if (no_cache)
 		send_request("Pragma: no-cache\r\n");
-	send_cookies(real_host,cookie_path);
+	send_cookies(real_host.c_str(),cookie_path.c_str());
 	send_request("\r\n");
 	return read_answer(list);
 };
@@ -86,13 +81,11 @@ void tHProxyClient::proxy_registr(char *user,char *password) {
 	userword_proxy=password;
 };
 
-void tHProxyClient::set_cookie_search(char *what){
-	if (cookie_path) delete[] cookie_path;
+void tHProxyClient::set_cookie_search(const std::string &what){
 	cookie_path=what;
 };
 
 tHProxyClient::~tHProxyClient() {
-	if (cookie_path) delete[] cookie_path;
 };
 
 /* ---------------------------------------------
@@ -103,12 +96,12 @@ tProxyDownload::tProxyDownload():tHttpDownload(){
 tProxyDownload::tProxyDownload(tWriterLoger *log):tHttpDownload(log){
 };
 
-int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
+int tProxyDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
 	DBC_RETVAL_IF_FAIL(hostinfo!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
 	HTTP=new tHProxyClient(cfg);
 	RetrNum=0;
-	ADDR.copy(hostinfo);
+	ADDR=hostinfo;
 	answer=NULL;
 	ETag=NULL;
 	Auth=NULL;
@@ -119,7 +112,7 @@ int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	config.socks_user.set(cfg->socks_user.get());
 	config.socks_pass.set(cfg->socks_pass.get());
 	config.proxy.no_cache = cfg->proxy.no_cache;
-	if (hostinfo->proto==D_PROTO_FTP){
+	if (hostinfo.proto==D_PROTO_FTP){
 		config.proxy.http_port = cfg->proxy.ftp_port;
 		config.proxy.http_host.set(cfg->proxy.ftp_host.get());
 		config.proxy.http_user.set(cfg->proxy.ftp_user.get());
@@ -131,7 +124,7 @@ int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 		config.proxy.http_pass.set(cfg->proxy.http_pass.get());
 	};
 
-	D_PROTO=hostinfo->proto;
+	D_PROTO=hostinfo.proto;
 	HTTP->init(config.proxy.http_host.get(),LOG,config.proxy.http_port,config.timeout);
 	config.user_agent.set(cfg->user_agent.get());
 	config.referer.set(cfg->referer.get());
@@ -139,55 +132,20 @@ int tProxyDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 	if (ADDR.proto==D_PROTO_FTP)
 		HTTP->registr(NULL,NULL);
 	else
-		HTTP->registr(ADDR.username.get(),ADDR.pass.get());
+		HTTP->registr(ADDR.user.c_str(),ADDR.pass.c_str());
 	((tHProxyClient *)(HTTP))->proxy_registr(config.proxy.http_user.get(),config.proxy.http_pass.get());
-	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.get(),cfg->proxy.no_cache);
+	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.c_str(),cfg->proxy.no_cache);
 	REQUESTED_URL=make_name();
 	return reconnect();
 };
 
-char *tProxyDownload::make_name(){
-	char *parsed_name=unparse_percents(ADDR.file.get());
-	char *parsed_path=unparse_percents(ADDR.path.get());
-	int auth_len=0;
-	if (ADDR.proto==D_PROTO_FTP && ADDR.username.get() &&
-	    ADDR.pass.get())
-		auth_len=strlen(ADDR.pass.get())+strlen(ADDR.username.get())+2;
-	int port_len = get_port_by_proto(ADDR.proto)!=ADDR.port ? int_to_strin_len(ADDR.port)+1 : 0;
-	char *rvalue=new char[strlen(get_name_by_proto(ADDR.proto))+strlen(parsed_path)+
-			     strlen(ADDR.host.get())+strlen(parsed_name)+
-			     (ADDR.params.get() ? strlen(ADDR.params.get())+1:0)+strlen(":////")+
-			     port_len+auth_len+1];
-	*rvalue=0;
-	strcat(rvalue,get_name_by_proto(ADDR.proto));
-	strcat(rvalue,"://");
-	if (auth_len){
-		strcat(rvalue,ADDR.username.get());
-		strcat(rvalue,":");
-		strcat(rvalue,ADDR.pass.get());
-		strcat(rvalue,"@");
-	};
-	strcat(rvalue,ADDR.host.get());
-	if (port_len)
-		sprintf(rvalue+strlen(rvalue),":%i",ADDR.port);
-	strcat(rvalue,"/");
-	strcat(rvalue,parsed_path);
-	char *D_PATH=parsed_path;
-	if (*D_PATH && D_PATH[strlen(D_PATH)-1]!='/')
-		strcat(rvalue,"/");
-	strcat(rvalue,parsed_name);
-	if (ADDR.params.get()){
-		strcat(rvalue,"?");
-		strcat(rvalue,ADDR.params.get());
-	};
-	delete[] parsed_path;
-	delete[] parsed_name;
-	return rvalue;
+std::string tProxyDownload::make_name(){
+	return std::string(ADDR);
 };
 
 fsize_t tProxyDownload::get_size_only() {
 	// Make a URL from available data
-	((tHProxyClient *)HTTP)->set_cookie_search(ADDR.pathfile());
+	((tHProxyClient *)HTTP)->set_cookie_search(ADDR.path/ADDR.file);
 	//begin request
 	if (!answer) {
 		answer=new tStringList;
@@ -197,7 +155,7 @@ fsize_t tProxyDownload::get_size_only() {
 		answer->done();
 		HTTP->set_offset(0);
 		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.proxy.http_host.get(),config.proxy.http_port);
-		fsize_t temp=HTTP->get_size_only(REQUESTED_URL,answer);
+		fsize_t temp=HTTP->get_size_only(REQUESTED_URL.c_str(),answer);
 		switch (temp){
 		case 0:{
 			LOG->log(LOG_OK,_("Answer read ok"));
@@ -220,7 +178,7 @@ fsize_t tProxyDownload::get_size_only() {
 
 fsize_t tProxyDownload::get_size() {
 	// Make a URL from available data
-	((tHProxyClient *)HTTP)->set_cookie_search(ADDR.pathfile());
+	((tHProxyClient *)HTTP)->set_cookie_search(ADDR.path/ADDR.file);
 	//begin request
 	if (!answer) {
 		answer=new tStringList;
@@ -230,7 +188,7 @@ fsize_t tProxyDownload::get_size() {
 		answer->done();
 		HTTP->set_offset(LOADED);
 		LOG->log_printf(LOG_OK,_("Sending request to proxy (%s:%i)"),config.proxy.http_host.get(),config.proxy.http_port);
-		fsize_t temp=HTTP->get_size(REQUESTED_URL,answer);
+		fsize_t temp=HTTP->get_size(REQUESTED_URL.c_str(),answer);
 		switch (temp){
 		case 0:{
 			LOG->log(LOG_OK,_("Answer read ok"));

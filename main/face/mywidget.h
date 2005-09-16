@@ -114,7 +114,7 @@ struct d4xLinksSel{
 	GtkWindow window;
 	GtkTreeView *view;
 	GtkWidget *hbbox,*vbox;
-	GtkWidget *referer;
+	GtkWidget *referer,*directory;
 	GtkWidget *ok,*cancel,*remove,*find;
 };
 
@@ -131,7 +131,7 @@ void d4x_links_sel_selected_foreach(d4xLinksSel *sel,d4xLinksSelForeachFunc func
 void d4x_links_sel_del(d4xLinksSel *sel,GtkTreeIter *iter);
 void d4x_links_sel_clear(d4xLinksSel *sel);
 gpointer d4x_links_sel_get_data(d4xLinksSel *sel,GtkTreeIter *iter);
-void d4x_links_sel_set(d4xLinksSel *sel,GtkTreeIter *iter,char *url,gpointer p);
+void d4x_links_sel_set(d4xLinksSel *sel,GtkTreeIter *iter,const char *url,gpointer p);
 
 GtkWidget *d4x_links_sel_new_with_add();
 GtkWidget *d4x_links_sel_new_with_referer(const char*);
@@ -169,8 +169,8 @@ struct d4xAltEditClass {
 };
 
 GtkWidget *d4x_alt_edit_new();
-void d4x_alt_edit_set(d4xAltEdit *sel,tAddr *info);
-void d4x_alt_edit_get(d4xAltEdit *sel,tAddr *info);
+void d4x_alt_edit_set(d4xAltEdit *sel,const d4x::URL &info);
+void d4x_alt_edit_get(d4xAltEdit *sel,d4x::URL &info);
 
 struct MyGtkVbookmark{
 	GtkRadioButton button;

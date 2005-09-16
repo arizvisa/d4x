@@ -263,7 +263,7 @@ int tFtpDownload::change_dir() {
 		return(rvalue);
 	};
 	*/
-	if ((rvalue=FTP->change_dir(ADDR.path.get()))){
+	if ((rvalue=FTP->change_dir(ADDR.path.c_str()))){
 		print_error(ERROR_CWD);
 		return(rvalue);
 	};
@@ -278,7 +278,6 @@ tFtpDownload::tFtpDownload():tDownloader(){
 	DIR=list=NULL;
 	RetrNum=0;
 	DONT_CWD=0;
-	TMP_FILEPATH=NULL;
 };
 
 tFtpDownload::tFtpDownload(tWriterLoger *log):tDownloader(log){
@@ -286,7 +285,6 @@ tFtpDownload::tFtpDownload(tWriterLoger *log):tDownloader(log){
 	DIR=list=NULL;
 	RetrNum=0;
 	DONT_CWD=0;
-	TMP_FILEPATH=NULL;
 };
 
 void tFtpDownload::dont_cwd(){
@@ -320,7 +318,7 @@ int tFtpDownload::reconnect() {
 				success=FTP->connect();
 			};
 			if (success==0){
-				FTP->registr(ADDR.username.get(),ADDR.pass.get());
+				FTP->registr(ADDR.user,ADDR.pass);
 				success=FTP->connect();
 			};
 		};
@@ -329,24 +327,23 @@ int tFtpDownload::reconnect() {
 	return 0;
 };
 
-void tFtpDownload::init_download(char *path,char *file) {
-	ADDR.file.set(file);
-	if (path && *path!='~' && *path!='/'){
-		path=sum_strings("/",path,NULL);
-		ADDR.path.set(path);
-		delete[] path;
+void tFtpDownload::init_download(const std::string &path,const std::string &file) {
+	ADDR.file=file;
+	if (path[0]!='~' && path[0]!='/'){
+		ADDR.path="/";
+		ADDR.path/=path;
 	}else
-		ADDR.path.set(path);
+		ADDR.path=path;
 };
 
-int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
+int tFtpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
 	FTP=new tFtpClient(cfg);
 	RetrNum=0;
-	ADDR.copy(hostinfo);
-	if (ADDR.username.get()==NULL)
-		ADDR.username.set(DEFAULT_USER);
-	if (ADDR.pass.get()==NULL)
-		ADDR.pass.set(CFG.ANONYMOUS_PASS);
+	ADDR=hostinfo;
+	if (ADDR.user.empty())
+		ADDR.user=DEFAULT_USER;
+	if (ADDR.pass.empty())
+		ADDR.pass=CFG.ANONYMOUS_PASS;
 	DIR=NULL;
 	list=NULL;
 
@@ -364,12 +361,9 @@ int tFtpDownload::init(tAddr *hostinfo,tCfg *cfg,tSocket *s) {
 		port[0]=0;
 		if (ADDR.port!=get_port_by_proto(D_PROTO_FTP))
 			sprintf(port,":%i",ADDR.port);
-		char *temp=sum_strings(ADDR.username.get(),"@",
-				       ADDR.host.get(),port,NULL);
-		ADDR.username.set(temp);
-		delete[] temp;
+		ADDR.user=ADDR.user+"@"+ADDR.host+port;
 	} else
-		FTP->init(ADDR.host.get(),LOG,ADDR.port,config.timeout);
+		FTP->init(ADDR.host,LOG,ADDR.port,config.timeout);
 	FTP->set_passive(config.passive);
 	FTP->set_retry(config.retry);
 	FTP->set_dont_set_quit(config.dont_send_quit);
@@ -392,16 +386,15 @@ tStringList *tFtpDownload::dir() {
 };
 
 int tFtpDownload::ftp_get_size_no_sdc(tStringList *l){
-	if (ADDR.mask)
+	if (ADDR.mask){
 		return(FTP->get_size(NULL,l));
-	if (DONT_CWD){
-		if (TMP_FILEPATH) delete[] TMP_FILEPATH;
-		TMP_FILEPATH=sum_strings("/",ADDR.path.get(),"/",
-					 ADDR.file.get(),NULL);
-		normalize_path(TMP_FILEPATH);
-		return(FTP->get_size(TMP_FILEPATH,l));
 	};
-	return(FTP->get_size(ADDR.file.get(),l));
+	if (DONT_CWD){
+		TMP_FILEPATH=std::string("/")+ADDR.path;
+		TMP_FILEPATH/=ADDR.file;
+		return(FTP->get_size(TMP_FILEPATH.c_str(),l));
+	};
+	return(FTP->get_size(ADDR.file.c_str(),l));
 };
 
 int tFtpDownload::ftp_get_size(tStringList *l){
@@ -413,7 +406,7 @@ int tFtpDownload::ftp_get_size(tStringList *l){
 };
 
 int tFtpDownload::is_dir(){
-	if (FTP->change_dir(ADDR.file.get())==0)
+	if (FTP->change_dir(ADDR.file.c_str())==0)
 		return(1);
 	return(0);
 };
@@ -426,10 +419,8 @@ fsize_t tFtpDownload::ls_answer_short(){
 		/* try to CWD */
 		if (is_dir()){
 			D_FILE.type=T_DIR;
-			char *a=compose_path(ADDR.path.get(),ADDR.file.get());
-			ADDR.path.set(a);
-			ADDR.file.set("");
-			delete[] a;
+			ADDR.path/=ADDR.file;
+			ADDR.file.clear();
 		}else
 			D_FILE.type=T_FILE;
 		return 0;
@@ -453,7 +444,7 @@ fsize_t tFtpDownload::ls_answer_short(){
 fsize_t tFtpDownload::ls_answer_long(){
 	tString *last=list->last();
 	while(last){
-		if (strstr(last->body,ADDR.file.get()))
+		if (strstr(last->body,ADDR.file.c_str()))
 			break;
 		last=(tString*)(last->next);
 	};
@@ -491,7 +482,7 @@ fsize_t tFtpDownload::get_size() {
 			int a=ftp_get_size(list);
 			if (a==0 && list->count()<=2){
 				fsize_t sz=ls_answer_short();
-				if (equal(D_FILE.name.get(),ADDR.file.get()) ||
+				if (ADDR.file==D_FILE.name.get() ||
 				    FTP->METHOD_TO_LIST==1)
 					return(sz);
 				FTP->METHOD_TO_LIST=1;
@@ -586,13 +577,11 @@ int tFtpDownload::download(fsize_t len) {
 					Status=D_DOWNLOAD;
 					fsize_t to_load=len>0?length_to_load-LOADED:0;
 					if (DONT_CWD){
-						if (TMP_FILEPATH) delete[] TMP_FILEPATH;
-						TMP_FILEPATH=sum_strings("/",ADDR.path.get(),"/",
-									 ADDR.file.get(),NULL);
-						normalize_path(TMP_FILEPATH);
-						ind=FTP->get_file_from(TMP_FILEPATH,LOADED,to_load);
+						TMP_FILEPATH=std::string("/")+ADDR.path;
+						TMP_FILEPATH/=ADDR.file;
+						ind=FTP->get_file_from(TMP_FILEPATH.c_str(),LOADED,to_load);
 					}else
-						ind=FTP->get_file_from(ADDR.file.get(),LOADED,to_load);
+						ind=FTP->get_file_from(ADDR.file.c_str(),LOADED,to_load);
 #ifdef DEBUG_ALL
 					LOG->log_printf(LOG_OK,"return to tFtpDownload::download with ind=%ll",ind);
 #endif //DEBUG ALL
@@ -677,5 +666,4 @@ tFtpDownload::~tFtpDownload() {
 	if (FTP) delete(FTP);
 	if (DIR) delete(DIR);
 	if (list) delete(list);
-	if (TMP_FILEPATH) delete[] TMP_FILEPATH;
 };

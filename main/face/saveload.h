@@ -18,6 +18,5 @@ void init_save_list(...);
 void init_load_list(...);
 void init_load_txt_list(...);
 gint load_save_list_cancel();
-void create_addlinks_with_referer(const std::vector<std::string> &v);
-
+void create_addlinks_with_referer(const std::vector<std::string> &v,const char *savepath);
 #endif

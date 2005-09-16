@@ -52,6 +52,8 @@
 #include "xml.h"
 #include "face/passface.h"
 #include "face/saveload.h"
+#include <algorithm>
+#include <functional>
 
 tMLog *MainLog=NULL;
 
@@ -95,7 +97,7 @@ void _sig_pipe_handler_(){
 
 int tMain::init() {
 	TO_WAIT_IF_HERE=DONTRY2RUN=0;
-	GVARS.SOCKETS=new d4xSocketsHistory;
+	GVARS.SOCKETS=new d4x::SocketsHistory;
 	ftpsearch=NULL;
 	prev_speed_limit=0;
 	list_to_delete=NULL;
@@ -339,7 +341,7 @@ int tMain::run_new_thread(tDownload *what) {
 		else
 			what->LOG->init(CFG.MAX_LOG_LENGTH);
 	};
-	if (what->info->proto==D_PROTO_SEARCH){
+	if (what->info.proto==D_PROTO_SEARCH){
 		what->WL=new tMemoryWL;
 		((tMemoryWL *)(what->WL))->set_log(what->LOG);
 	}else{
@@ -388,26 +390,25 @@ void tMain::stop_split(tDownload *what){
 	what->split->stopcount+=what->split->NumOfParts-a;
 };
 
-tDownload *tMain::find_url(tAddr *adr){
+tDownload *tMain::find_url(const d4x::URL &adr){
 	DBC_RETVAL_IF_FAIL(adr!=NULL,NULL);
 	tDownload tmp;
 	tmp.info=adr;
 	tDownload *a=ALL_DOWNLOADS->find(&tmp);
-	tmp.info=NULL;
 	return(a);
 };
 
-void tMain::stop_download_url(tAddr *adr){
+void tMain::stop_download_url(const d4x::URL &adr){
 	tDownload *a=find_url(adr);
 	if (a) stop_download(a);
 };
 
-void tMain::continue_download_url(tAddr *adr){
+void tMain::continue_download_url(const d4x::URL &adr){
 	tDownload *a=find_url(adr);
 	if (a) continue_download(a);
 };
 
-void tMain::delete_download_url(tAddr *adr){
+void tMain::delete_download_url(const d4x::URL &adr){
 	tDownload *a=find_url(adr);
 	if (a) delete_download(a);
 };
@@ -427,8 +428,8 @@ void tMain::stop_download(tDownload *what) {
 	if (owner==DL_RUN) {
 		papa->del(what);
 		MainLog->myprintf(LOG_WARNING,_("Downloading of file %s from %s was terminated [by user]"),
-				  what->info->file.get(),
-				  what->info->host.get());
+				  what->info.file.c_str(),
+				  what->info.host.c_str());
 		stop_thread(what);
 		if (what->split)
 			stop_split(what);
@@ -467,7 +468,7 @@ int tMain::delete_download(tDownload *what,int flag) {
 			what->action=ACTION_DELETE;
 		return 0;
 	};
-	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info->file.get());
+	MainLog->myprintf(LOG_WARNING,_("Delete file %s from queue of downloads"),what->info.file.c_str());
 	if (flag)
 		what->remove_tmp_files();
 	absolute_delete_download(what);
@@ -563,8 +564,8 @@ void tMain::continue_download(tDownload *what) {
 		};
 	default:
 		MainLog->myprintf(LOG_OK,_("Continue downloading of file %s from %s..."),
-				  what->info->file.get(),
-				  what->info->host.get());
+				  what->info.file.c_str(),
+				  what->info.host.c_str());
 		d4xDownloadQueue *papa=what->myowner->PAPA;
 		if (CFG.ALLOW_FORCE_RUN && what->owner()!=DL_PAUSE &&  try_to_run_download(what)) {
 			papa->del(what);
@@ -699,9 +700,8 @@ void tMain::print_info(tDownload *what) {
 /* setting new title of log*/
 		if (CFG.USE_MAINWIN_TITLE){
 			char title[MAX_LEN];
-			char *rfile=unparse_percents(what->info->file.get());
-			sprintf(title,"%2.0f%% %lli/%lli %s",what->Percent,what->Size.curent,REAL_SIZE,rfile);
-			delete[] rfile;
+			std::string rfile=hexed_string(what->info.file);
+			sprintf(title,"%2.0f%% %lli/%lli %s",what->Percent,what->Size.curent,REAL_SIZE,rfile.c_str());
 			log_window_set_title(what,title);
 			log_window_set_split_info(what);
 		};
@@ -785,8 +785,8 @@ void tMain::redirect(tDownload *what,d4xDownloadQueue *dq) {
 		what->finfo.type=T_NONE;
 		return;
 	};
-	tAddr *addr=what->redirect_url();
-	if (addr) {
+	d4x::URL addr=what->redirect_url();
+	if (addr.is_valid()) {
 		/*
 		if (what->config->leave_server==0 && equal_uncase(addr->host.get(),what->info->host.get())==0){
 			MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to the different host forbidden by download's preferences!"),what);
@@ -795,26 +795,18 @@ void tMain::redirect(tDownload *what,d4xDownloadQueue *dq) {
 			return;
 		};
 		*/
-		char *oldurl=what->info->url();
-		if (addr->cmp(what->info) &&
-		    equal(what->config->referer.get(),oldurl)){
+		if (addr==what->info && equal(what->config->referer.get(),std::string(what->info).c_str())){
 			MainLog->myprintf(LOG_ERROR,_("Redirection from [%z] to the same location!"),what);
 			dq->add(what,DL_COMPLETE);
-			delete(addr);
-			delete[] oldurl;
 			return;
 		};
 		if (ALL_DOWNLOADS->find(addr)) {
 			dq->add(what,DL_COMPLETE);
-			delete(addr);
-			delete[] oldurl;
 			return;
 		};
 		ALL_DOWNLOADS->del(what);
-		delete(what->info);
+		what->config->referer.set(std::string(what->info).c_str());
 		what->info=addr;
-		what->config->referer.set(oldurl);
-		delete[] oldurl;
 		ALL_DOWNLOADS->insert(what);
 		tDownload *temp=dq->first(DL_WAIT);
 		if (temp)
@@ -825,9 +817,7 @@ void tMain::redirect(tDownload *what,d4xDownloadQueue *dq) {
 		what->finfo.type=what->status=0;
 		what->finfo.size=-1;
 		if (CFG.WITHOUT_FACE==0){
-			char *URL=what->info->url_parsed();
-			dq->qv.change_data(what->list_iter,URL_COL,URL);
-			delete [] URL;
+			dq->qv.change_data(what->list_iter,URL_COL,std::string(what->info).c_str());
 			dq->qv.set_filename(what);
 			for (int i=FILE_TYPE_COL;i<PERCENT_COL;i++)
 				if (i!=PERCENT_COL)
@@ -967,31 +957,31 @@ void tMain::main_circle_first(tDownload *dwn){
 	};
 };
 
+static bool _alt_equal_host_(tDownload *dwn,d4x::Alt *alt){
+	return alt->info.host==dwn->info.host;
+};
+
 int tMain::try_to_switch(tDownload *dwn){
-	if (dwn->ALTS==NULL || dwn->ALTS->FIRST==NULL) return(0);
-	d4xAlt *alt=dwn->ALTS->FIRST;
-	while(alt){
-		if (equal(alt->info.host.get(),dwn->info->host.get())){
-			alt=alt->next;
-			break;
-		};
-		alt=alt->next;
-	};
-	if (!alt){
-		alt=dwn->ALTS->FIRST;
-		/* first switching, add this url to its own alternates
-		 */
-		d4xAlt *newalt=new d4xAlt;
-		newalt->info.copy(dwn->info);
+	if (dwn->ALTS==0 || dwn->ALTS->LST.empty()) return(0);
+	d4xAltList *ALTS=dwn->ALTS;
+	std::list<d4x::Alt*>::iterator alt=std::find_if(ALTS->LST.begin(),
+							ALTS->LST.end(),
+							std::bind1st(std::ptr_fun(_alt_equal_host_),dwn));
+	if (alt!=ALTS->LST.end()) alt++;
+	if (alt==ALTS->LST.end()){
+		// first switching, add this url to its own alternates
+		d4x::Alt *newalt=new d4x::Alt;
+		newalt->info=dwn->info;
 		dwn->ALTS->lock.lock();
 		dwn->ALTS->add(newalt);
 		dwn->ALTS->lock.unlock();
+		alt=ALTS->LST.begin();
 	};
-	if (ALL_DOWNLOADS->find(&(alt->info))){
+	if (ALL_DOWNLOADS->find((*alt)->info)){
 		return(0);
 	};
 	ALL_DOWNLOADS->del(dwn);
-	dwn->info->copy(&(alt->info));
+	dwn->info=(*alt)->info;
 	ALL_DOWNLOADS->insert(dwn);
 	FaceForPasswords->set_do_not_run(1);
 	prepare_for_stoping(dwn);
@@ -1006,18 +996,15 @@ int tMain::try_to_switch(tDownload *dwn){
 
 int tMain::try_to_switch_split(tDownload *dwn,tDownload *gp){
 	if (gp==dwn) return(try_to_switch(dwn));
-	if (gp->ALTS==NULL || gp->ALTS->FIRST==NULL) return(0);
+	if (gp->ALTS==NULL || gp->ALTS->LST.empty()) return(0);
 	int n=dwn->split->alt+1;
-	d4xAlt *alt=gp->ALTS->FIRST;
-	while (alt && n>1){
-		n--;
-		alt=alt->next;
-	};
-	if (alt){
+	std::list<d4x::Alt*>::iterator alt=gp->ALTS->LST.begin();
+	advance(alt,n);
+	if (alt!=gp->ALTS->LST.end()){
 		dwn->split->alt+=1;
-		dwn->info->copy(&(alt->info));
+		dwn->info=(*alt)->info;
 	}else{
-		dwn->info->copy(gp->info);
+		dwn->info=gp->info;
 	};
 	dwn->split->run=0;
 	FaceForPasswords->set_do_not_run(1);
@@ -1256,7 +1243,7 @@ void tMain::check_for_remote_commands(){
 			break;
 		};
 		case PACKET_OPENLIST:{
-			create_addlinks_with_referer(addnew.params);
+			create_addlinks_with_referer(addnew.params,CFG.LOCAL_SAVE_PATH);
 			break;
 		};
 		case PACKET_ADD_OPEN:{
@@ -1270,16 +1257,12 @@ void tMain::check_for_remote_commands(){
 		};
 		case PACKET_STOP:{
 //			MainLog->myprintf(LOG_FROM_SERVER,_("Stop the download via control socket [%s]"),addnew.params[0].c_str());
-			tAddr *addr=new tAddr(addnew.params[0].c_str());
-			stop_download_url(addr);
-			delete(addr);
+			stop_download_url(d4x::URL(addnew.params[0]));
 			break;
 		};
 		case PACKET_DEL:{
 			MainLog->myprintf(LOG_FROM_SERVER,_("Remove the download via control socket [%s]"),addnew.params[0].c_str());
-			tAddr *addr=new tAddr(addnew.params[0].c_str());
-			delete_download_url(addr);
-			delete(addr);
+			delete_download_url(d4x::URL(addnew.params[0]));
 			break;
 		};
 		case PACKET_ADD:{
@@ -1370,15 +1353,14 @@ void tMain::check_for_remote_commands(){
 //**********************************************/
 void tMain::ftp_search(tDownload *what,int type){
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	if (what->info->file.get()){
+	if (!what->info.file.empty()){
 		tDownload *tmp=new tDownload;
-		tmp->info=new tAddr;
 		tmp->config=new tCfg;
 		tmp->fsearch=type;
 		tmp->set_default_cfg();
-		tmp->info->copy(what->info);
+		tmp->info=what->info;
 		tmp->finfo.size=what->finfo.size;
-		tmp->info->proto=D_PROTO_SEARCH;
+		tmp->info.proto=D_PROTO_SEARCH;
 		if (tmp->split){
 			delete(tmp->split);
 			tmp->split=NULL;
@@ -1390,15 +1372,12 @@ void tMain::ftp_search(tDownload *what,int type){
 void tMain::ftp_search_name(char *name){
 	if (name){
 		tDownload *tmp=new tDownload;
-		tmp->info=new tAddr;
 		tmp->config=new tCfg;
 		tmp->fsearch=0;
 		tmp->set_default_cfg();
-		tmp->info->host.set("");
-		tmp->info->path.set("");
-		tmp->info->file.set(name);
+		tmp->info.file=name;
 		tmp->finfo.size=-1;
-		tmp->info->proto=D_PROTO_SEARCH;
+		tmp->info.proto=D_PROTO_SEARCH;
 		if (tmp->split){
 			delete(tmp->split);
 			tmp->split=NULL;
@@ -1468,7 +1447,8 @@ void tMain::move_to_sizequery(tDownload *what){
 
 tDownload *tMain::add_downloading(tDownload *what,int to_top) {
 	tDownload *tdwn=NULL;
-	if ((tdwn=ALL_DOWNLOADS->find(what)) || !what->info->is_valid()) {
+	if ((tdwn=ALL_DOWNLOADS->find(what)) || !what->info.is_valid()) {
+		printf("%s\n",std::string(what->info).c_str());
 		if (TO_WAIT_IF_HERE && tdwn && tdwn->owner()!=DL_RUN){
 			continue_download(tdwn);
 		};
@@ -1548,10 +1528,9 @@ tDownload *tMain::add_downloading_to(tDownload *what,int to_top) {
 
 int tMain::add_downloading(const char *adr,char *where,char *name,char *desc,const char *referer) {
 	if (adr==NULL) return -1;
-	tAddr *addr=new tAddr(adr);
 //	if (!addr->is_valid()) return -1;
 	tDownload *whatadd=new tDownload;
-	whatadd->info=addr;
+	whatadd->info=std::string(adr);
 	if (where && *where) {
 		whatadd->config=new tCfg;
 		whatadd->set_default_cfg();
@@ -1566,19 +1545,18 @@ int tMain::add_downloading(const char *adr,char *where,char *name,char *desc,con
 		};
 		whatadd->config->referer.set(referer);
 	};
-	if (strlen(addr->file.get())==0) {
+	if (whatadd->info.file.empty()) {
 		whatadd->finfo.type=T_DIR;
 		whatadd->finfo.size=0;
 	};
 //	normalize_path(whatadd->get_SavePath());
 
 	if (name && strlen(name) && whatadd->config){
-		whatadd->Name2Save.set(name);
+		whatadd->Name2Save=name;
 	};
 
 	whatadd->Description.set(desc);
 
-	addr=NULL;
 	if (add_downloading(whatadd)) {
 		delete(whatadd);
 		return -1;
@@ -1720,9 +1698,8 @@ void tMain::run_after_quit(){
 
 void tMain::add_download_message(tDownload *what) {
 	if (!what) return;
-	char *rfile=unparse_percents(what->info->file.get());
-	MainLog->myprintf(LOG_OK,_("Added downloading of file %s from %s [by user]"),rfile,what->info->host.get());
-	delete[] rfile;
+	std::string rfile=hexed_string(what->info.file);
+	MainLog->myprintf(LOG_OK,_("Added downloading of file %s from %s [by user]"),rfile.c_str(),what->info.host.c_str());
 };
 
 static int not_all_stopped(tQueue *q){
@@ -1847,10 +1824,10 @@ void *download_last(void *nothing) {
 	my_pthread_key_set(what);
 	init_signal_handler();
 	if (what) {
-		tAddr *addr=what->info;
+		d4x::URL *addr=&(what->info);
 		what->LOG->MsgQueue=LogsMsgQueue;
 		if (what->config->log_save_path.get()){
-			char *real_path=parse_save_path(what->config->log_save_path.get(),what->info->file.get());
+			char *real_path=parse_save_path(what->config->log_save_path.get(),what->info.file.c_str());
 			make_dir_hier_without_last(real_path);
 			if (what->LOG->init_save(real_path)){
 				what->WL->log_printf(LOG_ERROR,

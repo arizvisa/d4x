@@ -200,7 +200,7 @@ extern tMainCfg CFG;
 struct tGlobalVars{
 	d4xMutex MUTEX;
 	unsigned long long READED_BYTES;
-	d4xSocketsHistory *SOCKETS;
+	d4x::SocketsHistory *SOCKETS;
 };
 
 extern tGlobalVars GVARS;

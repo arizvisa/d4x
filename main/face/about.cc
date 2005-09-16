@@ -37,6 +37,7 @@ char *TRANSLATORS[]={
 	"Vittorio Rebecchi [es.po]",
 	"Iordan Pavlov [bg.po]",
 	"Legnar WinShadow [pt_BR.po]",
+	"Eduardo Jorge [pt_BR.po]",
 	"Felix Knecht",
 	"Oren Held [he.po,iw.po]",
 	"Cawko Xakep",

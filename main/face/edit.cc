@@ -317,9 +317,8 @@ void tDEdit::file_from_url(){
 	char *a=text_from_combo(url_entry);
 	char *b=text_from_combo(MY_GTK_FILESEL(file_entry)->combo);
 	if (a && *a && (b==NULL || *b==0)){
-		tAddr *adr=new tAddr(a);
-		text_to_combo(MY_GTK_FILESEL(file_entry)->combo,adr->file.get());
-		delete(adr);
+		d4x::URL adr(a);
+		text_to_combo(MY_GTK_FILESEL(file_entry)->combo,adr.file.c_str());
 	};
 };
 
@@ -337,24 +336,22 @@ void tDEdit::file_check(){
 	b=text_from_combo(url_entry);
 	a=text_from_combo(MY_GTK_FILESEL(file_entry)->combo);
 	if (b && *b && a){
-		tAddr *adr=new tAddr(b);
-		if (equal(adr->file.get(),a))
+		d4x::URL adr(b);
+		if (adr.file==a)
 			text_to_combo(MY_GTK_FILESEL(file_entry)->combo,"");
-		delete(adr);		
 	};
 };
 
 void tDEdit::file_recode_from_url(){
 	char *a=text_from_combo(url_entry);
 	if (a && *a){
-		tAddr *adr=new tAddr(a);
+		d4x::URL adr(a);
 //		char *tmp=recode_from_cp1251((unsigned char*)(adr->file.get()));
-		char *tmp=g_convert(adr->file.get(),-1,"UTF-8","CP1251",NULL,NULL,NULL);
+		char *tmp=g_convert(adr.file.c_str(),-1,"UTF-8","CP1251",NULL,NULL,NULL);
 		if (tmp){
 			text_to_combo(MY_GTK_FILESEL(file_entry)->combo,tmp);
 			g_free(tmp);
 		};
-		delete(adr);
 	};
 };
 
@@ -409,21 +406,12 @@ void tDEdit::init_main(tDownload *who) {
 //	char temp[MAX_LEN];
 //	make_url_from_download(who,temp);
 //	text_to_combo(url_entry,temp);
-	char *URL=who->info->url_parsed();
-	
-	text_to_combo(url_entry,URL);
-	delete[] URL;
+	text_to_combo(url_entry,std::string(d4x::ShortURL(who->info)).c_str());
 
 	text_to_combo(MY_GTK_FILESEL(path_entry)->combo,who->config->save_path.get());
-	if (who->Name2Save.get())
-		text_to_combo(MY_GTK_FILESEL(file_entry)->combo,who->Name2Save.get());
-	else text_to_combo(MY_GTK_FILESEL(file_entry)->combo,"");
-	if (who->info->pass.get())
-		text_to_combo(pass_entry,who->info->pass.get());
-	else
-		text_to_combo(pass_entry,"");
-	if (who->info->username.get())
-		text_to_combo(user_entry,who->info->username.get());
+	text_to_combo(MY_GTK_FILESEL(file_entry)->combo,who->Name2Save.c_str());
+	text_to_combo(pass_entry,who->info.pass.c_str());
+	text_to_combo(user_entry,who->info.user.c_str());
 	/* initing labels
 	 */
 	GtkWidget *url_label=gtk_label_new("URL:");
@@ -463,10 +451,10 @@ void tDEdit::init_main(tDownload *who) {
 
 	use_pass_check=gtk_check_button_new_with_label(_("Use password for this site"));
 	g_signal_connect(G_OBJECT(use_pass_check),"clicked",G_CALLBACK(edit_window_password),this);
-	if (who->info->username.get())
-		GTK_TOGGLE_BUTTON(use_pass_check)->active=TRUE;
-	else
+	if (who->info.user.empty())
 		GTK_TOGGLE_BUTTON(use_pass_check)->active=FALSE;
+	else
+		GTK_TOGGLE_BUTTON(use_pass_check)->active=TRUE;
 
 	GtkWidget *vbox=gtk_vbox_new(FALSE,5);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox),5);
@@ -793,7 +781,7 @@ void tDEdit::init(tDownload *who) {
 	proxy=new tProxyWidget;
 	proxy->init();
 	proxy->init_state();
-	switch(who->info->proto){
+	switch(who->info.proto){
 	case D_PROTO_FTP:{
 		proxy->init_state(who->config,1);
 		break;
@@ -877,16 +865,13 @@ void tDEdit::filter_cancel(){
 };
 
 void tDEdit::auto_fill_log(){
-	tAddr *tmp=new tAddr(text_from_combo(url_entry));
-	char *filename=tmp->file.get();
+	d4x::URL tmp(text_from_combo(url_entry));
 	char *savepath=text_from_combo(MY_GTK_FILESEL(path_entry)->combo);
-	if (filename && *filename && savepath && *savepath){
-		filename=sum_strings(savepath,"/",filename,"_log",NULL);
-		normalize_path(filename);
-		text_to_combo(MY_GTK_FILESEL(log_save_entry)->combo,filename);
-		delete[] filename;
+	if (!tmp.file.empty() && savepath && *savepath){
+		d4x::Path filename(savepath);
+		filename/=tmp.file+"_log";
+		text_to_combo(MY_GTK_FILESEL(log_save_entry)->combo,filename.c_str());
 	};
-	delete(tmp);
 };
 
 int tDEdit::get_pause_check(){
@@ -911,19 +896,17 @@ int tDEdit::apply_changes() {
 	CFG.USE_DEFAULT_CFG=parent->config->isdefault=GTK_TOGGLE_BUTTON(isdefault_check)->active;
 	char *temp=copy_string(text_from_combo(url_entry));
 	del_crlf(temp);
-	tAddr *addr=new tAddr(temp);
+	d4x::URL addr(temp);
 	delete[] temp;
-	if (!addr) return 1;
 	if (parent_in_db)
 		ALL_DOWNLOADS->del(parent);
-	delete (parent->info);
 	parent->info=addr;
 	if (parent_in_db)
 		ALL_DOWNLOADS->insert(parent);
 	if (parent->ALTS)
-		parent->ALTS->check(addr->file.get());
+		parent->ALTS->check(addr.file);
 	FaceForPasswords->stop_matched(parent);
-	switch(parent->info->proto){
+	switch(parent->info.proto){
 	case D_PROTO_FTP:{
 		proxy->apply_changes(parent->config,1);
 		break;
@@ -936,25 +919,23 @@ int tDEdit::apply_changes() {
 	char *pass_string=text_from_combo(pass_entry);
 	if (GTK_TOGGLE_BUTTON(use_pass_check)->active) {
 		if (strlen(text_from_combo(user_entry))) {
-			parent->info->username.set(text_from_combo(user_entry));
-			ALL_HISTORIES[USER_HISTORY]->add(parent->info->username.get());
-			parent->info->pass.set(pass_string);
+			parent->info.user=text_from_combo(user_entry);
+			ALL_HISTORIES[USER_HISTORY]->add(text_from_combo(user_entry));
+			parent->info.pass=pass_string;
 			if (CFG.REMEMBER_PASS)
 				ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
 		};
 	};
 	char *sp=normalize_path_full(text_from_combo(MY_GTK_FILESEL(path_entry)->combo));
 	parent->config->save_path.set(sp);
-	parent->Name2Save.set(NULL);
-	if (strlen(text_from_combo(MY_GTK_FILESEL(file_entry)->combo)))
-		parent->Name2Save.set(text_from_combo(MY_GTK_FILESEL(file_entry)->combo));
-	if (parent->Name2Save.get())
-		ALL_HISTORIES[FILE_HISTORY]->add(parent->Name2Save.get());
+	parent->Name2Save=text_from_combo(MY_GTK_FILESEL(file_entry)->combo);
+	if (!parent->Name2Save.empty())
+		ALL_HISTORIES[FILE_HISTORY]->add(parent->Name2Save.c_str());
 	normalize_path(parent->config->save_path.get());
 	ALL_HISTORIES[PATH_HISTORY]->add(sp);
 	delete[] sp;
 	parent->status=0;
-	if (strlen(parent->info->file.get())==0) {
+	if (parent->info.file.empty()) {
 		parent->finfo.type=T_DIR;
 		parent->finfo.size=0;
 	} else {
@@ -964,9 +945,9 @@ int tDEdit::apply_changes() {
 	/* change histories
 	 */
 	parent->config->user_agent.set(text_from_combo(user_agent_entry));
-	char *URL=parent->info->url_parsed();
+	std::string URL=d4x::ShortURL(parent->info);
 	if (!not_url_history)
-		ALL_HISTORIES[URL_HISTORY]->add(URL);
+		ALL_HISTORIES[URL_HISTORY]->add(URL.c_str());
 	ALL_HISTORIES[USER_AGENT_HISTORY]->add(parent->config->user_agent.get());
 	char *referer=text_from_combo(referer_entry);
 	if (referer && *referer){
@@ -1003,13 +984,12 @@ int tDEdit::apply_changes() {
 	/*change data in list if available
 	 */
 	if (parent_in_db){
-		D4X_QUEUE->qv.change_data(parent->list_iter,URL_COL,URL);
+		D4X_QUEUE->qv.change_data(parent->list_iter,URL_COL,URL.c_str());
 		D4X_QUEUE->qv.set_filename(parent);
 		for (int i=FILE_TYPE_COL;i<URL_COL;i++)
 			if (i!=PERCENT_COL)
 				D4X_QUEUE->qv.change_data(parent->list_iter,i,"");
 	};
-	delete[] URL;
 	int  temp1=0;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(timeout_entry)),"%u",&temp1);
 	if (temp1>0 && temp1<1000) parent->config->timeout=temp1;
@@ -1278,7 +1258,7 @@ void tDEdit::disable_items(int *array){
 
 void tDEdit::apply_enabled_changes(){
 	if (GTK_WIDGET_SENSITIVE(proxy->frame)){
-		switch(parent->info->proto){
+		switch(parent->info.proto){
 		case D_PROTO_FTP:{
 			proxy->apply_changes(parent->config,1);
 			break;
@@ -1293,9 +1273,9 @@ void tDEdit::apply_enabled_changes(){
 		char *pass_string=text_from_combo(pass_entry);
 		if (GTK_TOGGLE_BUTTON(use_pass_check)->active) {
 			if (strlen(text_from_combo(user_entry)) && strlen(pass_string)) {
-				parent->info->username.set(text_from_combo(user_entry));
-				ALL_HISTORIES[USER_HISTORY]->add(parent->info->username.get());
-				parent->info->pass.set(pass_string);
+				parent->info.user=text_from_combo(user_entry);
+				ALL_HISTORIES[USER_HISTORY]->add(text_from_combo(user_entry));
+				parent->info.pass=pass_string;
 				if (CFG.REMEMBER_PASS)
 					ALL_HISTORIES[PASS_HISTORY]->add(pass_string);
 			};

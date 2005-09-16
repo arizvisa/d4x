@@ -30,16 +30,13 @@
 #include "../xml.h"
 #include "colors.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include "themes.h"
 
+using namespace d4x;
 tConfirmedDialog *AskOpening=(tConfirmedDialog *)NULL;
 
-//GdkPixmap *list_of_downloads_pixmaps[PIX_UNKNOWN];
-//GdkBitmap *list_of_downloads_bitmaps[PIX_UNKNOWN];
-GdkPixbuf *list_of_downloads_pixbufs[PIX_UNKNOWN];
+//GdkPixbuf *list_of_downloads_pixbufs[LPE_UNKNOWN];
 
-GdkBitmap *wait_mask,*stop_mask,*pause_mask,*complete_mask,*run_mask,*part_run_mask,*run_bad_mask,*stop_wait_mask;
-GdkPixmap *wait_pixmap=(GdkPixmap *)NULL,*stop_pixmap=(GdkPixmap *)NULL,*pause_pixmap=(GdkPixmap *)NULL,*complete_pixmap=(GdkPixmap *)NULL;
-GdkPixmap *run_pixmap=(GdkPixmap *)NULL,*part_run_pixmap=(GdkPixmap *)NULL,*run_bad_pixmap=(GdkPixmap *)NULL,*stop_wait_pixmap=(GdkPixmap *)NULL;
 
 static gchar *ListTitles[]={
 	" ",
@@ -341,143 +338,6 @@ void lod_set_height() {
 };
 
 
-void lod_init_pixmaps(){
-#include "pixmaps/wait_xpm.xpm"
-#include "pixmaps/run_xpm.xpm"
-#include "pixmaps/run1.xpm"
-#include "pixmaps/run2.xpm"
-#include "pixmaps/run3.xpm"
-#include "pixmaps/run4.xpm"
-#include "pixmaps/run5.xpm"
-#include "pixmaps/run6.xpm"
-#include "pixmaps/run7.xpm"
-#include "pixmaps/run8.xpm"
-#include "pixmaps/run_bad.xpm"
-#include "pixmaps/run_bad1.xpm"
-#include "pixmaps/run_bad2.xpm"
-#include "pixmaps/run_bad3.xpm"
-#include "pixmaps/run_bad4.xpm"
-#include "pixmaps/run_bad5.xpm"
-#include "pixmaps/run_bad6.xpm"
-#include "pixmaps/run_bad7.xpm"
-#include "pixmaps/run_bad8.xpm"
-#include "pixmaps/run_part.xpm"
-#include "pixmaps/run_part1.xpm"
-#include "pixmaps/run_part2.xpm"
-#include "pixmaps/run_part3.xpm"
-#include "pixmaps/run_part4.xpm"
-#include "pixmaps/run_part5.xpm"
-#include "pixmaps/run_part6.xpm"
-#include "pixmaps/run_part7.xpm"
-#include "pixmaps/run_part8.xpm"
-#include "pixmaps/stop_xpm.xpm"
-#include "pixmaps/stop_wait.xpm"
-#include "pixmaps/paused.xpm"
-#include "pixmaps/complete.xpm"
-#include "pixmaps/size.xpm"
-	char *xml_names[]={
-		"waitpix",
-		"failedpix",
-		"stopwaitpix",
-		"runpix",
-		"runpix1",
-		"runpix2",
-		"runpix3",
-		"runpix4",
-		"runpix5",
-		"runpix6",
-		"runpix7",
-		"runpix8",
-		"runbadpix",
-		"runbadpix1",
-		"runbadpix2",
-		"runbadpix3",
-		"runbadpix4",
-		"runbadpix5",
-		"runbadpix6",
-		"runbadpix7",
-		"runbadpix8",
-		"runpartpix",
-		"runpartpix1",
-		"runpartpix2",
-		"runpartpix3",
-		"runpartpix4",
-		"runpartpix5",
-		"runpartpix6",
-		"runpartpix7",
-		"runpartpix8",
-		"completepix",
-		"pausedpix",
-		"sizepix"
-	};
-	char **xpm_table[]={
-		wait_xpm,
-		stop_xpm,
-		stop_wait_xpm,
-		run_xpm,
-		run1_xpm,
-		run2_xpm,
-		run3_xpm,
-		run4_xpm,
-		run5_xpm,
-		run6_xpm,
-		run7_xpm,
-		run8_xpm,
-		run_bad_xpm,
-		run_bad1_xpm,
-		run_bad2_xpm,
-		run_bad3_xpm,
-		run_bad4_xpm,
-		run_bad5_xpm,
-		run_bad6_xpm,
-		run_bad7_xpm,
-		run_bad8_xpm,
-		run_part_xpm,
-		run_part1_xpm,
-		run_part2_xpm,
-		run_part3_xpm,
-		run_part4_xpm,
-		run_part5_xpm,
-		run_part6_xpm,
-		run_part7_xpm,
-		run_part8_xpm,
-		complete_xpm,
-		paused_xpm,
-		size_xpm
-	};
-	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"queue");
-	for (unsigned int i=0;i<sizeof(xpm_table)/sizeof(char*);i++){
-		char *file=NULL;
-		d4xXmlObject *icon=xmlobj?xmlobj->find_obj(xml_names[i]):NULL;
-		d4xXmlField *fld=icon?icon->get_attr("file"):NULL;
-		if (fld){
-			file=sum_strings(CFG.THEMES_DIR,"/",fld->value.get(),NULL);
-		};
-		GdkPixbuf *pixbuf;
-		GError *error=NULL;
-		if (file && (pixbuf=gdk_pixbuf_new_from_file(file,&error))){
-			list_of_downloads_pixbufs[i]=pixbuf;
-		}else
-			list_of_downloads_pixbufs[i]=gdk_pixbuf_new_from_xpm_data((const char **)xpm_table[i]);
-		if (error) g_error_free(error);
-		if (file) delete[] file;
-	};
-	/* we will use these pixmaps many times */
-};
-
-void lod_all_redraw(d4xDownloadQueue *q,void *a){
-	q->qv.redraw_icons();
-};
-
-void lod_theme_changed(){
-	for (int i=0;i<PIX_UNKNOWN;i++){
-		gdk_pixbuf_unref(list_of_downloads_pixbufs[i]);
-		list_of_downloads_pixbufs[i]=NULL;
-	};
-	lod_init_pixmaps();
-	d4x_qtree_for_each(lod_all_redraw,NULL);
-};
-
 gboolean select_download(GtkTreeSelection *sel, GtkTreeModel *model,GtkTreePath *path,
 			 gboolean is_sel, gpointer data){
 	d4xQueueView *qv=(d4xQueueView *)data;
@@ -487,11 +347,10 @@ gboolean select_download(GtkTreeSelection *sel, GtkTreeModel *model,GtkTreePath 
 	tDownload *tmp=qv->get_download(&iter);
 	if (!is_sel){
 		qv->last_selected=tmp;
-		char *rfile=unparse_percents(tmp->info->file.get());
+		std::string rfile(hexed_string(tmp->info.file));
 		gtk_statusbar_push(GTK_STATUSBAR(MainStatusBar),
 				   StatusBarContext,
-				   rfile);
-		delete[] rfile;
+				   rfile.c_str());
 	}else{
 		if (qv->last_selected==tmp){
 			qv->last_selected=NULL;
@@ -531,13 +390,13 @@ void d4xQueueView::set_desc(tDownload *what){
 };
 
 void d4xQueueView::set_filename(tDownload *what){
-	char *file_utf=what->info->file.get();
+	const char *file_utf=what->info.file.c_str();
 	if (g_utf8_validate(file_utf,-1,NULL)){
 		change_data(what->list_iter,FILE_COL,file_utf);
 	}else{
-		file_utf=g_convert_with_fallback(file_utf,-1,"UTF-8","ISO8859-1",NULL,NULL,NULL,NULL);
-		change_data(what->list_iter,FILE_COL,file_utf);
-		g_free(file_utf);
+		char *file_rutf=g_convert_with_fallback(file_utf,-1,"UTF-8","ISO8859-1",NULL,NULL,NULL,NULL);
+		change_data(what->list_iter,FILE_COL,file_rutf);
+		g_free(file_rutf);
 	};
 };
 
@@ -549,7 +408,7 @@ void d4xQueueView::set_percent(GtkTreeIter *iter,float percent){
 			    -1);
 };
 
-void d4xQueueView::change_data(GtkTreeIter *iter,int column,gchar *data) {
+void d4xQueueView::change_data(GtkTreeIter *iter,int column,const gchar *data) {
 	gtk_list_store_set (list_store, iter,
 			    column,data,
 			    -1);
@@ -564,9 +423,7 @@ void d4xQueueView::set_color(tDownload *what){
 };
 
 void d4xQueueView::update(tDownload *what) {
-	char *URL=what->info->url();
-	change_data(what->list_iter,URL_COL,URL);
-	delete[] URL;
+	change_data(what->list_iter,URL_COL,std::string(what->info).c_str());
 	set_desc(what);
 	set_filename(what);
 };
@@ -620,18 +477,16 @@ void d4xQueueView::add(tDownload *what) {
 	add_wf(what);
 	if (CFG.WITHOUT_FACE) return;
 	LoDSortFlag=NOTHING_COL;
-	char *URL=what->info->url_parsed();
 	GtkTreeIter iter;
 	gtk_list_store_append(list_store, &iter);
 	gtk_list_store_set(list_store, &iter,
-			   URL_COL, URL,
+			   URL_COL, std::string(what->info).c_str(),
 			   NOTHING_COL, what,
 			   DESCRIPTION_COL,what->Description.get(),
 			   NOTHING_COL+1,gboolean(what->protect),
 			   -1);
 	if (what->list_iter) gtk_tree_iter_free(what->list_iter);
 	what->list_iter=gtk_tree_iter_copy(&iter);
-	delete[] URL;
 	print_size(what);
 	set_filename(what);
 	set_pixmap(what);
@@ -651,16 +506,16 @@ void d4xQueueView::set_run_icon(tDownload *what){
 	if (a<0) a=0;
 	switch (what->ActStatus.curent) {
 	case D_QUERYING:{
-		set_pixmap(what,PIX_RUN_PART+a);
+		set_pixmap(what,LPE_RUN_PART+a);
 		break;
 	};
 	default:
 	case D_DOWNLOAD:{
-		set_pixmap(what,PIX_RUN+a);
+		set_pixmap(what,LPE_RUN+a);
 		break;
 	};
 	case D_DOWNLOAD_BAD:{
-		set_pixmap(what,PIX_RUN_BAD+a);
+		set_pixmap(what,LPE_RUN_BAD+a);
 		break;
 	};
 	};
@@ -670,18 +525,16 @@ void d4xQueueView::add_first(tDownload *what) {
 	add_wf(what);
 	if (CFG.WITHOUT_FACE) return;
 	LoDSortFlag=NOTHING_COL;
-	char *URL=what->info->url_parsed();
 	GtkTreeIter iter;
 	gtk_list_store_prepend(list_store, &iter);
 	gtk_list_store_set(list_store, &iter,
-			   URL_COL, URL,
+			   URL_COL, std::string(what->info).c_str(),
 			   NOTHING_COL, what,
 			   DESCRIPTION_COL,what->Description.get(),
 			   NOTHING_COL+1,what->protect,
 			   -1);
 	if (what->list_iter) gtk_tree_iter_free(what->list_iter);
 	what->list_iter=gtk_tree_iter_copy(&iter);
-	delete[] URL;
 	set_filename(what);
 	set_pixmap(what);
 	print_size(what);
@@ -818,8 +671,8 @@ tDownload *d4xQueueView::get_download(GtkTreeIter *iter) {
 
 void d4xQueueView::select_by_wildcard(GtkTreeIter *iter){
 	tDownload *dwn=get_download(iter);
-	if (dwn && dwn->info->file.get() &&
-	    check_mask2(dwn->info->file.get(),wildcard)){
+	if (dwn && !dwn->info.file.empty() &&
+	    check_mask2(dwn->info.file.c_str(),wildcard)){
 		GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(ListOfDownloads));
 		gtk_tree_selection_select_iter(sel,iter);
 	};
@@ -827,8 +680,8 @@ void d4xQueueView::select_by_wildcard(GtkTreeIter *iter){
 
 void d4xQueueView::unselect_by_wildcard(GtkTreeIter *iter){
 	tDownload *dwn=get_download(iter);
-	if (dwn && dwn->info->file.get() &&
-	    check_mask2(dwn->info->file.get(),wildcard)){
+	if (dwn && !dwn->info.file.empty() &&
+	    check_mask2(dwn->info.file.c_str(),wildcard)){
 		GtkTreeSelection *sel=gtk_tree_view_get_selection(GTK_TREE_VIEW(ListOfDownloads));
 		gtk_tree_selection_unselect_iter(sel,iter);
 	};
@@ -1089,7 +942,7 @@ void d4xQueueView::rebuild_wait(){
 	if (D4X_QUEUE->count(DL_WAIT)==0) return;
 	int i=0;
 	tDList *dlist=new tDList(DL_WAIT);
-	dlist->init_pixmap(PIX_WAIT);
+	dlist->init_pixmap(LPE_WAIT);
 	dlist->init(0);
 	tDownload *tmp=(tDownload *)gtk_clist_get_row_data(GTK_CLIST(ListOfDownloads),i);
 	while(tmp){
@@ -1484,6 +1337,8 @@ void d4xQueueView::init() {
 			break;
 		default:
 			renderer = gtk_cell_renderer_text_new ();
+			if (prefs.cols[i].type== DESCRIPTION_COL)
+				g_object_set(G_OBJECT(renderer),"ellipsize",PANGO_ELLIPSIZE_END,0);
 			g_object_set (G_OBJECT (renderer),
 				      "foreground-gdk", &LRED,
 				      NULL);
@@ -1559,11 +1414,11 @@ void d4xQueueView::set_pixmap(tDownload *what){
 	switch (what->owner()) {
 	default:
 	case DL_WAIT:{
-		set_pixmap(what->list_iter,PIX_WAIT);
+		set_pixmap(what->list_iter,LPE_WAIT);
 		break;
 	};
 	case DL_STOP:{
-		set_pixmap(what->list_iter,PIX_STOP);
+		set_pixmap(what->list_iter,LPE_STOP);
 		break;
 	};
 	case DL_RUN:{
@@ -1572,22 +1427,22 @@ void d4xQueueView::set_pixmap(tDownload *what){
 		break;
 	};
 	case DL_PAUSE:{
-		set_pixmap(what->list_iter,PIX_PAUSE);
+		set_pixmap(what->list_iter,LPE_PAUSE);
 		break;
 	};
 	case DL_COMPLETE:{
-		set_pixmap(what->list_iter,PIX_COMPLETE);
+		set_pixmap(what->list_iter,LPE_COMPLETE);
 	};
 	};
 };
 
 void d4xQueueView::set_pixmap(GtkTreeIter *iter,int type){
-	if (type>=PIX_UNKNOWN || iter==NULL) return;
-	gtk_list_store_set(list_store,iter,STATUS_COL,list_of_downloads_pixbufs[type],-1);
+	if (type>=LPE_UNKNOWN || iter==NULL) return;
+	gtk_list_store_set(list_store,iter,STATUS_COL,CUR_THEME->lodpix[type],-1);
 };
 
 void d4xQueueView::set_pixmap(tDownload *dwn,int type){
-	if (type>=PIX_UNKNOWN) return;
+	if (type>=LPE_UNKNOWN) return;
 	set_pixmap(dwn->list_iter,type);
 };
 

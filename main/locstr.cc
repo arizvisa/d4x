@@ -321,6 +321,23 @@ int convert_from_hex(unsigned char what) {
 	return -1;
 };
 
+int convert_from_hex(char what) {
+	if (what>='0' && what<='9')
+		return(int(what)-'0');
+	if (what>='a' && what<='f')
+		return (10+int(what)-'a');
+	if (what>='A' && what<='F')
+		return (10+int(what)-'A');
+	return -1;
+};
+
+int convert_from_hex(char a,char b) {
+	int aa=convert_from_hex(a);
+	int bb=convert_from_hex(b);
+	if (aa<0 || bb<0) return 1000;
+	return (aa<<4)|bb;
+};
+
 /* convert_to_hex();
     params: char, pointer to buffer
     return: none
@@ -336,6 +353,11 @@ void convert_to_hex(unsigned char what,char *where) {
 	DBC_RETURN_IF_FAIL(where!=NULL);
 	*where = _dec_to_hex_[what/16];
 	where[1] = _dec_to_hex_[what%16];
+};
+
+void convert_to_hex_s(char what,char *where) {
+	unsigned char b=*((unsigned char*)&what);
+	convert_to_hex(b,where);
 };
 
 /* parse_percents();
@@ -414,6 +436,47 @@ char *unparse_percents(char *what) {
 		*cur=0;
 	};
 	return rvalue;
+};
+
+static const char *_url_true_chars_=".-+&";
+static const char *_url_false_chars_=":<>~% ";
+
+#include <iostream>
+std::string hexed_string(const std::string &str){
+	std::string rval(str);
+	std::string::size_type len=rval.length(),pos=0;
+	char buf[4]={'%',0,0,0};
+	while(pos<len){
+		char r=rval[pos];
+		if ((r<'/' || r>'z' || index(_url_false_chars_,r))
+		    && index(_url_true_chars_,r)==0){
+			convert_to_hex_s(r,buf+1);
+			rval.replace(pos,1,buf);
+			pos+=2;
+			len+=2;
+		};
+		pos++;
+	};
+	return rval;
+};
+
+std::string unhexed_string(const std::string &str){
+	std::string::size_type pos=0;
+	std::string::size_type len=str.length();
+	std::string rval(str);
+	while((pos=rval.find('%',pos))!=std::string::npos){
+		if (len<pos+1) break;
+		if (len>=pos+2){
+			int b=convert_from_hex(rval[pos+1],rval[pos+2]);
+			if (b<256){
+				char buf[2]={b,0};
+				rval.replace(pos,3,buf);
+				len-=2;
+			};
+		};
+		pos++;
+	};
+	return rval;
 };
 
 /* escape_char();
@@ -770,11 +833,11 @@ int ctime_to_time(char *src) {
 	    zero if `src' is not satisfied by `mask'
  */
 
-int check_mask(char *src,char *mask) {
+int check_mask(const char *src,const char *mask) {
 	DBC_RETVAL_IF_FAIL(mask!=NULL,0);
 	DBC_RETVAL_IF_FAIL(src!=NULL,0);
-	char *m=mask;
-	char *s=src;
+	const char *m=mask;
+	const char *s=src;
 	while (*m) {
 		if (*m=='*') {
 			if (*s==0) return 0;
@@ -798,11 +861,11 @@ int check_mask(char *src,char *mask) {
    allow ? as any symbol
  */
 
-int check_mask2(char *src,char *mask) {
+int check_mask2(const char *src,const char *mask) {
 	DBC_RETVAL_IF_FAIL(mask!=NULL,0);
 	DBC_RETVAL_IF_FAIL(src!=NULL,0);
-	char *m=mask;
-	char *s=src;
+	const char *m=mask;
+	const char *s=src;
 	while (*m) {
 		switch(*m){
 		case '*':{
@@ -831,11 +894,11 @@ int check_mask2(char *src,char *mask) {
  */
 
 
-int check_mask2_uncase(char *src,char *mask) {
+int check_mask2_uncase(const char *src,const char *mask) {
 	DBC_RETVAL_IF_FAIL(mask!=NULL,0);
 	DBC_RETVAL_IF_FAIL(src!=NULL,0);
-	char *m=mask;
-	char *s=src;
+	const char *m=mask;
+	const char *s=src;
 	while (*m) {
 		switch(*m){
 		case '*':{
@@ -1120,14 +1183,14 @@ int f_rstr(int fd,char *where,int max) {
 	return 0;
 };
 
-int write_named_string(int fd,char *name,char *str){
+int write_named_string(int fd,const char *name,const char *str){
 	if (name==NULL || str==NULL) return(0);
 	if (f_wstr_lf(fd,name)<0) return(-1);
 	if (f_wstr_lf(fd,str)<0) return(-1);
 	return 0;
 };
 
-int write_named_integer(int fd,char *name,int num){
+int write_named_integer(int fd,const char *name,int num){
 	if (name==NULL) return(0);
 	if (f_wstr_lf(fd,name)<0) return(-1);
 	char str[MAX_LEN];
@@ -1136,7 +1199,7 @@ int write_named_integer(int fd,char *name,int num){
 	return 0;
 };
 
-int write_named_time(int fd,char *name,time_t when){
+int write_named_time(int fd,const char *name,time_t when){
 	if (name==NULL) return(0);
 	if (f_wstr_lf(fd,name)<0) return(-1);
 	char str[MAX_LEN];
@@ -1145,7 +1208,7 @@ int write_named_time(int fd,char *name,time_t when){
 	return 0;
 };
 
-int write_named_fsize(int fd,char *name,fsize_t size){
+int write_named_fsize(int fd,const char *name,fsize_t size){
 	if (name==NULL) return(0);
 	if (f_wstr_lf(fd,name)<0) return(-1);
 	char str[MAX_LEN];
@@ -1207,9 +1270,9 @@ static char* date_fmts[]={
 	"[E]" // extension of a file in upper case
 };
 
-char *get_extension(char *name){
+char *get_extension(const char *name){
 	if (name==NULL) return(NULL);
-	char *a=name+strlen(name)-1;
+	const char *a=name+strlen(name)-1;
 	while(a>=name){
 		if (*a=='.'){
 			a+=1;
@@ -1224,7 +1287,7 @@ char *get_extension(char *name){
 	return(NULL);
 };
 
-char *parse_save_path(const char *str,char *file){
+char *parse_save_path(const char *str,const char *file){
 	DBC_RETVAL_IF_FAIL(str!=NULL,NULL);
 	int len=0;
 	char *rval;

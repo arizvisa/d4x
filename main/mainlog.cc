@@ -54,14 +54,13 @@ tMLog::tMLog():tStringList(){
 	string=NULL;
 	current_line=0;
 	fd=0;
-	last_error=NULL;
 };
 
 void tMLog::reinit(int a) {
 	MaxNum=a;
 };
 
-static void _ml_clist_addr_destroy_(tAddr *addr){
+static void _ml_clist_addr_destroy_(d4x::URL *addr){
 	if (addr) delete(addr);
 };
 
@@ -177,7 +176,6 @@ void tMLog::add(char *str,int len,int type) {
 
 void tMLog::add(char *str,int type) {
 	DBC_RETURN_IF_FAIL(str!=NULL);
-	last_error=NULL;
 	if ((type & LOG_DETAILED)  && !CFG.MAIN_LOG_DETAILED) return;	
 	int len=strlen(str);
 	tLogString *ins=new tLogString(str,len,type);
@@ -318,7 +316,7 @@ void tMLog::myprintf(int type,char *fmt,...){
 	char *cur=str;
 	va_list ap;
 	va_start(ap,fmt);
-	last_error=NULL;
+	last_error.clear();
 	*cur=0;
 	while (*fmt && cur-str<MAX_LEN){
 		if (*fmt=='%'){
@@ -334,10 +332,8 @@ void tMLog::myprintf(int type,char *fmt,...){
 			};
 			case 'z':{
 				tDownload *temp=va_arg(ap,tDownload *);
-				if (temp && temp->info){
-					char *s=temp->info->url_parsed();
-					g_snprintf(cur,MAX_LEN-(cur-str),"%s",s);
-					delete[] s;
+				if (temp){
+					g_snprintf(cur,MAX_LEN-(cur-str),"%s",std::string(temp->info).c_str());
 					last_error=temp->info;
 				}else{
 					g_snprintf(cur,MAX_LEN-(cur-str),"%s","NULL");

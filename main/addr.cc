@@ -69,6 +69,31 @@ tProtoInfo proto_infos[]={
 	{"socks",0,D_PROTO_SOCKS}
 };
 
+int get_port_by_proto(int proto){
+	return(proto_infos[proto].port);
+};
+
+int get_proto_by_name(const char *str){
+	if (str==NULL) return D_PROTO_UNKNOWN;
+	for (int i=D_PROTO_FTP;i<D_PROTO_LAST;i++)
+		if (equal_uncase(str,proto_infos[i].name))
+			return i;
+	return D_PROTO_UNKNOWN;
+};
+
+const char *get_name_by_proto(int proto){
+	if (proto>=D_PROTO_LAST || proto<D_PROTO_UNKNOWN)
+		return(proto_infos[D_PROTO_UNKNOWN].name);
+	return(proto_infos[proto].name);
+};
+
+static int get_proto_by_string(const char *str){
+	if (str==NULL) return D_PROTO_UNKNOWN;
+	if (begin_string_uncase(str,"www")) return D_PROTO_HTTP;
+	if (begin_string_uncase(str,"ftp")) return D_PROTO_FTP;
+	return D_PROTO_FTP;
+};
+
 int global_url(char *url) {
 	DBC_RETVAL_IF_FAIL(url!=NULL,0);
 	for (unsigned int i=0;i<sizeof(begin_protos)/sizeof(tProtoInfo);i++){
@@ -79,7 +104,164 @@ int global_url(char *url) {
 	return(0);
 };
 
-/* parsing url */
+#include <iostream>
+
+namespace d4x{
+	
+	ShortURL::operator std::string() const{
+		std::string portstr;
+		if (port!=get_port_by_proto(proto)){
+			char buf[30];
+			sprintf(buf,":%i",port);
+			portstr=buf;
+		};
+		if (proto==D_PROTO_FTP || params.empty())
+			return(std::string(proto_infos[proto].name)+"://"+host+portstr+hexed_string(path/file));
+		return(std::string(proto_infos[proto].name)+"://"+host+portstr+hexed_string(path/file)+"?"+hexed_string(params));
+	};
+	
+	
+	URL::URL(const std::string &_s){
+		// PROTO://USER:PASS@HOST/PATH/FILE?PARAMS
+		std::string::size_type p=_s.find("://");
+		std::string protostr;
+		if (p!=std::string::npos && p!=0){
+			protostr=_s.substr(0,p);
+			p+=3;
+		}else{
+			p=0;
+		};
+		
+		if (protostr.empty())
+			proto=get_proto_by_string(_s.c_str());
+		else
+			proto=get_proto_by_name(protostr.c_str());
+		
+		std::string::size_type p1=_s.find('/',p);
+		if (p1!=std::string::npos){
+			host=_s.substr(p,p1-p);
+			p=_s.find('?',p1);
+			std::string::size_type p2 = (proto==D_PROTO_HTTP||proto==D_PROTO_HTTPS)?_s.rfind('#'):std::string::npos;
+			if (p!=std::string::npos){
+				path=unhexed_string(_s.substr(p1,p-p1));
+				if(p2==std::string::npos)
+					params=_s.substr(p+1);
+				else
+					params=_s.substr(p+1,p2-p-1);
+			}else{
+				if (p2==std::string::npos)
+					path=unhexed_string(_s.substr(p1));
+				else
+					path=unhexed_string(_s.substr(p1,p2-p1));
+			};
+		}else{
+			host=_s.substr(p);
+		};
+		
+		// host is USER:PASS@HOST:PORT
+		// path is PATH/FILE
+
+		p=host.find('@');
+		if (p!=std::string::npos){
+			user=host.substr(0,p);
+			host=host.substr(p+1);
+		};
+		p=user.find(':');
+		if (p!=std::string::npos){
+			pass=user.substr(p+1);
+			user=user.substr(0,p);
+		};
+		p=host.find(':');
+		if (p!=std::string::npos){
+			port=atoi(host.substr(p+1).c_str());
+			host=host.substr(0,p);
+		};
+		p=path.rfind('/');
+		if (p!=std::string::npos){
+			file=path.substr(p+1);
+			path=path.substr(0,p);
+		};
+		path=d4x::Path("/")/path;
+		
+		if (!port)
+			port=get_port_by_proto(proto);
+		
+		if (proto==D_PROTO_FTP  && file.find('*')!=std::string::npos)
+			mask=true;
+		else
+			mask=false;
+	};
+		
+	URL &URL::operator=(const URL &_u){
+		host=_u.host;
+		user=_u.user;
+		pass=_u.pass;
+		path=_u.path;
+		file=_u.file;
+		params=_u.params;
+		tag=_u.tag;
+		proto=_u.proto;
+		port=_u.port;
+		mask=_u.mask;
+		return *this;
+	};
+	
+	bool URL::operator==(const URL &_u) const{
+		if (strcmp(host.c_str(),_u.host.c_str()) ||
+		    path!=_u.path || file!=_u.file || params!=_u.params ||
+		    proto!=_u.proto || port!=port || user!=user)
+			return false;
+		return true;
+	};
+	
+	bool URL::is_valid(){
+		if (host.empty() || path.empty() || port==0) return false;
+		return true;
+	};
+	
+	URL::operator std::string() const{
+		std::string portstr;
+		std::string userstr;
+		if (port!=get_port_by_proto(proto)){
+			char buf[30];
+			sprintf(buf,":%i",port);
+			portstr=buf;
+		};
+		if (!user.empty() || !pass.empty()){
+			if (pass.empty())
+				userstr=user+"@";
+			else
+				userstr=user+":"+pass+"@";
+		};
+		if (proto==D_PROTO_FTP || params.empty())
+			return(std::string(proto_infos[proto].name)+"://"+userstr+host+portstr+hexed_string(path/file));
+		return(std::string(proto_infos[proto].name)+"://"+userstr+host+portstr+hexed_string(path/file)+"?"+hexed_string(params));
+	};
+
+	void URL::copy_host(const URL&_u){
+		host=_u.host;
+		pass=_u.pass;
+		user=_u.user;
+		port=_u.port;
+		proto=_u.proto;
+	};
+	
+	void URL::clear(){
+		pass.clear();
+		user.clear();
+		host.clear();
+		path.clear();
+		file.clear();
+		params.clear();
+		mask=false;
+		port=0;
+		proto=D_PROTO_UNKNOWN;
+	};
+	
+};
+/*
+
+/* parsing url 
 struct tTwoStrings{
     char *one;
     char *two;
@@ -98,30 +280,6 @@ void tTwoStrings::zero() {
 
 tTwoStrings::~tTwoStrings() {};
 
-int get_proto_by_name(char *str){
-	if (str==NULL) return D_PROTO_UNKNOWN;
-	for (int i=D_PROTO_FTP;i<D_PROTO_LAST;i++)
-		if (equal_uncase(str,proto_infos[i].name))
-			return i;
-	return D_PROTO_UNKNOWN;
-};
-
-int get_port_by_proto(int proto){
-	return(proto_infos[proto].port);
-};
-
-char *get_name_by_proto(int proto){
-	if (proto>=D_PROTO_LAST || proto<D_PROTO_UNKNOWN)
-		return(proto_infos[D_PROTO_UNKNOWN].name);
-	return(proto_infos[proto].name);
-};
-
-static int get_proto_by_string(const char *str){
-	if (str==NULL) return D_PROTO_UNKNOWN;
-	if (begin_string_uncase(str,"www")) return D_PROTO_HTTP;
-	if (begin_string_uncase(str,"ftp")) return D_PROTO_FTP;
-	return D_PROTO_FTP;
-};
 
 static void split_string(char *what,char *delim,tTwoStrings *out) {
 	if (what==NULL || delim==NULL) return;
@@ -153,7 +311,7 @@ static void rsplit_string(char *what,char delim,tTwoStrings *out) {
 	delete[] what;
 };
 
-/*------------------ end of temporary functions ------------ */
+/*------------------ end of temporary functions ------------ 
 
 tAddr::tAddr() {
 	proto=D_PROTO_UNKNOWN;
@@ -235,7 +393,7 @@ void tAddr::from_string(const char *str){
 				*prom=0;
 			};
 		};
-/* parsing %xx -> CHAR and vice verse */
+// parsing %xx -> CHAR and vice verse
 		char *prom=parse_percents(file1);
 		delete[] file1;
 		file1=prom;
@@ -263,8 +421,7 @@ void tAddr::from_string(const char *str){
 	};
 	if (proto==D_PROTO_FTP  && index(file1,'*'))
 		mask=1;
-	/* Parse # in http urls
-	 */
+// Parse # in http urls
 	if (port==0)
 		port=proto_infos[proto].port;
 	host.set(host1);if (host1) delete[] host1;
@@ -414,8 +571,7 @@ char *tAddr::url() {
 	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
 	                   strlen(path.get())+strlen(file.get())+7+params_len+port_len];
 	*URL=0;
-	/* Easy way to make URL from info  field
-	 */
+	// Easy way to make URL from info  field
 	strcat(URL,proto_infos[proto].name);
 	strcat(URL,"://");
 	if (host.get()) strcat(URL,host.get());
@@ -442,8 +598,7 @@ char *tAddr::url_parsed() {
 	char *URL=new char[strlen(proto_infos[proto].name)+strlen(host.get())+
 	                   strlen(rpath)+strlen(rfile)+7+params_len+port_len];
 	*URL=0;
-	/* Easy way to make URL from info  field
-	 */
+	// Easy way to make URL from info  field
 	strcat(URL,proto_infos[proto].name);
 	strcat(URL,"://");
 	if (host.get()) strcat(URL,host.get());
@@ -475,8 +630,7 @@ char *tAddr::url_full(){
 			  strlen(path.get())+strlen(file.get())+7+params_len+
 			  port_len+auth_len];
 	*URL=0;
-	/* Easy way to make URL from info  field
-	 */
+	//Easy way to make URL from info  field
 	strcat(URL,proto_infos[proto].name);
 	strcat(URL,"://");
 	if (auth_len){
@@ -552,5 +706,5 @@ void tAddr::clear(){
 	mask=0;
 	proto=0;
 };
-
+*/
 /**********************************************/

@@ -35,17 +35,17 @@ class tHttpDownload:public tDownloader{
 	int ReGet,MustNoReget,ETagChanged,Persistent;
 	d4xContentDisposition *content_disp;
 	char *content_type;
-	char *REQUESTED_URL;
+	std::string REQUESTED_URL;
 	char *ETag,*OldETag,*Auth;
 	fsize_t analize_answer();
-	char *make_name();
+	std::string make_name();
 	virtual void print_error(int error_code);
 public:
 	tHttpDownload();
 	tHttpDownload(tWriterLoger *log);
 	void pass_first_segment();
 	int reconnect();
-	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
+	int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
 	fsize_t get_size();
 	fsize_t get_size_only();
 	fsize_t get_readed();
@@ -57,7 +57,7 @@ public:
 	d4xContentDisposition *get_content_disp();
 	tStringList *dir();
 	int download(fsize_t len);
-	void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+	void make_full_pathes(const char *path,const char *another_name,char **name,char **guess);
 	void make_full_pathes(const char *path,char **name,char **guess);
 	void done();
 	int persistent();

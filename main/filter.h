@@ -24,7 +24,7 @@ struct d4xRule:public tNode{
 	int include;
 	d4xRule();
 	void print();
-	int match(tAddr *addr);
+	int match(const d4x::URL &addr);
 	void save(int fd);
 	int load(int fd);
 	~d4xRule();
@@ -39,7 +39,7 @@ class d4xFilter:public tQueue{
 	int default_inc;
 	tPStr name;
 	d4xFilter();
-	int match(tAddr *addr);
+	int match(const d4x::URL &addr);
 	void save(int fd);
 	int load(int fd);
 	void insert(tNode *node);

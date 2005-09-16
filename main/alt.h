@@ -14,14 +14,19 @@
 #include "addr.h"
 #include "mutex.h"
 #include "face/mywidget.h"
+#include <list>
+#include <algorithm>
 
 struct tDownload;
 
-struct d4xAlt{
-	tAddr info;
-	tAddr proxy; /* ftp://user:pass@proxy.host.com:3128 */
-	d4xAlt *next,*prev;
-	void set_proxy_settings(tDownload *dwn);
+namespace d4x{
+
+	struct Alt{
+		URL info;
+		URL proxy; /* ftp://user:pass@proxy.host.com:3128 */
+		void set_proxy_settings(tDownload *dwn);
+		void save(int fd);
+	};
 };
 
 struct tDownload;
@@ -33,7 +38,7 @@ private:
 	GtkTreeIter *str2mod;
 public:
 	d4xMutex lock;
-	d4xAlt *FIRST,*END;
+	std::list<d4x::Alt *> LST;
 	int ftp_searching;
 	d4xAltList();
 	~d4xAltList();
@@ -43,8 +48,8 @@ public:
 	void edit_mod_ok();
 	void lock_by_download();
 	void unlock_by_download();
-	void add(d4xAlt *alt);
-	void del(d4xAlt *alt);
+	void add(d4x::Alt *alt);
+	void del(d4x::Alt *alt);
 	void init_add();
 	void add_edit_destroy();
 	void add_edit_ok();
@@ -54,7 +59,7 @@ public:
 	void edit_remove();
 	void clear();
 	void fill_from_ftpsearch(tDownload *fs);
-	void check(char *filename);
+	void check(const std::string &filename);
 	int save_to_config(int fd);
 	int load_from_config(int fd);
 };

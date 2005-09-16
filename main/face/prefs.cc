@@ -29,6 +29,9 @@
 #include "../xml.h"
 #include "lod.h"
 #include "list.h"
+#include "themes.h"
+
+using namespace d4x;
 
 GtkWidget *d4x_prefs_window=(GtkWidget *)NULL;
 GtkWidget *d4x_prefs_frame=(GtkWidget *)NULL;
@@ -1634,7 +1637,7 @@ void d4x_prefs_apply(){
 		CFG.DND_TRASH=TMPCFG.DND_TRASH;
 		gtk_window_present(GTK_WINDOW(d4x_prefs_window));
 		buttons_theme_changed();
-		lod_theme_changed();
+		CUR_THEME->reload();
 	};
 	if (CFG.DND_TRASH){
 		dnd_trash_init();

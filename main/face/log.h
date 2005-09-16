@@ -11,7 +11,6 @@
 #ifndef T_GTK_LOG
 #define T_GTK_LOG
 #include <glib.h>
-void init_pixmaps_for_log();
 GtkTreeView *log_model_view_init();
 void log_window_init(tDownload *what);
 void log_model_view_add_string(GtkTreeView *view,tLogString *str);

@@ -83,11 +83,11 @@ struct d4xSADelFailed:public d4xSchedAction{
 };
 
 struct d4xSAUrl:public d4xSchedAction{
-	tAddr *url;
-	d4xSAUrl():d4xSchedAction(){url=(tAddr *)NULL;};
+	d4x::URL url;
+	d4xSAUrl():d4xSchedAction(){};
 	int load(int fd);
 	int save(int fd);
-	~d4xSAUrl(){if (url) delete(url);};
+	~d4xSAUrl(){};
 };
 
 struct d4xSADelDownload:public d4xSAUrl{

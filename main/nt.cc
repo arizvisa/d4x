@@ -127,6 +127,8 @@ void test_segments(){
 	segments.print();
 };
 
+#include <iostream>
+
 int main(int argc,char **argv) {
 	struct rlimit rl;
 	getrlimit(RLIMIT_FSIZE,&rl);

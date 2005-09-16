@@ -19,16 +19,21 @@
 #include "main.h"
 #include "dlist.h"
 
-void d4xAlt::set_proxy_settings(tDownload *dwn){
+void d4x::Alt::save(int fd){
+	f_wstr_lf(fd,std::string(info).c_str());
+	f_wstr_lf(fd,std::string(proxy).c_str());
+};
+
+void d4x::Alt::set_proxy_settings(tDownload *dwn){
 	if (proxy.proto==D_PROTO_UNKNOWN || proxy.port==0) return;
 	switch(proxy.proto){
 	case D_PROTO_FTP:{
 		if (info.proto==D_PROTO_FTP){
 			dwn->config->proxy.type=0;
 			dwn->config->proxy.ftp_port=proxy.port;
-			dwn->config->proxy.ftp_host.set(proxy.host.get());
-			dwn->config->proxy.ftp_user.set(proxy.username.get());
-			dwn->config->proxy.ftp_pass.set(proxy.pass.get());
+			dwn->config->proxy.ftp_host.set(proxy.host.c_str());
+			dwn->config->proxy.ftp_user.set(proxy.user.c_str());
+			dwn->config->proxy.ftp_pass.set(proxy.pass.c_str());
 		};
 		break;
 	};
@@ -36,14 +41,14 @@ void d4xAlt::set_proxy_settings(tDownload *dwn){
 		dwn->config->proxy.type=1;
 		if (info.proto==D_PROTO_HTTP){
 			dwn->config->proxy.http_port=proxy.port;
-			dwn->config->proxy.http_host.set(proxy.host.get());
-			dwn->config->proxy.http_user.set(proxy.username.get());
-			dwn->config->proxy.http_pass.set(proxy.pass.get());
+			dwn->config->proxy.http_host.set(proxy.host.c_str());
+			dwn->config->proxy.http_user.set(proxy.user.c_str());
+			dwn->config->proxy.http_pass.set(proxy.pass.c_str());
 		}else{
 			dwn->config->proxy.ftp_port=proxy.port;
-			dwn->config->proxy.ftp_host.set(proxy.host.get());
-			dwn->config->proxy.ftp_user.set(proxy.username.get());
-			dwn->config->proxy.ftp_pass.set(proxy.pass.get());
+			dwn->config->proxy.ftp_host.set(proxy.host.c_str());
+			dwn->config->proxy.ftp_user.set(proxy.user.c_str());
+			dwn->config->proxy.ftp_pass.set(proxy.pass.c_str());
 		};
 		break;
 	};
@@ -51,7 +56,6 @@ void d4xAlt::set_proxy_settings(tDownload *dwn){
 };
 
 d4xAltList::d4xAltList(){
-	FIRST=END=NULL;
 	edit=NULL;
 	add_edit=NULL;
 	mod_edit=NULL;
@@ -75,42 +79,29 @@ void d4xAltList::unlock_by_download(){
 	download_set_block(0);
 };
 
-void d4xAltList::del(d4xAlt *alt){
-	if (alt->prev)
-		alt->prev->next=alt->next;
-	else
-		FIRST=alt->next;
-	if (alt->next)
-		alt->next->prev=alt->prev;
-	else
-		END=alt->prev;
+void d4xAltList::del(d4x::Alt *alt){
+	LST.remove(alt);
 };
 
-void d4xAltList::add(d4xAlt *alt){
-	alt->prev=NULL;
-	if ((alt->next=FIRST))
-		FIRST->prev=alt;
-	else
-		END=alt;
+void d4xAltList::add(d4x::Alt *alt){
+	LST.push_back(alt);
 	if (edit){
-		char *url=alt->info.url();
-		d4x_links_sel_add(edit,url,alt);
-		delete[] url;
+		d4x_links_sel_add(edit,std::string(alt->info).c_str(),alt);
 	};
-	FIRST=alt;
 };
 
-void d4xAltList::check(char *filename){
-	if (FIRST && !equal(filename,FIRST->info.file.get()))
+void d4xAltList::check(const std::string &filename){
+	if (!LST.empty() && filename!=(*LST.begin())->info.file)
 		clear();
 };
 
+static void _destroy_it_(d4x::Alt *a){
+	delete a;
+};
+
 void d4xAltList::clear(){
-	while (FIRST){
-		d4xAlt *tmp=FIRST;
-		FIRST=FIRST->next;
-		delete(tmp);
-	};
+	std::for_each(LST.begin(),LST.end(),_destroy_it_);
+	LST.clear();
 	if (edit){
 		d4x_links_sel_clear(edit);
 	};
@@ -122,8 +113,8 @@ void d4xAltList::fill_from_ftpsearch(tDownload *fs){
 	clear();
 	tDownload *tmp=fs->DIR->first();
 	while(tmp){
-		d4xAlt *alt=new d4xAlt;
-		alt->info.copy(tmp->info);
+		d4x::Alt *alt=new d4x::Alt;
+		alt->info=tmp->info;
 		add(alt);
 		tmp=fs->DIR->prev();
 	};
@@ -231,7 +222,7 @@ void d4xAltList::init_edit(tDownload *papa){
 
 static void _tmp_remove_(d4xLinksSel *sel,GtkTreeIter *iter,const gchar *s,gpointer p,gpointer data){
 	d4xAltList *alt=(d4xAltList *)data;
-	alt->del((d4xAlt *)p);
+	alt->del((d4x::Alt *)p);
 	d4x_links_sel_del(sel,iter);
 };
 
@@ -243,12 +234,8 @@ void d4xAltList::edit_remove(){
 };
 
 void d4xAltList::print2edit(){
-	d4xAlt *alt=FIRST;
-	while(alt){
-		char *url=alt->info.url();
-		d4x_links_sel_add(edit,url,alt);
-		delete[] url;
-		alt=alt->next;
+	for(std::list<d4x::Alt*>::iterator it=LST.begin();it!=LST.end();it++){
+		d4x_links_sel_add(edit,std::string((*it)->info).c_str(),*it);
 	};
 };
 
@@ -284,57 +271,36 @@ void d4xAltList::init_add(){
 };
 
 void d4xAltList::add_edit_ok(){
-	d4xAlt *alt=new d4xAlt;
-	alt->info.from_string(text_from_combo(GTK_WIDGET(add_edit->entry)));
-	d4x_alt_edit_get(add_edit,&(alt->proxy));
+	d4x::Alt *alt=new d4x::Alt;
+	alt->info=std::string(text_from_combo(GTK_WIDGET(add_edit->entry)));
+	d4x_alt_edit_get(add_edit,alt->proxy);
 	lock.lock();
 	add(alt);
 	lock.unlock();
 };
 
 int d4xAltList::save_to_config(int fd){
-	if (!FIRST) return(0);
 	f_wstr_lf(fd,"Alt:");
-	d4xAlt *alt=END;
-	while(alt){
-		char *url=alt->info.url_full();
-		f_wstr_lf(fd,url);
-		delete[] url;
-		url=alt->proxy.url_full();
-		f_wstr_lf(fd,url);
-		delete[] url;
-		/*
-		char *parsed=unparse_percents(url);
-		delete[] url;
-		f_wstr_lf(fd,parsed);
-		delete[] parsed;
-		url=alt->proxy.url_full();
-		parsed=unparse_percents(url);
-		delete[] url;
-		f_wstr_lf(fd,parsed);
-		delete[] parsed;
-		*/
-		alt=alt->prev;
-	};
+	std::for_each(LST.begin(),LST.end(),std::bind2nd(std::mem_fun(&d4x::Alt::save),fd));
 	f_wstr_lf(fd,"EndAlt");
 	return(0);
 };
 
 int d4xAltList::load_from_config(int fd){
 	char buf[MAX_LEN];
-	d4xAlt *alt=NULL;
+	d4x::Alt *alt=NULL;
 	while(f_rstr(fd,buf,MAX_LEN)>0){
 		if (equal_uncase(buf,"EndAlt")){
 			if (alt) delete(alt);
 			return(0);
 		};
 		if (alt){
-			alt->proxy.from_string(buf);
+			alt->proxy=std::string(buf);
 			add(alt);
 			alt=NULL;
 		}else{
-			alt=new d4xAlt;
-			alt->info.from_string(buf);
+			alt=new d4x::Alt;
+			alt->info=std::string(buf);
 		};
 	};
 	if (alt)
@@ -356,27 +322,24 @@ static void d4x_alt_mod_ok(GtkWidget *button,d4xAltList *alt){
 
 void d4xAltList::edit_mod_ok(){
 	if (!mod_edit) return;
-	d4xAlt *alt=(d4xAlt*)d4x_links_sel_get_data(edit,str2mod);
+	d4x::Alt *alt=(d4x::Alt*)d4x_links_sel_get_data(edit,str2mod);
 	if (alt){
-		alt->info.from_string(text_from_combo(GTK_WIDGET(mod_edit->entry)));
-		d4x_alt_edit_get(mod_edit,&(alt->proxy));
-		char *url=alt->info.url();
-		d4x_links_sel_set(edit,str2mod,url,alt);
-		delete[] url;
+		alt->info=std::string(text_from_combo(GTK_WIDGET(mod_edit->entry)));
+		d4x_alt_edit_get(mod_edit,alt->proxy);
+		d4x_links_sel_set(edit,str2mod,std::string(alt->info).c_str(),alt);
 	};
 };
 
 void d4xAltList::init_edit_mod(GtkTreeIter *iter){
-	d4xAlt *alt=(d4xAlt*)d4x_links_sel_get_data(edit,iter);
+	d4x::Alt *alt=(d4x::Alt*)d4x_links_sel_get_data(edit,iter);
 	if (!alt) return;
-	char *url=alt->info.url();
+	std::string url(alt->info);
 	if (str2mod) gtk_tree_iter_free(str2mod);
 	str2mod=gtk_tree_iter_copy(iter);
 	if (mod_edit){
 		gdk_window_show(GTK_WIDGET(mod_edit)->window);
-		text_to_combo(GTK_WIDGET(mod_edit->entry),url);
-		delete[] url;
-		d4x_alt_edit_set(mod_edit,&(alt->proxy));
+		text_to_combo(GTK_WIDGET(mod_edit->entry),url.c_str());
+		d4x_alt_edit_set(mod_edit,alt->proxy);
 		return;
 	};
 	mod_edit=(d4xAltEdit *)d4x_alt_edit_new();
@@ -390,8 +353,7 @@ void d4xAltList::init_edit_mod(GtkTreeIter *iter){
 	g_signal_connect(G_OBJECT(mod_edit),"delete_event",
 			 G_CALLBACK(d4x_alt_mod_delete),
 			 this);
-	text_to_combo(GTK_WIDGET(mod_edit->entry),url);
-	delete[] url;
-	d4x_alt_edit_set(mod_edit,&(alt->proxy));
+	text_to_combo(GTK_WIDGET(mod_edit->entry),url.c_str());
+	d4x_alt_edit_set(mod_edit,alt->proxy);
 };
 

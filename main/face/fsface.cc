@@ -18,6 +18,10 @@
 #include "../var.h"
 #include "../main.h"
 #include "misc.h"
+#include "themes.h"
+
+using namespace d4x;
+
 
 enum FS_FACE2_COLUMNS{
 	FS2_COL_PING,
@@ -50,9 +54,7 @@ void fs_list_cumulative_reping(GtkWidget *widget,tDownload *what){
 };
 
 void fs_list_add_download(GtkWidget *widget,tDownload *what){
-	char *url=what->info->url();
-	init_add_dnd_window(url,what->info->host.get());
-	delete[] url;
+	init_add_dnd_window(std::string(what->info).c_str(),what->info.host.c_str());
 };
 
 void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
@@ -69,11 +71,11 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 				float p=tmp->Percent/tmp->Attempt.curent;
 				d4x_percent_str(p,b,sizeof(b));
 				if (what->finfo.size>0){
-					sprintf(a,"%s%% %s",b,tmp->info->host.get());
+					sprintf(a,"%s%% %s",b,tmp->info.host.c_str());
 				}else{
 					char size[100];
 					make_number_nice(size,tmp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
-					sprintf(a,"%s%% %s [%s %s]",b,tmp->info->host.get(),
+					sprintf(a,"%s%% %s [%s %s]",b,tmp->info.host.c_str(),
 						tmp->finfo.size>0?size:"???",_("bytes"));
 				};
 				menu_item=gtk_menu_item_new_with_label(a);
@@ -130,7 +132,6 @@ void fs_list_prepare_list(tDownload *what){
 		GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(FSearchView2);
 		tDownload *tmp=what->DIR==NULL?(tDownload *)NULL:what->DIR->last();
 		while (tmp){
-			char *url=tmp->info->url();
 			char size[100];
 			char b[100];
 			float p=tmp->Percent/tmp->Attempt.curent;
@@ -143,9 +144,8 @@ void fs_list_prepare_list(tDownload *what){
 			gtk_list_store_set(store, &iter,
 					   FS2_COL_PING,b,
 					   FS2_COL_SIZE,size,
-					   FS2_COL_URL, url,
+					   FS2_COL_URL, std::string(tmp->info).c_str(),
 					   -1);
-			delete[] url;
 			tmp=what->DIR->next();
 		};
 		FS_CUR_SELECTED=what;
@@ -303,7 +303,7 @@ GtkTreeView *fs_list_init_sublist(){
 void fs_list_set_icon(GtkTreeView *view,tDownload *what,int icon){
 	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
 	gtk_list_store_set(store,what->list_iter,
-			   FS_COL_ICON,list_of_downloads_pixbufs[icon],
+			   FS_COL_ICON,CUR_THEME->lodpix[icon],
 			   -1);
 };
 
@@ -326,9 +326,9 @@ void fs_list_add(GtkTreeView *view,tDownload *what){
 	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter,
-			   FS_COL_ICON, list_of_downloads_pixbufs[PIX_WAIT],
+			   FS_COL_ICON, CUR_THEME->lodpix[LPE_WAIT],
 			   FS_COL_SIZE, data,
-			   FS_COL_NAME, what->info->file.get(),
+			   FS_COL_NAME, what->info.file.c_str(),
 			   FS_COL_LAST, what,
 			   -1);
 	if (what->list_iter) gtk_tree_iter_free(what->list_iter);

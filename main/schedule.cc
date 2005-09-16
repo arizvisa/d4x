@@ -247,7 +247,8 @@ int d4xSAUrl::load(int fd){
 };
 
 int d4xSAUrl::save(int fd){
-	if (url) url->save_to_config(fd);
+	f_wstr_lf(fd,"URL:");
+	f_wstr_lf(fd,std::string(url).c_str());
 	return(d4xSchedAction::save(fd));	
 };
 
@@ -267,7 +268,7 @@ int d4xSADelDownload::save(int fd){
 };
 
 void d4xSADelDownload::run(tMain *papa){
-	if (url) papa->delete_download_url(url);
+	papa->delete_download_url(url);
 };
 /*------------------------------------------------------------*/
 d4xSADelIfCompleted::d4xSADelIfCompleted():d4xSAUrl(){
@@ -284,11 +285,9 @@ int d4xSADelIfCompleted::save(int fd){
 };
 
 void d4xSADelIfCompleted::run(tMain *papa){
-	if (url){
-		tDownload *tmp=papa->find_url(url);
-		if (tmp && tmp->owner()==DL_COMPLETE)
-			papa->delete_download(tmp);
-	};
+	tDownload *tmp=papa->find_url(url);
+	if (tmp && tmp->owner()==DL_COMPLETE)
+		papa->delete_download(tmp);
 };
 /*------------------------------------------------------------*/
 d4xSARunDownload::d4xSARunDownload():d4xSAUrl(){
@@ -305,7 +304,7 @@ int d4xSARunDownload::save(int fd){
 };
 
 void d4xSARunDownload::run(tMain *papa){
-	if (url) papa->continue_download_url(url);
+	papa->continue_download_url(url);
 };
 /*------------------------------------------------------------*/
 d4xSAStopDownload::d4xSAStopDownload():d4xSAUrl(){
@@ -322,7 +321,7 @@ int d4xSAStopDownload::save(int fd){
 };
 
 void d4xSAStopDownload::run(tMain *papa){
-	if (url) papa->stop_download_url(url);
+	papa->stop_download_url(url);
 };
 /*------------------------------------------------------------*/
 

@@ -56,43 +56,6 @@ enum {
 	TARGET_DND_TEXT
 };
 
-enum STATUS_PIXMAPS_ENUM{
-	PIX_WAIT=0,
-	PIX_STOP,
-	PIX_STOP_WAIT,
-	PIX_RUN,
-	PIX_RUN1,
-	PIX_RUN2,
-	PIX_RUN3,
-	PIX_RUN4,
-	PIX_RUN5,
-	PIX_RUN6,
-	PIX_RUN7,
-	PIX_RUN8,
-	PIX_RUN_BAD,
-	PIX_RUN_BAD1,
-	PIX_RUN_BAD2,
-	PIX_RUN_BAD3,
-	PIX_RUN_BAD4,
-	PIX_RUN_BAD5,
-	PIX_RUN_BAD6,
-	PIX_RUN_BAD7,
-	PIX_RUN_BAD8,
-	PIX_RUN_PART,
-	PIX_RUN_PART1,
-	PIX_RUN_PART2,
-	PIX_RUN_PART3,
-	PIX_RUN_PART4,
-	PIX_RUN_PART5,
-	PIX_RUN_PART6,
-	PIX_RUN_PART7,
-	PIX_RUN_PART8,
-	PIX_COMPLETE,
-	PIX_PAUSE,
-	PIX_SIZE,
-	PIX_UNKNOWN
-};
-
 struct d4xQueueView{
 private:
 	int move_success;
@@ -120,7 +83,7 @@ public:
 	void add_first(tDownload *what);
 	void remove(tDownload *what);
 	void update(tDownload *what);
-	void change_data(GtkTreeIter *iter,int column,gchar *data);
+	void change_data(GtkTreeIter *iter,int column,const gchar *data);
 	void set_percent(GtkTreeIter *iter,float percent);
 	void set_desc(tDownload *what);
 	void set_color(tDownload *what);
@@ -181,11 +144,7 @@ public:
 	void invert_sel(GtkTreeIter *iter);
 };
 
-extern GdkPixbuf *list_of_downloads_pixbufs[];
-
-void lod_init_pixmaps();
 gint lod_get_height();
 void lod_set_height();
-void lod_theme_changed();
 
 #endif

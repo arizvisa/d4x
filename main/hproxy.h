@@ -14,29 +14,28 @@
 #include "httpd.h"
 
 class tHProxyClient:public tHttpClient{
-	char *real_host;
-	char *cookie_path;
+	std::string real_host,cookie_path;
 	char *username_proxy,*userword_proxy;
 	int no_cache;
 	fsize_t get_size_sub(tStringList *list);
-	public:
-		tHProxyClient();
-		tHProxyClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
-		void setup_data(char *host,int cache);
-		void set_cookie_search(char *what);
-		fsize_t get_size_only(char *filename,tStringList *list);
-		fsize_t get_size(char *filename,tStringList *list);
-		void proxy_registr(char *user,char *password);
-		~tHProxyClient();
+public:
+	tHProxyClient();
+	tHProxyClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
+	void setup_data(const std::string &host,int cache);
+	void set_cookie_search(const std::string &what);
+	fsize_t get_size_only(char *filename,tStringList *list);
+	fsize_t get_size(char *filename,tStringList *list);
+	void proxy_registr(char *user,char *password);
+	~tHProxyClient();
 };
 
 class tProxyDownload:public tHttpDownload{
 	int D_PROTO;
-	char *make_name();
+	std::string make_name();
 public:
 	tProxyDownload();
 	tProxyDownload(tWriterLoger *log);
-	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
+	int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
 	fsize_t get_size_only();
 	fsize_t get_size();
 	~tProxyDownload();

@@ -21,11 +21,13 @@
 #include <dirent.h>
 #include <time.h>
 #include <ctype.h>
+#include <sstream>
 
 /* determine which cookies file is newer Netscape or Mozilla's one
    It's allowed to use non reentrant variance of readdir() cos here's first
    place where readdir() is used
  */
+
 char *d4x_get_best_in_subdir(const char *path,time_t *a){
 	DIR *d=opendir(path);
 	char *best=NULL;
@@ -106,27 +108,23 @@ void tCookie::set_time(time_t t){
 	time_of_life=t;
 };
 
-void tCookie::set_time(char *what){
-	sscanf(what,"%lu",&time_of_life);
+void tCookie::set_time(const std::string &what){
+	time_of_life=atoll(what.c_str());
 };
 
 void tCookie::init(char *a,char *b,char *c,char *d){
-	host.set(a);
-	path.set(b);
-	name.set(c);
-	value.set(d);
+	host=a;
+	path=b;
+	name=c;
+	value=d;
 };
 
 time_t tCookie::get_time(){ return time_of_life;};
 
 void tCookie::print(){
-	if (host.get()) puts(host.get());
-	if (path.get()) puts(path.get());
-	if (name.get()) puts(name.get());
-	if (value.get()) puts(value.get());
 };
 
-int tCookie::parse(char *str,char *srchost,char *srcpath){
+int tCookie::parse(char *str,const char *srchost,const char *srcpath){
 	char *cur=str;
 	while(cur && *cur){
 		cur=skip_spaces(cur);
@@ -148,18 +146,18 @@ int tCookie::parse(char *str,char *srchost,char *srcpath){
 				*b=0;
 				b--;
 			};
-			if (name.get()==NULL){
-				name.set(a);
-				value.set(c);
+			if (name.empty()){
+				name=a;
+				value=c;
 			};
 			if (equal_uncase(a,"expires")){
 				time_of_life=ctime_to_time(c);
 			};
 			if (equal_uncase(a,"path")){
-				path.set(c);
+				path=c;
 			};
 			if (equal_uncase(a,"domain")){
-				host.set(c);
+				host=c;
 			};
 			delete[] a;
 			delete[] c;
@@ -172,15 +170,13 @@ int tCookie::parse(char *str,char *srchost,char *srcpath){
 		cur=n;
 	};
 	if (time_of_life==0) time_of_life=time(NULL)+30*3600;
-	if (srchost && host.get()==NULL) host.set(srchost);
-	if (srcpath && path.get()==NULL){
-		char *p=sum_strings("/",srcpath,NULL);
-		path.set(p);
-		delete[] p;
+	if (srchost && host.empty()) host=srchost;
+	if (srcpath && path.empty()){
+		path=std::string("/")+srcpath;
 	};
-	if (name.get() && value.get() && path.get() && host.get())
-		return(0);
-	return(1);
+	if (name.empty() || value.empty() || path.empty() || host.empty())
+		return(1);
+	return(0);
 };
 
 int cmp_back(const char *a,const char *b){
@@ -198,7 +194,7 @@ int cmp_back(const char *a,const char *b){
 int tCookie::cmp(tAbstractSortNode *b){
 	DBC_RETVAL_IF_FAIL(b!=NULL,0);
 //	printf("%s %s %i\n",((tCookie *)b)->host.get(),host.get(),cmp_back(((tCookie *)b)->host.get(),host.get()));
-	return(cmp_back(((tCookie *)b)->host.get(),host.get()));
+	return(cmp_back(((tCookie *)b)->host.c_str(),host.c_str()));
 };
 
 tCookie::~tCookie(){
@@ -208,20 +204,20 @@ tCookie::~tCookie(){
  */
 
 tCookie *tCookiesTree::find_exact(tCookie *cookie){
-	tCookie *temp=find(cookie->host.get());
+	tCookie *temp=find(cookie->host.c_str());
 	while (temp){
-		if (equal(cookie->path.get(),temp->path.get()) &&
-		    equal(cookie->name.get(),temp->name.get())){
+		if (cookie->path==temp->path &&
+		    cookie->name==temp->name){
 			return temp;
 		};
-		temp=find(temp,cookie->host.get());
+		temp=find(temp,cookie->host.c_str());
 	};
 	return(NULL);
 };
 
 tCookie *tCookiesTree::find(const char *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
-	if (Top && string_ended(((tCookie*)Top)->host.get(),what)==0)
+	if (Top && string_ended(((tCookie*)Top)->host.c_str(),what)==0)
 		return((tCookie*)Top);
 //	if (Top) printf("--- find from %s ---\n",((tCookie *)Top)->host.get());
 	return find((tCookie *)Top,what);
@@ -231,13 +227,13 @@ tCookie *tCookiesTree::find(tCookie *begin,const char *what) {
 	tCookie *temp=begin;
 	while (temp) {
 //		printf("%s %s ",temp->host.get(),what);
-		int a=cmp_back(what,temp->host.get());
+		int a=cmp_back(what,temp->host.c_str());
 		if (a<0){
 			temp=(tCookie *)(temp->more);
 		}else {
 			temp=(tCookie *)(temp->less);
 		};
-		if (temp && string_ended(temp->host.get(),what)==0){
+		if (temp && string_ended(temp->host.c_str(),what)==0){
 			return temp;
 		};
 	};
@@ -251,27 +247,15 @@ void tCookiesTree::load_from_file(int fd,int myown){
 	while (f_rstr(fd,temp,MAX_LEN)){
 		if (*temp!='#'){
 			tCookie *cookie=new tCookie;
-			char *data=new char[strlen(temp)+1];
-			char *next_for_parse=extract_string(temp,data); //host
-			cookie->host.set(data);
-			next_for_parse=extract_string(next_for_parse,data);//path
-			next_for_parse=extract_string(next_for_parse,data);
-			cookie->path.set(data);
-			next_for_parse=extract_string(next_for_parse,data);
-			next_for_parse=extract_string(next_for_parse,data);
-			cookie->set_time(data);
-			next_for_parse=extract_string(next_for_parse,data);//name
-			cookie->name.set(data);
-			next_for_parse=extract_string(next_for_parse,data);//value
-			cookie->value.set(data);
+			std::istringstream ist(temp);
+			std::string s,t;
+			ist>>cookie->host>>s>>cookie->path>>s>>t>>cookie->name>>cookie->value;
+			cookie->set_time(t);
 			cookie->myown=myown;
-			if (cookie->path.get()==NULL || cookie->path.get()[0]!='/' ||
-			    find_exact(cookie)!=NULL)
+			if (cookie->path.empty() ||  find_exact(cookie))
 				delete(cookie);
-			else{
+			else
 				add(cookie);
-			};
-			delete[] data;
 		};
 	};
 };
@@ -279,23 +263,17 @@ void tCookiesTree::load_from_file(int fd,int myown){
 
 void tCookiesTree::save_cookie(int fd,tCookie *what){
 	if (what->myown){
-		f_wstr(fd,what->host.get());
+		f_wstr(fd,what->host.c_str());
 		f_wstr(fd,"\tFALSE\t");
-		char *path=unparse_percents(what->path.get());
-		f_wstr(fd,path);
-		delete[] path;
+		f_wstr(fd,hexed_string(what->path).c_str());
 		f_wstr(fd,"\tFALSE\t");
 		static char str[MAX_LEN];
 		sprintf(str,"%ld",(long int)(what->get_time()));
 		f_wstr(fd,str);
 		f_wchar(fd,'\t');
-		path=unparse_percents(what->name.get());
-		f_wstr(fd,path);
-		delete[] path;
+		f_wstr(fd,hexed_string(what->name).c_str());
 		f_wchar(fd,'\t');
-		path=unparse_percents(what->value.get());
-		f_wstr(fd,path);
-		delete[] path;
+		f_wstr(fd,hexed_string(what->value).c_str());
 		f_wchar(fd,'\n');
 	};
 	if (what->less) save_cookie(fd,(tCookie *)(what->less));

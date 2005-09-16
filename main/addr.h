@@ -11,34 +11,9 @@
 #ifndef _MY_T_ADDR
 #define _MY_T_ADDR
 #include "locstr.h"
+#include <string>
+#include "path.h"
 
-struct tAddr{
-	tPStr host,username,pass,path,file,params;
-	tPStr tag; //temporary field for HTML recursion + filters
-	int proto,port;
-	int mask;
-	tAddr();
-	tAddr(const tAddr *a);
-	tAddr(const char *str);
-	void from_string(const char *str);
-	void print();
-	void compose_path(char *aa,char *bb);
-	void compose_path2(char *aa,char *bb);
-	void file_del_sq();
-	void make_url(char *where);
-	char *pathfile();
-	char *url();
-	char *url_parsed();
-	char *url_full();
-	void copy_host(const tAddr *what);
-	void copy(const tAddr *what);
-	void save_to_description(int fd);
-	void save_to_config(int fd);
-	void clear();
-	int is_valid();
-	int cmp(tAddr *b);
-	~tAddr();
-};
 enum D_PROTOS{
 	D_PROTO_UNKNOWN,
 	D_PROTO_FTP,
@@ -49,8 +24,34 @@ enum D_PROTOS{
 	D_PROTO_LAST
 };
 
-int get_proto_by_name(char *str);
+namespace d4x{
+	struct ShortURL{
+		std::string host,file,params;
+		Path path;
+		int proto,port;
+		ShortURL():proto(D_PROTO_UNKNOWN),port(0){};
+		operator std::string() const;
+	};
+	
+	struct URL:public ShortURL{
+		std::string user,pass;
+		std::string tag;       // temporary field for HTML recursiont + filters
+		bool mask;             // to specify '*.*' files etc.
+		URL():mask(false){};
+		URL(const URL&_u):ShortURL(_u),user(_u.user),pass(_u.user),tag(_u.tag),mask(_u.mask){};
+		URL(const std::string &_s);
+		URL &operator=(const URL &_u);
+		bool operator==(const URL &_u) const;
+		bool is_valid();
+		operator std::string() const;
+		void copy_host(const URL&_u);
+		void clear();
+	};
+};
+
+int get_proto_by_name(const char *str);
 int get_port_by_proto(int proto);
-char *get_name_by_proto(int proto);
+const char *get_name_by_proto(int proto);
 int global_url(char *url);
+
 #endif

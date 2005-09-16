@@ -101,7 +101,7 @@ static void edit_url_cancel(GtkWidget *widget, tDownload *dwn){
 };
 static void edit_url_ok(GtkWidget *widget, tLimitDownload *dwn){
 	if (dwn->editor->apply_changes()) return;
-	dwn->Name2Save.set(dwn->editor->get_url());
+	dwn->Name2Save=dwn->editor->get_url();
 	FaceForPasswords->recalc_run(dwn);
 	dwn->delete_editor();
 	FaceForPasswords->redraw_url(dwn);
@@ -136,7 +136,7 @@ void tFacePass::show_url(tLimitDownload *dwn){
 	GtkTreeIter iter;
 	gtk_list_store_append(list_store, &iter);
 	gtk_list_store_set(list_store, &iter,
-			   UM_COL_REGEX,dwn->Name2Save.get(),
+			   UM_COL_REGEX,dwn->Name2Save.c_str(),
 			   UM_COL_LIMIT,dwn->config->con_limit,
 			   UM_COL_CON,dwn->cur_limit,
 			   UM_COL_DATA,dwn,
@@ -148,7 +148,7 @@ void tFacePass::show_url(tLimitDownload *dwn){
 void tFacePass::redraw_url(tLimitDownload *dwn){
 	if (!window) return;
 	gtk_list_store_set(list_store, dwn->list_iter,
-			   UM_COL_REGEX,dwn->Name2Save.get(),
+			   UM_COL_REGEX,dwn->Name2Save.c_str(),
 			   UM_COL_LIMIT,dwn->config->con_limit,
 			   UM_COL_CON,dwn->cur_limit,
 			   -1);
@@ -160,8 +160,7 @@ void tFacePass::calc_matched_run_rec(tQueue *q,tLimitDownload *dwn,regex_t *reg)
 		tDownload *what=dq->first(DL_RUN);
 		while (what){
 			if (what->regex_match==NULL){
-				char *url=what->info->url();
-				if (regexec(reg,url,0,NULL,0)==0){
+				if (regexec(reg,std::string(what->info).c_str(),0,NULL,0)==0){
 					what->regex_match=new d4xDwnLink(what,dwn);  //awful lists for fast access
 					what->regex_match->q=&(dwn->lim_run);
 					dwn->lim_run.insert(what->regex_match);  //on REAL LARGE queues :-)
@@ -170,7 +169,6 @@ void tFacePass::calc_matched_run_rec(tQueue *q,tLimitDownload *dwn,regex_t *reg)
 					}else
 						dwn->cur_limit+=1;
 				};
-				delete[] url;
 			};
 			what=(tDownload *)(what->prev);
 		};
@@ -182,7 +180,7 @@ void tFacePass::calc_matched_run_rec(tQueue *q,tLimitDownload *dwn,regex_t *reg)
 void tFacePass::calc_matched_run(tLimitDownload *dwn){
 	// walk over all run queues to match limit
 	regex_t reg;
-	if (regcomp(&reg,dwn->Name2Save.get(),REG_NOSUB)==0){
+	if (regcomp(&reg,dwn->Name2Save.c_str(),REG_NOSUB)==0){
 		calc_matched_run_rec(&D4X_QTREE,dwn,&reg);
 		regfree(&reg);
 	};
@@ -299,7 +297,7 @@ int tFacePass::match_and_check(tDownload *what,int move){
 void tFacePass::addlist_add(tLimitDownload *dwn){
 	if (dwn->editor->apply_changes()) return;
 	addlist.del(dwn);
-	dwn->Name2Save.set(dwn->editor->get_url());
+	dwn->Name2Save=dwn->editor->get_url();
 	dwn->delete_editor();
 	dlist.insert(dwn);
 	if (dwn->config->con_limit>0)
@@ -313,7 +311,6 @@ void tFacePass::open_dialog() {
 	dwn->config->isdefault=0;
 	dwn->set_default_cfg();
 	addlist.insert(dwn);
-	dwn->info=new tAddr("ftp://somesite.org");
 	dwn->editor=new tDEdit;
 	dwn->editor->add_or_edit=1;
 	dwn->editor->limit=1;
@@ -383,7 +380,7 @@ void tFacePass::edit_row(GtkTreeIter *iter) {
 	dwn->editor->clear_save_name();
 	dwn->editor->disable_time();
 	dwn->editor->disable_save_name();
-	dwn->editor->set_url(dwn->Name2Save.get());
+	dwn->editor->set_url(dwn->Name2Save.c_str());
 };
 
 void tFacePass::apply_dialog() {
@@ -496,12 +493,12 @@ void tFacePass::load(){
 };
 
 tLimitDownload *tFacePass::find_match(tDownload *what){
-	char *url=what->info->url();
+	std::string url=what->info;
 	tDownload *dwn=dlist.first();
 	while(dwn){
 		regex_t reg;
-		if (regcomp(&reg,dwn->Name2Save.get(),REG_NOSUB)==0){
-			if (regexec(&reg,url,0,NULL,0)==0){
+		if (regcomp(&reg,dwn->Name2Save.c_str(),REG_NOSUB)==0){
+			if (regexec(&reg,url.c_str(),0,NULL,0)==0){
 				regfree(&reg);
 				break;
 			};
@@ -509,7 +506,6 @@ tLimitDownload *tFacePass::find_match(tDownload *what){
 		};
 		dwn=dlist.prev();
 	};
-	delete[] url;
 	return((tLimitDownload *)(dwn));
 };
 
@@ -525,8 +521,8 @@ void tFacePass::set_cfg(tDownload *what){
 			what->config->log_save_path.set(dwn->config->log_save_path.get());
 			what->config->isdefault=0;
 		};
-		what->info->pass.set(dwn->info->pass.get());
-		what->info->username.set(dwn->info->username.get());
+		what->info.pass=dwn->info.pass;
+		what->info.user=dwn->info.user;
 		if (dwn->split==NULL && what->split)
 			delete(what->split);
 		if (dwn->split){

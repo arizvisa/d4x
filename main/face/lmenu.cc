@@ -61,12 +61,9 @@ GtkWidget *ListMenuArray[LM_LAST];
 
 void copy_download_to_clipboard(){
 	tDownload *dwn=D4X_QUEUE->qv.last_selected;
-	if (dwn->info){
-		char *url=dwn->info->url();
-		d4x_mw_clipboard_set(url);
-		my_xclipboard_put(url);
-		delete[] url;
-	};
+	std::string url=dwn->info;
+	d4x_mw_clipboard_set(url.c_str());
+	my_xclipboard_put(url.c_str());
 };
 
 GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,GtkSizeGroup *sgroup) {
@@ -130,14 +127,14 @@ void _lm_open_folder_(){
 
 void lm_open_file(){
 	tDownload *dwn=D4X_QUEUE->qv.last_selected;
-	if (!dwn || !dwn->info) return;
+	if (!dwn) return;
 	volatile pid_t __tmp;
 	int __rval;
 	if ((__tmp=fork())<0){
 	}else{
 		if (!__tmp){
 			char *v=sum_strings(dwn->config?dwn->config->save_path.get():D4X_QUEUE->save_path.get(),"/",
-					    dwn->Name2Save.get()?dwn->Name2Save.get():dwn->info->file.get(),NULL);
+					    dwn->Name2Save.empty()?dwn->info.file.c_str():dwn->Name2Save.c_str(),NULL);
 			execlp("gnome-open","gnome-open",v,NULL);
 		}else
 			waitpid(__tmp,&__rval,0);
@@ -292,7 +289,7 @@ void list_menu_prepare() {
 		};
 		for (int i=0;i<=LM_DELF;i++)
 			gtk_widget_set_sensitive(ListMenuArray[i],TRUE);
-		if (dwn->info->file.get()){
+		if (!dwn->info.file.empty()){
 			gtk_widget_set_sensitive(ListMenuArray[LM_SEARCH],TRUE);
 			gtk_widget_set_sensitive(ListMenuArray[LM_ALT],TRUE);
 		}else{

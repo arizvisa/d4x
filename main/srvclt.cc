@@ -110,7 +110,7 @@ void tMsgServer::cmd_ack(){
 void tMsgServer::write_dwn_status(tDownload *dwn,int full){
 	tPacketStatus status;
 	if (dwn){
-		if (full) status.url=dwn->info->url();
+		if (full) status.url=copy_string(std::string(d4x::ShortURL(dwn->info)).c_str());
 		status.Size=dwn->finfo.size;
 		status.Download=dwn->Size.curent;
 		status.Time=dwn->Start;
@@ -165,7 +165,7 @@ void tMsgServer::cmd_ls(int len,int type){
 	temp[len]=0;
 	if (sscanf(temp,"%i",&N)!=1 || N<0){
 		tDownload *dl=new tDownload;
-		dl->info=new tAddr(temp);
+		dl->info=std::string(temp);
 		ALL_DOWNLOADS->lock();
 		tDownload *answer=ALL_DOWNLOADS->find(dl);
 		delete(dl);

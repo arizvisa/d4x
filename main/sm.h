@@ -11,31 +11,33 @@
 #ifndef _D4X_SOCKETS_LIST_
 #define _D4X_SOCKETS_LIST_
 
-#include "queue.h"
 #include "addr.h"
 #include "socket.h"
 #include "mutex.h"
 #include <time.h>
+#include <vector>
 
-struct d4xOldSocket:public tNode{
-	tAddr *info;
-	tSocket *sock;
-	time_t birth;
-	d4xOldSocket();
-	d4xOldSocket(tAddr *a, tSocket *s);
-	void print();
-	~d4xOldSocket();
-};
+namespace d4x{
+	struct OldSocket{
+		d4x::URL info;
+		tSocket *sock;
+		time_t birth;
+		OldSocket(const d4x::URL &a, tSocket *s);
+		~OldSocket();
+	};
+	
+	class SocketsHistory{
+		d4xMutex my_lock;
+		typedef std::vector<OldSocket *> OldSockList;
+		OldSockList lst;
+		void del(OldSocket *what);
+	public:
+		void insert(const URL &u,tSocket *s);
+		tSocket *find(const d4x::URL &info);
+		void kill_old();
+		~SocketsHistory();
+	};
 
-class d4xSocketsHistory:public tQueue{
-	d4xMutex my_lock;
- public:
-	d4xSocketsHistory();
-	void insert(d4xOldSocket *what);
-	void del(d4xOldSocket *what);
-	tSocket *find(tAddr *info);
-	void kill_old();
-	~d4xSocketsHistory();
 };
 
 #endif /* ifndef _D4X_SOCKETS_LIST_ */

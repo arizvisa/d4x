@@ -19,7 +19,7 @@ class tFtpDownload:public tDownloader{
 protected:
 	tFtpClient *FTP;
 	tStringList *DIR,*list;
-	char *TMP_FILEPATH;
+	d4x::Path TMP_FILEPATH;
 	int CWDFlag;
 	int DONT_CWD;
 	int change_dir();
@@ -34,8 +34,8 @@ protected:
 public:
     	tFtpDownload();
     	tFtpDownload(tWriterLoger *log);
-    	int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
-	void init_download(char *path,char *file);
+    	int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
+	void init_download(const std::string &path,const std::string &file);
     	int download(fsize_t len);
     	fsize_t get_size_only();
     	fsize_t get_size();

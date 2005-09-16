@@ -1023,7 +1023,7 @@ static void d4x_links_sel_remove(GtkWidget *button,d4xLinksSel *sel){
 	};
 };
 
-void d4x_links_sel_set(d4xLinksSel *sel,GtkTreeIter *iter,char *url,gpointer p){
+void d4x_links_sel_set(d4xLinksSel *sel,GtkTreeIter *iter,const char *url,gpointer p){
 	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(sel->view));
 	gtk_list_store_set(list_store, iter,
 			   0,url,
@@ -1156,14 +1156,20 @@ GtkWidget *d4x_links_sel_new_with_add(){
 GtkWidget *d4x_links_sel_new_with_referer(const char *ref){
 	d4xLinksSel *sel=(d4xLinksSel *)d4x_links_sel_new();
 	sel->referer=gtk_entry_new();
+	sel->directory=gtk_entry_new();
  	gtk_entry_set_text(GTK_ENTRY(sel->referer),ref);
 	GtkWidget *lab=gtk_label_new(_("Referer:"));
 	gtk_box_pack_start(GTK_BOX(sel->vbox),lab,FALSE,FALSE,0);
 	gtk_box_pack_start(GTK_BOX(sel->vbox),sel->referer,FALSE,FALSE,0);
 	gtk_box_reorder_child(GTK_BOX(sel->vbox),lab,1);
 	gtk_box_reorder_child(GTK_BOX(sel->vbox),sel->referer,2);
- 	gtk_widget_show(GTK_WIDGET(sel->referer));
-	gtk_widget_show(GTK_WIDGET(lab));
+	lab=gtk_label_new(_("Store into directory:"));
+	gtk_box_pack_start(GTK_BOX(sel->vbox),lab,FALSE,FALSE,0);
+	gtk_box_pack_start(GTK_BOX(sel->vbox),sel->directory,FALSE,FALSE,0);
+	gtk_widget_set_sensitive(sel->directory,FALSE);
+	gtk_box_reorder_child(GTK_BOX(sel->vbox),lab,3);
+	gtk_box_reorder_child(GTK_BOX(sel->vbox),sel->directory,4);
+ 	gtk_widget_show_all(GTK_WIDGET(sel));
 	return GTK_WIDGET(sel);
 };
 
@@ -1461,23 +1467,23 @@ GtkWidget *d4x_alt_edit_new(){
 	return GTK_WIDGET(edit);
 };
 
-void d4x_alt_edit_set(d4xAltEdit *sel,tAddr *info){
-	if (info->host.notempty()){
-		if (info->proto==D_PROTO_FTP)
+void d4x_alt_edit_set(d4xAltEdit *sel,const d4x::URL &info){
+	if (!info.host.empty()){
+		if (info.proto==D_PROTO_FTP)
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_type_ftp),TRUE);
 		else
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_type_http),TRUE);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_use_check),TRUE);
 		gtk_widget_set_sensitive(sel->proxy_view,TRUE);
-		text_to_combo(sel->proxy_host,info->host.get());
+		text_to_combo(sel->proxy_host,info.host.c_str());
 		char data[100];
-		sprintf(data,"%i",info->port);
+		sprintf(data,"%i",info.port);
 		text_to_combo(sel->proxy_port,data);
-		if (info->username.notempty() && info->pass.notempty()){
+		if (!info.user.empty() && !info.pass.empty()){
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_user_check),TRUE);
-			text_to_combo(sel->proxy_user,info->username.get());
-			text_to_combo(sel->proxy_pass,info->pass.get());
-			ALL_HISTORIES[USER_HISTORY]->add(info->username.get());
+			text_to_combo(sel->proxy_user,info.user.c_str());
+			text_to_combo(sel->proxy_pass,info.pass.c_str());
+			ALL_HISTORIES[USER_HISTORY]->add(info.user.c_str());
 		}else{
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sel->proxy_user_check),FALSE);
 		};
@@ -1487,29 +1493,29 @@ void d4x_alt_edit_set(d4xAltEdit *sel,tAddr *info){
 	};
 };
 
-void d4x_alt_edit_get(d4xAltEdit *sel,tAddr *info){
+void d4x_alt_edit_get(d4xAltEdit *sel,d4x::URL &info){
 	if (GTK_TOGGLE_BUTTON(sel->proxy_use_check)->active && strlen(text_from_combo(sel->proxy_host))){
 		if (GTK_TOGGLE_BUTTON(sel->proxy_type_ftp)->active)
-			info->proto=D_PROTO_FTP;
+			info.proto=D_PROTO_FTP;
 		else
-			info->proto=D_PROTO_HTTP;
-		info->host.set(text_from_combo(sel->proxy_host));
-		REMOVE_SC_FROM_HOST(info->host.get());
-		sscanf(text_from_combo(sel->proxy_port),"%i",&info->port);
-		info->path.set("");
-		info->file.set("");
+			info.proto=D_PROTO_HTTP;
+		info.host=text_from_combo(sel->proxy_host);
+		info.host=info.host.substr(0,info.host.find(':'));
+		sscanf(text_from_combo(sel->proxy_port),"%i",&(info.port));
+		info.path.clear();
+		info.file.clear();
 		if (GTK_TOGGLE_BUTTON(sel->proxy_user_check)->active
 		    && strlen(text_from_combo(sel->proxy_user))
 		    && strlen(text_from_combo(sel->proxy_pass))){
-			info->username.set(text_from_combo(sel->proxy_user));
-			info->pass.set(text_from_combo(sel->proxy_pass));
+			info.user=text_from_combo(sel->proxy_user);
+			info.pass=text_from_combo(sel->proxy_pass);
 		}else{
-			info->username.set(NULL);
-			info->pass.set(NULL);
+			info.user.clear();
+			info.pass.clear();
 		};
-		make_proxy_host(info->host.get(),info->port);
+		make_proxy_host(info.host.c_str(),info.port);
 	}else{
-		info->clear();
+		info.clear();
 	};
 };
 

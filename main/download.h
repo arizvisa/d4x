@@ -34,7 +34,7 @@ class tDownloader{
 	tWriterLoger *LOG;
 	int RetrNum;
 	int Status;
-	tAddr ADDR;
+	d4x::URL ADDR;
 	tFileInfo D_FILE;
 	time_t local_filetime;
 	fsize_t StartSize,LOADED;
@@ -44,7 +44,7 @@ class tDownloader{
     	int treat();
      	int get_status();
      	virtual fsize_t get_start_size();
-     	virtual void init_download(char *file,char *path);
+     	virtual void init_download(const std::string&file,const std::string &path);
      	void set_loaded(fsize_t a);
     	virtual void set_file_info(tFileInfo *what);
 	void set_local_filetime(time_t lt);
@@ -54,11 +54,11 @@ class tDownloader{
      	virtual fsize_t another_way_get_size()=0;
 
 	fsize_t rollback();
-	virtual void make_full_pathes(const char *path,char *another_name,char **name,char **guess);
+	virtual void make_full_pathes(const char *path,const char *another_name,char **name,char **guess);
 	virtual void make_full_pathes(const char *path,char **name,char **guess);
 	virtual void print_error(int error_code);
 
-    	virtual int init(tAddr *hostinfo,tCfg *cfg,tSocket *s=(tSocket*)NULL)=0;
+    	virtual int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket*)NULL)=0;
     	virtual fsize_t get_readed()=0;
     	virtual fsize_t get_size_only()=0;
     	virtual fsize_t get_size()=0;

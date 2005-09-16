@@ -32,6 +32,9 @@
 #include "signal.h"
 #include "ping.h"
 #include "filter.h"
+#include "face/themes.h"
+
+using namespace d4x;
 
 extern tMain aa;
 
@@ -206,7 +209,7 @@ void tDefaultWL::cookie_set(tCookie *cookie){
 			COOKIES->del(temp);
 			delete(temp);
 		}else{
-			temp->value.set(cookie->value.get());
+			temp->value=cookie->value;
 			temp->set_time(cookie->get_time());
 			temp->myown=1;
 		};
@@ -220,12 +223,12 @@ void tDefaultWL::cookie_set(tCookie *cookie){
 };
 
 
-char *tDefaultWL::cookie(const char *host, const char *path){
+std::string tDefaultWL::cookie(const char *host, const char *path){
 	DBC_RETVAL_IF_FAIL(host!=NULL,NULL);
 	DBC_RETVAL_IF_FAIL(path!=NULL,NULL);
 	COOKIES->lock.lock();
 	tCookie *temp=COOKIES->find(host);
-	char *request_string=NULL;
+	std::string request_string;
 	tDownload **dwn=my_pthread_key_get();
 	if (dwn && *dwn && (*dwn)->config->cookie.get()){
 		COOKIES->lock.unlock();
@@ -233,13 +236,8 @@ char *tDefaultWL::cookie(const char *host, const char *path){
 	};
 	while (temp){
 //		temp->print();
-		if (begin_string(path,temp->path.get())){
-			char *tmp = request_string==NULL?copy_string(""):request_string;
-			request_string=sum_strings(tmp, temp->name.get(),
-						   "=", temp->value.get(),
-						   ";", NULL);
-			delete[] tmp;
-		};
+		if (begin_string(path,temp->path.c_str()))
+			request_string+=temp->name+"="+temp->value+";";
 		if (temp->get_time()<time(NULL)){
 			COOKIES->del(temp);
 			delete(temp);
@@ -326,7 +324,6 @@ tDownload::tDownload() {
 	next=prev=NULL;
 	split=NULL;
 	who=NULL;
-	RedirectURL=info=0;
 	CurrentLog=LOG=NULL;
 	WL=NULL;
 	editor=NULL;
@@ -368,20 +365,16 @@ fsize_t tDownload::get_loaded(){
 int tDownload::cmp(tAbstractSortNode *b){
 	DBC_RETVAL_IF_FAIL(b!=NULL,0);
 	tDownload *bb=(tDownload*)b;
-	int r=strcmp(info->file.get(),bb->info->file.get());
+	int r=strcmp(info.file.c_str(),bb->info.file.c_str());
 	if (r)
 		return r;
-	r=strcmp(info->path.get(),bb->info->path.get());
+	r=strcmp(info.path.c_str(),bb->info.path.c_str());
 	if (r)
 		return r;
-	if (info->params.get()==NULL){
-		if (bb->info->params.get())
-			return 1;
-		return 0;
-	};
-	if (bb->info->params.get()==NULL)
-		return -1;
-	return strcmp(info->params.get(),bb->info->params.get());
+	r=strcmp(info.file.c_str(),bb->info.file.c_str());
+	if (r)
+		return r;
+	return strcmp(info.params.c_str(),bb->info.params.c_str());
 };
 
 void tDownload::delete_editor() {
@@ -420,30 +413,21 @@ int tDownload::owner(){
 };
 
 void tDownload::remove_tmp_files(){
-	if (info) {
-		char *name;
-		char *path=make_path_to_file();
-		if (Name2Save.get()){
-			name=sum_strings(path,Name2Save.get(),NULL);
-		}else{
-			if (info->file.get() && *(info->file.get())){
-				name=sum_strings(path,".",info->file.get(),NULL);
-			}else{
-				name=sum_strings(path,".",CFG.DEFAULT_NAME,NULL);
-			};
-		};
-		if (info->params.get()){
-			char *tmp=sum_strings(name,"?",info->params.get(),NULL);
-			delete[] name;
-			name=tmp;
-		};
-		delete[] path;
-		remove(name);
-		char *segname=sum_strings(name,".segments",NULL);
-		delete[] name;
-		remove(segname);
-		delete[] segname;
+	d4x::Path path=make_path_to_file();
+	if (!Name2Save.empty()){
+		path/=Name2Save;
+	}else{
+		if (info.file.empty())
+			path/=std::string(".")+CFG.DEFAULT_NAME;
+		else
+			path/=std::string(".")+info.file;
 	};
+	if (!info.params.empty()){
+		path+=std::string("?")+info.params;
+	};
+	remove(path.c_str());
+	path+=std::string(".segments");
+	remove(path.c_str());
 };
 
 int tDownload::delete_file() {
@@ -464,10 +448,10 @@ int tDownload::delete_file() {
 void tDownload::make_file_names(char **name, char **guess){
 	DBC_RETURN_IF_FAIL(name!=NULL);
 	DBC_RETURN_IF_FAIL(guess!=NULL);
-	char *real_path=parse_save_path(config->save_path.get(),info->file.get());
-	if (Name2Save.get() && strlen(Name2Save.get()))
+	char *real_path=parse_save_path(config->save_path.get(),info.file.c_str());
+	if (!Name2Save.empty())
 		who->make_full_pathes(real_path,
-				      Name2Save.get(),
+				      Name2Save.c_str(),
 				      name,guess);
 	else
 		who->make_full_pathes(real_path,name,guess);
@@ -582,7 +566,7 @@ fsize_t tDownload::create_file() {
 	};
 	case T_DIR:{ //this is a directory
 		WL->log(LOG_WARNING,_("Trying to create a dir"));
-		if (strlen(info->file.get())==0){
+		if (info.file.empty()){
 			print_error(ERROR_DIRECTORY);
 			break;
 		};
@@ -702,17 +686,14 @@ void tDownload::set_default_cfg(){
 };
 
 void tDownload::copy(tDownload *dwn){
-	if (info==NULL)
-		info=new tAddr;
-	if (dwn->info)
-		info->copy(dwn->info);
+	info=dwn->info;
 	Description.set(dwn->Description.get());
 	if (dwn->config){
 		if (config==NULL) config=new tCfg;
 		config->copy(dwn->config);
 		restart_from_begin=dwn->restart_from_begin;
 		config->referer.set(dwn->config->referer.get());
-		Name2Save.set(dwn->Name2Save.get());
+		Name2Save=dwn->Name2Save;
 		config->save_path.set(dwn->config->save_path.get());
 		config->log_save_path.set(dwn->config->log_save_path.get());
 	}else{
@@ -727,27 +708,24 @@ void tDownload::copy(tDownload *dwn){
 	};
 };
 
-char *tDownload::make_path_to_file(){
+d4x::Path tDownload::make_path_to_file(){
 	int noconfig=0;
 	if (config==NULL){
 	    noconfig=1;
 	    config=new tCfg;
 	    set_default_cfg();
 	};
-	char *real_path=parse_save_path(config->save_path.get(),info->file.get());
-	char *rval=NULL;
-	if (info && info->proto==D_PROTO_HTTP && config->http_recursing){
-		if (config->leave_server){
-			rval=sum_strings(real_path,"/",
-					 info->host.get(),"/",
-					 info->path.get(),"/",NULL);
-		}else
-			rval=sum_strings(real_path,"/",
-					 info->path.get(),"/",NULL);
-	}else{
-		rval=sum_strings(real_path,"/",NULL);
+	
+	char *real_path=parse_save_path(config->save_path.get(),info.file.c_str());
+	d4x::Path rval(real_path);
+	delete real_path;
+	
+	if (info.proto==D_PROTO_HTTP && config->http_recursing){
+		if (config->leave_server)
+			rval/=d4x::Path(info.host)/info.path;
+		else
+			rval/=info.path;
 	};
-	delete[] real_path;
 	if (noconfig){
 	    delete(config);
 	    config=NULL;
@@ -755,32 +733,24 @@ char *tDownload::make_path_to_file(){
 	return(rval);
 };
 
-char *tDownload::create_new_file_path(){
-	if (info->mask==0) 
-		return (compose_path(info->path.get(),info->file.get()));
-	return(copy_string(info->path.get()));
+d4x::Path tDownload::create_new_file_path(){
+	if (info.mask) 
+		return(info.path);
+	return (info.path/info.file);
 };
 
-char *tDownload::create_new_save_path(){
-	if (info->mask==0) {
-		char *SaveName=Name2Save.get();
-		if (config->save_path.get()) {
-			if (SaveName && *SaveName)
-				return(compose_path(config->save_path.get(),SaveName));
-			else 
-				return(compose_path(config->save_path.get(),info->file.get()));
-		} else {
-			if (SaveName && *SaveName)
-				return(copy_string(SaveName));
-			else
-				return(copy_string(info->file.get()));
-		};
+d4x::Path tDownload::create_new_save_path(){
+	if (info.mask)
+		return d4x::Path(config->save_path.get());
+
+	if (config->save_path.get()) {
+		return(d4x::Path(config->save_path.get())/(Name2Save.empty()?info.file:Name2Save));
 	};
-	return(copy_string(config->save_path.get()));
+	return(d4x::Path(Name2Save.empty()?info.file:Name2Save));
 };
 
 void tDownload::convert_list_to_dir() {
-	if (who==NULL || info==NULL) {
+	if (who==NULL) {
 		return;
 	};
 	tFtpDownload *tmp=(tFtpDownload *)(who);
@@ -794,8 +764,8 @@ void tDownload::convert_list_to_dir() {
 	if (dir==NULL || dir->first()==NULL) {
 		return;
 	};
-	char *path=create_new_file_path();
-	char *savepath=create_new_save_path();
+	d4x::Path path=create_new_file_path();
+	d4x::Path savepath=create_new_save_path();
 	tString *temp=dir->last();
 	tFileInfo *prom=new tFileInfo;
 	while (temp) {
@@ -803,32 +773,28 @@ void tDownload::convert_list_to_dir() {
 		if (prom->name.get() && !equal(prom->name.get(),".")
 		    && !equal(prom->name.get(),"..")
 		    && (prom->type!=T_DIR || config->ftp_recurse_depth!=2)
-		    && (prom->type==T_DIR || info->mask==0 || check_mask(prom->name.get(),info->file.get()))) {
-			tAddr *addrnew=new tAddr;
+		    && (prom->type==T_DIR || !info.mask || check_mask(prom->name.get(),info.file.c_str()))) {
 			tDownload *onenew=new tDownload;
+			d4x::URL *addrnew=&(onenew->info);
 			onenew->config=new tCfg;
 			onenew->config->isdefault=0;
+			addrnew->path=path;
 			if (prom->type==T_DIR){
-				if (info->mask){
-					addrnew->compose_path(path,prom->name.get());
-					addrnew->file.set(info->file.get());
+				if (info.mask){
+					addrnew->path/=std::string(prom->name.get());
+					addrnew->file=info.file;
 				}else{
-					addrnew->compose_path2(path,prom->name.get());
-					addrnew->file.set("");
+					addrnew->path/=std::string(prom->name.get());
 				};
-				char *SavePath=compose_path(savepath,prom->name.get());
-				onenew->config->save_path.set(SavePath);
-				delete[] SavePath;
-				addrnew->mask=info->mask;
+				d4x::Path SavePath=savepath/std::string(prom->name.get());
+				onenew->config->save_path.set(SavePath.c_str());
+				addrnew->mask=info.mask;
 			} else {
-				addrnew->path.set(path);
-				addrnew->file.set(prom->name.get());
-				onenew->config->save_path.set(savepath);
+				addrnew->file=prom->name.get();
+				onenew->config->save_path.set(savepath.c_str());
 			};
 			addrnew->copy_host(info);
 
-			onenew->info=addrnew;
-			
 			onenew->config->copy(config);
 			onenew->config->ftp_recurse_depth = config->ftp_recurse_depth ? config->ftp_recurse_depth-1 : 0;
 			onenew->config->http_recurse_depth = config->http_recurse_depth;
@@ -841,17 +807,15 @@ void tDownload::convert_list_to_dir() {
 				if (onenew->finfo.type==T_LINK) {
 					if (config->follow_link==1){
 						onenew->finfo.type=T_NONE;
-						char *tmppath=compose_path(onenew->info->path.get(),prom->body.get());
-						char *a=rindex(tmppath,'/');
-						if (a){
-							*a=0;
-							onenew->info->file.set(a+1);
-							onenew->info->path.set(tmppath);
+						d4x::Path tmppath=onenew->info.path/std::string(prom->body.get());
+						std::string::size_type a=tmppath.rfind('/');
+						if (a!=std::string::npos){
+							onenew->info.file=tmppath.substr(a+1);
+							onenew->info.path=tmppath.substr(0,a);
 						}else{
-							onenew->info->file.set(tmppath);
-							onenew->info->path.set("");
+							onenew->info.file=tmppath;
+							onenew->info.path="";
 						};
-						delete[] tmppath;
 						onenew->finfo.size=0; //follow symbolik link size is unknown yet
 						onenew->finfo.date=0; //date is unknown too :-(
 					}else{
@@ -871,8 +835,6 @@ void tDownload::convert_list_to_dir() {
 		prom->body.set(NULL);
 	};
 	delete (prom);
-	delete[] path;
-	delete[] savepath;
 };
 
 
@@ -897,7 +859,7 @@ void make_dir_hier_without_last(char *path) {
 	};
 };
 
-static int is_subdir(char *path, char *subdir){
+static int is_subdir(const char *path, const char *subdir){
 	if (begin_string(subdir,path)){
 		int len=strlen(path);
 		if (subdir[len]=='/' || subdir[len]==0)
@@ -906,12 +868,11 @@ static int is_subdir(char *path, char *subdir){
 	return(0);
 };
 
-int tDownload::http_check_settings(tAddr *what){
-	DBC_RETVAL_IF_FAIL(what!=NULL,0);
-	if (!equal(what->host.get(),info->host.get())){
+int tDownload::http_check_settings(const d4x::URL &what){
+	if (what.host!=info.host){
 		return (config->leave_server);
 	};
-	if (config->dont_leave_dir==0 || is_subdir(info->path.get(),what->path.get()))
+	if (config->dont_leave_dir==0 || is_subdir(info.path.c_str(),what.path.c_str()))
 		return 1;
 	return 0;
 };
@@ -926,7 +887,6 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		DIR->init(0);
 	};
 	tHtmlUrl *temp=(tHtmlUrl *)dir->last();
-	char *URL=info->url();
 	d4xFilter *filter=config->Filter.get()?FILTERS_DB->find(config->Filter.get()):NULL;
 	while (temp) {
 		tDownload *onenew=new tDownload;
@@ -941,14 +901,13 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		onenew->set_split_count(split?split->NumOfParts:0);
 		onenew->config->http_recurse_depth = config->http_recurse_depth ? config->http_recurse_depth-1 : 0;
 		onenew->config->ftp_recurse_depth = config->ftp_recurse_depth;
-		onenew->config->referer.set(URL);
+		onenew->config->referer.set(std::string(info).c_str());
 		onenew->Description.set(temp->descr);
-		if (temp->info->is_valid() && http_check_settings(temp->info)){
+		if (temp->info.is_valid() && http_check_settings(temp->info)){
 			onenew->info=temp->info;
-			temp->info=NULL;
 			if (filter){
 				if (filter->match(onenew->info)){
-					onenew->info->tag.set(NULL); //this info is not needed any more
+					onenew->info.tag.clear(); //this info is not needed any more
 					DIR->insert(onenew);
 				}else{
 					delete(onenew);
@@ -964,12 +923,12 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		temp=(tHtmlUrl *)dir->last();
 	};
 	if (filter) filter->unref();
-	delete[] URL;
 };
 
 void tDownload::save_to_config(int fd){
 	f_wstr_lf(fd,"Download:");
-	if (info) info->save_to_config(fd);
+	f_wstr_lf(fd,"URL:");
+	f_wstr_lf(fd,std::string(info).c_str());
 	if (split)
 		write_named_integer(fd,"SplitTo:",split->NumOfParts);
 	if (config && config->isdefault==0)
@@ -990,8 +949,8 @@ void tDownload::save_to_config(int fd){
 	};
 	if (Description.get())
 		write_named_string(fd,"Description:",Description.get());
-	if (Name2Save.get())
-		write_named_string(fd,"SaveName:",Name2Save.get());
+	if (!Name2Save.empty())
+		write_named_string(fd,"SaveName:",Name2Save.c_str());
 	if (protect)
 		write_named_integer(fd,"protect:",protect);
 	if (ALTS)
@@ -1009,7 +968,7 @@ int tDownload::load_from_config(int fd){
 		{"HTime:",	SV_TYPE_TIME,	&HistoryTime},
 		{"Cfg:",	SV_TYPE_CFG,	&config},
 		{"SavePath:",	SV_TYPE_PSTR,	&(config->save_path)},
-		{"SaveName:",	SV_TYPE_PSTR,	&(Name2Save)},
+		{"SaveName:",	SV_TYPE_STDSTR,	&(Name2Save)},
 		{"SplitTo:",	SV_TYPE_SPLIT,	&(split)},
 		{"size:",	SV_TYPE_LINT,	&(finfo.size)},
 		{"loaded:",	SV_TYPE_LINT,	&(Size.curent)},
@@ -1109,14 +1068,12 @@ void tDownload::download_completed(int type) {
 	};
 	WL->log(LOG_OK,_("Downloading was successefully completed!"));
 	
-	if (im_last && CFG.WRITE_DESCRIPTION && info->proto!=D_PROTO_SEARCH){
+	if (im_last && CFG.WRITE_DESCRIPTION && info.proto!=D_PROTO_SEARCH){
 		/* add string into Descript.ion file */
 		download_set_block(1);
-		char *path=make_path_to_file();
-		char *desc=sum_strings(path,"Descript.ion",NULL);
-		delete[] path;
-		int fd=open(desc,O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR );
-		delete[] desc;
+		d4x::Path path=make_path_to_file();
+		path/=std::string("Descript.ion");
+		int fd=open(path.c_str(),O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR );
 		lseek(fd,0,SEEK_END);
 		/* locking file exclusively */
 		struct flock a;
@@ -1126,18 +1083,18 @@ void tDownload::download_completed(int type) {
 		a.l_len=1;
 		fcntl(fd,F_SETLKW,&a);
 		/* writing file */
-		if (Name2Save.get())
-			f_wstr(fd,Name2Save.get());
+		if (Name2Save.empty())
+			f_wstr(fd,info.file.c_str());
 		else
-			f_wstr(fd,info->file.get());
+			f_wstr(fd,Name2Save.c_str());
 		f_wstr(fd," - ");
 		if (Description.get()) {
 			f_wstr(fd,Description.get());
 			f_wstr(fd," [");
-			info->save_to_description(fd);
+			f_wstr(fd,std::string(info).c_str());
 			f_wchar(fd,']');
 		} else {
-			info->save_to_description(fd);
+			f_wstr(fd,std::string(info).c_str());
 		};
 		f_wchar(fd,'\n');
 		/* unlocking file */
@@ -1179,14 +1136,11 @@ void tDownload::http_recurse() {
 	char *type=httpd->get_content_type();
 	if ((config->change_links || config->http_recurse_depth!=1) &&
 	    type && begin_string_uncase(type,"audio/x-pn-realaudio")){
-		char *a=make_path_to_file();
-		char *tmppath=sum_strings(a,"/",info->file.get(),
-					  info->params.get()?"?":NULL,
-					  info->params.get()?info->params.get():NULL,
-					  NULL);
-		delete[] a;
-		int fd=open(tmppath,O_RDWR,S_IRUSR | S_IWUSR);
-		delete[] tmppath;
+		d4x::Path a(make_path_to_file());
+		a/=info.file;
+		if (!info.params.empty())
+			a+=std::string("?")+info.params;
+		int fd=open(a.c_str(),O_RDWR,S_IRUSR | S_IWUSR);
 		if (fd>=0){
 			char *buf=new char[MAX_LEN];
 			*buf=0;
@@ -1194,8 +1148,8 @@ void tDownload::http_recurse() {
 			tQueue *dir=new tQueue;
 			pthread_cleanup_push(_html_parser_dir_destroy_,dir);
 			tHtmlUrl *node=new tHtmlUrl;
-			info->tag.set("");
-			node->info=new tAddr(buf);
+			info.tag.clear();
+			node->info=std::string(buf);
 			delete[] buf;
 			dir->insert(node);
 			if (config->http_recurse_depth!=1)
@@ -1215,14 +1169,13 @@ void tDownload::http_recurse() {
 		pthread_cleanup_push(_html_parser_destroy_,html);
 		dir->init(0);
 		if (config->change_links){
-			char *a=make_path_to_file();
-			char *tmppath=sum_strings(a,"/",info->file.get(),
-					    info->params.get()?"?":".fl",
-					    info->params.get()?info->params.get():NULL,
-					    info->params.get()?".fl":NULL,
-					    NULL);
-			delete[] a;
-			html->out_fd=open(tmppath,O_RDWR|O_CREAT|O_TRUNC,S_IRUSR | S_IWUSR );
+			d4x::Path a(make_path_to_file());
+			a/=info.file;
+			if (info.params.empty())
+				a+=std::string(".fl");
+			else
+				a+=std::string("?")+info.params;
+			html->out_fd=open(a.c_str(),O_RDWR|O_CREAT|O_TRUNC,S_IRUSR | S_IWUSR );
 			html->leave=config->leave_server;
 			html->parse(WL,dir,info,config->quest_sign_replace);
 			if (html->out_fd){
@@ -1231,17 +1184,16 @@ void tDownload::http_recurse() {
 				if (need_to_rename){
 					delete[] guess;
 					remove(name);
-					rename(tmppath,name);
+					rename(a.c_str(),name);
 					delete[] name;
 				}else{
 					delete[] name;
 					remove(guess);
-					rename(tmppath,guess);
+					rename(a.c_str(),guess);
 					delete[] guess;
 				};
 				((tDefaultWL*)(WL))->set_fd(html->out_fd,0);
 			};
-			delete[] tmppath;
 		}else{
 			html->out_fd=-1;
 			html->parse(WL,dir,info,config->quest_sign_replace);
@@ -1267,10 +1219,9 @@ void tDownload::http_recurse() {
 		
 		tHtmlUrl *temp=(tHtmlUrl *)dir->last();
 		while(temp){
-			if (temp->info->tag.get() && strcasecmp(temp->info->tag.get(),"meta")==0){
+			if (strcasecmp(temp->info.tag.c_str(),"meta")==0){
 				finfo.type=T_REDIRECT;
-				if (RedirectURL) delete RedirectURL;
-				RedirectURL=new tAddr(temp->info);
+				RedirectURL=temp->info;
 				break;
 			};
 			temp=(tHtmlUrl *)dir->next();
@@ -1284,10 +1235,7 @@ void tDownload::export_socket(tDownloader *what){
 	download_set_block(1);
 	tSocket *sock=what->export_ctrl_socket();
 	if (sock){
-		tAddr *adr=new tAddr;
-		adr->copy_host(info);
-		d4xOldSocket *tmp=new d4xOldSocket(adr,sock);
-		GVARS.SOCKETS->insert(tmp);
+		GVARS.SOCKETS->insert(info,sock);
 	};
 	download_set_block(0);
 };
@@ -1303,11 +1251,10 @@ void tDownload::http_check_redirect(bool removefiles){
 			"CONTENT=\"1;url=";
 		static char *redirect_html_end="\"></HEAD></HTML>";
 		WL->write(redirect_html,strlen(redirect_html));
-		tAddr *tmpadr=fix_url_global(newurl,
+		d4x::URL tmpadr=fix_url_global(newurl,
 					     info,
 					     ((tDefaultWL *)(WL))->get_fd(),
 					     config->leave_server);
-		if (tmpadr) delete(tmpadr);
 		WL->write(redirect_html_end,strlen(redirect_html_end));
 		who->done();
 		make_file_visible();
@@ -1317,11 +1264,11 @@ void tDownload::http_check_redirect(bool removefiles){
 			delete_file();
 	};
 	delete[] newurl;
-	tAddr *addr=redirect_url();
+	d4x::URL addr=redirect_url();
 	finfo.type=T_REDIRECT;
-	if (addr){
+	if (addr.is_valid()){
 		if (config->http_recursing ||config->http_recurse_depth!=1){
-			if (equal_uncase(addr->host.get(),info->host.get()) ||
+			if (equal_uncase(addr.host.c_str(),info.host.c_str()) ||
 			    config->leave_server){
 				finfo.type=T_REDIRECT;
 			}else{
@@ -1339,7 +1286,6 @@ void tDownload::http_check_redirect(bool removefiles){
 			filter->unref();
 		};
 	};
-	delete(addr);
 	WL->log(LOG_WARNING,_("Redirect detected..."));
 };
 
@@ -1349,7 +1295,7 @@ void tDownload::download_http_size(){
 	tSocket *s=GVARS.SOCKETS->find(info);
 	download_set_block(0);
 	if (who->init(info,config,s)==0) {
-		who->init_download(info->path.get(),info->file.get());
+		who->init_download(info.path,info.file);
 		finfo.size=who->get_size_only();
 		finfo.type=T_FILE;
 		if (((tHttpDownload*)who)->persistent())
@@ -1364,7 +1310,7 @@ void tDownload::download_ftp_size(){
 	tSocket *s=GVARS.SOCKETS->find(info);
 	download_set_block(0);
 	if (who->init(info,config,s)==0) {
-		who->init_download(info->path.get(),info->file.get());
+		who->init_download(info.path,info.file);
 		status=DOWNLOAD_SIZE_WAIT;
 		fsize_t size=who->get_size();
 		if (size>=0) {
@@ -1391,7 +1337,7 @@ void tDownload::download_http() {
 		download_failed();
 		return;
 	};
-	who->init_download(info->path.get(),info->file.get());
+	who->init_download(info.path,info.file);
 	/* We need to know size of already loaded file
 	 * but I think if file not found we need to delete it
 	 * because in http name of file may be specify 
@@ -1481,18 +1427,16 @@ void tDownload::download_http() {
 void tDownload::remove_links(d4xSearchEngine *engine){
 	d4xFtpRegex ftpr;
 	regex_t regs[2];
-	ftpr.compile(engine->match.get(),info->file.get());
+	ftpr.compile(engine->match.get(),info.file.c_str());
 	ftpr.compile_regexes(regs);
 	tDownload *tmp=DIR->last();
 	tDList *nDIR=new tDList;
 	while(tmp){
 		DIR->del(tmp);
-		char *url=tmp->info->url();
-		char *a=ftpr.cut(url,regs);
-		delete[] url;
+		char *a=ftpr.cut(std::string(tmp->info).c_str(),regs);
 		if (a){
 //			printf("%s\n",a);
-			tmp->info->from_string(a);
+			tmp->info=std::string(a);
 			delete[] a;
 			if (nDIR->find(tmp->info))
 				delete(tmp);
@@ -1549,7 +1493,7 @@ void tDownload::sort_links(){
 };
 
 static void _tmp_info_remove_(void *addr){
-	tAddr *info=(tAddr *)addr;
+	d4x::URL *info=(d4x::URL *)addr;
 	delete(info);
 };
 
@@ -1569,8 +1513,8 @@ void tDownload::ftp_search_sizes(){
 			WL->log(LOG_ERROR,"Can't determine filesize");
 			tmp->finfo.size=-1;
 		}else{
-			who->init_download(tmp->info->path.get(),
-					   tmp->info->file.get());
+			who->init_download(tmp->info.path,
+					   tmp->info.file);
 			tmp->finfo.size=who->get_size();
 		};
 		who->done();
@@ -1589,20 +1533,20 @@ void tDownload::ftp_search() {
 		d4xSearchEngine *engine=D4X_SEARCH_ENGINES.get_next_used_engine(NULL);
 		tDList *TMP_DIR=NULL;
 		while(engine){
-			tAddr *tmpinfo=new tAddr;
+			d4x::URL *tmpinfo=new d4x::URL;
 			fsize_t size=0;
 			int who_download_status=0;
 			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
 			config->change_links=0;
-			engine->prepare_url(tmpinfo,finfo.size,info->file.get(),CFG.SEARCH_PERSERVER);
+			engine->prepare_url(*tmpinfo,finfo.size,info.file.c_str(),CFG.SEARCH_PERSERVER);
 			pthread_cleanup_pop(0);
-			if (who->init(tmpinfo,config)) {
+			if (who->init(*tmpinfo,config)) {
 				delete(tmpinfo);
 				download_failed();
 				return;
 			};
 			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
-			who->init_download(tmpinfo->path.get(),tmpinfo->file.get());
+			who->init_download(tmpinfo->path,tmpinfo->file);
 			who->set_loaded(0);
 			size=who->get_size();
 			pthread_cleanup_pop(0);
@@ -1628,10 +1572,12 @@ void tDownload::ftp_search() {
 			config->http_recurse_depth=2;
 			config->leave_server=1;
 			download_set_block(1);
-			tAddr *a=info;
-			info=tmpinfo;
+			d4x::URL *a=new d4x::URL(info);
+			info=*tmpinfo;
+			pthread_cleanup_push(_tmp_info_remove_,a);
 			http_recurse();
-			info=a;
+			info=*a;
+			pthread_cleanup_pop(1);
 			who->done();
 			remove_links(engine);
 			if (TMP_DIR){
@@ -1680,7 +1626,7 @@ void tDownload::download_ftp(){
 
 	if (finfo.type==T_LINK && config->follow_link!=2) {
 		WL->log(LOG_WARNING,_("It is a link and we already load it"));
-		who->init_download(NULL,info->file.get());
+		who->init_download("",info.file);
 		who->set_file_info(&finfo);
 		create_file();
 		set_date_file();
@@ -1696,13 +1642,13 @@ void tDownload::download_ftp(){
 		download_failed();
 		return;
 	};
-	who->init_download(info->path.get(),info->file.get());
+	who->init_download(info.path,info.file);
 	if (finfo.size<0 || finfo.type==T_NONE) {
 		status=DOWNLOAD_SIZE_WAIT;
 		fsize_t size=who->get_size();
 		if (size<0) {
 			WL->log(LOG_ERROR,_("File not found"));
-			if (info->mask){
+			if (info.mask){
 				download_failed();
 				return;
 			};
@@ -1724,7 +1670,7 @@ void tDownload::download_ftp(){
 		};
 	};
 	fsize_t CurentSize=0;
-	if (info->mask==0){
+	if (info.mask==0){
 		CurentSize=create_file();
 		//if it was link
 		finfo.type=file_type();
@@ -1807,7 +1753,7 @@ int tDownload::find_best_split(){
 		delete(holes);
 		holes=tmp;
 	};
-	int k=(info->proto==D_PROTO_FTP && (config==NULL || config->proxy.ftp_host.get()==NULL || config->proxy.type==0))?12:8;
+	int k=(info.proto==D_PROTO_FTP && (config==NULL || config->proxy.ftp_host.get()==NULL || config->proxy.type==0))?12:8;
 	if (split->LastByte-split->FirstByte>SPLIT_MINIMUM_PART*k && completed==0){
 		return 1;
 	};
@@ -1867,10 +1813,10 @@ void tDownload::prepare_splits(){
 	tSplitInfo *newsplit=split;
 	tDownload *parent=this;
 	char i='1';
-	d4xAlt *alt=NULL;
+	std::list<d4x::Alt*>::iterator alt;
 	if (ALTS){
 		ALTS->lock_by_download();
-		alt=ALTS->FIRST;
+		alt=ALTS->LST.begin();
 	};
 	split->alt=0;
 	int alt_num=1;
@@ -1910,27 +1856,25 @@ void tDownload::prepare_splits(){
 			temp->config->user_agent.set(config->user_agent.get());
 			temp->config->referer.set(config->referer.get());
 			temp->config->save_path.set(config->save_path.get());
-			temp->Name2Save.set(Name2Save.get());
+			temp->Name2Save=Name2Save;
 			temp->finfo.size=finfo.size;
 			temp->finfo.type=finfo.type;
 			temp->finfo.perm=finfo.perm;
 			temp->finfo.date=finfo.date;
-			if (temp->info==NULL)
-				temp->info=new tAddr();
-			if (alt){
+			if (ALTS && alt!=ALTS->LST.end()){
 				temp->split->alt=alt_num;
-				temp->info->copy(&(alt->info));
-				alt->set_proxy_settings(temp);
+				temp->info=(*alt)->info;
+				(*alt)->set_proxy_settings(temp);
 			}else{
 				temp->split->alt=0;
-				temp->info->copy(info);
+				temp->info=info;
 			};
 			if (ALTS){
-				if (alt && alt->next){
-					alt=alt->next;
+				if (alt!=ALTS->LST.end()){
+					alt++;
 					alt_num++;
 				}else{
-					alt=ALTS->FIRST;
+					alt=ALTS->LST.begin();
 					alt_num=1;
 				};
 			};
@@ -1955,19 +1899,19 @@ void tDownload::delete_who(){
 };
 
 
-tAddr *tDownload::redirect_url(){
-	if (RedirectURL){
-		return new tAddr(RedirectURL);
+d4x::URL tDownload::redirect_url(){
+	if (RedirectURL.is_valid()){
+		return RedirectURL;
 	}else if (who){
 		char *newurl=NULL;
 		newurl=who->get_new_url();
 		if (newurl) {
-			tAddr *addr=fix_url_global(newurl,info,-1,0);
+			d4x::URL addr=fix_url_global(newurl,info,-1,0);
 			delete[] newurl;
 			return(addr);
 		};
 	};
-	return(NULL);
+	return d4x::URL();
 };
 
 void tDownload::set_split_count(int num){
@@ -2000,26 +1944,24 @@ tDownload::~tDownload() {
 	if (config) delete(config);
 	if (myowner) myowner->del(this);
 	if (who) delete who;
-	if (info) delete info;
 	if (editor) delete editor;
 	if (LOG) LOG->ref_dec();
 	if (DIR) delete DIR;
 	if (WL) delete(WL);
 	if (split) delete(split);
 	if (ALTS) delete(ALTS);
-	if (RedirectURL) delete RedirectURL;
 };
 
 
 //**********************************************/
 
 tDList::tDList():tQueue(){
-	Pixmap=PIX_UNKNOWN;
+	Pixmap=LPE_UNKNOWN;
 	empty=non_empty=NULL;
 };
 
 tDList::tDList(int key):tQueue(){
-	Pixmap=PIX_UNKNOWN;
+	Pixmap=LPE_UNKNOWN;
 	OwnerKey=key;
 	empty=non_empty=NULL;
 };
@@ -2047,7 +1989,7 @@ void tDList::insert(tDownload *what) {
 		non_empty();
 	tQueue::insert(what);
 	what->myowner=this;
-	if (Pixmap!=PIX_UNKNOWN && PAPA)
+	if (Pixmap!=LPE_UNKNOWN && PAPA)
 		PAPA->qv.set_pixmap(what,Pixmap);
 };
 
@@ -2056,7 +1998,7 @@ void tDList::insert_before(tDownload *what,tDownload *where) {
 	DBC_RETURN_IF_FAIL(where->myowner==this);
 	tQueue::insert_before(what,where);
 	what->myowner=this;
-	if (Pixmap!=PIX_UNKNOWN && PAPA)
+	if (Pixmap!=LPE_UNKNOWN && PAPA)
 		PAPA->qv.set_pixmap(what,Pixmap);
 };
 
@@ -2102,10 +2044,10 @@ void tDList::backward(tDownload *what) {
 	};
 };
 
-tDownload *tDList::find(tAddr *addr){
+tDownload *tDList::find(const d4x::URL &addr){
 	tNode *a=First;
 	while(a){
-		if (((tDownload*)a)->info->cmp(addr)) return((tDownload*)a);
+		if (((tDownload*)a)->info==addr) return((tDownload*)a);
 		a=a->prev;
 	};
 	return(NULL);

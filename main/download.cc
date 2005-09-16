@@ -99,9 +99,9 @@ fsize_t tDownloader::rollback(){
 	return(LOADED);
 };
 
-void tDownloader::init_download(char *path,char *file) {
-	ADDR.file.set(file);
-	ADDR.path.set(path);
+void tDownloader::init_download(const std::string &path,const std::string &file) {
+	ADDR.file=file;
+	ADDR.path=path;
 };
 
 void tDownloader::set_loaded(fsize_t a) {
@@ -150,23 +150,24 @@ void tDownloader::make_full_pathes(const char *path,char **name,char **guess) {
 	DBC_RETURN_IF_FAIL(guess!=NULL);
 	DBC_RETURN_IF_FAIL(name!=NULL);
 
-	char *temp;
-	temp=sum_strings(".",ADDR.file.get(),NULL);
-	*name=compose_path(path,temp);
-	*guess=compose_path(path,ADDR.file.get());
-	delete[] temp;
+	d4x::Path temp(path);
+	temp/=std::string(".")+ADDR.file;
+	*name=copy_string(temp.c_str());
+	temp=d4x::Path(path)/ADDR.file;
+	*guess=copy_string(temp.c_str());
 };
 
-void tDownloader::make_full_pathes(const char *path,char *another_name,char **name,char **guess) {
+void tDownloader::make_full_pathes(const char *path,const char *another_name,char **name,char **guess) {
 	DBC_RETURN_IF_FAIL(path!=NULL);
 	DBC_RETURN_IF_FAIL(another_name!=NULL);
 	DBC_RETURN_IF_FAIL(guess!=NULL);
 	DBC_RETURN_IF_FAIL(name!=NULL);
 
-	char *temp=sum_strings(".",another_name,NULL);
-	*name=compose_path(path,temp);
-	*guess=compose_path(path,another_name);
-	delete[] temp;
+	d4x::Path temp(path);
+	temp/=std::string(".")+another_name;
+	*name=copy_string(temp.c_str());
+	temp=d4x::Path(path)/std::string(another_name);
+	*guess=copy_string(temp.c_str());
 };
 
 tDownloader::~tDownloader() {

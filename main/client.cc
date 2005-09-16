@@ -94,8 +94,8 @@ void tWriterLoger::log_printf(int type,const char *fmt,...){
 void tWriterLoger::truncate(){
 };
 
-char * tWriterLoger::cookie(const char *host, const char *path){
-	return NULL;
+std::string tWriterLoger::cookie(const char *host, const char *path){
+	return std::string();
 };
 
 void tWriterLoger::cookie_set(tCookie *cookie){
@@ -356,13 +356,13 @@ tCfg::~tCfg() {
  */
 
 tClient::tClient(){
-	hostname=username=userword=buffer=NULL;
+	buffer=NULL;
 	FileLoaded=0;
 	CtrlSocket=new tSocket;
 };
 
 tClient::tClient(tCfg *cfg,tSocket *ctrl){
-	hostname=username=userword=buffer=NULL;
+	buffer=NULL;
 	FileLoaded=0;
 	if (ctrl)
 		CtrlSocket=ctrl;
@@ -382,7 +382,7 @@ tClient::~tClient(){
 	if (CtrlSocket) delete(CtrlSocket);
 };
 
-void tClient::init(char *host,tWriterLoger *log,int prt,int time_out) {
+void tClient::init(const std::string &host,tWriterLoger *log,int prt,int time_out) {
 	DBC_RETURN_IF_FAIL(host!=NULL);
 	DBC_RETURN_IF_FAIL(log!=NULL);
 
@@ -410,7 +410,7 @@ int tClient::get_readed() {
 	return FileLoaded;
 };
 
-int tClient::read_string(tSocket *sock,tStringList *list,int maxlen) {
+int tClient::read_string(tSocket *sock,tStringList *list,fsize_t maxlen) {
 	DBC_RETVAL_IF_FAIL(sock!=NULL,0);
 	DBC_RETVAL_IF_FAIL(list!=NULL,0);
 
@@ -428,7 +428,7 @@ int tClient::read_string(tSocket *sock,tStringList *list,int maxlen) {
 	return RVALUE_OK;
 };
 
-char *tClient::read_string(tSocket *sock,int maxlen) {
+char *tClient::read_string(tSocket *sock,fsize_t maxlen) {
 	DBC_RETVAL_IF_FAIL(sock!=NULL,0);
 	char temp[maxlen+1];
 	char *cur=temp;
@@ -459,8 +459,8 @@ int tClient::socket_err_handler(int err) {
 int tClient::reinit() {
 	Status=0;
 	int err=-1;
-	LOG->log_printf(LOG_OK,_("Trying to connect to %s:%i..."),hostname?hostname:"<null>",port);
-	if (hostname && (err=CtrlSocket->open_port(hostname,port))==0) {
+	LOG->log_printf(LOG_OK,_("Trying to connect to %s:%i..."),hostname.c_str(),port);
+	if ((err=CtrlSocket->open_port(hostname.c_str(),port))==0) {
 		LOG->log(LOG_WARNING,_("Socket was opened!"));
 		return RVALUE_OK;
 	};

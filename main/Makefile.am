@@ -1,5 +1,5 @@
 #
-# $Header: /home/cvs/d4x/main/Makefile.am,v 1.3.2.3 2005/08/10 06:47:57 max Exp $
+# $Header: /home/cvs/d4x/main/Makefile.am,v 1.3.2.4 2005/09/13 08:47:17 max Exp $
 #
 
 include $(top_srcdir)/admin/Makefile.all
@@ -22,7 +22,7 @@ endif
 
 # List of C++ modules (got from `ls -w50 -q *.cc)
 nt_SOURCES_LIST = $(strip                   \
-    addr.cc      queue.cc                   \
+    addr.cc      queue.cc     path.cc       \
     alt.cc       history.cc   recode.cc     \
     autoadd.cc   hproxy.cc    savedvar.cc   \
     base64.cc    html.cc      savelog.cc    \
@@ -46,7 +46,7 @@ noinst_HEADERS = $(strip                           \
     autoadd.h   fsearch.h   mainlog.h   signal.h   \
     base64.h    ftp.h       memwl.h     sm.h       \
     client.h    ftpd.h      meter.h     sndserv.h  \
-    msgqueue.h  socket.h    sslsocket.h            \
+    msgqueue.h  socket.h    sslsocket.h path.h     \
     config.h    history.h   mutex.h     socks.h    \
     cookie.h    hproxy.h    ntlocale.h  sort.h     \
     db.h        html.h      ping.h      speed.h    \

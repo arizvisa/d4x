@@ -256,7 +256,6 @@ tHtmlTag::~tHtmlTag(){
 };
 /********************************************************/
 tHtmlUrl::tHtmlUrl(){
-	info=NULL;
 	descr=NULL;
 };
 
@@ -264,7 +263,6 @@ void tHtmlUrl::print(){
 };
 
 tHtmlUrl::~tHtmlUrl(){
-	if (info) delete(info);
 	if (descr) delete[] descr;
 };
 
@@ -486,7 +484,7 @@ tHtmlTag *tHtmlParser::get_tag(){
 	return rvalue;
 };
 
-static void write_up_dirs(int out_fd,char *a){
+static void write_up_dirs(int out_fd,const char *a){
 	int depth=0;
 	while(*a){
 		depth=1;
@@ -500,12 +498,11 @@ static void write_up_dirs(int out_fd,char *a){
 	};
 };
 
-tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_replace){
-	if (url==NULL || *url==0) return(NULL);
-	tAddr *info=NULL;
+d4x::URL fix_url_global(char *url,const d4x::URL &papa,int out_fd,int leave,int quest_sign_replace){
+	if (url==NULL || *url==0) return d4x::URL();
+	d4x::URL info;
 	char *html_shift=NULL;
 	if (!global_url(url)) {
-		info=new tAddr;
 		html_shift=rindex(url,'#');
 		if (html_shift){
 			*html_shift=0;
@@ -513,10 +510,10 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_
 		};
 		char *quest=index(url,'?');
 		if (quest){
-			info->params.set(quest+1);
+			info.params=(quest+1);
 			*quest=0;
 		};
-		if (papa->proto==D_PROTO_FTP){
+		if (papa.proto==D_PROTO_FTP){
 			quest=index(url,';');
 			if (quest)
 				*quest=0;
@@ -525,71 +522,69 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_
 		char *tmp=parse_percents(url);
 		quest=rindex(tmp,'/');
 		if (quest) {
-			info->file.set(quest+1);
+			info.file=(quest+1);
 			*quest=0;
 			if (*tmp=='/')
-				info->path.set(tmp+1);
+				info.path=(tmp+1);
 			else{
 				if (tmp==quest)
-					info->path.set("");
+					info.path=("");
 				else
-					info->compose_path(papa->path.get(),tmp);
+					info.path=papa.path/std::string(tmp);
 			};
 			*quest='/';
 		} else {
-			info->path.set(papa->path.get());
-			info->file.set(tmp);
+			info.path=papa.path;
+			info.file=tmp;
 		};
 		delete[] tmp;
-		info->file_del_sq();
-		info->copy_host(papa);
+		info.file=info.file.substr(0,info.file.find('#'));
+		info.copy_host(papa);
 	}else{
 		if (begin_string_uncase(url,"http:") ||
 		    begin_string_uncase(url,"ftp:") ||
 		    begin_string_uncase(url,"https:")){
 			html_shift=rindex(url,'#');
 			if (html_shift)	html_shift+=1;
-			info=new tAddr(url);
-			if (papa->proto==D_PROTO_FTP && info->proto==D_PROTO_FTP){
-				char *quest=index(info->file.get(),';');
-				if (quest)
-					*quest=0;
+			info=std::string(url);
+			if (papa.proto==D_PROTO_FTP && info.proto==D_PROTO_FTP){
+				info.file=info.file.substr(0,info.file.find(';'));
 			};
 		}else{
 			if (out_fd>=0){
 				f_wstr(out_fd,url);
 			};
-			return(NULL);
+			return d4x::URL();
 		};
 	};
 	if (out_fd>=0){
-		if (!equal(info->host.get(),papa->host.get())){
+		if (info.host!=papa.host){
 			if (leave){
 				f_wstr(out_fd,"../");
-				write_up_dirs(out_fd,papa->path.get());
-				f_wstr(out_fd,info->host.get());
+				write_up_dirs(out_fd,papa.path.c_str());
+				f_wstr(out_fd,info.host.c_str());
 				f_wchar(out_fd,'/');
-				f_wstr(out_fd,info->path.get());
+				f_wstr(out_fd,info.path.c_str());
 				f_wchar(out_fd,'/');
-				if (quest_sign_replace && info->file.get()[0]==0)
+				if (quest_sign_replace && info.file.c_str()[0]==0)
 					f_wstr(out_fd,"index_html");
 				else
-					f_wstr(out_fd,info->file.get());
-				if (info->params.get()){
+					f_wstr(out_fd,info.file.c_str());
+				if (!info.params.empty()){
 					f_wstr(out_fd,quest_sign_replace?"%5f":"%3f");
-					f_wstr(out_fd,info->params.get());
+					f_wstr(out_fd,info.params.c_str());
 				};
 			}else{
-				char *url=info->url();
-				f_wstr(out_fd,url);
-				delete[] url;
+				f_wstr(out_fd,std::string(info).c_str());
 			};
 		}else{
-			char *a=papa->path.get();
-			char *b=info->path.get();
+			//FIXME: next code is too ugly :-)
+			
+			const char *a=papa.path.c_str(); 
+			const char *b=info.path.c_str();
 			if (*a=='/') a+=1;
 			if (*b=='/') b+=1;
-			char *l=b;
+			const char *l=b;
 			while(*a){
 				if (*a==*b){
 					if (*b=='/')
@@ -609,13 +604,13 @@ tAddr *fix_url_global(char *url,tAddr *papa,int out_fd,int leave,int quest_sign_
 				f_wstr(out_fd,l);
 				f_wchar(out_fd,'/');
 			};
-			if (quest_sign_replace && info->file.get()[0]==0)
+			if (quest_sign_replace && info.file.empty())
 				f_wstr(out_fd,"index.html");
 			else
-				f_wstr(out_fd,info->file.get());
-			if (info->params.get()){
+				f_wstr(out_fd,info.file.c_str());
+			if (!info.params.empty()){
 				f_wstr(out_fd,quest_sign_replace?"%5f":"%3f");
-				f_wstr(out_fd,info->params.get());
+				f_wstr(out_fd,info.params.c_str());
 			};
 		};
 		if (html_shift){
@@ -637,13 +632,13 @@ char *tHtmlParser::convert_to_utf8(const char *src){
 	return rval;
 };
 
-void tHtmlParser::fix_url(char *url,tQueue *list,tAddr *papa,const char *tag,const char *descr){
+void tHtmlParser::fix_url(char *url,tQueue *list,const d4x::URL &papa,const char *tag,const char *descr){
 	if (out_fd>=0) f_wstr(out_fd,"=\"");
-	tAddr *info=fix_url_global(url,papa,out_fd,leave,quest_sign_replace);
+	d4x::URL info=fix_url_global(url,papa,out_fd,leave,quest_sign_replace);
 	if (out_fd>=0) f_wchar(out_fd,'\"');
-	if (info){
+	if (info.is_valid()){
 		tHtmlUrl *node=new tHtmlUrl;
-		info->tag.set(tag);
+		info.tag=tag;
 		node->info=info;
 		node->descr=convert_to_utf8(descr);
 		list->insert(node);
@@ -671,7 +666,7 @@ void tHtmlParser::write_left_fields(tHtmlTag *tag){
 
 void tHtmlParser::look_for_meta_content(tHtmlTagField *where,
 					tQueue *list,
-					tAddr *papa,
+					const d4x::URL &papa,
 					const char *tag){
 	tHtmlTagField *field=(tHtmlTagField *)(where->prev);
 	while (field){
@@ -718,7 +713,7 @@ void tHtmlParser::get_charset_from_meta(tHtmlTagField *fld){
 	};
 };
 
-void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,tAddr *papa,int qsignreplace){
+void tHtmlParser::parse(tWriterLoger *wl,tQueue *list,const d4x::URL &papa,int qsignreplace){
 	quest_sign_replace=qsignreplace;
 	list->done();
 	list->init(0);
