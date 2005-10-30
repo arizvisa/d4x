@@ -122,7 +122,7 @@ class tClient{
 public:
     	tClient();
     	tClient(tCfg *cfg,tSocket *ctrl=(tSocket*)NULL);
-    	int get_readed();
+    	fsize_t get_readed();
     	virtual void init(const std::string &host,tWriterLoger *log,int prt,int time_out);
         virtual int reinit();
     	virtual void down()=0;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d4x2.5.0final\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-16 13:29+0800\n"
+"POT-Creation-Date: 2005-10-30 20:06+0700\n"
 "PO-Revision-Date: 2004-01-26 12:40+0100\n"
 "Last-Translator: Miquel Simon <miquelsi@lycos.co.uk>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: main/alt.cc:261
+#: main/alt.cc:259
 msgid "Add new alternate"
 msgstr "Afegir nou alternatiu"
 
-#: main/alt.cc:346
+#: main/alt.cc:344
 msgid "Modify alternate"
 msgstr "Modificar alternatiu"
 
@@ -269,74 +269,74 @@ msgstr "No es pot obrir l'arxiu de galetes %s!"
 msgid "%i cookies loaded"
 msgstr "%i galetes carregades"
 
-#: main/dlist.cc:120
+#: main/dlist.cc:121
 msgid "Can't write to file"
 msgstr "No es pot escriure al fitxer"
 
-#: main/dlist.cc:147
+#: main/dlist.cc:148
 msgid "File is already opened by another download!"
 msgstr "El fitxer ja està obert per a una altra descàrrega!"
 
-#: main/dlist.cc:150
+#: main/dlist.cc:151
 msgid "Filesystem do not support advisory record locking!"
 msgstr "El sistema de fitxers no suporta advisory record locking!"
 
-#: main/dlist.cc:151
+#: main/dlist.cc:152
 msgid "Will proceed without it but beware that you might have problems."
 msgstr ""
 "Es procedirà sense ell però ves amb compte que potser tindràs problemes."
 
-#: main/dlist.cc:389
+#: main/dlist.cc:390
 #, c-format
 msgid "You have no permissions to create file at path %s"
 msgstr "No teniu permisos per a crear un fixer a la ruta %s"
 
-#: main/dlist.cc:394
+#: main/dlist.cc:395
 #, c-format
 msgid "You have no space at path %s for creating file"
 msgstr "No teniu espai a la ruta %s per a crear el fitxer"
 
-#: main/dlist.cc:399
+#: main/dlist.cc:400
 msgid "Directory already created!:))"
 msgstr "El directori ja existeix!:))"
 
-#: main/dlist.cc:509
+#: main/dlist.cc:510
 msgid "Trying to create a link"
 msgstr "Provant de crear un enllaç"
 
-#: main/dlist.cc:514
+#: main/dlist.cc:515
 msgid "Link already created!:))"
 msgstr "L'enllaç ja existeix!:))"
 
-#: main/dlist.cc:520
+#: main/dlist.cc:521
 msgid "Can't create link"
 msgstr "No es pot crear l'enllaç"
 
-#: main/dlist.cc:529
+#: main/dlist.cc:530
 msgid "Trying to create a file"
 msgstr "Provant de crear el fitxer"
 
-#: main/dlist.cc:550
+#: main/dlist.cc:551
 msgid "Can't create file at the path:"
 msgstr "No es pot crear el fitxer a la ruta:"
 
-#: main/dlist.cc:552
+#: main/dlist.cc:553
 msgid "which has name:"
 msgstr "anomenat:"
 
-#: main/dlist.cc:563
+#: main/dlist.cc:564
 msgid "File was created!"
 msgstr "El fitxer s'ha creat!"
 
-#: main/dlist.cc:568
+#: main/dlist.cc:569
 msgid "Trying to create a dir"
 msgstr "Provant de crear el directori"
 
-#: main/dlist.cc:578
+#: main/dlist.cc:579
 msgid "Can't create directory!"
 msgstr "No es pot crear el directori!"
 
-#: main/dlist.cc:588
+#: main/dlist.cc:589
 msgid "Downloader can't create devices..."
 msgstr "El Downloader no pot crear dispositius..."
 
@@ -349,27 +349,27 @@ msgstr "Provant de copiar %s a %s degut a 'Disposició de Contingut'"
 msgid "Error during copying!"
 msgstr "Error mentre es copiava!"
 
-#: main/dlist.cc:1069
+#: main/dlist.cc:1068
 msgid "Downloading was successefully completed!"
 msgstr "La descàrrega s'ha completat satisfactòriament!"
 
-#: main/dlist.cc:1120
+#: main/dlist.cc:1117
 msgid "Downloading was failed..."
 msgstr "La descàrrega ha fallat..."
 
-#: main/dlist.cc:1284
+#: main/dlist.cc:1279
 msgid "Redirection blocked by filter"
 msgstr "Redirecció bloquejada per filtre"
 
-#: main/dlist.cc:1289
+#: main/dlist.cc:1284
 msgid "Redirect detected..."
 msgstr "Redirecció detectada..."
 
-#: main/dlist.cc:1293 main/dlist.cc:1308
+#: main/dlist.cc:1288 main/dlist.cc:1301
 msgid "Size detection only!"
 msgstr ""
 
-#: main/dlist.cc:1362
+#: main/dlist.cc:1351
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
@@ -377,53 +377,53 @@ msgstr ""
 "La descàrrega multifil no es possible degut a les limitacions del servidor"
 "(no suporta represa)"
 
-#: main/dlist.cc:1373
+#: main/dlist.cc:1362
 msgid "Local file is seems to be equal to remote one"
 msgstr "El fitxer local sembla ser igual que el remot"
 
-#: main/dlist.cc:1394
+#: main/dlist.cc:1383
 msgid "It is strange that we can't delete file which just created..."
 msgstr ""
 "És estrany que no pugam esborrar un fitxer que tot just acabem de crear..."
 
-#: main/dlist.cc:1398 main/dlist.cc:1650
+#: main/dlist.cc:1387 main/dlist.cc:1632
 msgid "File not found"
 msgstr "Fitxer no trobat"
 
-#: main/dlist.cc:1470
+#: main/dlist.cc:1459
 msgid "Sorting started"
 msgstr "Ordenació iniciada"
 
-#: main/dlist.cc:1473
+#: main/dlist.cc:1462
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Fent ping (intent %i de %i)"
 
-#: main/dlist.cc:1501
+#: main/dlist.cc:1488
 msgid "Trying to determine filesizes"
 msgstr "Provant de determinar el tamany dels fitxers"
 
-#: main/dlist.cc:1554
+#: main/dlist.cc:1540
 msgid "Searching failed"
 msgstr "Búsqueda fallida"
 
-#: main/dlist.cc:1613
+#: main/dlist.cc:1597
 msgid "Search had been completed!"
 msgstr "La búsqueda ha finalitzat!"
 
-#: main/dlist.cc:1619
+#: main/dlist.cc:1603
 msgid "Was Started!"
 msgstr "Iniciat!"
 
-#: main/dlist.cc:1628
+#: main/dlist.cc:1612
 msgid "It is a link and we already load it"
 msgstr "És un enllaç i ja l'hem carregat"
 
-#: main/dlist.cc:1655
+#: main/dlist.cc:1637
 msgid "Trying to work without CWD"
 msgstr "Provant de treballar sense CWD"
 
-#: main/dlist.cc:1787
+#: main/dlist.cc:1770
 msgid "Can't split file to specified number of parts!"
 msgstr "No es pot dividir el fitxer en el nombre de parts indicades!"
 
@@ -652,7 +652,7 @@ msgstr ""
 msgid "Online"
 msgstr ""
 
-#: main/face/dndtrash.cc:626 main/face/list.cc:490 main/face/lod.cc:49
+#: main/face/dndtrash.cc:626 main/face/list.cc:491 main/face/lod.cc:49
 msgid "Speed"
 msgstr "Velocitat"
 
@@ -996,7 +996,7 @@ msgstr "Selecciona-ho tot"
 msgid "filter name"
 msgstr "nom del filtre"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1383
+#: main/face/filtrgui.cc:187 main/face/list.cc:1395
 msgid "Filters"
 msgstr "Filtres"
 
@@ -1056,7 +1056,7 @@ msgstr "Acció"
 msgid "Info"
 msgstr "Informació"
 
-#: main/face/fsched.cc:235 main/face/list.cc:1384
+#: main/face/fsched.cc:235 main/face/list.cc:1396
 msgid "Scheduler"
 msgstr "Planificador"
 
@@ -1158,248 +1158,248 @@ msgstr "refent ping"
 msgid "Url"
 msgstr ""
 
-#: main/face/list.cc:486
+#: main/face/list.cc:487
 #, fuzzy
 msgid "_File"
 msgstr "/_Fitxer"
 
-#: main/face/list.cc:487
+#: main/face/list.cc:488
 #, fuzzy
 msgid "_Download"
 msgstr "/_Descàrrega"
 
-#: main/face/list.cc:488
+#: main/face/list.cc:489
 #, fuzzy
 msgid "_Queue"
 msgstr "/_Cúa"
 
-#: main/face/list.cc:489
+#: main/face/list.cc:490
 #, fuzzy
 msgid "_Options"
 msgstr "/_Opcions"
 
-#: main/face/list.cc:491
+#: main/face/list.cc:492
 #, fuzzy
 msgid "_Help"
 msgstr "/_Ajuda"
 
-#: main/face/list.cc:492
+#: main/face/list.cc:493
 #, fuzzy
 msgid "_Save List"
 msgstr "Desa la llista"
 
-#: main/face/list.cc:493
+#: main/face/list.cc:494
 #, fuzzy
 msgid "_Load List"
 msgstr "Carrega la llista"
 
-#: main/face/list.cc:494
+#: main/face/list.cc:495
 #, fuzzy
 msgid "_Find links in file"
 msgstr "Cerca enllaços a un fitxer de text"
 
-#: main/face/list.cc:495
+#: main/face/list.cc:496
 #, fuzzy
 msgid "_New Download"
 msgstr "/Nova Descàrrega"
 
-#: main/face/list.cc:496
+#: main/face/list.cc:497
 #, fuzzy
 msgid "_Paste Download"
 msgstr "/Enganxa Descàrrega"
 
-#: main/face/list.cc:497
+#: main/face/list.cc:498
 #, fuzzy
 msgid "_Automated adding"
 msgstr "Afegit automàtic"
 
-#: main/face/list.cc:498
+#: main/face/list.cc:499
 #, fuzzy
 msgid "_Exit"
 msgstr "/Sortir"
 
-#: main/face/list.cc:499
+#: main/face/list.cc:500
 #, fuzzy
 msgid "_View Log"
 msgstr "Veure log"
 
-#: main/face/list.cc:500
+#: main/face/list.cc:501
 #, fuzzy
 msgid "_Stop downloads"
 msgstr " Atura descàrregues "
 
-#: main/face/list.cc:501
+#: main/face/list.cc:502
 #, fuzzy
 msgid "_Edit downloads"
 msgstr "Edita la descàrrega"
 
-#: main/face/list.cc:502
+#: main/face/list.cc:503
 #, fuzzy
 msgid "_Delete downloads"
 msgstr "Esborra descàrregues"
 
-#: main/face/list.cc:503
+#: main/face/list.cc:504
 #, fuzzy
 msgid "_Continue downloads"
 msgstr "Continua les descàrregues"
 
-#: main/face/list.cc:504
+#: main/face/list.cc:505
 #, fuzzy
 msgid "Delete Completed"
 msgstr "Esborra completades"
 
-#: main/face/list.cc:505
+#: main/face/list.cc:506
 #, fuzzy
 msgid "Delete _Failed"
 msgstr "Esborra fallides"
 
-#: main/face/list.cc:506
+#: main/face/list.cc:507
 #, fuzzy
 msgid "_Rerun failed"
 msgstr "Búsqueda fallida"
 
-#: main/face/list.cc:507 main/face/lmenu.cc:188
+#: main/face/list.cc:508 main/face/lmenu.cc:188
 msgid "(Un)Protect"
 msgstr "(Des)Protegeix"
 
-#: main/face/list.cc:508
+#: main/face/list.cc:509
 #, fuzzy
 msgid "_Unselect All"
 msgstr "Des-selecciona-ho tot"
 
-#: main/face/list.cc:509
+#: main/face/list.cc:510
 #, fuzzy
 msgid "Select _All"
 msgstr "Selecciona-ho tot"
 
-#: main/face/list.cc:510
+#: main/face/list.cc:511
 #, fuzzy
 msgid "_Invert selection"
 msgstr "/Descàrrega/Inverteix selecció"
 
-#: main/face/list.cc:511
+#: main/face/list.cc:512
 #, fuzzy
 msgid "_Create new queue"
 msgstr "Crea una nova cúa"
 
-#: main/face/list.cc:512
+#: main/face/list.cc:513
 #, fuzzy
 msgid "Create new _Subqueue"
 msgstr "/Crea una nova sub-cúa"
 
-#: main/face/list.cc:513
+#: main/face/list.cc:514
 #, fuzzy
 msgid "_Remove this queue"
 msgstr "/Cúa/Esborra aquesta cúa"
 
-#: main/face/list.cc:514
+#: main/face/list.cc:515
 #, fuzzy
 msgid "_Properties"
 msgstr "Propietats"
 
-#: main/face/list.cc:515
+#: main/face/list.cc:516
 #, fuzzy
 msgid "_Scheduler"
 msgstr "Planificador"
 
-#: main/face/list.cc:516
+#: main/face/list.cc:517
 #, fuzzy
 msgid "_URL-manager"
 msgstr "mànager d'URL"
 
-#: main/face/list.cc:517
+#: main/face/list.cc:518
 msgid "_General"
 msgstr ""
 
-#: main/face/list.cc:518
+#: main/face/list.cc:519
 #, fuzzy
 msgid "_Filters"
 msgstr "Filtres"
 
-#: main/face/list.cc:519
+#: main/face/list.cc:520
 msgid "_Buttons"
 msgstr ""
 
-#: main/face/list.cc:520
+#: main/face/list.cc:521
 #, fuzzy
 msgid "_About"
 msgstr "Sobre"
 
-#: main/face/list.cc:523
+#: main/face/list.cc:524
 msgid "_Low"
 msgstr ""
 
-#: main/face/list.cc:524
+#: main/face/list.cc:525
 #, fuzzy
 msgid "_Medium"
 msgstr "mitjana"
 
-#: main/face/list.cc:525
+#: main/face/list.cc:526
 #, fuzzy
 msgid "_Unlimited"
 msgstr "il·limitada"
 
-#: main/face/list.cc:870
+#: main/face/list.cc:871
 msgid "Do you really want to quit?"
 msgstr "Realment voleu sortir?"
 
-#: main/face/list.cc:870
+#: main/face/list.cc:871
 msgid "Quit?"
 msgstr "Sortir?"
 
-#: main/face/list.cc:899
+#: main/face/list.cc:900
 msgid "Delete selected downloads?"
 msgstr "Esborrar descàrregues seleccionades?"
 
-#: main/face/list.cc:899 main/face/list.cc:917 main/face/list.cc:935
+#: main/face/list.cc:900 main/face/list.cc:918 main/face/list.cc:936
 msgid "Delete?"
 msgstr "Esborrar?"
 
-#: main/face/list.cc:917
+#: main/face/list.cc:918
 msgid "Do you wish delete completed downloads?"
 msgstr "Voleu esborrar les descàrregues completades?"
 
-#: main/face/list.cc:935
+#: main/face/list.cc:936
 msgid "Do you wish delete failed downloads?"
 msgstr "Voleu esborrar les descàrregues fallides?"
 
-#: main/face/list.cc:982
+#: main/face/list.cc:983
 msgid "Ready to go ????"
 msgstr "Esteu a punt ????"
 
-#: main/face/list.cc:1379 main/face/list.cc:1655
+#: main/face/list.cc:1391 main/face/list.cc:1667
 #, fuzzy
 msgid "Downloads"
 msgstr "Descàrrega"
 
-#: main/face/list.cc:1380 main/face/list.cc:1428 main/face/prefs.cc:653
+#: main/face/list.cc:1392 main/face/list.cc:1440 main/face/prefs.cc:653
 #: main/face/prefs.cc:1311 main/face/prefs.cc:1581
 msgid "Main log"
 msgstr "Log principal"
 
-#: main/face/list.cc:1381 main/face/passface.cc:425
+#: main/face/list.cc:1393 main/face/passface.cc:425
 msgid "URL-manager"
 msgstr "mànager d'URL"
 
-#: main/face/list.cc:1382 main/face/list.cc:1442
+#: main/face/list.cc:1394 main/face/list.cc:1454
 #, fuzzy
 msgid "FTP-search"
 msgstr "cerca FTP"
 
-#: main/face/list.cc:1446
+#: main/face/list.cc:1458
 #, fuzzy
 msgid "Filename:"
 msgstr "nom del fitxer"
 
-#: main/face/list.cc:1611
+#: main/face/list.cc:1623
 msgid "Switch to online mode"
 msgstr ""
 
-#: main/face/list.cc:1611 main/face/list.cc:1677
+#: main/face/list.cc:1623 main/face/list.cc:1689
 msgid "Switch to offline mode"
 msgstr ""
 
-#: main/face/list.cc:1809
+#: main/face/list.cc:1821
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-execuntant-se %i-completades %i- total "
@@ -2081,96 +2081,96 @@ msgstr "intenta connectar a %i,%i,%i,%i,%i,%i"
 msgid "Probably file was changed on server!"
 msgstr "Probablement el fitxer ha canviat al servidor!"
 
-#: main/ftp.cc:446 main/http.cc:229
+#: main/ftp.cc:446 main/http.cc:227
 msgid "Data connection closed."
 msgstr "Connexió de dades tancada."
 
-#: main/ftp.cc:452 main/http.cc:235
+#: main/ftp.cc:452 main/http.cc:233
 msgid "Error have happened during writing buffer to disk!"
 msgstr "Ha ocorregut un error mentre s'escrivia el buffer al disc!"
 
-#: main/ftp.cc:459 main/http.cc:242
+#: main/ftp.cc:459 main/http.cc:240
 msgid "Requested size was loaded"
 msgstr "El tamany encomanat s'ha carregat"
 
-#: main/ftp.cc:471 main/http.cc:247
+#: main/ftp.cc:471 main/http.cc:245
 msgid "Segment was loaded! Complete this thread."
 msgstr "Segment carregat! Completa aquest fil."
 
-#: main/ftp.cc:479 main/http.cc:253
+#: main/ftp.cc:479 main/http.cc:251
 msgid "EOF recieved from server!"
 msgstr "EOF (fi de fitxer) rebut des del sevidor!"
 
-#: main/ftpd.cc:237
+#: main/ftpd.cc:238
 msgid "Can't establish data connection"
 msgstr "No es pot establir la connexió de dades"
 
-#: main/ftpd.cc:240
+#: main/ftpd.cc:241
 msgid "Can't change directory"
 msgstr "No es pot canviar el directori"
 
-#: main/ftpd.cc:243
+#: main/ftpd.cc:244
 msgid "Server refused login, perhaps there are too many users of your class"
 msgstr ""
 "El servidor ha rebutjat el login, potser hi ha massa usuaris de la vostra "
 "classe"
 
-#: main/ftpd.cc:311 main/httpd.cc:231
+#: main/ftpd.cc:312 main/httpd.cc:231
 msgid "Sleeping"
 msgstr "Dormint"
 
-#: main/ftpd.cc:417
+#: main/ftpd.cc:419
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr ""
 "Resposta buida. Provant de canviar de directori per a determinar el tipus de "
 "fitxer"
 
-#: main/ftpd.cc:440 main/ftpd.cc:466
+#: main/ftpd.cc:442 main/ftpd.cc:468
 msgid "Length is %ll"
 msgstr "La longitud es %ll"
 
-#: main/ftpd.cc:452
+#: main/ftpd.cc:454
 msgid "This is a directory!"
 msgstr "Això és un directori!"
 
-#: main/ftpd.cc:462
+#: main/ftpd.cc:464
 msgid "No such file or directory!"
 msgstr "No existeix el fitxer o el directori!"
 
-#: main/ftpd.cc:497
+#: main/ftpd.cc:499
 msgid "Couldn't get size :(("
 msgstr "No s'ha pogut obtenir el tamany :(("
 
-#: main/ftpd.cc:512
+#: main/ftpd.cc:514
 msgid "Loading directory..."
 msgstr "Carregant directori..."
 
-#: main/ftpd.cc:526
+#: main/ftpd.cc:528
 msgid "Listing was loaded"
 msgstr "La llista s'ha carregat"
 
-#: main/ftpd.cc:529
+#: main/ftpd.cc:531
 msgid "Listing not loaded completelly"
 msgstr "La llista no s'ha carregat completament"
 
-#: main/ftpd.cc:559
+#: main/ftpd.cc:561
 msgid "Link was loaded :))"
 msgstr "L'enllaç s'ha carregat :))"
 
-#: main/hproxy.cc:157 main/hproxy.cc:190
+#: main/hproxy.cc:156 main/hproxy.cc:189
 #, c-format
 msgid "Sending request to proxy (%s:%i)"
 msgstr "Enviant comanda al proxy (%s:%i)"
 
-#: main/hproxy.cc:161 main/hproxy.cc:194 main/httpd.cc:410 main/httpd.cc:439
+#: main/hproxy.cc:160 main/hproxy.cc:193 main/httpd.cc:409 main/httpd.cc:438
 msgid "Answer read ok"
 msgstr "Lectura de resposta bona"
 
-#: main/hproxy.cc:169 main/hproxy.cc:205
+#: main/hproxy.cc:168 main/hproxy.cc:204
 msgid "File not found on the server"
 msgstr "No s'ha trobat el fitxer al servidor"
 
-#: main/hproxy.cc:208
+#: main/hproxy.cc:207
 msgid "Probably it's problem of proxy server, retrying"
 msgstr "Potser es problema del servidor proxy, reintentant"
 
@@ -2198,15 +2198,15 @@ msgstr "Em sembla que necessiteu una contrasenya :)"
 msgid "Server return bad answer:(("
 msgstr "El servidor ha tornat una resposta erronia :(("
 
-#: main/http.cc:207
+#: main/http.cc:205
 msgid "Wrong chunk size!"
 msgstr "Tamany del tros incorrecte"
 
-#: main/http.cc:210
+#: main/http.cc:208
 msgid "Chunk size %ll"
 msgstr "Tamany del tros %ll"
 
-#: main/http.cc:212
+#: main/http.cc:210
 msgid "It's last chunk!"
 msgstr "L'últim tros!"
 
@@ -2214,24 +2214,24 @@ msgstr "L'últim tros!"
 msgid "Couldn't get normal answer!"
 msgstr "No s'ha pogut obtenir una resposta normal!"
 
-#: main/httpd.cc:384
-#, c-format
-msgid "Size for download is %i bytes"
+#: main/httpd.cc:383
+#, fuzzy
+msgid "Size for download is %ll bytes"
 msgstr "El tamany a descarregar és %i bytes"
 
-#: main/httpd.cc:406 main/httpd.cc:435
+#: main/httpd.cc:405 main/httpd.cc:434
 msgid "Sending HTTP request..."
 msgstr "Enviant comanda HTTP..."
 
-#: main/httpd.cc:483
+#: main/httpd.cc:482
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "Sembla que no suporta REGET! Caregant des del principi."
 
-#: main/httpd.cc:486
+#: main/httpd.cc:485
 msgid "ETag was changed, restarting again..."
 msgstr "L'ETag s'ha canviat, reiniciant de nou..."
 
-#: main/httpd.cc:501
+#: main/httpd.cc:500
 msgid "%ll bytes loaded."
 msgstr "%ll bytes carregats."
 
@@ -2247,7 +2247,7 @@ msgstr "No puc iniciar el socket de control!\n"
 msgid "Loading default list of downloads"
 msgstr "Carregant la llista de de descàrregues per defecte"
 
-#: main/main.cc:281 main/main.cc:1305
+#: main/main.cc:281 main/main.cc:1307
 msgid "Delete completed downloads"
 msgstr "Esborra descàrregues completades"
 
@@ -2306,119 +2306,120 @@ msgstr "Massa redireccions!"
 msgid "Redirection from [%z] to the same location!"
 msgstr "Redirecció des de [%z] al mateix lloc!"
 
-#: main/main.cc:827
+#: main/main.cc:829
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Redirecció des de [%z] a enlloc!"
 
-#: main/main.cc:853
+#: main/main.cc:855
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "Prepara el fil %i de [%z] per a aturar-se"
 
-#: main/main.cc:879
+#: main/main.cc:881
 msgid "Redirect from %z"
 msgstr "Redirecciona des de %z"
 
-#: main/main.cc:886
+#: main/main.cc:888
 msgid "Downloading of directory %z was completed"
 msgstr "La descàrrega del directori %z s'ha completat"
 
-#: main/main.cc:890
-msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+#: main/main.cc:892
+#, fuzzy
+msgid "Downloading of file %z (%ll bytes) was completed at speed %ll bytes/sec"
 msgstr ""
 "La descàrrega del fitxer %z (%i bytes) s'ha completat a una velocitat de %i "
 "bytes/seg"
 
-#: main/main.cc:897
+#: main/main.cc:899
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z s'ha esborrat de la cúa de descàrregues com a descàrrega completada"
 
-#: main/main.cc:908
+#: main/main.cc:910
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "La descàrrega del fitxer %z ha finalitzat per un error fatal"
 
-#: main/main.cc:910
+#: main/main.cc:912
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z s'ha esborrat de la cúa de descàrregue com a descàrrega fallida"
 
-#: main/main.cc:1241
+#: main/main.cc:1243
 msgid "Restarting failed downloads"
 msgstr "Reiniciant descàrregues fallides"
 
-#: main/main.cc:1241 main/main.cc:1283 main/main.cc:1300 main/main.cc:1305
-#: main/main.cc:1310 main/main.cc:1323 main/main.cc:1328
+#: main/main.cc:1243 main/main.cc:1285 main/main.cc:1302 main/main.cc:1307
+#: main/main.cc:1312 main/main.cc:1325 main/main.cc:1330
 msgid "[control socket]"
 msgstr "[socket de control]"
 
-#: main/main.cc:1264
+#: main/main.cc:1266
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Esborra la descàrrega via socket de control [%s]"
 
-#: main/main.cc:1270
+#: main/main.cc:1272
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Afegint descàrrega via socket de control [%s]"
 
-#: main/main.cc:1281
+#: main/main.cc:1283
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Estableix el límit de velocitat a %s %s"
 
-#: main/main.cc:1300
+#: main/main.cc:1302
 msgid "Setup maximum active downloads to"
 msgstr "Estableix el màxim de descàrregues actives a"
 
-#: main/main.cc:1323
+#: main/main.cc:1325
 msgid "Exiting if nothing to do is switched off"
 msgstr "Sortir si no hi ha res a fer s'ha desconnectat"
 
-#: main/main.cc:1328
+#: main/main.cc:1330
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr ""
 "El Downloader es tancarà si no hi ha res a a fer desprès de %i minuts %s"
 
-#: main/main.cc:1341
+#: main/main.cc:1343
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "Ara la cúa per defecte és '%s'."
 
-#: main/main.cc:1642
+#: main/main.cc:1644
 msgid "Loading FTP-Search engines"
 msgstr "Carregant els motors de cerca-FTP"
 
-#: main/main.cc:1644
+#: main/main.cc:1646
 msgid "Normally started"
 msgstr "Iniciat correctament"
 
-#: main/main.cc:1702
+#: main/main.cc:1704
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Afegida descàrrega del fitxer %s des de %s [per l'usuari]"
 
-#: main/main.cc:1752
+#: main/main.cc:1754
 msgid "Downloader is in offline mode now"
 msgstr ""
 
-#: main/main.cc:1759
+#: main/main.cc:1761
 msgid "Offline mode is turned off"
 msgstr ""
 
-#: main/main.cc:1793
+#: main/main.cc:1795
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu bytes carregats durant la sessió"
 
-#: main/main.cc:1794
+#: main/main.cc:1796
 msgid "Downloader exited normaly"
 msgstr "S'ha sortit del Downloader correctament"
 
-#: main/main.cc:1834
+#: main/main.cc:1836
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "No es pot obrir '%s' per a desar el log"
 
-#: main/main.cc:1868
+#: main/main.cc:1870
 msgid "Such protocol is not supported!"
 msgstr "Eixe protocol no està suportat!"
 
@@ -2465,11 +2466,11 @@ msgstr ""
 msgid "%s probably is already running\n"
 msgstr "%s s'està executant probablement\n"
 
-#: main/ping.cc:50
+#: main/ping.cc:48
 msgid "Resolving hosts..."
 msgstr "Cercant servidors..."
 
-#: main/ping.cc:79
+#: main/ping.cc:77
 msgid "Pinging  (it takes 30 seconds maximum)..."
 msgstr "Fent ping (dura 30 segons com a màxim)..."
 
@@ -2488,7 +2489,7 @@ msgstr "No puc desar la llista de descàrregues per defecte!!!"
 msgid "Can't load default list of downloads!!!"
 msgstr "No puc carregar la llista de descàrregues per defecte"
 
-#: main/signal.cc:53 main/signal.cc:73
+#: main/signal.cc:53
 msgid "Download  was stopped by user"
 msgstr "La descàrrega ha sigut aturada per l'usuari"
 

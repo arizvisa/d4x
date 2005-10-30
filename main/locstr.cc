@@ -1144,6 +1144,14 @@ int string_ended_uncase(const char *ended, const char *what){
 	return strncasecmp(aa,bb,min);
 };
 
+std::string filename_extension(const std::string &name){
+	std::string::size_type pos=name.rfind('.');
+	if (pos!=std::string::npos){
+		return name.substr(pos+1);
+	};
+	return std::string();
+};
+
 /* primitive file operations
  */
 

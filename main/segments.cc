@@ -324,11 +324,9 @@ void tSegmentator::unlock_public(){
 
 
 void tSegmentator::lock(){
-	download_set_block(1);
 	lockmutex.lock();
 };
 
 void tSegmentator::unlock(){
 	lockmutex.unlock();
-	download_set_block(0);
 };

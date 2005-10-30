@@ -22,6 +22,7 @@
 #include <string.h>
 #include <strings.h>
 #include <time.h>
+#include "signal.h"
 
 //****************************************/
 void ftp_extract_link(char *src,char *dst) {
@@ -309,6 +310,7 @@ int tFtpDownload::reconnect() {
 		tDownloader::reconnect();
 		if (RetrNum>1) {
 			LOG->log(LOG_OK,_("Sleeping"));
+			d4x::USR1Off2On sig_unlocker_;
 			sleep(config.time_for_sleep+1);
 		};
 		if (FTP->reinit()==0){

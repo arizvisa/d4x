@@ -332,7 +332,7 @@ int tMain::run_new_thread(tDownload *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
 	pthread_attr_t attr_p;
 	what->status=READY_TO_RUN;
-	what->BLOCKED=0;
+	what->STOPPED_BY_USER=false;
 	if (!what->LOG) {
 		what->LOG=new tLog;
 		what->LOG->ref_inc();
@@ -806,6 +806,8 @@ void tMain::redirect(tDownload *what,d4xDownloadQueue *dq) {
 		};
 		ALL_DOWNLOADS->del(what);
 		what->config->referer.set(std::string(what->info).c_str());
+		if (addr.file==what->info.file)
+			what->restart_from_begin=1;
 		what->info=addr;
 		ALL_DOWNLOADS->insert(what);
 		tDownload *temp=dq->first(DL_WAIT);
@@ -886,8 +888,8 @@ void tMain::case_download_completed(tDownload *what){
 			MainLog->myprintf(LOG_OK,_("Downloading of directory %z was completed"),what);
 			if (what->config->ftp_recurse_depth!=1) add_dir(what);
 		} else {
-			int bytes = what->finfo.size==0 ? what->who->get_readed():what->finfo.size;
-			MainLog->myprintf(LOG_OK,_("Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"),what,bytes,what->Speed.curent);
+			fsize_t bytes = what->finfo.size==0 ? what->who->get_readed():what->finfo.size;
+			MainLog->myprintf(LOG_OK,_("Downloading of file %z (%ll bytes) was completed at speed %ll bytes/sec"),what,bytes,what->Speed.curent);
 			if (what->config->http_recurse_depth!=1 && what->DIR)
 				add_dir(what,1);
 		};

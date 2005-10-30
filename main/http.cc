@@ -137,9 +137,7 @@ int tHttpClient::read_answer(tStringList *list) {
 };
 
 void tHttpClient::send_cookies(const char *host,const char *path){
-	download_set_block(1);
 	std::string request_string=LOG->cookie(host,path);
-	download_set_block(0);
 	if (!request_string.empty()){
 		send_request("Cookie: ",request_string.c_str(),"\r\n");
 	};
@@ -149,7 +147,7 @@ fsize_t tHttpClient::get_size_sub(tStringList *list){
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
-		sprintf(data,"%lli",Offset);
+		sprintf(data,"%Li",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
 	if (referer && *referer){
@@ -200,7 +198,7 @@ fsize_t tHttpClient::get_file_from(const char *what,fsize_t begin,fsize_t len) {
 			if (str){
 //				LOG->log(LOG_FROM_SERVER,str);
 				fsize_t l=0;
-				sscanf(str,"%llx",&l);
+				sscanf(str,"%Lx",&l);
 				llen=l;
 				delete[] str;
 			}else{

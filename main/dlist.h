@@ -124,7 +124,7 @@ struct tDownload:public tAbstractSortNode{
 	pthread_t thread_id;
 	tDList *myowner;
 	int status,action,status_cp;
-	int BLOCKED;
+	bool STOPPED_BY_USER;
 	int protect;
 	int sizequery;
 	float Percent;

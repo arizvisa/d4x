@@ -13,6 +13,7 @@
 #include "base64.h"
 #include <string.h>
 #include <stdio.h>
+#include <stdint.h>
 
 char Table64[64]={  'A','B','C','D','E','F','G','H',
 		    'I','J','K','L','M','N','O','P',

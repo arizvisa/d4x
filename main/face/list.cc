@@ -47,6 +47,7 @@
 #include <ctype.h>
 #include "themes.h"
 #include "eggtrayicon.h"
+#include <sstream>
 
 #undef FLT_ROUNDS
 #define FLT_ROUNDS 3
@@ -1023,8 +1024,9 @@ namespace d4x{
 		EggTrayIcon *tray;
 		GtkWidget *image,*box;
 		GtkTooltips *tooltip;
+		GdkPixbuf *theme_pixbuf;
 	public:
-		Tray():tray(0),image(0),box(0),tooltip(0){
+		Tray():tray(0),image(0),box(0),tooltip(0),theme_pixbuf(0){
 #include "pixmaps/dndtrash_bar.xpm"
 			EggTrayIcon *tray=egg_tray_icon_new("D4X");
 			if (tray){
@@ -1033,7 +1035,8 @@ namespace d4x{
 				tooltip=gtk_tooltips_new();
 				gtk_tooltips_set_tip(tooltip,box,"Downloader for X",(const gchar *)NULL);
 				gtk_tooltips_enable(tooltip);
-				gtk_image_set_from_pixbuf(GTK_IMAGE(image),pixbuf_from_theme("main tray>file",(const char**)dndtrash_bar_xpm));
+				theme_pixbuf=pixbuf_from_theme("main tray>file",(const char**)dndtrash_bar_xpm);
+				gtk_image_set_from_pixbuf(GTK_IMAGE(image),theme_pixbuf);
 				gtk_container_add(GTK_CONTAINER(box), image);
 				gtk_container_add(GTK_CONTAINER(tray), box);
 				g_signal_connect(G_OBJECT(box), "button-press-event", G_CALLBACK(d4x_tray_clicked),this);
@@ -1043,6 +1046,14 @@ namespace d4x{
 		void set_tooltip(const gchar *txt){
 			if (box && tooltip)
 				gtk_tooltips_set_tip(tooltip,box,txt?txt:"Downloader for X",NULL);
+		};
+		void theme_changed(){
+#include "pixmaps/dndtrash_bar.xpm"
+			if (theme_pixbuf)
+				gdk_pixbuf_unref(theme_pixbuf);
+			theme_pixbuf=pixbuf_from_theme("main tray>file",(const char**)dndtrash_bar_xpm);
+			if (image)
+				gtk_image_set_from_pixbuf(GTK_IMAGE(image),theme_pixbuf);
 		};
 	};
 	static Tray *TRAY;
@@ -1327,7 +1338,8 @@ void d4x_vertical_toolbar_change_theme(){
 		gtk_image_set_from_pixbuf(GTK_IMAGE(tmp),pixbuf_from_theme("main online>file",(const char**)offline_xpm));
 		gtk_image_set_from_pixbuf(GTK_IMAGE(D4X_OFFLINE_PIXMAP),pixbuf_from_theme("main offline>file",(const char**)offline1_xpm));
 	};
-	
+	if (d4x::TRAY)
+		d4x::TRAY->theme_changed();
 };
 
 
@@ -1894,32 +1906,25 @@ int get_mainwin_sizes(GtkWidget *window) {
 	return FALSE;
 };
 
-int check_for_clipboard_skiping(char *buf){
-	char *extension,*temp;
+bool check_for_clipboard_skiping(const char *buf){
+	d4x::URL url(buf);
+	std::string temp;
 	if (CFG.CLIPBOARD_SKIP_OR_CATCH){
-		extension=new char[strlen(CFG.CATCH_IN_CLIPBOARD)+1];
-		temp=CFG.CATCH_IN_CLIPBOARD;
-		do{
-			temp=extract_string(temp,extension);
-			if (string_ended_uncase(extension,buf)==0){
-				delete[] extension;
-				return 1;
-			};
-		}while(temp!=NULL && strlen(temp)>0);
-		delete[] extension;
-		return 0;
-	};
-	extension=new char[strlen(CFG.SKIP_IN_CLIPBOARD)+1];
-	temp=CFG.SKIP_IN_CLIPBOARD;
-	do{
-		temp=extract_string(temp,extension);
-		if (string_ended_uncase(extension,buf)==0){
-			delete[] extension;
-			return 0;
+		std::istringstream extensions(CFG.CATCH_IN_CLIPBOARD);
+		while(extensions>>temp){
+			std::string ext=filename_extension(url.file);
+			if (strcasecmp(ext.c_str(),temp.c_str())==0)
+				return true;
 		};
-	}while(temp!=NULL && strlen(temp)>0);
-	delete[] extension;
-	return 1;
+		return false;
+	};
+	std::istringstream extensions(CFG.SKIP_IN_CLIPBOARD);
+	while(extensions>>temp){
+		std::string ext=filename_extension(url.file);
+		if (strcasecmp(ext.c_str(),temp.c_str())==0)
+			return false;
+	};
+	return true;
 };
 
 void my_get_xselection(GtkWidget *window, GdkEvent *event) {

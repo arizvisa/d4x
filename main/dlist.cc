@@ -33,6 +33,7 @@
 #include "ping.h"
 #include "filter.h"
 #include "face/themes.h"
+#include "hproxy.h"
 
 using namespace d4x;
 
@@ -718,7 +719,7 @@ d4x::Path tDownload::make_path_to_file(){
 	
 	char *real_path=parse_save_path(config->save_path.get(),info.file.c_str());
 	d4x::Path rval(real_path);
-	delete real_path;
+	delete [] real_path;
 	
 	if (info.proto==D_PROTO_HTTP && config->http_recursing){
 		if (config->leave_server)
@@ -1009,7 +1010,6 @@ void tDownload::http_postload(){
 	d4xContentDisposition *cd=((tHttpDownload *)who)->get_content_disp();
 	if (cd){
 		if (cd->filename.get()){
-			download_set_block(1);
 			char *buf=new char[1000];
 			char *oldname,*newname;
 			make_file_names(&oldname,&newname);
@@ -1036,7 +1036,6 @@ void tDownload::http_postload(){
 			delete[] tmp;
 			delete[] newname;
 			delete[] oldname;
-			download_set_block(0);
 		};
 	};
 };
@@ -1070,7 +1069,6 @@ void tDownload::download_completed(int type) {
 	
 	if (im_last && CFG.WRITE_DESCRIPTION && info.proto!=D_PROTO_SEARCH){
 		/* add string into Descript.ion file */
-		download_set_block(1);
 		d4x::Path path=make_path_to_file();
 		path/=std::string("Descript.ion");
 		int fd=open(path.c_str(),O_WRONLY|O_CREAT,S_IRUSR | S_IWUSR );
@@ -1101,7 +1099,6 @@ void tDownload::download_completed(int type) {
 		a.l_type=F_UNLCK;
 		fcntl(fd,F_SETLK,&a);
 		close(fd);
-		download_set_block(0);
 	};
 	if (im_last){
 		make_file_visible();
@@ -1203,7 +1200,7 @@ void tDownload::http_recurse() {
 			convert_list_to_dir2(dir);
 		};
 		pthread_cleanup_pop(1);
-	}else if(begin_string_uncase(type,"text/html")){
+	}else if(type && begin_string_uncase(type,"text/html")){
 		tQueue *dir=new tQueue;
 		pthread_cleanup_push(_html_parser_dir_destroy_,dir);
 		tHtmlParser *html=new tHtmlParser;
@@ -1232,12 +1229,10 @@ void tDownload::http_recurse() {
 
 void tDownload::export_socket(tDownloader *what){
 	if (WL->is_overlaped()) return;
-	download_set_block(1);
 	tSocket *sock=what->export_ctrl_socket();
 	if (sock){
 		GVARS.SOCKETS->insert(info,sock);
 	};
-	download_set_block(0);
 };
 
 void tDownload::http_check_redirect(bool removefiles){
@@ -1291,9 +1286,7 @@ void tDownload::http_check_redirect(bool removefiles){
 
 void tDownload::download_http_size(){
 	WL->log(LOG_WARNING,_("Size detection only!"));
-	download_set_block(1);
 	tSocket *s=GVARS.SOCKETS->find(info);
-	download_set_block(0);
 	if (who->init(info,config,s)==0) {
 		who->init_download(info.path,info.file);
 		finfo.size=who->get_size_only();
@@ -1306,9 +1299,7 @@ void tDownload::download_http_size(){
 
 void tDownload::download_ftp_size(){
 	WL->log(LOG_WARNING,_("Size detection only!"));
-	download_set_block(1);
 	tSocket *s=GVARS.SOCKETS->find(info);
-	download_set_block(0);
 	if (who->init(info,config,s)==0) {
 		who->init_download(info.path,info.file);
 		status=DOWNLOAD_SIZE_WAIT;
@@ -1330,9 +1321,7 @@ void tDownload::download_http() {
 		return;
 	};
 	config->split=split?1:0;
-	download_set_block(1);
 	tSocket *s=GVARS.SOCKETS->find(info);
-	download_set_block(0);
 	if (who->init(info,config,s)) {
 		download_failed();
 		return;
@@ -1343,7 +1332,7 @@ void tDownload::download_http() {
 	 * because in http name of file may be specify 
 	 * in http answer
 	 */
-	int CurentSize=create_file();
+	fsize_t CurentSize=create_file();
 	if (CurentSize<0) {
 		download_failed();
 		return;
@@ -1483,9 +1472,7 @@ void tDownload::sort_links(){
 		pthread_cleanup_push(_tmp_sort_free_,tmp);
 		tmp->run(DIR,WL);
 		pthread_cleanup_pop(1);
-		download_set_block(1);
 		DIR->sort(_cmp_pinged_hosts_);
-		download_set_block(0);
 		if (!i)
 			ActStatus.curent=1;
 		i+=1;
@@ -1499,29 +1486,28 @@ static void _tmp_info_remove_(void *addr){
 
 void tDownload::ftp_search_sizes(){
 	WL->log(LOG_WARNING,_("Trying to determine filesizes"));
-	download_set_block(1);
 	delete(who);
 	who=NULL;
-	download_set_block(0);
 
 	tDownload *tmp=DIR->last();
 	config->number_of_attempts=5;
 	while(tmp){
 		tDownload *nexttmp=DIR->next();
-		who=new tFtpDownload(WL);
+		if (config->proxy.ftp_host.get() && config->proxy.type)
+			who=new tProxyDownload(WL);
+		else
+			who=new tFtpDownload(WL);
 		if (who->init(tmp->info,config)){
 			WL->log(LOG_ERROR,"Can't determine filesize");
 			tmp->finfo.size=-1;
 		}else{
 			who->init_download(tmp->info.path,
 					   tmp->info.file);
-			tmp->finfo.size=who->get_size();
+			tmp->finfo.size=who->get_size_only();
 		};
 		who->done();
-		download_set_block(1);
 		delete(who);
 		who=NULL;
-		download_set_block(0);
 		tmp=nexttmp;
 	};
 };
@@ -1571,7 +1557,6 @@ void tDownload::ftp_search() {
 			pthread_cleanup_push(_tmp_info_remove_,tmpinfo);
 			config->http_recurse_depth=2;
 			config->leave_server=1;
-			download_set_block(1);
 			d4x::URL *a=new d4x::URL(info);
 			info=*tmpinfo;
 			pthread_cleanup_push(_tmp_info_remove_,a);
@@ -1597,7 +1582,6 @@ void tDownload::ftp_search() {
 			};
 			Size.set(TMP_DIR->count());
 			engine=D4X_SEARCH_ENGINES.get_next_used_engine(engine);
-			download_set_block(0);
 			pthread_cleanup_pop(1);
 			if (Size.curent>=CFG.SEARCH_ENTRIES)
 				break;
@@ -1635,9 +1619,7 @@ void tDownload::download_ftp(){
 	};
 
 	config->split=split?1:0;
-	download_set_block(1);
 	tSocket *s=GVARS.SOCKETS->find(info);
-	download_set_block(0);
 	if (who->init(info,config,s)) {
 		download_failed();
 		return;
@@ -1765,6 +1747,7 @@ int tDownload::find_best_split(){
 void tDownload::prepare_splits(){
  	DBC_RETURN_IF_FAIL(split!=NULL);
 	DBC_RETURN_IF_FAIL(segments!=NULL);
+//	printf("__%Li__\n",finfo.size);
 	tSegment *holes=segments->to_holes(finfo.size);
 	tSegment *tmp;
 /*
@@ -1806,7 +1789,7 @@ void tDownload::prepare_splits(){
 	split->FirstByte=holes->begin;
 	split->LastByte=holes->end;
 	split->thread_num=1;
-//	printf("%li %li\n",split->FirstByte,split->LastByte);
+//	printf("%Li %Li\n",split->FirstByte,split->LastByte);
 	tmp=holes->next;
 	delete(holes);
 	holes=tmp;
@@ -1822,7 +1805,7 @@ void tDownload::prepare_splits(){
 	int alt_num=1;
 	while(holes){
 		tmp=holes->next;
-//		printf("H:%li %li\n",holes->begin,holes->end);
+//		printf("H:%Li %Li\n",holes->begin,holes->end);
 		if (parent->split->thread_num<newsplit->NumOfParts){
 			if (newsplit->next_part==NULL)
 				newsplit->next_part=new tDownload;
@@ -1841,7 +1824,7 @@ void tDownload::prepare_splits(){
 			parent=temp;
 			temp->split->FirstByte=holes->begin;
 			temp->split->LastByte=holes->end;
-//			printf("%li %li\n",newsplit->FirstByte,newsplit->LastByte);
+//			printf("%Li %Li\n",newsplit->FirstByte,newsplit->LastByte);
 			temp->segments=segments;
 			if (temp->config==NULL) temp->config=new tCfg;
 			temp->config->copy(config);

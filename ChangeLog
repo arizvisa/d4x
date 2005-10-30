@@ -1,64 +1,169 @@
-2005-09-16 11:09  max
+2005-10-26 01:00  max
+
+	* main/: base64.cc, client.cc, client.h, dlist.cc, hproxy.cc,
+	  http.cc, httpd.cc, main.cc, savedvar.cc, speed.h, face/log.cc:
+	  numerous bug fixes for 2.5.6
+
+2005-10-26 00:35  max
+
+	* main/: addr.cc, addr.h, base64.cc, client.cc, client.h,
+	  config.cc, dlist.cc, fsearch.cc, ftp.cc, hproxy.cc, http.h,
+	  main.cc, sm.cc, sm.h, sndserv.cc, socket.h, speed.cc,
+	  sslsocket.cc, sslsocket.h, var.h, face/fsface.cc,
+	  face/mywidget.cc, face/mywidget.h, face/prefs.cc,
+	  face/saveload.cc, face/saveload.h: updated CVS to version 2.5.5;
+
+2005-10-08 00:17  zaufi
+
+	* m4/ac_pkg_info_header.m4: fix one missed char on replication
+
+2005-10-08 00:00  zaufi
+
+	* main/: fsearch.cc, ftp.cc, hproxy.cc, face/fsface.cc,
+	  face/prefs.cc: Fix some warnings (some still remains) about
+	  different data types and formats.  (It can be source of serious
+	  problems for example if sizeof(long) != size(int) -- it is
+	  exactly what happened on Athlon 64, for example :)
+
+2005-10-07 14:20  zaufi
+
+	* ChangeLog, NEWS, README.maint, configure.ac, admin/cvs.sh,
+	  m4/ac_pkg_info_header.m4, m4/am_with_rx.m4, main/Makefile.am,
+	  main/addr.cc, main/addr.h, main/alt.cc, main/alt.h,
+	  main/base64.cc, main/base64.h, main/client.cc, main/client.h,
+	  main/config.cc, main/config.h, main/cookie.cc, main/cookie.h,
+	  main/db.cc, main/db.h, main/dlist.cc, main/dlist.h,
+	  main/download.cc, main/download.h, main/dqueue.cc, main/dqueue.h,
+	  main/filter.cc, main/filter.h, main/fsearch.cc, main/fsearch.h,
+	  main/ftp.cc, main/ftp.h, main/ftpd.cc, main/ftpd.h,
+	  main/globhist.h, main/hproxy.cc, main/hproxy.h, main/html.cc,
+	  main/html.h, main/http.cc, main/http.h, main/httpd.cc,
+	  main/httpd.h, main/locstr.cc, main/locstr.h, main/main.cc,
+	  main/main.h, main/mainlog.cc, main/mainlog.h, main/nt.cc,
+	  main/path.cc, main/path.h, main/ping.cc, main/savedvar.cc,
+	  main/savedvar.h, main/schedule.cc, main/schedule.h, main/sm.cc,
+	  main/sm.h, main/sndserv.cc, main/socket.cc, main/socket.h,
+	  main/speed.cc, main/speed.h, main/srvclt.cc, main/srvclt.h,
+	  main/face/about.cc, main/face/addd.cc, main/face/addd.h,
+	  main/face/edit.cc, main/face/edit.h, main/face/fsched.cc,
+	  main/face/fsface.cc, main/face/list.cc, main/face/list.h,
+	  main/face/lmenu.cc, main/face/lod.cc, main/face/lod.h,
+	  main/face/log.cc, main/face/log.h, main/face/mywidget.cc,
+	  main/face/mywidget.h, main/face/passface.cc, main/face/prefs.cc,
+	  main/face/qtree.cc, main/face/qtree.h, main/face/saveload.cc,
+	  main/face/saveload.h, main/face/themes.cc, main/face/themes.h,
+	  main/face/pixmaps2/error.xpm, main/face/pixmaps2/from_server.xpm,
+	  main/face/pixmaps2/ok.xpm, main/face/pixmaps2/to_server.xpm,
+	  main/face/pixmaps2/warning.xpm, po/bg.po, po/ca.po, po/cs.po,
+	  po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ja.po,
+	  po/pl.po, po/pt_BR.po, po/ru.po, po/sk.po, po/sr.po,
+	  po/sr@Latn.po, po/uk.po, po/zh_CN.po, share/nt.desktop,
+	  share/themes/bluecurve/dnd.png,
+	  share/themes/bluecurve/buttons/add.png,
+	  share/themes/bluecurve/buttons/clean.png,
+	  share/themes/bluecurve/buttons/clear.png,
+	  share/themes/bluecurve/buttons/conf.png,
+	  share/themes/bluecurve/buttons/del.png,
+	  share/themes/bluecurve/buttons/dnd.png,
+	  share/themes/bluecurve/buttons/down.png,
+	  share/themes/bluecurve/buttons/high.png,
+	  share/themes/bluecurve/buttons/log.png,
+	  share/themes/bluecurve/buttons/low.png,
+	  share/themes/bluecurve/buttons/med.png,
+	  share/themes/bluecurve/buttons/open.png,
+	  share/themes/bluecurve/buttons/paste.png,
+	  share/themes/bluecurve/buttons/prog1.png,
+	  share/themes/bluecurve/buttons/prog2.png,
+	  share/themes/bluecurve/buttons/prog3.png,
+	  share/themes/bluecurve/buttons/save.png,
+	  share/themes/bluecurve/buttons/start.png,
+	  share/themes/bluecurve/buttons/stop.png,
+	  share/themes/bluecurve/buttons/up.png,
+	  share/themes/bluecurve/queue/bad.png,
+	  share/themes/bluecurve/queue/comp.png,
+	  share/themes/bluecurve/queue/fail.png,
+	  share/themes/bluecurve/queue/part.png,
+	  share/themes/bluecurve/queue/pause.png,
+	  share/themes/bluecurve/queue/run.png,
+	  share/themes/bluecurve/queue/stop.png,
+	  share/themes/bluecurve/queue/wait.png,
+	  share/themes/bluecurve/toolbar/down.png,
+	  share/themes/bluecurve/toolbar/filt.png,
+	  share/themes/bluecurve/toolbar/find.png,
+	  share/themes/bluecurve/toolbar/log.png,
+	  share/themes/bluecurve/toolbar/sch.png,
+	  share/themes/bluecurve/toolbar/url.png, support/nt.spec.in,
+	  support/version.m4: sync with verson-2-5 branch
+
+2005-09-28 19:03  zaufi
+
+	* m4/ac_pkg_info_header.m4: fix strip spaces bug
+
+2005-09-16 08:11  max
+
+	* NEWS: updated
+
+2005-09-16 07:09  max
 
 	* main/base64.cc: updated by TODO :-)
 
-2005-09-16 08:39  zaufi
+2005-09-16 04:39  zaufi
 
 	* main/base64.cc: hope this still works ;)
 
-2005-09-16 08:08  zaufi
+2005-09-16 04:08  zaufi
 
 	* main/base64.cc: Avoid unneeded conditional jumps in binary code
 	  -- it is better to use math computations instead of 'if'
 	  statement. Make some loops shorter...
 
-2005-09-15 15:41  zaufi
+2005-09-15 11:41  zaufi
 
 	* configure.ac: sync with head
 
-2005-09-15 15:34  zaufi
+2005-09-15 11:34  zaufi
 
 	* README.maint: fix brabch name
 
-2005-09-15 01:50  zaufi
+2005-09-14 21:50  zaufi
 
 	* m4/am_with_rx.m4: fix warning
 
-2005-09-15 01:42  zaufi
+2005-09-14 21:42  zaufi
 
 	* admin/cvs.sh: fix failure color
 
-2005-09-15 01:21  zaufi
+2005-09-14 21:21  zaufi
 
 	* admin/cvs.sh: make spam more gentoo like
 
-2005-09-14 15:03  max
+2005-09-14 11:03  max
 
 	* main/: alt.cc, alt.h, base64.cc, base64.h, dlist.cc, locstr.cc,
 	  main.cc: fixed ftp-search after yesterday changes :-) begin to
 	  cleanup alternates' code;
 
-2005-09-14 12:11  max
+2005-09-14 08:11  max
 
 	* main/: path.cc, path.h: forget to add path.* files to cvs;
 
-2005-09-14 05:50  zaufi
+2005-09-14 01:50  zaufi
 
 	* main/addr.cc: use boolean expression as return value, instead of
 	  return true/false pair and if statement... to avoid a lot of
 	  unneeded conditional jumps in binary code... ;)
 
-2005-09-13 18:42  max
+2005-09-13 14:42  max
 
 	* main/: addr.cc, addr.h, ftpd.cc: initialize 'mask' field of
 	  d4x::URL;
 
-2005-09-13 18:20  max
+2005-09-13 14:20  max
 
 	* main/: client.cc, client.h, cookie.cc, cookie.h, dlist.cc,
 	  dlist.h, http.cc: contining moving to std::string;
 
-2005-09-13 16:47  max
+2005-09-13 12:47  max
 
 	* main/: Makefile.am, addr.cc, addr.h, alt.cc, alt.h, base64.cc,
 	  base64.h, client.cc, client.h, cookie.cc, cookie.h, db.cc, db.h,
@@ -74,11 +179,11 @@
 	  face/passface.cc: old tAddr has been replaced by new d4x::URL
 	  based on std::strings and d4x::Path;
 
-2005-09-09 18:48  max
+2005-09-09 14:48  max
 
 	* main/face/log.cc: removed old code;
 
-2005-09-09 18:47  max
+2005-09-09 14:47  max
 
 	* main/: dlist.cc, dqueue.cc, fsearch.cc, face/fsface.cc,
 	  face/list.cc, face/lod.cc, face/lod.h, face/log.cc, face/log.h,
@@ -88,33 +193,33 @@
 	  face/pixmaps2/warning.xpm: begin to cleanup theme's code; redraw
 	  log's icons; fixed "use fixed font in logs" option;
 
-2005-09-09 10:54  max
+2005-09-09 06:54  max
 
 	* po/cs.po: Lubos Stanek has updated Czech localisation
 
-2005-09-08 17:51  zaufi
+2005-09-08 13:51  zaufi
 
 	* configure.ac: Remove duplicate check
 
-2005-09-08 14:03  max
+2005-09-08 10:03  max
 
 	* main/face/about.cc: updated;
 
-2005-09-08 14:01  max
+2005-09-08 10:01  max
 
 	* po/pt_BR.po: Eduardo Jorge Feres Serrano Neves has sent to me
 	  updated Portugese(Brasilian) translation;
 
-2005-09-08 07:37  zaufi
+2005-09-08 03:37  zaufi
 
 	* ChangeLog, README.maint: ChangeLog update
 
-2005-09-08 07:16  zaufi
+2005-09-08 03:16  zaufi
 
 	* main/face/saveload.cc: use ++ instead of +1 (and avoid temporary
 	  variable :)
 
-2005-09-08 07:03  zaufi
+2005-09-08 03:03  zaufi
 
 	* main/: globhist.h, sndserv.cc, speed.cc, face/saveload.cc: Use
 	  prefix form of iterators increment to avoid creation of unneeded
@@ -122,7 +227,7 @@
 	  position on earse() if iterator posincremented directly at
 	  erase() call...
 
-2005-09-07 22:51  max
+2005-09-07 18:51  max
 
 	* share/themes/bluecurve/: dnd.png, buttons/add.png,
 	  buttons/clean.png, buttons/clear.png, buttons/conf.png,
@@ -137,51 +242,51 @@
 	  toolbar/find.png, toolbar/log.png, toolbar/sch.png,
 	  toolbar/url.png: forget to add gnomeria theme
 
-2005-09-07 19:01  max
+2005-09-07 15:01  max
 
 	* README.maint, support/version.m4: Release 2.5.4 tagged
 
-2005-09-07 19:01  max
+2005-09-07 15:01  max
 
 	* NEWS: updated
 
-2005-09-07 18:58  max
+2005-09-07 14:58  max
 
 	* main/: config.cc, main.cc, face/saveload.cc, face/saveload.h:
 	  acts with --referer and --al even if another instance of d4x is
 	  not run;
 
-2005-09-07 12:03  max
+2005-09-07 08:03  max
 
 	* po/cs.po: update Czech translation (thanks to Lubos Stanek);
 
-2005-09-06 18:16  max
+2005-09-06 14:16  max
 
 	* NEWS: updated changes info;
 
-2005-09-06 18:15  max
+2005-09-06 14:15  max
 
 	* main/face/qtree.cc: fixed zero speed after moving download from
 	  limited queue to unlimited;
 
-2005-09-06 17:49  max
+2005-09-06 13:49  max
 
 	* main/fsearch.cc: last change up;
 
-2005-09-06 17:48  max
+2005-09-06 13:48  max
 
 	* main/fsearch.cc: fixed disabled search alternates button after
 	  finish;
 
-2005-09-05 18:29  max
+2005-09-05 14:29  max
 
 	* NEWS: Updated;
 
-2005-09-05 18:28  max
+2005-09-05 14:28  max
 
 	* main/main.cc: fixed one ability to segfault;
 
-2005-09-05 18:20  max
+2005-09-05 14:20  max
 
 	* main/: config.cc, locstr.cc, main.cc, face/addd.cc, face/addd.h,
 	  face/edit.cc, face/edit.h, face/mywidget.cc, face/mywidget.h,
@@ -189,99 +294,99 @@
 	  --al command line parameters; fixed segfault when specify URL
 	  without --referer;
 
-2005-09-04 04:40  max
+2005-09-04 00:40  max
 
 	* main/main.cc: fixed stupid bug about reseting state of splited
 	  downloading;
 
-2005-09-02 13:47  max
+2005-09-02 09:47  max
 
 	* main/config.cc: minor fix before release;
 
-2005-09-02 13:46  max
+2005-09-02 09:46  max
 
 	* po/ru.po: updated russian translation;
 
-2005-09-02 13:41  max
+2005-09-02 09:41  max
 
 	* README.maint, support/version.m4: Release 2.5.3 tagged
 
-2005-09-01 17:00  max
+2005-09-01 13:00  max
 
 	* main/: config.cc, config.h, locstr.cc, locstr.h, main.cc,
 	  srvclt.cc, srvclt.h, face/mywidget.cc, face/mywidget.h,
 	  face/saveload.cc, face/saveload.h: code cleanups; added '--al'
 	  command line parameter;
 
-2005-09-01 13:11  max
+2005-09-01 09:11  max
 
 	* main/dqueue.cc: forget to init speedlimit variable in queue's
 	  constructor;
 
-2005-09-01 02:18  max
+2005-08-31 22:18  max
 
 	* main/socket.cc: set recieve buffer for every socket;
 
-2005-09-01 00:45  max
+2005-08-31 20:45  max
 
 	* main/alt.cc: remove debug printf
 
-2005-09-01 00:38  max
+2005-08-31 20:38  max
 
 	* NEWS: updated;
 
-2005-09-01 00:32  max
+2005-08-31 20:32  max
 
 	* main/: alt.cc, client.cc, ftpd.cc: fixed connecting to
 	  ftp-searched hosts after restarting d4x; code cleanups;
 
-2005-08-31 23:38  max
+2005-08-31 19:38  max
 
 	* main/dlist.cc: fixed segfault in preparing splits code;
 
-2005-08-31 20:57  max
+2005-08-31 16:57  max
 
 	* support/nt.spec.in: gtk >= 2.4 in requires
 
-2005-08-31 20:35  max
+2005-08-31 16:35  max
 
 	* NEWS, share/nt.desktop: misc updates;
 
-2005-08-31 20:32  max
+2005-08-31 16:32  max
 
 	* main/: config.cc, main.cc, main.h: implemented --referer command
 	  line parameter;
 
-2005-08-31 19:46  max
+2005-08-31 15:46  max
 
 	* main/: addr.cc, addr.h, config.cc, main.cc, main.h, speed.cc,
 	  srvclt.cc, srvclt.h: fixed per queue settings; code cleanups in
 	  remote control;
 
-2005-08-30 17:04  max
+2005-08-30 13:04  max
 
 	* main/: dlist.cc, dlist.h, dqueue.cc, dqueue.h, main.cc, main.h,
 	  socket.cc, speed.cc, speed.h, face/qtree.cc, face/qtree.h: added
 	  support for per queue speed limitation
 
-2005-08-30 11:19  max
+2005-08-30 07:19  max
 
 	* main/: config.cc, config.h, dlist.h, main.cc, main.h, speed.cc,
 	  speed.h: code cleanups in speed limitation;
 
-2005-08-30 08:57  max
+2005-08-30 04:57  max
 
 	* support/nt.spec.in: updated
 
-2005-08-30 06:00  zaufi
+2005-08-30 02:00  zaufi
 
 	* README.maint: fix spelling
 
-2005-08-30 05:49  zaufi
+2005-08-30 01:49  zaufi
 
 	* README.maint: add sample command
 
-2005-08-30 05:42  zaufi
+2005-08-30 01:42  zaufi
 
 	* NEWS, README.maint, TODO, configure.ac, DOC/FAQ.cs,
 	  DOC/README.cs, main/ChangeLog, main/addr.cc, main/addr.h,
@@ -330,19 +435,19 @@
 	  share/themes/gnomeria/toolbar/url.png, support/nt.spec.in,
 	  support/version.m4: sync with version-2-5 branch
 
-2005-08-30 05:34  zaufi
+2005-08-30 01:34  zaufi
 
 	* README.maint: cvs tags and branches note
 
-2005-08-30 02:23  max
+2005-08-29 22:23  max
 
 	* main/face/: eggtrayicon.c, eggtrayicon.h: forgot
 
-2005-08-30 01:40  max
+2005-08-29 21:40  max
 
 	* NEWS: updated with some line added in 2.5.1 version;
 
-2005-08-30 01:35  max
+2005-08-29 21:35  max
 
 	* share/themes/gnomeria/: buttons/add.png, buttons/clearlist.png,
 	  buttons/clipboardadd.png, buttons/continue.png, buttons/del.png,
@@ -357,46 +462,46 @@
 	  toolbar/find.png, toolbar/klog.png, toolbar/queue.png,
 	  toolbar/sch.png, toolbar/url.png: added gnomeria theme
 
-2005-08-30 01:31  max
+2005-08-29 21:31  max
 
 	* share/themes/gnomeria.xml: added gnomeria theme into cvs;
 
-2005-08-29 15:24  max
+2005-08-29 11:24  max
 
 	* main/face/dndtrash.cc: fixed segfault on tray when DnD-basket is
 	  off;
 
-2005-08-26 13:32  max
+2005-08-26 09:32  max
 
 	* share/themes/bluecurve.xml: added 'bluecurve' theme (found in my
 	  Mailbox);
 
-2005-08-25 16:48  zaufi
+2005-08-25 12:48  zaufi
 
 	* README: another one requirements fix
 
-2005-08-25 16:41  zaufi
+2005-08-25 12:41  zaufi
 
 	* support/nt.spec.in: Actualize requirements
 
-2005-08-25 16:36  zaufi
+2005-08-25 12:36  zaufi
 
 	* main/ChangeLog: remove odd changelog
 
-2005-08-25 11:45  max
+2005-08-25 07:45  max
 
 	* README.maint, support/version.m4: Release 2.5.2 tagged
 
-2005-08-25 11:26  max
+2005-08-25 07:26  max
 
 	* main/face/: Makefile.am, dndtrash.cc, dndtrash.h, list.cc: added
 	  tray support;
 
-2005-08-24 17:44  max
+2005-08-24 13:44  max
 
 	* main/addr.cc: updated info in heading comments;
 
-2005-08-24 17:08  max
+2005-08-24 13:08  max
 
 	* NEWS, TODO, configure.ac, DOC/FAQ.cs, DOC/README.cs,
 	  main/addr.cc, main/addr.h, main/config.cc, main/dlist.cc,
@@ -406,22 +511,22 @@
 	  Updated Hungarian translation Fixed segfault on first run; Added
 	  automatically redirection by content of <META> tag;
 
-2005-08-24 17:07  max
+2005-08-24 13:07  max
 
 	* po/: bg.po, ca.po, cs.po, de.po, es.po, fr.po, hu.po, it.po,
 	  ja.po, pl.po, pt_BR.po, ru.po, sk.po, sr.po, sr@Latn.po, uk.po,
 	  zh_CN.po: updated Czech translation and Hungarian translation;
 
-2005-08-15 16:28  zaufi
+2005-08-15 12:28  zaufi
 
 	* m4/openssl.m4: By default no concrete version required
 
-2005-08-14 00:14  zaufi
+2005-08-13 20:14  zaufi
 
 	* README: FIx requirements according to actually checked by
 	  configure versions :)
 
-2005-08-12 20:56  zaufi
+2005-08-12 16:56  zaufi
 
 	* Makefile.am, Makefile.cvs, README.maint, configure.ac,
 	  DOC/Makefile.am, admin/Makefile.all, admin/Makefile.common,
@@ -435,12 +540,12 @@
 	  main/face/Makefile.am, share/Makefile.am, support/class.tpl,
 	  support/version.m4: Fix cvs keywords after merge with -kk option
 
-2005-08-12 20:50  zaufi
+2005-08-12 16:50  zaufi
 
 	* configure.ac: Remove double autogen checking. Add explicit call
 	  to PKG_PROG_PKG_CONFIG as note in pkg.m4 suggest
 
-2005-08-12 20:38  zaufi
+2005-08-12 16:38  zaufi
 
 	* Makefile.am, NEWS, README, README.maint, configure.ac,
 	  m4/openssl.m4, main/.cvsignore, main/Makefile.am, main/config.cc,
@@ -459,144 +564,144 @@
 	  support/version.m4: Sync trunk with version-2-5 branch. Ready to
 	  develop 2.6 in HEAD.
 
-2005-08-12 14:50  max
+2005-08-12 10:50  max
 
 	* support/nt.spec.in: Copyright is replaced by License for FC4;
 
-2005-08-12 14:45  max
+2005-08-12 10:45  max
 
 	* NEWS: last note about news in 2.5.1;
 
-2005-08-12 14:42  max
+2005-08-12 10:42  max
 
 	* support/nt.spec.in: Serial is unsupported on FC4;
 
-2005-08-12 14:33  max
+2005-08-12 10:33  max
 
 	* main/face/dndtrash.cc: reversed Online/Offline menuitem's text
 
-2005-08-12 14:28  max
+2005-08-12 10:28  max
 
 	* po/: bg.po, ca.po, de.po, es.po, fr.po, hu.po, it.po, ja.po,
 	  pl.po, pt_BR.po, ru.po, sk.po, sr.po, sr@Latn.po, uk.po,
 	  zh_CN.po: updated Russian translation and text in po files;
 
-2005-08-12 14:18  max
+2005-08-12 10:18  max
 
 	* README.maint, support/version.m4: Release 2.5.1 tagged
 
-2005-08-11 21:50  zaufi
+2005-08-11 17:50  zaufi
 
 	* Makefile.am, README, configure.ac: Last minute (cosmetic) fixes
 	  :)
 
-2005-08-11 21:36  zaufi
+2005-08-11 17:36  zaufi
 
 	* configure.ac: More agressive extra optimize options. Detect of
 	  x86_64 arch.
 
-2005-08-11 21:13  zaufi
+2005-08-11 17:13  zaufi
 
 	* configure.ac: Show SSL status in configuration spam
 
-2005-08-11 21:04  max
+2005-08-11 17:04  max
 
 	* main/: httpd.cc, main.cc, nt.cc, sslsocket.cc, sslsocket.h: SSL
 	  support is optional now;
 
-2005-08-11 20:59  zaufi
+2005-08-11 16:59  zaufi
 
 	* main/: .cvsignore, face/.cvsignore: update ignore list
 
-2005-08-11 20:50  zaufi
+2005-08-11 16:50  zaufi
 
 	* configure.ac: Fix compiler version spam
 
-2005-08-11 20:44  zaufi
+2005-08-11 16:44  zaufi
 
 	* configure.ac: --disable-openssl option fixed
 
-2005-08-11 20:44  max
+2005-08-11 16:44  max
 
 	* main/face/list.cc: changed method to display info in DnD-Basket's
 	  tooltip
 
-2005-08-11 20:36  zaufi
+2005-08-11 16:36  zaufi
 
 	* configure.ac: --disable-openssl option added
 
-2005-08-11 20:25  zaufi
+2005-08-11 16:25  zaufi
 
 	* configure.ac, m4/openssl.m4: fix openssl finder
 
-2005-08-11 16:27  max
+2005-08-11 12:27  max
 
 	* main/: dqueue.cc, dqueue.h, main.cc: newly created queue inherits
 	  configuration of the last queue in tree;
 
-2005-08-11 12:28  max
+2005-08-11 08:28  max
 
 	* main/: dlist.cc, html.cc, html.h: fixed links changing in
 	  HTTP-recursion; completed yesterday changes about getting
 	  description;
 
-2005-08-10 18:51  max
+2005-08-10 14:51  max
 
 	* NEWS: updated :-)
 
-2005-08-10 18:50  max
+2005-08-10 14:50  max
 
 	* main/: dlist.cc, html.cc, html.h: getting description for the url
 	  from HTML during HTTP-recursing
 
-2005-08-10 16:20  zaufi
+2005-08-10 12:20  zaufi
 
 	* m4/openssl.m4: Added Open SSL detection macro
 
-2005-08-10 15:58  max
+2005-08-10 11:58  max
 
 	* share/themes/: old_theme.xml, old_theme/offline.png,
 	  old_theme/online.png: added offline/online button into old_theme
 	  for testing purposes;
 
-2005-08-10 15:57  max
+2005-08-10 11:57  max
 
 	* main/face/list.cc: added ability to set icons for  offline/online
 	  button from theme
 
-2005-08-10 14:48  max
+2005-08-10 10:48  max
 
 	* NEWS, configure.ac: added HTTPS support;
 
-2005-08-10 14:47  max
+2005-08-10 10:47  max
 
 	* main/: Makefile.am, httpd.cc, main.cc, nt.cc, socket.cc,
 	  socket.h, sslsocket.cc, sslsocket.h: added basic support for
 	  HTTPS;
 
-2005-08-09 17:09  max
+2005-08-09 13:09  max
 
 	* NEWS: updated
 
-2005-08-09 14:20  max
+2005-08-09 10:20  max
 
 	* main/: config.cc, var.cc, var.h, face/lmenu.cc, face/lmenu.h,
 	  face/lod.cc, face/prefs.cc: fixed opening file in GNOME; added
 	  ability to set up action for double click on downloading item;
 
-2005-08-08 20:12  zaufi
+2005-08-08 16:12  zaufi
 
 	* ChangeLog, ChangeLog.2002-2004: Update ChangeLog
 
-2005-08-08 20:07  zaufi
+2005-08-08 16:07  zaufi
 
 	* admin/cvs.sh: Fix ChangeLog generation (backport from HEAD)
 
-2005-08-08 20:07  zaufi
+2005-08-08 16:07  zaufi
 
 	* admin/cvs.sh: Fix ChangeLog generation
 
-2005-08-08 19:54  zaufi
+2005-08-08 15:54  zaufi
 
 	* .cvsignore, Makefile.am, NEWS, README.maint, TODO, configure.ac,
 	  admin/.cvsignore, admin/cvs.sh, admin/cvsignore.template,
@@ -686,21 +791,21 @@
 	  support/Doxyfile.in, support/nt.spec.in: Sync with HEAD. Ready to
 	  release (make distcheck passed :)
 
-2005-08-08 19:12  zaufi
+2005-08-08 15:12  zaufi
 
 	* configure.ac: Fix bootstrap for newest cvs.sh
 
-2005-08-08 19:12  zaufi
+2005-08-08 15:12  zaufi
 
 	* po/.cvsignore: update ignore list
 
-2005-08-08 18:06  max
+2005-08-08 14:06  max
 
 	* main/: main.cc, face/lmenu.cc, face/lmenu.h: added ability to
 	  open file and folder from D4X; fixed behavior of continuing
 	  stopped download in "allow force run" mode;
 
-2005-08-08 15:53  max
+2005-08-08 11:53  max
 
 	* main/: main.cc, face/dndtrash.cc, face/list.cc, face/list.h,
 	  face/log.cc, face/mywidget.cc: Interface behavior on
@@ -708,19 +813,19 @@
 	  GTK-warnings in downloads' logs; Added ability to clear
 	  HTTP-filter;
 
-2005-08-08 15:50  max
+2005-08-08 11:50  max
 
 	* NEWS: added info about latest changes
 
-2005-07-01 13:30  max
+2005-07-01 09:30  max
 
 	* NEWS: added update info
 
-2005-07-01 13:27  max
+2005-07-01 09:27  max
 
 	* support/nt.spec.in: fixed location of nt.descktop
 
-2005-07-01 13:18  max
+2005-07-01 09:18  max
 
 	* share/themes/: gnome.xml, gnome/components/filters.png,
 	  gnome/components/log.png, gnome/components/queue.png,
@@ -761,46 +866,46 @@
 	  gnome/toolbar/stock_media-play.png, gnome/toolbar/up.png: added
 	  gnome theme by Dan Korostelev;
 
-2005-06-26 21:37  max
+2005-06-26 17:37  max
 
 	* main/: Makefile.am, globhist.h, face/Makefile.am, face/lod.h:
 	  fixed compilation latest cvs version
 
-2005-06-18 15:05  max
+2005-06-18 11:05  max
 
 	* NEWS, TODO: updated;
 
-2005-05-26 17:46  zaufi
+2005-05-26 13:46  zaufi
 
 	* admin/cvs.sh: do not run autoheader if not neccessary
 
-2005-04-25 19:29  zaufi
+2005-04-25 15:29  zaufi
 
 	* Makefile.am, README.maint, support/Doxyfile.in: Update configs to
 	  fresh doxygen
 
-2005-04-24 21:41  zaufi
+2005-04-24 17:41  zaufi
 
 	* Makefile.am: Fix path
 
-2005-03-22 07:29  zaufi
+2005-03-22 03:29  zaufi
 
 	* .cvsignore, admin/.cvsignore, m4/.cvsignore, po/.cvsignore,
 	  support/.cvsignore: Update ignore lists
 
-2005-03-22 07:23  zaufi
+2005-03-22 03:23  zaufi
 
 	* configure.ac, m4/ac_pkg_info_header.m4: Make cute spam
 
-2005-03-11 23:26  zaufi
+2005-03-11 19:26  zaufi
 
 	* admin/: cvs.sh: Fix README detection
 
-2005-03-04 03:22  zaufi
+2005-03-03 23:22  zaufi
 
 	* admin/cvsignore.template: missed file
 
-2005-03-03 23:16  zaufi
+2005-03-03 19:16  zaufi
 
 	* configure.ac, main/Makefile.am, main/nt.all_cc.cc,
 	  main/face/Makefile.am, main/face/libface_a.all_cc.cc, po/bg.po,
@@ -809,37 +914,37 @@
 	  po/sr@Latn.po, po/uk.po, po/zh_CN.po: Remove autogenerated files
 	  from cvs. Rollback to full specified sources list in Makefile.am
 
-2005-03-03 23:14  zaufi
+2005-03-03 19:14  zaufi
 
 	* configure.ac, main/Makefile.am, main/nt.all_cc.cc,
 	  main/face/Makefile.am, main/face/libface_a.all_cc.cc: backport
 	  from head
 
-2005-03-03 22:38  zaufi
+2005-03-03 18:38  zaufi
 
 	* m4/ac_choose_boost.m4: Add my boost detector
 
-2005-03-03 22:04  zaufi
+2005-03-03 18:04  zaufi
 
 	* admin/: cvs.sh: Add maintainer README file detection
 
-2005-03-03 22:03  zaufi
+2005-03-03 18:03  zaufi
 
 	* README, README.maint: Fix miscommited comment :)
 
-2005-03-03 21:53  zaufi
+2005-03-03 17:53  zaufi
 
 	* README: Made a branch for upcoming release 2.5
 
-2005-03-03 21:53  zaufi
+2005-03-03 17:53  zaufi
 
 	* README.maint: Renew
 
-2005-03-03 21:33  zaufi
+2005-03-03 17:33  zaufi
 
 	* README.maint: Fix requirements
 
-2005-03-03 21:25  zaufi
+2005-03-03 17:25  zaufi
 
 	* Makefile.cvs, configure.ac, admin/.cvsignore, admin/Makefile.all,
 	  admin/Makefile.common, admin/Makefile.deps,
@@ -850,66 +955,66 @@
 	  m4/ChangeLog, m4/ac_path_gengetopt.m4, m4/cppunit.m4: Update
 	  configurations (cppunit support added)
 
-2005-02-16 12:03  max
+2005-02-16 08:03  max
 
 	* main/: main.cc, main.h, meter.cc, meter.h, var.h: fixed
 	  displaying wrong speed on fast channels due to type overflow
 
-2005-02-01 16:48  max
+2005-02-01 12:48  max
 
 	* TODO: updated todo list
 
-2005-02-01 16:46  max
+2005-02-01 12:46  max
 
 	* support/version.m4: version increment
 
-2005-01-28 20:46  max
+2005-01-28 16:46  max
 
 	* main/: sndserv.cc, sndserv.h: code cleanups, try to fix interface
 	  freeze on cheap soundcards;
 
-2005-01-27 17:23  max
+2005-01-27 13:23  max
 
 	* README.maint, TODO: updated TODO
 
-2005-01-27 17:07  max
+2005-01-27 13:07  max
 
 	* main/: globhist.h, face/dndtrash.cc, face/dndtrash.h,
 	  face/graph.cc, face/graph.h, face/list.cc, face/lod.cc: added
 	  "Offline/Online" stuff to DnD-Basket; changed name of my
 	  CellRendererProgress class;
 
-2005-01-26 19:43  max
+2005-01-26 15:43  max
 
 	* main/locstr.h: typos fixed
 
-2005-01-26 19:42  max
+2005-01-26 15:42  max
 
 	* main/locstr.h: sime PStr cleanups;
 
-2005-01-26 19:35  max
+2005-01-26 15:35  max
 
 	* main/locstr.cc: reafctored normalize_path routine; fixed
 	  accessing wrong memory in normalize_path and
 	  str_non_print_replace routines;
 
-2005-01-18 04:48  max
+2005-01-18 00:48  max
 
 	* README.maint: fixed info about gtk+
 
-2004-12-17 08:37  zaufi
+2004-12-17 04:37  zaufi
 
 	* admin/cvs.sh: Fix errors and formatting on scan-includes
 
-2004-12-15 10:41  zaufi
+2004-12-15 06:41  zaufi
 
 	* main/: Makefile.am, face/Makefile.am: reuse sources list
 
-2004-12-15 09:53  zaufi
+2004-12-15 05:53  zaufi
 
 	* support/directory: fix names
 
-2004-12-15 09:52  zaufi
+2004-12-15 05:52  zaufi
 
 	* Makefile.am, Makefile.cvs, README.maint, VERSION, configure.ac,
 	  configure.in, nt.spec.in, admin/Doxyfile.in, admin/EXCLUDE,
@@ -923,13 +1028,13 @@
 	  support/project-icon.png, support/version.m4: Port configs from
 	  my other projects
 
-2004-12-14 10:20  max
+2004-12-14 06:20  max
 
 	* po/: bg.po, de.po, es.po, fr.po, hu.po, it.po, ja.po, pl.po,
 	  pt_BR.po, ru.po, sk.po, sr.po, sr@Latn.po, uk.po, zh_CN.po:
 	  rollback
 
-2004-12-14 10:12  zaufi
+2004-12-14 06:12  zaufi
 
 	* configure.in, admin/cvs.sh, po/bg.po, po/de.po, po/es.po,
 	  po/fr.po, po/hu.po, po/it.po, po/ja.po, po/pl.po, po/pt_BR.po,
@@ -937,85 +1042,85 @@
 	  po/zh_CN.po: use -n option of 'head'. Even more aggressive
 	  extra-optimization keys ;)
 
-2004-12-14 09:22  zaufi
+2004-12-14 05:22  zaufi
 
 	* configure.in, admin/cvs.sh: remove aligns
 
-2004-09-22 04:18  max
+2004-09-22 00:18  max
 
 	* po/ca.po: fixed typos and project id
 
-2004-08-25 18:57  max
+2004-08-25 14:57  max
 
 	* main/globhist.h: something written before go to home :-)
 
-2004-08-25 18:27  max
+2004-08-25 14:27  max
 
 	* main/: dlist.cc, dlist.h, globhist.cc, globhist.h: begin to add
 	  global history;
 
-2004-08-17 16:16  max
+2004-08-17 12:16  max
 
 	* po/zh_CN.po: [no log message]
 
-2004-08-13 21:32  max
+2004-08-13 17:32  max
 
 	* main/: config.cc, ftp.cc, face/list.cc, face/prefs.cc: ability to
 	  show only queue info in title of main window;
 
-2004-08-09 22:15  zaufi
+2004-08-09 18:15  zaufi
 
 	* main/sndserv.cc: * Fix #elif to #else. It was incorrect
 	  preprocessing directive   This should fix problem reported in
 	  forum:   "d4x-2.5.0rc4 build error - OS 10.3.4 (07 Jul 2004
 	  05:59:53)"   posted by jerry
 
-2004-08-09 11:54  max
+2004-08-09 07:54  max
 
 	* main/face/about.cc: added email to info about Emil (.po)
 
-2004-08-09 11:06  max
+2004-08-09 07:06  max
 
 	* po/pl.po: updated Polish translation (thanks to Emil Nowak)
 
-2004-08-07 19:52  max
+2004-08-07 15:52  max
 
 	* main/: ftp.cc, ftpd.cc, main.cc, segments.cc, face/misc.cc: added
 	  stupid debug code to downloading via FTP; fixed compilation with
 	  --disable-nls;
 
-2004-07-09 06:38  max
+2004-07-09 02:38  max
 
 	* TODO: added some features in TODO;
 
-2004-07-07 02:16  max
+2004-07-06 22:16  max
 
 	* NEWS, main/face/about.cc, po/ca.po: updated some translation and
 	  info about them;
 
-2004-07-06 23:01  max
+2004-07-06 19:01  max
 
 	* NEWS, po/sr.po, po/sr@Latn.po: added Serbina translation in Latin
 	  updated original serbian translation
 
-2004-07-06 22:58  max
+2004-07-06 18:58  max
 
 	* po/hu.po: updated Hungarian translation (thanks to Sa'ndor
 	  Pinte'r)
 
-2004-07-02 18:43  max
+2004-07-02 14:43  max
 
 	* main/: dlist.cc, dlist.h: fixed truncating sizes to int;
 
-2004-07-02 12:34  max
+2004-07-02 08:34  max
 
 	* configure.in: fixed errors about not installed gtk/glib
 
-2004-07-02 12:19  max
+2004-07-02 08:19  max
 
 	* po/zh_CN.po: removed <div> tag from the file
 
-2004-07-01 23:43  max
+2004-07-01 19:43  max
 
 	* po/: sk.po, sr.po, uk.po, zh_CN.po, ru.po, fuzzy/cs.po,
 	  fuzzy/el_GR.po, fuzzy/fi.po, fuzzy/he.po, fuzzy/id.po,
@@ -1023,14 +1128,14 @@
 	  fuzzy/zh_CN.GBK.po, fuzzy/zh_TW.po: Initial import from
 	  2.5.0final
 
-2004-07-01 23:43  max
+2004-07-01 19:43  max
 
 	* po/: sk.po, sr.po, uk.po, zh_CN.po, ru.po, fuzzy/cs.po,
 	  fuzzy/el_GR.po, fuzzy/fi.po, fuzzy/he.po, fuzzy/id.po,
 	  fuzzy/iw.po, fuzzy/ko.po, fuzzy/nl.po, fuzzy/sk.po, fuzzy/tr.po,
 	  fuzzy/zh_CN.GBK.po, fuzzy/zh_TW.po: Initial revision
 
-2004-07-01 23:40  max
+2004-07-01 19:40  max
 
 	* share/themes/nuvola32/buttons/add.png,
 	  share/themes/nuvola32/buttons/clearlist.png,
@@ -1164,7 +1269,7 @@
 	  po/es.po, po/fr.po, po/hu.po, po/it.po, po/ja.po, po/pl.po,
 	  po/pt_BR.po: Initial import from 2.5.0final
 
-2004-07-01 23:40  max
+2004-07-01 19:40  max
 
 	* share/themes/nuvola32/buttons/add.png,
 	  share/themes/nuvola32/buttons/clearlist.png,
@@ -1298,7 +1403,7 @@
 	  po/es.po, po/fr.po, po/hu.po, po/it.po, po/ja.po, po/pl.po,
 	  po/pt_BR.po: Initial revision
 
-2004-07-01 23:37  max
+2004-07-01 19:37  max
 
 	* AUTHORS, COPYING, ChangeLog, .cvsignore, ChangeLog-1.x,
 	  Makefile.am, Makefile.cvs, NEWS, PLANS, README, README.maint,
@@ -1356,7 +1461,7 @@
 	  share/themes/nuvola32/queue/wait.png: Initial import from
 	  2.5.0final
 
-2004-07-01 23:37  max
+2004-07-01 19:37  max
 
 	* AUTHORS, COPYING, ChangeLog, .cvsignore, ChangeLog-1.x,
 	  Makefile.am, Makefile.cvs, NEWS, PLANS, README, README.maint,

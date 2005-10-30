@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d4x-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-16 13:29+0800\n"
+"POT-Creation-Date: 2005-10-30 20:06+0700\n"
 "PO-Revision-Date: 2004-01-09 07:44+0100\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -13,12 +13,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.2\n"
 
-#: main/alt.cc:261
+#: main/alt.cc:259
 #, fuzzy
 msgid "Add new alternate"
 msgstr "新しいダウンロードを追加"
 
-#: main/alt.cc:346
+#: main/alt.cc:344
 msgid "Modify alternate"
 msgstr ""
 
@@ -265,73 +265,73 @@ msgstr "cookieファイル %s を開けません"
 msgid "%i cookies loaded"
 msgstr "%i 個のcookieをロード"
 
-#: main/dlist.cc:120
+#: main/dlist.cc:121
 msgid "Can't write to file"
 msgstr "ファイルに書き込むことができません"
 
-#: main/dlist.cc:147
+#: main/dlist.cc:148
 msgid "File is already opened by another download!"
 msgstr "別のダウンロードが既にファイルを開いています"
 
-#: main/dlist.cc:150
+#: main/dlist.cc:151
 msgid "Filesystem do not support advisory record locking!"
 msgstr ""
 
-#: main/dlist.cc:151
+#: main/dlist.cc:152
 msgid "Will proceed without it but beware that you might have problems."
 msgstr "進行しますが問題があることに注意してください"
 
-#: main/dlist.cc:389
+#: main/dlist.cc:390
 #, c-format
 msgid "You have no permissions to create file at path %s"
 msgstr "%s にファイルを作成する権限がありません"
 
-#: main/dlist.cc:394
+#: main/dlist.cc:395
 #, c-format
 msgid "You have no space at path %s for creating file"
 msgstr "%s にはファイルを作るスペースがありません"
 
-#: main/dlist.cc:399
+#: main/dlist.cc:400
 msgid "Directory already created!:))"
 msgstr "ディレクトリは作成済みです:))"
 
-#: main/dlist.cc:509
+#: main/dlist.cc:510
 msgid "Trying to create a link"
 msgstr "リンクを作成します"
 
-#: main/dlist.cc:514
+#: main/dlist.cc:515
 msgid "Link already created!:))"
 msgstr "リンクは既に作成済みです :))"
 
-#: main/dlist.cc:520
+#: main/dlist.cc:521
 msgid "Can't create link"
 msgstr "リンクを作成できません"
 
-#: main/dlist.cc:529
+#: main/dlist.cc:530
 msgid "Trying to create a file"
 msgstr "ファイルを作成します"
 
-#: main/dlist.cc:550
+#: main/dlist.cc:551
 msgid "Can't create file at the path:"
 msgstr "このパスにファイルを作成できません:"
 
-#: main/dlist.cc:552
+#: main/dlist.cc:553
 msgid "which has name:"
 msgstr ""
 
-#: main/dlist.cc:563
+#: main/dlist.cc:564
 msgid "File was created!"
 msgstr "ファイルを作成しました"
 
-#: main/dlist.cc:568
+#: main/dlist.cc:569
 msgid "Trying to create a dir"
 msgstr "Dirを作成します"
 
-#: main/dlist.cc:578
+#: main/dlist.cc:579
 msgid "Can't create directory!"
 msgstr "ディレクトリを作成できません"
 
-#: main/dlist.cc:588
+#: main/dlist.cc:589
 msgid "Downloader can't create devices..."
 msgstr "デバイスを作成できません.."
 
@@ -344,27 +344,27 @@ msgstr ""
 msgid "Error during copying!"
 msgstr "コピー中にエラー発生"
 
-#: main/dlist.cc:1069
+#: main/dlist.cc:1068
 msgid "Downloading was successefully completed!"
 msgstr "ダウンロードが完了しました"
 
-#: main/dlist.cc:1120
+#: main/dlist.cc:1117
 msgid "Downloading was failed..."
 msgstr "ダウンロード失敗.."
 
-#: main/dlist.cc:1284
+#: main/dlist.cc:1279
 msgid "Redirection blocked by filter"
 msgstr ""
 
-#: main/dlist.cc:1289
+#: main/dlist.cc:1284
 msgid "Redirect detected..."
 msgstr "Redirectを検出.."
 
-#: main/dlist.cc:1293 main/dlist.cc:1308
+#: main/dlist.cc:1288 main/dlist.cc:1301
 msgid "Size detection only!"
 msgstr "サイズ検出のみ"
 
-#: main/dlist.cc:1362
+#: main/dlist.cc:1351
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
@@ -372,52 +372,52 @@ msgstr ""
 "サーバ側の制限により複数同時ダウンロードができません (レジュームをサポートし"
 "ていません)"
 
-#: main/dlist.cc:1373
+#: main/dlist.cc:1362
 msgid "Local file is seems to be equal to remote one"
 msgstr "リモートファイルはローカルファイルと同一のようです"
 
-#: main/dlist.cc:1394
+#: main/dlist.cc:1383
 msgid "It is strange that we can't delete file which just created..."
 msgstr "作ったばかりのファイルを削除できません"
 
-#: main/dlist.cc:1398 main/dlist.cc:1650
+#: main/dlist.cc:1387 main/dlist.cc:1632
 msgid "File not found"
 msgstr "ファイルがありません"
 
-#: main/dlist.cc:1470
+#: main/dlist.cc:1459
 msgid "Sorting started"
 msgstr "ソート開始"
 
-#: main/dlist.cc:1473
+#: main/dlist.cc:1462
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Pingしています(atempt %i of %i)"
 
-#: main/dlist.cc:1501
+#: main/dlist.cc:1488
 msgid "Trying to determine filesizes"
 msgstr "ファイルサイズを計算しようとしています"
 
-#: main/dlist.cc:1554
+#: main/dlist.cc:1540
 msgid "Searching failed"
 msgstr "検索失敗"
 
-#: main/dlist.cc:1613
+#: main/dlist.cc:1597
 msgid "Search had been completed!"
 msgstr "検索が完了しました"
 
-#: main/dlist.cc:1619
+#: main/dlist.cc:1603
 msgid "Was Started!"
 msgstr "開始しました"
 
-#: main/dlist.cc:1628
+#: main/dlist.cc:1612
 msgid "It is a link and we already load it"
 msgstr "これはリンクであり、既にロードしています"
 
-#: main/dlist.cc:1655
+#: main/dlist.cc:1637
 msgid "Trying to work without CWD"
 msgstr "CWDなしで動かしてみる"
 
-#: main/dlist.cc:1787
+#: main/dlist.cc:1770
 msgid "Can't split file to specified number of parts!"
 msgstr "指定した数にファイルを分割することができません"
 
@@ -647,7 +647,7 @@ msgstr "オフライン/オンライン"
 msgid "Online"
 msgstr ""
 
-#: main/face/dndtrash.cc:626 main/face/list.cc:490 main/face/lod.cc:49
+#: main/face/dndtrash.cc:626 main/face/list.cc:491 main/face/lod.cc:49
 msgid "Speed"
 msgstr "速度"
 
@@ -991,7 +991,7 @@ msgstr "全て選択"
 msgid "filter name"
 msgstr "フィルタ名"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1383
+#: main/face/filtrgui.cc:187 main/face/list.cc:1395
 msgid "Filters"
 msgstr "フィルタ"
 
@@ -1051,7 +1051,7 @@ msgstr "動作"
 msgid "Info"
 msgstr "情報"
 
-#: main/face/fsched.cc:235 main/face/list.cc:1384
+#: main/face/fsched.cc:235 main/face/list.cc:1396
 msgid "Scheduler"
 msgstr "スケジューラ"
 
@@ -1148,245 +1148,245 @@ msgstr "Ping"
 msgid "Url"
 msgstr "URL"
 
-#: main/face/list.cc:486
+#: main/face/list.cc:487
 #, fuzzy
 msgid "_File"
 msgstr "/ファイル(_F)"
 
-#: main/face/list.cc:487
+#: main/face/list.cc:488
 #, fuzzy
 msgid "_Download"
 msgstr "/ダウンロード(_D)"
 
-#: main/face/list.cc:488
+#: main/face/list.cc:489
 #, fuzzy
 msgid "_Queue"
 msgstr "/キュー(_Q)"
 
-#: main/face/list.cc:489
+#: main/face/list.cc:490
 #, fuzzy
 msgid "_Options"
 msgstr "/オプション"
 
-#: main/face/list.cc:491
+#: main/face/list.cc:492
 #, fuzzy
 msgid "_Help"
 msgstr "/ヘルプ(_H)"
 
-#: main/face/list.cc:492
+#: main/face/list.cc:493
 #, fuzzy
 msgid "_Save List"
 msgstr "リストを保存"
 
-#: main/face/list.cc:493
+#: main/face/list.cc:494
 #, fuzzy
 msgid "_Load List"
 msgstr "リストをロード"
 
-#: main/face/list.cc:494
+#: main/face/list.cc:495
 #, fuzzy
 msgid "_Find links in file"
 msgstr "テキストファイルからリンクを抽出"
 
-#: main/face/list.cc:495
+#: main/face/list.cc:496
 #, fuzzy
 msgid "_New Download"
 msgstr "/新しいダウンロード"
 
-#: main/face/list.cc:496
+#: main/face/list.cc:497
 #, fuzzy
 msgid "_Paste Download"
 msgstr "/ダウンロードを貼り付け"
 
-#: main/face/list.cc:497
+#: main/face/list.cc:498
 #, fuzzy
 msgid "_Automated adding"
 msgstr "自動的に追加"
 
-#: main/face/list.cc:498
+#: main/face/list.cc:499
 #, fuzzy
 msgid "_Exit"
 msgstr "/終了"
 
-#: main/face/list.cc:499
+#: main/face/list.cc:500
 #, fuzzy
 msgid "_View Log"
 msgstr "ログを見る"
 
-#: main/face/list.cc:500
+#: main/face/list.cc:501
 #, fuzzy
 msgid "_Stop downloads"
 msgstr " ダウンロードを停止 "
 
-#: main/face/list.cc:501
+#: main/face/list.cc:502
 #, fuzzy
 msgid "_Edit downloads"
 msgstr "ダウンロードを編集"
 
-#: main/face/list.cc:502
+#: main/face/list.cc:503
 #, fuzzy
 msgid "_Delete downloads"
 msgstr "選んだものを削除"
 
-#: main/face/list.cc:503
+#: main/face/list.cc:504
 #, fuzzy
 msgid "_Continue downloads"
 msgstr "ダウンロードを継続"
 
-#: main/face/list.cc:504
+#: main/face/list.cc:505
 #, fuzzy
 msgid "Delete Completed"
 msgstr "完了したものを削除"
 
-#: main/face/list.cc:505
+#: main/face/list.cc:506
 #, fuzzy
 msgid "Delete _Failed"
 msgstr "失敗したものを削除"
 
-#: main/face/list.cc:506
+#: main/face/list.cc:507
 #, fuzzy
 msgid "_Rerun failed"
 msgstr "検索失敗"
 
-#: main/face/list.cc:507 main/face/lmenu.cc:188
+#: main/face/list.cc:508 main/face/lmenu.cc:188
 msgid "(Un)Protect"
 msgstr "プロテクト/解除"
 
-#: main/face/list.cc:508
+#: main/face/list.cc:509
 #, fuzzy
 msgid "_Unselect All"
 msgstr "選択を全て解除"
 
-#: main/face/list.cc:509
+#: main/face/list.cc:510
 #, fuzzy
 msgid "Select _All"
 msgstr "全て選択"
 
-#: main/face/list.cc:510
+#: main/face/list.cc:511
 #, fuzzy
 msgid "_Invert selection"
 msgstr "/ダウンロード(_D)/選択を反転"
 
-#: main/face/list.cc:511
+#: main/face/list.cc:512
 #, fuzzy
 msgid "_Create new queue"
 msgstr "新しいキューを作成"
 
-#: main/face/list.cc:512
+#: main/face/list.cc:513
 #, fuzzy
 msgid "Create new _Subqueue"
 msgstr "/新しいサブキューを作成"
 
-#: main/face/list.cc:513
+#: main/face/list.cc:514
 #, fuzzy
 msgid "_Remove this queue"
 msgstr "/キュー(_Q)/このキューを削除"
 
-#: main/face/list.cc:514
+#: main/face/list.cc:515
 #, fuzzy
 msgid "_Properties"
 msgstr "プロパティ"
 
-#: main/face/list.cc:515
+#: main/face/list.cc:516
 #, fuzzy
 msgid "_Scheduler"
 msgstr "スケジューラ"
 
-#: main/face/list.cc:516
+#: main/face/list.cc:517
 #, fuzzy
 msgid "_URL-manager"
 msgstr "URLマネージャ"
 
-#: main/face/list.cc:517
+#: main/face/list.cc:518
 msgid "_General"
 msgstr ""
 
-#: main/face/list.cc:518
+#: main/face/list.cc:519
 #, fuzzy
 msgid "_Filters"
 msgstr "フィルタ"
 
-#: main/face/list.cc:519
+#: main/face/list.cc:520
 msgid "_Buttons"
 msgstr ""
 
-#: main/face/list.cc:520
+#: main/face/list.cc:521
 #, fuzzy
 msgid "_About"
 msgstr "About"
 
-#: main/face/list.cc:523
+#: main/face/list.cc:524
 msgid "_Low"
 msgstr ""
 
-#: main/face/list.cc:524
+#: main/face/list.cc:525
 #, fuzzy
 msgid "_Medium"
 msgstr "中"
 
-#: main/face/list.cc:525
+#: main/face/list.cc:526
 #, fuzzy
 msgid "_Unlimited"
 msgstr "無制限"
 
-#: main/face/list.cc:870
+#: main/face/list.cc:871
 msgid "Do you really want to quit?"
 msgstr "本当に終了しますか？"
 
-#: main/face/list.cc:870
+#: main/face/list.cc:871
 msgid "Quit?"
 msgstr "終了しますか？"
 
-#: main/face/list.cc:899
+#: main/face/list.cc:900
 msgid "Delete selected downloads?"
 msgstr "選んだダウンロードを削除しますか？"
 
-#: main/face/list.cc:899 main/face/list.cc:917 main/face/list.cc:935
+#: main/face/list.cc:900 main/face/list.cc:918 main/face/list.cc:936
 msgid "Delete?"
 msgstr "削除しますか？"
 
-#: main/face/list.cc:917
+#: main/face/list.cc:918
 msgid "Do you wish delete completed downloads?"
 msgstr "完了したダウンロードを削除しますか？"
 
-#: main/face/list.cc:935
+#: main/face/list.cc:936
 msgid "Do you wish delete failed downloads?"
 msgstr "失敗したダウンロードを削除しますか？"
 
-#: main/face/list.cc:982
+#: main/face/list.cc:983
 msgid "Ready to go ????"
 msgstr "準備完了"
 
-#: main/face/list.cc:1379 main/face/list.cc:1655
+#: main/face/list.cc:1391 main/face/list.cc:1667
 msgid "Downloads"
 msgstr "ダウンロード"
 
-#: main/face/list.cc:1380 main/face/list.cc:1428 main/face/prefs.cc:653
+#: main/face/list.cc:1392 main/face/list.cc:1440 main/face/prefs.cc:653
 #: main/face/prefs.cc:1311 main/face/prefs.cc:1581
 msgid "Main log"
 msgstr "メインログ"
 
-#: main/face/list.cc:1381 main/face/passface.cc:425
+#: main/face/list.cc:1393 main/face/passface.cc:425
 msgid "URL-manager"
 msgstr "URLマネージャ"
 
-#: main/face/list.cc:1382 main/face/list.cc:1442
+#: main/face/list.cc:1394 main/face/list.cc:1454
 msgid "FTP-search"
 msgstr "FTPサーチ"
 
-#: main/face/list.cc:1446
+#: main/face/list.cc:1458
 msgid "Filename:"
 msgstr "ファイル名:"
 
-#: main/face/list.cc:1611
+#: main/face/list.cc:1623
 msgid "Switch to online mode"
 msgstr ""
 
-#: main/face/list.cc:1611 main/face/list.cc:1677
+#: main/face/list.cc:1623 main/face/list.cc:1689
 msgid "Switch to offline mode"
 msgstr ""
 
-#: main/face/list.cc:1809
+#: main/face/list.cc:1821
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-実行中 %i-完了 %i-全体 "
@@ -2063,92 +2063,92 @@ msgstr "%i,%i,%i,%i,%i,%iへの接続を試行"
 msgid "Probably file was changed on server!"
 msgstr "サーバのファイルが変更されているようです"
 
-#: main/ftp.cc:446 main/http.cc:229
+#: main/ftp.cc:446 main/http.cc:227
 msgid "Data connection closed."
 msgstr "データの接続を切りました"
 
-#: main/ftp.cc:452 main/http.cc:235
+#: main/ftp.cc:452 main/http.cc:233
 msgid "Error have happened during writing buffer to disk!"
 msgstr "バッファをディスクに書き込み中にエラー発生"
 
-#: main/ftp.cc:459 main/http.cc:242
+#: main/ftp.cc:459 main/http.cc:240
 msgid "Requested size was loaded"
 msgstr "要求したサイズをロードしました"
 
-#: main/ftp.cc:471 main/http.cc:247
+#: main/ftp.cc:471 main/http.cc:245
 msgid "Segment was loaded! Complete this thread."
 msgstr ""
 
-#: main/ftp.cc:479 main/http.cc:253
+#: main/ftp.cc:479 main/http.cc:251
 msgid "EOF recieved from server!"
 msgstr "サーバからEOFを受信しました"
 
-#: main/ftpd.cc:237
+#: main/ftpd.cc:238
 msgid "Can't establish data connection"
 msgstr "データに接続できません"
 
-#: main/ftpd.cc:240
+#: main/ftpd.cc:241
 msgid "Can't change directory"
 msgstr "ディレクトリを変更できません"
 
-#: main/ftpd.cc:243
+#: main/ftpd.cc:244
 msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "サーバにログインできません。ユーザが多すぎるのでしょう"
 
-#: main/ftpd.cc:311 main/httpd.cc:231
+#: main/ftpd.cc:312 main/httpd.cc:231
 msgid "Sleeping"
 msgstr "スリープ"
 
-#: main/ftpd.cc:417
+#: main/ftpd.cc:419
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr "応答がありません。ファイルの種類を決めるためディレクトリを変更します"
 
-#: main/ftpd.cc:440 main/ftpd.cc:466
+#: main/ftpd.cc:442 main/ftpd.cc:468
 msgid "Length is %ll"
 msgstr "長さは %ll です"
 
-#: main/ftpd.cc:452
+#: main/ftpd.cc:454
 msgid "This is a directory!"
 msgstr "これはディレクトリです"
 
-#: main/ftpd.cc:462
+#: main/ftpd.cc:464
 msgid "No such file or directory!"
 msgstr "そのようなファイル/ディレクトリはありません"
 
-#: main/ftpd.cc:497
+#: main/ftpd.cc:499
 msgid "Couldn't get size :(("
 msgstr "サイズを取得できません :(("
 
-#: main/ftpd.cc:512
+#: main/ftpd.cc:514
 msgid "Loading directory..."
 msgstr "ディレクトリをロード.."
 
-#: main/ftpd.cc:526
+#: main/ftpd.cc:528
 msgid "Listing was loaded"
 msgstr "リストをロードしました"
 
-#: main/ftpd.cc:529
+#: main/ftpd.cc:531
 msgid "Listing not loaded completelly"
 msgstr "リストを完全にはロードしませんでした"
 
-#: main/ftpd.cc:559
+#: main/ftpd.cc:561
 msgid "Link was loaded :))"
 msgstr "リンクはロード済みです :))"
 
-#: main/hproxy.cc:157 main/hproxy.cc:190
+#: main/hproxy.cc:156 main/hproxy.cc:189
 #, c-format
 msgid "Sending request to proxy (%s:%i)"
 msgstr "プロクシ(%s:%i)にリクエストを送信"
 
-#: main/hproxy.cc:161 main/hproxy.cc:194 main/httpd.cc:410 main/httpd.cc:439
+#: main/hproxy.cc:160 main/hproxy.cc:193 main/httpd.cc:409 main/httpd.cc:438
 msgid "Answer read ok"
 msgstr "応答を受信しました"
 
-#: main/hproxy.cc:169 main/hproxy.cc:205
+#: main/hproxy.cc:168 main/hproxy.cc:204
 msgid "File not found on the server"
 msgstr "サーバにファイルがありません"
 
-#: main/hproxy.cc:208
+#: main/hproxy.cc:207
 msgid "Probably it's problem of proxy server, retrying"
 msgstr "プロクシサーバに問題があるようです。リトライします"
 
@@ -2176,15 +2176,15 @@ msgstr "パスワードが必要です :)"
 msgid "Server return bad answer:(("
 msgstr "サーバが不正な答えを返しました:("
 
-#: main/http.cc:207
+#: main/http.cc:205
 msgid "Wrong chunk size!"
 msgstr ""
 
-#: main/http.cc:210
+#: main/http.cc:208
 msgid "Chunk size %ll"
 msgstr ""
 
-#: main/http.cc:212
+#: main/http.cc:210
 msgid "It's last chunk!"
 msgstr ""
 
@@ -2192,24 +2192,24 @@ msgstr ""
 msgid "Couldn't get normal answer!"
 msgstr "正常な応答を得られませんでした"
 
-#: main/httpd.cc:384
-#, c-format
-msgid "Size for download is %i bytes"
+#: main/httpd.cc:383
+#, fuzzy
+msgid "Size for download is %ll bytes"
 msgstr "ダウンロードのサイズは %i bytes"
 
-#: main/httpd.cc:406 main/httpd.cc:435
+#: main/httpd.cc:405 main/httpd.cc:434
 msgid "Sending HTTP request..."
 msgstr "HTTPリクエストを送信.."
 
-#: main/httpd.cc:483
+#: main/httpd.cc:482
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "REGETをサポートしていないようです。最初からロード.."
 
-#: main/httpd.cc:486
+#: main/httpd.cc:485
 msgid "ETag was changed, restarting again..."
 msgstr "ETagを変更しました。再スタート.."
 
-#: main/httpd.cc:501
+#: main/httpd.cc:500
 msgid "%ll bytes loaded."
 msgstr "%ll bytes ロードしました"
 
@@ -2225,7 +2225,7 @@ msgstr ""
 msgid "Loading default list of downloads"
 msgstr "デフォルトのダウンロードリストをロード"
 
-#: main/main.cc:281 main/main.cc:1305
+#: main/main.cc:281 main/main.cc:1307
 msgid "Delete completed downloads"
 msgstr "完了したダウンロードを削除"
 
@@ -2284,116 +2284,117 @@ msgstr "リダイレクトが多すぎます"
 msgid "Redirection from [%z] to the same location!"
 msgstr "[%z]から同じ場所にリダイレクトしています"
 
-#: main/main.cc:827
+#: main/main.cc:829
 msgid "Redirection from [%z] to nowhere!"
 msgstr "[%z]からのリダイレクト先がありません"
 
-#: main/main.cc:853
+#: main/main.cc:855
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "スレッド %i of [%z] の停止を準備"
 
-#: main/main.cc:879
+#: main/main.cc:881
 msgid "Redirect from %z"
 msgstr "%z からリダイレクト"
 
-#: main/main.cc:886
+#: main/main.cc:888
 msgid "Downloading of directory %z was completed"
 msgstr "ディレクトリ %z のダウンロードが完了しました"
 
-#: main/main.cc:890
-msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+#: main/main.cc:892
+#, fuzzy
+msgid "Downloading of file %z (%ll bytes) was completed at speed %ll bytes/sec"
 msgstr "ファイル %z(%i bytes)のダウンロードが速度%i bytes/秒で完了しました"
 
-#: main/main.cc:897
+#: main/main.cc:899
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z は完了したダウンロードとしてキューから削除しました"
 
-#: main/main.cc:908
+#: main/main.cc:910
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "ファイル %z のダウンロードが不慮のエラーで停止"
 
-#: main/main.cc:910
+#: main/main.cc:912
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z は失敗したダウンロードとしてキューから削除しました"
 
-#: main/main.cc:1241
+#: main/main.cc:1243
 msgid "Restarting failed downloads"
 msgstr "失敗したダウンロードを再試行"
 
-#: main/main.cc:1241 main/main.cc:1283 main/main.cc:1300 main/main.cc:1305
-#: main/main.cc:1310 main/main.cc:1323 main/main.cc:1328
+#: main/main.cc:1243 main/main.cc:1285 main/main.cc:1302 main/main.cc:1307
+#: main/main.cc:1312 main/main.cc:1325 main/main.cc:1330
 msgid "[control socket]"
 msgstr "[control socket]"
 
-#: main/main.cc:1264
+#: main/main.cc:1266
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "control socket[%s]からのダウンロードを削除"
 
-#: main/main.cc:1270
+#: main/main.cc:1272
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "control socket[%s]からのダウンロードを追加"
 
-#: main/main.cc:1281
+#: main/main.cc:1283
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "速度制限を %s %s に指定"
 
-#: main/main.cc:1300
+#: main/main.cc:1302
 msgid "Setup maximum active downloads to"
 msgstr "ダウンロードの最大実行数を以下に設定"
 
-#: main/main.cc:1323
+#: main/main.cc:1325
 msgid "Exiting if nothing to do is switched off"
 msgstr "実行するものがなくなれば終了する"
 
-#: main/main.cc:1328
+#: main/main.cc:1330
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "%i 分の %s ののち実行するものがなければ終了する"
 
-#: main/main.cc:1341
+#: main/main.cc:1343
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "デフォルトのキューは現在 '%s' です"
 
-#: main/main.cc:1642
+#: main/main.cc:1644
 msgid "Loading FTP-Search engines"
 msgstr "FTPサーチエンジンをロード"
 
-#: main/main.cc:1644
+#: main/main.cc:1646
 msgid "Normally started"
 msgstr "正常に開始"
 
-#: main/main.cc:1702
+#: main/main.cc:1704
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "ユーザによりファイル %s(%s)のダウンロードを追加"
 
-#: main/main.cc:1752
+#: main/main.cc:1754
 msgid "Downloader is in offline mode now"
 msgstr "ダウンローダは現在オフラインモードです"
 
-#: main/main.cc:1759
+#: main/main.cc:1761
 msgid "Offline mode is turned off"
 msgstr "オフラインモードをオフに変更"
 
-#: main/main.cc:1793
+#: main/main.cc:1795
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "このセッションで %lu bytesをロードしました"
 
-#: main/main.cc:1794
+#: main/main.cc:1796
 msgid "Downloader exited normaly"
 msgstr "正常に終了しました"
 
-#: main/main.cc:1834
+#: main/main.cc:1836
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "ログ保存のために '%s' を開けません"
 
-#: main/main.cc:1868
+#: main/main.cc:1870
 msgid "Such protocol is not supported!"
 msgstr "そのようなプロトコルはサポートしていません"
 
@@ -2436,11 +2437,11 @@ msgstr "警告: HOME変数が見つかりません。従って設定を読めま
 msgid "%s probably is already running\n"
 msgstr "%s は実行中のようです\n"
 
-#: main/ping.cc:50
+#: main/ping.cc:48
 msgid "Resolving hosts..."
 msgstr "ホストを解決.."
 
-#: main/ping.cc:79
+#: main/ping.cc:77
 msgid "Pinging  (it takes 30 seconds maximum)..."
 msgstr "Pingしています(最長30秒かかります).."
 
@@ -2457,7 +2458,7 @@ msgstr "デフォルトのダウンロードリストを保存できません"
 msgid "Can't load default list of downloads!!!"
 msgstr "デフォルトのダウンロードリストをロードできません"
 
-#: main/signal.cc:53 main/signal.cc:73
+#: main/signal.cc:53
 msgid "Download  was stopped by user"
 msgstr "ユーザの指示によりダウンロードを中止"
 

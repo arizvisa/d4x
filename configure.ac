@@ -1,9 +1,9 @@
 # -*-m4-*-
-# $Header: /home/cvs/d4x/configure.ac,v 1.2.2.11 2005/08/24 09:08:58 max Exp $
+# $Header: /home/cvs/d4x/configure.ac,v 1.2.2.13 2005/09/15 07:41:47 zaufi Exp $
 #
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.2.2.11 $)
+AC_REVISION($Revision: 1.2.2.13 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
@@ -161,6 +161,7 @@ AM_GNU_GETTEXT
 AM_GNU_GETTEXT_VERSION(0.14.1)
 AC_PATH_PROG(AUTOGEN, autogen, [${am_missing_run}autogen], /usr/local/bin:$PATH)
 AC_PATH_PROG(DOXYGEN, doxygen, [${am_missing_run}doxygen], /usr/local/bin:$PATH)
+AC_PATH_GENGETOPT([2.11], [ac_gengetopt=yes],[ac_gengetopt=no])
 AC_PATH_PROG(RPM, rpm, [${am_missing_run}rpm], /usr/local/bin:$PATH)
 HAVE_DOT=NO
 AC_PATH_PROG(DOT, dot,, /usr/local/bin:$PATH)
@@ -170,8 +171,13 @@ AC_PROG_LN_S
 test -n "$DOT" && HAVE_DOT=YES && DOT=`dirname "$DOT"`
 AC_SUBST(HAVE_DOT)
 
-AC_PATH_GENGETOPT([2.11], [ac_gengetopt=yes],[ac_gengetopt=no])
-AC_PATH_PROG(AUTOGEN, autogen, [${am_missing_run}autogen], /usr/local/bin:$PATH)
+# -- Cut from pkg.m4 installed at my gentoo system --
+# Note that if there is a possibility the first call to
+# PKG_CHECK_MODULES might not happen, you should be sure to include an
+# explicit call to PKG_PROG_PKG_CONFIG in your configure.in
+# -- End of cut --
+# So I prefer to do it explicitly ;)
+PKG_PROG_PKG_CONFIG
 
 # -----------------------------------------------------------------------------
 # Checks for libraries.

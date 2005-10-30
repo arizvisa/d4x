@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nt 2.5.0rc4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-16 13:29+0800\n"
+"POT-Creation-Date: 2005-10-30 20:06+0700\n"
 "PO-Revision-Date: 2004-07-04 12:26+0200\n"
 "Last-Translator: Branislav Jovanović <fangorn@eunet.yu>\n"
 "Language-Team: Serbian (sr) <sr@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: main/alt.cc:261
+#: main/alt.cc:259
 msgid "Add new alternate"
 msgstr "Додај нову алтернативу"
 
-#: main/alt.cc:346
+#: main/alt.cc:344
 msgid "Modify alternate"
 msgstr "Промени алтернативу"
 
@@ -269,74 +269,74 @@ msgstr "Не могу да отворим датотеку са колачићи
 msgid "%i cookies loaded"
 msgstr "%i колачића учитано"
 
-#: main/dlist.cc:120
+#: main/dlist.cc:121
 msgid "Can't write to file"
 msgstr "Не могу да пишем у датотеку"
 
-#: main/dlist.cc:147
+#: main/dlist.cc:148
 msgid "File is already opened by another download!"
 msgstr "Документ је већ отворен у другом преузимању!"
 
 # BUG? - na šta se odnosi advisory
-#: main/dlist.cc:150
+#: main/dlist.cc:151
 msgid "Filesystem do not support advisory record locking!"
 msgstr "Систем датотека не подржава адвисори закључавање рекорда!"
 
-#: main/dlist.cc:151
+#: main/dlist.cc:152
 msgid "Will proceed without it but beware that you might have problems."
 msgstr "Наставићу без тога али будите свесни да то може узроковати проблеме."
 
-#: main/dlist.cc:389
+#: main/dlist.cc:390
 #, c-format
 msgid "You have no permissions to create file at path %s"
 msgstr "Немате овлашћења да направите датотеку на путањи %s"
 
-#: main/dlist.cc:394
+#: main/dlist.cc:395
 #, c-format
 msgid "You have no space at path %s for creating file"
 msgstr "На путањи %s немате места за прављење датотеке"
 
-#: main/dlist.cc:399
+#: main/dlist.cc:400
 msgid "Directory already created!:))"
 msgstr "Директоријум је већ направљен!:))"
 
-#: main/dlist.cc:509
+#: main/dlist.cc:510
 msgid "Trying to create a link"
 msgstr "Покушавам да направим везу"
 
-#: main/dlist.cc:514
+#: main/dlist.cc:515
 msgid "Link already created!:))"
 msgstr "Веза је већ направљена!:))"
 
-#: main/dlist.cc:520
+#: main/dlist.cc:521
 msgid "Can't create link"
 msgstr "Не могу да направим везу"
 
-#: main/dlist.cc:529
+#: main/dlist.cc:530
 msgid "Trying to create a file"
 msgstr "Покушавам да направим датотеку"
 
-#: main/dlist.cc:550
+#: main/dlist.cc:551
 msgid "Can't create file at the path:"
 msgstr "Не могу да направим датотеку на путањи:"
 
-#: main/dlist.cc:552
+#: main/dlist.cc:553
 msgid "which has name:"
 msgstr "под именом:"
 
-#: main/dlist.cc:563
+#: main/dlist.cc:564
 msgid "File was created!"
 msgstr "Документ је направљен!"
 
-#: main/dlist.cc:568
+#: main/dlist.cc:569
 msgid "Trying to create a dir"
 msgstr "Покушавам да направим директоријум"
 
-#: main/dlist.cc:578
+#: main/dlist.cc:579
 msgid "Can't create directory!"
 msgstr "Не могу да направим директоријум!"
 
-#: main/dlist.cc:588
+#: main/dlist.cc:589
 msgid "Downloader can't create devices..."
 msgstr "Преузимач не може да направи уређаје..."
 
@@ -349,27 +349,27 @@ msgstr "Покушавам да пресликам %s на %s због 'Content-
 msgid "Error during copying!"
 msgstr "Грешка приликом пресликавања!"
 
-#: main/dlist.cc:1069
+#: main/dlist.cc:1068
 msgid "Downloading was successefully completed!"
 msgstr "Преузимање је успешно завршено!"
 
-#: main/dlist.cc:1120
+#: main/dlist.cc:1117
 msgid "Downloading was failed..."
 msgstr "Преузимање није успело..."
 
-#: main/dlist.cc:1284
+#: main/dlist.cc:1279
 msgid "Redirection blocked by filter"
 msgstr "Преусмеравање је блокирао филтер"
 
-#: main/dlist.cc:1289
+#: main/dlist.cc:1284
 msgid "Redirect detected..."
 msgstr "Детектовано преусмеравање..."
 
-#: main/dlist.cc:1293 main/dlist.cc:1308
+#: main/dlist.cc:1288 main/dlist.cc:1301
 msgid "Size detection only!"
 msgstr "Само детекција величине!"
 
-#: main/dlist.cc:1362
+#: main/dlist.cc:1351
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
@@ -377,52 +377,52 @@ msgstr ""
 "Вишенитно преузимање није могуће због ограничења сервера (настављање није "
 "могуће)"
 
-#: main/dlist.cc:1373
+#: main/dlist.cc:1362
 msgid "Local file is seems to be equal to remote one"
 msgstr "Чини се да је локална датотека иста као удаљена"
 
-#: main/dlist.cc:1394
+#: main/dlist.cc:1383
 msgid "It is strange that we can't delete file which just created..."
 msgstr "Чудно је да не можемо да обришемо управо направљену датотеку..."
 
-#: main/dlist.cc:1398 main/dlist.cc:1650
+#: main/dlist.cc:1387 main/dlist.cc:1632
 msgid "File not found"
 msgstr "Документ није пронађен"
 
-#: main/dlist.cc:1470
+#: main/dlist.cc:1459
 msgid "Sorting started"
 msgstr "Сортирање започето"
 
-#: main/dlist.cc:1473
+#: main/dlist.cc:1462
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "Пингујем (покушај %i од %i)"
 
-#: main/dlist.cc:1501
+#: main/dlist.cc:1488
 msgid "Trying to determine filesizes"
 msgstr "Покушавам да одредим величине датотека"
 
-#: main/dlist.cc:1554
+#: main/dlist.cc:1540
 msgid "Searching failed"
 msgstr "Претрага није успела"
 
-#: main/dlist.cc:1613
+#: main/dlist.cc:1597
 msgid "Search had been completed!"
 msgstr "Претрага је завршена!"
 
-#: main/dlist.cc:1619
+#: main/dlist.cc:1603
 msgid "Was Started!"
 msgstr "Била је покренута!"
 
-#: main/dlist.cc:1628
+#: main/dlist.cc:1612
 msgid "It is a link and we already load it"
 msgstr "То је веза и већ је преузимамо"
 
-#: main/dlist.cc:1655
+#: main/dlist.cc:1637
 msgid "Trying to work without CWD"
 msgstr "Покушавам да радим без CWD"
 
-#: main/dlist.cc:1787
+#: main/dlist.cc:1770
 msgid "Can't split file to specified number of parts!"
 msgstr "Не могу да поделим датотеку на задати број делова!"
 
@@ -652,7 +652,7 @@ msgstr "Прекини везу/Повежи се"
 msgid "Online"
 msgstr ""
 
-#: main/face/dndtrash.cc:626 main/face/list.cc:490 main/face/lod.cc:49
+#: main/face/dndtrash.cc:626 main/face/list.cc:491 main/face/lod.cc:49
 msgid "Speed"
 msgstr "Брзина"
 
@@ -989,7 +989,7 @@ msgstr "Изабери све"
 msgid "filter name"
 msgstr "име филтера"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1383
+#: main/face/filtrgui.cc:187 main/face/list.cc:1395
 msgid "Filters"
 msgstr "Филтери"
 
@@ -1049,7 +1049,7 @@ msgstr "Акција"
 msgid "Info"
 msgstr "Информације"
 
-#: main/face/fsched.cc:235 main/face/list.cc:1384
+#: main/face/fsched.cc:235 main/face/list.cc:1396
 msgid "Scheduler"
 msgstr "Роковник"
 
@@ -1146,212 +1146,212 @@ msgstr "Пинг"
 msgid "Url"
 msgstr "Урл"
 
-#: main/face/list.cc:486
+#: main/face/list.cc:487
 msgid "_File"
 msgstr "_Датотека"
 
-#: main/face/list.cc:487
+#: main/face/list.cc:488
 msgid "_Download"
 msgstr "_Преузимање"
 
-#: main/face/list.cc:488
+#: main/face/list.cc:489
 msgid "_Queue"
 msgstr "_Ред"
 
-#: main/face/list.cc:489
+#: main/face/list.cc:490
 msgid "_Options"
 msgstr "_Опције"
 
-#: main/face/list.cc:491
+#: main/face/list.cc:492
 msgid "_Help"
 msgstr "_Помоћ"
 
-#: main/face/list.cc:492
+#: main/face/list.cc:493
 msgid "_Save List"
 msgstr "_Сними листу"
 
-#: main/face/list.cc:493
+#: main/face/list.cc:494
 msgid "_Load List"
 msgstr "Учитај _листу"
 
-#: main/face/list.cc:494
+#: main/face/list.cc:495
 msgid "_Find links in file"
 msgstr "Пронађи везе у датотеци"
 
-#: main/face/list.cc:495
+#: main/face/list.cc:496
 msgid "_New Download"
 msgstr "_Ново Преузимање"
 
-#: main/face/list.cc:496
+#: main/face/list.cc:497
 msgid "_Paste Download"
 msgstr "_Убаци Преузимање"
 
-#: main/face/list.cc:497
+#: main/face/list.cc:498
 msgid "_Automated adding"
 msgstr "_Аутоматизовано додавање"
 
-#: main/face/list.cc:498
+#: main/face/list.cc:499
 msgid "_Exit"
 msgstr "Излаз"
 
-#: main/face/list.cc:499
+#: main/face/list.cc:500
 msgid "_View Log"
 msgstr "Прегледај дне_вник"
 
-#: main/face/list.cc:500
+#: main/face/list.cc:501
 msgid "_Stop downloads"
 msgstr "Зау_стави преузимања "
 
-#: main/face/list.cc:501
+#: main/face/list.cc:502
 msgid "_Edit downloads"
 msgstr "Ур_еди преузимање"
 
-#: main/face/list.cc:502
+#: main/face/list.cc:503
 msgid "_Delete downloads"
 msgstr "Обриши преузимања"
 
-#: main/face/list.cc:503
+#: main/face/list.cc:504
 msgid "_Continue downloads"
 msgstr "Настави преузимања"
 
-#: main/face/list.cc:504
+#: main/face/list.cc:505
 msgid "Delete Completed"
 msgstr "Обриши завршена"
 
-#: main/face/list.cc:505
+#: main/face/list.cc:506
 msgid "Delete _Failed"
 msgstr "Обриши неуспела"
 
-#: main/face/list.cc:506
+#: main/face/list.cc:507
 msgid "_Rerun failed"
 msgstr "Понављање није успело"
 
-#: main/face/list.cc:507 main/face/lmenu.cc:188
+#: main/face/list.cc:508 main/face/lmenu.cc:188
 msgid "(Un)Protect"
 msgstr "(Од)Штити"
 
-#: main/face/list.cc:508
+#: main/face/list.cc:509
 msgid "_Unselect All"
 msgstr "Поништи све изборе"
 
-#: main/face/list.cc:509
+#: main/face/list.cc:510
 msgid "Select _All"
 msgstr "Из_абери све"
 
-#: main/face/list.cc:510
+#: main/face/list.cc:511
 msgid "_Invert selection"
 msgstr "Обрни _избор"
 
-#: main/face/list.cc:511
+#: main/face/list.cc:512
 msgid "_Create new queue"
 msgstr "Направи нови ред"
 
-#: main/face/list.cc:512
+#: main/face/list.cc:513
 msgid "Create new _Subqueue"
 msgstr "Направи нови подред"
 
-#: main/face/list.cc:513
+#: main/face/list.cc:514
 msgid "_Remove this queue"
 msgstr "Уклони овај _ред"
 
-#: main/face/list.cc:514
+#: main/face/list.cc:515
 msgid "_Properties"
 msgstr "Особине"
 
-#: main/face/list.cc:515
+#: main/face/list.cc:516
 msgid "_Scheduler"
 msgstr "Роковник"
 
-#: main/face/list.cc:516
+#: main/face/list.cc:517
 msgid "_URL-manager"
 msgstr "_УРЛ-управљач"
 
-#: main/face/list.cc:517
+#: main/face/list.cc:518
 msgid "_General"
 msgstr "Опште"
 
-#: main/face/list.cc:518
+#: main/face/list.cc:519
 msgid "_Filters"
 msgstr "_Филтери"
 
-#: main/face/list.cc:519
+#: main/face/list.cc:520
 msgid "_Buttons"
 msgstr "Дугмад"
 
-#: main/face/list.cc:520
+#: main/face/list.cc:521
 msgid "_About"
 msgstr "_О"
 
-#: main/face/list.cc:523
+#: main/face/list.cc:524
 msgid "_Low"
 msgstr "ниска"
 
-#: main/face/list.cc:524
+#: main/face/list.cc:525
 msgid "_Medium"
 msgstr "средња"
 
-#: main/face/list.cc:525
+#: main/face/list.cc:526
 msgid "_Unlimited"
 msgstr "неограничена"
 
-#: main/face/list.cc:870
+#: main/face/list.cc:871
 msgid "Do you really want to quit?"
 msgstr "Да ли стварно желите да изађете?"
 
-#: main/face/list.cc:870
+#: main/face/list.cc:871
 msgid "Quit?"
 msgstr "Изађи?"
 
-#: main/face/list.cc:899
+#: main/face/list.cc:900
 msgid "Delete selected downloads?"
 msgstr "Обриши обeлежена преузимања?"
 
-#: main/face/list.cc:899 main/face/list.cc:917 main/face/list.cc:935
+#: main/face/list.cc:900 main/face/list.cc:918 main/face/list.cc:936
 msgid "Delete?"
 msgstr "Обриши?"
 
-#: main/face/list.cc:917
+#: main/face/list.cc:918
 msgid "Do you wish delete completed downloads?"
 msgstr "Да ли желите да обришете завршена преузимања?"
 
-#: main/face/list.cc:935
+#: main/face/list.cc:936
 msgid "Do you wish delete failed downloads?"
 msgstr "Да ли желите да обришете неуспела преузимања?"
 
-#: main/face/list.cc:982
+#: main/face/list.cc:983
 msgid "Ready to go ????"
 msgstr "Спремни за покрет ????"
 
-#: main/face/list.cc:1379 main/face/list.cc:1655
+#: main/face/list.cc:1391 main/face/list.cc:1667
 msgid "Downloads"
 msgstr "Преузимања"
 
-#: main/face/list.cc:1380 main/face/list.cc:1428 main/face/prefs.cc:653
+#: main/face/list.cc:1392 main/face/list.cc:1440 main/face/prefs.cc:653
 #: main/face/prefs.cc:1311 main/face/prefs.cc:1581
 msgid "Main log"
 msgstr "Главни дневник"
 
-#: main/face/list.cc:1381 main/face/passface.cc:425
+#: main/face/list.cc:1393 main/face/passface.cc:425
 msgid "URL-manager"
 msgstr "УРЛ-управљач"
 
-#: main/face/list.cc:1382 main/face/list.cc:1442
+#: main/face/list.cc:1394 main/face/list.cc:1454
 msgid "FTP-search"
 msgstr "FTP-претрага"
 
-#: main/face/list.cc:1446
+#: main/face/list.cc:1458
 msgid "Filename:"
 msgstr "Име датотеке:"
 
-#: main/face/list.cc:1611
+#: main/face/list.cc:1623
 msgid "Switch to online mode"
 msgstr ""
 
-#: main/face/list.cc:1611 main/face/list.cc:1677
+#: main/face/list.cc:1623 main/face/list.cc:1689
 msgid "Switch to offline mode"
 msgstr ""
 
-#: main/face/list.cc:1809
+#: main/face/list.cc:1821
 #, c-format
 msgid "[%s] %i-running %i-completed %i-total "
 msgstr "[%s] %i-иде %i-завршено %i-укупно"
@@ -2024,95 +2024,95 @@ msgstr "покушај да се повежеш на %i,%i,%i,%i,%i,%i"
 msgid "Probably file was changed on server!"
 msgstr "Највероватније је датотека промењена на серверу!"
 
-#: main/ftp.cc:446 main/http.cc:229
+#: main/ftp.cc:446 main/http.cc:227
 msgid "Data connection closed."
 msgstr "Веза за податке затворена."
 
-#: main/ftp.cc:452 main/http.cc:235
+#: main/ftp.cc:452 main/http.cc:233
 msgid "Error have happened during writing buffer to disk!"
 msgstr "Десила се грешка приликом уписа бафера на диск!"
 
-#: main/ftp.cc:459 main/http.cc:242
+#: main/ftp.cc:459 main/http.cc:240
 msgid "Requested size was loaded"
 msgstr "Тражена величина је учитана"
 
 # BUG: је БИО или само ЈЕ????
-#: main/ftp.cc:471 main/http.cc:247
+#: main/ftp.cc:471 main/http.cc:245
 msgid "Segment was loaded! Complete this thread."
 msgstr "Сегмент је био учитан! Заврши ову нит."
 
-#: main/ftp.cc:479 main/http.cc:253
+#: main/ftp.cc:479 main/http.cc:251
 msgid "EOF recieved from server!"
 msgstr "EOF примљен од сервера!"
 
-#: main/ftpd.cc:237
+#: main/ftpd.cc:238
 msgid "Can't establish data connection"
 msgstr "Не могу да успоставим везу за податке"
 
-#: main/ftpd.cc:240
+#: main/ftpd.cc:241
 msgid "Can't change directory"
 msgstr "Не могу да променим директоријум"
 
-#: main/ftpd.cc:243
+#: main/ftpd.cc:244
 msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "Сервер је одбио пријаву, можда већ има превише корисника ваше класе"
 
-#: main/ftpd.cc:311 main/httpd.cc:231
+#: main/ftpd.cc:312 main/httpd.cc:231
 msgid "Sleeping"
 msgstr "Спава"
 
-#: main/ftpd.cc:417
+#: main/ftpd.cc:419
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr ""
 "Празан одговор. Покушавам да променим директоријум да бих одредио тип "
 "датотеке."
 
-#: main/ftpd.cc:440 main/ftpd.cc:466
+#: main/ftpd.cc:442 main/ftpd.cc:468
 msgid "Length is %ll"
 msgstr "Дужина је %ll"
 
-#: main/ftpd.cc:452
+#: main/ftpd.cc:454
 msgid "This is a directory!"
 msgstr "Ово је директоријум!"
 
-#: main/ftpd.cc:462
+#: main/ftpd.cc:464
 msgid "No such file or directory!"
 msgstr "Не постоји таква датотека или директоријум!"
 
-#: main/ftpd.cc:497
+#: main/ftpd.cc:499
 msgid "Couldn't get size :(("
 msgstr "Нисам успео да добијем величину :(("
 
-#: main/ftpd.cc:512
+#: main/ftpd.cc:514
 msgid "Loading directory..."
 msgstr "Учитавам директоријум..."
 
-#: main/ftpd.cc:526
+#: main/ftpd.cc:528
 msgid "Listing was loaded"
 msgstr "Листинг је учитан"
 
-#: main/ftpd.cc:529
+#: main/ftpd.cc:531
 msgid "Listing not loaded completelly"
 msgstr "Листинг није потпуно учитан"
 
-#: main/ftpd.cc:559
+#: main/ftpd.cc:561
 msgid "Link was loaded :))"
 msgstr "Веза је учитана :))"
 
-#: main/hproxy.cc:157 main/hproxy.cc:190
+#: main/hproxy.cc:156 main/hproxy.cc:189
 #, c-format
 msgid "Sending request to proxy (%s:%i)"
 msgstr "Шаљем захтев проксију (%s:%i)"
 
-#: main/hproxy.cc:161 main/hproxy.cc:194 main/httpd.cc:410 main/httpd.cc:439
+#: main/hproxy.cc:160 main/hproxy.cc:193 main/httpd.cc:409 main/httpd.cc:438
 msgid "Answer read ok"
 msgstr "Одговор је гласио ок"
 
-#: main/hproxy.cc:169 main/hproxy.cc:205
+#: main/hproxy.cc:168 main/hproxy.cc:204
 msgid "File not found on the server"
 msgstr "Датотека није нађена на серверу"
 
-#: main/hproxy.cc:208
+#: main/hproxy.cc:207
 msgid "Probably it's problem of proxy server, retrying"
 msgstr "Највровантије проблем са прокси сервером, покушавам поново"
 
@@ -2140,15 +2140,15 @@ msgstr "Чини ми се да вам треба лозинка :)"
 msgid "Server return bad answer:(("
 msgstr "Сервер је вратио лош одговор:(("
 
-#: main/http.cc:207
+#: main/http.cc:205
 msgid "Wrong chunk size!"
 msgstr "Погрешна величина парчета!"
 
-#: main/http.cc:210
+#: main/http.cc:208
 msgid "Chunk size %ll"
 msgstr "Величина парчета %ll"
 
-#: main/http.cc:212
+#: main/http.cc:210
 msgid "It's last chunk!"
 msgstr "То је последње парче!"
 
@@ -2156,24 +2156,24 @@ msgstr "То је последње парче!"
 msgid "Couldn't get normal answer!"
 msgstr "Нисам успео да добијем нормалан одговор!"
 
-#: main/httpd.cc:384
-#, c-format
-msgid "Size for download is %i bytes"
+#: main/httpd.cc:383
+#, fuzzy
+msgid "Size for download is %ll bytes"
 msgstr "Величина за преузимање је %i бајтова"
 
-#: main/httpd.cc:406 main/httpd.cc:435
+#: main/httpd.cc:405 main/httpd.cc:434
 msgid "Sending HTTP request..."
 msgstr "Шаљем HTTP захтев..."
 
-#: main/httpd.cc:483
+#: main/httpd.cc:482
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "Чини се да REGET није подржан! Учитавам од почетка.."
 
-#: main/httpd.cc:486
+#: main/httpd.cc:485
 msgid "ETag was changed, restarting again..."
 msgstr "ETag је промењен, почињем поново..."
 
-#: main/httpd.cc:501
+#: main/httpd.cc:500
 msgid "%ll bytes loaded."
 msgstr "%ll бајтова учитано."
 
@@ -2189,7 +2189,7 @@ msgstr "Не могу да иницијализујем контролну ут�
 msgid "Loading default list of downloads"
 msgstr "Учитавам подразумевану листу преузимања"
 
-#: main/main.cc:281 main/main.cc:1305
+#: main/main.cc:281 main/main.cc:1307
 msgid "Delete completed downloads"
 msgstr "Обриши завршена преузимања"
 
@@ -2248,117 +2248,118 @@ msgstr "Превише преусмеравања!"
 msgid "Redirection from [%z] to the same location!"
 msgstr "Преусмеравање са [%z] на исту локацију!"
 
-#: main/main.cc:827
+#: main/main.cc:829
 msgid "Redirection from [%z] to nowhere!"
 msgstr "Преусмеравање са [%z] у нигде!"
 
-#: main/main.cc:853
+#: main/main.cc:855
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "Припреми нит %i од [%z] за заустављање"
 
-#: main/main.cc:879
+#: main/main.cc:881
 msgid "Redirect from %z"
 msgstr "Преусмеравање са %z"
 
-#: main/main.cc:886
+#: main/main.cc:888
 msgid "Downloading of directory %z was completed"
 msgstr "Преузимање директоријума %z је завршено"
 
-#: main/main.cc:890
-msgid "Downloading of file %z (%i bytes) was completed at speed %i bytes/sec"
+#: main/main.cc:892
+#, fuzzy
+msgid "Downloading of file %z (%ll bytes) was completed at speed %ll bytes/sec"
 msgstr ""
 "Преузимање датотеке %z (%i бајтова) је завршено брзином од %i бајтова/секунди"
 
-#: main/main.cc:897
+#: main/main.cc:899
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "%z је обрисана из реда за преузимање као завршено преузимање"
 
-#: main/main.cc:908
+#: main/main.cc:910
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "Преузимање датотеке %z је прекинуто фаталном грешком"
 
-#: main/main.cc:910
+#: main/main.cc:912
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "%z је обрисана из реда за преузимање као неуспело преузимање"
 
-#: main/main.cc:1241
+#: main/main.cc:1243
 msgid "Restarting failed downloads"
 msgstr "Поново покрећем неуспела преузимања"
 
-#: main/main.cc:1241 main/main.cc:1283 main/main.cc:1300 main/main.cc:1305
-#: main/main.cc:1310 main/main.cc:1323 main/main.cc:1328
+#: main/main.cc:1243 main/main.cc:1285 main/main.cc:1302 main/main.cc:1307
+#: main/main.cc:1312 main/main.cc:1325 main/main.cc:1330
 msgid "[control socket]"
 msgstr "[контролна утичница]"
 
-#: main/main.cc:1264
+#: main/main.cc:1266
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "Уклони скидaње преко контролне утичнице [%s]"
 
-#: main/main.cc:1270
+#: main/main.cc:1272
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "Додајем преузимање преко контролне утичнице [%s]"
 
-#: main/main.cc:1281
+#: main/main.cc:1283
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "Постави ограничење брзине на %s %s"
 
-#: main/main.cc:1300
+#: main/main.cc:1302
 msgid "Setup maximum active downloads to"
 msgstr "Постави највећи број активних преузимања на"
 
-#: main/main.cc:1323
+#: main/main.cc:1325
 msgid "Exiting if nothing to do is switched off"
 msgstr "Излаз ако нема шта да се ради је искључен"
 
-#: main/main.cc:1328
+#: main/main.cc:1330
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "Преузимач ће изаћи ако нема шта да ради после %i минута %s"
 
-#: main/main.cc:1341
+#: main/main.cc:1343
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "'%s' је сада подразумевани ред."
 
-#: main/main.cc:1642
+#: main/main.cc:1644
 msgid "Loading FTP-Search engines"
 msgstr "Учитавам FTP машине за претраживање"
 
-#: main/main.cc:1644
+#: main/main.cc:1646
 msgid "Normally started"
 msgstr "Покренуто нормално"
 
-#: main/main.cc:1702
+#: main/main.cc:1704
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "Додато преузимање датотеке %s са %s [од стране корисника]"
 
-#: main/main.cc:1752
+#: main/main.cc:1754
 msgid "Downloader is in offline mode now"
 msgstr "Преузимач сада није на линији"
 
-#: main/main.cc:1759
+#: main/main.cc:1761
 msgid "Offline mode is turned off"
 msgstr "Офлине мод је искључен"
 
-#: main/main.cc:1793
+#: main/main.cc:1795
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "%lu бајтова учитано током сесије"
 
-#: main/main.cc:1794
+#: main/main.cc:1796
 msgid "Downloader exited normaly"
 msgstr "Преузимач је изашао нормално"
 
-#: main/main.cc:1834
+#: main/main.cc:1836
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "Не могу да отворим '%s' за снимање дневника"
 
-#: main/main.cc:1868
+#: main/main.cc:1870
 msgid "Such protocol is not supported!"
 msgstr "Такав протокол није подржан!"
 
@@ -2405,11 +2406,11 @@ msgstr ""
 msgid "%s probably is already running\n"
 msgstr "%s вероватно већ иде\n"
 
-#: main/ping.cc:50
+#: main/ping.cc:48
 msgid "Resolving hosts..."
 msgstr "Разлучујем домаћина"
 
-#: main/ping.cc:79
+#: main/ping.cc:77
 msgid "Pinging  (it takes 30 seconds maximum)..."
 msgstr "Пингујем (то траје највише 30 секунди)..."
 
@@ -2428,7 +2429,7 @@ msgstr "Не могу да снимим подразумевану листу п
 msgid "Can't load default list of downloads!!!"
 msgstr "Не могу да учитам подразумевану листу преузимања!!!"
 
-#: main/signal.cc:53 main/signal.cc:73
+#: main/signal.cc:53
 msgid "Download  was stopped by user"
 msgstr "Преузимање је прекинуо корисник"
 

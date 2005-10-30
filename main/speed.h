@@ -65,8 +65,8 @@ public:
 			time_t r=time(NULL);
 			time_t period=r-start;
 			if (period){
-				loaded=loaded/period;
-				start=r-1;
+				loaded=10*(loaded/period);
+				start=r-10;
 			};
 			counter=0;
 		};
@@ -74,6 +74,7 @@ public:
 	};
 	void reset(){
 		loaded=0;
+		counter=0;
 		start=time(NULL);
 	};
 	fsize_t speed(){

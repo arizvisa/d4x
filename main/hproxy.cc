@@ -32,7 +32,7 @@ fsize_t tHProxyClient::get_size_sub(tStringList *list){
 	char data[MAX_LEN];
 	send_request("Accept: */*\r\n");
 	if (Offset){
-		sprintf(data,"%li",Offset);
+		sprintf(data,"%Li",Offset);
 		send_request("Range: bytes=",data,"-\r\n");
 	};
 
@@ -97,7 +97,6 @@ tProxyDownload::tProxyDownload(tWriterLoger *log):tHttpDownload(log){
 };
 
 int tProxyDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
-	DBC_RETVAL_IF_FAIL(hostinfo!=NULL,-1);
 	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
 	HTTP=new tHProxyClient(cfg);
 	RetrNum=0;
@@ -130,9 +129,9 @@ int tProxyDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
 	config.referer.set(cfg->referer.get());
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
 	if (ADDR.proto==D_PROTO_FTP)
-		HTTP->registr(NULL,NULL);
+		HTTP->registr("","");
 	else
-		HTTP->registr(ADDR.user.c_str(),ADDR.pass.c_str());
+		HTTP->registr(ADDR.user,ADDR.pass);
 	((tHProxyClient *)(HTTP))->proxy_registr(config.proxy.http_user.get(),config.proxy.http_pass.get());
 	((tHProxyClient *)(HTTP))->setup_data(ADDR.host.c_str(),cfg->proxy.no_cache);
 	REQUESTED_URL=make_name();

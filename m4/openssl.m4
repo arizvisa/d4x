@@ -1,5 +1,5 @@
 ##
-## $Header: /home/cvs/d4x/m4/Attic/openssl.m4,v 1.1.2.2 2005/08/11 12:25:57 zaufi Exp $
+## $Header: /home/cvs/d4x/m4/openssl.m4,v 1.1.2.2 2005/08/11 12:25:57 zaufi Exp $
 ##
 ## Wed 29 Oct 2003 02:11:44 PM MSK by Zaufi
 ##

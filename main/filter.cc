@@ -139,19 +139,16 @@ void d4xFilter::del(tNode *node){
 
 int d4xFilter::match(const d4x::URL &addr){
 	DBC_RETVAL_IF_FAIL(addr!=NULL,0);
-	download_set_block(1);
 	my_mutex.lock();
 	d4xRule *rule=(d4xRule *)First;
 	while(rule){
 		if (rule->match(addr)){
 			my_mutex.unlock();
-			download_set_block(0);
 			return(rule->include);
 		};
 		rule=(d4xRule *)(rule->prev);
 	};
 	my_mutex.unlock();
-	download_set_block(0);
 	return(default_inc);
 };
 

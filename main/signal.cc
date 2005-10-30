@@ -17,6 +17,7 @@
 #include "face/log.h"
 #include "var.h"
 #include "ntlocale.h"
+#include  "signal.h"
 
 static pthread_key_t THREADS_KEY;
 static pthread_once_t THREADS_KEY_ONCE=PTHREAD_ONCE_INIT;
@@ -46,32 +47,10 @@ void my_pthread_key_set(tDownload *what){
 	if (temp) *temp=what;
 };
 
-void download_set_block(int a){
-	tDownload **temp=(my_pthread_key_get());
-	if (temp && *temp){
-		if ((*temp)->BLOCKED==2){
-			(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
-			D4X_UPDATE.add(*temp,DOWNLOAD_REAL_STOP);
-			pthread_exit(NULL);
-			return;
-		};
-		(*temp)->BLOCKED=a;
-	};
-};
-
 void signal_handler(int num) {
 	tDownload **temp=(my_pthread_key_get());
 	if (temp){
-		// check for entering in gethostbyname routine
-		// or any other glibc routine which locks global lock
-		if ((*temp)->BLOCKED){
-			(*temp)->BLOCKED=2;
-			return;
-		};
-		// to avoid locking if currently string adding in log
-		(*temp)->LOG->unlock();
 		(*temp)->LOG->add(_("Download  was stopped by user"),LOG_WARNING);
-		//	temp->who->done();
 		if ((*temp)->segments)
 			(*temp)->segments->save();
 		D4X_UPDATE.add(*temp,DOWNLOAD_REAL_STOP);
@@ -89,14 +68,14 @@ void init_signal_handler() {
 	sigaddset(&newmask,SIGINT);
 	sigaddset(&newmask,SIGTERM);
 	sigaddset(&newmask,SIGUSR2);
-	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
-	sigemptyset(&newmask);
 	sigaddset(&newmask,SIGUSR1);
-	pthread_sigmask(SIG_UNBLOCK,&newmask,&oldmask);	
+	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
 };
+
 
 int stop_thread(tDownload *what) {
 	if (what->thread_id==0)  return 1;
+	what->STOPPED_BY_USER=true;
 	return(pthread_kill(what->thread_id,SIGUSR1));
 };
 
@@ -127,4 +106,44 @@ void my_pthreads_mutex_init(pthread_mutex_t *lock){
 	pthread_mutex_init(lock,&ma);
 	pthread_mutexattr_destroy(&ma);
 #endif
+};
+
+
+using namespace d4x;
+
+USR1Off2On::USR1Off2On(){
+	tDownload **temp=(my_pthread_key_get());
+	if (temp && (*temp)->STOPPED_BY_USER)
+		signal_handler(SIGUSR1);
+	
+	sigset_t oldmask,newmask;
+	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGUSR1);
+	pthread_sigmask(SIG_UNBLOCK,&newmask,&oldmask);
+};
+
+USR1Off2On::~USR1Off2On(){
+	sigset_t oldmask,newmask;
+	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGUSR1);
+	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
+};
+
+
+USR1On2Off::USR1On2Off(){
+	sigset_t oldmask,newmask;
+	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGUSR1);
+	pthread_sigmask(SIG_UNBLOCK,&newmask,&oldmask);
+};
+
+USR1On2Off::~USR1On2Off(){
+	tDownload **temp=(my_pthread_key_get());
+	if (temp && (*temp)->STOPPED_BY_USER)
+		signal_handler(SIGUSR1);
+	
+	sigset_t oldmask,newmask;
+	sigemptyset(&newmask);
+	sigaddset(&newmask,SIGUSR1);
+	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
 };

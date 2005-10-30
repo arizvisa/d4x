@@ -43,7 +43,6 @@ int my_get_host_by_name(const char *host,int port,
 		info->sin_addr.s_addr = inet_addr(host);
 		if (info->sin_addr.s_addr == INADDR_NONE){
 			hostent *hpr=hp;
-			download_set_block(1);
 			*rvalbuf=0;
 #if !(defined(BSD) && (BSD >= 199306))
 #if (defined(__sparc__) || defined(__mips__)) && !(defined(__linux__))
@@ -60,7 +59,6 @@ int my_get_host_by_name(const char *host,int port,
 			memcpy((char *)&(info->sin_addr),hpa->h_addr_list[0],
 			       (size_t) hpa->h_length);
 #endif /* !(defined(BSD) && (BSD >= 199306)) */
-			download_set_block(0);
 		};
 	} else info->sin_addr.s_addr=INADDR_ANY;
 	info->sin_port=htons(port);
@@ -79,12 +77,12 @@ tSocket::tSocket() {
 int tSocket::constr_name(const char *host,guint16 port) {
 	info.sin_family=AF_INET;
 	if (host) {
+		d4x::USR1On2Off sig_locker_;
 		info.sin_addr.s_addr = inet_addr(host);
 		if (info.sin_addr.s_addr == INADDR_NONE){
 			if (!buffer) buffer=new char[MAX_LEN];
 			hostent *hpr=&hp;
 			temp_variable=0;
-			download_set_block(1);
 #if !(defined(BSD) && (BSD >= 199306))
 #if (defined(__sparc__) || defined(__mips__)) && !(defined(__linux__))
 			gethostbyname_r(host,&hp,buffer,MAX_LEN,&temp_variable);
@@ -92,7 +90,6 @@ int tSocket::constr_name(const char *host,guint16 port) {
 			gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
 #endif
 			if (temp_variable){
-				download_set_block(0);
 				return -1;
 			};
 			memcpy((char *)&info.sin_addr,hpr->h_addr_list[0],(size_t) hpr->h_length);
@@ -102,12 +99,10 @@ int tSocket::constr_name(const char *host,guint16 port) {
 */
 			hostent *hpa=gethostbyname(host);
 			if (!hpa){
-				download_set_block(0);
 				return -1;
 			};
 			memcpy((char *)&info.sin_addr,hpa->h_addr_list[0],(size_t) hpa->h_length);
 #endif /* !(defined(BSD) && (BSD >= 199306)) */
-			download_set_block(0);
 		};
 	} else info.sin_addr.s_addr=INADDR_ANY;
 	info.sin_port=htons(port);
@@ -136,6 +131,7 @@ unsigned short int tSocket::get_port() {
 
 int tSocket::open_port(const char *host, guint16 port) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
+	d4x::USR1Off2On sig_unlocker_;
 	int len=constr_name(host,port);
 	if (len<0) return SOCKET_UNKNOWN_HOST;
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
@@ -145,6 +141,7 @@ int tSocket::open_port(const char *host, guint16 port) {
 	
 	size_t sl=2000; //set receive buffer to default+30% MTU size
 	setsockopt(fd,SOL_SOCKET,SO_RCVBUF,(char *)&sl,sizeof(sl));
+	
 	if (connect(fd, (struct sockaddr *)&info, len) < 0)
 		return(SOCKET_CANT_CONNECT);
 	con_flag=1;
@@ -162,6 +159,7 @@ int tSocket::open_port(int *ftp_addr) {
 }
 
 int tSocket::open_port(guint32 host,guint16 port) {
+	d4x::USR1Off2On sig_unlocker_;
 	port=htons(port);
 //	host=htonl(host);
 	int len=constr_name(NULL,port);
@@ -178,6 +176,7 @@ int tSocket::open_port(guint32 host,guint16 port) {
 }
 
 int tSocket::open_any(const char *host) {
+	d4x::USR1Off2On sig_unlocker_;
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	constr_name(NULL,0);
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
@@ -193,6 +192,7 @@ int tSocket::open_any(const char *host) {
 };
 
 int tSocket::open_any(guint32 host) {
+	d4x::USR1Off2On sig_unlocker_;
 	constr_name(NULL,0);
 	host=htonl(host);
 	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));
@@ -281,6 +281,7 @@ fsize_t tSocket::lowlevel_read(char *where,fsize_t bytes){
 
 fsize_t tSocket::rec_string(char * where,fsize_t len,int timeout) {
 	DBC_RETVAL_IF_FAIL(where!=NULL,-1);
+	d4x::USR1Off2On sig_unlocker_;
 	if (wait_for_read(timeout))
 		return STATUS_TIMEOUT;
 	tDownload **download=my_pthread_key_get();
@@ -291,6 +292,7 @@ fsize_t tSocket::rec_string(char * where,fsize_t len,int timeout) {
 		bytes=len;
 	fsize_t temp=lowlevel_read(where,bytes);
 	if (temp>0) {
+		d4x::USR1On2Off sig_locker_();
 		RBytes+=temp;
 		GVARS.MUTEX.lock();
 		GVARS.READED_BYTES+=temp;

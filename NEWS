@@ -1,3 +1,14 @@
+2.5.6
+	Fixed downloading files greater than 2Gb via HTTP
+	Fixed downloading via authorized HTTP-proxy (broken in 2.5.5)
+	Fixed compilation problems (broken in 2.5.5)
+	Fixed unhiding file after downloading via HTTP (broken in 2.5.5)
+	Fixed speed calculation in queues
+	Fixed some interface issues
+	Fixed segfault on empty content-type over HTTP
+	Fixed FTP-search over HTTP-proxy
+	Fixed extension match in buffer monitoring
+
 2.5.5
 	First stage of GLOBAL code cleanups;
 	Improved integration with latest flashgot (thanks to Giorgio Maone);

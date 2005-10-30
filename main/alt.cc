@@ -70,13 +70,11 @@ d4xAltList::~d4xAltList(){
 };
 
 void d4xAltList::lock_by_download(){
-	download_set_block(1);
 	lock.lock();		
 };
 
 void d4xAltList::unlock_by_download(){
 	lock.unlock();		
-	download_set_block(0);
 };
 
 void d4xAltList::del(d4x::Alt *alt){

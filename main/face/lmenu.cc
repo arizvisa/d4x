@@ -62,8 +62,8 @@ GtkWidget *ListMenuArray[LM_LAST];
 void copy_download_to_clipboard(){
 	tDownload *dwn=D4X_QUEUE->qv.last_selected;
 	std::string url=dwn->info;
-	d4x_mw_clipboard_set(url.c_str());
-	my_xclipboard_put(url.c_str());
+	GtkClipboard *clpbrd=gtk_clipboard_get(GDK_NONE);
+	gtk_clipboard_set_text(clpbrd,url.c_str(),strlen(url.c_str()));
 };
 
 GtkWidget *make_menu_item(char *name,char *accel,GdkPixmap *pixmap,GdkBitmap *bitmap,GtkSizeGroup *sgroup) {

@@ -63,7 +63,7 @@ void tWriterLoger::log_printf(int type,const char *fmt,...){
 					g_snprintf(cur,MAX_LEN-(cur-str),"%li",va_arg(ap,long int));
 					break;
 				case 'l':
-					g_snprintf(cur,MAX_LEN-(cur-str),"%lli",va_arg(ap,long long));
+					g_snprintf(cur,MAX_LEN-(cur-str),"%Li",va_arg(ap,long long));
 					break;
 				default:
 					*cur='l';
@@ -406,7 +406,7 @@ int tClient::test_reget() {
 };
 
 
-int tClient::get_readed() {
+fsize_t tClient::get_readed() {
 	return FileLoaded;
 };
 

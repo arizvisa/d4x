@@ -229,6 +229,7 @@ int tHttpDownload::reconnect() {
 		HTTP->down();
 		if (RetrNum>1) {
 			LOG->log(LOG_WARNING,_("Sleeping"));
+			d4x::USR1Off2On sig_unlocker;
 			sleep(config.time_for_sleep+1);
 		};
 		if (HTTP->reinit()==0)
@@ -305,7 +306,7 @@ fsize_t tHttpDownload::analize_answer() {
 			break;
 		};
 		case H_CONTENT_LENGTH:{
-			sscanf(temp->body+strlen(STR),"%lli",&rvalue);
+			sscanf(temp->body+strlen(STR),"%Li",&rvalue);
 			break;
 		};
 		case H_CONTENT_RANGE:{
@@ -317,7 +318,7 @@ fsize_t tHttpDownload::analize_answer() {
 			}else
 				a=temp->body+strlen(STR);
 			fsize_t b[3];
-			if (sscanf(a,"%lli-%lli/%lli",&b[0],&b[1],&b[2])==3){
+			if (sscanf(a,"%Li-%Li/%Li",&b[0],&b[1],&b[2])==3){
 				ReGet=1;
 				rvalue=b[2]-b[0];
 			};
@@ -358,9 +359,7 @@ fsize_t tHttpDownload::analize_answer() {
 			/* FIXME: to avoid lost cookies, parse answer before redirection */
 			tCookie *cookie=new tCookie;
 			if (cookie->parse(temp->body+strlen(STR),ADDR.host.c_str(),ADDR.path.c_str())==0){
-				download_set_block(1);
 				LOG->cookie_set(cookie);
-				download_set_block(0);
 			};
 			break;
 		};
@@ -381,7 +380,7 @@ fsize_t tHttpDownload::analize_answer() {
 		temp=answer->next();
 	};
 	if (rvalue>0)
-		LOG->log_printf(LOG_OK,_("Size for download is %i bytes"),rvalue);
+		LOG->log_printf(LOG_OK,_("Size for download is %ll bytes"),rvalue);
 	if (LOADED==0) ReGet=1;
 	if (MustNoReget) ReGet=0;
 	if (OldETag){ /* if etag disappeared */
@@ -545,12 +544,12 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 		}else
 			full_path/=ADDR.path;
 	};
-	std::string temp=std::string(".")+(ADDR.file.empty()?std::string(CFG.DEFAULT_NAME):ADDR.file);
+	std::string temp=(ADDR.file.empty()?std::string(CFG.DEFAULT_NAME):ADDR.file);
 	if (config.http_recursing && !ADDR.params.empty())
 		temp+=std::string(config.quest_sign_replace?"_":"?")+ADDR.params;
-	full_path/=temp;
+	*guess=copy_string((full_path/temp).c_str());
+	full_path/=std::string(".")+temp;
 	*name=copy_string(full_path.c_str());
-	*guess=copy_string(full_path.c_str()+1);
 };
 
 void tHttpDownload::make_full_pathes(const char *path,const char *another_name,char **name,char **guess) {
@@ -570,7 +569,7 @@ void tHttpDownload::make_full_pathes(const char *path,const char *another_name,c
 		temp+=std::string(config.quest_sign_replace?"_":"?")+ADDR.params;
 	full_path/=temp;
 	*name=copy_string(full_path.c_str());
-	*guess=copy_string(full_path.c_str()+1);
+	*guess=copy_string(full_path.c_str());
 };
 
 void tHttpDownload::done() {

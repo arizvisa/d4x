@@ -20,6 +20,19 @@ void my_pthread_key_init();
 tDownload **my_pthread_key_get();
 void my_pthread_key_set(tDownload *what);
 void my_pthreads_mutex_init(pthread_mutex_t *lock);
-void download_set_block(int a);
+
+namespace d4x{
+	class USR1Off2On{
+	public:
+		USR1Off2On();
+		~USR1Off2On();
+	};
+	
+	class USR1On2Off{
+	public:
+		USR1On2Off();
+		~USR1On2Off();
+	};
+};
 
 #endif

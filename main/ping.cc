@@ -41,11 +41,9 @@ void d4xPing::run(tDList *list,tWriterLoger *WL){
 	if (size<=0) return;
 	TOTAL=0;
 	data=new d4xAccessSpeed[size];
-	download_set_block(1);
 	pf=new pollfd[size];
 	for (int i=0;i<size;i++)
 		pf[i].fd=-1;
-	download_set_block(0);
 	tDownload *tmp=list->last();
 	WL->log(LOG_OK,_("Resolving hosts..."));
 	while(tmp){

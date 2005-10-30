@@ -54,6 +54,7 @@ char *unparse_percents(char *what);
 
 std::string hexed_string(const std::string &str);
 std::string unhexed_string(const std::string &str);
+std::string filename_extension(const std::string &name);
 
 char *escape_char(const char *where,char what,char bywhat);
 void del_crlf(char *what);
