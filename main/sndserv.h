@@ -39,7 +39,7 @@ namespace d4x{
 
 class d4xSndServer{
 	std::list<d4x::SndEvent> queue;
-	d4xMutex my_mutex,exit_lock;
+	d4x::Mutex my_mutex,exit_lock;
 	pthread_t thread_id;
 	char *snd_table[SND_LAST];
 	void play_sound(int event);

@@ -31,7 +31,7 @@ class tLog:public tStringList{
 	protected:
 	char timebuf[LOG_TIME_STR_LEN]; //for outputing time into file
 	time_t start;
-	d4xMutex mutex;
+	d4x::Mutex mutex;
 	int key;
 	int current_row;
 	void send_msg(tLogString *what);

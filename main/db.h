@@ -42,7 +42,7 @@ class tDB{
 	tHostTree *tree;
 	tDownloadTree **hash(tStringHostNode *temp,tDownload *what);
 public:
-	d4xMutex mylock;
+	d4x::Mutex mylock;
 	tDB();
 	void insert(tDownload *what);
 	void del(tDownload *what);

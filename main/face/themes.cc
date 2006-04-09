@@ -1,12 +1,12 @@
-#include <gtk/gtk.h>
 #include "../var.h"
 #include "../xml.h"
 #include "../locstr.h"
 #include "../main.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "themes.h"
+#include <algorithm>
 
-GdkPixbuf *pixbuf_from_theme(char *path,const char **default_xpm){
+GdkPixbuf *pixbuf_from_theme(const std::string &path,const char **default_xpm){
 	char *themeicon=d4x_xml_find_obj_value(D4X_THEME_DATA,path);
 	char *iconfile=NULL;
 	if (themeicon)
@@ -26,6 +26,43 @@ GdkPixbuf *pixbuf_from_theme(char *path,const char **default_xpm){
 using namespace d4x;
 
 Theme *d4x::CUR_THEME=0;
+
+void Theme::Pixbuf::change(){
+	gdk_pixbuf_unref(pixbuf);
+	pixbuf=pixbuf_from_theme(ThemePath.c_str(),(const char**)DefaultXPM);
+};
+
+Theme::Pixbuf::Pixbuf(char **def,const std::string &p):DefaultXPM(def),ThemePath(p){
+	pixbuf=pixbuf_from_theme(ThemePath.c_str(),(const char**)DefaultXPM);
+};
+
+void Theme::Image::change(){
+	Pixbuf::change();
+	gtk_image_set_from_pixbuf(img,pixbuf);
+};
+
+Theme::Image::Image(char **def,const std::string &p):Theme::Pixbuf(def,p){
+	img = GTK_IMAGE(gtk_image_new());
+	gtk_image_set_from_pixbuf(img,pixbuf);
+};
+
+GtkImage *img;
+
+Theme::SlaveImage::SlaveImage(int id):pixbuf_id(id){
+	img = GTK_IMAGE(gtk_image_new());
+	gtk_image_set_from_pixbuf(img,CUR_THEME->get_pixbuf(pixbuf_id));
+};
+
+void Theme::SlaveImage::change(){
+	gtk_image_set_from_pixbuf(img,CUR_THEME->get_pixbuf(pixbuf_id));
+};
+
+void Theme::SlaveImage::reinit(int newid){
+	pixbuf_id=newid;
+	change();
+};
+
+
 
 void Theme::init_lod(){
 #include "pixmaps/wait_xpm.xpm"
@@ -132,37 +169,40 @@ void Theme::init_lod(){
 		size_xpm
 	};
 	d4xXmlObject *xmlobj=d4x_xml_find_obj(D4X_THEME_DATA,"queue");
-	for (unsigned int i=0;i<sizeof(xpm_table)/sizeof(char*);i++){
-		char *file=NULL;
-		d4xXmlObject *icon=xmlobj?xmlobj->find_obj(xml_names[i]):NULL;
-		d4xXmlField *fld=icon?icon->get_attr("file"):NULL;
-		if (fld){
-			file=sum_strings(CFG.THEMES_DIR,"/",fld->value.get(),NULL);
-		};
-		GdkPixbuf *pixbuf;
-		GError *error=NULL;
-		if (file && (pixbuf=gdk_pixbuf_new_from_file(file,&error))){
-			lodpix[i]=pixbuf;
-		}else
-			lodpix[i]=gdk_pixbuf_new_from_xpm_data((const char **)xpm_table[i]);
-		if (error) g_error_free(error);
-		if (file) delete[] file;
+	std::string tmp="queue ";
+	for (unsigned int i=0;i<sizeof(xpm_table)/sizeof(char**);i++){
+		Active[LPE_WAIT+i]=new Pixbuf(xpm_table[i],tmp+xml_names[i]+">file");
 	};
 	/* we will use these pixmaps many times */
 };
 
 
-Theme::Theme(){
+Theme::Theme():LastUnique(LPE_UNKNOWN){
 #include "pixmaps2/ok.xpm"
 #include "pixmaps2/from_server.xpm"
 #include "pixmaps2/to_server.xpm"
 #include "pixmaps2/error.xpm"
 #include "pixmaps2/warning.xpm"
-	logpix[LRT_OK]=pixbuf_from_theme("log ok>file",(const char **)ok_xpm);
-	logpix[LRT_SEND]=pixbuf_from_theme("log send>file",(const char **)to_server_xpm);
-	logpix[LRT_RECEIVE]=pixbuf_from_theme("log reciev>file",(const char **)from_server_xpm);
-	logpix[LRT_ERROR]=pixbuf_from_theme("log error>file",(const char **)error_xpm);
-	logpix[LRT_WARNING]=pixbuf_from_theme("log warning>file",(const char **)warning_xpm);
+	
+#include "pixmaps2/offline.xpm"
+#include "pixmaps2/offline1.xpm"
+
+#include "pixmaps/percent1.xpm"
+#include "pixmaps/percent2.xpm"
+#include "pixmaps/percent3.xpm"
+
+	Active[LRT_OK]=new Pixbuf(ok_xpm,"log ok>file");
+	Active[LRT_SEND]=new Pixbuf(to_server_xpm,"log send>file");
+	Active[LRT_RECEIVE]=new Pixbuf(from_server_xpm,"log receiv>file");
+	Active[LRT_ERROR]=new Pixbuf(error_xpm,"log error>file");
+	Active[LRT_WARNING]=new Pixbuf(warning_xpm,"log warning>file");
+
+	Active[OMB_ONLINE]=new Pixbuf(offline_xpm,"main online>file");
+	Active[OMB_OFFLINE]=new Pixbuf(offline1_xpm,"main offline>file");
+
+	Active[PBM_ONLY_TEXT]=new Pixbuf(percent1_xpm,"buttonsbar progress1>file");
+	Active[PBM_MONOLITH]=new Pixbuf(percent2_xpm,"buttonsbar progress2>file");
+	Active[PBM_SEGMENTS]=new Pixbuf(percent3_xpm,"buttonsbar progress3>file");
 
 	init_lod();
 };
@@ -174,14 +214,12 @@ static void lod_all_redraw(d4xDownloadQueue *q,void *a){
 	q->qv.redraw_icons();
 };
 
-void Theme::reload(){
-	for (int i=0;i<LPE_UNKNOWN;i++){
-		gdk_pixbuf_unref(lodpix[i]);
-		lodpix[i]=NULL;
-	};
-	init_lod();
-	d4x_qtree_for_each(lod_all_redraw,NULL);
+static void themable_reload(const std::pair<int,Theme::Themable *> &p){
+	p.second->change();
 };
 
-
+void Theme::reload(){
+	std::for_each(Active.begin(),Active.end(),themable_reload);
+	d4x_qtree_for_each(lod_all_redraw,NULL);
+};
 

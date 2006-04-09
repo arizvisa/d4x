@@ -25,7 +25,7 @@ namespace d4x{
 	private:
 		fsize_t last_gived;
 	public:
-		d4xMutex lock,lock1;
+		Mutex lock,lock1;
 		fsize_t bytes,base,base2;
 		Speed();
 		fsize_t init(fsize_t a);
@@ -52,7 +52,7 @@ namespace d4x{
 };
 
 class d4xSpeedCalc{
-	d4xMutex lock;
+	d4x::Mutex lock;
 	fsize_t loaded;
 	time_t start;
 	int counter;

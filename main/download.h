@@ -58,7 +58,7 @@ class tDownloader{
 	virtual void make_full_pathes(const char *path,char **name,char **guess);
 	virtual void print_error(int error_code);
 
-    	virtual int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket*)NULL)=0;
+    	virtual int init(const d4x::URL &hostinfo,tCfg *cfg,d4x::SocketPtr s=d4x::SocketPtr())=0;
     	virtual fsize_t get_readed()=0;
     	virtual fsize_t get_size_only()=0;
     	virtual fsize_t get_size()=0;
@@ -68,7 +68,7 @@ class tDownloader{
     	virtual int download(fsize_t len)=0;
     	virtual void done()=0;
 	virtual int reconnect();
-	virtual tSocket *export_ctrl_socket()=0;
+	virtual d4x::SocketPtr export_ctrl_socket()=0;
 
     	virtual ~tDownloader();
 };

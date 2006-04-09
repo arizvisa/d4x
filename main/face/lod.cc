@@ -408,9 +408,9 @@ void d4xQueueView::set_percent(GtkTreeIter *iter,float percent){
 			    -1);
 };
 
-void d4xQueueView::change_data(GtkTreeIter *iter,int column,const gchar *data) {
+void d4xQueueView::change_data(GtkTreeIter *iter,int column,const std::string &data) {
 	gtk_list_store_set (list_store, iter,
-			    column,data,
+			    column,data.c_str(),
 			    -1);
 };
 
@@ -423,7 +423,7 @@ void d4xQueueView::set_color(tDownload *what){
 };
 
 void d4xQueueView::update(tDownload *what) {
-	change_data(what->list_iter,URL_COL,std::string(what->info).c_str());
+	change_data(what->list_iter,URL_COL,what->info);
 	set_desc(what);
 	set_filename(what);
 };
@@ -449,27 +449,23 @@ void d4xQueueView::get_sizes() {
 };
 
 void d4xQueueView::print_size(tDownload *what){
-	char data1[MAX_LEN];
 	int NICE_DEC_DIGITALS=what->myowner->PAPA->NICE_DEC_DIGITALS;
 	if (what->finfo.size>0){
-		make_number_nice(data1,what->finfo.size,NICE_DEC_DIGITALS);
 		change_data(what->list_iter,
 			    FULL_SIZE_COL,
-			    data1);
+			    make_number_nice(what->finfo.size,NICE_DEC_DIGITALS));
 	};
-	if (what->Size.curent>0){
-		make_number_nice(data1,what->Size.curent,NICE_DEC_DIGITALS);
+	if (what->Size>0){
 		change_data(what->list_iter,
 			    DOWNLOADED_SIZE_COL,
-			    data1);
+			    make_number_nice(fsize_t(what->Size),NICE_DEC_DIGITALS));
 	};
-	if (what->finfo.size>0 && what->Size.curent<=what->finfo.size){
-		float p=(float(what->Size.curent)*float(100))/float(what->finfo.size);
+	if (what->finfo.size>0 && what->Size<=what->finfo.size){
+		float p=(fsize_t(what->Size)*float(100))/float(what->finfo.size);
 		set_percent(what->list_iter,p);
-		make_number_nice(data1,what->finfo.size-what->Size.curent,NICE_DEC_DIGITALS);
 		change_data(what->list_iter,
 			    REMAIN_SIZE_COL,
-			    data1);
+			    make_number_nice(what->finfo.size-what->Size,NICE_DEC_DIGITALS));
 	};
 };
 
@@ -504,7 +500,7 @@ void d4xQueueView::set_run_icon(tDownload *what){
 	int a=int(what->Percent * 0.09);
 	if (a>9) a=9;
 	if (a<0) a=0;
-	switch (what->ActStatus.curent) {
+	switch (fsize_t(what->ActStatus)) {
 	case D_QUERYING:{
 		set_pixmap(what,LPE_RUN_PART+a);
 		break;
@@ -1438,7 +1434,7 @@ void d4xQueueView::set_pixmap(tDownload *what){
 
 void d4xQueueView::set_pixmap(GtkTreeIter *iter,int type){
 	if (type>=LPE_UNKNOWN || iter==NULL) return;
-	gtk_list_store_set(list_store,iter,STATUS_COL,CUR_THEME->lodpix[type],-1);
+	gtk_list_store_set(list_store,iter,STATUS_COL,CUR_THEME->get_pixbuf(type),-1);
 };
 
 void d4xQueueView::set_pixmap(tDownload *dwn,int type){

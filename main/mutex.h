@@ -12,12 +12,28 @@
 #define _D4X_MUTEX_HEADER_
 #include <pthread.h>
 
-struct d4xMutex{
-	pthread_mutex_t m;
-	d4xMutex();
-	~d4xMutex();
-	void lock();
-	void unlock();
+namespace d4x{
+
+	struct Mutex{
+		pthread_mutex_t m;
+		Mutex();
+		~Mutex();
+		void lock();
+		void unlock();
+	};
+	
+	
+	class MutexLocker{
+		Mutex &mtx;
+	public:
+		MutexLocker(Mutex &a):mtx(a){
+			mtx.lock();
+		}
+		~MutexLocker(){
+			mtx.unlock();
+		};
+	};
+
 };
 
 #endif

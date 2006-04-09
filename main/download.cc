@@ -128,8 +128,8 @@ int tDownloader::reconnect(){
 		if ((*download)->split)
 			download=&((*download)->split->grandparent);
 		if (*download){
-			if ((*download)->Attempt.curent<RetrNum)
-				(*download)->Attempt.set(RetrNum);
+			if ((*download)->Attempt<RetrNum)
+				(*download)->Attempt=RetrNum;
 			D4X_UPDATE.add(*download);
 		};
 	};

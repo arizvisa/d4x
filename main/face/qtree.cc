@@ -430,15 +430,9 @@ void d4xQsTree::update(d4xDownloadQueue *what){
 };
 
 void d4xQsTree::update_speed(d4xDownloadQueue *what){
-	char data[100];
-	if (what->SPEED_FORMAT){
-		char tmp[100];
-		make_number_nice(tmp,what->speed.speed(),2);
-		sprintf(data,"%sB/s",tmp);
-	}else
-		sprintf(data,"%lliB/s",what->speed.speed());
 	gtk_tree_store_set(store,&(what->tree_iter),
-			   QROW_SPEED,data,
+			   QROW_SPEED,
+			   (make_number_nice(what->speed.speed(),what->SPEED_FORMAT?2:0)+"B/s").c_str(),
 			   -1);
 };
 

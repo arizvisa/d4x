@@ -259,7 +259,7 @@ void tFtpSearchCtrl::add(tDownload *what){
 	DBC_RETURN_IF_FAIL(what!=NULL);
 	what->info.proto=D_PROTO_SEARCH;
 	what->action=ACTION_NONE; //reping only flag
-	what->ActStatus.curent=0; //cumulative reping flag
+	what->ActStatus=0; //cumulative reping flag
 	queues[DL_FS_WAIT]->insert(what);
 	if (view){
 		fs_list_add(view,what);

@@ -20,6 +20,8 @@
 #include "ntlocale.h"
 #include "socks.h"
 
+using namespace d4x;
+
 char *FTP_CTRL_TIMEOUT="421";
 char *FTP_SERVER_OK="220";
 char *FTP_USER_OK="331";
@@ -53,21 +55,16 @@ int tFtpClient::accepting() {
 	return RVALUE_OK;
 };
 
-int  tFtpClient::send_command(const char * comm,const char *argv) {
-	DBC_RETVAL_IF_FAIL(comm!=NULL,RVALUE_OK);
-
-	char *data=NULL;
-	if (argv && strlen(argv)){
-		data=sum_strings(comm," ",argv,"\r\n",NULL);
-	}else{
-		data=sum_strings(comm,"\r\n",NULL);
-	};
-	if (equal_uncase(comm,"PASS"))
+int  tFtpClient::send_command(const std::string &comm,const std::string &argv) {
+	std::string send_str=comm;
+	if (!argv.empty())
+		send_str+=std::string(" ")+argv;
+	if (comm=="PASS")
 		LOG->log(LOG_TO_SERVER,"PASS ***");
 	else
-		LOG->log(LOG_TO_SERVER,data);
-	Status=CtrlSocket->send_string(data,timeout);
-	delete[] data;
+		LOG->log(LOG_TO_SERVER,send_str.c_str());
+	send_str+=std::string("\r\n");
+	Status=CtrlSocket->send_string(send_str.c_str(),timeout);
 	if (Status) {
 		if (Status==STATUS_TIMEOUT)
 			LOG->log(LOG_ERROR,_("Timeout while sending through control socket."));
@@ -177,9 +174,7 @@ int tFtpClient::last_answer(char *first) {
 int tFtpClient::rest(fsize_t offset) {
 	ReGet=1;
 	if (offset || CUR_REST!=0) {
-		char data[MAX_LEN];
-		sprintf(data,"%lli",offset);
-		send_command("REST",data);
+		send_command("REST",boost::lexical_cast<std::string>(offset));
 		int a=analize_ctrl(1,&FTP_REST_OK);
 		if (a==RVALUE_TIMEOUT) return(a);
 		if (a!=RVALUE_OK){
@@ -198,19 +193,18 @@ int tFtpClient::force_reget(){
 
 //**************************************************/
 
-tFtpClient::tFtpClient():tClient(){
+tFtpClient::tFtpClient():tClient(),DataSocket(new tSocket){
 	passive=0;
 	TEMP_SIZE=OLD_SIZE=0;
 	CTRL=new tStringList;
 	CTRL->init(2);
 	FIRST_REPLY = NULL;
 	METHOD_TO_LIST=0;
-	DataSocket=new tSocket;
 	log_flag=0;
 	CUR_REST=0;
 };
 
-tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl):tClient(cfg,ctrl){
+tFtpClient::tFtpClient(tCfg *cfg,SocketPtr ctrl):tClient(cfg,ctrl){
 	passive=cfg->passive;
 	TEMP_SIZE=OLD_SIZE=0;
 	CTRL=new tStringList;
@@ -218,12 +212,12 @@ tFtpClient::tFtpClient(tCfg *cfg,tSocket *ctrl):tClient(cfg,ctrl){
 	FIRST_REPLY = NULL;
 	METHOD_TO_LIST=0;
 	if (cfg->socks_host.get() && cfg->socks_port){
-		DataSocket=new tSocksSocket(cfg->socks_host.get(),
-					    cfg->socks_port,
-					    cfg->socks_user.get(),
-					    cfg->socks_pass.get());
+		DataSocket.reset(new tSocksSocket(cfg->socks_host.get(),
+						  cfg->socks_port,
+						  cfg->socks_user.get(),
+						  cfg->socks_pass.get()));
 	}else
-		DataSocket=new tSocket;
+		DataSocket.reset(new tSocket);
 	CUR_REST=0;
 };
 
@@ -256,10 +250,10 @@ int tFtpClient::registr(const std::string &user,const std::string &password) {
 };
 
 int tFtpClient::connect() {
-	send_command("USER",username.c_str());
+	send_command("USER",username);
 	if (analize_ctrl(sizeof(FTP_LOGIN_OK)/sizeof(char *),FTP_LOGIN_OK)) return -1;
 	if (analize(FTP_PASS_OK)){
-		send_command("PASS",userword.c_str());
+		send_command("PASS",userword);
 		if (analize_ctrl(1,&FTP_PASS_OK)) return -2;
 	};
 	log_flag=1;
@@ -284,7 +278,7 @@ static void d4x_ftp_parse_pasv(const char *str,int args[]){
 int tFtpClient::stand_data_connection() {
 	if (DSFlag) DataSocket->down();
 	if (passive) {
-		send_command("PASV",NULL);
+		send_command("PASV");
 		if (analize_ctrl(1,&FTP_PASV_OK)) {
 			if (Status!=STATUS_TIMEOUT) passive=0;
 			return -1;
@@ -349,8 +343,7 @@ void _ftp_filename_destroy_(void *a){
 	delete[] b;
 };
 
-fsize_t tFtpClient::get_size(const char *filename,tStringList *list) {
-//	DBC_RETVAL_IF_FAIL(filename!=NULL,RVALUE_OK);
+fsize_t tFtpClient::get_size(const std::string &filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(list!=NULL,RVALUE_OK);
 
 	fsize_t rvalue=0;;
@@ -524,7 +517,7 @@ void tFtpClient::quit() {
 	if (DONT_SEND_QUIT)
 		return;
 	if (CtrlSocket->connected() && log_flag){
-		send_command("QUIT",NULL);
+		send_command("QUIT");
 		analize_ctrl(1,&FTP_QUIT_OK);
 		log_flag=0;
 	};
@@ -539,5 +532,4 @@ tFtpClient::~tFtpClient() {
 	down();
 	delete(CTRL);
 	if (FIRST_REPLY) delete[] FIRST_REPLY;
-	if (DataSocket) delete(DataSocket);
 };

@@ -232,6 +232,7 @@ void edit_window_ok(GtkWidget *which,tDEdit *where) {
 		DQV(dwn).update(dwn);
 		if (!where->get_pause_check())
 			_aa_.continue_download(dwn);
+		d4x_main_buttons_of_log_update(dwn);
 	};
 	delete where;
 };
@@ -984,11 +985,11 @@ int tDEdit::apply_changes() {
 	/*change data in list if available
 	 */
 	if (parent_in_db){
-		D4X_QUEUE->qv.change_data(parent->list_iter,URL_COL,URL.c_str());
+		D4X_QUEUE->qv.change_data(parent->list_iter,URL_COL,URL);
 		D4X_QUEUE->qv.set_filename(parent);
 		for (int i=FILE_TYPE_COL;i<URL_COL;i++)
 			if (i!=PERCENT_COL)
-				D4X_QUEUE->qv.change_data(parent->list_iter,i,"");
+				D4X_QUEUE->qv.change_data(parent->list_iter,i);
 	};
 	int  temp1=0;
 	sscanf(gtk_entry_get_text(GTK_ENTRY(timeout_entry)),"%u",&temp1);

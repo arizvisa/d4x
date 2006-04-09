@@ -108,33 +108,33 @@ class tClient{
 	fsize_t FillSize,FileLoaded;
 	fsize_t DSize;
 	int ReGet,Status;
-	tSocket *CtrlSocket;
+	d4x::SocketPtr CtrlSocket;
 	fsize_t BuffSize;
 	char *buffer;
 	tWriterLoger *LOG;
 //-----------------------------------------------
-	char *read_string(tSocket *sock,fsize_t maxlen);
-	int read_string(tSocket *sock,tStringList *list,fsize_t maxlen);
+	char *read_string(d4x::SocketPtr sock,fsize_t maxlen);
+	int read_string(d4x::SocketPtr sock,tStringList *list,fsize_t maxlen);
 	int socket_err_handler(int err);
 	virtual fsize_t read_data(fsize_t len);
 	virtual fsize_t read_data(char *dst,fsize_t len)=0;
 	int write_buffer();
 public:
     	tClient();
-    	tClient(tCfg *cfg,tSocket *ctrl=(tSocket*)NULL);
+    	tClient(tCfg *cfg,d4x::SocketPtr ctrl=d4x::SocketPtr());
     	fsize_t get_readed();
     	virtual void init(const std::string &host,tWriterLoger *log,int prt,int time_out);
         virtual int reinit();
     	virtual void down()=0;
     	virtual int registr(const std::string &user,const std::string &password)=0;
-    	virtual fsize_t get_size(const char *filename,tStringList *list)=0;
+    	virtual fsize_t get_size(const std::string &filename,tStringList *list)=0;
 	virtual fsize_t get_file_from(const char *what,fsize_t begin,fsize_t len)=0;
     	int get_status();
     	int test_reget();
     	virtual void done()=0;
     	virtual ~tClient();
-	virtual tSocket *export_ctrl_socket();
-	virtual void import_ctrl_socket(tSocket *s);
+	virtual d4x::SocketPtr export_ctrl_socket();
+	virtual void import_ctrl_socket(d4x::SocketPtr s);
 };
 
 

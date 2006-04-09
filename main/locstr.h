@@ -14,6 +14,46 @@
 #include <time.h>
 #include "speed.h"
 #include <string>
+#include <boost/lexical_cast.hpp>
+
+template<typename Integral>
+std::string make_number_nice(Integral num,int NICE_DEC_DIGITALS){
+	switch (NICE_DEC_DIGITALS) {
+	case 1:
+	case 3:{
+		std::string amp(NICE_DEC_DIGITALS==1?" ":"'");
+		std::string rval=boost::lexical_cast<std::string>(num);
+		std::string::size_type len=rval.length();
+		while(len>3) {
+			len-=3;
+			rval.insert(len,amp);
+		};
+		return rval;
+	};
+	case 2:	{
+		Integral gigs,megs;
+		megs=num/(1024*1024);
+		gigs=megs/1024;
+		if (gigs==0 && megs<1000){
+			Integral kils=num/1024;
+			if (megs==0 && kils<1000) {
+				fsize_t bytes=((num-kils*1024)*10)/1024;
+				if (kils==0 && bytes<1000)
+					return boost::lexical_cast<std::string>(num);
+				return boost::lexical_cast<std::string>(kils)+"."+
+					boost::lexical_cast<std::string>(bytes)+"K";
+			};
+			Integral bytes=((num-megs*1024*1024)*10)/(1024*1024);
+			return boost::lexical_cast<std::string>(megs)+"."+
+				boost::lexical_cast<std::string>(bytes)+"M";
+		};
+		Integral bytes=((num-gigs*1024*1024*1024)*10)/(1024*1024*1024);
+		return boost::lexical_cast<std::string>(gigs)+"."+
+			boost::lexical_cast<std::string>(bytes)+"G";
+	};
+	};
+	return boost::lexical_cast<std::string>(num);
+};
 
 class tPStr{
 	char *a;
@@ -44,7 +84,7 @@ int begin_string_uncase(const char *str,const char *begin);
 char *sum_strings(const char *a,...);
 char *compose_strings_array(int *len,const char *a,int la,const char *b);
 int empty_string(char *a);
-void convert_time(int what,char *where,int TIME_FORMAT);
+std::string convert_time(int what,int TIME_FORMAT);
 void string_to_low(char *what,char delim);
 void string_to_low(char *what);
 int convert_from_hex(unsigned char what);
@@ -59,8 +99,6 @@ std::string filename_extension(const std::string &name);
 char *escape_char(const char *where,char what,char bywhat);
 void del_crlf(char *what);
 void str_non_print_replace(char *what, char symbol);
-void make_number_nice(char *where,fsize_t num,int NICE_DEC_DIGITALS);
-void make_number_nicel(char *where,unsigned long num,int NICE_DEC_DIGITALS);
 int convert_month(char *src);
 int ctime_to_time(char *src);
 int check_mask(const char *src,const char *mask);

@@ -29,7 +29,7 @@ namespace d4x{
 class tMsgServer{
 	std::list<d4x::RemoteCommand> COMMANDS;
 	char *file;
-	d4xMutex lock;
+	d4x::Mutex lock;
 	pthread_t thread_id;
 	int fd,newfd; /* socket descriptors */
 	void cmd_add(int len,int type);

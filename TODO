@@ -1,6 +1,10 @@
 ###################### to 2.5.7 ####################################
 replace as many tPStr to std::string as possible
-rewrite themes handling to new way (themable object <-> theme <-> info)
+[DONE] rewrite themes handling to new way (themable object <-> theme <-> info)
+check SOCKS support
+[DONE] logs buttons visibility have to be updated after changing preferenrces
+[DONE] rewrite filters to std::strings and std::list<>
+[DONE] add 'Cancel' button into Filter edit (due to new model)
 
 ###################### to version 2.9-3.0 ##########################
 ABILITY TO CLEAR FILTER OF DOWNLOADING

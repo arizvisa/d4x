@@ -18,13 +18,13 @@
 #include "ntlocale.h"
 #include "signal.h"
 
+using namespace d4x;
+
 tHttpClient::tHttpClient():tClient(){
-	user_agent=NULL;
 	pass_first=0;
 };
 
-tHttpClient::tHttpClient(tCfg *cfg,tSocket *ctrl):tClient(cfg,ctrl){
-	user_agent=NULL;
+tHttpClient::tHttpClient(tCfg *cfg,SocketPtr ctrl):tClient(cfg,ctrl){
 	pass_first=0;
 };
 
@@ -39,26 +39,21 @@ void tHttpClient::init(const std::string &host,tWriterLoger *log,int prt,int tim
 };
 
 void tHttpClient::set_user_agent(char *agent,char *refer){
-	user_agent=agent;
-	referer=refer;
+	user_agent=agent?agent:"";
+	referer=refer?refer:"";
 };
 
 void tHttpClient::set_offset(fsize_t a) {
 	FileLoaded=Offset=a;
 };
 
-int tHttpClient::send_request(const char *what) {
-	DBC_RETVAL_IF_FAIL(what!=NULL,-1);
-	LOG->log(LOG_TO_SERVER,what);
-	return CtrlSocket->send_string(what,timeout);
+int tHttpClient::send_request(const std::string &name,const std::string &val){
+	return send_request(name+": "+val);
 };
 
-int tHttpClient::send_request(const char *begin, const char *center,const char *end){
-	DBC_RETVAL_IF_FAIL(begin!=NULL,-1);
-	char *tmp=sum_strings(begin,center,end,NULL);
-	int rvalue=send_request(tmp);
-	delete[] tmp;
-	return(rvalue);
+int tHttpClient::send_request(const std::string &what) {
+	LOG->log(LOG_TO_SERVER,what.c_str());
+	return CtrlSocket->send_string((what+"\r\n").c_str(),timeout);
 };
 
 fsize_t tHttpClient::read_data(char *where,fsize_t len) {
@@ -136,55 +131,52 @@ int tHttpClient::read_answer(tStringList *list) {
 	return -1;
 };
 
-void tHttpClient::send_cookies(const char *host,const char *path){
-	std::string request_string=LOG->cookie(host,path);
+void tHttpClient::send_cookies(const std::string &host,const std::string &path){
+	std::string request_string=LOG->cookie(host.c_str(),path.c_str());
 	if (!request_string.empty()){
-		send_request("Cookie: ",request_string.c_str(),"\r\n");
+		send_request("Cookie",request_string);
 	};
 };
 
 fsize_t tHttpClient::get_size_sub(tStringList *list){
-	char data[MAX_LEN];
-	send_request("Accept: */*\r\n");
+	send_request("Accept: */*");
 	if (Offset){
-		sprintf(data,"%Li",Offset);
-		send_request("Range: bytes=",data,"-\r\n");
+		send_request("Range",
+			     std::string("bytes=")+boost::lexical_cast<std::string>(Offset)+"-");
 	};
-	if (referer && *referer){
+	if (!referer.empty()){
 //		referer=sum_strings("http://",hostname,filename,NULL);
-		send_request("Referer: ",referer,"\r\n");
+		send_request("Referer",referer);
 	};
-	if (user_agent && strlen(user_agent)){
-		if (equal(user_agent,"%version"))
-			send_request("User-Agent: ",VERSION_NAME,"\r\n");
+	if (!user_agent.empty()){
+		if (user_agent=="%version")
+			send_request("User-Agent",VERSION_NAME);
 		else
-			send_request("User-Agent: ",user_agent,"\r\n");
+			send_request("User-Agent",user_agent);
 	};
 
-	send_request("Host: ",hostname.c_str(),"\r\n");
+	send_request("Host",hostname);
 	if (!username.empty() && !userword.empty()) {
 		char *pass=string_to_base64((username+":"+userword).c_str());
-		send_request("Authorization: Basic ",pass,"\r\n");
+		send_request("Authorization",std::string("Basic ")+pass);
 		delete[] pass;
 	};
-	send_request("\r\n");
+	send_request("");
 	return read_answer(list);
 };
 
-fsize_t tHttpClient::get_size_only(const char *filename,tStringList *list) {
-	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+fsize_t tHttpClient::get_size_only(const std::string &filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
-	send_request("HEAD ",filename," HTTP/1.1\r\n");
-	send_cookies(hostname.c_str(),filename);
+	send_request(std::string("HEAD ")+filename+" HTTP/1.1");
+	send_cookies(hostname,filename);
 	return(get_size_sub(list));
 };
 
 
-fsize_t tHttpClient::get_size(const char *filename,tStringList *list) {
-	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
+fsize_t tHttpClient::get_size(const std::string &filename,tStringList *list) {
 	DBC_RETVAL_IF_FAIL(list!=NULL,-1);
-	send_request("GET ",filename," HTTP/1.1\r\n");
-	send_cookies(hostname.c_str(),filename);
+	send_request(std::string("GET ")+filename+" HTTP/1.1");
+	send_cookies(hostname,filename);
 	return(get_size_sub(list));
 };
 

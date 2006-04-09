@@ -1630,8 +1630,6 @@ void d4x_prefs_apply(){
 	}else
 		D4X_THEME_DATA=NULL;
 	if (need_reinit_dnd){
-		bb_theme_changed();
-		d4x_vertical_toolbar_change_theme();
 		dnd_trash_real_destroy();
 		dnd_trash_destroy_theme();
 		CFG.DND_TRASH=TMPCFG.DND_TRASH;

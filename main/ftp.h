@@ -24,8 +24,8 @@ class tFtpClient:public tClient{
 	/* to avoid memory leaks next variable is global */
 	char *FIRST_REPLY;
 	tStringList *CTRL;
-	tSocket *DataSocket;
-	int send_command(const char *comm,const char *argv);
+	d4x::SocketPtr DataSocket;
+	int send_command(const std::string &comm,const std::string &argv=std::string());
 	fsize_t read_data(char *where,fsize_t len);
 	int read_control();
 	int analize_ctrl(int argc,char **argv);
@@ -38,7 +38,7 @@ class tFtpClient:public tClient{
  public:
 	int METHOD_TO_LIST;
 	tFtpClient();
-	tFtpClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
+	tFtpClient(tCfg *cfg,d4x::SocketPtr ctrl=d4x::SocketPtr());
 	void init(const std::string &host,tWriterLoger *log,int prt,int time_out);
 	void set_passive(int a);
 	void set_retry(int a);
@@ -48,7 +48,7 @@ class tFtpClient:public tClient{
 	int registr(const std::string&user,const std::string &password);
         int stand_data_connection();
 	int change_dir(const char *where);
-	fsize_t get_size(const char *filename,tStringList *list);
+	fsize_t get_size(const std::string &filename,tStringList *list);
 	fsize_t get_file_from(const char *what,fsize_t begin,fsize_t len);
         int read_block(char *where,int size);
 	void quit();

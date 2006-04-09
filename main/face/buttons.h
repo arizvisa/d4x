@@ -24,7 +24,6 @@ void buttons_speed_set_text();
 void buttons_cfg_init();
 void buttons_configure();
 void buttons_configure_close();
-void bb_theme_changed();
 void buttons_theme_changed();
 
 enum {

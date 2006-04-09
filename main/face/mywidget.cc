@@ -303,6 +303,16 @@ GtkWidget *my_gtk_colorsel_new(gint color,gchar *title){
 static void d4x_rule_edit_destroy(GtkObject *widget){
 	g_return_if_fail(widget!=NULL);
 
+	d4xRuleEdit *edit=(d4xRuleEdit *)widget;
+	if (edit->rule){
+		delete (edit->rule);
+		edit->rule=0;
+	};
+	if (edit->iter){
+		gtk_tree_iter_free(edit->iter);
+		edit->iter=0;
+	};
+
 	if (GTK_OBJECT_CLASS (rule_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (rule_parent_class)->destroy) (widget);
 };
@@ -315,27 +325,12 @@ static void d4x_rule_edit_class_init(d4xRuleEditClass *klass){
 };
 
 void d4x_rule_edit_apply(d4xRuleEdit *edit){
-	if (edit && edit->rule){
-		if (*(text_from_combo(edit->host))){
-			edit->rule->host.set(text_from_combo(edit->host));
-		}else
-			edit->rule->host.set((char*)NULL);
-		if (*(text_from_combo(edit->path))){
-			edit->rule->path.set(text_from_combo(edit->path));
-		}else
-			edit->rule->path.set((char*)NULL);
-		if (*(text_from_combo(edit->file))){
-			edit->rule->file.set(text_from_combo(edit->file));
-		}else
-			edit->rule->file.set((char*)NULL);
-		if (*(text_from_combo(edit->params))){
-			edit->rule->params.set(text_from_combo(edit->params));
-		}else
-			edit->rule->params.set((char*)NULL);
-		if (*(text_from_combo(edit->tag))){
-			edit->rule->tag.set(text_from_combo(edit->tag));
-		}else
-			edit->rule->tag.set((char*)NULL);
+	if (edit){
+		edit->rule->host=text_from_combo(edit->host);
+		edit->rule->path=text_from_combo(edit->path);
+		edit->rule->file=text_from_combo(edit->file);
+		edit->rule->params=text_from_combo(edit->params);
+		edit->rule->tag=text_from_combo(edit->tag);
 		edit->rule->proto=get_proto_by_name(text_from_combo(edit->proto));
 		edit->rule->include=GTK_TOGGLE_BUTTON(edit->include)->active;
 	};
@@ -344,6 +339,7 @@ void d4x_rule_edit_apply(d4xRuleEdit *edit){
 static void d4x_rule_edit_ok(GtkWidget *widget,d4xRuleEdit *edit) {
 	g_return_if_fail(edit!=NULL);
 	d4x_rule_edit_apply(edit);
+	
 	gtk_widget_destroy(GTK_WIDGET(edit));
 };
 
@@ -352,6 +348,8 @@ static void d4x_rule_edit_cancel(GtkWidget *widget,d4xRuleEdit *edit) {
 };
 
 static void d4x_rule_edit_init(d4xRuleEdit *edit){
+	edit->rule=0;
+	edit->iter=0;
 	gtk_window_set_title(GTK_WINDOW (edit),_("Edit properties of Rule"));
 	gtk_window_set_resizable(GTK_WINDOW(edit), FALSE);
 
@@ -520,43 +518,23 @@ guint d4x_rule_edit_get_type(){
 	return d4x_rule_edit_type;
 };
 
-GtkWidget *d4x_rule_edit_new(d4xRule *rule){
+GtkWidget *d4x_rule_edit_new(const d4x::Filter::Rule &rule){
 	d4xRuleEdit *edit=(d4xRuleEdit *)g_object_new(d4x_rule_edit_get_type(),NULL);
-	edit->rule=rule;
-	if (rule){
-		if (rule->host.get())
-			text_to_combo(edit->host,rule->host.get());
-		if (rule->proto)
-			text_to_combo(edit->proto,get_name_by_proto(rule->proto));
-		if (rule->path.get())
-			text_to_combo(edit->path,rule->path.get());
-		if (rule->file.get())
-			text_to_combo(edit->file,rule->file.get());
-		if (rule->params.get())
-			text_to_combo(edit->params,rule->params.get());
-		if (rule->tag.get())
-			text_to_combo(edit->tag,rule->tag.get());
-		GTK_TOGGLE_BUTTON(edit->include)->active=rule->include;
-		GTK_TOGGLE_BUTTON(edit->exclude)->active=!rule->include;
-	};
+	edit->rule=new d4x::Filter::Rule(rule);
+	text_to_combo(edit->host,rule.host.c_str());
+	if (rule.proto)
+		text_to_combo(edit->proto,get_name_by_proto(rule.proto));
+	text_to_combo(edit->path,rule.path.c_str());
+	text_to_combo(edit->file,rule.file.c_str());
+	text_to_combo(edit->params,rule.params.c_str());
+	text_to_combo(edit->tag,rule.tag.c_str());
+	GTK_TOGGLE_BUTTON(edit->include)->active=rule.include;
+	GTK_TOGGLE_BUTTON(edit->exclude)->active=!rule.include;
 	return GTK_WIDGET(edit);
 };
 
 void d4x_rule_edit_delete(GtkWidget *widget, GdkEvent *event,GtkWidget *edit){
 	gtk_widget_destroy(edit);
-};
-
-GtkWidget *d4x_rule_edit_new_full(d4xRule *rule){
-	d4xRuleEdit *edit=(d4xRuleEdit *)d4x_rule_edit_new(rule);
-	g_signal_connect(G_OBJECT(edit->ok_button),"clicked",
-			   G_CALLBACK(d4x_rule_edit_ok),edit);
-	g_signal_connect(G_OBJECT(edit->cancel_button),"clicked",
-			   G_CALLBACK(d4x_rule_edit_cancel),edit);
-	g_signal_connect(G_OBJECT(edit),"delete_event",
-			   G_CALLBACK(d4x_rule_edit_delete), edit);
-	d4x_eschandler_init(GTK_WIDGET(edit),edit);
-
-	return GTK_WIDGET(edit);
 };
 
 /************************************************************/
@@ -569,55 +547,82 @@ enum {
 	FE_COL_FILE,
 	FE_COL_PARAMS,
 	FE_COL_TAG,
-	FE_COL_RULE,
+	FE_COL_RULE_ITER,
 	FE_COL_LAST
+};
+
+static gboolean destroy_filter_iterators(GtkTreeModel *model,GtkTreePath *path,
+					 GtkTreeIter *iter,gpointer data){
+	
+	GValue val={0,};
+	gtk_tree_model_get_value(model,iter,FE_COL_RULE_ITER,&val);
+	d4x::Filter::iterator *it=(d4x::Filter::iterator *)g_value_get_pointer(&val);
+	delete it;
+	g_value_unset(&val);
+	
+	return FALSE;
 };
 
 static void d4x_filter_edit_destroy(GtkObject *widget){
 	g_return_if_fail(widget!=NULL);
+
+	d4xFilterEdit *edit=(d4xFilterEdit *)widget;
+	if (edit->filter){
+		delete(edit->filter);
+		edit->filter=0;
+	};
+	if (edit->iter){
+		gtk_tree_iter_free(edit->iter);
+		edit->iter=0;
+	};
+
+	if (edit->view){
+		gtk_tree_model_foreach(gtk_tree_view_get_model(edit->view),destroy_filter_iterators,0);
+		gtk_list_store_clear(edit->store);
+		edit->view=0;
+	};
 
 	if (GTK_OBJECT_CLASS (filter_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (filter_parent_class)->destroy) (widget);
 };
 
 
-void d4x_filter_edit_add_rule(d4xFilterEdit *edit,d4xRule *rule){
-	gtk_list_store_append(edit->store,&(rule->iter));
-	gtk_list_store_set(edit->store,&(rule->iter),
-			   FE_COL_INC,rule->include?(char*)"+":(char*)("-"),
-			   FE_COL_PROTO,rule->proto?get_name_by_proto(rule->proto):(char*)(""),
-			   FE_COL_HOST,rule->host.get()?rule->host.get():(char*)(""),
-			   FE_COL_PATH,rule->path.get()?rule->path.get():(char*)(""),
-			   FE_COL_FILE,rule->file.get()?rule->file.get():(char*)(""),
-			   FE_COL_PARAMS,rule->params.get()?rule->params.get():(char*)(""),
-			   FE_COL_TAG,rule->tag.get()?rule->tag.get():(char*)(""),
-			   FE_COL_RULE,rule,
+void d4x_filter_edit_add_rule(d4xFilterEdit *edit,const d4x::Filter::Rule &rule,d4x::Filter::iterator *it){
+	GtkTreeIter iter;
+	gtk_list_store_append(edit->store,&iter);
+	gtk_list_store_set(edit->store,&(iter),
+			   FE_COL_INC,rule.include?(char*)"+":(char*)("-"),
+			   FE_COL_PROTO,rule.proto?get_name_by_proto(rule.proto):(char*)(""),
+			   FE_COL_HOST,rule.host.c_str(),
+			   FE_COL_PATH,rule.path.c_str(),
+			   FE_COL_FILE,rule.file.c_str(),
+			   FE_COL_PARAMS,rule.params.c_str(),
+			   FE_COL_TAG,rule.tag.c_str(),
+			   FE_COL_RULE_ITER,it,
 			   -1);
 };
 
+
 static void d4x_filter_edit_add_ok(GtkWidget *widget,d4xRuleEdit *edit){
-	((d4xFilterEdit *)(edit->filter_edit))->node->filter->insert(edit->rule);
 	d4x_rule_edit_apply(edit);
-	d4x_filter_edit_add_rule((d4xFilterEdit *)(edit->filter_edit),
-				 edit->rule);
+	d4x::Filter::iterator *it=new d4x::Filter::iterator(((d4xFilterEdit *)(edit->filter_edit))->filter->append(*(edit->rule)));
+	d4x_filter_edit_add_rule((d4xFilterEdit *)(edit->filter_edit),*(edit->rule),it);
 	gtk_widget_destroy(GTK_WIDGET(edit));
 };
 
 static void d4x_filter_edit_add_cancel(GtkWidget *widget,d4xRuleEdit *edit){
-	delete(edit->rule);
 	gtk_widget_destroy(GTK_WIDGET(edit));
 };
 
 static void d4x_filter_edit_add_delete(GtkWidget *widget,
 				  GdkEvent *event,
 				  d4xRuleEdit *edit){
-	delete(edit->rule);
 	gtk_widget_destroy(GTK_WIDGET(edit));
 };
 
 void d4x_filter_edit_add(GtkWidget *widget,d4xFilterEdit *edit){
-	d4xRule *rule=new d4xRule;
-	d4xRuleEdit *ruleedit=(d4xRuleEdit *)d4x_rule_edit_new(rule);
+	d4xRuleEdit *ruleedit=(d4xRuleEdit *)d4x_rule_edit_new(d4x::Filter::Rule());
+	ruleedit->iter=0;
 	gtk_widget_show_all(GTK_WIDGET(ruleedit));
 	gtk_window_set_modal (GTK_WINDOW(ruleedit),TRUE);
 	gtk_window_set_transient_for (GTK_WINDOW (ruleedit),
@@ -638,16 +643,20 @@ void d4x_filter_edit_add(GtkWidget *widget,d4xFilterEdit *edit){
 static void d4x_filter_edit_edit_ok(GtkWidget *widget,d4xRuleEdit *edit){
 	d4xFilterEdit *filtedit=(d4xFilterEdit *)(edit->filter_edit);
 	d4x_rule_edit_apply(edit);
-	d4xRule *rule=edit->rule;
-	gtk_list_store_set(filtedit->store,&(rule->iter),
+	d4x::Filter::Rule *rule=edit->rule;
+	gtk_list_store_set(filtedit->store,edit->iter,
 			   FE_COL_INC,rule->include?"+":"-",
 			   FE_COL_PROTO,rule->proto?get_name_by_proto(rule->proto):"",
-			   FE_COL_HOST,rule->host.get()?rule->host.get():"",
-			   FE_COL_PATH,rule->path.get()?rule->path.get():"",
-			   FE_COL_FILE,rule->file.get()?rule->file.get():"",
-			   FE_COL_PARAMS,rule->params.get()?rule->params.get():"",
-			   FE_COL_TAG,rule->tag.get()?rule->tag.get():"",
+			   FE_COL_HOST,rule->host.c_str(),
+			   FE_COL_PATH,rule->path.c_str(),
+			   FE_COL_FILE,rule->file.c_str(),
+			   FE_COL_PARAMS,rule->params.c_str(),
+			   FE_COL_TAG,rule->tag.c_str(),
 			   -1);
+	GValue val={0,};
+	gtk_tree_model_get_value(gtk_tree_view_get_model(filtedit->view),edit->iter,FE_COL_RULE_ITER,&val);
+	d4x::Filter::iterator *it=(d4x::Filter::iterator *)g_value_get_pointer(&val);
+	g_value_unset(&val);
 	gtk_widget_destroy(GTK_WIDGET(edit));
 };
 
@@ -657,11 +666,12 @@ static void d4x_filter_edit_edit(GtkWidget *widget,d4xFilterEdit *edit){
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(sel,&model,&iter)){
 		GValue val={0,};
-		gtk_tree_model_get_value(model,&iter,FE_COL_RULE,&val);
-		d4xRule *rule=(d4xRule *)g_value_get_pointer(&val);
+		gtk_tree_model_get_value(model,&iter,FE_COL_RULE_ITER,&val);
+		d4x::Filter::iterator *it=(d4x::Filter::iterator *)g_value_get_pointer(&val);
 		g_value_unset(&val);
-		d4xRuleEdit *ruleedit=(d4xRuleEdit *)d4x_rule_edit_new(rule);
+		d4xRuleEdit *ruleedit=(d4xRuleEdit *)d4x_rule_edit_new(**it);
 		ruleedit->filter_edit=(GtkWidget *)edit;
+		ruleedit->iter=gtk_tree_iter_copy(&iter);
 		g_signal_connect(G_OBJECT(ruleedit->ok_button),"clicked",
 				   G_CALLBACK(d4x_filter_edit_edit_ok),
 				   ruleedit);
@@ -685,12 +695,12 @@ static void d4x_filter_edit_del(GtkWidget *widget,d4xFilterEdit *edit){
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(sel,&model,&iter)){
 		GValue val={0,};
-		gtk_tree_model_get_value(model,&iter,FE_COL_RULE,&val);
-		d4xRule *rule=(d4xRule *)g_value_get_pointer(&val);
+		gtk_tree_model_get_value(model,&iter,FE_COL_RULE_ITER,&val);
+		d4x::Filter::iterator *it=(d4x::Filter::iterator *)g_value_get_pointer(&val);
 		g_value_unset(&val);
-		gtk_list_store_remove(edit->store,&(rule->iter));
-		edit->node->filter->del(rule);
-		delete(rule);
+		gtk_list_store_remove(edit->store,&iter);
+		edit->filter->remove(*it);
+		delete(it);
 	};
 };
 
@@ -700,22 +710,20 @@ static void d4x_filter_edit_down(GtkWidget *widget,d4xFilterEdit *edit){
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(sel,&model,&iter)){
 		GValue val={0,};
-		gtk_tree_model_get_value(model,&iter,FE_COL_RULE,&val);
-		d4xRule *rule=(d4xRule *)g_value_get_pointer(&val);
+		gtk_tree_model_get_value(model,&iter,FE_COL_RULE_ITER,&val);
+		d4x::Filter::iterator *it=(d4x::Filter::iterator *)g_value_get_pointer(&val);
 		g_value_unset(&val);
-		if (rule->prev){
-			tNode *next=rule->prev;
-			gtk_tree_model_swap_rows_l(GTK_TREE_MODEL(edit->store),
-						   &(rule->iter),&(((d4xRule*)next)->iter));
-			d4xFilter *filter=edit->node->filter;
-			filter->del(next);
-			filter->insert_before(next,rule);
-			GtkTreeIter iter_tmp;
-			memcpy(&iter_tmp,&(((d4xRule*)next)->iter),sizeof(rule->iter));
-			memcpy(&(((d4xRule*)next)->iter),&(rule->iter),sizeof(rule->iter));
-			memcpy(&(rule->iter),&iter_tmp,sizeof(rule->iter));
-			gtk_tree_selection_select_iter(sel,&(rule->iter));
+
+		GtkTreeIter *prev=gtk_tree_iter_copy(&iter);
+		if (gtk_tree_model_iter_next(model,&iter)){
+			gtk_list_store_swap(edit->store,prev,&iter);
+			
+			gtk_tree_model_get_value(model,&iter,FE_COL_RULE_ITER,&val);
+			d4x::Filter::iterator *it2=(d4x::Filter::iterator *)g_value_get_pointer(&val);
+			std::iter_swap(*it,*it2);
+			g_value_unset(&val);
 		};
+		gtk_tree_iter_free(prev);
 	};
 };
 
@@ -725,23 +733,28 @@ static void d4x_filter_edit_up(GtkWidget *widget,d4xFilterEdit *edit){
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(sel,&model,&iter)){
 		GValue val={0,};
-		gtk_tree_model_get_value(model,&iter,FE_COL_RULE,&val);
-		d4xRule *rule=(d4xRule *)g_value_get_pointer(&val);
+		gtk_tree_model_get_value(model,&iter,FE_COL_RULE_ITER,&val);
+		d4x::Filter::iterator *it=(d4x::Filter::iterator *)g_value_get_pointer(&val);
 		g_value_unset(&val);
-		if (rule->next){
-			tNode *next=rule->next;
-			gtk_tree_model_swap_rows_l(GTK_TREE_MODEL(edit->store),
-						   &(rule->iter),&(((d4xRule*)next)->iter));
-			d4xFilter *filter=edit->node->filter;
-			filter->del(rule);
-			filter->insert_before(rule,next);
-			GtkTreeIter iter_tmp;
-			memcpy(&iter_tmp,&(((d4xRule*)next)->iter),sizeof(rule->iter));
-			memcpy(&(((d4xRule*)next)->iter),&(rule->iter),sizeof(rule->iter));
-			memcpy(&(rule->iter),&iter_tmp,sizeof(rule->iter));
-			gtk_tree_selection_select_iter(sel,&(rule->iter));
+
+		GtkTreePath *path=gtk_tree_model_get_path(model,&iter);
+		GtkTreeIter *next=gtk_tree_iter_copy(&iter);
+		if (gtk_tree_path_prev (path) && gtk_tree_model_get_iter(model,next,path)){
+			gtk_list_store_swap(edit->store,next,&iter);
+			
+			gtk_tree_model_get_value(model,&iter,FE_COL_RULE_ITER,&val);
+			d4x::Filter::iterator *it2=(d4x::Filter::iterator *)g_value_get_pointer(&val);
+			std::iter_swap(*it,*it2);
+			g_value_unset(&val);
+			
 		};
+		gtk_tree_path_free(path);
+		gtk_tree_iter_free(next);
 	};
+};
+
+static void d4x_filter_edit_cancel(GtkWidget *widget,d4xFilterEdit *edit){
+	gtk_widget_destroy(GTK_WIDGET(edit));
 };
 
 static gboolean d4x_filter_edit_select(GtkTreeView *view,GdkEventButton *event,d4xFilterEdit *edit) {
@@ -753,6 +766,8 @@ static gboolean d4x_filter_edit_select(GtkTreeView *view,GdkEventButton *event,d
 };
 
 static void d4x_filter_edit_init(d4xFilterEdit *edit){
+	edit->filter=0;
+	edit->iter=0;
 	gtk_window_set_title(GTK_WINDOW (edit),_("Modify filter"));
 	gtk_window_set_resizable(GTK_WINDOW(edit),FALSE);
 	gtk_widget_set_size_request(GTK_WIDGET (edit),-1,400);
@@ -774,7 +789,7 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 	edit->view=GTK_TREE_VIEW(gtk_tree_view_new_with_model(GTK_TREE_MODEL(edit->store)));
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *col;
-	for (int i=0;i<FE_COL_RULE;i++){
+	for (int i=0;i<FE_COL_RULE_ITER;i++){
 			renderer = gtk_cell_renderer_text_new ();
 			col=gtk_tree_view_column_new_with_attributes (titles[i],
 								      renderer,
@@ -808,42 +823,52 @@ static void d4x_filter_edit_init(d4xFilterEdit *edit){
 	gtk_box_pack_start_defaults(GTK_BOX(hbox),edit->name);
 	gtk_box_pack_start(GTK_BOX(edit->vbox),hbox,FALSE,FALSE,3);
 
-	GtkWidget *table=gtk_table_new(2,3,TRUE);
-	gtk_table_set_row_spacings(GTK_TABLE(table),3);
-	gtk_table_set_col_spacings(GTK_TABLE(table),5);
-	gtk_box_pack_start(GTK_BOX(edit->vbox),table, FALSE,FALSE,0);
+	GtkWidget *bbox1=gtk_hbutton_box_new();
+	gtk_box_set_spacing(GTK_BOX(bbox1),5);
+	gtk_box_pack_start(GTK_BOX(edit->vbox),bbox1,FALSE,FALSE,3);
 	
 	GtkWidget *up=gtk_button_new_from_stock(GTK_STOCK_GO_UP);
-	gtk_table_attach_defaults(GTK_TABLE(table),up,0,1,0,1);
+	gtk_box_pack_start(GTK_BOX(bbox1),up,FALSE,FALSE,0);
 	g_signal_connect(G_OBJECT(up),"clicked",
 			   G_CALLBACK(d4x_filter_edit_up),edit);
 	
 	GtkWidget *down=gtk_button_new_from_stock(GTK_STOCK_GO_DOWN);
-	gtk_table_attach_defaults(GTK_TABLE(table),down,0,1,1,2);
+	gtk_box_pack_start(GTK_BOX(bbox1),down,FALSE,FALSE,0);
+	g_signal_connect(G_OBJECT(down),"clicked",
+			   G_CALLBACK(d4x_filter_edit_down),edit);
 	
 	GtkWidget *add=gtk_button_new_from_stock(GTK_STOCK_ADD);
-	gtk_table_attach_defaults(GTK_TABLE(table),add,1,2,0,1);
+	gtk_box_pack_start(GTK_BOX(bbox1),add,FALSE,FALSE,0);
 	g_signal_connect(G_OBJECT(add),"clicked",
 			   G_CALLBACK(d4x_filter_edit_add),edit);
 
 	GtkWidget *del=gtk_button_new_from_stock(GTK_STOCK_REMOVE);
-	gtk_table_attach_defaults(GTK_TABLE(table),del,1,2,1,2);
+	gtk_box_pack_start(GTK_BOX(bbox1),del,FALSE,FALSE,0);
 	g_signal_connect(G_OBJECT(del),"clicked",
 			   G_CALLBACK(d4x_filter_edit_del),edit);
 	
+	
 	edit->edit=gtk_button_new_from_stock(GTK_STOCK_PROPERTIES);
-	gtk_table_attach_defaults(GTK_TABLE(table),edit->edit,2,3,0,1);
+	gtk_box_pack_start(GTK_BOX(bbox1),edit->edit,FALSE,FALSE,0);
 	g_signal_connect(G_OBJECT(edit->edit),"clicked",
 			   G_CALLBACK(d4x_filter_edit_edit),edit);
 	
+	GtkWidget *bbox2=gtk_hbutton_box_new();
+	gtk_box_set_spacing(GTK_BOX(bbox2),5);
+	gtk_box_pack_start(GTK_BOX(edit->vbox),bbox2, FALSE,FALSE,0);
+
+	GtkWidget *cancel=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
+	gtk_box_pack_start(GTK_BOX(bbox2),cancel,FALSE,FALSE,0);
+	g_signal_connect(G_OBJECT(cancel),"clicked",
+			   G_CALLBACK(d4x_filter_edit_cancel),edit);
+	
 	edit->ok=gtk_button_new_from_stock(GTK_STOCK_OK);
-	gtk_table_attach_defaults(GTK_TABLE(table),edit->ok,2,3,1,2);
-	g_signal_connect(G_OBJECT(down),"clicked",
-			   G_CALLBACK(d4x_filter_edit_down),edit);
+	gtk_box_pack_start(GTK_BOX(bbox2),edit->ok,FALSE,FALSE,0);
 	
 	GTK_WIDGET_SET_FLAGS(edit->ok,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(del,GTK_CAN_DEFAULT);
 	GTK_WIDGET_SET_FLAGS(edit->edit,GTK_CAN_DEFAULT);
+	GTK_WIDGET_SET_FLAGS(cancel,GTK_CAN_DEFAULT);
 	
 	gtk_window_set_default(GTK_WINDOW(edit),edit->ok);
 
@@ -873,14 +898,21 @@ guint d4x_filter_edit_get_type(){
 	return d4x_filter_edit_type;
 };
 
-GtkWidget *d4x_filter_edit_new(d4xFNode *node){
+struct PopulateFilter{
+	d4xFilterEdit *edit;
+	PopulateFilter(d4xFilterEdit *e):edit(e){};
+	void operator()(d4x::Filter::iterator it){
+		d4x_filter_edit_add_rule(edit,*it,new d4x::Filter::iterator(it));
+	};
+};
+
+GtkWidget *d4x_filter_edit_new(const d4x::Filter &filter){
 	d4xFilterEdit *edit=(d4xFilterEdit *)g_object_new(d4x_filter_edit_get_type(),NULL);
-	edit->node=node;
-	node->filter->print(edit);
-	if (node->filter->name.get())
-		text_to_combo(edit->name,node->filter->name.get());
-	GTK_TOGGLE_BUTTON(edit->include)->active=node->filter->default_inc;
-	GTK_TOGGLE_BUTTON(edit->exclude)->active=!node->filter->default_inc;
+	edit->filter=new d4x::Filter(filter);
+	edit->filter->each_iter(PopulateFilter(edit));
+	text_to_combo(edit->name,filter.name.c_str());
+	GTK_TOGGLE_BUTTON(edit->include)->active=filter.include;
+	GTK_TOGGLE_BUTTON(edit->exclude)->active=!filter.include;
 	return GTK_WIDGET(edit);
 };
 
@@ -938,7 +970,7 @@ static void d4x_filter_sel_init(d4xFilterSel *sel){
 			   0,"",
 			   1,NULL,
 			   -1);
-	FILTERS_DB->print(sel);
+//	FILTERS_DB.each(sel);
 };
 
 static void d4x_filter_sel_class_init(d4xFilterSelClass *klass){
@@ -967,18 +999,10 @@ guint d4x_filter_sel_get_type(){
 
 GtkWidget *d4x_filter_sel_new(){
 	d4xFilterSel *sel=(d4xFilterSel *)g_object_new(d4x_filter_sel_get_type(),NULL);
+	//FIXME: what about fill list?
+	FILTERS_DB.each_name(PopulateFilters(GTK_LIST_STORE(gtk_tree_view_get_model(sel->view))));
 	gtk_widget_show_all(GTK_WIDGET(sel));
 	return GTK_WIDGET(sel);
-};
-
-void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node){
-	GtkListStore *list_store=GTK_LIST_STORE(gtk_tree_view_get_model(sel->view));
-	GtkTreeIter iter;
-	gtk_list_store_append(list_store, &iter);
-	gtk_list_store_set(list_store, &iter,
-			   0,node->filter->name.get(),
-			   1,node,
-			   -1);
 };
 
 void d4x_filter_sel_to_combo(d4xFilterSel *sel,GtkWidget *combo){

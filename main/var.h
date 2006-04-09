@@ -198,7 +198,7 @@ extern int GRAPH_METER_LENGTH;
 extern tMainCfg CFG;
 
 struct tGlobalVars{
-	d4xMutex MUTEX;
+	d4x::Mutex MUTEX;
 	unsigned long long READED_BYTES;
 	d4x::SocketsHistory *SOCKETS;
 };

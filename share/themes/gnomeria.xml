@@ -14,13 +14,11 @@ with free applications such as D4X.
 For any other uses please contact Jakub Steiner:
 http://jimmac.musichall.cz/ikony.php3
 </info>
-<!--
 <dndbasket>
     <icon file="gnomeria/dnd1.png"></icon>
-    <dropicon file="xlufe/dnd2.png" />
+    <dropicon file="gnomeria/dnd2.png" />
     <tooltip bgcolor="#ffffee" fgcolor="#000000">Drop URL to download here</tooltip>
 </dndbasket>
--->
 <buttonsbar>
     <tipcolor>#ffffee</tipcolor>
     <add file="gnomeria/buttons/add.png" />
@@ -87,3 +85,15 @@ http://jimmac.musichall.cz/ikony.php3
     <filters file="gnomeria/toolbar/filter.png"/>
     <scheduler file="gnomeria/toolbar/sch.png"/>
 </toolbar>
+<log>
+    <ok file="gnomeria/log/ok.png"/>
+    <send file="gnomeria/log/to_server.png"/>
+    <receiv file="gnomeria/log/from_server.png"/>
+    <error file="gnomeria/log/error.png"/>
+    <warning file="gnomeria/log/warning.png"/>
+</log>
+<main>
+    <online file="gnomeria/online.png"/>
+    <offline file="gnomeria/offline.png"/>
+    <tray file="gnomeria/dndmini.png"/>
+</main>

@@ -30,7 +30,7 @@ class tSegmentator{
 	int autosave_counter;
 	tSegment *FIRST,*LAST;
 	tSegment *HEAP;
-	d4xMutex lockmutex;
+	d4x::Mutex lockmutex;
 	int fd;
 	char *filename;
 	segoff_t total;

@@ -81,22 +81,25 @@ int tUrlParser::sequence(unsigned char *where, char *str){
 
 int tUrlParser::read_url(unsigned char *where){
 	DBC_RETVAL_IF_FAIL(where!=NULL,0);
+	unsigned char *beg=where;
 
-	char *bad_chars="[]()\"'`*><,";
+	char *bad_chars="\"'`*><,";
 	while(read(fd,where,1)>0){
-		if (*where<=' ' || *where>127 || index(bad_chars,*where)){
-			*where=0;
-			d4xEffString *str=new d4xEffString((char*)buf);
-			if (tree->find(str)==NULL)
-				tree->add(str);
-			else
-				delete(str);
-			return 0;
-		};
-		if (where>=buf+MAX_LEN) return 0;
+		if (*where<=' ' || *where>127 || index(bad_chars,*where))
+			break;
+		if (where>=buf+MAX_LEN) break;
 		where+=1;
 	};
-	return 1;
+
+	if (beg!=where){
+		*where=0;
+		d4xEffString *str=new d4xEffString((char*)buf);
+		if (tree->find(str)==NULL)
+			tree->add(str);
+		else
+			delete(str);
+	};
+	return 0;
 };
 
 tAbstractSortTree *tUrlParser::parse(){

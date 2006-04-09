@@ -23,6 +23,8 @@
 #include "signal.h"
 #include "sslsocket.h"
 
+using namespace d4x;
+
 enum HTTP_ANSWERS_ENUM{
 	H_CONTENT_LENGTH,
 	H_CONTENT_RANGE,
@@ -181,10 +183,12 @@ void tHttpDownload::print_error(int error_code){
 	};
 };
 
-int tHttpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
+int tHttpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,SocketPtr s) {
 	Persistent=0;
 #ifdef HAVE_SSL
-	HTTP=new tHttpClient(cfg,(hostinfo.proto==D_PROTO_HTTPS && s==0) ? new d4x::SSLSocket:0);
+	if (hostinfo.proto==D_PROTO_HTTPS && !s)
+		s.reset(new d4x::SSLSocket());
+	HTTP=new tHttpClient(cfg,s);
 #else
 	HTTP=new tHttpClient(cfg);
 #endif //HAVE_SSL	
@@ -205,13 +209,12 @@ int tHttpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
 	HTTP->set_user_agent(config.user_agent.get(),config.referer.get());
 	HTTP->registr(ADDR.user,ADDR.pass);
 	REQUESTED_URL=make_name();
-	if (s){
-		HTTP->import_ctrl_socket(s);
-		RetrNum=1;
-		tDownloader::reconnect();
-		return(0);
-	};
-	return reconnect();
+	if (!s)
+		return reconnect();
+	HTTP->import_ctrl_socket(s);
+	RetrNum=1;
+	tDownloader::reconnect();
+	return(0);
 };
 
 int tHttpDownload::reconnect() {
@@ -544,7 +547,7 @@ void tHttpDownload::make_full_pathes(const char *path,char **name,char **guess) 
 		}else
 			full_path/=ADDR.path;
 	};
-	std::string temp=(ADDR.file.empty()?std::string(CFG.DEFAULT_NAME):ADDR.file);
+	std::string temp(ADDR.file.empty()?std::string(CFG.DEFAULT_NAME):ADDR.file);
 	if (config.http_recursing && !ADDR.params.empty())
 		temp+=std::string(config.quest_sign_replace?"_":"?")+ADDR.params;
 	*guess=copy_string((full_path/temp).c_str());
@@ -564,21 +567,21 @@ void tHttpDownload::make_full_pathes(const char *path,const char *another_name,c
 		}else
 			full_path/=ADDR.path;
 	};
-	std::string temp=std::string(".")+another_name;
+	std::string temp(another_name);
 	if (config.http_recursing && !ADDR.params.empty())
-		temp+=std::string(config.quest_sign_replace?"_":"?")+ADDR.params;
-	full_path/=temp;
+    		temp+=std::string(config.quest_sign_replace?"_":"?")+ADDR.params;
+	*guess=copy_string((full_path/temp).c_str());
+	full_path/=std::string(".")+temp;
 	*name=copy_string(full_path.c_str());
-	*guess=copy_string(full_path.c_str());
 };
 
 void tHttpDownload::done() {
 	HTTP->done();
 };
 
-tSocket *tHttpDownload::export_ctrl_socket(){
+SocketPtr tHttpDownload::export_ctrl_socket(){
 	if (HTTP) return(HTTP->export_ctrl_socket());
-	return(NULL);
+	return(SocketPtr());
 };
 
 tHttpDownload::~tHttpDownload() {

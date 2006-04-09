@@ -74,7 +74,7 @@ tSocket::tSocket() {
 	con_flag=0;
 };
 
-int tSocket::constr_name(const char *host,guint16 port) {
+bool tSocket::constr_name(const char *host,guint16 port) {
 	info.sin_family=AF_INET;
 	if (host) {
 		d4x::USR1On2Off sig_locker_;
@@ -90,7 +90,7 @@ int tSocket::constr_name(const char *host,guint16 port) {
 			gethostbyname_r(host,&hp,buffer,MAX_LEN,&hpr,&temp_variable);
 #endif
 			if (temp_variable){
-				return -1;
+				return false;
 			};
 			memcpy((char *)&info.sin_addr,hpr->h_addr_list[0],(size_t) hpr->h_length);
 #else /* !(defined(BSD) && (BSD >= 199306)) */
@@ -99,14 +99,14 @@ int tSocket::constr_name(const char *host,guint16 port) {
 */
 			hostent *hpa=gethostbyname(host);
 			if (!hpa){
-				return -1;
+				return false;
 			};
 			memcpy((char *)&info.sin_addr,hpa->h_addr_list[0],(size_t) hpa->h_length);
 #endif /* !(defined(BSD) && (BSD >= 199306)) */
 		};
 	} else info.sin_addr.s_addr=INADDR_ANY;
 	info.sin_port=htons(port);
-	return sizeof(info);
+	return true;
 };
 //***************************************************/
 
@@ -129,24 +129,53 @@ unsigned short int tSocket::get_port() {
 	return htons(info.sin_port);
 };
 
+void set_nonblock_flag (int desc, int value){
+	int oldflags = fcntl (desc, F_GETFL, 0);
+	/* If reading the flags failed, return error indication now. */
+	if (oldflags == -1)
+		return;
+	/* Set just the flag we want to set. */
+	if (value != 0)
+		oldflags |= O_NONBLOCK;
+	else
+		oldflags &= ~O_NONBLOCK;
+	/* Store modified flag word in the descriptor. */
+	fcntl (desc, F_SETFL, oldflags);
+};
+
+
+bool tSocket::connect_impl(){
+	set_nonblock_flag(fd,1);
+	int len=sizeof(info);
+	connect(fd, (struct sockaddr *)&info, len);
+	if (wait_for_write(50))
+		return false;
+	int a;
+	len=sizeof(a);
+	if (getsockopt(fd,SOL_SOCKET,SO_ERROR,&a,(socklen_t*)&len) || a)
+		return false;
+	return true;
+};
+
 int tSocket::open_port(const char *host, guint16 port) {
 	DBC_RETVAL_IF_FAIL(host!=NULL,SOCKET_CANT_CONNECT);
 	d4x::USR1Off2On sig_unlocker_;
-	int len=constr_name(host,port);
-	if (len<0) return SOCKET_UNKNOWN_HOST;
+	if (!constr_name(host,port)) return SOCKET_UNKNOWN_HOST;
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
 		return(SOCKET_CANT_ALLOCATE);
 	int a=1;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
+	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
 	
 	size_t sl=2000; //set receive buffer to default+30% MTU size
 	setsockopt(fd,SOL_SOCKET,SO_RCVBUF,(char *)&sl,sizeof(sl));
-	
-	if (connect(fd, (struct sockaddr *)&info, len) < 0)
+
+	if (!connect_impl())
 		return(SOCKET_CANT_CONNECT);
 	con_flag=1;
 	return 0;
 }
+
 int tSocket::open_port(int *ftp_addr) {
 	DBC_RETVAL_IF_FAIL(ftp_addr!=NULL,SOCKET_CANT_CONNECT);
 	unsigned char addr[6];
@@ -162,14 +191,14 @@ int tSocket::open_port(guint32 host,guint16 port) {
 	d4x::USR1Off2On sig_unlocker_;
 	port=htons(port);
 //	host=htonl(host);
-	int len=constr_name(NULL,port);
-	if (len<0) return SOCKET_UNKNOWN_HOST;
+	if (!constr_name(NULL,port)) return SOCKET_UNKNOWN_HOST;
 	memcpy((char *)&info.sin_addr.s_addr,&host, sizeof(host));
 	if ((fd = socket(info.sin_family,SOCK_STREAM, 0)) < 0)
 		return(SOCKET_CANT_ALLOCATE);
 	int a=1;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
-	if (connect(fd, (struct sockaddr *)&info, len) < 0)
+	
+	if (!connect_impl())
 		return(SOCKET_CANT_CONNECT);
 	con_flag=1;
 	return 0;
@@ -183,9 +212,8 @@ int tSocket::open_any(const char *host) {
 		return(-1);
 	int a=1;
 	setsockopt(fd,SOL_SOCKET,SO_KEEPALIVE,(char *)&a,sizeof(a));
-	int len=constr_name(host,0);
-	if (len<0) return -2;
-	if (bind(fd, (struct sockaddr *)&info, len) < 0)
+	if (!constr_name(host,0)) return -2;
+	if (bind(fd, (struct sockaddr *)&info, (socklen_t)sizeof(info)) < 0)
 		return(-3);
 	if (listen(fd,1)) return(-4);
 	return 0;

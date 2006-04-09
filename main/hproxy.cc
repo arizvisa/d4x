@@ -15,10 +15,12 @@
 #include "base64.h"
 #include "ntlocale.h"
 
+using namespace d4x;
+
 tHProxyClient::tHProxyClient():tHttpClient(){
 };
 
-tHProxyClient::tHProxyClient(tCfg *cfg,tSocket *ctrl):tHttpClient(cfg,ctrl){
+tHProxyClient::tHProxyClient(tCfg *cfg,SocketPtr ctrl):tHttpClient(cfg,ctrl){
 };
 
 void tHProxyClient::setup_data(const std::string &host,int cache) {
@@ -27,58 +29,51 @@ void tHProxyClient::setup_data(const std::string &host,int cache) {
 };
 
 fsize_t tHProxyClient::get_size_sub(tStringList *list){
-	if (referer && *referer)
-		send_request("Referer: ",referer,"\r\n");
-	char data[MAX_LEN];
-	send_request("Accept: */*\r\n");
-	if (Offset){
-		sprintf(data,"%Li",Offset);
-		send_request("Range: bytes=",data,"-\r\n");
-	};
+	if (!referer.empty())
+		send_request("Referer",referer);
+	send_request("Accept: */*");
+	if (Offset)
+		send_request("Range",
+			     std::string("bytes=")+boost::lexical_cast<std::string>(Offset)+"-");
 
-	if (user_agent && strlen(user_agent)){
-		if (equal(user_agent,"%version"))
-			send_request("User-Agent: ",VERSION_NAME,"\r\n");
+	if (!user_agent.empty()){
+		if (user_agent=="%version")
+			send_request("User-Agent",VERSION_NAME);
 		else
-			send_request("User-Agent: ",user_agent,"\r\n");
+			send_request("User-Agent",user_agent);
 	};
-	send_request("Host: ",real_host.c_str(),"\r\n");
+	send_request("Host",real_host);
 
-	if (username_proxy && userword_proxy) {
-		char *tmp=sum_strings(username_proxy,":",userword_proxy,NULL);
-		char *pass=string_to_base64(tmp);
-		delete[] tmp;
-		send_request("Proxy-Authorization: Basic ",pass,"\r\n");
+	if (!username_proxy.empty()) {
+		char *pass=string_to_base64((username_proxy+":"+userword_proxy).c_str());
+		send_request("Proxy-Authorization",std::string("Basic ")+pass);
 		delete[] pass;
 	};
 	if (!username.empty() && !userword.empty()) {
-		std::string tmp=username+":"+userword;
-		char *pass=string_to_base64(tmp.c_str());
-		send_request("Authorization: Basic ",pass,"\r\n");
+		char *pass=string_to_base64((username+":"+userword).c_str());
+		send_request("Authorization",std::string("Basic ")+pass);
 		delete[] pass;
 	};
 	if (no_cache)
-		send_request("Pragma: no-cache\r\n");
-	send_cookies(real_host.c_str(),cookie_path.c_str());
-	send_request("\r\n");
+		send_request("Pragma","no-cache");
+	send_cookies(real_host,cookie_path);
+	send_request("");
 	return read_answer(list);
 };
 
-fsize_t tHProxyClient::get_size_only(char *filename,tStringList *list) {
-	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
-	send_request("HEAD ",filename," HTTP/1.0\r\n");
+fsize_t tHProxyClient::get_size_only(const std::string &filename,tStringList *list) {
+	send_request(std::string("HEAD ")+filename+" HTTP/1.0");
 	return(get_size_sub(list));
 };
 
-fsize_t tHProxyClient::get_size(char *filename,tStringList *list) {
-	DBC_RETVAL_IF_FAIL(filename!=NULL,-1);
-	send_request("GET ",filename," HTTP/1.0\r\n");
+fsize_t tHProxyClient::get_size(const std::string &filename,tStringList *list) {
+	send_request(std::string("GET ")+filename+" HTTP/1.0");
 	return(get_size_sub(list));
 };
 
 void tHProxyClient::proxy_registr(char *user,char *password) {
-	username_proxy=user;
-	userword_proxy=password;
+	username_proxy=user?user:"";
+	userword_proxy=password?password:"";
 };
 
 void tHProxyClient::set_cookie_search(const std::string &what){
@@ -96,7 +91,7 @@ tProxyDownload::tProxyDownload():tHttpDownload(){
 tProxyDownload::tProxyDownload(tWriterLoger *log):tHttpDownload(log){
 };
 
-int tProxyDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
+int tProxyDownload::init(const d4x::URL &hostinfo,tCfg *cfg,SocketPtr s) {
 	DBC_RETVAL_IF_FAIL(cfg!=NULL,-1);
 	HTTP=new tHProxyClient(cfg);
 	RetrNum=0;

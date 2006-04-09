@@ -1,5 +1,5 @@
 ##
-## $Header: /home/cvs/d4x/m4/ac_pkg_info_header.m4,v 1.2.2.3 2005/10/07 20:17:56 zaufi Exp $
+## $Header: /home/cvs/d4x/m4/ac_pkg_info_header.m4,v 1.2.2.1 2005/08/08 11:54:39 zaufi Exp $
 ##
 ## Mon 24 Jun 2002 01:34:16 AM MSD by Zaufi -- initial implementation
 ## Tue 22 Mar 2005 02:56:18 AM MSK by Zaufi -- add macros to make cute configuration summary info block
@@ -14,14 +14,11 @@ AC_DEFUN([AC_REPLICATE_CHAR],
 [
     ac_rc_char="m4_default([$1], [-])"
     ac_rc_length="m4_default([$2], [77])"
-    ## bash prior version 3.0 have a nasty bug with stripping leading spaces...
-    ## so our replicated string will never grow ;)
-    ## as workaround we initialize it with non space char and strip it later... ;)
-    repstrval='.'
+    
+    repstrval=''
     while (( ${#repstrval} < $ac_rc_length )); do
-        repstrval="${repstrval}${ac_rc_char}";
+	repstrval="${repstrval}${ac_rc_char}";
     done
-    repstrval=${repstrval:1}${ac_rc_char}
 ])
 
 ##
@@ -40,7 +37,7 @@ AC_DEFUN([AC_PKG_INFO_HDR],
         AC_MSG_RESULT([])
         ac_pih_space_sz=$(( $ac_pih_length - ${#ac_pih_title} ))
         ac_pih_space_sz=$(( ac_pih_space_sz / 2 ))
-        AC_REPLICATE_CHAR([ ], [$ac_pih_length])
+	AC_REPLICATE_CHAR([ ], [$ac_pih_length])
         ac_pih_space_line_org=$repstrval
         ac_pih_space_line=$ac_pih_space_line_org
         ac_pih_space_line=${ac_pih_space_line:0:$ac_pih_space_sz}
@@ -50,17 +47,17 @@ AC_DEFUN([AC_PKG_INFO_HDR],
 
     # Check CVS tag
     if test -f $srcdir/CVS/Tag; then
-        ac_pih_cvs_tag='CVS Branch: '`cat $srcdir/CVS/Tag | sed 's,^T\(.*\)$,\1,'`
+    	ac_pih_cvs_tag='CVS Branch: '`cat $srcdir/CVS/Tag | sed 's,^T\(.*\)$,\1,'`
     else if test -d $srcdir/CVS; then
-        ac_pih_cvs_tag='CVS Branch: HEAD'
+	    ac_pih_cvs_tag='CVS Branch: HEAD'
     else
-        ac_pih_cvs_tag="$PACKAGE_BUGREPORT"
+	    ac_pih_cvs_tag="$PACKAGE_BUGREPORT"
     fi fi
 
     ac_pih_version_tag=" Version: $PACKAGE_VERSION "
     if test -n "$ac_pih_cvs_tag"; then
         ac_pih_space_line=$ac_pih_space_line_org
-        ac_pih_space_line=${ac_pih_space_line:0:$(( $ac_pih_length - ${#ac_pih_cvs_tag} - ${#ac_pih_version_tag} ))}
+	ac_pih_space_line=${ac_pih_space_line:0:$(( $ac_pih_length - ${#ac_pih_cvs_tag} - ${#ac_pih_version_tag} ))}
     fi
     AC_MSG_RESULT([${ac_pih_version_tag}${ac_pih_space_line}${ac_pih_cvs_tag}])
     AC_MSG_RESULT([$ac_pih_hdrline])
@@ -76,15 +73,15 @@ AC_DEFUN([AC_SUM_INFO_HDR],
     ac_sih_length="m4_default([$1], [77])"
     ac_sih_title="$2"
     if test -z "$ac_sih_title"; then
-        ac_sih_dl="${ac_sih_length}"
+	ac_sih_dl="${ac_sih_length}"
     else
-        ac_sih_dl=$(( ${ac_sih_length} - ${#ac_sih_title} - 5))
+	ac_sih_dl=$(( ${ac_sih_length} - ${#ac_sih_title} - 5))
     fi
     AC_REPLICATE_CHAR([-], [$ac_sih_dl])
     if test -z "$ac_sih_title"; then
-        AC_MSG_RESULT([${repstrval}])
+	AC_MSG_RESULT([${repstrval}])
     else
-        AC_MSG_RESULT([${repstrval}<${ac_sih_title}>---])
+	AC_MSG_RESULT([${repstrval}<${ac_sih_title}>---])
     fi
 ])
 
@@ -107,11 +104,11 @@ AC_DEFUN([AC_MSG_INFO_LINE],
     AC_REPLICATE_CHAR([ ], [${ac_info_indent}])
     ac_mil_data="$2"
     if test -n "$ac_mil_data"; then
-        if test $(( ${#ac_mil_data} > ${ac_info_width} )); then
+	if test $(( ${#ac_mil_data} > ${ac_info_width} )); then
             ac_mil_data=`echo "$2" | fold -sw ${ac_info_width} | sed "2~1 s/^/${repstrval}/"`
-        fi
+	fi
     else
-        ac_mil_data=''
+	ac_mil_data=''
     fi
     AC_MSG_RESULT([${ac_mil_label}${ac_mil_data}])
 ])

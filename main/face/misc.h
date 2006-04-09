@@ -42,4 +42,6 @@ void gtk_tree_model_swap_rows_l(GtkTreeModel *model,GtkTreeIter *a,GtkTreeIter *
 GtkWidget *my_gtk_set_header_style(GtkWidget *widget);
 gchar *d4x_menu_translate_func(const gchar *label,gpointer data);
 
+void x_opacity_set(GtkWidget *widget,unsigned int opacity);
+
 #endif

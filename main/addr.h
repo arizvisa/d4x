@@ -42,6 +42,7 @@ namespace d4x{
 		URL(const std::string &_s);
 		URL &operator=(const URL &_u);
 		bool operator==(const URL &_u) const;
+		bool operator<(const URL &u) const;
 		bool is_valid();
 		operator std::string() const;
 		void copy_host(const URL&_u);

@@ -34,7 +34,7 @@ protected:
 public:
     	tFtpDownload();
     	tFtpDownload(tWriterLoger *log);
-    	int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
+    	int init(const d4x::URL &hostinfo,tCfg *cfg,d4x::SocketPtr s=d4x::SocketPtr());
 	void init_download(const std::string &path,const std::string &file);
     	int download(fsize_t len);
     	fsize_t get_size_only();
@@ -47,7 +47,7 @@ public:
     	int reget();
      	fsize_t another_way_get_size();
      	char *get_new_url();
-	tSocket *export_ctrl_socket();
+	d4x::SocketPtr export_ctrl_socket();
     	tStringList *dir();
     	~tFtpDownload();
 };

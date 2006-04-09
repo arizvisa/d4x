@@ -24,6 +24,8 @@
 #include <time.h>
 #include "signal.h"
 
+using namespace d4x;
+
 //****************************************/
 void ftp_extract_link(char *src,char *dst) {
 	char *delim=" -> ";
@@ -338,7 +340,7 @@ void tFtpDownload::init_download(const std::string &path,const std::string &file
 		ADDR.path=path;
 };
 
-int tFtpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
+int tFtpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,SocketPtr s) {
 	FTP=new tFtpClient(cfg);
 	RetrNum=0;
 	ADDR=hostinfo;
@@ -369,18 +371,18 @@ int tFtpDownload::init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s) {
 	FTP->set_passive(config.passive);
 	FTP->set_retry(config.retry);
 	FTP->set_dont_set_quit(config.dont_send_quit);
-	if (s){
-		FTP->import_ctrl_socket(s);
-		CWDFlag=0;
-		RetrNum=1;
-		tDownloader::reconnect();
-		return(0);
+	if (!s){
+		while(reconnect()==0){
+			if (cfg->split==0 || FTP->force_reget()==0)
+				return(0);
+		};
+		return(-1);
 	};
-	while(reconnect()==0){
-		if (cfg->split==0 || FTP->force_reget()==0)
-			return(0);
-	};
-	return(-1);
+	FTP->import_ctrl_socket(s);
+	CWDFlag=0;
+	RetrNum=1;
+	tDownloader::reconnect();
+	return(0);
 };
 
 tStringList *tFtpDownload::dir() {
@@ -484,7 +486,7 @@ fsize_t tFtpDownload::get_size() {
 			int a=ftp_get_size(list);
 			if (a==0 && list->count()<=2){
 				fsize_t sz=ls_answer_short();
-				if (ADDR.file==D_FILE.name.get() ||
+				if ((D_FILE.name.get() && ADDR.file==D_FILE.name.get()) ||
 				    FTP->METHOD_TO_LIST==1)
 					return(sz);
 				FTP->METHOD_TO_LIST=1;
@@ -659,9 +661,9 @@ void tFtpDownload::done() {
 	if (FTP) FTP->done();
 };
 
-tSocket *tFtpDownload::export_ctrl_socket(){
+SocketPtr tFtpDownload::export_ctrl_socket(){
 	if (FTP) return(FTP->export_ctrl_socket());
-	return(NULL);
+	return(SocketPtr());
 };
 
 tFtpDownload::~tFtpDownload() {

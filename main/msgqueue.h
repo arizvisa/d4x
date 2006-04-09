@@ -29,7 +29,7 @@ struct tLogMsg:public tNode{
 };
 
 class tMsgQueue:public tQueue{
-	d4xMutex mylock;
+	d4x::Mutex mylock;
  public:
 	tMsgQueue();
 	void insert(tNode *what);

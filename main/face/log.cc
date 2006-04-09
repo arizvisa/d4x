@@ -120,31 +120,31 @@ void log_model_view_add_string(GtkTreeView *view,tLogString *str){
 	const GdkColor *color,*back_color;
 	switch (str->type) {
 	case LOG_OK:{
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_OK],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->get_pixbuf(LRT_OK),-1);
 		color=&BLACK;
 		back_color=&WHITE;
 		break;
 	};
 	case LOG_TO_SERVER: {
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_SEND],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->get_pixbuf(LRT_SEND),-1);
 		color=&CYAN;
 		back_color=&LCYAN;
 		break;
 	};
 	case LOG_FROM_SERVER: {
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_RECEIVE],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->get_pixbuf(LRT_RECEIVE),-1);
 		color=&BLUE;
 		back_color=&LBLUE;
 		break;
 	};
 	case LOG_WARNING:{
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_WARNING],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->get_pixbuf(LRT_WARNING),-1);
 		color=&GREEN;
 		back_color=&LGREEN;
 		break;
 	};
 	case LOG_ERROR: {
-		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->logpix[LRT_ERROR],-1);
+		gtk_list_store_set(list_store,&iter,L_COL_TYPE,CUR_THEME->get_pixbuf(LRT_ERROR),-1);
 		color=&RED;
 		back_color=&LRED;
 		break;

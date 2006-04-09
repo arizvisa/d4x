@@ -27,6 +27,43 @@
 
 class tDEdit;
 
+namespace d4x{
+	template<typename T>
+	class Triger{
+		T current,old;
+	public:
+		Triger():current(0),old(0){};
+		Triger(T &val):current(val),old(val){
+		};
+		operator T(){
+			return current;
+		};
+		Triger &operator=(const Triger &tr){
+			current=tr.current;
+			old=tr.old;
+			return *this;
+		};
+		Triger &operator=(const T &val){
+			old=current;
+			current=val;
+			return *this;
+		};
+		bool operator!(){
+			return(current!=old);
+		};
+		void reset(){
+			old=current;
+		};
+		void clear(){
+			old=-1;
+			current=0;
+		};
+		void update(){
+			old=current-1;
+		};
+	};
+};
+
 struct tTriger{
 	fsize_t curent,old;
 	void reset();
@@ -128,7 +165,7 @@ struct tDownload:public tAbstractSortNode{
 	int protect;
 	int sizequery;
 	float Percent;
-	tTriger Size,Attempt,ActStatus,Speed,Remain;
+	d4x::Triger<fsize_t> Size,Attempt,ActStatus,Speed,Remain;
 	fsize_t StartSize;
 	int GTKCListRow;
 	// to realise stack of items which is needed to be updated

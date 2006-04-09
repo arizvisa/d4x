@@ -152,8 +152,8 @@ void init_about_window(...) {
 	gtk_editable_set_editable(GTK_EDITABLE(label2),FALSE);
 	gtk_entry_set_text(GTK_ENTRY(label2),HOME_PAGE);
 	GtkWidget *label3=gtk_label_new(_("Author: Maxim Koshelev"));
-	GtkWidget *label4=gtk_label_new("e-mail: chuchelo@krasu.ru");
-	GtkWidget *label5=gtk_label_new(_("Autoconf: Zaufi"));
+	GtkWidget *label4=gtk_label_new("e-mail: chuchelo@gmail.com");
+	GtkWidget *label5=gtk_label_new(_("Autoconf, ideas: Zaufi"));
 	GtkWidget *frame=gtk_frame_new(_("Translators team"));
 	gtk_frame_set_shadow_type(GTK_FRAME(frame),GTK_SHADOW_IN);
 	GtkWidget *scroll_window=gtk_scrolled_window_new((GtkAdjustment *)NULL,

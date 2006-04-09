@@ -23,6 +23,7 @@
 #include <sys/time.h>
 #include <fcntl.h>
 #include <glib.h>
+#include <boost/smart_ptr.hpp>
 #include "speed.h"
 
 /*
@@ -48,9 +49,10 @@ class tSocket{
 	int con_flag;
 	char *buffer;
 	int RBytes,SBytes;
-	int constr_name(const char *host,guint16 port);
+	bool constr_name(const char *host,guint16 port);
 	int wait_for_read(int len);
 	int wait_for_write(int len);
+	bool connect_impl();
 	virtual fsize_t lowlevel_read(char *where,fsize_t len);
  public:
 	tSocket();
@@ -70,6 +72,10 @@ class tSocket{
 	int connected();
 	virtual void down();
 	virtual ~tSocket(); 
+};
+
+namespace d4x{
+	typedef boost::shared_ptr<tSocket> SocketPtr;
 };
 
 #define SOCKET_UNKNOWN_HOST -1

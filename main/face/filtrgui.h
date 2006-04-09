@@ -14,7 +14,7 @@
 #include <gtk/gtk.h>
 #include "../filter.h"
 
-void d4x_filters_window_add(d4xFNode *filter);
+void d4x_filters_window_add(const d4x::Filter &filter);
 GtkWidget *d4x_filters_window_init();
 void d4x_filters_window_destroy();
 

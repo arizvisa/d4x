@@ -190,21 +190,6 @@ int empty_string(char *a) {
 	return 1;
 };
 
-/* convert_int_to_2()
-    params: integer and pointer to buffer
-    return: none
-    action: convert integer to hexademal pair of chars
- */
-
-void convert_int_to_2(int what,char *where) {
-	DBC_RETURN_IF_FAIL(where!=NULL);
-	char tmp[MAX_LEN];
-	*where=0;
-	sprintf(tmp,"%i",what);
-	if (what<10) strcat(where,"0");
-	strcat(where,tmp);
-};
-
 /* str_replace();
    params: string, string to search, string to put on the place of second string
    return: new allocated string
@@ -234,36 +219,34 @@ char *str_replace(const char *str,const char *where,const char *what){
 	return rval;
 };
 
+
+/* convert_int_to_2()
+    params: integer and pointer to buffer
+    return: none
+    action: convert integer to hexademal pair of chars
+ */
+
+template <typename Integral>
+inline std::string format_int_xx(Integral  what) {
+	if (what>=10)
+		return boost::lexical_cast<std::string>(what);
+	return std::string("0")+boost::lexical_cast<std::string>(what);
+};
+
 /* convert_time();
     params: number of seconds, pointer to buffer
     return: none
     action: convert number of seconds to nice string HH:MM:SS
  */
 
-void convert_time(int what,char *where,int TIME_FORMAT) {
-	DBC_RETURN_IF_FAIL(where!=NULL);
-	int hours=what/int(3600);
-	int mins=(what%3600)/int(60);
-	int secs= what%60;
-	char tmp[MAX_LEN];
-	*where=0;
-	if (hours>0) {
-		convert_int_to_2(hours,tmp);
-		strcat(where,tmp);
-//		sprintf(where,"%i",hours);
-		strcat(where,":");
-		convert_int_to_2(mins,tmp);
-		strcat(where,tmp);
-	}else{
-		convert_int_to_2(mins,tmp);
-		strcat(where,tmp);
-//		sprintf(where,"%i",mins);
-	};
+std::string convert_time(int what,int TIME_FORMAT) {
+	int hours = what/int(3600);
+	int mins = (what%3600)/int(60);
 	if (!TIME_FORMAT) {
-		strcat(where,":");
-		convert_int_to_2(secs,tmp);
-		strcat(where,tmp);
+		int secs = what%60;
+		return format_int_xx(hours)+":"+format_int_xx(mins)+":"+format_int_xx(secs);
 	};
+	return format_int_xx(hours)+":"+format_int_xx(mins);
 };
 
 /* string_to_low();
@@ -551,96 +534,6 @@ void del_crlf(char *what) {
 	};
 };
 
-/* make_number_nice()
-    params: pointer to buffer, integer
-    return: none
-    action: fill buffer by formated integer;
- */
-
-void make_number_nice(char *where,fsize_t num,int NICE_DEC_DIGITALS) {
-	DBC_RETURN_IF_FAIL(where!=NULL);
-	switch (NICE_DEC_DIGITALS) {
-		case 1:
-		case 3:{
-				sprintf(where,"%lli",num);
-				int len=strlen(where);
-				if (len<4) return;
-				for (int i=len-3;i>0;i-=3,len++) {
-					for (int a=len-1;a>=i;a--)
-						where[a+1]=where[a];
-					if (NICE_DEC_DIGITALS==1) where[i]=' ';
-					else where[i]='\'';
-				};
-				where[len]=0;
-				break;
-			};
-		case 2:	{
-				fsize_t gigs,megs;
-				megs=num/(1024*1024);
-				gigs=megs/1024;
-				if (gigs==0 && megs<1000){
-					fsize_t kils=num/1024;
-					if (megs==0 && kils<1000) {
-						fsize_t bytes=((num-kils*1024)*10)/1024;
-						if (kils==0 && bytes<1000)
-							sprintf(where,"%lli",num);
-						else
-							sprintf(where,"%lli.%lliK",kils,bytes);
-					} else{
-						fsize_t bytes=((num-megs*1024*1024)*10)/(1024*1024);
-						sprintf(where,"%lli.%lliM",megs,bytes);
-					};
-				}else{
-					fsize_t bytes=((num-gigs*1024*1024*1024)*10)/(1024*1024*1024);
-					sprintf(where,"%lli.%lliG",gigs,bytes);
-				};
-				break;
-			};
-		default:
-			sprintf(where,"%lli",num);
-	};
-};
-
-/* the same as previos but for long
- */
-
-void make_number_nicel(char *where,unsigned long num,int NICE_DEC_DIGITALS) {
-	DBC_RETURN_IF_FAIL(where!=NULL);
-	switch (NICE_DEC_DIGITALS) {
-		case 1:
-		case 3:{
-				sprintf(where,"%lu",num);
-				int len=strlen(where);
-				if (len<4) return;
-				for (int i=len-3;i>0;i-=3,len++) {
-					for (int a=len-1;a>=i;a--)
-						where[a+1]=where[a];
-					if (NICE_DEC_DIGITALS==1) where[i]=' ';
-					else where[i]='\'';
-				};
-				where[len]=0;
-				break;
-			};
-		case 2:	{
-				int megs;
-				megs=num/(1024*1024);
-				int kils=num/1024;
-				if (megs==0 && kils<1000) {
-					int bytes=((num-kils*1024)*10)/1024;
-					if (kils==0 && bytes<1000)
-						sprintf(where,"%lu",num);
-					else
-						sprintf(where,"%i.%iK",kils,bytes);
-				} else{
-					int bytes=((num-megs*1024*1024)*10)/(1024*1024);
-					sprintf(where,"%i.%iM",megs,bytes);
-				};
-				break;
-			};
-		default:
-			sprintf(where,"%lu",num);
-	};
-};
 
 /* is_string()
     params: string

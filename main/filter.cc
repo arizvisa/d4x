@@ -23,333 +23,215 @@
 #include "face/mywidget.h"
 #include "face/edit.h"
 #include "signal.h"
+#include <algorithm>
+#include <iterator>
+#include <fstream>
 
-d4xFiltersTree *FILTERS_DB=NULL;
+using namespace d4x;
 
-d4xRule::d4xRule(){
-	proto=include=0;
-};
-
-void d4xRule::print(){
-};
-
-int d4xRule::match(const d4x::URL &addr){
+bool Filter::Rule::match(const URL &addr) const{
 	if (proto && addr.proto!=proto)
-		return(0);
-	if (!check_mask2_uncase(addr.file.c_str(),file.get()))
-		return(0);
-	if (!check_mask2(addr.host.c_str(),host.get()))
-		return(0);
-	if (!check_mask2(addr.path.c_str(),path.get()))
-		return(0);
-	if (equal_uncase(addr.tag.c_str(),tag.get())==0){
-		return(0);
-	};
-	if (!check_mask2(addr.params.c_str(),params.get()))
-		return(0);
-	return(1);
+		return !include;
+	if (!check_mask2_uncase(addr.file.c_str(),file.c_str()))
+		return !include;
+	
+	if (!check_mask2(addr.host.c_str(),host.c_str()))
+		return !include;
+	if (!check_mask2(addr.path.c_str(),path.c_str()))
+		return !include;
+	if (equal_uncase(addr.tag.c_str(),tag.c_str())==0)
+		return !include;
+	if (!check_mask2(addr.params.c_str(),params.c_str()))
+		return !include;
+	return include;
 };
 
-void d4xRule::save(int fd){
-	f_wstr_lf(fd,"d4xRule:");
-	if (include)
-		write_named_integer(fd,"inc:",include);
-	if (proto)
-		write_named_integer(fd,"proto:",proto);
-	if (host.get())
-		write_named_string(fd,"host:",host.get());
-	if (path.get()){
-		if (*(path.get())=='/')
-			write_named_string(fd,"path:",path.get()+1);
-		else
-			write_named_string(fd,"path:",path.get());
+struct FilterMatcher{
+	URL addr;
+	FilterMatcher(const URL &a):addr(a){};
+	bool operator()(const Filter::Rule &rule){
+		return rule.match(addr);
 	};
-	if (tag.get())
-		write_named_string(fd,"tag:",tag.get());
-	if (file.get())
-		write_named_string(fd,"file:",file.get());
-	if (params.get())
-		write_named_string(fd,"params:",params.get());
-	f_wstr_lf(fd,"d4xRule_end");
 };
 
-int d4xRule::load(int fd){
-	tSavedVar table_of_fields[]={
-		{"inc:",	SV_TYPE_INT,	&include},
-		{"proto:",	SV_TYPE_INT,	&proto},
-		{"host:",	SV_TYPE_PSTR,	&(host)},
-		{"path:",	SV_TYPE_PSTR,	&(path)},
-		{"file:",   	SV_TYPE_PSTR,	&(file)},
-		{"tag:",   	SV_TYPE_PSTR,	&(tag)},
-		{"params:",   	SV_TYPE_PSTR,	&(params)},
-		{"d4xRule_end",SV_TYPE_END,	NULL}
+bool Filter::match(const URL &addr) const{
+	std::list<Rule>::const_iterator it=std::find_if(Rules.begin(),Rules.end(),FilterMatcher(addr));
+	if (it!=Rules.end())
+		return true;
+	return include;
+};
+
+Filter::iterator Filter::append(const Rule &r){
+	Rules.push_back(r);
+	iterator it=Rules.begin();
+	std::advance(it,Rules.size()-1);
+	return it;
+};
+
+bool Filter::empty(){
+	return name.empty();
+};
+
+
+void Filter::replace(iterator &it,const Rule &r){
+	*it=r;
+};
+
+
+void Filter::remove(iterator &it){
+	Rules.erase(it);
+};
+
+#include <iostream>
+namespace d4x{
+
+	std::ostream &operator<<(std::ostream &a,const Filter::Rule &rule){
+		a<<"d4xRule:"<<std::endl;
+		a<<"inc:\n"<<rule.include<<std::endl;
+		a<<"proto:\n"<<rule.proto<<std::endl;
+		a<<"host:\n"<<rule.host<<std::endl;
+		a<<"path:\n"<<rule.path<<std::endl;
+		a<<"tag:\n"<<rule.tag<<std::endl;
+		a<<"file:\n"<<rule.file<<std::endl;
+		a<<"params:\n"<<rule.params<<std::endl;
+		a<<"d4xRule_end"<<std::endl;
+		return a;
 	};
-	char buf[MAX_LEN];
-	while(f_rstr(fd,buf,MAX_LEN)>0){
-		unsigned int i;
-		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
-			if (equal_uncase(buf,table_of_fields[i].name)){
-				if (table_of_fields[i].type==SV_TYPE_END){
-					return(0);
-				}else{
-					if (sv_parse_file(fd,&(table_of_fields[i]),buf,MAX_LEN))
-						return(-1);
-				};
+
+	std::istream &operator>>(std::istream &a,Filter::Rule &rule){
+		std::string tmp;
+		std::getline(a,tmp);
+		while(tmp!="d4xRule_end"){
+			if (a.eof()) break;
+			if (tmp=="inc:"){
+				a>>rule.include;
+				std::getline(a,tmp);
+			}else if(tmp=="proto:"){
+				a>>rule.proto;
+				std::getline(a,tmp);
+			}else if(tmp=="host:"){
+				std::getline(a,rule.host);
+			}else if(tmp=="path:"){
+				std::getline(a,rule.path);
+			}else if(tmp=="tag:"){
+				std::getline(a,rule.tag);
+			}else if(tmp=="file:"){
+				std::getline(a,rule.file);
+			}else if(tmp=="params:"){
+				std::getline(a,rule.params);
+			}
+			std::getline(a,tmp);
+		};
+		return a;
+	};
+
+
+	std::ostream &operator<<(std::ostream &a,const Filter &filter){
+		a<<"d4xFilter:"<<std::endl;
+		a<<"name:\n"<<filter.name<<std::endl;
+		a<<"inc:\n"<<filter.include<<std::endl;
+		std::copy(filter.Rules.begin(),filter.Rules.end(),std::ostream_iterator<Filter::Rule>(a,""));
+		a<<"d4xFilter_end"<<std::endl;
+		return a;
+	};
+
+	std::istream &operator>>(std::istream &a,Filter &filter){
+		std::string tmp;
+		std::getline(a,tmp);
+		if (tmp.empty()) return a;
+		while(tmp!="d4xFilter_end"){
+			if (tmp=="inc:"){
+				a>>filter.include;
+				std::getline(a,tmp);
+			}else if(tmp=="name:"){
+				std::getline(a,filter.name);
+			}else if(tmp=="d4xRule:"){
+				Filter::Rule rule;
+				a>>rule;
+				filter.append(rule);
+			};
+			std::getline(a,tmp);
+		};
+		return a;
+	};
+
+};
+
+/******************************************************************/
+
+void FiltersDB::insert(const Filter &f){
+	MutexLocker l(mtx);
+	Filters[f.name]=f;
+};
+
+void FiltersDB::remove(const std::string &name){
+	MutexLocker l(mtx);
+	Filters.erase(name);
+};
+
+
+Filter FiltersDB::find(const std::string &name){
+	MutexLocker l(mtx);
+	std::map<std::string,Filter>::iterator it=Filters.find(name);
+	Filter rval;
+	if (it!=Filters.end()){
+		rval=it->second;
+	};
+	return rval;
+};
+
+bool FiltersDB::empty(){
+    MutexLocker l(mtx);
+    return Filters.empty();
+};
+
+
+d4x::FiltersDB FILTERS_DB;
+
+#include <iostream>
+namespace d4x{
+	std::ostream &operator<<(std::ostream &a,const std::pair<std::string,Filter> &p){
+		a<<p.second;
+		return a;
+	};
+	
+	std::ostream &operator<<(std::ostream &a,const FiltersDB &DB){
+		std::copy(DB.Filters.begin(),DB.Filters.end(),std::ostream_iterator<std::pair<std::string,Filter> >(a,""));
+		return a;
+	};
+	
+	void filters_store_rc(){
+		if (!HOME_VARIABLE)
+			return;
+		d4x::Path path(HOME_VARIABLE);
+		path/=CFG_DIR;
+		path/="Filters.2";
+		std::ofstream of(path.c_str());
+		if (!of) return;
+		of<<FILTERS_DB;
+	};
+	
+	std::istream &operator>>(std::istream &a,FiltersDB &DB){
+		while(!a.eof()){
+			Filter filt;
+			a>>filt;
+			if(!filt.empty()){
+				DB.insert(filt);
 			};
 		};
+		return a;
 	};
-	return -1;	
-};
-
-d4xRule::~d4xRule(){
-};
-/*********************************************************/
-d4xFilter::d4xFilter():tQueue(){
-	default_inc=1;
-	refcount=0;
-};
-
-
-void d4xFilter::ref(){
-	refcount+=1;
-};
-
-void d4xFilter::unref(){
-	refcount-=1;
-	if (refcount<=0) delete(this);
-};
-
-void d4xFilter::insert_before(tNode *node,tNode *where){
-	my_mutex.lock();
-	tQueue::insert_before(node,where);
-	my_mutex.unlock();
-};
-
-void d4xFilter::insert(tNode *node){
-	my_mutex.lock();
-	tQueue::insert(node);
-	my_mutex.unlock();
-};
-
-void d4xFilter::del(tNode *node){
-	my_mutex.lock();
-	tQueue::del(node);
-	my_mutex.unlock();
-};
-
-int d4xFilter::match(const d4x::URL &addr){
-	DBC_RETVAL_IF_FAIL(addr!=NULL,0);
-	my_mutex.lock();
-	d4xRule *rule=(d4xRule *)First;
-	while(rule){
-		if (rule->match(addr)){
-			my_mutex.unlock();
-			return(rule->include);
-		};
-		rule=(d4xRule *)(rule->prev);
-	};
-	my_mutex.unlock();
-	return(default_inc);
-};
-
-void d4xFilter::print(d4xFilterEdit *edit){
-	d4xRule *rule=(d4xRule *)First;
-	while(rule){
-		d4x_filter_edit_add_rule(edit,rule);
-		rule=(d4xRule *)(rule->prev);
+	
+	void filters_load_rc(){
+		if (!HOME_VARIABLE)
+			return;
+		d4x::Path path(HOME_VARIABLE);
+		path/=CFG_DIR;
+		path/="Filters.2";
+		std::ifstream ifs(path.c_str());
+		if (!ifs) return;
+		ifs>>FILTERS_DB;
 	};
 };
 
-void d4xFilter::save(int fd){
-	f_wstr_lf(fd,"d4xFilter:");
-	if (!default_inc)
-		write_named_integer(fd,"inc:",default_inc);
-	if (name.get())
-		write_named_string(fd,"name:",name.get());
-	d4xRule *rule=(d4xRule *)First;
-	while(rule){
-		rule->save(fd);
-		rule=(d4xRule *)(rule->prev);
-	};
-	f_wstr_lf(fd,"d4xFilter_end");
-};
 
-
-
-int d4xFilter::load(int fd){
-	tSavedVar table_of_fields[]={
-		{"d4xRule:",	SV_TYPE_RULE,	this},
-		{"inc:",	SV_TYPE_INT,	&default_inc},
-		{"name:",	SV_TYPE_PSTR,	&(name)},
-		{"d4xFilter_end",SV_TYPE_END,	NULL}
-	};
-	char buf[MAX_LEN];
-	while(f_rstr(fd,buf,MAX_LEN)>0){
-		unsigned int i;
-		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
-			if (equal_uncase(buf,table_of_fields[i].name)){
-				if (table_of_fields[i].type==SV_TYPE_END){
-					return(0);
-				}else{
-					if (sv_parse_file(fd,&(table_of_fields[i]),buf,MAX_LEN))
-						return(-1);
-				};
-			};
-		};
-	};
-	return -1;	
-};
-
-d4xFilter::~d4xFilter(){
-};
-
-/*********************************************************/
-
-d4xFNode::d4xFNode(){
-	filter=NULL;
-};
-
-d4xFNode::~d4xFNode(){
-	if (filter)
-		filter->unref();
-};
-
-int d4xFNode::cmp(tAbstractSortNode *what){
-	d4xFNode *node=(d4xFNode *)what;
-	char *a=node->filter->name.get();
-	char *b=filter->name.get();
-	if (a==NULL || b==NULL) return(0);
-	return(strcmp(a,b));
-};
-
-d4xFiltersTree::d4xFiltersTree():tAbstractSortTree(){
-};
-
-void d4xFiltersTree::add(tAbstractSortNode *what){
-	my_mutex.lock();
-	tAbstractSortTree::add(what);
-	my_mutex.unlock();
-};
-
-void d4xFiltersTree::del(tAbstractSortNode *what){
-	my_mutex.lock();
-	tAbstractSortTree::del(what);
-	my_mutex.unlock();
-};
-
-d4xFilter *d4xFiltersTree::find(char *name){
-	my_mutex.lock();
-	d4xFNode *tmp=new d4xFNode;
-	tmp->filter=new d4xFilter;
-	tmp->filter->name.set(name);
-	d4xFNode *result=(d4xFNode *)(tAbstractSortTree::find(tmp));
-	delete(tmp);
-	if (result){
-		result->filter->ref();
-		my_mutex.unlock();
-		return(result->filter);
-	};
-	my_mutex.unlock();
-	return(NULL);
-};
-
-tAbstractSortNode *d4xFiltersTree::max(){
-	my_mutex.lock();
-	tAbstractSortNode *tmp=tAbstractSortTree::max();
-	my_mutex.unlock();
-	return(tmp);
-};
-
-d4xFiltersTree::~d4xFiltersTree(){
-	while (Top){
-		d4xFNode *node=(d4xFNode *)Top;
-		del(Top);
-		delete(node);
-	};
-};
-
-void d4xFiltersTree::print_recurse(d4xFilterSel *sel,d4xFNode *node){
-	if (node){
-		print_recurse(sel,(d4xFNode *)(node->less));
-		d4x_filter_sel_add(sel,node);
-		print_recurse(sel,(d4xFNode *)(node->more));
-	};
-};
-
-void d4xFiltersTree::print_recurse(d4xFNode *node){
-	if (node){
-		print_recurse((d4xFNode *)(node->less));
-		d4x_filters_window_add(node);
-		print_recurse((d4xFNode *)(node->more));
-	};
-};
-
-void d4xFiltersTree::print(){
-	d4xFNode *tmp=(d4xFNode*)Top;
-	print_recurse(tmp);
-};
-
-void d4xFiltersTree::print(d4xFilterSel *sel){
-	d4xFNode *tmp=(d4xFNode*)Top;
-	print_recurse(sel,tmp);
-};
-
-void d4xFiltersTree::save_recurse(int fd,d4xFNode *what){
-	if (what){
-		what->filter->save(fd);
-		save_recurse(fd,(d4xFNode*)(what->less));
-		save_recurse(fd,(d4xFNode*)(what->more));
-	};
-};
-
-void d4xFiltersTree::save(int fd=-1){
-	d4xFNode *tmp=(d4xFNode*)Top;
-	save_recurse(fd,tmp);
-};
-
-int d4xFiltersTree::load(int fd){
-
-	tSavedVar table_of_fields[]={
-		{"d4xFilter:",	SV_TYPE_FILTER,	this},
-		{"d4xFilters_end:",SV_TYPE_END,	NULL}
-	};
-	char buf[MAX_LEN];
-	while(f_rstr(fd,buf,MAX_LEN)>0){
-		unsigned int i;
-		for (i=0;i<sizeof(table_of_fields)/sizeof(tSavedVar);i++){
-			if (equal_uncase(buf,table_of_fields[i].name)){
-				if (table_of_fields[i].type==SV_TYPE_END){
-					return(0);
-				}else{
-					if (sv_parse_file(fd,&(table_of_fields[i]),buf,MAX_LEN))
-						return(-1);
-				};
-			};
-		};
-	};
-	return -1;	
-};
-
-void d4xFiltersTree::load_from_ntrc(){
-	if (!HOME_VARIABLE)
-		return;
-	char *path=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/","Filters",NULL);
-	int fd=open(path,O_RDONLY,S_IRUSR | S_IWUSR);
-	delete[] path;
-	if (fd>=0){
-		load(fd);
-		close(fd);
-	};
-};
-
-void d4xFiltersTree::save_to_ntrc(){
-	if (!HOME_VARIABLE)
-		return;
-	char *path=sum_strings(HOME_VARIABLE,"/",CFG_DIR,"/","Filters",NULL);
-	int fd=open(path,O_TRUNC | O_CREAT |O_RDWR,S_IRUSR | S_IWUSR);
-	delete[] path;
-	if (fd>=0){
-		save(fd);
-		close(fd);
-	};
-};

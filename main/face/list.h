@@ -89,10 +89,10 @@ void d4x_mw_clipboard_set(const char *str);
 char *d4x_mw_clipboard_get();
 void d4x_normalize_coords(gint *x,gint *y,gint width=0,gint heigh=0);
 void d4x_main_switch_log(tDownload *dwn);
+void d4x_main_buttons_of_log_update(tDownload *dwn);
 void d4x_main_log_del_string();
 void d4x_main_log_add_string(tLogString *str);
 void d4x_main_offline_mode();
-void d4x_vertical_toolbar_change_theme();
 
 void list_dnd_drop_internal(GtkWidget *widget,
 			    GdkDragContext *context,

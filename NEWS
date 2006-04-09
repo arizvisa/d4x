@@ -1,3 +1,16 @@
+2.5.7
+	FIX: Themes handling has been reimplemented;
+	FIX: D4X begin to use safe typecasting
+	FIX: segfaults on empty fields of filters' rules
+	FIX: segfault on persisten connections
+	FIX: finding links in file (braces matching, match URL at eof)
+	FIX: stopping downloading on initing connection
+	FIX: change visibility of buttons in log of download in main window after changing preferences
+	UPDATE: Italian translation has been updated by Andrea Zagli
+	UPDATE: Translation to Duth has been done by Hendrik-Jan Heins
+	UPDATE: Full support for Gnomeria theme has been implemented;
+	CLEANUPS: many of code cleanups
+
 2.5.6
 	Fixed downloading files greater than 2Gb via HTTP
 	Fixed downloading via authorized HTTP-proxy (broken in 2.5.5)

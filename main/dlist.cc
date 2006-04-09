@@ -336,11 +336,6 @@ tDownload::tDownload() {
 	finfo.perm=S_IWUSR | S_IRUSR;
 	Start=Pause=Difference=HistoryTime=0;
 	Percent=0;
-	Attempt.clear();
-	ActStatus.clear();
-	Size.clear();
-	Speed.clear();
-	Remain.clear();
 	myowner=NULL;
 	thread_id=0;
 	DIR=NULL;
@@ -888,7 +883,9 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		DIR->init(0);
 	};
 	tHtmlUrl *temp=(tHtmlUrl *)dir->last();
-	d4xFilter *filter=config->Filter.get()?FILTERS_DB->find(config->Filter.get()):NULL;
+	d4x::Filter filter;
+	if (config->Filter.get())
+		filter=FILTERS_DB.find(config->Filter.get());
 	while (temp) {
 		tDownload *onenew=new tDownload;
 		onenew->config=new tCfg;
@@ -906,8 +903,8 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		onenew->Description.set(temp->descr);
 		if (temp->info.is_valid() && http_check_settings(temp->info)){
 			onenew->info=temp->info;
-			if (filter){
-				if (filter->match(onenew->info)){
+			if (!filter.empty()){
+				if (filter.match(onenew->info)){
 					onenew->info.tag.clear(); //this info is not needed any more
 					DIR->insert(onenew);
 				}else{
@@ -923,7 +920,6 @@ void tDownload::convert_list_to_dir2(tQueue *dir) {
 		delete(temp);
 		temp=(tHtmlUrl *)dir->last();
 	};
-	if (filter) filter->unref();
 };
 
 void tDownload::save_to_config(int fd){
@@ -945,8 +941,8 @@ void tDownload::save_to_config(int fd){
 		write_named_integer(fd,"State:",tmpid);
 	if (finfo.size>0){
 		write_named_fsize(fd,"size:",finfo.size);
-		if (Size.curent>0)
-			write_named_fsize(fd,"loaded:",Size.curent);
+		if (Size>0)
+			write_named_fsize(fd,"loaded:",Size);
 	};
 	if (Description.get())
 		write_named_string(fd,"Description:",Description.get());
@@ -972,7 +968,7 @@ int tDownload::load_from_config(int fd){
 		{"SaveName:",	SV_TYPE_STDSTR,	&(Name2Save)},
 		{"SplitTo:",	SV_TYPE_SPLIT,	&(split)},
 		{"size:",	SV_TYPE_LINT,	&(finfo.size)},
-		{"loaded:",	SV_TYPE_LINT,	&(Size.curent)},
+		{"loaded:",	SV_TYPE_FSIZE_TRIGER,	&(Size)},
 		{"protect:",	SV_TYPE_INT,	&(protect)},
 		{"Description:",SV_TYPE_PSTR,	&(Description)},
 		{"Alt:",	SV_TYPE_ALT,	&(ALTS)},
@@ -986,7 +982,7 @@ int tDownload::load_from_config(int fd){
 			if (equal_uncase(buf,table_of_fields[i].name)){
 				if (table_of_fields[i].type==SV_TYPE_END){
 					if (finfo.size>0)
-						Percent=(float(Size.curent)*float(100))/float(finfo.size);
+						Percent=(fsize_t(Size)*float(100))/float(finfo.size);
 					return(0);
 				}else{
 					if (sv_parse_file(fd,&(table_of_fields[i]),buf,MAX_LEN))
@@ -1229,8 +1225,8 @@ void tDownload::http_recurse() {
 
 void tDownload::export_socket(tDownloader *what){
 	if (WL->is_overlaped()) return;
-	tSocket *sock=what->export_ctrl_socket();
-	if (sock){
+	SocketPtr sock=what->export_ctrl_socket();
+	if (sock.get()){
 		GVARS.SOCKETS->insert(info,sock);
 	};
 };
@@ -1270,15 +1266,16 @@ void tDownload::http_check_redirect(bool removefiles){
 				finfo.type=T_FILE;
 			};
 		};
-		d4xFilter *filter=config->Filter.get()?FILTERS_DB->find(config->Filter.get()):NULL;
-		if (filter && finfo.type==T_REDIRECT){
-			if (filter->match(addr))
+		d4x::Filter filter;
+		if (config->Filter.get())
+			filter=FILTERS_DB.find(config->Filter.get());
+		if (!filter.empty() && finfo.type==T_REDIRECT){
+			if (filter.match(addr))
 				finfo.type=T_REDIRECT;
 			else{
 				finfo.type=T_FILE;
 				WL->log(LOG_WARNING,_("Redirection blocked by filter"));
 			};
-			filter->unref();
 		};
 	};
 	WL->log(LOG_WARNING,_("Redirect detected..."));
@@ -1286,7 +1283,7 @@ void tDownload::http_check_redirect(bool removefiles){
 
 void tDownload::download_http_size(){
 	WL->log(LOG_WARNING,_("Size detection only!"));
-	tSocket *s=GVARS.SOCKETS->find(info);
+	SocketPtr s=GVARS.SOCKETS->find_and_remove(info);
 	if (who->init(info,config,s)==0) {
 		who->init_download(info.path,info.file);
 		finfo.size=who->get_size_only();
@@ -1299,7 +1296,7 @@ void tDownload::download_http_size(){
 
 void tDownload::download_ftp_size(){
 	WL->log(LOG_WARNING,_("Size detection only!"));
-	tSocket *s=GVARS.SOCKETS->find(info);
+	SocketPtr s=GVARS.SOCKETS->find_and_remove(info);
 	if (who->init(info,config,s)==0) {
 		who->init_download(info.path,info.file);
 		status=DOWNLOAD_SIZE_WAIT;
@@ -1321,7 +1318,7 @@ void tDownload::download_http() {
 		return;
 	};
 	config->split=split?1:0;
-	tSocket *s=GVARS.SOCKETS->find(info);
+	SocketPtr s=GVARS.SOCKETS->find_and_remove(info);
 	if (who->init(info,config,s)) {
 		download_failed();
 		return;
@@ -1449,7 +1446,7 @@ static void _tmp_sort_free_(void *buf){
 static int _cmp_pinged_hosts_(tNode *a,tNode *b){
 	tDownload *aa=(tDownload *)a;
 	tDownload *bb=(tDownload *)b;
-	float rval=(aa->Percent/aa->Attempt.curent)-(bb->Percent/bb->Attempt.curent);
+	float rval=(aa->Percent/aa->Attempt)-(bb->Percent/bb->Attempt);
 	if (rval==0) return(0);
 	return(rval>0?1:-1);
 };
@@ -1460,11 +1457,11 @@ void tDownload::sort_links(){
 	int i=0;
 	while (i<CFG.SEARCH_PING_TIMES){
 		WL->log_printf(LOG_OK,_("Pinging (atempt %i of %i)"),i+1,CFG.SEARCH_PING_TIMES);
-		if (!ActStatus.curent){ //clear previous percentage for non comulative ping
+		if (ActStatus==0){ //clear previous percentage for non comulative ping
 			tDownload *a=DIR->last();
 			while(a){
 				a->Percent=0;
-				a->Attempt.curent=0;
+				a->Attempt=0;
 				a=DIR->next();
 			};
 		};
@@ -1474,7 +1471,7 @@ void tDownload::sort_links(){
 		pthread_cleanup_pop(1);
 		DIR->sort(_cmp_pinged_hosts_);
 		if (!i)
-			ActStatus.curent=1;
+			ActStatus=1;
 		i+=1;
 	};
 };
@@ -1515,7 +1512,7 @@ void tDownload::ftp_search_sizes(){
 void tDownload::ftp_search() {
 	/* FIXME: prepare new url for ftp search */
 	if (action!=ACTION_REPING){
-		Size.set(0);
+		Size=0;
 		d4xSearchEngine *engine=D4X_SEARCH_ENGINES.get_next_used_engine(NULL);
 		tDList *TMP_DIR=NULL;
 		while(engine){
@@ -1580,16 +1577,16 @@ void tDownload::ftp_search() {
 				TMP_DIR=DIR;
 				DIR=NULL;
 			};
-			Size.set(TMP_DIR->count());
+			Size=TMP_DIR->count();
 			engine=D4X_SEARCH_ENGINES.get_next_used_engine(engine);
 			pthread_cleanup_pop(1);
-			if (Size.curent>=CFG.SEARCH_ENTRIES)
+			if (Size>=CFG.SEARCH_ENTRIES)
 				break;
 		};
 		if (TMP_DIR && !DIR)
 			DIR=TMP_DIR;
 	}else{
-		Size.set(DIR->count());
+		Size=DIR->count();
 	};
 	if (finfo.size<0 && DIR!=NULL && DIR->count()>0)
 		ftp_search_sizes();
@@ -1619,7 +1616,7 @@ void tDownload::download_ftp(){
 	};
 
 	config->split=split?1:0;
-	tSocket *s=GVARS.SOCKETS->find(info);
+	SocketPtr s=GVARS.SOCKETS->find_and_remove(info);
 	if (who->init(info,config,s)) {
 		download_failed();
 		return;

@@ -37,7 +37,7 @@ class tCookiesTree:public tAbstractSortTree{
 	void load_from_file(int fd,int myown=0);
 	void save_cookie(int fd,tCookie *what);
  public:
-	d4xMutex lock;
+	d4x::Mutex lock;
 	tCookie *find(const char *path);
 	tCookie *find(tCookie *begin,const char *path);
 	tCookie *find_exact(tCookie *cookie);

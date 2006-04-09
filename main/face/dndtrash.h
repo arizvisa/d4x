@@ -19,7 +19,7 @@ void dnd_trash_real_destroy();
 void dnd_trash_init_menu();
 void dnd_trash_menu_prepare();
 void dnd_trash_animation();
-void dnd_trash_set_tooltip(char *str,float percent=0);
+void dnd_trash_set_tooltip(const char *str,float percent=0);
 void dnd_trash_set_del_completed(gint how);
 void dnd_trash_set_speed_text();
 void dnd_trash_destroy_theme();

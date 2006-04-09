@@ -129,7 +129,7 @@ static void my_gtk_graph_draw(GtkWidget *widget,GdkRectangle *area){
 			  widget->window,
 			  GTK_STATE_NORMAL,
 			  GTK_SHADOW_IN,
-			  area,widget,"trough",
+			  area,widget,"",
 			  0,0,
 			  widget->allocation.width,
 			  widget->allocation.height);
@@ -182,13 +182,9 @@ static void my_gtk_graph_draw(GtkWidget *widget,GdkRectangle *area){
 		};
 	};
 	if (graph->show_speed){
-		char tmpc[100];
-//		char tmpd[100];
-		make_number_nice(tmpc,graph->GlobalM->last_speed(),2);
-//		sprintf(tmpd,"%sB/s",tmpc);
 		PangoLayout *layout=gtk_widget_create_pango_layout (widget, "");
 		pango_layout_set_width (layout, -1);
-		pango_layout_set_text (layout, tmpc, -1);
+		pango_layout_set_text (layout, make_number_nice(graph->GlobalM->last_speed(),2).c_str(), -1);
 		pango_layout_set_font_description (layout,graph->font_desc);
 		gdk_draw_layout_with_colors(widget->window,
 					    widget->style->black_gc,

@@ -22,6 +22,7 @@
 
 #include "locstr.h"
 #include "queue.h"
+#include <string>
 
 struct d4xXmlField:public tNode{
 	tPStr name,value;
@@ -35,14 +36,14 @@ struct d4xXmlObject:public tNode{
 	tQueue objects;
 	void print();
 	void print_rec(int depth);
-	d4xXmlField *get_attr(char *name);
-	d4xXmlObject *find_obj(char *name);
+	d4xXmlField *get_attr(const char *name);
+	d4xXmlObject *find_obj(const char *name);
 };
 
 tQueue *d4x_xml_parse_fd(int fd);
 tQueue *d4x_xml_parse_file(const char *filename);
-d4xXmlObject *d4x_xml_find_obj(tQueue *q,char *name);
-char *d4x_xml_find_obj_value(tQueue *q,char *path);
+d4xXmlObject *d4x_xml_find_obj(tQueue *q,const std::string &name);
+char *d4x_xml_find_obj_value(tQueue *q,const std::string &path);
 void d4x_xml_out(tQueue *q);
 
 #endif// _D4X_XML_HEADER_

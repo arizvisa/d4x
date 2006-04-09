@@ -30,6 +30,11 @@ int sv_parse_file(int fd,tSavedVar *var,char *buf,int bufsize){
 		sscanf(buf,"%Li",(long long int*)(var->where));
 		break;
 	};
+	case SV_TYPE_FSIZE_TRIGER:{
+		if (f_rstr(fd,buf,bufsize)<0) return -1;
+		*((d4x::Triger<fsize_t> *)(var->where))=boost::lexical_cast<fsize_t>(std::string(buf));
+		break;
+	};
 	case SV_TYPE_STDSTR:{
 		if (f_rstr(fd,buf,bufsize)<0) return -1;
 		*((std::string *)(var->where))=buf;
@@ -75,30 +80,6 @@ int sv_parse_file(int fd,tSavedVar *var,char *buf,int bufsize){
 		tDownload **dwn=(tDownload **)(var->where);
 		if (*dwn==NULL) *dwn=new tDownload;
 		return((*dwn)->load_from_config(fd));
-		break;
-	};
-	case SV_TYPE_RULE:{
-		d4xFilter *filter=(d4xFilter *)(var->where);
-		d4xRule *rule=new d4xRule;
-		if (rule->load(fd)==0 && filter!=NULL)
-			filter->insert(rule);
-		else{
-			delete(rule);
-			return(-1);
-		};
-		break;
-	};
-	case SV_TYPE_FILTER:{
-		d4xFiltersTree *tree=(d4xFiltersTree *)(var->where);
-		d4xFNode *node=new d4xFNode;
-		node->filter=new d4xFilter;
-		node->filter->ref();
-		if (node->filter->load(fd)==0 && tree!=NULL)
-			tree->add(node);
-		else{
-			delete(node);
-			return(-1);
-		};
 		break;
 	};
 	case SV_TYPE_QDOWNLOAD:{

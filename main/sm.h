@@ -15,27 +15,27 @@
 #include "socket.h"
 #include "mutex.h"
 #include <time.h>
-#include <vector>
+#include <map>
+#include <boost/smart_ptr.hpp>
 
 namespace d4x{
 	struct OldSocket{
-		d4x::URL info;
-		tSocket *sock;
+		SocketPtr sock;
 		time_t birth;
-		OldSocket(const d4x::URL &a, tSocket *s);
-		~OldSocket();
+		OldSocket(){};
+		OldSocket(const OldSocket &s):sock(s.sock),birth(s.birth){};
+		OldSocket(const SocketPtr &s):sock(s),birth(time(NULL)){};
+		OldSocket(tSocket *s):sock(s),birth(time(NULL)){};
 	};
 	
 	class SocketsHistory{
-		d4xMutex my_lock;
-		typedef std::vector<OldSocket *> OldSockList;
-		OldSockList lst;
-		void del(OldSocket *what);
+		Mutex my_lock;
+		typedef std::map<URL,OldSocket> OldSockMap;
+		OldSockMap Smap;
 	public:
-		void insert(const URL &u,tSocket *s);
-		tSocket *find(const d4x::URL &info);
+		void insert(const URL &u,const SocketPtr  &s);
+		SocketPtr find_and_remove(const URL &info);
 		void kill_old();
-		~SocketsHistory();
 	};
 
 };

@@ -83,7 +83,7 @@ public:
 	void add_first(tDownload *what);
 	void remove(tDownload *what);
 	void update(tDownload *what);
-	void change_data(GtkTreeIter *iter,int column,const gchar *data);
+	void change_data(GtkTreeIter *iter,int column,const std::string &data=std::string());
 	void set_percent(GtkTreeIter *iter,float percent);
 	void set_desc(tDownload *what);
 	void set_color(tDownload *what);

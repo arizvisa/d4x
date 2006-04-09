@@ -207,11 +207,14 @@ namespace d4x{
 	};
 	
 	bool URL::operator==(const URL &_u) const{
-		if (strcmp(host.c_str(),_u.host.c_str()) ||
+		if (strcasecmp(host.c_str(),_u.host.c_str()) ||
 		    path!=_u.path || file!=_u.file || params!=_u.params ||
 		    proto!=_u.proto || port!=port || user!=user)
 			return false;
 		return true;
+	};
+	bool URL::operator<(const URL &u_) const{
+		return operator std::string()<std::string(u_);
 	};
 	
 	bool URL::is_valid(){

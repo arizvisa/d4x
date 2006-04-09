@@ -112,11 +112,11 @@ void tMsgServer::write_dwn_status(tDownload *dwn,int full){
 	if (dwn){
 		if (full) status.url=copy_string(std::string(d4x::ShortURL(dwn->info)).c_str());
 		status.Size=dwn->finfo.size;
-		status.Download=dwn->Size.curent;
+		status.Download=dwn->Size;
 		status.Time=dwn->Start;
-		status.Speed=dwn->Speed.curent;
+		status.Speed=dwn->Speed;
 		status.Status=dwn->owner(); /* FIXME: possible race condition */
-		status.Attempt=dwn->Attempt.curent;
+		status.Attempt=dwn->Attempt;
 		status.MaxAttempt=dwn->config?dwn->config->number_of_attempts:CFG.DEFAULT_CFG.number_of_attempts;
 	};
 	

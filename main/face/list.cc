@@ -66,7 +66,6 @@ GtkWidget *BoxForGraph;
 GtkUIManager *main_menu_ui_manager=NULL;
 GtkWidget *MainLogList,*MAIN_PANED=(GtkWidget *)NULL,*MAIN_PANED2=(GtkWidget *)NULL;
 GtkWidget *MAIN_PANED1=(GtkWidget *)NULL;
-GtkWidget *D4X_OFFLINE_PIXMAP=(GtkWidget *)NULL;
 d4xQsTree *D4X_QVT;
 int main_log_mask;
 unsigned int ScrollShift[2];
@@ -84,7 +83,7 @@ GtkWidget *D4X_TOOL_DOWN;
 GtkWidget *D4X_TOOL_BUTTON_FIND;
 GtkWidget *D4X_VTOOLBAR_CONTAINER;
 GtkWidget *D4X_OFFLINE_BUTTON;
-GtkWidget *d4x_vtoolbar_pixmaps[6];
+d4x::Theme::SlaveImage *D4X_OFFLINE_IMAGE;
 
 d4xDisplayLogInfo D4X_LOG_DISPLAY;
 
@@ -990,10 +989,11 @@ void update_progress_bar() {
 	if (!D4X_QUEUE) return;
 	tDownload *temp=D4X_QUEUE->qv.last_selected;
 	char data[MAX_LEN];
-	if(temp && (temp->finfo.size>0 || temp->Size.curent>0)){
+	if(temp && (temp->finfo.size>0 || temp->Size>0)){
+		//FIXME: std::string and boost::lexical_cast!
 		char b[100];
 		d4x_percent_str(temp->Percent, b, sizeof(b));
-		sprintf(data, "%s%(%lli/%lli)",b,temp->Size.curent,temp->finfo.size);
+		sprintf(data, "%s%(%lli/%lli)",b,fsize_t(temp->Size),temp->finfo.size);
 		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(ProgressOfDownload),(temp->Percent>100?100:temp->Percent)/100.0);
 		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(ProgressOfDownload),data);
 	}else{
@@ -1002,8 +1002,9 @@ void update_progress_bar() {
 	};
 	gtk_widget_show(ProgressOfDownload);
 	char data1[MAX_LEN];
-	make_number_nicel(data,GVARS.READED_BYTES,D4X_QUEUE->NICE_DEC_DIGITALS);
-	sprintf(data1,"%s(%iB/s)",data,GlobalMeter->last_speed());
+	sprintf(data1,"%s(%iB/s)",
+		make_number_nice(GVARS.READED_BYTES,D4X_QUEUE->NICE_DEC_DIGITALS).c_str(),
+		GlobalMeter->last_speed());
 	gtk_statusbar_pop(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext);
 	gtk_statusbar_push(GTK_STATUSBAR(ReadedBytesStatusBar),RBStatusBarContext,data1);
 };
@@ -1022,22 +1023,20 @@ namespace d4x{
 	
 	class Tray{
 		EggTrayIcon *tray;
-		GtkWidget *image,*box;
+		GtkWidget *box;
 		GtkTooltips *tooltip;
-		GdkPixbuf *theme_pixbuf;
 	public:
-		Tray():tray(0),image(0),box(0),tooltip(0),theme_pixbuf(0){
+		Tray():tray(0),box(0),tooltip(0){
 #include "pixmaps/dndtrash_bar.xpm"
 			EggTrayIcon *tray=egg_tray_icon_new("D4X");
 			if (tray){
 				box = gtk_event_box_new();
-				image = gtk_image_new();
 				tooltip=gtk_tooltips_new();
 				gtk_tooltips_set_tip(tooltip,box,"Downloader for X",(const gchar *)NULL);
 				gtk_tooltips_enable(tooltip);
-				theme_pixbuf=pixbuf_from_theme("main tray>file",(const char**)dndtrash_bar_xpm);
-				gtk_image_set_from_pixbuf(GTK_IMAGE(image),theme_pixbuf);
-				gtk_container_add(GTK_CONTAINER(box), image);
+				d4x::Theme::Image *img=new Theme::Image(dndtrash_bar_xpm,"main tray>file");
+				d4x::CUR_THEME->monitor(img);
+				gtk_container_add(GTK_CONTAINER(box), GTK_WIDGET(img->img));
 				gtk_container_add(GTK_CONTAINER(tray), box);
 				g_signal_connect(G_OBJECT(box), "button-press-event", G_CALLBACK(d4x_tray_clicked),this);
 				gtk_widget_show_all(GTK_WIDGET(tray));
@@ -1046,14 +1045,6 @@ namespace d4x{
 		void set_tooltip(const gchar *txt){
 			if (box && tooltip)
 				gtk_tooltips_set_tip(tooltip,box,txt?txt:"Downloader for X",NULL);
-		};
-		void theme_changed(){
-#include "pixmaps/dndtrash_bar.xpm"
-			if (theme_pixbuf)
-				gdk_pixbuf_unref(theme_pixbuf);
-			theme_pixbuf=pixbuf_from_theme("main tray>file",(const char**)dndtrash_bar_xpm);
-			if (image)
-				gtk_image_set_from_pixbuf(GTK_IMAGE(image),theme_pixbuf);
 		};
 	};
 	static Tray *TRAY;
@@ -1306,42 +1297,6 @@ static gint d4x_main_fsearch_click(GtkWidget *button,GtkWidget *entry){
 	return (d4x_main_fsearch_activate(entry));
 };
 
-void d4x_vertical_toolbar_change_theme(){
-#include "pixmaps/dndtrash.xpm"
-#include "pixmaps/clocks.xpm"
-#include "pixmaps/queues.xpm"
-#include "pixmaps/filters.xpm"
-#include "pixmaps/ftpsearch.xpm"
-#include "pixmaps/mainlog.xpm"
-#include "pixmaps/urlmng.xpm"
-#include "pixmaps/down.xpm"
-#include "pixmaps/up.xpm"
-	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[0]),pixbuf_from_theme("toolbar queues>file",(const char**)queues_xpm));
-	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[1]),pixbuf_from_theme("toolbar mainlog>file",(const char**)mainlog_xpm));
-	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[2]),pixbuf_from_theme("toolbar urlmng>file",(const char**)urlmng_xpm));
-	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[3]),pixbuf_from_theme("toolbar ftpsearch>file",(const char**)ftpsearch_xpm));
-	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[4]),pixbuf_from_theme("toolbar filters>file",(const char**)filters_xpm));
-	gtk_image_set_from_pixbuf(GTK_IMAGE(d4x_vtoolbar_pixmaps[5]),pixbuf_from_theme("toolbar scheduler>file",(const char**)clocks_xpm));
-//	gint w,h;
-//	gtk_widget_get_size_request(d4x_vtoolbar_pixmaps[0],&w,&h);
-//	gtk_widget_set_size_request(D4X_VTOOLBAR_CONTAINER,w,-1);
-	gtk_widget_set_size_request(D4X_VTOOLBAR_CONTAINER,-1,-1);
-
-#include "pixmaps2/offline.xpm"
-#include "pixmaps2/offline1.xpm"
-
-	GtkWidget *tmp=GTK_BIN(D4X_OFFLINE_BUTTON)->child;
-	if (CFG.OFFLINE_MODE){
-		gtk_image_set_from_pixbuf(GTK_IMAGE(tmp),pixbuf_from_theme("main offline>file",(const char**)offline1_xpm));
-		gtk_image_set_from_pixbuf(GTK_IMAGE(D4X_OFFLINE_PIXMAP),pixbuf_from_theme("main online>file",(const char**)offline_xpm));
-	}else{
-		gtk_image_set_from_pixbuf(GTK_IMAGE(tmp),pixbuf_from_theme("main online>file",(const char**)offline_xpm));
-		gtk_image_set_from_pixbuf(GTK_IMAGE(D4X_OFFLINE_PIXMAP),pixbuf_from_theme("main offline>file",(const char**)offline1_xpm));
-	};
-	if (d4x::TRAY)
-		d4x::TRAY->theme_changed();
-};
-
 
 GtkWidget *init_vertical_toolbar(){
 #include "pixmaps/dndtrash.xpm"
@@ -1355,12 +1310,13 @@ GtkWidget *init_vertical_toolbar(){
 #include "pixmaps/up.xpm"
 	GtkWidget *vbox1=gtk_vbox_new(FALSE,1);
 	GtkWidget *vbox=gtk_vbox_new(FALSE,1);
-	d4x_vtoolbar_pixmaps[0] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar queues>file",(const char**)queues_xpm));
-	d4x_vtoolbar_pixmaps[1] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar mainlog>file",(const char**)mainlog_xpm));
-	d4x_vtoolbar_pixmaps[2] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar urlmng>file",(const char**)urlmng_xpm));
-	d4x_vtoolbar_pixmaps[3] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar ftpsearch>file",(const char**)ftpsearch_xpm));
-	d4x_vtoolbar_pixmaps[4] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar filters>file",(const char**)filters_xpm));
-	d4x_vtoolbar_pixmaps[5] = gtk_image_new_from_pixbuf(pixbuf_from_theme("toolbar scheduler>file",(const char**)clocks_xpm));
+	d4x::Theme::Image *img[6];
+	img[0]=new d4x::Theme::Image(queues_xpm,"toolbar queues>file");
+	img[1]=new d4x::Theme::Image(mainlog_xpm,"toolbar mainlog>file");
+	img[2]=new d4x::Theme::Image(urlmng_xpm,"toolbar urlmng>file");
+	img[3]=new d4x::Theme::Image(ftpsearch_xpm,"toolbar ftpsearch>file");
+	img[4]=new d4x::Theme::Image(filters_xpm,"toolbar filters>file");
+	img[5]=new d4x::Theme::Image(clocks_xpm,"toolbar scheduler>file");
 	GtkWidget *buttons[6];
 	GtkStyle  *tmpstyle = gtk_widget_get_style(MainWindow);
 	GdkColor tmpcolor=tmpstyle->bg[GTK_STATE_NORMAL];
@@ -1368,9 +1324,10 @@ GtkWidget *init_vertical_toolbar(){
 	tmpcolor.green=(tmpcolor.green*2)/3;
 	tmpcolor.blue=(tmpcolor.blue*2)/3;
 	for (int i=0;i<6;i++){
+		d4x::CUR_THEME->monitor(img[i]);
 		buttons[i]=gtk_button_new();
 		gtk_button_set_relief(GTK_BUTTON(buttons[i]),GTK_RELIEF_NONE);
-		gtk_container_add(GTK_CONTAINER(buttons[i]),d4x_vtoolbar_pixmaps[i]);
+		gtk_container_add(GTK_CONTAINER(buttons[i]),GTK_WIDGET(img[i]->img));
 		gtk_box_pack_start (GTK_BOX (vbox), buttons[i], FALSE, FALSE, 0);
 		gtk_widget_modify_bg (buttons[i],GTK_STATE_PRELIGHT,&tmpcolor);
 		gtk_widget_modify_bg (buttons[i],GTK_STATE_ACTIVE,&tmpcolor);
@@ -1494,6 +1451,25 @@ GtkWidget *init_vertical_toolbar(){
 	return(stupid_gtk);
 };
 
+void d4x_main_buttons_of_log_update(tDownload *dwn){
+	if (D4X_LOG_DISPLAY.papa==dwn){
+		int i=1;
+//		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4X_LOG_DISPLAY.buttons[0]),TRUE);
+		gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(D4X_LOG_DISPLAY.buttons[0]),TRUE);
+		if (dwn->split){
+			for(i=1;i<dwn->split->NumOfParts;i++){
+				if (D4X_LOG_DISPLAY.buttons[i]->parent==NULL)
+					gtk_toolbar_insert(GTK_TOOLBAR(D4X_LOG_DISPLAY.buttonsbar),GTK_TOOL_ITEM(D4X_LOG_DISPLAY.buttons[i]),-1);
+				gtk_widget_show(D4X_LOG_DISPLAY.buttons[i]);
+			};
+		};
+		for(;i<10;i++)
+			if (D4X_LOG_DISPLAY.buttons[i]->parent!=NULL)
+				gtk_container_remove(GTK_CONTAINER(D4X_LOG_DISPLAY.buttonsbar),
+						     D4X_LOG_DISPLAY.buttons[i]);
+	};
+};
+
 void d4x_main_switch_log(tDownload *dwn){
 	if (dwn!=NULL){
 		if (dwn->LOG==NULL){
@@ -1501,30 +1477,16 @@ void d4x_main_switch_log(tDownload *dwn){
 			dwn->LOG->init(CFG.MAX_LOG_LENGTH);
 			dwn->LOG->ref_inc();
 		};
+	
 		if (dwn->LOG!=D4X_LOG_DISPLAY.log && D4X_LOG_DISPLAY.papa!=dwn){
 			gtk_list_store_clear(GTK_LIST_STORE(gtk_tree_view_get_model(D4X_LOG_DISPLAY.view)));
 			log_print_to_view(dwn->LOG,D4X_LOG_DISPLAY.view);
 			D4X_LOG_DISPLAY.log=dwn->LOG;
 			D4X_LOG_DISPLAY.papa=dwn;
+			d4x_main_buttons_of_log_update(dwn);
 //			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4X_LOG_DISPLAY.buttons[D4X_LOG_DISPLAY.curbutton]),FALSE);
 			gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(D4X_LOG_DISPLAY.buttons[D4X_LOG_DISPLAY.curbutton]),FALSE);
 			D4X_LOG_DISPLAY.curbutton=0;
-			int i=1;
-//			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(D4X_LOG_DISPLAY.buttons[0]),TRUE);
-			gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(D4X_LOG_DISPLAY.buttons[0]),TRUE);
-			if (dwn->split){
-				for(i=1;i<dwn->split->NumOfParts;i++){
-					if (D4X_LOG_DISPLAY.buttons[i]->parent==NULL)
-						gtk_toolbar_insert(GTK_TOOLBAR(D4X_LOG_DISPLAY.buttonsbar),GTK_TOOL_ITEM(D4X_LOG_DISPLAY.buttons[i]),-1);
-//						gtk_toolbar_append_widget(GTK_TOOLBAR (D4X_LOG_DISPLAY.buttonsbar),
-//									  D4X_LOG_DISPLAY.buttons[i],NULL,NULL);
-					gtk_widget_show(D4X_LOG_DISPLAY.buttons[i]);
-				};
-			};
-			for(;i<10;i++)
-				if (D4X_LOG_DISPLAY.buttons[i]->parent!=NULL)
-					gtk_container_remove(GTK_CONTAINER(D4X_LOG_DISPLAY.buttonsbar),
-							     D4X_LOG_DISPLAY.buttons[i]);
 		};
 	};
 };
@@ -1610,13 +1572,7 @@ GtkWidget *d4x_main_dwn_log_init(){
 }
 
 void d4x_main_offline_mode(){
-	GtkWidget *tmp=GTK_BIN(D4X_OFFLINE_BUTTON)->child;
-	g_object_ref(G_OBJECT(tmp));
-	gtk_container_remove(GTK_CONTAINER(D4X_OFFLINE_BUTTON),tmp);
-	gtk_container_add(GTK_CONTAINER(D4X_OFFLINE_BUTTON),D4X_OFFLINE_PIXMAP);
-	g_object_unref(D4X_OFFLINE_PIXMAP);
-	gtk_widget_show(D4X_OFFLINE_PIXMAP);
-	D4X_OFFLINE_PIXMAP=tmp;
+	D4X_OFFLINE_IMAGE->reinit(CFG.OFFLINE_MODE?d4x::OMB_OFFLINE:d4x::OMB_ONLINE);
 	GtkTooltipsData  *tooltipdata=gtk_tooltips_data_get(D4X_OFFLINE_BUTTON);
 	if (tooltipdata){
 		gtk_tooltips_set_tip(tooltipdata->tooltips,D4X_OFFLINE_BUTTON,
@@ -1632,8 +1588,6 @@ void d4x_main_offline_click(GtkWidget *button){
 };
 
 void init_main_window() {
-#include "pixmaps2/offline.xpm"
-#include "pixmaps2/offline1.xpm"
 	ContainerForCList=gtk_scrolled_window_new((GtkAdjustment *)NULL,(GtkAdjustment *)NULL);
 	GtkWidget *hbox=gtk_hbox_new(FALSE,1);
 	MainHBox=hbox;
@@ -1695,12 +1649,13 @@ void init_main_window() {
 	gtk_widget_modify_style (offline, rc_style);
 	g_object_unref(G_OBJECT(rc_style));
 	GTK_WIDGET_UNSET_FLAGS(offline,GTK_CAN_FOCUS);
-	GtkWidget *offline_pixmap= gtk_image_new_from_pixbuf(pixbuf_from_theme("main online>file",(const char**)offline_xpm));
-	D4X_OFFLINE_PIXMAP=gtk_image_new_from_pixbuf(pixbuf_from_theme("main offline>file",(const char**)offline1_xpm));
-	g_object_ref(G_OBJECT(D4X_OFFLINE_PIXMAP));
+	
+	D4X_OFFLINE_IMAGE=new d4x::Theme::SlaveImage(d4x::OMB_ONLINE);
+	d4x::CUR_THEME->monitor(D4X_OFFLINE_IMAGE);
+	gtk_container_add(GTK_CONTAINER(offline),GTK_WIDGET(D4X_OFFLINE_IMAGE->img));
+
  	g_signal_connect(G_OBJECT(offline),"clicked",
-			   G_CALLBACK(d4x_main_offline_click),NULL);
-	gtk_container_add(GTK_CONTAINER(offline),offline_pixmap);
+			 G_CALLBACK(d4x_main_offline_click),NULL);
 	gtk_button_set_relief(GTK_BUTTON(offline),GTK_RELIEF_NONE);
 	gtk_container_set_border_width (GTK_CONTAINER(offline),0);
 	gtk_box_pack_end (GTK_BOX (hbox), offline, FALSE, FALSE, 0);
@@ -1769,11 +1724,14 @@ void init_main_window() {
 };
 
 /* ******************************************************************* */
-static void tmp_scroll_title(char *title,int index){
+static void tmp_scroll_title(std::string &title,int ind){
 	if (CFG.SCROLL_MAINWIN_TITLE){
-		ScrollShift[index]+=1;
-		if (ScrollShift[index]>=strlen(title))	ScrollShift[index]=0;
-		scroll_string_left(title,ScrollShift[index]);
+		ScrollShift[ind]+=1;
+		if (ScrollShift[ind]>=title.length())
+			ScrollShift[ind]=0;
+		if (ScrollShift[ind]){
+			title=title.substr(ScrollShift[ind])+title.substr(0,ScrollShift[ind]);
+		};
 	};	
 };
 
@@ -1781,54 +1739,42 @@ void update_mainwin_title() {
 	if (CFG.USE_MAINWIN_TITLE) {
 		mainwin_title_state=1;
 		tDownload *temp=D4X_QUEUE->first(DL_RUN);
-		char data[MAX_LEN];
-		char data2[MAX_LEN];
-		char data3[MAX_LEN];
+		std::string title;
 		if (temp){
 			int i=0;
-			char *tipstr=NULL;
+			std::string tipstr;
 			tDownload *frst=temp;
 			while(temp && i++<3){
-				make_number_nice(data2,temp->Size.curent,D4X_QUEUE->NICE_DEC_DIGITALS);
-				if (temp->finfo.size>=0)
-					make_number_nice(data3,temp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
-				else
-					sprintf(data3,"???");
+				std::string size=temp->finfo.size>=0?
+					make_number_nice(temp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS):
+					"???";
 				char b[100];
 				d4x_percent_str(temp->Percent,b,sizeof(b));
-				std::string rfile(hexed_string(temp->info.file));
-				sprintf(data,"%s%% %s/%s %s ",b,data2,data3,rfile.c_str());
-				if (tipstr){
-					char *tmp=sum_strings(tipstr,"\n",data,NULL);
-					delete[] tipstr;
-					tipstr=tmp;
-				}else
-					tipstr=copy_string(data);
+				tipstr+=std::string(b)+"% "+make_number_nice(fsize_t(temp->Size),D4X_QUEUE->NICE_DEC_DIGITALS)
+					+"/"+size+hexed_string(temp->info.file);
+				if (i==2){
+					tipstr+=std::string("\n");
+				}else if(!i){
+					title=tipstr;
+				};
 				temp=(tDownload*)(temp->prev);
 			};
-			d4x::TRAY->set_tooltip(tipstr);
-			dnd_trash_set_tooltip(tipstr,frst->Percent);
-			delete[] tipstr;
+			d4x::TRAY->set_tooltip(tipstr.c_str());
+			dnd_trash_set_tooltip(tipstr.c_str(),frst->Percent);
 		}else{
 			dnd_trash_set_tooltip(NULL);
 			d4x::TRAY->set_tooltip(0);
 		};
-		if (CFG.USE_MAINWIN_TITLE2!=2 && temp && (CFG.USE_MAINWIN_TITLE2==0 || UpdateTitleCycle % 3)) {
-			tmp_scroll_title(data,ROLL_STAT);
-			gtk_window_set_title(GTK_WINDOW (MainWindow), data);
-		} else {
-			if (CFG.USE_MAINWIN_TITLE2) {
-				sprintf(data,_("[%s] %i-running %i-completed %i-total "),
-					D4X_QUEUE->name.get(),
-					D4X_QUEUE->count(DL_RUN),
-					D4X_QUEUE->count(DL_COMPLETE),
-					D4X_QUEUE->count());
-				tmp_scroll_title(data,ROLL_INFO);
-				gtk_window_set_title(GTK_WINDOW (MainWindow), data);
-			} else{
-				gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
-			};
+		if (CFG.USE_MAINWIN_TITLE2 && (UpdateTitleCycle % 3)!=0) {
+			title=std::string("[")+D4X_QUEUE->name.get()+"] "+
+				boost::lexical_cast<std::string>(D4X_QUEUE->count(DL_RUN))+"-running "+
+				boost::lexical_cast<std::string>(D4X_QUEUE->count(DL_COMPLETE))+"-completed "+
+				boost::lexical_cast<std::string>(D4X_QUEUE->count())+"-total";
+		} else if (title.empty()){
+			title=VERSION_NAME;
 		};
+		tmp_scroll_title(title,ROLL_INFO);
+		gtk_window_set_title(GTK_WINDOW (MainWindow), title.c_str());
 	} else{
 		if (mainwin_title_state){
 			gtk_window_set_title(GTK_WINDOW (MainWindow), VERSION_NAME);
@@ -2119,13 +2065,14 @@ void init_face(int argc, char *argv[]) {
 	gtk_widget_realize(MainWindow);
 	MainWindowGC=gdk_gc_new(MainWindow->window);
 
+	d4x::CUR_THEME=new d4x::Theme;
+	
         dnd_trash_init_menu();
 	init_main_menu();
 	init_list_menu();
 	init_status_bar();
 	init_buttons_bar();
 	init_main_window();
-	d4x::CUR_THEME=new d4x::Theme;
 /* initing table of shifts
  */
 	for (int i=0;i<ROLL_LAST;i++)

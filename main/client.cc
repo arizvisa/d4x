@@ -21,6 +21,7 @@
 #include <stdarg.h>
 #include <sys/types.h>
 
+using namespace d4x;
 tWriterLoger::tWriterLoger(){};
 
 fsize_t tWriterLoger::shift(fsize_t len){
@@ -355,37 +356,32 @@ tCfg::~tCfg() {
 /* tClient 
  */
 
-tClient::tClient(){
+tClient::tClient():CtrlSocket(new tSocket()){
 	buffer=NULL;
 	FileLoaded=0;
-	CtrlSocket=new tSocket;
 };
 
-tClient::tClient(tCfg *cfg,tSocket *ctrl){
+tClient::tClient(tCfg *cfg,SocketPtr ctrl):CtrlSocket(ctrl){
 	buffer=NULL;
 	FileLoaded=0;
-	if (ctrl)
-		CtrlSocket=ctrl;
-	else{
+	if (!ctrl){
 		if (cfg->socks_host.get() && cfg->socks_port){
-			CtrlSocket=new tSocksSocket(cfg->socks_host.get(),
-						    cfg->socks_port,
-						    cfg->socks_user.get(),
-						    cfg->socks_pass.get());
+			CtrlSocket.reset(new tSocksSocket(cfg->socks_host.get(),
+							  cfg->socks_port,
+							  cfg->socks_user.get(),
+							  cfg->socks_pass.get()) );
 		}else
-			CtrlSocket=new tSocket;
+			CtrlSocket.reset(new tSocket);
 	};
 };
 
 tClient::~tClient(){
 	if (buffer) delete[] buffer;
-	if (CtrlSocket) delete(CtrlSocket);
 };
 
 void tClient::init(const std::string &host,tWriterLoger *log,int prt,int time_out) {
-	DBC_RETURN_IF_FAIL(host!=NULL);
 	DBC_RETURN_IF_FAIL(log!=NULL);
-
+	
 	Status=0;
 	LOG=log;
 	port=prt;
@@ -410,8 +406,7 @@ fsize_t tClient::get_readed() {
 	return FileLoaded;
 };
 
-int tClient::read_string(tSocket *sock,tStringList *list,fsize_t maxlen) {
-	DBC_RETVAL_IF_FAIL(sock!=NULL,0);
+int tClient::read_string(SocketPtr sock,tStringList *list,fsize_t maxlen) {
 	DBC_RETVAL_IF_FAIL(list!=NULL,0);
 
 	int rvalue;
@@ -428,8 +423,7 @@ int tClient::read_string(tSocket *sock,tStringList *list,fsize_t maxlen) {
 	return RVALUE_OK;
 };
 
-char *tClient::read_string(tSocket *sock,fsize_t maxlen) {
-	DBC_RETVAL_IF_FAIL(sock!=NULL,0);
+char *tClient::read_string(SocketPtr sock,fsize_t maxlen) {
 	char temp[maxlen+1];
 	char *cur=temp;
 	do {
@@ -493,14 +487,13 @@ int tClient::get_status() {
 	return Status;
 };
 
-tSocket *tClient::export_ctrl_socket(){
-	tSocket *tmp=CtrlSocket;
-	CtrlSocket=NULL;
+SocketPtr tClient::export_ctrl_socket(){
+	SocketPtr tmp=CtrlSocket;
+	CtrlSocket.reset();
 	return(tmp);
 };
 
-void tClient::import_ctrl_socket(tSocket *s){
-	if (CtrlSocket) delete(CtrlSocket);
+void tClient::import_ctrl_socket(SocketPtr s){
 	CtrlSocket=s;
 };
 

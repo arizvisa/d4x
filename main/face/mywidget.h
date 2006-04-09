@@ -14,6 +14,7 @@
 #include <gtk/gtk.h>
 #include "../history.h"
 #include "../addr.h"
+#include "../filter.h"
 
 struct MyGtkFilesel{
 	GtkHBox box;
@@ -47,7 +48,6 @@ GtkWidget *my_gtk_colorsel_new(gint color,gchar *title);
 gint my_gtk_colorsel_get_color(MyGtkColorsel *colsel);
 void my_gtk_colorsel_set_color(MyGtkColorsel *colsel, gint color);
 
-struct d4xRule;
 
 struct d4xRuleEdit{
 	GtkWindow window;
@@ -56,7 +56,8 @@ struct d4xRuleEdit{
 	GtkWidget *vbox;
 	GtkWidget *ok_button,*cancel_button;
 	GtkWidget *filter_edit;
-	d4xRule *rule;
+	d4x::Filter::Rule *rule;
+	GtkTreeIter *iter;
 };
 
 struct d4xRuleEditClass{
@@ -64,8 +65,7 @@ struct d4xRuleEditClass{
 };
 
 void d4x_rule_edit_apply(d4xRuleEdit *rule);
-GtkWidget *d4x_rule_edit_new(d4xRule *rule);
-GtkWidget *d4x_rule_edit_new_full(d4xRule *rule);
+GtkWidget *d4x_rule_edit_new(const d4x::Filter::Rule &rule);
 
 struct d4xFNode;
 
@@ -77,19 +77,32 @@ struct d4xFilterEdit{
 	GtkWidget *include,*exclude; //default action
 	GtkWidget *name;   //name entry
 	GtkWidget *ok,*edit;   //buttons
-	d4xFNode *node;
+	d4x::Filter *filter;
+	GtkTreeIter *iter;
 };
 
 struct d4xFilterEditClass{
 	GtkWindowClass parent_class;
 };
 
-GtkWidget *d4x_filter_edit_new(d4xFNode *node);
-void d4x_filter_edit_add_rule(d4xFilterEdit *edit,d4xRule *rule);
+GtkWidget *d4x_filter_edit_new(const d4x::Filter &filter);
+void d4x_filter_edit_add_rule(d4xFilterEdit *edit,const d4x::Filter::Rule &rule,d4x::Filter::iterator *it);
 
 /* filter selector is used for select filter in properties of
    a download and in "Common properties"/HTTP
 */
+
+struct PopulateFilters{
+	GtkListStore *store;
+	PopulateFilters(GtkListStore *s):store(s){};
+	void operator()(const std::string &name){
+		GtkTreeIter iter;
+		gtk_list_store_append(store,&(iter));
+		gtk_list_store_set(store,&(iter),
+				   0,name.c_str(),
+				   -1);
+	};
+};
 
 struct d4xFilterSel{
 	GtkWindow window;
@@ -103,7 +116,6 @@ struct d4xFilterSelClass{
 struct d4xFNode;
 
 GtkWidget *d4x_filter_sel_new();
-void d4x_filter_sel_add(d4xFilterSel *sel,d4xFNode *node);
 void d4x_filter_sel_to_combo(d4xFilterSel *sel,GtkWidget *combo);
 
 /* next widget is used for list of links which was found in

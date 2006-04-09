@@ -65,7 +65,7 @@ void d4xXmlObject::print_rec(int depth){
 	printf("</>\n");
 };
 
-d4xXmlField *d4xXmlObject::get_attr(char *name){
+d4xXmlField *d4xXmlObject::get_attr(const char *name){
 	d4xXmlField *fld=(d4xXmlField *)fields.first();
 	while(fld){
 		if (equal_uncase(name,fld->name.get()))
@@ -75,7 +75,7 @@ d4xXmlField *d4xXmlObject::get_attr(char *name){
 	return(NULL);
 };
 
-d4xXmlObject *d4xXmlObject::find_obj(char *name){
+d4xXmlObject *d4xXmlObject::find_obj(const char *name){
 	return(d4x_xml_find_obj(&objects,name));
 };
 
@@ -349,51 +349,38 @@ void d4x_xml_out(tQueue *q){
 	};
 };
 
-d4xXmlObject *d4x_xml_find_obj(tQueue *q,char *name){
+d4xXmlObject *d4x_xml_find_obj(tQueue *q,const std::string &name){
 	if (!q) return(NULL);
-	char *n=copy_string(name);
 	d4xXmlObject *obj=(d4xXmlObject *)q->first();
-	char *space=index(n,' ');
-	if (space) *space=0;
+	std::string::size_type pos=name.find(' ');
 	while(obj){
-		if (equal_uncase(n,obj->name.get())){
-			if (space){
-				*space=0;
-				d4xXmlObject *rval=d4x_xml_find_obj(&(obj->objects),space+1);
-				delete[] n;
+		if (equal_uncase(name.substr(0,pos).c_str(),obj->name.get())){
+			if (pos!=std::string::npos){
+				d4xXmlObject *rval=d4x_xml_find_obj(&(obj->objects),name.substr(pos+1).c_str());
 				return(rval);
 			};
-			delete[] n;
 			return(obj);
 		};
 		obj=(d4xXmlObject *)(obj->prev);
 	};
-	delete[] n;
-	return(NULL);
+	return(0);
 };
 
 /* path can be specified in next format:
    "ObjectName SubObjectName SubSubObjectName[>FieldName]"
  */
 
-char *d4x_xml_find_obj_value(tQueue *q,char *path){
-	char *n=copy_string(path);
-	char *s=index(n,'>');
-	if (s){
-		*s=0;
-		d4xXmlObject *obj=d4x_xml_find_obj(q,n);
-		d4xXmlField *f=obj?obj->get_attr(s+1):NULL;
-		if (f){
-			delete[] n;
+char *d4x_xml_find_obj_value(tQueue *q,const std::string &path){
+	std::string::size_type pos=path.find('>');
+	if (pos!=std::string::npos){
+		d4xXmlObject *obj=d4x_xml_find_obj(q,path.substr(0,pos));
+		d4xXmlField *f=obj?obj->get_attr(path.substr(pos+1).c_str()):NULL;
+		if (f)
 			return(f->value.get());
-		};
 	}else{
-		d4xXmlObject *obj=d4x_xml_find_obj(q,n);
-		if (obj){
-			delete[] n;
+		d4xXmlObject *obj=d4x_xml_find_obj(q,path);
+		if (obj)
 			return(obj->value.get());
-		};
 	};
-	delete[] n;
-	return(NULL);
+	return(0);
 };

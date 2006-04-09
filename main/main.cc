@@ -110,13 +110,12 @@ int tMain::init() {
 	GraphLMeter=new tMeter;
 	GraphLMeter->init(GRAPH_METER_LENGTH);
 	
-	FILTERS_DB=new d4xFiltersTree;
-	FILTERS_DB->load_from_ntrc();
 	SpeedScheduler=new d4x::SpeedQueue;
 	MainScheduler=new d4xScheduler;
 	MainScheduler->load();
 
 	ALL_DOWNLOADS=new tDB;
+	d4x::filters_load_rc();
 
 	LastReadedBytes=0;
 	/* Create msgqueue for logs update */
@@ -350,7 +349,7 @@ int tMain::run_new_thread(tDownload *what) {
 	};
 	what->update_trigers();
 	what->config->redirect_count=0;
-	what->Size.old=what->Size.curent; // no need update size
+	what->Size.reset(); // no need update size
 
 	if (what->SpeedLimit==NULL) what->SpeedLimit=new d4x::Speed;
 /* set speed limitation */
@@ -391,7 +390,6 @@ void tMain::stop_split(tDownload *what){
 };
 
 tDownload *tMain::find_url(const d4x::URL &adr){
-	DBC_RETVAL_IF_FAIL(adr!=NULL,NULL);
 	tDownload tmp;
 	tmp.info=adr;
 	tDownload *a=ALL_DOWNLOADS->find(&tmp);
@@ -506,7 +504,7 @@ int tMain::try_to_run_download(tDownload *what){
 		};
 		// to avoid old info in columns
 		if (CFG.WITHOUT_FACE==0)
-			DQV(what).change_data(what->list_iter,PAUSE_COL,"");
+			DQV(what).change_data(what->list_iter,PAUSE_COL);
 		if (what->split){
 			what->finfo.size=-1;
 			what->split->FirstByte=0;
@@ -619,10 +617,10 @@ void tMain::speed_calculation(tDownload *what){
 		int REAL_SIZE=what->finfo.size;
 		if (REAL_SIZE==0 && what->who!=NULL)
 			what->finfo.size=REAL_SIZE=what->who->another_way_get_size();
-		if (what->who) what->Size.set(what->get_loaded());
-		what->Remain.set(REAL_SIZE-what->Size.curent);
+		if (what->who) what->Size=what->get_loaded();
+		what->Remain=REAL_SIZE-what->Size;
 		if (what->Difference!=0 && what->who) {
-			what->Speed.set(what->SpeedCalc.speed());
+			what->Speed=what->SpeedCalc.speed();
 		};
 	};
 	};
@@ -638,15 +636,15 @@ void tMain::print_info(tDownload *what) {
 	char data[MAX_LEN];
 	int downloading_started=0;
 	if (what->who) {
-		what->ActStatus.set(what->who->get_status());
-		if (what->ActStatus.curent==D_DOWNLOAD ||
+		what->ActStatus=what->who->get_status();
+		if (what->ActStatus==D_DOWNLOAD ||
 		    what->status==DOWNLOAD_COMPLETE ||
 		    what->status==DOWNLOAD_FATAL){
 			downloading_started=1;
 			if (!what->who->reget())
-				what->ActStatus.set(D_DOWNLOAD_BAD);
+				what->ActStatus=D_DOWNLOAD_BAD;
 		};
-		if (what->ActStatus.change()) {
+		if (!what->ActStatus) {
 			what->ActStatus.reset();
 //			DQV(what).set_run_icon(what);
 		};
@@ -656,14 +654,12 @@ void tMain::print_info(tDownload *what) {
 		if (what->finfo.type!=what->finfo.oldtype)
 			DQV(what).change_data(what->list_iter,FILE_TYPE_COL,_("file"));
 		fsize_t REAL_SIZE=what->filesize();
-		make_number_nice(data,REAL_SIZE,PAPA->NICE_DEC_DIGITALS);
-		DQV(what).change_data(what->list_iter,FULL_SIZE_COL,data);
-		what->Size.set(what->get_loaded());
-		what->Remain.set(REAL_SIZE-what->Size.curent);
-		if (what->Remain.change() && what->Remain.curent>=0){
-			make_number_nice(data,what->Remain.curent,PAPA->NICE_DEC_DIGITALS);
-			DQV(what).change_data(what->list_iter,REMAIN_SIZE_COL,data);
-		};
+		DQV(what).change_data(what->list_iter,FULL_SIZE_COL,make_number_nice(REAL_SIZE,PAPA->NICE_DEC_DIGITALS));
+		what->Size=what->get_loaded();
+		what->Remain=REAL_SIZE-what->Size;
+		if (!what->Remain && what->Remain>=0)
+			DQV(what).change_data(what->list_iter,REMAIN_SIZE_COL,
+					      make_number_nice(fsize_t(what->Remain),PAPA->NICE_DEC_DIGITALS));
 		time_t NOWTMP;
 		time(&NOWTMP);
 		if (what->Start>0) {
@@ -674,60 +670,54 @@ void tMain::print_info(tDownload *what) {
 				what->Start+=difdif;
 			else if (difdif>1800)
 				what->Start-=difdif;
-			convert_time(newdiff,data,PAPA->TIME_FORMAT);
 			what->Difference=NOWTMP-what->Start;
-			DQV(what).change_data(what->list_iter,TIME_COL,data);
+			DQV(what).change_data(what->list_iter,TIME_COL,convert_time(newdiff,PAPA->TIME_FORMAT));
 		};
-		if (what->Size.change()) {
-			make_number_nice(data,what->Size.curent,PAPA->NICE_DEC_DIGITALS);
-			DQV(what).change_data(what->list_iter,DOWNLOADED_SIZE_COL,data);
+		if (!what->Size) {
+			DQV(what).change_data(what->list_iter,DOWNLOADED_SIZE_COL,
+					      make_number_nice(fsize_t(what->Size),PAPA->NICE_DEC_DIGITALS));
 			time_t Pause=NOWTMP;
 			if (Pause - what->Pause > 4)
-				DQV(what).change_data(what->list_iter,PAUSE_COL,"");
+				DQV(what).change_data(what->list_iter,PAUSE_COL);
 			what->Pause = Pause;
 		} else {
 			if (what->status==DOWNLOAD_GO) {
 				int Pause=NOWTMP-what->Pause;
-				if (Pause>=30) {
-					convert_time(Pause,data,PAPA->TIME_FORMAT);
-					DQV(what).change_data(what->list_iter,PAUSE_COL,data);
-				};
+				if (Pause>=30) 
+					DQV(what).change_data(what->list_iter,PAUSE_COL,convert_time(Pause,PAPA->TIME_FORMAT));
 			};
 		};
 		what->Percent=100;
 		if (REAL_SIZE!=0)
-			what->Percent=float((double(what->Size.curent)*double(100))/double(REAL_SIZE));
+			what->Percent=float((fsize_t(what->Size)*double(100))/double(REAL_SIZE));
 /* setting new title of log*/
 		if (CFG.USE_MAINWIN_TITLE){
 			char title[MAX_LEN];
 			std::string rfile=hexed_string(what->info.file);
-			sprintf(title,"%2.0f%% %lli/%lli %s",what->Percent,what->Size.curent,REAL_SIZE,rfile.c_str());
+			sprintf(title,"%2.0f%% %lli/%lli %s",what->Percent,fsize_t(what->Size),REAL_SIZE,rfile.c_str());
 			log_window_set_title(what,title);
 			log_window_set_split_info(what);
 		};
 		DQV(what).set_run_icon(what);
 
-		if (what->Size.change()) {
+		if (!what->Size) {
 			DQV(what).set_percent(what->list_iter,what->Percent);
 		};
 		what->Size.reset();
 		/*	Speed calculation
 		 */
 		if (what->Difference!=0 && what->who) {
-			what->Speed.set(what->SpeedCalc.speed());
-			if (what->Speed.change()){
-				if (PAPA->SPEED_FORMAT)
-					make_number_nice(data,what->Speed.curent,2);
-				else
-					sprintf(data,"%lli",what->Speed.curent);
-				DQV(what).change_data(what->list_iter,SPEED_COL,data);
+			what->Speed=what->SpeedCalc.speed();
+			if (!what->Speed){
+				DQV(what).change_data(what->list_iter,SPEED_COL,
+						      make_number_nice(fsize_t(what->Speed),PAPA->SPEED_FORMAT?2:0));
 				what->Speed.reset();
 			};
-			if (what->finfo.size>0 && what->Speed.curent>0){
-				int tmp=(REAL_SIZE-what->Size.curent)/what->Speed.curent;
+			if (what->finfo.size>0 && what->Speed>0){
+				fsize_t tmp=(REAL_SIZE-what->Size)/what->Speed;
 				if (tmp>=0 && tmp<24*3660) {
-					convert_time(int(tmp),data,PAPA->TIME_FORMAT);
-					DQV(what).change_data(what->list_iter,ELAPSED_TIME_COL,data);
+					DQV(what).change_data(what->list_iter,ELAPSED_TIME_COL,
+							      convert_time(tmp,PAPA->TIME_FORMAT));
 				} else
 					DQV(what).change_data(what->list_iter,ELAPSED_TIME_COL,"...");
 			} else
@@ -755,21 +745,21 @@ void tMain::print_info(tDownload *what) {
 			DQV(what).change_data(what->list_iter,FILE_TYPE_COL,"???");
 	};
 	if (what->finfo.type==T_DIR || what->finfo.type==T_NONE){
-		if (what->who) what->Size.set(what->who->get_readed());
-		if (what->Size.change()) {
-			char data[MAX_LEN];
-			make_number_nice(data,what->Size.curent,PAPA->NICE_DEC_DIGITALS);
-			DQV(what).change_data(what->list_iter,DOWNLOADED_SIZE_COL,data);
+		if (what->who) what->Size=what->who->get_readed();
+		if (!what->Size) {
+			DQV(what).change_data(what->list_iter,DOWNLOADED_SIZE_COL,
+					      make_number_nice(fsize_t(what->Size),PAPA->NICE_DEC_DIGITALS));
 			what->Size.reset();
 		};				
 	};
-	if (what->Attempt.change()) {
+	if (!what->Attempt) {
 		what->Attempt.reset();
 		if (what->config->number_of_attempts > 0)
-			sprintf(data,"%lli/%i",what->Attempt.curent, what->config->number_of_attempts);
+			DQV(what).change_data(what->list_iter,TREAT_COL,
+					      boost::lexical_cast<std::string>(fsize_t(what->Attempt))+"/"+
+					      boost::lexical_cast<std::string>(what->config->number_of_attempts));
 		else
-			sprintf(data,"%lli",what->Attempt.curent);
-		DQV(what).change_data(what->list_iter,TREAT_COL,data);
+			DQV(what).change_data(what->list_iter,TREAT_COL,boost::lexical_cast<std::string>(fsize_t(what->Attempt)));
 	};
 	what->finfo.oldtype=what->finfo.type;
 };
@@ -819,7 +809,7 @@ void tMain::redirect(tDownload *what,d4xDownloadQueue *dq) {
 		what->finfo.type=what->status=0;
 		what->finfo.size=-1;
 		if (CFG.WITHOUT_FACE==0){
-			dq->qv.change_data(what->list_iter,URL_COL,std::string(what->info).c_str());
+			dq->qv.change_data(what->list_iter,URL_COL,what->info);
 			dq->qv.set_filename(what);
 			for (int i=FILE_TYPE_COL;i<PERCENT_COL;i++)
 				if (i!=PERCENT_COL)
@@ -889,7 +879,7 @@ void tMain::case_download_completed(tDownload *what){
 			if (what->config->ftp_recurse_depth!=1) add_dir(what);
 		} else {
 			fsize_t bytes = what->finfo.size==0 ? what->who->get_readed():what->finfo.size;
-			MainLog->myprintf(LOG_OK,_("Downloading of file %z (%ll bytes) was completed at speed %ll bytes/sec"),what,bytes,what->Speed.curent);
+			MainLog->myprintf(LOG_OK,_("Downloading of file %z (%ll bytes) was completed at speed %ll bytes/sec"),what,bytes,fsize_t(what->Speed));
 			if (what->config->http_recurse_depth!=1 && what->DIR)
 				add_dir(what,1);
 		};
@@ -1081,7 +1071,8 @@ void tMain::main_circle_second(tDownload *dwn){
 	int paparun=papa->count(DL_RUN);
 	if (paparun==0){
 		papa->speed.reset();
-		D4X_QVT->update_speed(papa);
+		if (!CFG.WITHOUT_FACE)
+			D4X_QVT->update_speed(papa);
 	};
 	if (completed){
 		if (paparun==0 &&
@@ -1108,7 +1099,7 @@ void tMain::main_circle_nano1(){
 			if (dwn->myowner->PAPA==D4X_QUEUE){
 				print_info(dwn);
 			};
-			if (dwn->myowner && dwn->myowner->PAPA)
+			if (dwn->myowner && dwn->myowner->PAPA && !CFG.WITHOUT_FACE)
 				D4X_QVT->update_speed(dwn->myowner->PAPA);
 		};
 		D4X_UPDATE.del();
@@ -1800,8 +1791,6 @@ void tMain::done() {
 	close(LOCK_FILE_D);
 	delete (server);
 	delete (MsgQueue);
-	FILTERS_DB->save_to_ntrc();
-	delete(FILTERS_DB);
 	/*
 	for (int i=URL_HISTORY;i<LAST_HISTORY;i++)
 		if (ALL_HISTORIES[i]) delete(ALL_HISTORIES[i]);

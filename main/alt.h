@@ -37,7 +37,7 @@ private:
 	d4xAltEdit *add_edit,*mod_edit;
 	GtkTreeIter *str2mod;
 public:
-	d4xMutex lock;
+	d4x::Mutex lock;
 	std::list<d4x::Alt *> LST;
 	int ftp_searching;
 	d4xAltList();

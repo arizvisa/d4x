@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: d4x 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-30 20:06+0700\n"
+"POT-Creation-Date: 2006-04-09 21:34+0400\n"
 "PO-Revision-Date: 2004-05-30 20:45+0800\n"
 "Last-Translator: Liu Songhe <jackliu9999@263.net>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -22,32 +22,32 @@ msgstr "添加新的候选项"
 msgid "Modify alternate"
 msgstr "修改候选项"
 
-#: main/client.cc:448
+#: main/client.cc:442
 msgid "Timeout while reading from socket!"
 msgstr "读取套接字时超时！"
 
-#: main/client.cc:453
+#: main/client.cc:447
 msgid "Error while reading from socket!"
 msgstr "读取套接字时出错！"
 
-#: main/client.cc:462
+#: main/client.cc:456
 #, fuzzy, c-format
 msgid "Trying to connect to %s:%i..."
 msgstr "正在尝试连接..."
 
-#: main/client.cc:464
+#: main/client.cc:458
 msgid "Socket was opened!"
 msgstr "套接字已打开！"
 
-#: main/client.cc:469
+#: main/client.cc:463
 msgid "Host not found!"
 msgstr "无法找到主机！"
 
-#: main/client.cc:474
+#: main/client.cc:468
 msgid "Can't allocate socket"
 msgstr "无法分配套接字"
 
-#: main/client.cc:479
+#: main/client.cc:473
 msgid "Can't connect"
 msgstr "无法连接"
 
@@ -281,141 +281,141 @@ msgstr "文件系统不支持报告记录锁定！"
 msgid "Will proceed without it but beware that you might have problems."
 msgstr "将在没有它的情况下继续进行，但是小心您也许会有问题。"
 
-#: main/dlist.cc:390
+#: main/dlist.cc:385
 #, c-format
 msgid "You have no permissions to create file at path %s"
 msgstr "您没有权限在路径 %s 里创建文件"
 
-#: main/dlist.cc:395
+#: main/dlist.cc:390
 #, c-format
 msgid "You have no space at path %s for creating file"
 msgstr "路径 %s 没有足够的空间创建文件"
 
-#: main/dlist.cc:400
+#: main/dlist.cc:395
 msgid "Directory already created!:))"
 msgstr "目录已经创建！:))"
 
-#: main/dlist.cc:510
+#: main/dlist.cc:505
 msgid "Trying to create a link"
 msgstr "正尝试创建一个链接"
 
-#: main/dlist.cc:515
+#: main/dlist.cc:510
 msgid "Link already created!:))"
 msgstr "链接已经创建！:))"
 
-#: main/dlist.cc:521
+#: main/dlist.cc:516
 msgid "Can't create link"
 msgstr "无法创建链接"
 
-#: main/dlist.cc:530
+#: main/dlist.cc:525
 msgid "Trying to create a file"
 msgstr "正尝试创建一个文件"
 
-#: main/dlist.cc:551
+#: main/dlist.cc:546
 msgid "Can't create file at the path:"
 msgstr "无法创建文件于路径："
 
-#: main/dlist.cc:553
+#: main/dlist.cc:548
 msgid "which has name:"
 msgstr "文件名为："
 
-#: main/dlist.cc:564
+#: main/dlist.cc:559
 msgid "File was created!"
 msgstr "文件已经创建！"
 
-#: main/dlist.cc:569
+#: main/dlist.cc:564
 msgid "Trying to create a dir"
 msgstr "正尝试创建一个目录"
 
-#: main/dlist.cc:579
+#: main/dlist.cc:574
 msgid "Can't create directory!"
 msgstr "无法创建目录！"
 
-#: main/dlist.cc:589
+#: main/dlist.cc:584
 msgid "Downloader can't create devices..."
 msgstr "下载器无法创建设备..."
 
-#: main/dlist.cc:1031
+#: main/dlist.cc:1027
 #, c-format
 msgid "Trying to copy %s to %s due 'Content-Disposition'"
 msgstr "依据“内容-存放位置”正尝试将 %s 复制到 %s"
 
-#: main/dlist.cc:1034
+#: main/dlist.cc:1030
 msgid "Error during copying!"
 msgstr "复制过程中出错！"
 
-#: main/dlist.cc:1068
+#: main/dlist.cc:1064
 msgid "Downloading was successefully completed!"
 msgstr "下载成功完成！"
 
-#: main/dlist.cc:1117
+#: main/dlist.cc:1113
 msgid "Downloading was failed..."
 msgstr "下载失败..."
 
-#: main/dlist.cc:1279
+#: main/dlist.cc:1277
 msgid "Redirection blocked by filter"
 msgstr "重定向被过滤器阻断"
 
-#: main/dlist.cc:1284
+#: main/dlist.cc:1281
 msgid "Redirect detected..."
 msgstr "重定向已检测..."
 
-#: main/dlist.cc:1288 main/dlist.cc:1301
+#: main/dlist.cc:1285 main/dlist.cc:1298
 msgid "Size detection only!"
 msgstr "仅检测大小！"
 
-#: main/dlist.cc:1351
+#: main/dlist.cc:1348
 msgid ""
 "Multithreaded downloading is not possible due to server limitations "
 "(resuming not supported)"
 msgstr "由于服务器限制，多线程下载是不可能的(不支持续传)"
 
-#: main/dlist.cc:1362
+#: main/dlist.cc:1359
 msgid "Local file is seems to be equal to remote one"
 msgstr "本地文件似乎和远程文件相同"
 
-#: main/dlist.cc:1383
+#: main/dlist.cc:1380
 msgid "It is strange that we can't delete file which just created..."
 msgstr "奇怪：无法删除刚创建的文件..."
 
-#: main/dlist.cc:1387 main/dlist.cc:1632
+#: main/dlist.cc:1384 main/dlist.cc:1629
 msgid "File not found"
 msgstr "文件未找到"
 
-#: main/dlist.cc:1459
+#: main/dlist.cc:1456
 msgid "Sorting started"
 msgstr "开始排序"
 
-#: main/dlist.cc:1462
+#: main/dlist.cc:1459
 #, c-format
 msgid "Pinging (atempt %i of %i)"
 msgstr "正在 Ping (尝试了 %2$i 次的 %1$i 次)"
 
-#: main/dlist.cc:1488
+#: main/dlist.cc:1485
 msgid "Trying to determine filesizes"
 msgstr "正在尝试确定文件大小"
 
-#: main/dlist.cc:1540
+#: main/dlist.cc:1537
 msgid "Searching failed"
 msgstr "搜索失败"
 
-#: main/dlist.cc:1597
+#: main/dlist.cc:1594
 msgid "Search had been completed!"
 msgstr "搜索已完成！"
 
-#: main/dlist.cc:1603
+#: main/dlist.cc:1600
 msgid "Was Started!"
 msgstr "已开始！"
 
-#: main/dlist.cc:1612
+#: main/dlist.cc:1609
 msgid "It is a link and we already load it"
 msgstr "这是个链接并且我们已经将其载入"
 
-#: main/dlist.cc:1637
+#: main/dlist.cc:1634
 msgid "Trying to work without CWD"
 msgstr "正在尝试在没有 CWD 的情况下工作"
 
-#: main/dlist.cc:1770
+#: main/dlist.cc:1767
 msgid "Can't split file to specified number of parts!"
 msgstr "无法按指定的块数分割文件！"
 
@@ -459,7 +459,8 @@ msgid "Author: Maxim Koshelev"
 msgstr "作者：Maxim Koshelev"
 
 #: main/face/about.cc:156
-msgid "Autoconf: Zaufi"
+#, fuzzy
+msgid "Autoconf, ideas: Zaufi"
 msgstr "Autoconf：Zaufi"
 
 #: main/face/about.cc:157
@@ -480,7 +481,7 @@ msgstr "下次不再提问"
 msgid "Add new download"
 msgstr "添加新的下载任务"
 
-#: main/face/addd.cc:181 main/face/dndtrash.cc:629
+#: main/face/addd.cc:181 main/face/dndtrash.cc:630
 msgid "Automated adding"
 msgstr "自动添加下载任务"
 
@@ -520,11 +521,11 @@ msgstr " 向下移 "
 msgid " View log "
 msgstr " 查看日志 "
 
-#: main/face/buttons.cc:63 main/face/buttons.cc:254
+#: main/face/buttons.cc:63 main/face/buttons.cc:242
 msgid " Speed level one "
 msgstr " 速度 1 "
 
-#: main/face/buttons.cc:64 main/face/buttons.cc:257
+#: main/face/buttons.cc:64 main/face/buttons.cc:245
 msgid " Speed level two "
 msgstr " 速度 2 "
 
@@ -560,11 +561,11 @@ msgstr " 切换百分比模式为 "
 msgid " Configure buttons "
 msgstr " 配置按钮 "
 
-#: main/face/buttons.cc:243
+#: main/face/buttons.cc:231
 msgid "Delete ALL downloads?"
 msgstr "删除所有的下载任务吗？"
 
-#: main/face/buttons.cc:243
+#: main/face/buttons.cc:231
 msgid "Delete all?"
 msgstr "删除所有的？"
 
@@ -620,8 +621,8 @@ msgstr "尝试次数"
 msgid "description"
 msgstr "描述"
 
-#: main/face/columns.cc:34 main/face/lod.cc:55 main/face/mywidget.cc:1088
-#: main/face/mywidget.cc:1367
+#: main/face/columns.cc:34 main/face/lod.cc:55 main/face/mywidget.cc:1112
+#: main/face/mywidget.cc:1391
 msgid "URL"
 msgstr "URL"
 
@@ -637,60 +638,60 @@ msgstr "拖放篮"
 msgid "Drop link here"
 msgstr "将链接拖放到这里"
 
-#: main/face/dndtrash.cc:574
+#: main/face/dndtrash.cc:575
 #, fuzzy
 msgid "Offline"
 msgstr "离线/在线"
 
-#: main/face/dndtrash.cc:574 main/face/dndtrash.cc:635
+#: main/face/dndtrash.cc:575 main/face/dndtrash.cc:636
 msgid "Online"
 msgstr ""
 
-#: main/face/dndtrash.cc:626 main/face/list.cc:491 main/face/lod.cc:49
+#: main/face/dndtrash.cc:627 main/face/list.cc:490 main/face/lod.cc:49
 msgid "Speed"
 msgstr "速度"
 
-#: main/face/dndtrash.cc:627
+#: main/face/dndtrash.cc:628
 msgid "New Download"
 msgstr "新的下载任务"
 
-#: main/face/dndtrash.cc:628
+#: main/face/dndtrash.cc:629
 msgid "Paste Download"
 msgstr "从剪贴板粘贴下载任务"
 
-#: main/face/dndtrash.cc:630 main/face/lmenu.cc:209
+#: main/face/dndtrash.cc:631 main/face/lmenu.cc:209
 msgid "Delete completed"
 msgstr "删除已完成的下载任务"
 
-#: main/face/dndtrash.cc:631
+#: main/face/dndtrash.cc:632
 msgid "General options"
 msgstr "常规选项"
 
-#: main/face/dndtrash.cc:632
+#: main/face/dndtrash.cc:633
 msgid "Exit"
 msgstr "退出"
 
-#: main/face/dndtrash.cc:638
+#: main/face/dndtrash.cc:639
 msgid "Low"
 msgstr "低速"
 
-#: main/face/dndtrash.cc:639
+#: main/face/dndtrash.cc:640
 msgid "Medium"
 msgstr "中速"
 
-#: main/face/dndtrash.cc:640
+#: main/face/dndtrash.cc:641
 msgid "Unlimited"
 msgstr "不限速"
 
-#: main/face/edit.cc:65 main/face/edit.cc:452
+#: main/face/edit.cc:65 main/face/edit.cc:453
 msgid "Use password for this site"
 msgstr "对这个站点使用密码"
 
-#: main/face/edit.cc:66 main/face/edit.cc:419
+#: main/face/edit.cc:66 main/face/edit.cc:420
 msgid "Save download to folder"
 msgstr "保存下载任务到目录"
 
-#: main/face/edit.cc:67 main/face/edit.cc:479
+#: main/face/edit.cc:67 main/face/edit.cc:480
 msgid "Restart this download from begining"
 msgstr "从头开始重新下载"
 
@@ -714,43 +715,43 @@ msgstr "重连接前超时"
 msgid "Rollback after reconnecting"
 msgstr "重连接后回退"
 
-#: main/face/edit.cc:73 main/face/edit.cc:551 main/face/prefs.cc:248
+#: main/face/edit.cc:73 main/face/edit.cc:552 main/face/prefs.cc:248
 msgid "Get date from the server"
 msgstr "从服务器获取文件日期"
 
-#: main/face/edit.cc:74 main/face/edit.cc:555 main/face/prefs.cc:252
+#: main/face/edit.cc:74 main/face/edit.cc:556 main/face/prefs.cc:252
 msgid "Retry if resuming is not supported"
 msgstr "不支持续传则重试"
 
-#: main/face/edit.cc:75 main/face/edit.cc:546
+#: main/face/edit.cc:75 main/face/edit.cc:547
 msgid "Number of parts for spliting this download"
 msgstr "此次任务下载线程个数"
 
-#: main/face/edit.cc:76 main/face/edit.cc:593 main/face/prefs.cc:353
+#: main/face/edit.cc:76 main/face/edit.cc:594 main/face/prefs.cc:353
 msgid "Use passive mode for FTP"
 msgstr "对 FTP 使用被动模式"
 
-#: main/face/edit.cc:77 main/face/edit.cc:599 main/face/prefs.cc:361
+#: main/face/edit.cc:77 main/face/edit.cc:600 main/face/prefs.cc:361
 msgid "Get permissions of the file from server (FTP only)"
 msgstr "从服务器获得文件权限(仅 FTP 有效)"
 
-#: main/face/edit.cc:78 main/face/edit.cc:596 main/face/prefs.cc:357
+#: main/face/edit.cc:78 main/face/edit.cc:597 main/face/prefs.cc:357
 msgid "Don't send QUIT command (FTP)"
 msgstr "不发送 QUIT 命令(FTP)"
 
-#: main/face/edit.cc:79 main/face/edit.cc:614 main/face/prefs.cc:377
+#: main/face/edit.cc:79 main/face/edit.cc:615 main/face/prefs.cc:377
 msgid "Put directories on the top of queue during recursion"
 msgstr "递归时将目录放在队列顶层"
 
-#: main/face/edit.cc:80 main/face/edit.cc:563 main/face/prefs.cc:268
+#: main/face/edit.cc:80 main/face/edit.cc:564 main/face/prefs.cc:268
 msgid "Compare date/time of remote file with local one"
 msgstr "对比远程/本地文件的日期/时间"
 
-#: main/face/edit.cc:81 main/face/edit.cc:559 main/face/prefs.cc:256
+#: main/face/edit.cc:81 main/face/edit.cc:560 main/face/prefs.cc:256
 msgid "Sleep before completing"
 msgstr "完成前休眠"
 
-#: main/face/edit.cc:82 main/face/edit.cc:602 main/face/prefs.cc:365
+#: main/face/edit.cc:82 main/face/edit.cc:603 main/face/prefs.cc:365
 msgid "Follow symbolic links"
 msgstr "跟踪符号链接"
 
@@ -762,44 +763,44 @@ msgstr "FTP 递归深度"
 msgid "Depth of recursing for HTTP"
 msgstr "HTTP 递归深度"
 
-#: main/face/edit.cc:85 main/face/edit.cc:642 main/face/prefs.cc:455
+#: main/face/edit.cc:85 main/face/edit.cc:643 main/face/prefs.cc:455
 msgid "Only subdirs"
 msgstr "仅子目录"
 
-#: main/face/edit.cc:86 main/face/edit.cc:643 main/face/prefs.cc:456
+#: main/face/edit.cc:86 main/face/edit.cc:644 main/face/prefs.cc:456
 msgid "Allow leave this server while recursing via HTTP"
 msgstr "通过 HTTP 递归时允许离开这个服务器"
 
-#: main/face/edit.cc:87 main/face/edit.cc:644 main/face/prefs.cc:457
+#: main/face/edit.cc:87 main/face/edit.cc:645 main/face/prefs.cc:457
 msgid "Change links in HTML file to local"
 msgstr "将 HTML 文件中的链接转换成本地链接"
 
-#: main/face/edit.cc:88 main/face/edit.cc:645 main/face/prefs.cc:458
+#: main/face/edit.cc:88 main/face/edit.cc:646 main/face/prefs.cc:458
 msgid "Ignore ETag field in reply"
 msgstr "回复时忽略 ETag 域"
 
-#: main/face/edit.cc:89 main/face/edit.cc:646
+#: main/face/edit.cc:89 main/face/edit.cc:647
 msgid "Use '_' instead of '?' in stored filenames"
 msgstr "保存文件名时用'_'代替'?'"
 
-#: main/face/edit.cc:90 main/face/edit.cc:672 main/face/prefs.cc:476
+#: main/face/edit.cc:90 main/face/edit.cc:673 main/face/prefs.cc:476
 msgid "User-Agent"
 msgstr "用户代理"
 
-#: main/face/edit.cc:91 main/face/edit.cc:681
+#: main/face/edit.cc:91 main/face/edit.cc:682
 msgid "Referer"
 msgstr "引用"
 
-#: main/face/edit.cc:92 main/face/edit.cc:692
+#: main/face/edit.cc:92 main/face/edit.cc:693
 msgid "Cookie"
 msgstr "Cookie"
 
-#: main/face/edit.cc:93 main/face/edit.cc:797 main/face/edit.cc:800
+#: main/face/edit.cc:93 main/face/edit.cc:798 main/face/edit.cc:801
 #: main/face/prefs.cc:512 main/face/prefs.cc:1326 main/face/prefs.cc:1460
 msgid "Proxy"
 msgstr "代理"
 
-#: main/face/edit.cc:94 main/face/edit.cc:715 main/face/edit.cc:758
+#: main/face/edit.cc:94 main/face/edit.cc:716 main/face/edit.cc:759
 #: main/face/fsched.cc:199 main/face/lod.cc:50
 msgid "Time"
 msgstr "时间"
@@ -808,182 +809,182 @@ msgstr "时间"
 msgid "Edit download"
 msgstr "编辑下载任务"
 
-#: main/face/edit.cc:418 main/face/lod.cc:54
+#: main/face/edit.cc:419 main/face/lod.cc:54
 msgid "Description"
 msgstr "描述"
 
-#: main/face/edit.cc:420
+#: main/face/edit.cc:421
 msgid "Save download to file"
 msgstr "保存下载任务为文件"
 
-#: main/face/edit.cc:421 main/face/edit.cc:1572 main/face/edit.cc:1633
-#: main/face/edit.cc:1670 main/face/mywidget.cc:1423
+#: main/face/edit.cc:422 main/face/edit.cc:1573 main/face/edit.cc:1634
+#: main/face/edit.cc:1671 main/face/mywidget.cc:1447
 msgid "password"
 msgstr "密码"
 
-#: main/face/edit.cc:422
+#: main/face/edit.cc:423
 msgid "user name"
 msgstr "用户名"
 
-#: main/face/edit.cc:425
+#: main/face/edit.cc:426
 msgid "Default"
 msgstr "默认"
 
-#: main/face/edit.cc:435
+#: main/face/edit.cc:436
 msgid "CP1251->UTF8"
 msgstr "CP1251->UTF8"
 
-#: main/face/edit.cc:471
+#: main/face/edit.cc:472
 msgid "Connections limit:"
 msgstr "连接数目限制："
 
-#: main/face/edit.cc:478 main/face/prefs.cc:264
+#: main/face/edit.cc:479 main/face/prefs.cc:264
 msgid "Pause this just after adding"
 msgstr "加入后暂停此任务"
 
-#: main/face/edit.cc:484
+#: main/face/edit.cc:485
 msgid "Add to top of queue"
 msgstr "加入到队列的顶部"
 
-#: main/face/edit.cc:497 main/face/lod.cc:288 main/face/prefs.cc:246
+#: main/face/edit.cc:498 main/face/lod.cc:288 main/face/prefs.cc:246
 #: main/face/prefs.cc:1317 main/face/prefs.cc:1402
 msgid "Download"
 msgstr "下载任务"
 
-#: main/face/edit.cc:500 main/face/prefs.cc:743 main/face/prefs.cc:1308
+#: main/face/edit.cc:501 main/face/prefs.cc:743 main/face/prefs.cc:1308
 #: main/face/prefs.cc:1571
 msgid "Main"
 msgstr "基本"
 
-#: main/face/edit.cc:516 main/face/prefs.cc:305
+#: main/face/edit.cc:517 main/face/prefs.cc:305
 msgid "Timeout for reading from socket (in seconds)"
 msgstr "读取套接字时超时时间(秒)"
 
-#: main/face/edit.cc:522 main/face/prefs.cc:311
+#: main/face/edit.cc:523 main/face/prefs.cc:311
 msgid "Timeout before reconnection (in seconds)"
 msgstr "重连接前暂停时间(秒)"
 
-#: main/face/edit.cc:528 main/face/prefs.cc:317
+#: main/face/edit.cc:529 main/face/prefs.cc:317
 msgid "Maximum attempts (0 for unlimited)"
 msgstr "最大尝试次数(0 代表不限制)"
 
-#: main/face/edit.cc:534 main/face/prefs.cc:323
+#: main/face/edit.cc:535 main/face/prefs.cc:323
 msgid "Rollback after reconnecting (in bytes)"
 msgstr "重连后回退(字节)"
 
-#: main/face/edit.cc:540 main/face/prefs.cc:329
+#: main/face/edit.cc:541 main/face/prefs.cc:329
 msgid "Speed limitation in Bytes/sec (0 for unlimited)"
 msgstr "速度限制(单位：字节/秒，0 代表不限制)"
 
-#: main/face/edit.cc:567
+#: main/face/edit.cc:568
 msgid "Save log to file"
 msgstr "保存日志为文件"
 
-#: main/face/edit.cc:576
+#: main/face/edit.cc:577
 msgid "Auto"
 msgstr "自动"
 
-#: main/face/edit.cc:583 main/face/edit.cc:586
+#: main/face/edit.cc:584 main/face/edit.cc:587
 msgid "Common"
 msgstr "通用"
 
-#: main/face/edit.cc:606 main/face/prefs.cc:369
+#: main/face/edit.cc:607 main/face/prefs.cc:369
 msgid "Load links as links"
 msgstr "以链接的形式载入链接"
 
-#: main/face/edit.cc:610 main/face/prefs.cc:373
+#: main/face/edit.cc:611 main/face/prefs.cc:373
 msgid "Load links as file"
 msgstr "以文件的形式载入链接"
 
-#: main/face/edit.cc:620 main/face/edit.cc:637 main/face/prefs.cc:383
+#: main/face/edit.cc:621 main/face/edit.cc:638 main/face/prefs.cc:383
 #: main/face/prefs.cc:470
 msgid "Depth of recursing (0 unlimited,1 no recurse)"
 msgstr "递归深度(0 是不限制，1 是不递归)"
 
-#: main/face/edit.cc:663 main/face/prefs.cc:499
+#: main/face/edit.cc:664 main/face/prefs.cc:499
 msgid "Filter"
 msgstr "过滤器"
 
-#: main/face/edit.cc:664 main/face/lod.cc:781 main/face/mywidget.cc:250
+#: main/face/edit.cc:665 main/face/lod.cc:777 main/face/mywidget.cc:250
 #: main/face/prefs.cc:500
 msgid "Select"
 msgstr "选择"
 
-#: main/face/edit.cc:729
+#: main/face/edit.cc:730
 msgid "Hours"
 msgstr "小时"
 
-#: main/face/edit.cc:737
+#: main/face/edit.cc:738
 msgid "Minutes"
 msgstr "分钟"
 
-#: main/face/edit.cc:750
+#: main/face/edit.cc:751
 msgid "Start this downloading at:"
 msgstr "开始这个下载任务在："
 
-#: main/face/edit.cc:810
+#: main/face/edit.cc:811
 msgid "Use default settings"
 msgstr "使用默认设置"
 
-#: main/face/edit.cc:1506
+#: main/face/edit.cc:1507
 msgid "FTP proxy type"
 msgstr "FTP 代理类型"
 
-#: main/face/edit.cc:1517 main/face/mywidget.cc:1373
+#: main/face/edit.cc:1518 main/face/mywidget.cc:1397
 msgid "FTP (wingate)"
 msgstr "FTP (wingate)"
 
-#: main/face/edit.cc:1530
+#: main/face/edit.cc:1531
 msgid "Use this proxy for FTP"
 msgstr "对 FTP 使用此代理"
 
-#: main/face/edit.cc:1545 main/face/edit.cc:1607 main/face/edit.cc:1653
-#: main/face/mywidget.cc:1396
+#: main/face/edit.cc:1546 main/face/edit.cc:1608 main/face/edit.cc:1654
+#: main/face/mywidget.cc:1420
 msgid "port"
 msgstr "端口"
 
-#: main/face/edit.cc:1551 main/face/edit.cc:1612 main/face/mywidget.cc:1402
+#: main/face/edit.cc:1552 main/face/edit.cc:1613 main/face/mywidget.cc:1426
 msgid "need password"
 msgstr "需要密码"
 
-#: main/face/edit.cc:1559 main/face/edit.cc:1620 main/face/edit.cc:1664
-#: main/face/mywidget.cc:1409
+#: main/face/edit.cc:1560 main/face/edit.cc:1621 main/face/edit.cc:1665
+#: main/face/mywidget.cc:1433
 msgid "username"
 msgstr "用户名"
 
-#: main/face/edit.cc:1586
+#: main/face/edit.cc:1587
 msgid "Don't get from cache"
 msgstr "不从缓存里读取数据"
 
-#: main/face/edit.cc:1592
+#: main/face/edit.cc:1593
 msgid "Use this proxy for HTTP"
 msgstr "对 HTTP 使用此代理"
 
-#: main/face/edit.cc:1640
+#: main/face/edit.cc:1641
 msgid "Use SOCKS5 proxy"
 msgstr "使用 SOCKS5 代理"
 
-#: main/face/edit.cc:1646
+#: main/face/edit.cc:1647
 msgid "host"
 msgstr "主机"
 
-#: main/face/edit.cc:2026
+#: main/face/edit.cc:2027
 msgid "Select properties"
 msgstr "选择属性"
 
-#: main/face/edit.cc:2071
+#: main/face/edit.cc:2072
 msgid "Unselect all"
 msgstr "取消所有选择"
 
-#: main/face/edit.cc:2077
+#: main/face/edit.cc:2078
 msgid "Select all"
 msgstr "全选"
 
-#: main/face/filtrgui.cc:164 main/face/mywidget.cc:908
+#: main/face/filtrgui.cc:157 main/face/mywidget.cc:940
 msgid "filter name"
 msgstr "过滤器名"
 
-#: main/face/filtrgui.cc:187 main/face/list.cc:1395
+#: main/face/filtrgui.cc:180 main/face/list.cc:1352
 msgid "Filters"
 msgstr "过滤器"
 
@@ -1043,7 +1044,7 @@ msgstr "动作"
 msgid "Info"
 msgstr "信息"
 
-#: main/face/fsched.cc:235 main/face/list.cc:1396
+#: main/face/fsched.cc:235 main/face/list.cc:1353
 msgid "Scheduler"
 msgstr "计划任务"
 
@@ -1083,7 +1084,7 @@ msgstr "重复次数(-1 是无限制)"
 msgid "period (day/hour:min)"
 msgstr "时间周期(天/时:分)"
 
-#: main/face/fsched.cc:789 main/face/lmenu.cc:159 main/face/qtree.cc:495
+#: main/face/fsched.cc:789 main/face/lmenu.cc:159 main/face/qtree.cc:489
 #: main/mainlog.cc:200
 msgid "Properties"
 msgstr "属性"
@@ -1092,263 +1093,258 @@ msgstr "属性"
 msgid "Edit scheduled action"
 msgstr "编辑计划任务"
 
-#: main/face/fsface.cc:79
+#: main/face/fsface.cc:77
 msgid "bytes"
 msgstr "字节"
 
-#: main/face/fsface.cc:91
+#: main/face/fsface.cc:89
 msgid "nothing found"
 msgstr "没有找到"
 
-#: main/face/fsface.cc:95
+#: main/face/fsface.cc:93
 msgid "searching"
 msgstr "搜索中"
 
-#: main/face/fsface.cc:104
+#: main/face/fsface.cc:102
 msgid "reping"
 msgstr "重新 ping"
 
-#: main/face/fsface.cc:108
+#: main/face/fsface.cc:106
 msgid "cumulative reping"
 msgstr "累计重新 ping 的次数"
 
-#: main/face/fsface.cc:114
+#: main/face/fsface.cc:112
 msgid "remove"
 msgstr "删除"
 
-#: main/face/fsface.cc:209
+#: main/face/fsface.cc:207
 msgid "Filename"
 msgstr "文件名"
 
-#: main/face/fsface.cc:210 main/face/fsface.cc:284
+#: main/face/fsface.cc:208 main/face/fsface.cc:282
 msgid "Size"
 msgstr "大小"
 
-#: main/face/fsface.cc:211
+#: main/face/fsface.cc:209
 msgid "Count"
 msgstr "次数"
 
-#: main/face/fsface.cc:252
+#: main/face/fsface.cc:250
 msgid "Found during FTP-search"
 msgstr "在 FTP 搜索时找到"
 
-#: main/face/fsface.cc:274
+#: main/face/fsface.cc:272
 msgid "Ping"
 msgstr "Ping"
 
-#: main/face/fsface.cc:294
+#: main/face/fsface.cc:292
 msgid "Url"
 msgstr "Url"
 
-#: main/face/list.cc:487
+#: main/face/list.cc:486
 msgid "_File"
 msgstr "文件(_F)"
 
-#: main/face/list.cc:488
+#: main/face/list.cc:487
 msgid "_Download"
 msgstr "下载(_D)"
 
-#: main/face/list.cc:489
+#: main/face/list.cc:488
 msgid "_Queue"
 msgstr "下载队列(_Q)"
 
-#: main/face/list.cc:490
+#: main/face/list.cc:489
 msgid "_Options"
 msgstr "选项(_O)"
 
-#: main/face/list.cc:492
+#: main/face/list.cc:491
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: main/face/list.cc:493
+#: main/face/list.cc:492
 msgid "_Save List"
 msgstr "保存任务列表(_S)"
 
-#: main/face/list.cc:494
+#: main/face/list.cc:493
 msgid "_Load List"
 msgstr "读取任务列表(_L)"
 
-#: main/face/list.cc:495
+#: main/face/list.cc:494
 msgid "_Find links in file"
 msgstr "在文件里查找链接(_F)"
 
-#: main/face/list.cc:496
+#: main/face/list.cc:495
 msgid "_New Download"
 msgstr "新建下载任务(_N)"
 
-#: main/face/list.cc:497
+#: main/face/list.cc:496
 msgid "_Paste Download"
 msgstr "从剪贴板粘贴下载任务(_P)"
 
-#: main/face/list.cc:498
+#: main/face/list.cc:497
 msgid "_Automated adding"
 msgstr "自动添加下载任务(_A)"
 
-#: main/face/list.cc:499
+#: main/face/list.cc:498
 msgid "_Exit"
 msgstr "退出(_E)"
 
-#: main/face/list.cc:500
+#: main/face/list.cc:499
 msgid "_View Log"
 msgstr "查看日志(_V)"
 
-#: main/face/list.cc:501
+#: main/face/list.cc:500
 msgid "_Stop downloads"
 msgstr "停止下载任务(_S)"
 
-#: main/face/list.cc:502
+#: main/face/list.cc:501
 msgid "_Edit downloads"
 msgstr "编辑下载任务(_E)"
 
-#: main/face/list.cc:503
+#: main/face/list.cc:502
 msgid "_Delete downloads"
 msgstr "删除下载任务(_D)"
 
-#: main/face/list.cc:504
+#: main/face/list.cc:503
 msgid "_Continue downloads"
 msgstr "继续下载任务(_C)"
 
-#: main/face/list.cc:505
+#: main/face/list.cc:504
 msgid "Delete Completed"
 msgstr "删除已完成的下载任务"
 
-#: main/face/list.cc:506
+#: main/face/list.cc:505
 msgid "Delete _Failed"
 msgstr "删除失败的下载任务(_F)"
 
-#: main/face/list.cc:507
+#: main/face/list.cc:506
 msgid "_Rerun failed"
 msgstr "重新运行失败(_R)"
 
-#: main/face/list.cc:508 main/face/lmenu.cc:188
+#: main/face/list.cc:507 main/face/lmenu.cc:188
 msgid "(Un)Protect"
 msgstr "(不)保护"
 
-#: main/face/list.cc:509
+#: main/face/list.cc:508
 msgid "_Unselect All"
 msgstr "取消所有选择(_U)"
 
-#: main/face/list.cc:510
+#: main/face/list.cc:509
 msgid "Select _All"
 msgstr "全选(_A)"
 
-#: main/face/list.cc:511
+#: main/face/list.cc:510
 msgid "_Invert selection"
 msgstr "反向选择(_I)"
 
-#: main/face/list.cc:512
+#: main/face/list.cc:511
 msgid "_Create new queue"
 msgstr "创建新的下载队列(_C)"
 
-#: main/face/list.cc:513
+#: main/face/list.cc:512
 msgid "Create new _Subqueue"
 msgstr "创建新的子下载队列(_S)"
 
-#: main/face/list.cc:514
+#: main/face/list.cc:513
 msgid "_Remove this queue"
 msgstr "删除这个下载队列(_R)"
 
-#: main/face/list.cc:515
+#: main/face/list.cc:514
 msgid "_Properties"
 msgstr "属性(_P)"
 
-#: main/face/list.cc:516
+#: main/face/list.cc:515
 msgid "_Scheduler"
 msgstr "计划任务(_S)"
 
-#: main/face/list.cc:517
+#: main/face/list.cc:516
 msgid "_URL-manager"
 msgstr "URL 管理器(_U)"
 
-#: main/face/list.cc:518
+#: main/face/list.cc:517
 msgid "_General"
 msgstr "常规(_G)"
 
-#: main/face/list.cc:519
+#: main/face/list.cc:518
 msgid "_Filters"
 msgstr "过滤器(_F)"
 
-#: main/face/list.cc:520
+#: main/face/list.cc:519
 msgid "_Buttons"
 msgstr "按钮(_B)"
 
-#: main/face/list.cc:521
+#: main/face/list.cc:520
 msgid "_About"
 msgstr "关于(_A)"
 
-#: main/face/list.cc:524
+#: main/face/list.cc:523
 msgid "_Low"
 msgstr "低速(_L)"
 
-#: main/face/list.cc:525
+#: main/face/list.cc:524
 msgid "_Medium"
 msgstr "中速(_M)"
 
-#: main/face/list.cc:526
+#: main/face/list.cc:525
 msgid "_Unlimited"
 msgstr "不限速(_U)"
 
-#: main/face/list.cc:871
+#: main/face/list.cc:870
 msgid "Do you really want to quit?"
 msgstr "您确实要退出吗？"
 
-#: main/face/list.cc:871
+#: main/face/list.cc:870
 msgid "Quit?"
 msgstr "退出？"
 
-#: main/face/list.cc:900
+#: main/face/list.cc:899
 msgid "Delete selected downloads?"
 msgstr "删除选中的下载任务吗？"
 
-#: main/face/list.cc:900 main/face/list.cc:918 main/face/list.cc:936
+#: main/face/list.cc:899 main/face/list.cc:917 main/face/list.cc:935
 msgid "Delete?"
 msgstr "删除？"
 
-#: main/face/list.cc:918
+#: main/face/list.cc:917
 msgid "Do you wish delete completed downloads?"
 msgstr "您要删除已完成的下载任务吗？"
 
-#: main/face/list.cc:936
+#: main/face/list.cc:935
 msgid "Do you wish delete failed downloads?"
 msgstr "您要删除失败的下载任务吗？"
 
-#: main/face/list.cc:983
+#: main/face/list.cc:982
 msgid "Ready to go ????"
 msgstr "准备开始吗？"
 
-#: main/face/list.cc:1391 main/face/list.cc:1667
+#: main/face/list.cc:1348 main/face/list.cc:1621
 msgid "Downloads"
 msgstr "下载任务"
 
-#: main/face/list.cc:1392 main/face/list.cc:1440 main/face/prefs.cc:653
+#: main/face/list.cc:1349 main/face/list.cc:1397 main/face/prefs.cc:653
 #: main/face/prefs.cc:1311 main/face/prefs.cc:1581
 msgid "Main log"
 msgstr "主日志"
 
-#: main/face/list.cc:1393 main/face/passface.cc:425
+#: main/face/list.cc:1350 main/face/passface.cc:425
 msgid "URL-manager"
 msgstr "URL 管理器"
 
-#: main/face/list.cc:1394 main/face/list.cc:1454
+#: main/face/list.cc:1351 main/face/list.cc:1411
 msgid "FTP-search"
 msgstr "FTP 搜索"
 
-#: main/face/list.cc:1458
+#: main/face/list.cc:1415
 msgid "Filename:"
 msgstr "文件名："
 
-#: main/face/list.cc:1623
+#: main/face/list.cc:1579
 msgid "Switch to online mode"
 msgstr ""
 
-#: main/face/list.cc:1623 main/face/list.cc:1689
+#: main/face/list.cc:1579 main/face/list.cc:1643
 msgid "Switch to offline mode"
 msgstr ""
-
-#: main/face/list.cc:1821
-#, c-format
-msgid "[%s] %i-running %i-completed %i-total "
-msgstr "[%s] 正在运行(%i) 已经完成(%i) 共计(%i) "
 
 #: main/face/lmenu.cc:165
 msgid "View log"
@@ -1404,7 +1400,7 @@ msgstr "候选项"
 msgid "FTP search"
 msgstr "FTP 搜索"
 
-#: main/face/lod.cc:43 main/face/mywidget.cc:410 main/face/mywidget.cc:764
+#: main/face/lod.cc:43 main/face/mywidget.cc:408 main/face/mywidget.cc:779
 msgid "File"
 msgstr "文件"
 
@@ -1440,15 +1436,15 @@ msgstr "尝试次数"
 msgid "Percent"
 msgstr "已下载百分比"
 
-#: main/face/lod.cc:752
+#: main/face/lod.cc:748
 msgid "Enter wildcard"
 msgstr "输入通配符"
 
-#: main/face/lod.cc:779
+#: main/face/lod.cc:775
 msgid "Unselect"
 msgstr "取消选择"
 
-#: main/face/lod.cc:1262
+#: main/face/lod.cc:1258
 msgid "Status"
 msgstr "状态"
 
@@ -1469,81 +1465,81 @@ msgstr "选择目录"
 msgid "Select color"
 msgstr "选择颜色"
 
-#: main/face/mywidget.cc:355
+#: main/face/mywidget.cc:353
 msgid "Edit properties of Rule"
 msgstr "编辑规则属性"
 
-#: main/face/mywidget.cc:367 main/face/mywidget.cc:764
+#: main/face/mywidget.cc:365 main/face/mywidget.cc:779
 msgid "Protocol"
 msgstr "协议"
 
-#: main/face/mywidget.cc:392 main/face/mywidget.cc:764
+#: main/face/mywidget.cc:390 main/face/mywidget.cc:779
 msgid "Host"
 msgstr "主机"
 
-#: main/face/mywidget.cc:401 main/face/mywidget.cc:764
+#: main/face/mywidget.cc:399 main/face/mywidget.cc:779
 msgid "Path"
 msgstr "路径："
 
-#: main/face/mywidget.cc:419
+#: main/face/mywidget.cc:417
 msgid "?"
 msgstr "？"
 
-#: main/face/mywidget.cc:428 main/face/mywidget.cc:764
+#: main/face/mywidget.cc:426 main/face/mywidget.cc:779
 msgid "Tag"
 msgstr "标签"
 
-#: main/face/mywidget.cc:485
+#: main/face/mywidget.cc:483
 msgid "include"
 msgstr "包括"
 
-#: main/face/mywidget.cc:487
+#: main/face/mywidget.cc:485
 msgid "exclude"
 msgstr "排除"
 
-#: main/face/mywidget.cc:756
+#: main/face/mywidget.cc:771
 msgid "Modify filter"
 msgstr "修改过滤器"
 
-#: main/face/mywidget.cc:798
+#: main/face/mywidget.cc:813
 msgid "include by default"
 msgstr "默认包括"
 
-#: main/face/mywidget.cc:800
+#: main/face/mywidget.cc:815
 msgid "exclude by default"
 msgstr "默认排除"
 
-#: main/face/mywidget.cc:805
+#: main/face/mywidget.cc:820
 msgid "Name of filter"
 msgstr "过滤器名"
 
-#: main/face/mywidget.cc:899
+#: main/face/mywidget.cc:931
 msgid "Select filter"
 msgstr "选择过滤器"
 
-#: main/face/mywidget.cc:1079
+#: main/face/mywidget.cc:1103
 msgid "List of links"
 msgstr "链接列表"
 
-#: main/face/mywidget.cc:1151
+#: main/face/mywidget.cc:1175
 msgid "Add"
 msgstr "添加"
 
-#: main/face/mywidget.cc:1161
+#: main/face/mywidget.cc:1185
 #, fuzzy
 msgid "Referer:"
 msgstr "引用"
 
-#: main/face/mywidget.cc:1166
+#: main/face/mywidget.cc:1190
 #, fuzzy
 msgid "Store into directory:"
 msgstr "选择目录"
 
-#: main/face/mywidget.cc:1370
+#: main/face/mywidget.cc:1394
 msgid "proxy type"
 msgstr "代理类型"
 
-#: main/face/mywidget.cc:1385
+#: main/face/mywidget.cc:1409
 msgid "Use different proxy for this alternate"
 msgstr "对此候选项使用不同的代理"
 
@@ -1912,56 +1908,56 @@ msgstr "名称"
 msgid "Options"
 msgstr "选项"
 
-#: main/face/qtree.cc:110 main/face/qtree.cc:492
+#: main/face/qtree.cc:110 main/face/qtree.cc:486
 msgid "Create new queue"
 msgstr "创建新的下载队列"
 
-#: main/face/qtree.cc:493
+#: main/face/qtree.cc:487
 msgid "Create new subqueue"
 msgstr "创建新的子下载队列"
 
-#: main/face/qtree.cc:494
+#: main/face/qtree.cc:488
 msgid "Delete queue"
 msgstr "删除队列"
 
-#: main/face/qtree.cc:592
+#: main/face/qtree.cc:586
 msgid "Queue properties"
 msgstr "队列属性"
 
-#: main/face/qtree.cc:603
+#: main/face/qtree.cc:597
 msgid "Maximum active downloads"
 msgstr "活动下载任务的最大数目"
 
-#: main/face/qtree.cc:611
+#: main/face/qtree.cc:605
 #, fuzzy
 msgid "Speed limitation per queue (Bytes/sec, 0 unlimited)"
 msgstr "速度限制(单位：字节/秒，0 代表不限制)"
 
-#: main/face/qtree.cc:616
+#: main/face/qtree.cc:610
 msgid "Automatically delete completed downloads"
 msgstr "自动从任务列表中删除完成的下载任务"
 
-#: main/face/qtree.cc:617
+#: main/face/qtree.cc:611
 msgid "Automatically delete failed downloads"
 msgstr "自动从任务列表中删除失败的下载任务"
 
-#: main/face/qtree.cc:627
+#: main/face/qtree.cc:621
 msgid "Default folder to save downloaded files"
 msgstr "保存下载文件的默认目录"
 
-#: main/face/qtree.cc:634
+#: main/face/qtree.cc:628
 msgid "Size format"
 msgstr "大小格式"
 
-#: main/face/qtree.cc:635
+#: main/face/qtree.cc:629
 msgid "Time format"
 msgstr "时间格式"
 
-#: main/face/qtree.cc:636
+#: main/face/qtree.cc:630
 msgid "Speed format"
 msgstr "速度格式"
 
-#: main/face/qtree.cc:720
+#: main/face/qtree.cc:714
 msgid "Name of the queue"
 msgstr "队列的名称"
 
@@ -1985,188 +1981,188 @@ msgstr "在 txt 文件里查找链接"
 msgid "Check your installation of the Downloader"
 msgstr "检查您的 Downloader 的安装情况"
 
-#: main/ftp.cc:50
+#: main/ftp.cc:52
 msgid "Accepting faild"
 msgstr "接收失败"
 
-#: main/ftp.cc:73
+#: main/ftp.cc:70
 msgid "Timeout while sending through control socket."
 msgstr "通过控制套接字发送时超时。"
 
-#: main/ftp.cc:74
+#: main/ftp.cc:71
 msgid "Control connection lost"
 msgstr "控制连接丢失"
 
-#: main/ftp.cc:85
+#: main/ftp.cc:82
 msgid "Data connection lost!"
 msgstr "数据连接丢失！"
 
-#: main/ftp.cc:95
+#: main/ftp.cc:92
 msgid "Control connection lost!"
 msgstr "控制连接丢失！"
 
-#: main/ftp.cc:187
+#: main/ftp.cc:182
 msgid "Reget is not supported!!!"
 msgstr "Reget 不支持！"
 
-#: main/ftp.cc:300
+#: main/ftp.cc:294
 #, c-format
 msgid "try to connect to %i,%i,%i,%i,%i,%i"
 msgstr "尝试连接到 %i,%i,%i,%i,%i,%i"
 
-#: main/ftp.cc:428
+#: main/ftp.cc:421
 msgid "Probably file was changed on server!"
 msgstr "可能服务器上的文件已改变！"
 
-#: main/ftp.cc:446 main/http.cc:227
+#: main/ftp.cc:439 main/http.cc:219
 msgid "Data connection closed."
 msgstr "数据连接关闭。"
 
-#: main/ftp.cc:452 main/http.cc:233
+#: main/ftp.cc:445 main/http.cc:225
 msgid "Error have happened during writing buffer to disk!"
 msgstr "将缓冲区写入磁盘时发生错误！"
 
-#: main/ftp.cc:459 main/http.cc:240
+#: main/ftp.cc:452 main/http.cc:232
 #, fuzzy
 msgid "Requested size was loaded"
 msgstr "请求的数据已下载"
 
-#: main/ftp.cc:471 main/http.cc:245
+#: main/ftp.cc:464 main/http.cc:237
 #, fuzzy
 msgid "Segment was loaded! Complete this thread."
 msgstr "数据片段已载入！完成此线程。"
 
-#: main/ftp.cc:479 main/http.cc:251
+#: main/ftp.cc:472 main/http.cc:243
 msgid "EOF recieved from server!"
 msgstr "从服务器接收到文件结束标记(EOF)！"
 
-#: main/ftpd.cc:238
+#: main/ftpd.cc:240
 msgid "Can't establish data connection"
 msgstr "无法建立数据链接"
 
-#: main/ftpd.cc:241
+#: main/ftpd.cc:243
 msgid "Can't change directory"
 msgstr "无法改变目录"
 
-#: main/ftpd.cc:244
+#: main/ftpd.cc:246
 msgid "Server refused login, perhaps there are too many users of your class"
 msgstr "服务器拒绝登录，可能有太多用户正在连接"
 
-#: main/ftpd.cc:312 main/httpd.cc:231
+#: main/ftpd.cc:314 main/httpd.cc:234
 msgid "Sleeping"
 msgstr "休眠中"
 
-#: main/ftpd.cc:419
+#: main/ftpd.cc:421
 msgid "Empty answer. Trying to change directory to determine file type."
 msgstr "空回答。正在尝试改变目录来确定文件类型。"
 
-#: main/ftpd.cc:442 main/ftpd.cc:468
+#: main/ftpd.cc:444 main/ftpd.cc:470
 msgid "Length is %ll"
 msgstr "长度是 %ll"
 
-#: main/ftpd.cc:454
+#: main/ftpd.cc:456
 msgid "This is a directory!"
 msgstr "这是一个目录！"
 
-#: main/ftpd.cc:464
+#: main/ftpd.cc:466
 msgid "No such file or directory!"
 msgstr "没有这样的文件或目录！"
 
-#: main/ftpd.cc:499
+#: main/ftpd.cc:501
 msgid "Couldn't get size :(("
 msgstr "无法获得文件大小 :(("
 
-#: main/ftpd.cc:514
+#: main/ftpd.cc:516
 msgid "Loading directory..."
 msgstr "正在读取目录..."
 
-#: main/ftpd.cc:528
+#: main/ftpd.cc:530
 msgid "Listing was loaded"
 msgstr "列表已载入"
 
-#: main/ftpd.cc:531
+#: main/ftpd.cc:533
 msgid "Listing not loaded completelly"
 msgstr "列表没有完整载入"
 
-#: main/ftpd.cc:561
+#: main/ftpd.cc:563
 msgid "Link was loaded :))"
 msgstr "链接已载入 :))"
 
-#: main/hproxy.cc:156 main/hproxy.cc:189
+#: main/hproxy.cc:151 main/hproxy.cc:184
 #, c-format
 msgid "Sending request to proxy (%s:%i)"
 msgstr "正在发送请求到代理(%s:%i)"
 
-#: main/hproxy.cc:160 main/hproxy.cc:193 main/httpd.cc:409 main/httpd.cc:438
+#: main/hproxy.cc:155 main/hproxy.cc:188 main/httpd.cc:412 main/httpd.cc:441
 msgid "Answer read ok"
 msgstr "回应 OK"
 
-#: main/hproxy.cc:168 main/hproxy.cc:204
+#: main/hproxy.cc:163 main/hproxy.cc:199
 msgid "File not found on the server"
 msgstr "在服务器上找不到此文件"
 
-#: main/hproxy.cc:207
+#: main/hproxy.cc:202
 msgid "Probably it's problem of proxy server, retrying"
 msgstr "可能是代理服务器有问题，正在重试"
 
-#: main/http.cc:68
+#: main/http.cc:63
 msgid "Socket lost!"
 msgstr "套接字丢失！"
 
-#: main/http.cc:78
+#: main/http.cc:73
 msgid "Request was sent, waiting for the answer"
 msgstr "请求已发送，等待回应"
 
-#: main/http.cc:93
+#: main/http.cc:88
 msgid "It is not HTTP server!!!"
 msgstr "这不是 HTTP 服务器！"
 
-#: main/http.cc:101
+#: main/http.cc:96
 msgid "All ok, reading file"
 msgstr "全部 OK，正在读取文件"
 
-#: main/http.cc:112
+#: main/http.cc:107
 msgid "It seems to me that you need a password :)"
 msgstr "看来您需要一个密码 :)"
 
-#: main/http.cc:118
+#: main/http.cc:113
 msgid "Server return bad answer:(("
 msgstr "服务器返回错误的回应 :((("
 
-#: main/http.cc:205
+#: main/http.cc:197
 msgid "Wrong chunk size!"
 msgstr "错误的块大小！"
 
-#: main/http.cc:208
+#: main/http.cc:200
 msgid "Chunk size %ll"
 msgstr "块大小 %ll"
 
-#: main/http.cc:210
+#: main/http.cc:202
 msgid "It's last chunk!"
 msgstr "这是最后一块！"
 
-#: main/httpd.cc:177
+#: main/httpd.cc:179
 msgid "Couldn't get normal answer!"
 msgstr "无法获得正常应答！"
 
-#: main/httpd.cc:383
+#: main/httpd.cc:386
 #, fuzzy
 msgid "Size for download is %ll bytes"
 msgstr "要下载的大小为 %i 字节"
 
-#: main/httpd.cc:405 main/httpd.cc:434
+#: main/httpd.cc:408 main/httpd.cc:437
 msgid "Sending HTTP request..."
 msgstr "正在发送 HTTP 请求..."
 
-#: main/httpd.cc:482
+#: main/httpd.cc:485
 msgid "It is seemed REGET not supported! Loading from begin.."
 msgstr "看来 REGET 不支持！从开头开始下载..."
 
-#: main/httpd.cc:485
+#: main/httpd.cc:488
 msgid "ETag was changed, restarting again..."
 msgstr "Etag 已改变，再次重新开始..."
 
-#: main/httpd.cc:500
+#: main/httpd.cc:503
 msgid "%ll bytes loaded."
 msgstr "已下载 %ll 字节。"
 
@@ -2174,184 +2170,184 @@ msgstr "已下载 %ll 字节。"
 msgid "Log was started!"
 msgstr "日志记录开始！"
 
-#: main/main.cc:146
+#: main/main.cc:145
 msgid "Can't init control socket!\n"
 msgstr "无法初始化控制套接字！\n"
 
-#: main/main.cc:199
+#: main/main.cc:198
 msgid "Loading default list of downloads"
 msgstr "正在载入默认的下载任务列表"
 
-#: main/main.cc:281 main/main.cc:1307
+#: main/main.cc:280 main/main.cc:1298
 msgid "Delete completed downloads"
 msgstr "删除已完成的下载任务"
 
-#: main/main.cc:294
+#: main/main.cc:293
 msgid "Delete failed downloads"
 msgstr "删除失败的下载任务"
 
-#: main/main.cc:311
+#: main/main.cc:310
 msgid "Clear queue of downloads"
 msgstr "清除下载任务队列"
 
-#: main/main.cc:366
+#: main/main.cc:365
 msgid "Run new thread for %z"
 msgstr "为 %z 运行新线程"
 
-#: main/main.cc:372
+#: main/main.cc:371
 msgid "Can't run new thread for downloading!"
 msgstr "无法运行新线程下载！"
 
-#: main/main.cc:430
+#: main/main.cc:428
 #, c-format
 msgid "Downloading of file %s from %s was terminated [by user]"
 msgstr "对文件 %s(来自 %s)的下载被用户中止"
 
-#: main/main.cc:471
+#: main/main.cc:469
 #, c-format
 msgid "Delete file %s from queue of downloads"
 msgstr "从下载任务队列中删除 %s 任务"
 
-#: main/main.cc:566
+#: main/main.cc:564
 #, c-format
 msgid "Continue downloading of file %s from %s..."
 msgstr "继续下载文件 %s(来自 %s)..."
 
-#: main/main.cc:657
+#: main/main.cc:655
 msgid "file"
 msgstr "文件"
 
-#: main/main.cc:740
+#: main/main.cc:730
 msgid "dir"
 msgstr "目录"
 
-#: main/main.cc:745
+#: main/main.cc:735
 msgid "link"
 msgstr "链接"
 
-#: main/main.cc:750
+#: main/main.cc:740
 msgid "device"
 msgstr "设备"
 
-#: main/main.cc:783
+#: main/main.cc:773
 msgid "Too many redirections!"
 msgstr "太多重定向！"
 
-#: main/main.cc:799
+#: main/main.cc:789
 msgid "Redirection from [%z] to the same location!"
 msgstr "从 [%z] 重定向到相同的地址！"
 
-#: main/main.cc:829
+#: main/main.cc:819
 msgid "Redirection from [%z] to nowhere!"
 msgstr "没有从 [%z] 重定向到任何地方！"
 
-#: main/main.cc:855
+#: main/main.cc:845
 msgid "Prepare thread %i of [%z] for stoping"
 msgstr "准备停止 %i [属于 %z] 线程"
 
-#: main/main.cc:881
+#: main/main.cc:871
 msgid "Redirect from %z"
 msgstr "从 %z 重定向"
 
-#: main/main.cc:888
+#: main/main.cc:878
 msgid "Downloading of directory %z was completed"
 msgstr "下载目录 %z 已完成"
 
-#: main/main.cc:892
+#: main/main.cc:882
 #, fuzzy
 msgid "Downloading of file %z (%ll bytes) was completed at speed %ll bytes/sec"
 msgstr "文件 %z (%i 字节)下载任务以速度 %i 字节/秒完成"
 
-#: main/main.cc:899
+#: main/main.cc:889
 msgid "%z was deleted from queue of downloads as completed download"
 msgstr "作为完成的下载任务，%z 已经从下载任务队列中删除"
 
-#: main/main.cc:910
+#: main/main.cc:900
 msgid "Downloading of file %z was terminated by fatal error"
 msgstr "文件 %z 下载任务因致命错误而中止"
 
-#: main/main.cc:912
+#: main/main.cc:902
 msgid "%z was deleted from queue of downloads as failed download"
 msgstr "作为失败的下载任务，%z 已经从下载任务队列中删除"
 
-#: main/main.cc:1243
+#: main/main.cc:1234
 msgid "Restarting failed downloads"
 msgstr "重新开始失败的下载任务"
 
-#: main/main.cc:1243 main/main.cc:1285 main/main.cc:1302 main/main.cc:1307
-#: main/main.cc:1312 main/main.cc:1325 main/main.cc:1330
+#: main/main.cc:1234 main/main.cc:1276 main/main.cc:1293 main/main.cc:1298
+#: main/main.cc:1303 main/main.cc:1316 main/main.cc:1321
 msgid "[control socket]"
 msgstr "[控制套接字]"
 
-#: main/main.cc:1266
+#: main/main.cc:1257
 #, c-format
 msgid "Remove the download via control socket [%s]"
 msgstr "通过控制套接字 [%s] 删除下载"
 
-#: main/main.cc:1272
+#: main/main.cc:1263
 #, c-format
 msgid "Adding downloading via control socket [%s]"
 msgstr "通过控制套接字 [%s] 添加下载任务"
 
-#: main/main.cc:1283
+#: main/main.cc:1274
 #, c-format
 msgid "Set speed limitation to %s %s"
 msgstr "设置速度限制为 %s %s"
 
-#: main/main.cc:1302
+#: main/main.cc:1293
 msgid "Setup maximum active downloads to"
 msgstr "设置最大活动下载数目为"
 
-#: main/main.cc:1325
+#: main/main.cc:1316
 msgid "Exiting if nothing to do is switched off"
 msgstr "“如果无下载任务可运行就退出”已关闭"
 
-#: main/main.cc:1330
+#: main/main.cc:1321
 #, c-format
 msgid "Downloader will exit if nothing to do after %i minutes %s"
 msgstr "过 %i 分钟 %s 如果无下载任务可运行则下载程序自动退出"
 
-#: main/main.cc:1343
+#: main/main.cc:1334
 #, c-format
 msgid "Default queue is '%s' now."
 msgstr "现在 %s 是默认队列。"
 
-#: main/main.cc:1644
+#: main/main.cc:1635
 msgid "Loading FTP-Search engines"
 msgstr "正在载入 ftp 搜索引擎"
 
-#: main/main.cc:1646
+#: main/main.cc:1637
 msgid "Normally started"
 msgstr "正常开始"
 
-#: main/main.cc:1704
+#: main/main.cc:1695
 #, c-format
 msgid "Added downloading of file %s from %s [by user]"
 msgstr "用户已添加下载任务文件 %s(来自 %s)"
 
-#: main/main.cc:1754
+#: main/main.cc:1745
 msgid "Downloader is in offline mode now"
 msgstr "下载程序现在是离线模式"
 
-#: main/main.cc:1761
+#: main/main.cc:1752
 msgid "Offline mode is turned off"
 msgstr "离线模式已关闭"
 
-#: main/main.cc:1795
+#: main/main.cc:1786
 #, c-format
 msgid "%lu bytes loaded during the session"
 msgstr "此次运行期间下载了 %lu 字节"
 
-#: main/main.cc:1796
+#: main/main.cc:1787
 msgid "Downloader exited normaly"
 msgstr "下载程序正常退出"
 
-#: main/main.cc:1836
+#: main/main.cc:1825
 #, c-format
 msgid "Can't open '%s' to save log"
 msgstr "无法保存日志到“%s”"
 
-#: main/main.cc:1870
+#: main/main.cc:1859
 msgid "Such protocol is not supported!"
 msgstr "不支持此协议！"
 
@@ -2430,6 +2426,9 @@ msgstr "中速"
 #: main/var.cc:103
 msgid "unlimited"
 msgstr "不限速"
+
+#~ msgid "[%s] %i-running %i-completed %i-total "
+#~ msgstr "[%s] 正在运行(%i) 已经完成(%i) 共计(%i) "
 
 #~ msgid "/Automated adding"
 #~ msgstr "/自动添加下载任务"

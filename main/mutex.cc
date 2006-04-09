@@ -14,20 +14,22 @@
 
 /* simple mutex */
 
-d4xMutex::d4xMutex(){
+using namespace d4x;
+
+Mutex::Mutex(){
 //	my_pthreads_mutex_init(&m);
 	pthread_mutex_init(&m,NULL);
 };
 
-d4xMutex::~d4xMutex(){
+Mutex::~Mutex(){
 	pthread_mutex_destroy(&m);
 };
 
-void d4xMutex::lock(){
+void Mutex::lock(){
 	pthread_mutex_lock(&m);
 };
 
-void d4xMutex::unlock(){
+void Mutex::unlock(){
 	pthread_mutex_unlock(&m);
 };
 

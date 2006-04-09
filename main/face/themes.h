@@ -1,19 +1,27 @@
 #ifndef _D4X_THEMES_HEADER_
 #define _D4X_THEMES_HEADER_
+#include <gtk/gtk.h>
+#include <string>
+#include <map>
 
-GdkPixbuf *pixbuf_from_theme(char *path,const char **default_xpm);
+GdkPixbuf *pixbuf_from_theme(const std::string &path,const char **default_xpm);
 
 namespace d4x{
-	enum LOG_ROW_TYPES{
+	enum THEMABLE_ICONS_IDS{
 		LRT_OK,
 		LRT_SEND,
 		LRT_RECEIVE,
 		LRT_ERROR,
 		LRT_WARNING,
-		LRT_LAST
-	};
-	
-	enum LOD_PIX_ENUM{
+
+		OMB_OFFLINE,
+		OMB_ONLINE,
+
+		PBM_ONLY_TEXT,
+		PBM_MONOLITH,
+		PBM_SEGMENTS,
+		
+		
 		LPE_WAIT,
 		LPE_STOP,
 		LPE_STOP_WAIT,
@@ -51,13 +59,50 @@ namespace d4x{
 	};
 	
 	struct Theme{
-		GdkPixbuf *logpix[LRT_LAST];
-		GdkPixbuf *lodpix[LPE_UNKNOWN];
+		struct Themable{
+			virtual ~Themable(){};
+			virtual void change()=0;
+		};
+
+		struct Pixbuf:Themable{
+			GdkPixbuf *pixbuf;
+			std::string ThemePath;
+			char **DefaultXPM;
+			void change();
+			Pixbuf(char **def,const std::string &p);
+		};
 		
+		struct Image:Pixbuf{
+			GtkImage *img;
+			void change();
+			Image(char **def,const std::string &p);
+		};
+
+		struct SlaveImage:Themable{
+			int pixbuf_id;
+			GtkImage *img;
+			void change();
+			void reinit(int newid);
+			SlaveImage(int id);
+		};
+
 		Theme();
 		~Theme();
 		void reload();
+		inline int monitor(Themable *item){
+			Active[LastUnique]=item;
+			return(LastUnique++);
+		};
+		GdkPixbuf *get_pixbuf(int id){
+			std::map<int,Themable *>::iterator it=Active.find(id);
+			if (it!=Active.end()){
+				return ((Pixbuf*)(it->second))->pixbuf;
+			};
+			return 0;
+		};
 	private:
+		int LastUnique;
+		std::map <int,Themable *> Active;
 		void init_lod();
 	};
 

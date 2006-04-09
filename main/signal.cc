@@ -17,7 +17,7 @@
 #include "face/log.h"
 #include "var.h"
 #include "ntlocale.h"
-#include  "signal.h"
+#include "signal.h"
 
 static pthread_key_t THREADS_KEY;
 static pthread_once_t THREADS_KEY_ONCE=PTHREAD_ONCE_INIT;
@@ -145,5 +145,5 @@ USR1On2Off::~USR1On2Off(){
 	sigset_t oldmask,newmask;
 	sigemptyset(&newmask);
 	sigaddset(&newmask,SIGUSR1);
-	pthread_sigmask(SIG_BLOCK,&newmask,&oldmask);
+	pthread_sigmask(SIG_UNBLOCK,&newmask,&oldmask);
 };

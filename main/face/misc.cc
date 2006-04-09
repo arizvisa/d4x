@@ -187,6 +187,12 @@ void wm_skip_window(GtkWidget *widget){
 };
 */
 
+void x_opacity_set(GtkWidget *widget,unsigned int opacity){
+	XChangeProperty(GDK_DISPLAY(),GDK_WINDOW_XWINDOW(widget->window),
+			XInternAtom(GDK_DISPLAY(),"_NET_WM_WINDOW_OPACITY",False),
+			XA_CARDINAL,32,PropModeReplace,(unsigned char *)&opacity,1L);
+};
+
 void wm_skip_window(GtkWidget *widget){
 	long data[1];
 	data[0] = WIN_HINTS_SKIP_WINLIST | WIN_HINTS_SKIP_TASKBAR;

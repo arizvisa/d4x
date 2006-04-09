@@ -1,9 +1,9 @@
 # -*-m4-*-
-# $Header: /home/cvs/d4x/configure.ac,v 1.2.2.13 2005/09/15 07:41:47 zaufi Exp $
+# $Header: /home/cvs/d4x/configure.ac,v 1.2.2.15 2005/11/04 21:39:48 zaufi Exp $
 #
 # Process this file with autoconf to produce a configure script.
 #
-AC_REVISION($Revision: 1.2.2.13 $)
+AC_REVISION($Revision: 1.2.2.15 $)
 AC_PREREQ(2.52)
 
 # -----------------------------------------------------------------------------
@@ -208,6 +208,8 @@ fi
 
 AM_PATH_CPPUNIT(1.8.0, [ac_cppunit=yes],[ac_cppunit=no])
 
+AC_CHOOSE_BOOST(103200,,,,[AC_MSG_ERROR([*** Boost library >= 1.33 not found! You may download it from http://boost.org])])
+
 # Choose regex library
 # AM_WITH_RX
 
@@ -234,6 +236,10 @@ if test "$ac_cppunit" = 'yes' -a "$ac_gengetopt" = 'yes'; then
                       cppunit/ui/text/TestRunner.h],
                      [ac_cppunit_hdrs=yes], [ac_cppunit_hdrs=no])
 fi
+
+CPPFLAGS="$BOOST_CPPFLAGS $CPPFLAGS"
+AC_CHECK_HEADERS([boost/lexical_cast.hpp],,
+    AC_MSG_ERROR([You need to have the Boost headers installed]))
 
 AC_LANG_POP(C++)
 

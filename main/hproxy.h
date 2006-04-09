@@ -15,16 +15,16 @@
 
 class tHProxyClient:public tHttpClient{
 	std::string real_host,cookie_path;
-	char *username_proxy,*userword_proxy;
+	std::string username_proxy,userword_proxy;
 	int no_cache;
 	fsize_t get_size_sub(tStringList *list);
 public:
 	tHProxyClient();
-	tHProxyClient(tCfg *cfg,tSocket *ctrl=(tSocket *)NULL);
+	tHProxyClient(tCfg *cfg,d4x::SocketPtr ctrl=d4x::SocketPtr());
 	void setup_data(const std::string &host,int cache);
 	void set_cookie_search(const std::string &what);
-	fsize_t get_size_only(char *filename,tStringList *list);
-	fsize_t get_size(char *filename,tStringList *list);
+	fsize_t get_size_only(const std::string &filename,tStringList *list);
+	fsize_t get_size(const std::string &filename,tStringList *list);
 	void proxy_registr(char *user,char *password);
 	~tHProxyClient();
 };
@@ -35,7 +35,7 @@ class tProxyDownload:public tHttpDownload{
 public:
 	tProxyDownload();
 	tProxyDownload(tWriterLoger *log);
-	int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
+	int init(const d4x::URL &hostinfo,tCfg *cfg,d4x::SocketPtr s=d4x::SocketPtr());
 	fsize_t get_size_only();
 	fsize_t get_size();
 	~tProxyDownload();

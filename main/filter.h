@@ -8,82 +8,92 @@
  *	but WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-#ifndef _D4X_FILTER_HEADER_
-#define _D4X_FILTER_HEADER_
+#ifndef D4X_FILTERS_IMPLEMENTATION_HEADER_20051127
+#define D4X_FILTERS_IMPLEMENTATION_HEADER_20051127
 
 #include "locstr.h"
 #include "queue.h"
 #include "addr.h"
 #include "sort.h"
 #include "mutex.h"
+#include <list>
+#include <map>
+#include <ostream>
+#include <istream>
 
-struct d4xRule:public tNode{
-	tPStr path,file,host,params,tag;
-	GtkTreeIter iter;
-	int proto;
-	int include;
-	d4xRule();
-	void print();
-	int match(const d4x::URL &addr);
-	void save(int fd);
-	int load(int fd);
-	~d4xRule();
+namespace d4x{
+	class Filter{
+	public:
+		struct Rule{
+			std::string path,file,host,params,tag;
+			int proto;
+			bool include;
+			bool match(const URL &addr) const;
+		};
+		
+		bool include;
+		std::string name;
+		typedef std::list<Rule>::iterator iterator;
+		typedef std::list<Rule>::const_iterator const_iterator;
+
+		bool match(const URL &addr) const;
+		iterator append(const Rule &r);
+		void replace(iterator &it,const Rule &r);
+		void remove(iterator &it);
+		bool empty();
+		
+		template<typename Functor>
+		void each_iter(Functor F){
+			iterator it=Rules.begin(),end=Rules.end();
+			while(it!=end){
+				F(it);
+				it++;
+			};
+		};
+	private:
+		friend std::ostream &operator<<(std::ostream &,const Filter &);
+		std::list<Rule> Rules;
+	};
+
+	std::ostream &operator<<(std::ostream &a,const Filter::Rule &rule);
+	std::istream &operator>>(std::istream &a,Filter::Rule &rule);
+		
+	std::ostream &operator<<(std::ostream &a,const Filter &filter);
+	std::istream &operator>>(std::istream &a,Filter &filter);
+	
+	class FiltersDB{
+		Mutex mtx;
+		std::map<std::string,Filter> Filters;
+	public:
+		void insert(const Filter&);
+		void remove(const std::string &name);
+		Filter find(const std::string &name); //if notfound return unnamed filter
+		template<typename Functor>
+		void each(Functor &F) const{
+			std::map<std::string,Filter>::const_iterator it=Filters.begin(),end=Filters.end();
+			while(it!=end){
+				F(*it);
+				++it;
+			};
+		};
+		template<typename Functor>
+		void each_name(Functor F) const{
+			std::map<std::string,Filter>::const_iterator it=Filters.begin(),end=Filters.end();
+			while(it!=end){
+				F(it->first);
+				++it;
+			};
+		};
+		
+		bool empty();
+		friend std::ostream &operator<<(std::ostream &,const FiltersDB &);
+	};
+	
+	std::ostream &operator<<(std::ostream &a,const FiltersDB &DB);
+	std::istream &operator>>(std::istream &a,FiltersDB &DB);
+	void filters_store_rc();
+	void filters_load_rc();
 };
 
-struct d4xFilterEdit;
-
-class d4xFilter:public tQueue{
-	d4xMutex my_mutex;
- public:
-	int refcount;
-	int default_inc;
-	tPStr name;
-	d4xFilter();
-	int match(const d4x::URL &addr);
-	void save(int fd);
-	int load(int fd);
-	void insert(tNode *node);
-	void insert_before(tNode *node,tNode *where);
-	void del(tNode *node);
-	void print(d4xFilterEdit *edit);
-	void ref();
-	void unref();
-	~d4xFilter();
-};
-
-struct d4xFNode:public tAbstractSortNode{
-	d4xFilter *filter;
-	GtkTreeIter iter;
-	d4xFNode();
-	int cmp(tAbstractSortNode *what);
-	void print(){};
-	~d4xFNode();
-};
-
-struct d4xFilterSel;
-
-class d4xFiltersTree:public tAbstractSortTree{
- protected:
-	d4xMutex my_mutex;
-	void save_recurse(int fd,d4xFNode *what);
-	void print_recurse(d4xFNode *what);
-	void print_recurse(d4xFilterSel *sel,d4xFNode *what);
- public:
-	d4xFiltersTree();
-	void init();
-	virtual void add(tAbstractSortNode *what);
-	virtual void del(tAbstractSortNode *what);
-	d4xFilter *find(char *name);
-	tAbstractSortNode *max();
-	void save(int fd);
-	int load(int fd);
-	void load_from_ntrc();
-	void save_to_ntrc();
-	void print();
-	void print(d4xFilterSel *sel);
-	~d4xFiltersTree();
-};
-
-extern d4xFiltersTree *FILTERS_DB;
-
-#endif
+extern d4x::FiltersDB FILTERS_DB;
+#endif //D4X_FILTERS_IMPLEMENTATION_HEADER_

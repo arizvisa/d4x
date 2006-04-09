@@ -116,7 +116,6 @@ void tDB::insert(tDownload *what) {
 };
 
 tDownload *tDB::find(const d4x::URL &addr){
-	DBC_RETVAL_IF_FAIL(addr!=NULL,NULL);
 	tDownload *tmp=new tDownload;
 	tmp->info=addr;
 	tDownload *rval=find(tmp);
@@ -126,7 +125,6 @@ tDownload *tDB::find(const d4x::URL &addr){
 
 tDownload *tDB::find(tDownload *what) {
 	DBC_RETVAL_IF_FAIL(what!=NULL,NULL);
-	DBC_RETVAL_IF_FAIL(what->info!=NULL,NULL);
 	tStringHostNode *temp=tree->find(what->info.host.c_str(),what->info.port);
 	if (temp){
 		tDownloadTree **point=hash(temp,what);
@@ -139,7 +137,6 @@ tDownload *tDB::find(tDownload *what) {
 
 void tDB::del(tDownload *what) {
 	DBC_RETURN_IF_FAIL(what!=NULL);
-	DBC_RETURN_IF_FAIL(what->info!=NULL);
 	mylock.lock();
 	tStringHostNode *temp=tree->find(what->info.host.c_str(),what->info.port);
 	if (temp){

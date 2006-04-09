@@ -546,6 +546,7 @@ void dnd_trash_init(){
 			 G_CALLBACK(dnd_trash_configure),
 			 NULL);
 	gdk_window_set_functions(dnd_trash_window->window,GdkWMFunction(GDK_FUNC_MOVE|GDK_FUNC_CLOSE));
+	x_opacity_set(dnd_trash_window,(unsigned int)(0xffffffff*0.6));
 };
 
 static bool _no_speed_callback_dnd_=false;
@@ -700,7 +701,7 @@ void dnd_trash_animation(){
 	};
 };
 
-void dnd_trash_set_tooltip(char *str,float percent){
+void dnd_trash_set_tooltip(const char *str,float percent){
 	dnd_trash_tooltip_percent=percent;
 	if (str==NULL)
 		str=dnd_trash_tooltip_text;

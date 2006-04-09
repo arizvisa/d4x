@@ -44,12 +44,12 @@ void fs_list_delete(GtkWidget *widget,tDownload *what){
 };
 
 void fs_list_reping(GtkWidget *widget,tDownload *what){
-	what->ActStatus.curent=0;
+	what->ActStatus=0;
 	_aa_.ftp_search_reping(what);
 };
 
 void fs_list_cumulative_reping(GtkWidget *widget,tDownload *what){
-	what->ActStatus.curent=1;
+	what->ActStatus=1;
 	_aa_.ftp_search_reping(what);
 };
 
@@ -65,20 +65,18 @@ void fs_list_prepare_menu(tDownload *what,GdkEventButton *bevent){
 	if (what->status==DOWNLOAD_COMPLETE){
 		tDownload *tmp=what->DIR==NULL?(tDownload *)NULL:what->DIR->last();
 		if (tmp){
+			std::string a;
 			while (tmp){
-				char a[MAX_LEN];
 				char b[100];
-				float p=tmp->Percent/tmp->Attempt.curent;
+				float p=tmp->Percent/fsize_t(tmp->Attempt);
 				d4x_percent_str(p,b,sizeof(b));
-				if (what->finfo.size>0){
-					sprintf(a,"%s%% %s",b,tmp->info.host.c_str());
-				}else{
-					char size[100];
-					make_number_nice(size,tmp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
-					sprintf(a,"%s%% %s [%s %s]",b,tmp->info.host.c_str(),
-						tmp->finfo.size>0?size:"???",_("bytes"));
+				a=std::string(b)+"% "+tmp->info.host;
+				if (what->finfo.size<=0){
+					a+=std::string(" [")+
+						(tmp->finfo.size>0?make_number_nice(tmp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS):std::string("???"))+
+						_("bytes");
 				};
-				menu_item=gtk_menu_item_new_with_label(a);
+				menu_item=gtk_menu_item_new_with_label(a.c_str());
 //				menu_item=gtk_menu_item_new_with_label(tmp->info->host.get());
 				gtk_menu_shell_append(GTK_MENU_SHELL(menu),menu_item);
 				g_signal_connect(G_OBJECT(menu_item),
@@ -132,18 +130,18 @@ void fs_list_prepare_list(tDownload *what){
 		GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(FSearchView2);
 		tDownload *tmp=what->DIR==NULL?(tDownload *)NULL:what->DIR->last();
 		while (tmp){
-			char size[100];
+			std::string size;
 			char b[100];
-			float p=tmp->Percent/tmp->Attempt.curent;
+			float p=tmp->Percent/fsize_t(tmp->Attempt);
 			d4x_percent_str(p,b,sizeof(b));
 			if (tmp->finfo.size>0)
-				make_number_nice(size,tmp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
+				size=make_number_nice(tmp->finfo.size,D4X_QUEUE->NICE_DEC_DIGITALS);
 			else
-				sprintf(size,"????");
+				size="????";
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter,
 					   FS2_COL_PING,b,
-					   FS2_COL_SIZE,size,
+					   FS2_COL_SIZE,size.c_str(),
 					   FS2_COL_URL, std::string(tmp->info).c_str(),
 					   -1);
 			tmp=what->DIR->next();
@@ -303,16 +301,14 @@ GtkTreeView *fs_list_init_sublist(){
 void fs_list_set_icon(GtkTreeView *view,tDownload *what,int icon){
 	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
 	gtk_list_store_set(store,what->list_iter,
-			   FS_COL_ICON,CUR_THEME->lodpix[icon],
+			   FS_COL_ICON,CUR_THEME->get_pixbuf(icon),
 			   -1);
 };
 
 void fs_list_set_count(GtkTreeView *view,tDownload *what){
-	char data[10];
 	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
-	sprintf(data,"%i",what->Size.curent);
 	gtk_list_store_set(store,what->list_iter,
-			   FS_COL_COUNT,data,
+			   FS_COL_COUNT,boost::lexical_cast<std::string>(fsize_t(what->Size)).c_str(),
 			   -1);
 };
 
@@ -326,7 +322,7 @@ void fs_list_add(GtkTreeView *view,tDownload *what){
 	GtkListStore *store=(GtkListStore *)gtk_tree_view_get_model(view);
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter,
-			   FS_COL_ICON, CUR_THEME->lodpix[LPE_WAIT],
+			   FS_COL_ICON, CUR_THEME->get_pixbuf(LPE_WAIT),
 			   FS_COL_SIZE, data,
 			   FS_COL_NAME, what->info.file.c_str(),
 			   FS_COL_LAST, what,

@@ -45,7 +45,7 @@ public:
 	tHttpDownload(tWriterLoger *log);
 	void pass_first_segment();
 	int reconnect();
-	int init(const d4x::URL &hostinfo,tCfg *cfg,tSocket *s=(tSocket *)NULL);
+	int init(const d4x::URL &hostinfo,tCfg *cfg,d4x::SocketPtr s=d4x::SocketPtr());
 	fsize_t get_size();
 	fsize_t get_size_only();
 	fsize_t get_readed();
@@ -61,7 +61,7 @@ public:
 	void make_full_pathes(const char *path,char **name,char **guess);
 	void done();
 	int persistent();
-	tSocket *export_ctrl_socket();
+	d4x::SocketPtr export_ctrl_socket();
 	~tHttpDownload();
 };
 
