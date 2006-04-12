@@ -5,5 +5,5 @@ dnl
 m4_define([MAJOR], [2])
 m4_define([MINOR], [5])
 m4_define([PATCH_LEVEL], [7])
-m4_define([EXTRA_VERSION], [])
-m4_define([VERSION_STR], [2.5.7])
+m4_define([EXTRA_VERSION], [1])
+m4_define([VERSION_STR], [2.5.7.1])

@@ -55,8 +55,7 @@ void SocketsHistory::kill_old(){
 	while(it!=end){
 		tmp=it;
 		++it;
-		if (time_too_old_(now,it->second))
+		if (time_too_old_(now,tmp->second))
 			Smap.erase(tmp);
-		++it;
 	};
 };
